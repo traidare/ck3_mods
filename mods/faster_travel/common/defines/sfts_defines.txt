@@ -1,0 +1,8 @@
+﻿
+NTravel = {
+	BASE_TRAVEL_SPEED_LAND = 5 # The base speed used when traveling from a land province - default=5
+	BASE_TRAVEL_SPEED_WATER = 12 # The base speed used when traveling from a water province - default=7
+
+	TRAVEL_EMBARK_COST = 12 # The cost in days added to traveling from a land province to a water province - default=15
+	TRAVEL_DISEMBARK_COST = 4 # The cost in days added to traveling from a water province to a land province - default=5
+}
