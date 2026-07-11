@@ -1,0 +1,13 @@
+# Disable vanilla regional restrictions that do not map cleanly to AGOT.
+T_kCAFG_task_conversion_can_convert_province_VANILLA_B = { always = yes }
+T_kCAFG_task_conversion_ai_wants_to_convert_province_VANILLA = { always = yes }
+T_kCAFG_task_promote_culture_ai_wants_to_convert_province_VANILLA = { always = yes }
+T_kCAFG_steward_promote_culture_ai_valid_for_intermittent_stop_VANILLA = { always = yes }
+
+# AGOT does not use the vanilla Mongol invasion setup.
+T_kCAFG_using_invasion_cb = {
+    OR = {
+        using_cb = invasion_war
+        using_cb = clan_invasion_war
+    }
+}

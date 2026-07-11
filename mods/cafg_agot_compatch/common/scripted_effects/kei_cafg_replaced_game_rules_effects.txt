@@ -1,0 +1,47 @@
+﻿
+game_rule_randomize_faith_randomization_effect = {
+	if = {
+		limit = {
+			trigger_if = {
+				limit = { is_independent_ruler = no }
+				NOT = { faith = liege.faith } #We don't want to override faiths which "trickled down" via conversion effect
+			}
+			trigger_else = {
+				always = yes
+			}
+		}
+
+		#Randomize faith
+		random_in_list = {
+			list = faiths_list
+			save_temporary_scope_as = randomized_faith
+		}
+
+		#Covert all courtiers, guests, pool characters of same faith
+		if = {
+			limit = {
+				exists = capital_province
+			}
+			save_temporary_scope_as = this_ruler
+			every_pool_character = {
+				province = scope:this_ruler.capital_province
+				limit = { faith = scope:this_ruler.faith }
+				set_character_faith = scope:randomized_faith
+			}
+		}
+		every_courtier_or_guest = {
+			limit = {  faith = prev.faith }
+			set_character_faith = scope:randomized_faith
+		}
+
+		#Change faith with conversion for chance of trickling down to vassals
+		set_character_faith_with_conversion = scope:randomized_faith
+
+		#Convert every held county
+		every_held_title = {
+			limit = { tier = tier_county }
+
+			E_kCAFG_replace_county_faith = { FAITH = scope:randomized_faith }
+		}
+	}
+}

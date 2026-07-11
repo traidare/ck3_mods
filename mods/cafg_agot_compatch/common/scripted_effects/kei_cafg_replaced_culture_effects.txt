@@ -1,0 +1,420 @@
+﻿convert_county_and_holder_if_in_region_effect = {
+	if = {
+		# If this county is of the old culture and is in the designated region, flip it to the new culture.
+		limit = {
+			culture = $OLD_CULTURE$
+			title_province = {
+				geographical_region = $REGION$
+			}
+		}
+
+		E_kCAFG_convert_culture_in_all_county_provinces = {
+			FACTOR = 0.8
+			VARIANCE = 0.1
+			CULTURE = $NEW_CULTURE$
+			MAX = 1
+		}
+
+		# If the holder is also of the old culture, and their capital is in the designated region, we flip them along with the county.
+		holder = {
+			if = {
+				limit = {
+					culture = $OLD_CULTURE$
+					capital_province = {
+						geographical_region = $REGION$
+					}
+				}
+				set_culture = $NEW_CULTURE$
+			}
+		}
+	}
+}
+
+convert_player_realm_from_old_culture_to_new_effect = {
+	# For localization
+	$OLD_CULTURE$ = { save_scope_as = old_culture }
+	$NEW_CULTURE$ = { save_scope_as = new_culture }
+
+	custom_tooltip = global_culture.custom.change_culture
+	hidden_effect = {
+		# Compile a list of everyone who will flip to the new culture.
+		every_vassal_or_below = {
+			limit = {
+				culture = $OLD_CULTURE$
+			}
+			add_to_list = characters_to_convert
+			every_courtier = {
+				limit = {
+					culture = $OLD_CULTURE$
+				}
+				add_to_list = characters_to_convert
+			}
+		}
+		every_courtier = {
+			limit = {
+				culture = $OLD_CULTURE$
+			}
+			add_to_list = characters_to_convert
+		}
+
+		# Flip the player to the new culture.
+		set_culture = $NEW_CULTURE$
+		add_character_flag = converted_culture_this_lifetime
+
+		# Flip their courtiers/vassals with a custom description.
+		every_in_list = {
+			list = characters_to_convert
+			set_culture = $NEW_CULTURE$
+		}
+
+		# Then flip all their counties.
+		every_sub_realm_county = {
+			limit = {
+				culture = $OLD_CULTURE$
+			}
+			
+			E_kCAFG_convert_culture_in_all_county_provinces = {
+				FACTOR = 0.8
+				VARIANCE = 0.1
+				CULTURE = $NEW_CULTURE$
+				MAX = 1
+			}
+		}
+	}
+}
+
+expand_hybrid_culture_from_origin_point = {
+	every_title_to_title_neighboring_and_across_water_county = {
+		limit = {
+			holder.top_liege = $CONVERTEE$.top_liege
+			save_temporary_scope_as = county_check
+			$CULTURE$ = {
+				any_parent_culture = {
+					this = scope:county_check.culture
+				}
+			}
+		}
+
+		set_local_variable = {
+			name = kCAFG_tmp_converted_factor
+			value = {
+				value = 0
+				$CULTURE$ = {
+					ordered_parent_culture = {
+						save_temporary_scope_as = first_parent
+					}
+					ordered_parent_culture = {
+						limit = { NOT = { this = scope:first_parent } }
+						add = "cultural_acceptance(scope:first_parent)"
+					}
+				}
+				divide = 100
+				multiply = 0.8
+				add = 0.2
+				# Randomize a bit
+				multiply = { 0.85 1.15 }
+				min = 0
+				max = 1
+			}
+		}
+
+		if = {
+			limit = { local_var:kCAFG_tmp_converted_factor > 0 }
+		
+			E_kCAFG_convert_culture_in_all_county_provinces = {
+				FACTOR = local_var:kCAFG_tmp_converted_factor
+				VARIANCE = 0.25
+				CULTURE = $CULTURE$
+				MAX = 1
+			}
+		}
+
+		every_title_to_title_neighboring_and_across_water_county = {
+			limit = {
+				holder.top_liege = $CONVERTEE$.top_liege
+				save_temporary_scope_as = county_check
+				$CULTURE$ = {
+					any_parent_culture = {
+						this = scope:county_check.culture
+					}
+				}
+			}
+
+			set_local_variable = {
+				name = kCAFG_tmp_converted_factor
+				value = {
+					value = 0
+					$CULTURE$ = {
+						ordered_parent_culture = {
+							save_temporary_scope_as = first_parent
+						}
+						ordered_parent_culture = {
+							limit = { NOT = { this = scope:first_parent } }
+							add = "cultural_acceptance(scope:first_parent)"
+						}
+					}
+					divide = 100
+						# Randomize a bit
+					multiply = { 0.85 1.15 }
+					min = 0
+					max = 1
+				}
+			}
+
+			if = {
+				limit = { local_var:kCAFG_tmp_converted_factor > 0 }
+			
+				E_kCAFG_convert_culture_in_all_county_provinces = {
+					FACTOR = local_var:kCAFG_tmp_converted_factor
+					VARIANCE = 0.1
+					CULTURE = $CULTURE$
+					MAX = 0.85
+				}
+			}
+		}
+	}
+}
+
+new_culture_created_conversion_effect = {
+
+	# Save the hybrid culture for use with ai_will_do down the line
+	if = {
+		limit = {
+			$CULTURE$ = { is_hybrid_culture = yes }
+		}
+		add_to_global_variable_list = { name = hybrid_cultures target = $CULTURE$ }
+	}
+
+	# Convert Counties (if of same culture as recipient's old culture)
+	$CONVERTEE$ = {
+		if = {
+			limit = {
+				exists = capital_county
+				capital_county = {
+					save_temporary_scope_as = county_check
+					$CULTURE$ = {
+						any_parent_culture = {
+							this = scope:county_check.culture
+						}
+					}
+				}
+			}
+			capital_county = {
+				E_kCAFG_convert_culture_in_all_county_provinces = {
+					FACTOR = 0.7
+					VARIANCE = 0.2
+					CULTURE = $CULTURE$
+					MAX = 0.9
+				}
+				expand_hybrid_culture_from_origin_point = {
+					CONVERTEE = $CONVERTEE$
+					CULTURE = $CULTURE$
+				}
+			}
+		}
+		else_if = {
+			limit = {
+				any_held_title = {
+					tier = tier_county
+					save_temporary_scope_as = county_check
+					$CULTURE$ = {
+						any_parent_culture = {
+							this = scope:county_check.culture
+						}
+					}
+				}
+			}
+			random_held_title = {
+				limit = {
+					tier = tier_county
+					save_temporary_scope_as = county_check
+					$CULTURE$ = {
+						any_parent_culture = {
+							this = scope:county_check.culture
+						}
+					}
+				}
+				E_kCAFG_convert_culture_in_all_county_provinces = {
+					FACTOR = 0.7
+					VARIANCE = 0.2
+					CULTURE = $CULTURE$
+					MAX = 0.9
+				}
+				expand_hybrid_culture_from_origin_point = {
+					CONVERTEE = $CONVERTEE$
+					CULTURE = $CULTURE$
+				}
+			}
+		}
+		else_if = {
+			limit = {
+				any_sub_realm_county = {
+					save_temporary_scope_as = county_check
+					$CULTURE$ = {
+						any_parent_culture = {
+							this = scope:county_check.culture
+						}
+					}
+				}
+			}
+			random_sub_realm_county = {
+				limit = {
+					save_temporary_scope_as = county_check
+					$CULTURE$ = {
+						any_parent_culture = {
+							this = scope:county_check.culture
+						}
+					}
+				}
+				E_kCAFG_convert_culture_in_all_county_provinces = {
+					FACTOR = 0.7
+					VARIANCE = 0.2
+					CULTURE = $CULTURE$
+					MAX = 0.9
+				}
+				expand_hybrid_culture_from_origin_point = {
+					CONVERTEE = $CONVERTEE$
+					CULTURE = $CULTURE$
+				}
+			}
+		}
+	}
+	# Spouses convert
+	$CONVERTEE$ = {
+		every_spouse = {
+			limit = {
+				OR = {
+					is_courtier_of = $CONVERTER$
+					is_courtier_of = $CONVERTEE$
+					is_vassal_of = $CONVERTER$
+					is_vassal_of = $CONVERTEE$
+				}
+				save_temporary_scope_as = spouse_check
+				$CULTURE$ = {
+					any_parent_culture = {
+						this = scope:spouse_check.culture
+					}
+				}
+			}
+			set_culture = $CULTURE$
+			hidden_effect = {
+				add_character_flag = converted_culture_this_lifetime
+			}
+		}
+	}
+	# Family in recipient's court also convert
+	if = {
+		limit = {
+			$CONVERTEE$ = {
+				is_ruler = yes
+				any_close_or_extended_family_member = {
+					exists = court_owner
+					court_owner = $CONVERTEE$
+					NOT = { culture = $CULTURE$ }
+					is_ai = yes
+				}
+			}
+		}
+		$CONVERTEE$ = {
+			every_close_or_extended_family_member = {
+				custom = all_family_members_at_court
+				limit = {
+					exists = court_owner
+					court_owner = $CONVERTEE$
+					NOT = { culture = $CULTURE$ }
+					is_ai = yes
+					save_temporary_scope_as = family_check
+					$CULTURE$ = {
+						any_parent_culture = {
+							this = scope:family_check.culture
+						}
+					}
+				}
+				set_culture = $CULTURE$
+				hidden_effect = {
+					add_character_flag = converted_culture_this_lifetime
+				}
+			}
+		}
+	}
+	# Make sure relevant non-significant characters convert
+	$CONVERTEE$ = {
+		hidden_effect = {
+			every_courtier_or_guest = {
+				limit = {
+					NOT = { culture = $CULTURE$ }
+					is_ai = yes
+					has_no_particular_noble_roots_trigger = yes
+					save_temporary_scope_as = family_check
+					$CULTURE$ = {
+						any_parent_culture = {
+							this = scope:family_check.culture
+						}
+					}
+				}
+				set_culture = $CULTURE$
+				hidden_effect = {
+					add_character_flag = converted_culture_this_lifetime
+				}
+			}
+			if = {
+				limit = {
+					exists = $CONVERTEE$.capital_province
+				}
+				every_pool_character = {
+					province = $CONVERTEE$.capital_province
+					limit = {
+						NOT = { culture = $CULTURE$ }
+						is_alive = yes
+						is_ai = yes
+						has_no_particular_noble_roots_trigger = yes
+						save_temporary_scope_as = family_check
+						$CULTURE$ = {
+							any_parent_culture = {
+								this = scope:family_check.culture
+							}
+						}
+					}
+					set_culture = $CULTURE$
+					hidden_effect = {
+						add_character_flag = converted_culture_this_lifetime
+					}
+				}
+			}
+		}
+	}
+	$CONVERTEE$ = { # Clean up culture in the realm for subvassals with a liege of the wrong culture
+		hidden_effect = {
+			every_vassal_or_below = {
+				limit = {
+					is_landed = yes
+					save_temporary_scope_as = vassal_check
+					$CULTURE$ = {
+						any_parent_culture = {
+							this = scope:vassal_check.culture
+						}
+					}
+					NOT = {
+						$CULTURE$ = {
+							any_parent_culture = {
+								this = scope:vassal_check.liege.culture
+							}
+						}
+					}
+				}
+				save_scope_as = vassal_converting
+				new_culture_created_vassal_conversion_effect = {
+					CONVERTEE = scope:vassal_converting
+					CONVERTER = $CONVERTER$
+					CULTURE = $CULTURE$
+				}
+			}
+		}
+	}
+	$CONVERTEE$ = {
+		set_culture = $CULTURE$
+		hidden_effect = {
+			add_character_flag = converted_culture_this_lifetime
+		}
+	}
+}

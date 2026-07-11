@@ -1,0 +1,49 @@
+﻿migration_settle_down_obedient_vassal_effect = {
+	scope:actor = {
+		ordered_in_list = {
+			variable = obedient_vassals
+			order_by = { 
+				value = 1 
+				domicile ?= {
+					add = herd
+				}
+			}
+			limit = {
+				is_landed = no
+			}
+			save_scope_as = current_vassal
+			add_to_list = settled_vassal
+		}
+		remove_list_variable = {
+			name = obedient_vassals
+			target = scope:current_vassal
+		}
+	}
+	change_title_holder = {
+		holder = scope:current_vassal
+		change = scope:change4
+	}
+	set_variable = {
+		name = migration_previous_culture
+		years = 5
+		value = culture
+	}
+    E_kCAFG_convert_culture_in_all_county_provinces = {
+        FACTOR = 0.6
+        VARIANCE = 0.2
+        CULTURE = scope:current_vassal.domicile.domicile_culture
+        MAX = 0.8
+    }
+    E_kCAFG_convert_faith_in_all_county_provinces = {
+        FACTOR = 0.6
+        VARIANCE = 0.2
+        FAITH = scope:current_vassal.domicile.domicile_faith
+        MAX = 0.8
+    }
+	scope:current_vassal = {
+		change_liege = {
+			liege = scope:actor
+			change = scope:change4
+		}
+	}
+}

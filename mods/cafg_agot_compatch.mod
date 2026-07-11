@@ -1,0 +1,8 @@
+version="1.0.0"
+tags={
+    "Utilities"
+    "Total Conversion"
+}
+name="Culture and Faith Granularity + AGOT Compatch"
+supported_version="1.19.*"
+path="mod/cafg_agot_compatch"

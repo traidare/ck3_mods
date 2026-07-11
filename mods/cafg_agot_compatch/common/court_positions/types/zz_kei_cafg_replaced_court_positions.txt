@@ -1,0 +1,281 @@
+﻿cultural_emissary_court_position = {
+	sort_order = {
+		value = 249
+		if = { # Prio'd down for landless
+			limit = {
+				is_landed_or_landless_administrative = no
+			}
+			subtract = 240
+		}
+	}
+	max_available_positions = 1
+	minimum_rank = county
+	skill = diplomacy
+
+	court_position_asset = {
+		animation = personality_compassionate
+		background = "gfx/interface/illustrations/event_scenes/fp3_docks.dds"
+	}
+
+	opinion = {
+		value = regular_court_position_opinion
+	}
+
+	# How high the aptitude has to be to reach the 5 different modifier levels
+	aptitude_level_breakpoints = { 20 40 60 80 }
+
+	# How good is this character in this position? root scope is the holder of the court position
+	aptitude = {
+		value = 1
+		add = court_position_aptitude_boon_voyager_trait
+		add = {
+			value = diplomacy
+			multiply = 2.5
+			max = 50
+			desc = court_position_skill_diplomacy
+		}
+		add = {
+			value = num_of_known_languages
+			subtract = 1
+			multiply = 10
+			max = 100
+			desc = court_position_languages
+		}
+		if = {
+			limit = {
+				has_trait = just
+			}
+			add = {
+				value = 15
+				desc = court_position_just_trait
+			}
+		}
+		if = {
+			limit = {
+				has_trait = gregarious
+			}
+			add = {
+				value = 15
+				desc = court_position_gregarious_trait
+			}
+		}
+		if = {
+			limit = {
+				has_trait = diplomat
+			}
+			add = {
+				value = 30
+				desc = court_position_diplomat_trait
+			}
+		}
+		add = court_position_aptitude_traveling_friends_value
+		add = court_position_aptitude_eunuch_tradition_value
+		add = court_position_aptitude_family_business_value
+		add = court_position_aptitude_low_penalty_value
+		# Bonus from court.8311
+		if = {
+			limit = { var:bonus_aptitude_role ?= flag:cultural_emissary }
+			add = {
+				value = cp_bonus_aptitude_value
+				desc = cp_bonus_aptitude
+			}
+		}
+		# Seneschal
+		if = {
+			limit = {
+				liege.court_position:seneschal_court_position ?= {
+					has_variable = performing_improve_court
+				}
+			}
+			add = {
+				value = liege.court_position:seneschal_court_position.seneschal_improve_court_value
+				desc = seneschal_improve_court_aptitude_desc
+			}
+		}
+		# Yeke Jarquchi
+		if = {
+			limit = {
+				liege.court_position:yeke_jarquchi_court_position ?= {
+					has_variable = performing_improve_court
+				}
+			}
+			add = {
+				value = liege.court_position:yeke_jarquchi_court_position.yeke_jarquchi_improve_court_value
+				desc = yeke_jarquchi_improve_court_aptitude_desc
+			}
+		}
+	}
+
+	# Is this an available position for this court? (root is court owner)
+	is_shown = {
+		trigger_if = {
+			limit = {
+				is_ai = yes
+				highest_held_title_tier <= tier_county
+			}
+			always = no
+		}
+	}
+
+	valid_position = {
+		dynasty ?= {
+			has_dynasty_perk = ep1_culture_legacy_4
+		}
+	}
+
+	is_shown_character = {
+		scope:employee = {
+			court_position_employee_shown_trigger = yes
+		}
+	}
+	# Is this a valid position for this character? Also checks the scripted rule "is_eligible_for_court_positions" in code. (root is potential position holder)
+	valid_character = {
+		valid_camp_officer_trigger = {
+			OFFICER = cultural_emissary
+		}
+	}
+
+	revoke_cost = { # root is the liege, no other scopes are passed here!
+		prestige =  {
+			value = major_court_position_prestige_revoke_cost
+			# Set to 0 with obligation hook
+			if = {
+				limit = {
+					court_position_obligation_hook_salary_trigger = {
+						POS = cultural_emissary
+						LIEGE = root
+					}
+				}
+				multiply = 0
+			}
+			# Avoid AI prestige issues
+			if = {
+				limit = {
+					exists = this
+					is_ai = yes
+				}
+				multiply = 0
+			}
+			# Special case for events
+			if = {
+				limit = {
+					exists = this
+					has_character_flag = free_revoke_cost
+				}
+				multiply = 0
+			}
+			#Lowering for LAAMPS, to match Camp Officer revoke cost
+			if = {
+				limit = { 
+					exists = this
+					government_has_flag = government_is_landless_adventurer
+				}
+				value = minor_court_position_prestige_revoke_cost
+			}
+		}
+	}
+
+	salary = {
+		gold = {
+			value = 0
+			if = {
+				limit = {
+					scope:liege = {
+						has_treasury = no
+					}
+				}
+				add = cultural_emissary_total_salary_value
+			}
+		}
+		treasury = {
+			value = 0
+			if = {
+				limit = {
+					scope:liege = {
+						has_treasury = yes
+					}
+				}
+				add = cultural_emissary_total_salary_value
+			}
+		}
+		prestige = {
+			value = cultural_emissary_prestige_salary_value
+		}
+		round = no
+	}
+
+	received_salary = {
+		gold = {
+			value = cultural_emissary_total_salary_value
+		}
+		prestige = {
+			value = cultural_emissary_prestige_salary_value
+		}
+		round = no
+	}
+
+	scaling_employer_modifiers = {
+		terrible = {
+			different_culture_opinion = 2
+			different_faith_opinion = 2
+			#different_faith_county_opinion_mult = -0.04
+		}
+		poor = {
+			different_culture_opinion = 5
+			different_faith_opinion = 4
+			#different_faith_county_opinion_mult = -0.08
+		}
+		average = {
+			different_culture_opinion = 8
+			different_faith_opinion = 6
+			#different_faith_county_opinion_mult = -0.12
+		}
+		good = {
+			different_culture_opinion = 11
+			different_faith_opinion = 8
+			#different_faith_county_opinion_mult = -0.16
+		}
+		excellent = {
+			different_culture_opinion = 15
+			different_faith_opinion = 10
+			#different_faith_county_opinion_mult = -0.2
+		}
+	}
+
+	modifier = {
+		different_culture_opinion = 10
+		different_faith_opinion = 10
+		different_faith_county_opinion_mult = -0.2
+	}
+
+	on_court_position_received = {
+		basic_gained_court_position_effect = yes
+	}
+	on_court_position_revoked = {
+		basic_revoked_court_position_effect = yes
+	}
+	on_court_position_invalidated = {
+		basic_invalidated_court_position_effect = yes
+	}
+	on_court_position_vacated = {
+		court_position_vacated_event_effect = {
+			COURT_POSITION_TYPE = cultural_emissary_court_position
+		}
+	}
+	ai_position_score = {
+		value = 100
+		add = court_position_debt_considerations_value
+	}
+	ai_candidate_score = {
+		value = 100
+		add = scope:base_value
+		add = court_position_candidate_score_base_value
+		add = court_position_candidate_aptitude_value
+		if = { # To stop petitioned positions immediately being fired by the AI
+			limit = {
+				court_position_petition_ai_weight_trigger = { ROLE = cultural_emissary }
+			}
+			add = 1000
+		}
+	}
+}

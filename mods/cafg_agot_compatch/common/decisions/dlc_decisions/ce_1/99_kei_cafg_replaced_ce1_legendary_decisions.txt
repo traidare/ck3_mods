@@ -1,0 +1,58 @@
+﻿legendary_conversion = {
+	picture = {
+		reference = "gfx/interface/illustrations/decisions/decision_legend.dds"
+	}
+	decision_group_type = major
+	ai_check_interval = 120
+	desc = legendary_conversion_desc
+
+	is_shown = {
+		has_character_flag = legendary_conversion
+		has_dlc_feature = legends
+	}
+
+	is_valid = {
+		custom_tooltip = {
+			text = leg_conv_valid_county
+			any_sub_realm_county = {
+				NOT = {
+					faith = root.faith
+				}
+			}
+		}
+	}
+
+	effect = {
+		custom_tooltip = {
+			text = legendary_conversion_tt
+			remove_character_flag = legendary_conversion
+            # default conversion behaviour - we assume it's a mass majority conversion 
+            
+			random_sub_realm_county = { # Give em a freebie
+                E_kCAFG_convert_faith_in_all_county_provinces = {
+                    FACTOR = 0.7
+                    VARIANCE = 0.1
+                    FAITH = root.faith
+                    MAX = 1
+                }
+			}
+			every_sub_realm_county = {
+                E_kCAFG_convert_faith_in_all_county_provinces = {
+                    FACTOR = 0.5
+                    VARIANCE = 0.3
+                    FAITH = root.faith
+                    MAX = 0.9
+                }
+			}
+		}
+	}
+	
+
+	ai_potential = {
+		always = yes
+	}
+
+	ai_will_do = {
+		base = 100
+	}
+}

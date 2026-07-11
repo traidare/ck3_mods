@@ -1,0 +1,51 @@
+﻿new_faith_created_conversion_effect = {
+	# Convert Capital (if of same faith as recipient's old faith)
+	if = {
+		limit = {
+			scope:recipient = {
+				is_playable_character = yes
+				highest_held_title_tier > tier_barony
+				capital_county.faith = scope:recipient.faith
+			}
+		}
+		scope:recipient.capital_county = {
+			E_kCAFG_convert_faith_in_all_county_provinces = {
+				FACTOR = 0.65
+				VARIANCE = 0.3
+				FAITH = scope:actor.faith
+				MAX = 0.95
+			}
+		}
+	}
+	grab_spouses_and_family_to_convert_effect = yes
+	convert_family_to_faith_effect = {
+		FALSE_CONVERSION = no
+		FORCED = yes
+	}
+}
+
+adopt_religion_interaction_effect = {
+	# Convert Capital (if of same faith as recipient's old faith)
+	if = {
+		limit = {
+			scope:actor = {
+				highest_held_title_tier > tier_barony
+				NOT = { capital_county.faith = scope:recipient.faith }
+			}
+		}
+		scope:actor.capital_county = {
+			E_kCAFG_convert_faith_in_all_county_provinces = {
+				FACTOR = 0.65
+				VARIANCE = 0.3
+				FAITH = scope:recipient.faith
+				MAX = 0.95
+			}
+		}
+	}
+	# Spouses and family convert
+	grab_spouses_and_family_to_convert_effect = yes
+	convert_family_to_faith_effect = {
+		FALSE_CONVERSION = no
+		FORCED = no
+	}
+}
