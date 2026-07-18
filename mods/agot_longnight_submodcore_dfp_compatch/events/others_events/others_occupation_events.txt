@@ -1,0 +1,464 @@
+﻿
+namespace = others_occupation
+
+
+others_occupation.1 = {
+	title = others_occupation.1.t
+	type = character_event
+	theme = death
+	desc = {
+			desc = others_occupation.1_desc
+			triggered_desc = {
+				trigger = {
+					exists = scope:child
+				}
+				desc = others_occupation.1_desc_child
+			}
+			triggered_desc = {
+				trigger = {
+				NOT = { has_faith = faith:cold_gods }
+				}
+				desc = others_occupation.1_desc_faith
+			}
+			}
+	left_portrait = {
+		character = root
+		animation = sick
+	}
+	right_portrait = {
+		character = title:h_the_others.holder
+		animation = marshal
+	}
+	lower_left_portrait = {
+		character = scope:child
+	}
+	#lower_center_portrait = {
+	#	character = scope:courtier_sacrifice_1
+	#}
+	#lower_right_portrait = {
+	#	character = scope:courtier_sacrifice_2
+	#}
+
+	
+	override_background = {
+		reference = ep2_hunt_snowy_forest
+	}
+
+	immediate = {                                 
+	play_music_cue = "mood_the_others"
+	save_scope_as = others_tributary
+	title:h_the_others.holder = { save_scope_as = thenightking }
+	
+	random_courtier = { 
+	limit = { NOT = { is_close_or_extended_family_of = root }
+			NOT = { has_trait = dragon }
+	}
+	save_scope_as = courtier_sacrifice_1
+	
+	}
+	random_courtier = { 
+	limit = { NOT = { is_close_or_extended_family_of = root } 
+			NOT = { this = scope:courtier_sacrifice_1 }
+			NOT = { has_trait = dragon }
+	}
+	save_scope_as = courtier_sacrifice_2
+	
+	}
+	random_courtier = { 
+	limit = { NOT = { is_close_or_extended_family_of = root } 
+			NOT = { this = scope:courtier_sacrifice_1 }
+			NOT = { this = scope:courtier_sacrifice_2 }
+			NOT = { has_trait = dragon }
+	}
+	save_scope_as = courtier_sacrifice_3
+	
+	}
+	ordered_courtier = {
+			limit = { OR = { is_close_family_of = root
+								is_spouse_of = root 
+							} }
+			order_by = age
+			position = 20
+			save_scope_as = child
+		}
+	
+	
+	}
+
+	
+		#### I will not worship these demons!
+		option = {
+		name =  others_occupation.1.a
+		custom_tooltip =  others_occupation.1.a.tt		
+		ai_chance = {
+		base = 100 # What are the chances of selecting this option over others? (Does not need to be 0 to 100, it can be anything)
+		modifier = {
+			add = 50 # To remove something you just add a negative number (5 + -10 = -5)
+			has_trait = brave
+			
+		}
+		modifier = {
+			add = 500 # To remove something you just add a negative number (5 + -10 = -5)
+			has_trait = zealous
+			NOT = { has_faith = faith:cold_gods }
+			
+		}
+			modifier = {
+			add = 500 # To remove something you just add a negative number (5 + -10 = -5)
+			has_trait = zealous
+			NOT = { has_faith = faith:cold_gods }
+			
+		}
+			
+			modifier = {
+			add = 100 # To remove something you just add a negative number (5 + -10 = -5)
+			has_trait = just
+			
+		}
+			modifier = {
+			add = -50 # To remove something you just add a negative number (5 + -10 = -5)
+			has_faith = faith:cold_gods
+			
+		}
+		
+		}
+		add_prestige = 100
+		if = { limit = { NOT = { has_faith = faith:cold_gods } } add_piety = 100 }
+		
+		trigger_event = {
+					id = others_occupation.2 #Immediately
+					days = { 7 90 }
+				}
+		
+		
+		###Renounce Cold Gods
+		if = { limit = {  has_faith = faith:cold_gods  NOT = { has_trait = wight_trait } }   # wights never renounce the cold gods — they serve them until they fall
+		if = {
+		limit = { exists = secret_faith }
+		set_character_faith_with_conversion = secret_faith # Gets vassals too, if they like you enough
+		hidden_effect = { remove_character_secret_faith = yes }
+		}
+		else_if = { limit = { culture = { has_cultural_tradition = tradition_agot_wildling } }
+		set_character_faith_with_conversion = faith:old_gods_btw_fnf
+		}
+		else_if = { limit = { culture = { has_cultural_pillar = heritage_first_man } }
+		set_character_faith_with_conversion = faith:old_gods_wnw
+		 }
+		else = { 
+		set_character_faith_with_conversion = secret_faith
+		 }
+		
+		}
+		}
+		
+		#### I will make this sacrifice
+		option = {
+		name =  others_occupation.1.b
+		custom_tooltip =  others_occupation.1.b.tt		
+		ai_chance = {
+		base = 1 # What are the chances of selecting this option over others? (Does not need to be 0 to 100, it can be anything)
+	
+		modifier = {
+			add = 60 # To remove something you just add a negative number (5 + -10 = -5)
+			has_trait = craven
+			
+		}
+		modifier = {
+			add = 1000 # To remove something you just add a negative number (5 + -10 = -5)
+			has_trait = other_trait
+			
+		}
+		modifier = {
+			add = 100 # To remove something you just add a negative number (5 + -10 = -5)
+			
+		agot_long_night_craven = yes
+			
+		}
+		modifier = {
+			add = 100 # To remove something you just add a negative number (5 + -10 = -5)
+			has_faith = faith:cold_gods
+			
+		}
+
+
+	}
+		
+		if = { limit = { NOT = { has_faith = faith:cold_gods } } 
+		hidden_effect = { set_character_secret_faith = root.faith }
+		add_secret = {
+			type = secret_crypto_religionist
+		}
+		set_character_faith = faith:cold_gods }
+		
+		add_legitimacy = -1000
+		if = { limit = { exists = scope:courtier_sacrifice_1 }
+		 scope:courtier_sacrifice_1 = {
+					death = {
+							death_reason = death_sacrificed_to_gods
+							killer = root
+					}
+		 
+		 
+						}
+						}
+		if = { limit = { exists = scope:courtier_sacrifice_2 }
+		 scope:courtier_sacrifice_2 = {
+					death = {
+							death_reason = death_sacrificed_to_gods
+							killer = root
+					}
+		 
+		 
+						}
+						}
+		if = { limit = { exists = scope:courtier_sacrifice_3 }
+		 scope:courtier_sacrifice_3 = {
+					death = {
+							death_reason = death_sacrificed_to_gods
+							killer = root
+					}
+		 
+		 
+						}
+						}
+		if = { limit = { NOT = { has_trait = sadistic } }
+		add_stress = 50
+		 }
+		
+		every_sub_realm_county = { limit = { holder = root } add_county_modifier = {
+									modifier = agot_long_night_smallfolk_outraged_modifier
+									years = 5
+								}   }           
+								
+
+
+		
+		
+		}
+		
+		#### I will sacrifice my child
+		option = {
+		trigger = { exists = scope:child }
+		name =  others_occupation.1.c
+		custom_tooltip =  others_occupation.1.c.tt		
+		ai_chance = {
+		base = 1 # What are the chances of selecting this option over others? (Does not need to be 0 to 100, it can be anything)
+		
+		modifier = {
+			add = 150 # To remove something you just add a negative number (5 + -10 = -5)	
+		agot_long_night_villain = yes
+			
+		}
+		modifier = {
+			add = 25 # To remove something you just add a negative number (5 + -10 = -5)
+			has_trait = sadistic
+			
+		}
+	
+			modifier = {
+			add = 100 # To remove something you just add a negative number (5 + -10 = -5)
+			has_faith = faith:cold_gods
+			
+		}
+		
+			modifier = {
+			add = -100 # To remove something you just add a negative number (5 + -10 = -5)
+			scope:child = { is_primary_heir_of = root }
+			
+		}
+		}
+		
+		if = { limit = { NOT = { has_faith = faith:cold_gods } } 
+		hidden_effect = { set_character_secret_faith = root.faith }
+		add_secret = {
+			type = secret_crypto_religionist
+		}
+		set_character_faith = faith:cold_gods }
+		
+		
+	
+		add_legitimacy = -2000
+		 scope:child = {
+					death = {
+							death_reason = death_sacrificed_to_gods
+							killer = root
+					}
+		 
+						}
+		if = { limit = { NOT = { has_trait = kinslayer_3 } }
+		add_trait = kinslayer_3
+		 }	
+		if = { limit = { NOT = { has_trait = sadistic } }
+		add_stress = 200
+		 }
+		
+		}
+		
+		}
+		
+		
+others_occupation.2  = {
+	title = others_occupation.1.t
+	type = character_event
+	theme = death
+	desc = others_occupation.2.desc
+	left_portrait = {
+		character = root
+		animation = aggressive_sword
+	}
+	right_portrait = {
+		character = title:h_the_others.holder
+		animation = throne_room_one_handed_passive_1
+	}
+	lower_left_portrait = {
+		character = scope:child
+	}
+	#lower_center_portrait = {
+	#	character = scope:courtier_sacrifice_1
+	#}
+	#lower_right_portrait = {
+	#	character = scope:courtier_sacrifice_2
+	#}
+
+	
+	override_background = {
+		reference = ep2_hunt_snowy_forest
+	}
+	immediate = {
+	play_music_cue = "mood_the_others"
+	hidden_effect = {
+			root = { 
+				location = { save_scope_as = target_location } 
+				longnight_create_other_for_scouring = {
+					TARGET = root
+				}
+			}
+			}
+		
+	}
+	
+
+	option = {
+		name = others_occupation.2.a
+		custom_tooltip = others_occupation.2.a.tt		
+		stress_impact = {
+			craven = major_stress_impact_gain
+		}
+	hidden_effect = { 	
+		longnight_spawn_army_for_scouring = {TARGET = root}
+		}
+	}
+}	
+
+
+		
+others_occupation.3  = {
+	title = others_occupation.3.t
+	type = character_event
+	theme = death
+	desc = others_occupation.3.desc
+	left_portrait = {
+		character = root
+		animation = celebrate_sword
+	}
+	right_portrait = {
+		character = scope:attacker
+		animation = loss_1
+	}
+
+
+	
+	override_background = {
+		reference = ep2_hunt_snowy_forest
+	}
+	immediate = {
+	play_music_cue = "mood_the_others"
+		
+	}
+	
+
+	option = {
+		name = others_occupation.3.a
+		add_prestige = 1000
+
+	}
+}
+
+
+		
+others_occupation.4  = {
+	title = others_occupation.4.t
+	type = character_event
+	theme = death
+	desc = others_occupation.4.desc
+	left_portrait = {
+		character = root
+		animation = severelywounded
+	}
+	right_portrait = {
+		character = title:h_the_others.holder
+		animation = celebrate_sword
+	}
+
+	
+	override_background = {
+		reference = ep2_hunt_snowy_forest
+	}
+	immediate = {
+		play_music_cue = "mood_the_others"
+		every_sub_realm_county = { limit = { holder = root } add_county_modifier = {
+									modifier = agot_long_night_destruction_modifier
+									years = 5
+								}   }
+	
+	
+	 every_courtier_or_guest = {  limit = { NOT = { is_away_from_court = no } }
+		
+			hidden_effect = {		
+			random = {
+			chance = 75
+			increase_wounds_effect = {
+				REASON = battle
+			}
+		} }
+			random = {
+			chance = 50
+				death = {
+							death_reason = death_sacrificed_to_gods
+							
+					}
+		}
+	
+	
+		}
+		
+	}
+	
+
+	option = {
+		name = others_occupation.4.a
+		
+			random = {
+			chance = 75
+			increase_wounds_effect = {
+				REASON = battle
+			}
+		} 
+			random = {
+			chance = 50
+				death = {
+							death_reason = death_sacrificed_to_gods
+						
+					}
+		}
+		every_sub_realm_county = {
+		 limit = { holder = root }
+		add_county_modifier = { modifier = agot_stunned_by_pirates_modifier years = 5 }
+		}
+		
+		
+		
+	}
+	} 
+		
+		

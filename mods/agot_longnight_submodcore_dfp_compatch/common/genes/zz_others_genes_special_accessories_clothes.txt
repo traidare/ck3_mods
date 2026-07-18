@@ -1,0 +1,28 @@
+﻿special_genes = {
+	accessory_genes = {
+
+	others_clothes = {
+		inheritable = no
+
+		no_others_clothes = {
+			index = 0
+			male = {}
+			female = {}
+			boy = {}
+			girl = {}
+		}
+
+		others_armor = {
+			index = 1
+			male = {
+				1 = male_clothes_others_armor
+			}
+			female = {
+				1 = empty
+			}
+			boy = male
+			girl = female
+		}
+	}
+	}
+}

@@ -1,0 +1,114 @@
+﻿
+others_thenightking = {					
+	name = other_name
+	dynasty_house = house_theothers				
+	religion = cold_gods				
+	culture = frostborn				
+	dna = agot_long_night_great_other
+	sexuality = asexual
+					
+	disallow_random_traits = yes				
+					
+	martial = 10			
+	diplomacy = 15
+	intrigue = 16
+	learning = 20	
+	stewardship = 12			
+	prowess = 70		
+
+	trait = physique_good_3			
+	trait = intellect_good_3			
+	trait = wrathful			
+	trait = callous			
+	trait = deceitful			
+	trait = education_intrigue_4			
+	trait = education_martial_4	
+	trait = ambitious			
+	trait = sadistic
+	trait = other_trait
+			
+	1.1.1 = {				
+		birth = yes
+		effect = {
+			add_character_flag = has_scripted_appearance	
+			add_character_flag = ai_immune_to_mental_breaks		
+			add_character_flag = immune_to_disease		
+			add_character_flag = is_sauron
+			add_character_flag = {
+				flag = had_nickname_event
+			}
+		}
+	}
+
+	1.1.2 = {				
+		give_nickname = nick_the_great_other
+	}
+
+	3360.1.1 = {
+		effect = {
+			if = { limit = { NOT = { has_perk = truth_is_relative_perk }}
+				add_perk = truth_is_relative_perk
+			}
+			if = { limit = { NOT = { has_perk = court_of_shadows_perk }}
+				add_perk = court_of_shadows_perk
+			}
+			if = { limit = { NOT = { has_perk = swift_execution_perk }}
+				add_perk = swift_execution_perk
+			}
+
+			if = { limit = { NOT = { has_perk = dark_insights_perk }}
+				add_perk = dark_insights_perk
+			}
+			if = { limit = { NOT = { has_perk = dreadful_perk }}
+				add_perk = dreadful_perk
+			}
+			if = { limit = { NOT = { has_perk = divine_retribution_perk }}
+				add_perk = divine_retribution_perk
+			}
+			if = { limit = { NOT = { has_perk = thriving_in_chaos_perk }}
+				add_perk = thriving_in_chaos_perk
+			}
+			if = { limit = { NOT = { has_perk = malice_implicit_perk }}
+				add_perk = malice_implicit_perk
+			}
+			if = { limit = { NOT = { has_perk = fear_tax_perk }}
+				add_perk = fear_tax_perk
+			}
+			if = { limit = { NOT = { has_perk = prison_feudal_complex_perk }}
+				add_perk = prison_feudal_complex_perk
+			}
+
+			if = { limit = { NOT = { has_perk = serve_the_crown_perk }}
+				add_perk = serve_the_crown_perk
+			}
+			if = { limit = { NOT = { has_perk = serve_the_crown_perk }}
+				add_perk = serve_the_crown_perk
+			}
+			if = { limit = { NOT = { has_perk = a_mans_home_perk }}
+				add_perk = a_mans_home_perk
+			}
+			if = { limit = { NOT = { has_perk = strict_organization_perk }}
+				add_perk = strict_organization_perk
+			}
+			if = { limit = { NOT = { has_perk = enduring_hardships_perk }}
+				add_perk = enduring_hardships_perk
+			}
+			if = { limit = { NOT = { has_perk = hard_rule_perk }}
+				add_perk = hard_rule_perk
+			}
+			if = { limit = { NOT = { has_perk = prepared_conscription_perk }}
+				add_perk = prepared_conscription_perk
+			}
+			if = { limit = { NOT = { has_perk = soldiers_of_lesser_fortune_perk }}
+				add_perk = soldiers_of_lesser_fortune_perk
+			}
+			if = { limit = { NOT = { has_perk = absolute_control_perk }}
+				add_perk = absolute_control_perk
+			}
+		}
+	}
+	
+	6934.1.1 = { death = yes }	
+
+		
+}

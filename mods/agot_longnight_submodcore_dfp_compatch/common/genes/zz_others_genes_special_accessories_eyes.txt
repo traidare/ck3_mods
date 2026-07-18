@@ -1,0 +1,20 @@
+﻿special_genes = {
+	accessory_genes = {
+	others_eye_accessory = {
+		no_others_eyes = {
+			index = 0
+			male = {}
+			female = {}
+			boy = {}
+			girl = {}
+		}
+		others_eyes = {
+			index = 1
+			male = {	1 = male_eyes_others		}
+			female = {	1 = female_eyes_others	}
+			boy = male
+			girl = female
+		}
+	}
+	}
+}

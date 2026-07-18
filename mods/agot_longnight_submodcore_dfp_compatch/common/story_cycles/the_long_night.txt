@@ -1,0 +1,1185 @@
+﻿long_night_story = {
+
+	on_setup = {
+
+			
+
+	story_owner = {
+
+		trigger_event = { id = others_heartbeat.1 days = 1 }
+	if = { limit = { game_start_date >= 8300.1.1 }
+
+	add_character_flag = { flag = long_night_cooldown years = 2 }	 
+
+	}
+
+	add_character_flag = { flag = war_for_dawn_cooldown years = 10 }
+
+	add_character_flag = mw_init_event_blocker
+
+	add_character_flag = agot_immersion_bannermen_blocker
+
+	save_scope_as = thegreatother
+
+	set_house = house:house_theothers
+
+	every_courtier = { 
+
+	if = { limit = { has_trait = dwarf } remove_trait = dwarf }
+
+	if = { limit = { has_trait = gluttonous } remove_trait = gluttonous }
+
+	set_culture = culture:frostborn
+
+	set_character_faith = faith:cold_gods
+
+	#set_father = scope:thegreatother
+
+	set_house = house:house_theothers
+
+	add_trait = other_trait
+
+	if = { limit = { is_landed = yes } change_government = wight_government }
+	add_trait = spindly
+
+	make_trait_inactive = cool_silver_hair
+
+	make_trait_inactive = blue_eyes
+
+	change_age = 7000
+
+	change_first_name = other_name
+
+	 add_character_flag = agot_immersion_bannermen_blocker
+
+	 ### Sword
+
+	set_artifact_rarity_illustrious = yes
+
+	create_artifact = {
+
+		name = others_sword
+
+		visuals = others_sword_visuals
+
+		description = others_sword_description
+
+		type = sword
+
+		wealth = scope:wealth
+
+		quality = scope:quality
+
+		template = others_sword_template
+
+		history = {
+
+			type = created_before_history
+
+			date = 50.1.1
+
+		}
+
+		modifier = others_sword_modifier
+
+		save_scope_as = newly_created_artifact
+
+		decaying = yes
+
+	}
+
+	scope:newly_created_artifact = {
+
+		set_variable = { name = historical_unique_artifact value = yes }
+
+		equip_artifact_to_owner = yes
+
+	}
+
+	}
+
+	every_character_artifact = { limit = {  has_variable = crown_of_true_winter_artifact } equip_artifact_to_owner = yes }
+
+	
+
+	
+
+	}
+
+	
+
+	}
+
+	on_end = {
+
+	
+
+	### Reform Nightswatch
+
+	if = { limit = { NOT = { title:c_castle_black.holder = { has_government = nights_watch_government } }
+
+	title:c_castle_black.holder = { is_ai = yes }
+
+	}
+
+		 # The Long Night+: NW reformation is no longer automatic — it is now the reform_nights_watch_decision,
+		 # which only the King on the Iron Throne or an independent King of the North may take.
+
+		 }
+
+		 
+
+	
+
+	title:h_the_others.holder = { 
+
+	save_scope_as = lastother
+
+		destroy_others_kingdom_titles = yes
+
+		random_courtier = { limit = { has_trait = other_trait
+
+										is_female = yes}
+
+							add_character_flag = nightsqueen
+
+							save_scope_as = nightsqueen
+
+							add_trait = disinherited
+
+							}
+
+		culture = {
+
+			clear_culture_traditions = yes
+
+			add_culture_tradition = tradition_agot_wildling
+
+			add_culture_tradition = tradition_mountain_homes
+
+			add_culture_tradition = tradition_winter_warriors
+
+			add_culture_tradition = tradition_tribe_unity
+
+		set_culture_name = {
+
+noun = frostborn_culture_name
+
+collective_noun = frostborn_culture_name
+
+prefix = frostborn_culture_name
+
+}
+
+		}
+
+		
+
+		
+
+		#destroy_title = title:h_the_others
+
+		}
+
+		# The Long Night+: before the dead crumble, scour the lands the Night King held — ordinary holdings
+		# return to wilderness, the great seats are left in ruins. Runs while the wights/Others still hold them.
+		agot_long_night_scour_others_lands_effect = yes
+
+		# The Long Night+: with the Others defeated, the power animating the dead fails — every wight is claimed by the cold.
+		every_living_character = {
+			limit = { has_trait = wight_trait }
+			death = { death_reason = death_claimed_by_cold }
+		}
+
+		# The Long Night+ AFTERMATH: the Question of the North — within ~6 months the Crown MUST choose between
+		# restoring the Night's Watch and welcoming the free folk (ln_aftermath.1; replaces the old
+		# reform_nights_watch_decision, now retired). No Crown anywhere (no Iron Throne, no independent King of
+		# the North) → nobody holds the authority to keep the Wall: the free folk pour through unbidden. A yearly
+		# safety pulse reposes the question if the chosen crown dies before the event lands
+		# (zz_long_night_plus_aftermath_on_actions.txt). Runs AFTER the scouring so the wilderness exists.
+		set_global_variable = { name = ln_aftermath_started value = yes }
+		ln_pose_question_of_the_north_effect = yes
+
+		house:house_theothers = {  every_house_member = { limit = { NOT = { has_character_flag = nightsqueen } } death = {
+
+						
+
+						death_reason = death_vanished
+
+					} } }
+
+					
+
+		
+
+	if = { limit = { has_game_rule = longnight_iron_throne_reformation_on }	 
+
+	if = { limit = { exists = title:h_the_iron_throne.holder} 
+
+	title:h_the_iron_throne.holder = { trigger_event = {
+
+						id = others_maintenance.2
+
+						days = 1
+
+					}
+
+					}
+
+					
+
+	}
+
+	}
+
+		
+
+		
+
+		
+
+	
+
+		
+
+		
+
+		every_player = {
+
+					trigger_event = {
+
+						id = others.3
+
+						days = 1
+
+					}
+
+				}
+
+		
+
+
+
+	
+
+	}
+
+	
+
+	on_owner_death = { 
+
+	
+
+	if = { limit = { has_game_rule = others_death_resolution }
+
+	
+
+	end_story = yes
+
+	}
+
+	else = {
+
+	make_story_owner = story_owner.primary_heir
+
+	 story_owner = { add_trait = nightking 
+
+	 if = { limit = { has_game_rule = others_weak_invasion } add_character_modifier = others_weak_modifier }
+
+								if = { limit = { has_game_rule = others_standard_invasion } add_character_modifier = others_standard_modifier }
+
+								if = { limit = { has_game_rule = others_strong_invasion } add_character_modifier = others_strong_modifier }
+
+								if = { limit = { has_game_rule = others_insane_invasion } add_character_modifier = others_insane_modifier }
+
+	 
+
+	 
+
+	 }
+
+	}
+
+	if = { limit = { AND = { has_game_rule = others_war_resolution 
+
+							 has_global_variable = war_for_dawn_victory
+
+							}
+
+							}
+
+							end_story = yes
+
+	}
+
+	
+
+	}
+
+	
+
+	# The Long Night+ — #12 the Wall comes down. When the dead make war on the Night's Watch (holder of Castle Black),
+	# the Wall is breached at a RANDOM spot (left/middle/right). One-shot via the agot_wall_has_fallen_* guard. The
+	# cinematic (sound/anim/camera, layer B) is layered on later once agot_debug.1000 confirms the falling animation.
+	effect_group = {
+		days = 7
+		triggered_effect = {
+			trigger = {
+				exists = title:h_the_others.holder
+				title:c_castle_black.holder = {
+					has_government = nights_watch_government
+					is_at_war_with = title:h_the_others.holder
+				}
+				title:b_castle_black.title_province = {
+					NOT = { has_variable = agot_wall_has_fallen_left }
+					NOT = { has_variable = agot_wall_has_fallen_middle }
+					NOT = { has_variable = agot_wall_has_fallen_right }
+				}
+			}
+			effect = {
+				story_owner = { agot_long_night_wall_collapse_effect = yes }
+			}
+		}
+	}
+
+	effect_group = {
+
+        days = 30
+
+
+
+	
+
+	triggered_effect = {
+
+			trigger = {
+
+
+
+			NOT = { story_owner = { is_at_war = yes } } 
+
+			
+
+			NOR = { story_owner = { has_character_flag = long_night_peace }
+
+					story_owner = { has_character_flag = long_night_over }
+
+					story_owner = { has_character_flag = long_night_cooldown }
+
+					}
+
+			}	# otherwise, check for this trigger
+
+			effect = {
+
+		story_owner = {	random_neighboring_top_liege_realm_owner = {
+
+			limit = {
+
+				NOR = {
+
+					culture = {
+
+						has_cultural_parameter = other_parameter
+
+					}
+
+					faith = faith:cold_gods
+
+					has_trait = other_trait
+
+				}
+
+				is_independent_ruler = yes
+
+				highest_held_title_tier >= tier_county
+
+				is_landed = yes
+
+			}
+
+			save_scope_as = othervictim_character
+
+		}
+
+		if = {
+
+			limit = { exists = scope:othervictim_character }
+
+			if = { limit = { OR = { 	
+
+	scope:othervictim_character = { any_sub_realm_county = { count >= 4 } }
+
+	scope:othervictim_character = { highest_held_title_tier = tier_empire }
+
+	scope:othervictim_character = { is_ai = no }
+
+	}				}
+
+			if = { limit = { has_game_rule = others_cb_empire }
+				start_war = {
+					casus_belli = other_cb_empire
+					target = scope:othervictim_character
+				}
+			}
+			else = {
+				start_war = {
+					casus_belli = other_cb
+					target = scope:othervictim_character
+				}
+			}
+
+			}
+
+			else = {
+
+				create_title_and_vassal_change = {
+
+			type = swear_fealty
+
+			save_scope_as = change
+
+						}
+
+		scope:othervictim_character = {
+
+			change_liege = {
+
+				liege = title:h_the_others.holder
+
+				change = scope:change
+
+			}
+
+		}
+
+		resolve_title_and_vassal_change = scope:change
+
+			
+
+			
+
+				}
+
+		}
+
+
+
+			}
+
+
+
+			
+
+
+
+			}
+
+		}
+
+		
+
+	
+
+	
+
+
+
+		
+
+			}
+
+			
+
+			
+
+			effect_group = {
+
+        days = 10
+
+
+
+	
+
+			triggered_effect = {
+
+		trigger = { 
+
+					story_owner = { has_culture = culture:frostborn }
+
+					}
+
+		effect = {
+
+		story_owner = {
+
+		add_stress = -300
+
+		if = { limit = { gold >= 250 }
+
+		remove_reserved_gold = 250
+
+		}
+
+		if = { limit = { gold < 1 }
+
+		add_gold = 100
+
+		}
+
+			
+
+			every_character_artifact = { limit = {  has_variable = crown_of_true_winter_artifact } equip_artifact_to_owner_replace = yes }
+
+		save_scope_as = thegreatother
+
+		every_courtier = { 
+
+								if =  { limit = { AND = { has_culture = culture:frostborn
+
+											has_faith = faith:cold_gods 
+
+											NOT = { has_trait = other_trait}  NOT = { has_trait = wight_trait } } # LN+ Option B: never promote wights to Others
+
+											
+
+
+
+														}
+
+											if = { limit = { has_trait = dwarf } remove_trait = dwarf }
+
+											add_trait = other_trait
+
+											if = { limit = { is_landed = yes } change_government = wight_government }
+											add_trait = spindly
+
+											make_trait_inactive = cool_silver_hair
+
+											make_trait_inactive = blue_eyes
+
+										 change_age = 7000
+
+										 change_first_name = other_name
+
+										 add_character_flag = agot_immersion_bannermen_blocker
+
+										 #set_father = scope:thegreatother
+
+										 set_house = scope:thegreatother.house
+
+											}
+
+										 
+
+							if = { limit = { NOT = { has_faith = faith:cold_gods }
+
+											NOT = { has_trait = dragon }
+
+								    }
+
+							 
+
+							 random_list = {
+
+			50 = {
+
+				death = {
+
+					killer = scope:thegreatother
+
+					death_reason = death_sacrificed_to_gods
+
+				}
+
+			}
+
+			50 = {
+
+				death = {
+
+					killer = scope:thegreatother
+
+					death_reason = death_ripped_apart_limb_by_limb
+
+				}
+
+			}
+
+		}
+
+		}
+
+		}
+
+			every_prisoner = {
+
+		random_list = {
+
+				50 = {
+
+					death = {
+
+						killer = scope:thegreatother
+
+						death_reason = death_sacrificed_to_gods
+
+					}
+
+				}
+
+				50 = {
+
+					death = {
+
+						killer = scope:thegreatother
+
+						death_reason = death_ripped_apart_limb_by_limb
+
+					}
+
+				}
+
+			}
+
+		
+
+		}
+
+			
+
+	
+
+								
+
+		}								
+
+		
+
+		
+
+		}
+
+		
+
+	}
+
+		
+
+	
+
+	
+
+
+
+		
+
+			}
+
+			
+
+			
+
+#		effect_group = {
+
+#        days = 180
+
+#
+
+#	
+
+#			triggered_effect = {
+
+#		trigger = { 
+
+#					story_owner = { has_culture = culture:frostborn
+
+#									completely_controls = title:c_castle_black
+
+#									NOT = { has_character_flag = war_for_dawn_cooldown }
+
+#									 has_character_flag = long_night_cooldown 
+
+#
+
+#					}
+
+#					}
+
+#		effect = {
+
+#		story_owner = {
+
+#		save_scope_as = thegreatother
+
+#		ordered_vassal = {
+
+#		limit = { NOT = { has_faith = faith:cold_gods } }
+
+#		order_by = {
+
+#					value = 0
+
+#					add = max_military_strength
+
+#				}
+
+#		save_scope_as = uprising_vassal
+
+#			title:h_the_others.holder = { if = { limit = { any_character_war = {
+
+#								is_defender = title:h_the_others.holder
+
+#								using_cb = war_for_the_dawn_cb	}
+
+#										   }
+
+#								random_character_war = {
+
+#								limit = {
+
+#								is_defender = title:h_the_others.holder
+
+#								using_cb = war_for_the_dawn_cb
+
+#							}
+
+#
+
+#							add_attacker = scope:uprising_vassal
+
+#						}
+
+#							}
+
+#							else = {
+
+#						scope:uprising_vassal = {
+
+#							start_war = {
+
+#								cb = war_for_the_dawn_cb
+
+#								target = title:h_the_others.holder
+
+#							
+
+#							}
+
+#						}
+
+#					}
+
+#									
+
+#	}
+
+#		
+
+#		
+
+#		
+
+#		}
+
+#	
+
+#	
+
+#	}
+
+#	}
+
+#	
+
+#		
+
+#	}
+
+#	
+
+#
+
+#		
+
+#			}
+
+			
+
+			effect_group = {
+
+        days = 365
+
+
+
+	
+
+			triggered_effect = {
+
+		trigger = { 
+
+					story_owner = { has_culture = culture:frostborn
+
+									
+
+
+
+					}
+
+					}
+
+		effect = {
+
+		story_owner = {
+
+		save_scope_as = thegreatother
+
+		every_vassal_or_below = {
+
+			limit = { NOT = { has_character_flag = others_sacrifice_event }
+
+					NOT = { is_at_war_with_liege = yes }
+
+					highest_held_title_tier >= tier_county
+
+			}
+
+			add_character_flag = { flag = others_sacrifice_event years = 5 }
+
+			# trigger_event = others_occupation.1   # LN+ retired: wights are mindless and never negotiate/refuse/submit. Scouring wars to be rebuilt decoupled (see task).
+
+		
+
+		
+
+		
+
+		}
+
+	
+
+	
+
+	}
+
+	}
+
+	
+
+		
+
+	}
+
+	
+
+
+
+		
+
+			}
+
+			
+
+			
+
+			effect_group = {
+
+        days = 180
+
+
+
+	
+
+			triggered_effect = {
+
+		trigger = { 
+
+					story_owner = { has_culture = culture:frostborn
+
+									
+
+
+
+					}
+
+					}
+
+		effect = {
+
+		story_owner = {
+
+		save_scope_as = thegreatother
+
+		every_vassal_or_below = { 
+
+								if =  { limit = { AND = { has_culture = culture:frostborn
+
+											has_faith = faith:cold_gods 
+
+											NOT = { has_trait = other_trait}  NOT = { has_trait = wight_trait } } # LN+ Option B: never promote wights to Others
+
+
+
+														}
+
+														change_first_name = other_name
+
+														 add_character_flag = agot_immersion_bannermen_blocker
+
+											if = { limit = { has_trait = dwarf } remove_trait = dwarf }
+
+											if = { limit = { has_trait = gluttonous } remove_trait = gluttonous }
+
+											add_trait = other_trait
+
+											if = { limit = { is_landed = yes } change_government = wight_government }
+											add_trait = spindly
+
+											change_age = 7000
+
+											set_house = scope:thegreatother.house
+
+											#set_father = scope:thegreatother
+
+											}
+
+										 
+
+							
+
+		}
+
+		every_vassal = { limit = { AND = {  is_ai = yes
+
+											NOT = { has_faith = faith:cold_gods }
+
+											NOT = { has_character_flag = cannot_be_knight_and_commander  }
+
+											NOT = { is_at_war = yes }
+
+												}
+
+												}
+
+									add_character_flag = { flag = cannot_be_knight_and_commander years = 1 }
+
+									}
+
+	
+
+	
+
+	}
+
+	}
+
+	
+
+		
+
+	}
+
+	
+
+
+
+		
+
+			}
+
+			
+
+			
+
+			
+
+			
+
+			#### Take HArrenhal
+
+			
+
+			effect_group = {
+
+        years = 2
+
+
+
+	
+
+			triggered_effect = {
+
+		trigger = { 
+
+					story_owner = { has_culture = culture:frostborn
+
+					completely_controls = title:c_harrenhal
+
+					NOT = { has_title = title:c_harrenhal }
+
+					}
+
+					title:c_harrenhal.holder = { is_ai = yes }
+
+					}
+
+		effect = {
+
+		story_owner = {
+
+		save_scope_as = thegreatother
+
+		get_title = title:c_harrenhal
+
+		set_realm_capital = title:c_harrenhal
+
+	
+
+	
+
+	}
+
+	}
+
+	
+
+		
+
+	}
+
+	
+
+
+
+		
+
+			}
+
+	### Ice Dragon	
+
+			effect_group = {
+
+        years = 3
+
+
+
+	
+
+			triggered_effect = {
+
+		trigger = { 
+
+					has_game_rule = agot_long_night_dragon_on
+
+					agot_dragon_population_extinct = no
+
+					story_owner = { 
+
+					has_trait = other_trait
+
+					NOT = { has_trait = dragonrider }
+
+					}
+
+					
+
+					
+
+					}
+
+		effect = {
+
+		story_owner = {
+
+		if = { limit = { has_trait = dragonless_dragonrider  }
+
+		remove_trait = dragonless_dragonrider 
+
+		}
+
+		agot_spawn_adult_ice_dragon_effect = yes
+
+		
+
+	
+
+		}
+
+	}
+
+	
+
+		
+
+	}
+
+	
+
+
+
+		
+
+			}
+
+			
+
+			#### Fix the Story Owner
+
+			
+
+			effect_group = {
+
+        years = 1
+
+
+
+	
+
+			triggered_effect = {
+
+		trigger = { 
+
+					story_owner = { NOT = { has_title = title:h_the_others } 
+
+					}
+
+					
+
+					}
+
+effect = {
+		story_owner = { save_scope_as = originalnightking }
+		if = {
+			limit = { title:h_the_others.holder = { has_trait = other_trait } }
+			title:h_the_others.holder = {
+				save_scope_as = newnightking
+				add_trait = nightking
+			}
+		}
+		else = {
+			title:h_the_others.holder = { save_scope_as = displacednightking }
+			random_ruler = {
+				limit = { has_trait = other_trait NOT = { this = scope:originalnightking } }
+				save_scope_as = newnightking
+				add_trait = nightking
+			}
+			scope:displacednightking = {
+				set_designated_heir = scope:newnightking
+				depose = yes
+			}
+		}
+		make_story_owner = scope:newnightking
+	}								
+
+								 
+
+	}
+
+	
+
+		
+
+	}
+
+}
+

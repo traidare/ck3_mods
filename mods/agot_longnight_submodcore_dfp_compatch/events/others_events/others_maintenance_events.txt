@@ -1,0 +1,603 @@
+﻿
+namespace = others_maintenance
+
+others_maintenance.1 = { 
+	scope = none
+	hidden = yes
+	
+	immediate = {
+		others_decide_if_invasion_will_happen_effect = yes
+		if = {
+			limit = {
+				global_var:others_invasion_will_happen = yes
+				NOT = { has_global_variable = others_invasion_triggered }
+				NOT = { has_game_rule = others_manual_invasion }
+			}
+			
+			if = {
+				limit = {
+					has_game_rule = others_immediate_invasion
+				}
+				trigger_event = {
+					id = others.1 #Immediately
+					days = { 7 14 }
+				}
+				set_global_variable = {
+					name = others_invasion_triggered
+					value = yes
+				}
+			}
+			else_if = {
+				limit = {
+					has_game_rule = others_invasion_in_50_years
+				}
+				trigger_event = {
+					id = others.1
+					years = { 45 55 }
+				}
+				set_global_variable = {
+					name = others_invasion_triggered
+					value = yes
+				}
+			}
+			else_if = {
+				limit = {
+					has_game_rule = others_invasion_in_100_years
+				}
+				trigger_event = {
+					id = others.1
+					years = { 95 100 }
+				}
+				set_global_variable = {
+					name = others_invasion_triggered
+					value = yes
+				}
+			}
+			else_if = {
+				limit = {
+					has_game_rule = others_invasion_in_150_years
+				}
+				trigger_event = {
+					id = others.1
+					years = { 145 150 }
+				}
+				set_global_variable = {
+					name = others_invasion_triggered
+					value = yes
+				}
+			}
+			else_if = { # Historical
+				limit = {
+					has_game_rule = others_historical_invasion
+				}
+				if = {
+					limit = {
+						game_start_date < 7900.1.1
+					}
+					trigger_event = {
+						id = others.1
+						years = { 350 400 }
+					}
+					set_global_variable = {
+						name = others_invasion_triggered
+						value = yes
+					}
+				} else_if = {
+					limit = {
+						game_start_date < 7950.1.1
+					}
+					trigger_event = {
+						id = others.1
+						years = { 300 350 }
+					}
+					set_global_variable = {
+						name = others_invasion_triggered
+						value = yes
+					}
+				} else_if = {
+					limit = {
+						game_start_date < 8000.1.1
+					}
+					trigger_event = {
+						id = others.1
+						years = { 250 300 }
+					}
+					set_global_variable = {
+						name = others_invasion_triggered
+						value = yes
+					}
+				} else_if = {
+					limit = {
+						game_start_date < 8050.1.1
+					}
+					trigger_event = {
+						id = others.1
+						years = { 200 250 }
+					}
+					set_global_variable = {
+						name = others_invasion_triggered
+						value = yes
+					}
+				}
+				else_if = {
+					limit = {
+						game_start_date = 8082.1.1
+					}
+					trigger_event = {
+						id = others.1
+						years = { 215 218 }
+					}
+					set_global_variable = {
+						name = others_invasion_triggered
+						value = yes
+					}
+				} else_if = {
+					limit = {
+						game_start_date < 8100.1.1
+					}
+					trigger_event = {
+						id = others.1
+						years = { 195 200 }
+					}
+					set_global_variable = {
+						name = others_invasion_triggered
+						value = yes
+					}
+				}
+				else_if = {
+					limit = {
+						game_start_date = 8106.4.18
+					}
+					trigger_event = {
+						id = others.1
+						years = { 190 193 }
+					}
+					set_global_variable = {
+						name = others_invasion_triggered
+						value = yes
+					}
+				} 
+				else_if = {
+					limit = {
+						game_start_date < 8150.1.1
+					}
+					trigger_event = {
+						id = others.1
+						years = { 100 150 }
+					}
+					set_global_variable = {
+						name = others_invasion_triggered
+						value = yes
+					}
+				} else_if = {
+					limit = {
+						game_start_date < 8200.1.1
+					}
+					trigger_event = {
+						id = others.1
+						years = { 75 100 }
+					}
+					set_global_variable = {
+						name = others_invasion_triggered
+						value = yes
+					}
+				}
+				else_if = {
+					limit = {
+						game_start_date = 8209.2.1
+					}
+					trigger_event = {
+						id = others.1
+						years = { 88 90 }
+					}
+					set_global_variable = {
+						name = others_invasion_triggered
+						value = yes
+					}
+				} 
+				else_if = {
+					limit = {
+						game_start_date < 8250.1.1
+					}
+					trigger_event = {
+						id = others.1
+						years = { 40 50 }
+					}
+					set_global_variable = {
+						name = others_invasion_triggered
+						value = yes
+					}
+				}
+				else_if = {
+					limit = {
+						game_start_date = 8258.12.21
+					}
+					trigger_event = {
+						id = others.1
+						years = { 36 40 }
+					}
+					set_global_variable = {
+						name = others_invasion_triggered
+						value = yes
+					}
+				} 
+				else_if = {
+					limit = {
+						game_start_date < 8258.12.30
+					}
+					trigger_event = {
+						id = others.1
+						years = { 35 50 }
+					}
+					set_global_variable = {
+						name = others_invasion_triggered
+						value = yes
+					}
+				}
+				else_if = {
+					limit = {
+						game_start_date < 8270.1.1
+					}
+					trigger_event = {
+						id = others.1
+						years = { 25 30 }
+					}
+					set_global_variable = {
+						name = others_invasion_triggered
+						value = yes
+					}
+				}
+				else_if = {
+					limit = {
+						game_start_date < 8275.1.1
+					}
+					trigger_event = {
+						id = others.1
+						years = { 25 30 }
+					}
+					set_global_variable = {
+						name = others_invasion_triggered
+						value = yes
+					}
+				}
+				else_if = {
+					limit = {
+						game_start_date = 8282.9.15
+					}
+					trigger_event = {
+						id = others.1
+						years = { 16 18 }
+					}
+					set_global_variable = {
+						name = others_invasion_triggered
+						value = yes
+					}
+				}
+					else_if = {
+					limit = {
+						game_start_date = 8284.6.2
+					}
+					trigger_event = {
+						id = others.1
+						years = { 14 16 }
+					}
+					set_global_variable = {
+						name = others_invasion_triggered
+						value = yes
+					}
+				}
+				else_if = {
+					limit = {
+						game_start_date < 8285.1.1
+					}
+					trigger_event = {
+						id = others.1
+						years = { 10 15 }
+					}
+					set_global_variable = {
+						name = others_invasion_triggered
+						value = yes
+					}
+				}
+				else_if = {
+					limit = {
+						game_start_date < 8290.1.1
+					}
+					trigger_event = {
+						id = others.1
+						years = { 5 10 }
+					}
+					set_global_variable = {
+						name = others_invasion_triggered
+						value = yes
+					}
+				}
+				else_if = {
+					limit = {
+						game_start_date < 8298.1.1
+					}
+					trigger_event = {
+						id = others.1
+						years = { 1 2 }
+					}
+					set_global_variable = {
+						name = others_invasion_triggered
+						value = yes
+					}
+				}
+				else = {
+					trigger_event = {
+						id = others.1
+						days = { 1 30 }
+					}
+					set_global_variable = {
+						name = others_invasion_triggered
+						value = yes
+					}
+				}
+			}
+			else_if = { #Full random calls for an even spread of probability of invasion over however many years are going to be in the game. That needs to be determined for each startdate separately, as each startdate gives a different playing time. To be compatible with extra startdate mods, not to mention future start dates, I check for potential start dates every half-century.
+				limit = {
+					has_game_rule = others_full_random_invasion
+				}
+				
+				if = {
+					limit = {
+						game_start_date < 7900.1.1
+					}
+					trigger_event = {
+						id = others.1
+						years = { 50 500 }
+					}
+					set_global_variable = {
+						name = others_invasion_triggered
+						value = yes
+					}
+				} else_if = {
+					limit = {
+						game_start_date < 7950.1.1
+					}
+					trigger_event = {
+						id = others.1
+						years = { 50 450 }
+					}
+					set_global_variable = {
+						name = others_invasion_triggered
+						value = yes
+					}
+				} else_if = {
+					limit = {
+						game_start_date < 8000.1.1
+					}
+					trigger_event = {
+						id = others.1
+						years = { 50 400 }
+					}
+					set_global_variable = {
+						name = others_invasion_triggered
+						value = yes
+					}
+				} else_if = {
+					limit = {
+						game_start_date < 8050.1.1
+					}
+					trigger_event = {
+						id = others.1
+						years = { 50 350 }
+					}
+					set_global_variable = {
+						name = others_invasion_triggered
+						value = yes
+					}
+				} else_if = {
+					limit = {
+						game_start_date < 8100.1.1
+					}
+					trigger_event = {
+						id = others.1
+						years = { 50 300 }
+					}
+					set_global_variable = {
+						name = others_invasion_triggered
+						value = yes
+					}
+				} else_if = {
+					limit = {
+						game_start_date < 8150.1.1
+					}
+					trigger_event = {
+						id = others.1
+						years = { 50 250 }
+					}
+					set_global_variable = {
+						name = others_invasion_triggered
+						value = yes
+					}
+				} else_if = {
+					limit = {
+						game_start_date < 8200.1.1
+					}
+					trigger_event = {
+						id = others.1
+						years = { 50 200 }
+					}
+					set_global_variable = {
+						name = others_invasion_triggered
+						value = yes
+					}
+				} else_if = {
+					limit = {
+						game_start_date < 8250.1.1
+					}
+					trigger_event = {
+						id = others.1
+						years = { 50 150 }
+					}
+					set_global_variable = {
+						name = others_invasion_triggered
+						value = yes
+					}
+				}
+				else_if = {
+					limit = {
+						game_start_date < 8298.1.1
+					}
+					trigger_event = {
+						id = others.1
+						years = { 50 150 }
+					}
+					set_global_variable = {
+						name = others_invasion_triggered
+						value = yes
+					}
+				}
+				else = {
+					trigger_event = {
+						id = others.1
+						years = { 50 100 }
+					}
+					set_global_variable = {
+						name = others_invasion_triggered
+						value = yes
+					}
+				}
+			}
+		}
+	}
+}
+
+others_maintenance.2 = { #HIDDEN: start the invader story
+	scope = none
+	hidden = yes
+	
+
+	trigger = { exists = title:h_the_iron_throne.holder }
+	immediate = {
+		agot_long_night_iron_throne_reformation_effect = yes
+		
+		
+	}
+}
+
+
+
+
+####Reform the 7 Kingdoms
+others_maintenance.3 = { 
+
+	type = character_event
+	title = others_maintenance.2.t
+	desc = others_maintenance.2.desc
+	theme = crown
+	override_background = {
+		reference = agot_iron_throne
+	}
+	left_portrait = {
+		character = root
+		animation = marshal
+	}
+	right_portrait = {
+		character = scope:iron_throne_holder
+		animation = chancellor
+	}
+	
+	immediate = {
+		if = {
+			limit = { exists = title:h_the_iron_throne.holder }
+			title:h_the_iron_throne.holder = { save_scope_as = iron_throne_holder }
+		}
+		if = { limit = { has_culture = culture:frostborn  NOT = { has_trait = wight_trait } }
+			set_character_faith = faith:old_gods_btw_fnf
+		}
+	}
+	
+	option = {
+		name =  others_maintenance.2.a
+		#custom_tooltip = others_maintenance.2.a.tt
+		trigger = { exists = scope:iron_throne_holder }
+		ai_chance = {
+		base = 25 # What are the chances of selecting this option over others? (Does not need to be 0 to 100, it can be anything)
+		modifier = {
+			add = 50 # To remove something you just add a negative number (5 + -10 = -5)
+		OR = {
+			ai_boldness <= 50
+			ai_honor >= 50
+			ai_greed <= 0
+			ai_rationality >= 50
+			
+		}
+		
+		
+		}
+			modifier = {
+			add = 50 # To remove something you just add a negative number (5 + -10 = -5)
+			opinion = { 
+			target = scope:iron_throne_holder
+			value > 75
+			}
+			}
+		
+		
+		}
+		
+		if = {
+			limit = { exists = scope:iron_throne_holder }
+			create_title_and_vassal_change = {
+				type = swear_fealty
+				save_scope_as = change
+			}
+			root = {
+				change_liege = {
+					liege = scope:iron_throne_holder
+					change = scope:change
+				}
+			}
+			resolve_title_and_vassal_change = scope:change
+		}
+
+	
+		
+		}
+		
+			option = {
+		name =  others_maintenance.2.b
+		custom_tooltip = others_maintenance.2.b.tt
+		
+		ai_chance = {
+		base = 5 # What are the chances of selecting this option over others? (Does not need to be 0 to 100, it can be anything)
+		
+		
+				modifier = {
+			add = 25 # To remove something you just add a negative number (5 + -10 = -5)
+		OR = {
+			ai_boldness >= 100
+			ai_honor <= 0
+			ai_greed >= 75
+			ai_rationality <= -75
+			
+		}
+			
+		}
+		modifier = {
+			add = 50 # To remove something you just add a negative number (5 + -10 = -5)
+			opinion = { 
+			target = scope:iron_throne_holder
+			value < 0
+			}
+			}
+			modifier = {
+			add = 300 # To remove something you just add a negative number (5 + -10 = -5)
+			has_culture = culture:frostborn
+			}
+		
+		
+		
+	
+		
+		}
+	
+		
+	
+	}
+}
+

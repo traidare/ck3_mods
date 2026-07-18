@@ -1,0 +1,251 @@
+﻿l_english:
+
+# Others Dynasty
+ dynn_the_others:0 "The Others"
+ dynn_the_others_motto:0 "All shall freeze."
+ house_theothers:0 "Winter"
+
+# White Walker Titles
+ h_the_others:0 "The Land of Always Winter"
+ d_others:0 "Winter"
+ head_of_faith_the_other:0 "Night King"
+ 
+ other_barony_title:0 "the Army of the Dead"
+ other_county_title:0 "the Army of the Dead"
+ other_duchy_title:0 "the Army of the Dead"
+ other_kingdom_title:0 "the Army of the Dead"
+ other_empire_title:0 "the Army of the Dead"
+ other_leader_name:0 "Other"
+ other_name:0 "Other"
+ dragon_skroth:0 "Skroth"
+
+freehold_call_vassal_to_war_interaction_notification_title: "Freehold RP Call for Aid Used"
+freehold_call_vassal_to_war_interaction_toast: "[actor.GetTitledFirstName] called their vassal [recipient.GetTitledFirstName] to war"
+
+SCOURING_CB_NAME:0 "Scouring of [TITLE.GetNameNoTier]"
+SCOURING_CB_NAME_BASE:0 "Scouring"
+scouring_cb:0 "Scouring"
+
+# Nickname
+ nick_the_great_other:0 "the Night King"
+ nick_the_great_other_desc:0 "Commoners have begun calling this[CHARACTER.GetShortUINameNoTooltipNoFormat|U] the Night King, as it presides over eternal darkness and despair."
+
+#White Walker Traits
+ trait_other:0 "Other"
+ trait_other_desc:0 "The Others are tall and gaunt, with flesh pale as milk. They have cold blue eyes that have been described as burning like ice, or being as bright as blue stars. Others have pale blue blood and shiny bones like milkglass"
+
+ trait_nightking:0 "Great Other"
+ trait_nightking_desc:0 "Leader of the Others"
+
+
+# rhllor trait
+ trait_chosen_by_rhllor:0 "Chosen"
+ trait_chosen_by_rhllor_desc:0 "This character is purported to be Azor Ahai reborn"
+# rhllor trait
+ trait_favored_by_rhllor:0 "Favored"
+ trait_favored_by_rhllor_desc:0 "This character is favored."
+ # rhllor trait
+ trait_resurrected_by_rhllor:0 "Ressurected by R'hllor"
+ trait_resurrected_by_rhllor_desc:0 "This character was resurrected by R'hllor"
+ 
+ 
+#Modifiers
+agot_long_night_smallfolk_outraged_modifier:0 "Smallfolk Outraged"
+
+agot_long_night_destruction_modifier:0 "Long Night Destruction"
+
+#war for the dawn
+
+WAR_FOR_THE_DAWN_WAR_NAME:0 "The War for The Dawn"
+ WAR_FOR_THE_DAWN_WAR_NAME_BASE:0 ""
+ WAR_FOR_THE_DAWN_WAR_CB:0 "The War for the Dawn"
+ war_for_the_dawn_defeat_desc:0 "An hour of wolves and shattered shields, when the age of men comes crashing down."
+ war_for_the_dawn_victory_desc:0 "A day may come when the courage of men fails,when we forsake our friends and break all bonds of fellowship, but it is not this day."
+ 
+ 
+  #Letters on Winter
+ others_sword:0 "Crystal Sword"
+ other_sword_description:0 "A sword carried by the Others from the deep North."
+ 
+ dusk_sword:0 "Winter Blade"
+ dusk_sword_desc:0 "The sword carried by The Great Other, forged in The Land of Always Winter, thousands of years ago."
+ 
+crown_of_the_great_other_name:0 "Crown of the Others"
+crown_of_the_great_other_description:0 "A Crown of Ice, forged in the Land of Always Winter."
+ 
+ 
+ #Letters on Winter
+ long_nights_WINTER_IS_COMING:0 "Winter is Coming"
+ long_nights_WINTER_IS_COMING_DESC:0 "We write to you from the Citadel with urgent news: Winter is coming. Regrettably, we find ourselves unable to predict the duration of this season, an unprecedented anomaly in our records. We urge all to prepare for an indeterminate period of harsh cold and to remain vigilant."
+ 
+ long_nights_WINTER_IS_HERE:0 "To the Lords of the Realm"
+ long_nights_WINTER_IS_HERE_DESC:0 "I write from Castle Black with a sense of utmost urgency; the wildlings, in unprecedented numbers, are fleeing southward, driven by the merciless rise of cold winds. The threat looms larger each day, and we find our ranks woefully undermanned to face what is coming. I implore you, for the safety of the realm, send more men to reinforce the Wall immediately."
+ 
+ long_nights_WAR_FOR_THE_DAWN:0 "To the Valiant"
+ long_nights_WAR_FOR_THE_DAWN_DESC:0 "I am riding north to face the greatest threat our world has ever known - the White Walkers, in a war for the dawn itself. I call upon every able-bodied man and woman to take up arms and join me in this noble fight, for if we falter, our world will plunge into eternal darkness. Stand with me, and together let us bring light back to the realm."
+ 
+  long_nights_WINTER_IS_OVER:0 "The Dawn has Arrived"
+ long_nights_WINTER_IS_OVER_DESC:0 "With hearts full of joy, we proclaim the end of The Long Night and the arrival of the Dawn."
+ 
+
+
+
+
+
+
+
+wights:0 "Ice Spiders"
+
+others.2.title:0 "#e The Winds of Winter#!"
+others.2.desc:0 "#e Word has traveled from the deep north, where men go and seldom return, and what they spoke of chilled even the strongest of wills.\n\n Wildlings, in unparalleled numbers are fleeing southward as if pursued by #bold shadows#!.\n\n The maesters mutter of a winter colder than any in living memory, a winter that will gnaw the flesh and crack the stone, stretching on for years uncounted.\n\n But it is not the cold that should be feared, nor the hunger. For in the heart of that darkness, in the silence that falls between breaths.....\n\n #bold The Others have returned, and The Long Night has begun.#!#!"
+
+
+others.2.a:0 "Winter is here."
+
+others.3.title:0 "#flatulence A Dream of Spring#!"
+others.3.desc:0 "#BER The Others were gone, driven back to whatever dark corners of the world had spawned them, and the realm stood free of their icy shadow at last.\n\n Fields lay scorched and villages empty where the dead had walked, yet men could rebuild; they always did.\n\n The first hint of #bold spring#! was here after a brutal winter. Hopeful voices spoke of peace, of unity forged in shared terror. \n\n But deep in the bones of old houses and in the glances of the high lords, there lingered a fear—fear that the alliances bound in fire and ice would fray and snap with the #bold Great War#! now over.\n\n For men had been spared from the dead, yes, but men had always been their own worst enemy.#!"
+
+
+others.3.a:0 "The alliances of the Great War will surely last."
+others.2.a.tt:0 "You will make no sacrifice to the Cold Gods and face the consequences."
+
+others_occupation.1.t:0 "#e The Scouring  of [ROOT.Char.GetPrimaryTitle.GetNameNoTier]#!"
+others_occupation.1_desc:0 "#e The night is endless now, a blanket of frost and death creeping across the ruins of my lands. \n\n The Others, with their cold, silent malice, have laid waste to the realm and I have no choice but to confront this.\n\n As the cold closes in, my breath turning to mist, I stand at the brink - should I make a #warning sacrifice#! to the #bold [thenightking.GetFaith.GetName]#! and hope for mercy, or cling to a fading fire and resist until the end?#!"
+others_occupation.1_desc_child:0 "\n\n#e I can see the fear in #bold [child.GetTitledFirstNamePossessive]#! eyes.#!"
+others_occupation.1_desc_faith:0 "#e \n\nWould the [ROOT.Char.GetFaith.GetName] forgive me#!?"
+
+others_occupation.1.a:0 "I will not worship these demons."
+others_occupation.1.a.tt:0 "You will make no sacrifice to the Cold Gods and face the consequences."
+
+others_occupation.1.b:0 "Will they accept a lesser sacrifice?"
+others_occupation.1.b.tt:0 "You will sacrifice courtiers and commoners to the Cold Gods."
+
+others_occupation.1.c:0 "I am sorry [child.GetTitledFirstName]."
+others_occupation.1.c.tt:0 "[child.GetFirstName] will be sacrificed."
+
+
+others_occupation.2.t:0 "#e The Scouring of [ROOT.Char.GetPrimaryTitle.GetNameNoTier]#!"
+others_occupation.2.desc:0 "#e #bold The Others had come.#!\n\n There was nothing between us and the dead.\n\n The frost clung to the air, each breath a silent prayer, but the dead did not pray.\n\n They moved through the snow like wraiths, and I could feel the cold creeping into my bones.\n\n Our swords felt heavy, our hands numb from the cold. If we failed now, it would be more than just our deaths - an end to warmth, to life itself. \n\n #warning;bold The night would never end.#! #!"
+others_occupation.2.a:0 "#BER For the Dawn!#!"
+others_occupation.2.a.tt:0 "You will fight for the survival of your house and your lands. If you fail in this war, you and your whole court may be killed. Your lands will be #warning ravaged.#!"
+
+others_occupation.3.t:0 "#flatulence The Savior of [ROOT.Char.GetPrimaryTitle.GetNameNoTier]#!"
+others_occupation.3.desc:0 "#BER The dead had been driven back, but only just.\n\n Their icy breath still lingered on the wind, a reminder that this victory was no more than a fleeting pause in the slaughter.\n\n House [ROOT.Char.GetHouse.GetBaseName] stands, my lands not yet swallowed by frost, but I can feel it in my bones - this is no salvation. The Others will return, more terrible than before, and when they come, they will come in numbers beyond counting.\n\n The Long Night is not over. And if we are to survive, we must find what few souls remain and stand together in this darkness... or be devoured by it.#!"
+others_occupation.3.a:0 "We must persist."
+others_occupation.3.a.tt:0 "You have temporarily beaten back the Others."
+
+others_occupation.4.t:0 "#e The Scouring of [ROOT.Char.GetPrimaryTitle.GetNameNoTier]#!"
+others_occupation.4.desc:0 "#e The battle was lost, my banners trampled in the snow, my men scattered like dead leaves on the wind.\n\nThe cold had come for us all, a creeping, relentless thing, and behind it, the Others. They moved like shadows through the storm, silent, unstoppable, and now they had my lands in their icy grasp.\n\n My people - what remained of them - huddled in fear, praying for the dawn that might never come. If we were lucky, some of us might survive the long night. But luck was a rare thing in this frozen, forsaken world.#!"
+others_occupation.4.a:0 "No!"
+others_occupation.4.a.tt:0 "You have been defeated."
+
+others_maintenance.2.t:0 "#bold The Future of the Seven Kingdoms#!"
+others_maintenance.2.desc:0 "The Others had fallen and the Long Night was over. \n \n Yet victory brought its own weight, and the question loomed like a shadow at dawn: what path would the realm tread now?\n\n To bend the knee to the Iron Throne, or to seize our own destiny and rule ourselves, unfettered by the distant whims of a foreign king?"
+others_maintenance.2.a:0 "We shall swear fealty to the Iron Throne."
+others_maintenance.2.a.tt:0 "You have been defeated."
+others_maintenance.2.b:0 "House [ROOT.Char.GetHouse.GetBaseName] should rule."
+others_maintenance.2.b.tt:0 "You will remain independent."
+
+others_trigger_title:0 "#e Trigger the Long Night#!"
+others_trigger_desc:0 "The Long Night will begin. The Others will instantly take land Beyond the Wall and begin their conquest."
+others_trigger_confirm:0 "Winter is Coming"
+others_trigger_tooltip:0 "Others will invade immediately"
+
+war_for_the_dawn_cb:0 "War for the Dawn"
+
+war_for_the_dawn_decision_title:0 "War for the Dawn"
+war_for_the_dawn_decision_desc:0 "The Others have returned. They march south with their army of corpses. Mounted on their dead horses and ice spiders. Only together can Westeros hope to survive this. #warning You will not be able to declare the War for the Dawn if the Others have recently won a previous attempt.#!"
+war_for_the_dawn_decision_confirm:0 "You will fight The Others"
+war_for_the_dawn_decision_tt:0 "It is possible to lose occupied lands to the Others"
+
+frostborn_culture_name:0 "Others"
+
+
+
+ #Game rules
+ rule_agot_others_invasion_chance:0 "#explanation_link_light_background;bold AGOT:#! #e;bold The Long Night#! Chance"
+ setting_others_certain_invasion_chance:0 "Certain"
+ setting_others_certain_invasion_chance_desc:0 "The Long Night is guaranteed to happen."
+ setting_others_near_certain_invasion_chance:0 "Near-Certain"
+ setting_others_near_certain_invasion_chance_desc:0 "The Long Night will probably happen."
+ setting_others_even_odds_invasion_chance:0 "Even Odds"
+ setting_others_even_odds_invasion_chance_desc:0 "The Long Night may or may not happen."
+ setting_others_remote_odds_invasion_chance:0 "Remote Odds"
+ setting_others_remote_odds_invasion_chance_desc:0 "The Long Night will probably not happen."
+ setting_others_invasion_wont_happen:0 "No Chance"
+ setting_others_invasion_wont_happen_desc:0 "The Long Night will never happen."
+ 
+ rule_agot_others_invasion_moment:0 "#explanation_link_light_background;bold AGOT:#! #e;bold The Long Night#! Moment"
+ setting_others_immediate_invasion:0 "Immediately"
+ setting_others_immediate_invasion_desc:0 "The Long Night will begin immediately."
+ setting_others_invasion_in_50_years:0 "In Fifty Years"
+ setting_others_invasion_in_50_years_desc:0 "The Long Night will begin around fifty years after the game starts, give or take a few years."
+ setting_others_invasion_in_100_years:0 "In One-Hundred Years"
+ setting_others_invasion_in_100_years_desc:0 "The Long Night will begin around one century after the game starts."
+ setting_others_invasion_in_150_years:0 "In One Hundred-Fifty Years"
+ setting_others_invasion_in_150_years_desc:0 "The Long Night will begin around a century and a half after the game starts, give or take a decade."
+ setting_others_full_random_invasion:0 "Full Random"
+ setting_others_full_random_invasion_desc:0 "The Long Night can begin at any moment, but at least fifty years after the game starts, and before the year 300 AC."
+ setting_others_historical_invasion:0 "Historical"
+ setting_others_historical_invasion_desc:0 "The Long Night will begin around 300 AC."
+ setting_others_manual_invasion:0 "Manual"
+ setting_others_manual_invasion_desc:0 "The Long Night will only arrive when triggered by a player through a special decision."
+ 
+ rule_agot_others_invasion_strength:0 "#explanation_link_light_background;bold AGOT:#! #e;bold The Long Night#! Strength"
+ setting_others_weak_invasion:0 "Weak"
+ setting_others_weak_invasion_desc:0 "The Long Night will not be particularly difficult."
+ setting_others_standard_invasion:0 "Standard"
+ setting_others_standard_invasion_desc:0 "The Others will be strong enough to challenge the Seven Kingdoms."
+ setting_others_strong_invasion:0 "Strong"
+ setting_others_strong_invasion_desc:0 "The Others will be powerful enough to overwhelm the Seven Kingdoms"
+ setting_others_insane_invasion:0 "Insane"
+ setting_others_insane_invasion_desc:0 "The Long Night will be punishing and impossible to defeat by conventional means!"
+ 
+ 
+ rule_agot_others_resolution:0 "#explanation_link_light_background;bold AGOT:#! #e;bold The Long Night#! Resolution"
+ setting_others_death_resolution:0 "Death"
+ setting_others_death_resolution_desc:0 "The Long Night will end upon the death of the leader of the Others."
+ setting_others_war_resolution:0 "#BER War for the Dawn#!"
+ setting_others_war_resolution_desc:0 "The Long Night will end upon winning the #BER War for the Dawn.#!"
+
+ rule_agot_others_cb_tier:0 "#explanation_link_light_background;bold AGOT:#! #e;bold The Long Night#! War Tier"
+ setting_others_cb_kingdom:0 "Kingdom (Creeping Advance)"
+ setting_others_cb_kingdom_desc:0 "The Others wage war one #bold kingdom#! at a time — a slow front grinding ever southward. More wars, but more immersive: the Wall falls, the North yields, then the Riverlands..."
+ setting_others_cb_empire:0 "Empire (Rapid Onslaught)"
+ setting_others_cb_empire_desc:0 "The Others wage war at the #bold empire#! tier — fewer, vaster wars that sweep entire realms at once. A faster, more apocalyptic invasion."
+
+ rule_agot_longnight_iron_throne_reformation:0 "#explanation_link_light_background;bold AGOT:#! #e;bold The Long Night#! Iron Throne Reformation"
+ setting_longnight_iron_throne_reformation_on:0 "On"
+ setting_longnight_iron_throne_reformation_on_desc:0 "The default kingdom tier rulers of the Iron Throne will be given the option to swear fealty to the Iron Throne after the end of the long night."
+ setting_longnight_iron_throne_reformation_off:0 "Off"
+ setting_longnight_iron_throne_reformation_off_desc:0 "Rulers will remain independent after the end of The Long Night"
+
+ # The Long Night+: Night King command bonus (keeps the dead a credible threat)
+ night_king_command_modifier:0 "The Cold Command"
+ night_king_command_modifier_desc:0 "The will of the Great Other drives the dead host: harder-hitting, more enduring, and led without mercy or fear."
+ 
+ rule_agot_long_night_armor:0 "#explanation_link_light_background;bold AGOT:#! #e;bold The Long Night#! Armored Others"
+ setting_agot_long_night_armor_on:0 "On"
+  setting_agot_long_night_armor_on_desc:0 "Others will wear special armor."
+   setting_agot_long_night_armor_off:0 "Off"
+  setting_agot_long_night_armor_off_desc:0 "Others will not wear special armor. #warning USE THIS OPTION IF YOU ARE USING ANY MOD THAT ADDS CLOTHING AND DONT WANT NAKED OTHERS#!"
+  
+   rule_agot_long_night_dragon:0 "#explanation_link_light_background;bold AGOT:#! #e;bold The Long Night#! Ice Dragon"
+ setting_agot_long_night_dragon_on:0 "On"
+  setting_agot_long_night_dragon_on_desc:0 "The Others will receive a dragon if dragons exist in the world."
+   setting_agot_long_night_dragon_off:0 "Off"
+  setting_agot_long_night_dragon_off_desc:0 "Others will not receive a dragon."
+ other_unlanded_male:0 "Other"
+ other_unlanded_female:0 "Other"
+
+ other_county_male:0 "Chieftain"
+ other_county_female:0 "Chieftess"
+ other_duchy_male:0 "High Chieftain"
+ other_duchy_female:0 "High Chieftess"
+
+ other_barony_male:0 "Chieftain"
+ other_barony_female:0 "Chieftess"
+ other_kingdom_male:0 "King of Winter"
+ other_kingdom_female:0 "Queen of Winter"
+ other_empire_male:0 "The Great Other"
+ other_empire_female:0 "The Great Other"
