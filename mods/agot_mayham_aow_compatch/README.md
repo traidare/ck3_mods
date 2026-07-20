@@ -1,0 +1,26 @@
+# AGOT - Mayham + Armies of Westeros Compatch
+
+Compatibility patch for:
+
+1. A Game of Thrones
+2. aGoT: Mayham
+3. AGOT - Armies of Westeros
+4. Armies of Westeros REMASTERED (optional)
+5. This compatch
+
+The compatch uses Armies of Westeros' culture-tradition definitions as its
+baseline and reapplies Mayham's 55 balance changes across the 51 affected
+traditions. This preserves Armies of Westeros' MAA unlocks, parameters, costs,
+and AI behavior while retaining Mayham's intended opinion values.
+
+It uses same-key overrides in one uniquely named tradition file and does not use
+`replace_path`. It is compatible with existing saves; the merged tradition
+definitions take effect after loading the save with the compatch enabled.
+
+## Regeneration
+
+Run `scripts/generate-agot-mayham-aow-compatch.py` from the repository root
+after updating AGOT, Mayham, or Armies of Westeros. The generator verifies the
+complete AGOT-to-Mayham delta manifest and fails on missing definitions,
+unexpected upstream changes, or ambiguous fields rather than silently emitting
+an incomplete merge.
