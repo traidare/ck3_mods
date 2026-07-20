@@ -1,0 +1,124 @@
+﻿# More Personality Depth + Dragon Wives Compatch — threshold-safe counters
+#
+# Override only MPD's two cumulative counter helpers. Their public parameters
+# remain unchanged, but missed thresholds catch up on the next qualifying act.
+# The higher threshold is evaluated first so a late-acquired trait produces one
+# narrative event and jumps directly to the level already earned.
+
+mpd_increment_counter = {
+	if = {
+		limit = { NOT = { has_variable = $COUNTER$ } }
+		set_variable = { name = $COUNTER$ value = 0 }
+	}
+	change_variable = { name = $COUNTER$ add = 1 }
+
+	# Catch up directly to L3 when the accumulated counter has earned it.
+	if = {
+		limit = {
+			var:$COUNTER$ >= $THRESHOLD_L3$
+			has_trait = $TRAIT$
+			has_trait_xp = { trait = $TRAIT$ value >= 1 }
+			has_trait_xp = { trait = $TRAIT$ value < 100 }
+		}
+		if = {
+			limit = { has_trait_xp = { trait = $TRAIT$ value < 50 } }
+			add_trait_xp = { trait = $TRAIT$ value = 99 }
+		}
+		else = {
+			add_trait_xp = { trait = $TRAIT$ value = 50 }
+		}
+		trait:$TRAIT$ = { save_scope_as = mpd_shift_target_trait }
+		set_variable = { name = mpd_shift_target_level value = 3 months = 1 }
+		set_variable = { name = mpd_shift_flavor value = $EVENT_FLAVOR$ months = 1 }
+		trigger_event = { id = mpd_shift.0001 days = 0 }
+	}
+	else_if = {
+		limit = {
+			var:$COUNTER$ >= $THRESHOLD_L2$
+			has_trait = $TRAIT$
+			has_trait_xp = { trait = $TRAIT$ value >= 1 }
+			has_trait_xp = { trait = $TRAIT$ value < 50 }
+		}
+		add_trait_xp = { trait = $TRAIT$ value = 49 }
+		trait:$TRAIT$ = { save_scope_as = mpd_shift_target_trait }
+		set_variable = { name = mpd_shift_target_level value = 2 months = 1 }
+		set_variable = { name = mpd_shift_flavor value = $EVENT_FLAVOR$ months = 1 }
+		trigger_event = { id = mpd_shift.0001 days = 0 }
+	}
+}
+
+mpd_increment_counter_dual = {
+	if = {
+		limit = { NOT = { has_variable = $COUNTER$ } }
+		set_variable = { name = $COUNTER$ value = 0 }
+	}
+	change_variable = { name = $COUNTER$ add = 1 }
+
+	# Trait A — highest earned level first.
+	if = {
+		limit = {
+			var:$COUNTER$ >= $THRESHOLD_A_L3$
+			has_trait = $TRAIT_A$
+			has_trait_xp = { trait = $TRAIT_A$ value >= 1 }
+			has_trait_xp = { trait = $TRAIT_A$ value < 100 }
+		}
+		if = {
+			limit = { has_trait_xp = { trait = $TRAIT_A$ value < 50 } }
+			add_trait_xp = { trait = $TRAIT_A$ value = 99 }
+		}
+		else = {
+			add_trait_xp = { trait = $TRAIT_A$ value = 50 }
+		}
+		trait:$TRAIT_A$ = { save_scope_as = mpd_shift_target_trait }
+		set_variable = { name = mpd_shift_target_level value = 3 months = 1 }
+		set_variable = { name = mpd_shift_flavor value = $EVENT_FLAVOR$ months = 1 }
+		trigger_event = { id = mpd_shift.0001 days = 0 }
+	}
+	else_if = {
+		limit = {
+			var:$COUNTER$ >= $THRESHOLD_A_L2$
+			has_trait = $TRAIT_A$
+			has_trait_xp = { trait = $TRAIT_A$ value >= 1 }
+			has_trait_xp = { trait = $TRAIT_A$ value < 50 }
+		}
+		add_trait_xp = { trait = $TRAIT_A$ value = 49 }
+		trait:$TRAIT_A$ = { save_scope_as = mpd_shift_target_trait }
+		set_variable = { name = mpd_shift_target_level value = 2 months = 1 }
+		set_variable = { name = mpd_shift_flavor value = $EVENT_FLAVOR$ months = 1 }
+		trigger_event = { id = mpd_shift.0001 days = 0 }
+	}
+
+	# Trait B — highest earned level first.
+	if = {
+		limit = {
+			var:$COUNTER$ >= $THRESHOLD_B_L3$
+			has_trait = $TRAIT_B$
+			has_trait_xp = { trait = $TRAIT_B$ value >= 1 }
+			has_trait_xp = { trait = $TRAIT_B$ value < 100 }
+		}
+		if = {
+			limit = { has_trait_xp = { trait = $TRAIT_B$ value < 50 } }
+			add_trait_xp = { trait = $TRAIT_B$ value = 99 }
+		}
+		else = {
+			add_trait_xp = { trait = $TRAIT_B$ value = 50 }
+		}
+		trait:$TRAIT_B$ = { save_scope_as = mpd_shift_target_trait }
+		set_variable = { name = mpd_shift_target_level value = 3 months = 1 }
+		set_variable = { name = mpd_shift_flavor value = $EVENT_FLAVOR$ months = 1 }
+		trigger_event = { id = mpd_shift.0001 days = 0 }
+	}
+	else_if = {
+		limit = {
+			var:$COUNTER$ >= $THRESHOLD_B_L2$
+			has_trait = $TRAIT_B$
+			has_trait_xp = { trait = $TRAIT_B$ value >= 1 }
+			has_trait_xp = { trait = $TRAIT_B$ value < 50 }
+		}
+		add_trait_xp = { trait = $TRAIT_B$ value = 49 }
+		trait:$TRAIT_B$ = { save_scope_as = mpd_shift_target_trait }
+		set_variable = { name = mpd_shift_target_level value = 2 months = 1 }
+		set_variable = { name = mpd_shift_flavor value = $EVENT_FLAVOR$ months = 1 }
+		trigger_event = { id = mpd_shift.0001 days = 0 }
+	}
+}
