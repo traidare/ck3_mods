@@ -1,0 +1,24 @@
+﻿l_english:
+
+#Traits and modifiers
+ trait_other_trait:0 "Other"
+ trait_other_trait_desc:0 "The Others are tall and gaunt, with flesh pale as milk. They have cold blue eyes that have been described as burning like ice, or being as bright as blue stars. Others have pale blue blood and shiny bones like milkglass"
+ trait_other_trait_character_desc:0 "The Others are tall and gaunt, with flesh pale as milk. They have cold blue eyes that have been described as burning like ice, or being as bright as blue stars. Others have pale blue blood and shiny bones like milkglass"
+ trait_wight_trait:0 "Wight"
+ trait_wight_trait_desc:0 "A corpse raised by the cold magic of the Others to serve in their endless host. Tireless and unfeeling, it knows neither pain nor fear, its eyes burning a baleful blue. When the Others are at last defeated and the Long Night ends, the dark power animating it fails, and it collapses into lifeless flesh once more."
+ trait_wight_trait_character_desc:0 "A corpse raised by the cold magic of the Others to serve in their endless host. Tireless and unfeeling, it knows neither pain nor fear, its eyes burning a baleful blue. When the Others are at last defeated and the Long Night ends, the dark power animating it fails, and it collapses into lifeless flesh once more."
+
+
+
+ # Modifiers
+ other_emergency_modifier:0 "Emergency Measures"
+ other_emergency_modifier_desc:0 "This ruler is subject to a state of emergency."
+ other_retaking_modifier:0 "Retaking For Humanity"
+ other_retaking_modifier_desc:0 "This ruler is seeking to reclaim territory for humanity."
+ other_vassal_retaking_modifier:0 "This ruler is fighting alongside their liege to reclaim territory for humanity."
+ other_chill_modifier:0 "Chillin"
+ other_noconvert_modifier:0 "Recent Land Conversion"
+ other_offensive_modifier:0 "Swarming"
+ other_offensive_modifier_desc:0 "The army of the dead is swarming to take somewhere."
+ other_offensive2_modifier:0 "Swarming"
+ other_offensive2_modifier_desc:0 "The army of the dead is swarming to take somewhere."

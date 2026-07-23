@@ -1,0 +1,8 @@
+﻿on_game_start_after_lobby = {		
+	 events = {
+        others_maintenance.1
+    }
+    on_actions = {
+      
+    }
+}

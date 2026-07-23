@@ -1,0 +1,3235 @@
+﻿
+
+# The Long Night+: when the Others fall, the lands the Night King held are left scoured. Ordinary holdings
+# collapse into wilderness (secondary holdings razed, development wiped); the great de jure seats are instead
+# left as ruins, scaled to their standing (kingdom seat -> a renowned large ruin, duchy seat -> a medium ruin).
+# The living who return south inherit a ravaged, depopulated waste to reclaim through AGOT's colonization and
+# ruin systems. Must run in the_long_night on_end BEFORE the wights die, so the dead are still scopeable holders.
+agot_long_night_scour_others_lands_effect = {
+	every_county = {
+		limit = {
+			exists = holder
+			holder = {
+				OR = {
+					has_trait = wight_trait
+					has_trait = other_trait
+				}
+			}
+		}
+		save_scope_as = scour_county
+
+		if = {
+			# De jure seat of a kingdom -> a renowned great ruin (e.g. Winterfell, Storm's End).
+			limit = {
+				de_jure_liege ?= {
+					de_jure_liege ?= {
+						tier = tier_kingdom
+						title_capital_county = scope:scour_county
+					}
+				}
+			}
+			agot_ruin_county_effect = yes
+			title_province = {
+				remove_building = medium_ruin_01
+				add_building = large_ruin_01
+				add_building = ruin_renowned_01
+			}
+		}
+		else_if = {
+			# De jure seat of a duchy -> a sizeable ruin.
+			limit = {
+				de_jure_liege ?= {
+					tier = tier_duchy
+					title_capital_county = scope:scour_county
+				}
+			}
+			agot_ruin_county_effect = yes
+		}
+		else = {
+			# Everything else simply returns to the wild.
+			make_settlement_county_wilderness = { COUNTY = this }
+		}
+	}
+}
+
+the_long_night_setup_effect = {
+
+
+
+create_character = {
+
+							name = other_name
+
+							gender = male
+
+							culture = culture:frostborn
+
+							faith = faith:cold_gods	
+
+							location = title:c_the_frigid_rise.title_province
+
+							age = { 8000 11000 }
+
+							dynasty_house = house:house_theothers
+
+							martial = 25			
+
+							diplomacy = 0
+
+							intrigue = 100
+
+							learning = 65	
+
+							stewardship = 30			
+
+							prowess = 30
+
+
+
+							trait = other_trait
+
+							trait = nightking
+
+							trait = spindly		
+
+							trait = intellect_good_3			
+
+							trait = compassionate						
+
+							trait = education_martial_5	
+
+							trait = content
+
+							trait = generous
+
+							trait = giant							
+
+							
+
+							
+
+		
+
+							after_creation = {
+
+								add_character_flag = has_scripted_appearance	
+
+								add_character_flag = ai_immune_to_mental_breaks		
+
+								add_character_flag = immune_to_disease		
+
+								add_character_flag = is_nightking
+
+								add_character_flag = agot_immersion_bannermen_blocker
+
+								add_character_flag = { flag = war_for_dawn_cooldown years = 10 } # Added buffer fix
+
+								if = { limit = { game_start_date >= 8300.1.1 }
+									add_character_flag = { flag = long_night_cooldown years = 2 }
+								}
+
+								if = { limit = { has_game_rule = others_weak_invasion } add_character_modifier = others_weak_modifier }
+
+								if = { limit = { has_game_rule = others_standard_invasion } add_character_modifier = others_standard_modifier }
+
+								if = { limit = { has_game_rule = others_strong_invasion } add_character_modifier = others_strong_modifier }
+
+								if = { limit = { has_game_rule = others_insane_invasion } add_character_modifier = others_insane_modifier }
+
+								
+
+								set_sexuality = asexual
+
+								#add_character_modifier = diplomacy_majesty_4090_no_raiment_modifier
+
+								make_trait_inactive = cool_silver_hair
+
+								make_trait_inactive = blue_eyes
+								give_nickname = nick_the_great_other
+
+								
+
+								
+
+							}
+
+
+
+						
+							save_scope_as = otherinvader
+						}
+
+					
+
+		scope:otherinvader = {
+			#copy_inheritable_appearance_from = character:others_thenightking
+			# The Long Night+: standing command bonus so the dead stay a credible threat despite fewer elite Others.
+			add_character_modifier = night_king_command_modifier
+
+			if = { limit = { title:c_the_frigid_rise.holder = { is_ai = yes } } get_title = title:c_the_frigid_rise }
+			if = { limit = { title:c_bloodbend.holder = { is_ai = yes } } get_title = title:c_bloodbend }
+			if = { limit = { title:c_hoarmarrow.holder = { is_ai = yes } } get_title = title:c_hoarmarrow }
+			if = { limit = { title:c_idle_barrens.holder = { is_ai = yes } } get_title = title:c_idle_barrens }
+			if = { limit = { title:c_wights_well.holder = { is_ai = yes } } get_title = title:c_wights_well }
+			if = { limit = { title:c_axe_camp.holder = { is_ai = yes } } get_title = title:c_axe_camp }
+			if = { limit = { title:c_clear_ice_lake.holder = { is_ai = yes } } get_title = title:c_clear_ice_lake }
+			if = { limit = { title:c_gerras_dryn.holder = { is_ai = yes } } get_title = title:c_gerras_dryn }
+			if = { limit = { title:c_hail_coast.holder = { is_ai = yes } } get_title = title:c_hail_coast }
+			if = { limit = { title:c_lhark_vakar.holder = { is_ai = yes } } get_title = title:c_lhark_vakar }
+			if = { limit = { title:c_torch_river.holder = { is_ai = yes } } get_title = title:c_torch_river }
+			if = { limit = { title:c_ask_vith.holder = { is_ai = yes } } get_title = title:c_ask_vith }
+			if = { limit = { title:c_basordryn.holder = { is_ai = yes } } get_title = title:c_basordryn }
+			if = { limit = { title:c_roveggs_spine.holder = { is_ai = yes } } get_title = title:c_roveggs_spine }
+			if = { limit = { title:c_vurk_ryg.holder = { is_ai = yes } } get_title = title:c_vurk_ryg }
+			mutate_into_other_effect = yes
+			every_courtier_or_guest = { mutate_into_other_effect = yes }
+			
+			get_title = title:h_the_others
+			if = { limit = { character:Great_Other = { is_alive = yes } }
+				create_title_and_vassal_change = {
+					type = conquest
+					save_scope_as = change
+				}
+				character:Great_Other = {
+						every_sub_realm_title = {
+							limit = {
+								tier >= tier_county
+								NOT = { holder ?= scope:otherinvader }
+							}
+							change_title_holder_include_vassals = {
+								holder = scope:otherinvader
+								change = scope:change
+								take_baronies = no
+							}
+												}
+					}
+				resolve_title_and_vassal_change = scope:change
+			}
+	
+			add_prestige = 5000
+			add_piety = 5000
+			add_gold = 500
+
+	set_artifact_rarity_illustrious = yes
+
+	create_artifact = {
+
+		name = crown_of_the_great_other_name
+
+		description = crown_of_the_great_other_description
+
+		type = helmet
+
+		visuals = crown_of_true_winter_visuals
+
+		wealth = scope:wealth
+
+		quality = scope:quality
+
+		template = crown_of_true_winter_template
+
+		modifier = crown_of_true_winter_modifier
+
+		save_scope_as = newly_created_artifact
+
+		decaying = no
+
+	}
+
+
+
+	scope:newly_created_artifact = {
+
+		set_variable = { name = crown_of_true_winter_artifact value = yes }
+
+		set_variable = { name = historical_unique_artifact value = yes }
+
+	}
+
+ ### Sword
+
+	set_artifact_rarity_illustrious = yes
+
+	create_artifact = {
+
+		name = others_sword
+
+		visuals = others_sword_visuals
+
+		description = other_sword_description
+
+		type = sword
+
+		wealth = scope:wealth
+
+		quality = scope:quality
+
+		template = others_sword_template
+
+		history = {
+
+			type = created_before_history
+
+			date = 50.1.1
+
+		}
+
+		modifier = others_sword_modifier
+
+		save_scope_as = newly_created_artifact
+
+		decaying = yes
+
+	}
+
+	scope:newly_created_artifact = {
+
+		set_variable = { name = historical_unique_artifact value = yes }
+
+		equip_artifact_to_owner = yes
+
+	}
+
+	if = { limit = { has_game_rule = others_weak_invasion } spawn_army = {
+			men_at_arms = { type = other_maa stacks = 100 }
+			name = wights
+			uses_supply = no
+			location = capital_province
+		} }
+		else_if = { limit = { has_game_rule = others_strong_invasion } spawn_army = {
+			men_at_arms = { type = other_maa stacks = 350 }
+			name = wights
+			uses_supply = no
+			location = capital_province
+		} }
+		else_if = { limit = { has_game_rule = others_insane_invasion } spawn_army = {
+			men_at_arms = { type = other_maa stacks = 500 }
+			name = wights
+			uses_supply = no
+			location = capital_province
+		} }
+		else = { spawn_army = {
+			men_at_arms = { type = other_maa stacks = 200 }
+			name = wights
+			uses_supply = no
+			location = capital_province
+		} }
+
+
+
+#agot_create_artifact_crown_of_true_winter_effect = { OWNER = this }
+
+	
+
+	
+		create_story = {
+					type = long_night_story
+				}
+
+
+	
+
+
+
+others_character_male_spawner = yes
+
+others_character_male_spawner = yes
+
+others_character_male_spawner = yes
+
+others_character_male_spawner = yes
+
+others_character_male_spawner = yes
+
+others_character_male_spawner = yes
+
+others_character_male_spawner = yes
+
+others_character_male_spawner = yes
+
+others_character_male_spawner = yes
+
+others_character_male_spawner = yes
+
+others_character_male_spawner = yes
+
+others_character_male_spawner = yes
+
+others_character_male_spawner = yes
+
+others_character_male_spawner = yes
+
+others_character_male_spawner = yes
+
+others_character_male_spawner = yes
+
+others_character_male_spawner = yes
+
+others_character_male_spawner = yes
+
+others_character_male_spawner = yes
+
+others_character_male_spawner = yes
+
+others_character_male_spawner = yes
+
+others_character_male_spawner = yes
+
+others_character_male_spawner = yes
+
+others_character_male_spawner = yes
+
+others_character_male_spawner = yes
+
+others_character_male_spawner = yes
+
+others_character_male_spawner = yes
+
+others_character_male_spawner = yes
+
+others_character_male_spawner = yes
+
+others_character_male_spawner = yes
+
+others_character_male_spawner = yes
+
+others_character_male_spawner = yes
+
+others_character_male_spawner = yes
+
+others_character_male_spawner = yes
+
+others_character_male_spawner = yes
+
+others_character_male_spawner = yes
+
+	# The Long Night+: a deeper bench of elite Others (the Night King's knights) so his core survives attrition.
+	others_character_male_spawner = yes
+	others_character_male_spawner = yes
+	others_character_male_spawner = yes
+	others_character_male_spawner = yes
+	others_character_male_spawner = yes
+	others_character_male_spawner = yes
+	others_character_male_spawner = yes
+	others_character_male_spawner = yes
+	others_character_male_spawner = yes
+	others_character_male_spawner = yes
+	others_character_male_spawner = yes
+	others_character_male_spawner = yes
+	others_character_male_spawner = yes
+	others_character_male_spawner = yes
+
+others_character_female_spawner = yes
+
+others_character_female_spawner = yes
+
+others_character_female_spawner = yes
+
+others_character_female_spawner = yes
+
+others_character_female_spawner = yes
+
+others_character_female_spawner = yes
+
+others_character_female_spawner = yes
+
+others_character_female_spawner = yes
+
+others_character_female_spawner = yes
+
+others_character_female_spawner = yes
+
+others_character_female_spawner = yes
+
+others_character_female_spawner = yes
+
+
+
+
+
+
+
+}
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+others_character_male_spawner = {  
+
+
+
+
+
+create_character = {
+
+				name = other_name
+
+				age = { 6000 7000 }
+
+				culture = culture:frostborn
+
+				gender = male
+
+				dynasty_house = house:house_theothers
+
+				faith = faith:cold_gods
+
+				#father = scope:otherinvader
+
+				employer = scope:otherinvader
+
+				random_traits = yes
+
+				trait = other_trait
+
+				trait = spindly
+
+				random_traits_list = {
+
+					education_martial_1 = { weight = { base = 20 } }
+
+					education_martial_2 = { weight = { base = 20 } }
+
+					education_martial_3 = { weight = { base = 45 } }
+
+					education_martial_4 = { weight = { base = 15 } }
+
+				}
+
+				after_creation = {
+
+				
+
+								add_character_flag = agot_immersion_bannermen_blocker
+
+								add_character_flag = ai_immune_to_mental_breaks		
+
+								add_character_flag = immune_to_disease		
+
+								set_sexuality = asexual
+
+								#add_character_modifier = diplomacy_majesty_4090_no_raiment_modifier
+
+								make_trait_inactive = cool_silver_hair
+
+								make_trait_inactive = blue_eyes
+
+					if = {
+
+						limit = { has_trait = dwarf }
+
+						remove_trait = dwarf
+
+					}
+
+					if = {
+
+						limit = { has_trait = clubfooted }
+
+						remove_trait = clubfooted
+
+					}
+
+				}
+
+				
+
+				save_scope_as = otherspawn
+
+
+
+			}
+
+			scope:otherspawn = {
+
+			
+
+			
+
+						 ### Sword
+
+	set_artifact_rarity_illustrious = yes
+
+	create_artifact = {
+
+		name = others_sword
+
+		visuals = others_sword_visuals
+
+		description = others_sword_description
+
+		type = sword
+
+		wealth = scope:wealth
+
+		quality = scope:quality
+
+		template = others_sword_template
+
+		history = {
+
+			type = created_before_history
+
+			date = 50.1.1
+
+		}
+
+		modifier = others_sword_modifier
+
+		save_scope_as = newly_created_artifact
+
+		decaying = yes
+
+	}
+
+	scope:newly_created_artifact = {
+
+		set_variable = { name = historical_unique_artifact value = yes }
+
+		equip_artifact_to_owner = yes
+
+	}
+
+					}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+}
+
+
+
+
+
+others_character_female_spawner = {  
+
+
+
+create_character = {
+
+				name = other_name
+
+				age = { 6000 7000 }
+
+				culture = culture:frostborn
+
+				gender = female
+
+				dynasty_house = house:house_theothers
+
+				faith = faith:cold_gods
+
+				#father = scope:otherinvader
+
+				employer = scope:otherinvader
+
+				random_traits = yes
+
+				trait = spindly
+
+				trait = other_trait
+
+				trait = witch
+
+				random_traits_list = {
+
+					education_martial_1 = { weight = { base = 20 } }
+
+					education_martial_2 = { weight = { base = 20 } }
+
+					education_martial_3 = { weight = { base = 45 } }
+
+					education_martial_4 = { weight = { base = 15 } }
+
+				}
+
+				random_traits_list = {
+
+					beauty_good_1 = { weight = { base = 40 } }
+
+					beauty_good_2 = { weight = { base = 45 } }
+
+					beauty_good_3 = { weight = { base = 15 } }
+
+				}
+
+				after_creation = {
+
+				
+
+								add_character_flag = agot_immersion_bannermen_blocker
+
+								add_character_flag = ai_immune_to_mental_breaks		
+
+								add_character_flag = immune_to_disease
+
+								make_trait_inactive = cool_silver_hair
+
+								make_trait_inactive = blue_eyes
+
+					if = {
+
+						limit = { has_trait = dwarf }
+
+						remove_trait = dwarf
+
+					}
+
+					if = {
+
+						limit = { has_trait = clubfooted }
+
+						remove_trait = clubfooted
+
+					}
+
+				}
+
+				
+
+				save_scope_as = otherspawn
+
+
+
+			}
+
+			scope:otherspawn = {
+
+			
+
+						 ### Sword
+
+	set_artifact_rarity_illustrious = yes
+
+	create_artifact = {
+
+		name = others_sword
+
+		visuals = others_sword_visuals
+
+		description = other_sword_description
+
+		type = sword
+
+		wealth = scope:wealth
+
+		quality = scope:quality
+
+		template = others_sword_template
+
+		history = {
+
+			type = created_before_history
+
+			date = 50.1.1
+
+		}
+
+		modifier = others_sword_modifier
+
+		save_scope_as = newly_created_artifact
+
+		decaying = yes
+
+	}
+
+	scope:newly_created_artifact = {
+
+		set_variable = { name = historical_unique_artifact value = yes }
+
+		equip_artifact_to_owner = yes
+
+	}
+
+					}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+others_decide_if_invasion_will_happen_effect = {
+
+	if = {
+
+		limit = {
+
+			NOT = { has_global_variable = others_invasion_will_happen }
+
+		}
+
+		set_global_variable = {
+
+			name = others_invasion_will_happen
+
+			value = no
+
+		}
+
+		
+
+		random = {
+
+			chance = {
+
+				value = 0
+
+			
+
+				if = {
+
+					limit = {
+
+						has_game_rule = others_remote_odds_invasion_chance
+
+					}
+
+					add = 25
+
+				}
+
+				if = {
+
+					limit = {
+
+						has_game_rule = others_even_odds_invasion_chance
+
+					}
+
+					add = 50
+
+				}
+
+				if = {
+
+					limit = {
+
+						has_game_rule = others_near_certain_invasion_chance
+
+					}
+
+					add = 75
+
+				}
+
+				if = {
+
+					limit = {
+
+						has_game_rule = others_certain_invasion_chance
+
+					}
+
+					add = 100
+
+				}
+
+			}
+
+			
+
+			set_global_variable = {
+
+				name = others_invasion_will_happen
+
+				value = yes
+
+			}
+
+		}
+
+	}
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+scouring_lands_effect = { 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+}
+
+
+
+
+
+
+
+#Scouring
+
+
+
+longnight_create_other_for_scouring = {
+
+	create_character = {
+
+		name = other_leader_name
+
+		gender = male
+		save_scope_as = other
+
+		location = scope:target_location
+
+		culture = culture:frostborn
+
+		faith = faith:cold_gods
+
+		dynasty_house = house:house_theothers
+
+	}
+
+	# Set up title so that war can be declared
+
+	create_dynamic_title = {
+
+		tier = duchy
+
+		name = others_duchy_title
+
+	}
+
+	create_title_and_vassal_change = {
+
+		type = created
+
+		save_scope_as = change
+
+		add_claim_on_loss = no
+
+	}
+
+	scope:new_title = {
+
+		set_capital_county = $TARGET$.capital_county
+
+		set_landless_title = yes
+
+		set_destroy_on_succession = yes
+
+		set_delete_on_destroy = yes
+
+		set_no_automatic_claims = yes
+
+		set_definitive_form = yes
+
+		set_can_be_named_after_dynasty = no
+
+		change_title_holder = {
+
+			holder = scope:other
+
+			change = scope:change
+
+		}
+
+	}
+
+	resolve_title_and_vassal_change = scope:change
+
+}
+
+longnight_spawn_army_for_scouring = { # TARGET
+
+	scope:other = {
+
+	
+
+		hidden_effect = { add_gold = 100 }
+
+		start_war = {
+
+			cb = scouring_cb
+
+			target = $TARGET$
+
+			target_title = $TARGET$.primary_title
+
+		}
+
+		set_variable = {
+
+							name = others_army_size
+
+							value = $TARGET$.max_military_strength 
+
+							}
+
+		change_variable = {
+
+							name = others_army_size
+
+							multiply = 1.5
+
+		
+
+		}
+
+						
+
+		
+
+		
+
+		
+
+		if = {
+
+			limit = {exists = scope:target_location }
+
+			spawn_army = {
+
+				name = scouring_army_name
+
+				levies = var:others_army_size
+
+				men_at_arms = {
+
+					type = other_maa
+
+					stacks = 6
+
+				}
+
+				# men_at_arms = {
+
+				# 	type = regiment_northman_crannog_archers
+
+				# 	stacks = 3
+
+				# }
+
+				location = scope:target_location
+
+			}
+
+		}
+
+		else = {
+
+			spawn_army = {
+
+				name = scouring_army_name
+
+				levies = var:others_army_size
+
+				men_at_arms = {
+
+					type = other_maa
+
+					stacks = 6
+
+				}
+
+				# men_at_arms = {
+
+				# 	type = regiment_northman_crannog_archers
+
+				# 	stacks = 3
+
+				# }
+
+				location = $TARGET$.location
+
+			}
+
+		}
+
+	}
+
+}
+
+
+
+
+
+
+
+
+
+
+
+longnight_reform_nightswatch_effect = {
+
+
+
+
+
+
+
+
+
+
+
+create_character = {
+
+							location = title:c_castle_black.title_province
+
+							#name = "Other"
+
+							gender = male
+
+							culture = culture:northman
+
+							faith = faith:old_gods_wnw
+
+							age = { 16 45 }
+
+							trait = nightswatch
+
+							save_scope_as = new_lord_commander
+
+						}
+
+
+
+scope:new_lord_commander = {
+
+get_title = title:c_castle_black
+
+get_title = title:c_the_nightfort
+
+get_title = title:c_the_shadow_tower
+
+get_title = title:c_eastwatch
+
+get_title = title:d_the_wall
+
+get_title = title:k_the_wall
+
+
+
+change_government = nights_watch_government
+
+		add_gold = 500
+
+
+
+}
+
+
+
+
+
+
+
+
+
+
+
+}
+
+
+
+
+
+destroy_others_kingdom_titles = {
+
+
+
+every_held_title = { 
+
+limit = { tier > tier_county }
+
+
+
+prev = { destroy_title = prev }
+
+}
+
+
+
+
+
+}
+
+
+
+
+
+agot_long_night_iron_throne_reformation_effect = { 
+
+
+
+
+
+
+
+every_ruler = { limit = { 
+
+	AND = { is_independent_ruler = yes 
+
+	this.capital_barony.title_province = { geographical_region = world_westeros_seven_kingdoms }
+
+	is_landed = yes
+
+	}
+
+	}
+
+	
+
+	trigger_event = {
+
+						id = others_maintenance.3
+
+						days = 1
+
+					}
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+}
+
+
+
+
+
+
+
+
+
+#if = { limit = { has_game_rule = longnight_iron_throne_reformation_on }	 
+
+#	###Reform 7 Kingdoms
+
+#	
+
+#	if = { limit = { exists = title:h_the_iron_throne.holder }
+
+#	if = { limit = { title:k_the_north.holder = { is_vassal_of = title:h_the_others.holder } }
+
+#		title:k_the_north.holder = {	trigger_event = {
+
+#						id = others_maintenance.2
+
+#						days = 2
+
+#					}
+
+#					}
+
+#					}
+
+#	if = { limit = { title:k_the_riverlands.holder = { is_vassal_of = title:h_the_others.holder } }
+
+#		title:k_the_riverlands.holder = {	trigger_event = {
+
+#						id = others_maintenance.2
+
+#						days = 2
+
+#					}
+
+#					}
+
+#					}
+
+#	if = { limit = { title:k_the_vale.holder = { is_vassal_of = title:h_the_others.holder } }
+
+#		title:k_the_vale.holder = {	trigger_event = {
+
+#						id = others_maintenance.2
+
+#						days = 2
+
+#					}
+
+#					}
+
+#					}
+
+#	if = { limit = { title:k_the_westerlands.holder = { is_vassal_of = title:h_the_others.holder } }
+
+#		title:k_the_westerlands.holder = {	trigger_event = {
+
+#						id = others_maintenance.2
+
+#						days = 2
+
+#					}
+
+#					}
+
+#					}
+
+#	if = { limit = { title:k_the_crownlands.holder = { is_vassal_of = title:h_the_others.holder } }
+
+#	title:k_the_crownlands.holder = {	trigger_event = {
+
+#						id = others_maintenance.2
+
+#						days = 2
+
+#					}
+
+#					}
+
+#					}
+
+#	if = { limit = { title:k_the_reach.holder = { is_vassal_of = title:h_the_others.holder } }
+
+#	title:k_the_reach.holder = {	trigger_event = {
+
+#						id = others_maintenance.2
+
+#						days = 2
+
+#					}
+
+#					}
+
+#					}			
+
+#	if = { limit = { title:k_the_stormlands.holder = { is_vassal_of = title:h_the_others.holder } }
+
+#	title:k_the_stormlands.holder = {	trigger_event = {
+
+#						id = others_maintenance.2
+
+#						days = 2
+
+#					}
+
+#					}
+
+#					}
+
+#	if = { limit = { title:k_dorne.holder = { is_vassal_of = title:h_the_others.holder } }
+
+#	title:k_dorne.holder = {	trigger_event = {
+
+#						id = others_maintenance.2
+
+#						days = 2
+
+#					}
+
+#					}
+
+#					}
+
+#	if = { limit = { title:k_the_iron_islands.holder = { is_vassal_of = title:h_the_others.holder } }
+
+#	title:k_the_iron_islands.holder = {	trigger_event = {
+
+#						id = others_maintenance.2
+
+#						days = 2
+
+#					}
+
+#					}
+
+#					}
+
+#	
+
+#	}
+
+#	}
+
+
+
+
+
+
+
+
+
+agot_spawn_adult_ice_dragon_effect = {
+
+
+
+
+
+	ordered_living_dragon = {
+
+			
+
+			order_by = age
+
+			position = 0
+
+			save_scope_as = oldest_dragon
+
+		}
+
+
+
+	
+
+
+
+
+
+
+
+
+
+
+
+	create_character = {
+
+		name = dragon_skroth
+
+		gender = male 
+
+		culture = culture:dragon_culture
+
+		faith = faith:valyrian_pan_freehold
+
+		location = location
+
+		age = scope:oldest_dragon.age
+
+		dynasty_house = house:house_theothers
+
+		trait = immortal
+
+		trait = dragon
+
+		trait = education_dragon_1
+
+		trait = dragon_physique_good_3
+
+		trait = dragon_solitary
+
+		trait = dragon_bloodthirsty
+
+		trait = dragon_voracious
+
+		trait = dragon_defiant
+
+
+
+
+
+		random_traits = no
+
+
+
+		save_scope_as = dragon
+
+
+
+		after_creation = {
+
+			set_variable = {
+
+				name = dragon_gender_hidden
+
+				value = 1
+
+			}
+
+
+
+			create_story = story_dragon_alive
+
+
+
+			# Needed for visuals
+
+			set_variable = {
+
+				name = dragon_age
+
+				value = age
+
+			}
+
+
+
+			#Set dragon visual gene ranges here.
+
+			agot_back_apply_dragon_aging_effect = yes
+
+		#Ice Dragon Appearance
+
+			set_variable = {
+
+				name = gene_dragon_primary_color_hue
+
+				value = 0.05
+
+			}
+
+			set_variable = {
+
+				name = gene_dragon_primary_color_value
+
+				value = 0.05
+
+			}
+
+
+
+			set_variable = {
+
+				name = gene_dragon_secondary_hue
+
+				value = 0.65
+
+			}
+
+			
+
+			set_variable = {
+
+				name = gene_dragon_secondary_value
+
+				value = 0.35
+
+			}
+
+
+
+			set_variable = {
+
+				name = gene_dragon_eye_color_hue
+
+				value = 0.0
+
+			}
+
+
+
+			set_variable = {
+
+				name = gene_dragon_eye_color_value
+
+				value = 0.0
+
+			}
+
+
+
+			set_variable = {
+
+				name = gene_dragon_horn_color_hue
+
+				value = 0.55
+
+			}
+
+			set_variable = {
+
+				name = gene_dragon_horn_color_value
+
+				value = 0.0
+
+			}
+
+
+
+			set_variable = {
+
+				name = gene_dragon_brow_width
+
+				value = 1.0
+
+			}
+
+
+
+			set_variable = {
+
+				name = gene_dragon_cheek_width
+
+				value = 0.26
+
+			}
+
+
+
+			set_variable = {
+
+				name = gene_dragon_chin_profile
+
+				value = 1.0
+
+			}
+
+
+
+			set_variable = {
+
+				name = gene_dragon_crest_depth
+
+				value = 0.59
+
+			}
+
+
+
+			set_variable = {
+
+				name = gene_dragon_head_roundness
+
+				value = 0.99
+
+			}
+
+
+
+			set_variable = {
+
+				name = gene_dragon_horns_eyebrow_length
+
+				value = 0.31
+
+			}
+
+
+
+			set_variable = {
+
+				name = gene_dragon_main_horn_shape_template
+
+				value = 4
+
+			}
+
+
+
+			set_variable = {
+
+				name = gene_dragon_main_horn_shape_value
+
+				value = 0.36
+
+			}
+
+
+
+			set_variable = {
+
+				name = gene_dragon_jaw_width
+
+				value = 0.47
+
+			}
+
+
+
+			set_variable = {
+
+				name = gene_dragon_lower_jaw_height
+
+				value = 0.48
+
+			}
+
+
+
+			set_variable = {
+
+				name = gene_dragon_lower_jaw_width
+
+				value = 0.13
+
+			}
+
+
+
+			set_variable = {
+
+				name = gene_dragon_old_neck
+
+				value = 0.22
+
+			}
+
+
+
+			set_variable = {
+
+				name = gene_dragon_outer_brow_height
+
+				value = 0.18
+
+			}
+
+
+
+			set_variable = {
+
+				name = gene_dragon_snout_height
+
+				value = 0.56
+
+			}
+
+
+
+			set_variable = {
+
+				name = gene_dragon_snout_length
+
+				value = 0.25
+
+			}
+
+
+
+			set_variable = {
+
+				name = gene_dragon_snout_profile
+
+				value = 0.5
+
+			}
+
+
+
+			set_variable = {
+
+				name = gene_dragon_snout_width
+
+				value = 0.36
+
+			}
+
+
+
+			set_variable = {
+
+				name = gene_dragon_upper_jaw_width
+
+				value = 0.03
+
+			}
+
+
+
+			set_variable = {
+
+				name = gene_dragon_center_fin_size
+
+				value = 0.12
+
+			}
+
+
+
+			set_variable = {
+
+				name = gene_dragon_back_spike_size
+
+				value = 0.87
+
+			}
+
+			set_variable = {
+
+				name = gene_dragon_horns_eyebrow
+
+				value = 0.5
+
+			}
+
+			set_variable = {
+
+				name = gene_dragon_neck_spike_size
+
+				value = 0.5
+
+			}
+
+
+
+			set_variable = {
+
+				name = gene_dragon_side_fin_size
+
+				value = 0.5
+
+			}
+
+
+
+			set_variable = {
+
+				name = gene_dragon_snout_end_width
+
+				value = 0.8
+
+			}
+
+
+
+			set_variable = {
+
+				name = gene_dragon_neck_length
+
+				value = 0.8
+
+			}
+
+
+
+			set_variable = {
+
+				name = gene_dragon_tail_length
+
+				value = 0.8
+
+			}
+
+
+
+			set_variable = {
+
+				name = color_grading
+
+				value = flag:darkest
+
+			}
+
+			set_variable = {
+
+				name = color
+
+				value = flag:white
+
+			}
+
+
+
+			# Create and pass the variables to the story cycle
+
+			agot_dragon_transfer_vars_to_story_cycle_effect = { DRAGON = scope:dragon }
+
+		}
+
+		
+
+	}
+
+	
+
+	hidden_effect = {
+
+									agot_tame_dragon = {
+
+										TAMER = root.story_owner
+
+										DRAGON = scope:dragon
+
+									}
+
+									
+
+									scope:dragon = { 
+
+									change_dragon_size = {
+
+										VALUE = scope:oldest_dragon.dragon_size
+
+									}
+
+									
+
+									}
+
+								}
+
+}
+
+
+
+
+
+
+
+
+
+agot_spawn_adult_skroth_again_effect = { # (History id = dragon_drogon)
+
+	create_character = {
+
+		name = "Skrothmasss"
+
+		gender = male #do you want dragons to immediately die out or do you want eggs
+
+		culture = culture:dragon_culture
+
+		faith = faith:valyrian_pan_freehold
+
+		location = location
+
+		age = 50
+
+		mother = character:dragon_dreamfyre
+
+		dynasty = none
+
+
+
+		trait = dragon
+
+		trait = dragon_destined
+
+		trait = education_dragon_1
+
+		trait = dragon_physique_good_3
+
+		trait = dragon_solitary
+
+		trait = dragon_bloodthirsty
+
+		trait = dragon_voracious
+
+		trait = dragon_defiant
+
+
+
+		
+
+
+
+		random_traits = no
+
+
+
+		save_scope_as = dragon
+
+
+
+		after_creation = {
+
+			set_variable = {
+
+				name = dragon_gender_hidden
+
+				value = 1
+
+			}
+
+
+
+			create_story = story_dragon_alive
+
+
+
+			# Needed for visuals
+
+			set_variable = {
+
+				name = dragon_age
+
+				value = age
+
+			}
+
+
+
+			#Set dragon visual gene ranges here.
+
+			agot_back_apply_dragon_aging_effect = yes
+
+
+
+			#Drogon Appearance
+
+			set_variable = {
+
+				name = gene_dragon_primary_color_hue
+
+				value = 0.05
+
+			}
+
+			set_variable = {
+
+				name = gene_dragon_primary_color_value
+
+				value = 0.05
+
+			}
+
+
+
+			set_variable = {
+
+				name = gene_dragon_secondary_hue
+
+				value = 1.0
+
+			}
+
+
+
+			set_variable = {
+
+				name = gene_dragon_secondary_value
+
+				value = 1.0
+
+			}
+
+
+
+			set_variable = {
+
+				name = gene_dragon_eye_color_hue
+
+				value = 0.0
+
+			}
+
+
+
+			set_variable = {
+
+				name = gene_dragon_eye_color_value
+
+				value = 0.63
+
+			}
+
+
+
+			set_variable = {
+
+				name = gene_dragon_horn_color_hue
+
+				value = 1.0
+
+			}
+
+			set_variable = {
+
+				name = gene_dragon_horn_color_value
+
+				value = 0.88
+
+			}
+
+
+
+			set_variable = {
+
+				name = gene_dragon_brow_width
+
+				value = 0.5
+
+			}
+
+
+
+			set_variable = {
+
+				name = gene_dragon_cheek_width
+
+				value = 0.5
+
+			}
+
+
+
+			set_variable = {
+
+				name = gene_dragon_chin_profile
+
+				value = 0.5
+
+			}
+
+
+
+			set_variable = {
+
+				name = gene_dragon_crest_depth
+
+				value = 0.5
+
+			}
+
+
+
+			set_variable = {
+
+				name = gene_dragon_head_roundness
+
+				value = 0.5
+
+			}
+
+
+
+			set_variable = {
+
+				name = gene_dragon_horns_eyebrow_length
+
+				value = 0.5
+
+			}
+
+
+
+			set_variable = {
+
+				name = gene_dragon_main_horn_shape_template
+
+				value = 1
+
+			}
+
+
+
+			set_variable = {
+
+				name = gene_dragon_main_horn_shape_value
+
+				value = 0.5
+
+			}
+
+
+
+			set_variable = {
+
+				name = gene_dragon_jaw_width
+
+				value = 0.5
+
+			}
+
+
+
+			set_variable = {
+
+				name = gene_dragon_lower_jaw_height
+
+				value = 0.5
+
+			}
+
+
+
+			set_variable = {
+
+				name = gene_dragon_lower_jaw_width
+
+				value = 0.5
+
+			}
+
+
+
+			set_variable = {
+
+				name = gene_dragon_old_neck
+
+				value = 0.5
+
+			}
+
+
+
+			set_variable = {
+
+				name = gene_dragon_outer_brow_height
+
+				value = 0.5
+
+			}
+
+
+
+			set_variable = {
+
+				name = gene_dragon_snout_height
+
+				value = 0.5
+
+			}
+
+
+
+			set_variable = {
+
+				name = gene_dragon_snout_length
+
+				value = 0.5
+
+			}
+
+
+
+			set_variable = {
+
+				name = gene_dragon_snout_profile
+
+				value = 0.5
+
+			}
+
+
+
+			set_variable = {
+
+				name = gene_dragon_snout_width
+
+				value = 0.5
+
+			}
+
+
+
+			set_variable = {
+
+				name = gene_dragon_upper_jaw_width
+
+				value = 0.5
+
+			}
+
+
+
+			set_variable = {
+
+				name = gene_dragon_center_fin_size
+
+				value = 0.5
+
+			}
+
+
+
+			set_variable = {
+
+				name = gene_dragon_back_spike_size
+
+				value = 0.5
+
+			}
+
+			set_variable = {
+
+				name = gene_dragon_horns_eyebrow
+
+				value = 0.5
+
+			}
+
+			set_variable = {
+
+				name = gene_dragon_neck_spike_size
+
+				value = 0.5
+
+			}
+
+
+
+			set_variable = {
+
+				name = gene_dragon_side_fin_size
+
+				value = 0.5
+
+			}
+
+
+
+			set_variable = {
+
+				name = gene_dragon_snout_end_width
+
+				value = 0.5
+
+			}
+
+
+
+			set_variable = {
+
+				name = gene_dragon_neck_length
+
+				value = 0.5
+
+			}
+
+
+
+			set_variable = {
+
+				name = gene_dragon_tail_length
+
+				value = 0.5
+
+			}
+
+
+
+			set_variable = {
+
+				name = color_grading
+
+				value = flag:darkest
+
+			}
+
+			set_variable = {
+
+				name = color
+
+				value = flag:black
+
+			}
+
+
+
+			# Create and pass the variables to the story cycle
+
+			agot_dragon_transfer_vars_to_story_cycle_effect = { DRAGON = scope:dragon }
+
+		}
+
+	}
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+agot_spawn_adult_skroth_effect = {
+
+
+
+	create_character = {
+
+		name = "Skroth"
+
+		gender = male 
+
+		culture = culture:dragon_culture
+
+		faith = faith:valyrian_pan_freehold
+
+		location = location
+
+		age = 100
+
+		dynasty_house = house:house_theothers
+
+		trait = dragon
+
+		#trait = immortal
+
+		trait = education_dragon_2
+
+		trait = dragon_destined
+
+		trait = dragon_physique_good_3
+
+		trait = dragon_defiant
+
+		trait = dragon_voracious
+
+		trait = dragon_impulsive
+
+
+
+		random_traits = no
+
+
+
+		save_scope_as = dragon
+
+
+
+		after_creation = {
+
+			set_variable = {
+
+				name = dragon_gender_hidden
+
+				value = 1
+
+			}
+
+
+
+			create_story = story_dragon_alive
+
+
+
+			# Needed for visuals
+
+			set_variable = {
+
+				name = dragon_age
+
+				value = age
+
+			}
+
+
+
+			#Set dragon visual gene ranges here.
+
+			agot_back_apply_dragon_aging_effect = yes
+
+
+
+			#Ice Dragon Appearance
+
+			set_variable = {
+
+				name = gene_dragon_primary_color_hue
+
+				value = 1.0
+
+			}
+
+			set_variable = {
+
+				name = gene_dragon_primary_color_value
+
+				value = 0.0
+
+			}
+
+
+
+			set_variable = {
+
+				name = gene_dragon_secondary_hue
+
+				value = 1.0
+
+			}
+
+			
+
+			set_variable = {
+
+				name = gene_dragon_secondary_value
+
+				value = 0.0
+
+			}
+
+
+
+			set_variable = {
+
+				name = gene_dragon_eye_color_hue
+
+				value = 0.0
+
+			}
+
+
+
+			set_variable = {
+
+				name = gene_dragon_eye_color_value
+
+				value = 0.0
+
+			}
+
+
+
+			set_variable = {
+
+				name = gene_dragon_horn_color_hue
+
+				value = 0.55
+
+			}
+
+			set_variable = {
+
+				name = gene_dragon_horn_color_value
+
+				value = 0.0
+
+			}
+
+
+
+			set_variable = {
+
+				name = gene_dragon_brow_width
+
+				value = 1.0
+
+			}
+
+
+
+			set_variable = {
+
+				name = gene_dragon_cheek_width
+
+				value = 0.26
+
+			}
+
+
+
+			set_variable = {
+
+				name = gene_dragon_chin_profile
+
+				value = 1.0
+
+			}
+
+
+
+			set_variable = {
+
+				name = gene_dragon_crest_depth
+
+				value = 0.59
+
+			}
+
+
+
+			set_variable = {
+
+				name = gene_dragon_head_roundness
+
+				value = 0.99
+
+			}
+
+
+
+			set_variable = {
+
+				name = gene_dragon_horns_eyebrow_length
+
+				value = 0.31
+
+			}
+
+
+
+			set_variable = {
+
+				name = gene_dragon_main_horn_shape_template
+
+				value = 4
+
+			}
+
+
+
+			set_variable = {
+
+				name = gene_dragon_main_horn_shape_value
+
+				value = 0.36
+
+			}
+
+
+
+			set_variable = {
+
+				name = gene_dragon_jaw_width
+
+				value = 0.47
+
+			}
+
+
+
+			set_variable = {
+
+				name = gene_dragon_lower_jaw_height
+
+				value = 0.48
+
+			}
+
+
+
+			set_variable = {
+
+				name = gene_dragon_lower_jaw_width
+
+				value = 0.13
+
+			}
+
+
+
+			set_variable = {
+
+				name = gene_dragon_old_neck
+
+				value = 0.22
+
+			}
+
+
+
+			set_variable = {
+
+				name = gene_dragon_outer_brow_height
+
+				value = 0.18
+
+			}
+
+
+
+			set_variable = {
+
+				name = gene_dragon_snout_height
+
+				value = 0.56
+
+			}
+
+
+
+			set_variable = {
+
+				name = gene_dragon_snout_length
+
+				value = 0.25
+
+			}
+
+
+
+			set_variable = {
+
+				name = gene_dragon_snout_profile
+
+				value = 0.5
+
+			}
+
+
+
+			set_variable = {
+
+				name = gene_dragon_snout_width
+
+				value = 0.36
+
+			}
+
+
+
+			set_variable = {
+
+				name = gene_dragon_upper_jaw_width
+
+				value = 0.03
+
+			}
+
+
+
+			set_variable = {
+
+				name = gene_dragon_center_fin_size
+
+				value = 0.12
+
+			}
+
+
+
+			set_variable = {
+
+				name = gene_dragon_back_spike_size
+
+				value = 0.87
+
+			}
+
+			set_variable = {
+
+				name = gene_dragon_horns_eyebrow
+
+				value = 0.5
+
+			}
+
+			set_variable = {
+
+				name = gene_dragon_neck_spike_size
+
+				value = 0.5
+
+			}
+
+
+
+			set_variable = {
+
+				name = gene_dragon_side_fin_size
+
+				value = 0.5
+
+			}
+
+
+
+			set_variable = {
+
+				name = gene_dragon_snout_end_width
+
+				value = 0.8
+
+			}
+
+
+
+			set_variable = {
+
+				name = gene_dragon_neck_length
+
+				value = 0.8
+
+			}
+
+
+
+			set_variable = {
+
+				name = gene_dragon_tail_length
+
+				value = 0.8
+
+			}
+
+
+
+			#set_variable = {
+
+			#	name = color_grading
+
+			#	value = flag:lightest
+
+			#}
+
+			#set_variable = {
+
+			#	name = color
+
+			#	value = flag:white
+
+			#}
+
+
+
+			# Create and pass the variables to the story cycle
+
+			agot_dragon_transfer_vars_to_story_cycle_effect = { DRAGON = scope:dragon }
+
+		}
+
+	}
+
+	
+
+	hidden_effect = {
+
+									agot_tame_dragon = {
+
+										TAMER = root
+
+										DRAGON = scope:dragon
+
+									}
+
+								}
+
+}
+
+
+
+
+
+
+
+escape_noble_effect = {
+	# A landless courtier flees south to SAFETY rather than being raised — they join a safe southern court instead
+	# of founding an adventurer camp. This keeps the laamp count (and the player's performance) in check, so no cap
+	# gate is needed on this path. Priority: a relative, then a ruler of their own culture, then any safe ruler. If
+	# no safe host exists at all they simply do not flee (and are raised as a wight) — the flag is set only on success.
+	save_scope_as = fleeing_courtier
+	if = {
+		limit = { any_close_or_extended_family_member = { ln_safe_flee_host_trigger = yes } }
+		random_close_or_extended_family_member = {
+			limit = { ln_safe_flee_host_trigger = yes }
+			save_scope_as = flee_host
+		}
+	}
+	else_if = {
+		limit = { any_ruler = { ln_safe_flee_host_trigger = yes  culture = scope:fleeing_courtier.culture } }
+		random_ruler = {
+			limit = { ln_safe_flee_host_trigger = yes  culture = scope:fleeing_courtier.culture }
+			save_scope_as = flee_host
+		}
+	}
+	else_if = {
+		limit = { any_ruler = { ln_safe_flee_host_trigger = yes } }
+		random_ruler = {
+			limit = { ln_safe_flee_host_trigger = yes }
+			save_scope_as = flee_host
+		}
+	}
+	if = {
+		limit = { exists = scope:flee_host }
+		add_stress = medium_stress_impact_gain   # the shock of fleeing (these courtiers are never brave — gated in mutate_into_other_effect)
+		add_character_flag = dawn_refugee
+		add_character_flag = dawn_refugee_courtier       # path marker: fled as a landless courtier (vs dawn_refugee_lord) — for saves debugging + aftermath flavor
+		add_character_modifier = dawn_refugee_modifier   # visible "Fled South" marker
+		set_employer = scope:flee_host                   # take refuge in a safe southern court — no adventurer camp
+	}
+}
+
+# Landed variant (used by the Flee South decision): a lord abandons their seat ahead of the dead.
+flee_noble_south_effect = {
+	# Remember the lord's former standing BEFORE the titles are lost below — it scales both the starting camp and
+	# (later) the retinue they bring south. Camp level: count → 1 (default), duke → 2, king → 3, emperor/hegemon → 4.
+	if = { limit = { highest_held_title_tier >= tier_empire } save_scope_value_as = { name = ln_camp_level value = 4 } }
+	else_if = { limit = { highest_held_title_tier >= tier_kingdom } save_scope_value_as = { name = ln_camp_level value = 3 } }
+	else_if = { limit = { highest_held_title_tier >= tier_duchy } save_scope_value_as = { name = ln_camp_level value = 2 } }
+	else = { save_scope_value_as = { name = ln_camp_level value = 1 } }
+	# PERSIST the standing and the lost seat as real variables (the scope value above dies with this effect):
+	# the aftermath "Return North" pull reads them YEARS later to scale the settler retinue and aim the lord back
+	# at his own ancestral county (the seat COUNTY, not the primary title — a fled king targets his capital county).
+	set_variable = { name = ln_camp_level value = scope:ln_camp_level }
+	if = {
+		limit = { is_landed = yes  exists = capital_county }
+		set_variable = { name = ln_lost_seat value = capital_county }
+	}
+	# Note the lord's cultural men-at-arms BEFORE he loses his realm, so the reduced retinue he brings south is of his
+	# own people. We can't clone regiments across the loss of the realm, so we record the regional type here and
+	# respawn a scaled echo once he is landless. No match (a minor or exotic lord) → no retinue, just gold to recruit.
+	if = { limit = { "number_maa_regiments_of_type(frog_spears)" >= 1 } save_scope_value_as = { name = ln_maa_region value = flag:north } }
+	else_if = { limit = { "number_maa_regiments_of_type(river_bows)" >= 1 } save_scope_value_as = { name = ln_maa_region value = flag:riverlands } }
+	else_if = { limit = { "number_maa_regiments_of_type(finger_scouts)" >= 1 } save_scope_value_as = { name = ln_maa_region value = flag:vale } }
+	else_if = { limit = { "number_maa_regiments_of_type(royal_crossbowmen)" >= 1 } save_scope_value_as = { name = ln_maa_region value = flag:crownlands } }
+	else_if = { limit = { "number_maa_regiments_of_type(rain_bringers)" >= 1 } save_scope_value_as = { name = ln_maa_region value = flag:westerlands } }
+	else_if = { limit = { "number_maa_regiments_of_type(honeywine_quirrels)" >= 1 } save_scope_value_as = { name = ln_maa_region value = flag:reach } }
+	else_if = { limit = { "number_maa_regiments_of_type(marcher_longbowmen)" >= 1 } save_scope_value_as = { name = ln_maa_region value = flag:stormlands } }
+	else_if = { limit = { "number_maa_regiments_of_type(sun_spears)" >= 1 } save_scope_value_as = { name = ln_maa_region value = flag:dorne } }
+	else_if = { limit = { "number_maa_regiments_of_type(ironborn_reavers)" >= 1 } save_scope_value_as = { name = ln_maa_region value = flag:ironman } }
+	else_if = { limit = { "number_maa_regiments_of_type(clan_raiders)" >= 1 } save_scope_value_as = { name = ln_maa_region value = flag:wildling } }
+	# The shock of fleeing — the brave are shamed to the core, the rest still shaken.
+	if = { limit = { has_trait = brave } add_stress = massive_stress_impact_gain }
+	else = { add_stress = medium_stress_impact_gain }
+	# Their lands do NOT fall to the Night King — a kinsman or retainer left behind takes them up, so the dead must
+	# still conquer them (the Night King keeps grinding). Priority: a capable adult vassal, else an adult courtier,
+	# else a generated heir (never leave a title without a holder).
+	if = {
+		limit = { is_landed = yes }
+		if = {
+			limit = { any_vassal = { ln_flee_successor_trigger = yes } }
+			ordered_vassal = {
+				limit = { ln_flee_successor_trigger = yes }
+				order_by = highest_held_title_tier
+				max = 1
+				check_range_bounds = no
+				save_scope_as = flee_successor
+			}
+		}
+		else_if = {
+			limit = { any_courtier = { ln_flee_successor_trigger = yes } }
+			random_courtier = {
+				limit = { ln_flee_successor_trigger = yes }
+				save_scope_as = flee_successor
+			}
+		}
+		else = {
+			create_character = {
+				age = { 25 45 }
+				culture = root.culture
+				faith = root.faith
+				location = capital_province
+				save_scope_as = flee_successor
+			}
+		}
+		create_title_and_vassal_change = { type = granted save_scope_as = flee_south_change }
+		every_held_title = {
+			change_title_holder = { holder = scope:flee_successor  change = scope:flee_south_change }
+		}
+		resolve_title_and_vassal_change = scope:flee_south_change
+	}
+	# Now landless: become a flagged refugee adventurer (rally fodder for the War for the Dawn).
+	add_character_flag = dawn_refugee
+	add_character_flag = dawn_refugee_lord           # path marker: fled as a landed lord via the decision (vs dawn_refugee_courtier) — for saves debugging + aftermath flavor
+	add_character_modifier = dawn_refugee_modifier   # visible "Fled South" marker
+	create_landless_adventurer_title_effect = {
+		REASON = flag:voluntary
+		FLAVOR_CHAR = root
+	}
+	# A lord does not flee into an empty field — scale his starting camp to his former standing (a count keeps the
+	# default camp_main_01; the chain upgrades cumulatively for duke/king/emperor).
+	domicile = {
+		if = { limit = { scope:ln_camp_level >= 2 } add_domicile_building = camp_main_02 }
+		if = { limit = { scope:ln_camp_level >= 3 } add_domicile_building = camp_main_03 }
+		if = { limit = { scope:ln_camp_level >= 4 } add_domicile_building = camp_main_04 }
+		# Random secondary tents/wagons — which slots fill is left to chance, and a greater lord fills more (chance
+		# 25%/level per category). Duke up only: a count's bare camp has no spare slots. add_domicile_building
+		# force-adds (ignores cost/construction time); adds that find no free slot simply no-op.
+		if = {
+			limit = { scope:ln_camp_level >= 2 }
+			random = { chance = { value = 25 multiply = scope:ln_camp_level } add_domicile_building = supply_tent_reserve_provisions }
+			random = { chance = { value = 25 multiply = scope:ln_camp_level } add_domicile_building = mess_tent_cooks }
+			random = { chance = { value = 25 multiply = scope:ln_camp_level } add_domicile_building = camp_fire_local_hangers_on }
+			random = { chance = { value = 25 multiply = scope:ln_camp_level } add_domicile_building = baggage_train_porters }
+			random = { chance = { value = 25 multiply = scope:ln_camp_level } add_domicile_building = proving_grounds_training_circle }
+			random = { chance = { value = 25 multiply = scope:ln_camp_level } add_domicile_building = barber_tent_surgeons_tools }
+		}
+	}
+	# Retinue: clean slate (destroys any regiments that lingered through the loss of his realm — no double army),
+	# then bring a reduced band of his OWN people's men-at-arms (size scaled by camp standing), of the regional type
+	# noted before he fled. Plus gold scaled to his former rank, so he can raise more from his new camp.
+	every_maa_regiment = { destroy_maa_regiment = yes }
+	if = {
+		limit = { exists = scope:ln_maa_region }
+		switch = {
+			trigger = scope:ln_maa_region
+			flag:north = {
+				if = { limit = { scope:ln_camp_level >= 4 } create_maa_regiment = { type = frog_spears size = 4 check_can_recruit = no } }
+				else_if = { limit = { scope:ln_camp_level >= 3 } create_maa_regiment = { type = frog_spears size = 3 check_can_recruit = no } }
+				else_if = { limit = { scope:ln_camp_level >= 2 } create_maa_regiment = { type = frog_spears size = 2 check_can_recruit = no } }
+				else = { create_maa_regiment = { type = frog_spears size = 1 check_can_recruit = no } }
+			}
+			flag:riverlands = {
+				if = { limit = { scope:ln_camp_level >= 4 } create_maa_regiment = { type = river_bows size = 4 check_can_recruit = no } }
+				else_if = { limit = { scope:ln_camp_level >= 3 } create_maa_regiment = { type = river_bows size = 3 check_can_recruit = no } }
+				else_if = { limit = { scope:ln_camp_level >= 2 } create_maa_regiment = { type = river_bows size = 2 check_can_recruit = no } }
+				else = { create_maa_regiment = { type = river_bows size = 1 check_can_recruit = no } }
+			}
+			flag:vale = {
+				if = { limit = { scope:ln_camp_level >= 4 } create_maa_regiment = { type = finger_scouts size = 4 check_can_recruit = no } }
+				else_if = { limit = { scope:ln_camp_level >= 3 } create_maa_regiment = { type = finger_scouts size = 3 check_can_recruit = no } }
+				else_if = { limit = { scope:ln_camp_level >= 2 } create_maa_regiment = { type = finger_scouts size = 2 check_can_recruit = no } }
+				else = { create_maa_regiment = { type = finger_scouts size = 1 check_can_recruit = no } }
+			}
+			flag:crownlands = {
+				if = { limit = { scope:ln_camp_level >= 4 } create_maa_regiment = { type = royal_crossbowmen size = 4 check_can_recruit = no } }
+				else_if = { limit = { scope:ln_camp_level >= 3 } create_maa_regiment = { type = royal_crossbowmen size = 3 check_can_recruit = no } }
+				else_if = { limit = { scope:ln_camp_level >= 2 } create_maa_regiment = { type = royal_crossbowmen size = 2 check_can_recruit = no } }
+				else = { create_maa_regiment = { type = royal_crossbowmen size = 1 check_can_recruit = no } }
+			}
+			flag:westerlands = {
+				if = { limit = { scope:ln_camp_level >= 4 } create_maa_regiment = { type = rain_bringers size = 4 check_can_recruit = no } }
+				else_if = { limit = { scope:ln_camp_level >= 3 } create_maa_regiment = { type = rain_bringers size = 3 check_can_recruit = no } }
+				else_if = { limit = { scope:ln_camp_level >= 2 } create_maa_regiment = { type = rain_bringers size = 2 check_can_recruit = no } }
+				else = { create_maa_regiment = { type = rain_bringers size = 1 check_can_recruit = no } }
+			}
+			flag:reach = {
+				if = { limit = { scope:ln_camp_level >= 4 } create_maa_regiment = { type = honeywine_quirrels size = 4 check_can_recruit = no } }
+				else_if = { limit = { scope:ln_camp_level >= 3 } create_maa_regiment = { type = honeywine_quirrels size = 3 check_can_recruit = no } }
+				else_if = { limit = { scope:ln_camp_level >= 2 } create_maa_regiment = { type = honeywine_quirrels size = 2 check_can_recruit = no } }
+				else = { create_maa_regiment = { type = honeywine_quirrels size = 1 check_can_recruit = no } }
+			}
+			flag:stormlands = {
+				if = { limit = { scope:ln_camp_level >= 4 } create_maa_regiment = { type = marcher_longbowmen size = 4 check_can_recruit = no } }
+				else_if = { limit = { scope:ln_camp_level >= 3 } create_maa_regiment = { type = marcher_longbowmen size = 3 check_can_recruit = no } }
+				else_if = { limit = { scope:ln_camp_level >= 2 } create_maa_regiment = { type = marcher_longbowmen size = 2 check_can_recruit = no } }
+				else = { create_maa_regiment = { type = marcher_longbowmen size = 1 check_can_recruit = no } }
+			}
+			flag:dorne = {
+				if = { limit = { scope:ln_camp_level >= 4 } create_maa_regiment = { type = sun_spears size = 4 check_can_recruit = no } }
+				else_if = { limit = { scope:ln_camp_level >= 3 } create_maa_regiment = { type = sun_spears size = 3 check_can_recruit = no } }
+				else_if = { limit = { scope:ln_camp_level >= 2 } create_maa_regiment = { type = sun_spears size = 2 check_can_recruit = no } }
+				else = { create_maa_regiment = { type = sun_spears size = 1 check_can_recruit = no } }
+			}
+			flag:ironman = {
+				if = { limit = { scope:ln_camp_level >= 4 } create_maa_regiment = { type = ironborn_reavers size = 4 check_can_recruit = no } }
+				else_if = { limit = { scope:ln_camp_level >= 3 } create_maa_regiment = { type = ironborn_reavers size = 3 check_can_recruit = no } }
+				else_if = { limit = { scope:ln_camp_level >= 2 } create_maa_regiment = { type = ironborn_reavers size = 2 check_can_recruit = no } }
+				else = { create_maa_regiment = { type = ironborn_reavers size = 1 check_can_recruit = no } }
+			}
+			flag:wildling = {
+				if = { limit = { scope:ln_camp_level >= 4 } create_maa_regiment = { type = clan_raiders size = 4 check_can_recruit = no } }
+				else_if = { limit = { scope:ln_camp_level >= 3 } create_maa_regiment = { type = clan_raiders size = 3 check_can_recruit = no } }
+				else_if = { limit = { scope:ln_camp_level >= 2 } create_maa_regiment = { type = clan_raiders size = 2 check_can_recruit = no } }
+				else = { create_maa_regiment = { type = clan_raiders size = 1 check_can_recruit = no } }
+			}
+		}
+	}
+	add_gold = { value = 250 multiply = scope:ln_camp_level }   # count 250 → emperor 1000, tunable
+}
+
+# The Long Night+ — #12 the Wall. Fired from long_night_story when the dead take Castle Black: the middle of the Wall
+# comes crashing down, a permanent scar (never restored). AGOT already builds the whole collapse system (meshes,
+# animation, particles, sound, conditional rendering) — we only trigger it.
+#   LAYER A (reliable, here): the exact building swap AGOT's own agot_wall_fall GUI performs — flag the fallen
+#   variable + remove special_the_wall + add special_the_wall_damaged. The swap is MANDATORY, not just the variable:
+#   graphical backgrounds only refresh when a building CHANGES in the holding (per 98_special_buildings.txt header).
+#   The broken-middle graphical is already active in AGOT, so this renders the shattered Wall.
+#   LAYER B (cinematic anim + sound CK3AGOT_wall_collapse_the_others + camera) is layered on once the agot_debug.1000
+#   animation test confirms the falling animation actually plays.
+agot_long_night_wall_collapse_effect = {
+	# One-shot: only if the Wall still stands.
+	if = {
+		limit = {
+			title:b_castle_black.title_province = {
+				NOT = { has_variable = agot_wall_has_fallen_left }
+				NOT = { has_variable = agot_wall_has_fallen_middle }
+				NOT = { has_variable = agot_wall_has_fallen_right }
+			}
+		}
+		# Cinematic for every human player. The widget event (long_night_plus_wall.1) plays the middle collapse
+		# animation, pans the camera, plays the music, AND breaks the Wall ITSELF on finish (its GUI calls AGOT's
+		# agot_wall_fall scripted GUI = sets agot_wall_has_fallen_middle + swaps the building). So we must NOT swap or
+		# set any variable here — a second fallen variable would conflict (two set => no broken graphical renders, the
+		# bug we hit). The breach is always the middle (the only animated collapse entity AGOT ships) — i.e. at Castle
+		# Black itself.
+		every_player = {
+			trigger_event = { id = long_night_plus_wall.1 }
+		}
+		trigger_event = { id = agot_ln.39 days = 3 }
+		# Reliable fallback: with NO human player to play the widget (AI-only realm, or observer), the Wall would never
+		# fall. Two days on, break it directly if it is still standing (mirrors what the widget's agot_wall_fall does).
+		trigger_event = { id = long_night_plus_wall.3 days = 2 }
+	}
+}
+
+mutate_into_other_effect = {
+	save_scope_as = host
+	# Centralized horde: conquered rulers do not remain landed undead vassals.
+	if = {
+		limit = { is_landed = yes NOT = { has_trait = other_trait } }
+		if = {
+			limit = { is_ai = no has_dlc_feature = roads_to_power }
+			flee_noble_south_effect = yes
+		}
+		else = {
+			create_title_and_vassal_change = { type = conquest save_scope_as = ln_horde_change }
+			every_held_title = {
+				change_title_holder = { holder = title:h_the_others.holder change = scope:ln_horde_change }
+			}
+			resolve_title_and_vassal_change = scope:ln_horde_change
+		}
+	}
+
+	# Nobles have a small chance to flee south ahead of the dead instead of being raised as
+	# wights — they become flagged refugee adventurers (fodder for the War for the Dawn).
+	if = {
+		limit = {
+			is_lowborn = no
+			is_landed = no                       # landed rulers become wights keeping their title; only their landless kin/courtiers may flee
+			is_adult = yes                       # no fleeing children
+			dynasty ?= { dynasty_prestige_level >= 3 }   # only nobles of real standing flee — refugees worth rallying to the Dawn
+			NOT = { has_trait = brave }                  # the brave stand and fall — they do not flee
+			NOT = { has_trait = wight_trait }
+			NOT = { has_trait = other_trait }
+			NOT = { has_character_flag = dawn_refugee }
+		}
+		random = {
+			chance = 3    # tunable: noble escape chance (rare — only notable houses flee). They join a safe southern
+			              # court (escape_noble_effect), so this path creates NO adventurer camp and needs no cap gate.
+			escape_noble_effect = yes
+		}
+	}
+	# Everyone who did not flee is raised as a wight (undead thrall; keeps their title, becomes
+	# the Night King's vassal). Identical to the old Other conversion but with the temporary
+	# `wight` trait instead of `other_trait` (wights die when the Long Night ends).
+	if = {
+		limit = {
+			NOT = { has_character_flag = dawn_refugee }   # did not flee
+			NOT = { has_trait = other_trait }             # spare the true Others (Night King, spawned Others)
+			NOT = { house = house:house_theothers }  # never raise actual House of the Others members as wights
+		}
+	if = {
+		limit = { exists = capital_province }
+		capital_province = {
+			if = {
+				limit = { OR = { has_holding_type = wilderness_holding has_holding_type = ruin_holding } }
+				set_holding_type = tribal_holding
+			}
+		}
+	}
+	
+	# All wights use wight_government — a NON-DYNASTIC clone of tribal_government. It keeps full realm mechanics
+	# for the Night King's AI host, but non-dynastic = UNPLAYABLE (like theocracy/republic), so a conquered
+	# PLAYER hands off to their heir/dynasty, or hits game over if none remain (heirs get conquered too → cascade).
+	# NOTE: the wight is raised (add_trait = wight_trait + one-shot setup) AFTER the disease/age/wound purge
+	# below — trait `opposites` BLOCK add_trait, so a diseased/old conquered noble could never become a wight
+	# while those traits were still on them. See the one-shot block just before set_faith/set_culture.
+	if = { limit = { has_trait = ruin } remove_trait = ruin }
+	if = { limit = { has_trait = wilderness } remove_trait = wilderness }
+	if = { limit = { has_trait = unknown } remove_trait = unknown }
+	if = { limit = { has_trait = agot_dummy_trait } remove_trait = agot_dummy_trait }
+	
+	# Purge old age/disease traits
+	if = { limit = { has_trait = withering_mind } remove_trait = withering_mind }
+	if = { limit = { has_trait = fragile_bones } remove_trait = fragile_bones }
+	if = { limit = { has_trait = faltering_heart } remove_trait = faltering_heart }
+	if = { limit = { has_trait = clouded_eyes } remove_trait = clouded_eyes }
+	if = { limit = { has_trait = infirm } remove_trait = infirm }
+	if = { limit = { has_trait = consumption } remove_trait = consumption }
+	if = { limit = { has_trait = leper } remove_trait = leper }
+	if = { limit = { has_trait = bubonic_plague } remove_trait = bubonic_plague }
+	if = { limit = { has_trait = ill } remove_trait = ill }
+	if = { limit = { has_trait = pneumonic } remove_trait = pneumonic }
+	if = { limit = { has_trait = typhus } remove_trait = typhus }
+	if = { limit = { has_trait = smallpox } remove_trait = smallpox }
+	if = { limit = { has_trait = measles } remove_trait = measles }
+	if = { limit = { has_trait = greyscale } remove_trait = greyscale }
+	if = { limit = { has_trait = wounded_1 } remove_trait = wounded_1 }
+	if = { limit = { has_trait = wounded_2 } remove_trait = wounded_2 }
+	if = { limit = { has_trait = wounded_3 } remove_trait = wounded_3 }
+	if = { limit = { has_trait = maimed } remove_trait = maimed }
+	if = { limit = { has_trait = blind } remove_trait = blind }
+	if = { limit = { has_trait = incapable } remove_trait = incapable }
+	if = { limit = { has_trait = one_legged } remove_trait = one_legged }
+	if = { limit = { has_trait = disfigured } remove_trait = disfigured }
+	if = { limit = { has_trait = early_great_pox } remove_trait = early_great_pox }
+	if = { limit = { has_trait = great_pox } remove_trait = great_pox }
+
+	set_character_faith = faith:cold_gods
+	set_culture = culture:frostborn
+
+	# Raise as a wight LAST — AFTER the disease/age/wound purge above, so no opposite trait blocks
+	# add_trait = wight_trait (trait `opposites` prevent the add while the opposite is still present).
+	# Everything that must run exactly ONCE per wight lives in this NOT-has-wight_trait guard, because
+	# others_heartbeat re-runs this whole effect on existing wights.
+	if = {
+		limit = { NOT = { has_trait = wight_trait } }
+		add_trait = wight_trait
+		# Random gore variant (ln_wight_gore allele, selected by this flag in wight_trait_modifiers.txt).
+		random_list = {
+			1 = { add_character_flag = wight_v1 }
+			1 = { add_character_flag = wight_v2 }
+			1 = { add_character_flag = wight_v3 }
+		}
+		# Random idle pose (read by the idle group in gfx/portraits/portrait_animations/animations.txt) — one of
+		# five barbershop poses, fixed per wight by the flag set here.
+		random_list = {
+			1 = { add_character_flag = wight_pose_wounded }
+			1 = { add_character_flag = wight_pose_loss }
+			1 = { add_character_flag = wight_pose_aggressive }
+			1 = { add_character_flag = wight_pose_yield }
+			1 = { add_character_flag = wight_pose_stayback }
+		}
+		# Dated "first death" memory (timestamped natively in AGOT's calendar). The wight's collapse at the
+		# Long Night's end is CK3's native (second) death.
+		create_character_memory = { type = wight_raised_memory }
+
+		# The Long Night+: a raised wight belongs to the dead — sever every alliance it held in life. Otherwise a
+		# former ally still shields it (you could not declare war on a realm allied to a wight).
+		save_temporary_scope_as = ln_raised_wight
+		every_ally = {
+			break_alliance = scope:ln_raised_wight
+		}
+	}
+	}
+}
+

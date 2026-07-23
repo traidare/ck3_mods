@@ -1,0 +1,110 @@
+﻿other_barony_male = {
+	type = character
+	gender = male
+	special = holder
+	priority = 2000
+	name_lists = { name_list_others }
+	tier = barony
+}
+other_barony_female = {
+	type = character
+	gender = female
+	special = holder
+	priority = 2000
+	name_lists = { name_list_others }
+	tier = barony
+}
+other_county_male = {
+	type = character
+	gender = male
+	special = holder
+	priority = 2000
+	name_lists = { name_list_others }
+	tier = county
+}
+other_county_female = {
+	type = character
+	gender = female
+	special = holder
+	priority = 2000
+	name_lists = { name_list_others }
+	tier = county
+}
+other_duchy_male = {
+	type = character
+	gender = male
+	special = holder
+	priority = 2000
+	name_lists = { name_list_others }
+	tier = duchy
+}
+other_duchy_female = {
+	type = character
+	gender = female
+	special = holder
+	priority = 2000
+	name_lists = { name_list_others }
+	tier = duchy
+}
+other_kingdom_male = {
+	type = character
+	gender = male
+	special = holder
+	priority = 2000
+	name_lists = { name_list_others }
+	tier = kingdom
+}
+other_kingdom_female = {
+	type = character
+	gender = female
+	special = holder
+	priority = 2000
+	name_lists = { name_list_others }
+	tier = kingdom
+}
+other_empire_male = {
+	type = character
+	gender = male
+	special = holder
+	priority = 2000
+	name_lists = { name_list_others }
+	tier = empire
+}
+other_empire_female = {
+	type = character
+	gender = female
+	special = holder
+	priority = 2000
+	name_lists = { name_list_others }
+	tier = empire
+}
+other_barony_title = {
+	type = title
+	priority = 2000
+	name_lists = { name_list_others }
+	tier = barony
+}
+other_county_title = {
+	type = title
+	priority = 2000
+	name_lists = { name_list_others }
+	tier = county
+}
+other_duchy_title = {
+	type = title
+	priority = 2000
+	name_lists = { name_list_others }
+	tier = duchy
+}
+other_kingdom_title = {
+	type = title
+	priority = 2000
+	name_lists = { name_list_others }
+	tier = kingdom
+}
+other_empire_title = {
+	type = title
+	priority = 2000
+	name_lists = { name_list_others }
+	tier = empire
+}

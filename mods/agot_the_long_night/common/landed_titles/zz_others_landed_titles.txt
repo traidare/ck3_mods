@@ -1,0 +1,11 @@
+﻿# Forces of Darkness
+h_the_others = {
+
+	color = { 173 255 250 }
+	definite_form = yes
+	landless = yes
+	always_follows_primary_heir = yes
+	capital = c_harrenhal
+	can_be_named_after_dynasty = no
+	ignore_titularity_for_title_weighting = yes
+}

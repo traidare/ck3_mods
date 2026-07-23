@@ -3,7 +3,9 @@
 
 from __future__ import annotations
 
+import argparse
 import codecs
+import hashlib
 import os
 import re
 import tempfile
@@ -25,6 +27,7 @@ AGOT = WORKSHOP / "2962333032"
 SUBMOD_CORE = WORKSHOP / "3034473189"
 DFP_AGOT = WORKSHOP / "3609763696"
 LONG_NIGHT = WORKSHOP / "3766462389"
+STANDALONE_LONG_NIGHT = ROOT / "mods" / "agot_the_long_night"
 
 RELATIVE_ANIMATIONS = Path("gfx/portraits/portrait_animations/animations.txt")
 MOD_OUTPUT_ROOT = ROOT / "mods" / "agot_longnight_submodcore_dfp_compatch"
@@ -32,6 +35,9 @@ MOD_OUTPUT_ROOT = ROOT / "mods" / "agot_longnight_submodcore_dfp_compatch"
 EXPECTED_DFP_POSES = 197
 EXPECTED_MERGED_POSES = 196
 EXPECTED_WIGHT_POSES = 5
+EXPECTED_DFP_ANIMATIONS_SHA256 = (
+    "df3a8349d80ee0c3467800d4c3bb5c40aefdfaf841ff05f1395e47c2d5b1d206"
+)
 
 
 def read(path: Path) -> str:
@@ -93,6 +99,10 @@ def newline_style(text: str) -> str:
 
 def normalize_newlines(text: str, newline: str) -> str:
     return text.replace("\r\n", "\n").replace("\r", "\n").replace("\n", newline)
+
+
+def strip_trailing_whitespace(text: str) -> str:
+    return re.sub(r"[ \t]+(?=\r?$)", "", text, flags=re.MULTILINE)
 
 
 def matching_brace(text: str, opening: int) -> int:
@@ -222,9 +232,18 @@ def extract_core_bow(core: str, newline: str) -> str:
 
 
 def generate() -> str:
-    long_night = read(LONG_NIGHT / RELATIVE_ANIMATIONS)
-    dfp = read(DFP_AGOT / RELATIVE_ANIMATIONS)
-    core = read(SUBMOD_CORE / RELATIVE_ANIMATIONS)
+    long_night = read(STANDALONE_LONG_NIGHT / RELATIVE_ANIMATIONS)
+    dfp_path = DFP_AGOT / RELATIVE_ANIMATIONS
+    if not dfp_path.is_file():
+        raise ValueError(f"missing required DFP AGOT source: {dfp_path}")
+    dfp_bytes = dfp_path.read_bytes()
+    actual_hash = hashlib.sha256(dfp_bytes).hexdigest()
+    if actual_hash != EXPECTED_DFP_ANIMATIONS_SHA256:
+        raise ValueError(
+            "DFP AGOT animations changed upstream: expected "
+            f"{EXPECTED_DFP_ANIMATIONS_SHA256}, found {actual_hash}"
+        )
+    dfp = read(dfp_path)
     newline = newline_style(long_night)
 
     assert_count(
@@ -235,18 +254,14 @@ def generate() -> str:
     )
     assert_count(long_night, r"CIP_[A-Za-z0-9_]+", 0, "Long Night+ DFP poses")
     assert_count(long_night, "hold_long_axe_idle", 1, "AGOT long-axe pose")
-    assert_count(core, "hold_bow_idle", 1, "Submod Core bow pose")
+    assert_count(long_night, "hold_bow_idle", 1, "Submod Core bow pose")
 
     poses, expected_pose_names = extract_dfp_poses(dfp, newline)
-    bow = extract_core_bow(core, newline)
 
     high_septon_marker = f"\t\t#AGOT Added{newline}\t\thigh_septon = {{"
-    hold_hammer_marker = f"\t\t#AGOT Added{newline}\t\thold_hammer_idle = {{"
     unique_marker(long_night, high_septon_marker, "Long Night+ high_septon")
-    unique_marker(long_night, hold_hammer_marker, "Long Night+ hold_hammer_idle")
 
     merged = long_night.replace(high_septon_marker, poses + high_septon_marker, 1)
-    merged = merged.replace(hold_hammer_marker, bow + newline + hold_hammer_marker, 1)
 
     merged_pose_names = set(direct_definition_names(merged, r"CIP_[A-Za-z0-9_]+"))
     if merged_pose_names != expected_pose_names:
@@ -276,7 +291,7 @@ def generate() -> str:
     )
     if active_removed_trigger:
         raise ValueError("merged file still has an active removed longsword trigger")
-    return merged
+    return strip_trailing_whitespace(normalize_newlines(merged, "\n"))
 
 
 def wrap_special_genes(
@@ -933,37 +948,36 @@ def write_bytes_atomic(path: Path, content: bytes) -> bool:
 
 
 def main() -> None:
-    # AGOT is explicit even though Long Night+ supplies the merge base.
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument(
+        "--check",
+        action="store_true",
+        help="fail when the generated animation payload is not current",
+    )
+    arguments = parser.parse_args()
+
     if not (AGOT / "descriptor.mod").is_file():
         raise SystemExit(f"missing required AGOT dependency: {AGOT}")
-    generated_files = patch_simple_files()
-    generated_files[str(RELATIVE_ANIMATIONS)] = generate()
-    changed_text = sum(
-        write_atomic(MOD_OUTPUT_ROOT / relative, content)
-        for relative, content in sorted(generated_files.items())
-    )
-
-    agot_texture_paths = (
-        "gfx/models/portraits/decals/hair_aging_control.dds",
-        "gfx/models/portraits/male_head/male_eyes_normal.dds",
-        "gfx/portraits/skin_palette.dds",
-    )
-    changed_binary = 0
-    for relative in agot_texture_paths:
-        source = AGOT / relative
-        if not source.is_file():
-            raise ValueError(f"missing required AGOT texture: {source}")
-        changed_binary += write_bytes_atomic(
-            MOD_OUTPUT_ROOT / relative, source.read_bytes()
+    if not (STANDALONE_LONG_NIGHT / "descriptor.mod").is_file():
+        raise SystemExit(
+            f"missing generated standalone Long Night: {STANDALONE_LONG_NIGHT}"
         )
+    destination = MOD_OUTPUT_ROOT / RELATIVE_ANIMATIONS
+    generated = codecs.BOM_UTF8 + generate().encode("utf-8")
+    current = destination.read_bytes() if destination.is_file() else None
+    changed = current != generated
+    if arguments.check:
+        if changed:
+            raise SystemExit(f"generated payload is stale: {destination}")
+    else:
+        write_bytes_atomic(destination, generated)
 
     print(
-        f"generated {len(generated_files)} script/data overrides and "
-        f"{len(agot_texture_paths)} AGOT texture overrides in "
-        f"{MOD_OUTPUT_ROOT.relative_to(ROOT)}; changed "
-        f"{changed_text} text and {changed_binary} binary files "
-        f"({EXPECTED_MERGED_POSES} DFP poses, "
-        f"{EXPECTED_WIGHT_POSES} wight poses, 1 Submod Core bow pose)"
+        f"{'checked' if arguments.check else 'generated'} the animation-only "
+        f"DFP compatibility payload in "
+        f"{MOD_OUTPUT_ROOT.relative_to(ROOT)}; changed {int(changed)} file "
+        f"({EXPECTED_MERGED_POSES} DFP poses, {EXPECTED_WIGHT_POSES} wight "
+        "poses, 1 Submod Core bow pose)"
     )
 
 

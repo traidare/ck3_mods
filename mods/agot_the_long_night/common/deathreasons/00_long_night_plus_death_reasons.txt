@@ -1,0 +1,12 @@
+﻿# The Long Night+ — when the Long Night ends and the Others are thrown down, the cold magic
+# binding their raised dead fails, and every wight collapses into lifeless flesh.
+death_dawn_broke = {
+	icon = "death_unknown.dds"
+}
+
+# The Long Night+ — the death reason for the wights' mass collapse at the end of the Long Night (the_long_night
+# on_end): with the Others thrown down, the cold magic that stirred the dead is spent and every wight is claimed
+# by the cold at last. Fits all resolutions (Night King slain, War for the Dawn won, war lost), unlike "dawn broke".
+death_claimed_by_cold = {
+	icon = "death_unknown.dds"
+}

@@ -1,0 +1,91 @@
+﻿namespace = others_heartbeat
+
+others_heartbeat.1 = {
+	type = character_event
+	hidden = yes
+
+	trigger = {
+		has_trait = other_trait
+	}
+
+	immediate = {
+		save_scope_as = thegreatother
+		
+		# Mutate the Night King's direct courtiers if any are not mutated
+		every_courtier_or_guest = {
+			limit = { NOT = { has_trait = other_trait } }
+			mutate_into_other_effect = yes
+		}
+
+		# Mutate vassals and their courtiers only if they are not already mutated
+		every_vassal_or_below = {
+			limit = {
+				OR = {
+					NOT = { has_trait = other_trait }
+					any_courtier_or_guest = { NOT = { has_trait = other_trait } }
+				}
+			}
+			mutate_into_other_effect = yes
+			every_courtier_or_guest = {
+				limit = { NOT = { has_trait = other_trait } }
+				mutate_into_other_effect = yes
+			}
+		}
+		
+		# LN+ cleanup: a handful of characters end up with BOTH other_trait and wight_trait — the Other-promotion
+		# (story cycle) and the wight-conversion both touched them across ticks despite their gates. The Others are
+		# the elite, so they win: strip the stray wight_trait (and stale wight flags) from any dual-trait character.
+		every_vassal_or_below = {
+			limit = { has_trait = other_trait  has_trait = wight_trait }
+			remove_trait = wight_trait
+			remove_character_flag = wight_v1
+			remove_character_flag = wight_v2
+			remove_character_flag = wight_v3
+			remove_character_flag = wight_pose_wounded
+			remove_character_flag = wight_pose_loss
+			remove_character_flag = wight_pose_aggressive
+			remove_character_flag = wight_pose_yield
+			remove_character_flag = wight_pose_stayback
+		}
+		every_courtier_or_guest = {
+			limit = { has_trait = other_trait  has_trait = wight_trait }
+			remove_trait = wight_trait
+			remove_character_flag = wight_v1
+			remove_character_flag = wight_v2
+			remove_character_flag = wight_v3
+			remove_character_flag = wight_pose_wounded
+			remove_character_flag = wight_pose_loss
+			remove_character_flag = wight_pose_aggressive
+			remove_character_flag = wight_pose_yield
+			remove_character_flag = wight_pose_stayback
+		}
+
+		# LN+ — keep the Night King leading his largest host from the FRONT. As a `commanding_army` holder he is
+		# shielded from siege capture/death by vanilla's siege_0001_can_be_captured (which excludes any commander /
+		# knight from the capture-or-kill pool), so he no longer dies anticlimactically to a siege — yet he can still
+		# fall gloriously in open battle. Re-asserted on this ~15-day pulse if the AI ever leaves him without a command.
+		if = {
+			limit = {
+				has_trait = nightking
+				is_commanding_army = no
+				any_army = { army_owner = root }
+			}
+			ordered_army = {
+				limit = { army_owner = root }
+				order_by = army_size
+				position = 0
+				assign_commander = root
+			}
+		}
+
+		# Prevent overlapping loops
+		if = {
+			limit = { NOT = { has_character_flag = others_heartbeat_active } }
+			add_character_flag = { flag = others_heartbeat_active days = 14 }
+			trigger_event = {
+				id = others_heartbeat.1
+				days = 15
+			}
+		}
+	}
+}

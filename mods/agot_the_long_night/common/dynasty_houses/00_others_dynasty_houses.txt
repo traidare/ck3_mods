@@ -1,0 +1,11 @@
+﻿
+
+### Arryn
+# Arryn of Gulltown
+
+house_theothers = {
+	prefix = "dynnp_of"
+	name = "house_theothers"
+	dynasty = dynasty_theothers
+	motto = dynn_others_motto
+}

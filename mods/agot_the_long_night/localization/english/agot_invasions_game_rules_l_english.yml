@@ -1,0 +1,101 @@
+﻿l_english:
+
+ 
+ #The Long Night
+ rule_the_long_night_startdate:0 "#P (AGOT:Invasions):#!  #bold The Long Night#!"
+ 
+ setting_longnight_historical:0 "Historical"
+ setting_longnight_historical_desc:0 "The Others invade around #bold 299 AL#! ."
+ 
+ setting_longnight_immediately:0 "Immediately"
+ setting_longnight_immediately_desc:0 "The Others invade #bold now#! ."
+ 
+ setting_longnight_random_300:0 "Random 300 Years"
+ setting_longnight_random_300_desc:0 "The Others will invade #bold randomly in the next 300 years#! ."
+ 
+  setting_longnight_random_150:0 "Random 150 Years"
+ setting_longnight_random_150_desc:0 "The Others will invade #bold randomly in the next 150 years#! ."
+ 
+ setting_longnight_never:0 "Never"
+ setting_longnight_never_desc:0 "I'm scared!"
+ 
+ 
+ 
+  #Mountain Clansmen
+ rule_mountain_clans_invasion_startdate:0 "#P (AGOT:Invasions):#!  #bold Mountain Clans#!"
+ 
+ 
+ setting_mountain_clans_invasion_immediately:0 "Not Implemented"
+ setting_mountain_clans_invasion_immediately_desc:0 "Not Implemented"
+ 
+ setting_mountain_clans_invasion_random_300:0 "Not Implemented"
+ setting_mountain_clans_invasion_random_300_desc:0 "Not Implemented"
+ 
+  setting_mountain_clans_invasion_random_150:0 "Random 150 Years"
+ setting_mountain_clans_invasion_random_150_desc:0 "Not Implemented"
+ 
+ setting_mountain_clans_invasion_never:0 "Not Implemented"
+ setting_mountain_clans_invasion_never_desc:0 "Not Implemented"
+ 
+ 
+ 
+  #Dothraki
+ rule_dothraki_invasion_startdate:0 "#P (AGOT:Invasions):#!  #bold Dothraki#!"
+ 
+ 
+ setting_dothraki_invasion_immediately:0 "Not Implemented"
+ setting_dothraki_invasion_immediately_desc:0 "Not Implemented"
+ 
+ setting_dothraki_invasion_random_300:0 "Not Implemented"
+ setting_dothraki_invasion_random_300_desc:0 "Not Implemented"
+ 
+  setting_dothraki_invasion_random_150:0 "Random 150 Years"
+ setting_dothraki_invasion_random_150_desc:0 "Not Implemented"
+ 
+ setting_dothraki_invasion_never:0 "Not Implemented"
+ setting_dothraki_invasion_never_desc:0 "Not Implemented"
+ 
+ 
+ 
+  #Summer Islander
+ rule_summer_islander_invasion_startdate:0 "#P (AGOT:Invasions):#!  #bold Dothraki#!"
+ 
+ 
+ setting_summer_islander_invasion_immediately:0 "Not Implemented"
+ setting_summer_islander_invasion_immediately_desc:0 "Not Implemented"
+ 
+ setting_summer_islander_invasion_random_300:0 "Not Implemented"
+ setting_summer_islander_invasion_random_300_desc:0 "Not Implemented"
+ 
+  setting_summer_islander_invasion_random_150:0 "Random 150 Years"
+ setting_summer_islander_invasion_random_150_desc:0 "Not Implemented"
+ 
+ setting_summer_islander_invasion_never:0 "Not Implemented"
+ setting_summer_islander_invasion_never_desc:0 "Not Implemented"
+ 
+ 
+ 
+   #Robbers and Brigands
+ rule_brigands_invasion_startdate:0 "#P (AGOT:Invasions):#!  #bold Robbers and Brigands#!"
+ 
+ 
+ setting_brigands_invasion_immediately:0 "Not Implemented"
+ setting_brigands_invasion_immediately_desc:0 "Not Implemented"
+ 
+ setting_brigands_invasion_random_300:0 "Not Implemented"
+ setting_brigands_invasion_random_300_desc:0 "Not Implemented"
+ 
+  setting_brigands_invasion_random_150:0 "Random 150 Years"
+ setting_brigands_invasion_random_150_desc:0 "Not Implemented"
+ 
+ setting_brigands_invasion_never:0 "Not Implemented"
+ setting_brigands_invasion_never_desc:0 "Not Implemented"
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 

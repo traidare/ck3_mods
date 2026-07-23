@@ -1,0 +1,50 @@
+﻿l_english:
+ # The Long Night+ — AFTERMATH (resettling) localization.
+
+ # The renamed Wall kingdom if the wildling path is taken (set_title_name on k_the_wall).
+ ln_giftlands:0 "the Giftlands"
+ ln_giftlands_adj:0 "Giftland"
+
+ # --- THE QUESTION OF THE NORTH (ln_aftermath.1) ---
+ ln_aftermath.1.t:0 "The Question of the North"
+ ln_aftermath.1.desc:0 "The Long Night is over. The dead lie still at last, and beyond the broken Wall the survivors of the free folk look south at a land emptied of the living.\n\nThe realm looks to [ROOT.Char.GetTitledFirstName] for an answer that cannot wait: shall the Night's Watch rise again to garrison the ruin of the Wall and keep the wildlings out — or shall the free folk be welcomed south, to settle the dead lands as subjects of the Crown?\n\nWhichever road is taken, there will be no walking back."
+ ln_aftermath.1.a:0 "The Watch shall rise again."
+ ln_aftermath.1.a.tt:0 "The #bold Night's Watch#! is refounded upon the ruin of the Wall. The free folk will #bold never#! be welcomed south."
+ ln_aftermath.1.b:0 "Let the free folk come south."
+ ln_aftermath.1.b.tt:0 "The free folk settle the Wall and the lands beneath it, clan by clan, as vassals of the Crown. The #bold Night's Watch#! will #bold never#! rise again."
+
+ # --- Notification: the free folk pour south (ln_aftermath.3) ---
+ ln_aftermath.3.t:0 "The Free Folk Come South"
+ ln_aftermath.3.desc:0 "The Wall is a ruin and no black cloaks man what remains of it. Through the breach come the survivors of the free folk — not as raiders this time, but as settlers, driving their herds into the emptied North. The Night's Watch will never rise again."
+ ln_aftermath.3.a:0 "The world is changed."
+
+ # --- Player refugee arrival (ln_aftermath.21) ---
+ ln_aftermath.21.t:0 "The Road Home"
+ ln_aftermath.21.desc:0 "The caravan halts. Before [ROOT.Char.GetFirstName] lies empty land — cold hearths, fallow fields, and no living soul to claim them. The settlers look to their leader: is this where the wandering ends?"
+ ln_aftermath.21.a:0 "Here we rebuild."
+ ln_aftermath.21.a.tt:0 "Settle this county now: it becomes yours, in your culture and faith. Your settler folk found the new community, and your days as a refugee are over."
+ ln_aftermath.21.b:0 "Not yet. We march on."
+
+ # --- Player notification: the road ends (ln_aftermath.25) ---
+ ln_aftermath.25.t:0 "No Land Left"
+ ln_aftermath.25.desc:0 "Every county worth settling has been claimed by another — returning lords, wildling clans, Essosi charters. The road home leads nowhere now. The camp remains, and the life of a wandering adventurer with it."
+ ln_aftermath.25.a:0 "So be it."
+
+ # --- Sell Colonization Rights to Essos (decision) ---
+ ln_sell_colonization_rights_decision_title:0 "Sell Colonization Rights to Essos"
+ ln_sell_colonization_rights_decision_desc:0 "The scoured coasts of the North lie empty, and the Free Cities have coin and settlers to spare. Charter one of the dead coastal counties to an Essosi lord — gold for the Crown now, a foreign enclave on northern soil forever."
+ ln_sell_colonization_rights_decision_confirm:0 "Sign the charter"
+ ln_sell_colonization_rights_decision_tooltip:0 "Sell a devastated coastal county of the North to a lord of the Free Cities."
+ ln_sell_colonization_rights_effect_tt:0 "A random #bold coastal wilderness county#! of the North is settled by a generated #bold Essosi lord#! (Braavosi most likely), sworn to you as a vassal. Your #bold northern vassals#! will resent the sale."
+
+ # --- Return North (decision) ---
+ ln_return_north_decision_title:0 "Return North"
+ ln_return_north_decision_desc:0 "The Long Night is over, and word comes south that the dead lands lie empty. Somewhere up there is a hearth that was yours — or could be. Gather the camp, load the wagons, and take the road home."
+ ln_return_north_decision_confirm:0 "Take the road home"
+ ln_return_north_decision_tooltip:0 "Outfit a settler caravan and travel back north to resettle your lost seat — or the nearest empty land."
+ ln_return_north_effect_tt:0 "Your camp is outfitted for the return: #bold settlement supplies#!, a #bold full provisions store#!, and #bold coin#! to found the new community. The caravan takes the #bold kingsroad#! to your #bold former seat#! if it lies empty, or the nearest unclaimed county — resupplying along the way at #bold King's Landing#!, the #bold Inn at the Crossroads#! and #bold Moat Cailin#!, as the road demands. On arrival, #bold settler folk#! scaled to your former standing gather to your banner — survivors of the North flocking to a returned lord — and you may settle the land, becoming its lord, refugee no more."
+
+ # --- Modifiers / opinions ---
+ ln_restored_ancestral_seat_modifier:0 "Restored the Ancestral Seat"
+ ln_restored_ancestral_seat_modifier_desc:0 "Fled ahead of the dead, survived the Long Night, and came home to raise the ancestral seat from its ashes. The songs will remember it."
+ ln_sold_the_north_opinion:0 "Sold Northern Soil to Foreigners"

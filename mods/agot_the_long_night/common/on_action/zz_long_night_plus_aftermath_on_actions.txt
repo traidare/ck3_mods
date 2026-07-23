@@ -1,0 +1,32 @@
+﻿# The Long Night+ — AFTERMATH (resettling) pulses, riding the global yearly on_action (AGOT extends it the
+# same way for its own colonization). Design doc: dev/the_long_night_plus_aftermath.md.
+
+yearly_global_pulse = {
+	on_actions = {
+		ln_aftermath_yearly_pulse
+	}
+}
+
+ln_aftermath_yearly_pulse = {
+	effect = {
+		# Wildling migration waves — up to two clans a year while zone land remains. The wave effect flips
+		# ln_wildling_migration_done when the zone runs dry, stopping this branch for good.
+		if = {
+			limit = {
+				exists = global_var:ln_wildlings_welcomed
+				NOT = { exists = global_var:ln_wildling_migration_done }
+			}
+			ln_wildling_wave_effect = yes
+		}
+		# Safety net: the Question of the North was scheduled but never delivered (the chosen crown died
+		# before the event fired). ln_question_posed auto-expires after 400 days — repose the question then.
+		else_if = {
+			limit = {
+				exists = global_var:ln_aftermath_started
+				NOT = { exists = global_var:ln_nw_dilemma_done }
+				NOT = { exists = global_var:ln_question_posed }
+			}
+			ln_pose_question_of_the_north_effect = yes
+		}
+	}
+}

@@ -1,0 +1,32 @@
+﻿# The Long Night+ — dated record of a character's "first death": the moment they were raised as a wight.
+# Created once per wight in mutate_into_other_effect (one-shot guard). The memory is timestamped natively by
+# the game (shown in AGOT's calendar in the character's memories list), so no date variable/loc plumbing is
+# needed. The wight's eventual collapse at the Long Night's end is CK3's native (second) death date — the two
+# together read as the character's two deaths.
+wight_raised_memory = {
+	categories = { negative death }
+	icon = "death_negative.dds"
+
+	description = {
+		random_valid = {
+			desc = wight_raised_memory_desc
+		}
+	}
+
+	second_perspective_description = {
+		random_valid = {
+			desc = wight_raised_memory_desc_second_perspective
+		}
+	}
+
+	third_perspective_description = {
+		random_valid = {
+			desc = wight_raised_memory_desc_third_perspective
+		}
+	}
+
+	# Effectively permanent — wights are destroyed at the Long Night's end long before this elapses.
+	duration = {
+		years = 1000
+	}
+}

@@ -1,0 +1,16 @@
+﻿is_agot_long_night_loaded_trigger = {
+	has_global_variable = agot_long_night_enabled
+}
+
+is_agot_long_night_active_trigger = {
+	has_global_variable = agot_long_night_active
+	NOT = { has_global_variable = agot_long_night_completed }
+}
+
+is_agot_long_night_start_eligible_trigger = {
+	NOT = { has_global_variable = others_invasion_has_arrived }
+	NOT = { has_global_variable = agot_long_night_dependency_blocked }
+	NOT = { has_game_rule = others_invasion_wont_happen }
+	current_year >= global_var:agot_long_night_eligible_year
+	global_var:what_season_is_it = 3
+}

@@ -1,0 +1,36 @@
+﻿agot_long_night_craven = {
+	ai_honor <= 0
+	ai_compassion <= 0
+	OR = {
+		
+			ai_boldness <= -75
+			
+		
+		AND = {
+			ai_boldness <= 0
+			ai_rationality >= 75
+		}
+		AND = {
+			ai_greed >= 50
+			ai_rationality <= -55
+		}
+		AND = {
+			ai_greed >= 0
+			ai_compassion <= -50
+		}
+	}
+}
+
+
+agot_long_night_villain = {
+	ai_honor <= -50
+	ai_compassion <= -50
+	OR = {
+		ai_honor >= 100
+		ai_boldness < 0
+		ai_sociability <= -50
+		ai_greed >= 75
+		ai_vengefulness >= 50
+		ai_rationality <= 0
+	}
+}

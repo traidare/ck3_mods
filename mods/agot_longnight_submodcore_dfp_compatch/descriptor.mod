@@ -1,16 +1,16 @@
-version="2.0.0"
+version="3.0.0"
 tags={
-    "Gameplay"
-    "Graphics"
-    "Total Conversion"
-    "Utilities"
+	"Graphics"
+	"Utilities"
+	"Total Conversion"
 }
-name="AGOT: The Long Night+ + Submod Core + DFP Compatch"
+name="AGOT: The Long Night + DFP Compatch"
 supported_version="1.19.*"
 dependencies={
-    "A Game of Thrones"
-    "AGOT Submod Core"
-    "Dynamic Family Portrait"
-    "Dynamyc Family Portrait (AGOT)"
-    "AGOT: The Long Night+"
+	"A Game of Thrones"
+	"AGOT Submod Core"
+	"AGOT : Seasons of Ice and Fire"
+	"Dynamic Family Portrait"
+	"Dynamyc Family Portrait (AGOT)"
+	"AGOT: The Long Night"
 }

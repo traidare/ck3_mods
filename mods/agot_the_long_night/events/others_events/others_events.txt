@@ -1,0 +1,86 @@
+﻿
+namespace = others
+
+
+
+others.1 = { #HIDDEN: start the invader story
+	scope = none
+	hidden = yes
+	
+	trigger = {
+		NOT = {
+			has_global_variable = others_invasion_has_arrived
+		}
+	}
+	
+	immediate = {
+		the_long_night_setup_effect = yes
+		set_global_variable = { name = agot_long_night_active value = yes }
+		set_global_variable = { name = agot_long_night_threat value = 0 }
+	
+		set_global_variable = {
+			name = others_invasion_has_arrived
+			value = yes
+		}
+
+		set_global_variable = {
+			name = others_invasion_year
+			value = current_year
+		}
+		every_player = {
+					trigger_event = others.2
+				}
+		
+		
+	}
+}
+
+
+others.2 = { #ANY PLAYER: First landing notification
+	type = character_event
+	window = fullscreen_event
+	title = others.2.title
+	desc = others.2.desc
+	theme = murder_scheme
+	override_background = {
+		reference = agot_frozen_forest
+	}
+	immediate = {
+
+	play_music_cue = "mood_the_others"
+		}
+	
+
+	
+	
+	option = {
+	
+		name = others.2.a
+	}
+}
+
+
+others.3 = { #ANY PLAYER: First landing notification
+	type = character_event
+	window = fullscreen_event
+	title = others.3.title
+	desc = others.3.desc
+	theme = murder_scheme
+	override_background = {
+		reference = wilderness_forest
+	}
+	immediate = {
+
+	play_music_cue = "mood_jennyofoldstones"
+		}
+	
+
+	
+	
+	option = {
+	
+		name = others.3.a
+	}
+}
+
+

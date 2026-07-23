@@ -1,0 +1,77 @@
+﻿others_special = {
+
+	usage = game
+	selection_behavior = weighted_random
+	priority = 10
+
+	others_eyes_1 = {
+		dna_modifiers = {
+			accessory = {
+				mode = modify
+				gene = eye_accessory
+				template = no_eyes
+				value = 0.5
+			}
+			accessory = {
+				mode = modify
+				gene = others_eye_accessory
+				template = others_eyes
+				range = { 1 1 }
+			}
+		}
+		weight = {
+			base = 0
+			modifier = {
+				add = 1500
+				has_trait = nightking
+			}
+		}
+	}
+	others_eyes_2 = {
+		dna_modifiers = {
+			accessory = {
+				mode = modify
+				gene = eye_accessory
+				template = no_eyes
+				value = 0.5
+			}
+			accessory = {
+				mode = modify
+				gene = others_eye_accessory
+				template = others_eyes
+				range = { 1 1 }
+			}
+		}
+		weight = {
+			base = 0
+			modifier = {
+				add = 1500
+				has_trait = other_trait
+			}
+		}
+	}
+	# The Long Night+: wights get the same cold blue glowing eyes as the Others.
+	others_eyes_wight = {
+		dna_modifiers = {
+			accessory = {
+				mode = modify
+				gene = eye_accessory
+				template = no_eyes
+				value = 0.5
+			}
+			accessory = {
+				mode = modify
+				gene = others_eye_accessory
+				template = others_eyes
+				range = { 1 1 }
+			}
+		}
+		weight = {
+			base = 0
+			modifier = {
+				add = 1500
+				has_trait = wight_trait
+			}
+		}
+	}
+}

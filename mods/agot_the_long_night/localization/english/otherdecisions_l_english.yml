@@ -1,0 +1,18 @@
+﻿l_english:
+ other_turnoff_decision:0 "Toggle Zombifying"
+ other_turnoff_decision_desc:0 "This turns off and on access to the zombify interaction. Helps prevent you from destroying the world with a misclick."
+ other_turnoff_decision_tooltip:0 "Prevent Apocalyptic Misclicks"
+ other_turnoff_decision_confirm:0 "Balls"
+ other_turnoff_flag_tooltip:0 "The thing. It does the thing in the description."
+
+ # The Long Night+: Flee South decision
+ flee_south_decision_title:0 "Flee South"
+ flee_south_decision_desc:0 "The dead are at my gates and my host lies broken in the snow. I can stand upon my walls and die with my people... or abandon everything — my seat, my lands, my hall — gather what kin and loyal swords will follow, and ride south ahead of the cold. A landless refugee, yes. But alive to fight for the dawn another day."
+ flee_south_decision_confirm:0 "Abandon everything and flee south"
+ flee_south_decision_tooltip:0 "Surrender your lands to the Others and flee south as a landless refugee of the Dawn"
+
+ # The Long Night+: Reform the Night's Watch decision
+ reform_nights_watch_decision_title:0 "Restore the Night's Watch"
+ reform_nights_watch_decision_desc:0 "The Long Night is broken and the dead lie still, but the Wall stands all but unmanned — its castles cold, its garrisons scattered or slain. As is the right of the crown, I shall refound the Sworn Brotherhood: name a new Lord Commander, return the Watch its ancient seats, and set black-cloaked watchers upon the Wall once more, that the realms of men never again be caught unready."
+ reform_nights_watch_decision_confirm:0 "Restore the Watch"
+ reform_nights_watch_decision_tooltip:0 "Re-found the Night's Watch under a new Lord Commander and grant it the castles of the Wall"

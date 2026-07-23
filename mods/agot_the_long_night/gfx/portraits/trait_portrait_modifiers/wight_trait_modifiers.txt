@@ -1,0 +1,85 @@
+﻿# The Long Night+ — wight appearance.
+# Two independent groups apply together:
+#   1) wight_skin  — the common rotting draugr skin (ported EK2 gene ln_wight_skin), on every wight.
+#   2) wight_gore  — a per-wight random wound/scar layer (ln_wight_gore) baked in post_skin_color so it shows
+#      ON TOP of the draugr skin (fixes the old "wounds never visible" occlusion). The variant is selected by a
+#      wight_v* character flag set once at conversion (see scripted_effects mutate_into_other_effect).
+# Within a group the FIRST valid entry wins, so the flagged variants are listed before the no-flag fallback.
+
+wight_skin = {
+	wight_skin_base = {
+		traits = { wight_trait }
+		dna_modifiers = {
+			human = {
+				morph = {
+					mode = replace
+					gene = ln_wight_skin
+					template = draugr_bs
+					value = 1.0
+				}
+			}
+		}
+	}
+}
+
+wight_gore = {
+	wight_gore_1 = {
+		traits = { wight_trait }
+		trigger = { has_character_flag = wight_v1 }
+		dna_modifiers = {
+			human = {
+				morph = {
+					mode = replace
+					gene = ln_wight_gore
+					template = gore_1
+					value = 1.0
+				}
+			}
+		}
+	}
+
+	wight_gore_2 = {
+		traits = { wight_trait }
+		trigger = { has_character_flag = wight_v2 }
+		dna_modifiers = {
+			human = {
+				morph = {
+					mode = replace
+					gene = ln_wight_gore
+					template = gore_2
+					value = 1.0
+				}
+			}
+		}
+	}
+
+	wight_gore_3 = {
+		traits = { wight_trait }
+		trigger = { has_character_flag = wight_v3 }
+		dna_modifiers = {
+			human = {
+				morph = {
+					mode = replace
+					gene = ln_wight_gore
+					template = gore_3
+					value = 1.0
+				}
+			}
+		}
+	}
+
+	# Fallback for any wight without a variant flag (e.g. raised before this system existed): use variant 1.
+	wight_gore_fallback = {
+		traits = { wight_trait }
+		dna_modifiers = {
+			human = {
+				morph = {
+					mode = replace
+					gene = ln_wight_gore
+					template = gore_1
+					value = 1.0
+				}
+			}
+		}
+	}
+}

@@ -1,0 +1,22 @@
+﻿# The Long Night+ — eligibility for who inherits a fleeing noble's lands (flee_noble_south_effect).
+# A living human left behind who can plausibly hold the realm (so the Night King must still conquer it, rather than
+# being handed it for free). Excludes the dead (wights/Others) and the unfit.
+ln_flee_successor_trigger = {
+	is_adult = yes
+	is_alive = yes
+	is_imprisoned = no
+	NOT = { has_trait = incapable }
+	NOT = { has_trait = wight_trait }
+	NOT = { has_trait = other_trait }
+}
+
+# A safe southern host a fleeing COURTIER can take refuge with (escape_noble_effect moves them to a court instead
+# of founding an adventurer camp). A living landed ruler who is not one of the dead (the cold_gods faith already
+# excludes the Night King's whole converted realm).
+ln_safe_flee_host_trigger = {
+	is_landed = yes
+	is_alive = yes
+	NOT = { has_faith = faith:cold_gods }
+	NOT = { has_trait = wight_trait }
+	NOT = { has_trait = other_trait }
+}

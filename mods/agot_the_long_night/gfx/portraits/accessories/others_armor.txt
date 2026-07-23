@@ -1,0 +1,5 @@
+﻿
+male_clothes_others_armor = {
+	entity = { required_tags = ""		shared_pose_entity = torso		entity = male_clothes_others_armor_entity }
+}
+

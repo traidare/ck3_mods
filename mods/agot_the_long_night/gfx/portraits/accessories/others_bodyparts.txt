@@ -1,0 +1,22 @@
+﻿#####################################
+#									#
+# 			Female					#
+#									#
+#####################################
+
+female_eyes_others = {
+	entity = { entity = "female_eyes_others_entity" 	shared_pose_entity = head }		
+}
+
+
+#####################################
+#									#
+# 			Male					#
+#									#
+#####################################
+
+
+male_eyes_others = {
+	entity = { entity = "others_eyes_entity" 	shared_pose_entity = head }		
+}
+

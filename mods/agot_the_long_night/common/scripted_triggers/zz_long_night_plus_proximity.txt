@@ -1,0 +1,27 @@
+﻿# The Long Night+ — "is the Night King's realm closing in?" proximity check for flee_south_decision.
+# The dead spread by conquering adjacent land (their CB is neighbour-based), so we measure the front by COUNTY
+# ADJACENCY, not crow-flies distance: is any county of the Night King's realm within 3 adjacency-rings of you?
+# Player-facing is_shown only, and any_* short-circuits on the first match, so the cost is acceptable.
+
+# A single county that belongs to the dead's realm (the Night King himself, or anyone below him).
+ln_is_others_realm_county_trigger = {
+	holder ?= { top_liege = title:h_the_others.holder }
+}
+
+# Root = a county title (use as capital_county = { ln_others_within_3_county_rings_trigger = yes }).
+# Yes if the dead hold land within 3 county-adjacency-rings.
+ln_others_within_3_county_rings_trigger = {
+	any_neighboring_county = {                          # ring 1
+		OR = {
+			ln_is_others_realm_county_trigger = yes
+			any_neighboring_county = {                 # ring 2
+				OR = {
+					ln_is_others_realm_county_trigger = yes
+					any_neighboring_county = {         # ring 3
+						ln_is_others_realm_county_trigger = yes
+					}
+				}
+			}
+		}
+	}
+}

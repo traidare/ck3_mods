@@ -1,0 +1,9 @@
+﻿l_english:
+
+ wight_raised_memory:0 "rose again as a wight"
+ wight_raised_memory_desc:0 "I died — and the cold sorcery of the Others dragged me back, a wight bound to their host."
+ wight_raised_memory_desc_second_perspective:0 "you died — and the cold sorcery of the Others dragged you back, a wight bound to their host."
+ wight_raised_memory_desc_third_perspective:0 "[owner.GetName] died — and the cold sorcery of the Others dragged [owner.GetHerHim] back, a wight bound to their host."
+
+ wight_government:0 "Risen Thrall"
+ wight_government_desc:0 "A corpse raised by the Others to serve in death — no longer master of itself."

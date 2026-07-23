@@ -15,8 +15,6 @@ idle = {
 	default = {
 		default = { head = "idle_entry" torso = "idle_entry" }
 
-		# The Long Night+ — wights use one of five random poses (barbershop set chosen by the user), fixed per
-		# wight by a wight_pose_* character flag set at conversion. Weight 15000 beats AGOT's weapon idles (<=12000).
 		wight_pose_wounded = {
 			animation = { head = "misc_wounded2" torso = "misc_wounded2" }
 			weight = {
@@ -28,7 +26,6 @@ idle = {
 				}
 			}
 		}
-
 		wight_pose_loss = {
 			animation = { head = "emotion_loss1_entry" torso = "emotion_loss1_entry" }
 			weight = {
@@ -44,7 +41,6 @@ idle = {
 				animations = emotion_loss
 			}
 		}
-
 		wight_pose_aggressive = {
 			animation = { head = "oneHandedAggressive1_entry" torso = "oneHandedAggressive1_entry" }
 			weight = {
@@ -61,7 +57,6 @@ idle = {
 				animations = AI_vengeful_decal
 			}
 		}
-
 		wight_pose_yield = {
 			animation = { head = "wrestling_yield_start_entry" torso = "wrestling_yield_start_entry" }
 			weight = {
@@ -79,7 +74,6 @@ idle = {
 				animations = child_additive
 			}
 		}
-
 		wight_pose_stayback = {
 			animation = { head = "stayback" torso = "stayback" }
 			weight = {
@@ -803,7 +797,7 @@ idle = {
 				}
 			}
 		}
-		
+
 		CIP_hunting_shortbow_rest_arrow_no_arm = {
 			animation = { head = "idle_entry" torso = "idle_entry" }
 			weight = {
@@ -950,7 +944,7 @@ idle = {
 				}
 			}
 		}
-		
+
 		CIP_hunting_falcon_no_arm = {
 			animation = { head = "idle_entry" torso = "idle_entry" }
 			weight = {
@@ -1077,7 +1071,7 @@ idle = {
 				}
 			}
 		}
-		
+
 		CIP_wedding_drunk_pregnant_dwarf = {
 			animation = { head = "misc_pregnant_entry" torso = "misc_pregnantFat_entry" }
 			portrait_modifier = {
@@ -1092,7 +1086,7 @@ idle = {
 				}
 			}
 		}
-		
+
 		CIP_wedding_drunk_pregnant_fat_dwarf = {
 			animation = { head = "misc_pregnant_entry" torso = "misc_pregnantFatDwarf_entry" }
 			portrait_modifier = {
@@ -1787,7 +1781,7 @@ idle = {
 				}
 			}
 		}
-		
+
 		CIP_happy_teacher = {
 			animation = { head = "emotion_happy_teaching_loop1" torso = "emotion_happy_teaching_loop1" }
 			portrait_modifier_pack = open_book_w_writing_tool_right
@@ -1831,7 +1825,7 @@ idle = {
 				}
 			}
 		}
-		
+
 		CIP_stressed_teacher_no_arm = {
 			animation = { head = "idle_entry" torso = "idle_entry" }
 			weight = {
@@ -1892,7 +1886,7 @@ idle = {
 				}
 			}
 		}
-		
+
 		CIP_medicine_no_arm = {
 			animation = { head = "idle_entry" torso = "idle_entry" }
 			weight = {
@@ -1976,7 +1970,7 @@ idle = {
 				}
 			}
 		}
-		
+
 		CIP_rage_fat_dwarf = {
 			animation = { head = "emotion_rageFatDwarf_entry" torso = "emotion_rageFatDwarf_entry" }
 			portrait_modifier = {
@@ -2024,7 +2018,7 @@ idle = {
 				}
 			}
 		}
-		
+
 		CIP_anger_fat_dwarf = {
 			animation = { head = "emotion_angryFatDwarf_entry" torso = "emotion_angryFatDwarf_entry" }
 			weight = {
@@ -2085,7 +2079,7 @@ idle = {
 				}
 			}
 		}
-		
+
 
 		CIP_agressive_axe = {
 			animation = { head = "oneHandedAggressive1_entry" torso = "oneHandedAggressive1_entry" }
@@ -2114,7 +2108,7 @@ idle = {
 				}
 			}
 		}
-		
+
 		CIP_inspect_no_arm = {
 			animation = { head = "idle_entry" torso = "idle_entry" }
 			weight = {
@@ -2177,7 +2171,7 @@ idle = {
 				}
 			}
 		}
-		
+
 		CIP_worry_fat = {
 			animation = { head = "emotion_worry_entry" torso = "emotion_worryFat_entry" }
 			weight = {
@@ -2189,7 +2183,7 @@ idle = {
 				}
 			}
 		}
-		
+
 		CIP_worry_fat_dwarf = {
 			animation = { head = "emotion_worryFatDwarf_entry" torso = "emotion_worryFatDwarf_entry" }
 			weight = {
@@ -2234,7 +2228,7 @@ idle = {
 				}
 			}
 		}
-		
+
 		CIP_coward = {
 			animation = { head = "AI_coward_entry" torso = "AI_coward_entry" }
 			weight = {
@@ -2256,7 +2250,7 @@ idle = {
 				}
 			}
 		}
-		
+
 		CIP_content = {
 			animation = { head = "AI_content_entry" torso = "AI_content_entry" }
 			weight = {
@@ -2267,7 +2261,7 @@ idle = {
 				}
 			}
 		}
-		
+
 		CIP_vengeful = {
 			animation = { head = "AI_vengeful_entry" torso = "AI_vengeful_entry" }
 			weight = {
@@ -2278,7 +2272,7 @@ idle = {
 				}
 			}
 		}
-		
+
 		CIP_forgiving = {
 			animation = { head = "AI_forgiving_entry" torso = "AI_forgiving_entry" }
 			weight = {
@@ -2289,7 +2283,7 @@ idle = {
 				}
 			}
 		}
-		
+
 		CIP_rational = {
 			animation = { head = "AI_rational_entry" torso = "AI_rational_entry" }
 			weight = {
@@ -2300,7 +2294,7 @@ idle = {
 				}
 			}
 		}
-		
+
 		CIP_irrational = {
 			animation = { head = "AI_irrational_entry" torso = "AI_irrational_entry" }
 			weight = {
@@ -2311,7 +2305,7 @@ idle = {
 				}
 			}
 		}
-		
+
 		CIP_compassionate = {
 			animation = { head = "AI_compassionate_entry" torso = "AI_compassionate_entry" }
 			weight = {
@@ -2322,7 +2316,7 @@ idle = {
 				}
 			}
 		}
-		
+
 		CIP_callous = {
 			animation = { head = "AI_callous_entry" torso = "AI_callous_entry" }
 			weight = {
@@ -2333,7 +2327,7 @@ idle = {
 				}
 			}
 		}
-		
+
 		CIP_zealous = {
 			animation = { head = "AI_zealous_entry" torso = "AI_zealous_entry" }
 			weight = {
@@ -2344,7 +2338,7 @@ idle = {
 				}
 			}
 		}
-		
+
 		CIP_cynical = {
 			animation = { head = "AI_cynical_entry" torso = "AI_cynical_entry" }
 			weight = {
@@ -2355,7 +2349,7 @@ idle = {
 				}
 			}
 		}
-		
+
 		CIP_council_chancellor = {
 			animation = { head = "council_chancellor" torso = "council_chancellor" }
 			portrait_modifier_pack = council_chancellor
@@ -2367,7 +2361,7 @@ idle = {
 				}
 			}
 		}
-		
+
 		CIP_council_steward = {
 			animation = { head = "council_steward" torso = "council_steward" }
 			portrait_modifier_pack = council_steward
@@ -2379,7 +2373,7 @@ idle = {
 				}
 			}
 		}
-		
+
 		CIP_council_spymaster = {
 			animation = { head = "council_spymaster" torso = "council_spymaster" }
 			portrait_modifier_pack = council_spymaster
@@ -2391,7 +2385,7 @@ idle = {
 				}
 			}
 		}
-		
+
 		CIP_council_chaplain = {
 			animation = { head = "council_chaplain" torso = "council_chaplain" }
 			weight = {
@@ -2402,7 +2396,7 @@ idle = {
 				}
 			}
 		}
-		
+
 		CIP_council_marshal = {
 			animation = { head = "council_marshal" torso = "council_marshal" }
 			portrait_modifier_pack = one_handed_sword
@@ -2542,7 +2536,7 @@ idle = {
 				}
 			}
 		}
-		
+
 		CIP_emotion_shame_entry = {
 			animation = { head = "emotion_shame_entry" torso = "emotion_shame_entry" }
 			weight = {
@@ -2937,6 +2931,8 @@ idle = {
 			}
 		}
 
+
+
 		##TGC Added
 		hold_bow_idle = {
 			animation = { head = "hunting_bow_aim_entry" torso = "hunting_bow_aim_entry" }
@@ -2961,8 +2957,9 @@ idle = {
 			portrait_modifier_pack = hunting_longbow_aim_arrow
 		}
 
+
 		#AGOT Added
-		hold_hammer_idle = {
+        hold_hammer_idle = {
 			animation = { head = "council_marshal" torso = "throneRoom_oneHandedPassive1_entry" }
 
 			weight = {
@@ -3091,7 +3088,7 @@ idle = {
 							artifact_slot_type = primary_armament
 						}
 					}
-				}
+						}
 				modifier = {
 					add = 10000
 					agot_should_be_knight_idle_trigger = yes
@@ -3119,8 +3116,8 @@ idle = {
 						any_equipped_character_artifact = {
 							artifact_slot_type = primary_armament
 						}
-					}
-				}
+							}
+						}
 				modifier = {
 					add = 10000
 					agot_should_be_knight_idle_trigger = yes
@@ -3339,8 +3336,8 @@ idle = {
 			}
 			portrait_modifier_pack = one_handed_sword
 		}
-		
-		
+
+
 
 		infirm_elder = {
 			animation = { head = "holding_crutch" torso = "holding_crutch" }
@@ -3682,7 +3679,7 @@ idle = {
 					is_ruler = yes
 					age >= 10
 					#AGOT Disabled
-					# NOT = { this = character:41702 }
+					#NOT = { this = character:41702 }
 					NOR = {
 						has_trait = blind
 						has_trait = maimed
@@ -3721,11 +3718,11 @@ idle = {
 					NOR = {
 						has_trait = dragonwidowed
 						has_character_modifier = agot_dragon_disinterest
-						any_relation = {
-							type = agot_dragon
+							any_relation = {
+								type = agot_dragon
+							}
 						}
-					}
-					any_equipped_character_artifact = {
+							any_equipped_character_artifact = {
 						has_variable = dragon_egg
 						NOT = { has_variable = dud_egg }
 						has_variable = {
@@ -3741,24 +3738,23 @@ idle = {
 			}
 			portrait_modifier_pack = agot_idle_egg_anims
 		}
-
 		#AGOT Disabled
-		# idle_scepter = {
-		# 	animation = { head = "scepter" torso = "scepter" }
-		# 	portrait_modifier = {
-		# 		animations = fat_additive
-		# 		animations_props = ep3_byzantine_scepter_prop
-		# 		animations = cloak_additive
-		# 	}
-		# 	weight = {
-		# 		base = 0
-		# 		modifier = {
-		# 			add = 100
-		# 			primary_title = title:e_byzantium
-		# 			faith.religion = religion:christianity_religion
-		# 		}
-		# 	}
-		# }
+		#idle_scepter = {
+		#	animation = { head = "scepter" torso = "scepter" }
+		#	portrait_modifier = {
+		#		animations = fat_additive
+		#		animations_props = ep3_byzantine_scepter_prop
+		#		animations = cloak_additive
+		#	}
+		#	weight = {
+		#		base = 0
+		#		modifier = {
+		#			add = 100
+		#			primary_title = title:e_byzantium
+		#			faith.religion = religion:christianity_religion
+		#		}
+		#	}
+		#}
 
 		idle_emperor = {
 			animation = { head = "emperor" torso = "emperor" }
@@ -4512,10 +4508,10 @@ idle = {
 					NOT = { has_trait = pregnant }
 				}
 				#AGOT Disabled
-				# modifier = {
-				# 	add = -100
-				# 	this = character:7757
-				# }
+				#modifier = {
+				#	add = -100
+				#	this = character:7757
+				#}
 			}
 			portrait_modifier = {
 				animations = AI_rational_decal
@@ -4796,13 +4792,13 @@ idle = {
 					NOT = { has_trait = pregnant }
 				}
 				#AGOT Disabled
-				# modifier = {
-				# 	add = 5000
-				# 	OR = {
-				# 		this = character:7757
-				# 		this = character:41702
-				# 	}
-				# }
+				#modifier = {
+				#	add = 5000
+				#	OR = {
+				#		this = character:7757
+				#		this = character:41702
+				#	}
+				#}
 			}
 			portrait_modifier = {
 				animations = AI_zealous_decal
@@ -4964,7 +4960,7 @@ idle = {
 							should_use_fat_pregnant_animation = yes
 							should_use_fat_dwarf_pregnant_animation = yes
 							#AGOT Disabled, Vanilla Fix
-							# portrait_wear_armor_trigger = yes
+							#portrait_wear_armor_trigger = yes
 						}
 						OR = {
 							has_trait = greedy
@@ -5492,7 +5488,6 @@ minister_works = {
 			}
 			portrait_modifier = {
 			}
-
 		}
 
 		minister_works_fat_dwarf = { # Also just fat and just dwarf
@@ -8653,7 +8648,7 @@ page_flipping = {
 					portrait_has_trait_trigger = { TRAIT = maimed }
 				}
 			}
-		}
+			}
 		page_flipping = {
 			animation = { head = "page_flipping" torso = "page_flipping" }
 			portrait_modifier_pack = paged_book
@@ -8673,7 +8668,7 @@ writing = {
 					portrait_has_trait_trigger = { TRAIT = maimed }
 				}
 			}
-		}
+			}
 		writing = {
 			animation = { head = "writing" torso = "writing" }
 			portrait_modifier_pack = open_book_w_writing_tool_left
@@ -8693,7 +8688,7 @@ reading = {
 					portrait_has_trait_trigger = { TRAIT = maimed }
 				}
 			}
-		}
+			}
 		reading = {
 			animation = { head = "reading_loop" torso = "reading_loop" }
 			portrait_modifier_pack = open_book
@@ -8814,6 +8809,7 @@ emotion_thinking_scepter = {
 	girl = male
 	boy = male
 }
+
 
 pondering = {
 	male = {
@@ -9575,7 +9571,7 @@ shepherd_with_sheep = {
 hunting_horn = {
 	default = {
 		default = { head = "hunting_horn_entry" torso = "hunting_horn_entry" }
-		portrait_modifier = {
+			portrait_modifier = {
 			animations_props = ep2_horn_attachment
 			animations = fat_additive
 			animations = dwarf_additive
@@ -9863,7 +9859,7 @@ reception_bride_right = {
 			}
 		}
 	}
-}
+			}
 
 wedding_objection_start = {
 	default = {
@@ -9959,6 +9955,7 @@ aggressive_dagger = { # wields one handed dagger
 			portrait_modifier_pack = one_handed_dagger
 		}
 	}
+
 }
 
 aggressive_spear = { # wields two handed spear
@@ -10177,6 +10174,7 @@ celebrate_spear = { # wields spear
 			portrait_modifier_pack = two_handed_spear
 		}
 	}
+
 }
 
 celebrate_hammer = { # wields hammer
@@ -10188,6 +10186,7 @@ celebrate_hammer = { # wields hammer
 			portrait_modifier_pack = two_handed_hammer
 		}
 	}
+
 }
 
 sword_coup_degrace = {
@@ -10276,13 +10275,13 @@ sword_yield_start = {
 					add = 100
 					#AGOT Disabled
 					# use_longsword_default_trigger = no
-					scope:current_weight < 60
-					portrait_has_trait_trigger = { TRAIT = pregnant }
-					NOT = { portrait_has_trait_trigger = { TRAIT = dwarf } }
+						scope:current_weight < 60
+						portrait_has_trait_trigger = { TRAIT = pregnant }
+						NOT = { portrait_has_trait_trigger = { TRAIT = dwarf } }
+					}
 				}
-			}
 			portrait_modifier_pack = one_handed_sword
-		}
+			}
 
 		longsword_yield_pregnant = {
 			animation = { head = "misc_pregnant_entry" torso = "misc_pregnant_entry" }
@@ -10310,13 +10309,13 @@ sword_yield_start = {
 					add = 100
 					#AGOT Disabled
 					# use_longsword_default_trigger = no
-					scope:current_weight < 60
-					portrait_has_trait_trigger = { TRAIT = pregnant }
-					portrait_has_trait_trigger = { TRAIT = dwarf }
+						scope:current_weight < 60
+						portrait_has_trait_trigger = { TRAIT = pregnant }
+						portrait_has_trait_trigger = { TRAIT = dwarf }
+					}
 				}
-			}
 			portrait_modifier_pack = one_handed_sword
-		}
+			}
 
 		longsword_yield_pregnant_dwarf = {
 			animation = { head = "misc_pregnant_entry" torso = "misc_pregnantFat_entry" }
@@ -10344,12 +10343,12 @@ sword_yield_start = {
 					# NOT = {
 					# 	culture = { has_cultural_pillar = heritage_japonic }
 					# }
-					scope:current_weight >= 60
-					portrait_has_trait_trigger = { TRAIT = pregnant }
-					portrait_has_trait_trigger = { TRAIT = dwarf }
+						scope:current_weight >= 60
+						portrait_has_trait_trigger = { TRAIT = pregnant }
+						portrait_has_trait_trigger = { TRAIT = dwarf }
+					}
 				}
 			}
-		}
 
 		longsword_yield_pregnant_fat_dwarf = {
 			animation = { head = "misc_pregnant_entry" torso = "misc_pregnantFatDwarf_entry" }
@@ -10433,6 +10432,7 @@ marshal_wooden_sword = {
 			animations_props = bp2_wooden_sword_prop
 		}
 	}
+
 }
 
 wooden_sword_coup_degrace = {
@@ -10708,6 +10708,7 @@ random_weapon_yield = {
 		}
 	}
 }
+
 
 inspect_weapon = {
 	default = {
@@ -11596,6 +11597,7 @@ wu_shu_bao_quan_li = {
 	}
 }
 
+
 #########################################################################################################################################################
 #########################################################################################################################################################
 #																	Horse Animations																	#
@@ -12397,14 +12399,14 @@ instrument_idle = {
 			animation = { head = "lute_idle" torso = "lute_idle" }
 			weight = {
 				base = 0
-				#AGOT Disabled
-				# modifier = {
-				# 	add = 50
-				# 	OR = {
-				# 		location = { geographical_region = world_europe }
-				# 		location = { geographical_region = world_middle_east }
-				# 	}
-				# }
+					#AGOT Disabled
+					# modifier = {
+					# 	add = 50
+					# 	OR = {
+					# 		location = { geographical_region = world_europe }
+					# 		location = { geographical_region = world_middle_east }
+					# 	}
+					# }
 			}
 			portrait_modifier = {
 				animations_props = fp4_lute_prop

@@ -1,0 +1,24 @@
+﻿# The Long Night+ — AFTERMATH (resettling) values.
+
+# Coin granted to a freshly generated colonist lord (or a returning refugee) so founding the settlement never
+# starts them in debt — ai_colonization_effect strips colonize_cost_val (50 base + 25..100 by tier) from the
+# new holder with no balance check.
+ln_colonist_grant_value = 150
+
+# Gold the Crown pockets for each county sold to an Essosi charter. Devastated land goes cheap — the real
+# price is political (northern vassals resent the sale, cf. ln_sold_the_north_opinion).
+ln_essos_sale_price_value = 150
+
+# Settler MaA regiments granted for the Return North — scaled to the lord's former standing (ln_camp_level
+# stored at flight: count 1 / duke 2 / king 3 / emperor 4). laamp_settler_maa stacks 100 men per size point;
+# the native settle decision needs 100 men for one county, 300 for a whole duchy — so a fled king returns
+# with enough people to resettle his entire duchy. Courtier refugees (no stored level) get the floor.
+ln_refugee_settler_size_value = {
+	value = 1
+	if = {
+		limit = { has_variable = ln_camp_level }
+		value = var:ln_camp_level
+	}
+	min = 1
+	max = 4
+}

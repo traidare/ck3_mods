@@ -1,0 +1,40 @@
+﻿# The Long Night+ — wights are stripped naked (rotting flesh on show), unlike the Others who keep their
+# ice armor (their armor is gated has_trait = other_trait in ln_others_portrait_modifiers.txt, so wights never
+# get it). Here we clear the HUMAN clothes/headgear that converted corpses would otherwise keep wearing.
+wight_nudity = {
+
+	usage = game
+	selection_behavior = max
+	priority = 5
+
+	wight_naked = {
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = clothes
+				template = no_clothes
+				range = { 0 1 } # range kept for the randomness selection to resolve correctly
+			}
+			accessory = {
+				mode = add
+				gene = headgear
+				template = no_headgear
+				range = { 0 1 }
+			}
+			# The trousers/pants are a SEPARATE 'legwear' gene — clearing 'clothes' alone left them on.
+			accessory = {
+				mode = add
+				gene = legwear
+				template = no_legwear
+				range = { 0 1 }
+			}
+		}
+		weight = {
+			base = 0
+			modifier = {
+				add = 99999
+				has_trait = wight_trait
+			}
+		}
+	}
+}

@@ -1,0 +1,252 @@
+﻿# The Long Night+ — AFTERMATH (resettling) decisions.
+# Design doc: dev/the_long_night_plus_aftermath.md (sibling, not shipped).
+
+#############################################
+# Sell Colonization Rights to Essos			#
+# Crown decision, repeatable per county:	#
+# a coastal northern wilderness county is	#
+# chartered to a generated Essosi lord —	#
+# coin now, foreign enclaves forever.		#
+#############################################
+ln_sell_colonization_rights_decision = {
+	decision_group_type = major
+	picture = {
+		reference = "gfx/interface/illustrations/decisions/decision_realm.dds"
+	}
+	sort_order = 90
+	cooldown = { months = 18 }
+	ai_check_interval = 12
+
+	title = ln_sell_colonization_rights_decision_title
+	desc = ln_sell_colonization_rights_decision_desc
+	confirm_text = ln_sell_colonization_rights_decision_confirm
+	selection_tooltip = ln_sell_colonization_rights_decision_tooltip
+
+	is_shown = {
+		ln_long_night_over_trigger = yes
+		ln_aftermath_crown_trigger = yes
+		any_county_in_region = {
+			region = world_westeros_the_north_mainland
+			ln_essos_target_county_trigger = yes
+		}
+	}
+
+	is_valid = {
+		is_landed = yes
+		is_imprisoned = no
+		# re-checked at take time — the coast may have filled up since the decision was shown
+		any_county_in_region = {
+			region = world_westeros_the_north_mainland
+			ln_essos_target_county_trigger = yes
+		}
+	}
+
+	effect = {
+		custom_tooltip = ln_sell_colonization_rights_effect_tt
+		add_gold = ln_essos_sale_price_value
+		hidden_effect = {
+			random_county_in_region = {
+				region = world_westeros_the_north_mainland
+				limit = { ln_essos_target_county_trigger = yes }
+				save_scope_as = ln_essos_county
+			}
+			# Braavos is the nearest Free City to White Harbor and a sea power — the likeliest buyer.
+			random_list = {
+				30 = { ln_settle_generated_lord_effect = { WILDERNESS = scope:ln_essos_county CULTURE = culture:braavosi FAITH = faith:song_moon GOVERNMENT = feudal_government LIEGE = root } }
+				20 = { ln_settle_generated_lord_effect = { WILDERNESS = scope:ln_essos_county CULTURE = culture:pentoshi FAITH = faith:rhllor_fc GOVERNMENT = feudal_government LIEGE = root } }
+				15 = { ln_settle_generated_lord_effect = { WILDERNESS = scope:ln_essos_county CULTURE = culture:myrish FAITH = faith:rhllor_fc GOVERNMENT = feudal_government LIEGE = root } }
+				15 = { ln_settle_generated_lord_effect = { WILDERNESS = scope:ln_essos_county CULTURE = culture:tyroshi FAITH = faith:rhllor_fc GOVERNMENT = feudal_government LIEGE = root } }
+				10 = { ln_settle_generated_lord_effect = { WILDERNESS = scope:ln_essos_county CULTURE = culture:lyseni FAITH = faith:rhllor_fc GOVERNMENT = feudal_government LIEGE = root } }
+				10 = { ln_settle_generated_lord_effect = { WILDERNESS = scope:ln_essos_county CULTURE = culture:volantene FAITH = faith:rhllor_fc GOVERNMENT = feudal_government LIEGE = root } }
+			}
+			# Northern lords resent foreign charters on northern soil — the political price of the coin.
+			every_vassal = {
+				limit = {
+					capital_county ?= {
+						title_province = { geographical_region = world_westeros_the_north_mainland }
+					}
+				}
+				add_opinion = {
+					target = root
+					modifier = ln_sold_the_north_opinion
+				}
+			}
+		}
+	}
+
+	ai_will_do = {
+		base = 15
+		modifier = {
+			add = 30
+			has_trait = greedy
+		}
+		modifier = {
+			add = 20
+			short_term_gold < 100
+		}
+		modifier = {
+			add = -25
+			has_trait = generous
+		}
+		modifier = {
+			add = -15
+			has_trait = stubborn
+		}
+	}
+}
+
+#############################################
+# Return North								#
+# For dawn_refugee adventurers once the		#
+# Long Night is over: outfit a settler		#
+# caravan and travel back to the lost seat	#
+# (or the nearest empty land) to resettle.	#
+#############################################
+ln_return_north_decision = {
+	decision_group_type = adventurer_minor
+	picture = {
+		reference = "gfx/interface/illustrations/decisions/decision_destiny_goal.dds"
+	}
+	sort_order = 150
+	cooldown = { months = 6 }
+	ai_check_interval = 6
+
+	title = ln_return_north_decision_title
+	desc = ln_return_north_decision_desc
+	confirm_text = ln_return_north_decision_confirm
+	selection_tooltip = ln_return_north_decision_tooltip
+
+	is_shown = {
+		has_character_flag = dawn_refugee
+		is_landless_adventurer = yes
+		ln_long_night_over_trigger = yes
+	}
+
+	is_valid = {
+		is_adult = yes
+		is_imprisoned = no
+		is_travelling = no
+		# somewhere to return TO
+		OR = {
+			AND = {
+				has_variable = ln_lost_seat
+				var:ln_lost_seat ?= { ln_wilderness_county_trigger = yes }
+			}
+			any_county_in_region = {
+				region = world_westeros_the_north_mainland
+				ln_wilderness_county_trigger = yes
+			}
+		}
+	}
+
+	effect = {
+		custom_tooltip = ln_return_north_effect_tt
+		hidden_effect = {
+			# Outfit the caravan: supplies building (native settle prerequisite), a FULL provisions store for
+			# the long forced road (no starvation events on a journey the player did not plan), and coin so
+			# the founding never starts in debt. The settler folk are NOT raised here — they gather at the
+			# destination (ln_aftermath.20): no provision drain from 100-400 extra mouths during the trip,
+			# and lore-wise they are northern survivors flocking to a returned lord, not southerners marching.
+			domicile ?= {
+				if = {
+					limit = { NOT = { has_domicile_building_or_higher = settlement_supplies_01 } }
+					add_domicile_building = settlement_supplies_01
+				}
+				change_provisions = 1000   # clamped at the camp's max — "fill up for the road" (tunable)
+			}
+			add_gold = ln_colonist_grant_value
+			ln_refugee_pick_target_effect = yes
+			if = {
+				limit = { exists = scope:ln_return_target }
+				# The destination must survive the trip as a real variable — saved scopes die with this
+				# effect chain, and the arrival event (ln_aftermath.20) needs to tell a waypoint stop from
+				# the final arrival.
+				set_variable = { name = ln_return_destination value = scope:ln_return_target }
+				# STAGED journey up the KINGSROAD — the caravan resupplies at each lore waystation
+				# (on_arrival fires at every stop: +provisions, roll on; ln_aftermath.20 tells waypoints
+				# from the final arrival via var:ln_return_destination). The itinerary joins the road
+				# wherever the refugee starts; a refugee already in the North travels direct.
+				if = {
+					# Already in the North (or Moat Cailin IS the target) — direct leg, no detour.
+					limit = {
+						OR = {
+							location = { geographical_region = world_westeros_the_north_mainland }
+							scope:ln_return_target = title:c_moat_cailin
+						}
+					}
+					start_travel_plan = {
+						destination = scope:ln_return_target.title_province
+						travel_with_domicile = yes
+						players_use_planner = no
+						on_arrival_event = ln_aftermath.20
+						on_arrival_destinations = all
+					}
+				}
+				else_if = {
+					# Deep south (Dorne, the Marches, the Reach, the Stormlands) — the full road:
+					# King's Landing → the Inn at the Crossroads → Moat Cailin → home.
+					limit = {
+						location = {
+							OR = {
+								geographical_region = world_westeros_dorne
+								geographical_region = world_westeros_dornish_marches
+								geographical_region = world_westeros_dornish_desert
+								geographical_region = world_westeros_the_reach
+								geographical_region = world_westeros_the_stormlands
+							}
+						}
+					}
+					start_travel_plan = {
+						destination = title:c_kings_landing.title_province
+						destination = title:b_inn_at_the_crossroads.title_province
+						destination = title:c_moat_cailin.title_province
+						destination = scope:ln_return_target.title_province
+						travel_with_domicile = yes
+						players_use_planner = no
+						on_arrival_event = ln_aftermath.20
+						on_arrival_destinations = all
+					}
+				}
+				else_if = {
+					# Heartlands (Crownlands, Riverlands, the Vale, the Westerlands) — join the kingsroad
+					# at the Inn at the Crossroads, where the High Road and the River Road meet it.
+					limit = {
+						location = {
+							OR = {
+								geographical_region = world_westeros_the_crownlands
+								geographical_region = world_westeros_the_riverlands
+								geographical_region = world_westeros_the_vale
+								geographical_region = world_westeros_the_westerlands
+							}
+						}
+					}
+					start_travel_plan = {
+						destination = title:b_inn_at_the_crossroads.title_province
+						destination = title:c_moat_cailin.title_province
+						destination = scope:ln_return_target.title_province
+						travel_with_domicile = yes
+						players_use_planner = no
+						on_arrival_event = ln_aftermath.20
+						on_arrival_destinations = all
+					}
+				}
+				else = {
+					# Anywhere else (Iron Islands, the Neck, exotic hosts) — at least stage through the
+					# gate of the North.
+					start_travel_plan = {
+						destination = title:c_moat_cailin.title_province
+						destination = scope:ln_return_target.title_province
+						travel_with_domicile = yes
+						players_use_planner = no
+						on_arrival_event = ln_aftermath.20
+						on_arrival_destinations = all
+					}
+				}
+			}
+		}
+	}
+
+	ai_will_do = {
+		base = 100
+	}
+}

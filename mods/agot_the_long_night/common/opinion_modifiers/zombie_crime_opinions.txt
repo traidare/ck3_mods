@@ -1,0 +1,7 @@
+﻿other_crime = {
+	opinion = -100
+	imprisonment_reason = yes
+	execute_reason = yes
+	revoke_title_reason = yes
+	divorce_reason = yes
+}
