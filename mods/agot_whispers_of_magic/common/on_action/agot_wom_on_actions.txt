@@ -1,0 +1,136 @@
+﻿on_birth_child = {
+	on_actions = {
+		agot_wom_on_birth_magic
+	}
+}
+
+agot_wom_on_birth_magic = {
+	effect = {
+		if = {
+			limit = { agot_wom_can_gain_natural_gift_trigger = yes }
+			random = {
+				chance = agot_wom_skinchanger_birth_chance
+				add_character_flag = agot_wom_latent_skinchanger
+			}
+		}
+		if = {
+			limit = {
+				agot_has_dragonblood_heritage = yes
+				NOT = { has_character_flag = dragon_dreams }
+				NOT = { has_trait = dragon_dreams }
+			}
+			random = {
+				chance = agot_wom_dragon_dream_birth_chance
+				add_character_flag = dragon_dreams
+			}
+		}
+	}
+}
+
+on_birthday = {
+	on_actions = {
+		agot_wom_on_birthday
+	}
+}
+
+agot_wom_on_birthday = {
+	effect = {
+		if = {
+			limit = {
+				has_character_flag = agot_wom_latent_skinchanger
+				age >= 6
+				age <= 15
+				agot_wom_magic_active_trigger = yes
+			}
+			if = {
+				limit = { age >= 15 }
+				trigger_event = agot_wom_awakening.0001
+			}
+			else = {
+				random = {
+					chance = 20
+					trigger_event = agot_wom_awakening.0001
+				}
+			}
+		}
+	}
+}
+
+yearly_playable_pulse = {
+	on_actions = {
+		agot_wom_yearly_pulse
+	}
+}
+
+agot_wom_yearly_pulse = {
+	effect = {
+		if = {
+			limit = {
+				has_trait = agot_wom_skinchanger
+				NOT = { exists = var:agot_wom_bond_count }
+			}
+			set_variable = { name = agot_wom_bond_count value = 0 }
+		}
+		if = {
+			limit = {
+				has_trait = greensight
+				NOT = { has_trait = agot_wom_greensight_mastery }
+			}
+			add_trait = agot_wom_greensight_mastery
+		}
+		if = {
+			limit = {
+				OR = {
+					has_trait = agot_wom_greensight_mastery
+					has_trait = dragon_dreams
+					has_character_flag = dragon_dreams
+				}
+				agot_wom_magic_active_trigger = yes
+				NOT = { has_character_flag = agot_wom_recent_vision }
+			}
+			random = {
+				chance = agot_wom_vision_yearly_chance
+				if = {
+					limit = {
+						OR = {
+							has_trait = dragon_dreams
+							has_character_flag = dragon_dreams
+						}
+					}
+					trigger_event = agot_wom_visions.0002
+				}
+				else = {
+					trigger_event = agot_wom_visions.0001
+				}
+			}
+		}
+		if = {
+			limit = {
+				has_trait = agot_wom_skinchanger
+				agot_wom_magic_active_trigger = yes
+				NOT = { has_character_flag = agot_wom_warging }
+			}
+			random = {
+				chance = agot_wom_unconscious_entry_chance
+				trigger_event = agot_wom_warging.0100
+			}
+		}
+		if = {
+			limit = {
+				has_trait = agot_wom_skinchanger
+				has_trait_xp = { trait = agot_wom_skinchanger value >= 30 }
+				agot_wom_has_animal_bond_trigger = yes
+				NOT = { has_character_flag = agot_wom_bond_maturing }
+				NOT = { has_character_flag = agot_wom_second_bond_offered }
+				var:agot_wom_bond_count < 2
+				exists = global_var:magic_level
+				global_var:magic_level = 2
+			}
+			random = {
+				chance = 5
+				add_character_flag = { flag = agot_wom_second_bond_offered years = 1 }
+				trigger_event = agot_wom_bonding.0005
+			}
+		}
+	}
+}

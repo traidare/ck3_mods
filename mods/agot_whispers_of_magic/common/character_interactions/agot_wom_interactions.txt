@@ -1,0 +1,257 @@
+﻿agot_wom_wolf_maul_interaction = {
+	category = interaction_category_hostile
+	auto_accept = yes
+	is_shown = {
+		scope:actor = { has_character_flag = agot_wom_warging_wolf }
+	}
+	is_valid_showing_failures_only = {
+		NOT = { scope:actor = scope:recipient }
+		scope:recipient = { is_alive = yes }
+		scope:actor = {
+			NOT = { has_character_flag = agot_wom_wolf_deed_cooldown }
+		}
+	}
+	on_accept = {
+		scope:actor = {
+			add_character_flag = { flag = agot_wom_wolf_deed_cooldown years = 5 }
+			add_stress = 20
+		}
+		random_list = {
+			90 = {
+				modifier = {
+					add = 30
+					scope:recipient = {
+						OR = { prowess >= 12 martial >= 12 }
+					}
+				}
+			}
+			60 = { scope:recipient = { change_trait_rank = { trait = wounded rank = 1 max = 3 } } }
+			30 = { scope:recipient = { change_trait_rank = { trait = wounded rank = 2 max = 3 } } }
+			10 = { scope:recipient = { death = { death_reason = death_wild_animal } } }
+			5 = { scope:actor = { agot_wom_animal_death_effect = { BEAST = wolf } } }
+			5 = { scope:actor = { add_stress = 30 } }
+		}
+		scope:actor = {
+			if = {
+				limit = { has_character_flag = agot_wom_bond_wolf }
+				agot_wom_influence_roll_effect = { BEAST = wolf CHANCE = 20 }
+				agot_wom_finish_deed_effect = { XP = 3 }
+			}
+		}
+	}
+	ai_frequency = 0
+	ai_will_do = { base = 0 }
+}
+
+agot_wom_raven_watch_interaction = {
+	category = interaction_category_religion
+	auto_accept = yes
+	is_shown = {
+		scope:actor = { has_character_flag = agot_wom_warging_raven }
+	}
+	is_valid_showing_failures_only = {
+		NOT = { scope:actor = scope:recipient }
+		scope:actor = {
+			NOT = { has_character_flag = agot_wom_raven_deed_cooldown }
+		}
+	}
+	on_accept = {
+		scope:actor = {
+			add_character_flag = { flag = agot_wom_raven_deed_cooldown years = 4 }
+			add_stress = 10
+		}
+		random_list = {
+			35 = {
+				if = {
+					limit = { scope:recipient = { any_scheme = { is_hostile = yes } } }
+					scope:recipient = {
+						random_scheme = {
+							limit = { is_hostile = yes }
+							expose_scheme = yes
+						}
+					}
+				}
+			}
+			20 = {
+				if = {
+					limit = { scope:recipient = { any_secret = { can_be_exposed_by = scope:actor } } }
+					scope:recipient = {
+						random_secret = {
+							limit = { can_be_exposed_by = scope:actor }
+							expose_secret = scope:actor
+						}
+					}
+				}
+			}
+			35 = { scope:actor = { add_stress = 10 } }
+			5 = { scope:actor = { agot_wom_animal_death_effect = { BEAST = raven } } }
+			5 = { scope:actor = { add_stress = 25 } }
+		}
+		scope:actor = {
+			if = {
+				limit = { has_character_flag = agot_wom_bond_raven }
+				agot_wom_finish_deed_effect = { XP = 3 }
+			}
+		}
+	}
+	ai_frequency = 0
+	ai_will_do = { base = 0 }
+}
+
+agot_wom_shadowcat_stalk_interaction = {
+	category = interaction_category_hostile
+	auto_accept = yes
+	is_shown = {
+		scope:actor = { has_character_flag = agot_wom_warging_shadowcat }
+	}
+	is_valid_showing_failures_only = {
+		NOT = { scope:actor = scope:recipient }
+		scope:actor = {
+			NOT = { has_character_flag = agot_wom_shadowcat_deed_cooldown }
+		}
+	}
+	on_accept = {
+		scope:actor = {
+			add_character_flag = { flag = agot_wom_shadowcat_deed_cooldown years = 4 }
+			add_stress = 15
+		}
+		random_list = {
+			45 = {
+				scope:recipient = {
+					add_character_modifier = {
+						modifier = agot_wom_shadowcat_pressure_modifier
+						months = 6
+					}
+				}
+			}
+			25 = {
+				if = {
+					limit = { scope:recipient = { any_secret = { can_be_exposed_by = scope:actor } } }
+					scope:recipient = {
+						random_secret = {
+							limit = { can_be_exposed_by = scope:actor }
+							expose_secret = scope:actor
+						}
+					}
+				}
+			}
+			25 = { scope:actor = { add_stress = 15 } }
+			5 = { scope:actor = { agot_wom_animal_death_effect = { BEAST = shadowcat } } }
+		}
+		scope:actor = {
+			if = {
+				limit = { has_character_flag = agot_wom_bond_shadowcat }
+				agot_wom_finish_deed_effect = { XP = 3 }
+			}
+		}
+	}
+	ai_frequency = 0
+	ai_will_do = { base = 0 }
+}
+
+agot_wom_cat_listen_interaction = {
+	category = interaction_category_religion
+	auto_accept = yes
+	is_shown = {
+		scope:actor = { has_character_flag = agot_wom_warging_cat }
+	}
+	is_valid_showing_failures_only = {
+		NOT = { scope:actor = scope:recipient }
+		scope:actor = {
+			NOT = { has_character_flag = agot_wom_cat_deed_cooldown }
+		}
+	}
+	on_accept = {
+		scope:actor = {
+			add_character_flag = { flag = agot_wom_cat_deed_cooldown years = 3 }
+			add_stress = 10
+		}
+		random_list = {
+			25 = {
+				if = {
+					limit = { scope:recipient = { any_secret = { can_be_exposed_by = scope:actor } } }
+					scope:recipient = {
+						random_secret = {
+							limit = { can_be_exposed_by = scope:actor }
+							expose_secret = scope:actor
+						}
+					}
+				}
+			}
+			25 = {
+				if = {
+					limit = { scope:recipient = { any_scheme = { is_hostile = yes } } }
+					scope:recipient = {
+						random_scheme = {
+							limit = { is_hostile = yes }
+							expose_scheme = yes
+						}
+					}
+				}
+			}
+			30 = { scope:actor = { add_prestige = 25 } }
+			15 = {
+				scope:actor = {
+					add_stress = 20
+					agot_wom_influence_roll_effect = { BEAST = cat CHANCE = 30 }
+				}
+			}
+			5 = { scope:actor = { agot_wom_animal_death_effect = { BEAST = cat } } }
+		}
+		scope:actor = {
+			if = {
+				limit = { has_character_flag = agot_wom_bond_cat }
+				agot_wom_finish_deed_effect = { XP = 3 }
+			}
+		}
+	}
+	ai_frequency = 0
+	ai_will_do = { base = 0 }
+}
+
+agot_wom_scry_character_interaction = {
+	category = interaction_category_religion
+	auto_accept = yes
+	is_shown = {
+		scope:actor = {
+			has_trait = agot_wom_greensight_mastery
+			has_trait_xp = { trait = agot_wom_greensight_mastery value >= 20 }
+		}
+	}
+	is_valid_showing_failures_only = {
+		NOT = { scope:actor = scope:recipient }
+		scope:actor = {
+			agot_wom_magic_active_trigger = yes
+			NOT = { has_character_flag = agot_wom_scry_cooldown }
+		}
+	}
+	on_accept = {
+		scope:actor = {
+			add_stress = 30
+			add_character_flag = { flag = agot_wom_scry_cooldown years = 3 }
+		}
+		random_list = {
+			50 = {
+				modifier = {
+					add = 25
+					scope:actor.learning >= scope:recipient.intrigue
+				}
+				if = {
+					limit = { scope:recipient = { any_secret = { can_be_exposed_by = scope:actor } } }
+					scope:recipient = {
+						random_secret = {
+							limit = { can_be_exposed_by = scope:actor }
+							expose_secret = scope:actor
+						}
+					}
+				}
+				scope:actor = {
+					add_trait_xp = { trait = agot_wom_greensight_mastery value = 3 }
+				}
+			}
+			50 = { scope:actor = { add_stress = 15 } }
+		}
+	}
+	ai_frequency = 0
+	ai_will_do = { base = 0 }
+}

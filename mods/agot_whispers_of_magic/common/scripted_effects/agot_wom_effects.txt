@@ -1,0 +1,566 @@
+﻿agot_wom_start_bond_search_effect = {
+	add_character_flag = agot_wom_searching_for_bond
+	remove_character_flag = agot_wom_refused_call
+	if = {
+		limit = {
+			exists = var:agot_wom_bond_count
+			var:agot_wom_bond_count = 1
+		}
+		add_character_flag = agot_wom_second_bond_search
+	}
+	trigger_event = {
+		id = agot_wom_bonding.0010
+		days = { 30 180 }
+	}
+}
+
+agot_wom_choose_bond_encounter_effect = {
+	remove_character_flag = agot_wom_searching_for_bond
+	random_list = {
+		25 = {
+			trigger = {
+				NOT = { has_character_flag = agot_wom_bond_dog }
+				NOT = { has_character_flag = agot_wom_dog_bond_block }
+			}
+			modifier = {
+				factor = 3
+				location ?= {
+					OR = {
+						has_holding_type = castle_holding
+						has_holding_type = city_holding
+						has_holding_type = church_holding
+					}
+				}
+			}
+			add_character_flag = agot_wom_candidate_dog
+			trigger_event = agot_wom_bonding.0100
+		}
+		20 = {
+			trigger = {
+				NOT = { has_character_flag = agot_wom_bond_wolf }
+				NOT = { has_character_flag = agot_wom_wolf_bond_block }
+			}
+			modifier = {
+				factor = 3
+				location ?= {
+					OR = {
+						terrain = forest
+						terrain = taiga
+						geographical_region = world_westeros_the_north
+						geographical_region = world_westeros_beyond_the_wall
+					}
+				}
+			}
+			add_character_flag = agot_wom_candidate_wolf
+			trigger_event = agot_wom_bonding.0100
+		}
+		15 = {
+			trigger = {
+				NOT = { has_character_flag = agot_wom_bond_raven }
+				NOT = { has_character_flag = agot_wom_raven_bond_block }
+			}
+			modifier = {
+				factor = 2
+				OR = {
+					culture = { has_cultural_pillar = heritage_first_man }
+					has_religion = religion:the_pact_religion
+					location ?= { has_holding_type = castle_holding }
+				}
+			}
+			add_character_flag = agot_wom_candidate_raven
+			trigger_event = agot_wom_bonding.0100
+		}
+		10 = {
+			trigger = {
+				NOT = { has_character_flag = agot_wom_bond_eagle }
+				NOT = { has_character_flag = agot_wom_eagle_bond_block }
+			}
+			modifier = {
+				factor = 3
+				location ?= {
+					OR = {
+						terrain = hills
+						terrain = mountains
+						terrain = highlands
+					}
+				}
+			}
+			add_character_flag = agot_wom_candidate_eagle
+			trigger_event = agot_wom_bonding.0100
+		}
+		8 = {
+			trigger = {
+				NOT = { has_character_flag = agot_wom_bond_bear }
+				NOT = { has_character_flag = agot_wom_bear_bond_block }
+			}
+			modifier = {
+				factor = 3
+				location ?= {
+					OR = {
+						terrain = forest
+						terrain = taiga
+						terrain = mountains
+					}
+				}
+			}
+			add_character_flag = agot_wom_candidate_bear
+			trigger_event = agot_wom_bonding.0100
+		}
+		5 = {
+			trigger = {
+				NOT = { has_character_flag = agot_wom_bond_shadowcat }
+				NOT = { has_character_flag = agot_wom_shadowcat_bond_block }
+			}
+			modifier = {
+				factor = 4
+				location ?= {
+					OR = {
+						terrain = mountains
+						geographical_region = world_westeros_the_vale
+					}
+				}
+			}
+			add_character_flag = agot_wom_candidate_shadowcat
+			trigger_event = agot_wom_bonding.0100
+		}
+		20 = {
+			trigger = {
+				NOT = { has_character_flag = agot_wom_bond_cat }
+				NOT = { has_character_flag = agot_wom_cat_bond_block }
+			}
+			modifier = {
+				factor = 3
+				location ?= {
+					OR = {
+						has_holding_type = castle_holding
+						has_holding_type = city_holding
+						has_holding_type = church_holding
+					}
+				}
+			}
+			add_character_flag = agot_wom_candidate_cat
+			trigger_event = agot_wom_bonding.0100
+		}
+		15 = {
+			trigger = {
+				NOT = { has_character_flag = agot_wom_bond_deer }
+				NOT = { has_character_flag = agot_wom_deer_bond_block }
+			}
+			modifier = {
+				factor = 3
+				location ?= {
+					OR = {
+						terrain = forest
+						terrain = taiga
+						terrain = plains
+						terrain = farmlands
+					}
+				}
+			}
+			add_character_flag = agot_wom_candidate_deer
+			trigger_event = agot_wom_bonding.0100
+		}
+	}
+}
+
+agot_wom_clear_candidate_effect = {
+	remove_character_flag = agot_wom_candidate_dog
+	remove_character_flag = agot_wom_candidate_wolf
+	remove_character_flag = agot_wom_candidate_raven
+	remove_character_flag = agot_wom_candidate_eagle
+	remove_character_flag = agot_wom_candidate_bear
+	remove_character_flag = agot_wom_candidate_shadowcat
+	remove_character_flag = agot_wom_candidate_cat
+	remove_character_flag = agot_wom_candidate_deer
+	remove_character_flag = agot_wom_second_bond_search
+	if = {
+		limit = { exists = var:agot_wom_affinity }
+		remove_variable = agot_wom_affinity
+	}
+}
+
+agot_wom_reject_candidate_effect = {
+	if = {
+		limit = { has_character_flag = agot_wom_candidate_dog }
+		add_character_flag = { flag = agot_wom_dog_bond_block years = 2 }
+	}
+	if = {
+		limit = { has_character_flag = agot_wom_candidate_wolf }
+		add_character_flag = { flag = agot_wom_wolf_bond_block years = 5 }
+	}
+	if = {
+		limit = { has_character_flag = agot_wom_candidate_raven }
+		add_character_flag = { flag = agot_wom_raven_bond_block years = 2 }
+	}
+	if = {
+		limit = { has_character_flag = agot_wom_candidate_eagle }
+		add_character_flag = { flag = agot_wom_eagle_bond_block years = 2 }
+	}
+	if = {
+		limit = { has_character_flag = agot_wom_candidate_bear }
+		add_character_flag = { flag = agot_wom_bear_bond_block years = 2 }
+	}
+	if = {
+		limit = { has_character_flag = agot_wom_candidate_shadowcat }
+		add_character_flag = { flag = agot_wom_shadowcat_bond_block years = 2 }
+	}
+	if = {
+		limit = { has_character_flag = agot_wom_candidate_cat }
+		add_character_flag = { flag = agot_wom_cat_bond_block years = 2 }
+	}
+	if = {
+		limit = { has_character_flag = agot_wom_candidate_deer }
+		add_character_flag = { flag = agot_wom_deer_bond_block years = 2 }
+	}
+	agot_wom_clear_candidate_effect = yes
+}
+
+agot_wom_accept_candidate_effect = {
+	if = {
+		limit = { has_character_flag = agot_wom_candidate_dog }
+		set_variable = { name = agot_wom_affinity value = 1 }
+	}
+	else_if = {
+		limit = {
+			OR = {
+				has_character_flag = agot_wom_candidate_wolf
+				has_character_flag = agot_wom_candidate_cat
+			}
+		}
+		set_variable = { name = agot_wom_affinity value = 2 }
+	}
+	else = {
+		set_variable = { name = agot_wom_affinity value = 1 }
+	}
+	if = {
+		limit = {
+			has_character_flag = agot_wom_candidate_wolf
+			has_character_flag = agot_wom_second_bond_search
+		}
+		trigger_event = { id = agot_wom_bonding.0200 months = { 6 12 } }
+	}
+	else_if = {
+		limit = { has_character_flag = agot_wom_candidate_wolf }
+		trigger_event = { id = agot_wom_bonding.0200 months = { 12 24 } }
+	}
+	else_if = {
+		limit = { has_character_flag = agot_wom_second_bond_search }
+		trigger_event = { id = agot_wom_bonding.0200 months = { 3 6 } }
+	}
+	else = {
+		trigger_event = { id = agot_wom_bonding.0200 months = { 6 12 } }
+	}
+}
+
+agot_wom_resolve_bond_effect = {
+	if = {
+		limit = {
+			has_character_flag = agot_wom_candidate_dog
+			var:agot_wom_affinity >= 2
+		}
+		trigger_event = agot_wom_bonding.0300
+	}
+	else_if = {
+		limit = {
+			OR = {
+				has_character_flag = agot_wom_candidate_wolf
+				has_character_flag = agot_wom_candidate_shadowcat
+				has_character_flag = agot_wom_candidate_cat
+			}
+			var:agot_wom_affinity >= 4
+		}
+		trigger_event = agot_wom_bonding.0300
+	}
+	else_if = {
+		limit = {
+			NOR = {
+				has_character_flag = agot_wom_candidate_dog
+				has_character_flag = agot_wom_candidate_wolf
+				has_character_flag = agot_wom_candidate_shadowcat
+				has_character_flag = agot_wom_candidate_cat
+			}
+			var:agot_wom_affinity >= 3
+		}
+		trigger_event = agot_wom_bonding.0300
+	}
+	else_if = {
+		limit = {
+			OR = {
+				AND = {
+					has_character_flag = agot_wom_candidate_dog
+					var:agot_wom_affinity = 1
+				}
+				AND = {
+					OR = {
+						has_character_flag = agot_wom_candidate_wolf
+						has_character_flag = agot_wom_candidate_shadowcat
+						has_character_flag = agot_wom_candidate_cat
+					}
+					var:agot_wom_affinity = 3
+				}
+				AND = {
+					NOR = {
+						has_character_flag = agot_wom_candidate_dog
+						has_character_flag = agot_wom_candidate_wolf
+						has_character_flag = agot_wom_candidate_shadowcat
+						has_character_flag = agot_wom_candidate_cat
+					}
+					var:agot_wom_affinity = 2
+				}
+			}
+		}
+		random_list = {
+			50 = { trigger_event = agot_wom_bonding.0300 }
+			50 = { trigger_event = agot_wom_bonding.0301 }
+		}
+	}
+	else = {
+		trigger_event = agot_wom_bonding.0301
+	}
+}
+
+agot_wom_complete_candidate_bond_effect = {
+	if = {
+		limit = { has_character_flag = agot_wom_candidate_dog }
+		agot_wom_add_bond_effect = { BEAST = dog }
+		add_character_flag = { flag = agot_wom_dog_bond_young years = 5 }
+	}
+	else_if = {
+		limit = { has_character_flag = agot_wom_candidate_wolf }
+		agot_wom_add_bond_effect = { BEAST = wolf }
+	}
+	else_if = {
+		limit = { has_character_flag = agot_wom_candidate_raven }
+		agot_wom_add_bond_effect = { BEAST = raven }
+	}
+	else_if = {
+		limit = { has_character_flag = agot_wom_candidate_eagle }
+		agot_wom_add_bond_effect = { BEAST = eagle }
+	}
+	else_if = {
+		limit = { has_character_flag = agot_wom_candidate_bear }
+		agot_wom_add_bond_effect = { BEAST = bear }
+	}
+	else_if = {
+		limit = { has_character_flag = agot_wom_candidate_shadowcat }
+		agot_wom_add_bond_effect = { BEAST = shadowcat }
+	}
+	else_if = {
+		limit = { has_character_flag = agot_wom_candidate_cat }
+		agot_wom_add_bond_effect = { BEAST = cat }
+	}
+	else_if = {
+		limit = { has_character_flag = agot_wom_candidate_deer }
+		agot_wom_add_bond_effect = { BEAST = deer }
+	}
+	agot_wom_clear_candidate_effect = yes
+}
+
+agot_wom_add_bond_effect = {
+	add_character_flag = agot_wom_bond_$BEAST$
+	add_character_modifier = { modifier = agot_wom_bond_$BEAST$_modifier }
+	if = {
+		limit = { NOT = { exists = var:agot_wom_bond_count } }
+		set_variable = { name = agot_wom_bond_count value = 0 }
+	}
+	change_variable = { name = agot_wom_bond_count add = 1 }
+	if = {
+		limit = { var:agot_wom_bond_count = 1 }
+		add_character_flag = agot_wom_primary_bond_$BEAST$
+	}
+	add_trait_xp = { trait = agot_wom_skinchanger value = 3 }
+	add_character_flag = { flag = agot_wom_bond_maturing years = 10 }
+	remove_character_flag = agot_wom_refused_call
+	remove_character_flag = agot_wom_searching_for_bond
+}
+
+agot_wom_bond_failure_effect = {
+	add_stress = 15
+	add_character_flag = { flag = agot_wom_bond_retry_cooldown years = 2 }
+	remove_character_flag = agot_wom_searching_for_bond
+}
+
+agot_wom_enter_beast_effect = {
+	add_character_flag = { flag = agot_wom_warging days = 30 }
+	add_character_flag = { flag = agot_wom_warging_$BEAST$ days = 30 }
+	add_character_flag = { flag = agot_wom_warg_session_cooldown years = 2 }
+	trigger_event = { id = agot_wom_warging.0099 days = 30 }
+}
+
+agot_wom_exit_beast_effect = {
+	remove_character_flag = agot_wom_warging
+	remove_character_flag = agot_wom_warging_dog
+	remove_character_flag = agot_wom_warging_wolf
+	remove_character_flag = agot_wom_warging_raven
+	remove_character_flag = agot_wom_warging_eagle
+	remove_character_flag = agot_wom_warging_bear
+	remove_character_flag = agot_wom_warging_shadowcat
+	remove_character_flag = agot_wom_warging_cat
+	remove_character_flag = agot_wom_warging_deer
+}
+
+agot_wom_influence_roll_effect = {
+	random = {
+		chance = $CHANCE$
+		if = {
+			limit = {
+				NOT = { has_character_modifier = agot_wom_influence_echoes_modifier }
+				NOT = { has_character_modifier = agot_wom_influence_$BEAST$_modifier }
+			}
+			add_character_modifier = { modifier = agot_wom_influence_echoes_modifier }
+			trigger_event = agot_wom_warging.0200
+		}
+		else_if = {
+			limit = {
+				has_character_modifier = agot_wom_influence_echoes_modifier
+				NOT = { has_character_modifier = agot_wom_influence_$BEAST$_modifier }
+			}
+			remove_character_modifier = agot_wom_influence_echoes_modifier
+			add_character_modifier = { modifier = agot_wom_influence_$BEAST$_modifier }
+			trigger_event = agot_wom_warging.0201
+		}
+		else = {
+			add_character_flag = { flag = agot_wom_confronting_$BEAST$ days = 5 }
+			trigger_event = agot_wom_warging.0210
+		}
+	}
+}
+
+agot_wom_unbound_entry_effect = {
+	add_character_flag = { flag = agot_wom_unbound_$BEAST$ days = 10 }
+	random_list = {
+		25 = {
+			add_stress = 20
+		}
+		75 = {
+			agot_wom_influence_roll_effect = { BEAST = $BEAST$ CHANCE = 20 }
+		}
+	}
+}
+
+agot_wom_animal_death_effect = {
+	remove_character_flag = agot_wom_bond_$BEAST$
+	remove_character_flag = agot_wom_primary_bond_$BEAST$
+	remove_character_modifier = agot_wom_bond_$BEAST$_modifier
+	if = {
+		limit = { exists = var:agot_wom_bond_count }
+		change_variable = { name = agot_wom_bond_count subtract = 1 }
+	}
+	agot_wom_exit_beast_effect = yes
+	add_stress = 100
+	add_character_modifier = { modifier = agot_wom_severed_bond_modifier years = 5 }
+	add_character_flag = { flag = agot_wom_all_bond_block years = 2 }
+	add_character_flag = { flag = agot_wom_$BEAST$_bond_block years = 5 }
+	trigger_event = agot_wom_warging.0300
+}
+
+agot_wom_finish_deed_effect = {
+	add_trait_xp = { trait = agot_wom_skinchanger value = $XP$ }
+	agot_wom_exit_beast_effect = yes
+}
+
+agot_wom_dog_guard_effect = {
+	add_stress = 5
+	random_list = {
+		60 = {
+			if = {
+				limit = { any_targeting_scheme = { is_hostile = yes } }
+				random_targeting_scheme = {
+					limit = { is_hostile = yes }
+					expose_scheme = yes
+				}
+			}
+			else = {
+				add_character_modifier = {
+					modifier = agot_wom_deer_vigilance_modifier
+					years = 3
+				}
+			}
+			agot_wom_finish_deed_effect = { XP = 3 }
+		}
+		25 = {
+			if = {
+				limit = { any_targeting_scheme = { is_hostile = yes } }
+				random_targeting_scheme = {
+					limit = { is_hostile = yes }
+					expose_scheme = yes
+				}
+			}
+			agot_wom_finish_deed_effect = { XP = 3 }
+		}
+		13 = { agot_wom_finish_deed_effect = { XP = 1 } }
+		2 = { agot_wom_animal_death_effect = { BEAST = dog } }
+	}
+}
+
+agot_wom_eagle_survey_effect = {
+	add_stress = 10
+	random_list = {
+		70 = {
+			add_character_modifier = {
+				modifier = agot_wom_eagle_survey_modifier
+				months = 6
+			}
+			agot_wom_finish_deed_effect = { XP = 3 }
+		}
+		25 = { agot_wom_finish_deed_effect = { XP = 1 } }
+		5 = { agot_wom_animal_death_effect = { BEAST = eagle } }
+	}
+}
+
+agot_wom_bear_guard_effect = {
+	add_stress = 10
+	random_list = {
+		60 = {
+			add_character_modifier = {
+				modifier = agot_wom_bear_guard_modifier
+				years = 1
+			}
+			agot_wom_finish_deed_effect = { XP = 3 }
+		}
+		25 = {
+			add_character_modifier = {
+				modifier = agot_wom_bear_vitality_modifier
+				years = 1
+			}
+			agot_wom_finish_deed_effect = { XP = 3 }
+		}
+		12 = { agot_wom_finish_deed_effect = { XP = 1 } }
+		3 = { agot_wom_animal_death_effect = { BEAST = bear } }
+	}
+}
+
+agot_wom_deer_sense_effect = {
+	add_stress = 5
+	random_list = {
+		40 = {
+			if = {
+				limit = { any_targeting_scheme = { is_hostile = yes } }
+				random_targeting_scheme = {
+					limit = { is_hostile = yes }
+					expose_scheme = yes
+				}
+			}
+			else = {
+				add_character_modifier = {
+					modifier = agot_wom_deer_vigilance_modifier
+					months = 6
+				}
+			}
+			agot_wom_finish_deed_effect = { XP = 3 }
+		}
+		40 = {
+			add_character_modifier = {
+				modifier = agot_wom_deer_vigilance_modifier
+				months = 6
+			}
+			agot_wom_finish_deed_effect = { XP = 3 }
+		}
+		15 = {
+			add_stress = 25
+			agot_wom_influence_roll_effect = { BEAST = deer CHANCE = 100 }
+			agot_wom_finish_deed_effect = { XP = 1 }
+		}
+		5 = { agot_wom_animal_death_effect = { BEAST = deer } }
+	}
+}

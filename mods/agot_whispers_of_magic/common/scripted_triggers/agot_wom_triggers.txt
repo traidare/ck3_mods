@@ -1,0 +1,84 @@
+﻿agot_wom_magic_active_trigger = {
+	exists = global_var:magic_level
+	global_var:magic_level > 0
+}
+
+agot_wom_has_animal_bond_trigger = {
+	OR = {
+		has_character_flag = agot_wom_bond_dog
+		has_character_flag = agot_wom_bond_wolf
+		has_character_flag = agot_wom_bond_raven
+		has_character_flag = agot_wom_bond_eagle
+		has_character_flag = agot_wom_bond_bear
+		has_character_flag = agot_wom_bond_shadowcat
+		has_character_flag = agot_wom_bond_cat
+		has_character_flag = agot_wom_bond_deer
+	}
+}
+
+agot_wom_can_gain_natural_gift_trigger = {
+	OR = {
+		culture = { has_cultural_pillar = heritage_first_man }
+		culture = { agot_is_wildling_culture = yes }
+		has_religion = religion:the_pact_religion
+		faith = { has_doctrine_parameter = increased_chance_of_greenseers }
+		culture = culture:crannogman
+		scope:mother ?= {
+			OR = {
+				has_trait = agot_wom_skinchanger
+				has_trait = greensight
+			}
+		}
+		scope:real_father ?= {
+			OR = {
+				has_trait = agot_wom_skinchanger
+				has_trait = greensight
+			}
+		}
+		any_ancestor = { has_trait = agot_wom_skinchanger }
+	}
+}
+
+agot_wom_can_seek_bond_trigger = {
+	has_trait = agot_wom_skinchanger
+	is_alive = yes
+	is_available_adult = yes
+	is_imprisoned = no
+	is_incapable = no
+	NOT = { has_character_flag = agot_wom_rejected_all_bonds }
+	NOT = { has_character_flag = agot_wom_searching_for_bond }
+	custom_tooltip = {
+		text = agot_wom_has_bond_slot_tt
+		OR = {
+			NOT = { exists = var:agot_wom_bond_count }
+			var:agot_wom_bond_count < 2
+		}
+	}
+}
+
+agot_wom_at_weirwood_trigger = {
+	custom_tooltip = {
+		text = agot_wom_at_weirwood_tt
+		OR = {
+			location_has_weirwood_trigger = yes
+			has_building_or_higher = agot_whitetree_01
+			has_building_or_higher = agot_dead_goose_tree_01
+			has_building_or_higher = agot_high_heart_01
+			has_building_or_higher = agot_ruin_high_heart_01
+			has_building_or_higher = agot_ruin_high_heart_02
+			has_building_or_higher = agot_raventree_hall_01
+			has_building_or_higher = agot_pennytree_01
+			has_building_or_higher = winterfell_01
+			county ?= { this = title:c_harrenhal }
+		}
+	}
+}
+
+agot_wom_is_dual_master_trigger = {
+	has_trait = agot_wom_skinchanger
+	has_trait_xp = { trait = agot_wom_skinchanger value >= 30 }
+	has_trait = agot_wom_greensight_mastery
+	has_trait_xp = { trait = agot_wom_greensight_mastery value >= 50 }
+	agot_wom_magic_active_trigger = yes
+	global_var:magic_level = 2
+}

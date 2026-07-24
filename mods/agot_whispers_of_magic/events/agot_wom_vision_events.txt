@@ -1,0 +1,95 @@
+﻿namespace = agot_wom_visions
+
+agot_wom_visions.0001 = {
+	type = character_event
+	title = agot_wom_visions.0001.t
+	desc = {
+		random_valid = {
+			desc = agot_wom_visions.0001.desc.wildfire
+			desc = agot_wom_visions.0001.desc.others
+			desc = agot_wom_visions.0001.desc.harrenhal
+			desc = agot_wom_visions.0001.desc.murder
+			desc = agot_wom_visions.0001.desc.war
+			desc = agot_wom_visions.0001.desc.dynasty
+		}
+	}
+	theme = mental_break
+
+	immediate = {
+		add_character_flag = { flag = agot_wom_recent_vision years = 5 }
+		if = {
+			limit = { has_trait = agot_wom_greensight_mastery }
+			add_trait_xp = { trait = agot_wom_greensight_mastery value = 2 }
+		}
+	}
+
+	option = {
+		name = agot_wom_visions.0001.a
+		random_list = {
+			30 = { add_prestige = 100 }
+			25 = { add_piety = 100 }
+			20 = { add_legitimacy = 10 }
+			25 = {
+				if = {
+					limit = { has_trait = dragonrider }
+					add_trait_xp = {
+						trait = dragonrider
+						track = dragon_bond
+						value = 5
+					}
+				}
+				else = { add_prestige = 50 }
+			}
+		}
+	}
+}
+
+agot_wom_visions.0002 = {
+	type = character_event
+	title = agot_wom_visions.0002.t
+	desc = {
+		random_valid = {
+			desc = agot_wom_visions.0002.desc.doom
+			desc = agot_wom_visions.0002.desc.egg
+			desc = agot_wom_visions.0002.desc.ice
+			desc = agot_wom_visions.0002.desc.star
+		}
+	}
+	theme = mental_break
+
+	immediate = {
+		add_character_flag = { flag = agot_wom_recent_vision years = 5 }
+		if = {
+			limit = { has_character_flag = dragon_dreams }
+			remove_character_flag = dragon_dreams
+			if = {
+				limit = { NOT = { has_trait = dragon_dreams } }
+				add_trait = dragon_dreams
+			}
+		}
+		if = {
+			limit = { has_trait = agot_wom_greensight_mastery }
+			add_trait_xp = { trait = agot_wom_greensight_mastery value = 2 }
+		}
+	}
+
+	option = {
+		name = agot_wom_visions.0002.a
+		random_list = {
+			30 = { add_prestige = 100 }
+			25 = { add_piety = 100 }
+			20 = { add_legitimacy = 10 }
+			25 = {
+				if = {
+					limit = { has_trait = dragonrider }
+					add_trait_xp = {
+						trait = dragonrider
+						track = dragon_bond
+						value = 5
+					}
+				}
+				else = { add_prestige = 50 }
+			}
+		}
+	}
+}

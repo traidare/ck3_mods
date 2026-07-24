@@ -1,0 +1,333 @@
+﻿namespace = agot_wom_warging
+
+agot_wom_warging.0001 = {
+	type = character_event
+	title = agot_wom_warging.0001.t
+	desc = agot_wom_warging.0001.desc
+	theme = mental_break
+
+	option = {
+		name = agot_wom_warging.0001.dog
+		trigger = { has_character_flag = agot_wom_bond_dog }
+		if = {
+			limit = { has_character_flag = agot_wom_dog_bond_young }
+			add_stress = 10
+		}
+		else = { add_stress = 5 }
+		agot_wom_enter_beast_effect = { BEAST = dog }
+		agot_wom_influence_roll_effect = {
+			BEAST = dog
+			CHANCE = agot_wom_standard_influence_chance
+		}
+	}
+	option = {
+		name = agot_wom_warging.0001.wolf
+		trigger = { has_character_flag = agot_wom_bond_wolf }
+		add_stress = 10
+		agot_wom_enter_beast_effect = { BEAST = wolf }
+		agot_wom_influence_roll_effect = {
+			BEAST = wolf
+			CHANCE = agot_wom_standard_influence_chance
+		}
+	}
+	option = {
+		name = agot_wom_warging.0001.raven
+		trigger = { has_character_flag = agot_wom_bond_raven }
+		add_stress = 10
+		agot_wom_enter_beast_effect = { BEAST = raven }
+		agot_wom_influence_roll_effect = {
+			BEAST = raven
+			CHANCE = agot_wom_standard_influence_chance
+		}
+	}
+	option = {
+		name = agot_wom_warging.0001.eagle
+		trigger = { has_character_flag = agot_wom_bond_eagle }
+		add_stress = 10
+		agot_wom_enter_beast_effect = { BEAST = eagle }
+		agot_wom_influence_roll_effect = {
+			BEAST = eagle
+			CHANCE = agot_wom_standard_influence_chance
+		}
+	}
+	option = {
+		name = agot_wom_warging.0001.bear
+		trigger = { has_character_flag = agot_wom_bond_bear }
+		add_stress = 10
+		agot_wom_enter_beast_effect = { BEAST = bear }
+		agot_wom_influence_roll_effect = {
+			BEAST = bear
+			CHANCE = agot_wom_standard_influence_chance
+		}
+	}
+	option = {
+		name = agot_wom_warging.0001.shadowcat
+		trigger = { has_character_flag = agot_wom_bond_shadowcat }
+		add_stress = 10
+		agot_wom_enter_beast_effect = { BEAST = shadowcat }
+		agot_wom_influence_roll_effect = {
+			BEAST = shadowcat
+			CHANCE = agot_wom_standard_influence_chance
+		}
+	}
+	option = {
+		name = agot_wom_warging.0001.cat
+		trigger = { has_character_flag = agot_wom_bond_cat }
+		add_stress = 10
+		agot_wom_enter_beast_effect = { BEAST = cat }
+		agot_wom_influence_roll_effect = {
+			BEAST = cat
+			CHANCE = agot_wom_standard_influence_chance
+		}
+	}
+	option = {
+		name = agot_wom_warging.0001.deer
+		trigger = { has_character_flag = agot_wom_bond_deer }
+		add_stress = 10
+		agot_wom_enter_beast_effect = { BEAST = deer }
+		agot_wom_influence_roll_effect = {
+			BEAST = deer
+			CHANCE = agot_wom_standard_influence_chance
+		}
+	}
+	option = {
+		name = agot_wom_warging.0001.cancel
+	}
+}
+
+agot_wom_warging.0099 = {
+	hidden = yes
+	immediate = { agot_wom_exit_beast_effect = yes }
+}
+
+agot_wom_warging.0100 = {
+	type = character_event
+	title = agot_wom_warging.0100.t
+	desc = agot_wom_warging.0100.desc
+	theme = mental_break
+
+	immediate = {
+		add_stress = 10
+		add_trait_xp = { trait = agot_wom_skinchanger value = 1 }
+		if = {
+			limit = { has_character_flag = agot_wom_bond_dog }
+			agot_wom_influence_roll_effect = { BEAST = dog CHANCE = 25 }
+		}
+		else_if = {
+			limit = { has_character_flag = agot_wom_bond_wolf }
+			agot_wom_influence_roll_effect = { BEAST = wolf CHANCE = 25 }
+		}
+		else_if = {
+			limit = { has_character_flag = agot_wom_bond_raven }
+			agot_wom_influence_roll_effect = { BEAST = raven CHANCE = 25 }
+		}
+		else_if = {
+			limit = { has_character_flag = agot_wom_bond_eagle }
+			agot_wom_influence_roll_effect = { BEAST = eagle CHANCE = 25 }
+		}
+		else_if = {
+			limit = { has_character_flag = agot_wom_bond_bear }
+			agot_wom_influence_roll_effect = { BEAST = bear CHANCE = 25 }
+		}
+		else_if = {
+			limit = { has_character_flag = agot_wom_bond_shadowcat }
+			agot_wom_influence_roll_effect = { BEAST = shadowcat CHANCE = 25 }
+		}
+		else_if = {
+			limit = { has_character_flag = agot_wom_bond_cat }
+			agot_wom_influence_roll_effect = { BEAST = cat CHANCE = 25 }
+		}
+		else_if = {
+			limit = { has_character_flag = agot_wom_bond_deer }
+			agot_wom_influence_roll_effect = { BEAST = deer CHANCE = 25 }
+		}
+	}
+	option = {
+		name = agot_wom_warging.0100.a
+	}
+	option = {
+		name = agot_wom_warging.0100.b
+		trigger = { agot_wom_has_animal_bond_trigger = no }
+		agot_wom_choose_bond_encounter_effect = yes
+	}
+}
+
+agot_wom_warging.0200 = {
+	type = character_event
+	title = agot_wom_warging.0200.t
+	desc = agot_wom_warging.0200.desc
+	theme = mental_break
+	option = { name = agot_wom_warging.0200.a }
+}
+
+agot_wom_warging.0201 = {
+	type = character_event
+	title = agot_wom_warging.0201.t
+	desc = agot_wom_warging.0201.desc
+	theme = mental_break
+	option = { name = agot_wom_warging.0201.a }
+}
+
+agot_wom_warging.0210 = {
+	type = character_event
+	title = agot_wom_warging.0210.t
+	desc = agot_wom_warging.0210.desc
+	theme = mental_break
+
+	option = {
+		name = agot_wom_warging.0210.a
+		add_stress = 50
+		add_character_flag = { flag = agot_wom_warg_session_cooldown years = 5 }
+		remove_character_modifier = agot_wom_influence_dog_modifier
+		remove_character_modifier = agot_wom_influence_wolf_modifier
+		remove_character_modifier = agot_wom_influence_raven_modifier
+		remove_character_modifier = agot_wom_influence_eagle_modifier
+		remove_character_modifier = agot_wom_influence_bear_modifier
+		remove_character_modifier = agot_wom_influence_shadowcat_modifier
+		remove_character_modifier = agot_wom_influence_cat_modifier
+		remove_character_modifier = agot_wom_influence_deer_modifier
+		add_character_modifier = { modifier = agot_wom_influence_echoes_modifier }
+	}
+	option = {
+		name = agot_wom_warging.0210.b
+		random = {
+			chance = 25
+			if = {
+				limit = { NOT = { has_character_flag = agot_wom_beast_changed_personality } }
+				add_character_flag = agot_wom_beast_changed_personality
+				trigger_event = agot_wom_warging.0220
+			}
+		}
+	}
+}
+
+agot_wom_warging.0220 = {
+	type = character_event
+	title = agot_wom_warging.0220.t
+	desc = agot_wom_warging.0220.desc
+	theme = mental_break
+
+	immediate = {
+		if = {
+			limit = {
+				has_character_flag = agot_wom_confronting_dog
+				has_trait = paranoid
+			}
+			remove_trait = paranoid
+			add_trait = trusting
+		}
+		else_if = {
+			limit = {
+				has_character_flag = agot_wom_confronting_wolf
+				has_trait = craven
+			}
+			remove_trait = craven
+			add_trait = brave
+		}
+		else_if = {
+			limit = {
+				has_character_flag = agot_wom_confronting_raven
+				has_trait = zealous
+			}
+			remove_trait = zealous
+			add_trait = cynical
+		}
+		else_if = {
+			limit = {
+				has_character_flag = agot_wom_confronting_eagle
+				has_trait = humble
+			}
+			remove_trait = humble
+			add_trait = arrogant
+		}
+		else_if = {
+			limit = {
+				has_character_flag = agot_wom_confronting_bear
+				has_trait = calm
+			}
+			remove_trait = calm
+			add_trait = wrathful
+		}
+		else_if = {
+			limit = {
+				has_character_flag = agot_wom_confronting_shadowcat
+				has_trait = compassionate
+			}
+			remove_trait = compassionate
+			add_trait = callous
+		}
+		else_if = {
+			limit = {
+				has_character_flag = agot_wom_confronting_cat
+				has_trait = humble
+			}
+			remove_trait = humble
+			add_trait = arrogant
+		}
+		else_if = {
+			limit = {
+				has_character_flag = agot_wom_confronting_deer
+				has_trait = brave
+			}
+			remove_trait = brave
+			add_trait = craven
+		}
+	}
+	option = { name = agot_wom_warging.0220.a }
+}
+
+agot_wom_warging.0300 = {
+	type = character_event
+	title = agot_wom_warging.0300.t
+	desc = agot_wom_warging.0300.desc
+	theme = mental_break
+	option = { name = agot_wom_warging.0300.a }
+}
+
+agot_wom_warging.0400 = {
+	type = character_event
+	title = agot_wom_warging.0400.t
+	desc = agot_wom_warging.0400.desc
+	theme = mental_break
+
+	option = {
+		name = agot_wom_warging.0400.dog
+		trigger = { NOT = { has_character_flag = agot_wom_bond_dog } }
+		agot_wom_unbound_entry_effect = { BEAST = dog }
+	}
+	option = {
+		name = agot_wom_warging.0400.wolf
+		trigger = { NOT = { has_character_flag = agot_wom_bond_wolf } }
+		agot_wom_unbound_entry_effect = { BEAST = wolf }
+	}
+	option = {
+		name = agot_wom_warging.0400.raven
+		trigger = { NOT = { has_character_flag = agot_wom_bond_raven } }
+		agot_wom_unbound_entry_effect = { BEAST = raven }
+	}
+	option = {
+		name = agot_wom_warging.0400.eagle
+		trigger = { NOT = { has_character_flag = agot_wom_bond_eagle } }
+		agot_wom_unbound_entry_effect = { BEAST = eagle }
+	}
+	option = {
+		name = agot_wom_warging.0400.bear
+		trigger = { NOT = { has_character_flag = agot_wom_bond_bear } }
+		agot_wom_unbound_entry_effect = { BEAST = bear }
+	}
+	option = {
+		name = agot_wom_warging.0400.shadowcat
+		trigger = { NOT = { has_character_flag = agot_wom_bond_shadowcat } }
+		agot_wom_unbound_entry_effect = { BEAST = shadowcat }
+	}
+	option = {
+		name = agot_wom_warging.0400.cat
+		trigger = { NOT = { has_character_flag = agot_wom_bond_cat } }
+		agot_wom_unbound_entry_effect = { BEAST = cat }
+	}
+	option = {
+		name = agot_wom_warging.0400.deer
+		trigger = { NOT = { has_character_flag = agot_wom_bond_deer } }
+		agot_wom_unbound_entry_effect = { BEAST = deer }
+	}
+}

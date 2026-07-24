@@ -1,0 +1,173 @@
+﻿agot_wom_skinchanger_birth_chance = {
+	value = 0.5
+	if = {
+		limit = {
+			OR = {
+				culture = { has_cultural_pillar = heritage_first_man }
+				culture = { agot_is_wildling_culture = yes }
+			}
+		}
+		multiply = 1.5
+	}
+	if = {
+		limit = {
+			OR = {
+				has_religion = religion:the_pact_religion
+				faith = { has_doctrine_parameter = increased_chance_of_greenseers }
+			}
+		}
+		multiply = 1.5
+	}
+	if = {
+		limit = { culture = culture:crannogman }
+		multiply = 2
+	}
+	if = {
+		limit = {
+			scope:mother ?= {
+				OR = {
+					has_trait = agot_wom_skinchanger
+					has_trait = greensight
+				}
+			}
+			scope:real_father ?= {
+				OR = {
+					has_trait = agot_wom_skinchanger
+					has_trait = greensight
+				}
+			}
+		}
+		multiply = 6
+	}
+	else_if = {
+		limit = {
+			OR = {
+				scope:mother ?= {
+					OR = {
+						has_trait = agot_wom_skinchanger
+						has_trait = greensight
+					}
+				}
+				scope:real_father ?= {
+					OR = {
+						has_trait = agot_wom_skinchanger
+						has_trait = greensight
+					}
+				}
+			}
+		}
+		multiply = 3
+	}
+	else_if = {
+		limit = {
+			OR = {
+				scope:mother.real_father ?= { has_trait = agot_wom_skinchanger }
+				scope:mother.real_mother ?= { has_trait = agot_wom_skinchanger }
+				scope:real_father.real_father ?= { has_trait = agot_wom_skinchanger }
+				scope:real_father.real_mother ?= { has_trait = agot_wom_skinchanger }
+			}
+		}
+		multiply = 1.75
+	}
+	else_if = {
+		limit = {
+			any_ancestor = { has_trait = agot_wom_skinchanger }
+		}
+		multiply = 1.25
+	}
+	max = 8
+}
+
+agot_wom_dragon_dream_birth_chance = {
+	value = 0.25
+	add = {
+		value = dragonblood_percent
+		multiply = 0.025
+	}
+	if = {
+		limit = { house ?= { has_house_modifier = dragonrider_house_modifier } }
+		add = 2
+	}
+	max = 6
+}
+
+agot_wom_vision_yearly_chance = {
+	value = 8
+	if = {
+		limit = {
+			exists = global_var:magic_level
+			global_var:magic_level = 2
+		}
+		add = 4
+	}
+	if = {
+		limit = {
+			OR = {
+				has_trait = dragon_dreams
+				has_character_flag = dragon_dreams
+			}
+		}
+		add = {
+			value = dragonblood_percent
+			multiply = 0.03
+		}
+		if = {
+			limit = { house ?= { has_house_modifier = dragonrider_house_modifier } }
+			add = 2
+		}
+	}
+	max = 18
+}
+
+agot_wom_unconscious_entry_chance = {
+	value = 0
+	if = {
+		limit = {
+			has_trait_xp = { trait = agot_wom_skinchanger value < 12 }
+			agot_wom_has_animal_bond_trigger = no
+		}
+		add = 5
+	}
+	if = {
+		limit = {
+			has_trait_xp = { trait = agot_wom_skinchanger value < 12 }
+			agot_wom_has_animal_bond_trigger = yes
+		}
+		add = 15
+	}
+	if = {
+		limit = {
+			has_trait_xp = { trait = agot_wom_skinchanger value >= 12 }
+			has_trait_xp = { trait = agot_wom_skinchanger value < 30 }
+		}
+		add = 5
+	}
+	if = {
+		limit = { has_trait_xp = { trait = agot_wom_skinchanger value >= 30 } }
+		add = 1
+	}
+	if = {
+		limit = { has_character_flag = agot_wom_bond_dog }
+		add = 5
+	}
+}
+
+agot_wom_standard_influence_chance = {
+	value = 15
+	if = {
+		limit = { has_trait_xp = { trait = agot_wom_skinchanger value >= 12 } }
+		subtract = 5
+	}
+	if = {
+		limit = { has_trait_xp = { trait = agot_wom_skinchanger value >= 30 } }
+		subtract = 5
+	}
+	if = {
+		limit = {
+			has_character_flag = agot_wom_warging_dog
+			NOT = { has_character_flag = agot_wom_dog_bond_young }
+		}
+		subtract = 5
+	}
+	min = 5
+}

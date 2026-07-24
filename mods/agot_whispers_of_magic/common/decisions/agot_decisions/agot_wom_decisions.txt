@@ -1,0 +1,264 @@
+﻿agot_wom_heed_call_decision = {
+	picture = {
+		reference = "gfx/interface/illustrations/event_scenes/weirwood_event.dds"
+	}
+	desc = agot_wom_heed_call_decision_desc
+	selection_tooltip = agot_wom_heed_call_decision_tooltip
+
+	is_shown = {
+		has_trait = agot_wom_skinchanger
+		NOT = { has_character_flag = agot_wom_rejected_all_bonds }
+		OR = {
+			NOT = { agot_wom_has_animal_bond_trigger = yes }
+			var:agot_wom_bond_count < 2
+		}
+	}
+	is_valid_showing_failures_only = {
+		agot_wom_can_seek_bond_trigger = yes
+		NOT = { has_character_flag = agot_wom_all_bond_block }
+		NOT = { has_character_flag = agot_wom_bond_retry_cooldown }
+		agot_wom_magic_active_trigger = yes
+	}
+	effect = {
+		agot_wom_start_bond_search_effect = yes
+	}
+	ai_check_interval = 0
+	ai_potential = { always = no }
+	ai_will_do = { base = 0 }
+}
+
+agot_wom_refuse_call_decision = {
+	picture = {
+		reference = "gfx/interface/illustrations/event_scenes/weirwood_event.dds"
+	}
+	desc = agot_wom_refuse_call_decision_desc
+	selection_tooltip = agot_wom_refuse_call_decision_tooltip
+
+	is_shown = {
+		has_trait = agot_wom_skinchanger
+		NOT = { agot_wom_has_animal_bond_trigger = yes }
+		NOT = { has_character_flag = agot_wom_refused_call }
+		NOT = { has_character_flag = agot_wom_rejected_all_bonds }
+	}
+	effect = {
+		add_character_flag = agot_wom_refused_call
+		remove_character_flag = agot_wom_searching_for_bond
+	}
+	ai_check_interval = 0
+	ai_potential = { always = no }
+	ai_will_do = { base = 0 }
+}
+
+agot_wom_enter_skin_decision = {
+	picture = {
+		reference = "gfx/interface/illustrations/event_scenes/weirwood_event.dds"
+	}
+	desc = agot_wom_enter_skin_decision_desc
+	selection_tooltip = agot_wom_enter_skin_decision_tooltip
+
+	is_shown = {
+		has_trait = agot_wom_skinchanger
+		agot_wom_has_animal_bond_trigger = yes
+	}
+	is_valid_showing_failures_only = {
+		is_available_adult = yes
+		is_imprisoned = no
+		is_incapable = no
+		agot_wom_magic_active_trigger = yes
+		NOT = { has_character_flag = agot_wom_warging }
+		NOT = { has_character_flag = agot_wom_warg_session_cooldown }
+	}
+	effect = {
+		trigger_event = agot_wom_warging.0001
+	}
+	ai_check_interval = 0
+	ai_potential = { always = no }
+	ai_will_do = { base = 0 }
+}
+
+agot_wom_dog_guard_decision = {
+	picture = { reference = "gfx/interface/illustrations/event_scenes/weirwood_event.dds" }
+	desc = agot_wom_dog_guard_decision_desc
+	selection_tooltip = agot_wom_dog_guard_decision_tooltip
+	is_shown = { has_character_flag = agot_wom_warging_dog }
+	is_valid_showing_failures_only = {
+		NOT = { has_character_flag = agot_wom_dog_deed_cooldown }
+	}
+	effect = {
+		add_character_flag = { flag = agot_wom_dog_deed_cooldown years = 3 }
+		agot_wom_dog_guard_effect = yes
+	}
+	ai_check_interval = 0
+	ai_potential = { always = no }
+	ai_will_do = { base = 0 }
+}
+
+agot_wom_eagle_survey_decision = {
+	picture = { reference = "gfx/interface/illustrations/event_scenes/weirwood_event.dds" }
+	desc = agot_wom_eagle_survey_decision_desc
+	selection_tooltip = agot_wom_eagle_survey_decision_tooltip
+	is_shown = { has_character_flag = agot_wom_warging_eagle }
+	is_valid_showing_failures_only = {
+		NOT = { has_character_flag = agot_wom_eagle_deed_cooldown }
+	}
+	effect = {
+		add_character_flag = { flag = agot_wom_eagle_deed_cooldown years = 3 }
+		agot_wom_eagle_survey_effect = yes
+	}
+	ai_check_interval = 0
+	ai_potential = { always = no }
+	ai_will_do = { base = 0 }
+}
+
+agot_wom_bear_guard_decision = {
+	picture = { reference = "gfx/interface/illustrations/event_scenes/weirwood_event.dds" }
+	desc = agot_wom_bear_guard_decision_desc
+	selection_tooltip = agot_wom_bear_guard_decision_tooltip
+	is_shown = { has_character_flag = agot_wom_warging_bear }
+	is_valid_showing_failures_only = {
+		NOT = { has_character_flag = agot_wom_bear_deed_cooldown }
+	}
+	effect = {
+		add_character_flag = { flag = agot_wom_bear_deed_cooldown years = 3 }
+		agot_wom_bear_guard_effect = yes
+	}
+	ai_check_interval = 0
+	ai_potential = { always = no }
+	ai_will_do = { base = 0 }
+}
+
+agot_wom_deer_sense_decision = {
+	picture = { reference = "gfx/interface/illustrations/event_scenes/weirwood_event.dds" }
+	desc = agot_wom_deer_sense_decision_desc
+	selection_tooltip = agot_wom_deer_sense_decision_tooltip
+	is_shown = { has_character_flag = agot_wom_warging_deer }
+	is_valid_showing_failures_only = {
+		NOT = { has_character_flag = agot_wom_deer_deed_cooldown }
+	}
+	effect = {
+		add_character_flag = { flag = agot_wom_deer_deed_cooldown years = 3 }
+		agot_wom_deer_sense_effect = yes
+	}
+	ai_check_interval = 0
+	ai_potential = { always = no }
+	ai_will_do = { base = 0 }
+}
+
+agot_wom_commune_weirwood_decision = {
+	picture = {
+		reference = "gfx/interface/illustrations/event_scenes/weirwood_event.dds"
+	}
+	desc = agot_wom_commune_weirwood_decision_desc
+	selection_tooltip = agot_wom_commune_weirwood_decision_tooltip
+	is_shown = { has_trait = agot_wom_greensight_mastery }
+	is_valid_showing_failures_only = {
+		is_available_adult = yes
+		agot_wom_magic_active_trigger = yes
+		location ?= { agot_wom_at_weirwood_trigger = yes }
+		NOT = { has_character_flag = agot_wom_commune_cooldown }
+	}
+	effect = {
+		add_stress = 20
+		add_trait_xp = { trait = agot_wom_greensight_mastery value = 5 }
+		add_character_flag = { flag = agot_wom_commune_cooldown years = 5 }
+		trigger_event = agot_wom_visions.0001
+	}
+	ai_check_interval = 0
+	ai_potential = { always = no }
+	ai_will_do = { base = 0 }
+}
+
+agot_wom_seek_vision_decision = {
+	picture = {
+		reference = "gfx/interface/illustrations/event_scenes/weirwood_event.dds"
+	}
+	desc = agot_wom_seek_vision_decision_desc
+	selection_tooltip = agot_wom_seek_vision_decision_tooltip
+	is_shown = {
+		has_trait = agot_wom_greensight_mastery
+		has_trait_xp = { trait = agot_wom_greensight_mastery value >= 20 }
+	}
+	is_valid_showing_failures_only = {
+		is_available_adult = yes
+		agot_wom_magic_active_trigger = yes
+		NOT = { has_character_flag = agot_wom_seek_vision_cooldown }
+	}
+	cost = { piety = 100 }
+	effect = {
+		add_stress = 40
+		add_trait_xp = { trait = agot_wom_greensight_mastery value = 4 }
+		add_character_flag = { flag = agot_wom_seek_vision_cooldown years = 5 }
+		trigger_event = agot_wom_visions.0001
+	}
+	ai_check_interval = 0
+	ai_potential = { always = no }
+	ai_will_do = { base = 0 }
+}
+
+agot_wom_court_greenseer_counsel_decision = {
+	picture = {
+		reference = "gfx/interface/illustrations/event_scenes/weirwood_event.dds"
+	}
+	desc = agot_wom_court_greenseer_counsel_decision_desc
+	selection_tooltip = agot_wom_court_greenseer_counsel_decision_tooltip
+	is_shown = {
+		has_trait = agot_wom_greensight_mastery
+		is_ruler = yes
+	}
+	is_valid_showing_failures_only = {
+		NOT = { has_character_modifier = agot_wom_court_greenseer_counsel_modifier }
+	}
+	cost = { piety = 100 }
+	effect = {
+		add_character_modifier = {
+			modifier = agot_wom_court_greenseer_counsel_modifier
+			years = 5
+		}
+	}
+	ai_check_interval = 0
+	ai_potential = { always = no }
+	ai_will_do = { base = 0 }
+}
+
+agot_wom_reach_unbound_beast_decision = {
+	picture = {
+		reference = "gfx/interface/illustrations/event_scenes/weirwood_event.dds"
+	}
+	desc = agot_wom_reach_unbound_beast_decision_desc
+	selection_tooltip = agot_wom_reach_unbound_beast_decision_tooltip
+	is_shown = { agot_wom_is_dual_master_trigger = yes }
+	is_valid_showing_failures_only = {
+		is_available_adult = yes
+		NOT = { has_character_flag = agot_wom_unbound_beast_cooldown }
+	}
+	effect = {
+		add_stress = 50
+		add_character_flag = { flag = agot_wom_unbound_beast_cooldown years = 10 }
+		trigger_event = agot_wom_warging.0400
+	}
+	ai_check_interval = 0
+	ai_potential = { always = no }
+	ai_will_do = { base = 0 }
+}
+
+agot_wom_dwell_dragon_dream_decision = {
+	picture = {
+		reference = "gfx/interface/illustrations/decisions/decision_dragons.dds"
+	}
+	desc = agot_wom_dwell_dragon_dream_decision_desc
+	selection_tooltip = agot_wom_dwell_dragon_dream_decision_tooltip
+	is_shown = { has_trait = dragon_dreams }
+	is_valid_showing_failures_only = {
+		is_available_adult = yes
+		agot_wom_magic_active_trigger = yes
+		NOT = { has_character_flag = agot_wom_dragon_dream_cooldown }
+	}
+	effect = {
+		add_stress = 50
+		add_character_flag = { flag = agot_wom_dragon_dream_cooldown years = 5 }
+		trigger_event = agot_wom_visions.0002
+	}
+	ai_check_interval = 0
+	ai_potential = { always = no }
+	ai_will_do = { base = 0 }
+}

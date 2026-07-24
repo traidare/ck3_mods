@@ -1,0 +1,25 @@
+﻿namespace = agot_wom_awakening
+
+agot_wom_awakening.0001 = {
+	type = character_event
+	title = agot_wom_awakening.0001.t
+	desc = agot_wom_awakening.0001.desc
+	theme = mental_break
+
+	immediate = {
+		remove_character_flag = agot_wom_latent_skinchanger
+		if = {
+			limit = { NOT = { has_trait = agot_wom_skinchanger } }
+			add_trait = agot_wom_skinchanger
+		}
+	}
+
+	option = {
+		name = agot_wom_awakening.0001.a
+		agot_wom_start_bond_search_effect = yes
+	}
+	option = {
+		name = agot_wom_awakening.0001.b
+		add_character_flag = agot_wom_refused_call
+	}
+}

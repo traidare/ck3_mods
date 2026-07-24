@@ -1,0 +1,196 @@
+﻿namespace = agot_wom_bonding
+
+agot_wom_bonding.0005 = {
+	type = character_event
+	title = agot_wom_bonding.0005.t
+	desc = agot_wom_bonding.0005.desc
+	theme = realm
+
+	option = {
+		name = agot_wom_bonding.0005.a
+		agot_wom_start_bond_search_effect = yes
+	}
+	option = {
+		name = agot_wom_bonding.0005.b
+	}
+}
+
+agot_wom_bonding.0010 = {
+	hidden = yes
+	immediate = {
+		agot_wom_choose_bond_encounter_effect = yes
+	}
+}
+
+agot_wom_bonding.0100 = {
+	type = character_event
+	title = agot_wom_bonding.0100.t
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = { has_character_flag = agot_wom_candidate_dog }
+				desc = agot_wom_bonding.0100.desc.dog
+			}
+			triggered_desc = {
+				trigger = { has_character_flag = agot_wom_candidate_wolf }
+				desc = agot_wom_bonding.0100.desc.wolf
+			}
+			triggered_desc = {
+				trigger = { has_character_flag = agot_wom_candidate_raven }
+				desc = agot_wom_bonding.0100.desc.raven
+			}
+			triggered_desc = {
+				trigger = { has_character_flag = agot_wom_candidate_eagle }
+				desc = agot_wom_bonding.0100.desc.eagle
+			}
+			triggered_desc = {
+				trigger = { has_character_flag = agot_wom_candidate_bear }
+				desc = agot_wom_bonding.0100.desc.bear
+			}
+			triggered_desc = {
+				trigger = { has_character_flag = agot_wom_candidate_shadowcat }
+				desc = agot_wom_bonding.0100.desc.shadowcat
+			}
+			triggered_desc = {
+				trigger = { has_character_flag = agot_wom_candidate_cat }
+				desc = agot_wom_bonding.0100.desc.cat
+			}
+			desc = agot_wom_bonding.0100.desc.deer
+		}
+	}
+	theme = realm
+
+	option = {
+		name = agot_wom_bonding.0100.a
+		agot_wom_accept_candidate_effect = yes
+	}
+	option = {
+		name = agot_wom_bonding.0100.b
+		agot_wom_reject_candidate_effect = yes
+	}
+	option = {
+		name = agot_wom_bonding.0100.c
+		add_character_flag = agot_wom_rejected_all_bonds
+		agot_wom_clear_candidate_effect = yes
+	}
+}
+
+agot_wom_bonding.0200 = {
+	type = character_event
+	title = agot_wom_bonding.0200.t
+	desc = agot_wom_bonding.0200.desc
+	theme = realm
+
+	option = {
+		name = agot_wom_bonding.0200.a
+		trigger = { NOT = { has_character_flag = agot_wom_candidate_cat } }
+		if = {
+			limit = {
+				OR = {
+					AND = {
+						has_character_flag = agot_wom_candidate_dog
+						OR = { diplomacy >= 10 learning >= 10 }
+					}
+					AND = {
+						has_character_flag = agot_wom_candidate_wolf
+						OR = { martial >= 10 prowess >= 10 }
+					}
+					AND = {
+						has_character_flag = agot_wom_candidate_raven
+						OR = { learning >= 10 intrigue >= 10 }
+					}
+					AND = {
+						has_character_flag = agot_wom_candidate_eagle
+						OR = { learning >= 10 martial >= 10 }
+					}
+					AND = {
+						has_character_flag = agot_wom_candidate_bear
+						OR = { learning >= 10 prowess >= 10 }
+					}
+					AND = {
+						has_character_flag = agot_wom_candidate_shadowcat
+						OR = { intrigue >= 10 prowess >= 10 }
+					}
+					AND = {
+						has_character_flag = agot_wom_candidate_deer
+						OR = {
+							diplomacy >= 10
+							learning >= 10
+							has_trait = patient
+							has_trait = calm
+							has_trait = compassionate
+						}
+					}
+				}
+			}
+			change_variable = { name = agot_wom_affinity add = 2 }
+		}
+		else = {
+			change_variable = { name = agot_wom_affinity add = 1 }
+		}
+		agot_wom_resolve_bond_effect = yes
+	}
+
+	option = {
+		name = agot_wom_bonding.0200.b
+		trigger = {
+			OR = {
+				has_character_flag = agot_wom_candidate_bear
+				has_character_flag = agot_wom_candidate_shadowcat
+				has_character_flag = agot_wom_candidate_cat
+			}
+		}
+		if = {
+			limit = { has_character_flag = agot_wom_candidate_bear }
+			add_stress = 20
+			change_variable = { name = agot_wom_affinity add = 2 }
+			agot_wom_influence_roll_effect = { BEAST = bear CHANCE = 30 }
+		}
+		else_if = {
+			limit = { has_character_flag = agot_wom_candidate_shadowcat }
+			add_stress = 30
+			change_variable = { name = agot_wom_affinity add = 3 }
+			agot_wom_influence_roll_effect = { BEAST = shadowcat CHANCE = 35 }
+		}
+		else = {
+			add_stress = 20
+			change_variable = { name = agot_wom_affinity add = 2 }
+			agot_wom_influence_roll_effect = { BEAST = cat CHANCE = 35 }
+		}
+		agot_wom_resolve_bond_effect = yes
+	}
+
+	option = {
+		name = agot_wom_bonding.0200.c
+		agot_wom_reject_candidate_effect = yes
+	}
+}
+
+agot_wom_bonding.0300 = {
+	type = character_event
+	title = agot_wom_bonding.0300.t
+	desc = agot_wom_bonding.0300.desc
+	theme = realm
+
+	immediate = {
+		agot_wom_complete_candidate_bond_effect = yes
+	}
+	option = {
+		name = agot_wom_bonding.0300.a
+	}
+}
+
+agot_wom_bonding.0301 = {
+	type = character_event
+	title = agot_wom_bonding.0301.t
+	desc = agot_wom_bonding.0301.desc
+	theme = mental_break
+
+	immediate = {
+		agot_wom_bond_failure_effect = yes
+		agot_wom_reject_candidate_effect = yes
+	}
+	option = {
+		name = agot_wom_bonding.0301.a
+	}
+}

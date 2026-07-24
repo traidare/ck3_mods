@@ -1,0 +1,103 @@
+﻿agot_wom_bond_dog_modifier = { icon = dog_positive }
+agot_wom_bond_wolf_modifier = { icon = martial_positive }
+agot_wom_bond_raven_modifier = { icon = intrigue_positive }
+agot_wom_bond_eagle_modifier = { icon = martial_positive }
+agot_wom_bond_bear_modifier = { icon = prowess_positive }
+agot_wom_bond_shadowcat_modifier = { icon = intrigue_positive }
+agot_wom_bond_cat_modifier = { icon = cat_positive }
+agot_wom_bond_deer_modifier = { icon = travel_positive }
+
+agot_wom_influence_echoes_modifier = {
+	icon = stress_negative
+	stress_gain_mult = 0.10
+}
+
+agot_wom_influence_dog_modifier = {
+	icon = dog_negative
+	intrigue = -1
+	stress_gain_mult = 0.10
+	close_relative_opinion = 5
+}
+agot_wom_influence_wolf_modifier = {
+	icon = martial_negative
+	prowess = 1
+	diplomacy = -1
+	general_opinion = -5
+}
+agot_wom_influence_raven_modifier = {
+	icon = intrigue_negative
+	learning = 1
+	stewardship = -2
+	diplomacy = -1
+}
+agot_wom_influence_eagle_modifier = {
+	icon = martial_negative
+	learning = 1
+	stewardship = -2
+	diplomacy = -1
+}
+agot_wom_influence_bear_modifier = {
+	icon = prowess_negative
+	prowess = 1
+	diplomacy = -2
+	general_opinion = -5
+}
+agot_wom_influence_shadowcat_modifier = {
+	icon = intrigue_negative
+	intrigue = 1
+	diplomacy = -2
+	general_opinion = -5
+}
+agot_wom_influence_cat_modifier = {
+	icon = cat_negative
+	intrigue = 1
+	diplomacy = -1
+	general_opinion = -5
+	stress_gain_mult = 0.10
+}
+agot_wom_influence_deer_modifier = {
+	icon = travel_negative
+	prowess = -2
+	character_travel_safety = 10
+}
+
+agot_wom_severed_bond_modifier = {
+	icon = stress_negative
+	stress_gain_mult = 0.25
+	general_opinion = -5
+}
+agot_wom_warg_rest_modifier = {
+	icon = stress_negative
+	stress_gain_mult = 0.10
+}
+agot_wom_eagle_survey_modifier = {
+	icon = martial_positive
+	advantage = 2
+	movement_speed = 0.10
+}
+agot_wom_bear_guard_modifier = {
+	icon = prowess_positive
+	martial = 2
+	prowess = 1
+	advantage = 2
+}
+agot_wom_bear_vitality_modifier = {
+	icon = health_positive
+	health = 0.25
+	fertility = 0.10
+}
+agot_wom_shadowcat_pressure_modifier = {
+	icon = intrigue_negative
+	intrigue = -2
+	hostile_scheme_phase_duration_add = medium_scheme_phase_duration_malus_value
+}
+agot_wom_deer_vigilance_modifier = {
+	icon = travel_positive
+	character_travel_safety = 20
+	enemy_hostile_scheme_phase_duration_add = medium_scheme_phase_duration_malus_value
+}
+agot_wom_court_greenseer_counsel_modifier = {
+	icon = learning_positive
+	learning = 1
+	intrigue = 1
+}

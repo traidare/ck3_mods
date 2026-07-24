@@ -1,0 +1,117 @@
+﻿agot_wom_skinchanger = {
+	category = fame
+	icon = greensight.dds
+	physical = no
+
+	learning = 1
+
+	track = {
+		12 = {
+			learning = 1
+			intrigue = 1
+		}
+		30 = {
+			learning = 2
+			intrigue = 1
+			prowess = 1
+		}
+	}
+
+	name = {
+		first_valid = {
+			triggered_desc = {
+				trigger = {
+					exists = this
+					OR = {
+						has_character_flag = agot_wom_bond_dog
+						has_character_flag = agot_wom_bond_wolf
+					}
+				}
+				desc = trait_agot_wom_skinchanger_warg
+			}
+			triggered_desc = {
+				trigger = {
+					exists = this
+					has_trait_xp = { trait = agot_wom_skinchanger value >= 30 }
+				}
+				desc = trait_agot_wom_skinchanger_master
+			}
+			triggered_desc = {
+				trigger = {
+					exists = this
+					has_trait_xp = { trait = agot_wom_skinchanger value >= 12 }
+				}
+				desc = trait_agot_wom_skinchanger_practiced
+			}
+			desc = trait_agot_wom_skinchanger
+		}
+	}
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = { NOT = { exists = this } }
+				desc = trait_agot_wom_skinchanger_desc
+			}
+			desc = trait_agot_wom_skinchanger_character_desc
+		}
+	}
+
+	random_creation_weight = 0
+	shown_in_ruler_designer = yes
+	ruler_designer_cost = 100
+}
+
+agot_wom_greensight_mastery = {
+	category = fame
+	icon = greensight.dds
+	physical = no
+
+	stress_gain_mult = 0.10
+
+	track = {
+		20 = {
+			learning = 1
+			intrigue = 1
+			stress_gain_mult = 0.15
+		}
+		50 = {
+			learning = 2
+			intrigue = 2
+			stress_gain_mult = 0.20
+			general_opinion = -5
+		}
+	}
+
+	name = {
+		first_valid = {
+			triggered_desc = {
+				trigger = {
+					exists = this
+					has_trait_xp = { trait = agot_wom_greensight_mastery value >= 50 }
+				}
+				desc = trait_agot_wom_greensight_mastery_greenseer
+			}
+			triggered_desc = {
+				trigger = {
+					exists = this
+					has_trait_xp = { trait = agot_wom_greensight_mastery value >= 20 }
+				}
+				desc = trait_agot_wom_greensight_mastery_awakened
+			}
+			desc = trait_agot_wom_greensight_mastery
+		}
+	}
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = { NOT = { exists = this } }
+				desc = trait_agot_wom_greensight_mastery_desc
+			}
+			desc = trait_agot_wom_greensight_mastery_character_desc
+		}
+	}
+
+	random_creation_weight = 0
+	shown_in_ruler_designer = no
+	shown_in_encyclopedia = no
+}
