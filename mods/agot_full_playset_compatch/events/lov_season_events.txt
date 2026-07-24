@@ -1,0 +1,658 @@
+﻿namespace = season_events
+
+#Start Up Event
+##NOTE
+#This event determines if sandbox or historical seasons and what season to start out on.
+#The way it works is it checks if it's sandbox / non historical and then goes to the spring trigger event
+#if it's historical then it checks what start date it is
+#And then it will fire the event to get it to the correct season
+#And it then pre-triggers the event for the next season which will activate the very
+#long chain sequence of events .020 to .135 where it then goes to random seasons past canon years.
+#The trigger times is based on the time difference between the canon & semi-canon season switches
+#I am using that I based on canon info and then guestimations (see long comment at .020) 
+#and the difference between that and the start date so it'll fire on the correct date. 
+##END NOTE
+season_events.001 = {
+	hidden = yes
+	scope = none
+	immediate = {
+	#	set_global_variable = {
+	#		name = this_bit_works_8
+		#	value = yes
+		#}	
+		if = {
+			limit = { has_game_rule = agot_sandbox_seasons }
+			trigger_event = season_events.002
+		}
+		###CUSTOM START DATE EDIT ME!###
+		###EDIT HERE FOR CUSTOM STARTDATE###
+		if = {
+			limit = {
+				AND = {
+					has_game_rule = agot_historical_seasons
+					game_start_date = 8225.7.23 ##CHANGE THIS DATE TO YOUR OWN
+				}
+			}
+			every_ruler = {						  ##.005 for winter, .006 for Spring, .007 for Summer, and .008 for Autumn
+				trigger_event = season_events.007 ##CHANGE TO Correct Season ID
+			}
+			set_AGOT_season_summer_start = yes ##Change season to correct one, winter is 
+			#set_AGOT_Season_Winter_Startup = yes ##For Winter
+			#set_AGOT_season_spring_start = yes ##for Spring
+			#set_AGOT_season_autumn_start = yes ##for Autumn
+			trigger_event = {
+				id = season_events.100 #This is the one after the current season for this example Change to the one after your chosen start date
+				days = 2172 #It will be summer for 2172 days, change to the date difference you calculated. 
+			}
+		}
+		
+		
+		###END CUSTOM START DATE TEMPLATE
+
+		# LoV After the Doom
+		if = {
+			limit = {
+				AND = {
+					has_game_rule = agot_historical_seasons
+					game_start_date >= 7899.1.1 # After the Doom era (1 AD) — date range, survives bookmark start-date changes
+					game_start_date <= 7905.12.28
+				}
+			}
+			every_ruler = {						  ##.005 for winter, .006 for Spring, .007 for Summer, and .008 for Autumn
+				trigger_event = season_events.005 ##CHANGE TO Correct Season ID
+			}
+			set_AGOT_Season_Winter_Startup = yes ##For Winter
+			trigger_event = {
+				id = season_events.019
+				days = 300 # Winter followed by random seasons. Should probably make 100 years of fake season history but nah
+			}
+		}
+		#compatibility for morebookmarks
+		if = { 
+			limit = { 
+				AND = {
+					has_game_rule = agot_historical_seasons
+					game_start_date = 8298.3.1 #A Game of Thrones
+				}
+			}
+			every_ruler = {
+				trigger_event = season_events.007 #Sets to Summer
+			}
+			set_AGOT_season_summer_start = yes
+			trigger_event = {
+				id = season_events.134
+				days = 304 #Then triggers the sequence for Autumn 8299
+			}
+		}
+		if = { 
+			limit = { 
+				AND = {
+					has_game_rule = agot_historical_seasons
+					game_start_date = 8298.12.21 #War of Five Kings 
+				}
+			}
+			every_ruler = {
+				trigger_event = season_events.007 #Sets to Summer
+			}
+			set_AGOT_season_summer_start = yes
+			trigger_event = {
+				id = season_events.134
+				days = 34 #Then triggers the sequence for Autumn 8299
+			}
+		}
+		#Egg of the Week
+		if = {
+			limit = { 
+				AND = {
+					has_game_rule = agot_historical_seasons
+					game_start_date = 8153.12.31 #Egg the Younger
+				}
+			}
+			#Brings to Summer.
+			every_ruler = {	
+				trigger_event = season_events.007
+			}
+			set_AGOT_season_summer_start = yes
+			trigger_event = {
+				id = season_events.055
+				days = 256 
+			}
+		}		
+		#4th blackfyre rebellion
+		if = {
+			limit = { 
+				AND = {
+					has_game_rule = agot_historical_seasons
+					game_start_date = 8236.2.13
+				}
+			}
+			every_ruler = {
+				trigger_event = season_events.005 #winter war but not finland
+			}
+			set_AGOT_Season_Winter_Startup = yes
+			trigger_event = {
+				id = season_events.102 #Fires on 8237.5.12 Spring
+				days = 454 
+			}
+		}
+		if = {
+			limit = {
+				AND = {
+					has_game_rule = agot_historical_seasons
+					game_start_date = 8010.1.1 #Conqueror
+				}
+			}
+			every_ruler = {	
+				trigger_event = season_events.007
+			} #brings to Summer
+			set_AGOT_season_summer_start = yes
+			trigger_event = {
+				id = season_events.0871
+				days = 183
+			}
+		}
+		if = {
+			limit = { 
+				AND = {
+					has_game_rule = agot_historical_seasons
+					game_start_date = 8178.6.1 #Egg the Unworthy
+				}
+			}
+			#Brings to Summer.
+			every_ruler = {	
+				trigger_event = season_events.007
+			}
+			set_AGOT_season_summer_start = yes
+			trigger_event = {
+				id = season_events.71 
+				days = 738 
+			}
+		}		
+		#if = {
+		#	limit = { 
+		#		AND = {
+		#			has_game_rule = agot_historical_seasons
+		#			game_start_date = 8258.12.21 #Egg the Egg
+		#		}
+		#	}
+		#	trigger_event = {
+		#		id = season_events.114
+			#	days = 1191 
+			#}
+		#}	
+	#	if = {
+	#		limit = { 
+	#			AND = {
+	#				has_game_rule = agot_historical_seasons
+	#				game_start_date = 8010.1.1 #Egg the Conqueror
+	#			}
+	#		}
+	#		trigger_event = {
+	#			id = season_events.114
+	#			days = 1191 
+		#	}
+	#	}	
+		if = {
+			limit = {
+				AND = {
+					has_game_rule = agot_historical_seasons
+					game_start_date = 7999.1.3 #Aegon the Conqueror (Submod)
+					
+				}
+			}
+			every_ruler = {
+				trigger_event = season_events.006
+			}
+			set_AGOT_season_spring_start = yes
+			trigger_event = {
+				id = season_events.0811
+				days = 730 #2 years till 8000
+			}
+		}		
+		if = {
+			limit = {
+				AND = {
+					has_game_rule = agot_historical_seasons
+					game_start_date = 7999.1.1 #Aegon the Conqueror (Submod)
+					
+				}
+			}
+			every_ruler = {
+				trigger_event = season_events.006
+			}
+			set_AGOT_season_spring_start = yes
+			trigger_event = {
+				id = season_events.0811
+				days = 730 #2 years till 8000
+			}
+		}
+		
+		if = {
+			limit = { 
+				AND = {
+					has_game_rule = agot_historical_seasons
+					game_start_date = 8129.3.30 #Egg the Elder
+				}
+			}
+			every_ruler = {	
+				trigger_event = season_events.007
+			} #Sets to Summer
+			set_AGOT_season_summer_start = yes
+			trigger_event = {
+				id = season_events.008 #Fires 12 days so 10 days to switch Autumn
+				days = 12 
+			}
+			trigger_event = {
+				id = season_events.044
+				days = 707 
+			}
+		}			
+		#Normal Starts
+		if = { 
+			limit = { 
+				AND = {
+					has_game_rule = agot_historical_seasons 
+					game_start_date = 8106.4.18 #Rogue Prince
+				}
+			}
+			every_ruler = {	
+				trigger_event = season_events.007
+			}			#Summer but no random change
+			set_AGOT_season_summer_start = yes
+			trigger_event = {
+				id = season_events.031 #brings it to autumn
+				days = 319 #So it fires on 8107.3.2
+			}
+		#	set_global_variable = {
+			#	name  = this_bit_works_13
+			#	value = yes
+			#}
+		}
+		if = {
+			limit = {  
+				AND = {
+					has_game_rule = agot_historical_seasons
+					game_start_date = 8284.6.2 #Bobby-B's now King Crowned Stag
+				}
+			}
+			#This sets it to summer. 
+			every_ruler = {	
+				trigger_event = season_events.007
+			}
+			set_AGOT_season_summer_start = yes
+			#This will activate the sequence and bring it to autumn. Hopefully..
+			trigger_event = {
+				id = season_events.130
+				days = 688 
+			}
+		}
+		
+		if = {
+			limit = { 
+				AND = {
+					has_game_rule = agot_historical_seasons
+					game_start_date = 8277.1.1 #Defiance of Duskendale
+				}
+			}
+			#Brings to Summer.
+			every_ruler = {	
+				trigger_event = season_events.007
+			}
+			set_AGOT_season_summer_start = yes
+			trigger_event = {
+				id = season_events.124 #Fires on 8278.9.2
+				days = 610 
+			}
+		}
+		if = {
+			limit = { 
+				AND = {
+					has_game_rule = agot_historical_seasons
+					game_start_date = 8209.2.1 #Tourney at Ashford
+				}
+			}
+			#Spring so no need to really change I guess.
+			every_ruler = {
+				trigger_event = season_events.006
+			}
+			set_AGOT_season_spring_start = yes
+			trigger_event = {
+				id = season_events.090 #Fires on 8210.7.6
+				days = 520
+			}
+		}
+		if = {
+			limit = { 
+				AND = {
+					has_game_rule = agot_historical_seasons
+					game_start_date = 8211.3.1 #After the Spring
+				}
+			}
+			#Spring so no need to really change I guess.
+			every_ruler = {
+				trigger_event = season_events.006
+			}
+			set_AGOT_season_summer_start = yes
+			trigger_event = {
+				id = season_events.091 #Fires on 8213.4.2
+				days = 763
+			}
+		}
+		if = {
+			limit = { 
+				AND = {
+					has_game_rule = agot_historical_seasons
+					game_start_date = 8258.12.21 #Aegon V tries to Hatch an Egg Fifth Blackfyre Rebellion and War of Nine Penny Kings
+				}
+			}
+			#Spring so no need to really change I guess.
+			every_ruler = {
+				trigger_event = season_events.007
+			}
+			set_AGOT_season_spring_start = yes
+			trigger_event = {
+				id = season_events.115 #Fires on 8260.4.5
+				days = 472 
+			}
+		}		
+		if = {
+			limit = { 
+				AND = {
+					has_game_rule = agot_historical_seasons
+					game_start_date = 8257.6.1
+				}
+			}
+			#Spring so no need to really change I guess.
+			every_ruler = {
+				trigger_event = season_events.006
+			}
+			set_AGOT_season_spring_start = yes
+			trigger_event = {
+				id = season_events.115 #Fires on 8260.4.5
+				days = 652 
+			}
+		}
+		if = { 
+			limit = { 
+				AND = {
+					has_game_rule = agot_historical_seasons
+					has_game_rule = agot_spring_war #Historical : Winter But gameplay may prefer spring.
+					game_start_date = 8282.9.15 #Bobby-B's Rebellion
+				}
+			}
+			#Spring so no need to really change I guess.
+			every_ruler = {
+				trigger_event = season_events.006
+			}
+			set_AGOT_season_spring_start = yes
+			#set_global_variable = {
+			#	name  = this_bit_works_15
+			#	value = yes
+			#}
+			trigger_event = {
+				id = season_events.129 #Fires on 8283.4.13 Summer
+				days = 210 
+			}
+		}
+		if = { 
+			limit = { 
+				AND = {
+					has_game_rule = agot_historical_seasons
+					has_game_rule = agot_winter_war #Historical : Winter
+					game_start_date = 8282.9.15 #Bobby-B's Rebellion
+				}
+			}
+			every_ruler = {
+				trigger_event = season_events.005 #winter war but not finland
+			}
+			set_AGOT_Season_Winter_Startup = yes
+				#set_global_variable = {
+				#	name  = this_bit_works_15
+				#	value = yes
+				#}
+			trigger_event = {
+				id = season_events.128 #Fires on 8282.12.20 Spring
+				days = 97 
+			}
+		}
+		if = { 
+			limit = { 
+				AND = {
+					has_game_rule = agot_historical_seasons
+					has_game_rule = agot_winter_war
+					game_start_date = 8233.2.8 #Peake Rebellion
+				}
+			}
+			every_ruler = {
+				trigger_event = season_events.005 #winter war
+			}
+			set_AGOT_Season_Winter_Startup = yes
+			trigger_event = {
+				id = season_events.102 #Fires on 8237.5.12 Spring
+				days = 1555 
+			}
+		}
+		if = { 
+			limit = { 
+				AND = {
+					has_game_rule = agot_historical_seasons
+					game_start_date = 8129.4.2 #MODDED DoD 
+				}
+			}
+			every_ruler = {
+				trigger_event = season_events.007 #Sets to Summer
+			}
+			set_AGOT_season_summer_start = yes
+			trigger_event = {
+				id = season_events.008 #Fires 12 days so 10 days to switch Autumn
+				days = 5 
+			}
+			trigger_event = {
+				id = season_events.044 
+				days = 705 #Then triggers the sequence for Winter 8131 
+			}
+		}
+		if = { 
+			limit = { 
+				AND = {
+					has_game_rule = agot_historical_seasons
+					game_start_date = 8129.4.28 #MODDED DoD 
+				}
+			}
+			every_ruler = {
+				trigger_event = season_events.007 #Sets to Summer
+			}
+			set_AGOT_season_summer_start = yes
+			trigger_event = {
+				id = season_events.008 #Fires 12 days so 10 days to switch Autumn
+				days = 5
+			}
+			trigger_event = {
+				id = season_events.044 
+				days = 769 #Then triggers the sequence for Winter 8131 
+			}
+		}		
+		if = { 
+			limit = { 
+				AND = {
+					has_game_rule = agot_historical_seasons
+					game_start_date = 8157.2.1 #conquest of dorne modded
+				}
+			}
+			every_ruler = {
+				trigger_event = season_events.007 #Sets to Summer
+			}
+			set_AGOT_season_summer_start = yes
+			trigger_event = {
+				id = season_events.057 #Fires 12 days so 10 days to switch Autumn
+				days = 30
+			}
+		}
+		if = { 
+			limit = { 
+				AND = {
+					has_game_rule = agot_historical_seasons
+					game_start_date = 8170.12.11 #Baelor the Blessed & Braavos
+				}
+			}
+			every_ruler = {
+				trigger_event = season_events.006
+			}
+			set_AGOT_season_spring_start = yes
+			trigger_event = {
+				id = season_events.066
+				days = 22 #Then triggers the sequence for Summer 8171 
+			}
+		}
+		if = { 
+			limit = { 
+				AND = {
+					has_game_rule = agot_historical_seasons
+					game_start_date = 8195.3.7 #MODDED Blackfyre 
+				}
+			}
+			every_ruler = {
+				trigger_event = season_events.007 #Sets to Summer
+			}
+			set_AGOT_season_summer_start = yes
+			trigger_event = {
+				id = season_events.012 #Fires 12 days so 10 days to switch Autumn
+				days = 12 
+			}
+			trigger_event = {
+				id = season_events.080 
+				days = 495 #Then triggers the sequence for Winter 8196 
+			}
+		}
+		if = { 
+			limit = { 
+				AND = {
+					has_game_rule = agot_historical_seasons
+					game_start_date = 8195.2.15 #MODDED Blackfyre 
+				}
+			}
+			every_ruler = {
+				trigger_event = season_events.007 #Sets to Summer
+			}
+			set_AGOT_season_summer_start = yes
+			trigger_event = {
+				id = season_events.012 #Fires 12 days so 10 days to switch Autumn
+				days = 5
+			}
+			trigger_event = {
+				id = season_events.080 
+				days = 515 #Then triggers the sequence for Winter 8196 
+			}
+		}
+		if = { 
+			limit = { 
+				AND = {
+					has_game_rule = agot_historical_seasons
+					game_start_date = 8298.12.21 #War of Five Kings 
+				}
+			}
+			every_ruler = {
+				trigger_event = season_events.007 #Sets to Summer
+			}
+			set_AGOT_season_summer_start = yes
+			trigger_event = {
+				id = season_events.134
+				days = 34 #Then triggers the sequence for Autumn 8299
+			}
+		}
+		if = { 
+			limit = { 
+				AND = {
+					has_game_rule = agot_historical_seasons
+					game_start_date = 8239.1.11 #Laughing  Storm
+				}
+			}
+			every_ruler = {
+				trigger_event = season_events.007 #Sets to Summer
+			}
+			set_AGOT_season_summer_start = yes
+			trigger_event = {
+				id = season_events.104
+				days = 812 #Autumn 8241
+			}
+		}
+		if = { 
+			limit = { 
+				AND = {
+					has_game_rule = agot_historical_seasons
+					game_start_date = 8299.6.13 #Clash of Kings
+				}
+			}
+			every_ruler = {
+				trigger_event = season_events.007 #Sets to Summer
+			}
+			set_AGOT_season_summer_start = yes
+			trigger_event = {
+				id = season_events.012 #Fires 11 days so 10 days to switch Autumn
+				days = 11
+			}
+			trigger_event = {
+				id = season_events.135
+				days = 397 #Then triggers the sequence for Winter 300 AC
+			}
+		}
+		if = { 
+			limit = { 
+				AND = {
+					has_game_rule = agot_historical_seasons
+					game_start_date = 8300.3.1 #Feast for Crows
+				}
+			}
+			every_ruler = {
+				trigger_event = season_events.005
+			}
+			set_AGOT_Season_Winter_Startup = yes
+			trigger_event = {
+				id = season_events.019
+				days = 1061 #Then triggers the sequence for Next Spring in a few years..
+			}
+		}
+		if = { 
+			limit = { 
+				AND = {
+					has_game_rule = agot_historical_seasons
+					has_game_rule = agot_spring_war
+					game_start_date = 8233.2.8 #Peake Rebellion
+				}
+			}
+			every_ruler = {
+				trigger_event = season_events.006
+			}
+			set_AGOT_season_spring_start = yes
+			trigger_event = {
+				id = season_events.103 #Fires on 8239.1.4 Summer
+				days = 2157  
+			}
+		}
+		if = {
+			limit = {
+				AND = {
+					has_game_rule = agot_historical_seasons
+					game_start_date = 8082.1.1 #Jae's Reign
+				}
+			}
+			every_ruler = {
+				trigger_event = season_events.005 #winter war
+			}
+			set_AGOT_Season_Winter_Startup = yes
+			trigger_event = {
+				id = season_events.0202
+				days = 724
+			}
+		}
+		#if = { #Currently no Vanilla AGOT Autumn Season Starts so disabled.
+		#	limit = {
+		#		has_game_rule = agot_historical_seasons
+		#		OR = {
+		#			game_start_date = 
+		#		}
+		#	}
+		#	trigger_event = season_events.012 #Autumn!
+		#}
+	}
+}

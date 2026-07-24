@@ -1,0 +1,30 @@
+﻿# Seasons of Valyria - LoV & Seasons REBASED Compatch v1.8 override of
+# AGOT Seasons of Ice and Fire's 00_seasons_doctrine_group_types.txt.
+# FIX: the seasons doctrine group used "group =" which CK3 1.19 does not
+# accept in doctrine_group_types ("Unexpected token: group" in error.log,
+# whole block failed to parse, killing the global seasonal doctrine group).
+# Correct key is "category =", matching the agot_exceptionalism entry.
+
+agot_exceptionalism = {
+	category = "special"
+
+	is_available_on_create = {
+		has_doctrine = agot_exceptionalism_doctrine
+	}
+
+	doctrine_types = {
+		agot_exceptionalism_doctrine
+	}
+}
+agot_seasons_doctrine_seasons = {
+	category = "special"  # was "group =" upstream - REPORT TO SEASONS DEVS
+	is_available_on_create = {
+		has_doctrine = agot_seasons_doctrine_winter
+	}
+	doctrine_types = {
+		agot_seasons_doctrine_winter
+		agot_seasons_doctrine_spring
+		agot_seasons_doctrine_summer
+		agot_seasons_doctrine_autumn
+	}
+}

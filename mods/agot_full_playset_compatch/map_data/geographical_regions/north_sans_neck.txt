@@ -1,0 +1,1480 @@
+world_westeros_the_north_sans_neck = {
+	regions = {
+		world_westeros_the_north_mainland
+	}
+	duchies = {
+		d_bear_island
+		d_skagos
+	}
+}
+world_westeros_dornish_marches_sans_storms = {
+	duchies = {
+		d_the_stoneway
+		d_redmarch
+		d_the_princes_pass
+		d_blackmont
+		d_torrentine
+		d_oldhills
+		d_the_westmarch
+		d_palemarch
+		d_nightsong
+		d_marchfields
+		d_blackhaven
+	}
+}
+world_westeros_the_reach_without_south_or_marches = {
+	duchies = {
+		d_highgarden
+		d_bitterbridge
+		
+		d_blueburn
+		
+		d_cockleswhent
+		d_darkdell
+		d_darstone
+		d_fullharvest
+		
+		d_goldenfields
+		d_goldengrove
+		d_heartland_heights
+		
+		d_manderfields
+
+		
+		d_orchard_way
+		
+		d_red_front
+		
+		
+		d_sunnyvale
+		
+		d_the_northmarch
+		d_the_ocean_road
+		d_the_roseroad
+		
+		d_tumbleton
+	}
+}
+world_westeros_the_arbor_seasons = {
+	duchies = {
+		d_the_arbor
+		d_shield_islands
+	}
+}
+
+world_westeros_the_stormlands_sans_marches = {
+	duchies = {
+		d_shipbreaker_bay
+		d_cape_wrath
+		d_dark_harrow
+		d_estermont_isles
+		d_grandview
+		d_greatstock
+		d_kingswood
+		d_nestridge
+		d_red_watch
+		d_stackfield
+		d_tarth
+		d_the_drench
+		d_the_rainwood
+		d_valor_meadows
+		d_vellum_coast
+		d_whentway
+		d_the_slayne
+	}
+}
+world_westeros_rest_of_dorne = {
+	duchies = {
+		d_sunspear
+		d_brimstone
+		d_broken_arm
+		d_ghost_hills
+		d_godsgrace
+		#d_lemonwood
+		d_oldwell
+		d_red_dunes
+		d_salt_shore
+		d_sandstone
+		d_the_tor
+		d_greenbelt
+		d_scourgehead
+	}
+}
+#WINTER GROUPS SEASONS
+world_group_one = {
+	regions = {
+		world_barrowlands_seasons
+		world_stoney_shore_seasons
+		world_wolfswood_seasons
+		world_winterfell_seasons
+		world_whiteknife_seasons
+		world_northern_mountains_seasons
+		world_lonely_hills
+		world_sheepshead_hills
+		world_skagos_seasons
+		world_wall_seasons
+		#world_upper_vale_seasons
+	}
+}
+world_group_one_b = {
+	regions = {
+		world_upper_vale_seasons
+	}
+}	
+world_group_two = {
+	regions = {
+		world_westerlands_high
+		world_braavosi_mountains
+		world_the_neck_seasons
+		world_kraken_bay
+		world_iron_isles
+		world_the_fingers_seasons
+	}
+}
+world_group_three = {
+	regions = {
+		world_the_gullet
+		world_gods_eye_region
+		world_upper_crown
+		world_riverlands_central
+		world_lower_vale_seasons
+		world_andal_hills
+
+		# LoV Regions:
+		world_lov_upper_rhoyne
+
+	}
+}
+world_group_four = {
+	regions = {
+		world_westerlands_low
+		world_pentoshi_inland_lowlands
+		world_andalosi_coast
+		world_central_stormlands
+
+		# LoV Regions:
+		world_lov_middle_rhoyne
+	}
+}
+
+world_group_five = {
+	regions = {
+		world_rainwood
+		world_upper_reach
+	
+
+	}
+}
+world_group_six = {
+	regions = {
+		world_pentoshi_coast_lowlands
+		world_tarth_and_estermont
+
+	}
+}
+world_group_seven = {
+	regions = {
+		world_dornish_marches_seasons
+		world_the_shield_islands
+		world_the_arbor
+		world_honey_lands
+		
+		# LoV Regions:
+		world_lov_mantarys	
+		world_lov_lower_rhoyne
+		world_lov_volantene_steppe		
+	}
+}
+world_group_eight = {
+	regions = {
+		world_myr_north_lands
+		world_star_fall
+		world_pentoshi_highlands
+
+	}
+}
+world_group_nine = {
+	regions = {
+		world_dorne_south_coast
+		world_dorne_north_coast
+
+		# LoV Regions:
+		world_lov_south_ghiscar
+		# v-fix: these four were missing from every cleanup group, so their season
+		# modifiers stacked forever instead of cycling (reported by warNIya, Jul 18 2026)
+		world_lov_western_sothoryos
+		world_lov_eastern_sothoryos
+		world_lov_marahai
+		world_lov_asshai
+
+
+	}
+}
+world_group_ten = {
+	regions = {
+		world_broken_arm_woods
+		world_green_blood_river
+		world_dorne_desert
+		world_disputed_lands_hills
+		world_myr_south_lands
+		world_lys_and_mangroves
+		world_stepstones
+		# world_rest_of_essos_valyria_LOV
+
+		# LoV Regions:
+		world_lov_volantene_coast
+		world_lov_north_ghiscar
+	}
+}
+#NEW REGIONS FOR SEASONS
+
+
+world_tarth_and_estermont = {
+	duchies = {
+		d_estermont_isles
+		d_tarth
+
+		d_tudbury_island
+	}
+}
+world_rainwood = {
+	duchies = {
+		d_the_rainwood
+		d_cape_wrath
+		d_the_drench
+
+		d_weeping_town
+	}
+	counties = {
+		c_grinsdale
+	}
+}
+world_central_stormlands = {
+	kingdoms = {
+		k_the_hook
+	}
+	duchies = {
+		d_nestridge
+		d_shipbreaker_bay
+		d_the_slayne
+		d_dark_harrow
+		d_vellum_coast
+		d_kingswood
+		d_stackfield
+		d_the_baywater_woods
+		d_wendwater_forest
+
+		d_bronzegate
+	}
+	counties = {
+		c_rosby
+		c_strongmead
+		c_nessing
+		c_grainside
+		c_darkwoods_mull
+		c_kings_landing
+		c_blackstripe
+		c_stonehelm
+		c_corningstone
+		c_severisles
+
+		c_the_gauntlet
+		c_wellwend
+		c_harrowfield
+	}
+}
+world_rest_of_rosby_dusken = {
+	counties = {
+		c_greensward
+		c_whiteplate
+		c_redbend
+		c_edgerton
+		c_stokeworth
+		c_bentbranch
+		c_silverhead
+		c_cantondale
+		c_duskendale
+		c_crownback
+		c_bluntmark
+		c_shadowshield
+		c_spinney
+		c_yellowstars
+
+		c_vairs_head
+		c_highley
+	}
+}
+world_the_gullet = {
+	duchies = {
+		d_sharp_point
+		d_driftmark
+		d_dragonstone
+		d_claw_isle #maybe change
+
+		d_sweetport
+	}
+}
+world_gods_eye_region = {
+	counties = {
+		c_hagedorn
+		c_elmcastle
+		c_lakehaven
+		c_rushdown
+		c_harrenhal
+		c_harroway
+		c_ferrybridge
+		c_milkstone
+		c_shorehedge
+		c_great_fork
+		c_rollingford
+		c_middleton
+		c_bringrunn
+		c_briarwhite
+
+		c_worthriver
+	}
+}
+world_upper_crown = {
+	regions = {
+		world_rest_of_rosby_dusken
+	}
+	kingdoms = {
+		k_the_claw
+	}
+	duchies = {
+		d_maidenpool
+		d_deerfield
+		d_rooks_rest
+		#d_claw_isle #maybe change
+		d_hayford
+		d_riverline
+		d_tridents_mouth
+		d_coinbridge
+	}
+	counties = {
+		c_bramsfort
+		#c_shrinebridge
+		c_shinebridge
+	}
+}
+world_upper_reach = {
+	regions = {
+	
+	}
+	duchies = {
+		d_greatstock
+		d_tumbleton
+		d_valor_meadows
+		#d_greatstock
+		d_bitterbridge
+		d_orchard_way
+		d_highgarden
+		d_darstone
+		d_darkdell
+		d_the_roseroad
+		d_manderfields
+		d_fullharvest
+		d_goldengrove
+		d_sunnyvale
+		d_heartland_heights
+		d_blueburn
+		d_cockleswhent
+
+		d_dunstonbury
+		d_stackhouse
+		d_holyhall
+	}
+	counties = {
+		c_wings_pass
+		c_longgrass
+		c_pikemouth
+		c_briarcrest
+		c_leddan
+		c_muchyre
+		c_clickingmoor
+		c_pippengrow
+		c_lace_river
+		c_rilldene
+		#c_sommelfield
+		#c_blandford
+		#c_greenridge
+		
+	}
+}
+
+world_andalosi_coast = {
+	counties = {
+		c_horost
+		c_andal_coast
+		c_wincoast
+		c_revosghar
+		c_zelaan_garab
+		c_masked_ridge
+		c_freneros
+		c_moonbridge
+	}
+	duchies = {
+		d_braavos
+	}
+}
+world_andal_hills = {
+	counties = {
+		c_astiennon
+		c_doralbar_coast
+		c_smiths_bay
+		c_boiorrio
+		c_parmengaed
+		c_armiridge
+		c_crone_moors
+		c_coronyll
+		c_tableland
+	}
+	duchies = {
+		d_velvet_hills
+		d_jelmark
+		d_hukorohott
+		d_sentinel_ridge
+		d_star_hills
+	}
+}
+world_braavosi_mountains = {
+	counties = {
+		c_othoggos
+		c_the_marshes
+		c_ironport
+		c_nabyspharos
+		c_ironport_isles
+	}
+	duchies = {
+		d_sweetwater
+		d_mothers_crown
+		d_noporzhyr
+		d_lunar_bay_hills
+		d_inkolantibyr
+	}
+
+}
+world_pentoshi_coast_lowlands = {
+	counties = {
+		c_warriors_approach
+		c_ozendyos
+	}
+	duchies = {
+		d_nyojon
+		d_pentos
+		d_shepamoti		
+	}
+}
+world_pentoshi_inland_lowlands = {
+	duchies = {
+		d_the_flatlands
+		d_little_rhoyne
+	}
+	counties = {
+		c_hareqeblon
+		c_phasios_hills
+	}
+}
+world_pentoshi_highlands = {
+	counties = {
+		c_kastaeliton
+		c_togez_woods
+		c_reles
+		c_sweetpale
+		c_qapys
+		c_aenoris
+	}
+	duchies = {
+		d_the_baked_lands
+		d_samaalis
+		d_nontelos
+		d_konian_coast
+	}
+}
+world_myr_north_lands = {
+	duchies = {
+		d_lotyr_bay
+		d_qehes
+		d_greenlace
+		d_brenassar
+	}
+	counties = {
+		c_jaeren
+		c_drennelion
+	}
+}
+world_myr_south_lands = {
+	duchies = {
+		d_myr
+		d_southcliffs
+		d_croraera
+		d_hells_barrens
+		d_the_shambles
+		d_quhyrys
+		d_ryrys
+		d_tyrosh #maybe move to stepstones
+		d_muricosh #maybe move to stepstones
+	}
+	counties = {
+		c_rynlos
+		c_qygaeryr
+	}
+}
+world_disputed_lands_hills = {
+	counties = {
+		c_drelyia
+		c_devosh
+		c_restianys
+		
+	}
+	duchies = {
+		d_great_vilibosh
+		d_thaehaes
+		d_ibonanne
+		d_battle_hills
+	}
+}
+world_lys_and_mangroves = {
+	duchies = {
+		d_mangrove_shoals
+		d_silkhead
+		d_izuloktia
+		d_lys
+		d_numys
+		d_lentorys
+	}
+
+}
+
+world_broken_arm_woods = {
+	duchies = {
+		d_broken_arm
+	}
+}
+world_dorne_north_coast = {
+	duchies = {
+		d_the_tor
+		d_ghost_hills
+	}
+	counties = {
+		c_husk_flats
+		c_stedding
+		c_flatwater
+		c_ghaston_grey
+		c_wayguard
+		c_yronwood
+		c_the_scourge
+		c_the_bramble
+	}
+}
+world_green_blood_river = {
+	duchies = {
+		d_godsgrace
+	}
+	counties = {
+		c_stinkwater
+		c_plankytown
+		c_lemonwood
+		c_sunspear
+	}
+}
+world_dorne_south_coast = {
+	counties = {
+		c_killburne
+		c_red_waste
+		c_bloodbridge
+		c_brittlebush
+		c_royalmarch
+		c_vaith
+		c_the_barrens
+		c_saltstone
+		c_salt_shore
+		c_white_stones
+		c_brackish
+		c_drillwater_islands
+		c_sourmarket
+		c_sweetwater
+
+		c_brittlebush
+	}
+}
+world_dorne_desert = {
+	counties = {
+		c_jackalrun
+		c_hellholt
+		c_the_dustbowl
+		c_first_well
+		c_sandstone
+		#c_white_dunres
+		c_barbmane
+		c_sandhorn
+		c_sulphur_flats
+		c_arnight
+		c_steamfall
+		c_willburn
+		c_the_scablands
+		c_brimstone
+		c_burning_dunes
+		c_great_dunes
+		c_pronghorn
+		c_shady_sands
+		c_blood_gulch
+		c_dreadsands
+		c_white_dunes
+		c_drywell
+		
+	}
+	#baronies = {
+	#	b_silence
+	#	b_aurisand
+	#	b_scarcrest
+	#}
+}
+world_rest_of_dreadsands = {
+	#baronies = {
+	#	b_coarse_keep
+	#	b_brickmounds
+	#	b_dreadsand
+	#	
+	#}
+}
+world_star_fall = {
+	duchies = {
+		d_torrentine
+	}	
+	counties = {
+		c_stinging_sands
+		c_stained_sands
+		c_orchard_shore
+		c_sunhouse
+		c_dunnsbridge
+		c_freeridge
+		c_evenmorn
+		c_the_rolls
+		c_dersling
+	}
+	#regions = {
+	#	world_rest_of_dreadsands
+	#}
+}
+
+world_honey_lands = {
+	duchies = {
+		d_honeylands
+		d_oldtown
+		d_black_sound
+		d_brightwater
+		d_ridgeview
+
+		d_denflower
+	}
+	counties = {
+		c_the_ring
+		c_beachcastle
+		c_meadowport
+		#c_meadsmeet
+		c_whisper_point
+		c_richglade
+		c_meadowsmeet
+
+		c_lavenderne
+	}
+}
+
+
+world_dornish_marches_seasons = {
+	regions = {
+		world_rest_of_prince_pass #incase  I want to remove to another one later
+	}
+	duchies = {
+		#d_oldhills
+		d_blackmont
+		d_the_westmarch
+		d_redmarch
+		#d_stoneway
+		d_nightsong
+		d_marchfields
+		d_blackhaven
+		d_whentway
+		d_palemarch
+		d_the_stoneway
+
+		d_cockscombe
+		d_the_vultures_gorge
+	}
+	counties = {
+		c_cadgemont
+		c_wide_way
+		c_princemarch
+		c_scale_valley
+		c_summerfield
+		c_riskmarch
+		c_choicemarch
+		c_swellcrest
+		c_grandview
+		c_greenbelt
+
+		c_fawnton
+		c_goodwreath
+		c_buttonweed
+		c_nubbock
+		c_harthwood
+	}
+
+}
+world_rest_of_prince_pass = {
+	counties = {
+		c_thorntree
+		c_hoodridge
+		c_skyreach
+	}
+}
+world_westerlands_low = {
+
+	duchies = {
+		d_crakehall
+		d_lanns_point
+		d_fair_isle
+		d_the_crag
+		d_withermoore
+		d_goldmarch
+		d_tarrich
+
+		d_greenrust
+		d_lannisport
+		d_kayce
+		d_casterly_rock
+	}
+	counties = {
+		c_beechshore
+		c_oakheart
+		c_summer_cove
+		c_new_grace
+		c_derring_downs
+		c_stonecliffe
+		c_coldmoat
+		c_cobble_cove
+		c_leafy_lake
+		c_standfast
+		c_red_lake
+		c_wallow_dell
+		c_pleasant_hills
+		c_stilwood
+		c_harvestbury
+		c_iron_hedge
+		c_sarsfield
+		c_lowell
+		c_castamere
+		c_pendric_hills
+		c_fang_hill
+		c_hetherfield
+		c_hadersly
+		c_cornfield
+		c_greenfield
+		c_toll_pass
+		c_wellsmere
+		c_longbolt
+		c_redbramble
+		c_lansdale
+		c_rutland
+		c_lonmont
+		
+	}
+}
+world_westerlands_high = {
+	counties = {
+		c_averill
+		c_roundtowers
+		c_stingrock
+		c_featherhorn
+		c_louth
+		c_silverhill
+		c_whiteridge
+		c_worthmark
+		c_motley_hills
+		c_stars_ridge
+		c_greybrocks
+		c_deep_den
+		c_long_rock
+		c_riverspring
+		c_oxcross
+		c_hornvale
+		c_deadwater
+		c_alderedge
+		c_bymore #buy-n-large!
+		c_broadhollow
+		c_bellantine
+		c_the_golden_tooth
+		c_ruffell
+		c_ashemark
+		c_nunns_deep
+		c_the_drop
+		c_rivermont
+		c_borrowmore
+		c_raddle
+		#c_the_golden_tooth
+	}
+}
+world_riverlands_central = {
+	duchies = {
+		d_riverrun
+		d_blackwood_vale
+		d_fairmarket
+		d_three_forks
+		d_the_crossing
+		d_southstone
+		d_knellstone
+		d_goldenfields
+		d_pinkmaiden
+		d_wayfarers_rest
+
+		d_ironwater
+		d_whiskermoor
+		d_branstone
+		d_turnbridge
+		d_maidstone
+		d_lychester
+		d_acorns_ridge
+		d_float_river
+	}
+	counties = {
+		c_brixworth
+		c_hammerford
+		c_hook_bay #-- turns out it's hook not hoor im gonna make that hoor my wife - frank reynolds
+		c_seagard
+		c_riverbend
+		c_marstone
+		c_saltpans
+		c_saltpans_rise
+		c_stillside
+		c_sweetwillow
+		c_willow_wood
+		c_oldferns
+		c_white_wood
+		c_greenlily
+		c_wernell
+		c_stillfen
+		c_crows_barrens
+		c_sunrise_bite
+		c_rushinground
+		c_blackrush
+		c_atranta
+		c_armisteads_wood
+		c_castlewood
+		c_tanglewood
+		c_darkmoor
+		c_rippledown_rill
+		c_horsehead
+
+		c_tumblers_falls
+		c_mainstream
+	}
+}
+world_upper_vale_seasons = {
+	duchies = {
+	
+	}
+	counties = {
+		c_stonyhead
+		c_wayleroot
+		c_grimwind
+		c_moonbloom
+		c_helmesmont
+		c_elmbridge
+		c_morey
+		c_longleaf
+		c_spiderwood
+		c_the_bloody_gate
+		c_timbers_wedge
+		c_topperpoole
+		c_vearnon
+		c_bluewater
+		c_clammath
+		c_strongsong
+		c_waldlake
+		c_morency
+		c_purling
+		c_crestfall
+		c_giants_scar
+		c_godsroost
+		c_the_eyrie
+		c_wickenden
+		c_marbletoft
+		c_stoutstone
+		c_kipress
+		c_crown_crescent
+		c_willowspire
+		c_correll
+		c_standish
+		c_the_banners
+		c_bronzespear
+		c_hardvale
+		c_stonefall
+		c_rustpointe
+		c_lyme
+		c_rathmore
+		c_ruthermont
+		c_brackenbrick_point
+	}
+}
+world_lower_vale_seasons = {
+	duchies = {
+		d_strongstone
+		d_gulltown
+		d_runestone
+
+		d_grey_glen
+	}
+	counties = {
+		c_crabs_shore
+		c_moongates
+		c_newberry
+		c_ninestars
+		c_ironoaks
+		c_ryefeld
+		c_hazen
+		c_old_anchor
+		c_tetchmere
+		c_wycliffe
+		c_the_stills
+		c_longbow_hills
+		c_sedgemore
+		c_bowlyn
+		#c_techmere
+		c_donnersdown
+	}
+}
+world_the_fingers_seasons = {
+	duchies = {
+		d_the_drainlands
+		d_grimholm
+		d_northbreach
+
+		d_pebble
+		d_midlor_point
+		d_snakewood_forest
+	}
+	counties = {
+		c_hearts_home
+		c_snakewood
+		c_sunkenwood
+		c_harrowpool
+		c_rockle
+		c_bludden
+		c_hungerford
+		c_misty_moor
+		#c_
+
+		c_brume
+	}
+
+}
+world_iron_isles = {
+	empires = {
+		e_the_iron_islands
+	}
+}
+world_kraken_bay = {
+	counties = {
+		c_beastyrn
+		c_seasorrow
+		c_eagleside
+		c_rushmoor
+		c_mistcore
+		c_cypressbottom
+		c_cypress_rising
+		c_cannmill
+		c_blazewater_bay
+		c_the_flint_cliffs
+		c_cape_kraken
+		c_flints_finger
+		c_wristerley
+		c_arnscarre
+	}
+
+}
+world_the_neck_seasons = {
+	duchies = {
+		d_fever
+		d_moat_cailin
+		d_silvereed
+	}
+	counties = {
+		c_dewlock
+		c_slewness
+		c_greywater_watch
+		c_the_mire
+		c_borremose
+		c_murkwood
+		c_morrenland
+		c_spears_sound
+		c_waterstone
+		#c_the_seastrands
+		c_cray
+		#c_peatlands
+		#c_churwell
+		#c_drenchmire
+		#c_fennwell
+	}
+}
+world_barrowlands_seasons = {
+	kingdoms = {
+		k_barrows_and_rills
+		k_the_rills
+	}
+}
+world_stoney_shore_seasons = {
+	duchies = {
+		d_stony_shore
+		d_grey_downs
+	}
+}
+world_wolfswood_seasons = {
+	duchies = {
+		d_sea_dragon_point
+		d_the_wolfswood
+		d_edgewood
+		d_the_blackpines
+		d_bear_island
+
+		d_highpoint
+	}
+	counties = {
+		c_thorpe
+		c_sharpwater
+		c_arrendell
+		c_holdwater
+		c_brans_wood
+
+		c_darsett
+	}
+}
+world_whiteknife_seasons = {
+	duchies = {
+		d_longsister
+		d_sweetsister
+		d_littlesister
+		d_the_sisters
+	}
+	counties = {
+		c_oldcastle
+		c_bites_edge
+		c_keyguard
+		c_whetmarsh
+		c_silverfield
+		c_white_harbor
+		c_white_knife
+		c_eagle_cross
+		c_wynmend
+		#c_kings_course
+		c_calfton
+		c_whitford
+		c_wolf_branch
+		c_trenchwood
+
+		c_heapsdown
+	}	
+}
+world_winterfell_seasons = {
+	counties = {
+		c_winterfell
+
+		c_greyward_tower
+	}
+}
+world_northern_mountains_seasons = {
+	counties = {
+		c_carvestone
+		c_cedar_peaks
+		c_pinesend
+		c_breakstone_hill
+		c_trenchstone
+		c_braidmont
+		c_scar_mountain
+		c_stoutfast
+		c_norlinton
+	}
+}
+world_lonely_hills = {
+	duchies = {
+		d_frostfields
+		d_last_lands
+		d_karhold
+
+		d_groundpress
+	}
+	counties = {
+		c_the_pitch
+		c_dawnforest
+		c_coldstream
+		c_the_pale
+		c_ethering
+		c_the_dreadfort
+		c_rightwell
+		c_grimm_lake
+		c_whitecross
+		c_giantsbeard
+		c_boreharrow
+
+		c_lonely_hills
+	}
+}
+world_sheepshead_hills = {
+	duchies = {
+		d_crestview
+		d_everstead
+	}
+	counties = {
+		c_beam_cross
+		c_greysward
+		c_the_gap
+		c_woodward
+		c_hornwood
+		c_the_cinders
+		c_velvet_grove
+		c_wraithfeld
+		c_matchwood
+		c_the_weep
+		c_overton
+
+		c_tawney_bay
+	}
+}
+world_skagos_seasons = {
+	kingdoms = {
+		k_skagos
+		
+	}
+}
+world_wall_seasons = {
+	duchies = {
+		d_brandons_gift
+		d_the_wall
+	}
+}
+world_haunted_forest = {
+	duchies = {
+		d_haunted_forest
+		d_auld_groves
+		#d_oakheart_woodlands
+		d_antler_river
+		d_storrolds_point
+		d_drowned_forest
+		d_jagged_hills
+		d_bleakwater
+		d_tor_rag_dur
+		d_ghost_lakes
+		d_shivering_shore
+	}
+}
+world_thenn_valley_seasons = {
+	duchies = {
+		d_thenn
+		d_uchveseck
+	}
+}
+world_frost_fangs_seasons = {
+	duchies = {
+		d_flatfang
+		d_west_shelf
+		d_gleaming_plains
+		d_keening_ridges
+		d_walrus_bay
+		d_milkwater
+		#d_winter_mouth
+		d_pale_mountains
+	}
+}
+world_frozen_shore_seasons = {
+	duchies = {
+		d_stalkingshore
+		d_bay_of_ice
+		d_great_ice_river
+	}
+}
+
+
+world_the_arbor = {
+	duchies = {
+		d_the_arbor
+	}
+	
+}
+world_the_shield_islands = {
+	duchies = {
+		d_shield_islands
+		d_greenshield
+		d_greyshield
+		d_southshield
+	}
+
+}
+world_rest_of_essos_valyria_LOV = {
+	duchies = {
+		d_ruins
+	}
+}
+
+
+#WEATHER REGIONS
+
+
+world_trident = {
+	counties = {
+		c_gaines
+		c_horsehead
+		c_speckleplum
+		c_lancewood
+		c_runnymudd
+		c_ramsford
+		c_riverbend
+		c_fairmarket
+	}	
+}
+
+world_crossing_flood = {
+	counties = {
+		c_erenford
+		c_the_twins
+		c_arganbrook
+		c_mistlewood
+		c_ironwater
+		c_leechpool
+		c_whiskermoor
+	}
+}
+world_riverrun_flood = {
+	counties = {
+		c_honeytree
+		c_medway
+		c_stone_hedge
+		c_the_willows
+		c_high_heart
+		c_sallydance
+		c_martlet_bend
+		c_riverrun
+		c_the_ravishment
+		c_mudgrave
+	}
+}
+world_the_neck_flood = {
+	duchies = {
+		d_the_neck
+		d_silvereed
+		d_fever
+		d_moat_cailin
+	}
+}
+
+### Legacy of Valyria Regions:
+
+# world_lov_valyria = { #unused
+# 	duchies = {
+# 		d_valyria
+# 		d_aquos_dhaen
+# 		d_tyria
+# 		d_jarqanor
+# 		d_dragonfields
+
+# 		d_kastaryia
+# 		d_mhysa_faer
+
+# 		d_gelios
+# 		d_nuqiria
+# 		d_pyrys
+# 		d_egrys
+# 	}
+# }
+
+# world_lov_long_summer = { #unused
+# 	duchies = {
+# 		d_martivia
+# 		d_vharomar
+# 		d_argava
+
+# 		d_oros
+# 		d_sombazbion
+# 		d_jelmazmar
+# 		d_daervos
+# 		d_orbar
+# 		d_rhyos
+
+# 		d_port_of_sighs
+# 		d_zoglos
+# 	}
+# }
+world_lov_mantarys = {
+	duchies = {
+		d_mantarys
+		d_painted_valleys
+		d_demon_pass
+
+		d_tolos
+		d_bhorash
+
+		d_elyria
+
+		d_draconys
+		d_anogaria
+
+		d_telyria
+	}
+}
+
+world_lov_north_ghiscar = {
+	duchies = {
+		d_meereen
+		d_great_pyramids
+		d_meereen_green_gate
+		d_khyzai_pass
+
+		d_yunkai
+		d_copper_hills
+	}
+}
+
+world_lov_south_ghiscar = {
+	duchies = {
+		d_new_ghis
+		d_ghis
+
+		d_astapor
+		d_worm_river
+
+		d_velos	}
+}
+
+world_lov_volantene_coast = {
+	duchies = {
+		d_volantis
+		d_orange_shore
+		d_sarhoy
+		d_little_valyria
+	}
+}
+
+world_lov_volantene_steppe = {
+	duchies = {
+		d_volaena
+		d_vysyria
+		d_death_swamps
+	}
+}
+
+world_lov_lower_rhoyne = {
+	duchies = {
+		d_sar_mell
+		d_volon_therys
+		d_selhorys
+		d_valysar
+		d_dreos
+		d_valon_sar
+	}
+}
+
+world_lov_middle_rhoyne = {
+	duchies = {
+		d_the_sorrows
+		d_golden_bridge
+		d_ar_noy
+		d_dagger_lake
+	}
+}
+
+world_lov_upper_rhoyne = {
+	duchies = {
+		d_ny_sar
+		d_velvet_peak
+		d_ghoyan_drohe
+	}
+}
+
+world_lov_western_sothoryos = { # enabled by LoV & Seasons compatch
+	duchies = {
+		d_gogossos
+		d_the_three_snakes
+		d_the_western_isles
+		d_eastern_isles
+
+		d_basilisk_point
+		d_beach_of_prey
+		d_laanas_shore
+		d_alaghom
+
+		d_greybeach
+		d_last_hope
+		d_backlum
+		d_chamer
+		d_great_kabil
+
+		d_zamettar
+		d_arl_zamatt
+		d_aft_zamatt
+		d_wail_woods
+
+		d_green_gate
+		d_bloodstone_walls
+		d_vine_home
+		d_the_wyvern_fields
+		d_zyan_fogs
+		d_bleeding_jungle
+
+		d_yeen
+		d_bloodless_trees
+		d_fields_of_hunger
+		d_lesser_valley
+	}
+}
+
+world_lov_eastern_sothoryos = { # enabled by LoV & Seasons compatch
+	duchies = {
+	d_gorosh
+	d_shore_of_floggs
+	d_fever_hills
+	d_goroi_pa
+	d_puhekes_cudgel
+	d_missing_bay
+
+	d_wyvern_point
+	d_gimlet_point
+	d_mount_maunga
+	d_serpent_home
+	}
+}
+
+world_lov_marahai = { # enabled by LoV & Seasons compatch
+	duchies = {
+		d_crescent_gates
+		d_shanvyr
+		d_vehar
+		d_manticore_isles
+	}
+}
+
+world_lov_asshai = { # enabled by LoV & Seasons compatch
+	duchies = {
+		d_asshai
+		d_turatos
+		d_stygai
+		d_razmai
+		d_malior
+		d_vyrokh
+		d_the_saffron_lands
+		d_maruza
+		d_ostiros
+		d_chalysa
+		d_hattar
+	}
+}
+
+#Stepstones (from the AGOT NOW-Seasons of Ice and Fire Compatch, June 28th 2026)
+
+
+world_stepstones = {
+	duchies = {
+		d_first_stepstones
+		d_skull_tides
+		d_the_maidens
+		d_saans_stones
+	}
+}

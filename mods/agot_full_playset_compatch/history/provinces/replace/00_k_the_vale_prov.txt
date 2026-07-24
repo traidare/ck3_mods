@@ -1,0 +1,167 @@
+﻿################# b_slabstone_keep ################
+############# c_brume - d_strongstone #############
+2289 = {
+	culture = valeman_main
+	religion = fots_seven
+	holding = castle_holding
+	7824.1.1 = {
+		buildings = { castle_02 }
+	}
+}
+################### b_ninestars ###################
+############ c_ninestars - d_ninestars ############
+2323 = {
+	culture = valeman_main
+	religion = fots_seven
+	holding = castle_holding
+	7824.1.1 = {
+		buildings = { castle_04 }
+	}
+}
+################## b_craynes_nest #################
+############ c_sedgemore - d_eastweald ############
+2404 = {
+	culture = valeman_main
+	religion = fots_seven
+	holding = castle_holding
+	7824.1.1 = {
+		buildings = { castle_02 }
+	}
+	8041.1.1 = {
+		religion = fots_pure
+	}
+}
+###################### b_kear #####################
+############### c_kear - d_gulltown ###############
+2450 = {
+	culture = valeman_main
+	religion = fots_seven
+	holding = castle_holding
+	7824.1.1 = {
+		buildings = { castle_03 }
+	}
+}
+################### b_gull_tower ##################
+############# c_gullview - d_runestone ############
+2466 = {
+	culture = valeman_main
+	religion = fots_seven
+	holding = castle_holding
+	7824.1.1 = {
+		buildings = { castle_03 }
+	}
+}
+################### b_shettdocks ##################
+############# c_gullview - d_runestone ############
+2467 = {
+	holding = city_holding
+	7824.1.1 = {
+		buildings = { city_03 }
+	}
+}
+################### b_grey_glen ###################
+########## c_grey_glen - d_the_drainlands #########
+2482 = {
+	culture = valeman_finger
+	religion = fots_seven
+	holding = castle_holding
+	7824.1.1 = {
+		buildings = { castle_02 }
+	}
+}
+################### b_crestfall ###################
+########### c_crestfall - d_crowncrests ###########
+2505 = {
+	culture = valeman_upper
+	religion = fots_seven
+	holding = castle_holding
+	7824.1.1 = {
+		buildings = { castle_03 }
+	}
+}
+################### b_snakewood ###################
+######### c_snakewood - d_snakewood_forest ########
+2579 = {
+	culture = valeman_finger
+	religion = fots_seven
+	holding = castle_holding
+	7824.1.1 = {
+		buildings = { castle_03 }
+	}
+}
+################# b_sunken_castle #################
+######## c_sunkenwood - d_snakewood_forest ########
+2585 = {
+	culture = valeman_upper
+	religion = fots_seven
+	holding = castle_holding
+	7824.1.1 = {
+		buildings = { castle_02 }
+	}
+}
+#################### b_newkeep ####################
+############# c_hersy - d_northbreach #############
+2650 = {
+	culture = valeman_finger
+	religion = fots_seven
+	holding = castle_holding
+	7824.1.1 = {
+		buildings = { castle_03 }
+	}
+}
+##################### b_dordon ####################
+########### c_sunderland - d_the_sisters ##########
+2709 = {
+	holding = castle_holding
+	7824.1.1 = {
+		buildings = { castle_02 }
+	}
+}
+################## b_seas_beacon ##################
+######## c_west_longsister - d_the_sisters ########
+2712 = {
+	culture = sisterman
+	religion = fots_seven
+	holding = castle_holding
+	7824.1.1 = {
+		buildings = { castle_03 }
+	}
+}
+############### b_breakwater_castle ###############
+########## c_sweetsister - d_the_sisters ##########
+2715 = {
+	holding = castle_holding
+	7824.1.1 = {
+		buildings = { castle_01 }
+	}
+}
+################ b_sunderland_hall ################
+########### c_sunderland - d_the_sisters ##########
+2716 = {
+	culture = sisterman
+	religion = fots_seven
+	holding = castle_holding
+	7824.1.1 = {
+		buildings = { castle_03 }
+	}
+}
+################ b_breakwater_watch ###############
+########## c_sweetsister - d_the_sisters ##########
+2717 = {
+	culture = sisterman
+	religion = fots_seven
+	holding = castle_holding
+	7824.1.1 = {
+		buildings = { castle_03 }
+	}
+}
+#################### b_havenry ####################
+########## c_littlesister - d_the_sisters #########
+2719 = {
+	culture = sisterman
+	religion = fg_pan_sisters
+	holding = castle_holding
+	7824.1.1 = {
+		buildings = { castle_03 }
+	}
+}

@@ -1,0 +1,27 @@
+version="1.0.0"
+tags={
+	"Fixes"
+	"Gameplay"
+	"Map"
+	"Total Conversion"
+	"Utilities"
+}
+name="AGOT Personal Playset Compatch"
+supported_version="1.19.*"
+dependencies={
+	"A Game of Thrones"
+	"[Kei] Culture and Faith Granularity"
+	"Culture and Faith Granularity + AGOT Compatch"
+	"COW-AGOT: 3D Models & Bigger Castles"
+	"AGOT : Seasons of Ice and Fire"
+	"AGOT Nobility of Westeros"
+	"AGOT More Dragon Eggs"
+	"AGOT - Much Faster Activities"
+	"AGOT 0.4.39 - Much Faster Activities Rebase"
+	"Legacy of Valyria"
+	"Legacy of Valyria - AGOT 0.4.39 Temporary Compatch RC65"
+	"Essos Expanded"
+	"Essos Expanded - TempLoV Compatch"
+	"TEMPORARY AGOT More Dragon Eggs - Legacy of Valyria REBASED Compatch"
+	"AGOT NOW + Legacy of Valyria + Essos Expanded Map Compatch"
+}
