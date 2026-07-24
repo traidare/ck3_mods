@@ -19,7 +19,9 @@ This whole-file rebase preserves the parent logic while:
 - giving the scope-less game-start hook a dedicated effect that explicitly
   scopes the three command-title holders;
 - using the existing `blackwater_change` title-change scope for Great Fork
-  instead of the nonexistent `great_fork_change`.
+  instead of the nonexistent `great_fork_change`; and
+- correcting the dummy Great Fork title's invalid `c_great_for` capital
+  reference to `c_great_fork`.
 
 Recompare this file with NOW after every Workshop update.
 
