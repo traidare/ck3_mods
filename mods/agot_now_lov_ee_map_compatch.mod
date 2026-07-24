@@ -15,5 +15,6 @@ dependencies={
 	"Legacy of Valyria"
 	"Legacy of Valyria - AGOT 0.4.39 Temporary Compatch RC65"
 	"Essos Expanded"
+	"Essos Expanded + LoV - CK3 1.19 History Rebase"
 	"Essos Expanded - TempLoV Compatch"
 }

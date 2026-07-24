@@ -1,0 +1,1080 @@
+﻿e_bloodless_men = {
+		7898.1.1 = {
+		holder = gen_2340
+		government = tribal_government
+	}
+	7985.1.1 = {
+		holder = gen_1
+		government = tribal_government
+	}
+	8082.1.1 = {
+		holder = gen_720
+	}
+	8106.4.18 = {
+		holder = gen_726
+	}
+	8170.12.11 = {
+		holder = gen_732
+	}
+	8209.2.1 = {
+		holder = gen_738
+	}
+	8211.3.1 = {
+		holder = gen_744
+	}
+	8233.2.8 = {
+		holder = gen_750
+	}
+	8236.2.13 = {
+		holder = gen_756
+	}
+	8239.1.11 = {
+		holder = gen_762
+	}
+	8258.12.21 = {
+		holder = gen_768
+	}
+	8277.1.1 = {
+		holder = gen_774
+	}
+}
+e_cannibal_sands = {
+		7898.1.1 = {
+		holder = gen_2346
+		government = tribal_government
+	}
+	7985.1.1 = {
+		holder = gen_2
+		government = tribal_government
+	}
+	8082.1.1 = {
+		holder = gen_780
+	}
+	8106.4.18 = {
+		holder = gen_786
+	}
+	8170.12.11 = {
+		holder = gen_792
+	}
+	8209.2.1 = {
+		holder = gen_798
+	}
+	8211.3.1 = {
+		holder = gen_804
+	}
+	8233.2.8 = {
+		holder = gen_810
+	}
+	8236.2.13 = {
+		holder = gen_816
+	}
+	8239.1.11 = {
+		holder = gen_822
+	}
+	8258.12.21 = {
+		holder = gen_828
+	}
+	8277.1.1 = {
+		holder = gen_834
+	}
+}
+e_hidden_sea = {
+		7898.1.1 = {
+		holder = gen_2352
+		government = tribal_government
+	}
+	7985.1.1 = {
+		holder = gen_3
+		government = tribal_government
+	}
+	8082.1.1 = {
+		holder = gen_840
+	}
+	8106.4.18 = {
+		holder = gen_846
+	}
+	8170.12.11 = {
+		holder = gen_852
+	}
+	8209.2.1 = {
+		holder = gen_858
+	}
+	8211.3.1 = {
+		holder = gen_864
+	}
+	8233.2.8 = {
+		holder = gen_870
+	}
+	8236.2.13 = {
+		holder = gen_876
+	}
+	8239.1.11 = {
+		holder = gen_882
+	}
+	8258.12.21 = {
+		holder = gen_888
+	}
+	8277.1.1 = {
+		holder = gen_894
+	}
+}
+e_ibben = {
+		7898.1.1 = {
+		holder = gen_2358
+		government = tribal_government
+	}
+	7985.1.1 = {
+		holder = gen_4
+		government = tribal_government
+	}
+	8082.1.1 = {
+		holder = gen_900
+	}
+	8106.4.18 = {
+		holder = gen_906
+	}
+	8170.12.11 = {
+		holder = gen_912
+	}
+	8209.2.1 = {
+		holder = gen_918
+	}
+	8211.3.1 = {
+		holder = gen_924
+	}
+	8233.2.8 = {
+		holder = gen_930
+	}
+	8236.2.13 = {
+		holder = gen_936
+	}
+	8239.1.11 = {
+		holder = gen_942
+	}
+	8258.12.21 = {
+		holder = gen_948
+	}
+	8277.1.1 = {
+		holder = gen_954
+	}
+}
+e_ifequevron = {
+		7898.1.1 = {
+		holder = gen_2364
+		government = feudal_government
+	}
+	7985.1.1 = {
+		holder = gen_5
+		government = feudal_government
+	}
+	8082.1.1 = {
+		holder = gen_960
+	}
+	8106.4.18 = {
+		holder = gen_966
+	}
+	8170.12.11 = {
+		holder = gen_972
+	}
+	8209.2.1 = {
+		holder = gen_978
+	}
+	8211.3.1 = {
+		holder = gen_984
+	}
+	8233.2.8 = {
+		holder = gen_990
+	}
+	8236.2.13 = {
+		holder = gen_996
+	}
+	8239.1.11 = {
+		holder = gen_1002
+	}
+	8258.12.21 = {
+		holder = gen_1008
+	}
+	8277.1.1 = {
+		holder = gen_1014
+	}
+}
+e_lesser_moraq = {
+		7898.1.1 = {
+		holder = gen_2370
+		government = tribal_government
+	}
+	7985.1.1 = {
+		holder = gen_6
+		government = tribal_government
+	}
+	8082.1.1 = {
+		holder = gen_1020
+	}
+	8106.4.18 = {
+		holder = gen_1026
+	}
+	8170.12.11 = {
+		holder = gen_1032
+	}
+	8209.2.1 = {
+		holder = gen_1038
+	}
+	8211.3.1 = {
+		holder = gen_1044
+	}
+	8233.2.8 = {
+		holder = gen_1050
+	}
+	8236.2.13 = {
+		holder = gen_1056
+	}
+	8239.1.11 = {
+		holder = gen_1062
+	}
+	8258.12.21 = {
+		holder = gen_1068
+	}
+	8277.1.1 = {
+		holder = gen_1074
+	}
+}
+e_lorath = {
+		7898.1.1 = {
+		holder = gen_2376
+		government = administrative_government
+	}
+	7985.1.1 = {
+		holder = gen_7
+		government = administrative_government
+	}
+	8082.1.1 = {
+		holder = gen_1080
+	}
+	8106.4.18 = {
+		holder = gen_1086
+	}
+	8170.12.11 = {
+		holder = gen_1092
+	}
+	8209.2.1 = {
+		holder = gen_1098
+	}
+	8211.3.1 = {
+		holder = gen_1104
+	}
+	8233.2.8 = {
+		holder = gen_1110
+	}
+	8236.2.13 = {
+		holder = gen_1116
+	}
+	8239.1.11 = {
+		holder = gen_1122
+	}
+	8258.12.21 = {
+		holder = gen_1128
+	}
+	8277.1.1 = {
+		holder = gen_1134
+	}
+}
+e_mossovy = {
+		7898.1.1 = {
+		holder = gen_2382
+		government = tribal_government
+	}
+	7985.1.1 = {
+		holder = gen_8
+		government = tribal_government
+	}
+	8082.1.1 = {
+		holder = gen_1140
+	}
+	8106.4.18 = {
+		holder = gen_1146
+	}
+	8170.12.11 = {
+		holder = gen_1152
+	}
+	8209.2.1 = {
+		holder = gen_1158
+	}
+	8211.3.1 = {
+		holder = gen_1164
+	}
+	8233.2.8 = {
+		holder = gen_1170
+	}
+	8236.2.13 = {
+		holder = gen_1176
+	}
+	8239.1.11 = {
+		holder = gen_1182
+	}
+	8258.12.21 = {
+		holder = gen_1188
+	}
+	8277.1.1 = {
+		holder = gen_1194
+	}
+}
+e_naath = {
+		7898.1.1 = {
+		holder = gen_2388
+		government = tribal_government
+	}
+	7985.1.1 = {
+		holder = gen_9
+		government = tribal_government
+	}
+	8082.1.1 = {
+		holder = gen_1200
+	}
+	8106.4.18 = {
+		holder = gen_1206
+	}
+	8170.12.11 = {
+		holder = gen_1212
+	}
+	8209.2.1 = {
+		holder = gen_1218
+	}
+	8211.3.1 = {
+		holder = gen_1224
+	}
+	8233.2.8 = {
+		holder = gen_1230
+	}
+	8236.2.13 = {
+		holder = gen_1236
+	}
+	8239.1.11 = {
+		holder = gen_1242
+	}
+	8258.12.21 = {
+		holder = gen_1248
+	}
+	8277.1.1 = {
+		holder = gen_1254
+	}
+}
+e_norvos = {
+		7898.1.1 = {
+		holder = gen_2394
+		government = administrative_government
+	}
+	7985.1.1 = {
+		holder = gen_10
+		government = administrative_government
+	}
+	8082.1.1 = {
+		holder = gen_1260
+	}
+	8106.4.18 = {
+		holder = gen_1266
+	}
+	8170.12.11 = {
+		holder = gen_1272
+	}
+	8209.2.1 = {
+		holder = gen_1278
+	}
+	8211.3.1 = {
+		holder = gen_1284
+	}
+	8233.2.8 = {
+		holder = gen_1290
+	}
+	8236.2.13 = {
+		holder = gen_1296
+	}
+	8239.1.11 = {
+		holder = gen_1302
+	}
+	8258.12.21 = {
+		holder = gen_1308
+	}
+	8277.1.1 = {
+		holder = gen_1314
+	}
+}
+e_omber = {
+		7898.1.1 = {
+		holder = gen_2400
+		government = feudal_government
+	}
+	7985.1.1 = {
+		holder = gen_11
+		government = feudal_government
+	}
+	8082.1.1 = {
+		holder = gen_1320
+	}
+	8106.4.18 = {
+		holder = gen_1326
+	}
+	8170.12.11 = {
+		holder = gen_1332
+	}
+	8209.2.1 = {
+		holder = gen_1338
+	}
+	8211.3.1 = {
+		holder = gen_1344
+	}
+	8233.2.8 = {
+		holder = gen_1350
+	}
+	8236.2.13 = {
+		holder = gen_1356
+	}
+	8239.1.11 = {
+		holder = gen_1362
+	}
+	8258.12.21 = {
+		holder = gen_1368
+	}
+	8277.1.1 = {
+		holder = gen_1374
+	}
+}
+e_qohor = {
+		7898.1.1 = {
+		holder = gen_2406
+		government = administrative_government
+	}
+	7985.1.1 = {
+		holder = gen_12
+		government = administrative_government
+	}
+	8082.1.1 = {
+		holder = gen_1380
+	}
+	8106.4.18 = {
+		holder = gen_1386
+	}
+	8170.12.11 = {
+		holder = gen_1392
+	}
+	8209.2.1 = {
+		holder = gen_1398
+	}
+	8211.3.1 = {
+		holder = gen_1404
+	}
+	8233.2.8 = {
+		holder = gen_1410
+	}
+	8236.2.13 = {
+		holder = gen_1416
+	}
+	8239.1.11 = {
+		holder = gen_1422
+	}
+	8258.12.21 = {
+		holder = gen_1428
+	}
+	8277.1.1 = {
+		holder = gen_1434
+	}
+}
+e_sarnor = {
+		7898.1.1 = {
+		holder = gen_2412
+		government = feudal_government
+	}
+	7985.1.1 = {
+		holder = gen_13
+		government = feudal_government
+	}
+	8082.1.1 = {
+		holder = gen_1440
+	}
+	8106.4.18 = {
+		holder = gen_1446
+	}
+	8170.12.11 = {
+		holder = gen_1452
+	}
+	8209.2.1 = {
+		holder = gen_1458
+	}
+	8211.3.1 = {
+		holder = gen_1464
+	}
+	8233.2.8 = {
+		holder = gen_1470
+	}
+	8236.2.13 = {
+		holder = gen_1476
+	}
+	8239.1.11 = {
+		holder = gen_1482
+	}
+	8258.12.21 = {
+		holder = gen_1488
+	}
+	8277.1.1 = {
+		holder = gen_1494
+	}
+}
+e_sothoryos = {
+		7898.1.1 = {
+		holder = gen_2418
+		government = tribal_government
+	}
+	7985.1.1 = {
+		holder = gen_14
+		government = tribal_government
+	}
+	8082.1.1 = {
+		holder = gen_1500
+	}
+	8106.4.18 = {
+		holder = gen_1506
+	}
+	8170.12.11 = {
+		holder = gen_1512
+	}
+	8209.2.1 = {
+		holder = gen_1518
+	}
+	8211.3.1 = {
+		holder = gen_1524
+	}
+	8233.2.8 = {
+		holder = gen_1530
+	}
+	8236.2.13 = {
+		holder = gen_1536
+	}
+	8239.1.11 = {
+		holder = gen_1542
+	}
+	8258.12.21 = {
+		holder = gen_1548
+	}
+	8277.1.1 = {
+		holder = gen_1554
+	}
+}
+e_summer_isles = {
+		7898.1.1 = {
+		holder = gen_2424
+		government = feudal_government
+	}
+	7985.1.1 = {
+		holder = gen_15
+		government = feudal_government
+	}
+	8082.1.1 = {
+		holder = gen_1560
+	}
+	8106.4.18 = {
+		holder = gen_1566
+	}
+	8170.12.11 = {
+		holder = gen_1572
+	}
+	8209.2.1 = {
+		holder = gen_1578
+	}
+	8211.3.1 = {
+		holder = gen_1584
+	}
+	8233.2.8 = {
+		holder = gen_1590
+	}
+	8236.2.13 = {
+		holder = gen_1596
+	}
+	8239.1.11 = {
+		holder = gen_1602
+	}
+	8258.12.21 = {
+		holder = gen_1608
+	}
+	8277.1.1 = {
+		holder = gen_1614
+	}
+}
+e_thousand_islands = {
+		7898.1.1 = {
+		holder = gen_2430
+		government = tribal_government
+	}
+	7985.1.1 = {
+		holder = gen_16
+		government = tribal_government
+	}
+	8082.1.1 = {
+		holder = gen_1620
+	}
+	8106.4.18 = {
+		holder = gen_1626
+	}
+	8170.12.11 = {
+		holder = gen_1632
+	}
+	8209.2.1 = {
+		holder = gen_1638
+	}
+	8211.3.1 = {
+		holder = gen_1644
+	}
+	8233.2.8 = {
+		holder = gen_1650
+	}
+	8236.2.13 = {
+		holder = gen_1656
+	}
+	8239.1.11 = {
+		holder = gen_1662
+	}
+	8258.12.21 = {
+		holder = gen_1668
+	}
+	8277.1.1 = {
+		holder = gen_1674
+	}
+}
+e_ulthos = {
+		7898.1.1 = {
+		holder = gen_2436
+		government = tribal_government
+	}
+	7985.1.1 = {
+		holder = gen_17
+		government = tribal_government
+	}
+	8082.1.1 = {
+		holder = gen_1680
+	}
+	8106.4.18 = {
+		holder = gen_1686
+	}
+	8170.12.11 = {
+		holder = gen_1692
+	}
+	8209.2.1 = {
+		holder = gen_1698
+	}
+	8211.3.1 = {
+		holder = gen_1704
+	}
+	8233.2.8 = {
+		holder = gen_1710
+	}
+	8236.2.13 = {
+		holder = gen_1716
+	}
+	8239.1.11 = {
+		holder = gen_1722
+	}
+	8258.12.21 = {
+		holder = gen_1728
+	}
+	8277.1.1 = {
+		holder = gen_1734
+	}
+}
+e_upper_sarne_dothraki = {
+		7898.1.1 = {
+		holder = gen_2442
+		government = tribal_government
+	}
+	7985.1.1 = {
+		holder = gen_18
+		government = tribal_government
+	}
+	8082.1.1 = {
+		holder = gen_1740
+	}
+	8106.4.18 = {
+		holder = gen_1746
+	}
+	8170.12.11 = {
+		holder = gen_1752
+	}
+	8209.2.1 = {
+		holder = gen_1758
+	}
+	8211.3.1 = {
+		holder = gen_1764
+	}
+	8233.2.8 = {
+		holder = gen_1770
+	}
+	8236.2.13 = {
+		holder = gen_1776
+	}
+	8239.1.11 = {
+		holder = gen_1782
+	}
+	8258.12.21 = {
+		holder = gen_1788
+	}
+	8277.1.1 = {
+		holder = gen_1794
+	}
+}
+e_lower_sarne_dothraki = {
+		7898.1.1 = {
+		holder = gen_2448
+		government = tribal_government
+	}
+	7985.1.1 = {
+		holder = gen_19
+		government = tribal_government
+	}
+	8082.1.1 = {
+		holder = gen_1800
+	}
+	8106.4.18 = {
+		holder = gen_1806
+	}
+	8170.12.11 = {
+		holder = gen_1812
+	}
+	8209.2.1 = {
+		holder = gen_1818
+	}
+	8211.3.1 = {
+		holder = gen_1824
+	}
+	8233.2.8 = {
+		holder = gen_1830
+	}
+	8236.2.13 = {
+		holder = gen_1836
+	}
+	8239.1.11 = {
+		holder = gen_1842
+	}
+	8258.12.21 = {
+		holder = gen_1848
+	}
+	8277.1.1 = {
+		holder = gen_1854
+	}
+}
+e_great_grass_sea_dothraki = {
+		7898.1.1 = {
+		holder = gen_2454
+		government = tribal_government
+	}
+	7985.1.1 = {
+		holder = gen_20
+		government = tribal_government
+	}
+	8082.1.1 = {
+		holder = gen_1860
+	}
+	8106.4.18 = {
+		holder = gen_1866
+	}
+	8170.12.11 = {
+		holder = gen_1872
+	}
+	8209.2.1 = {
+		holder = gen_1878
+	}
+	8211.3.1 = {
+		holder = gen_1884
+	}
+	8233.2.8 = {
+		holder = gen_1890
+	}
+	8236.2.13 = {
+		holder = gen_1896
+	}
+	8239.1.11 = {
+		holder = gen_1902
+	}
+	8258.12.21 = {
+		holder = gen_1908
+	}
+	8277.1.1 = {
+		holder = gen_1914
+	}
+}
+e_bone_mountain_dothraki = {
+		7898.1.1 = {
+		holder = gen_2460
+		government = tribal_government
+	}
+	7985.1.1 = {
+		holder = gen_21
+		government = tribal_government
+	}
+	8082.1.1 = {
+		holder = gen_1920
+	}
+	8106.4.18 = {
+		holder = gen_1926
+	}
+	8170.12.11 = {
+		holder = gen_1932
+	}
+	8209.2.1 = {
+		holder = gen_1938
+	}
+	8211.3.1 = {
+		holder = gen_1944
+	}
+	8233.2.8 = {
+		holder = gen_1950
+	}
+	8236.2.13 = {
+		holder = gen_1956
+	}
+	8239.1.11 = {
+		holder = gen_1962
+	}
+	8258.12.21 = {
+		holder = gen_1968
+	}
+	8277.1.1 = {
+		holder = gen_1974
+	}
+}
+e_lhazar = {
+		7898.1.1 = {
+		holder = gen_2466
+		government = tribal_government
+	}
+	7985.1.1 = {
+		holder = gen_22
+		government = tribal_government
+	}
+	8082.1.1 = {
+		holder = gen_1980
+	}
+	8106.4.18 = {
+		holder = gen_1986
+	}
+	8170.12.11 = {
+		holder = gen_1992
+	}
+	8209.2.1 = {
+		holder = gen_1998
+	}
+	8211.3.1 = {
+		holder = gen_2004
+	}
+	8233.2.8 = {
+		holder = gen_2010
+	}
+	8236.2.13 = {
+		holder = gen_2016
+	}
+	8239.1.11 = {
+		holder = gen_2022
+	}
+	8258.12.21 = {
+		holder = gen_2028
+	}
+	8277.1.1 = {
+		holder = gen_2034
+	}
+}
+e_qarth = {
+		7898.1.1 = {
+		holder = gen_2472
+		government = oligarchic_government
+	}
+	7985.1.1 = {
+		holder = gen_23
+		government = oligarchic_government
+	}
+	8082.1.1 = {
+		holder = gen_2040
+	}
+	8106.4.18 = {
+		holder = gen_2046
+	}
+	8170.12.11 = {
+		holder = gen_2052
+	}
+	8209.2.1 = {
+		holder = gen_2058
+	}
+	8211.3.1 = {
+		holder = gen_2064
+	}
+	8233.2.8 = {
+		holder = gen_2070
+	}
+	8236.2.13 = {
+		holder = gen_2076
+	}
+	8239.1.11 = {
+		holder = gen_2082
+	}
+	8258.12.21 = {
+		holder = gen_2088
+	}
+	8277.1.1 = {
+		holder = gen_2094
+	}
+}
+e_golden_yi_ti = {
+		7898.1.1 = {
+		holder = gen_2478
+		government = feudal_government
+	}
+	7985.1.1 = {
+		holder = gen_24
+		government = feudal_government
+	}
+	8082.1.1 = {
+		holder = gen_2100
+	}
+	8106.4.18 = {
+		holder = gen_2106
+	}
+	8170.12.11 = {
+		holder = gen_2112
+	}
+	8209.2.1 = {
+		holder = gen_2118
+	}
+	8211.3.1 = {
+		holder = gen_2124
+	}
+	8233.2.8 = {
+		holder = gen_2130
+	}
+	8236.2.13 = {
+		holder = gen_2136
+	}
+	8239.1.11 = {
+		holder = gen_2142
+	}
+	8258.12.21 = {
+		holder = gen_2148
+	}
+	8277.1.1 = {
+		holder = gen_2154
+	}
+}
+e_jogos_nhai = {
+		7898.1.1 = {
+		holder = gen_2484
+		government = feudal_government
+	}
+	7985.1.1 = {
+		holder = gen_25
+		government = feudal_government
+	}
+	8082.1.1 = {
+		holder = gen_2160
+	}
+	8106.4.18 = {
+		holder = gen_2166
+	}
+	8170.12.11 = {
+		holder = gen_2172
+	}
+	8209.2.1 = {
+		holder = gen_2178
+	}
+	8211.3.1 = {
+		holder = gen_2184
+	}
+	8233.2.8 = {
+		holder = gen_2190
+	}
+	8236.2.13 = {
+		holder = gen_2196
+	}
+	8239.1.11 = {
+		holder = gen_2202
+	}
+	8258.12.21 = {
+		holder = gen_2208
+	}
+	8277.1.1 = {
+		holder = gen_2214
+	}
+}
+e_great_moraq = {
+		7898.1.1 = {
+		holder = gen_2490
+		government = tribal_government
+	}
+	7985.1.1 = {
+		holder = gen_26
+		government = tribal_government
+	}
+	8082.1.1 = {
+		holder = gen_2220
+	}
+	8106.4.18 = {
+		holder = gen_2226
+	}
+	8170.12.11 = {
+		holder = gen_2232
+	}
+	8209.2.1 = {
+		holder = gen_2238
+	}
+	8211.3.1 = {
+		holder = gen_2244
+	}
+	8233.2.8 = {
+		holder = gen_2250
+	}
+	8236.2.13 = {
+		holder = gen_2256
+	}
+	8239.1.11 = {
+		holder = gen_2262
+	}
+	8258.12.21 = {
+		holder = gen_2268
+	}
+	8277.1.1 = {
+		holder = gen_2274
+	}
+}
+e_leng = {
+		7898.1.1 = {
+		holder = gen_2496
+		government = tribal_government
+	}
+	7985.1.1 = {
+		holder = gen_27
+		government = tribal_government
+	}
+	8082.1.1 = {
+		holder = gen_2280
+	}
+	8106.4.18 = {
+		holder = gen_2286
+	}
+	8170.12.11 = {
+		holder = gen_2292
+	}
+	8209.2.1 = {
+		holder = gen_2298
+	}
+	8211.3.1 = {
+		holder = gen_2304
+	}
+	8233.2.8 = {
+		holder = gen_2310
+	}
+	8236.2.13 = {
+		holder = gen_2316
+	}
+	8239.1.11 = {
+		holder = gen_2322
+	}
+	8258.12.21 = {
+		holder = gen_2328
+	}
+	8277.1.1 = {
+		holder = gen_2334
+	}
+}

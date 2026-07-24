@@ -1,9 +1,11 @@
 # AGOT NOW + Legacy of Valyria + Essos Expanded Map Compatch
 
 Load after AGOT, AGOT Nobility of Westeros (NOW), Legacy of Valyria (LoV), the
-AGOT 0.4.39 LoV temporary compatch, Essos Expanded, and its LoV compatch.
-The local `AGOT NOW 1.2.4 - CK3 1.19 Rebase` must load immediately after NOW
-and before this map layer.
+AGOT 0.4.39 LoV temporary compatch, Essos Expanded, and its LoV compatch. The
+local `AGOT NOW 1.2.4 - CK3 1.19 Rebase` must load immediately after NOW and
+before this map layer. The local
+`Essos Expanded + LoV - CK3 1.19 History Rebase` must load immediately after
+Essos Expanded and before its TempLoV compatch.
 
 This is a semantic merge rather than a last-writer copy:
 
