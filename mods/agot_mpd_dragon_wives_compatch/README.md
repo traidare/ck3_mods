@@ -5,14 +5,14 @@ Compatibility patch for:
 1. A Game of Thrones
 2. AGOT Dragon Wives
 3. AGOT - More Personality Depth
-4. This compatch
+4. AGOT MPD 0.3.0 - CK3 1.19 Runtime Rebase
+5. This compatch
 
 The compatch merges Dragon Wives' special family rows into AGOT's current
 character window and preserves More Personality Depth's personality display for
 player characters.
 
-It also replaces MPD's cumulative counter helpers so counters which have passed
-a threshold catch up on the next qualifying action. When both thresholds have
-already been earned, the trait advances directly to level 3 and fires one shift
-event. It does not add adult progression to acquisition-locked traits such as
-Lustful.
+This mod intentionally contains only the genuine cross-mod GUI merge. MPD's
+calculator and cumulative-counter runtime repairs live in the preceding
+`AGOT MPD 0.3.0 - CK3 1.19 Runtime Rebase`, so they remain useful without Dragon
+Wives and can be rebased independently.

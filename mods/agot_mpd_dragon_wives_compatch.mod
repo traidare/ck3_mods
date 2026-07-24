@@ -11,4 +11,5 @@ dependencies={
 	"A Game of Thrones"
 	"AGOT Dragon Wives"
 	"AGOT - More Personality Depth"
+	"AGOT MPD 0.3.0 - CK3 1.19 Runtime Rebase"
 }

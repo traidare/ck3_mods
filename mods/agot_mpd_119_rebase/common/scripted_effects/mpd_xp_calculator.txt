@@ -1,0 +1,161 @@
+﻿# More Personality Depth — XP Calculator (AGOT 0.4.39 / CK3 1.19 runtime rebase)
+#
+# Parent: AGOT - More Personality Depth 0.3.0-rebalance (3717990443)
+#
+# Local repairs:
+# - AGOT does not define every dynamically generated personality-trait culture
+#   parameter, so the generic culture weighting is omitted.
+# - Wet-nurse task checks safely handle characters without a court owner or an
+#   active task variable.
+# - The shorthand XP track is selected explicitly.
+
+mpd_calculate_trait_xp = {
+	# Required parameters:
+	#   TRAIT      = trait_key
+	#   WN_SOCIAL  = score bonus for the promote_relationships wet-nurse task
+	#   WN_COMPETE = score bonus for the promote_competition wet-nurse task
+
+	if = {
+		limit = {
+			has_trait = $TRAIT$
+			NOT = {
+				has_trait_xp = {
+					trait = $TRAIT$
+					track = $TRAIT$
+					value >= 1
+				}
+			}
+		}
+
+		random_list = {
+			# L1 (XP=1, Mild) — base 60
+			60 = {
+				add_trait_xp = {
+					trait = $TRAIT$
+					track = $TRAIT$
+					value = 1
+				}
+			}
+
+			# L2 (XP=50, Normal) — base 35
+			35 = {
+				# Faith virtue/sin
+				modifier = { add = 25  faith = { trait_is_virtue = $TRAIT$ } }
+				modifier = { add = -15 faith = { trait_is_sin = $TRAIT$ } }
+				# Guardian / court tutor
+				modifier = { add = 15  guardian_or_court_tutor_trait = { TRAIT = $TRAIT$ } }
+				# Parent
+				modifier = { add = 10  any_parent = { has_trait = $TRAIT$ } }
+				# Guardian's deliberate "influence_child_personality" interaction
+				modifier = { add = 35  has_variable = mpd_trait_from_guardian_influence }
+				# Wet nurse — instill_virtue task active
+				modifier = {
+					add = 20
+					court_owner ?= {
+						has_variable = mpd_wn_active_task
+						trigger_if = {
+							limit = { has_variable = mpd_wn_active_task }
+							var:mpd_wn_active_task = flag:virtue
+						}
+						any_court_position_holder = { type = wet_nurse_court_position }
+					}
+					faith = { trait_is_virtue = $TRAIT$ }
+				}
+				modifier = {
+					add = -15
+					court_owner ?= {
+						has_variable = mpd_wn_active_task
+						trigger_if = {
+							limit = { has_variable = mpd_wn_active_task }
+							var:mpd_wn_active_task = flag:virtue
+						}
+						any_court_position_holder = { type = wet_nurse_court_position }
+					}
+					faith = { trait_is_sin = $TRAIT$ }
+				}
+				# Wet nurse — relationships task active
+				modifier = {
+					add = $WN_SOCIAL$
+					court_owner ?= {
+						has_variable = mpd_wn_active_task
+						trigger_if = {
+							limit = { has_variable = mpd_wn_active_task }
+							var:mpd_wn_active_task = flag:relationships
+						}
+						any_court_position_holder = { type = wet_nurse_court_position }
+					}
+				}
+				# Wet nurse — competition task active
+				modifier = {
+					add = $WN_COMPETE$
+					court_owner ?= {
+						has_variable = mpd_wn_active_task
+						trigger_if = {
+							limit = { has_variable = mpd_wn_active_task }
+							var:mpd_wn_active_task = flag:competition
+						}
+						any_court_position_holder = { type = wet_nurse_court_position }
+					}
+				}
+				add_trait_xp = {
+					trait = $TRAIT$
+					track = $TRAIT$
+					value = 50
+				}
+			}
+
+			# L3 (XP=100, Intense) — base 5
+			5 = {
+				modifier = { add = 15  faith = { trait_is_virtue = $TRAIT$ } }
+				modifier = { add = -10 faith = { trait_is_sin = $TRAIT$ } }
+				modifier = { add = 10  guardian_or_court_tutor_trait = { TRAIT = $TRAIT$ } }
+				modifier = { add = 5   any_parent = { has_trait = $TRAIT$ } }
+				modifier = { add = 25  has_variable = mpd_trait_from_guardian_influence }
+				modifier = {
+					add = 15
+					court_owner ?= {
+						has_variable = mpd_wn_active_task
+						trigger_if = {
+							limit = { has_variable = mpd_wn_active_task }
+							var:mpd_wn_active_task = flag:virtue
+						}
+						any_court_position_holder = { type = wet_nurse_court_position }
+					}
+					faith = { trait_is_virtue = $TRAIT$ }
+				}
+				modifier = {
+					add = $WN_SOCIAL$
+					court_owner ?= {
+						has_variable = mpd_wn_active_task
+						trigger_if = {
+							limit = { has_variable = mpd_wn_active_task }
+							var:mpd_wn_active_task = flag:relationships
+						}
+						any_court_position_holder = { type = wet_nurse_court_position }
+					}
+				}
+				modifier = {
+					add = $WN_COMPETE$
+					court_owner ?= {
+						has_variable = mpd_wn_active_task
+						trigger_if = {
+							limit = { has_variable = mpd_wn_active_task }
+							var:mpd_wn_active_task = flag:competition
+						}
+						any_court_position_holder = { type = wet_nurse_court_position }
+					}
+				}
+				add_trait_xp = {
+					trait = $TRAIT$
+					track = $TRAIT$
+					value = 100
+				}
+			}
+		}
+
+		if = {
+			limit = { has_variable = mpd_trait_from_guardian_influence }
+			remove_variable = mpd_trait_from_guardian_influence
+		}
+	}
+}
