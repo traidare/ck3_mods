@@ -1,0 +1,595 @@
+﻿# ON GAME START
+on_game_start = {
+	on_actions = {
+		agot_now_apply_popultation_modifiers_on_action
+        agot_now_appoint_court_position_on_action
+        agot_now_apply_command_governments_on_game_start
+	}
+}
+
+agot_now_apply_popultation_modifiers_on_action = {
+    effect = {
+
+		# Very dense population
+        every_province = {
+            limit = {
+                geographical_region = world_westeros_very_dense_population
+            }
+            add_province_modifier = {
+                modifier = province_very_dense
+            }
+        }
+
+		# Dense population
+        every_province = {
+            limit = {
+                geographical_region = world_westeros_dense_population
+            }
+            add_province_modifier = {
+                modifier = province_dense
+            }
+        }
+
+        # Slightly dense population
+        every_province = {
+            limit = {
+                geographical_region = world_westeros_slightly_dense_population
+            }
+            add_province_modifier = {
+                modifier = province_slightly_dense
+            }
+        }
+        # Slightly sparse population
+        every_province = {
+            limit = {
+                geographical_region = world_westeros_slightly_sparse_population
+            }
+            add_province_modifier = {
+                modifier = province_slightly_sparse
+            }
+        }
+
+        # Sparse population
+        every_province = {
+            limit = {
+                geographical_region = world_westeros_sparse_population
+            }
+            add_province_modifier = {
+                modifier = province_sparse
+            }
+        }
+
+        # Very sparse population
+        every_province = {
+            limit = {
+                geographical_region = world_westeros_very_sparse_population
+            }
+            add_province_modifier = {
+                modifier = province_very_sparse
+            }
+        }
+        
+        # The Neck
+        every_province = {
+            limit = {
+                geographical_region = world_westeros_the_neck
+            }
+            add_province_modifier = {
+                modifier = province_the_neck
+            }
+        }
+    }
+}
+
+agot_now_appoint_court_position_on_action = {
+    effect = {
+        title:c_oldtown.holder = { # Appoint Commander of the Grey Cloaks
+			if = {
+				limit = {
+					exists = title:b_oldtown.holder
+					NOT = { has_title = title:b_oldtown }
+				}
+				appoint_court_position = {
+					recipient = title:b_oldtown.holder
+					court_position = grey_cloaks_commander_court_position
+				}
+			}
+		}
+    }
+}
+
+agot_now_apply_command_governments_on_game_start = {
+	effect = {
+		if = {
+			limit = { exists = title:b_oldtown.holder }
+			title:b_oldtown.holder = {
+				change_government = command_government
+			}
+		}
+		if = {
+			limit = { exists = title:c_moongates.holder }
+			title:c_moongates.holder = {
+				change_government = command_government
+			}
+		}
+		if = {
+			limit = { exists = title:c_the_bloody_gate.holder }
+			title:c_the_bloody_gate.holder = {
+				change_government = command_government
+			}
+		}
+	}
+}
+
+# ON DEATH
+on_death = {
+    events = {
+		agot_summerhall.0006
+	}
+	on_actions = {
+		agot_now_remove_health_trait_on_action
+        agot_now_snapshot_dummy_title_histories
+	}
+}
+
+agot_now_remove_health_trait_on_action = {
+	effect = {
+		if = {
+			limit = { has_game_rule = remove_age_related_ailment_on_death_rule }
+			# Remove traits
+			remove_trait = infirm	
+			remove_trait = withering_mind
+			remove_trait = clouded_eyes
+			remove_trait = faltering_heart
+			remove_trait = fragile_bones
+		}
+		else_if = {
+			limit = { has_game_rule = remove_illness_on_death_rule }
+			# Remove traits
+			remove_trait = ill
+			remove_trait = pneumonic
+			remove_trait = great_pox  # Syphilis
+			remove_trait = early_great_pox # Great pox, but looks like lover's pox
+			remove_trait = lovers_pox
+			remove_trait = consumption # Tuberculosis
+			remove_trait = cancer
+			remove_trait = typhus
+			remove_trait = bubonic_plague
+			remove_trait = smallpox
+			remove_trait = measles
+			remove_trait = dysentery # Bloody Flux
+			remove_trait = ergotism # Holy Fire
+		}
+		else_if = { 
+			limit = { has_game_rule = remove_both_on_death_rule }
+			# Remove traits
+			remove_trait = infirm	
+			remove_trait = withering_mind
+			remove_trait = clouded_eyes
+			remove_trait = faltering_heart
+			remove_trait = fragile_bones
+			remove_trait = ill
+			remove_trait = pneumonic
+			remove_trait = great_pox  # Syphilis
+			remove_trait = early_great_pox # Great pox, but looks like lover's pox
+			remove_trait = lovers_pox
+			remove_trait = consumption # Tuberculosis
+			remove_trait = cancer
+			remove_trait = typhus
+			remove_trait = bubonic_plague
+			remove_trait = smallpox
+			remove_trait = measles
+			remove_trait = dysentery # Bloody Flux
+			remove_trait = ergotism # Holy Fire
+		}
+	}
+}
+
+agot_now_snapshot_dummy_title_histories = {
+	effect = {
+		# Snapshot Blackwater Rush
+		if = {
+			limit = {
+				has_title = title:k_the_blackwater_rush
+			}
+			title:k_dummy_blackwater_rush = {
+				copy_title_history = title:k_the_blackwater_rush
+			}
+		}
+        if = {
+			limit = {
+				has_title = title:c_great_fork
+			}
+			title:c_dummy_great_fork = {
+				copy_title_history = title:c_great_fork
+			}
+		}
+		# Snapshot Gates of the Moon
+		if = {
+			limit = {
+				has_title = title:c_moongates
+			}
+			title:c_dummy_moongates = {
+				copy_title_history = title:c_moongates
+			}
+		}
+		# Snapshot The Bloody Gate
+		if = {
+			limit = {
+				has_title = title:c_the_bloody_gate
+			}
+			title:c_dummy_the_bloody_gate = {
+				copy_title_history = title:c_the_bloody_gate
+			}
+		}
+	}
+}
+
+# ON TITLE GAIN INHERITANCE
+on_title_gain_inheritance = {
+	on_actions = {
+        agot_now_return_summerhall_to_the_iron_throne
+		agot_now_return_blackwater_rush_to_the_iron_throne
+        agot_now_return_moongates_to_the_vale
+        agot_now_return_the_bloody_gate_to_the_vale
+	}
+}
+
+agot_now_return_summerhall_to_the_iron_throne = {
+    effect = {
+        # Returns Summerhall titles to the Iron Throne
+        if = {
+            limit = {
+                current_date >= 8185.1.1
+                exists = title:h_the_iron_throne.holder
+                OR = {
+                    has_title = title:k_summerhall
+                    NOT = { exists = title:k_summerhall.holder }
+                }
+                has_title = title:d_summerhall
+                has_title = title:c_summerfield
+                NOT = { this = title:h_the_iron_throne.holder }
+            }
+            create_title_and_vassal_change = {
+                type = returned
+                save_scope_as = summerhall_change
+                add_claim_on_loss = no
+            }
+            title:c_summerfield= {
+                change_title_holder_include_vassals = {
+                    holder = title:h_the_iron_throne.holder
+                    change = scope:summerhall_change
+                }
+                copy_title_history = title:c_dummy_summerfield
+            }
+            title:d_summerhall= {
+                change_title_holder_include_vassals = {
+                    holder = title:h_the_iron_throne.holder
+                    change = scope:summerhall_change
+                }
+                copy_title_history = title:d_dummy_summerhall
+            }
+            title:k_summerhall= {
+                change_title_holder_include_vassals = {
+                    holder = title:h_the_iron_throne.holder
+                    change = scope:summerhall_change
+                }
+                copy_title_history = title:k_dummy_summerhall
+            }
+            title:d_summerhall= {
+				every_in_de_jure_hierarchy = {
+					limit = {
+						tier = tier_county
+						holder.house = root.house
+						holder = { is_ai = yes }
+						NOT = { this = title:c_summerfield }
+					}
+
+					change_title_holder_include_vassals = {
+						holder = title:h_the_iron_throne.holder
+						change = scope:summerhall_change
+					}
+				}
+			}
+            resolve_title_and_vassal_change = scope:summerhall_change
+            if = {
+                limit = {
+                    NOR = {
+                        is_landed = yes
+                        is_landless_adventurer = yes
+                    }
+                    NOT = { has_character_flag = marked_for_termination }
+                }
+                title:h_the_iron_throne.holder = { add_courtier ?= prev }
+            }
+            else_if = {
+                limit = {
+                    has_character_flag = marked_for_termination
+                }
+                death = {
+                    death_reason = death_vanished
+                }
+            }
+            if = {
+                limit = {
+                    title:k_summerhall = { title_uses_legitimate_house_mechanic = yes }
+                }
+                agot_set_current_house = {
+                    TITLE = title:k_summerhall
+                    HOUSE = title:k_summerhall.holder.house
+                }
+            }
+        }
+    }
+}
+
+agot_now_return_blackwater_rush_to_the_iron_throne = {
+    effect = {
+        # Returns k_the_blackwater_rush to the Iron Throne
+        if = {
+            limit = {
+                current_date >= 8196.1.1
+                exists = title:h_the_iron_throne.holder
+                has_title = title:k_the_blackwater_rush
+                has_title = title:c_great_fork
+                NOT = { this = title:h_the_iron_throne.holder }
+            }
+            create_title_and_vassal_change = {
+                type = returned
+                save_scope_as = blackwater_change
+                add_claim_on_loss = no
+            }
+            title:k_the_blackwater_rush = {
+                change_title_holder_include_vassals = {
+                    holder = title:h_the_iron_throne.holder
+                    change = scope:blackwater_change
+                }
+                copy_title_history = title:k_dummy_blackwater_rush
+            }
+            title:c_great_fork = {
+                change_title_holder_include_vassals = {
+                    holder = title:h_the_iron_throne.holder
+                    change = scope:blackwater_change
+                }
+                copy_title_history = title:c_dummy_great_fork
+            }
+            resolve_title_and_vassal_change = scope:blackwater_change
+            if = {
+                limit = {
+                    NOR = {
+                        is_landed = yes
+                        is_landless_adventurer = yes
+                    }
+                    NOT = { has_character_flag = marked_for_termination }
+                }
+                title:h_the_iron_throne.holder = { add_courtier ?= prev }
+            }
+            else_if = {
+                limit = {
+                    has_character_flag = marked_for_termination
+                }
+                death = {
+                    death_reason = death_vanished
+                }
+            }
+            if = {
+                limit = {
+                    title:k_the_blackwater_rush = { title_uses_legitimate_house_mechanic = yes }
+                }
+                agot_set_current_house = {
+                    TITLE = title:k_the_blackwater_rush
+                    HOUSE = title:k_the_blackwater_rush.holder.house
+                }
+            }
+        }
+    }
+}
+
+agot_now_return_moongates_to_the_vale = {
+    effect = {
+        if = {
+            limit = {
+                exists = title:d_the_giants_lance.holder
+                has_title = title:c_moongates
+                NOT = { this = title:d_the_giants_lance.holder }
+            }
+            create_title_and_vassal_change = {
+                type = returned
+                save_scope_as = moongates_change
+                add_claim_on_loss = no
+            }
+            title:c_moongates = {
+                copy_title_history = title:c_dummy_moongates
+            }
+            if = {
+                limit = {
+                    NOR = {
+                        is_landed = yes
+                        is_landless_adventurer = yes
+                    }
+                    NOT = { has_character_flag = marked_for_termination }
+                }
+                title:d_the_giants_lance.holder = { add_courtier ?= prev }
+            }
+             else_if = {
+                limit = {
+                    has_character_flag = marked_for_termination
+                }
+                death = {
+                    death_reason = death_vanished
+                }
+            }
+        }
+    }
+}
+
+agot_now_return_the_bloody_gate_to_the_vale = {
+    effect = {
+        if = {
+            limit = {
+                exists = title:d_the_giants_lance.holder
+                has_title = title:c_the_bloody_gate
+                NOT = { this = title:d_the_giants_lance.holder }
+            }
+            create_title_and_vassal_change = {
+                type = returned
+                save_scope_as = the_bloody_gate_change
+                add_claim_on_loss = no
+            }
+            title:c_the_bloody_gate = {
+                copy_title_history = title:c_dummy_the_bloody_gate
+            }
+            if = {
+                limit = {
+                    NOR = {
+                        is_landed = yes
+                        is_landless_adventurer = yes
+                    }
+                    NOT = { has_character_flag = marked_for_termination }
+                }
+                title:d_the_giants_lance.holder = { add_courtier ?= prev }
+            }
+             else_if = {
+                limit = {
+                    has_character_flag = marked_for_termination
+                }
+                death = {
+                    death_reason = death_vanished
+                }
+            }
+        }
+    }
+}
+
+# ON TITLE GAIN
+on_title_gain = {
+    on_actions = {
+        agot_now_apply_command_governments_on_action
+        agot_now_blackwater_rush_on_action
+        agot_now_on_title_gain_iron_throne_summerhall
+        agot_now_on_title_gain_ai_iron_throne_kingslanding
+        agot_now_on_title_gain_grey_cloaks
+    }
+}
+
+agot_now_apply_command_governments_on_action = {
+    effect = {
+        if = {
+            limit = {
+                OR = {
+    			    primary_title = title:b_oldtown
+                    primary_title = title:c_moongates
+                    primary_title = title:c_the_bloody_gate
+                }
+            }
+            root = {
+                change_government = command_government
+            }
+        }
+    }
+}
+
+agot_now_blackwater_rush_on_action = {
+    effect = {
+        if = {
+            limit = {
+                scope:title = title:h_the_iron_throne
+                root = {
+                    house = house:house_Blackfyre
+                }
+                NOT = { exists = title:k_the_blackwater_rush.holder }
+            }
+            create_title_and_vassal_change = {
+                type = granted
+                save_scope_as = blackwater_change
+                add_claim_on_loss = no
+            }
+            title:k_the_blackwater_rush = {
+                change_title_holder = {
+                    holder = root
+                    change = scope:blackwater_change
+                }
+            }
+            title:c_great_fork = {
+                change_title_holder = {
+                    holder = root
+                    change = scope:blackwater_change
+                }
+            }
+            resolve_title_and_vassal_change = scope:blackwater_change
+            title:k_the_blackwater_rush = {
+                set_de_jure_liege_title = title:e_the_crownlands
+            }
+        }
+    }
+}
+
+agot_now_on_title_gain_iron_throne_summerhall = {
+	trigger = {
+		scope:title = {
+			this = title:h_the_iron_throne
+		}
+		dynasty = dynasty:dynn_Targaryen
+	}
+	effect = {
+		trigger_event = {
+			id = agot_summerhall.0003
+			days = 1
+		}
+	}
+}
+
+agot_now_on_title_gain_ai_iron_throne_kingslanding = {
+	trigger = {
+		scope:title = {
+			tier = tier_county
+			duchy = title:d_oldtown
+			NOT = { this = title:c_oldtown }
+		}
+		dynasty = dynasty:dynn_Targaryen
+		is_ai = yes
+	}
+	effect = {
+		trigger_event = {
+			id = agot_summerhall.0005
+			days = 1
+		}
+	}
+}
+
+agot_now_on_title_gain_grey_cloaks = {
+	effect = {
+		#court position assignment
+		if = {
+			limit = {
+				scope:title = title:b_oldtown
+			}
+            title:b_oldtown = { set_coa = b_goldguard_heights}
+			title:c_oldtown.holder = {
+				if = {
+					limit = {
+						NOT = { title:b_oldtown.holder = title:c_oldtown.holder }
+					}
+					appoint_court_position = {
+						recipient = title:b_oldtown.holder
+						court_position = grey_cloaks_commander_court_position
+					}
+				}
+			}
+		}
+	}
+}
+
+# ON 16TH BIRTHDAY
+on_16th_birthday = {
+	on_actions = {
+		agot_now_on_16th_birthday
+	}
+}
+
+agot_now_on_16th_birthday = {
+	events = {
+		agot_dragonstone.0001 #Prince of Summerhall Maintenance
+		delay = { days = 1 }
+	}
+}
