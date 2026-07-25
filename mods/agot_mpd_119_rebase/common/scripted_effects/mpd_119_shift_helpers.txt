@@ -17,15 +17,15 @@ mpd_increment_counter = {
 		limit = {
 			var:$COUNTER$ >= $THRESHOLD_L3$
 			has_trait = $TRAIT$
-			has_trait_xp = { trait = $TRAIT$ track = $TRAIT$ value >= 1 }
-			has_trait_xp = { trait = $TRAIT$ track = $TRAIT$ value < 100 }
+			has_trait_xp = { trait = $TRAIT$ value >= 1 }
+			has_trait_xp = { trait = $TRAIT$ value < 100 }
 		}
 		if = {
-			limit = { has_trait_xp = { trait = $TRAIT$ track = $TRAIT$ value < 50 } }
-			add_trait_xp = { trait = $TRAIT$ track = $TRAIT$ value = 99 }
+			limit = { has_trait_xp = { trait = $TRAIT$ value < 50 } }
+			add_trait_xp = { trait = $TRAIT$ value = 99 }
 		}
 		else = {
-			add_trait_xp = { trait = $TRAIT$ track = $TRAIT$ value = 50 }
+			add_trait_xp = { trait = $TRAIT$ value = 50 }
 		}
 		trait:$TRAIT$ = { save_scope_as = mpd_shift_target_trait }
 		set_variable = { name = mpd_shift_target_level value = 3 months = 1 }
@@ -36,10 +36,10 @@ mpd_increment_counter = {
 		limit = {
 			var:$COUNTER$ >= $THRESHOLD_L2$
 			has_trait = $TRAIT$
-			has_trait_xp = { trait = $TRAIT$ track = $TRAIT$ value >= 1 }
-			has_trait_xp = { trait = $TRAIT$ track = $TRAIT$ value < 50 }
+			has_trait_xp = { trait = $TRAIT$ value >= 1 }
+			has_trait_xp = { trait = $TRAIT$ value < 50 }
 		}
-		add_trait_xp = { trait = $TRAIT$ track = $TRAIT$ value = 49 }
+		add_trait_xp = { trait = $TRAIT$ value = 49 }
 		trait:$TRAIT$ = { save_scope_as = mpd_shift_target_trait }
 		set_variable = { name = mpd_shift_target_level value = 2 months = 1 }
 		set_variable = { name = mpd_shift_flavor value = $EVENT_FLAVOR$ months = 1 }
@@ -59,15 +59,15 @@ mpd_increment_counter_dual = {
 		limit = {
 			var:$COUNTER$ >= $THRESHOLD_A_L3$
 			has_trait = $TRAIT_A$
-			has_trait_xp = { trait = $TRAIT_A$ track = $TRAIT_A$ value >= 1 }
-			has_trait_xp = { trait = $TRAIT_A$ track = $TRAIT_A$ value < 100 }
+			has_trait_xp = { trait = $TRAIT_A$ value >= 1 }
+			has_trait_xp = { trait = $TRAIT_A$ value < 100 }
 		}
 		if = {
-			limit = { has_trait_xp = { trait = $TRAIT_A$ track = $TRAIT_A$ value < 50 } }
-			add_trait_xp = { trait = $TRAIT_A$ track = $TRAIT_A$ value = 99 }
+			limit = { has_trait_xp = { trait = $TRAIT_A$ value < 50 } }
+			add_trait_xp = { trait = $TRAIT_A$ value = 99 }
 		}
 		else = {
-			add_trait_xp = { trait = $TRAIT_A$ track = $TRAIT_A$ value = 50 }
+			add_trait_xp = { trait = $TRAIT_A$ value = 50 }
 		}
 		trait:$TRAIT_A$ = { save_scope_as = mpd_shift_target_trait }
 		set_variable = { name = mpd_shift_target_level value = 3 months = 1 }
@@ -78,10 +78,10 @@ mpd_increment_counter_dual = {
 		limit = {
 			var:$COUNTER$ >= $THRESHOLD_A_L2$
 			has_trait = $TRAIT_A$
-			has_trait_xp = { trait = $TRAIT_A$ track = $TRAIT_A$ value >= 1 }
-			has_trait_xp = { trait = $TRAIT_A$ track = $TRAIT_A$ value < 50 }
+			has_trait_xp = { trait = $TRAIT_A$ value >= 1 }
+			has_trait_xp = { trait = $TRAIT_A$ value < 50 }
 		}
-		add_trait_xp = { trait = $TRAIT_A$ track = $TRAIT_A$ value = 49 }
+		add_trait_xp = { trait = $TRAIT_A$ value = 49 }
 		trait:$TRAIT_A$ = { save_scope_as = mpd_shift_target_trait }
 		set_variable = { name = mpd_shift_target_level value = 2 months = 1 }
 		set_variable = { name = mpd_shift_flavor value = $EVENT_FLAVOR$ months = 1 }
@@ -93,15 +93,15 @@ mpd_increment_counter_dual = {
 		limit = {
 			var:$COUNTER$ >= $THRESHOLD_B_L3$
 			has_trait = $TRAIT_B$
-			has_trait_xp = { trait = $TRAIT_B$ track = $TRAIT_B$ value >= 1 }
-			has_trait_xp = { trait = $TRAIT_B$ track = $TRAIT_B$ value < 100 }
+			has_trait_xp = { trait = $TRAIT_B$ value >= 1 }
+			has_trait_xp = { trait = $TRAIT_B$ value < 100 }
 		}
 		if = {
-			limit = { has_trait_xp = { trait = $TRAIT_B$ track = $TRAIT_B$ value < 50 } }
-			add_trait_xp = { trait = $TRAIT_B$ track = $TRAIT_B$ value = 99 }
+			limit = { has_trait_xp = { trait = $TRAIT_B$ value < 50 } }
+			add_trait_xp = { trait = $TRAIT_B$ value = 99 }
 		}
 		else = {
-			add_trait_xp = { trait = $TRAIT_B$ track = $TRAIT_B$ value = 50 }
+			add_trait_xp = { trait = $TRAIT_B$ value = 50 }
 		}
 		trait:$TRAIT_B$ = { save_scope_as = mpd_shift_target_trait }
 		set_variable = { name = mpd_shift_target_level value = 3 months = 1 }
@@ -112,10 +112,10 @@ mpd_increment_counter_dual = {
 		limit = {
 			var:$COUNTER$ >= $THRESHOLD_B_L2$
 			has_trait = $TRAIT_B$
-			has_trait_xp = { trait = $TRAIT_B$ track = $TRAIT_B$ value >= 1 }
-			has_trait_xp = { trait = $TRAIT_B$ track = $TRAIT_B$ value < 50 }
+			has_trait_xp = { trait = $TRAIT_B$ value >= 1 }
+			has_trait_xp = { trait = $TRAIT_B$ value < 50 }
 		}
-		add_trait_xp = { trait = $TRAIT_B$ track = $TRAIT_B$ value = 49 }
+		add_trait_xp = { trait = $TRAIT_B$ value = 49 }
 		trait:$TRAIT_B$ = { save_scope_as = mpd_shift_target_trait }
 		set_variable = { name = mpd_shift_target_level value = 2 months = 1 }
 		set_variable = { name = mpd_shift_flavor value = $EVENT_FLAVOR$ months = 1 }

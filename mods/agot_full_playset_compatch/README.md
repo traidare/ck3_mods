@@ -14,6 +14,8 @@ This combines:
 
 The accompanying narrow runtime layers also repair:
 
+- AGOT+'s CK3 1.19-invalid canon-child creation and dead-character perk
+  assignments;
 - NOW 1.2.4's CK3 1.19-invalid effects and game-start scoping;
 - AGOT MPD's startup calculator parameter, variable, and XP-track failures;
 - Grand Remembrance's no-character chronicle visibility loop;
@@ -26,26 +28,30 @@ The rebase also repairs current-parent defects encountered during validation:
 NOW's `d_lychester` creation check still referenced removed `d_medway`; the
 NOW/Seasons region merge put duchy `d_ironwater` in a county list and retained
 removed county `c_sunvane`. These now resolve to `d_lychester`, `c_ironwater`,
-and `c_brittlebush`.
+and `c_brittlebush`. A narrow `can_raid` scripted-rule override also returns
+false when CK3 evaluates the rule without a potential-raider character, while
+delegating unchanged to AGOT's `can_raid_trigger` for every valid character.
 
 ## Required load order
 
 Keep each ordinary parent mod in its existing relative position, then place the
 local compatibility layers in this order:
 
-1. `Legacy Of The Dragon - Linux Texture Fix`, immediately after Legacy Of The
+1. `AGOT+ 1.0.0 - CK3 1.19 Runtime Rebase`, immediately after AGOT: Canon
+   Children EZ Mode
+2. `Legacy Of The Dragon - Linux Texture Fix`, immediately after Legacy Of The
    Dragon
-2. `AGOT NOW 1.2.4 - CK3 1.19 Rebase`, immediately after NOW
-3. `AGOT 0.4.39 - Much Faster Activities Rebase`, immediately after MFA
-4. `Grand Remembrance 1.8.1 - CK3 1.19 Runtime Fix`, immediately after the Grand
+3. `AGOT NOW 1.2.4 - CK3 1.19 Rebase`, immediately after NOW
+4. `AGOT 0.4.39 - Much Faster Activities Rebase`, immediately after MFA
+5. `Grand Remembrance 1.8.1 - CK3 1.19 Runtime Fix`, immediately after the Grand
    Remembrance AGOT compatibility submod
-5. `AGOT MPD 0.3.0 - CK3 1.19 Runtime Rebase`, immediately after AGOT MPD and
+6. `AGOT MPD 0.3.0 - CK3 1.19 Runtime Rebase`, immediately after AGOT MPD and
    before the local MPD + Dragon Wives compatch
-6. `Essos Expanded + LoV - CK3 1.19 History Rebase`, immediately after Essos
+7. `Essos Expanded + LoV - CK3 1.19 History Rebase`, immediately after Essos
    Expanded and before its TempLoV compatch
-7. `AGOT NOW + Legacy of Valyria + Essos Expanded Map Compatch`, after the Essos
+8. `AGOT NOW + Legacy of Valyria + Essos Expanded Map Compatch`, after the Essos
    Expanded LoV compatch
-8. `AGOT Personal Playset Compatch`, last
+9. `AGOT Personal Playset Compatch`, last
 
 Disable these superseded Workshop compatches:
 

@@ -13,8 +13,9 @@ character scope. Its first trigger, `is_alive = yes`, then emitted an untyped
 
 This mod overrides only the `gr_chronicle_window` scripted-GUI entry. It:
 
-- requires `exists = this`;
-- gates character-only checks behind that existence test; and
+- saves the possibly absent GUI character as a temporary scope;
+- requires `exists = scope:character` before entering that scope;
+- uses the null-safe `scope:character ?=` form for character-only checks; and
 - gates the variable comparison behind `has_variable`.
 
 The archived full-playset crash log contained 7,794 errors from the original

@@ -20,14 +20,13 @@ local MPD + Dragon Wives GUI compatch.
 - Uses optional `court_owner ?=` scoping and checks
   `has_variable = mpd_wn_active_task` before comparing the wet-nurse task
   variable.
-- Explicitly selects the shorthand XP track named after `$TRAIT$` for both
-  `has_trait_xp` and `add_trait_xp`. This fixes the observed `paranoid`
-  multiple-track error and is valid for MPD's single-track personality trait
-  overrides.
+- Omits `track` from `has_trait_xp` and `add_trait_xp`, matching MPD's single
+  anonymous personality-trait tracks. Supplying `$TRAIT$` as a track name caused
+  runtime errors such as `paranoid` having no track named `paranoid`.
 - Keeps the threshold-safe cumulative counter helpers previously housed in the
   Dragon Wives compatch. These are MPD-only runtime repairs: missed thresholds
   catch up on the next qualifying action, the highest earned level is applied
-  first, and all XP operations now select their shorthand tracks explicitly.
+  first, and all XP operations use the trait's single anonymous track.
 
 Faith, guardian, parent, guardian-influence, and wet-nurse weighting are
 otherwise unchanged.
