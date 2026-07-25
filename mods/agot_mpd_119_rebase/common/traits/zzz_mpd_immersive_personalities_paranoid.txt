@@ -1,0 +1,219 @@
+# Compatibility winner for:
+# - AGOT - More Personality Depth (3717990443)
+# - Immersive Personalities (3596393244)
+#
+# Immersive Personalities' 99_replaced_traits.txt otherwise replaces MPD's
+# leveled paranoid trait after 01_personality_overrides.txt is loaded. Keep the
+# MPD definition last so its shorthand track named "paranoid" remains valid.
+
+@pos_compat_low = 5
+@neg_compat_high = -30
+@neg_compat_medium = -15
+
+paranoid = {
+	category = personality
+	opposites = {
+		trusting
+	}
+	flag = trait_unlocks_t2_countermeasures
+	ruler_designer_cost = -10
+	compatibility = {
+		paranoid = @pos_compat_low
+		cynical = @pos_compat_low
+		honest = @pos_compat_low
+		trusting = @neg_compat_high
+		forgiving = @neg_compat_medium
+		deceitful = @neg_compat_high
+		sadistic = @neg_compat_high
+		callous = @neg_compat_high
+		vengeful = @neg_compat_high
+		gregarious = @neg_compat_medium
+		lustful = @neg_compat_medium
+		greedy = @neg_compat_medium
+		ambitious = @neg_compat_medium
+		eccentric = @neg_compat_medium
+		inquisitive = @neg_compat_high
+	}
+	track = {
+		1 = {
+			diplomacy = 0
+			intrigue = 2
+			stress_gain_mult = 0.5
+			dread_gain_mult = 0.1
+			scheme_discovery_chance_mult = 0
+			enemy_personal_scheme_success_chance_add = -12
+			character_travel_speed = -5
+			character_travel_safety = 5
+			opinion_of_vassal = -10
+			culture_modifier = {
+				parameter = forest_trait_bonuses
+				forest_min_combat_roll = 1
+				majorroad_forest_min_combat_roll = 0
+				minorroad_forest_min_combat_roll = 0
+				taiga_min_combat_roll = 1
+				majorroad_taiga_min_combat_roll = 0
+				minorroad_taiga_min_combat_roll = 0
+				cloudforest_min_combat_roll = 0
+				majorroad_cloudforest_min_combat_roll = 0
+				minorroad_cloudforest_min_combat_roll = 0
+				taiga_bog_min_combat_roll = 0
+				majorroad_taiga_bog_min_combat_roll = 0
+				minorroad_taiga_bog_min_combat_roll = 0
+			}
+			culture_modifier = {
+				parameter = jungle_trait_bonuses
+				jungle_min_combat_roll = 1
+				majorroad_jungle_min_combat_roll = 0
+				minorroad_jungle_min_combat_roll = 0
+			}
+			culture_modifier = {
+				parameter = hill_trait_bonuses
+				hills_min_combat_roll = 1
+				majorroad_hills_min_combat_roll = 0
+				minorroad_hills_min_combat_roll = 0
+				highlands_min_combat_roll = 0
+				majorroad_highlands_min_combat_roll = 0
+				minorroad_highlands_min_combat_roll = 0
+			}
+			culture_modifier = {
+				parameter = palace_politics_trait_bonuses
+				monthly_influence = 0.1
+			}
+			ai_honor = -10
+			ai_boldness = -10
+			ai_rationality = -10
+			ai_vengefulness = 10
+			ai_compassion = -5
+			ai_sociability = -10
+			ai_amenity_target_baseline = -0.05
+			enemy_scheme_secrecy_add = -5
+			monthly_influence = 0.1
+		}
+		50 = {
+			diplomacy = -1
+			intrigue = 1
+			stress_gain_mult = 0.5
+			dread_gain_mult = 0.15
+			scheme_discovery_chance_mult = 0.05
+			enemy_personal_scheme_success_chance_add = -13
+			character_travel_speed = -5
+			character_travel_safety = 5
+			opinion_of_vassal = -5
+			culture_modifier = {
+				parameter = forest_trait_bonuses
+				forest_min_combat_roll = 1
+				majorroad_forest_min_combat_roll = 1
+				minorroad_forest_min_combat_roll = 1
+				taiga_min_combat_roll = 1
+				majorroad_taiga_min_combat_roll = 1
+				minorroad_taiga_min_combat_roll = 1
+				cloudforest_min_combat_roll = 1
+				majorroad_cloudforest_min_combat_roll = 1
+				minorroad_cloudforest_min_combat_roll = 1
+				taiga_bog_min_combat_roll = 1
+				majorroad_taiga_bog_min_combat_roll = 1
+				minorroad_taiga_bog_min_combat_roll = 1
+			}
+			culture_modifier = {
+				parameter = jungle_trait_bonuses
+				jungle_min_combat_roll = 1
+				majorroad_jungle_min_combat_roll = 1
+				minorroad_jungle_min_combat_roll = 1
+			}
+			culture_modifier = {
+				parameter = hill_trait_bonuses
+				hills_min_combat_roll = 1
+				majorroad_hills_min_combat_roll = 1
+				minorroad_hills_min_combat_roll = 1
+				highlands_min_combat_roll = 1
+				majorroad_highlands_min_combat_roll = 1
+				minorroad_highlands_min_combat_roll = 1
+			}
+			culture_modifier = {
+				parameter = palace_politics_trait_bonuses
+				monthly_influence = 0.05
+			}
+			ai_honor = -5
+			ai_boldness = -5
+			ai_rationality = -5
+			ai_vengefulness = 5
+			ai_compassion = -5
+			ai_sociability = -15
+			ai_amenity_target_baseline = -0.05
+			enemy_scheme_secrecy_add = -5
+			monthly_influence = 0.05
+		}
+		100 = {
+			diplomacy = -1
+			intrigue = 3
+			stress_gain_mult = 0.5
+			dread_gain_mult = 0.25
+			scheme_discovery_chance_mult = 0.05
+			enemy_personal_scheme_success_chance_add = -25
+			character_travel_speed = -10
+			character_travel_safety = 10
+			opinion_of_vassal = -15
+			culture_modifier = {
+				parameter = forest_trait_bonuses
+				forest_min_combat_roll = 2
+				majorroad_forest_min_combat_roll = 1
+				minorroad_forest_min_combat_roll = 1
+				taiga_min_combat_roll = 2
+				majorroad_taiga_min_combat_roll = 1
+				minorroad_taiga_min_combat_roll = 1
+				cloudforest_min_combat_roll = 1
+				majorroad_cloudforest_min_combat_roll = 1
+				minorroad_cloudforest_min_combat_roll = 1
+				taiga_bog_min_combat_roll = 1
+				majorroad_taiga_bog_min_combat_roll = 1
+				minorroad_taiga_bog_min_combat_roll = 1
+			}
+			culture_modifier = {
+				parameter = jungle_trait_bonuses
+				jungle_min_combat_roll = 2
+				majorroad_jungle_min_combat_roll = 1
+				minorroad_jungle_min_combat_roll = 1
+			}
+			culture_modifier = {
+				parameter = hill_trait_bonuses
+				hills_min_combat_roll = 2
+				majorroad_hills_min_combat_roll = 1
+				minorroad_hills_min_combat_roll = 1
+				highlands_min_combat_roll = 1
+				majorroad_highlands_min_combat_roll = 1
+				minorroad_highlands_min_combat_roll = 1
+			}
+			culture_modifier = {
+				parameter = palace_politics_trait_bonuses
+				monthly_influence = 0.15
+			}
+			ai_honor = -15
+			ai_boldness = -15
+			ai_rationality = -15
+			ai_vengefulness = 15
+			ai_compassion = -10
+			ai_sociability = -25
+			ai_amenity_target_baseline = -0.1
+			enemy_scheme_secrecy_add = -10
+			monthly_influence = 0.15
+		}
+	}
+
+	name = {
+		first_valid = {
+			triggered_desc = { trigger = { exists = this  has_trait_xp = { trait = paranoid value >= 100 } } desc = trait_paranoid_3 }
+			triggered_desc = { trigger = { exists = this  has_trait_xp = { trait = paranoid value >= 50 } } desc = trait_paranoid_2 }
+			triggered_desc = { trigger = { exists = this  has_trait_xp = { trait = paranoid value >= 0 } } desc = trait_paranoid_1_display }
+			desc = trait_paranoid_1
+		}
+	}
+
+	desc = {
+		first_valid = {
+			triggered_desc = { trigger = { NOT = { exists = this } } desc = trait_paranoid_1_desc }
+			triggered_desc = { trigger = { has_trait_xp = { trait = paranoid value >= 100 } } desc = trait_paranoid_3_character_desc }
+			triggered_desc = { trigger = { has_trait_xp = { trait = paranoid value >= 50 } } desc = trait_paranoid_2_character_desc }
+			desc = trait_paranoid_1_character_desc
+		}
+	}
+}

@@ -7,7 +7,7 @@
 #   parameter, so the generic culture weighting is omitted.
 # - Wet-nurse task checks safely handle characters without a court owner or an
 #   active task variable.
-# - Personality traits use their single anonymous XP track.
+# - Personality traits use CK3's shorthand track named after the trait.
 
 mpd_calculate_trait_xp = {
 	# Required parameters:
@@ -21,6 +21,7 @@ mpd_calculate_trait_xp = {
 			NOT = {
 				has_trait_xp = {
 					trait = $TRAIT$
+					track = $TRAIT$
 					value >= 1
 				}
 			}
@@ -31,6 +32,7 @@ mpd_calculate_trait_xp = {
 			60 = {
 				add_trait_xp = {
 					trait = $TRAIT$
+					track = $TRAIT$
 					value = 1
 				}
 			}
@@ -97,6 +99,7 @@ mpd_calculate_trait_xp = {
 				}
 				add_trait_xp = {
 					trait = $TRAIT$
+					track = $TRAIT$
 					value = 50
 				}
 			}
@@ -144,6 +147,7 @@ mpd_calculate_trait_xp = {
 				}
 				add_trait_xp = {
 					trait = $TRAIT$
+					track = $TRAIT$
 					value = 100
 				}
 			}

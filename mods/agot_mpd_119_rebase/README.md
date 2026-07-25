@@ -10,6 +10,7 @@ local MPD + Dragon Wives GUI compatch.
 
 - `common/scripted_effects/mpd_xp_calculator.txt`
 - `common/scripted_effects/mpd_119_shift_helpers.txt`
+- `common/traits/zzz_mpd_immersive_personalities_paranoid.txt`
 
 ## Repairs
 
@@ -20,18 +21,23 @@ local MPD + Dragon Wives GUI compatch.
 - Uses optional `court_owner ?=` scoping and checks
   `has_variable = mpd_wn_active_task` before comparing the wet-nurse task
   variable.
-- Omits `track` from `has_trait_xp` and `add_trait_xp`, matching MPD's single
-  anonymous personality-trait tracks. Supplying `$TRAIT$` as a track name caused
-  runtime errors such as `paranoid` having no track named `paranoid`.
+- Uses the trait key as the explicit track key in `has_trait_xp` and
+  `add_trait_xp`. CK3's `track = { ... }` shorthand creates one track named
+  after the trait.
 - Keeps the threshold-safe cumulative counter helpers previously housed in the
   Dragon Wives compatch. These are MPD-only runtime repairs: missed thresholds
   catch up on the next qualifying action, the highest earned level is applied
-  first, and all XP operations use the trait's single anonymous track.
+  first, and all XP operations select the trait's shorthand track.
+- Resolves the `paranoid` collision with **Immersive Personalities**
+  (`3596393244`). Its later-sorting `99_replaced_traits.txt` otherwise replaces
+  MPD's leveled trait. The local `zzz_` definition is an exact copy of MPD's
+  `paranoid` entry and intentionally wins last.
 
 Faith, guardian, parent, guardian-influence, and wet-nurse weighting are
 otherwise unchanged.
 
-Recompare this override after every update to Workshop mod `3717990443`.
+Recompare this override after every update to Workshop mods `3717990443` or
+`3596393244`.
 
 ## Why this remains separate from the Dragon Wives compatch
 

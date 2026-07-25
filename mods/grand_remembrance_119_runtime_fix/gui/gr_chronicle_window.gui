@@ -1,0 +1,477 @@
+######################################################
+# Grand Remembrance — Dynasty Chronicle Window
+# Visual style copied from vanilla window_legend_chronicle.gui
+# Data bindings use scripted_gui + player variables
+# instead of the Legend system's C++ backed data model.
+#
+# NOTE: Some textures (window_legend_chronicle/*) are from
+# the Legends of the Dead DLC. If missing, backgrounds
+# degrade gracefully (blank areas, no crash).
+######################################################
+
+window = {
+	name = "gr_chronicle_window"
+	parentanchor = center
+	position = { 0 20 }
+	size = { 650 940 }
+	layer = windows_layer
+
+	visible = "[And(GetPlayer.IsValid, GetScriptedGui('gr_chronicle_window').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End ))]"
+
+	allow_outside = yes
+	movable = yes
+
+	state = {
+		name = _show
+		using = Animation_FadeIn_Quick
+	}
+
+	state = {
+		name = _hide
+		using = Animation_FadeOut_Quick
+	}
+
+	### Background chrome (matches vanilla chronicle parchment) ###
+	hbox = {
+		using = Window_Background
+
+		blockoverride "bg_margins" {
+			margin = { 35 0 }
+			margin_top = -2
+			margin_bottom = -5
+		}
+
+		background = {
+			margin = { 32 0 }
+			margin_top = -2
+			margin_bottom = -5
+
+			using = Background_Header
+		}
+
+		background = {
+			margin = { 36 0 }
+			margin_top = -2
+			margin_bottom = -5
+
+			using = Background_Header_Pattern
+		}
+	}
+
+	### Main content vbox ###
+	vbox = {
+		margin = { -38 0 }
+		margin_bottom = -870
+		margin_top = -20
+
+		using = Window_Margins
+
+		allow_outside = yes
+
+		vbox = {
+			name = "parchment_background"
+			layoutpolicy_vertical = expanding
+			layoutpolicy_horizontal = expanding
+
+			### Parchment texture layers ###
+			background = {
+				name = "paper_texture_shadow"
+				texture = "gfx/interface/skinned/window_letter/tile_letter_shadow.dds"
+				spriteType = Corneredtiled
+				spriteborder = { 200 200 }
+
+				modify_texture = {
+					name = "top_edge_mask"
+					texture = "gfx/interface/component_masks/mask_fade_vertical.dds"
+					blend_mode = alphamultiply
+				}
+			}
+
+			background = {
+				name = "paper_texture_flat"
+				texture = "gfx/interface/skinned/window_letter/tile_letter_flat.dds"
+				spriteType = Corneredtiled
+				spriteborder = { 200 200 }
+
+				modify_texture = {
+					name = "paper_texture_overlay"
+					texture = "gfx/interface/window_event/overlay_letter_texture.dds"
+					spriteType = Corneredstretched
+					blend_mode = overlay
+				}
+
+				modify_texture = {
+					name = "top_edge_mask"
+					texture = "gfx/interface/component_masks/mask_fade_vertical.dds"
+					blend_mode = alphamultiply
+				}
+			}
+
+			### DLC textures — degrade gracefully if missing ###
+			background = {
+				name = "decal"
+				texture = "gfx/interface/window_legend_chronicle/marginalia_decal_ground.dds"
+				fittype = end
+				margin = { -64 0 }
+				margin_bottom = -25
+				alpha = 0.35
+			}
+
+			background = {
+				name = "top_edge_overlay"
+				texture = "gfx/interface/window_legend_chronicle/legend_chronicle_overlay.dds"
+				alpha = 0.8
+			}
+
+			### Decorative frame border (filigree around edges) ###
+			background = {
+				name = "chronicle_frame"
+				texture = "gfx/interface/window_legend_chronicle/legend_chronicle_frame.dds"
+				alpha = 0.9
+			}
+
+			background = {
+				name = "top_edge_highlight_and_shadow"
+				texture = "gfx/interface/window_legend_chronicle/legend_chronicle_highlight_shadow.dds"
+			}
+
+			### Close button + header ###
+			margin_widget = {
+				size = { 0 36 }
+				layoutpolicy_horizontal = expanding
+
+				buttons_window_control = {
+					parentanchor = top|right
+					position = { -2 0 }
+
+					blockoverride "button_close"
+					{
+						onclick = "[GetScriptedGui('gr_chronicle_close').Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+					}
+					margin_right = 18
+				}
+
+				text_single = {
+					name = "header_text"
+					parentanchor = top|hcenter
+					position = { 0 2 }
+
+					text = "GR_CW_HEADER"
+					align = nobaseline
+					default_format = "#light_background"
+					max_width = 300
+					using = Text_Light_Background_Overrides
+					using = Font_Size_Big
+					using = Font_Type_Flavor
+
+					margin_top = 6
+				}
+			}
+
+			### Decorative illustration banner (matches vanilla marginalia art) ###
+			hbox = {
+				layoutpolicy_horizontal = expanding
+
+				expand = {}
+
+				icon = {
+					name = "illustration_banner"
+					size = { 580 180 }
+					texture = "gfx/interface/window_legend_chronicle/marginalia_illustration.dds"
+					alpha = 0.85
+				}
+
+				expand = {}
+			}
+
+			### Main content ###
+			vbox = {
+				name = "main_content"
+				layoutpolicy_horizontal = expanding
+				layoutpolicy_vertical = expanding
+
+				margin = { 36 0 }
+				margin_bottom = 8
+
+				### Ruler name banner ###
+				hbox = {
+					layoutpolicy_horizontal = expanding
+					margin = { 8 0 }
+					spacing = 4
+
+					background = {
+						using = Background_Area
+
+						margin_left = -28
+						margin_top = -4
+						margin_bottom = -6
+
+						modify_texture = {
+							name = "mask"
+							texture = "gfx/interface/component_masks/mask_fade_horizontal.dds"
+							spriteType = Corneredstretched
+							spriteborder = { 0 0 }
+							blend_mode = alphamultiply
+							mirror = horizontal
+						}
+					}
+
+					text_single = {
+						layoutpolicy_horizontal = expanding
+						name = "ruler_name"
+						text = "GR_CW_RULER_NAME"
+						default_format = "#light_background"
+						align = nobaseline
+						using = Font_Size_Big
+						using = Font_Type_Flavor
+						using = Text_Light_Background_Overrides
+
+						max_width = 490
+					}
+				}
+
+				### Divider above obituary body ###
+				hbox = {
+					layoutpolicy_horizontal = expanding
+					margin_top = 12
+					margin_bottom = 12
+
+					expand = {}
+
+					icon = {
+						name = "divider_top"
+						size = { 524 40 }
+						texture = "gfx/interface/window_legend_chronicle/marginalia_divider.dds"
+						alpha = 0.9
+					}
+
+					expand = {}
+				}
+
+				### Side-by-side: text+scrollbar (left) | portrait (right) ###
+				hbox = {
+					name = "chronicle_body"
+					layoutpolicy_horizontal = expanding
+
+					expand = {}
+
+					### Left column — scrollable obituary text ###
+					vbox = {
+						scrollbox = {
+							size = { 350 380 }
+
+							blockoverride "scrollbox_background" {}
+							blockoverride "scrollbox_background_fade" {}
+							blockoverride "scrollbox_margins" {}
+
+							blockoverride "scrollbox_scrollbar_vertical" {
+								scrollbar_vertical = {
+									using = Chronicle_Scrollbar_Vertical
+								}
+							}
+
+							blockoverride "scrollbox_content"
+							{
+								vbox = {
+									name = "obituary_text_container"
+
+									text_multi = {
+										name = "obituary_body"
+										layoutpolicy_vertical = expanding
+
+										margin_right = 16
+
+										min_width = 350
+										max_width = 350
+										autoresize = yes
+
+										text = "GR_CW_BODY"
+
+										default_format = "#light_background"
+										using = Text_Light_Background_Overrides
+									}
+								}
+							}
+						}
+
+						expand = {}
+					}
+
+					### Right column — legend-style portrait ###
+					vbox = {
+						widget = {
+							name = "portrait_frame"
+							size = { 200 380 }
+
+							background = {
+								name = "portrait_gold_bg"
+								texture = "gfx/interface/window_legend_chronicle/marginalia_portrait_gold_bg.dds"
+							}
+
+							portrait_button = {
+								name = "chronicle_portrait"
+								datacontext = "[GetPlayer.MakeScope.Var('gr_cp').Char]"
+								parentanchor = bottom|hcenter
+								size = { 200 380 }
+								alpha = 0.80
+
+								using = portrait_base
+								alwaystransparent = yes
+								tooltip_visible = no
+
+								portrait_texture = "[Character.GetAnimatedPortraitEvenIfDead( 'environment_painterly', 'camera_legend_chronicle', 'normal', PdxGetWidgetScreenSize( PdxGuiWidget.Self ) )]"
+
+								mask = "gfx/portraits/portrait_mask_legend_chronicle.dds"
+								effectname = "NoHighlight"
+
+								pop_out = yes
+								pop_out_v = 3.0
+								grayscale = no
+
+								blockoverride "portrait_button_template_onmouseenter" {}
+								blockoverride "portrait_button_template_onmouseleave" {}
+								blockoverride "portrait_button_template_onclick" {}
+								blockoverride "portrait_button_template_onrightclick" {}
+								blockoverride "portrait_button_template_tooltip" {}
+							}
+
+							### Ornate portrait frame overlay ###
+							icon = {
+								name = "portrait_frame_overlay"
+								size = { 100% 100% }
+								texture = "gfx/interface/window_legend_chronicle/marginalia_portrait_frame_legendary.dds"
+								alwaystransparent = yes
+							}
+						}
+
+						expand = {}
+					}
+
+					expand = {}
+				}
+
+				### Divider below obituary body ###
+				hbox = {
+					layoutpolicy_horizontal = expanding
+					margin_top = 12
+					margin_bottom = 12
+
+					expand = {}
+
+					icon = {
+						name = "divider_bottom"
+						size = { 524 40 }
+						texture = "gfx/interface/window_legend_chronicle/marginalia_divider.dds"
+						alpha = 0.9
+					}
+
+					expand = {}
+				}
+
+				### Navigation controls — tucked right under bottom divider ###
+				vbox = {
+					name = "navigation_area"
+					layoutpolicy_horizontal = expanding
+
+					### Page counter ###
+					text_single = {
+						name = "page_counter"
+						text = "GR_CW_PAGE_COUNTER"
+						default_format = "#light_background"
+						using = Text_Light_Background_Overrides
+						using = Font_Type_Flavor
+						margin_bottom = 6
+					}
+
+					### Navigation buttons ###
+					hbox = {
+						spacing = 6
+
+						button_standard = {
+							name = "btn_first"
+							text = "GR_CW_FIRST"
+							size = { 110 33 }
+							onclick = "[GetScriptedGui('gr_chronicle_first').Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+							enabled = "[GetScriptedGui('gr_chronicle_first').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+							tooltip = "GR_CW_TT_FIRST"
+
+							background = {
+								using = Background_Area_Light
+								alpha = 0.7
+							}
+						}
+
+						button_standard = {
+							name = "btn_prev"
+							text = "GR_CW_PREV"
+							size = { 110 33 }
+							onclick = "[GetScriptedGui('gr_chronicle_prev').Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+							enabled = "[GetScriptedGui('gr_chronicle_prev').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+							tooltip = "GR_CW_TT_PREV"
+
+							background = {
+								using = Background_Area_Light
+								alpha = 0.7
+							}
+						}
+
+						button_standard = {
+							name = "btn_next"
+							text = "GR_CW_NEXT"
+							size = { 110 33 }
+							onclick = "[GetScriptedGui('gr_chronicle_next').Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+							enabled = "[GetScriptedGui('gr_chronicle_next').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+							tooltip = "GR_CW_TT_NEXT"
+
+							background = {
+								using = Background_Area_Light
+								alpha = 0.7
+							}
+						}
+
+						button_standard = {
+							name = "btn_last"
+							text = "GR_CW_LAST"
+							size = { 110 33 }
+							onclick = "[GetScriptedGui('gr_chronicle_last').Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+							enabled = "[GetScriptedGui('gr_chronicle_last').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+							tooltip = "GR_CW_TT_LAST"
+
+							background = {
+								using = Background_Area_Light
+								alpha = 0.7
+							}
+						}
+					}
+
+					### Replay button — centered below the nav row ###
+					hbox = {
+						layoutpolicy_horizontal = expanding
+						margin_top = 8
+
+						expand = {}
+
+						button_standard = {
+							name = "btn_replay"
+							text = "GR_CW_REPLAY"
+							size = { 226 33 }
+							onclick = "[GetScriptedGui('gr_chronicle_replay').Execute( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+							visible = "[GetScriptedGui('gr_chronicle_replay').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+							enabled = "[GetScriptedGui('gr_chronicle_replay').IsValid( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+							tooltip = "GR_CW_TT_REPLAY"
+
+							background = {
+								using = Background_Area_Light
+								alpha = 0.7
+							}
+						}
+
+						expand = {}
+					}
+				}
+
+				expand = {}
+			}
+		}
+	}
+}
