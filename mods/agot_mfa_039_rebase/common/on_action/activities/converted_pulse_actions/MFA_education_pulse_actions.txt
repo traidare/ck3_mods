@@ -1,0 +1,815 @@
+﻿####################################
+# MFA Activity Converter
+# Converted pulse_actions to on_actions
+# only effect block remains and is nestled behind scope:activity, while is_valid and weight blocks moved to main relay on_action
+####################################
+
+MFA_pulse_apa_leveraging_language_skills = {
+	effect = {
+		scope:activity = {
+			scope:host = {
+				save_scope_as = first
+			}
+			scope:activity.activity_location = {
+				save_scope_as = second
+			}
+
+			add_activity_log_entry = {
+				key = apa_leveraging_language_skills
+				tags = { pulse_action }
+				character = scope:first
+
+				scope:activity = { activity_special_type_progression_tiny = yes }
+
+				scope:first = {
+					custom_tooltip = adult_education_tt_positive_tiny
+					add_prestige = minor_prestige_gain
+				}
+			}
+
+			every_attending_character = {
+				limit = {
+					is_ai = no
+					has_game_rule = MFA_pulse_notifications_enabled
+				}
+				send_interface_message = {
+					type = MFA_pulse_msg_public
+					title = apa_leveraging_language_skills_title
+					left_icon = scope:first
+					show_as_tooltip = {
+						scope:activity = {
+							scope:activity = {
+								activity_special_type_progression_tiny = yes
+							}
+							scope:first = {
+								custom_tooltip = adult_education_tt_positive_tiny
+								add_prestige = minor_prestige_gain
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+}
+
+MFA_pulse_apa_procrastination = {
+	effect = {
+		scope:activity = {
+			random_attending_character = {
+				limit = {
+					NOR = {
+						has_character_flag = teacher_1
+						has_character_flag = teacher_2
+					}
+					OR = {
+						has_activity_intent = university_revelry_intent
+						has_trait = lazy
+						has_trait = arrogant
+						has_trait = drunkard
+						has_trait = fickle
+						has_trait = arbitrary
+					}
+				}
+				save_scope_as = first
+			}
+			add_activity_log_entry = {
+				key = apa_procrastination
+				tags = { pulse_action }
+				character = scope:first
+
+				scope:first = {
+					add_stress = minor_stress_gain
+				}
+			}
+
+			every_attending_character = {
+				limit = {
+					is_ai = no
+					has_game_rule = MFA_pulse_notifications_enabled
+				}
+				send_interface_message = {
+					type = MFA_pulse_msg_learning
+					title = apa_procrastination_title
+					left_icon = scope:first
+					show_as_tooltip = {
+						scope:activity = {
+							scope:first = {
+								add_stress = minor_stress_gain
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+}
+
+MFA_pulse_apa_university_discussions = {
+	effect = {
+		scope:activity = {
+			scope:host = {
+				save_scope_as = first
+			}
+			random_attending_character = {
+				limit = {
+					this != scope:host
+					is_available_healthy_ai_adult = yes
+					OR = {
+						has_character_flag = teacher_1
+						has_character_flag = teacher_2
+					}
+				}
+				save_scope_as = second
+			}
+			add_activity_log_entry = {
+				key = apa_university_discussions
+				tags = { pulse_action }
+				character = scope:first
+				target = scope:second
+
+				scope:second = {
+					if = {
+						limit = {
+							has_education_martial_trigger = yes
+						}
+						scope:first = {
+							add_martial_lifestyle_xp = medium_lifestyle_xp
+						}
+					}
+					else_if = {
+						limit = {
+							has_education_diplomacy_trigger = yes
+						}
+						scope:first = {
+							add_diplomacy_lifestyle_xp = medium_lifestyle_xp
+						}
+					}
+					else_if = {
+						limit = {
+							has_education_learning_trigger = yes
+						}
+						scope:first = {
+							add_learning_lifestyle_xp = medium_lifestyle_xp
+						}
+					}
+					else_if = {
+						limit = {
+							has_education_stewardship_trigger = yes
+						}
+						scope:first = {
+							add_stewardship_lifestyle_xp = medium_lifestyle_xp
+						}
+					}
+					else_if = {
+						limit = {
+							has_education_intrigue_trigger = yes
+						}
+						scope:first = {
+							add_intrigue_lifestyle_xp = medium_lifestyle_xp
+						}
+					}
+				}
+			}
+
+			every_attending_character = {
+				limit = {
+					is_ai = no
+					has_game_rule = MFA_pulse_notifications_enabled
+				}
+				send_interface_message = {
+					type = MFA_pulse_msg_learning
+					title = apa_university_discussions_title
+					left_icon = scope:first
+					right_icon = scope:second
+					show_as_tooltip = {
+						scope:activity = {
+							scope:second = {
+								if = {
+									limit = {
+										has_education_martial_trigger = yes
+									}
+									scope:first = {
+										add_martial_lifestyle_xp = medium_lifestyle_xp
+									}
+								}
+								else_if = {
+									limit = {
+										has_education_diplomacy_trigger = yes
+									}
+									scope:first = {
+										add_diplomacy_lifestyle_xp = medium_lifestyle_xp
+									}
+								}
+								else_if = {
+									limit = {
+										has_education_learning_trigger = yes
+									}
+									scope:first = {
+										add_learning_lifestyle_xp = medium_lifestyle_xp
+									}
+								}
+								else_if = {
+									limit = {
+										has_education_stewardship_trigger = yes
+									}
+									scope:first = {
+										add_stewardship_lifestyle_xp = medium_lifestyle_xp
+									}
+								}
+								else_if = {
+									limit = {
+										has_education_intrigue_trigger = yes
+									}
+									scope:first = {
+										add_intrigue_lifestyle_xp = medium_lifestyle_xp
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+}
+
+MFA_pulse_apa_night_on_books = {
+	effect = {
+		scope:activity = {
+			random_attending_character = {
+				limit = {
+					NOR = {
+						has_character_flag = teacher_1
+						has_character_flag = teacher_2
+					}
+				}
+				save_scope_as = first
+			}
+
+			add_activity_log_entry = {
+				key = apa_night_on_books
+				tags = { pulse_action }
+				character = scope:first
+
+				scope:first = {
+					add_stress = minor_stress_gain
+					if = {
+						limit = {
+							this = scope:host
+						}
+						custom_tooltip = adult_education_tt_positive_tiny
+						scope:activity = { activity_special_type_progression_tiny = yes }
+					}
+				}
+			}
+
+			every_attending_character = {
+				limit = {
+					is_ai = no
+					has_game_rule = MFA_pulse_notifications_enabled
+				}
+				send_interface_message = {
+					type = MFA_pulse_msg_learning
+					title = apa_night_on_books_title
+					left_icon = scope:first
+					show_as_tooltip = {
+						scope:activity = {
+							scope:first = {
+								add_stress = minor_stress_gain
+								if = {
+									limit = {
+										this = scope:host
+									}
+									custom_tooltip = adult_education_tt_positive_tiny
+									scope:activity = { activity_special_type_progression_tiny = yes }
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+}
+
+MFA_pulse_apa_student_disagreement = {
+	effect = {
+		scope:activity = {
+			random_attending_character = {
+				limit = {
+					NOR = {
+						has_character_flag = teacher_1
+						has_character_flag = teacher_2
+					}
+				}
+				save_scope_as = first
+			}
+			random_attending_character = {
+				limit = {
+					NOR = {
+						has_character_flag = teacher_1
+						has_character_flag = teacher_2
+						this = scope:first
+					}
+				}
+				save_scope_as = second
+			}
+
+			add_activity_log_entry = {
+				key = apa_student_disagreement
+				tags = { pulse_action }
+				character = scope:first
+				target = scope:second
+
+
+				scope:first = {
+					if = {
+						limit = {
+							can_set_relation_rival_trigger = { CHARACTER = scope:second }
+						}
+						progress_towards_rival_effect = {
+							REASON = rival_at_university
+							CHARACTER = scope:second
+							OPINION = default_rival_opinion
+						}
+					}
+					else_if = {
+						limit = {
+							is_ai = yes
+						}
+						add_opinion = {
+							target = scope:second
+							modifier = annoyed_opinion
+							opinion = -10
+						}
+					}
+					else = {
+						scope:second = {
+							add_opinion = {
+								target = scope:first
+								modifier = annoyed_opinion
+								opinion = -10
+							}
+						}
+					}
+				}
+			}
+
+			every_attending_character = {
+				limit = {
+					is_ai = no
+					has_game_rule = MFA_pulse_notifications_enabled
+				}
+				send_interface_message = {
+					type = MFA_pulse_msg_social
+					title = apa_student_disagreement_title
+					left_icon = scope:first
+					right_icon = scope:second
+					show_as_tooltip = {
+						scope:activity = {
+							scope:first = {
+								if = {
+									limit = {
+										can_set_relation_rival_trigger = { CHARACTER = scope:second }
+									}
+									progress_towards_rival_effect = {
+										REASON = rival_at_university
+										CHARACTER = scope:second
+										OPINION = default_rival_opinion
+									}
+								}
+								else_if = {
+									limit = {
+										is_ai = yes
+									}
+									add_opinion = {
+										target = scope:second
+										modifier = annoyed_opinion
+										opinion = -10
+									}
+								}
+								else = {
+									scope:second = {
+										add_opinion = {
+											target = scope:first
+											modifier = annoyed_opinion
+											opinion = -10
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+}
+
+MFA_pulse_apa_rowdy_student = {
+	effect = {
+		scope:activity = {
+			random_attending_character = {
+				limit = {
+					NOR = {
+						has_character_flag = teacher_1
+						has_character_flag = teacher_2
+					}
+					OR = {
+						has_activity_intent = university_revelry_intent
+						has_trait = drunkard
+						has_trait = hashishiyah
+						has_trait = gregarious
+						has_trait = arrogant
+					}
+				}
+				save_scope_as = first
+			}
+			random_attending_character = {
+				limit = {
+					OR = {
+						has_character_flag = teacher_1
+						has_character_flag = teacher_2
+					}
+				}
+				save_scope_as = second
+			}
+
+			add_activity_log_entry = {
+				key = apa_rowdy_student
+				tags = { pulse_action }
+				character = scope:first
+				target = scope:second
+
+
+				scope:second = {
+					add_opinion = {
+						target = scope:first
+						modifier = annoyed_opinion
+						opinion = -10
+					}
+				}
+				scope:first = {
+					add_stress = minor_stress_loss
+				}
+			}
+
+			every_attending_character = {
+				limit = {
+					is_ai = no
+					has_game_rule = MFA_pulse_notifications_enabled
+				}
+				send_interface_message = {
+					type = MFA_pulse_msg_social
+					title = apa_rowdy_student_title
+					left_icon = scope:first
+					right_icon = scope:second
+					show_as_tooltip = {
+						scope:activity = {
+							scope:second = {
+								add_opinion = {
+									target = scope:first
+									modifier = annoyed_opinion
+									opinion = -10
+								}
+							}
+							scope:first = {
+								add_stress = minor_stress_loss
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+}
+
+MFA_pulse_apa_impromptu_poetry = {
+	effect = {
+		scope:activity = {
+			random_attending_character = {
+				limit = {
+					NOR = {
+						has_character_flag = teacher_1
+						has_character_flag = teacher_2
+					}
+					OR = {
+						has_activity_intent = university_revelry_intent
+						has_trait = gregarious
+						has_trait = lifestyle_poet
+					}
+				}
+				save_scope_as = first
+			}
+
+			add_activity_log_entry = {
+				key = apa_impromptu_poetry
+				tags = { pulse_action }
+				character = scope:first
+
+				scope:first = {
+					bp2_lifestyle_xp_gain_per_type_effect = { VALUE = minor }
+				}
+			}
+
+			every_attending_character = {
+				limit = {
+					is_ai = no
+					has_game_rule = MFA_pulse_notifications_enabled
+				}
+				send_interface_message = {
+					type = MFA_pulse_msg_social
+					title = apa_impromptu_poetry_title
+					left_icon = scope:first
+					show_as_tooltip = {
+						scope:activity = {
+							scope:first = {
+								bp2_lifestyle_xp_gain_per_type_effect = { VALUE = minor }
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+}
+
+MFA_pulse_apa_impressed_teacher = {
+	effect = {
+		scope:activity = {
+			random_attending_character = {
+				limit = {
+					NOR = {
+						has_character_flag = teacher_1
+						has_character_flag = teacher_2
+					}
+					OR = {
+						has_activity_intent = study_hard_intent
+						has_trait = diligent
+					}
+				}
+				save_scope_as = first
+			}
+			random_attending_character = {
+				limit = {
+					OR = {
+						has_character_flag = teacher_1
+						has_character_flag = teacher_2
+					}
+				}
+				save_scope_as = second
+			}
+
+			add_activity_log_entry = {
+				key = apa_impressed_teacher
+				tags = { pulse_action }
+				character = scope:first
+				target = scope:second
+
+				scope:first = {
+					if = {
+						limit = {
+							this = scope:host
+						}
+						custom_tooltip = adult_education_tt_positive_tiny
+						scope:activity = { activity_special_type_progression_tiny = yes }
+					}
+					reverse_add_opinion = {
+						target = scope:second
+						modifier = proud_opinion
+						opinion = 10
+					}
+				}
+			}
+
+			every_attending_character = {
+				limit = {
+					is_ai = no
+					has_game_rule = MFA_pulse_notifications_enabled
+				}
+				send_interface_message = {
+					type = MFA_pulse_msg_social
+					title = apa_impressed_teacher_title
+					left_icon = scope:first
+					right_icon = scope:second
+					show_as_tooltip = {
+						scope:activity = {
+							scope:first = {
+								if = {
+									limit = {
+										this = scope:host
+									}
+									custom_tooltip = adult_education_tt_positive_tiny
+									scope:activity = { activity_special_type_progression_tiny = yes }
+								}
+								reverse_add_opinion = {
+									target = scope:second
+									modifier = proud_opinion
+									opinion = 10
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+}
+
+MFA_pulse_apa_revelry_hangover = {
+	effect = {
+		scope:activity = {
+			random_attending_character = {
+				limit = {
+					NOR = {
+						has_character_flag = teacher_1
+						has_character_flag = teacher_2
+						has_activity_intent = study_hard_intent
+						has_trait = diligent
+						has_trait = temperate
+					}
+					drinks_alcohol_trigger = yes
+				}
+				save_scope_as = first
+			}
+
+			add_activity_log_entry = {
+				key = apa_revelry_hangover
+				tags = { pulse_action }
+				character = scope:first
+
+				scope:first = {
+					add_stress = minor_stress_gain
+				}
+			}
+
+			every_attending_character = {
+				limit = {
+					is_ai = no
+					has_game_rule = MFA_pulse_notifications_enabled
+				}
+				send_interface_message = {
+					type = MFA_pulse_msg_stress
+					title = apa_revelry_hangover_title
+					left_icon = scope:first
+					show_as_tooltip = {
+						scope:activity = {
+							scope:first = {
+								add_stress = minor_stress_gain
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+}
+
+MFA_pulse_apa_local_food = {
+	effect = {
+		scope:activity = {
+			random_attending_character = {
+				limit = {
+					NOR = {
+						has_character_flag = teacher_1
+						has_character_flag = teacher_2
+					}
+				}
+				save_scope_as = first
+			}
+
+			add_activity_log_entry = {
+				key = apa_local_food
+				tags = { pulse_action }
+				character = scope:first
+
+				every_attending_character = {
+					limit = {
+						NOR = {
+							this = scope:first
+							is_ai = no
+						}
+					}
+					add_opinion = {
+						target = scope:first
+						modifier = shared_delicacy_opinion
+						opinion = 5
+					}
+				}
+			}
+
+			every_attending_character = {
+				limit = {
+					is_ai = no
+					has_game_rule = MFA_pulse_notifications_enabled
+				}
+				send_interface_message = {
+					type = MFA_pulse_msg_social
+					title = apa_local_food_title
+					left_icon = scope:first
+					right_icon = scope:first
+					show_as_tooltip = {
+						scope:activity = {
+							every_attending_character = {
+								limit = {
+									NOR = {
+										this = scope:first
+										is_ai = no
+									}
+								}
+								add_opinion = {
+									target = scope:first
+									modifier = shared_delicacy_opinion
+									opinion = 5
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+}
+
+MFA_pulse_apa_aced_homework = {
+	effect = {
+		scope:activity = {
+			scope:host = {
+				save_scope_as = first
+			}
+
+			add_activity_log_entry = {
+				key = apa_aced_homework
+				tags = { pulse_action }
+				character = scope:first
+
+				custom_tooltip = adult_education_tt_positive_tiny
+				scope:activity = { activity_special_type_progression_tiny = yes }
+			}
+
+			every_attending_character = {
+				limit = {
+					is_ai = no
+					has_game_rule = MFA_pulse_notifications_enabled
+				}
+				send_interface_message = {
+					type = MFA_pulse_msg_learning
+					title = apa_aced_homework_title
+					left_icon = scope:first
+					show_as_tooltip = {
+						scope:activity = {
+							custom_tooltip = adult_education_tt_positive_tiny
+							scope:activity = {
+								activity_special_type_progression_tiny = yes
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+}
+
+MFA_pulse_apa_pangur_ban = {
+	effect = {
+		scope:activity = {
+			scope:host = {
+				save_scope_as = first
+				add_character_flag = {
+					flag = has_written_pangur_ban
+					months = 6
+				}
+			}
+
+			add_activity_log_entry = {
+				key = apa_pangur_ban
+				tags = { pulse_action }
+				character = scope:first
+
+				custom_tooltip = adult_education_tt_positive_tiny
+				scope:activity = { activity_special_type_progression_tiny = yes }
+			}
+
+			every_attending_character = {
+				limit = {
+					is_ai = no
+					has_game_rule = MFA_pulse_notifications_enabled
+				}
+				send_interface_message = {
+					type = MFA_pulse_msg_learning
+					title = apa_pangur_ban_title
+					left_icon = scope:first
+					show_as_tooltip = {
+						scope:activity = {
+							custom_tooltip = adult_education_tt_positive_tiny
+							scope:activity = {
+								activity_special_type_progression_tiny = yes
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+}

@@ -1,0 +1,523 @@
+﻿
+AM_sell_unused_artifacts = {
+    scope = character
+
+    effect = {
+		every_character_artifact = {
+			limit = {
+				is_equipped = no
+			}
+			save_scope_as = this_artifact
+            # gold
+			if = {
+				limit ={
+					exists = artifact_market_value
+				}
+				root = {
+					add_gold = {
+						value = scope:this_artifact.artifact_market_value
+					}
+				}
+				destroy_artifact = scope:this_artifact
+			}
+			else = {
+				root = {
+					add_gold = {
+						value = scope:this_artifact.artifact_wealth_quality_average_value
+						multiply = 3.5
+					}
+				}
+				destroy_artifact = scope:this_artifact
+			}
+
+            # piety
+            if = {
+                limit = {
+                    root = {
+                        faith = {
+                            has_doctrine = tenet_aniconism
+                        }
+                    }
+                    scope:this_artifact = {
+                        exists = var:relic
+                    }
+                }
+                root = {
+                    add_piety = {
+                        value = scope:this_artifact.artifact_piety_value
+                    }
+                }
+            }
+		}
+    }
+}
+
+AM_sell_selected_unused_artifacts = {
+    scope = character
+
+    effect = {
+		every_character_artifact = {
+            limit = {
+				is_equipped = no
+                OR = {
+                    AND = {
+                        rarity = common
+                        NOT = { has_global_variable = am_option_operation_common }
+                    }
+                    AND = {
+                        rarity = masterwork
+                        NOT = { has_global_variable = am_option_operation_masterwork }
+                    }
+                    AND = {
+                        rarity = famed
+                        NOT = { has_global_variable = am_option_operation_famed }
+                    }
+                    AND = {
+                        rarity = illustrious
+                        NOT = { has_global_variable = am_option_operation_illustrious }
+                    }
+                }
+            }
+
+			save_scope_as = this_artifact
+            # gold
+			if = {
+				limit ={
+					exists = artifact_market_value
+				}
+				root = {
+					add_gold = {
+						value = scope:this_artifact.artifact_market_value
+					}
+				}
+				destroy_artifact = scope:this_artifact
+			}
+			else = {
+				root = {
+					add_gold = {
+						value = scope:this_artifact.artifact_wealth_quality_average_value
+						multiply = 3.5
+					}
+				}
+				destroy_artifact = scope:this_artifact
+			}
+
+            # piety
+            if = {
+                limit = {
+                    root = {
+                        faith = {
+                            has_doctrine = tenet_aniconism
+                        }
+                    }
+                    scope:this_artifact = {
+                        exists = var:relic
+                    }
+                }
+                root = {
+                    add_piety = {
+                        value = scope:this_artifact.artifact_piety_value
+                    }
+                }
+            }
+		}
+    }
+}
+
+AM_repair_all_artifacts = {
+    scope = character
+
+    effect = {
+		every_character_artifact = {
+            limit = {
+                artifact_durability < artifact_max_durability
+                OR = {
+                    AND = {
+                        rarity = common
+                        NOT = { has_global_variable = am_option_operation_common }
+                    }
+                    AND = {
+                        rarity = masterwork
+                        NOT = { has_global_variable = am_option_operation_masterwork }
+                    }
+                    AND = {
+                        rarity = famed
+                        NOT = { has_global_variable = am_option_operation_famed }
+                    }
+                    AND = {
+                        rarity = illustrious
+                        NOT = { has_global_variable = am_option_operation_illustrious }
+                    }
+                }
+            }
+			save_scope_as = this_artifact
+			save_scope_as = artifact
+            # gold
+			if = {
+				limit ={
+					exists = artifact_market_value
+				}
+				root = {
+					remove_short_term_gold = {
+						value = scope:this_artifact.repair_artifact_cost
+					}
+				}
+			}
+			else = {
+				root = {
+					remove_short_term_gold = {
+						value = scope:this_artifact.artifact_wealth_quality_average_value
+						multiply = 3.5
+					}
+				}
+			}
+            # repair this thing
+            add_durability = artifact_max_durability
+		}
+    }
+}
+
+AM_repair_selected_artifacts = {
+    scope = character
+
+    effect = {
+		every_character_artifact = {
+            limit = {
+                artifact_durability < artifact_max_durability
+            }
+			save_scope_as = this_artifact
+			save_scope_as = artifact
+            # gold
+			if = {
+				limit ={
+					exists = artifact_market_value
+				}
+				root = {
+					remove_short_term_gold = {
+						value = scope:this_artifact.repair_artifact_cost
+					}
+				}
+			}
+			else = {
+				root = {
+					remove_short_term_gold = {
+						value = scope:this_artifact.artifact_wealth_quality_average_value
+						multiply = 3.5
+					}
+				}
+			}
+            # repair this thing
+            add_durability = artifact_max_durability
+		}
+    }
+}
+
+AM_giveaway_inventory_artifacts = {
+    scope = character
+
+    effect = {
+        every_character_artifact = {
+            limit = {
+                is_equipped = no
+                category = inventory
+                OR = {
+                    rarity = common
+                    AND = {
+                        rarity = masterwork
+                        NOT = { has_global_variable = am_option_masterwork }
+                    }
+                    AND = {
+                        rarity = famed
+                        NOT = { has_global_variable = am_option_famed }
+                    }
+                    AND = {
+                        rarity = illustrious
+                        NOT = { has_global_variable = am_option_illustrious }
+                    }
+                }
+            }
+            save_scope_as = this_artifact
+
+            root = {
+                if = {
+                    limit = {
+                       NOT = { has_global_variable = am_option_receiver_close_family  }
+                    }
+                    random_close_family_member = {
+                        add_to_temporary_list = potential_receivers
+                    }
+                }
+
+                if = {
+                    limit = {
+                       NOT = { has_global_variable = am_option_receiver_extended_family }
+                    }
+                    random_close_or_extended_family_member = {
+                        add_to_temporary_list = potential_receivers
+                    }
+                }
+
+                if = {
+                    limit = {
+                       NOT = { has_global_variable = am_option_receiver_vassals }
+                    }
+                    random_vassal = {
+                        add_to_temporary_list = potential_receivers
+                    }
+                }
+
+                if = {
+                    limit = {
+                       NOT = { has_global_variable = am_option_receiver_knights }
+                    }
+                    random_knight = {
+                        add_to_temporary_list = potential_receivers
+                    }
+                }
+
+                if = {
+                    limit = {
+                       NOT = { has_global_variable = am_option_receiver_courtiers }
+                    }
+                    random_courtier = {
+                        add_to_temporary_list = potential_receivers
+                    }
+                }
+
+                random_in_list = {
+                    list = potential_receivers
+                    save_scope_as = gift_recipient
+                }
+            }
+
+            if = {
+                limit = { exists = scope:gift_recipient }
+
+                set_owner = {
+                    target = scope:gift_recipient
+                }
+
+                scope:gift_recipient = {
+
+                    add_opinion = {
+                        target = root
+                        modifier = grateful_opinion
+                        opinion = 10
+                    }
+                }
+
+            }
+        }
+    }
+}
+
+AM_giveaway_court_artifacts = {
+    scope = character
+
+    effect = {
+        every_character_artifact = {
+            limit = {
+                is_equipped = no
+                category = court
+                OR = {
+                    rarity = common
+                    AND = {
+                        rarity = masterwork
+                        NOT = { has_global_variable = am_option_masterwork }
+                    }
+                    AND = {
+                        rarity = famed
+                        NOT = { has_global_variable = am_option_famed }
+                    }
+                    AND = {
+                        rarity = illustrious
+                        NOT = { has_global_variable = am_option_illustrious }
+                    }
+                }
+            }
+            save_scope_as = this_artifact
+
+            root = {
+                if = {
+                    limit = {
+                       NOT = { has_global_variable = am_option_receiver_close_family  }
+                       is_landed = yes
+                    }
+                    random_close_family_member = {
+                        add_to_temporary_list = potential_receivers
+                    }
+                }
+
+                if = {
+                    limit = {
+                       NOT = { has_global_variable = am_option_receiver_extended_family }
+                       is_landed = yes
+                    }
+                    random_close_or_extended_family_member = {
+                        add_to_temporary_list = potential_receivers
+                    }
+                }
+
+                if = {
+                    limit = {
+                       NOT = { has_global_variable = am_option_receiver_vassals }
+                    }
+                    random_vassal = {
+                        add_to_temporary_list = potential_receivers
+                    }
+                }
+
+                if = {
+                    limit = {
+                       NOT = { has_global_variable = am_option_receiver_knights }
+                       is_landed = yes
+                    }
+                    random_knight = {
+                        add_to_temporary_list = potential_receivers
+                    }
+                }
+
+                if = {
+                    limit = {
+                       NOT = { has_global_variable = am_option_receiver_courtiers }
+                    }
+                    random_courtier = {
+                        add_to_temporary_list = potential_receivers
+                    }
+                }
+
+                random_in_list = {
+                    list = potential_receivers
+                    save_scope_as = gift_recipient
+                }
+            }
+
+            if = {
+                limit = { exists = scope:gift_recipient }
+
+                set_owner = {
+                    target = scope:gift_recipient
+                }
+
+                scope:gift_recipient = {
+
+                    add_opinion = {
+                        target = root
+                        modifier = grateful_opinion
+                        opinion = 10
+                    }
+                }
+
+            }
+        }
+    }
+}
+
+AM_perform_artifact_combination = {
+    scope = character
+
+    effect = {
+        if = {
+            limit = {
+                AND = {
+                    exists = var:AM_CAP_artifact_primary
+                    exists = var:AM_CAP_artifact_primary_cost
+                    exists = var:AM_CAP_artifact_secondary
+                    exists = var:AM_CAP_artifact_secondary_cost
+                }
+            }
+
+            var:AM_CAP_artifact_primary = {
+                save_scope_as = this_artifact
+            }
+
+            var:AM_CAP_artifact_secondary = {
+                save_scope_as = that_artifact
+            }
+
+            scope:this_artifact = {
+                hidden_effect = {
+                    # do the deed first. change the rarity here
+                    copy_artifact_modifiers = scope:that_artifact
+                    if = {
+                        limit = { rarity = famed }
+                        set_artifact_rarity = illustrious
+                    }
+                    else_if = {
+                        limit = { rarity = masterwork }
+                        set_artifact_rarity = famed
+                    }
+                    else_if = {
+                        limit = { rarity = common }
+                        set_artifact_rarity = masterwork
+                    }
+
+                    root = {
+                        remove_short_term_gold = var:AM_CAP_artifact_primary_cost
+                    }
+                }
+            }
+
+            scope:that_artifact = {
+                hidden_effect = {
+                    if = {
+                        limit = { rarity = famed }
+                        set_artifact_rarity = illustrious
+                    }
+                    else_if = {
+                        limit = { rarity = masterwork }
+                        set_artifact_rarity = famed
+                    }
+                    else_if = {
+                        limit = { rarity = common }
+                        set_artifact_rarity = masterwork
+                    }
+                    # can now get rid of the artifact
+                    destroy_artifact = this
+                    root = {
+                        remove_short_term_gold = var:AM_CAP_artifact_secondary_cost
+                    }
+                }
+            }
+
+            root = {
+                if = {
+                    limit = { has_game_rule = amx_combine_artifacts_cooldown_1year }
+                    add_character_flag = {
+                        flag = performed_artifact_voodoo
+                        years = 1
+                    }
+                }
+                else_if = {
+                    limit = { has_game_rule = amx_combine_artifacts_cooldown_3years }
+                    add_character_flag = {
+                        flag = performed_artifact_voodoo
+                        years = 3
+                    }
+                }
+                else_if = {
+                    limit = { has_game_rule = amx_combine_artifacts_cooldown_5years }
+                    add_character_flag = {
+                        flag = performed_artifact_voodoo
+                        years = 5
+                    }
+                }
+                else_if = {
+                    limit = { has_game_rule = amx_combine_artifacts_cooldown_lifetime }
+                    add_character_flag = {
+                        flag = performed_artifact_voodoo
+                        years = 999
+                    }
+                }
+                else = {
+                    remove_character_flag = performed_artifact_voodoo
+                }
+            }
+
+            remove_variable = AM_CAP_artifact_primary
+            remove_variable = AM_CAP_artifact_primary_cost
+            remove_variable = AM_CAP_artifact_secondary
+            remove_variable = AM_CAP_artifact_secondary_cost
+        }
+    }
+}

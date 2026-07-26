@@ -1,0 +1,1400 @@
+﻿####################################
+# MFA Activity Converter
+# Pulse relay for feast activity
+# Root scope = the character (same as on_weekly_pulse).
+####################################
+
+
+
+MFA_feast_1_relay = {
+	trigger = {
+		is_ruler = yes
+		exists = var:MFA_phase_1_remaining
+	}
+
+	effect = {
+		if = {
+			limit = {
+				var:MFA_phase_1_remaining >= 1
+				scope:activity = { is_current_phase_active = yes }
+			}
+			if = { #host
+				limit = {
+					this = scope:host
+				}
+				trigger_event = { on_action = feast_new_event_selection_tombola }
+			}
+			else_if = { #guest
+				limit = {
+					this != scope:host
+				}
+				trigger_event = { on_action = feast_default_event_selection }
+			}
+		}
+
+		change_variable = {
+			name = MFA_phase_1_remaining
+			add = -1
+		}
+		if = {
+			limit = {
+				var:MFA_phase_1_remaining >= 1
+			}
+			trigger_event = { on_action = MFA_feast_1_relay days = MFA_1_week_days }
+		}
+		else = {
+			remove_variable = MFA_phase_1_remaining
+		}
+	}
+}
+
+MFA_feast_pulse_relay = {
+	effect = {
+		if = {
+			limit = {
+				has_variable = MFA_pulse_relay_tick
+			}
+			change_variable = { name = MFA_pulse_relay_tick add = 1 }
+		}
+		else = {
+			set_variable = { name = MFA_pulse_relay_tick value = 1 }
+		}
+		if = {
+			limit = {
+				exists = scope:activity
+			}
+			trigger_event = { on_action = MFA_feast_pulse_relay_effects }
+		}
+		if = {
+			limit = {
+				exists = scope:activity
+			}
+			trigger_event = { on_action = MFA_feast_pulse_relay days = 1 }
+		}
+		else = {
+			remove_variable = MFA_pulse_relay_tick
+		}
+	}
+}
+
+MFA_feast_pulse_relay_effects = {
+	trigger = {
+		var:MFA_pulse_relay_tick > MFA_pulse_relay_timer
+	}
+	effect = {
+		random_list = {
+			5 = { } # chance_of_no_event
+			1 = { # spouse_skill_diplomacy_improves
+				trigger = {
+					scope:activity = {
+						is_current_phase_active = yes
+						coronation_feast_phase = yes # If Coronation, only in feast phase
+						scope:host.primary_spouse ?= {
+							involved_activity ?= scope:activity
+							is_physically_able_ai_adult = yes
+							NOR = {
+								has_trait = dull
+								has_trait = intellect_bad
+								diplomacy >= 25
+								has_character_flag = spouse_skill_diplomacy_improves
+							}
+							location = scope:activity.activity_location
+						}
+					}
+				}
+				modifier = {
+					scope:activity = {
+						scope:host.primary_spouse ?= {
+							has_personality_extroverted_trigger = yes
+						}
+					}
+					add = 1
+				}
+				modifier = {
+					scope:activity = {
+						scope:host.primary_spouse ?= {
+							has_personality_introverted_trigger = yes
+						}
+					}
+					add = -1
+				}
+				trigger_event = { on_action = MFA_pulse_spouse_skill_diplomacy_improves }
+			}
+			1 = { # spouse_gives_host_prestige
+				trigger = {
+					scope:activity = {
+						is_current_phase_active = yes
+						coronation_feast_phase = yes # If Coronation, only in feast phase
+						scope:host.primary_spouse ?= {
+							involved_activity ?= scope:activity
+							is_physically_able_ai_adult = yes
+							likes_character_trigger = { CHARACTER = scope:host }
+							OR = {
+								diplomacy >= 12
+								has_trait = diplomat
+							}
+							location = scope:activity.activity_location
+						}
+						any_attending_character = {
+							this != scope:host
+							this != scope:host.primary_spouse
+							OR = {
+								is_ruler = yes
+								is_councillor = yes
+							}
+							is_physically_able_ai_adult = yes
+							location = scope:activity.activity_location
+						}
+					}
+				}
+				modifier = {
+					scope:activity = {
+						scope:host.primary_spouse ?= {
+							diplomacy >= 16
+						}
+					}
+					add = 0.5
+				}
+				modifier = {
+					scope:activity = {
+						scope:host.primary_spouse ?= {
+							has_personality_introverted_trigger = yes
+						}
+					}
+					add = -0.75
+				}
+				trigger_event = { on_action = MFA_pulse_spouse_gives_host_prestige }
+			}
+			1 = { # spouse_manages_feast_splendidly
+				trigger = {
+					scope:activity = {
+						is_current_phase_active = yes
+						coronation_feast_phase = yes # If Coronation, only in feast phase
+						scope:host.primary_spouse ?= {
+							involved_activity ?= scope:activity
+							is_physically_able_ai_adult = yes
+							likes_character_trigger = { CHARACTER = scope:host }
+							OR = {
+								stewardship >= 12
+								has_trait = architect
+							}
+							location = scope:activity.activity_location
+						}
+					}
+				}
+				modifier = {
+					scope:activity = {
+						scope:host.primary_spouse ?= {
+							stewardship >= 16
+						}
+					}
+					add = 0.5
+				}
+				modifier = {
+					scope:activity = {
+						scope:host.primary_spouse ?= {
+							has_personality_submissive_trigger = yes
+						}
+					}
+					add = -0.75
+				}
+				trigger_event = { on_action = MFA_pulse_spouse_manages_feast_splendidly }
+			}
+			1 = { # spouse_impresses_clergy
+				trigger = {
+					scope:activity = {
+						is_current_phase_active = yes
+						coronation_feast_phase = yes # If Coronation, only in feast phase
+						scope:host.primary_spouse ?= {
+							involved_activity ?= scope:activity
+							is_physically_able_ai_adult = yes
+							likes_character_trigger = { CHARACTER = scope:host }
+							OR = {
+								learning >= 12
+								has_trait = theologian
+							}
+							location = scope:activity.activity_location
+						}
+						any_attending_character = {
+							this != scope:host
+							this != scope:host.primary_spouse
+							OR = {
+								is_clergy = yes
+								has_council_position = councillor_court_chaplain
+							}
+							is_physically_able_ai_adult = yes
+							location = scope:activity.activity_location
+						}
+					}
+				}
+				modifier = {
+					scope:activity = {
+						scope:host.primary_spouse ?= {
+							learning >= 16
+						}
+					}
+					add = 0.5
+				}
+				modifier = {
+					scope:activity = {
+						scope:host.primary_spouse ?= {
+							has_personality_extroverted_trigger = yes
+						}
+					}
+					add = -0.75
+				}
+				trigger_event = { on_action = MFA_pulse_spouse_impresses_clergy }
+			}
+			1 = { # spouse_gives_hook
+				trigger = {
+					scope:activity = {
+						is_current_phase_active = yes
+						coronation_feast_phase = yes # If Coronation, only in feast phase
+						scope:host.primary_spouse ?= {
+							involved_activity ?= scope:activity
+							is_physically_able_ai_adult = yes
+							likes_character_trigger = { CHARACTER = scope:host }
+							OR = {
+								intrigue >= 12
+								has_trait = schemer
+							}
+							location = scope:activity.activity_location
+						}
+						any_attending_character = {
+							this != scope:host
+							this != scope:host.primary_spouse
+							is_ruler = yes
+							primary_title.tier > tier_barony
+							intrigue < scope:host.primary_spouse.intrigue
+							is_physically_able_ai_adult = yes
+							location = scope:activity.activity_location
+							scope:host = {
+								can_add_hook = {
+									target = prev
+									type = manipulation_hook
+								}
+							}
+						}
+					}
+				}
+				modifier = {
+					scope:activity = {
+						scope:host.primary_spouse ?= {
+							intrigue >= 16
+						}
+					}
+					add = 0.5
+				}
+				modifier = {
+					scope:activity = {
+						scope:host.primary_spouse ?= {
+							has_personality_benevolent_trigger = yes
+						}
+					}
+					add = -0.75
+				}
+				trigger_event = { on_action = MFA_pulse_spouse_gives_hook }
+			}
+			1 = { # relation_gains_friend
+				trigger = {
+					scope:activity = {
+						is_current_phase_active = yes
+						coronation_feast_phase = yes # If Coronation, only in feast phase
+						any_attending_character = {
+							this != scope:host
+							OR = {
+								is_close_family_of = scope:host
+								is_spouse_of = scope:host
+							}
+							is_physically_able_ai_adult = yes
+							num_of_relation_friend < 2
+							location = scope:activity.activity_location
+							save_temporary_scope_as = trait_check
+						}
+						any_attending_character = {
+							this != scope:host
+							this != scope:trait_check
+							is_physically_able_ai_adult = yes
+							num_of_relation_friend < 2
+							location = scope:activity.activity_location
+							can_set_relation_friend_trigger = { CHARACTER = scope:trait_check }
+							number_of_traits_in_common = {
+								target = scope:trait_check
+								value >= 1
+							}
+						}
+					}
+				}
+				trigger_event = { on_action = MFA_pulse_relation_gains_friend }
+			}
+			1 = { # children_bonding
+				trigger = {
+					scope:activity = {
+						is_current_phase_active = yes
+						coronation_feast_phase = yes # If Coronation, only in feast phase
+						any_attending_character = {
+							this != scope:host
+							OR = {
+								is_close_family_of = scope:host
+								is_spouse_of = scope:host
+							}
+							is_physically_able_ai = yes
+							is_adult = no
+							num_of_relation_friend < 2
+							location = scope:activity.activity_location
+							save_temporary_scope_as = trait_check
+						}
+						any_attending_character = {
+							this != scope:host
+							this != scope:trait_check
+							is_physically_able_ai = yes
+							is_adult = no
+							num_of_relation_friend < 2
+							location = scope:activity.activity_location
+							can_set_relation_friend_trigger = { CHARACTER = scope:trait_check }
+						}
+					}
+				}
+				trigger_event = { on_action = MFA_pulse_children_bonding }
+			}
+			1 = { # hook_trusting_guest
+				trigger = {
+					scope:activity = {
+						is_current_phase_active = yes
+						coronation_feast_phase = yes # If Coronation, only in feast phase
+						any_attending_character = {
+							this != scope:host
+							has_trait = trusting
+							is_ai = yes
+							location = scope:activity.activity_location
+							save_temporary_scope_as = first_temp
+						}
+						any_attending_character = {
+							this != scope:first_temp
+							location = scope:activity.activity_location
+							can_add_hook = {
+								target = scope:first_temp
+								type = favor_hook
+							}
+						}
+					}
+				}
+				trigger_event = { on_action = MFA_pulse_hook_trusting_guest }
+			}
+			1 = { # guest_tells_fantastic_joke
+				trigger = {
+					scope:activity = {
+						is_current_phase_active = yes
+						coronation_feast_phase = yes # If Coronation, only in feast phase
+						any_attending_character = {
+							this != scope:host
+							is_physically_able_ai_adult = yes
+							location = scope:activity.activity_location
+							OR = {
+								has_court_position = court_jester_court_position
+								AND = {
+									aptitude:court_jester_court_position >= 2
+									has_personality_extroverted_trigger = yes
+									has_trait_levelheaded_trigger = no
+								}
+								aptitude:court_jester_court_position >= 4
+							}
+						}
+					}
+				}
+				modifier = {
+					scope:activity = {
+						any_attending_character = {
+							has_court_position = court_jester_court_position
+						}
+					}
+					add = 0.5
+				}
+				trigger_event = { on_action = MFA_pulse_guest_tells_fantastic_joke }
+			}
+			1 = { # excellent_food
+				trigger = {
+					scope:activity = {
+						is_current_phase_active = yes
+						OR = {
+							AND = {
+								has_activity_type = activity_wedding
+								has_activity_option = {
+									category = wedding_option_food
+									option = wedding_food_good
+								}
+							}
+							AND = {
+								has_activity_type = activity_wedding
+								has_activity_option = {
+									category = wedding_option_food
+									option = wedding_food_normal
+								}
+							}
+							AND = {
+								has_activity_type = activity_feast
+								has_activity_option = {
+									category = feast_option_courses
+									option = feast_courses_good
+								}
+							}
+							AND = {
+								has_activity_type = activity_feast
+								has_activity_option = {
+									category = feast_option_courses
+									option = feast_courses_normal
+								}
+							}
+							AND = {
+								has_activity_type = activity_coronation
+								has_current_phase = coronation_phase_feast
+								OR = {
+									has_activity_option = {
+										category = ceremony_feast_type
+										option = ceremony_feast_type_regular
+									}
+									has_activity_option = {
+										category = ceremony_feast_type
+										option = ceremony_feast_type_lavish
+									}
+								}
+							}
+						}
+						any_attending_character = {
+							this != scope:host
+							is_physically_able_ai_adult = yes
+							location = scope:activity.activity_location
+							OR = {
+								likes_character_trigger = { CHARACTER = scope:host }
+								loves_food_trigger = yes
+							}
+						}
+					}
+				}
+				modifier = {
+					scope:activity = {
+						has_activity_type = activity_feast
+						has_activity_option = {
+							category = feast_option_courses
+							option = feast_courses_normal
+						}
+					}
+					add = -0.5
+				}
+				modifier = {
+					scope:activity = {
+						has_activity_type = activity_wedding
+						has_activity_option = {
+							category = wedding_option_food
+							option = wedding_food_normal
+						}
+					}
+					add = -0.5
+				}
+				modifier = {
+					scope:activity = {
+						has_activity_type = activity_coronation
+						has_activity_option = {
+							category = ceremony_feast_type
+							option = ceremony_feast_type_regular
+						}
+					}
+					add = -0.5
+				}
+				trigger_event = { on_action = MFA_pulse_excellent_food }
+			}
+			1 = { # lauded_food
+				trigger = {
+					scope:activity = {
+						is_current_phase_active = yes
+						OR = {
+							AND = {
+								has_activity_type = activity_wedding
+								has_activity_option = {
+									category = wedding_option_food
+									option = wedding_food_good
+								}
+							}
+							AND = {
+								has_activity_type = activity_wedding
+								has_activity_option = {
+									category = wedding_option_food
+									option = wedding_food_normal
+								}
+							}
+							AND = {
+								has_activity_type = activity_feast
+								has_activity_option = {
+									category = feast_option_courses
+									option = feast_courses_good
+								}
+							}
+							AND = {
+								has_activity_type = activity_feast
+								has_activity_option = {
+									category = feast_option_courses
+									option = feast_courses_normal
+								}
+							}
+							AND = {
+								has_activity_type = activity_coronation
+								has_current_phase = coronation_phase_feast
+								OR = {
+									has_activity_option = {
+										category = ceremony_feast_type
+										option = ceremony_feast_type_regular
+									}
+									has_activity_option = {
+										category = ceremony_feast_type
+										option = ceremony_feast_type_lavish
+									}
+								}
+							}
+						}
+						any_attending_character = {
+							this != scope:host
+							is_physically_able_ai_adult = yes
+							location = scope:activity.activity_location
+							OR = {
+								likes_character_trigger = { CHARACTER = scope:host }
+								loves_food_trigger = yes
+							}
+						}
+					}
+				}
+				modifier = {
+					scope:activity = {
+						has_activity_type = activity_feast
+						has_activity_option = {
+							category = feast_option_food
+							option = feast_food_normal
+						}
+					}
+					add = -0.5
+				}
+				modifier = {
+					scope:activity = {
+						has_activity_type = activity_wedding
+						has_activity_option = {
+							category = wedding_option_food
+							option = wedding_food_normal
+						}
+					}
+					add = -0.5
+				}
+				trigger_event = { on_action = MFA_pulse_lauded_food }
+			}
+			1 = { # guest_impressed_by_court_artifact
+				trigger = {
+					scope:activity = {
+						is_current_phase_active = yes
+						coronation_feast_phase = yes # If Coronation, only in feast phase
+						scope:activity.activity_location = scope:host.capital_province
+						scope:host = {
+							any_character_artifact = {
+								ep1_artifact_is_court_artifact_trigger = yes
+								is_equipped = yes
+							}
+						}
+						any_attending_character = {
+							this != scope:host
+							is_physically_able_ai_adult = yes
+							location = scope:activity.activity_location
+						}
+					}
+				}
+				trigger_event = { on_action = MFA_pulse_guest_impressed_by_court_artifact }
+			}
+			1 = { # friend_lauds_efforts
+				trigger = {
+					scope:activity = {
+						is_current_phase_active = yes
+						coronation_feast_phase = yes # If Coronation, only in feast phase
+						any_attending_character = {
+							this != scope:host
+							is_physically_able_ai_adult = yes
+							location = scope:activity.activity_location
+							has_relation_friend = scope:host
+						}
+						any_attending_character = {
+							this != scope:host
+							is_physically_able_ai_adult = yes
+							location = scope:activity.activity_location
+							is_ruler = yes
+							NOT = { has_relation_friend = scope:host }
+						}
+					}
+				}
+				trigger_event = { on_action = MFA_pulse_friend_lauds_efforts }
+			}
+			1 = { # courtly_vassals_appeased
+				trigger = {
+					scope:activity = {
+						is_current_phase_active = yes
+						NOR = {
+							AND = {
+								has_activity_type = activity_feast
+								has_activity_option = {
+									category = feast_option_food
+									option = feast_food_bad
+								}
+							}
+							AND = {
+								has_activity_type = activity_feast
+								has_activity_option = {
+									category = feast_option_courses
+									option = feast_courses_bad
+								}
+							}
+							AND = {
+								has_activity_type = activity_wedding
+								has_activity_option = {
+									category = wedding_option_food
+									option = wedding_food_bad
+								}
+							}
+							AND = {
+								has_activity_type = activity_coronation
+								has_current_phase = coronation_phase_feast
+								has_activity_option = {
+									category = ceremony_feast_type
+									option = ceremony_feast_type_austere
+								}
+							}
+						}
+						any_attending_character = {
+							count >= 2
+							this != scope:host
+							is_physically_able_ai_adult = yes
+							location = scope:activity.activity_location
+							is_vassal_of = scope:host
+							has_vassal_stance = courtly
+						}
+					}
+				}
+				modifier = {
+					scope:activity = {
+						has_activity_type = activity_feast
+						has_activity_option = {
+							category = feast_option_food
+							option = feast_food_normal
+						}
+					}
+					add = -0.5
+				}
+				modifier = {
+					scope:activity = {
+						has_activity_type = activity_feast
+						has_activity_option = {
+							category = feast_option_courses
+							option = feast_courses_normal
+						}
+					}
+					add = -0.5
+				}
+				modifier = {
+					scope:activity = {
+						has_activity_type = activity_wedding
+						has_activity_option = {
+							category = wedding_option_food
+							option = wedding_food_normal
+						}
+					}
+					add = -0.5
+				}
+				modifier = {
+					scope:activity = {
+						has_activity_type = activity_coronation
+						has_activity_option = {
+							category = ceremony_feast_type
+							option = ceremony_feast_type_regular
+						}
+					}
+					add = -0.5
+				}
+				trigger_event = { on_action = MFA_pulse_courtly_vassals_appeased }
+			}
+			1 = { # impressed_courtly_vassal
+				trigger = {
+					scope:activity = {
+						is_current_phase_active = yes
+						OR = {
+							AND = {
+								has_activity_type = activity_feast
+								has_activity_option = {
+									category = feast_option_food
+									option = feast_food_good
+								}
+								has_activity_option = {
+									category = feast_option_courses
+									option = feast_courses_good
+								}
+							}
+							AND = {
+								has_activity_type = activity_wedding
+								has_activity_option = {
+									category = wedding_option_food
+									option = wedding_food_good
+								}
+								has_activity_option = {
+									category = wedding_option_decoration
+									option = wedding_decoration_good
+								}
+							}
+							AND = {
+								has_activity_type = activity_coronation
+								has_current_phase = coronation_phase_feast
+								has_activity_option = {
+									category = ceremony_size
+									option = coronation_large_ceremony
+								}
+								has_activity_option = {
+									category = ceremony_feast_type
+									option = ceremony_feast_type_lavish
+								}
+							}
+						}
+						any_attending_character = {
+							count >= 2
+							this != scope:host
+							is_physically_able_ai_adult = yes
+							is_vassal_of = scope:host
+							has_vassal_stance = courtly
+							location = scope:activity.activity_location
+						}
+					}
+				}
+				trigger_event = { on_action = MFA_pulse_impressed_courtly_vassal }
+			}
+			1 = { # impressed_guest_honor
+				trigger = {
+					scope:activity = {
+						is_current_phase_active = yes
+						coronation_feast_phase = yes # If Coronation, only in feast phase
+						special_guest:honorary_guest_regular ?= {
+							is_alive = yes
+						}
+						any_attending_character = {
+							this != scope:host
+							this != scope:activity.special_guest:honorary_guest_regular
+							is_physically_able_ai_adult = yes
+							location = scope:activity.activity_location
+							likes_character_trigger = { CHARACTER = scope:host }
+						}
+					}
+				}
+				trigger_event = { on_action = MFA_pulse_impressed_guest_honor }
+			}
+			1 = { # guest_of_honor_impressed
+				trigger = {
+					scope:activity = {
+						is_current_phase_active = yes
+						OR = {
+							has_activity_option = {
+								category = feast_option_food
+								option = feast_food_good
+							}
+							has_activity_option = {
+								category = feast_option_courses
+								option = feast_courses_good
+							}
+						}
+						exists = special_guest:honorary_guest_regular
+
+						special_guest:honorary_guest_regular = {
+							is_alive = yes
+							location ?= scope:activity.activity_location
+							NOR = {
+								has_trait = inappetetic
+								has_trait = temperate
+							}
+						}
+					}
+				}
+				modifier = {
+					scope:activity = {
+						has_activity_option = {
+							category = feast_option_food
+							option = feast_food_bad
+						}
+					}
+					add = -0.5
+				}
+				modifier = {
+					scope:activity = {
+						has_activity_option = {
+							category = feast_option_courses
+							option = feast_courses_bad
+						}
+					}
+					add = -0.5
+				}
+				trigger_event = { on_action = MFA_pulse_guest_of_honor_impressed }
+			}
+			1 = { # guest_of_honor_praised
+				trigger = {
+					scope:activity = {
+						is_current_phase_active = yes
+						exists = special_guest:honorary_guest_regular
+						special_guest:honorary_guest_regular = {
+							is_alive = yes
+							location ?= scope:activity.activity_location
+						}
+					}
+				}
+				trigger_event = { on_action = MFA_pulse_guest_of_honor_praised }
+			}
+			1 = { # guest_chokes_on_bone
+				trigger = {
+					scope:activity = {
+						is_current_phase_active = yes
+						OR = {
+							AND = {
+								has_activity_type = activity_feast
+								has_activity_option = {
+									category = feast_option_food
+									option = feast_food_bad
+								}
+							}
+							AND = {
+								has_activity_type = activity_feast
+								has_activity_option = {
+									category = feast_option_food
+									option = feast_food_normal
+								}
+							}
+							AND = {
+								has_activity_type = activity_wedding
+								has_activity_option = {
+									category = wedding_option_food
+									option = wedding_food_bad
+								}
+							}
+							AND = {
+								has_activity_type = activity_wedding
+								has_activity_option = {
+									category = wedding_option_food
+									option = wedding_food_normal
+								}
+							}
+							AND = {
+								has_activity_type = activity_coronation
+								has_current_phase = coronation_phase_feast
+								OR = {
+									has_activity_option = {
+										category = ceremony_feast_type
+										option = ceremony_feast_type_regular
+									}
+									has_activity_option = {
+										category = ceremony_feast_type
+										option = ceremony_feast_type_austere
+									}
+								}
+							}
+						}
+						any_attending_character = {
+							this != scope:host
+							is_physically_able_ai_adult = yes
+							location = scope:activity.activity_location
+							NOR = {
+								has_trait = inappetetic
+								has_trait = temperate
+							}
+							is_vegetarian_trigger = no
+						}
+					}
+				}
+				modifier = {
+					scope:activity = {
+						has_activity_type = activity_feast
+						has_activity_option = {
+							category = feast_option_food
+							option = feast_food_normal
+						}
+					}
+					add = -0.75
+				}
+				modifier = {
+					scope:activity = {
+						has_activity_type = activity_wedding
+						has_activity_option = {
+							category = wedding_option_food
+							option = wedding_food_normal
+						}
+					}
+					add = -0.75
+				}
+				modifier = {
+					scope:activity = {
+						has_activity_type = activity_coronation
+						has_activity_option = {
+							category = ceremony_feast_type
+							option = ceremony_feast_type_regular
+						}
+					}
+					add = -0.75
+				}
+				trigger_event = { on_action = MFA_pulse_guest_chokes_on_bone }
+			}
+			1 = { # guest_brawl
+				trigger = {
+					scope:activity = {
+						is_current_phase_active = yes
+						coronation_feast_phase = yes # If Coronation, only in feast phase
+						any_attending_character = {
+							this != scope:host
+							is_physically_able_ai_adult = yes
+							location = scope:activity.activity_location
+							any_relation = {
+								type = rival
+								this != scope:host
+								is_physically_able_ai_adult = yes
+								location = scope:activity.activity_location
+							}
+						}
+					}
+				}
+				trigger_event = { on_action = MFA_pulse_guest_brawl }
+			}
+			1 = { # spouse_insults_host
+				trigger = {
+					scope:activity = {
+						is_current_phase_active = yes
+						coronation_feast_phase = yes # If Coronation, only in feast phase
+						scope:host.primary_spouse ?= {
+							involved_activity ?= scope:activity
+							is_physically_able_ai_adult = yes
+							OR = {
+								has_relation_rival = scope:host
+								opinion = {
+									target = scope:host
+									value <= 50
+								}
+							}
+							NOR = {
+								has_trait = honest
+								has_trait = compassionate
+								has_trait = loyal
+							}
+							location = scope:activity.activity_location
+						}
+						any_attending_character = {
+							this != scope:host
+							this != scope:host.primary_spouse
+							is_physically_able_ai_adult = yes
+							location = scope:activity.activity_location
+						}
+					}
+				}
+				modifier = {
+					scope:activity = {
+						scope:host.primary_spouse ?= {
+							has_personality_malicious_trigger = yes
+						}
+					}
+					add = 1
+				}
+				modifier = {
+					scope:activity = {
+						scope:host.primary_spouse ?= {
+							has_personality_submissive_trigger = yes
+						}
+					}
+					add = -0.75
+				}
+				trigger_event = { on_action = MFA_pulse_spouse_insults_host }
+			}
+			1 = { # ridiculed_food
+				trigger = {
+					scope:activity = {
+						is_current_phase_active = yes
+						OR = {
+							AND = {
+								has_activity_type = activity_feast
+								has_activity_option = {
+									category = feast_option_food
+									option = feast_food_bad
+								}
+							}
+							AND = {
+								has_activity_type = activity_feast
+								has_activity_option = {
+									category = feast_option_food
+									option = feast_food_normal
+								}
+							}
+							AND = {
+								has_activity_type = activity_wedding
+								has_activity_option = {
+									category = wedding_option_food
+									option = wedding_food_bad
+								}
+							}
+							AND = {
+								has_activity_type = activity_wedding
+								has_activity_option = {
+									category = wedding_option_food
+									option = wedding_food_normal
+								}
+							}
+							AND = {
+								has_activity_type = activity_coronation
+								has_current_phase = coronation_phase_feast
+								OR = {
+									has_activity_option = {
+										category = ceremony_feast_type
+										option = ceremony_feast_type_regular
+									}
+									has_activity_option = {
+										category = ceremony_feast_type
+										option = ceremony_feast_type_austere
+									}
+								}
+							}
+						}
+						any_attending_character = {
+							this != scope:host
+							is_physically_able_ai_adult = yes
+							location = scope:activity.activity_location
+							NOR = {
+								has_trait = inappetetic
+								has_trait = temperate
+								has_trait = loyal
+							}
+						}
+					}
+				}
+				modifier = {
+					scope:activity = {
+						has_activity_type = activity_feast
+						has_activity_option = {
+							category = feast_option_food
+							option = feast_food_normal
+						}
+					}
+					add = -0.75
+				}
+				modifier = {
+					scope:activity = {
+						has_activity_type = activity_wedding
+						has_activity_option = {
+							category = wedding_option_food
+							option = wedding_food_normal
+						}
+					}
+					add = -0.75
+				}
+				modifier = {
+					scope:activity = {
+						has_activity_type = activity_coronation
+						has_activity_option = {
+							category = ceremony_feast_type
+							option = ceremony_feast_type_regular
+						}
+					}
+					add = -0.75
+				}
+				trigger_event = { on_action = MFA_pulse_ridiculed_food }
+			}
+			1 = { # host_gains_diplo_xp
+				trigger = {
+					scope:activity = {
+						is_current_phase_active = yes
+						coronation_feast_phase = yes # If Coronation, only in feast phase
+						scope:host = {
+							has_lifestyle = diplomacy_lifestyle
+							location = scope:activity.activity_location
+						}
+						any_attending_character = {
+							this != scope:host
+							is_physically_able_ai_adult = yes
+							location = scope:activity.activity_location
+						}
+					}
+				}
+				trigger_event = { on_action = MFA_pulse_host_gains_diplo_xp }
+			}
+			1 = { # host_gains_steward_xp
+				trigger = {
+					scope:activity = {
+						is_current_phase_active = yes
+						coronation_feast_phase = yes # If Coronation, only in feast phase
+						scope:host = {
+							has_lifestyle = stewardship_lifestyle
+							location = scope:activity.activity_location
+						}
+						exists = scope:activity.activity_location.county
+					}
+				}
+				trigger_event = { on_action = MFA_pulse_host_gains_steward_xp }
+			}
+			1 = { # host_gains_intrigue_xp
+				trigger = {
+					scope:activity = {
+						is_current_phase_active = yes
+						coronation_feast_phase = yes # If Coronation, only in feast phase
+						scope:host = {
+							has_lifestyle = intrigue_lifestyle
+							location = scope:activity.activity_location
+						}
+						any_attending_character = {
+							this != scope:host
+							is_physically_able_ai_adult = yes
+							location = scope:activity.activity_location
+							scope:host = {
+								can_add_hook = {
+									target = prev
+									type = manipulation_hook
+								}
+							}
+						}
+					}
+				}
+				trigger_event = { on_action = MFA_pulse_host_gains_intrigue_xp }
+			}
+			1 = { # leftover_food_giveaway
+				trigger = {
+					scope:activity = {
+						is_current_phase_active = yes
+						OR = {
+							AND = {
+								has_activity_type = activity_feast
+								has_activity_option = {
+									category = feast_option_courses
+									option = feast_courses_good
+								}
+							}
+							AND = {
+								has_activity_type = activity_coronation
+								has_current_phase = coronation_phase_feast
+								has_activity_option = {
+									category = ceremony_feast_type
+									option = ceremony_feast_type_lavish
+								}
+							}
+						}
+						exists = scope:activity.activity_location.county.holder
+						scope:activity.activity_location.county ?= {
+							NOT = { has_county_modifier = leftover_food_giveaway_modifier }
+						}
+					}
+				}
+				modifier = {
+					scope:activity = {
+						has_activity_type = activity_feast
+						has_activity_option = {
+							category = feast_option_food
+							option = feast_food_bad
+						}
+					}
+					add = -0.5
+				}
+				modifier = {
+					scope:activity = {
+						has_activity_type = activity_coronation
+						has_activity_option = {
+							category = ceremony_feast_type
+							option = ceremony_feast_type_austere
+						}
+					}
+					add = -0.5
+				}
+				trigger_event = { on_action = MFA_pulse_leftover_food_giveaway }
+			}
+			1 = { # virtuous_feast
+				trigger = {
+					scope:activity = {
+						is_current_phase_active = yes
+						coronation_feast_phase = yes # If Coronation, only in feast phase
+						any_attending_character = {
+							is_physically_able_ai_adult = yes
+							location = scope:activity.activity_location
+							faith = {
+								OR = {
+									has_doctrine = tenet_ritual_hospitality
+									has_doctrine = tenet_ritual_celebrations
+								}
+							}
+						}
+					}
+				}
+				trigger_event = { on_action = MFA_pulse_virtuous_feast }
+			}
+			1 = { # noble_privileges
+				trigger = {
+					scope:activity = {
+						is_current_phase_active = yes
+						OR = {
+							AND = {
+								has_activity_type = activity_feast
+								has_activity_option = {
+									category = feast_option_food
+									option = feast_food_good
+								}
+								has_activity_option = {
+									category = feast_option_courses
+									option = feast_courses_good
+								}
+							}
+							AND = {
+								has_activity_type = activity_coronation
+								has_current_phase = coronation_phase_feast
+								has_activity_option = {
+									category = ceremony_size
+									option = coronation_large_ceremony
+								}
+								has_activity_option = {
+									category = ceremony_feast_type
+									option = ceremony_feast_type_lavish
+								}
+							}
+						}
+						any_attending_character = {
+							location = scope:activity.activity_location
+							is_vassal_of = scope:host
+							is_physically_able_ai_adult = yes
+							OR = {
+								has_trait = callous
+								has_trait = sadistic
+								has_trait = diligent
+								has_trait = just
+								has_trait = greedy
+							}
+						}
+						scope:activity.activity_location.county ?= {
+							county_control <= low_county_control
+							NOT = { has_county_modifier = noble_privileges_modifier }
+						}
+					}
+				}
+				trigger_event = { on_action = MFA_pulse_noble_privileges }
+			}
+			1 = { # good_kitty
+				trigger = {
+					scope:activity = {
+						is_current_phase_active = yes
+						coronation_feast_phase = yes # If Coronation, only in feast phase
+						any_attending_character = {
+							location = scope:activity.activity_location
+							OR = {
+								has_character_modifier = cat_story_modifier
+								has_cat_trigger = yes
+							}
+							save_temporary_scope_as = pet_owner_temp
+						}
+						any_attending_character = {
+							location = scope:activity.activity_location
+							this != scope:pet_owner_temp
+							NOT = { has_character_modifier = cat_story_allergy_modifier }
+							NOT = { has_trait = callous }
+						}
+					}
+				}
+				trigger_event = { on_action = MFA_pulse_good_kitty }
+			}
+			1 = { # good_puppy
+				trigger = {
+					scope:activity = {
+						is_current_phase_active = yes
+						coronation_feast_phase = yes # If Coronation, only in feast phase
+						any_attending_character = {
+							location = scope:activity.activity_location
+							OR = {
+								has_character_modifier = dog_story_modifier
+								has_dog_trigger = yes
+							}
+							save_temporary_scope_as = pet_owner_temp
+						}
+						any_attending_character = {
+							this != scope:pet_owner_temp
+							location = scope:activity.activity_location
+							NOT = { has_trait = callous }
+						}
+					}
+				}
+				trigger_event = { on_action = MFA_pulse_good_puppy }
+			}
+			1 = { # antiquarian_admires_artifact
+				trigger = {
+					scope:activity = {
+						is_current_phase_active = yes
+						coronation_feast_phase = yes # If Coronation, only in feast phase
+						any_attending_character = {
+							location = scope:activity.activity_location
+							is_physically_able_ai_adult = yes
+							OR = {
+								learning >= high_skill_rating
+								has_court_position = antiquarian_court_position
+							}
+						}
+						scope:host = {
+							any_character_artifact = {
+								category = inventory
+								NOT = { rarity = common }
+							}
+						}
+					}
+				}
+				modifier = {
+					scope:activity = {
+						any_attending_character = {
+							has_court_position = antiquarian_court_position
+							location = scope:activity.activity_location
+							is_physically_able_ai_adult = yes
+						}
+					}
+					add = 2
+				}
+				trigger_event = { on_action = MFA_pulse_antiquarian_admires_artifact }
+			}
+			1 = { # jester_entertained_guests
+				trigger = {
+					scope:activity = {
+						is_current_phase_active = yes
+						coronation_feast_phase = yes # If Coronation, only in feast phase
+						any_attending_character = {
+							location = scope:activity.activity_location
+							is_physically_able_ai_adult = yes
+							OR = {
+								has_court_position = court_jester_court_position
+								has_activity_intent = banquet_mischief_intent
+							}
+							save_temporary_scope_as = temp_jester
+						}
+						any_attending_character = {
+							location = scope:activity.activity_location
+							this != scope:temp_jester
+						}
+					}
+				}
+				modifier = {
+					scope:activity = {
+						any_attending_character = {
+							location = scope:activity.activity_location
+							is_physically_able_ai_adult = yes
+							has_court_position = court_jester_court_position
+						}
+					}
+					add = 1
+				}
+				trigger_event = { on_action = MFA_pulse_jester_entertained_guests }
+			}
+			2 = { # apa_executioner
+				trigger = {
+					scope:activity = {
+						is_current_phase_active = yes
+						coronation_feast_phase = yes # If Coronation, only in feast phase
+						any_attending_character = {
+							location = scope:activity.activity_location
+							is_physically_able_ai_adult = yes
+							has_court_position = executioner_court_position
+							exists = employer
+						}
+					}
+				}
+				trigger_event = { on_action = MFA_pulse_apa_executioner }
+			}
+		}
+		set_variable = { name = MFA_pulse_relay_tick value = 1 }
+	}
+}

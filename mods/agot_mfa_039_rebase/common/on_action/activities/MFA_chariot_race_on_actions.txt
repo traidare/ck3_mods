@@ -1,0 +1,384 @@
+﻿####################################
+# MFA Activity Converter
+# Pulse relay for chariot_race activity
+# Root scope = the character (same as on_weekly_pulse).
+####################################
+
+
+
+MFA_chariot_race_1_relay = {
+	trigger = {
+		is_ruler = yes
+		exists = var:MFA_phase_1_remaining
+	}
+
+	effect = {
+		if = {
+			limit = {
+				var:MFA_phase_1_remaining >= 1
+				scope:activity = { is_current_phase_active = yes }
+			}
+			if = {
+				limit = {
+					this = scope:host
+				}
+				scope:activity = {
+					every_guest_subset = {
+						name = spectators
+						trigger_event = { on_action = chariot_race_betting_events }
+					}
+				}
+			}
+		}
+
+		change_variable = {
+			name = MFA_phase_1_remaining
+			add = -1
+		}
+		if = {
+			limit = {
+				var:MFA_phase_1_remaining >= 1
+			}
+			trigger_event = { on_action = MFA_chariot_race_1_relay days = MFA_1_week_days }
+		}
+		else = {
+			remove_variable = MFA_phase_1_remaining
+		}
+	}
+}
+
+MFA_chariot_race_2_relay = {
+	trigger = {
+		is_ruler = yes
+		exists = var:MFA_phase_2_remaining
+	}
+
+	effect = {
+		if = {
+			limit = {
+				var:MFA_phase_2_remaining >= 1
+				scope:activity = { is_current_phase_active = yes }
+			}
+			if = {
+				limit = { this = scope:host }
+				# This on action handles everything occurs on the race track and then fires informative events to spectators who care about the charioteers affected
+				# After all that is sorted, it fires chariot_spectator_on_action for spectators that have not yet received an event
+				trigger_event = { on_action = chariot_race_on_action }
+			}
+		}
+
+		change_variable = {
+			name = MFA_phase_2_remaining
+			add = -1
+		}
+		if = {
+			limit = {
+				var:MFA_phase_2_remaining >= 1
+			}
+			trigger_event = { on_action = MFA_chariot_race_2_relay days = MFA_1_week_days }
+		}
+		else = {
+			remove_variable = MFA_phase_2_remaining
+		}
+	}
+}
+
+MFA_chariot_race_pulse_relay = {
+	effect = {
+		if = {
+			limit = {
+				has_variable = MFA_pulse_relay_tick
+			}
+			change_variable = { name = MFA_pulse_relay_tick add = 1 }
+		}
+		else = {
+			set_variable = { name = MFA_pulse_relay_tick value = 1 }
+		}
+		if = {
+			limit = {
+				exists = scope:activity
+			}
+			trigger_event = { on_action = MFA_chariot_race_pulse_relay_effects }
+		}
+		if = {
+			limit = {
+				exists = scope:activity
+			}
+			trigger_event = { on_action = MFA_chariot_race_pulse_relay days = 1 }
+		}
+		else = {
+			remove_variable = MFA_pulse_relay_tick
+		}
+	}
+}
+
+MFA_chariot_race_pulse_relay_effects = {
+	trigger = {
+		var:MFA_pulse_relay_tick > MFA_pulse_relay_timer
+	}
+	effect = {
+		random_list = {
+			2 = { } # chance_of_no_event
+			1 = { # apa_cheering_on_competitors
+				trigger = {
+					scope:activity = {
+						is_current_phase_active = yes
+						any_guest_subset = {
+						 	name = spectators
+						 	NOR = {
+								this = scope:host
+								scope:activity.special_guest:chariot_race_honorary_guest ?= this
+							}
+							is_physically_able_ai_adult = yes
+							num_of_relation_friend < 2
+							location = scope:activity.activity_location
+							save_temporary_scope_as = temp_first
+						}
+						any_guest_subset = {
+							name = spectators
+							NOR = {
+								this = scope:host
+								scope:activity.special_guest:chariot_race_honorary_guest ?= this
+								this = scope:temp_first
+							}
+							is_physically_able_ai_adult = yes
+							num_of_relation_friend < 2
+							location = scope:activity.activity_location
+							number_of_traits_in_common = {
+								target = scope:temp_first
+								value >= 1
+							}
+							#can_set_relation_friend_trigger = { CHARACTER = scope:temp_first }
+						}
+					}
+				}
+				trigger_event = { on_action = MFA_pulse_apa_cheering_on_competitors }
+			}
+			1 = { # apa_thunderous_applause
+				trigger = {
+					scope:activity = {
+						is_current_phase_active = yes
+						has_current_phase = chariot_race_phase
+					}
+				}
+				trigger_event = { on_action = MFA_pulse_apa_thunderous_applause }
+			}
+			1 = { # apa_celebrating_unexpected_overtake
+				trigger = {
+					scope:activity = {
+						is_current_phase_active = yes
+						has_current_phase = chariot_race_phase
+					}
+				}
+				trigger_event = { on_action = MFA_pulse_apa_celebrating_unexpected_overtake }
+			}
+			1 = { # apa_exchanging_race_commentary
+				trigger = {
+					scope:activity = {
+						is_current_phase_active = yes
+						any_guest_subset = {
+							name = spectators
+							NOR = {
+								scope:host = this
+								scope:activity.special_guest:chariot_race_honorary_guest ?= this
+							}
+							is_ai = yes
+							is_adult = yes
+							might_cheat_on_every_partner_trigger = yes
+							save_temporary_scope_as = sex_temp
+						}
+						any_guest_subset = {
+							name = spectators
+							NOR = {
+								scope:host = this
+								scope:activity.special_guest:chariot_race_honorary_guest ?= this
+							}
+							is_attracted_to_gender_of = scope:sex_temp
+							possibly_interested_in_character_trigger = {
+								CHARACTER = scope:sex_temp
+							}
+							is_ai = yes
+							is_adult = yes
+							OR = {
+								might_cheat_on_every_partner_trigger = yes
+								is_consort_of = scope:sex_temp
+							}
+						}
+					}
+				}
+				trigger_event = { on_action = MFA_pulse_apa_exchanging_race_commentary }
+			}
+			1 = { # apa_forging_alliances
+				trigger = {
+					scope:activity = {
+						is_current_phase_active = yes
+						any_guest_subset = {
+							name = spectators
+							is_governor = yes
+						}
+					}
+				}
+				trigger_event = { on_action = MFA_pulse_apa_forging_alliances }
+			}
+			1 = { # apa_donates_to_the_poor
+				trigger = {
+					scope:activity = {
+						is_current_phase_active = yes
+						any_attending_character = {
+							OR = {
+								is_governor = yes
+								is_landless_ruler = yes
+							}
+						}
+					}
+				}
+				trigger_event = { on_action = MFA_pulse_apa_donates_to_the_poor }
+			}
+			1 = { # guest_friendship
+				trigger = {
+					scope:activity = {
+						is_current_phase_active = yes
+						any_attending_character = {
+							location = scope:activity.activity_location
+							save_temporary_scope_as = first_temp
+							involved_activity = {
+								any_attending_character = {
+									location = scope:activity.activity_location
+									this != scope:first_temp
+								}
+							}
+						}
+					}
+				}
+				trigger_event = { on_action = MFA_pulse_guest_friendship }
+			}
+			1 = { # guest_insulted
+				trigger = {
+					scope:activity = {
+						is_current_phase_active = yes
+						any_attending_character = {
+							location = scope:activity.activity_location
+							save_temporary_scope_as = first_temp
+							involved_activity = {
+								any_attending_character = {
+									location = scope:activity.activity_location
+									this != scope:first_temp
+								}
+							}
+						}
+					}
+				}
+				trigger_event = { on_action = MFA_pulse_guest_insulted }
+			}
+			1 = { # host_gains_diplo_xp
+				trigger = {
+					scope:activity = {
+						is_current_phase_active = yes
+						coronation_feast_phase = yes # If Coronation, only in feast phase
+						scope:host = {
+							has_lifestyle = diplomacy_lifestyle
+							location = scope:activity.activity_location
+						}
+						any_attending_character = {
+							this != scope:host
+							is_physically_able_ai_adult = yes
+							location = scope:activity.activity_location
+						}
+					}
+				}
+				trigger_event = { on_action = MFA_pulse_host_gains_diplo_xp }
+			}
+			1 = { # host_gains_steward_xp
+				trigger = {
+					scope:activity = {
+						is_current_phase_active = yes
+						coronation_feast_phase = yes # If Coronation, only in feast phase
+						scope:host = {
+							has_lifestyle = stewardship_lifestyle
+							location = scope:activity.activity_location
+						}
+						exists = scope:activity.activity_location.county
+					}
+				}
+				trigger_event = { on_action = MFA_pulse_host_gains_steward_xp }
+			}
+			1 = { # host_gains_intrigue_xp
+				trigger = {
+					scope:activity = {
+						is_current_phase_active = yes
+						coronation_feast_phase = yes # If Coronation, only in feast phase
+						scope:host = {
+							has_lifestyle = intrigue_lifestyle
+							location = scope:activity.activity_location
+						}
+						any_attending_character = {
+							this != scope:host
+							is_physically_able_ai_adult = yes
+							location = scope:activity.activity_location
+							scope:host = {
+								can_add_hook = {
+									target = prev
+									type = manipulation_hook
+								}
+							}
+						}
+					}
+				}
+				trigger_event = { on_action = MFA_pulse_host_gains_intrigue_xp }
+			}
+			1 = { # contact_network
+				trigger = {
+					scope:activity = {
+						is_current_phase_active = yes
+						any_attending_character = {
+							is_physically_able_adult = yes
+							OR = {
+								is_ai = no
+								this = scope:host
+							}
+							location = scope:activity.activity_location
+							has_lifestyle = diplomacy_lifestyle
+						}
+					}
+				}
+				modifier = {
+					scope:activity = {
+						any_attending_character = {
+							is_physically_able_adult = yes
+							OR = {
+								is_ai = no
+								this = scope:host
+							}
+							location = scope:activity.activity_location
+							has_lifestyle = diplomacy_lifestyle
+							trigger_if = {
+								limit = {
+									scope:activity = { has_activity_type = activity_wedding }
+								}
+								OR = {
+									this = scope:host
+									this = scope:activity.special_guest:spouse_1
+									this = scope:activity.special_guest:spouse_2
+								}
+							}
+							trigger_if = {
+								limit = {
+									scope:activity = { has_activity_type = activity_coronation }
+								}
+								OR = {
+									this = scope:host
+									scope:activity.var:officiator ?= this
+									is_in_guest_subset = { name = supporter }
+									is_in_guest_subset = { name = detractor }
+								}
+							}
+						}
+					}
+					add = 1
+				}
+				trigger_event = { on_action = MFA_pulse_contact_network }
+			}
+		}
+		set_variable = { name = MFA_pulse_relay_tick value = 1 }
+	}
+}

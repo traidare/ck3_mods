@@ -1,0 +1,33 @@
+﻿namespace = agot_coa_events
+
+agot_coa_events.0003 = {
+	title = agot_coa_events.0002.t
+	desc = agot_coa_events.0002.desc
+	theme = war
+	right_portrait = {
+		character = root
+		animation = war_attacker
+	}
+
+	override_background = {
+		reference = battlefield
+	}
+
+	trigger = {
+		agot_is_valid_dyn_coa_target = yes
+		has_character_flag = has_personal_coa
+	}
+
+	option = {
+		name = agot_coa_events.0002.a
+		custom_tooltip = agot_coa_events.0002.a.tt
+
+		every_held_title = {
+			limit = {
+				agot_is_valid_dyn_coa_title = yes
+			}
+			set_coa = holder.var:my_personal_coa.house
+		}
+		add_character_flag = landed_coa_personalized
+	}
+}

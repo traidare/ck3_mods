@@ -1,0 +1,1934 @@
+﻿namespace = zzz_great_councils_event
+
+zzz_great_councils_event.0001 = { # A flavor event of a courtier telling you the emperor has died or been deposed and the heir is controversial (or that you called the council)
+	type = character_event
+	title = zzz_great_councils_event.0001.t
+	desc = {
+		first_valid = { # Display the localization of the first valid desc block which returns true
+			triggered_desc = {
+				trigger = {
+					scope:zzz_great_councils_temp_emp = { has_character_flag = zzz_great_councils_inherit }
+				}
+				desc = zzz_great_councils_event.0001.a.desc
+			}
+			triggered_desc = {
+				trigger = {
+					scope:zzz_great_councils_temp_emp = { has_character_flag = zzz_great_councils_depose }
+				}
+				desc = zzz_great_councils_event.0001.b.desc
+			}
+			triggered_desc = {
+				trigger = {
+					scope:zzz_great_councils_emperor = { has_character_flag = zzz_great_councils_called_council }
+					root = scope:zzz_great_councils_emperor
+				}
+				desc = zzz_great_councils_event.0001.c.desc
+			}
+			triggered_desc = {
+				trigger = {
+					scope:zzz_great_councils_emperor = { has_character_flag = zzz_great_councils_called_council }
+					NOT = { root = scope:zzz_great_councils_emperor }
+				}
+				desc = zzz_great_councils_event.0001.d.desc
+			}
+		}
+	}
+	theme = crown
+	override_background = garden
+
+	left_portrait = {
+		character = root
+		animation = thinking
+	}
+
+	option = {
+		name = {
+			text = {
+				first_valid = {
+					triggered_desc = {
+						trigger = {
+							OR = {
+								scope:zzz_great_councils_temp_emp = { has_character_flag = zzz_great_councils_inherit }
+								scope:zzz_great_councils_temp_emp = { has_character_flag = zzz_great_councils_depose }
+							}
+						}
+						desc = zzz_great_councils_event.0001.a
+					}
+					triggered_desc = {
+						trigger = {
+							scope:zzz_great_councils_emperor = { has_character_flag = zzz_great_councils_called_council }
+						}
+						desc = zzz_great_councils_event.0001.c
+					}
+				}
+			}
+		}
+
+		if = {
+			limit = {
+				scope:zzz_great_councils_pregnant ?= { is_alive = yes }
+			}
+			scope:zzz_great_councils_pregnant ?= {
+				set_local_variable = {
+					name = zzz_great_councils_preg_var
+					value = {
+						add = 281
+						subtract = pregnancy_days
+					}
+				}
+			}
+		}
+		if = {
+			limit = {
+				scope:zzz_great_councils_pregnant ?= { has_local_variable = zzz_great_councils_preg_var }
+			}
+			trigger_event = {
+				id = zzz_great_councils_event.0002
+				days = scope:zzz_great_councils_pregnant.var:zzz_great_councils_preg_var
+			}
+		}
+		else_if = {
+			limit = { NOT = { any_player = { is_in_list = zzz_great_councils_electors } } }
+			trigger_event = zzz_great_councils_event.0002
+		}
+		else = {
+			trigger_event = {
+				id = zzz_great_councils_event.0002
+				days = 15
+			}
+		}
+	}
+}
+
+zzz_great_councils_event.0002 = { # A flavor event saying the great council has started, some pretenders have been dismissed, and you need to pick someone
+	type = character_event
+	title = zzz_great_councils_event.0002.t
+	desc = zzz_great_councils_event.0002.desc
+	theme = crown
+	override_background = feast
+
+	left_portrait = {
+		character = root
+		animation = debating
+	}
+
+	option = {
+		name = zzz_great_councils_event.0002.a
+
+		hidden_effect = {
+			if = {
+				limit = {
+					scope:zzz_great_councils_emperor = {
+						any_child = {
+							NOT = { is_in_list = zzz_great_councils_candidates }
+							NOR = {
+								is_alive = no
+								has_trait = kingsguard
+								has_trait = nightswatch
+								has_trait = maester
+								has_trait = septon
+								has_trait = silent_sister
+								agot_is_high_septon = yes
+								has_trait = dragon
+								has_trait = disinherited
+								has_trait = mw_expelled_trait
+								has_trait = devoted
+								has_trait = order_member
+								has_trait = gallivanter
+								has_trait = incapable
+							}
+						}
+					}
+				}
+				scope:zzz_great_councils_emperor = {
+					every_child = {
+						limit = {
+							NOT = { is_in_list = zzz_great_councils_candidates }
+							NOR = {
+								is_alive = no
+								has_trait = kingsguard
+								has_trait = nightswatch
+								has_trait = maester
+								has_trait = septon
+								has_trait = silent_sister
+								agot_is_high_septon = yes
+								has_trait = dragon
+								has_trait = disinherited
+								has_trait = mw_expelled_trait
+								has_trait = devoted
+								has_trait = order_member
+								has_trait = gallivanter
+								has_trait = incapable
+							}
+						}
+						add_to_list = zzz_great_councils_candidates
+						set_variable = {
+							name = zzz_great_councils_votes
+							value = 0
+						}
+					}
+				}
+			}
+		}
+
+		trigger_event = zzz_great_councils_event.0003
+	}
+
+	after = {
+		if = {
+			limit = {
+				scope:zzz_great_councils_pregnant ?= { is_alive = yes }
+			}
+			scope:zzz_great_councils_pregnant ?= { remove_variable = zzz_great_councils_preg_var }
+		}
+	}
+}
+
+zzz_great_councils_event.0003 = { # Where the voting takes place
+	type = character_event
+	title = zzz_great_councils_event.0003.t
+	desc = zzz_great_councils_event.0003.desc
+
+	theme = crown
+	override_background = study
+
+	widget = {
+		is_shown = {
+			is_ai = no
+		}
+		gui = "agot_character_selection_two_options"
+		container = "custom_widgets_container"
+	}
+
+	left_portrait = {
+		character = root
+		animation = chancellor
+	}
+
+	immediate = {
+		every_in_list = {
+			list = zzz_great_councils_candidates
+			limit = { is_alive = no }
+			remove_from_list = zzz_great_councils_candidates
+		}
+		every_in_list = {
+			list = zzz_great_councils_electors
+			limit = { is_alive = no }
+			remove_from_list = zzz_great_councils_electors
+		}
+		every_in_list = {
+			list = zzz_great_councils_candidates
+			root = {
+				add_to_variable_list = {
+					name = possible_characters
+					target = prev
+				}
+			}
+		}
+		if = {
+			limit = { is_ai = no }
+			ordered_in_list = {
+				variable = possible_characters
+				order_by = age
+				root = { set_variable = { name = si_selected_character value = prev } }
+				save_scope_as = zzz_great_councils_selection
+			}
+		}
+		else = {
+			ordered_in_list = {
+				list = zzz_great_councils_candidates
+				limit = {
+					NOT = {
+						this = root
+					}
+				}
+				order_by = {
+					value = 1
+					if = { #less likely to be voted for if part of a bastard house and the previous emperor wasn't
+						limit = {
+							dynasty ?= scope:zzz_great_councils_old_dyn
+							scope:zzz_great_councils_emperor.house.house_founder ?= {
+								NOR = {
+									has_trait = bastard
+									has_trait = legitimized_bastard
+									has_trait = bastard_founder
+								}
+							}
+							house.house_founder ?= {
+								OR = {
+									has_trait = bastard
+									has_trait = legitimized_bastard
+									has_trait = bastard_founder
+								}
+							}
+						}
+						add = -10
+					}
+					if = { #more likely to be voted for if you're the historical dynasty of this title
+						limit = {
+							dynasty ?= scope:zzz_great_councils_hist_dyn_guy.dynasty
+						}
+						add = 10
+					}
+					if = { #more likely to be voted for if you're the previous emperor's direct descendant
+						limit = {
+							any_ancestor = { this = scope:zzz_great_councils_emperor }
+						}
+						add = 10
+					}
+					if = { #more likely to be voted for if you're any previous emperor's direct descendant
+						limit = {
+							OR = {
+								any_parent = { is_in_list = zzz_great_councils_past_emps }
+								any_parent = { any_parent = { is_in_list = zzz_great_councils_past_emps } }
+							}
+						}
+						add = 10
+					}
+					if = { #more likely to be voted for if you're the previous emperor's close family
+						limit = {
+							is_close_family_of = scope:zzz_great_councils_emperor
+						}
+						add = 10
+					}
+					if = { #more likely to be voted for if you're the previous emperor's dynasty
+						limit = {
+							NOT = { root = { has_trait = disloyal } }
+							dynasty ?= scope:zzz_great_councils_old_dyn
+						}
+						add = 5
+					}
+					if = { #more likely to be voted for if you're the previous emperor's house
+						limit = {
+							NOT = { root = { has_trait = disloyal } }
+							house ?= scope:zzz_great_councils_emperor.house
+						}
+						add = 5
+					}
+					if = { #less likely to be voted for if you have an older sibling that is a candidate
+						limit = {
+							any_sibling = {
+								count >= 1
+								is_in_list = zzz_great_councils_candidates
+								NOT = { this = scope:zzz_great_councils_emperor }
+								age > prev.age
+							}
+						}
+						add = -5
+					}
+					if = { #less likely to be voted for if you have an older sibling that is a candidate
+						limit = {
+							any_sibling = {
+								count >= 2
+								is_in_list = zzz_great_councils_candidates
+								NOT = { this = scope:zzz_great_councils_emperor }
+								age > prev.age
+							}
+						}
+						add = -5
+					}
+					if = { #less likely to be voted for if you have an older sibling that is a candidate
+						limit = {
+							any_sibling = {
+								count >= 3
+								is_in_list = zzz_great_councils_candidates
+								NOT = { this = scope:zzz_great_councils_emperor }
+								age > prev.age
+							}
+						}
+						add = -5
+					}
+					if = { #more likely to be voted for if you were the original heir
+						limit = {
+							this = scope:zzz_great_councils_temp_emp
+						}
+						add = 5
+					}
+					if = { #less likely to be voted for if you don't match the empire's gender laws
+						limit = {
+							OR = {
+								AND = {
+									is_male = yes
+									root = {
+										OR = {
+											has_realm_law = female_preference_law
+											court_owner ?= { has_realm_law = female_preference_law }
+										}
+									}
+								}
+								AND = {
+									is_female = yes
+									root = {
+										OR = {
+											has_realm_law = male_preference_law
+											court_owner ?= { has_realm_law = male_preference_law }
+										}
+									}
+								}
+							}
+						}
+						add = -15
+					}
+					if = { #less likely to be voted for if you don't match the empire's gender laws
+						limit = {
+							OR = {
+								AND = {
+									is_male = yes
+									root = {
+										OR = {
+											has_realm_law = female_only_law
+											court_owner ?= { has_realm_law = female_only_law }
+										}
+									}
+								}
+								AND = {
+									is_female = yes
+									root = {
+										OR = {
+											has_realm_law = male_only_law
+											court_owner ?= { has_realm_law = male_only_law }
+										}
+									}
+								}
+							}
+						}
+						add = -20
+					}
+					if = { #more likely to be voted for if the voter can sympathize with you based on gender
+						limit = {
+							OR = {
+								AND = {
+									is_male = yes
+									root = { is_male = yes }
+									trigger_if = {
+										limit = {
+											OR = {
+												scope:zzz_great_councils_temp_emp = { has_character_flag = zzz_great_councils_inherit }
+												scope:zzz_great_councils_temp_emp = { has_character_flag = zzz_great_councils_depose }
+											}
+										}
+										OR = {
+											scope:zzz_great_councils_temp_emp = { has_realm_law = female_only_law }
+											scope:zzz_great_councils_temp_emp = { has_realm_law = female_preference_law }
+										}
+									}
+									trigger_if = {
+										limit = {
+											scope:zzz_great_councils_emperor = { has_character_flag = zzz_great_councils_called_council }
+										}
+										OR = {
+											scope:zzz_great_councils_emperor = { has_realm_law = female_only_law }
+											scope:zzz_great_councils_emperor = { has_realm_law = female_preference_law }
+										}
+									}
+								}
+								AND = {
+									is_female = yes
+									root = { is_female = yes }
+									trigger_if = {
+										limit = {
+											OR = {
+												scope:zzz_great_councils_temp_emp = { has_character_flag = zzz_great_councils_inherit }
+												scope:zzz_great_councils_temp_emp = { has_character_flag = zzz_great_councils_depose }
+											}
+										}
+										OR = {
+											scope:zzz_great_councils_temp_emp = { has_realm_law = male_only_law }
+											scope:zzz_great_councils_temp_emp = { has_realm_law = male_preference_law }
+										}
+									}
+									trigger_if = {
+										limit = {
+											scope:zzz_great_councils_emperor = { has_character_flag = zzz_great_councils_called_council }
+										}
+										OR = {
+											scope:zzz_great_councils_emperor = { has_realm_law = male_only_law }
+											scope:zzz_great_councils_emperor = { has_realm_law = male_preference_law }
+										}
+									}
+								}
+							}
+						}
+						add = 25
+					}
+					if = { #more likely to be voted for if you descend through the correct line according to the empire's gender laws
+						limit = {
+							OR = {
+								AND = {
+									trigger_if = {
+										limit = {
+											OR = {
+												scope:zzz_great_councils_temp_emp = { has_character_flag = zzz_great_councils_inherit }
+												scope:zzz_great_councils_temp_emp = { has_character_flag = zzz_great_councils_depose }
+											}
+										}
+										scope:zzz_great_councils_temp_emp = { has_realm_law = male_preference_law }
+									}
+									trigger_if = {
+										limit = {
+											scope:zzz_great_councils_emperor = { has_character_flag = zzz_great_councils_called_council }
+										}
+										scope:zzz_great_councils_emperor = { has_realm_law = male_preference_law }
+									}
+									OR = {
+										father = { is_in_list = zzz_great_councils_past_emps }
+										father = { any_parent = { is_in_list = zzz_great_councils_past_emps } }
+										father.father = { any_parent = { is_in_list = zzz_great_councils_past_emps } }
+									}
+								}
+								AND = {
+									trigger_if = {
+										limit = {
+											OR = {
+												scope:zzz_great_councils_temp_emp = { has_character_flag = zzz_great_councils_inherit }
+												scope:zzz_great_councils_temp_emp = { has_character_flag = zzz_great_councils_depose }
+											}
+										}
+										scope:zzz_great_councils_temp_emp = { has_realm_law = female_preference_law }
+									}
+									trigger_if = {
+										limit = {
+											scope:zzz_great_councils_emperor = { has_character_flag = zzz_great_councils_called_council }
+										}
+										scope:zzz_great_councils_emperor = { has_realm_law = female_preference_law }
+									}
+									OR = {
+										mother = { is_in_list = zzz_great_councils_past_emps }
+										mother = { any_parent = { is_in_list = zzz_great_councils_past_emps } }
+										mother.mother = { any_parent = { is_in_list = zzz_great_councils_past_emps } }
+									}
+								}
+							}
+						}
+						add = 10
+					}
+					if = { #more likely to be voted for if you descend through the correct line according to the empire's gender laws
+						limit = {
+							OR = {
+								AND = {
+									trigger_if = {
+										limit = {
+											OR = {
+												scope:zzz_great_councils_temp_emp = { has_character_flag = zzz_great_councils_inherit }
+												scope:zzz_great_councils_temp_emp = { has_character_flag = zzz_great_councils_depose }
+											}
+										}
+										scope:zzz_great_councils_temp_emp = { has_realm_law = male_only_law }
+									}
+									trigger_if = {
+										limit = {
+											scope:zzz_great_councils_emperor = { has_character_flag = zzz_great_councils_called_council }
+										}
+										scope:zzz_great_councils_emperor = { has_realm_law = male_only_law }
+									}
+									OR = {
+										father = { is_in_list = zzz_great_councils_past_emps }
+										father = { any_parent = { is_in_list = zzz_great_councils_past_emps } }
+										father.father = { any_parent = { is_in_list = zzz_great_councils_past_emps } }
+									}
+								}
+								AND = {
+									trigger_if = {
+										limit = {
+											OR = {
+												scope:zzz_great_councils_temp_emp = { has_character_flag = zzz_great_councils_inherit }
+												scope:zzz_great_councils_temp_emp = { has_character_flag = zzz_great_councils_depose }
+											}
+										}
+										scope:zzz_great_councils_temp_emp = { has_realm_law = female_only_law }
+									}
+									trigger_if = {
+										limit = {
+											scope:zzz_great_councils_emperor = { has_character_flag = zzz_great_councils_called_council }
+										}
+										scope:zzz_great_councils_emperor = { has_realm_law = female_only_law }
+									}
+									OR = {
+										mother = { is_in_list = zzz_great_councils_past_emps }
+										mother = { any_parent = { is_in_list = zzz_great_councils_past_emps } }
+										mother.mother = { any_parent = { is_in_list = zzz_great_councils_past_emps } }
+									}
+								}
+							}
+						}
+						add = 15
+					}
+					if = { #less likely to be voted for if in wrong gendered marriage with no kids of their dynasty
+						limit = {
+							OR = {
+								AND = {
+									is_male = yes
+									primary_spouse ?= {
+										is_female = yes
+										matrilinear_marriage = yes
+									}
+									NOT = {
+										any_child ?= {
+											dynasty ?= father.dynasty
+										}
+									}
+								}
+								AND = {
+									is_female = yes
+									primary_spouse ?= {
+										is_male = yes
+										patrilinear_marriage = yes
+									}
+									NOT = {
+										any_child ?= {
+											dynasty ?= mother.dynasty
+										}
+									}
+								}
+							}
+						}
+						add = -10
+					}
+					if = { #more likely to be voted for if the voter kinda likes you
+						limit = {
+							reverse_opinion = { target = root value >= 20 }
+						}
+						add = 6
+					}
+					if = { #more likely to be voted for if the voter likes you a decent amount
+						limit = {
+							reverse_opinion = { target = root value >= 40 }
+						}
+						add = 6
+					}
+					if = { #more likely to be voted for if the voter likes you
+						limit = {
+							reverse_opinion = { target = root value >= 60 }
+						}
+						add = 6
+					}
+					if = { #more likely to be voted for if the voter really likes you
+						limit = {
+							reverse_opinion = { target = root value >= 80 }
+						}
+						add = 6
+					}
+					if = { #less likely to be voted for if the voter kinda dislikes you
+						limit = {
+							reverse_opinion = { target = root value <= -20 }
+						}
+						add = -6
+					}
+					if = { #less likely to be voted for if the voter dislikes you a decent amount
+						limit = {
+							reverse_opinion = { target = root value <= -40 }
+						}
+						add = -6
+					}
+					if = { #less likely to be voted for if the voter dislikes you
+						limit = {
+							reverse_opinion = { target = root value <= -60 }
+						}
+						add = -6
+					}
+					if = { #less likely to be voted for if the voter really dislikes you
+						limit = {
+							reverse_opinion = { target = root value <= -80 }
+						}
+						add = -6
+					}
+					if = { #more likely to be voted for if you have a specialized skill
+						limit = {
+							OR = {
+								diplomacy >= 20
+								martial >= 20
+								stewardship >= 20
+								intrigue >= 20
+								learning >= 20
+								prowess >= 30
+							}
+						}
+						add = 10
+					}
+					if = { #more likely to be voted for if you have kinda good skills
+						limit = {
+							sum_of_all_skills_value >= 50
+						}
+						add = 6
+					}
+					if = { #more likely to be voted for if you have good skills
+						limit = {
+							sum_of_all_skills_value >= 60
+						}
+						add = 6
+					}
+					if = { #more likely to be voted for if you have really good skills
+						limit = {
+							sum_of_all_skills_value >= 70
+						}
+						add = 6
+					}
+					if = { #more likely to be voted for if you have insanely good skills
+						limit = {
+							sum_of_all_skills_value >= 80
+						}
+						add = 6
+					}
+					if = { #less likely to be voted for if you have kinda bad skills and are an adult
+						limit = {
+							sum_of_all_skills_value <= 40
+							age > 16
+						}
+						add = -6
+					}
+					if = { #less likely to be voted for if you have bad skills and are an adult
+						limit = {
+							sum_of_all_skills_value <= 30
+							age > 16
+						}
+						add = -6
+					}
+					if = { #less likely to be voted for if you have really bad skills and are an adult
+						limit = {
+							sum_of_all_skills_value <= 20
+							age > 16
+						}
+						add = -6
+					}
+					if = { #less likely to be voted for if you have terribly bad skills and are an adult
+						limit = {
+							sum_of_all_skills_value <= 10
+							age > 16
+						}
+						add = -6
+					}
+					if = { #more likely to be voted for if you have kinda good compatibility
+						limit = {
+							trait_compatibility = { target = root value >= low_positive_trait_compatibility }
+						}
+						add = 6
+					}
+					if = { #more likely to be voted for if you have good compatibility
+						limit = {
+							trait_compatibility = { target = root value >= medium_positive_trait_compatibility }
+						}
+						add = 6
+					}
+					if = { #more likely to be voted for if you have really good compatibility
+						limit = {
+							trait_compatibility = { target = root value >= high_positive_trait_compatibility }
+						}
+						add = 6
+					}
+					if = { #less likely to be voted for if you have kinda bad compatibility
+						limit = {
+							trait_compatibility = { target = root value >= low_negative_trait_compatibility }
+						}
+						add = -6
+					}
+					if = { #less likely to be voted for if you have bad compatibility
+						limit = {
+							trait_compatibility = { target = root value >= medium_negative_trait_compatibility }
+						}
+						add = -6
+					}
+					if = { #less likely to be voted for if you have really bad compatibility
+						limit = {
+							trait_compatibility = { target = root value >= high_negative_trait_compatibility }
+						}
+						add = -6
+					}
+					if = { #more likely to be voted for if you have a good genetic trait
+						limit = {
+							num_of_good_genetic_traits >= 1
+						}
+						add = 6
+					}
+					if = { #more likely to be voted for if you have a couple good genetic traits
+						limit = {
+							num_of_good_genetic_traits >= 2
+						}
+						add = 6
+					}
+					if = { #more likely to be voted for if you have a few good genetic traits
+						limit = {
+							num_of_good_genetic_traits >= 3
+						}
+						add = 6
+					}
+					if = { #more likely to be voted for if you have a lot of good genetic traits
+						limit = {
+							num_of_good_genetic_traits >= 4
+						}
+						add = 6
+					}
+					if = { #more likely to be voted for if you have very many good genetic traits
+						limit = {
+							num_of_good_genetic_traits >= 5
+						}
+						add = 6
+					}
+					if = { #less likely to be voted for if you have a bad genetic trait
+						limit = {
+							num_of_bad_genetic_traits >= 1
+							NOR = {
+								has_trait = giant
+								has_trait = albino
+							}
+						}
+						add = -6
+					}
+					if = { #less likely to be voted for if you have a couple bad genetic traits
+						limit = {
+							num_of_bad_genetic_traits >= 2
+						}
+						add = -6
+					}
+					if = { #less likely to be voted for if you have a few bad genetic traits
+						limit = {
+							num_of_bad_genetic_traits >= 3
+						}
+						add = -6
+					}
+					if = { #less likely to be voted for if you have a lot of bad genetic traits
+						limit = {
+							num_of_bad_genetic_traits >= 4
+						}
+						add = -6
+					}
+					if = { #less likely to be voted for if you have very many bad genetic traits
+						limit = {
+							num_of_bad_genetic_traits >= 5
+						}
+						add = -6
+					}
+					if = { #more likely to be voted for if you have a good stat trait
+						limit = {
+							OR = {
+								has_trait = strong
+								has_trait = shrewd
+							}
+						}
+						add = 6
+					}
+					if = { #less likely to be voted for if you have a bad stat trait
+						limit = {
+							OR = {
+								has_trait = weak
+								has_trait = dull
+							}
+						}
+						add = -6
+					}
+					if = { #less likely to be voted for if you have a mental illness
+						limit = {
+							OR = {
+								has_trait = depressed_1
+								has_trait = depressed_genetic
+							}
+						}
+						add = -6
+					}
+					if = { #less likely to be voted for if you have a mental illness
+						limit = {
+							OR = {
+								has_trait = possessed_1
+								has_trait = possessed_genetic
+							}
+						}
+						add = -10
+					}
+					if = { #less likely to be voted for if you have a mental illness
+						limit = {
+							OR = {
+								has_trait = lunatic_1
+								has_trait = lunatic_genetic
+							}
+						}
+						add = -15
+					}
+					if = { #less likely to be voted for if you don't want the title
+						limit = {
+							OR = {
+								has_trait = content
+								AND = {
+									has_trait = shy
+									NOR = {
+										has_trait = ambitious
+										has_trait = brave
+										has_trait = diligent
+										has_trait = greedy
+										has_trait = trusting
+										has_trait = fickle
+									}
+								}
+								AND = {
+									has_trait = craven
+									NOR = {
+										has_trait = ambitious
+										has_trait = diligent
+										has_trait = greedy
+										has_trait = trusting
+										has_trait = fickle
+									}
+								}
+								AND = {
+									has_trait = humble
+									NOR = {
+										has_trait = ambitious
+										has_trait = brave
+										has_trait = diligent
+										has_trait = greedy
+										has_trait = trusting
+										has_trait = fickle
+									}
+								}
+							}
+						}
+						add = -5
+					}
+					if = { #more likely to be voted for if the voter is zealous and you have a virtuous trait
+						limit = {
+							root = {
+								OR = {
+									has_trait = zealous
+									ai_zeal >= 150
+								}
+							}
+							num_virtuous_traits >= 1
+						}
+						add = 5
+					}
+					if = { #more likely to be voted for if the voter is zealous and you have a couple virtuous traits
+						limit = {
+							root = {
+								OR = {
+									has_trait = zealous
+									ai_zeal >= 150
+								}
+							}
+							num_virtuous_traits >= 2
+						}
+						add = 5
+					}
+					if = { #more likely to be voted for if the voter is zealous and you have a few virtuous traits
+						limit = {
+							root = {
+								OR = {
+									has_trait = zealous
+									ai_zeal >= 150
+								}
+							}
+							num_virtuous_traits >= 3
+						}
+						add = 5
+					}
+					if = { #less likely to be voted for if the voter is zealous and you have a sinful trait
+						limit = {
+							root = {
+								OR = {
+									has_trait = zealous
+									ai_zeal >= 150
+								}
+							}
+							num_sinful_traits >= 1
+						}
+						add = -5
+					}
+					if = { #less likely to be voted for if the voter is zealous and you have a couple sinful traits
+						limit = {
+							root = {
+								OR = {
+									has_trait = zealous
+									ai_zeal >= 150
+								}
+							}
+							num_sinful_traits >= 2
+						}
+						add = -5
+					}
+					if = { #less likely to be voted for if the voter is zealous and you have a few sinful traits
+						limit = {
+							root = {
+								OR = {
+									has_trait = zealous
+									ai_zeal >= 150
+								}
+							}
+							num_sinful_traits >= 3
+						}
+						add = -5
+					}
+					if = { #less likely to be voted for if you have a permanent bad physical trait
+						limit = {
+							OR = {
+								has_trait = impotent
+								has_trait = maimed
+								has_trait = disfigured
+								has_trait = infirm
+								has_trait = blind
+								has_trait = crippled
+								has_trait = greyscale
+								has_trait = leper
+							}
+						}
+						add = -15
+					}
+					if = { #more likely to be voted for if you have an abundance of health
+						limit = {
+							health >= 7.5
+						}
+						add = -10
+					}
+					if = { #less likely to be voted for if you are about to die
+						limit = {
+							health <= 1.5
+						}
+						add = -10
+					}
+					if = { #less likely to be voted for if you don't and can't have kids
+						limit = {
+							OR = {
+								AND = {
+									is_male = yes
+									NOT = {
+										any_child ?= {
+											dynasty ?= father.dynasty
+										}
+									}
+								}
+								AND = {
+									is_female = yes
+									NOT = {
+										any_child ?= {
+											dynasty ?= mother.dynasty
+										}
+									}
+								}
+							}
+							OR = {
+								can_have_children = no
+								fertility <= 0
+							}
+						}
+						add = -10
+					}
+					if = { #less likely to be voted for if you are not normally in line to inherit
+						limit = {
+							OR = {
+								has_trait = bastard
+								has_trait = bastard_founder
+								has_trait = disinherited
+								has_trait = denounced
+							}
+						}
+						add = -15
+					}
+					if = { #less likely to be voted for if your heritage is questionable
+						limit = {
+							has_trait = disputed_heritage
+							has_trait = legitimized_bastard
+						}
+						add = -5
+					}
+					if = { #less likely to be voted for if you are shunned or criminal
+						limit = {
+							NOT = {
+								root = {
+									OR = {
+										has_trait = gallowsbait
+										has_trait = excommunicated
+										has_trait = cynical
+										ai_zeal <= -150
+										any_secret ?= { is_shunned_or_criminal_for = root }
+										AND = {
+											trait_is_shunned_or_criminal_in_faith_trigger = { FAITH = faith TRAIT = trait:adulterer GENDER_CHARACTER = root }
+											has_trait = adulterer
+										}
+										AND = {
+											trait_is_shunned_or_criminal_in_faith_trigger = { FAITH = faith TRAIT = trait:fornicator GENDER_CHARACTER = root }
+											has_trait = fornicator
+										}
+										AND = {
+											trait_is_shunned_or_criminal_in_faith_trigger = { FAITH = faith TRAIT = trait:deviant GENDER_CHARACTER = root }
+											has_trait = deviant
+										}
+										AND = {
+											trait_is_shunned_or_criminal_in_faith_trigger = { FAITH = faith TRAIT = trait:accidental_kinslayer GENDER_CHARACTER = root }
+											has_trait = accidental_kinslayer
+										}
+										AND = {
+											trait_is_shunned_or_criminal_in_faith_trigger = { FAITH = faith TRAIT = trait:kinslayer_1 GENDER_CHARACTER = root }
+											has_trait = kinslayer_1
+										}
+										AND = {
+											trait_is_shunned_or_criminal_in_faith_trigger = { FAITH = faith TRAIT = trait:kinslayer_2 GENDER_CHARACTER = root }
+											has_trait = kinslayer_2
+										}
+										AND = {
+											trait_is_shunned_or_criminal_in_faith_trigger = { FAITH = faith TRAIT = trait:kinslayer_3 GENDER_CHARACTER = root }
+											has_trait = kinslayer_3
+										}
+										AND = {
+											trait_is_shunned_or_criminal_in_faith_trigger = { FAITH = faith TRAIT = trait:incestuous GENDER_CHARACTER = root }
+											has_trait = incestuous
+										}
+										AND = {
+											trait_is_shunned_or_criminal_in_faith_trigger = { FAITH = faith TRAIT = trait:sodomite GENDER_CHARACTER = root }
+											has_trait = sodomite
+										}
+										AND = {
+											trait_is_shunned_or_criminal_in_faith_trigger = { FAITH = faith TRAIT = trait:witch GENDER_CHARACTER = root }
+											has_trait = witch
+										}
+										AND = {
+											trait_is_shunned_or_criminal_in_faith_trigger = { FAITH = faith TRAIT = trait:cannibal GENDER_CHARACTER = root }
+											has_trait = cannibal
+										}
+										AND = {
+											trait_is_shunned_or_criminal_in_faith_trigger = { FAITH = faith TRAIT = trait:murderer GENDER_CHARACTER = root }
+											has_trait = murderer
+										}
+									}
+								}
+							}
+							OR = {
+								has_trait = gallowsbait
+								has_trait = excommunicated
+								AND = {
+									trait_is_shunned_or_criminal_in_faith_trigger = { FAITH = root.faith TRAIT = trait:adulterer GENDER_CHARACTER = this }
+									has_trait = adulterer
+								}
+								AND = {
+									trait_is_shunned_or_criminal_in_faith_trigger = { FAITH = root.faith TRAIT = trait:fornicator GENDER_CHARACTER = this }
+									has_trait = fornicator
+								}
+								AND = {
+									trait_is_shunned_or_criminal_in_faith_trigger = { FAITH = root.faith TRAIT = trait:deviant GENDER_CHARACTER = this }
+									has_trait = deviant
+								}
+								AND = {
+									trait_is_shunned_or_criminal_in_faith_trigger = { FAITH = root.faith TRAIT = trait:accidental_kinslayer GENDER_CHARACTER = this }
+									has_trait = accidental_kinslayer
+								}
+								AND = {
+									trait_is_shunned_or_criminal_in_faith_trigger = { FAITH = root.faith TRAIT = trait:kinslayer_1 GENDER_CHARACTER = this }
+									has_trait = kinslayer_1
+								}
+								AND = {
+									trait_is_shunned_or_criminal_in_faith_trigger = { FAITH = root.faith TRAIT = trait:kinslayer_2 GENDER_CHARACTER = this }
+									has_trait = kinslayer_2
+								}
+								AND = {
+									trait_is_shunned_or_criminal_in_faith_trigger = { FAITH = root.faith TRAIT = trait:kinslayer_3 GENDER_CHARACTER = this }
+									has_trait = kinslayer_3
+								}
+								AND = {
+									trait_is_shunned_or_criminal_in_faith_trigger = { FAITH = root.faith TRAIT = trait:incestuous GENDER_CHARACTER = this }
+									has_trait = incestuous
+								}
+								AND = {
+									trait_is_shunned_or_criminal_in_faith_trigger = { FAITH = root.faith TRAIT = trait:sodomite GENDER_CHARACTER = this }
+									has_trait = sodomite
+								}
+								AND = {
+									trait_is_shunned_or_criminal_in_faith_trigger = { FAITH = root.faith TRAIT = trait:witch GENDER_CHARACTER = this }
+									has_trait = witch
+								}
+								AND = {
+									trait_is_shunned_or_criminal_in_faith_trigger = { FAITH = root.faith TRAIT = trait:cannibal GENDER_CHARACTER = this }
+									has_trait = cannibal
+								}
+								AND = {
+									trait_is_shunned_or_criminal_in_faith_trigger = { FAITH = root.faith TRAIT = trait:murderer GENDER_CHARACTER = this }
+									has_trait = murderer
+								}
+							}
+						}
+						add = -5
+					}
+					if = { #less likely to be voted for if you are a criminal
+						limit = {
+							NOT = {
+								root = {
+									OR = {
+										has_trait = gallowsbait
+										has_trait = excommunicated
+										has_trait = cynical
+										ai_zeal <= -150
+										any_secret ?= { is_criminal_for = root }
+										AND = {
+											trait_is_criminal_in_faith_trigger = { FAITH = faith TRAIT = trait:adulterer GENDER_CHARACTER = root }
+											has_trait = adulterer
+										}
+										AND = {
+											trait_is_criminal_in_faith_trigger = { FAITH = faith TRAIT = trait:fornicator GENDER_CHARACTER = root }
+											has_trait = fornicator
+										}
+										AND = {
+											trait_is_criminal_in_faith_trigger = { FAITH = faith TRAIT = trait:deviant GENDER_CHARACTER = root }
+											has_trait = deviant
+										}
+										AND = {
+											trait_is_criminal_in_faith_trigger = { FAITH = faith TRAIT = trait:accidental_kinslayer GENDER_CHARACTER = root }
+											has_trait = accidental_kinslayer
+										}
+										AND = {
+											trait_is_criminal_in_faith_trigger = { FAITH = faith TRAIT = trait:kinslayer_1 GENDER_CHARACTER = root }
+											has_trait = kinslayer_1
+										}
+										AND = {
+											trait_is_criminal_in_faith_trigger = { FAITH = faith TRAIT = trait:kinslayer_2 GENDER_CHARACTER = root }
+											has_trait = kinslayer_2
+										}
+										AND = {
+											trait_is_criminal_in_faith_trigger = { FAITH = faith TRAIT = trait:kinslayer_3 GENDER_CHARACTER = root }
+											has_trait = kinslayer_3
+										}
+										AND = {
+											trait_is_criminal_in_faith_trigger = { FAITH = faith TRAIT = trait:incestuous GENDER_CHARACTER = root }
+											has_trait = incestuous
+										}
+										AND = {
+											trait_is_criminal_in_faith_trigger = { FAITH = faith TRAIT = trait:sodomite GENDER_CHARACTER = root }
+											has_trait = sodomite
+										}
+										AND = {
+											trait_is_criminal_in_faith_trigger = { FAITH = faith TRAIT = trait:witch GENDER_CHARACTER = root }
+											has_trait = witch
+										}
+										AND = {
+											trait_is_criminal_in_faith_trigger = { FAITH = faith TRAIT = trait:cannibal GENDER_CHARACTER = root }
+											has_trait = cannibal
+										}
+										AND = {
+											trait_is_criminal_in_faith_trigger = { FAITH = faith TRAIT = trait:murderer GENDER_CHARACTER = root }
+											has_trait = murderer
+										}
+									}
+								}
+							}
+							OR = {
+								has_trait = gallowsbait
+								has_trait = excommunicated
+								AND = {
+									trait_is_criminal_in_faith_trigger = { FAITH = root.faith TRAIT = trait:adulterer GENDER_CHARACTER = this }
+									has_trait = adulterer
+								}
+								AND = {
+									trait_is_criminal_in_faith_trigger = { FAITH = root.faith TRAIT = trait:fornicator GENDER_CHARACTER = this }
+									has_trait = fornicator
+								}
+								AND = {
+									trait_is_criminal_in_faith_trigger = { FAITH = root.faith TRAIT = trait:deviant GENDER_CHARACTER = this }
+									has_trait = deviant
+								}
+								AND = {
+									trait_is_criminal_in_faith_trigger = { FAITH = root.faith TRAIT = trait:accidental_kinslayer GENDER_CHARACTER = this }
+									has_trait = accidental_kinslayer
+								}
+								AND = {
+									trait_is_criminal_in_faith_trigger = { FAITH = root.faith TRAIT = trait:kinslayer_1 GENDER_CHARACTER = this }
+									has_trait = kinslayer_1
+								}
+								AND = {
+									trait_is_criminal_in_faith_trigger = { FAITH = root.faith TRAIT = trait:kinslayer_2 GENDER_CHARACTER = this }
+									has_trait = kinslayer_2
+								}
+								AND = {
+									trait_is_criminal_in_faith_trigger = { FAITH = root.faith TRAIT = trait:kinslayer_3 GENDER_CHARACTER = this }
+									has_trait = kinslayer_3
+								}
+								AND = {
+									trait_is_criminal_in_faith_trigger = { FAITH = root.faith TRAIT = trait:incestuous GENDER_CHARACTER = this }
+									has_trait = incestuous
+								}
+								AND = {
+									trait_is_criminal_in_faith_trigger = { FAITH = root.faith TRAIT = trait:sodomite GENDER_CHARACTER = this }
+									has_trait = sodomite
+								}
+								AND = {
+									trait_is_criminal_in_faith_trigger = { FAITH = root.faith TRAIT = trait:witch GENDER_CHARACTER = this }
+									has_trait = witch
+								}
+								AND = {
+									trait_is_criminal_in_faith_trigger = { FAITH = root.faith TRAIT = trait:cannibal GENDER_CHARACTER = this }
+									has_trait = cannibal
+								}
+								AND = {
+									trait_is_criminal_in_faith_trigger = { FAITH = root.faith TRAIT = trait:murderer GENDER_CHARACTER = this }
+									has_trait = murderer
+								}
+							}
+						}
+						add = -10
+					}
+					if = { #less likely to be voted for if you are a kinslayer
+						limit = {
+							NOT = {
+								root = {
+									OR = {
+										AND = {
+											OR = {
+												has_trait = cynical
+												ai_zeal <= -150
+											}
+											OR = {
+												has_trait = callous
+												has_trait = wrathful
+												has_trait = vengeful
+											}
+										}
+										any_killed_character ?= {
+											OR = {
+												dynasty ?= root.dynasty
+												is_close_or_extended_family_of = root
+											}
+										}
+										AND = {
+											trait_is_shunned_or_criminal_in_faith_trigger = { FAITH = faith TRAIT = trait:accidental_kinslayer GENDER_CHARACTER = root }
+											has_trait = accidental_kinslayer
+										}
+										AND = {
+											trait_is_shunned_or_criminal_in_faith_trigger = { FAITH = faith TRAIT = trait:kinslayer_1 GENDER_CHARACTER = root }
+											has_trait = kinslayer_1
+										}
+										AND = {
+											trait_is_shunned_or_criminal_in_faith_trigger = { FAITH = faith TRAIT = trait:kinslayer_2 GENDER_CHARACTER = root }
+											has_trait = kinslayer_2
+										}
+										AND = {
+											trait_is_shunned_or_criminal_in_faith_trigger = { FAITH = faith TRAIT = trait:kinslayer_3 GENDER_CHARACTER = root }
+											has_trait = kinslayer_3
+										}
+									}
+								}
+							}
+							OR = {
+								AND = {
+									trait_is_shunned_or_criminal_in_faith_trigger = { FAITH = root.faith TRAIT = trait:accidental_kinslayer GENDER_CHARACTER = this }
+									has_trait = accidental_kinslayer
+								}
+								AND = {
+									trait_is_shunned_or_criminal_in_faith_trigger = { FAITH = root.faith TRAIT = trait:kinslayer_1 GENDER_CHARACTER = this }
+									has_trait = kinslayer_1
+								}
+								AND = {
+									trait_is_shunned_or_criminal_in_faith_trigger = { FAITH = root.faith TRAIT = trait:kinslayer_2 GENDER_CHARACTER = this }
+									has_trait = kinslayer_2
+								}
+								AND = {
+									trait_is_shunned_or_criminal_in_faith_trigger = { FAITH = root.faith TRAIT = trait:kinslayer_3 GENDER_CHARACTER = this }
+									has_trait = kinslayer_3
+								}
+							}
+						}
+						add = -10
+					}
+					if = { #less likely to be voted for if you have an imprisonment reason on the voter
+						limit = {
+							has_imprisonment_reason = root
+						}
+						add = -10
+					}
+					if = { #less likely to be voted for if you have an imprisonment reason on the voter
+						limit = {
+							has_revoke_title_reason = root
+						}
+						add = -10
+					}
+					if = { #less likely to be voted for if you have an execution reason on the voter
+						limit = {
+							has_execute_reason = root
+						}
+						add = -15
+					}
+					if = { #more likely to be voted for if you have a positive coping mechanism
+						limit = {
+							OR = {
+								has_trait = athletic
+								has_trait = journaller
+							}
+						}
+						add = 5
+					}
+					if = { #less likely to be voted for if you have a negative coping mechanism
+						limit = {
+							OR = {
+								has_trait = drunkard
+								has_trait = flagellant
+								has_trait = comfort_eater
+								has_trait = contrite
+								has_trait = inappetetic
+								has_trait = reclusive
+								has_trait = irritable
+								has_trait = rakish
+								has_trait = hashishiyah
+								has_trait = burdened
+							}
+						}
+						add = -5
+					}
+					if = { #more likely to be voted for if you have a hook on the voter
+						limit = {
+							has_strong_usable_hook = root
+						}
+						add = 5
+					}
+					if = { #more likely to be voted for if your religion is at most astray to the voter
+						limit = {
+							faith = { faith_hostility_level = { target = root.faith value <= 1 } }
+						}
+						add = 10
+					}
+					if = { #less likely to be voted for if your religion is hostile to the voter
+						limit = {
+							faith = { faith_hostility_level = { target = root.faith value >= 2 } }
+						}
+						add = -10
+					}
+					if = { #less likely to be voted for if you are the voter's vassal
+						limit = {
+							any_liege_or_above ?= { this = root }
+						}
+						add = -10
+					}
+					if = { #more likely to be voted for if you are of the legitimate house
+						limit = {
+							scope:zzz_great_councils_empire.var:legitimate_house ?= house
+						}
+						add = 10
+					}
+					if = { #Code Written By Buffalomonger
+						limit = {
+							is_allied_to = root
+						}
+						add = 5
+					}
+					if = { #Anyone else releasing this has stolen it
+						limit = {
+							is_close_family_of = root
+						}
+						add = 10
+					}
+					if = {
+						limit = {
+							is_close_or_extended_family_of = root
+						}
+						add = 5
+					}
+					if = {
+						limit = {
+							is_twin_of = root
+						}
+						add = 10
+					}
+					if = {
+						limit = {
+							has_relation_potential_rival = root
+						}
+						add = -5
+					}
+					if = {
+						limit = {
+							has_relation_victim = root
+						}
+						add = -5
+					}
+					if = {
+						limit = {
+							has_relation_bully = root
+						}
+						add = -5
+					}
+					if = {
+						limit = {
+							has_relation_rival = root
+						}
+						add = -10
+					}
+					if = {
+						limit = {
+							has_relation_nemesis = root
+						}
+						add = -15
+					}
+					if = {
+						limit = {
+							has_relation_grudge = root
+						}
+						add = -10
+					}
+					if = {
+						limit = {
+							has_relation_potential_friend = root
+						}
+						add = 5
+					}
+					if = {
+						limit = {
+							has_relation_crush = root
+						}
+						add = 5
+					}
+					if = {
+						limit = {
+							has_relation_friend = root
+						}
+						add = 10
+					}
+					if = {
+						limit = {
+							has_relation_lover = root
+						}
+						add = 15
+					}
+					if = {
+						limit = {
+							has_relation_best_friend = root
+						}
+						add = 15
+					}
+					if = {
+						limit = {
+							has_relation_soulmate = root
+						}
+						add = 15
+					}
+					if = {
+						limit = {
+							is_consort_of = root
+						}
+						add = 5
+					}
+					if = {
+						limit = {
+							is_primary_heir_of = root
+						}
+						add = 10
+					}
+					if = {
+						limit = {
+							root = { is_primary_heir_of = prev }
+						}
+						add = 10
+					}
+					if = {
+						limit = {
+							any_parent = {
+								house ?= root.house
+							}
+						}
+						add = 5
+					}
+				}
+				max = 1
+				check_range_bounds = no
+				if = {
+					limit = { has_strong_usable_hook = root }
+					remove_hook = { target = root }
+				}
+				save_scope_as = zzz_great_councils_selection
+			}
+		}
+	}
+
+	option = {
+		name = zzz_great_councils_event.0003.a
+		trigger = {
+			is_ai = yes
+			dynasty ?= scope:zzz_great_councils_old_dyn
+		}
+		scope:zzz_great_councils_selection = {
+			change_variable = {
+			   name = zzz_great_councils_votes
+			   add = 20
+			}
+		}
+	}
+	option = {
+		name = zzz_great_councils_event.0003.a
+		trigger = {
+			is_ai = yes
+			highest_held_title_tier >= tier_kingdom
+			NOT = { dynasty ?= scope:zzz_great_councils_old_dyn }
+		}
+		scope:zzz_great_councils_selection = {
+			change_variable = {
+			   name = zzz_great_councils_votes
+			   add = 10
+			}
+		}
+	}
+	option = {
+		name = zzz_great_councils_event.0003.a
+		trigger = {
+			is_ai = yes
+			highest_held_title_tier <= tier_duchy
+			NOT = { dynasty ?= scope:zzz_great_councils_old_dyn }
+		}
+		scope:zzz_great_councils_selection = {
+			change_variable = {
+			   name = zzz_great_councils_votes
+			   add = 1
+			}
+		}
+	}
+	option = {
+		name = zzz_great_councils_event.0003.a
+		trigger = {
+			is_ai = no
+			root = scope:zzz_great_councils_emperor
+		}
+	#	custom_tooltip = zzz_great_councils_event.0003.a.tt
+		var:si_selected_character = { save_scope_as = zzz_great_councils_selection }
+		scope:zzz_great_councils_selection = {
+			change_variable = {
+			   name = zzz_great_councils_votes
+			   add = 100
+			}
+		}
+		trigger_event = {
+			id = zzz_great_councils_event.0004
+			days = 15
+		}
+	}
+	option = {
+		name = zzz_great_councils_event.0003.a
+		trigger = {
+			is_ai = no
+			dynasty ?= scope:zzz_great_councils_old_dyn
+			NOT = { root = scope:zzz_great_councils_emperor }
+		}
+	#	custom_tooltip = zzz_great_councils_event.0003.a.tt
+		var:si_selected_character = { save_scope_as = zzz_great_councils_selection }
+		scope:zzz_great_councils_selection = {
+			change_variable = {
+			   name = zzz_great_councils_votes
+			   add = 60
+			}
+		}
+		trigger_event = {
+			id = zzz_great_councils_event.0004
+			days = 15
+		}
+	}
+	option = {
+		name = zzz_great_councils_event.0003.a
+		trigger = {
+			is_ai = no
+			highest_held_title_tier >= tier_kingdom
+			NOT = { dynasty ?= scope:zzz_great_councils_old_dyn }
+		}
+	#	custom_tooltip = zzz_great_councils_event.0003.a.tt
+		var:si_selected_character = { save_scope_as = zzz_great_councils_selection }
+		scope:zzz_great_councils_selection = {
+			change_variable = {
+			   name = zzz_great_councils_votes
+			   add = 40
+			}
+		}
+		trigger_event = {
+			id = zzz_great_councils_event.0004
+			days = 15
+		}
+	}
+	option = {
+		name = zzz_great_councils_event.0003.a
+		trigger = {
+			is_ai = no
+			highest_held_title_tier <= tier_duchy
+			NOT = { dynasty ?= scope:zzz_great_councils_old_dyn }
+		}
+	#	custom_tooltip = zzz_great_councils_event.0003.a.tt
+		var:si_selected_character = { save_scope_as = zzz_great_councils_selection }
+		scope:zzz_great_councils_selection = {
+			change_variable = {
+			   name = zzz_great_councils_votes
+			   add = 20
+			}
+		}
+		trigger_event = {
+			id = zzz_great_councils_event.0004
+			days = 15
+		}
+	}
+	option = {
+		name = zzz_great_councils_event.0003.b
+		custom_tooltip = zzz_great_councils_event.0003.b.tt
+		trigger = {
+			is_ai = no
+		}
+		trigger_event = {
+			id = zzz_great_councils_event.0004
+			days = 15
+		}
+	}
+
+	after = {
+		if = {
+			limit = {
+				has_variable_list = possible_characters
+			}
+			clear_variable_list = possible_characters
+		}
+		if = {
+			limit = {
+				NOR = {
+					any_player = { is_in_list = zzz_great_councils_electors }
+					any_in_list = {
+						list = zzz_great_councils_electors
+						has_character_flag = zzz_great_councils_four_fired
+					}
+				}
+			}
+			random_in_list = {
+				list = zzz_great_councils_electors
+				limit = { is_alive = yes }
+				add_character_flag = zzz_great_councils_four_fired
+				trigger_event = zzz_great_councils_event.0004
+			}
+		}
+	}
+}
+
+zzz_great_councils_event.0004 = { # A flavor event that tells you that the grand council has happened and after many trials and tribulations a new emperor has been decided
+	type = character_event
+	title = zzz_great_councils_event.0004.t
+	desc = zzz_great_councils_event.0004.desc
+	theme = crown
+	override_background = throne_room
+
+	left_portrait = {
+		character = root
+		animation = thinking
+	}
+
+	immediate = {
+		ordered_in_list = {
+			list = zzz_great_councils_candidates
+			order_by = { value = var:zzz_great_councils_votes }
+			max = 1
+			check_range_bounds = no
+			save_scope_as = zzz_great_councils_winner
+		}
+	}
+
+	option = {
+		name = zzz_great_councils_event.0004.a
+		ordered_in_list = {
+			list = zzz_great_councils_candidates
+			order_by = { value = var:zzz_great_councils_votes }
+			max = 100
+			check_range_bounds = no
+			custom_tooltip = zzz_great_councils_event.0004.a.tt
+		}
+		if = {
+			limit = {
+				scope:zzz_great_councils_temp_emp = { has_character_flag = zzz_great_councils_disable }
+			}
+			scope:zzz_great_councils_temp_emp = { remove_character_flag = zzz_great_councils_disable }
+		}
+		hidden_effect = {
+			if = {
+				limit = {
+					scope:zzz_great_councils_emperor = { has_character_flag = zzz_great_councils_called_btw }
+				}
+				scope:zzz_great_councils_emperor = { set_designated_heir_unsafe = scope:zzz_great_councils_winner }
+				scope:zzz_great_councils_winner = { add_character_flag = zzz_great_councils_won_btw }
+			}
+			else_if = {
+				limit = {
+					scope:zzz_great_councils_emperor = { has_character_flag = zzz_great_councils_called_dorne }
+				}
+				scope:zzz_great_councils_emperor = { set_designated_heir_unsafe = scope:zzz_great_councils_winner }
+				scope:zzz_great_councils_winner = { add_character_flag = zzz_great_councils_won_dorne }
+			}
+			else_if = {
+				limit = {
+					scope:zzz_great_councils_emperor = { has_character_flag = zzz_great_councils_called_iron_isle }
+				}
+				scope:zzz_great_councils_emperor = { set_designated_heir_unsafe = scope:zzz_great_councils_winner }
+				scope:zzz_great_councils_winner = { add_character_flag = zzz_great_councils_won_iron_isle }
+			}
+			else_if = {
+				limit = {
+					scope:zzz_great_councils_emperor = { has_character_flag = zzz_great_councils_called_iron_throne }
+				}
+				scope:zzz_great_councils_emperor = { set_designated_heir_unsafe = scope:zzz_great_councils_winner }
+				scope:zzz_great_councils_winner = { add_character_flag = zzz_great_councils_won_iron_throne }
+			}
+			else_if = {
+				limit = {
+					scope:zzz_great_councils_emperor = { has_character_flag = zzz_great_councils_called_north }
+				}
+				scope:zzz_great_councils_emperor = { set_designated_heir_unsafe = scope:zzz_great_councils_winner }
+				scope:zzz_great_councils_winner = { add_character_flag = zzz_great_councils_won_north }
+			}
+			else_if = {
+				limit = {
+					scope:zzz_great_councils_emperor = { has_character_flag = zzz_great_councils_called_reach }
+				}
+				scope:zzz_great_councils_emperor = { set_designated_heir_unsafe = scope:zzz_great_councils_winner }
+				scope:zzz_great_councils_winner = { add_character_flag = zzz_great_councils_won_reach }
+			}
+			else_if = {
+				limit = {
+					scope:zzz_great_councils_emperor = { has_character_flag = zzz_great_councils_called_river }
+				}
+				scope:zzz_great_councils_emperor = { set_designated_heir_unsafe = scope:zzz_great_councils_winner }
+				scope:zzz_great_councils_winner = { add_character_flag = zzz_great_councils_won_river }
+			}
+			else_if = {
+				limit = {
+					scope:zzz_great_councils_emperor = { has_character_flag = zzz_great_councils_called_storm }
+				}
+				scope:zzz_great_councils_emperor = { set_designated_heir_unsafe = scope:zzz_great_councils_winner }
+				scope:zzz_great_councils_winner = { add_character_flag = zzz_great_councils_won_storm }
+			}
+			else_if = {
+				limit = {
+					scope:zzz_great_councils_emperor = { has_character_flag = zzz_great_councils_called_vale }
+				}
+				scope:zzz_great_councils_emperor = { set_designated_heir_unsafe = scope:zzz_great_councils_winner }
+				scope:zzz_great_councils_winner = { add_character_flag = zzz_great_councils_won_vale }
+			}
+			else_if = {
+				limit = {
+					scope:zzz_great_councils_emperor = { has_character_flag = zzz_great_councils_called_wall }
+				}
+				scope:zzz_great_councils_emperor = { set_designated_heir_unsafe = scope:zzz_great_councils_winner }
+				scope:zzz_great_councils_winner = { add_character_flag = zzz_great_councils_won_wall }
+			}
+			else_if = {
+				limit = {
+					scope:zzz_great_councils_emperor = { has_character_flag = zzz_great_councils_called_wester }
+				}
+				scope:zzz_great_councils_emperor = { set_designated_heir_unsafe = scope:zzz_great_councils_winner }
+				scope:zzz_great_councils_winner = { add_character_flag = zzz_great_councils_won_wester }
+			}
+			else_if = {
+				limit = {
+					scope:zzz_great_councils_emperor = { has_character_flag = zzz_great_councils_called_daughters }
+				}
+				scope:zzz_great_councils_emperor = { set_designated_heir_unsafe = scope:zzz_great_councils_winner }
+				scope:zzz_great_councils_winner = { add_character_flag = zzz_great_councils_won_daughters }
+			}
+			else_if = {
+				limit = {
+					scope:zzz_great_councils_emperor = { has_character_flag = zzz_great_councils_called_pentos }
+				}
+				scope:zzz_great_councils_emperor = { set_designated_heir_unsafe = scope:zzz_great_councils_winner }
+				scope:zzz_great_councils_winner = { add_character_flag = zzz_great_councils_won_pentos }
+			}
+			else_if = {
+				limit = {
+					scope:zzz_great_councils_emperor = { has_character_flag = zzz_great_councils_called_braavos }
+				}
+				scope:zzz_great_councils_emperor = { set_designated_heir_unsafe = scope:zzz_great_councils_winner }
+				scope:zzz_great_councils_winner = { add_character_flag = zzz_great_councils_won_braavos }
+			}
+			else_if = {
+				limit = {
+					scope:zzz_great_councils_emperor = { has_character_flag = zzz_great_councils_called_black_bay }
+				}
+				scope:zzz_great_councils_emperor = { set_designated_heir_unsafe = scope:zzz_great_councils_winner }
+				scope:zzz_great_councils_winner = { add_character_flag = zzz_great_councils_won_black_bay }
+			}
+			else_if = {
+				limit = {
+					scope:zzz_great_councils_emperor = { has_character_flag = zzz_great_councils_called_custom_emp }
+				}
+				scope:zzz_great_councils_emperor = { set_designated_heir_unsafe = scope:zzz_great_councils_winner }
+				scope:zzz_great_councils_winner = { add_character_flag = zzz_great_councils_won_custom_emp }
+			}
+			else = {
+				create_title_and_vassal_change = {
+					type = election
+					save_scope_as = zzz_great_councils_change
+					add_claim_on_loss = no
+				}
+				every_in_list = {
+					list = zzz_great_councils_titles
+					change_title_holder_include_vassals = {
+					#change_title_holder = ####
+						holder = scope:zzz_great_councils_winner
+						change = scope:zzz_great_councils_change
+					}
+				}
+				resolve_title_and_vassal_change = scope:zzz_great_councils_change
+			}
+		}
+		hidden_effect = {
+			scope:zzz_great_councils_temp_emp = { add_pressed_claim = scope:zzz_great_councils_empire }
+		}
+	}
+
+	after = {
+		if = {
+			limit = {
+				OR = {
+					scope:zzz_great_councils_temp_emp = { has_character_flag = zzz_great_councils_inherit }
+					scope:zzz_great_councils_temp_emp = { has_character_flag = zzz_great_councils_depose }
+				}
+			}
+			hidden_effect = {
+				create_title_and_vassal_change = {
+					type = returned
+					save_scope_as = zzz_great_councils_fix_change
+					add_claim_on_loss = no
+				}
+				if = {
+					limit = {
+						scope:zzz_great_councils_winner != scope:zzz_great_councils_temp_emp
+						scope:zzz_great_councils_temp_emps_liege ?= { is_alive = yes }
+					}
+					scope:zzz_great_councils_temp_emp = {
+						change_liege = {
+							liege = scope:zzz_great_councils_temp_emps_liege
+							change = scope:zzz_great_councils_fix_change
+						}
+					}
+				}
+				every_in_list = {
+					list = zzz_great_councils_temp_vas
+					change_liege = {
+						liege = scope:zzz_great_councils_temp_emp
+						change = scope:zzz_great_councils_fix_change
+					}
+				}
+				resolve_title_and_vassal_change = scope:zzz_great_councils_fix_change
+			}
+			if = {
+				limit = {
+					scope:zzz_great_councils_temp_emp = { has_character_flag = zzz_great_councils_inherit }
+				}
+				scope:zzz_great_councils_temp_emp = { remove_character_flag = zzz_great_councils_inherit }
+			}
+			if = {
+				limit = {
+					scope:zzz_great_councils_temp_emp = { has_character_flag = zzz_great_councils_depose }
+				}
+				scope:zzz_great_councils_temp_emp = { remove_character_flag = zzz_great_councils_depose }
+			}
+		}
+		if = {
+			limit = {
+				scope:zzz_great_councils_emperor ?= { has_character_flag = zzz_great_councils_called_council }
+			}
+			scope:zzz_great_councils_emperor ?= { remove_character_flag = zzz_great_councils_called_council }
+		}
+		every_in_list = {
+			list = zzz_great_councils_candidates
+			remove_variable = zzz_great_councils_votes
+		}
+		every_in_list = {
+			list = zzz_great_councils_electors
+			limit = { is_alive = no }
+			remove_from_list = zzz_great_councils_electors
+		}
+		every_in_list = {
+			list = zzz_great_councils_electors
+			limit = {
+				has_character_flag = zzz_great_councils_four_fired
+				is_alive = yes
+			}
+			remove_character_flag = zzz_great_councils_four_fired
+		}
+	}
+}

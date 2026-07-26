@@ -1,0 +1,7 @@
+﻿# CK3 1.19 rejects negative add_gold values. Preserve the Workshop mod's 75-gold fee with the current deduction effect.
+ame_charge_service_cost_effect = {
+	if = {
+		limit = { NOT = { root = scope:recipient } }
+		remove_short_term_gold = 75
+	}
+}

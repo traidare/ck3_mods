@@ -1,0 +1,558 @@
+﻿####################################
+# MFA Activity Converter
+# Pulse relay for tournament activity
+# Root scope = the character (same as on_weekly_pulse).
+####################################
+
+
+
+MFA_tournament_pulse_relay = {
+	effect = {
+		if = {
+			limit = {
+				has_variable = MFA_pulse_relay_tick
+			}
+			change_variable = { name = MFA_pulse_relay_tick add = 1 }
+		}
+		else = {
+			set_variable = { name = MFA_pulse_relay_tick value = 1 }
+		}
+		if = {
+			limit = {
+				exists = scope:activity
+			}
+			trigger_event = { on_action = MFA_tournament_pulse_relay_effects }
+		}
+		if = {
+			limit = {
+				exists = scope:activity
+			}
+			trigger_event = { on_action = MFA_tournament_pulse_relay days = 1 }
+		}
+		else = {
+			remove_variable = MFA_pulse_relay_tick
+		}
+	}
+}
+
+MFA_tournament_pulse_relay_effects = {
+	trigger = {
+		var:MFA_pulse_relay_tick > MFA_tournament_pulse_relay_timer
+	}
+	effect = {
+		random_list = {
+			30 = { } # chance_of_no_event
+			10 = { # guest_friendship
+				trigger = {
+					scope:activity = {
+						is_current_phase_active = yes
+						any_attending_character = {
+							location = scope:activity.activity_location
+							save_temporary_scope_as = first_temp
+							involved_activity = {
+								any_attending_character = {
+									location = scope:activity.activity_location
+									this != scope:first_temp
+								}
+							}
+						}
+					}
+				}
+				trigger_event = { on_action = MFA_pulse_guest_friendship }
+			}
+			10 = { # guest_insulted
+				trigger = {
+					scope:activity = {
+						is_current_phase_active = yes
+						any_attending_character = {
+							location = scope:activity.activity_location
+							save_temporary_scope_as = first_temp
+							involved_activity = {
+								any_attending_character = {
+									location = scope:activity.activity_location
+									this != scope:first_temp
+								}
+							}
+						}
+					}
+				}
+				trigger_event = { on_action = MFA_pulse_guest_insulted }
+			}
+			10 = { # tournament_guest_ptv_small
+				trigger = {
+					scope:activity = {
+						any_guest_subset = {
+							name = contestant
+							activity_is_valid_tournament_contestant = yes
+							location = scope:activity.activity_location
+							has_variable = progress_to_victory
+						}
+					}
+				}
+				trigger_event = { on_action = MFA_pulse_tournament_guest_ptv_small }
+			}
+			10 = { # tournament_acclaimed_participant
+				trigger = {
+					scope:activity = {
+						any_guest_subset = {
+							name = contestant
+							location = scope:activity.activity_location
+							exists = accolade
+							activity_is_valid_tournament_contestant = yes
+						}
+					}
+				}
+				trigger_event = { on_action = MFA_pulse_tournament_acclaimed_participant }
+			}
+			10 = { # tournament_entry_fee
+				trigger = {
+					scope:activity = {
+						any_guest_subset = {
+							name = contestant
+							this != scope:host
+							activity_is_valid_tournament_contestant = yes
+							gold > 5
+							is_ai = yes
+							location = scope:activity.activity_location
+						}
+					}
+				}
+				trigger_event = { on_action = MFA_pulse_tournament_entry_fee }
+			}
+			10 = { # tournament_win_memory
+				trigger = {
+					scope:activity = {
+						any_guest_subset = {
+							name = contestant
+							activity_is_valid_tournament_contestant = yes
+							location = scope:activity.activity_location
+							has_variable = progress_to_victory
+							any_memory = {
+								AND = {
+									has_memory_category = tournament
+									has_memory_category = positive
+									has_memory_category = winner
+								}
+							}
+						}
+					}
+				}
+				trigger_event = { on_action = MFA_pulse_tournament_win_memory }
+			}
+			10 = { # tournament_studied_techniques
+				trigger = {
+					scope:activity = {
+						any_attending_character = {
+							has_trait = tourney_participant
+							location = scope:activity.activity_location
+						}
+					}
+				}
+				trigger_event = { on_action = MFA_pulse_tournament_studied_techniques }
+			}
+			10 = { # tournament_knight_skill
+				trigger = {
+					scope:activity = {
+						any_guest_subset = {
+							name = contestant
+							is_knight = yes
+							has_trait = tourney_participant
+							location = scope:activity.activity_location
+						}
+					}
+				}
+				trigger_event = { on_action = MFA_pulse_tournament_knight_skill }
+			}
+			10 = { # spouse_skill_diplomacy_improves
+				trigger = {
+					scope:activity = {
+						is_current_phase_active = yes
+						coronation_feast_phase = yes # If Coronation, only in feast phase
+						scope:host.primary_spouse ?= {
+							involved_activity ?= scope:activity
+							is_physically_able_ai_adult = yes
+							NOR = {
+								has_trait = dull
+								has_trait = intellect_bad
+								diplomacy >= 25
+								has_character_flag = spouse_skill_diplomacy_improves
+							}
+							location = scope:activity.activity_location
+						}
+					}
+				}
+				modifier = {
+					scope:activity = {
+						scope:host.primary_spouse ?= {
+							has_personality_extroverted_trigger = yes
+						}
+					}
+					add = 1
+				}
+				modifier = {
+					scope:activity = {
+						scope:host.primary_spouse ?= {
+							has_personality_introverted_trigger = yes
+						}
+					}
+					add = -1
+				}
+				trigger_event = { on_action = MFA_pulse_spouse_skill_diplomacy_improves }
+			}
+			10 = { # spouse_gives_hook
+				trigger = {
+					scope:activity = {
+						is_current_phase_active = yes
+						coronation_feast_phase = yes # If Coronation, only in feast phase
+						scope:host.primary_spouse ?= {
+							involved_activity ?= scope:activity
+							is_physically_able_ai_adult = yes
+							likes_character_trigger = { CHARACTER = scope:host }
+							OR = {
+								intrigue >= 12
+								has_trait = schemer
+							}
+							location = scope:activity.activity_location
+						}
+						any_attending_character = {
+							this != scope:host
+							this != scope:host.primary_spouse
+							is_ruler = yes
+							primary_title.tier > tier_barony
+							intrigue < scope:host.primary_spouse.intrigue
+							is_physically_able_ai_adult = yes
+							location = scope:activity.activity_location
+							scope:host = {
+								can_add_hook = {
+									target = prev
+									type = manipulation_hook
+								}
+							}
+						}
+					}
+				}
+				modifier = {
+					scope:activity = {
+						scope:host.primary_spouse ?= {
+							intrigue >= 16
+						}
+					}
+					add = 0.5
+				}
+				modifier = {
+					scope:activity = {
+						scope:host.primary_spouse ?= {
+							has_personality_benevolent_trigger = yes
+						}
+					}
+					add = -0.75
+				}
+				trigger_event = { on_action = MFA_pulse_spouse_gives_hook }
+			}
+			10 = { # relation_gains_friend
+				trigger = {
+					scope:activity = {
+						is_current_phase_active = yes
+						coronation_feast_phase = yes # If Coronation, only in feast phase
+						any_attending_character = {
+							this != scope:host
+							OR = {
+								is_close_family_of = scope:host
+								is_spouse_of = scope:host
+							}
+							is_physically_able_ai_adult = yes
+							num_of_relation_friend < 2
+							location = scope:activity.activity_location
+							save_temporary_scope_as = trait_check
+						}
+						any_attending_character = {
+							this != scope:host
+							this != scope:trait_check
+							is_physically_able_ai_adult = yes
+							num_of_relation_friend < 2
+							location = scope:activity.activity_location
+							can_set_relation_friend_trigger = { CHARACTER = scope:trait_check }
+							number_of_traits_in_common = {
+								target = scope:trait_check
+								value >= 1
+							}
+						}
+					}
+				}
+				trigger_event = { on_action = MFA_pulse_relation_gains_friend }
+			}
+			10 = { # host_gains_diplo_xp
+				trigger = {
+					scope:activity = {
+						is_current_phase_active = yes
+						coronation_feast_phase = yes # If Coronation, only in feast phase
+						scope:host = {
+							has_lifestyle = diplomacy_lifestyle
+							location = scope:activity.activity_location
+						}
+						any_attending_character = {
+							this != scope:host
+							is_physically_able_ai_adult = yes
+							location = scope:activity.activity_location
+						}
+					}
+				}
+				trigger_event = { on_action = MFA_pulse_host_gains_diplo_xp }
+			}
+			10 = { # host_gains_steward_xp
+				trigger = {
+					scope:activity = {
+						is_current_phase_active = yes
+						coronation_feast_phase = yes # If Coronation, only in feast phase
+						scope:host = {
+							has_lifestyle = stewardship_lifestyle
+							location = scope:activity.activity_location
+						}
+						exists = scope:activity.activity_location.county
+					}
+				}
+				trigger_event = { on_action = MFA_pulse_host_gains_steward_xp }
+			}
+			10 = { # host_gains_intrigue_xp
+				trigger = {
+					scope:activity = {
+						is_current_phase_active = yes
+						coronation_feast_phase = yes # If Coronation, only in feast phase
+						scope:host = {
+							has_lifestyle = intrigue_lifestyle
+							location = scope:activity.activity_location
+						}
+						any_attending_character = {
+							this != scope:host
+							is_physically_able_ai_adult = yes
+							location = scope:activity.activity_location
+							scope:host = {
+								can_add_hook = {
+									target = prev
+									type = manipulation_hook
+								}
+							}
+						}
+					}
+				}
+				trigger_event = { on_action = MFA_pulse_host_gains_intrigue_xp }
+			}
+			10 = { # tournament_learned_from_knight
+				trigger = {
+					scope:activity = {
+						any_attending_character = {
+							has_trait = tourney_participant
+							age < 30
+							location = scope:activity.activity_location
+							liege = scope:host
+							is_knight = yes
+						}
+						any_attending_character = {
+							has_trait = tourney_participant
+							age > 45
+							location = scope:activity.activity_location
+							liege = scope:host
+							is_knight = yes
+							OR = {
+								has_trait_xp = {
+									trait = tourney_participant
+									track = foot
+									value >= 15
+								}
+								has_trait_xp = {
+									trait = tourney_participant
+									track = horse
+									value >= 15
+								}
+								has_trait_xp = {
+									trait = tourney_participant
+									track = wit
+									value >= 15
+								}
+								has_trait_xp = {
+									trait = tourney_participant
+									track = bow
+									value >= 15
+								}
+							}
+						}
+					}
+				}
+				trigger_event = { on_action = MFA_pulse_tournament_learned_from_knight }
+			}
+			10 = { # tournament_game_of_rhetoric
+				trigger = {
+					scope:activity = {
+						any_attending_character = {
+							location = scope:activity.activity_location
+							has_trait = tourney_participant
+							save_temporary_scope_as = first_character
+						}
+						any_attending_character = {
+							location = scope:activity.activity_location
+							has_trait = tourney_participant
+							NOT = { scope:first_character ?= this }
+						}
+					}
+				}
+				trigger_event = { on_action = MFA_pulse_tournament_game_of_rhetoric }
+			}
+			10 = { # tournament_equipment_improved
+				trigger = {
+					scope:activity = {
+						any_attending_character = {
+							location = scope:activity.activity_location
+							any_equipped_character_artifact = { artifact_slot_type = armor }
+						}
+					}
+				}
+				trigger_event = { on_action = MFA_pulse_tournament_equipment_improved }
+			}
+			3 = { # tournament_relaxed_in_tavern
+				trigger = {
+					scope:activity = {
+						any_attending_character = {
+							location = scope:activity.activity_location
+						}
+					}
+				}
+				trigger_event = { on_action = MFA_pulse_tournament_relaxed_in_tavern }
+			}
+			3 = { # tournament_explored_village
+				trigger = {
+					scope:activity = {
+						any_attending_character = {
+							location = scope:activity.activity_location
+						}
+					}
+				}
+				trigger_event = { on_action = MFA_pulse_tournament_explored_village }
+			}
+			3 = { # tournament_prayed_temple
+				trigger = {
+					scope:activity = {
+						any_attending_character = {
+							location = scope:activity.activity_location
+						}
+					}
+				}
+				trigger_event = { on_action = MFA_pulse_tournament_prayed_temple }
+			}
+			10 = { # tournament_host_feted
+				trigger = {
+					scope:activity = {
+						scope:host = {
+							is_alive = yes
+						}
+					}
+				}
+				trigger_event = { on_action = MFA_pulse_tournament_host_feted }
+			}
+			3 = { # tournament_host_gifted
+				trigger = {
+					scope:activity = {
+						scope:host = {
+							is_alive = yes
+						}
+						any_guest_subset = {
+							name = contestant
+							is_playable_character = yes
+							highest_held_title_tier > tier_duchy
+							location = scope:activity.activity_location
+							opinion = {
+								target = scope:host
+								value >= low_positive_opinion
+							}
+						}
+					}
+				}
+				trigger_event = { on_action = MFA_pulse_tournament_host_gifted }
+			}
+			10 = { # tournament_tilting_demonstration
+				trigger = {
+					scope:activity = {
+						scope:activity = { has_current_phase = tournament_phase_joust }
+						any_guest_subset = {
+							name = spectator
+							location = scope:activity.activity_location
+							scope:host = this
+							highest_held_title_tier > tier_county
+						}
+						any_guest_subset = {
+							name = contestant
+							location = scope:activity.activity_location
+							is_knight = yes
+						}
+					}
+				}
+				trigger_event = { on_action = MFA_pulse_tournament_tilting_demonstration }
+			}
+			10 = { # tournament_archery_arrow_split
+				trigger = {
+					scope:activity = {
+						scope:activity = { has_current_phase = tournament_phase_archery }
+						any_guest_subset = {
+							name = qualified
+							location = scope:activity.activity_location
+							exists = var:progress_to_victory
+						}
+					}
+				}
+				trigger_event = { on_action = MFA_pulse_tournament_archery_arrow_split }
+			}
+			10 = { # tournament_recital_successful_verse
+				trigger = {
+					scope:activity = {
+						scope:activity = { has_current_phase = tournament_phase_recital }
+						any_guest_subset = {
+							name = qualified
+							location = scope:activity.activity_location
+							exists = var:progress_to_victory
+						}
+					}
+				}
+				trigger_event = { on_action = MFA_pulse_tournament_recital_successful_verse }
+			}
+			10 = { # tournament_joust_lance_broken
+				trigger = {
+					scope:activity = {
+						scope:activity = { has_current_phase = tournament_phase_joust }
+						any_guest_subset = {
+							name = qualified
+							location = scope:activity.activity_location
+							exists = var:progress_to_victory
+						}
+					}
+				}
+				trigger_event = { on_action = MFA_pulse_tournament_joust_lance_broken }
+			}
+			10 = { # tournament_joust_unhorsed
+				trigger = {
+					scope:activity = {
+						scope:activity = { has_current_phase = tournament_phase_joust }
+						any_guest_subset = {
+							name = qualified
+							location = scope:activity.activity_location
+							exists = var:progress_to_victory
+						}
+					}
+				}
+				trigger_event = { on_action = MFA_pulse_tournament_joust_unhorsed }
+			}
+			10 = { # tournament_horse_stumbles
+				trigger = {
+					scope:activity = {
+						scope:activity = { has_current_phase = tournament_phase_horse_race }
+						any_guest_subset = {
+							name = qualified
+							location = scope:activity.activity_location
+							exists = var:progress_to_victory
+						}
+					}
+				}
+				trigger_event = { on_action = MFA_pulse_tournament_horse_stumbles }
+			}
+		}
+		set_variable = { name = MFA_pulse_relay_tick value = 1 }
+	}
+}

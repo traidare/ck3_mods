@@ -1,0 +1,1350 @@
+﻿namespace = agot_riverlands_bla
+
+
+agot_riverlands_bla.1000 = {
+	type = character_event
+	hidden = yes
+
+	trigger = {
+		is_ai = no
+		is_landed = yes
+		is_available_adult = yes
+
+		dynasty = dynasty:dynn_Justman
+
+		NOT = { has_character_flag = justman_any_event_recently_bla }
+	}
+
+	immediate = {
+		random_list = {
+
+			18 = {
+				trigger = {
+					NOT = { has_character_flag = justman_recent_crown_beneath_mud_bla }
+				}
+				trigger_event = agot_riverlands_bla.1001
+			}
+
+			18 = {
+				trigger = {
+					NOT = { has_character_flag = justman_recent_blackwood_bracken_table_bla }
+				}
+				trigger_event = agot_riverlands_bla.1002
+			}
+
+			18 = {
+				trigger = {
+					NOT = { has_character_flag = justman_recent_last_judgment_bla }
+				}
+				trigger_event = agot_riverlands_bla.1003
+			}
+
+			18 = {
+				trigger = {
+					NOT = { has_character_flag = justman_recent_riverlord_petition_bla }
+				}
+				trigger_event = agot_riverlands_bla.1004
+			}
+
+			14 = {
+				trigger = {
+					NOT = { has_character_flag = justman_recent_kingsroad_bla }
+				}
+				trigger_event = agot_riverlands_bla.1005
+			}
+
+			10 = {
+				trigger = {
+					NOT = { has_character_flag = justman_recent_fairmarket_bla }
+				}
+				trigger_event = agot_riverlands_bla.1006
+			}
+
+			10 = {
+				trigger = {
+					has_character_modifier = justman_peacemaker_bla
+					NOT = { has_character_flag = justman_recent_blood_and_branches_bla }
+				}
+				trigger_event = agot_riverlands_bla.1010
+			}
+
+			5 = {
+				trigger = {
+					has_character_modifier = justman_detente_bla
+					NOT = { has_character_modifier = justman_river_compact_bla }
+					NOT = { has_character_flag = justman_recent_river_compact_bla }
+				}
+				trigger_event = agot_riverlands_bla.1011
+			}
+
+			8 = {
+				trigger = {
+					OR = {
+						has_character_modifier = justman_detente_bla
+						has_character_modifier = justman_river_compact_bla
+					}
+					NOT = { has_character_flag = justman_recent_old_hatreds_bla }
+				}
+				trigger_event = agot_riverlands_bla.1012
+			}
+
+			3 = {
+				trigger = {
+					OR = {
+						any_war_enemy = {
+							culture = culture:ironborn
+						}
+
+						any_held_county = {
+							any_neighboring_county = {
+								holder.top_liege = {
+								culture = culture:ironborn
+								}
+							}
+						}
+					}
+
+					NOT = { has_character_flag = justman_recent_ironborn_curse_bla }
+				}
+				trigger_event = agot_riverlands_bla.1007
+			}
+
+			1 = {
+				trigger = {
+					prestige_level >= 4
+					legitimacy_level >= 4
+
+					NOT = { has_character_flag = justman_recent_crown_remembered_bla }
+				}
+				trigger_event = agot_riverlands_bla.1008
+			}
+
+			120 = { }
+		}
+	}
+}
+
+# =========================================================
+# 1001 — A Relic of Silt
+# =========================================================
+
+agot_riverlands_bla.1001 = {
+	type = character_event
+	title = agot_riverlands_bla.1001.t
+	desc = agot_riverlands_bla.1001.desc
+	theme = stewardship
+
+	override_background = {
+		reference = throne_room
+	}
+
+	left_portrait = {
+		character = root
+		animation = personality_honorable
+	}
+
+	trigger = {
+		is_ai = no
+		is_landed = yes
+		is_available_adult = yes
+		dynasty = dynasty:dynn_Justman
+
+		NOT = { has_character_flag = justman_any_event_recently_bla }
+		NOT = { has_character_flag = justman_recent_relic_beneath_mud_bla }
+	}
+
+	immediate = {
+		add_character_flag = {
+			flag = justman_any_event_recently_bla
+			years = 3
+		}
+
+		add_character_flag = {
+			flag = justman_recent_relic_beneath_mud_bla
+			years = 8
+		}
+	}
+
+	option = {
+		name = agot_riverlands_bla.1001.a
+
+		add_prestige = 200
+		dynasty = {
+			add_dynasty_prestige = 150
+		}
+
+
+		add_character_modifier = {
+			modifier = justman_ancient_authority_bla
+			years = 8
+		}
+	}
+
+	option = {
+		name = agot_riverlands_bla.1001.b
+
+		add_gold = 100
+		add_prestige = 75
+	}
+
+	option = {
+		name = agot_riverlands_bla.1001.c
+
+		trigger = {
+			OR = {
+				learning >= 10
+				has_trait = humble
+				has_trait = diligent
+			}
+		}
+
+		add_learning_lifestyle_xp = 500
+		dynasty = {
+			add_dynasty_prestige = 100
+		}
+	}
+}
+
+
+# =========================================================
+# 1002 — The Bastard's Peace
+# =========================================================
+
+agot_riverlands_bla.1002 = {
+	type = character_event
+	title = agot_riverlands_bla.1002.t
+	desc = agot_riverlands_bla.1002.desc
+	theme = diplomacy
+
+	override_background = {
+		reference = feast
+	}
+
+	left_portrait = {
+		character = root
+		animation = personality_honorable
+	}
+
+	trigger = {
+		is_ai = no
+		is_landed = yes
+		is_available_adult = yes
+		dynasty = dynasty:dynn_Justman
+
+		NOT = { has_character_flag = justman_any_event_recently_bla }
+		NOT = { has_character_flag = justman_recent_blackwood_bracken_table_bla }
+	}
+
+	immediate = {
+		add_character_flag = {
+			flag = justman_any_event_recently_bla
+			years = 3
+		}
+
+		add_character_flag = {
+			flag = justman_recent_blackwood_bracken_table_bla
+			years = 10
+		}
+	}
+
+	option = {
+		name = agot_riverlands_bla.1002.a
+
+		add_legitimacy = 100
+		add_diplomacy_lifestyle_xp = 300
+
+		add_character_modifier = {
+			modifier = justman_peacemaker_bla
+			years = 8
+		}
+	}
+
+	option = {
+		name = agot_riverlands_bla.1002.b
+
+		trigger = {
+			OR = {
+				has_trait = wrathful
+				has_trait = callous
+				has_trait = arrogant
+			}
+		}
+
+		add_dread = 15
+		add_prestige = 150
+	}
+
+	option = {
+		name = agot_riverlands_bla.1002.c
+
+		trigger = {
+			OR = {
+				has_trait = calm
+				has_trait = patient
+				diplomacy >= 10
+			}
+		}
+
+		add_diplomacy_lifestyle_xp = 750
+		add_legitimacy = 50
+	}
+}
+
+
+# =========================================================
+# 1003 — The Scales of Benedict
+# =========================================================
+
+agot_riverlands_bla.1003 = {
+	type = character_event
+	title = agot_riverlands_bla.1003.t
+	desc = agot_riverlands_bla.1003.desc
+	theme = realm
+
+	override_background = {
+		reference = throne_room
+	}
+
+	left_portrait = {
+		character = root
+		animation = chancellor
+	}
+
+	trigger = {
+		is_ai = no
+		is_landed = yes
+		is_available_adult = yes
+		dynasty = dynasty:dynn_Justman
+
+		NOT = { has_character_flag = justman_any_event_recently_bla }
+		NOT = { has_character_flag = justman_recent_last_judgment_bla }
+	}
+
+	immediate = {
+		add_character_flag = {
+			flag = justman_any_event_recently_bla
+			years = 3
+		}
+
+		add_character_flag = {
+			flag = justman_recent_last_judgment_bla
+			years = 8
+		}
+	}
+
+	option = {
+		name = agot_riverlands_bla.1003.a
+
+		capital_county = {
+			add_county_modifier = {
+				modifier = justman_fair_judgment_bla
+				years = 5
+			}
+		}
+
+		add_character_modifier = {
+			modifier = justman_lawgiver_bla
+			years = 10
+		}
+	}
+
+	option = {
+		name = agot_riverlands_bla.1003.b
+
+		trigger = {
+			OR = {
+				has_trait = arbitrary
+				has_trait = wrathful
+				has_trait = callous
+			}
+		}
+
+		add_dread = 15
+		add_prestige = 75
+	}
+
+	option = {
+		name = agot_riverlands_bla.1003.c
+
+		trigger = {
+			OR = {
+				has_trait = just
+				learning >= 10
+				diplomacy >= 10
+			}
+		}
+
+		add_legitimacy = 50
+		add_learning_lifestyle_xp = 500
+
+		capital_county = {
+			add_county_modifier = {
+				modifier = justman_fair_judgment_bla
+				years = 8
+			}
+		}
+	}
+}
+
+
+# =========================================================
+# 1004 — A Plea for One Law
+# =========================================================
+
+agot_riverlands_bla.1004 = {
+	type = character_event
+	title = agot_riverlands_bla.1004.t
+	desc = agot_riverlands_bla.1004.desc
+	theme = stewardship
+
+	override_background = {
+		reference = council_chamber
+	}
+
+	left_portrait = {
+		character = root
+		animation = personality_honorable
+	}
+
+	trigger = {
+		is_ai = no
+		is_landed = yes
+		is_available_adult = yes
+		dynasty = dynasty:dynn_Justman
+
+		NOT = { has_character_flag = justman_any_event_recently_bla }
+		NOT = { has_character_flag = justman_recent_riverlord_petition_bla }
+	}
+
+	immediate = {
+		add_character_flag = {
+			flag = justman_any_event_recently_bla
+			years = 3
+		}
+
+		add_character_flag = {
+			flag = justman_recent_riverlord_petition_bla
+			years = 7
+		}
+	}
+
+	option = {
+		name = agot_riverlands_bla.1004.a
+
+		add_stewardship_lifestyle_xp = 300
+
+		capital_county = {
+			change_development_progress = 25
+		}
+
+		add_character_modifier = {
+			modifier = justman_riverlord_authority_bla
+			years = 8
+		}
+	}
+
+	option = {
+		name = agot_riverlands_bla.1004.b
+
+		add_gold = 100
+		add_prestige = 50
+	}
+
+	option = {
+		name = agot_riverlands_bla.1004.c
+
+		trigger = {
+			OR = {
+				stewardship >= 10
+				has_trait = just
+				has_trait = administrator
+			}
+		}
+
+		add_stewardship_lifestyle_xp = 600
+
+		capital_county = {
+			change_development_progress = 40
+			add_county_modifier = {
+				modifier = justman_one_law_bla
+				years = 5
+			}
+		}
+	}
+}
+
+
+# =========================================================
+# 1005 — The Justman Causeway
+# =========================================================
+
+agot_riverlands_bla.1005 = {
+	type = character_event
+	title = agot_riverlands_bla.1005.t
+	desc = agot_riverlands_bla.1005.desc
+	theme = stewardship
+
+	override_background = {
+		reference = wilderness
+	}
+
+	left_portrait = {
+		character = root
+		animation = thinking
+	}
+
+	trigger = {
+		is_ai = no
+		is_landed = yes
+		is_available_adult = yes
+		dynasty = dynasty:dynn_Justman
+
+		NOT = { has_character_flag = justman_any_event_recently_bla }
+		NOT = { has_character_flag = justman_recent_kingsroad_bla }
+	}
+
+	immediate = {
+		add_character_flag = {
+			flag = justman_any_event_recently_bla
+			years = 3
+		}
+
+		add_character_flag = {
+			flag = justman_recent_kingsroad_bla
+			years = 10
+		}
+	}
+
+	option = {
+		name = agot_riverlands_bla.1005.a
+
+		capital_county = {
+			change_development_progress = 75
+			add_county_modifier = {
+				modifier = justman_causeway_bla
+				years = 10
+			}
+		}
+	}
+
+	option = {
+		name = agot_riverlands_bla.1005.b
+
+		add_gold = 200
+
+		capital_county = {
+			add_county_modifier = {
+				modifier = justman_toll_road_bla
+				years = 5
+			}
+		}
+	}
+
+	option = {
+		name = agot_riverlands_bla.1005.c
+
+		trigger = {
+			OR = {
+				stewardship >= 10
+				has_trait = diligent
+				has_trait = administrator
+			}
+		}
+
+		add_stewardship_lifestyle_xp = 500
+
+		capital_county = {
+			change_development_level = 2
+			add_county_modifier = {
+				modifier = justman_causeway_bla
+				years = 15
+			}
+		}
+	}
+}
+
+
+# =========================================================
+# 1006 — Ash-Dark Stone
+# =========================================================
+
+agot_riverlands_bla.1006 = {
+	type = character_event
+	title = agot_riverlands_bla.1006.t
+	desc = agot_riverlands_bla.1006.desc
+	theme = learning
+
+	override_background = {
+		reference = wilderness_wetlands
+	}
+
+	left_portrait = {
+		character = root
+		animation = sadness
+	}
+
+	trigger = {
+		is_ai = no
+		is_landed = yes
+		is_available_adult = yes
+		dynasty = dynasty:dynn_Justman
+
+		NOT = { has_character_flag = justman_any_event_recently_bla }
+		NOT = { has_character_flag = justman_recent_fairmarket_bla }
+	}
+
+	immediate = {
+		add_character_flag = {
+			flag = justman_any_event_recently_bla
+			years = 3
+		}
+
+		add_character_flag = {
+			flag = justman_recent_fairmarket_bla
+			years = 12
+		}
+	}
+
+	option = {
+		name = agot_riverlands_bla.1006.a
+
+		add_learning_lifestyle_xp = 750
+
+		dynasty = {
+			add_dynasty_prestige = 100
+		}
+
+		add_character_modifier = {
+			modifier = justman_memory_of_fairmarket_bla
+			years = 10
+		}
+	}
+
+	option = {
+		name = agot_riverlands_bla.1006.b
+
+		add_piety = 200
+		capital_county = {
+			add_county_modifier = {
+				modifier = justman_remembered_dead_bla
+				years = 8
+			}
+		}
+	}
+
+	option = {
+		name = agot_riverlands_bla.1006.c
+
+		add_gold = 150
+		add_prestige = -50
+	}
+
+	option = {
+		name = agot_riverlands_bla.1006.d
+
+		trigger = {
+			OR = {
+				learning >= 10
+				has_trait = scholar
+				has_trait = humble
+			}
+		}
+
+		add_learning_lifestyle_xp = 1000
+		dynasty = {
+			add_dynasty_prestige = 150
+		}
+	}
+}
+
+
+# =========================================================
+# 1007 — The Scourge of the Hoares
+# =========================================================
+
+agot_riverlands_bla.1007 = {
+	type = character_event
+	title = agot_riverlands_bla.1007.t
+	desc = agot_riverlands_bla.1007.desc
+	theme = martial
+
+	override_background = {
+		reference = burning_building
+	}
+
+	left_portrait = {
+		character = root
+		animation = anger
+	}
+
+	trigger = {
+		is_ai = no
+		is_landed = yes
+		is_available_adult = yes
+		dynasty = dynasty:dynn_Justman
+
+		OR = {
+			any_war_enemy = {
+				culture = culture:ironborn
+			}
+
+			any_held_county = {
+				any_neighboring_county = {
+					holder.top_liege = {
+					culture = culture:ironborn
+					}
+				}
+			}
+
+		}
+
+		NOT = { has_character_flag = justman_any_event_recently_bla }
+		NOT = { has_character_flag = justman_recent_ironborn_curse_bla }
+	}
+
+	immediate = {
+		add_character_flag = {
+			flag = justman_any_event_recently_bla
+			years = 3
+		}
+
+		add_character_flag = {
+			flag = justman_recent_ironborn_curse_bla
+			years = 10
+		}
+	}
+
+	option = {
+		name = agot_riverlands_bla.1007.a
+
+		trigger = {
+			OR = {
+				has_trait = wrathful
+				has_trait = vengeful
+				martial >= 10
+			}
+		}
+
+		add_prestige = 200
+		add_dread = 10
+
+		add_character_modifier = {
+			modifier = justman_anti_ironborn_fervor_bla
+			years = 8
+		}
+	}
+
+	option = {
+		name = agot_riverlands_bla.1007.b
+
+		trigger = {
+			OR = {
+				has_trait = calm
+				has_trait = just
+				has_trait = patient
+			}
+		}
+
+		add_martial_lifestyle_xp = 400
+		add_piety = 100
+
+		add_character_modifier = {
+			modifier = justman_guarded_rivers_bla
+			years = 6
+		}
+	}
+
+	option = {
+		name = agot_riverlands_bla.1007.c
+
+		add_learning_lifestyle_xp = 700
+		add_piety = 150
+	}
+}
+
+
+# =========================================================
+# 1008 — The Whispering Crown
+# =========================================================
+
+agot_riverlands_bla.1008 = {
+	type = character_event
+	title = agot_riverlands_bla.1008.t
+	desc = agot_riverlands_bla.1008.desc
+	theme = realm
+
+	override_background = {
+		reference = throne_room
+	}
+
+	left_portrait = {
+		character = root
+		animation = personality_honorable
+	}
+
+	trigger = {
+		is_ai = no
+		is_landed = yes
+		is_available_adult = yes
+		dynasty = dynasty:dynn_Justman
+
+		prestige_level >= 4
+		legitimacy_level >= 4
+
+		NOT = { has_character_flag = justman_any_event_recently_bla }
+		NOT = { has_character_flag = justman_recent_crown_remembered_bla }
+	}
+
+	immediate = {
+		add_character_flag = {
+			flag = justman_any_event_recently_bla
+			years = 3
+		}
+
+		add_character_flag = {
+			flag = justman_recent_crown_remembered_bla
+			years = 20
+		}
+	}
+
+	option = {
+		name = agot_riverlands_bla.1008.a
+
+		trigger = {
+			OR = {
+				has_trait = ambitious
+				prestige_level >= 5
+			}
+		}
+
+		add_legitimacy = 250
+		add_prestige = 500
+
+		dynasty = {
+			add_dynasty_prestige = 300
+		}
+
+		add_character_modifier = {
+			modifier = justman_crown_remembered_bla
+			years = 15
+		}
+	}
+
+	option = {
+		name = agot_riverlands_bla.1008.b
+
+		trigger = {
+			OR = {
+				has_trait = humble
+				has_trait = just
+				has_trait = content
+			}
+		}
+
+		add_legitimacy = 100
+		add_piety = 150
+	}
+
+	option = {
+		name = agot_riverlands_bla.1008.c
+
+		add_diplomacy_lifestyle_xp = 1000
+		add_prestige = 150
+	}
+}
+
+# =========================================================
+# 1009 — Echoes of the Trident
+# =========================================================
+
+agot_riverlands_bla.1009 = {
+	type = character_event
+	title = agot_riverlands_bla.1009.t
+	desc = agot_riverlands_bla.1009.desc
+	theme = realm
+
+	override_background = {
+		reference = throne_room
+	}
+
+	left_portrait = {
+		character = root
+		animation = thinking
+	}
+
+	trigger = {
+		is_landed = yes
+		is_available_adult = yes
+
+		dynasty = dynasty:dynn_Justman
+
+		prestige_level >= 5
+		legitimacy_level >= 5
+		realm_size >= 20
+
+		OR = {
+			has_title = title:c_hammerford
+			has_title = title:d_three_forks
+			has_title = title:d_fairmarket
+		}
+
+		NOT = { has_character_flag = justman_rivers_remembered_bla }
+	}
+
+	immediate = {
+		add_character_flag = {
+			flag = justman_rivers_remembered_bla
+			years = 50
+		}
+
+		add_character_flag = {
+			flag = justman_any_event_recently_bla
+			years = 3
+		}
+	}
+
+	option = {
+		name = agot_riverlands_bla.1009.a
+
+		trigger = {
+			OR = {
+				has_trait = ambitious
+				has_trait = arrogant
+				has_trait = wrathful
+			}
+		}
+
+		add_pressed_claim = title:e_the_riverlands
+
+		add_legitimacy = 250
+		add_prestige = 750
+
+		dynasty = {
+			add_dynasty_prestige = 500
+		}
+
+		add_character_modifier = {
+			modifier = justman_river_king_claimant_bla
+			years = 15
+		}
+
+		every_vassal = {
+			limit = {
+				culture = root.culture
+			}
+
+			add_opinion = {
+				target = root
+				modifier = impressed_opinion
+				opinion = 10
+			}
+		}
+	}
+
+	option = {
+		name = agot_riverlands_bla.1009.b
+
+		trigger = {
+			OR = {
+				has_trait = just
+				has_trait = calm
+				has_trait = patient
+				diplomacy >= 12
+			}
+		}
+
+		add_legitimacy = 200
+		add_prestige = 300
+
+		add_character_modifier = {
+			modifier = justman_riverlord_unifier_bla
+			years = 10
+		}
+
+		every_vassal = {
+			limit = {
+				culture = root.culture
+			}
+
+			add_opinion = {
+				target = root
+				modifier = respect_opinion
+				opinion = 15
+			}
+		}
+	}
+
+	option = {
+		name = agot_riverlands_bla.1009.c
+
+		trigger = {
+			OR = {
+				has_trait = humble
+				has_trait = content
+				has_trait = compassionate
+			}
+		}
+
+		add_piety = 300
+		add_stress = -30
+
+		add_character_modifier = {
+			modifier = justman_humble_legacy_bla
+			years = 8
+		}
+	}
+	
+	option = {
+		name = agot_riverlands_bla.1009.d
+
+		add_prestige = 150
+		add_diplomacy_lifestyle_xp = 500
+
+		add_character_modifier = {
+			modifier = justman_cautious_restoration_bla
+			years = 8
+		}
+	}
+}
+
+# =========================================================
+# 1010 — Blades Upon the Table
+# =========================================================
+
+agot_riverlands_bla.1010 = {
+	type = character_event
+	title = agot_riverlands_bla.1010.t
+	desc = agot_riverlands_bla.1010.desc
+	theme = diplomacy
+
+	override_background = {
+		reference = council_chamber
+	}
+
+	left_portrait = {
+		character = root
+		animation = chancellor
+	}
+
+	trigger = {
+		is_ai = no
+		is_landed = yes
+		is_available_adult = yes
+		dynasty = dynasty:dynn_Justman
+
+		has_character_modifier = justman_peacemaker_bla
+
+		NOT = { has_character_flag = justman_any_event_recently_bla }
+		NOT = { has_character_flag = justman_recent_blood_and_branches_bla }
+	}
+
+	immediate = {
+		add_character_flag = {
+			flag = justman_any_event_recently_bla
+			years = 3
+		}
+
+		add_character_flag = {
+			flag = justman_recent_blood_and_branches_bla
+			years = 12
+		}
+	}
+
+	option = {
+		name = agot_riverlands_bla.1010.a
+
+		add_diplomacy_lifestyle_xp = 500
+		add_legitimacy = 75
+
+		add_character_modifier = {
+			modifier = justman_detente_bla
+			years = 10
+		}
+	}
+
+	option = {
+		name = agot_riverlands_bla.1010.b
+
+		trigger = {
+			OR = {
+				has_trait = just
+				has_trait = compassionate
+				diplomacy >= 10
+			}
+		}
+
+		add_diplomacy_lifestyle_xp = 750
+
+		add_character_modifier = {
+			modifier = justman_detente_bla
+			years = 12
+		}
+
+		dynasty = {
+			add_dynasty_prestige = 150
+		}
+	}
+
+	option = {
+		name = agot_riverlands_bla.1010.c
+
+		trigger = {
+			OR = {
+				martial >= 10
+				has_trait = brave
+				has_trait = strategist
+			}
+		}
+
+		add_martial_lifestyle_xp = 500
+
+		capital_county = {
+			add_county_modifier = {
+				modifier = justman_shared_patrols_bla
+				years = 8
+			}
+		}
+	}
+
+	option = {
+		name = agot_riverlands_bla.1010.d
+
+		add_prestige = 75
+	}
+}
+
+
+# =========================================================
+# 1011 — The Ink-Stained Truce
+# =========================================================
+
+agot_riverlands_bla.1011 = {
+	type = character_event
+	title = agot_riverlands_bla.1011.t
+	desc = agot_riverlands_bla.1011.desc
+	theme = realm
+
+	override_background = {
+		reference = throne_room
+	}
+
+	left_portrait = {
+		character = root
+		animation = personality_honorable
+	}
+
+	trigger = {
+		is_ai = no
+		is_landed = yes
+		is_available_adult = yes
+		dynasty = dynasty:dynn_Justman
+	
+		has_character_modifier = justman_peacemaker_bla
+		has_character_modifier = justman_detente_bla
+
+		NOT = { has_character_modifier = justman_river_compact_bla }
+		NOT = { has_character_modifier = justman_forced_compact_bla }
+		NOT = { has_character_flag = justman_any_event_recently_bla }
+		NOT = { has_character_flag = justman_recent_river_compact_bla }
+	}
+
+	immediate = {
+		add_character_flag = {
+			flag = justman_any_event_recently_bla
+			years = 3
+		}
+
+		add_character_flag = {
+			flag = justman_recent_river_compact_bla
+			years = 25
+		}
+	}
+
+	option = {
+		name = agot_riverlands_bla.1011.a
+
+		add_legitimacy = 250
+		add_prestige = 300
+
+		dynasty = {
+			add_dynasty_prestige = 300
+		}
+
+		add_character_modifier = {
+			modifier = justman_river_compact_bla
+			years = 20
+		}
+	}
+
+	option = {
+		name = agot_riverlands_bla.1011.b
+
+		trigger = {
+			OR = {
+				has_trait = ambitious
+				has_trait = arrogant
+				diplomacy >= 12
+			}
+		}
+
+		add_prestige = 400
+		add_gold = 150
+
+		random_list = {
+			70 = {
+				add_character_modifier = {
+					modifier = justman_river_compact_bla
+					years = 15
+				}
+
+				custom_tooltip = agot_riverlands_bla.1011.b.success_tt
+			}
+
+			30 = {
+				add_character_modifier = {
+					modifier = justman_forced_compact_bla
+					years = 8
+				}
+
+				custom_tooltip = agot_riverlands_bla.1011.b.failure_tt
+			}
+		}
+	}
+
+	option = {
+		name = agot_riverlands_bla.1011.c
+
+		trigger = {
+			OR = {
+				has_trait = humble
+				has_trait = patient
+				has_trait = just
+			}
+		}
+
+		add_diplomacy_lifestyle_xp = 1000
+		add_legitimacy = 150
+
+		add_character_modifier = {
+			modifier = justman_river_compact_bla
+			years = 25
+		}
+	}
+
+	option = {
+		name = agot_riverlands_bla.1011.d
+
+		add_prestige = 100
+	}
+}
+
+
+# =========================================================
+# 1012 — The Root of Spite
+# =========================================================
+
+agot_riverlands_bla.1012 = {
+	type = character_event
+	title = agot_riverlands_bla.1012.t
+	desc = agot_riverlands_bla.1012.desc
+	theme = intrigue
+
+	override_background = {
+		reference = courtyard
+	}
+
+	left_portrait = {
+		character = root
+		animation = anger
+	}
+
+	trigger = {
+		is_ai = no
+		is_landed = yes
+		is_available_adult = yes
+		dynasty = dynasty:dynn_Justman
+
+		OR = {
+			has_character_modifier = justman_river_compact_bla
+			has_character_modifier = justman_forced_compact_bla
+		}
+
+		NOT = { has_character_flag = justman_any_event_recently_bla }
+		NOT = { has_character_flag = justman_recent_old_hatreds_bla }
+	}
+
+	immediate = {
+		add_character_flag = {
+			flag = justman_any_event_recently_bla
+			years = 3
+		}
+
+		add_character_flag = {
+			flag = justman_recent_old_hatreds_bla
+			years = 10
+		}
+	}
+
+	option = {
+		name = agot_riverlands_bla.1012.a
+
+		add_legitimacy = 75
+		add_learning_lifestyle_xp = 500
+
+		add_character_modifier = {
+			modifier = justman_lawgiver_bla
+			years = 5
+		}
+	}
+
+	option = {
+		name = agot_riverlands_bla.1012.b
+
+		trigger = {
+			OR = {
+				has_trait = wrathful
+				has_trait = callous
+				has_trait = arbitrary
+			}
+		}
+
+		add_dread = 15
+		add_prestige = 100
+
+		add_character_modifier = {
+			modifier = justman_forced_compact_bla
+			years = 8
+		}
+	}
+
+	option = {
+		name = agot_riverlands_bla.1012.c
+
+		trigger = {
+			OR = {
+				has_trait = calm
+				has_trait = patient
+				has_trait = just
+				diplomacy >= 10
+			}
+		}
+
+		add_diplomacy_lifestyle_xp = 750
+
+		add_character_modifier = {
+			modifier = justman_detente_bla
+			years = 8
+		}
+	}
+
+	option = {
+		name = agot_riverlands_bla.1012.d
+
+		remove_character_modifier = justman_detente_bla
+		remove_character_modifier = justman_river_compact_bla
+
+		add_prestige = -100
+
+		custom_tooltip = agot_riverlands_bla.1012.d.tt
+	}
+}

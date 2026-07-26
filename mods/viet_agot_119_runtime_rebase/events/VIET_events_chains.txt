@@ -1,0 +1,3562 @@
+﻿############################################################################################################################
+# 
+# Large Scale Event Chains or Grand Events (but not Story Cycles) - VIETmisc.1000-VIETmisc.1999 reserved
+# Fired from the on_actions for every one, two, five, and ten years depending on rarity
+# 
+# 1000-1022		Kogarashi Sentiment/Fast Love - Character recalls their first love
+# 1023-1029		Cinnamon Addict (Cinnamon Toast Crunch)
+# 1030-1035		Lost Love - a beloved servant falls ill and is dying
+# 1036-1044		Dream of the Final Journey
+# 1052-1069		Mysterious Child
+# 1070-1083		Dream of Oblivion
+# 1084			Grand Event: Supernova 1006
+# 
+############################################################################################################################
+
+namespace = VIETmisc
+
+
+########################################################################################
+# Kogarashi Sentiment/Fast Love - Character recalls their first love
+#
+# It's an affectionate parody/po-mo take on 80s/90s shoujo OPs from the Koimonogatari season of Monogatari, the last anime I seriously watched years ago.
+#
+# Romaji and Commiesubs' translation:
+#
+# Riyuu sae mo wasureteta namida de / My memories are still beautiful despite a sheet of frozen tears,
+# Kooritsuita omoide ha kirei de / and I don’t remember why I shed them
+#
+# Ano kisetsu to onaji kogarashi ga / Now the winter winds of yesteryear
+# Futari no jikan wo ima makimodosu / turn back the clock for us
+#
+# Kanchigai ichiji no ki no mayoi / A misunderstanding, a moment’s hesitation
+# Arifureta SENCHIMENTARIRIZUMU / Cliched sentimentalism
+# eien ni / The perfect moment,
+# Mitsukaranai setsuna / lost forever
+#
+# Mou ichido / Once more
+# Mou nidoto / Never again
+# ienai kotoba ha / I remain young and trusting
+# Osanai mama yasashii mama / with my unspoken love
+# Kajikanda kioku / and numb memories
+#
+# Mouichido / Once more
+# Mou nidoto / Never again
+# iwanai kotae mo / I never gave an answer, 
+# Kanashii mama / which pains me
+# Kawaii mama / but I remain beautiful
+# Nukumori dake okiwasurete / the warmth of your skin.
+#
+########################################################################################
+
+
+
+# Ping event to start the chain and make sure it starts in the winter time (so it will always start on December 28, the air date of Koimonogatari's last episode)
+VIETmisc.1000 = {
+	hidden = yes
+
+	trigger = {
+		NOT = { has_character_flag = VIET_monogatari_chain_chosen }
+		NOT = { has_global_variable = VIET_monogatari_chain_completed }		
+		OR = {
+			has_trait = compassionate
+			has_trait = patient
+			has_trait = chaste
+			has_trait = calm
+			has_trait = content
+			has_trait = humble
+			has_trait = trusting
+			has_trait = cynical
+		}		
+		NOT = { has_trait = sadistic }
+		NOT = { has_trait = callous }
+		# Temporarily disabled for female and homosexual characters until proper localization is added
+		#OR = {
+		#	is_female = yes
+			has_sexuality = asexual
+		#	has_sexuality = homosexual
+		#}
+	}
+	
+	weight_multiplier = {
+		base = 1
+		modifier = {
+			add = 0.2
+			has_trait = compassionate
+		}
+		modifier = {
+			add = -0.2
+			has_trait = wrathful
+		}
+		modifier = {
+			add = 0.2
+			has_trait = patient
+		}
+		modifier = {
+			add = -0.2
+			has_trait = impatient
+		}
+		modifier = {
+			add = 0.2
+			has_trait = chaste
+		}
+		modifier = {
+			add = -0.2
+			has_trait = lustful
+		}
+	}
+	
+	immediate = {
+		add_character_flag = VIET_monogatari_chain_chosen
+		trigger_event = {
+			id = VIETmisc.1001
+			trigger_on_next_date = 12.28
+		}
+	}
+}
+
+
+# Wintry Wind Sentiment Introduce
+VIETmisc.1001 = {
+	type = character_event
+	title = VIETmisc.1001.t
+	desc = VIETmisc.1001.desc
+	theme = love
+	override_background = { reference = sitting_room }
+	
+	left_portrait = {
+		character = root
+		animation = personality_rational
+	}
+	
+	option = {
+		name = {
+			trigger = {
+				OR = {
+					is_female = no
+					AND = {
+						is_female = yes
+						has_sexuality = homosexual
+					}
+				}
+			}
+			text = VIETmisc.1001.a
+		}
+		name = {
+			trigger = {
+				OR = {
+					is_female = yes
+					AND = {
+						is_female = no
+						has_sexuality = homosexual
+					}
+				}
+			}
+			text = VIETmisc.1001.a.female
+		}
+		trigger_event = {
+			id = VIETmisc.1002
+			days = { 2 4 }
+		}
+	}
+}
+
+
+# My Memories are Still Beautiful
+VIETmisc.1002 = {
+	type = character_event
+	title = VIETmisc.1002.t
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = {
+					OR = {
+						is_female = yes
+						AND = {
+							is_female = no
+							has_sexuality = homosexual
+						}
+					}
+				}
+				desc = VIETmisc.1002.desc.female
+			}
+			desc = VIETmisc.1002.desc
+		}
+	}
+	theme = love
+	override_background = { reference = market }
+	
+	#left_portrait = root
+	
+	option = {
+		name = VIETmisc.1002.a
+		trigger_event = {
+			id = VIETmisc.1003
+			days = { 2 4 }
+		}
+	}
+}
+
+
+# Despite a Sheet of Frozen Tears
+VIETmisc.1003 = {
+	type = character_event
+	title = VIETmisc.1003.t
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = {
+					is_female = yes
+				}
+				desc = VIETmisc.1003.desc.female
+			}
+			triggered_desc = {
+				trigger = {
+					is_female = no
+					has_sexuality = homosexual
+				}
+				desc = VIETmisc.1003.desc.male.homosexual
+			}
+			desc = VIETmisc.1003.desc
+		}
+	}
+	theme = love
+	override_background = { reference = alley_day }
+	
+	#left_portrait = root
+	
+	option = {
+		name = VIETmisc.1003.a
+		trigger_event = {
+			id = VIETmisc.1004
+			days = { 2 4 }
+		}
+	}
+}
+
+
+# And I Don’t Remember
+VIETmisc.1004 = {
+	type = character_event
+	title = VIETmisc.1004.t
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = {
+					OR = {
+						is_female = yes
+						AND = {
+							is_female = no
+							has_sexuality = homosexual
+						}
+					}
+				}
+				desc = VIETmisc.1004.desc.female
+			}
+			desc = VIETmisc.1004.desc
+		}
+	}
+	theme = love
+	override_background = { reference = sitting_room }
+	
+	left_portrait = {
+		character = root
+		animation = personality_rational
+	}
+	
+	option = {
+		name = VIETmisc.1004.a
+		trigger_event = {
+			id = VIETmisc.1005
+			days = { 2 4 }
+		}
+	}
+}
+
+
+# Why I Shed These Tears
+VIETmisc.1005 = {
+	type = character_event
+	title = VIETmisc.1005.t
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = {
+					OR = {
+						is_female = yes
+						AND = {
+							is_female = no
+							has_sexuality = homosexual
+						}
+					}
+				}
+				desc = VIETmisc.1005.desc.female
+			}
+			desc = VIETmisc.1005.desc
+		}
+	}
+	theme = love
+	override_background = { reference = throne_room }
+	
+	option = {
+		name = VIETmisc.1005.a
+		trigger_event = {
+			id = VIETmisc.1006
+			days = { 2 4 }
+		}
+	}
+}
+
+
+# Now the Winter Winds of Yesteryear
+VIETmisc.1006 = {
+	type = character_event
+	title = VIETmisc.1006.t
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = {
+					OR = {
+						is_female = yes
+						AND = {
+							is_female = no
+							has_sexuality = homosexual
+						}
+					}
+				}
+				desc = VIETmisc.1006.desc.female
+			}
+			desc = VIETmisc.1006.desc
+		}
+	}
+	theme = love
+	override_background = { reference = VIET_background_skyrim_forest }
+	
+	left_portrait = {
+		character = root
+		animation = sadness
+	}
+	
+	option = {
+		name = VIETmisc.1006.a
+		trigger_event = {
+			id = VIETmisc.1007
+			days = { 2 4 }
+		}
+	}
+}
+
+# Turn Back the Clock for Us
+VIETmisc.1007 = {
+	type = character_event
+	title = VIETmisc.1007.t
+	desc = VIETmisc.1007.desc
+	theme = love
+	override_background = { reference = VIET_background_skyrim_forest }
+	
+	#left_portrait = {
+	#	character = root
+	#	animation = stress
+	#}
+	
+	option = {
+		name = VIETmisc.1007.a
+		trigger_event = {
+			id = VIETmisc.1008
+			days = { 2 4 }
+		}
+	}
+}
+
+# A Misunderstanding
+VIETmisc.1008 = {
+	type = character_event
+	title = VIETmisc.1008.t
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = {
+					OR = {
+						is_female = yes
+						AND = {
+							is_female = no
+							has_sexuality = homosexual
+						}
+					}
+				}
+				desc = VIETmisc.1008.desc.female
+			}
+			desc = VIETmisc.1008.desc
+		}
+	}
+	theme = love
+	override_background = { reference = VIET_background_skyrim_forest }
+	
+	#left_portrait = root
+	
+	option = {
+		name = VIETmisc.1008.a
+		trigger_event = {
+			id = VIETmisc.1009
+			days = { 2 4 }
+		}
+	}
+}
+
+# A Moment’s Hesitation
+VIETmisc.1009 = {
+	type = character_event
+	title = VIETmisc.1009.t
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = {
+					OR = {
+						is_female = yes
+						AND = {
+							is_female = no
+							has_sexuality = homosexual
+						}
+					}
+				}
+				desc = VIETmisc.1009.desc.female
+			}
+			desc = VIETmisc.1009.desc
+		}
+	}
+	theme = love
+	override_background = { reference = VIET_background_skyrim_forest }
+	
+	#left_portrait = root
+	
+	option = {
+		name = VIETmisc.1009.a
+		trigger_event = {
+			id = VIETmisc.1010
+			days = { 2 4 }
+		}
+	}
+}
+
+
+# Cliched Sentimentalism
+VIETmisc.1010 = {
+	type = character_event
+	title = VIETmisc.1010.t
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = {
+					OR = {
+						is_female = yes
+						AND = {
+							is_female = no
+							has_sexuality = homosexual
+						}
+					}
+				}
+				desc = VIETmisc.1010.desc.female
+			}
+			desc = VIETmisc.1010.desc
+		}
+	}
+	theme = love
+	override_background = { reference = VIET_background_skyrim_forest }
+	
+	#left_portrait = root
+	
+	option = {
+		name = VIETmisc.1010.a
+		trigger_event = {
+			id = VIETmisc.1011
+			days = { 2 4 }
+		}
+	}
+}
+
+
+# The Perfect Moment
+VIETmisc.1011 = {
+	type = character_event
+	title = VIETmisc.1011.t
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = {
+					OR = {
+						is_female = yes
+						AND = {
+							is_female = no
+							has_sexuality = homosexual
+						}
+					}
+				}
+				desc = VIETmisc.1011.desc.female
+			}
+			desc = VIETmisc.1011.desc
+		}
+	}
+	theme = love
+	override_background = { reference = VIET_background_skyrim_forest }
+	
+	#left_portrait = root
+	
+	option = {
+		name = VIETmisc.1011.a
+		trigger_event = {
+			id = VIETmisc.1012
+			days = { 2 4 }
+		}
+	}
+}
+
+
+# Lost Forever
+VIETmisc.1012 = {
+	type = character_event
+	title = VIETmisc.1012.t
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = {
+					OR = {
+						is_female = yes
+						AND = {
+							is_female = no
+							has_sexuality = homosexual
+						}
+					}
+				}
+				desc = VIETmisc.1012.desc.female
+			}
+			desc = VIETmisc.1012.desc
+		}
+	}
+	theme = love
+	override_background = { reference = garden }
+	
+	left_portrait = {
+		character = root
+		animation = sadness
+	}
+	
+	option = {
+		name = VIETmisc.1012.a
+		trigger_event = {
+			id = VIETmisc.1013
+			days = { 2 4 }
+		}
+	}
+}
+
+
+# Once More, Never Again
+VIETmisc.1013 = {
+	type = character_event
+	title = VIETmisc.1013.t
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = {
+					OR = {
+						is_female = yes
+						AND = {
+							is_female = no
+							has_sexuality = homosexual
+						}
+					}
+				}
+				desc = VIETmisc.1013.desc.female
+			}
+			desc = VIETmisc.1013.desc
+		}
+	}
+	theme = love
+	override_background = { reference = garden }
+	
+	#left_portrait = {
+	#	character = root
+	#	animation = sadness
+	#}
+	
+	option = {
+		name = {
+			trigger = {
+				OR = {
+					is_female = no
+					AND = {
+						is_female = yes
+						has_sexuality = homosexual
+					}
+				}
+			}
+			text = VIETmisc.1013.a
+		}
+		name = {
+			trigger = {
+				OR = {
+					is_female = yes
+					AND = {
+						is_female = no
+						has_sexuality = homosexual
+					}
+				}
+			}
+			text = VIETmisc.1013.a.female
+		}
+		trigger_event = {
+			id = VIETmisc.1014
+			days = { 2 4 }
+		}
+	}
+}
+
+
+# I Remain Young and Trusting
+VIETmisc.1014 = {
+	type = character_event
+	title = VIETmisc.1014.t
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = {
+					OR = {
+						is_female = yes
+						AND = {
+							is_female = no
+							has_sexuality = homosexual
+						}
+					}
+				}
+				desc = VIETmisc.1014.desc.female
+			}
+			desc = VIETmisc.1014.desc
+		}
+	}
+	theme = love
+	override_background = { reference = VIET_background_skyrim_forest }
+	
+	#left_portrait = root
+	
+	option = {
+		name = VIETmisc.1014.a
+		trigger_event = {
+			id = VIETmisc.1015
+			days = { 2 4 }
+		}
+	}
+}
+
+
+# With My Unspoken Love
+VIETmisc.1015 = {
+	type = character_event
+	title = VIETmisc.1015.t
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = {
+					OR = {
+						is_female = yes
+						AND = {
+							is_female = no
+							has_sexuality = homosexual
+						}
+					}
+				}
+				desc = VIETmisc.1015.desc.female
+			}
+			desc = VIETmisc.1015.desc
+		}
+	}
+	theme = love
+	override_background = { reference = sitting_room }
+	
+	left_portrait = {
+		character = root
+		animation = stress
+	}
+	
+	option = {
+		name = {
+			trigger = {
+				OR = {
+					is_female = no
+					AND = {
+						is_female = yes
+						has_sexuality = homosexual
+					}
+				}
+			}
+			text = VIETmisc.1015.a
+		}
+		name = {
+			trigger = {
+				OR = {
+					is_female = yes
+					AND = {
+						is_female = no
+						has_sexuality = homosexual
+					}
+				}
+			}
+			text = VIETmisc.1015.a.female
+		}
+		trigger_event = {
+			id = VIETmisc.1016
+			days = { 2 4 }
+		}
+	}
+}
+
+
+
+# And Numb Memories
+VIETmisc.1016 = {
+	type = character_event
+	title = VIETmisc.1016.t
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = {
+					OR = {
+						is_female = yes
+						AND = {
+							is_female = no
+							has_sexuality = homosexual
+						}
+					}
+				}
+				desc = VIETmisc.1016.desc.female
+			}
+			desc = VIETmisc.1016.desc
+		}
+	}
+	theme = love
+	override_background = { reference = garden }
+	
+	#left_portrait = root
+	
+	option = {
+		name = VIETmisc.1016.a
+		trigger_event = {
+			id = VIETmisc.1017
+			days = { 2 4 }
+		}
+	}
+}
+
+
+# Once More, Never Again
+VIETmisc.1017 = {
+	type = character_event
+	title = VIETmisc.1017.t
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = {
+					OR = {
+						is_female = yes
+						AND = {
+							is_female = no
+							has_sexuality = homosexual
+						}
+					}
+				}
+				desc = VIETmisc.1017.desc.female
+			}
+			desc = VIETmisc.1017.desc
+		}
+	}
+	theme = love
+	override_background = { reference = garden }
+	
+	#left_portrait = root
+	
+	option = {
+		name = VIETmisc.1017.a
+		trigger_event = {
+			id = VIETmisc.1018
+			days = { 2 4 }
+		}
+	}
+}
+
+
+# I Never Gave an Answer
+VIETmisc.1018 = {
+	type = character_event
+	title = VIETmisc.1018.t
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = {
+					OR = {
+						is_female = yes
+						AND = {
+							is_female = no
+							has_sexuality = homosexual
+						}
+					}
+				}
+				desc = VIETmisc.1018.desc.female
+			}
+			desc = VIETmisc.1018.desc
+		}
+	}
+	theme = love
+	override_background = { reference = corridor_day }
+	
+	#left_portrait = root
+	
+	option = {
+		name = VIETmisc.1018.a
+		trigger_event = {
+			id = VIETmisc.1019
+			days = { 2 4 }
+		}
+	}
+}
+
+
+
+# Which Pains Me
+VIETmisc.1019 = {
+	type = character_event
+	title = VIETmisc.1019.t
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = {
+					OR = {
+						is_female = yes
+						AND = {
+							is_female = no
+							has_sexuality = homosexual
+						}
+					}
+				}
+				desc = VIETmisc.1019.desc.female
+			}
+			desc = VIETmisc.1019.desc
+		}
+	}
+	theme = love
+	override_background = { reference = corridor_day }
+	
+	#left_portrait = root
+	
+	option = {
+		name = VIETmisc.1019.a
+		trigger_event = {
+			id = VIETmisc.1020
+			days = { 2 4 }
+		}
+	}
+}
+
+# But I Remain Beautiful
+VIETmisc.1020 = {
+	type = character_event
+	title = VIETmisc.1020.t
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = {
+					OR = {
+						is_female = yes
+						AND = {
+							is_female = no
+							has_sexuality = homosexual
+						}
+					}
+				}
+				desc = VIETmisc.1020.desc.female
+			}
+			desc = VIETmisc.1020.desc
+		}
+	}
+	theme = love
+	override_background = { reference = throne_room }
+	
+	left_portrait = {
+		character = root
+		animation = happiness
+	}
+	
+	option = {
+		name = {
+			trigger = {
+				OR = {
+					is_female = no
+					AND = {
+						is_female = yes
+						has_sexuality = homosexual
+					}
+				}
+			}
+			text = VIETmisc.1020.a
+		}
+		name = {
+			trigger = {
+				OR = {
+					is_female = yes
+					AND = {
+						is_female = no
+						has_sexuality = homosexual
+					}
+				}
+			}
+			text = VIETmisc.1020.a.female
+		}
+		trigger_event = {
+			id = VIETmisc.1021
+			days = { 2 4 }
+		}
+	}
+}
+
+
+# And Leave Behind
+VIETmisc.1021 = {
+	type = character_event
+	title = VIETmisc.1021.t
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = {
+					OR = {
+						is_female = yes
+						AND = {
+							is_female = no
+							has_sexuality = homosexual
+						}
+					}
+				}
+				desc = VIETmisc.1021.desc.female
+			}
+			desc = VIETmisc.1021.desc
+		}
+	}
+	theme = love
+	override_background = { reference = VIET_background_skyrim_forest }
+	
+	#left_portrait = {
+	#	character = root
+	#	animation = sadness
+	#}
+	
+	option = {
+		name = VIETmisc.1021.a
+		trigger_event = {
+			id = VIETmisc.1022
+			days = { 2 4 }
+		}
+	}
+}
+
+
+# The Warmth of Your Skin
+VIETmisc.1022 = {
+	type = character_event
+	title = VIETmisc.1022.t
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = {
+					OR = {
+						is_female = yes
+						AND = {
+							is_female = no
+							has_sexuality = homosexual
+						}
+					}
+				}
+				desc = VIETmisc.1022.desc.female
+			}
+			desc = VIETmisc.1022.desc
+		}
+	}
+	theme = love
+	override_background = { reference = VIET_background_skyrim_forest }
+	
+	#left_portrait = root
+	
+	immediate = {
+		play_music_cue = "mx_cue_marriage" # Best fit I could find
+	}
+	
+	option = {
+		name = VIETmisc.1022.a
+		VIET_massive_piety_gain_effect = yes
+		add_character_modifier = {
+			modifier = VIET_memory_of_first_love
+		}
+		set_global_variable = {
+			name = VIET_monogatari_chain_completed
+			value = yes
+		}
+	}
+}
+
+
+#########################################################################
+# 
+# CINNAMON ADDICT / CINNAMON TOAST CRUNCH 1023-1029
+# 
+#########################################################################
+
+
+
+
+#Begin the swirls of cinnamon in every bite
+VIETmisc.1023 = {
+	type = character_event
+	title = VIETmisc.1023.t
+	desc = VIETmisc.1023.desc
+	theme = feast_activity
+	override_background = { reference = sitting_room }
+	
+	left_portrait = {
+		character = root
+		animation = personality_greedy
+	}
+	
+	trigger = {
+		has_game_rule = VIET_all_events
+		NOT = { has_character_flag = VIET_cinnamon_chain_chosen }
+		NOT = { has_character_modifier = VIET_cinnamon_toast_crunch_addict }
+		NOT = { has_global_variable = VIET_cinnamon_toast_crunch_yeah }		
+		NOT = { has_trait = temperate }
+		gold >= 100
+	}
+	
+	weight_multiplier = {
+		base = 1
+		modifier = {
+			add = 0.2
+			has_trait = gregarious
+		}
+		modifier = {
+			add = -0.2
+			has_trait = shy
+		}
+		modifier = {
+			add = 0.2
+			has_trait = impatient
+		}
+		modifier = {
+			add = -0.2
+			has_trait = patient
+		}
+		modifier = {
+			add = 0.2
+			has_trait = arbitrary
+		}
+		modifier = {
+			add = -0.2
+			has_trait = just
+		}
+	}
+	
+	
+	option = {
+		name = VIETmisc.1023.a
+		add_character_flag = VIET_cinnamon_chain_chosen
+		trigger_event = {
+			id = VIETmisc.1024
+			days = { 30 60 }
+		}
+	}
+}
+
+
+
+# Preparing for a cinnamon feast
+VIETmisc.1024 = {
+	type = character_event
+	title = VIETmisc.1024.t
+	desc = VIETmisc.1024.desc
+	theme = feast_activity
+	override_background = { reference = throne_room }
+	
+	left_portrait = {
+		character = root
+		animation = personality_content
+	}
+	
+	option = {
+		name = VIETmisc.1024.a
+		remove_short_term_gold = 25
+		trigger_event = {
+			id = VIETmisc.1025
+			days = { 8 20 }
+		}
+	}
+}
+
+
+# Enjoying the cinnamon feast
+VIETmisc.1025 = {
+	type = character_event
+	title = VIETmisc.1025.t
+	desc = VIETmisc.1025.desc
+	theme = feast_activity
+	
+	left_portrait = {
+		character = root
+		animation = personality_honorable
+	}
+	
+	option = {
+		name = VIETmisc.1025.a
+		trigger_event = {
+			id = VIETmisc.1026
+			days = { 8 20 }
+		}
+	}
+}
+
+
+# Concerned courtiers
+VIETmisc.1026 = {
+	type = character_event
+	title = VIETmisc.1026.t
+	desc = VIETmisc.1026.desc
+	theme = vassal
+	
+	left_portrait = {
+		character = root
+		animation = personality_callous
+	}
+	
+	option = {
+		name = VIETmisc.1026.a
+		trigger_event = {
+			id = VIETmisc.1027
+			days = { 2 5 }
+		}
+	}
+}
+
+
+# Sticky buns, sticky fingers
+VIETmisc.1027 = {
+	type = character_event
+	title = VIETmisc.1027.t
+	desc = VIETmisc.1027.desc
+	theme = vassal
+	
+	left_portrait = {
+		character = root
+		animation = personality_callous
+	}
+	
+	option = {
+		name = VIETmisc.1027.a
+		trigger_event = {
+			id = VIETmisc.1028
+			days = { 2 5 }
+		}
+	}
+}
+
+
+# Council meeting
+VIETmisc.1028 = {
+	type = character_event
+	title = VIETmisc.1028.t
+	desc = VIETmisc.1028.desc
+	theme = stewardship_duty_focus
+	
+	left_portrait = {
+		character = root
+		animation = shame
+	}
+	
+	option = {
+		name = VIETmisc.1028.a
+		trigger_event = {
+			id = VIETmisc.1029
+			days = { 2 5 }
+		}
+	}
+}
+
+
+
+# The taste you can see
+VIETmisc.1029 = {
+	type = character_event
+	title = VIETmisc.1029.t
+	desc = VIETmisc.1029.desc
+	theme = feast_activity
+	override_background = { reference = sitting_room }
+	
+	left_portrait = {
+		character = root
+		animation = personality_greedy
+	}
+	
+	option = {
+		name = VIETmisc.1029.a
+		add_character_modifier = {
+			modifier = VIET_ignored_disapproval_and_mockery
+			years = 4
+		}
+		add_character_modifier = {
+			modifier = VIET_cinnamon_toast_crunch_addict
+		}
+		set_global_variable = {
+			name = VIET_cinnamon_toast_crunch_yeah
+			value = yes
+		}
+	}
+}
+
+
+
+
+
+######################################################################################
+# 
+# LOST LOVE
+# A beloved old servant who is dying mistakes the character for their lost love,
+# thus allowing them the blessing of the last thing they see before passing on
+# is the smiling visage of someone who meant so much to them for all these years.
+# 
+######################################################################################
+
+
+# Lost Love - a beloved servant falls ill and is dying
+# NOTE: Servant is always the opposite gender of the character
+VIETmisc.1030 = {
+	type = character_event
+	title = VIETmisc.1030.t
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = {
+					is_female = yes
+				}
+				desc = VIETmisc.1030.desc.female
+			}
+			desc = VIETmisc.1030.desc.male
+		}
+	}
+	theme = family
+	override_background = { reference = sitting_room }
+	
+	left_portrait = {
+		character = root
+		animation = worry
+	}
+	
+	trigger = {
+		NOT = { has_character_flag = VIET_love_lost_event_chain }
+		NOT = { has_global_variable = VIET_love_lost_event_done }
+	}
+	
+	weight_multiplier = {
+		base = 1
+		modifier = {
+			add = 0.2
+			has_trait = compassionate
+		}
+		modifier = {
+			add = -0.2
+			has_trait = callous
+		}
+		modifier = {
+			add = 0.2
+			has_trait = humble
+		}
+		modifier = {
+			add = -0.2
+			has_trait = arrogant
+		}
+		modifier = {
+			add = 0.2
+			has_trait = gregarious
+		}
+		modifier = {
+			add = -0.2
+			has_trait = shy
+		}
+	}
+	
+	
+	option = {
+		name = VIETmisc.1030.a
+		add_character_flag = VIET_love_lost_event_chain
+		trigger_event = {
+			id = VIETmisc.1031
+			days = { 10 20 }
+		}
+	}
+}
+
+
+# The servant awakes
+VIETmisc.1031 = {
+	type = character_event
+	title = VIETmisc.1031.t
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = {
+					is_female = yes
+				}
+				desc = VIETmisc.1031.desc.female
+			}
+			desc = VIETmisc.1031.desc.male
+		}
+	}
+	theme = family
+	override_background = { reference = sitting_room }
+	
+	left_portrait = {
+		character = root
+		animation = admiration
+	}
+	
+	option = {		
+		name = {
+			trigger = { is_female = no }
+			text = VIETmisc.1031.a.male
+		}
+		name = {
+			trigger = { is_female = yes }
+			text = VIETmisc.1031.a.female
+		}
+		trigger_event = {
+			id = VIETmisc.1032
+			days = 1
+		}
+	}
+}
+
+
+# The servant mistakes the character for their long-lost love
+VIETmisc.1032 = {
+	type = character_event
+	title = VIETmisc.1032.t
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = {
+					is_female = yes
+				}
+				desc = VIETmisc.1032.desc.female
+			}
+			desc = VIETmisc.1032.desc.male
+		}
+	}
+	theme = seduction
+	override_background = { reference = sitting_room }
+	
+	left_portrait = {
+		character = root
+		animation = personality_forgiving
+	}
+	
+	immediate = {
+		play_music_cue = "mx_cue_marriage" # Best fit I could find
+	}
+	
+	option = {		
+		name = {
+			trigger = { is_female = no }
+			text = VIETmisc.1032.a.male
+		}
+		name = {
+			trigger = { is_female = yes }
+			text = VIETmisc.1032.a.female
+		}
+		trigger_event = {
+			id = VIETmisc.1033
+			days = { 6 15 }
+		}
+	}
+}
+
+
+# After the funeral, character meets with servant's sister, for answers
+VIETmisc.1033 = {
+	type = character_event
+	title = VIETmisc.1033.t
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = {
+					is_female = yes
+				}
+				desc = VIETmisc.1033.desc.female
+			}
+			desc = VIETmisc.1033.desc.male
+		}
+	}
+	theme = family
+	override_background = { reference = sitting_room }
+	
+	left_portrait = {
+		character = root
+		animation = personality_rational
+	}
+	
+	option = {
+		name = VIETmisc.1033.a
+		trigger_event = VIETmisc.1034
+	}
+}
+
+
+
+# The sister tells how coincidentally, the character shares the same name as the servant's long-lost love, and may have even looked similar
+VIETmisc.1034 = {
+	type = character_event
+	title = VIETmisc.1034.t
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = {
+					is_female = yes
+				}
+				desc = VIETmisc.1034.desc.female
+			}
+			desc = VIETmisc.1034.desc.male
+		}
+	}
+	theme = seduction
+	override_background = { reference = sitting_room }
+	
+	left_portrait = {
+		character = root
+		animation = personality_rational
+	}
+	
+	option = {
+		name = VIETmisc.1034.a
+		trigger_event = VIETmisc.1035
+	}
+}
+
+
+
+# The sister thanks the character
+VIETmisc.1035 = {
+	type = character_event
+	title = VIETmisc.1035.t
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = {
+					is_female = yes
+				}
+				desc = VIETmisc.1035.desc.female
+			}
+			desc = VIETmisc.1035.desc.male
+		}
+	}
+	theme = seduction
+	override_background = { reference = sitting_room }
+	
+	left_portrait = {
+		character = root
+		animation = personality_rational
+	}
+	
+	option = {
+		name = VIETmisc.1035.a
+		add_character_modifier = {
+			modifier = VIET_servants_death_love_lesson
+		}
+		set_global_variable = {
+			name = VIET_love_lost_event_done
+			value = yes
+		}
+	}
+}
+
+############################################################################################################
+# 
+# DREAM OF THE FINAL JOURNEY
+# Character dreams of deceased grandparent, who gently guides them to prepare for their own death.
+# Will only happen to older characters to prevent healthy young characters from dying "for no reason."
+# In real life, studies have shown that it is very common for people to experience "end of life dreams."
+# These visions, which are not the same as hallucinations, often feature deceased relatives or friends.
+# The majority of these dreams tend to be comforting, peaceful, and help the person who's dying prepare.
+# The event chain I wrote here is loosely inspired by some of the anecdotes discussed in these studies.
+# If you're reading this, I highly recommend you search up "End of Life dreams." They can be rather profound.
+# 
+# EDIT: I wrote the below event chain shortly after my grandmother passed away (peacefuly in her sleep, surrounded by family).
+# Around that time, I was reading up a lot on end of life experiences, perhaps to help myself process what was going on.
+# It's why the old version of this event chain in CK2 VIET also included a number of events touching on the theme of death in a serious manner.
+# You could say this event chain is loosely a tribute to her, since she sacrificed a lot to raise and help me over the years.
+# I hope she is doing well, wherever she is.
+# 
+############################################################################################################
+
+
+
+
+# Dream of the Final Journey - beloved grandparent returns to guide character into the afterlife
+VIETmisc.1036 = {
+	type = character_event
+	hidden = yes
+	trigger = { always = no }
+}
+
+
+# Reunion - character sees grandparent in dream
+VIETmisc.1037 = {
+	type = character_event
+	title = VIETmisc.1037.t
+	desc = VIETmisc.1037.desc
+	theme = family
+	override_background = { reference = VIET_background_oblivion_pastoral_dream }
+	
+	left_portrait = {
+		character = scope:scope_VIET_grandparent_dream
+		animation = personality_forgiving
+	}
+	
+	option = {
+		name = VIETmisc.1037.a
+		trigger_event = VIETmisc.1038
+	}
+}
+
+
+# Grandparent tells character to prepare for a journey
+VIETmisc.1038 = {
+	type = character_event
+	title = VIETmisc.1038.t
+	desc = VIETmisc.1038.desc
+	theme = family
+	override_background = { reference = VIET_background_oblivion_pastoral_dream }
+	
+	left_portrait = {
+		character = scope:scope_VIET_grandparent_dream
+		animation = personality_compassionate
+	}
+	
+	option = {
+		name = VIETmisc.1038.a
+		trigger_event = VIETmisc.1039
+	}
+}
+
+
+# Character wakes up, feeling comforted
+VIETmisc.1039 = {
+	type = character_event
+	title = VIETmisc.1039.t
+	desc = VIETmisc.1039.desc
+	theme = death
+	override_background = { reference = sitting_room }
+	
+	left_portrait = {
+		character = root
+		animation = personality_content
+	}
+	
+	option = {
+		name = VIETmisc.1039.a
+		trigger_event = {
+			id = VIETmisc.1040
+			days = { 30 60 }
+		}
+	}
+}
+
+
+# Character keeps seeing grandparent in real life
+VIETmisc.1040 = {
+	type = character_event
+	title = VIETmisc.1040.t
+	desc = VIETmisc.1040.desc
+	theme = family
+	
+	left_portrait = {
+		character = root
+		animation = personality_content
+	}	
+	right_portrait = {
+		character = scope:scope_VIET_grandparent_dream
+		animation = personality_forgiving
+	}
+	
+	option = {
+		name = VIETmisc.1040.a
+		stress_impact = {
+			base = major_stress_impact_loss
+		}
+		trigger_event = {
+			id = VIETmisc.1041
+			days = { 30 60 }
+		}
+	}
+}
+
+
+# Grandparent returns once more in a second dream for another gentle reminder
+VIETmisc.1041 = {
+	type = character_event
+	title = VIETmisc.1041.t
+	desc = VIETmisc.1041.desc
+	theme = faith
+	override_background = { reference = VIET_background_oblivion_pastoral_dream }
+	
+	left_portrait = {
+		character = scope:scope_VIET_grandparent_dream
+		animation = happiness
+	}
+	
+	option = {
+		name = VIETmisc.1041.a
+		trigger_event = VIETmisc.1042
+	}
+}
+
+
+# Character wakes up and starts to show signs of impending death but is at ease and peace
+VIETmisc.1042 = {
+	type = character_event
+	title = VIETmisc.1042.t
+	desc = VIETmisc.1042.desc
+	theme = death
+	override_background = { reference = sitting_room }
+	
+	left_portrait = {
+		character = root
+		animation = personality_rational
+	}
+	
+	option = {
+		name = VIETmisc.1042.a
+		stress_impact = {
+			base = major_stress_impact_loss
+		}
+		trigger_event = {
+			id = VIETmisc.1043
+			days = { 20 40 }
+		}
+	}
+}
+
+
+# Character prepares for death
+VIETmisc.1043 = {
+	type = character_event
+	title = VIETmisc.1043.t
+	desc = VIETmisc.1043.desc
+	theme = faith
+	override_background = { reference = sitting_room }
+	
+	left_portrait = {
+		character = root
+		animation = personality_content
+	}
+	
+	option = {
+		name = VIETmisc.1043.a
+		trigger_event = VIETmisc.1044
+	}
+}
+
+
+# The character begins their final journey with their grandparent
+VIETmisc.1044 = {
+	type = character_event
+	title = VIETmisc.1044.t
+	desc = VIETmisc.1044.desc
+	theme = death
+	override_background = { reference = VIET_background_light_dream }
+	
+	right_portrait = {
+		character = scope:scope_VIET_grandparent_dream
+		animation = personality_content
+	}
+	
+	option = {
+		name = VIETmisc.1044.a
+		death = {
+			death_reason = death_old_age
+		}
+		set_global_variable = {
+			name = VIET_final_journey_dream_completed
+			value = yes
+		}
+	}
+}
+
+
+
+
+
+
+############################################################################################################
+# 
+# MYSTERIOUS CHILD
+# Your character encounters what appears to be the apparition of a child who does spoopy things -
+# but assuming this isn't a hallucination (a big if) is this spirit actually malevolent?
+# 
+############################################################################################################
+
+
+
+
+# A strange child appears in front of you
+VIETmisc.1052 = {
+	type = court_event
+	title = VIETmisc.1052.t
+	desc = VIETmisc.1052.desc
+	theme = death
+
+	lower_right_portrait = scope:child
+	lower_left_portrait = root
+	court_scene = {
+		button_position_character = root
+		court_event_force_open = yes
+		show_timeout_info = no
+		should_pause_time = yes
+		roles = {
+			scope:child = {
+				group = event_group
+				animation = sick
+			}
+			root = {
+				group = event_group
+				animation = shock
+			}
+		}
+	}
+	
+	trigger = {		
+		is_ruler = yes
+		has_royal_court = yes
+		NOT = { has_character_flag = VIET_mysterious_child_character }
+		NOT = { has_global_variable = VIET_mysterious_child_happened }
+		any_courtier_or_guest = {
+			is_available_ai_adult = yes
+		}
+	}
+	
+	weight_multiplier = {
+		base = 1
+		modifier = {
+			add = 0.2
+			has_trait = paranoid
+		}
+		modifier = {
+			add = -0.2
+			has_trait = trusting
+		}
+		modifier = {
+			add = 0.2
+			has_trait = zealous
+		}
+		modifier = {
+			add = -0.2
+			has_trait = cynical
+		}
+		modifier = {
+			add = 0.2
+			has_trait = compassionate
+		}
+		modifier = {
+			add = -0.2
+			has_trait = sadistic
+		}
+	}
+	
+	immediate = {
+		play_music_cue = "mx_VIET_eerie_suspense"
+		create_character = {
+			location = root.capital_province
+			culture = root.culture
+			faith = root.faith
+			gender_female_chance = 50
+			age = { 4 9 }
+			random_traits = yes
+			save_scope_as = child
+		}
+		hidden_effect = {
+			scope:child = {
+				VIET_ek_character_setup_effect = yes
+				death = {
+					death_reason = death_mysterious
+				}
+			}
+		}	
+	}
+	
+	
+	option = {
+		name = VIETmisc.1052.a
+		add_character_flag = VIET_mysterious_child_character
+		trigger_event = VIETmisc.1053
+	}
+}
+
+
+# The child comes closer
+VIETmisc.1053 = {
+	type = court_event
+	title = VIETmisc.1053.t
+	desc = VIETmisc.1053.desc
+	theme = death
+
+	lower_right_portrait = scope:child
+	lower_left_portrait = root
+	court_scene = {
+		button_position_character = root
+		court_event_force_open = yes
+		show_timeout_info = no
+		should_pause_time = yes
+		roles = {
+			scope:child = {
+				group = event_group
+				animation = beg
+			}
+			root = {
+				group = event_group
+				animation = fear
+			}
+		}
+	}
+
+	immediate = {
+		play_music_cue = "mx_VIET_subtle_jump_scare"
+	}
+
+	
+	option = {
+		name = VIETmisc.1053.a
+		add_character_flag = VIET_mysterious_child_spoopy_ending
+		stress_impact = {
+			trusting = miniscule_stress_impact_gain
+			compassionate = miniscule_stress_impact_gain
+		}
+		custom_description_no_bullet = {
+			text = VIETmisc.1053.a.tooltip
+		}
+		trigger_event = VIETmisc.1054
+	}
+	
+	option = {
+		name = VIETmisc.1053.b
+		#add_character_flag = VIET_mysterious_child_hopeful_ending
+		add_character_modifier = {
+			modifier = VIET_strange_malaise
+		}
+		VIET_massive_prestige_loss_effect = yes
+		stress_impact = {
+			base = miniscule_stress_impact_gain
+			paranoid = minor_stress_impact_gain
+			craven = minor_stress_impact_gain
+			callous = miniscule_stress_impact_gain
+			sadistic = miniscule_stress_impact_gain
+			wrathful = miniscule_stress_impact_gain
+			ambitious = miniscule_stress_impact_gain
+			arrogant = miniscule_stress_impact_gain
+		}
+		custom_description_no_bullet = {
+			text = VIETmisc.1053.b.tooltip
+		}
+		trigger_event = VIETmisc.1064
+	}
+
+}
+
+# You wake up - was the child real?
+VIETmisc.1054 = {
+	type = court_event
+	title = VIETmisc.1054.t
+	desc = VIETmisc.1054.desc
+	theme = death
+
+	lower_right_portrait = scope:courtier
+	lower_left_portrait = root
+	court_scene = {
+		button_position_character = root
+		court_event_force_open = yes
+		show_timeout_info = no
+		should_pause_time = yes
+		roles = {
+			scope:courtier = {
+				group = petitioners_group
+				animation = personality_honorable
+			}
+		}
+	}
+
+	immediate = {
+		random_courtier_or_guest = {
+			limit = {
+				is_available_ai_adult = yes
+			}
+			save_scope_as = courtier
+		}		
+		play_music_cue = "mx_VIET_eerie_ambience"
+	}
+	
+	
+	option = {
+		name = VIETmisc.1054.a
+	}
+
+	after = {
+		if = {
+			limit = {
+				has_character_flag = VIET_mysterious_child_spoopy_ending
+			}
+			trigger_event = {
+				id = VIETmisc.1055
+				days = { 30 90 }
+			}
+		}
+		else = {	
+			trigger_event = {
+				id = VIETmisc.1065
+				days = { 30 90 }
+			}		
+		}
+		clear_saved_scope = courtier
+	}	
+}
+
+
+# Footsteps
+VIETmisc.1055 = {
+	type = character_event
+	title = VIETmisc.1055.t	
+	desc = VIETmisc.1055.desc
+	theme = unfriendly	
+	override_background = { reference = corridor_day }
+	
+	left_portrait = {
+		character = root
+		animation = paranoia
+	}
+
+	immediate = {
+		play_music_cue = "mx_VIET_ominous_footsteps"
+	}
+
+	option = { # ok
+		name = VIETmisc.1055.a
+		custom_description_no_bullet = {
+			text = VIETmisc.mysterious_child_song
+		}
+		trigger_event = {
+			id = VIETmisc.1056
+			days = { 15 40 }
+		}
+	}
+}
+
+
+# Child's giggle/sobbing
+VIETmisc.1056 = {
+	type = character_event
+	title = VIETmisc.1056.t	
+	desc = VIETmisc.1056.desc
+	theme = friendly	
+	override_background = { reference = corridor_night }
+	
+	right_portrait = {
+		character = root
+		animation = paranoia
+	}
+
+	immediate = {
+		play_music_cue = "mx_VIET_creepy_child_giggle"
+	}
+
+	option = { # ok
+		name = VIETmisc.1056.a
+		custom_description_no_bullet = {
+			text = VIETmisc.mysterious_child_song
+		}
+		trigger_event = {
+			id = VIETmisc.1057
+			days = { 20 60 }
+		}
+	}
+}
+
+# Hear voices outside
+VIETmisc.1057 = {
+	type = character_event
+	title = VIETmisc.1057.t	
+	desc = VIETmisc.1057.desc
+	theme = unfriendly	
+	override_background = { reference = corridor_night }
+	
+	left_portrait = {
+		character = root
+		animation = paranoia
+	}
+
+	immediate = {
+		play_music_cue = "mx_VIET_creepy_child_giggle"
+	}
+
+	option = { # ok
+		name = VIETmisc.1057.a		
+		stress_impact = {
+			base = miniscule_stress_impact_gain
+			craven = miniscule_stress_impact_gain
+			paranoid = miniscule_stress_impact_gain
+		}
+		custom_description_no_bullet = {
+			text = VIETmisc.mysterious_child_song
+		}
+		trigger_event = {
+			id = VIETmisc.1058
+			days = { 20 60 }
+		}
+	}
+}
+
+# You realize you're hearing it again
+VIETmisc.1058 = {
+	type = character_event
+	title = VIETmisc.1058.t	
+	desc = VIETmisc.1058.desc
+	theme = unfriendly	
+	#override_background = { reference = corridor_day }
+	
+	right_portrait = {
+		character = root
+		animation = rage
+	}
+
+	immediate = {
+		play_music_cue = "mx_VIET_creepy_child_giggle"
+	}
+
+	option = { # ok
+		name = VIETmisc.1058.a	
+		stress_impact = {
+			base = miniscule_stress_impact_gain
+			craven = miniscule_stress_impact_gain
+			paranoid = miniscule_stress_impact_gain
+		}
+		custom_description_no_bullet = {
+			text = VIETmisc.mysterious_child_song
+		}
+		trigger_event = {
+			id = VIETmisc.1059
+			days = { 20 60 }
+		}
+	}
+}
+
+# Someone brings the problem up to you and asks if everything's alright
+VIETmisc.1059 = {
+	type = character_event
+	title = VIETmisc.1059.t	
+	desc = VIETmisc.1059.desc
+	theme = intrigue	
+	override_icon = {
+		reference = "gfx/interface/icons/event_types/type_duty.dds"
+	}
+	
+	left_portrait = {
+		character = root
+		animation = paranoia
+	}
+	right_portrait = {
+		character = scope:courtier
+		animation = worry
+	}
+
+	immediate = {
+		random_courtier_or_guest = {
+			limit = {
+				is_available_ai_adult = yes
+			}
+			save_scope_as = courtier
+		}
+	}
+
+	option = { # ok
+		name = VIETmisc.1059.a
+		custom_description_no_bullet = {
+			text = VIETmisc.mysterious_child_song
+		}
+		trigger_event = {
+			id = VIETmisc.1060
+			days = { 20 60 }
+		}
+	}
+
+	after = {
+		clear_saved_scope = courtier
+	}
+}
+
+# No one is in the room with you
+VIETmisc.1060 = {
+	type = character_event
+	title = VIETmisc.1060.t	
+	desc = VIETmisc.1060.desc
+	theme = unfriendly
+	override_icon = {
+		reference = "gfx/interface/icons/event_types/type_stress.dds"
+	}
+	
+	left_portrait = {
+		character = root
+		animation = rage
+	}
+
+	immediate = {
+		play_music_cue = "mx_VIET_eerie_ambience"
+	}
+
+	option = { # ok
+		name = VIETmisc.1060.a	
+		stress_impact = {
+			base = miniscule_stress_impact_gain
+			craven = miniscule_stress_impact_gain
+			paranoid = miniscule_stress_impact_gain
+		}
+		custom_description_no_bullet = {
+			text = VIETmisc.mysterious_child_song
+		}
+		trigger_event = {
+			id = VIETmisc.1061
+			days = { 20 60 }
+		}
+	}
+}
+
+# Awkward when you're at a feast
+VIETmisc.1061 = {
+	type = character_event
+	title = VIETmisc.1061.t	
+	desc = VIETmisc.1061.desc
+	theme = mental_health
+	override_background = { reference = feast }
+	
+	right_portrait = {
+		character = root
+		animation = sadness
+	}
+
+	immediate = {
+		play_music_cue = "mx_VIET_eerie_ambience"
+	}
+
+	option = { # ok
+		name = VIETmisc.1061.a	
+		stress_impact = {
+			base = miniscule_stress_impact_gain
+			craven = miniscule_stress_impact_gain
+			paranoid = miniscule_stress_impact_gain
+		}
+		custom_description_no_bullet = {
+			text = VIETmisc.mysterious_child_song
+		}
+		trigger_event = {
+			id = VIETmisc.1062
+			days = { 30 80 }
+		}
+	}
+}
+
+# The child returns
+VIETmisc.1062 = {
+	type = character_event
+	title = VIETmisc.1062.t	
+	desc = VIETmisc.1062.desc
+	theme = death
+	override_background = { reference = corridor_night }
+	
+	left_portrait = {
+		character = root
+		animation = shock
+	}
+	right_portrait = {
+		character = scope:child
+		animation = sadness
+	}
+
+	immediate = {
+		play_music_cue = "mx_VIET_subtle_jump_scare"
+	}
+
+	option = { # ok
+		name = VIETmisc.1062.a
+		custom_description_no_bullet = {
+			text = VIETmisc.mysterious_child_song
+		}
+		trigger_event = VIETmisc.1063
+	}
+}
+
+# You are permanently scarred
+VIETmisc.1063 = {
+	type = character_event
+	title = VIETmisc.1063.t	
+	desc = VIETmisc.1063.desc
+	theme = death
+	override_background = { reference = bedchamber }
+
+	immediate = {
+		play_music_cue = "mx_VIET_creepy_child_giggle"
+		set_global_variable = {
+			name = VIET_mysterious_child_happened
+			value = yes
+		}
+	}
+
+	option = { # ok
+		name = VIETmisc.1063.a	
+		random = {
+			chance = 50
+			add_trait = lunatic_1
+		}
+		stress_impact = {
+			base = medium_stress_impact_gain
+			craven = miniscule_stress_impact_gain
+			paranoid = miniscule_stress_impact_gain
+		}
+		if = {
+			limit = {
+				has_character_modifier = VIET_strange_malaise
+			}
+			remove_character_modifier = VIET_strange_malaise
+		}
+		add_character_modifier = {
+			modifier = VIET_mysterious_child
+		}
+		custom_description_no_bullet = {
+			text = VIETmisc.1063.tooltip
+		}
+	}
+}
+
+
+
+# You agree to help the child
+VIETmisc.1064 = {
+	type = court_event
+	title = VIETmisc.1064.t
+	desc = VIETmisc.1064.desc
+	theme = death
+
+	lower_right_portrait = scope:child
+	lower_left_portrait = root
+	court_scene = {
+		button_position_character = root
+		court_event_force_open = yes
+		show_timeout_info = no
+		should_pause_time = yes
+		roles = {
+			scope:child = {
+				group = event_group
+				animation = sadness
+			}
+			root = {
+				group = event_group
+				animation = throne_room_kneel_1
+			}
+		}
+	}
+	
+	
+	option = {
+		name = VIETmisc.1064.a
+		trigger_event = VIETmisc.1054
+	}
+
+}
+
+
+# Mystic claims to help you with your problem
+VIETmisc.1065 = {
+	type = character_event
+	title = VIETmisc.1065.t	
+	desc = VIETmisc.1065.desc
+	theme = diplomacy_foreign_affairs_focus
+	override_icon = {
+		reference = "gfx/interface/icons/event_types/type_stress.dds"
+	}
+
+	left_portrait = {
+		character = root
+		animation = stress
+	}
+	right_portrait = {
+		character = scope:elder
+		animation = personality_content
+	}	
+
+	immediate = {
+		create_character = {
+			location = root.capital_province
+			template = mendicant_mystic_character
+			save_scope_as = elder
+		}		
+	}
+
+	option = { # ok
+		name = VIETmisc.1065.a
+		VIET_huge_prestige_loss_effect = yes
+		remove_short_term_gold = 44
+		stress_impact = {
+			greedy = miniscule_stress_impact_gain
+			cynical = miniscule_stress_impact_gain
+			paranoid = miniscule_stress_impact_gain
+			ambitious = miniscule_stress_impact_gain
+		}
+		trigger_event = VIETmisc.1066
+	}
+
+	option = { # ok
+		name = VIETmisc.1065.b
+		stress_impact = {
+			trusting = miniscule_stress_impact_gain
+			patient = miniscule_stress_impact_gain
+			zealous = miniscule_stress_impact_gain
+			craven = miniscule_stress_impact_gain
+		}
+		trigger_event = {
+			id = VIETmisc.1055
+			days = { 15 40 }
+		}
+		hidden_effect = {
+			scope:elder = {		
+				death = {
+					death_reason = death_disappearance
+				}
+			}		
+		}	
+	}
+}
+
+
+
+# Mystic performs rituals
+VIETmisc.1066 = {
+	type = character_event
+	title = VIETmisc.1066.t	
+	desc = VIETmisc.1066.desc
+	theme = faith
+	override_background = { reference = sitting_room }
+
+	left_portrait = {
+		character = root
+		animation = beg
+	}
+	right_portrait = {
+		character = scope:elder
+		animation = personality_compassionate
+	}	
+
+	immediate = {
+		play_music_cue = "mx_VIET_eerie_ambience"
+	}
+
+	option = { # ok
+		name = VIETmisc.1066.a
+		if = {
+			limit = {
+				has_character_modifier = VIET_strange_malaise
+			}
+			remove_character_modifier = VIET_strange_malaise
+		}
+		stress_impact = {
+			base = miniscule_stress_impact_loss
+			trusting = miniscule_stress_impact_loss
+			zealous = miniscule_stress_impact_loss
+			craven = miniscule_stress_impact_loss
+		}
+		hidden_effect = {
+			scope:elder = {		
+				death = {
+					death_reason = death_disappearance
+				}
+			}		
+		}	
+		trigger_event = {
+			id = VIETmisc.1067
+			days = 4
+		}
+	}
+}
+
+
+# After the ritual
+VIETmisc.1067 = {
+	type = character_event
+	title = VIETmisc.1067.t	
+	desc = VIETmisc.1067.desc
+	theme = friendly
+
+	right_portrait = {
+		character = root
+		animation = personality_irrational
+	}
+
+
+	option = { # ok
+		name = VIETmisc.1067.a	
+		trigger_event = {
+			id = VIETmisc.1068
+			days = { 15 40 }
+		}
+	}
+}
+
+# The child appears again... but happy and not as creepy this time
+VIETmisc.1068 = {
+	type = character_event
+	title = VIETmisc.1068.t	
+	desc = VIETmisc.1068.desc
+	theme = friendly
+
+	left_portrait = {
+		character = root
+		animation = shock
+	}
+	right_portrait = {
+		character = scope:child
+		animation = ecstasy
+	}
+
+	immediate = {
+		play_music_cue = "mx_VIET_eerie_ambience"
+	}
+
+	option = { # ok
+		name = VIETmisc.1068.a
+		custom_description_no_bullet = {
+			text = VIETmisc.happy_child_song
+		}
+		trigger_event = VIETmisc.1069
+	}
+}
+
+# Happy ending
+VIETmisc.1069 = {
+	type = character_event
+	title = VIETmisc.1069.t	
+	desc = VIETmisc.1069.desc
+	theme = friendly
+	override_background = { reference = bedchamber }
+
+	left_portrait = {
+		character = root
+		animation = personality_content
+	}
+
+	immediate = {
+		play_music_cue = "mx_cue_peace_ensues"
+		set_global_variable = {
+			name = VIET_mysterious_child_happened
+			value = yes
+		}
+	}
+
+
+	option = { # ok
+		name = VIETmisc.1069.a
+		VIET_massive_piety_gain_effect = yes
+		stress_impact = {
+			base = minor_stress_impact_loss
+			compassionate = miniscule_stress_impact_loss
+			zealous = miniscule_stress_impact_loss
+			content = miniscule_stress_impact_loss
+		}
+		add_character_modifier = {
+			modifier = VIET_mysterious_happy_child
+		}
+		custom_description_no_bullet = {
+			text = VIETmisc.1069.tooltip
+		}
+	}
+}
+
+
+############################################################################################################
+# 
+# DREAM OF OBLIVION
+# Basically the plot of Oblivion's tutorial.
+# Character has a dream that is suspiciously similar to Elder Scroll Oblivion's storyline.
+# 
+############################################################################################################
+
+
+# Wake up and reach the save point/checkpoint
+VIETmisc.1070 = {
+	type = character_event
+	title = VIETmisc.1070.t	
+	desc = {
+		desc = VIETmisc.1070.desc.intro
+		first_valid = {
+			triggered_desc = {
+				trigger = {
+					var:VIET_oblivion_dream_counter = 1
+				}
+				desc = VIETmisc.1070.desc.1
+			}
+			triggered_desc = {
+				trigger = {
+					var:VIET_oblivion_dream_counter = 2
+				}
+				desc = VIETmisc.1070.desc.2
+			}
+			triggered_desc = {
+				trigger = {
+					var:VIET_oblivion_dream_counter = 3
+				}
+				desc = VIETmisc.1070.desc.3
+			}
+			# triggered_desc = {
+			# 	trigger = {
+			# 		var:VIET_oblivion_dream_counter = 4
+			# 	}
+			# 	desc = VIETmisc.1070.desc.4
+			# }
+			# triggered_desc = {
+			# 	trigger = {
+			# 		var:VIET_oblivion_dream_counter = 5
+			# 	}
+			# 	desc = VIETmisc.1070.desc.5
+			# }
+		}
+		desc = VIETmisc.1070.desc.conclusion
+	}
+	theme = memory_positive
+	override_background = { reference = bedchamber }
+
+	left_portrait = {
+		character = root
+		animation = personality_rational
+	}
+
+	option = { # ok
+		name = VIETmisc.1070.a
+		if = {
+			limit = {
+				var:VIET_oblivion_dream_counter = 1
+			}
+			custom_tooltip = VIETmisc.1070.tooltip.first
+		}
+		else = {
+			custom_tooltip = VIETmisc.1070.tooltip.regular
+		}
+	}
+
+	# Re-enable dream decision
+	after = {
+		if = {
+			limit = {
+				has_character_flag = VIET_currently_doing_oblivion_dream
+			}
+			remove_character_flag = VIET_currently_doing_oblivion_dream
+		}
+	}
+
+}
+
+
+
+
+# Dreaming of a prison cell
+VIETmisc.1071 = {
+	type = character_event
+	title = VIETmisc.1071.t
+	desc = VIETmisc.1071.desc
+	theme = prison
+	
+	trigger = {
+		NOT = { exists = var:VIET_oblivion_dream_counter }
+		NOT = { has_global_variable = VIET_Oblivion_dream_completed }	
+		NOT = { has_game_rule = VIET_serious_events }
+		# These characters shouldn't be pruned, but this is to check just in case
+		exists = character:VIET_oblivion_character_001
+		exists = character:VIET_oblivion_character_002
+		exists = character:VIET_oblivion_character_003
+		exists = character:VIET_oblivion_character_004
+	}
+	
+	weight_multiplier = {
+		base = 1
+		modifier = {
+			add = 0.2
+			has_trait = humble
+		}
+		modifier = {
+			add = -0.2
+			has_trait = arrogant
+		}
+		modifier = {
+			add = 0.2
+			has_trait = compassionate
+		}
+		modifier = {
+			add = -0.2
+			has_trait = sadistic
+		}
+		modifier = {
+			add = 0.2
+			has_trait = just
+		}
+		modifier = {
+			add = -0.2
+			has_trait = arbitrary
+		}
+	}
+	
+	immediate = {
+		set_global_variable = {
+			name = VIET_Oblivion_dream_completed
+			value = yes
+		}	
+		set_variable = {
+			name = VIET_oblivion_dream_counter
+			value = 1
+		}
+		# Disable the decision for now
+		add_character_flag = VIET_currently_doing_oblivion_dream
+
+		# Call in "historical" characters and save them
+		hidden_effect = {
+			character:VIET_oblivion_character_001 = {
+				save_scope_as = uriel
+			}
+			character:VIET_oblivion_character_002 = {
+				save_scope_as = martin
+			}
+			character:VIET_oblivion_character_003 = {
+				save_scope_as = baurus
+			}
+			character:VIET_oblivion_character_004 = {
+				save_scope_as = jauffre
+			}
+		}
+
+		# # Generate the Emperor VIET_uriel_septim_template
+		# hidden_effect = {
+		# 	# 50/50 the Emperor is your culture, or a random culture
+		# 	random_list = {
+		# 		50 = {
+		# 			create_character = {
+		# 				location = root.capital_province
+		# 				template = VIET_uriel_septim_template
+		# 				culture = root.culture
+		# 				save_scope_as = uriel
+		# 			}
+		# 		}
+		# 		50 = {
+		# 			trigger = {
+		# 				NOT = { has_game_rule = VIET_serious_events } # No weirdness
+		# 				# any_county = {
+		# 				# 	NOT = {
+		# 				# 		culture = root.culture
+		# 				# 	}
+		# 				# }
+		# 			}
+		# 			random_county = {
+		# 				# limit = {
+		# 				# 	NOT = {
+		# 				# 		culture = root.culture
+		# 				# 	}
+		# 				# }
+		# 				save_scope_as = county
+		# 			}
+		# 			create_character = {
+		# 				location = root.capital_province
+		# 				template = VIET_uriel_septim_template
+		# 				culture = scope:county.culture
+		# 				save_scope_as = uriel
+		# 			}
+		# 		}
+		# 	}		
+		# 	# Generate Baurus
+		# 	random_list = {
+		# 		# VIET_baurus_template
+		# 		33 = {
+		# 			create_character = {
+		# 				location = root.capital_province
+		# 				template = VIET_baurus_template
+		# 				culture = root.culture
+		# 				save_scope_as = baurus
+		# 			}
+		# 		}
+		# 		66 = {
+		# 			trigger = {
+		# 				NOT = { has_game_rule = VIET_serious_events } # No weirdness
+		# 				# any_county = {
+		# 				# 	NOT = {
+		# 				# 		culture = root.culture
+		# 				# 	}
+		# 				# 	NOT = {
+		# 				# 		culture = scope:uriel.culture
+		# 				# 	}
+		# 				# }
+		# 			}
+		# 			random_county = {
+		# 				# limit = {
+		# 				# 	NOT = {
+		# 				# 		culture = root.culture
+		# 				# 	}
+		# 				# 	NOT = {
+		# 				# 		culture = scope:uriel.culture
+		# 				# 	}
+		# 				# }
+		# 				save_scope_as = county
+		# 			}
+		# 			create_character = {
+		# 				location = root.capital_province
+		# 				template = VIET_baurus_template
+		# 				culture = scope:county.culture
+		# 				save_scope_as = baurus
+		# 			}
+		# 		}
+		# 	}
+		# 	# Generate Jauffre
+		# 	random_list = {
+		# 		33 = {
+		# 			create_character = {
+		# 				location = root.capital_province
+		# 				template = VIET_jauffre_template
+		# 				culture = root.culture
+		# 				save_scope_as = jauffre
+		# 			}
+		# 		}
+		# 		66 = {
+		# 			trigger = {
+		# 				NOT = { has_game_rule = VIET_serious_events } # No weirdness
+		# 				# any_county = {
+		# 				# 	NOT = {
+		# 				# 		culture = root.culture
+		# 				# 	}
+		# 				# 	NOT = {
+		# 				# 		culture = scope:uriel.culture
+		# 				# 	}
+		# 				# }
+		# 			}
+		# 			random_county = {
+		# 				# limit = {
+		# 				# 	NOT = {
+		# 				# 		culture = root.culture
+		# 				# 	}
+		# 				# 	NOT = {
+		# 				# 		culture = scope:uriel.culture
+		# 				# 	}
+		# 				# }
+		# 				save_scope_as = county
+		# 			}
+		# 			create_character = {
+		# 				location = root.capital_province
+		# 				template = VIET_jauffre_template
+		# 				culture = scope:county.culture
+		# 				save_scope_as = jauffre
+		# 			}
+		# 		}
+		# 	}
+		# 	# Generate Martin
+		# 	create_character = {
+		# 		location = root.capital_province
+		# 		template = VIET_martin_template
+		# 		culture = scope:uriel.culture
+		# 		father = scope:uriel
+		# 		dynasty = scope:uriel.dynasty
+		# 		save_scope_as = martin
+		# 	}
+		# 	scope:uriel = {				
+		# 		add_to_global_variable_list = {
+		# 			name = VIET_uriel_septim_person # Dunno how else to do this
+		# 			target = this
+		# 		}	
+		# 		death = {
+		# 			death_reason = death_VIET_dream
+		# 			killer = root
+		# 		}
+		# 	}
+		# 	scope:baurus = {				
+		# 		add_to_global_variable_list = {
+		# 			name = VIET_baurus_septim_person # Dunno how else to do this
+		# 			target = this
+		# 		}	
+		# 		death = {
+		# 			death_reason = death_VIET_dream
+		# 			killer = root
+		# 		}
+		# 	}
+		# 	scope:jauffre = {				
+		# 		add_to_global_variable_list = {
+		# 			name = VIET_jauffre_septim_person # Dunno how else to do this
+		# 			target = this
+		# 		}	
+		# 		death = {
+		# 			death_reason = death_VIET_dream
+		# 			killer = root
+		# 		}
+		# 	}
+		# 	scope:martin = {				
+		# 		add_to_global_variable_list = {
+		# 			name = VIET_martin_septim_person # Dunno how else to do this
+		# 			target = this
+		# 		}	
+		# 		death = {
+		# 			death_reason = death_VIET_dream
+		# 			killer = root
+		# 		}
+		# 	}
+		# }
+	}
+	
+	
+	option = {
+		name = VIETmisc.1071.a
+		trigger_event = VIETmisc.1072
+	}
+
+	after = {
+		scope:uriel = {
+			make_unprunable = yes
+		}
+		scope:baurus = {
+			make_unprunable = yes
+		}
+		scope:jauffre = {
+			make_unprunable = yes
+		}
+		scope:martin = {
+			make_unprunable = yes
+		}
+	}
+}
+
+
+# Guards and Emperor enter the cell
+VIETmisc.1072 = {
+	type = character_event
+	title = VIETmisc.1072.t
+	desc = VIETmisc.1072.desc
+	theme = prison
+
+	left_portrait = {
+		character = root
+		animation = idle
+		outfit_tags = { beggar_rags }
+	}
+
+	right_portrait = {
+		character = scope:uriel
+		animation = personality_content
+	}
+	
+	option = {
+		name = VIETmisc.1072.a
+		trigger_event = VIETmisc.1073
+	}
+}
+
+# "You are the one from my dreams"
+VIETmisc.1073 = {
+	type = character_event
+	title = VIETmisc.1073.t
+	desc = VIETmisc.1073.desc
+	theme = prison
+
+	left_portrait = {
+		character = root
+		animation = paranoia
+		outfit_tags = { beggar_rags }
+	}
+
+	right_portrait = {
+		character = scope:uriel
+		animation = personality_honorable
+	}
+
+	option = {
+		name = VIETmisc.1073.a
+		trigger_event = VIETmisc.1070
+	}
+}
+
+# The Nine Divines
+VIETmisc.1074 = {
+	type = character_event
+	title = VIETmisc.1074.t
+	desc = VIETmisc.1074.desc
+	theme = VIET_theme_oblivion_prison_sewer	
+	override_icon = {
+		reference = "gfx/interface/icons/event_types/type_faith.dds"
+	}
+
+	left_portrait = {
+		character = root
+		animation = idle
+		outfit_tags = { beggar_rags }
+	}
+
+	right_portrait = {
+		character = scope:uriel
+		animation = worry
+	}
+
+	immediate = {
+		# Call in "historical" characters and save them
+		hidden_effect = {
+			character:VIET_oblivion_character_001 = {
+				save_scope_as = uriel
+			}
+			character:VIET_oblivion_character_002 = {
+				save_scope_as = martin
+			}
+			character:VIET_oblivion_character_003 = {
+				save_scope_as = baurus
+			}
+			character:VIET_oblivion_character_004 = {
+				save_scope_as = jauffre
+			}
+		}
+		# Disable the decision for now
+		add_character_flag = VIET_currently_doing_oblivion_dream
+		if = {
+			limit = { NOT = { exists = var:VIET_oblivion_dream_counter } }
+			set_variable = {
+				name = VIET_oblivion_dream_counter
+				value = 2
+			}
+		}
+		else = {
+			change_variable = {
+				name = VIET_oblivion_dream_counter
+				add = 1
+			}		
+		}
+	}
+
+	option = {
+		name = VIETmisc.1074.a
+		stress_impact = {
+			cynical = minor_stress_impact_gain
+			callous = miniscule_stress_impact_gain
+		}
+	}
+
+	option = {
+		name = VIETmisc.1074.b
+		stress_impact = {
+			zealous = minor_stress_impact_gain
+			trusting = miniscule_stress_impact_gain
+		}
+	}
+
+	option = {
+		name = VIETmisc.1074.c
+		stress_impact = {
+			zealous = minor_stress_impact_gain
+			humble = miniscule_stress_impact_gain
+		}
+	}
+
+	after = {
+		trigger_event = VIETmisc.1075
+	}
+}
+
+# Patrick Stewart saying cool things
+VIETmisc.1075 = {
+	type = character_event
+	title = VIETmisc.1075.t
+	desc = VIETmisc.1075.desc
+	theme = VIET_theme_oblivion_prison_sewer	
+	override_icon = {
+		reference = "gfx/interface/icons/event_types/type_learning.dds"
+	}
+
+	left_portrait = {
+		character = root
+		animation = idle
+		outfit_tags = { beggar_rags }
+	}
+
+	right_portrait = {
+		character = scope:uriel
+		animation = personality_content
+	}
+
+	option = {
+		name = VIETmisc.1075.a
+		trigger_event = VIETmisc.1076
+	}
+}
+
+# Patrick Stewart's Shakespeare Quote
+VIETmisc.1076 = {
+	type = character_event
+	title = VIETmisc.1076.t
+	desc = VIETmisc.1076.desc
+	theme = VIET_theme_oblivion_prison_sewer	
+	override_icon = {
+		reference = "gfx/interface/icons/event_types/type_duty.dds"
+	}
+
+	left_portrait = {
+		character = root
+		animation = shock
+		outfit_tags = { beggar_rags }
+	}
+
+	right_portrait = {
+		character = scope:uriel
+		animation = personality_bold
+	}
+
+	option = {
+		name = VIETmisc.1076.a
+		trigger_event = VIETmisc.1070
+	}
+}
+
+
+# Farewell to the Emperor
+VIETmisc.1077 = {
+	type = character_event
+	window = duel_event
+	title = VIETmisc.1077.t
+	desc = VIETmisc.1077.desc
+	theme = VIET_theme_oblivion_prison_sewer
+
+	left_portrait = {
+		character = root
+		animation = aggressive_sword
+		outfit_tags = { beggar_rags }
+	}
+
+	right_portrait = {
+		character = scope:uriel
+		animation = personality_bold
+	}
+
+	immediate = {
+		# Call in "historical" characters and save them
+		hidden_effect = {
+			character:VIET_oblivion_character_001 = {
+				save_scope_as = uriel
+			}
+			character:VIET_oblivion_character_002 = {
+				save_scope_as = martin
+			}
+			character:VIET_oblivion_character_003 = {
+				save_scope_as = baurus
+			}
+			character:VIET_oblivion_character_004 = {
+				save_scope_as = jauffre
+			}
+		}
+		# Disable the decision for now
+		add_character_flag = VIET_currently_doing_oblivion_dream
+		if = {
+			limit = { NOT = { exists = var:VIET_oblivion_dream_counter } }
+			set_variable = {
+				name = VIET_oblivion_dream_counter
+				value = 3
+			}
+		}
+		else = {
+			change_variable = {
+				name = VIET_oblivion_dream_counter
+				add = 1
+			}		
+		}
+	}
+
+	option = {
+		name = VIETmisc.1077.a		
+		VIET_tiny_piety_gain_effect = yes
+		VIET_tiny_prestige_gain_effect = yes
+		set_variable = {
+			name = VIET_emperor_farewell
+			value = flag:noble
+		}
+		stress_impact = {
+			just = miniscule_stress_impact_loss
+			calm = miniscule_stress_impact_loss
+		}
+	}
+
+	option = {
+		name = VIETmisc.1077.b
+		VIET_small_piety_gain_effect = yes
+		set_variable = {
+			name = VIET_emperor_farewell
+			value = flag:sentimental
+		}
+		stress_impact = {
+			compassionate = miniscule_stress_impact_loss
+			humble = miniscule_stress_impact_loss
+		}
+	}
+
+	option = {
+		name = VIETmisc.1077.c
+		VIET_small_prestige_gain_effect = yes
+		set_variable = {
+			name = VIET_emperor_farewell
+			value = flag:determined
+		}
+		stress_impact = {
+			diligent = miniscule_stress_impact_loss
+			brave = miniscule_stress_impact_loss
+		}
+	}
+
+	after = {		
+		trigger_event = VIETmisc.1078
+	}
+
+}
+
+
+# Boink
+VIETmisc.1078 = {
+	type = character_event
+	window = duel_event
+	title = VIETmisc.1078.t
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = {
+					var:VIET_emperor_farewell = flag:noble
+				}
+				desc = VIETmisc.1078.desc.1
+			}
+			triggered_desc = {
+				trigger = {
+					var:VIET_emperor_farewell = flag:sentimental
+				}
+				desc = VIETmisc.1078.desc.2
+			}
+			triggered_desc = {
+				trigger = {
+					var:VIET_emperor_farewell = flag:determined
+				}
+				desc = VIETmisc.1078.desc.3
+			}
+		}
+		desc = VIETmisc.1078.desc
+	}
+	theme = VIET_theme_oblivion_prison_sewer
+
+	left_portrait = {
+		character = root
+		animation = throne_room_one_handed_passive_1
+		outfit_tags = { beggar_rags }
+	}
+
+	right_portrait = {
+		character = scope:baurus
+		animation = sadness
+		outfit_tags = { military_outfit }
+	}
+
+	option = {
+		name = VIETmisc.1078.a
+		if = {
+			limit = { has_variable = VIET_emperor_farewell }
+			remove_variable = VIET_emperor_farewell
+		}		
+		trigger_event = VIETmisc.1079
+	}
+
+}
+
+# The Amulet
+VIETmisc.1079 = {
+	type = character_event
+	title = VIETmisc.1079.t
+	desc = VIETmisc.1079.desc
+	theme = VIET_theme_oblivion_prison_sewer	
+	override_icon = {
+		reference = "gfx/interface/icons/event_types/type_duty.dds"
+	}
+
+	left_portrait = {
+		character = root
+		animation = personality_rational
+		outfit_tags = { beggar_rags }
+	}
+
+	right_portrait = {
+		character = scope:baurus
+		animation = personality_cynical
+		outfit_tags = { military_outfit }
+	}
+
+	option = {
+		name = VIETmisc.1079.a	
+		trigger_event = VIETmisc.1070
+	}
+
+}
+
+# Splitting Up
+VIETmisc.1080 = {
+	type = character_event
+	title = VIETmisc.1080.t
+	desc = VIETmisc.1080.desc
+	theme = VIET_theme_oblivion_prison_sewer	
+	override_icon = {
+		reference = "gfx/interface/icons/event_types/type_duty.dds"
+	}
+
+	left_portrait = {
+		character = root
+		animation = personality_bold
+		outfit_tags = { beggar_rags }
+	}
+
+	right_portrait = {
+		character = scope:baurus
+		animation = personality_honorable
+		outfit_tags = { military_outfit }
+	}
+
+
+	immediate = {
+		# Call in "historical" characters and save them
+		hidden_effect = {
+			character:VIET_oblivion_character_001 = {
+				save_scope_as = uriel
+			}
+			character:VIET_oblivion_character_002 = {
+				save_scope_as = martin
+			}
+			character:VIET_oblivion_character_003 = {
+				save_scope_as = baurus
+			}
+			character:VIET_oblivion_character_004 = {
+				save_scope_as = jauffre
+			}
+		}
+		# Disable the decision for now
+		add_character_flag = VIET_currently_doing_oblivion_dream
+		if = {
+			limit = { NOT = { exists = var:VIET_oblivion_dream_counter } }
+			set_variable = {
+				name = VIET_oblivion_dream_counter
+				value = 4
+			}
+		}
+		else = {
+			change_variable = {
+				name = VIET_oblivion_dream_counter
+				add = 1
+			}		
+		}
+	}
+
+	option = {
+		name = VIETmisc.1080.a		
+		trigger_event = VIETmisc.1081
+	}
+
+}
+
+# Emerge from the Sewers and see Vilverin
+VIETmisc.1081 = {
+	type = character_event
+	title = VIETmisc.1081.t
+	desc = VIETmisc.1081.desc
+	theme = VIET_theme_oblivion_pastoral_dream
+
+	left_portrait = {
+		character = root
+		animation = happiness
+		outfit_tags = { beggar_rags }
+	}
+
+	option = {
+		name = VIETmisc.1081.a		
+		stress_impact = {
+			diligent = miniscule_stress_impact_loss
+			just = miniscule_stress_impact_loss
+			zealous = miniscule_stress_impact_loss
+		}
+		trigger_event = VIETmisc.1082
+	}
+
+	option = {
+		name = VIETmisc.1081.b		
+		stress_impact = {
+			lazy = miniscule_stress_impact_loss
+			fickle = miniscule_stress_impact_loss
+			brave = miniscule_stress_impact_loss
+		}	
+		trigger_event = VIETmisc.1083
+	}
+
+}
+
+# Brief Summary of Oblivion's Plot
+VIETmisc.1082 = {
+	type = character_event
+	title = VIETmisc.1082.t
+	desc = VIETmisc.1082.desc
+	theme = VIET_theme_oblivion_pastoral_dream
+
+	right_portrait = {
+		character = root
+		animation = happiness
+	}
+
+	artifact = { # To display the artifact in the event-window
+		target = scope:VIET_oblivion_artifact
+		position = lower_center_portrait
+	}
+
+	immediate = {
+		play_music_cue = "mx_cue_positive_effect"
+		save_scope_as = oblivion_dreamer
+		create_artifact = {	
+			name = VIET_oblivion_dream_book_name
+			description = VIET_oblivion_dream_book_desc
+			type = journal
+			visuals = VIET_oblivion_scroll
+			quality = 65
+			wealth = 65
+			modifier = artifact_VIET_oblivion_dream_modifier
+			#max_durability = 40
+			decaying = no
+			save_scope_as = VIET_oblivion_artifact
+		}
+		#scope:VIET_oblivion_artifact = {
+		#	set_variable = VIET_oblivion_artifact_variable
+		#}
+	}
+
+	option = {
+		name = VIETmisc.1082.a
+		create_character_memory = {
+			type = VIET_memory_oblivion_dream
+		}
+	}
+
+	after = {
+		if = {
+			limit = {
+				has_character_flag = VIET_currently_doing_oblivion_dream
+			}
+			remove_character_flag = VIET_currently_doing_oblivion_dream
+		}
+		add_character_flag = VIET_oblivion_dream_done
+	}
+
+}
+
+# Brief Summary of Oblivion's Plot... if you didn't bother with the main quest
+# Credits to this_anon from this reddit thread, the text was mostly their idea, with some minor tweaks and changes on my part:
+# https://www.reddit.com/r/CrusaderKings/comments/dhi7v2/cant_wait_for_the_elder_scrolls_vi_wallachia/f3p3t9t/
+VIETmisc.1083 = {
+	type = character_event
+	title = VIETmisc.1083.t
+	desc = VIETmisc.1083.desc
+	theme = VIET_theme_oblivion_pastoral_dream
+
+	right_portrait = {
+		character = root
+		animation = happiness
+	}
+
+	artifact = { # To display the artifact in the event-window
+		target = scope:VIET_oblivion_artifact
+		position = lower_center_portrait
+	}
+
+	immediate = {
+		play_music_cue = "mx_cue_positive_effect"
+		save_scope_as = oblivion_dreamer	
+		create_artifact = {	
+			name = VIET_oblivion_dream_book_alt_name
+			description = VIET_oblivion_dream_book_alt_desc
+			type = journal
+			visuals = VIET_oblivion_scroll
+			quality = 65
+			wealth = 65
+			modifier = artifact_VIET_oblivion_dream_modifier
+			#max_durability = 40
+			decaying = no
+			save_scope_as = VIET_oblivion_artifact
+		}
+		#scope:VIET_oblivion_artifact = {
+		#	set_variable = VIET_oblivion_artifact_variable
+		#}
+	}
+
+	option = {
+		name = VIETmisc.1083.a
+		create_character_memory = {
+			type = VIET_memory_oblivion_dream
+		}
+	}
+
+	after = {
+		if = {
+			limit = {
+				has_character_flag = VIET_currently_doing_oblivion_dream
+			}
+			remove_character_flag = VIET_currently_doing_oblivion_dream
+		}
+		add_character_flag = VIET_oblivion_dream_done
+	}
+
+}
+
+
+
+############################################################################################################
+# 
+# SUPERNOVA 1006
+# A select few rulers, including all players, get to react to the 1006 Suprenova
+# 
+############################################################################################################
+
+
+
+# 1006 Supernova
+VIETmisc.1084 = { # Fullscreen Intro Event
+	type = character_event
+	window = fullscreen_event
+	title = VIETmisc.1084.t
+	desc = VIETmisc.1084.desc
+	theme = realm
+	override_background = { reference = VIET_full_background_night_sky }
+	#override_sound = { reference = "event:/DLC/FP2/SFX/UI/fp2_struggle_ui_intro_animate" }
+
+	immediate = {
+		play_music_cue = "mx_cue_epic_sacral_moment"
+	}
+
+	# Pay astronomers to record observations about it
+	option = {
+		name = VIETmisc.1084.a
+		trigger = {
+			OR = {
+				gold >= 80
+				is_ai = no
+			}
+		}
+
+		ai_chance = {
+			base = 25
+			modifier = {
+				add = 10
+				learning >= decent_skill_rating
+			}
+			modifier = {
+				add = 10
+				OR = {
+					has_trait = scholar
+					has_trait = theologian
+					has_trait = lifestyle_mystic
+				}
+			}
+		}
+		
+		remove_short_term_gold = 80
+		VIET_massive_prestige_gain_effect = yes
+
+		create_artifact = {
+			name = VIET_supernova_1066_record_name
+			type = journal
+			description = VIET_supernova_1066_record_desc 
+			visuals = VIET_book_placeholder
+			modifier = artifact_VIET_supernova_1066_record
+			save_scope_as = record
+			wealth = 58
+			quality = 58
+			history = {
+				type = created_before_history
+			}
+		}
+
+		if = {
+			limit = {
+				has_game_rule = VIET_historical_context_on
+			}
+			custom_description_no_bullet = {
+				text = VIETmisc.1084.info
+			}
+		}
+
+		clicksound = "event:/DLC/FP2/SFX/UI/fp2_struggle_start_select"
+	}
+	
+	# Pray for a good omen
+	option = {
+		name = VIETmisc.1084.b
+		trigger = {
+			OR = {
+				gold >= 25
+				is_ai = no
+			}
+		}
+
+		ai_chance = {
+			base = 50
+			modifier = {
+				add = 15
+				has_trait = zealous
+			}
+		}
+
+		remove_short_term_gold = 25
+		VIET_massive_piety_gain_effect = yes
+
+		stress_impact = {
+			cynical = minor_stress_impact_gain
+			zealous = minor_stress_impact_loss
+		}
+
+		if = {
+			limit = {
+				has_game_rule = VIET_historical_context_on
+			}
+			custom_description_no_bullet = {
+				text = VIETmisc.1084.info
+			}
+		}
+	}
+	
+	# Whatever
+	option = {
+		name = VIETmisc.1084.c
+
+		ai_chance = {
+			base = 25
+		}
+
+		if = {
+			limit = {
+				has_game_rule = VIET_historical_context_on
+			}
+			custom_description_no_bullet = {
+				text = VIETmisc.1084.info
+			}
+		}
+
+
+	}
+
+	after = {
+		create_character_memory = {
+			type = VIET_memory_supernova_1006
+		}
+	}
+
+}

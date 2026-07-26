@@ -1,0 +1,426 @@
+﻿####################################
+# MFA Activity Converter
+# Pulse relay for adult_education activity
+# Root scope = the character (same as on_weekly_pulse).
+####################################
+
+
+
+MFA_adult_education_0_relay = {
+	trigger = {
+		is_ruler = yes
+		exists = var:MFA_phase_0_remaining
+	}
+
+	effect = {
+		if = {
+			limit = {
+				var:MFA_phase_0_remaining >= 1
+				scope:activity = { is_current_phase_active = yes }
+			}
+			if = {
+				limit = { this = scope:host }
+				# Let's check that we still have the required teachers and students, and if not let's create them again
+				#Set up recurring characters: teachers
+				bp2_university_teacher_setup = yes
+				#Set up recurring characters: students
+				bp2_university_student_setup = yes
+				trigger_event = { on_action = adult_education_destination_events }
+			}
+		}
+
+		change_variable = {
+			name = MFA_phase_0_remaining
+			add = -1
+		}
+		if = {
+			limit = {
+				var:MFA_phase_0_remaining >= 1
+			}
+			trigger_event = { on_action = MFA_adult_education_0_relay days = MFA_adult_education_1_month_days }
+		}
+		else = {
+			remove_variable = MFA_phase_0_remaining
+		}
+	}
+}
+
+MFA_adult_education_pulse_relay = {
+	effect = {
+		if = {
+			limit = {
+				has_variable = MFA_pulse_relay_tick
+			}
+			change_variable = { name = MFA_pulse_relay_tick add = 1 }
+		}
+		else = {
+			set_variable = { name = MFA_pulse_relay_tick value = 1 }
+		}
+		if = {
+			limit = {
+				exists = scope:activity
+			}
+			trigger_event = { on_action = MFA_adult_education_pulse_relay_effects }
+		}
+		if = {
+			limit = {
+				exists = scope:activity
+			}
+			trigger_event = { on_action = MFA_adult_education_pulse_relay days = 1 }
+		}
+		else = {
+			remove_variable = MFA_pulse_relay_tick
+		}
+	}
+}
+
+MFA_adult_education_pulse_relay_effects = {
+	trigger = {
+		var:MFA_pulse_relay_tick > MFA_adult_education_pulse_relay_timer
+	}
+	effect = {
+		random_list = {
+			5 = { } # chance_of_no_event
+			1 = { # apa_leveraging_language_skills
+				trigger = {
+					scope:activity = {
+						is_current_phase_active = yes
+						scope:host = {
+							location = scope:activity.activity_location
+							has_activity_intent = study_hard_intent
+							OR = {
+								#AGOT Modified
+								# AND = {
+								# 	scope:activity.activity_location.faith.religion = religion:islam_religion
+								# 	knows_language = language_arabic
+								# }
+								# AND = {
+								# 	scope:activity.activity_location = {
+								# 		OR = {
+								# 			faith = faith:catholic
+								# 			faith = faith:conversos
+								# 			faith = faith:lollard
+								# 			faith = faith:insular_celtic
+								# 			faith = faith:mozarabic_church
+								# 		}
+								# 	}
+								# 	knows_language = language_latin
+								# }
+								# AND = {
+								# 	scope:activity.activity_location.faith = faith:cathar
+								# 	knows_language = language_occitano_romance
+								# }
+								# AND = {
+								# 	scope:activity.activity_location.faith = faith:armenian_apostolic
+								# 	knows_language = language_armenian
+								# }
+								# AND = {
+								# 	scope:activity.activity_location.faith = faith:nestorian
+								# 	knows_language = language_aramaic
+								# }
+								# AND = {
+								# 	scope:activity.activity_location.faith = faith:lamaism
+								# 	knows_language = language_tibetan
+								# }
+								# AND = {
+								# 	scope:activity.activity_location.religion = religion:bon_religion
+								# 	knows_language = language_tibetan
+								# }
+								# AND = {
+								# 	scope:activity.activity_location.religion = religion:taoism_religion
+								# 	knows_language = language_chinese
+								# }
+								# AND = {
+								# 	scope:activity.activity_location = {
+								# 		religion = religion:christianity_religion
+								# 		NOR = { #Non-Greek
+								# 			faith = faith:catholic
+								# 			faith = faith:conversos
+								# 			faith = faith:lollard
+								# 			faith = faith:insular_celtic
+								# 			faith = faith:mozarabic_church
+								# 			faith = faith:armenian_apostolic
+								# 			faith = faith:cathar
+								# 		}
+								# 	}
+								# 	knows_language = language_greek #General Christian Fallback
+								# }
+								# #For dead languages we check that you belong to the religion and have sufficient learning to be expected to know a liturgical language:
+								# AND = {
+								# 	religion = scope:activity.activity_location.religion
+								# 	scope:activity.activity_location = { #these have specific languages to learn
+								# 		NOR = {
+								# 			religion = religion:christianity_religion
+								# 			religion = religion:islam_religion
+								# 			religion = religion:taoism_religion
+								# 			faith = faith:lamaism
+								# 		}
+								# 	}
+								# 	learning > 15 #Well educated
+								# }
+								# AND = { #Dharmic Faiths knows Sanskrit
+								# 	scope:activity.activity_location = {
+								# 		is_dharmic_faith_trigger = yes
+								# 	}
+								# 	is_dharmic_faith_trigger = yes
+								# 	learning > 15 #Well educated
+								# }
+								AND = {
+									scope:activity.activity_location.faith.religion = religion:the_flames_religion
+									knows_language = language_agot_valyrian
+								}
+							}
+						}
+					}
+				}
+				trigger_event = { on_action = MFA_pulse_apa_leveraging_language_skills }
+			}
+			1 = { # apa_procrastination
+				trigger = {
+					scope:activity = {
+						is_current_phase_active = yes
+						any_attending_character = {
+							NOR = {
+								has_character_flag = teacher_1
+								has_character_flag = teacher_2
+							}
+							OR = {
+								has_activity_intent = university_revelry_intent
+								has_trait = lazy
+								has_trait = arrogant
+								has_trait = drunkard
+								has_trait = fickle
+								has_trait = arbitrary
+							}
+						}
+					}
+				}
+				trigger_event = { on_action = MFA_pulse_apa_procrastination }
+			}
+			1 = { # apa_sight_seeing_group
+				trigger = {
+					scope:activity = {
+						is_current_phase_active = yes
+						scope:host = {
+							has_trait = lifestyle_traveler
+						}
+						any_attending_character = {
+							location = scope:activity.activity_location
+							has_trait = lifestyle_traveler
+							this != scope:host
+							OR = {
+								likes_character_trigger = { CHARACTER = scope:host }
+								is_close_family_of = scope:host
+							}
+						}
+					}
+				}
+				trigger_event = { on_action = MFA_pulse_apa_sight_seeing_group }
+			}
+			1 = { # apa_studying_scripture
+				trigger = {
+					scope:activity = {
+						scope:host = {
+							has_focus_learning = yes
+							location = scope:activity.activity_location
+						}
+						is_current_phase_active = yes
+					}
+				}
+				trigger_event = { on_action = MFA_pulse_apa_studying_scripture }
+			}
+			1 = { # apa_visited_markets
+				trigger = {
+					scope:activity = {
+						scope:host = {
+							has_focus_stewardship = yes
+							location = scope:activity.activity_location
+						}
+						is_current_phase_active = yes
+					}
+				}
+				trigger_event = { on_action = MFA_pulse_apa_visited_markets }
+			}
+			1 = { # apa_foreign_custom
+				trigger = {
+					scope:activity = {
+						is_current_phase_active = yes
+						scope:host = {
+							has_focus_diplomacy = yes
+							location = scope:activity.activity_location
+						}
+						scope:activity.activity_location = {
+							culture != scope:host.culture
+						}
+					}
+				}
+				trigger_event = { on_action = MFA_pulse_apa_foreign_custom }
+			}
+			1 = { # apa_university_discussions
+				trigger = {
+					scope:activity = {
+						is_current_phase_active = yes
+						any_attending_character = {
+							this != scope:host
+							is_available_healthy_ai_adult = yes
+							OR = {
+								has_character_flag = teacher_1
+								has_character_flag = teacher_2
+							}
+						}
+					}
+				}
+				trigger_event = { on_action = MFA_pulse_apa_university_discussions }
+			}
+			1 = { # apa_night_on_books
+				trigger = {
+					scope:activity = {
+						is_current_phase_active = yes
+						any_attending_character = {
+							NOR = {
+								has_character_flag = teacher_1
+								has_character_flag = teacher_2
+							}
+						}
+					}
+				}
+				trigger_event = { on_action = MFA_pulse_apa_night_on_books }
+			}
+			1 = { # apa_student_disagreement
+				trigger = {
+					scope:activity = {
+						is_current_phase_active = yes
+						any_attending_character = {
+							NOR = {
+								has_character_flag = teacher_1
+								has_character_flag = teacher_2
+							}
+							count = 2
+						}
+					}
+				}
+				trigger_event = { on_action = MFA_pulse_apa_student_disagreement }
+			}
+			1 = { # apa_rowdy_student
+				trigger = {
+					scope:activity = {
+						is_current_phase_active = yes
+						any_attending_character = {
+							NOR = {
+								has_character_flag = teacher_1
+								has_character_flag = teacher_2
+							}
+							OR = {
+								has_activity_intent = university_revelry_intent
+								has_trait = drunkard
+								has_trait = hashishiyah
+								has_trait = gregarious
+								has_trait = arrogant
+							}
+						}
+						any_attending_character = {
+							OR = {
+								has_character_flag = teacher_1
+								has_character_flag = teacher_2
+							}
+						}
+					}
+				}
+				trigger_event = { on_action = MFA_pulse_apa_rowdy_student }
+			}
+			1 = { # apa_impromptu_poetry
+				trigger = {
+					scope:activity = {
+						is_current_phase_active = yes
+						any_attending_character = {
+							NOR = {
+								has_character_flag = teacher_1
+								has_character_flag = teacher_2
+							}
+							OR = {
+								has_activity_intent = university_revelry_intent
+								has_trait = gregarious
+								has_trait = lifestyle_poet
+							}
+						}
+					}
+				}
+				trigger_event = { on_action = MFA_pulse_apa_impromptu_poetry }
+			}
+			1 = { # apa_impressed_teacher
+				trigger = {
+					scope:activity = {
+						is_current_phase_active = yes
+						any_attending_character = {
+							NOR = {
+								has_character_flag = teacher_1
+								has_character_flag = teacher_2
+							}
+							OR = {
+								has_activity_intent = study_hard_intent
+								has_trait = diligent
+							}
+						}
+						any_attending_character = {
+							OR = {
+								has_character_flag = teacher_1
+								has_character_flag = teacher_2
+							}
+						}
+					}
+				}
+				trigger_event = { on_action = MFA_pulse_apa_impressed_teacher }
+			}
+			1 = { # apa_revelry_hangover
+				trigger = {
+					scope:activity = {
+						is_current_phase_active = yes
+						any_attending_character = {
+							NOR = {
+								has_character_flag = teacher_1
+								has_character_flag = teacher_2
+								has_activity_intent = study_hard_intent
+								has_trait = diligent
+								has_trait = temperate
+							}
+							drinks_alcohol_trigger = yes
+						}
+					}
+				}
+				trigger_event = { on_action = MFA_pulse_apa_revelry_hangover }
+			}
+			1 = { # apa_local_food
+				trigger = {
+					scope:activity = {
+						is_current_phase_active = yes
+						any_attending_character = {
+							NOR = {
+								has_character_flag = teacher_1
+								has_character_flag = teacher_2
+							}
+						}
+					}
+				}
+				trigger_event = { on_action = MFA_pulse_apa_local_food }
+			}
+			1 = { # apa_aced_homework
+				trigger = {
+					scope:activity = {
+						is_current_phase_active = yes
+					}
+				}
+				trigger_event = { on_action = MFA_pulse_apa_aced_homework }
+			}
+			1 = { # apa_pangur_ban
+				trigger = {
+					scope:activity = {
+						is_current_phase_active = yes
+						NOT = { scope:host = { has_character_flag = has_written_pangur_ban } }
+					}
+				}
+				trigger_event = { on_action = MFA_pulse_apa_pangur_ban }
+			}
+		}
+		set_variable = { name = MFA_pulse_relay_tick value = 1 }
+	}
+}

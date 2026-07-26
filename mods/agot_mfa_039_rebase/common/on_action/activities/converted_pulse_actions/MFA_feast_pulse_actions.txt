@@ -1,0 +1,805 @@
+﻿####################################
+# MFA Activity Converter
+# Converted pulse_actions to on_actions
+# only effect block remains and is nestled behind scope:activity, while is_valid and weight blocks moved to main relay on_action
+####################################
+
+MFA_pulse_excellent_food = {
+	effect = {
+		scope:activity = {
+			scope:host = {
+				save_scope_as = root_scope
+			}
+
+			random_attending_character = {
+				limit = {
+					this != scope:host
+					is_physically_able_ai_adult = yes
+					location = scope:activity.activity_location
+					OR = {
+						likes_character_trigger = { CHARACTER = scope:host }
+						loves_food_trigger = yes
+					}
+				}
+				save_scope_as = first
+			}
+
+			add_activity_log_entry = {
+				key = excellent_food
+				tags = { pulse_action }
+				character = scope:first
+
+				scope:host = {
+					add_stress = medium_stress_loss
+				}
+				scope:first = {
+					add_opinion = {
+						modifier = impressed_opinion
+						target = scope:host
+						opinion = 10
+					}
+				}
+			}
+
+			every_attending_character = {
+				limit = {
+					is_ai = no
+					has_game_rule = MFA_pulse_notifications_enabled
+				}
+				send_interface_message = {
+					type = MFA_pulse_msg_public
+					title = excellent_food_title
+					left_icon = scope:first
+					right_icon = scope:host
+					show_as_tooltip = {
+						scope:activity = {
+							scope:host = {
+								add_stress = medium_stress_loss
+							}
+							scope:first = {
+								add_opinion = {
+									modifier = impressed_opinion
+									target = scope:host
+									opinion = 10
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+}
+
+MFA_pulse_hook_trusting_guest = {
+	effect = {
+		scope:activity = {
+			random_attending_character = {
+				limit = {
+					this != scope:host
+					location = scope:activity.activity_location
+					has_trait = trusting
+					is_ai = yes
+					save_temporary_scope_as = first_temp
+					scope:activity = {
+						any_attending_character = {
+							this != scope:first_temp
+							location = scope:activity.activity_location
+							can_add_hook = {
+								target = scope:first_temp
+								type = favor_hook
+							}
+						}
+					}
+				}
+				save_scope_as = first
+			}
+			random_attending_character = {
+				limit = {
+					location = scope:activity.activity_location
+					this != scope:first
+					can_add_hook = {
+						target = scope:first
+						type = favor_hook
+					}
+				}
+				weight = {
+					base = 1
+					modifier = {
+						add = 10
+						is_ai = no
+					}
+					modifier = {
+						add = 10
+						this = scope:host
+					}
+				}
+				save_scope_as = second
+			}
+
+			add_activity_log_entry = {
+				key = hook_trusting_guest
+				tags = { pulse_action }
+				character = scope:second
+				target = scope:first
+
+				scope:second = {
+					add_hook = {
+						target = scope:first
+						type = favor_hook
+					}
+				}
+			}
+
+			every_attending_character = {
+				limit = {
+					is_ai = no
+					has_game_rule = MFA_pulse_notifications_enabled
+				}
+				send_interface_message = {
+					type = MFA_pulse_msg_hook
+					title = hook_trusting_guest_title
+					left_icon = scope:second
+					right_icon = scope:first
+					show_as_tooltip = {
+						scope:activity = {
+							scope:second = {
+								add_hook = {
+									target = scope:first
+									type = favor_hook
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+}
+
+MFA_pulse_impressed_courtly_vassal = {
+	effect = {
+		scope:activity = {
+			random_attending_character = {
+				limit = {
+					this != scope:host
+					is_physically_able_ai_adult = yes
+					is_vassal_of = scope:host
+					has_vassal_stance = courtly
+					location = scope:activity.activity_location
+				}
+				save_scope_as = first
+			}
+			random_attending_character = {
+				limit = {
+					this != scope:host
+					is_physically_able_ai_adult = yes
+					is_vassal_of = scope:host
+					has_vassal_stance = courtly
+					location = scope:activity.activity_location
+					this != scope:first
+				}
+				save_scope_as = second
+			}
+
+			add_activity_log_entry = {
+				key = impressed_courtly_vassal
+				tags = { pulse_action }
+				character = scope:first
+				target = scope:second
+
+				scope:host = {
+					add_prestige = medium_prestige_gain
+				}
+
+				scope:first = {
+					add_opinion = {
+						modifier = impressed_opinion
+						target = scope:host
+						opinion = 20
+					}
+				}
+
+				scope:second = {
+					add_opinion = {
+						modifier = impressed_opinion
+						target = scope:host
+						opinion = 20
+					}
+				}
+			}
+
+			every_attending_character = {
+				limit = {
+					is_ai = no
+					has_game_rule = MFA_pulse_notifications_enabled
+				}
+				send_interface_message = {
+					type = MFA_pulse_msg_courtly
+					title = impressed_courtly_vassal_title
+					left_icon = scope:first
+					right_icon = scope:second
+					show_as_tooltip = {
+						scope:activity = {
+							scope:host = {
+								add_prestige = medium_prestige_gain
+							}
+							scope:first = {
+								add_opinion = {
+									modifier = impressed_opinion
+									target = scope:host
+									opinion = 20
+								}
+							}
+							scope:second = {
+								add_opinion = {
+									modifier = impressed_opinion
+									target = scope:host
+									opinion = 20
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+}
+
+MFA_pulse_leftover_food_giveaway = {
+	effect = {
+		scope:activity = {
+			add_activity_log_entry = {
+				key = leftover_food_giveaway
+				tags = { pulse_action }
+				character = scope:host
+
+				scope:activity.activity_location.county = {
+					add_county_modifier = {
+						modifier = leftover_food_giveaway_modifier
+						years = 5
+					}
+				}
+			}
+
+			every_attending_character = {
+				limit = {
+					is_ai = no
+					has_game_rule = MFA_pulse_notifications_enabled
+				}
+				send_interface_message = {
+					type = MFA_pulse_msg_public
+					title = leftover_food_giveaway_title
+					left_icon = scope:host
+					show_as_tooltip = {
+						scope:activity = {
+							scope:activity.activity_location.county = {
+								add_county_modifier = {
+									modifier = leftover_food_giveaway_modifier
+									years = 5
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+}
+
+MFA_pulse_virtuous_feast = {
+	effect = {
+		scope:activity = {
+			random_attending_character = {
+				limit = {
+					is_physically_able_ai_adult = yes
+					location = scope:activity.activity_location
+					faith = {
+						OR = {
+							has_doctrine = tenet_ritual_hospitality
+							has_doctrine = tenet_ritual_celebrations
+						}
+					}
+				}
+				save_scope_as = first
+			}
+
+			add_activity_log_entry = {
+				key = virtuous_feast
+				tags = { pulse_action }
+				character = scope:first
+
+				scope:first = {
+					add_piety = minor_piety_gain
+				}
+			}
+
+			every_attending_character = {
+				limit = {
+					is_ai = no
+					has_game_rule = MFA_pulse_notifications_enabled
+				}
+				send_interface_message = {
+					type = MFA_pulse_msg_courtly
+					title = virtuous_feast_title
+					left_icon = scope:first
+					show_as_tooltip = {
+						scope:activity = {
+							scope:first = {
+								add_piety = minor_piety_gain
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+}
+
+MFA_pulse_noble_privileges = {
+	effect = {
+		scope:activity = {
+			random_attending_character = {
+				limit = {
+					location = scope:activity.activity_location
+					is_vassal_of = scope:host
+					is_physically_able_ai_adult = yes
+					OR = {
+						has_trait = callous
+						has_trait = sadistic
+						has_trait = diligent
+						has_trait = just
+						has_trait = greedy
+					}
+				}
+				save_scope_as = first
+			}
+
+			scope:activity.activity_location.county = { save_scope_as = location }
+
+			add_activity_log_entry = {
+				key = noble_privileges
+				tags = { pulse_action }
+				character = scope:first
+
+				scope:first = { add_prestige = minor_prestige_gain }
+
+				scope:activity.activity_location.county = {
+					add_county_modifier = {
+						modifier = noble_privileges_modifier
+						years = 5
+					}
+				}
+			}
+
+			every_attending_character = {
+				limit = {
+					is_ai = no
+					has_game_rule = MFA_pulse_notifications_enabled
+				}
+				send_interface_message = {
+					type = MFA_pulse_msg_intrigue
+					title = noble_privileges_title
+					left_icon = scope:first
+					show_as_tooltip = {
+						scope:activity = {
+							scope:first = {
+								add_prestige = minor_prestige_gain
+							}
+							scope:activity.activity_location.county = {
+								add_county_modifier = {
+									modifier = noble_privileges_modifier
+									years = 5
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+}
+
+MFA_pulse_good_kitty = {
+	effect = {
+		scope:activity = {
+			random_attending_character = {
+				limit = {
+					location = scope:activity.activity_location
+					OR = {
+						has_character_modifier = cat_story_modifier
+						has_cat_trigger = yes
+					}
+					has_character_modifier = cat_story_modifier
+					save_temporary_scope_as = pet_owner_temp
+					scope:activity = {
+						any_attending_character = {
+							location = scope:activity.activity_location
+							this != scope:pet_owner_temp
+							NOT = { has_character_modifier = cat_story_allergy_modifier }
+							NOT = { has_trait = callous }
+						}
+					}
+				}
+				save_scope_as = second
+			}
+
+			random_attending_character = {
+				limit = {
+					this != scope:second
+					location = scope:activity.activity_location
+					NOT = { has_character_modifier = cat_story_allergy_modifier }
+					NOT = { has_trait = callous }
+				}
+				save_scope_as = first
+			}
+
+			add_activity_log_entry = {
+				key = good_kitty
+				tags = { pulse_action }
+				character = scope:first
+				target = scope:second
+
+				scope:first = {
+					add_opinion = {
+						target = scope:second
+						opinion = 20
+						modifier = pet_pet
+					}
+				}
+			}
+
+			every_attending_character = {
+				limit = {
+					is_ai = no
+					has_game_rule = MFA_pulse_notifications_enabled
+				}
+				send_interface_message = {
+					type = MFA_pulse_msg_public
+					title = good_kitty_title
+					left_icon = scope:first
+					right_icon = scope:second
+					show_as_tooltip = {
+						scope:activity = {
+							scope:first = {
+								add_opinion = {
+									target = scope:second
+									opinion = 20
+									modifier = pet_pet
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+}
+
+MFA_pulse_good_puppy = {
+	effect = {
+		scope:activity = {
+			random_attending_character = {
+				limit = {
+					location = scope:activity.activity_location
+					OR = {
+						has_character_modifier = dog_story_modifier
+						has_dog_trigger = yes
+					}
+					save_temporary_scope_as = pet_owner_temp
+					scope:activity = {
+						any_attending_character = {
+							this != scope:pet_owner_temp
+							location = scope:activity.activity_location
+							NOT = { has_trait = callous }
+						}
+					}
+				}
+				save_scope_as = second
+			}
+
+			random_attending_character = {
+				limit = {
+					this != scope:second
+					location = scope:activity.activity_location
+					NOT = { has_trait = callous }
+				}
+				save_scope_as = first
+			}
+
+			add_activity_log_entry = {
+				key = good_puppy
+				tags = { pulse_action }
+				character = scope:first
+				target = scope:second
+
+				scope:first = {
+					add_opinion = {
+						target = scope:second
+						opinion = 20
+						modifier = pet_pet
+					}
+				}
+			}
+
+			every_attending_character = {
+				limit = {
+					is_ai = no
+					has_game_rule = MFA_pulse_notifications_enabled
+				}
+				send_interface_message = {
+					type = MFA_pulse_msg_public
+					title = good_puppy_title
+					left_icon = scope:first
+					right_icon = scope:second
+					show_as_tooltip = {
+						scope:activity = {
+							scope:first = {
+								add_opinion = {
+									target = scope:second
+									opinion = 20
+									modifier = pet_pet
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+}
+
+MFA_pulse_antiquarian_admires_artifact = {
+	effect = {
+		scope:activity = {
+			if = {
+				limit = {
+					any_attending_character = {
+						has_court_position = antiquarian_court_position
+						location = scope:activity.activity_location
+						is_physically_able_ai_adult = yes
+					}
+				}
+				random_attending_character = {
+					limit = {
+						has_court_position = antiquarian_court_position
+						location = scope:activity.activity_location
+						is_physically_able_ai_adult = yes
+					}
+					save_scope_as = first
+				}
+			}
+			else = {
+				random_attending_character = {
+					limit = {
+						location = scope:activity.activity_location
+						is_physically_able_ai_adult = yes
+						learning >= high_skill_rating
+					}
+					save_scope_as = first
+				}
+			}
+
+			scope:host = {
+				random_character_artifact = {
+					limit = {
+						category = inventory
+						NOT = { rarity = common }
+					}
+					save_scope_as = artifact
+					save_scope_as = second
+				}
+			}
+
+			add_activity_log_entry = {
+				key = antiquarian_admires_artifact
+				tags = { pulse_action }
+				character = scope:first
+				artifact = scope:artifact
+
+				scope:host = {
+					add_prestige = minor_prestige_gain
+				}
+			}
+
+			every_attending_character = {
+				limit = {
+					is_ai = no
+					has_game_rule = MFA_pulse_notifications_enabled
+				}
+				send_interface_message = {
+					type = MFA_pulse_msg_public
+					title = antiquarian_admires_artifact_title
+					left_icon = scope:first
+					right_icon = scope:artifact
+					show_as_tooltip = {
+						scope:activity = {
+							scope:host = {
+								add_prestige = minor_prestige_gain
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+}
+
+MFA_pulse_jester_entertained_guests = {
+	effect = {
+		scope:activity = {
+			random_attending_character = {
+				limit = {
+					location = scope:activity.activity_location
+					is_physically_able_ai_adult = yes
+					OR = {
+						has_court_position = court_jester_court_position
+						has_activity_intent = banquet_mischief_intent
+					}
+				}
+				save_scope_as = first
+			}
+
+			random_attending_character = {
+				limit = {
+					location = scope:activity.activity_location
+					this != scope:first
+				}
+				save_scope_as = second
+			}
+
+			add_activity_log_entry = {
+				key = jester_entertained_guests
+				tags = { pulse_action }
+				character = scope:first
+
+				scope:second = {
+					add_stress = minor_stress_loss
+				}
+			}
+
+			every_attending_character = {
+				limit = {
+					is_ai = no
+					has_game_rule = MFA_pulse_notifications_enabled
+				}
+				send_interface_message = {
+					type = MFA_pulse_msg_public
+					title = jester_entertained_guests_title
+					left_icon = scope:first
+					show_as_tooltip = {
+						scope:activity = {
+							scope:second = {
+								add_stress = minor_stress_loss
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+}
+
+MFA_pulse_apa_executioner = {
+	effect = {
+		scope:activity = {
+			random_attending_character = {
+				limit = {
+					location = scope:activity.activity_location
+					is_physically_able_ai_adult = yes
+					has_court_position = executioner_court_position
+					exists = employer
+				}
+				save_scope_as = first
+				employer = {
+					save_scope_as = second
+				}
+			}
+
+			add_activity_log_entry = {
+				key = apa_executioner
+				tags = { pulse_action }
+				character = scope:second
+
+				scope:second = {
+					add_dread = minor_dread_gain
+				}
+			}
+
+			every_attending_character = {
+				limit = {
+					is_ai = no
+					has_game_rule = MFA_pulse_notifications_enabled
+				}
+				send_interface_message = {
+					type = MFA_pulse_msg_dread
+					title = apa_executioner_title
+					left_icon = scope:second
+					show_as_tooltip = {
+						scope:activity = {
+							scope:second = {
+								add_dread = minor_dread_gain
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+}
+
+MFA_pulse_impressed_guest_honor = {
+	effect = {
+		scope:activity = {
+			special_guest:honorary_guest_regular = {
+				save_scope_as = first
+			}
+			random_attending_character = {
+				limit = {
+					this != scope:host
+					this != scope:activity.special_guest:honorary_guest_regular
+					is_physically_able_ai_adult = yes
+					location = scope:activity.activity_location
+					likes_character_trigger = { CHARACTER = scope:host }
+				}
+				save_scope_as = second
+			}
+
+			add_activity_log_entry = {
+				key = impressed_guest_honor
+				tags = { pulse_action }
+				character = scope:second
+				target = scope:first
+
+				scope:host = {
+					add_prestige = minor_prestige_gain
+				}
+
+				scope:first = {
+					add_opinion = {
+						modifier = honored_opinion
+						target = scope:host
+						opinion = 20
+					}
+					add_opinion = {
+						modifier = honored_opinion
+						target = scope:second
+						opinion = 30
+					}
+				}
+			}
+
+			every_attending_character = {
+				limit = {
+					is_ai = no
+					has_game_rule = MFA_pulse_notifications_enabled
+				}
+				send_interface_message = {
+					type = MFA_pulse_msg_public
+					title = impressed_guest_honor_title
+					left_icon = scope:second
+					right_icon = scope:first
+					show_as_tooltip = {
+						scope:activity = {
+							scope:host = {
+								add_prestige = minor_prestige_gain
+							}
+							scope:first = {
+								add_opinion = {
+									modifier = honored_opinion
+									target = scope:host
+									opinion = 20
+								}
+								add_opinion = {
+									modifier = honored_opinion
+									target = scope:second
+									opinion = 30
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+}

@@ -1,0 +1,43 @@
+﻿# Guard the vanilla tour pulse when MFA relays it before an itinerary stop exists.
+tour_monthly_pulse_effect = {
+	scope:host = {
+		save_scope_as = visiting_liege
+	}
+	if = {
+		limit = { scope:activity = { exists = var:stop_host } }
+		scope:activity.var:stop_host = {
+			save_scope_as = stop_host_scope
+		}
+		if = {
+			limit = {
+				scope:host = this
+				NOT = {
+					scope:activity = { exists = var:just_had_vassal_event }
+				}
+			}
+			set_variable = {
+				name = just_had_liege_event
+				value = yes
+				days = 3
+			}
+			trigger_event = {
+				on_action = $ON_ACTION_POOL$_liege
+			}
+		}
+		else_if = {
+			limit = {
+				scope:activity.var:stop_host = this
+				NOT = {
+					scope:activity = { exists = var:just_had_liege_event }
+				}
+			}
+			set_variable = {
+				name = just_had_vassal_event
+				value = yes
+				days = 3
+			}
+			trigger_event = {
+				on_action = $ON_ACTION_POOL$_vassal
+			}
+		}	}
+}

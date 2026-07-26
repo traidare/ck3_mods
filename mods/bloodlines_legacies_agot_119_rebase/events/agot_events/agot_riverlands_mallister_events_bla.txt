@@ -1,0 +1,719 @@
+﻿namespace = agot_riverlands_bla
+
+agot_riverlands_bla.0599 = {
+	type = character_event
+	hidden = yes
+
+	trigger = {
+		is_ai = no
+		is_landed = yes
+		is_available_adult = yes
+
+		dynasty = dynasty:dynn_Mallister
+
+		NOT = { has_character_flag = mallister_any_event_recently_bla }
+	}
+
+	immediate = {
+		add_character_flag = {
+			flag = mallister_any_event_recently_bla
+			years = 3
+		}
+
+		random_list = {
+			20 = { trigger_event = agot_riverlands_bla.0600 }
+			20 = { trigger_event = agot_riverlands_bla.0601 }
+			20 = { trigger_event = agot_riverlands_bla.0602 }
+			20 = { trigger_event = agot_riverlands_bla.0603 }
+			20 = { trigger_event = agot_riverlands_bla.0604 }
+
+			120 = { }
+		}
+	}
+}
+
+# =========================================================
+# House Mallister
+# Ironborn Sails
+# =========================================================
+
+agot_riverlands_bla.0600 = {
+	type = character_event
+	title = agot_riverlands_bla.0600.t
+	desc = agot_riverlands_bla.0600.desc
+	theme = martial
+
+	override_background = {
+		reference = docks
+	}
+
+	left_portrait = {
+		character = root
+		animation = personality_bold
+	}
+
+	trigger = {
+		is_ruler = yes
+		is_landed = yes
+		is_available_adult = yes
+
+		dynasty = dynasty:dynn_Mallister
+
+		NOT = { has_character_flag = mallister_any_event_recently_bla }
+		NOT = { has_character_flag = mallister_recent_ironborn_sails_bla }
+	}
+
+	immediate = {
+		add_character_flag = {
+			flag = mallister_any_event_recently_bla
+			years = 2
+		}
+
+		add_character_flag = {
+			flag = mallister_recent_ironborn_sails_bla
+			years = 6
+		}
+	}
+
+	option = {
+		name = agot_riverlands_bla.0600.a
+
+		trigger = {
+			OR = {
+				has_trait = brave
+				has_trait = overseer
+				martial >= 10
+			}
+		}
+
+		add_martial_lifestyle_xp = 300
+		add_prestige = 100
+
+		random_list = {
+			70 = {
+				add_dread = 5
+			}
+
+			30 = {
+				add_short_term_gold = 50
+			}
+		}
+	}
+
+	option = {
+		name = agot_riverlands_bla.0600.b
+
+		add_character_modifier = {
+			modifier = mallister_coastal_watch_bla
+			years = 5
+		}
+
+		add_prestige = 50
+	}
+
+	option = {
+		name = agot_riverlands_bla.0600.c
+
+		trigger = {
+			OR = {
+				has_trait = cynical
+				has_trait = wrathful
+				has_trait = arrogant
+			}
+		}
+
+		add_dread = 10
+		add_martial_lifestyle_xp = 150
+
+			random_list = {
+				70 = {
+					add_prestige = 50
+				}
+
+				30 = {
+					add_stress = -10
+				}
+			}
+	}
+}
+
+# =========================================================
+# House Mallister
+# Salt on the Wind
+# =========================================================
+
+agot_riverlands_bla.0601 = {
+	type = character_event
+	title = agot_riverlands_bla.0601.t
+	desc = agot_riverlands_bla.0601.desc
+	theme = martial
+
+	override_background = {
+		reference = docks
+	}
+
+	left_portrait = {
+		character = root
+		animation = personality_bold
+	}
+
+	trigger = {
+		is_ruler = yes
+		is_landed = yes
+		is_available_adult = yes
+
+		dynasty = dynasty:dynn_Mallister
+
+		NOT = { has_character_flag = mallister_any_event_recently_bla }
+		NOT = { has_character_flag = mallister_recent_salt_wind_bla }
+	}
+
+	immediate = {
+		add_character_flag = {
+			flag = mallister_any_event_recently_bla
+			years = 2
+		}
+
+		add_character_flag = {
+			flag = mallister_recent_salt_wind_bla
+			years = 7
+		}
+	}
+
+	option = {
+		name = agot_riverlands_bla.0601.a
+
+		trigger = {
+			OR = {
+				has_trait = brave
+				has_trait = strategist
+				martial >= 10
+			}
+		}
+
+		add_martial_lifestyle_xp = 300
+		add_prestige = 100
+
+		add_character_modifier = {
+			modifier = mallister_hardened_garrison_bla
+			years = 5
+		}
+	}
+
+	option = {
+		name = agot_riverlands_bla.0601.b
+
+		trigger = {
+			OR = {
+				has_trait = diligent
+				has_trait = just
+				stewardship >= 10
+			}
+		}
+
+		remove_short_term_gold = 75
+
+		add_prestige = 75
+		capital_county = {
+			change_development_progress = 15
+		}
+	}
+
+	option = {
+		name = agot_riverlands_bla.0601.c
+
+		trigger = {
+			OR = {
+				has_trait = wrathful
+				has_trait = arrogant
+				dread >= 20
+			}
+		}
+
+		add_dread = 10
+		add_prestige = 50
+
+		random_list = {
+			70 = {
+				add_stress = -10
+			}
+
+			30 = {
+				add_prestige = -50
+			}
+		}
+	}
+
+	option = {
+		name = agot_riverlands_bla.0601.d
+
+		add_stress = -25
+		add_piety = -25
+	}
+}
+
+# =========================================================
+# House Mallister
+# Wreckage on the Shore
+# =========================================================
+
+agot_riverlands_bla.0602 = {
+	type = character_event
+	title = agot_riverlands_bla.0602.t
+	desc = agot_riverlands_bla.0602.desc
+	theme = stewardship
+
+	override_background = {
+		reference = bp3_coast
+	}
+	
+	immediate = {
+		create_character = {
+			save_scope_as = mallister_survivor_knight_bla
+
+			location = root.capital_province
+			culture = root.culture
+			faith = root.faith
+			dynasty = none
+			gender_female_chance = 0
+			age = { 22 40 }
+
+			martial = { 6 12 }
+			prowess = { 8 14 }
+
+			trait = brave
+		}
+		add_character_flag = {
+			flag = mallister_any_event_recently_bla
+			years = 2
+		}
+
+		add_character_flag = {
+			flag = mallister_recent_wreckage_bla
+			years = 6
+		}
+	}
+
+	left_portrait = {
+		character = root
+		animation = personality_rational
+	}
+	right_portrait = {
+		character = scope:mallister_survivor_knight_bla
+		animation = severelywounded
+	}
+
+	trigger = {
+		is_ruler = yes
+		is_landed = yes
+		is_available_adult = yes
+
+		dynasty = dynasty:dynn_Mallister
+
+		NOT = { has_character_flag = mallister_any_event_recently_bla }
+		NOT = { has_character_flag = mallister_recent_wreckage_bla }
+	}
+
+	
+
+	option = {
+		name = agot_riverlands_bla.0602.a
+
+		remove_short_term_gold = 50
+		add_prestige = 75
+		add_piety = 50
+
+		random_list = {
+			70 = {
+				add_courtier = scope:mallister_survivor_knight_bla
+			}
+
+			30 = {
+				capital_county = {
+					change_development_progress = 10
+				}
+
+			}
+		}
+	}
+
+	option = {
+		name = agot_riverlands_bla.0602.b
+
+		trigger = {
+			OR = {
+				has_trait = greedy
+				has_trait = arbitrary
+				stewardship >= 10
+			}
+		}
+
+		add_short_term_gold = 125
+
+		random_list = {
+			70 = {
+				add_character_modifier = {
+					modifier = mallister_salvaged_cargo_bla
+					years = 5
+				}
+			}
+
+			30 = {
+				add_dread = 5
+			}
+		}
+	}
+
+	option = {
+		name = agot_riverlands_bla.0602.c
+
+		trigger = {
+			OR = {
+				has_trait = brave
+				has_trait = wrathful
+				martial >= 10
+			}
+		}
+
+		add_martial_lifestyle_xp = 250
+
+		random_list = {
+			60 = {
+				add_prestige = 100
+			}
+
+			40 = {
+				add_trait = wounded_1
+			}
+		}
+	}
+
+	option = {
+		name = agot_riverlands_bla.0602.d
+
+		add_stress = -25
+		add_prestige = -25
+	}
+}
+
+# =========================================================
+# House Mallister
+# The Old Watchfire
+# =========================================================
+
+agot_riverlands_bla.0603 = {
+	type = character_event
+	title = agot_riverlands_bla.0603.t
+	desc = agot_riverlands_bla.0603.desc
+	theme = martial
+
+	override_background = {
+		reference = council_chamber
+	}
+
+	left_portrait = {
+		character = root
+		animation = personality_rational
+	}
+
+	trigger = {
+		is_ruler = yes
+		is_landed = yes
+		is_available_adult = yes
+
+		dynasty = dynasty:dynn_Mallister
+
+		NOT = { has_character_flag = mallister_any_event_recently_bla }
+		NOT = { has_character_flag = mallister_recent_watchfire_bla }
+	}
+
+	immediate = {
+		add_character_flag = {
+			flag = mallister_any_event_recently_bla
+			years = 2
+		}
+
+		add_character_flag = {
+			flag = mallister_recent_watchfire_bla
+			years = 7
+		}
+	}
+
+	option = {
+		name = agot_riverlands_bla.0603.a
+
+		trigger = {
+			OR = {
+				has_trait = diligent
+				has_trait = overseer
+				martial >= 10
+			}
+		}
+
+		remove_short_term_gold = 75
+
+		add_character_modifier = {
+			modifier = mallister_rekindled_watchfires_bla
+			years = 5
+		}
+
+		add_stewardship_lifestyle_xp = 250
+	}
+
+	option = {
+		name = agot_riverlands_bla.0603.b
+
+		trigger = {
+			OR = {
+				has_trait = zealous
+				has_trait = brave
+				has_trait = gallant
+			}
+		}
+
+		add_piety = 75
+		add_prestige = 75
+
+		random_knight = {
+			limit = {
+				is_alive = yes
+			}
+
+			add_opinion = {
+				target = root
+				modifier = respect_opinion
+				opinion = 20
+			}
+		}
+	}
+
+	option = {
+		name = agot_riverlands_bla.0603.c
+
+		trigger = {
+			OR = {
+				has_trait = cynical
+				has_trait = lazy
+				stewardship <= 6
+			}
+		}
+
+		add_short_term_gold = 50
+		add_stress = -10
+
+		random_list = {
+			70 = {
+				add_prestige = -50
+			}
+
+			30 = {
+				add_dread = 5
+			}
+		}
+	}
+
+	option = {
+		name = agot_riverlands_bla.0603.d
+
+		trigger = {
+			OR = {
+				has_trait = paranoid
+				has_trait = strategist
+				learning >= 10
+			}
+		}
+
+		add_martial_lifestyle_xp = 250
+
+		random_list = {
+			65 = {
+				add_character_modifier = {
+					modifier = mallister_signal_network_bla
+					years = 5
+				}
+			}
+
+			35 = {
+				add_hook = {
+					target = root
+					type = favor_hook
+				}
+			}
+		}
+	}
+}
+
+# =========================================================
+# House Mallister
+# Iron Price
+# =========================================================
+
+agot_riverlands_bla.0604 = {
+	type = character_event
+	title = agot_riverlands_bla.0604.t
+	desc = agot_riverlands_bla.0604.desc
+	theme = martial
+
+	override_background = {
+		reference = dungeon
+	}
+
+	left_portrait = {
+		character = root
+		animation = personality_bold
+	}
+	right_portrait = {
+		character = scope:mallister_captive_reaver_bla
+		animation = prisondungeon
+	}
+
+	trigger = {
+		is_ruler = yes
+		is_landed = yes
+		is_available_adult = yes
+
+		dynasty = dynasty:dynn_Mallister
+
+		NOT = { has_character_flag = mallister_any_event_recently_bla }
+		NOT = { has_character_flag = mallister_recent_driftwood_crown_bla }
+	}
+
+	immediate = {
+		add_character_flag = {
+			flag = mallister_any_event_recently_bla
+			years = 2
+		}
+
+		add_character_flag = {
+			flag = mallister_recent_driftwood_crown_bla
+			years = 10
+		}
+
+		create_character = {
+			save_scope_as = mallister_captive_reaver_bla
+
+			location = root.capital_province
+			culture = culture:ironborn
+			faith = faith:drowned_god
+			dynasty = none
+			gender_female_chance = 0
+			age = { 28 50 }
+
+			martial = { 7 13 }
+			prowess = { 8 15 }
+
+			trait = arrogant
+			trait = wrathful
+		}
+	}
+
+	option = {
+		name = agot_riverlands_bla.0604.a
+
+		trigger = {
+			OR = {
+				has_trait = brave
+				has_trait = wrathful
+				dread >= 20
+			}
+		}
+
+		add_dread = 15
+		add_prestige = 100
+
+		random_knight = {
+			limit = {
+				is_alive = yes
+			}
+
+			add_opinion = {
+				target = root
+				modifier = respect_opinion
+				opinion = 20
+			}
+		}
+
+		hidden_effect = {
+			scope:mallister_captive_reaver_bla = {
+				death = {
+					death_reason = death_execution
+				}
+			}
+		}
+	}
+
+	option = {
+		name = agot_riverlands_bla.0604.b
+
+		trigger = {
+			OR = {
+				has_trait = just
+				has_trait = compassionate
+				learning >= 10
+			}
+		}
+
+		add_piety = 75
+		add_prestige = 50
+
+		scope:mallister_captive_reaver_bla = {
+			add_opinion = {
+				target = root
+				modifier = grateful_opinion
+				opinion = 30
+			}
+		}
+
+		random_list = {
+			60 = {
+				add_hook = {
+					target = scope:mallister_captive_reaver_bla
+					type = favor_hook
+				}
+			}
+
+			40 = {
+				add_learning_lifestyle_xp = 250
+			}
+		}
+	}
+
+	option = {
+		name = agot_riverlands_bla.0604.c
+
+		trigger = {
+			OR = {
+				has_trait = greedy
+				intrigue >= 10
+			}
+		}
+
+		add_short_term_gold = 150
+		add_intrigue_lifestyle_xp = 250
+
+		random_list = {
+			70 = {
+				add_character_modifier = {
+					modifier = mallister_seized_reaver_plunder_bla
+					years = 5
+				}
+			}
+
+			30 = {
+				add_prestige = -50
+			}
+		}
+	}
+
+	option = {
+		name = agot_riverlands_bla.0604.d
+
+		add_stress = -25
+
+		hidden_effect = {
+			scope:mallister_captive_reaver_bla = {
+			move_to_pool_at = root.capital_province
+			}
+		}
+	}
+}

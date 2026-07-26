@@ -1,0 +1,99 @@
+﻿
+namespace = lot_ai
+
+##################################################
+# by JawwadBr
+# 001 - Event to AI start to improve powerful vassal opinion
+##################################################
+
+# Event for AI start improving powerful vassal opinion
+# Shoutout to --> WeeLittleSpoon <-- on paradoxplaza forum
+# for sharing his knowledge and giving me ideas on how to create this event!
+lot_ai.001 = {
+    type = character_event
+    scope = root
+    hidden = yes
+
+    trigger = {
+        has_character_flag = critical_bad_percentage_from_powerful_vassals_flag
+        is_ai = yes
+        is_ruler = yes
+        number_of_powerful_vassals >= 1
+        any_powerful_vassal = {
+            opinion = {
+                target = root
+                value <= -1
+            }
+            NOT = {
+                any_targeting_scheme = {
+                    scheme_owner = root
+                }
+            }
+        }
+    }
+
+    immediate = {
+        get_powerful_vassal_with_negative_opinion_closest_to_zero = yes
+
+        random_list = {
+            # Always trigger when consecutive is -2 or less
+            # Have a change to start sway when consecutive is -1 or more
+            50 = {
+                trigger = {
+                    # The yearly story-cycle event can outlive the vassal
+                    # selected by the scripted effect.
+                    scope:recipient ?= { is_alive = yes }
+                    OR = {
+                        AND = {
+                            var:lot_consecutive_legitimacy <= -2
+                            scope:recipient = {
+                                NOT = {
+                                    any_targeting_scheme = {
+                                        scheme_owner = root
+                                    }
+                                }
+                            }
+                        }
+                        AND = {
+                            var:lot_consecutive_legitimacy >= -1
+                            scope:recipient = {
+                                NOT = {
+                                    any_targeting_scheme = {
+                                        scheme_owner = root
+                                    }
+                                }
+                            }
+                            NOT = {
+                                any_scheme = {
+                                    friendly_scheme_trigger = yes
+                                }
+                            }
+                        }
+                    }
+                }
+                modifier = { # Make it 100
+                    add = 50
+                    var:lot_consecutive_legitimacy <= -2
+                }
+                modifier = { # Make it 75 if trigger true
+                    add = 50
+                    var:lot_consecutive_legitimacy >= -1
+                }
+                start_scheme = {
+                    target_character = scope:recipient
+                    type = sway
+                }
+            }
+            25 = {
+                # Don't trigger if losing legitimacy for 2 or more years consecutive
+                # because if root is losing for 2 or more years he will always start swaying
+                modifier = {
+                    add = -25
+                    var:lot_consecutive_legitimacy <= -2
+                }
+                # Nothing happens
+            }
+        }
+
+    }
+}

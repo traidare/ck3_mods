@@ -1,0 +1,6 @@
+﻿# Intentionally replaces Immersive Personalities' same-path paranoid override.
+#
+# AGOT - More Personality Depth's earlier 01_personality_overrides.txt remains
+# the sole paranoid definition and therefore contributes exactly one shorthand
+# trait track. Re-declaring that track in a later zzz file makes CK3 accumulate
+# two tracks and reject MPD's add_trait_xp calls.

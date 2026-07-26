@@ -1,0 +1,2244 @@
+﻿yearly_global_pulse = {
+	on_actions = { VIET_yearly_epic_global_pulse }
+}
+
+# For epic events
+VIET_yearly_epic_global_pulse = {
+	effect = {
+		if = {
+			limit = {
+				current_year >= 1006
+				NOT = { has_global_variable = VIET_1006_supernova_happened }
+				has_game_rule = VIET_normal_universe_events
+			}
+			trigger_event = {
+				id = VIETintro.1001
+				days = { 1 360 }
+			}
+		}
+	}
+}
+
+
+random_yearly_playable_pulse = {
+	on_actions = {
+		delay = { days = { 8 288 } } # 8
+		VIET_events_yearly_pulse
+		delay = { days = { 8 288 } }
+		VIET_events_misc_decisions_pulse
+	}
+}
+
+
+three_year_playable_pulse = {
+	on_actions = {
+		delay = { days = { 8 288 } } # 18
+		VIET_events_tri_yearly_pulse
+		delay = { days = { 8 288 } } # 88
+		VIET_events_common_decisions_pulse
+		delay = { days = { 8 288 } } # 88
+		VIET_events_common_county_pulse
+		delay = { days = { 8 288 } } # 88
+		VIET_events_common_artifact_pulse
+		delay = { days = { 8 288 } } # 88
+		VIET_events_common_childhood_pulse
+	}
+}
+
+five_year_playable_pulse = {
+	on_actions = {
+		delay = { days = { 8 288 } } # 28
+		VIET_events_five_yearly_pulse
+		delay = { days = { 8 288 } } # 58
+		VIET_events_event_chain_pulse
+		delay = { days = { 8 288 } } # 88
+		VIET_events_rare_decisions_pulse
+		delay = { days = { 8 288 } } # 88
+		VIET_events_uncommon_county_pulse
+		delay = { days = { 8 288 } } # 88
+		VIET_events_rare_county_pulse
+		delay = { days = { 8 288 } } # 88
+		VIET_events_uncommon_artifact_pulse
+		delay = { days = { 8 288 } } # 88
+		VIET_events_rare_artifact_pulse
+		delay = { days = { 8 288 } } # 88
+		VIET_events_uncommon_childhood_pulse
+		delay = { days = { 8 288 } } # 88
+		VIET_events_rare_childhood_pulse
+	}
+}
+
+# Common events - covers the most ordinary and mundane happenings like picking your nose or eating baklava
+VIET_events_yearly_pulse = {
+	trigger = {
+		VIET_basic_is_available_adult_trigger = yes
+	}
+	random_events = {
+		chance_of_no_event = {
+			value = 40
+			if = {
+				limit = {
+					has_game_rule = VIET_event_frequency_low
+				}
+				add = 10
+			}
+			if = {
+				limit = {
+					has_game_rule = VIET_event_frequency_very_low
+				}
+				add = 20
+			}
+			if = {
+				limit = {
+					has_game_rule = VIET_event_frequency_high
+				}
+				subtract = 10
+			}
+			if = {
+				limit = {
+					has_game_rule = VIET_event_frequency_very_high
+				}
+				subtract = 20
+			}
+			if = {
+				limit = {
+					is_at_war = yes # Won't get spammed while at war
+				}
+				add = 10
+			}
+		}
+		
+		40000 = 0
+		
+		#######################################
+		# OLDEST VIET
+		#######################################
+		
+		# Nature
+		100 = VIETold.0001		# Admiring the sky
+		100 = VIETold.0002		# A butterfly lands on your arm outside
+		# Dreams
+		100 = VIETold.0004		# A good dream
+		# Dirt
+		100 = VIETold.0009		# Found a coin in the ground (old VIET version)
+		# Food
+		100 = VIETold.0017		# Visit a Mongol/nomad pit stop
+		# Shady
+		100 = VIETold.0018		# Bought bad baklava
+		# Generic Traits (OG)
+		100 = VIETold.0023		# Slothful - Don't Like Working
+		100 = VIETold.0024		# Diligent - fell asleep working last night
+		100 = VIETold.0025		# Greedy - coin purse on the ground during Summer Fair
+		100 = VIETold.0027		# Ambitious - Ruler wants to improve image
+		100 = VIETold.0032		# Envious - Why is everyone better than me?
+		100 = VIETold.0038		# Too prudish?
+		100 = VIETold.0039		# Paranoid - character thinks he/she just saw an assassin
+		
+		#######################################
+		# OLDER VIET
+		#######################################
+		
+		# Vegetables		
+		100 = VIETold.1001		# Given a gift of onions from a neighbor (was a courtier in old VIET)
+		# Water
+		100 = VIETold.1007		# Choke on water
+		100 = VIETold.1008		# Drank some refreshing water (old VIET version)
+		# Bitter
+		100 = VIETold.1012		# Time for some coffee?
+		# Eggs
+		100 = VIETold.1020		# Eating deviled eggs
+		# Furniture
+		100 = VIETold.1023		# Look under the dining table and see some gum
+		100 = VIETold.1024		# Your desk is a mess
+		# Time
+		100 = VIETold.1026		# You overslept, oh no
+		100 = VIETold.1029		# Doing work outside in the sun at noon gives you a headache
+		# Moss
+		100 = VIETold.1032		# Take a nap on a rock with moss
+		# Rocks and Minerals
+		100 = VIETold.1033		# Courtier hits their head on a rock
+		100 = VIETold.1037		# Find some shiny pebbles
+		# Monogatari Reference
+		100 = VIETold.1041		# Ononoki - courtier likes your arms
+		100 = VIETold.1042		# Ononoki - courtier talks with a "posed look"
+		100 = VIETold.1043		# That time of month (from Hanamonogatari) - courtier makes rude PMS comment
+		# Toothbrush
+		100 = VIETold.1051		# Bloody teeth before meeting with people
+		# Generic (Swansong)
+		100 = VIETold.1056		# Sensing someone said something unflattering said about you
+		100 = VIETold.1057		# Something wedged between your teeth
+		100 = VIETold.1058		# Feeling melancholy about growing older
+		100 = VIETold.1060		# Hearing a funny joke from a courtier/guest
+		100 = VIETold.1061		# Feeling the sunlight against your face
+		100 = VIETold.1062		# Scumbag brain reminds you of something
+		100 = VIETold.1063		# Reading a new book/sequel
+		100 = VIETold.1064		# See a servant yawning
+		100 = VIETold.1065		# Envoy has heard about you and your honeyed words
+		100 = VIETold.1066		# Heard an earworm
+		100 = VIETold.1069		# Head feels itchy and scratchy
+		# Generic
+		100 = VIETold.1081		# You like other people suffering
+		100 = VIETold.1082		# Feeling like you're just a character in a bard's tale
+		100 = VIETold.1083		# Relaxing somewhere in nature
+		100 = VIETold.1085		# Forgot what you were saying in the middle of a conversation
+		100 = VIETold.1086		# An intrusive thought entered your head
+		100 = VIETold.1092		# What if my life were a bard's tale?
+		# Bread
+		# Ear
+		100 = VIETold.1100		# Giant earwax is cleaned out of ear
+		100 = VIETold.1101		# Buzzing noises - self
+		100 = VIETold.1102		# Buzzing noises - other
+		
+		#######################################
+		# OLD VIET
+		#######################################
+		
+		# Oblivion soundtrack inspired
+		100 = VIETold.2002		# Harvest Dawn - passing by peasants doing farm work
+		100 = VIETold.2005		# All's Well - nothing exciting happened in court today
+		100 = VIETold.2006		# Watchman's Ease - talking with guard on duty
+		100 = VIETold.2007		# Glory of Cyrodiil - what is my purpose as a ruler?
+		100 = VIETold.2011		# Sunrise of Flutes - Meet a shephard playing the flute
+		100 = VIETold.2012		# Peace of Akatosh - is peace a worthwhile ideal?
+		# Reading stories
+		100 = VIETold.2014		# Watched entertaining slice of life play about love
+		# Stuck inside
+		100 = VIETold.2019		# Observing something outside
+		100 = VIETold.2022		# Accidentally bumped into some furniture
+		100 = VIETold.2025		# Heard a loud noise outside - what could it be?
+		# Fantastical Stories
+		100 = VIETold.2027		# Rumors about incestuous marriage in faraway lands
+		100 = VIETold.2033		# Gate to another world
+		# Prophecy and Future
+		100 = VIETold.2046		# Dreaming of your realm's future
+		100 = VIETold.2053		# Thinking about whether people across time periods are the same all over
+		# Skyrim dialogue inspired
+		100 = VIETold.2058		# Bad nip in the air
+		100 = VIETold.2064		# Mithorpa Nasyal (unused NPC) - come across a peasant who initially lashes out but apologises
+		# Sun
+		100 = VIETold.2068		# Wake up early and not much work today - what to do?
+		100 = VIETold.2069		# Traveling under the hot sun
+		100 = VIETold.2071		# Relaxing under the bright sun
+		# Generic
+		100 = VIETold.2075		# Visiting an herbalist lady's shop
+		100 = VIETold.2078		# Smiths in army camp doing work
+		100 = VIETold.2079		# Met someone interesting at a ball
+		100 = VIETold.2080		# Dreamt of a magnificent castle
+		100 = VIETold.2084		# Witness a happy peasant family
+		100 = VIETold.2087		# Guards make an arrest but accidentally burst into the wrong person's house
+		100 = VIETold.2091		# Beautiful view of mountains
+		100 = VIETold.2092		# Dreamt of being ambushed at night
+		# Death
+		100 = VIETold.2094		# Is death like a dream?
+		100 = VIETold.2107		# A quick death or a gradual death?
+		100 = VIETold.2108		# Grave robbers caught nearby
+		100 = VIETold.2111		# Holy man praying for a deceased woman with no family
+		100 = VIETold.2116		# Holy man tells of dealing with polteregists
+		100 = VIETold.2118		# Thinking about people who have come before us
+		100 = VIETold.2119		# Will people remember me after I die?
+		100 = VIETold.2120		# Acquaintance recalls near death experience (female)
+		100 = VIETold.2121		# Acquaintance recalls near death experience (male)
+		100 = VIETold.2122		# Recall happy memory about late parents
+		100 = VIETold.2126		# Servant's pet dog passed away
+		# Generic
+		100 = VIETold.2129		# Character remembers a childhood love
+		100 = VIETold.2130		# Servant has crush on maid
+		100 = VIETold.2131		# Character feels inspired
+		100 = VIETold.2132		# Saw a mudcrab the other day
+		100 = VIETold.2134		# Courtier said something inappropriate
+		100 = VIETold.2135		# Young man is feeling sad about a girl - comfort him
+		100 = VIETold.2139		# Ocean nightmare
+		100 = VIETold.2142		# Mint before toothbrushing
+		100 = VIETold.2143		# A nice peaceful dream
+		100 = VIETold.2145		# Female leader is asked about preferences in men
+		100 = VIETold.2147		# Feeling sleepy but an important meeting with the council is coming up
+		100 = VIETold.2148		# Sore muscles all of a sudden
+		100 = VIETold.2149		# Foot cramp at an awkward time
+		# Generic 2
+		100 = VIETold.2151		# Sad character breaks down and cries
+		100 = VIETold.2152		# Horehound herbal tea 
+		100 = VIETold.2155		# Too much salt
+		100 = VIETold.2156		# Cook asks how you want to eat your eggs
+		100 = VIETold.2159		# Asian superstition about the number of sneezes
+		# Medicine
+		100 = VIETold.2162		# Drinking an herbal tonic
+		100 = VIETold.2164		# Two physicians debate treatments
+		100 = VIETold.2166		# Servant forgets how many spoons of medicine to take
+		100 = VIETold.2167		# Courtier takes wrong type and dosage of medicine by accident
+		100 = VIETold.2168		# Spilled the herbal tea and burning yourself by accident
+		100 = VIETold.2170		# Took medicine for sore throat
+		# Broccoli
+		100 = VIETold.2173		# Broccoli vs cauliflower
+		# Strange Dreams
+		100 = VIETold.2182		# Exploring the dreamworld at the beginning of time
+		100 = VIETold.2184		# Sunset dream with a companion
+		100 = VIETold.2187		# Dream of the desert campfire that's symbolic for something
+
+		# Spices and Herbs (A-L mostly)
+		100 = VIETold.2193		# Drinking Jira Water, a traditional South Indian drink
+		100 = VIETold.2196		# Caraway seed as a breath freshener
+		100 = VIETold.2197		# Snack of quark cheese and chives
+		100 = VIETold.2201		# Chewing on fennel seeds to freshen breath
+		100 = VIETold.2202		# Drink ginger tea for stomachache
+		100 = VIETold.2208		# Eating lavender flavored cake with lavender flavored tea
+
+		# Rosewater
+		100 = VIETold.2211		# Eating rose water cookies
+
+		# Oblivion Inspired
+		100 = VIETold.2215		# Pass by a wayshrine - pray to the Nine Divines!
+		100 = VIETold.2219		# Guard comes to relieve another one
+
+		# Rose
+		100 = VIETold.2226		# Female ruler considers using rosehip oil to look youthful
+		100 = VIETold.2228		# Drinking rose tea
+
+		# Generic for 3rd anniversary
+
+		# Night
+		100 = VIETold.2237		# Trip at night and cause a minor injury
+		100 = VIETold.2241		# Watching the Constellations at Night
+		100 = VIETold.2244		# Visit the beach at night
+
+		# Swansong 2
+		100 = VIETold.2246		# Dream of a cozy cottage
+		100 = VIETold.2247		# Witness a spectacular sunset
+		
+		#######################################
+		# NEXT GEN VIET
+		#######################################
+		
+		# Generic Hello!
+		100 = VIETmisc.0005		# Tried and failed to remember a dream
+		100 = VIETmisc.0006		# Stubbed toe
+		100 = VIETmisc.0008		# Take a nice walk outside
+		100 = VIETmisc.0009		# Drink a refreshing cup of water
+		100 = VIETmisc.0011		# Feeling itchy today
+		100 = VIETmisc.0013		# Character slips and almost tumbles
+		100 = VIETmisc.0014		# Remember an embarassing memory from the past
+		100 = VIETmisc.0015		# Remember a happy memory from the past
+		100 = VIETmisc.0016		# Doing a lot of work recently
+		100 = VIETmisc.0017		# Character woke up early - is it time to do some work?
+		100 = VIETmisc.0018		# Thought of an awesome comeback in an argument... many days later
+		100 = VIETmisc.0020		# Heard a good joke but forgot it already
+		100 = VIETmisc.0022		# Bored during council meeting
+		100 = VIETmisc.0024		# Found a nice flower outside and accidentally stepped on it
+		100 = VIETmisc.0025		# Feel a breeze against the face
+		100 = VIETmisc.0026		# Couldn't find a document in your office
+		100 = VIETmisc.0029		# Found a coin on the ground
+		100 = VIETmisc.0031		# Dreamt of light
+		100 = VIETmisc.0032		# Nightmare of darkness
+		100 = VIETmisc.0034		# Gazing at clouds
+		100 = VIETmisc.0035		# Feeling itchy at meeting with nobles
+		100 = VIETmisc.0036		# Bit tongue at dinner
+		100 = VIETmisc.0037		# Servant is picking nose
+		100 = VIETmisc.0041		# Courtier bumps into you accidentally
+		100 = VIETmisc.0045		# Had a good nap
+		100 = VIETmisc.0046		# Read a good book
+		# Art
+		100 = VIETmisc.0048		# Actors in a play are too melodramatic and suck at acting
+		100 = VIETmisc.0051		# Rest at old ruin on journey somewhere
+		100 = VIETmisc.0052		# Nobleman shows realistic painting of a beautiful woman
+		100 = VIETmisc.0054		# Impressed with temple artwork while visiting
+		100 = VIETmisc.0055		# Poet forgets lines in middle of performance
+		100 = VIETmisc.0056		# Bard's lute breaks in middle of performance
+		# Underworld
+		100 = VIETmisc.0058		# Dreamt of going to hell
+		100 = VIETmisc.0062		# Talking with courtier about what hell is like
+		# Adventure
+		100 = VIETmisc.0068		# Explore the area a little further from your home
+		100 = VIETmisc.0069		# Meet a commoner on the road who's just chilling and relaxing
+		100 = VIETmisc.0070		# Come to an old graveyard
+		100 = VIETmisc.0071		# Meet some traveling pilgrims on the road
+		# Fire
+		100 = VIETmisc.0074		# Burn yourself slightly by coming too close to a torch
+		100 = VIETmisc.0075		# Stand far or close to the fire?
+		100 = VIETmisc.0078		# See some vagrants huddled on the side of the road by a fire
+		# Baklava
+		100 = VIETmisc.0079		# Baklava merchant offers special baklava
+		100 = VIETmisc.0081		# Got baklava syrup all over documents
+		# Numbers
+		100 = VIETmisc.0087		# Farmer tried to cheat a deal by altering the tally sticks but is caught
+		# Earth
+		100 = VIETmisc.0090		# See an earthworm on the road
+		100 = VIETmisc.0096		# Come across an ancient standing stone
+		# Death
+		100 = VIETmisc.0097		# Courtier pranks another by pretending there's a ghost around
+		100 = VIETmisc.0103		# It's a spider!
+		# Celebration
+		# Generic
+		100 = VIETmisc.0109		# Disappointment to the heavens
+		100 = VIETmisc.0112		# Smell a weird smell
+		100 = VIETmisc.0113		# Elderberry tea?
+		100 = VIETmisc.0114		# Songbird perches on a nearby tree
+		# Oral Hygiene
+		100 = VIETmisc.0118		# Complaining about toothaches
+		100 = VIETmisc.0119		# Bite on cheek when eating
+		100 = VIETmisc.0120		# Bad mouth sores
+		# Beginnings		
+		100 = VIETmisc.0127		# Young elopers trespass in your residence
+		# Oblivion Dialogue
+		100 = VIETmisc.0130		# Hastrel Ottus - annoying commoner tells you to be more religious
+		# Kindness
+		100 = VIETmisc.0134		# It's a cruel world out there
+		100 = VIETmisc.0135		# A courtier is feeling sad today
+		100 = VIETmisc.0136		# A courtier cheers you up
+		100 = VIETmisc.0137		# Courtier inherits a bunch of money from an old person
+		100 = VIETmisc.0140		# Courtier trips and is helped by another
+		100 = VIETmisc.0141		# Witness people being mean to a beggar and a peasant woman helping him
+		100 = VIETmisc.0143		# Priest is giving a boring sermon on kindness
+		# Leaves
+		100 = VIETmisc.0148		# Take a nap and a leaf falls down on you (loosely inspired by a scene from Hotel Del Luna)
+		100 = VIETmisc.0149		# Hear some crunching leaves - turns out to be mice
+		# Bushes
+		100 = VIETmisc.0151		# Birds in a Bush
+		100 = VIETmisc.0153		# Tripped and fell into a bush
+		# 100 / One Hundred
+		100 = VIETmisc.0158		# Learn about the story of the 100 brave youths
+		100 = VIETmisc.0160		# Hearing about a woman who gave birth to 100 kids
+		# Strange Trails (Lord Huron) inspired
+		100 = VIETmisc.0165		# Love Like Ghosts - is love rare or not?
+		100 = VIETmisc.0166		# Until The Night Turns - courtier dreams about the end of the world and enjoys it
+		100 = VIETmisc.0168		# Hurricane - sea merchant tells some anecdotes
+		100 = VIETmisc.0173		# Yawning Grave - elder recounts of when he encountered a ghoost (supposedly) in his town's cementary
+		100 = VIETmisc.0174		# Frozen Pines - wandering a frozen wasteland with another courtier
+		# Writing
+		100 = VIETmisc.0181		# Writing too much makes your wrists sore
+		# Contemplative Thoughts
+		100 = VIETmisc.0183		# Thinking about death
+		100 = VIETmisc.0185		# Talking with a courtier when you forgot what you ate yesterday (I hate it when that happens)
+		100 = VIETmisc.0187		# Semantic Satiation (when a word doesn't seem real to you after repeating it)
+		100 = VIETmisc.0191		# Forgot whether you said farewell to someone or not, and worrying about whether you were rude
+		100 = VIETmisc.0192		# Can't fall asleep, so you admire the nighttime solitude
+		# Oblivion Unmarked Locations
+		100 = VIETmisc.0193		# Lonely Grave - south of Boethia's shrine - encounter a lonely grave in the middle of nowhere
+		# Animals
+		#100 = VIETmisc.0196		# Spooked by a frogmouth bird
+		100 = VIETmisc.0200		# Meet a commoner looking for snail slime
+		#100 = VIETmisc.0208		# Hyrax is chilling on the rocks
+		#100 = VIETmisc.0213		# Say hello to a fennec fox
+		#100 = VIETmisc.0216		# Encounter black winged stilts by some ponds
+		100 = VIETmisc.0220		# Character sees a lark flying overhead
+		# Generic
+		100 = VIETmisc.0238		# Courtier sneezes loudly
+		100 = VIETmisc.0239		# Discussion about whether it is better to be a master of something or a jack of all trades
+		# Positivity
+		100 = VIETmisc.0242		# Good day
+		100 = VIETmisc.0243		# Two courtiers debate the merit of staying positive
+		100 = VIETmisc.0247		# Courtier praises you, which sounds suspicious
+		100 = VIETmisc.0248		# You have a strangely positive dream
+		# Struggles
+		100 = VIETmisc.0249		# Struggling to stay awake at a council meeting
+		100 = VIETmisc.0250		# Struggle to fall asleep
+		100 = VIETmisc.0251		# Two courtiers debate if struggling in life is good
+		100 = VIETmisc.0254		# Struggling to laugh at a joke a courtier told that you don't find funny
+		# Courtiers and Vassals
+		100 = VIETmisc.0261		# Rumors about a bad vassal
+		100 = VIETmisc.0263		# Courtier has an injury while traveling outside
+		100 = VIETmisc.0264		# Vassal is rumored to be a good leader
+		100 = VIETmisc.0271		# Councilor feels light-headed and requests to leave to rest, but they're needed for an important meeting
+		# 10
+		100 = VIETmisc.0276		# Child at court asks why we have ten fingers and ten toes
+		# Generic
+		100 = VIETmisc.0284		# Come across some fairy rings
+		100 = VIETmisc.0285		# Overhear an awkward Oblivion conversation
+		# Animation
+		100 = VIETmisc.0289		# Remembered a great joke
+		# Simple
+		100 = VIETmisc.0294		# Lover is not in the mood
+		# Astronomy
+		100 = VIETmisc.0315		# The star Algol is in a disadvantageous position for you
+		100 = VIETmisc.0317		# Overhearing a scholar and peasants discussing effects of the moon on agriculture
+		100 = VIETintro.1000	# Dog Days caused by Sirius - triggers VIETmisc.0319
+		# Water
+		# Nuts
+		100 = VIETmisc.0326		# Servant eats poisonous nuts
+		100 = VIETmisc.0327		# Snacking on nuts
+		100 = VIETmisc.0328		# Cutting down on almond milk or not?
+		# Jokes
+		100 = VIETmisc.0333		# Cicero's anecdote about the crappy orator
+		100 = VIETmisc.0334		# Philogelos quip about sea travel
+		# Rodent
+		100 = VIETmisc.0337		# Servants suggest herbal incense to chase away mice
+		# VIET Word Contest
+		100 = VIETmisc.0342		# Lambast - councilor criticizes another councilor for dozing off at a meeting # _captainnemo
+		# Shark
+		100 = VIETmisc.0344		# Courtier gains an interest in marine biology
+		100 = VIETmisc.0345		# Using tongue stones (fossilized shark teeth) at a feast
+		# Three
+		100 = VIETmisc.0347		# Scholar gives a lecture on triangles
+		100 = VIETmisc.0348		# Reading about the "three orders" of society (priests, farmers/craftsmen, warriors)
+		# Forest
+		100 = VIETmisc.0351 	# Running low on firewood at a camp, but there are spirits nearby
+		# Redhead
+		100 = VIETmisc.0354 	# Buy quality henna?
+		# Flowers
+		100 = VIETmisc.0362 	# Physician suggests a tonic based on rosemary flowers
+		100 = VIETmisc.0364 	# Lover offers you flowers one day
+		100 = VIETmisc.0365 	# You and a lover enjoy playing with some flowers one day
+		# Snow
+		100 = VIETmisc.0368		# Character watching the snow outside and feeling peaceful
+		# Coconut
+		100 = VIETmisc.0369		# Drinking coconut milk
+		# Peaches
+		100 = VIETmisc.0376		# Physician suggests eating peaches to help with stomach preemptively
+		100 = VIETmisc.0377		# Hanging peach wood talismans around the house
+		100 = VIETmisc.0378		# Lover tells lame jokes about peaches
+		# Councilor
+		100 = VIETmisc.0387		# As steward, you get tired of having to do math
+		100 = VIETmisc.0389		# As chaplain, local priests are not cooperative
+		# Backgrounds
+		# Strawberries
+		100 = VIETmisc.0402		# Physician suggests a salve made out of strawberries and pepper for irritated eyes
+		# Horses
+		100 = VIETmisc.0407 	# Observe a stablehand testing colts to see whether they'd make good warhorses
+		# White
+		100 = VIETmisc.0414		# Jasmine tea
+
+		# Byzantine and Turkish
+		100 = VIETmisc.0419		# Adding Turkic/Seljuk style decorations to residence?
+	}
+}
+
+# Uncommon events - stuff that happens regularly but isn't as frequent
+VIET_events_tri_yearly_pulse = {
+	trigger = {
+		VIET_basic_is_available_adult_trigger = yes
+	}
+	random_events = {
+		chance_of_no_event = {
+			value = 30
+			if = {
+				limit = {
+					has_game_rule = VIET_event_frequency_low
+				}
+				add = 10
+			}
+			if = {
+				limit = {
+					has_game_rule = VIET_event_frequency_very_low
+				}
+				add = 20
+			}
+			if = {
+				limit = {
+					has_game_rule = VIET_event_frequency_high
+				}
+				subtract = 10
+			}
+			if = {
+				limit = {
+					has_game_rule = VIET_event_frequency_very_high
+				}
+				subtract = 20
+			}
+			if = {
+				limit = {
+					is_at_war = yes # Won't get spammed while at war
+				}
+				add = 10
+			}
+		}
+		
+		36000 = 0 # 20000?
+		
+		#######################################
+		# OLDEST VIET
+		#######################################
+		
+		# Dreams
+		100 = VIETold.0005		# Dreamt of battle
+		# Dirt
+		100 = VIETold.0008		# Slipped in the mud
+		100 = VIETold.0010		# Peasants debate the use of different kinds of fertilizer
+		100 = VIETold.0011		# Priest needs to determine what kind of pigment to use in manuscript
+		# Food
+		# Shady
+		100 = VIETold.0019		# Servant got scammed when they bought a cat, thinking it was a pig
+		100 = VIETold.0020		# Servant is found to be a smuggler
+		# Generic Trait (OG)
+		100 = VIETold.0028		# Arbitrary - Silence after arbitrary sentencing
+		100 = VIETold.0029		# Just ruler, and peasants love it
+		100 = VIETold.0030		# Wroth - anger means none dare cross
+		100 = VIETold.0031		# Patient - Listening to the opinions of others
+		100 = VIETold.0035		# Humble - character learns from a peasant
+		100 = VIETold.0036		# Lustful - Ugly Wench throws herself at you
+		100 = VIETold.0037		# Chaste - Pretty young maiden tempts you
+		
+		#######################################
+		# OLDER VIET
+		#######################################
+		
+		# Vegetables
+		100 = VIETold.1003		# Someone hates cabbages
+		100 = VIETold.1004		# Using onion to combat hair loss?
+		100 = VIETold.1005		# Rumors of vampires nearby - use onions to combat?
+		# Water
+		100 = VIETold.1009		# Need to dig up a new well
+		# Bitter
+		100 = VIETold.1013		# Stock of olives are too bitter
+		100 = VIETold.1014		# Eating a lot of erotic inducing arugula
+		# Eggs
+		100 = VIETold.1017		# Local merchant's house gets egged during festival (was Republic player in old VIET)
+		100 = VIETold.1019		# Your vassal's food accidentally has eggshells in it
+		# Buy a new wardrobe?
+		100 = VIETold.1021		# Buy a new wardrobe?
+		100 = VIETold.1022		# The chair you sit on breaks
+		# Time
+		100 = VIETold.1025		# Character receives an hourglass - potential for ARTIFACT in the future
+		100 = VIETold.1027		# You get a new servant who is very diligent
+		# Moss
+		100 = VIETold.1030		# Moss on walls - do you want to clean up or not?
+		# Rocks and Minerals
+		100 = VIETold.1035		# Character comes across a boulder believed to have spiritual properties
+		100 = VIETold.1040		# Sulfur treatment for acne
+		# Toothbrush
+		100 = VIETold.1046		# Visiting noble gifts player a gold toothpick
+		100 = VIETold.1049		# Someone suggests you should clean your tongue as well
+		# Generic (Swansong)
+		100 = VIETold.1054		# Clump of dirt in hair
+		100 = VIETold.1055		# Hearing about people with different number of eyes
+		100 = VIETold.1067		# Coin falls out of courtier's pocket unnoticed
+		100 = VIETold.1068		# Execution of innocent man found after the fact
+		# Generic
+		100 = VIETold.1075		# Courtier's horse will pass away soon
+		100 = VIETold.1076		# Exhausted with life
+		100 = VIETold.1084		# Smelling an odd smell
+		100 = VIETold.1087		# Good weather arrives in your region after some bad weather
+		100 = VIETold.1088		# Your character notices they can last longer in bed now
+		100 = VIETold.1090		# Emotional erotic dream
+		# Bread
+		100 = VIETold.1094		# Eating bread crusts is good for you apparently
+		100 = VIETold.1095		# Should you be eating some hardtack for stomach problems?
+		100 = VIETold.1098		# Courtier is bird feeding
+		
+		#######################################
+		# OLD VIET
+		#######################################
+		
+		# Oblivion soundtrack inspired
+		100 = VIETold.2001		# Through the Valleys - Dream of Lake Rumare
+		100 = VIETold.2003		# King and Country - existential crisis about purpose as a ruler
+		100 = VIETold.2004		# Wings of Kynareth - Dream of Cyrodiil and deciding where to go
+		100 = VIETold.2008		# Minstrel's Lament - Court moved to tears by sad song
+		100 = VIETold.2010		# Dusk at the Market - Merchant runs out of product
+		# Reading stories
+		100 = VIETold.2015		# Poet tells historical story with inaccuracy
+		100 = VIETold.2017		# Reading about ancient warriors
+		100 = VIETold.2018		# Read a cute love story
+		# Stuck inside
+		100 = VIETold.2020		# Trapped inside a lovely mansion in a dream
+		100 = VIETold.2023		# Maidservants encounter mice and are afraid
+		100 = VIETold.2024		# Catch two servants having sex
+		100 = VIETold.2026		# Staying up late at night a lot
+		# Fantastical Stories
+		100 = VIETold.2028		# Servant hears about the flying rabbits of the north
+		100 = VIETold.2031		# Hearing about opposite land underground
+		100 = VIETold.2032		# Story of the labyrinth a la the Minotaur
+		100 = VIETold.2036		# Guard claims to have met a woman in white/lady in white
+		100 = VIETold.2040		# Courtiers debate the skin color of the people living on the fantastical Isle of Color
+		# Prophecy and Future
+		100 = VIETold.2051		# Come across a beggar proclaiming the end is nigh
+		# Skyrim dialogue inspired
+		100 = VIETold.2054		# Narri - barmaid flirts with character
+		100 = VIETold.2059		# Mila Valentina - Chat with a kid helping her mother sell fruits and vegetables
+		100 = VIETold.2065		# Sinmir - Elderly townsman criticizes your security
+		# Sun
+		100 = VIETold.2073		# Courtier stared at sun for too long
+		# Generic
+		100 = VIETold.2074		# Almost get struck by lightning
+		100 = VIETold.2076		# Wolf hanging around house protectively
+		100 = VIETold.2081		# Maid reports your courtier wrote her a creepy love letter and is perving on her
+		100 = VIETold.2083		# Notorious criminal breaks out of jail
+		100 = VIETold.2086		# Courtier complains about loud construction noise
+		100 = VIETold.2090		# Scholar owns an indecipherable scroll - is it evil?
+		# Death
+		100 = VIETold.2095		# Cherished old maid passes away
+		100 = VIETold.2096		# Cherished old servant passes away (Tolkien quote)
+		100 = VIETold.2097		# Meet the deceased - it is not your time yet
+		100 = VIETold.2100		# Terminal lucidity in dying acquaintance
+		100 = VIETold.2104		# Guardsman sees grandparents before dying (common phenomonon at end of life)
+		100 = VIETold.2106		# Find a beggar's corpse on the side of the road
+		100 = VIETold.2117		# Stories about zombies
+		100 = VIETold.2123		# Character comes across scene of bandit battle
+		100 = VIETold.2127		# Pass by a tombstone with a meaningful, profound warning
+		100 = VIETold.2128		# Character dreams of ancestors coming to visit
+		# Generic
+		100 = VIETold.2133		# Guard exclaims STOP YOU VIOLATED THE LAW
+		100 = VIETold.2141		# Rumors about the blessed isles
+		100 = VIETold.2144		# Rumors of female ruler having affairs with handsome bodyguards
+		100 = VIETold.2146		# Are flying contraptions even possible?
+		100 = VIETold.2150		# Recommend a book you recently read
+		# Generic 2
+		100 = VIETold.2157		# Character meets S'shani, the old sea captain and rover... now a shipowner and fatcat.
+		100 = VIETold.2160		# Ate lots of baklava
+		# Medicine
+		100 = VIETold.2163		# Quack doctor arrested
+		100 = VIETold.2169		# Scholar and merchant debate merits of quarantining
+		# Broccoli
+		100 = VIETold.2172		# Someone doesn't like broccoli 
+		# Strange Dreams
+		100 = VIETold.2174		# Dream of a great ship in a harbor/port
+
+		# Spices and Herbs (A-L mostly)
+		100 = VIETold.2200		# Clove oil to help with headaches
+		100 = VIETold.2207		# Use koseret, an Ethiopian herb, as insecticide
+		100 = VIETold.2209		# Using tulsi/holy basil for pest control
+		100 = VIETold.2210		# Someone places basil on dead peron before funeral
+
+		# Rosewater
+		100 = VIETold.2212		# Skin ointment made from rose water
+		100 = VIETold.2213		# Sprinkle rose water for funeral of a nobleman
+
+		# Oblivion Inspired
+		100 = VIETold.2214		# Two servants exchange awkward small talk like Oblivion NPCs
+		100 = VIETold.2216		# Edgar Vautrine sells cheap spells
+		100 = VIETold.2217		# Come across a circle of burnt trees with a treasure on top - based on an unmarked location in Oblivion
+		100 = VIETold.2218		# Misanthropic dog trainer Ganredhel
+		100 = VIETold.2223		# Dream of Aleswell, the village with invisible people
+		100 = VIETold.2224		# Dream of visiting Anvil
+
+		# Rose
+		100 = VIETold.2227		# Stumble on two servants in love
+		100 = VIETold.2230		# Meet an old villager admiring a flower
+
+		# Generic for 3rd anniversary
+		100 = VIETold.2235		# Vassal does not want to wash hands with rosewater at a feast
+
+		# Night
+		100 = VIETold.2240		# Can't fall asleep at night and get distracted by the bed covers
+		100 = VIETold.2242		# Suffering from Insomnia - Valerian herbal remedy
+
+		# Swansong 2
+		100 = VIETold.2248		# Stories about a tropical paradise
+		
+		#######################################
+		# NEXT GEN VIET
+		#######################################
+		
+		# Generic Hello!
+		100 = VIETmisc.0002		# Character dreams of going to a village in Oblivion
+		100 = VIETmisc.0003		# Given Baklava as a gift
+		100 = VIETmisc.0004		# Overhear an Oblivion conversation
+		100 = VIETmisc.0007		# Servant's child recently died
+		100 = VIETmisc.0012		# Reports of a ghost in residence
+		100 = VIETmisc.0019		# Paid a quick visit to the supposed ruins of a local house of worship
+		100 = VIETmisc.0021		# Thought you heard someone calling your name
+		100 = VIETmisc.0030		# Tripped and fell while saying farewell to an envoy
+		100 = VIETmisc.0038		# Two servants chat about a play's quality
+		100 = VIETmisc.0040		# Nanny said it'll be alright years ago - is she right?
+		100 = VIETmisc.0042		# Forgotten Identity Part 1 - Meeting an important guest to discuss business when something bad happens
+		# Art
+		100 = VIETmisc.0047		# Curl up with a good book?
+		100 = VIETmisc.0049		# Nearby house of worship is descrated by hooligans
+		# Underworld
+		100 = VIETmisc.0057		# Come across a preacher ranting about how people need to repent
+		100 = VIETmisc.0059		# Elder tells about the Gates of Hell
+		100 = VIETmisc.0061		# Courtier is haunted by a ghost that tells them to repent for their sins
+		# Adventure
+		100 = VIETmisc.0063		# Inherit money from an old adventurer
+		100 = VIETmisc.0064		# You and a courtier find a lost child
+		100 = VIETmisc.0065		# Dream of joining an Oblivion guild
+		100 = VIETmisc.0066		# You and a courtier get lost and stay overnight at a ruin
+		100 = VIETmisc.0067		# Listen in on an argument between a scholar and an adventurer
+		# Fire
+		100 = VIETmisc.0072		# Part of house burns down though no one is hurt
+		100 = VIETmisc.0073		# Commoner asks if you want to chop wood
+		# Baklava
+		100 = VIETmisc.0082		# You are given a gift of baklava
+		# Numbers
+		100 = VIETmisc.0083		# A beggar claims to know numerology and will divine the future
+		100 = VIETmisc.0084		# A scholar is trying to figure out some equations outside
+		100 = VIETmisc.0086		# Guard catches foreign spy because she used a foreign method of finger counting
+		100 = VIETmisc.0088		# Gambling with loaded dice in the market
+		# Earth
+		100 = VIETmisc.0089		# I hate sand, it's corase and is irritating and gets everywhere
+		100 = VIETmisc.0095		# Courtier dreams of the sandman
+		# Spooky
+		100 = VIETmisc.0099		# Explore a haunted house or not?
+		100 = VIETmisc.0100		# Commoner on trial for murder, claims her victim was possessed and she killed in self-defense
+		# Celebration
+		100 = VIETmisc.0104		# Servants celebrate the birth of their child after trying for a while
+		100 = VIETmisc.0105		# Guard's father dies and he is happy
+		100 = VIETmisc.0108		# Meet a happy madwoman in the street
+		# Generic
+		100 = VIETmisc.0110		# Talking with a blacksmith about blacksmith-y things
+		100 = VIETmisc.0116		# Witness a couple fornicating in public
+		100 = VIETmisc.0117		# Learning about cooking from a cook
+		# Oral Hygiene
+		100 = VIETmisc.0121		# Courtier gets a tooth extraction
+		100 = VIETmisc.0122		# Discover a new mouthwash recipe
+		100 = VIETmisc.0123		# Aid with tooth whitening
+		# Beginnings
+		100 = VIETmisc.0124		# A new shop opens in town
+		100 = VIETmisc.0126		# Come across a recently planted tree in a village
+		# Oblivion Dialogue
+		100 = VIETmisc.0131		# Borissean - trying to convince a scholar to join your court and failing
+		100 = VIETmisc.0132		# Thamriel - meet a crazy woman in the garden
+		# Kindness
+		100 = VIETmisc.0133		# Meet a little brother and sister
+		100 = VIETmisc.0138		# Character comes across a run-down orphanage
+		100 = VIETmisc.0144		# Ruler overhears servants complaining about another servant who bullies them
+		100 = VIETmisc.0145		# Local clergy revered for their kindness dies - attend funeral or not?
+		100 = VIETmisc.0146		# A woman kindly tells a man that he dropped his coin bag, and your guards react in different ways
+		# Leaves
+		100 = VIETmisc.0150		# Gift of a golden leaf
+		# Bushes
+		100 = VIETmisc.0152		# Gardener suggests sprucing up the courtyard
+		# 100 / One Hundred
+		100 = VIETmisc.0155		# A local elder reaches 100 years old
+		100 = VIETmisc.0156		# Found a pot of gold with 100 coins outside
+		100 = VIETmisc.0157		# Horny courtier talks about a harlot he had sex with
+		100 = VIETmisc.0161		# Spouse has over a hundred fancy shoes
+		100 = VIETmisc.0164		# Successfully resolved a local feud between two noble clans
+		# Strange Trails (Lord Huron) inspired
+		100 = VIETmisc.0169		# La Belle Fleur Sauvage (The Beautiful Wildflower) - bard talks about his muse
+		100 = VIETmisc.0171		# The World Ender - a band of mercenary bullies sweeps by nearby and disappear or are afraid of you
+		100 = VIETmisc.0175		# Cursed - courtier claims to be cursed by a courtesan but seems to be obsessed with her more than anything
+		100 = VIETmisc.0176		# Way Out There - meet a crazy old man talking about the Dreamers and strange trails
+		100 = VIETmisc.0178		# Night We Met - courtier wishes he could have done something to save a dead lover
+		# Writing
+		100 = VIETmisc.0180		# Courtier has crappy handwriting
+		# Contemplative Thoughts
+		100 = VIETmisc.0182		# Remembering a toy from your childhood
+		100 = VIETmisc.0184		# Who's tallest and who's shortest?
+		100 = VIETmisc.0186		# If you could read minds, what would you do with such powers?
+		100 = VIETmisc.0190		# Having intrusive thoughts while at a council meeting
+		# Oblivion Unmarked Locations
+		100 = VIETmisc.0194		# Flooded Ruins - a couple examples can be found in the Shivering Isles - soldiers find small chest of coins in underwater ruins
+		# Animals
+		#100 = VIETmisc.0199		# Witness hunters failing to catch a Chevrotain/Mouse-Deer that goes into a lake
+		100 = VIETmisc.0201		# Encounter commoners collecting some snails - buy some for food?
+		#100 = VIETmisc.0212		# Come across a mongoose and a cobra "dueling"
+		100 = VIETmisc.0218		# Traveler claims to have met a horde of monkeys
+		# Patch
+		100 = VIETmisc.0234		# Two peasant women arguing about a patch of cabbages
+		100 = VIETmisc.0235		# Notice your servant is wearing patchy clothing
+		# Generic
+		100 = VIETmisc.0236		# Bickering Couple at your Court
+		100 = VIETmisc.0240		# Witch's Stew - is it a sign of love from your maid to your manservant or not?
+		# Positivity
+		100 = VIETmisc.0244		# You meet a cheerful beggar who's content with her predicament
+		100 = VIETmisc.0246		# You meet a scholar who likes to stay inside all day
+		# Struggle
+		100 = VIETmisc.0252		# Two courtiers debate if struggling for love is good
+		100 = VIETmisc.0253		# Noblewoman is struggling to communicate with her foreign child servant/child
+		# VIET Events Contest Winners
+		# Courtiers and Vassals
+		100 = VIETmisc.0262		# Vassal attacks a peasant
+		100 = VIETmisc.0265		# Character enjoys composing vulgar music (Credits to Anonymous person who took the 2022 survey)
+		100 = VIETmisc.0266		# Vassal is a robber baron
+		100 = VIETmisc.0268		# Vassal recently lost a lot of money and begs for help
+		100 = VIETmisc.0269		# Courtier recently got some money and wants to give you some
+		100 = VIETmisc.0272		# Councilor comes extremely tardy
+		# 10
+		100 = VIETmisc.0278		# Congratulating two servants on their tenth anniversary
+		# Generic
+		100 = VIETmisc.0282		# Get ambushed by pathetic bandits
+		100 = VIETmisc.0286		# Come across an ancient inscription on a ruin
+		# Animation
+		100 = VIETmisc.0287		# Overhear servants talking about an adulterous affair
+		100 = VIETmisc.0290		# Your vassal thinks your fruit juice is great
+		100 = VIETmisc.0291		# You hear a noise at night but it's just one of your guards
+		100 = VIETmisc.0292		# Sleepwalking while holding a knife in the basement
+		# Simple
+		100 = VIETmisc.0293		# Inspecting bridges
+		# Astronomy
+		100 = VIETmisc.0314		# Two characters debate about the nature of Venus
+		100 = VIETmisc.0316		# Boring character likes to talk about the moon
+		100 = VIETmisc.0318		# Two characters debate about the reliability of astrology
+		# Water
+		100 = VIETmisc.0321		# Pilgrim supposedly turned water into wine... but turns out to be a fraud
+		100 = VIETmisc.0323		# Learning not to drown
+		# Nuts
+		# Desert
+		# Jokes
+		100 = VIETmisc.0331		# Anglo-Saxon double entendre riddle about keys
+		100 = VIETmisc.0332		# Joke about the self-castrating husband, from Facetiae, a 15th century Italian joke book
+		100 = VIETmisc.0335		# Joke about fat clergy, from Facetiae, a 15th century Italian joke book
+		# Rodent
+		100 = VIETmisc.0336		# Dreamt of a mouse's lawsuit
+		100 = VIETmisc.0339		# Dreamt of mice turning into lions (based on an account by Anna Komnene)
+		# VIET Word Contest
+		100 = VIETmisc.0343		# Snuggery - courtier suggests you set aside a room as a snuggery for relaxing # Cerbzzz
+		# Shark
+		100 = VIETmisc.0346		# Character reads a line of poetry about divers and sharks (loosely based on the poet Sa'di of Shiraz)
+		# Fire
+		100 = VIETmisc.0352		# Troupe of entertainers who know how to use fire
+		# Redhead
+		# Flowers
+		100 = VIETmisc.0363		# Eating candied flowers
+		# Snow
+		100 = VIETmisc.0366		# Courtier gets stuck outside in a snowstorm and returns
+		# Coconut
+		100 = VIETmisc.0370		# Inspecting coconut farms and learning about the difficult work of harvesting coconuts
+		# Peaches
+		# Councilor
+		100 = VIETmisc.0381		# Chancellor proposes keeping a closer eye on envoys' servants
+		100 = VIETmisc.0383		# Spymaster says there's an opportunity to hire a commoner servant family to spy on other nobles
+		100 = VIETmisc.0385		# As Chancellor, annoying irrelevant people bribe you to to meet with your liege
+		100 = VIETmisc.0386		# As Marshal, your officers are following your orders with malicious compliance
+
+		# Strange Tales from a Chinese Studio
+		
+		# Backgrounds
+		100 = VIETmisc.0395 	# Don't eat fruits like strawberries in a weird manner or else people will judge you
+
+		# Strawberries
+		100 = VIETmisc.0403		# Physician says you need to put more sugar on strawberries for your health
+		
+		# Horses
+		100 = VIETmisc.0408		# Bloodletting horses - hire a new doctor?
+
+		# White
+		100 = VIETmisc.0410		# Female courtier enjoys bathing in white milk
+
+		# Earth Day
+		100 = VIETmisc.0416		# Scholarly courtier blabbers about the circumference of the earth
+
+		# Byzantine and Turkish
+
+	}
+}
+
+# Rare events - more unique and unusual happenings
+VIET_events_five_yearly_pulse = {
+	trigger = {
+		VIET_basic_is_available_adult_trigger = yes
+	}
+	random_events = {
+		chance_of_no_event = {
+			value = 30
+			if = {
+				limit = {
+					has_game_rule = VIET_event_frequency_low
+				}
+				add = 10
+			}
+			if = {
+				limit = {
+					has_game_rule = VIET_event_frequency_very_low
+				}
+				add = 20
+			}
+			if = {
+				limit = {
+					has_game_rule = VIET_event_frequency_high
+				}
+				subtract = 10
+			}
+			if = {
+				limit = {
+					has_game_rule = VIET_event_frequency_very_high
+				}
+				subtract = 20
+			}
+			if = {
+				limit = {
+					is_at_war = yes # Won't get spammed while at war
+				}
+				add = 10
+			}
+		}
+		
+		33000 = 0
+		
+		#######################################
+		# OLDEST VIET
+		#######################################
+		
+		# Nature
+		100 = VIETold.0003		# You come across a scorpion
+		# Dreams
+		100 = VIETold.0006		# Dreamt of Dagoth Ur/Morrowind reference
+		# Dirt
+		100 = VIETold.0012		# Courtier has colorful stool - or as a VIETeran once put it, fruit loop poops
+		# Generic Trait (OG)
+		100 = VIETold.0026		# Charitable - Beggar Girl
+		100 = VIETold.0033		# Kind - Help a recently deceased impoverished noble's orphaned child
+		100 = VIETold.0034		# Brave - defeated bandit
+		100 = VIETold.0040		# Honest - character meets an incompetent merchant
+		
+		#######################################
+		# OLDER VIET
+		#######################################
+		
+		# Vegetables
+		100 = VIETold.1002		# Hearing about carrots that are orange in color (historically most carrots were purplish in this era)
+		# Bitter
+		100 = VIETold.1010		# Using chicory to help prevent bruises from tripping
+		100 = VIETold.1015		# Spinach eater
+		# Eggs
+		100 = VIETold.1016		# New fad with cosmetics made from quail eggs
+		# Time
+		100 = VIETold.1028		# Fire in village doesn't spiral out of control because of water in the clock tower
+		# Rocks and Minerals
+		# Toothbrush
+		100 = VIETold.1048		# Courtier talks about toothbrush sexy times
+		100 = VIETold.1050		# Old people with bad teeth scare you and inspire you to do more cleaning
+		100 = VIETold.1052		# Toothbrush toilet prank (or not)
+		# Generic (Swansong)
+		100 = VIETold.1053		# What has more value - the real thing, or a fake?
+		100 = VIETold.1059		# Who cut the cheese? Dumb punny joke lol
+		100 = VIETold.1071		# Creepy horse stares at you
+		100 = VIETold.1072		# Cubeb gift - what to use it for?
+		# Generic
+		100 = VIETold.1077		# Find a beggar's corpse
+		100 = VIETold.1091		# Witness someone playing a prank where they pretend a live bird is dead
+		# Bread
+		100 = VIETold.1097		# Fraudulent baker is punished
+		100 = VIETold.1099		# You learn some facts about bread
+		
+		#######################################
+		# OLD VIET
+		#######################################
+		
+		# Oblivion soundtrack inspired
+		100 = VIETold.2009		# Auriel's Ascension - a deity manifests themselves (was a province event in old VIET)
+		# Reading stories
+		100 = VIETold.2013		# Read Hotel Del Luna - i.e., what happens when cybrxkhan watches a K-Drama on a whim and finds it's actually great
+		100 = VIETold.2016		# Saw a vision of the past while reading a book
+		# Stuck inside
+		100 = VIETold.2021		# Learning about local folklore about ancient ruin of man who stayed inside a house during plague
+		# Fantastical Stories
+		100 = VIETold.2034		# Old man recounts meeting the Dreamer
+		100 = VIETold.2037		# Maid recounts meeting the Dreamer
+		100 = VIETold.2038		# Scholar tells of an island on a lake
+		# Prophecy and Future
+		100 = VIETold.2052		# You meet the whore of Babylon in a dream
+		# Skyrim dialogue inspired
+		100 = VIETold.2055		# It's a fine day with you around - character meets young noblewoman
+		100 = VIETold.2057		# Jenassa - strange female mercenary comes to court
+		100 = VIETold.2060		# Jon Battle-Born - Getting to know a friendly, poetic guardsman
+		100 = VIETold.2062		# Lydia - A maid is sworn to carry your burdens
+		100 = VIETold.2066		# Telrav - encounter a robbed "merchant" on the road
+		# Sun
+		100 = VIETold.2070		# Sun Wu Kong theatrical performance (a meta pun on "Sun")
+		# Generic
+		100 = VIETold.2077		# Bloody knife found on bed - implied to maybe be a prank
+		100 = VIETold.2082		# Did a physician botch a surgery of a nobleman?
+		100 = VIETold.2093		# Nobleman runs away from criminals trying to kill him
+		# Death
+		100 = VIETold.2102		# Visit from a ghostly little girl
+		100 = VIETold.2109		# Visit from an otherworldly being, or just a dream?
+		100 = VIETold.2112		# Woman annoys death so much he takes her back to the land of the living - based on an old folk tale
+		100 = VIETold.2124		# You have a friendly ghost stalker according to a holy person
+		100 = VIETold.2125		# Local townsman accused of having sex with ghosts
+		# Generic
+		# Generic 2
+		100 = VIETold.2161		# Incest argument
+		# Medicine
+		100 = VIETold.2165		# Observing a skilled physician demonstrate surgery
+		# Broccoli
+		# Strange Dreams
+		100 = VIETold.2175		# Meet someone you know irl in a dream
+		100 = VIETold.2185		# Meeting the Dreamer while lost in a dream - part of VIET lore about the Dreamers
+
+		# Spices and Herbs (A-L mostly)
+		100 = VIETold.2206		# Heartbroken servant can't afford herbal concoction to heal wounded heart (gender not specified)
+
+		# Oblivion Inspired
+		100 = VIETold.2220		# Ontus Vanin - scholar who's retired, stays behind and reads trashy books
+		100 = VIETold.2221		# Meeting Else God-Hater
+		100 = VIETold.2222		# Meet a crazy madwoman - Runs-In-Circles
+
+		# Rose
+		100 = VIETold.2225		# Secret admirer gives a letter with a rose
+
+		# Night
+		100 = VIETold.2243		# Young servant dies because of his ambitious nature
+
+		# Swansong 2
+		100 = VIETold.2245		# Traveler helps guards take down gang of female thieves who use seduction (Oblivion/Anvil reference)
+		
+		#######################################
+		# NEXT GEN VIET
+		#######################################
+		
+		# Generic Hello!
+		100 = VIETmisc.0023		# Meeting a foreign envoy when you can't hold your bladder
+		100 = VIETmisc.0027		# Watch a psycho killer getting executed
+		100 = VIETmisc.0028		# Reading about an ancient empire
+		100 = VIETmisc.0033		# Book might be too hard to understand
+		100 = VIETmisc.0039		# Witness a happy wedding between childhood friends
+		100 = VIETmisc.0044		# Rumors of illegitimate child with a peasant
+		# Art
+		100 = VIETmisc.0050		# A famous painter creates very surreal art
+		100 = VIETmisc.0053		# Watching a play about an incestuous couple
+		# Underworld
+		100 = VIETmisc.0060		# Village elder claims she reformed after demons took her on a trip to hell when she was young
+		# Fire
+		100 = VIETmisc.0076		# Mysterious fires appearing on the horizon without any known source
+		100 = VIETmisc.0077		# Visiting scholar recommends making some changes to your house for fire safety reasons
+		# Baklava
+		100 = VIETmisc.0080		# A courtier is obsessed with baklava
+		# Numbers
+		100 = VIETmisc.0085		# Learn advanced finger counting from a retired merchant
+		# Earth
+		100 = VIETmisc.0091		# Find what appears to be an ancient skeleton buried near a construction site
+		100 = VIETmisc.0093		# A scholar shows you a lapidary (medieval encyclopedia of rocks and precious stones)
+		# Death
+		100 = VIETmisc.0098		# Courtier pretends to be a ghost to scare off local kids
+		# Celebration
+		100 = VIETmisc.0106		# Witness local village celebrating with a burning effigy
+		# Generic
+		100 = VIETmisc.0111		# Come across an adventurer left for dead
+		100 = VIETmisc.0115		# A jail cell is empty due to sueprstition
+		# Beginnings
+		100 = VIETmisc.0125		# A servant is about to give birth
+		100 = VIETmisc.0128		# Come across an abandoned baby - what to do?
+		# Oblivion Dialogue
+		100 = VIETmisc.0129		# Otumeel - Prankster who breaks in people's not to steal, but to move things around
+		# Kindness
+		100 = VIETmisc.0139		# Courtier is friends with a beggar
+		100 = VIETmisc.0142		# Observe a veteran teaching local women about self-defense
+		100 = VIETmisc.0147		# Local notables band together to fund an almshouse - will you join in?
+		# Bushes
+		100 = VIETmisc.0154		# Talk with a peasant about berries, which is berry good
+		# 100 / One Hundred
+		100 = VIETmisc.0159		# What do to with a local crazy cat lady?
+		100 = VIETmisc.0162		# Bizarre, dark, and eerie (but benevolent) dream of 100 Spirits
+		100 = VIETmisc.0163		# Found a barrel with 100 calipers inside
+		# Strange Trails (Lord Huron) inspired
+		100 = VIETmisc.0167		# Dead Man's Hand - ghost appears in a dream asking not to be buried
+		100 = VIETmisc.0172		# Meet Me In The Woods - should you meet a noble family whose daughter is cursed?
+		# Contemplative Thoughts
+		100 = VIETmisc.0188		# Memories of a childhood friend
+		100 = VIETmisc.0189		# Have an existential crisis while a bard is playing music
+		# Oblivion Unmarked Locations
+		100 = VIETmisc.0195		# Isolated House - halfway between Bravil and Skingrad - soldiers find abandoned house occupied by bandits
+		# Animals
+		100 = VIETmisc.0209		# Confused a hinny (horse father, donkey mother) with a mule
+		100 = VIETmisc.0228		# Farmer's loud guard goose thinks you're an intruder
+		# Patch
+		100 = VIETmisc.0233		# Met a Veteran who wears an eyepatch
+		# Generic
+		100 = VIETmisc.0237		# Prisoner is on friendly terms with guards and is a regular who gets imprisoned a lot for silly reasons
+		# Positivity
+		100 = VIETmisc.0241		# A maidservant got rejected hard
+		100 = VIETmisc.0245		# You see a guard give a street urchin some candy and food
+		# Struggle
+		100 = VIETmisc.0255		# Struggling for a promotion - meet a woman whose recently promoted brother just died
+		100 = VIETmisc.0256		# Everything in Crusader Kings 3 can be turned into a STRUGGLE mechanic, as One Proud Bavarian says
+		# VIET Events Contest Winners
+		100 = VIETmisc.0258		# Baklava nightmare (Credits to Cerbzzz)
+		100 = VIETmisc.0259		# Teddy Roosevelt assassination reference - vassal survives assassination attempt (Credits to Anonymous person who took the survey)
+		# Courtiers and Vassals
+		100 = VIETmisc.0267		# Vassal has a capable official who might be convinced to work for you
+		100 = VIETmisc.0270		# Courtier sees a strange mysterious woman
+		# 10
+		100 = VIETmisc.0277 	# Visiting a local school where two scholars are arguing about decimal fractions
+		# Generic
+		100 = VIETmisc.0283 	# Maid turns the tables on manservants who try to prank her
+		# Animation
+		100 = VIETmisc.0288 	# A medieval Karen comes to complain
+		# Nuts
+		# Desert
+		# Rodent
+		100 = VIETmisc.0340		# Criminal caught using training rodents to steal
+		# VIET Word Contest
+		100 = VIETmisc.0341		# Opprobrious Remarks - scholar says he likes arguing with his wife # asparagusrain
+		# Redhead
+		100 = VIETmisc.0353		# Merchant returns after encountering people who never knew about henna and hair dye, and tells exaggerated tale
+		# Snow
+		100 = VIETmisc.0367		# Courtier really likes eating snow
+		# Coconut
+		100 = VIETmisc.0371		# Coconut lands on a courtier's head, and they demand compensation from the coconut tree owners
+		# Oblivion Remaster
+		100 = VIETmisc.0372		# Hagaer - A bookworm in the Imperial City
+		100 = VIETmisc.0373		# CHEESE FOR EVERYONE! (Sheogorath)
+		100 = VIETmisc.0374		# Taking a walk around Lake Rumare in Imperial City and admiring the beauty of the land
+		# Peaches
+		# Councilor
+		100 = VIETmisc.0382		# Marshal doesn't care about diviners (also, Saladin quote from Kingdom of Heaven)
+		100 = VIETmisc.0384		# Court Chaplain has doubts about their theological knowledge
+		100 = VIETmisc.0388		# As spymaster, a pathetic assassin tries to kill you in a laughably pathetic assassination attempt
+		
+		# Strange Tales from a Chinese Studio
+		
+		# Backgrounds
+		100 = VIETmisc.0397 	# Child shows interest in a physicians' work
+
+		# Strawberries
+		100 = VIETmisc.0400 	# Local woman accuses another of throwing strawberries at her while she was pregnant
+
+		# Horses
+		
+		# Earth Day
+		100 = VIETmisc.0415		# Peasant says praying to fertility god/saint helped their crops grow on barren land
+
+		# Byzantine and Turkish
+
+	}
+}
+
+# Event chains or extremely rare one shots - rare, most will only fire once a playthrough
+VIET_events_event_chain_pulse = {
+	trigger = {
+		VIET_basic_is_available_adult_trigger = yes
+		is_ai = no # Will only happen to player
+		is_at_war = no # Won't get spammed while at war
+	}
+	random_events = {
+		chance_of_no_event = {
+			value = 40
+			if = {
+				limit = {
+					has_game_rule = VIET_event_frequency_low
+				}
+				add = 10
+			}
+			if = {
+				limit = {
+					has_game_rule = VIET_event_frequency_very_low
+				}
+				add = 20
+			}
+			if = {
+				limit = {
+					has_game_rule = VIET_event_frequency_high
+				}
+				subtract = 10
+			}
+			if = {
+				limit = {
+					has_game_rule = VIET_event_frequency_very_high
+				}
+				subtract = 20
+			}
+		}
+		
+		22000 = 0
+		
+		#######################################
+		# OLD VIET
+		#######################################
+		
+		# Prophecy and future
+		100 = VIETold.2041		# Prophetic dream of World War 1
+		# Death
+		100 = VIETold.2098		# Witnessing the death of a rat
+		100 = VIETold.2113		# The Grim Reaper is an absentminded girl and she stops by after getting lost
+		# Strange Dreams
+		100 = VIETold.2177		# Dream of a Korean Drama (probably should've been considered an event chain but oh well)
+		
+		# Actual Event Chains
+		100 = VIETmisc.1000		# Kogarashi Sentiment/Fast Love - Character recalls their first love
+		100 = VIETmisc.1023		# Begin the swirls of cinnamon in every bite
+		100 = VIETmisc.1030		# Lost Love - a beloved servant falls ill and is dying
+		100 = VIETmisc.1071		# Dream of Oblivion
+
+		# Swansong 2
+		100 = VIETold.2249		# Song of Scarborough Fair
+		
+		#######################################
+		# NEXT GEN VIET
+		#######################################
+		
+		# Generic Hello!
+		100 = VIETmisc.0001		# Character hears a bard sing Scarborough Fair
+		
+		# Death
+		100 = VIETmisc.0101		# Come across an unknown servant - is he a spirit testing one's hospitality?
+		
+		# Meet the Dreamer
+		100 = VIETmisc.8000		# You meet the Dreamer
+		
+		# Qi Ma the Liar
+		100 = VIETmonogatari.0010		# Rumors about Qi Ma the Liar - diplomacy
+		100 = VIETmonogatari.0011		# Rumors about Qi Ma the Liar - martial
+		100 = VIETmonogatari.0012		# Rumors about Qi Ma the Liar - stewardship
+		100 = VIETmonogatari.0013		# Rumors about Qi Ma the Liar - intrigue
+		100 = VIETmonogatari.0014		# Rumors about Qi Ma the Liar - learning
+		
+		# Strange Trails (Lord Huron) inspired
+		100 = VIETmisc.0170				# Fool for Love (my favorite Lord Huron song!) - meet the Fool for Love by the side of the road
+
+		# Mysterious Child
+		100 = VIETmisc.1052				# A strange child appears in front of you
+
+		# 10
+		100 = VIETmisc.0280				# Come across a beggar in a town who asks for 10 gold coins
+
+		# Strange Tales from a Chinese Studio
+		
+	}
+}
+
+# Decision based events/event chains/mechanics - common for stuff that would feasibly happen more regularly
+VIET_events_common_decisions_pulse = {
+	trigger = {
+		VIET_basic_is_available_adult_trigger = yes
+	}
+	random_events = {
+		chance_of_no_event = {
+			value = 30
+			if = {
+				limit = {
+					has_game_rule = VIET_event_frequency_low
+				}
+				add = 10
+			}
+			if = {
+				limit = {
+					has_game_rule = VIET_event_frequency_very_low
+				}
+				add = 20
+			}
+			if = {
+				limit = {
+					has_game_rule = VIET_event_frequency_high
+				}
+				subtract = 10
+			}
+			if = {
+				limit = {
+					has_game_rule = VIET_event_frequency_very_high
+				}
+				subtract = 20
+			}
+		}
+		
+		20000 = 0
+		
+		#######################################
+		# OLD VIET (for events converted into decision event chains)
+		#######################################
+		
+		#######################################
+		# NEXT GEN VIET
+		#######################################
+		
+		# Generic first set
+		100 = VIETmisc.2004		# Traveling spice merchant arrives in town
+		100 = VIETmisc.2007		# A ghost seems to be haunting you
+		100 = VIETmisc.2019		# Your servants find a mysterious treasure chest
+		100 = VIETmisc.2021		# Meet the mercenary scholar at an inn
+		# Writing
+		100 = VIETmisc.2061		# Character gains interest in learning how to write shorthand
+		# Animals
+		100 = VIETmisc.2074		# Courtier suggests you add dovecotes to your residence
+		100 = VIETmisc.2076		# Will you become a songbird fan or enjoyer?
+		# Snow
+		100 = VIETmisc.2079		# Officials suggest the snow festival idea
+		
+	}
+}
+
+
+# Decision based events/event chains/mechanics - rare for stuff that would happen less regularly
+VIET_events_rare_decisions_pulse = {
+	trigger = {
+		VIET_basic_is_available_adult_trigger = yes
+	}
+	random_events = {
+		chance_of_no_event = {
+			value = 30
+			if = {
+				limit = {
+					has_game_rule = VIET_event_frequency_low
+				}
+				add = 10
+			}
+			if = {
+				limit = {
+					has_game_rule = VIET_event_frequency_very_low
+				}
+				add = 20
+			}
+			if = {
+				limit = {
+					has_game_rule = VIET_event_frequency_high
+				}
+				subtract = 10
+			}
+			if = {
+				limit = {
+					has_game_rule = VIET_event_frequency_very_high
+				}
+				subtract = 20
+			}
+		}
+		
+		22000 = 0
+		
+		#######################################
+		# OLD VIET (for events converted into decision event chains)
+		#######################################
+		
+		#######################################
+		# NEXT GEN VIET
+		#######################################
+		
+		#Qi Ma
+		100 = VIETmonogatari.0001	# Hear of Qi Ma the Liar
+		
+		#Generic first set
+		100 = VIETmisc.2014		# Your soldiers find Shadowbanish Wine
+		100 = VIETmisc.2023		# Servants are kidnapped - start the countdown
+		# Crows
+		100 = VIETmisc.2047		# Crows keep following you around for some reason
+		# Strawberries
+		100 = VIETmisc.2082		# Someone suggests strawberry gardens in your capital county
+		
+	}
+}
+
+
+# Miscellaneous events indirectly related to decisions event chains
+VIET_events_misc_decisions_pulse = {
+	trigger = {
+		VIET_basic_is_available_adult_trigger = yes
+	}
+	random_events = {
+		chance_of_no_event = {
+			value = 30
+			if = {
+				limit = {
+					has_game_rule = VIET_event_frequency_low
+				}
+				add = 10
+			}
+			if = {
+				limit = {
+					has_game_rule = VIET_event_frequency_very_low
+				}
+				add = 20
+			}
+			if = {
+				limit = {
+					has_game_rule = VIET_event_frequency_high
+				}
+				subtract = 10
+			}
+			if = {
+				limit = {
+					has_game_rule = VIET_event_frequency_very_high
+				}
+				subtract = 20
+			}
+		}
+
+		3000 = 0
+		
+		#######################################
+		# OLD VIET (for events converted into decision event chains)
+		#######################################
+		
+		#######################################
+		# NEXT GEN VIET
+		#######################################
+		
+		# Misc
+		100 = VIETmisc.2056		# Crows save you from a bandit attack
+		100 = VIETmisc.2057		# Crows give you some presents
+		
+	}
+}
+
+# County based events/event chains/mechanics - common occurrences that would feasibly happen more regularly
+VIET_events_common_county_pulse = {
+	random_events = {
+		chance_of_no_event = {
+			value = 50
+			if = {
+				limit = {
+					has_game_rule = VIET_event_frequency_low
+				}
+				add = 10
+			}
+			if = {
+				limit = {
+					has_game_rule = VIET_event_frequency_very_low
+				}
+				add = 20
+			}
+			if = {
+				limit = {
+					has_game_rule = VIET_event_frequency_high
+				}
+				subtract = 10
+			}
+			if = {
+				limit = {
+					has_game_rule = VIET_event_frequency_very_high
+				}
+				subtract = 20
+			}
+		}
+		
+		30000 = 0
+		
+		#######################################
+		# OLD VIET (for events converted into decision event chains)
+		#######################################
+		
+		# Generic
+		100 = VIETmisc.4000		# Protective spirit in the land
+		100 = VIETmisc.4002		# Blacksmiths renowned in county
+		100 = VIETmisc.4007		# Respected elder passes away
+		100 = VIETmisc.4008		# Beloved grandmother passes away
+		100 = VIETmisc.4014		# Stone slab discovered
+		100 = VIETmisc.4016		# Bridge in county collapsed
+		100 = VIETmisc.4017		# Mysterious Colors in the Sky
+		100 = VIETmisc.4020		# Neolithic ancient stone monument found
+		100 = VIETmisc.4021		# Sandstorm strikes a county
+		100 = VIETmisc.4024		# Landslide happens in a county
+		100 = VIETmisc.4025		# Strong lads gain fame and win honor for community
+		100 = VIETmisc.4026		# A village tree provides shade
+		100 = VIETmisc.4028		# Youths prank a village, pretending to be shadow demons
+		100 = VIETmisc.4029		# Herbalists become famous
+		# Oblivion Inspired
+		100 = VIETmisc.4030		# Wayshrine becomes popular
+		100 = VIETmisc.4031		# Daedra sightings
+		# Generic
+		100 = VIETmisc.4034		# Mysterious noises and colors in the sky at night
+		
+		#######################################
+		# NEXT GEN VIET
+		#######################################
+		
+		# Generic
+		100 = VIETmisc.3000		# Berry Good Medicine
+		100 = VIETmisc.3001		# A cave is discovered somewhere
+		100 = VIETmisc.3005		# Recent feud in a town is getting out of hand
+		100 = VIETmisc.3006		# Fire swept through a town
+		100 = VIETmisc.3009		# Missing people - all the people in a caravan go missing, but the caraven items, goods, and animals remain
+		100 = VIETmisc.3010		# County is famous for pottery/ceramics
+		100 = VIETmisc.3011		# Dark cloud casts its shadow over a county
+		100 = VIETmisc.3012		# County suffering from poor military leadership
+		100 = VIETmisc.3015		# Corrupt officials in a county
+		100 = VIETmisc.3016		# Incorruptible officials in a county
+		100 = VIETmisc.3017		# Renowned carpenters in county
+		100 = VIETmisc.3018		# Renowned stonemasons in county
+		100 = VIETmisc.3021		# Building collapses, killing a lot of important community leaders
+		# Animals
+		100 = VIETmisc.3030		# Donkeys from a county gain a good reputation for being reliable
+		# Generic
+		100 = VIETmisc.3031		# Smuggling Ring Arrested
+		100 = VIETmisc.3032		# Haunted Fortress
+		100 = VIETmisc.3033		# Famous flower meadows
+		# Local Rumors
+		100 = VIETmisc.3038		# Legends of a nonexistent holy person
+		# 10
+		100 = VIETmisc.3040 	# 10 officials resign to protest a bad official
+		# Simple
+		100 = VIETmisc.3045 	# Ingredients from a region become popular
+		# Water
+		100 = VIETmisc.3051 	# Seaweed Fertilizer
+		# Rodents
+		100 = VIETmisc.3056 	# Increased rodent infestation
+		100 = VIETmisc.3057 	# Rat-catchers in a province become renowned
+		# Shark
+		100 = VIETmisc.3059 	# Shark Fishing industry is doing well
+		# Snow
+		100 = VIETmisc.3067 	# Snowfall causes destruction to local buildings and lives
+		100 = VIETmisc.3068 	# Snowmelt in area is even better than normal, allowing for a better harvest
+		# Background
+		100 = VIETmisc.3071 	# Tensions rising between university students and townspeople
+		# Earth Day
+		100 = VIETmisc.3075 	# Foresters report success
+		100 = VIETmisc.3076 	# Human waste is getting out of hand - what to do?
+		
+		# 44
+    }
+}
+
+# County based events/event chains/mechanics - uncommon, weird occurrences that would happen less regularly
+VIET_events_uncommon_county_pulse = {
+	random_events = {
+		chance_of_no_event = {
+			value = 50
+			if = {
+				limit = {
+					has_game_rule = VIET_event_frequency_low
+				}
+				add = 10
+			}
+			if = {
+				limit = {
+					has_game_rule = VIET_event_frequency_very_low
+				}
+				add = 20
+			}
+			if = {
+				limit = {
+					has_game_rule = VIET_event_frequency_high
+				}
+				subtract = 10
+			}
+			if = {
+				limit = {
+					has_game_rule = VIET_event_frequency_very_high
+				}
+				subtract = 20
+			}
+		}
+		
+		28000 = 0
+		
+		#######################################
+		# OLD VIET (for events converted into decision event chains)
+		#######################################
+		
+		# Generic
+		100 = VIETmisc.4003		# Rumors of a mad scientist
+		100 = VIETmisc.4004		# Population of an entire village mysteriously disappears
+		100 = VIETmisc.4005		# Perfect wedding
+		100 = VIETmisc.4006		# Ghosts keep visiting a settlement and marching through it
+		100 = VIETmisc.4009		# Locals witness literal ghost towns - ghosts doing daily business
+		100 = VIETmisc.4010		# Serial killer is caught and killed by cunning guards
+		100 = VIETmisc.4011		# Several local officials coincidentally die around the same time (it really is a coincidence)
+		100 = VIETmisc.4012		# Secretly corrupt official passes away
+		100 = VIETmisc.4018		# Famous Bard refuses to play for the rich
+		100 = VIETmisc.4019		# Spoopy ship in the skies
+		100 = VIETmisc.4027		# Shadows attack villagers - implied to be hysteria from several cases of sleep paralysis
+		# Oblivion Inspired
+		100 = VIETmisc.4032		# Old fort with loot discovered
+		# Generic for 3rd anniversary
+		100 = VIETmisc.4036		# Good tax officials wrongly accused of corruption by the masses
+		
+		#######################################
+		# NEXT GEN VIET
+		#######################################
+		
+		# Generic		
+		100 = VIETmisc.3007		# Zone of Death - perhaps some kind of mysterious radiation caused by Stellaris aliens?
+		100 = VIETmisc.3013		# Heroic garrison commander is martyred by bandits
+		100 = VIETmisc.3014		# Legendary mound is discovered - who is buried under there?
+		100 = VIETmisc.3019		# Courtesan rises in prominence and becomes very famous
+		100 = VIETmisc.3020		# Renowned traveler settles down in a county
+		# Oblivion Unmarked Locations
+		100 = VIETmisc.3026		# Burnt Down Tower - on an island in the Niben River south of Fort Irony - old burnt down tower found in wilderness, could be turned into a watchpost
+		# Animals
+		# Struggle
+		100 = VIETmisc.3034		# Murderer executed
+		# VIET Events Contest Winners
+		100 = VIETmisc.3036		# Prehistoric cave paintings discovered (Credits to Pedrolu)
+		# Local Rumors
+		100 = VIETmisc.3037		# Conspiracies spread about how you were replaced by an imposter
+		# 10
+		100 = VIETmisc.3039 	# 10 Year specter is about to reappear
+		# Generic
+		100 = VIETmisc.3042 	# Brilliant light appears
+		100 = VIETmisc.3043 	# Lake dried up
+		# Astronomy
+		100 = VIETmisc.3047 	# Local scholars request you build a small observatory somewhere
+		# Water
+		100 = VIETmisc.3052 	# Floods caused by garbage
+		# Nuts
+		# Desert
+		100 = VIETmisc.3054 	# Desert ascetics become popular
+		# VIET Word Contest
+		100 = VIETmisc.3058 	# Dogs - dog breeds become famous in a region # Randlelikesdogs
+		# Three
+		100 = VIETmisc.3063 	# Local official in an illegal three-way marriage
+		# Forest
+		100 = VIETmisc.3064 	# Forest fires are occuring in a county
+		# Councilor
+		100 = VIETmisc.3070 	# Steward finds a traditional tax loophole that's being abused by local nobles
+		# Strawberries
+		100 = VIETmisc.3074 	# European region becomes known for its (wild) strawberries
+		
+		# 35
+		
+    }
+}
+
+# County based events/event chains/mechanics - really strange rare occurrences that wouldn't happen a lot
+VIET_events_rare_county_pulse = {
+	random_events = {
+		chance_of_no_event = {
+			value = 50
+			if = {
+				limit = {
+					has_game_rule = VIET_event_frequency_low
+				}
+				add = 10
+			}
+			if = {
+				limit = {
+					has_game_rule = VIET_event_frequency_very_low
+				}
+				add = 20
+			}
+			if = {
+				limit = {
+					has_game_rule = VIET_event_frequency_high
+				}
+				subtract = 10
+			}
+			if = {
+				limit = {
+					has_game_rule = VIET_event_frequency_very_high
+				}
+				subtract = 20
+			}
+		}
+		
+		25000 = 0
+		
+		#######################################
+		# OLD VIET (for events converted into decision event chains)
+		#######################################
+		
+		# Generic
+		50 = VIETmisc.4022		# The forlorn watchman (friendly beach ghost)
+		# Oblivion Inspired
+		50 = VIETmisc.4033		# Giant mudcrab spotted
+		# Generic
+		50 = VIETmisc.4035		# Kaiki the mysterious conman
+		# Generic for 3rd anniversary
+		50 = VIETmisc.4037		# Brother and sister commit incest in a village and run away to elope
+		
+		#######################################
+		# NEXT GEN VIET
+		#######################################
+		
+		# Generic
+		50 = VIETmisc.3002		# A garrison captain is renowned for their ability, charisma, and popularity
+		50 = VIETmisc.3003		# Conmen rogues active in county
+		50 = VIETmisc.3004		# Discovered a gateway that's totally not the Stellaris gateway
+		50 = VIETmisc.3008		# Mysterious supernatural relic found - could it be futuristic equipment left behind by Stellaris aliens?
+		50 = VIETmisc.3022		# You hear rumors of a commoner of peerless beauty in a county
+		# Oblivion Unmarked Locations
+		50 = VIETmisc.3025		# Submerged Shrine - found in Shivering Isles - abandoned wayshrine found underwater, turn it into a proper shrine or not?
+		# Animals
+		# Struggle
+		100 = VIETmisc.3035		# Hermit struggles to be alone
+		# 10
+		100 = VIETmisc.3041		# A heroic official rescues 10 kidnapped children
+		# Simple
+		100 = VIETmisc.3044		# Local academy is pillaged by brigands
+		# Astronomy
+		100 = VIETmisc.3046		# Local scholar claims the apocalypse will happen in this county soon
+		# Desert
+		100 = VIETmisc.3055 	# Singing/booming sand dunes
+		# Shark
+		100 = VIETmisc.3060 	# Shark attack happens
+		# Three
+		100 = VIETmisc.3062 	# 3-headed sheep becomes a popular attraction
+		# Peaches
+		
+		# Backgrounds
+		100 = VIETmisc.3072 	# Villagers take revenge on bandits, pile their bodies into a massive fire
+		
+		# 22
+		
+    }
+}
+
+# Common artifacts - everyday objects
+VIET_events_common_artifact_pulse = {
+	random_events = {
+		chance_of_no_event = {
+			value = 50
+			if = {
+				limit = {
+					has_game_rule = VIET_event_frequency_low
+				}
+				add = 10
+			}
+			if = {
+				limit = {
+					has_game_rule = VIET_event_frequency_very_low
+				}
+				add = 20
+			}
+			if = {
+				limit = {
+					has_game_rule = VIET_event_frequency_high
+				}
+				subtract = 10
+			}
+			if = {
+				limit = {
+					has_game_rule = VIET_event_frequency_very_high
+				}
+				subtract = 20
+			}
+			if = {
+				limit = {
+					has_game_rule = VIET_clutter_artifacts_reduced
+				}
+				add = 25
+			}
+			if = {
+				limit = {
+					has_game_rule = VIET_clutter_artifacts_none
+				}
+				add = 200
+			}
+			if = {
+				limit = {
+					is_ai = yes
+				}
+				add = 15
+			}
+		}
+		
+		40000 = 0
+		
+		#######################################
+		# BOTH GEN VIET
+		#######################################
+
+		# Rocks and Minerals
+		100 = VIETold.1034		# Special rock - find a nice looking rock in the garden
+
+		# Rocks
+		100 = VIETmisc.0094		# Thunderstones found near the area
+		
+		# Generic
+		100 = VIETmisc.5000		# Abacus - Merchant offers you his old abacus
+		100 = VIETmisc.5004		# Nutcracker - courtier gives a gift
+		100 = VIETmisc.5008		# Beautiful Pitcher - gifted by nobles
+		100 = VIETmisc.5009		# Common Pitcher - artisans provide a beautiful wooden pitcher as a gift to commemorate your visit
+		100 = VIETmisc.5011		# Hand mirror - glass smith has good quality stuff
+		100 = VIETmisc.5013		# Wood chess set - get local artisans to make it?
+		100 = VIETmisc.5015		# Bone Dice - get a spare pair from an acquaintance?
+		100 = VIETmisc.5016		# Wood Dice - get a spare pair from an acquaintance?
+		100 = VIETmisc.5018		# Pewter Spoon - keep it around or not?
+		100 = VIETmisc.5019		# Measuring rod - see it lying around and find in intriguing
+		100 = VIETmisc.5021		# Weighing scales = merchants offer you a reliable one
+		100 = VIETmisc.5022		# Commoner hammer - inspecting servants at work
+		100 = VIETmisc.5023		# Trusty shovel - house undergoing repairs, see a laborer with a cool shovel
+		100 = VIETmisc.5024		# Leather knapsack - adventurer gifts you with it
+		100 = VIETmisc.5025		# Wooden bowl - last minute gift by tavern staff who didn't know you were coming
+		100 = VIETmisc.5027		# Ceramic tankard - noble gifts you one
+		100 = VIETmisc.5028		# Wooden tankard - noble gifts you one
+		100 = VIETmisc.5029		# Convenient backscratcher - you're feeling itchy
+		100 = VIETmisc.5030		# Rugged walking stick - find a good walking stick on the ground while walking
+		100 = VIETmisc.5031		# Simple Gloves - visiting a leathersmith who has a pair of gloves they made for someone who canceled their order
+		100 = VIETmisc.5032		# Elegant candlestick - visiting a house of worship, one of the local clergy offers to give you a candlestick they use for reading
+		100 = VIETmisc.5033		# Basic Lantern - guard has a spare lantern you notice while being escorted by them
+		100 = VIETmisc.5034		# Favored handkerchief - you like a handkerchief you're using
+		100 = VIETmisc.5036		# Wooden Whistle - bored while inspecting troops
+		100 = VIETmisc.5037		# Simple Waterskin - traveling a lot lately and grow fond of the waterskin you've been using
+		100 = VIETmisc.5039		# Decorated Broom - servants find a nice broom while cleaning your rooms
+		100 = VIETmisc.5041		# Ancient coin - your servant finds an ancient coin while gardening
+		# Patch
+		100 = VIETmisc.5051		# Leather ball - consider buying one?
+		# Generic
+		100 = VIETmisc.5052		# Small Seashell - find one by the beach
+		100 = VIETmisc.5054		# House Vase - buy one or not
+		# Shark
+		100 = VIETmisc.5056		# Tongue Stone (Shark Tooth) - Buy one to protect yourself against poison or not?
+		# Fire
+		100 = VIETmisc.5057		# Fire Striker - Smith offers to sell you one of his fire strikers
+		# Fire
+		100 = VIETmisc.5062		# Lucky Horseshoe - get your blacksmith?
+		
+		# 34
+    }
+}
+
+# Uncommon artifacts - more oddball everyday objects
+VIET_events_uncommon_artifact_pulse = {
+	random_events = {
+		chance_of_no_event = {
+			value = 55
+			if = {
+				limit = {
+					has_game_rule = VIET_event_frequency_low
+				}
+				add = 10
+			}
+			if = {
+				limit = {
+					has_game_rule = VIET_event_frequency_very_low
+				}
+				add = 20
+			}
+			if = {
+				limit = {
+					has_game_rule = VIET_event_frequency_high
+				}
+				subtract = 10
+			}
+			if = {
+				limit = {
+					has_game_rule = VIET_event_frequency_very_high
+				}
+				subtract = 20
+			}
+			if = {
+				limit = {
+					has_game_rule = VIET_clutter_artifacts_reduced
+				}
+				add = 20
+			}
+			if = {
+				limit = {
+					has_game_rule = VIET_clutter_artifacts_none
+				}
+				add = 200
+			}
+			if = {
+				limit = {
+					is_ai = yes
+				}
+				add = 10
+			}
+		}
+		
+		40000 = 0
+		
+		#######################################
+		# BOTH GEN VIET
+		#######################################
+
+		# Rocks and Minerals
+		100 = VIETold.1036		# Dinosaur Bone - Farmers find the bones of a mystical beast
+		100 = VIETold.1039		# Fireproof Napkin - Merchant shows off a fire-proof napkin
+		
+		# Generic
+		100 = VIETmisc.5001		# Calipers - Find some cool calipers
+		100 = VIETmisc.5002		# Magnifying Glass - Wandering scholar shows off his stuff
+		100 = VIETmisc.5003		# Hourglass - merchant sells hourglass
+		100 = VIETmisc.5005		# Star Chart - local astronomer offers you a star chart
+		100 = VIETmisc.5006		# Silverware set - buy a nice one from a smith
+		100 = VIETmisc.5007		# Exotic Quill - buy it or not?
+		100 = VIETmisc.5010		# Secure Chest - locksmith offers to make it for you
+		100 = VIETmisc.5012		# Ivory chess set - traveling merchant, buy from?
+		100 = VIETmisc.5017		# Silk Slippers - buy some to keep your feet comfy?
+		100 = VIETmisc.5026		# Reliable lockpick - retired guard captain offers you a useful one
+		100 = VIETmisc.5035		# Candy Jar - likes to eat candy, found a nice jar that would suffice for that
+		100 = VIETmisc.5040		# Traveling Inkwell - you're visiting a scholar and they want to give you a gift for the occasion
+		100 = VIETmisc.5042		# Baklava recipe
+		100 = VIETmisc.5043		# Sweetroll recipe
+		100 = VIETmisc.5044		# Hummus recipe
+		100 = VIETmisc.5046		# Yogurt recipe
+		100 = VIETmisc.5047		# Savory Pie Recipe
+		100 = VIETmisc.5048		# Fruit Pie Recipe recipe
+		100 = VIETmisc.5049		# Bean Soup Recipe
+
+		# Patch
+		100 = VIETmisc.5050		# Patchwork quilt - villagers offer you one as a gift
+
+		# Astronomy
+		100 = VIETmisc.5055		# Astrolabe - scholar gives you one
+		
+		# Dumpling
+		100 = VIETmisc.5058		# Dumpling recipe
+		
+		# Coconut
+		100 = VIETmisc.5059		# Coconut Cup - buy one from a merchant?
+		
+		# Strawberries
+		
+		# Tofu
+		
+		# 28
+		
+    }
+}
+
+# Rare artifacts - weird stuff you shouldn't find a lot of
+VIET_events_rare_artifact_pulse = {
+	random_events = {
+		chance_of_no_event = {
+			value = 70
+			if = {
+				limit = {
+					has_game_rule = VIET_event_frequency_low
+				}
+				add = 10
+			}
+			if = {
+				limit = {
+					has_game_rule = VIET_event_frequency_very_low
+				}
+				add = 20
+			}
+			if = {
+				limit = {
+					has_game_rule = VIET_event_frequency_high
+				}
+				subtract = 10
+			}
+			if = {
+				limit = {
+					has_game_rule = VIET_event_frequency_very_high
+				}
+				subtract = 20
+			}
+			if = {
+				limit = {
+					has_game_rule = VIET_clutter_artifacts_reduced
+				}
+				add = 10
+			}
+			if = {
+				limit = {
+					has_game_rule = VIET_clutter_artifacts_none
+				}
+				add = 200
+			}
+			if = {
+				limit = {
+					is_ai = yes
+				}
+				add = 10
+			}
+		}
+		
+		55000 = 0
+		
+		#######################################
+		# BOTH GEN VIET
+		#######################################
+		
+		# Generic
+		100 = VIETmisc.5020		# Prehistoric bone flute - a hunter in your realm finds it and it is offered to you
+		100 = VIETmisc.5038		# Hollow doll - weird merchant wants to sell it to you
+		100 = VIETmisc.5045		# Lusty Argonian Maid - find a very interesting play
+		# Generic
+		100 = VIETmisc.5053		# Useless map - scholar offers a fictional map depicting an ideal country
+		# Oblivion Remaster
+		100 = VIETmisc.5060		# Horse Armor - Will you let Todd Howard convince you to buy Horse Armor?
+		
+		# 5
+    }
+}
+
+
+# Common events - covers the most ordinary and mundane happenings like picking your nose or eating baklava
+VIET_events_common_childhood_pulse = {
+	trigger = {
+		VIET_basic_is_available_child_trigger = yes
+	}
+	random_events = {
+		chance_of_no_event = {
+			value = 40
+			if = {
+				limit = {
+					has_game_rule = VIET_event_frequency_low
+				}
+				add = 10
+			}
+			if = {
+				limit = {
+					has_game_rule = VIET_event_frequency_very_low
+				}
+				add = 20
+			}
+			if = {
+				limit = {
+					has_game_rule = VIET_event_frequency_high
+				}
+				subtract = 10
+			}
+			if = {
+				limit = {
+					has_game_rule = VIET_event_frequency_very_high
+				}
+				subtract = 20
+			}
+			if = {
+				limit = {
+					is_at_war = yes # Won't get spammed while at war
+				}
+				add = 10
+			}
+		}
+		
+		15000 = 0
+		
+		#######################################
+		# OLDEST VIET
+		#######################################
+		
+		#######################################
+		# OLDER VIET
+		#######################################
+		
+		#######################################
+		# OLD VIET
+		#######################################
+
+		# Generic
+		100 = VIETold.2232		# Can't wait to grow up!
+		# Night
+		100 = VIETold.2238		# Child is scared of noises at night
+		
+		#######################################
+		# NEXT GEN VIET
+		#######################################
+
+		# Generic
+		100 = VIETmisc.0297		# Crush is passing by
+		100 = VIETmisc.0298		# Daydreaming about crush
+		100 = VIETmisc.0299		# Winess an amazing landscape as a child
+		100 = VIETmisc.0302		# Want to chase birds, but an adult says no
+		100 = VIETmisc.0303		# Staring at crush
+		100 = VIETmisc.0304		# Building sandcastles with other kids
+		100 = VIETmisc.0305		# Do you want to be a kid forever or not?
+		100 = VIETmisc.0307		# Getting bored of an old toy
+		100 = VIETmisc.0308		# Lost your favorite toy
+		# Rodent
+		100 = VIETmisc.0338		# Child is told Aesop fable involving a cunning cat and mice
+		# Three
+
+		# Total: 12
+	}
+}
+
+# Uncommon events - stuff that happens regularly but isn't as frequent
+VIET_events_uncommon_childhood_pulse = {
+	trigger = {
+		VIET_basic_is_available_child_trigger = yes
+	}
+	random_events = {
+		chance_of_no_event = {
+			value = 40
+			if = {
+				limit = {
+					has_game_rule = VIET_event_frequency_low
+				}
+				add = 10
+			}
+			if = {
+				limit = {
+					has_game_rule = VIET_event_frequency_very_low
+				}
+				add = 20
+			}
+			if = {
+				limit = {
+					has_game_rule = VIET_event_frequency_high
+				}
+				subtract = 10
+			}
+			if = {
+				limit = {
+					has_game_rule = VIET_event_frequency_very_high
+				}
+				subtract = 20
+			}
+			if = {
+				limit = {
+					is_at_war = yes # Won't get spammed while at war
+				}
+				add = 10
+			}
+		}
+		
+		15000 = 0 # 20000?
+		
+		#######################################
+		# OLDEST VIET
+		#######################################
+		
+		#######################################
+		# OLDER VIET
+		#######################################
+		
+		#######################################
+		# OLD VIET
+		#######################################
+
+		# Generic
+		100 = VIETold.2239		# Child considers getting a midnight snack
+		
+		#######################################
+		# NEXT GEN VIET
+		#######################################
+
+		# Generic
+		100 = VIETmisc.0296		# Child prefers spending time with adults
+		100 = VIETmisc.0300		# Say something insightful to your councilors as a child
+		100 = VIETmisc.0301		# Starting to get bored of a favorite treat, and talk to an adult about it
+		100 = VIETmisc.0309		# Diplomacy: Vassal teaching you about court etiquette tells you about someone who insulted them
+		100 = VIETmisc.0310		# Martial: daydreaming about adventures
+		100 = VIETmisc.0311		# Stewardship: Listening to adults talking about organizing and managing stuff
+		100 = VIETmisc.0312		# Intrigue: Overhear some juicy gossip
+		100 = VIETmisc.0313		# Learning: Memorize a prayer
+
+		# Total: 9
+	}
+}
+
+# Rare events - more unique and unusual happenings
+VIET_events_rare_childhood_pulse = {
+	trigger = {
+		VIET_basic_is_available_child_trigger = yes
+	}
+	random_events = {
+		chance_of_no_event = {
+			value = 60
+			if = {
+				limit = {
+					has_game_rule = VIET_event_frequency_low
+				}
+				add = 10
+			}
+			if = {
+				limit = {
+					has_game_rule = VIET_event_frequency_very_low
+				}
+				add = 20
+			}
+			if = {
+				limit = {
+					has_game_rule = VIET_event_frequency_high
+				}
+				subtract = 10
+			}
+			if = {
+				limit = {
+					has_game_rule = VIET_event_frequency_very_high
+				}
+				subtract = 20
+			}
+			if = {
+				limit = {
+					is_at_war = yes # Won't get spammed while at war
+				}
+				add = 10
+			}
+		}
+		
+		25000 = 0
+		
+		#######################################
+		# OLDEST VIET
+		#######################################
+		
+		#######################################
+		# OLDER VIET
+		#######################################
+		
+		#######################################
+		# OLD VIET
+		#######################################
+		# Generic
+		100 = VIETold.2233 	# Alkanet Prank
+		
+		#######################################
+		# NEXT GEN VIET
+		#######################################
+		# Generic
+		100 = VIETmisc.0306 	# Adult criticizes young girls doing medieval twerking (based on an actual medieval quote)
+
+		# Total: 2
+	}
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

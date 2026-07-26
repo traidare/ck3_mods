@@ -1,0 +1,39 @@
+﻿adventurers_beneficiary_unselect_interaction = {
+	category = interaction_category_diplomacy
+	icon = icon_cross
+	common_interaction = yes
+	desc = adventurers_beneficiary_select_interaction_desc
+
+	is_shown = {
+		scope:actor = {
+			is_ai = no
+			NOT = { scope:recipient = scope:actor }
+			has_variable = val_beneficiary
+			scope:recipient = var:val_beneficiary
+			NOT = { is_at_war = yes }
+		}
+		scope:recipient = {
+			is_alive = yes
+			#is_ruler = no
+		}
+	}
+
+    auto_accept = yes
+
+
+	on_accept = {
+		scope:actor = {
+			adventurers_beneficiary_assigned = { CHARACTER = -1 }
+			send_interface_message = {
+				type = event_gold_neutral
+				title = adventurer_beneficiary_unselected_notif.t
+				custom_tooltip = adventurer_beneficiary_unselected_notif.desc
+				right_icon = scope:recipient
+			}
+		}
+	}
+
+	ai_will_do = {
+		base = -10000  # AI Does not do this.
+	}
+}

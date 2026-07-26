@@ -1,0 +1,307 @@
+﻿agot_hf_revealbastard_interaction = {
+	icon = agot_hf_revealbastard
+	category = interaction_category_friendly
+	desc = agot_hf_revealbastard_interaction_desc
+	interface_priority = 100
+	common_interaction = yes
+
+	ai_targets = {
+		ai_recipients = liege
+		ai_recipients = dynasty
+		ai_recipients = family
+		ai_recipients = children
+		ai_recipients = councillors
+		ai_recipients = spouses
+		ai_recipients = war_enemies
+	}
+	ai_targets = {
+		ai_recipients = neighboring_rulers
+		ai_recipients = vassals
+		ai_recipients = peer_vassals
+		chance = 0.25
+	}
+	ai_targets = {
+		ai_recipients = realm_characters
+		chance = 0.10
+	}
+	ai_frequency = 12
+
+
+	is_shown = {
+		exists = scope:recipient.real_father
+		trigger_if = {
+			limit = { scope:recipient = { real_paternal_held_iron_throne_claim = yes } }
+			OR = {
+				scope:recipient.father = scope:recipient.real_father
+				scope:recipient.father.father = scope:recipient.real_father.father
+				scope:recipient.father.mother = scope:recipient.real_father.mother
+			}
+		}
+		trigger_if = {
+			limit = { scope:actor = { is_ai = yes }	}
+			has_game_rule = agot_hf_revealbastard_enabled
+		}
+		trigger_if = {
+			limit = { scope:actor = { is_ai = yes }	}
+			scope:recipient.top_liege = {
+				primary_title ?= {
+					NOT = {
+						has_variable = agot_hf_revealbastard_started_ai
+					}
+				}
+			}
+		}
+
+		scope:actor = {
+			NOT = { has_trait = incapable }
+			NOT = { has_variable = agot_hf_revealbastard_completed }
+			NOT = { any_owned_story = { story_type = agot_hf_revealbastard_story } }
+		}
+		scope:recipient = {
+			has_trait = disputed_heritage
+			exists = liege
+			exists = house
+			NOT = { has_character_flag = already_revealed_my_parentage }
+		}
+		NOT = { scope:recipient = scope:actor }
+		NOT = { scope:recipient.mother = scope:actor }
+		# trigger_if = {
+		# 	limit = { scope:recipient.real_father = scope:actor }
+		# 	NOT = { scope:recipient.father = scope:actor }
+		# }
+		# NOT = { scope:recipient.real_father = scope:actor }
+	}
+
+	is_valid_showing_failures_only = {
+		scope:actor = {
+			is_adult = yes
+			is_at_home = yes
+		}
+		scope:recipient.top_liege = {
+			custom_description = {
+				text = agot_hf_character_blocked_from_revealbastard
+				primary_title ?= {
+					NOT = {
+						has_variable = agot_hf_revealbastard_started
+					}
+				}
+			}
+		}
+	}
+
+	cost = {
+		# Nothing
+	}
+
+	auto_accept = yes
+
+	on_accept = {
+		scope:recipient.top_liege.primary_title = {
+			set_variable = {
+				name = agot_hf_revealbastard_started
+				years = 3
+			}
+			set_variable = {
+				name = agot_hf_revealbastard_started_ai
+				years = { 4 6 }
+			}
+		}
+
+		scope:actor = {
+			if = {
+				limit = { NOT = { any_owned_story = { story_type = agot_hf_revealbastard_story } } }
+				set_variable = {
+					name = agot_hf_bastard_character
+					value = scope:recipient
+				}
+				create_story = agot_hf_revealbastard_story
+			}
+		}
+	}
+
+	ai_potential = {
+		has_game_rule = agot_hf_revealbastard_enabled
+		is_adult = yes
+		NOT = {	has_trait = incapable }
+		NOT = {	has_variable = agot_hf_revealbastard_completed }
+	}
+
+	ai_will_do = {
+		base = 10
+
+		ai_value_modifier = {
+			ai_boldness = 1
+			ai_rationality = 0.7
+			ai_greed = 0.6
+			ai_honor = 0.7
+			ai_compassion = 0.6
+			ai_vengefulness = 0.4
+		}
+
+		modifier = {
+			factor = 1.1
+			scope:actor = {
+				has_trait = education_intrigue_3
+			}
+		}
+
+		modifier = {
+			factor = 1.2
+			scope:actor = {
+				has_trait = education_intrigue_4
+			}
+		}
+
+		modifier = {
+			factor = 1.3
+			scope:actor = {
+				has_trait = education_intrigue_5
+			}
+		}
+
+		modifier = {
+			factor = 1.3
+			scope:actor = {
+				has_trait = schemer
+			}
+		}
+
+		modifier = {
+			factor = 1.1
+			scope:actor = {
+				has_trait = honest
+			}
+		}
+
+		modifier = {
+			factor = 1.3
+			scope:actor = {
+				has_trait = scholar
+			}
+		}
+
+		modifier = {
+			factor = 1.1
+			scope:actor = {
+				has_trait = deceitful
+			}
+		}
+
+		modifier = {
+			factor = 1.1
+			scope:actor = {
+				has_trait = diligent
+			}
+		}
+
+		modifier = {
+			factor = 1.1
+			scope:actor = {
+				has_focus = learning_scholarship_focus
+			}
+		}
+
+		modifier = {
+			factor = 2
+			scope:actor = {
+				learning >= 15
+			}
+		}
+
+		modifier = {
+			factor = 2
+			scope:actor = {
+				intrigue >= 30
+			}
+		}
+
+		modifier = {
+			factor = 0.2
+			NOT = { scope:actor.culture = scope:recipient.culture }
+		}
+
+		modifier = {
+			factor = 5
+			scope:actor.location = scope:recipient.location
+		}
+
+		modifier = {
+			factor = 0.5
+			scope:actor = {
+				prestige_level <= 1
+			}
+		}
+
+		modifier = {
+			factor = 0.8
+			scope:actor = {
+				prestige_level = 2
+			}
+		}
+
+		modifier = {
+			factor = 3
+			scope:actor = {
+				prestige_level > 2
+			}
+		}
+
+		modifier = {
+			factor = 0.5
+			scope:actor = {
+				highest_held_title_tier <= tier_barony
+			}
+		}
+
+		modifier = {
+			factor = 20
+			scope:recipient = {
+				dynasty.dynasty_prestige_level >= 8
+			}
+		}
+
+		modifier = {
+			factor = 10
+			scope:recipient = {
+				dynasty.dynasty_prestige_level <= 7
+				dynasty.dynasty_prestige_level > 5
+			}
+		}
+
+		modifier = {
+			factor = 0.9
+			scope:recipient = {
+				dynasty.dynasty_prestige_level <= 5
+			}
+		}
+
+		modifier = {
+			factor = 100
+			scope:recipient.top_liege = scope:recipient.father
+		}
+
+		modifier = {
+			factor = 100
+			scope:recipient.top_liege = scope:recipient.mother
+		}
+
+		modifier = {
+			factor = 100
+			scope:actor = {
+				highest_held_title_tier >= tier_kingdom
+			}
+		}
+
+		modifier = {
+			factor = 0
+			NOT = { scope:recipient.culture = scope:actor.culture }
+			NOT = { scope:actor.top_liege = scope:recipient }
+			NOT = { scope:actor.top_liege = scope:recipient.father }
+			NOT = { scope:actor.top_liege = scope:recipient.mother }
+		}
+	}
+
+	on_decline = {
+		# Never
+	}
+}

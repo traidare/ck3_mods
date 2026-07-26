@@ -1,0 +1,700 @@
+﻿namespace = agot_riverlands_bla
+
+
+
+agot_riverlands_bla.0649 = {
+	type = character_event
+	hidden = yes
+
+	trigger = {
+		is_ai = no
+		is_landed = yes
+		is_available_adult = yes
+		dynasty = dynasty:dynn_Piper
+
+		NOT = { has_character_flag = piper_any_event_recently_bla }
+	}
+
+	immediate = {
+		random_list = {
+			20 = {
+				trigger = {
+					is_at_war = yes
+					NOT = { has_character_flag = piper_recent_charge_bla }
+				}
+				trigger_event = agot_riverlands_bla.0650
+			}
+
+			20 = {
+				trigger = {
+					is_at_war = no
+					NOT = { has_character_flag = piper_recent_songcourt_bla }
+				}
+				trigger_event = agot_riverlands_bla.0651
+			}
+
+			20 = {
+				trigger = {
+					is_at_war = yes
+					NOT = { has_character_flag = piper_recent_last_banner_bla }
+				}
+				trigger_event = agot_riverlands_bla.0652
+			}
+
+			20 = {
+				trigger = {
+					NOT = { has_character_flag = piper_recent_knight_of_summer_bla }
+					any_child = {
+						is_adult = yes
+						is_knight = yes
+					}
+				}
+				trigger_event = agot_riverlands_bla.0653
+			}
+			20 = {
+				trigger = {
+					is_at_war = no
+					NOT = { has_character_flag = piper_recent_knights_favor_bla }
+				}
+				trigger_event = agot_riverlands_bla.0654
+			}
+
+			120 = { }
+		}
+	}
+}
+
+
+# =========================================================
+# 0650 - The Maiden's Leap
+# =========================================================
+
+agot_riverlands_bla.0650 = {
+	type = character_event
+	title = agot_riverlands_bla.0650.t
+	desc = agot_riverlands_bla.0650.desc
+	theme = martial
+
+	override_background = {
+		reference = battlefield
+	}
+
+	left_portrait = {
+		character = root
+		animation = marshal
+	}
+
+	trigger = {
+		is_ruler = yes
+		is_landed = yes
+		is_available_adult = yes
+		dynasty = dynasty:dynn_Piper
+		is_at_war = yes
+
+		NOT = { has_character_flag = piper_any_event_recently_bla }
+		NOT = { has_character_flag = piper_recent_charge_bla }
+	}
+
+	immediate = {
+		add_character_flag = {
+			flag = piper_any_event_recently_bla
+			years = 3
+		}
+
+		add_character_flag = {
+			flag = piper_recent_charge_bla
+			years = 6
+		}
+	}
+
+	option = {
+		name = agot_riverlands_bla.0650.a
+
+		add_prestige = 150
+		add_martial_lifestyle_xp = 300
+
+		random_list = {
+			70 = {
+				add_character_modifier = {
+					modifier = piper_reckless_glory_bla
+					years = 5
+				}
+			}
+
+			30 = {
+				add_trait = wounded_1
+			}
+		}
+	}
+
+	option = {
+		name = agot_riverlands_bla.0650.b
+
+		add_prestige = 50
+
+		add_character_modifier = {
+			modifier = piper_measured_defense_bla
+			years = 3
+		}
+	}
+
+	option = {
+		name = agot_riverlands_bla.0650.c
+
+		trigger = {
+			OR = {
+				martial >= 10
+				has_trait = brave
+				has_trait = gallant
+				has_trait = strategist
+			}
+		}
+
+		add_prestige = 200
+		add_martial_lifestyle_xp = 500
+
+		add_character_modifier = {
+			modifier = piper_reckless_glory_bla
+			years = 5
+		}
+	}
+
+	option = {
+		name = agot_riverlands_bla.0650.d
+
+		trigger = {
+			OR = {
+				has_trait = craven
+				has_trait = content
+				has_trait = patient
+			}
+		}
+
+		add_prestige = 25
+		add_stress = -25
+
+		add_character_modifier = {
+			modifier = piper_measured_defense_bla
+			years = 5
+		}
+	}
+}
+
+
+# =========================================================
+# 0651 - The Silks of Pinkmaiden
+# =========================================================
+
+agot_riverlands_bla.0651 = {
+	type = character_event
+	title = agot_riverlands_bla.0651.t
+	desc = agot_riverlands_bla.0651.desc
+	theme = diplomacy
+
+	override_background = {
+		reference = feast
+	}
+
+	left_portrait = {
+		character = root
+		animation = personality_bold
+	}
+
+	trigger = {
+		is_ruler = yes
+		is_landed = yes
+		is_available_adult = yes
+		dynasty = dynasty:dynn_Piper
+		is_at_war = no
+
+		NOT = { has_character_flag = piper_any_event_recently_bla }
+		NOT = { has_character_flag = piper_recent_songcourt_bla }
+	}
+
+	immediate = {
+		add_character_flag = {
+			flag = piper_any_event_recently_bla
+			years = 3
+		}
+
+		add_character_flag = {
+			flag = piper_recent_songcourt_bla
+			years = 7
+		}
+	}
+
+	option = {
+		name = agot_riverlands_bla.0651.a
+
+		add_prestige = 100
+		add_diplomacy_lifestyle_xp = 300
+
+		add_character_modifier = {
+			modifier = piper_songcourt_bla
+			years = 5
+		}
+	}
+
+	option = {
+		name = agot_riverlands_bla.0651.b
+
+		trigger = {
+			OR = {
+				has_trait = gregarious
+				has_trait = lifestyle_poet
+				diplomacy >= 10
+			}
+		}
+
+		add_prestige = 150
+		add_diplomacy_lifestyle_xp = 500
+		add_stress = -25
+
+		add_character_modifier = {
+			modifier = piper_songcourt_bla
+			years = 7
+		}
+	}
+
+	option = {
+		name = agot_riverlands_bla.0651.c
+
+		trigger = {
+			OR = {
+				has_trait = arrogant
+				has_trait = callous
+				has_trait = vengeful
+			}
+		}
+
+		add_prestige = 75
+		add_dread = 5
+
+		random_vassal = {
+			limit = { is_adult = yes }
+
+			add_opinion = {
+				target = root
+				modifier = disappointed_opinion
+				opinion = -15
+			}
+		}
+	}
+
+	option = {
+		name = agot_riverlands_bla.0651.d
+
+		trigger = {
+			OR = {
+				has_trait = shy
+				has_trait = cynical
+				has_trait = content
+			}
+		}
+
+		add_prestige = 25
+		add_stress = -25
+	}
+}
+
+
+# =========================================================
+# 0652 - The Burning of the Red Fork
+# =========================================================
+
+agot_riverlands_bla.0652 = {
+	type = character_event
+	title = agot_riverlands_bla.0652.t
+	desc = agot_riverlands_bla.0652.desc
+	theme = realm
+
+	override_background = {
+		reference = burning_building
+	}
+
+	left_portrait = {
+		character = root
+		animation = personality_honorable
+	}
+
+	trigger = {
+		is_ruler = yes
+		is_landed = yes
+		is_available_adult = yes
+		dynasty = dynasty:dynn_Piper
+		is_at_war = yes
+
+		NOT = { has_character_flag = piper_any_event_recently_bla }
+		NOT = { has_character_flag = piper_recent_last_banner_bla }
+	}
+
+	immediate = {
+		add_character_flag = {
+			flag = piper_any_event_recently_bla
+			years = 3
+		}
+
+		add_character_flag = {
+			flag = piper_recent_last_banner_bla
+			years = 8
+		}
+	}
+
+	option = {
+		name = agot_riverlands_bla.0652.a
+
+		add_prestige = 250
+
+		add_character_modifier = {
+			modifier = pinkmaiden_defiant_bla
+			years = 5
+		}
+
+		capital_county = {
+			add_county_modifier = {
+				modifier = pinkmaiden_militia_bla
+				years = 5
+			}
+		}
+	}
+
+	option = {
+		name = agot_riverlands_bla.0652.b
+
+		trigger = {
+			OR = {
+				martial >= 10
+				has_trait = brave
+				has_trait = stubborn
+				has_trait = loyal
+			}
+		}
+
+		add_prestige = 300
+		add_martial_lifestyle_xp = 400
+
+		add_character_modifier = {
+			modifier = pinkmaiden_defiant_bla
+			years = 7
+		}
+
+		capital_county = {
+			add_county_modifier = {
+				modifier = pinkmaiden_militia_bla
+				years = 7
+			}
+		}
+	}
+
+	option = {
+		name = agot_riverlands_bla.0652.c
+
+		trigger = {
+			OR = {
+				has_trait = wrathful
+				has_trait = callous
+				has_trait = vengeful
+			}
+		}
+
+		add_dread = 10
+		add_prestige = 75
+
+		add_character_modifier = {
+			modifier = piper_hard_wall_orders_bla
+			years = 5
+		}
+	}
+
+	option = {
+		name = agot_riverlands_bla.0652.d
+
+		trigger = {
+			OR = {
+				has_trait = compassionate
+				has_trait = craven
+				has_trait = content
+			}
+		}
+
+		add_prestige = -50
+		add_stress = -25
+		remove_short_term_gold = 25
+	}
+}
+
+
+# =========================================================
+# 0653 - A Knight of Summer
+# =========================================================
+
+agot_riverlands_bla.0653 = {
+	type = character_event
+	title = agot_riverlands_bla.0653.t
+	desc = agot_riverlands_bla.0653.desc
+	theme = martial
+
+	override_background = {
+		reference = army_camp
+	}
+
+	left_portrait = {
+		character = root
+		animation = personality_bold
+	}
+
+	trigger = {
+		is_ruler = yes
+		is_landed = yes
+		is_available_adult = yes
+		dynasty = dynasty:dynn_Piper
+
+		NOT = { has_character_flag = piper_any_event_recently_bla }
+		NOT = { has_character_flag = piper_recent_knight_of_summer_bla }
+
+		any_courtier = {
+			is_adult = yes
+			is_knight = yes
+		}
+	}
+
+	immediate = {
+		add_character_flag = {
+			flag = piper_any_event_recently_bla
+			years = 3
+		}
+
+		add_character_flag = {
+			flag = piper_recent_knight_of_summer_bla
+			years = 6
+		}
+
+		random_courtier = {
+			limit = {
+				is_adult = yes
+				is_knight = yes
+			}
+			save_scope_as = piper_summer_knight
+		}
+	}
+
+	right_portrait = {
+		character = scope:piper_summer_knight
+		animation = personality_bold
+	}
+
+	option = {
+		name = agot_riverlands_bla.0653.a
+
+		scope:piper_summer_knight = {
+
+			add_trait = lifestyle_blademaster
+	
+			add_opinion = {
+				target = root
+				modifier = grateful_opinion
+				opinion = 15
+			}
+		}
+
+		add_prestige = 100
+	}
+
+	option = {
+		name = agot_riverlands_bla.0653.b
+
+		trigger = {
+			OR = {
+				martial >= 10
+				has_trait = brave
+				has_trait = ambitious
+				has_trait = gallant
+			}
+		}
+
+		scope:piper_summer_knight = {
+			if = {
+				limit = {
+					NOT = { has_trait = brave }
+				}
+				add_trait = brave
+			}
+
+			add_trait = lifestyle_blademaster
+
+			add_opinion = {
+				target = root
+				modifier = grateful_opinion
+				opinion = 25
+			}
+		}
+
+		add_prestige = 150
+		add_martial_lifestyle_xp = 300
+	}
+
+	option = {
+		name = agot_riverlands_bla.0653.c
+
+		trigger = {
+			OR = {
+				has_trait = patient
+				has_trait = diligent
+				learning >= 10
+			}
+		}
+
+		scope:piper_summer_knight = {
+			add_opinion = {
+				target = root
+				modifier = respect_opinion
+				opinion = 15
+			}
+		}
+
+		add_learning_lifestyle_xp = 300
+		add_prestige = 75
+	}
+
+	option = {
+		name = agot_riverlands_bla.0653.d
+
+		trigger = {
+			OR = {
+				has_trait = craven
+				has_trait = content
+				has_trait = compassionate
+			}
+		}
+
+		scope:piper_summer_knight = {
+			add_opinion = {
+				target = root
+				modifier = disappointed_opinion
+				opinion = -15
+			}
+		}
+
+		add_prestige = -50
+		add_stress = -30
+	}
+}
+
+# =========================================================
+# 0654 - The Silk and the Steel
+# =========================================================
+
+agot_riverlands_bla.0654 = {
+	type = character_event
+	title = agot_riverlands_bla.0654.t
+	desc = agot_riverlands_bla.0654.desc
+	theme = diplomacy
+
+	override_background = {
+		reference = courtyard
+	}
+
+	left_portrait = {
+		character = root
+		animation = personality_honorable
+	}
+
+	trigger = {
+		is_ruler = yes
+		is_landed = yes
+		is_available_adult = yes
+		dynasty = dynasty:dynn_Piper
+		is_at_war = no
+
+		NOT = { has_character_flag = piper_any_event_recently_bla }
+		NOT = { has_character_flag = piper_recent_knights_favor_bla }
+	}
+
+	immediate = {
+		add_character_flag = {
+			flag = piper_any_event_recently_bla
+			years = 3
+		}
+
+		add_character_flag = {
+			flag = piper_recent_knights_favor_bla
+			years = 8
+		}
+	}
+
+	option = {
+		name = agot_riverlands_bla.0654.a
+
+		add_prestige = 125
+		add_diplomacy_lifestyle_xp = 250
+
+		add_character_modifier = {
+			modifier = piper_courtly_favor_bla
+			years = 5
+		}
+	}
+
+	option = {
+		name = agot_riverlands_bla.0654.b
+
+		trigger = {
+			OR = {
+				has_trait = gallant
+				has_trait = brave
+				diplomacy >= 10
+			}
+		}
+
+		add_prestige = 175
+		add_diplomacy_lifestyle_xp = 400
+		add_stress = -25
+
+		add_character_modifier = {
+			modifier = piper_gallant_reputation_bla
+			years = 6
+		}
+	}
+
+	option = {
+		name = agot_riverlands_bla.0654.c
+
+		trigger = {
+			OR = {
+				has_trait = just
+				has_trait = honest
+				has_trait = compassionate
+			}
+		}
+
+		add_piety = 125
+		add_prestige = 75
+
+		random_courtier = {
+			limit = {
+				is_adult = yes
+			}
+
+			add_opinion = {
+				target = root
+				modifier = respect_opinion
+				opinion = 15
+			}
+		}
+	}
+
+	option = {
+		name = agot_riverlands_bla.0654.d
+
+		trigger = {
+			OR = {
+				has_trait = cynical
+				has_trait = callous
+				has_trait = arbitrary
+			}
+		}
+
+		add_prestige = 50
+		add_dread = 5
+		add_stress = -25
+	}
+}

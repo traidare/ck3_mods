@@ -1,0 +1,306 @@
+﻿namespace = agot_blackwood_bow_bla
+
+
+####################################
+# Fashion Ravenwood
+# 0001
+####################################
+
+namespace = agot_blackwood_bow_bla
+
+agot_blackwood_bow_bla.0001 = {
+	type = character_event
+	title = agot_blackwood_bow_bla.0001.t
+	desc = agot_blackwood_bow_bla.0001.desc
+
+	theme = dynasty
+	override_background = {
+		reference = agot_npk_tree_of_crowns
+	}
+
+	left_portrait = {
+		character = root
+		animation = personality_honorable
+	}
+
+	option = {
+		name = agot_blackwood_bow_bla.0001.a
+		add_prestige = 100
+		custom_tooltip = agot_blackwood_bow_bla.0001.a.tt
+
+		trigger_event = {
+			id = agot_blackwood_bow_bla.0002
+			days = { 20 40 }
+		}
+	}
+
+	option = {
+		name = agot_blackwood_bow_bla.0001.b
+		custom_tooltip = agot_blackwood_bow_bla.0001.b.tt
+
+		add_piety = minor_piety_gain
+		add_stress = minor_stress_loss
+
+		trigger_event = {
+			id = agot_blackwood_bow_bla.0002
+			days = { 30 60 }
+		}
+	}
+}
+
+agot_blackwood_bow_bla.0002 = {
+	type = character_event
+	title = agot_blackwood_bow_bla.0002.t
+	desc = agot_blackwood_bow_bla.0002.desc
+	theme = stewardship_domain_focus
+
+	override_background = {
+		reference = courtyard
+	}
+
+	left_portrait = {
+		character = root
+		animation = chancellor
+	}
+
+	option = {
+		name = agot_blackwood_bow_bla.0002.a
+		custom_tooltip = agot_blackwood_bow_bla.0002.a.tt
+
+		add_prestige = minor_prestige_gain
+
+		trigger_event = {
+			id = agot_blackwood_bow_bla.0003
+			days = { 30 70 }
+		}
+	}
+
+	option = {
+		name = agot_blackwood_bow_bla.0002.b
+		custom_tooltip = agot_blackwood_bow_bla.0002.b.tt
+
+		add_piety = minor_piety_gain
+
+		trigger_event = {
+			id = agot_blackwood_bow_bla.0003
+			days = { 30 70 }
+		}
+	}
+
+	option = {
+		name = agot_blackwood_bow_bla.0002.c
+		trigger = {
+			has_trait = cynical
+		}
+		custom_tooltip = agot_blackwood_bow_bla.0002.c.tt
+
+		add_stress = minor_stress_gain
+
+		trigger_event = {
+			id = agot_blackwood_bow_bla.0003
+			days = { 20 50 }
+		}
+	}
+}
+
+
+agot_blackwood_bow_bla.0003 = {
+	type = character_event
+	title = agot_blackwood_bow_bla.0003.t
+	desc = agot_blackwood_bow_bla.0003.desc
+	theme = dynasty
+
+	override_background = {
+		reference = wilderness
+	}
+
+	left_portrait = {
+		character = root
+		animation = admiration
+	}
+
+	artifact = {
+		position = lower_right_portrait
+		target = scope:newly_created_artifact
+	}
+
+	immediate = {
+		agot_create_artifact_ravenwood_effect = { OWNER = root }
+
+		remove_character_flag = bla_blackwood_bow_chain_started
+
+		set_global_variable = {
+			name = bla_blackwood_bow_created
+			value = yes
+		}
+	}
+
+	option = {
+		name = agot_blackwood_bow_bla.0003.a
+		add_prestige = medium_prestige_gain
+		dynasty = {
+			add_dynasty_prestige = minor_dynasty_prestige_value
+		}
+	}
+}
+
+
+agot_blackwood_bow_bla.0099 = {
+	hidden = yes
+
+	trigger = {
+		current_date >= 8130.1.1
+		NOT = { has_global_variable = bla_blackwood_bow_created }
+		NOT = { has_global_variable = bla_blackwood_bow_lost }
+		NOT = { has_global_variable = bla_blackwood_bow_recovered }
+	}
+
+	immediate = {
+		set_global_variable = {
+			name = bla_blackwood_bow_lost
+			value = yes
+		}
+	}
+}
+
+
+agot_blackwood_bow_bla.0100 = {
+	type = character_event
+	title = agot_blackwood_bow_bla.0100.t
+	desc = agot_blackwood_bow_bla.0100.desc
+	theme = dynasty
+
+	override_background = {
+		reference = wilderness
+	}
+
+	left_portrait = {
+		character = root
+		animation = personality_honorable
+	}
+
+	immediate = {
+		set_global_variable = {
+			name = bla_blackwood_bow_recovery_active
+			value = yes
+		}
+	}
+
+	option = {
+		name = agot_blackwood_bow_bla.0100.a
+		custom_tooltip = agot_blackwood_bow_bla.0100.a.tt
+
+		trigger_event = {
+			id = agot_blackwood_bow_bla.0101
+			days = { 20 50 }
+		}
+	}
+
+	option = {
+		name = agot_blackwood_bow_bla.0100.b
+		trigger = {
+			OR = {
+				has_trait = zealous
+				has_trait = lifestyle_mystic
+				has_trait = lifestyle_mystic
+				has_trait = lifestyle_mystic
+				has_trait = greensight
+			}
+		}
+		custom_tooltip = agot_blackwood_bow_bla.0100.b.tt
+
+		add_piety = minor_piety_gain
+
+		trigger_event = {
+			id = agot_blackwood_bow_bla.0101
+			days = { 20 50 }
+		}
+	}
+}
+
+
+agot_blackwood_bow_bla.0101 = {
+	type = character_event
+	title = agot_blackwood_bow_bla.0101.t
+	desc = agot_blackwood_bow_bla.0101.desc
+	theme = dynasty
+
+	override_background = {
+		reference = ce1_catacombs
+	}
+
+	left_portrait = {
+		character = root
+		animation = worry
+	}
+
+	option = {
+		name = agot_blackwood_bow_bla.0101.a
+		custom_tooltip = agot_blackwood_bow_bla.0101.a.tt
+
+		add_stress = minor_stress_gain
+
+		trigger_event = {
+			id = agot_blackwood_bow_bla.0102
+			days = { 15 35 }
+		}
+	}
+
+	option = {
+		name = agot_blackwood_bow_bla.0101.b
+		trigger = {
+			OR = {
+				has_trait = brave
+				has_trait = stubborn
+				has_trait = ambitious
+			}
+		}
+		custom_tooltip = agot_blackwood_bow_bla.0101.b.tt
+
+		add_prestige = minor_prestige_gain
+
+		trigger_event = {
+			id = agot_blackwood_bow_bla.0102
+			days = { 10 25 }
+		}
+	}
+}
+
+agot_blackwood_bow_bla.0102 = {
+	type = character_event
+	title = agot_blackwood_bow_bla.0102.t
+	desc = agot_blackwood_bow_bla.0102.desc
+	theme = dynasty
+
+	override_background = {
+		reference = ce1_catacombs
+	}
+
+	left_portrait = {
+		character = root
+		animation = admiration
+	}
+
+	artifact = {
+		position = lower_right_portrait
+		target = scope:newly_created_artifact
+	}
+
+	immediate = {
+		agot_create_artifact_widowleaf_effect = { OWNER = root }
+		remove_global_variable = bla_blackwood_bow_recovery_active
+		set_global_variable = {
+			name = bla_blackwood_bow_recovered
+			value = yes
+		}
+	}
+
+	option = {
+		name = agot_blackwood_bow_bla.0102.a
+		add_prestige = major_prestige_gain
+		add_piety = medium_piety_gain
+		dynasty = {
+			add_dynasty_prestige = major_dynasty_prestige_value
+		}
+	}
+}

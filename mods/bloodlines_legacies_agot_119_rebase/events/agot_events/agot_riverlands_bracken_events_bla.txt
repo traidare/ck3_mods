@@ -1,0 +1,1109 @@
+﻿namespace = agot_riverlands_bla
+
+agot_riverlands_bla.0399 = {
+	type = character_event
+	hidden = yes
+
+	trigger = {
+		is_ai = no
+		is_landed = yes
+		is_available_adult = yes
+
+		dynasty = dynasty:dynn_Bracken
+
+		NOT = { has_character_flag = bracken_any_event_recently_bla }
+	}
+
+	immediate = {
+		add_character_flag = {
+			flag = bracken_any_event_recently_bla
+			years = 3
+		}
+
+		random_list = {
+			15 = { trigger_event = agot_riverlands_bla.0400 }
+			15 = { trigger_event = agot_riverlands_bla.0401 }
+			15 = { trigger_event = agot_riverlands_bla.0402 }
+			15 = { trigger_event = agot_riverlands_bla.0403 }
+			15 = { trigger_event = agot_riverlands_bla.0404 }
+			15 = { trigger_event = agot_riverlands_bla.0405 }
+			15 = { trigger_event = agot_riverlands_bla.0406 }
+			15 = { trigger_event = agot_riverlands_bla.0407 }
+
+			120 = { }
+		}
+	}
+}
+
+# =========================================================
+# House Bracken
+# Stallions of Stone Hedge
+# =========================================================
+
+agot_riverlands_bla.0400 = {
+	type = character_event
+	title = agot_riverlands_bla.0400.t
+	desc = agot_riverlands_bla.0400.desc
+	theme = martial
+
+	override_background = {
+		reference = plains
+	}
+
+	left_portrait = {
+		character = root
+		animation = personality_bold
+	}
+
+	trigger = {
+		is_ruler = yes
+		is_landed = yes
+		is_available_adult = yes
+		dynasty = dynasty:dynn_Bracken
+
+		NOT = {
+			has_character_flag = bracken_finest_colts_recently_bla
+		}
+	}
+
+	immediate = {
+		add_character_flag = {
+			flag = bracken_finest_colts_recently_bla
+			years = 6
+		}
+	}
+
+	option = {
+		name = agot_riverlands_bla.0400.a
+
+		add_prestige = 175
+		add_martial_lifestyle_xp = 100
+		add_gold = 50
+
+		random_knight = {
+			limit = {
+				is_alive = yes
+			}
+
+			add_opinion = {
+				target = root
+				modifier = respect_opinion
+				opinion = 15
+			}
+		}
+	}
+
+	option = {
+		name = agot_riverlands_bla.0400.b
+
+		add_gold = 100
+
+		capital_county = {
+			change_development_progress = 15
+		}
+
+		add_character_modifier = {
+			modifier = bracken_horse_breeders_bla
+			years = 5
+		}
+	}
+
+	option = {
+		name = agot_riverlands_bla.0400.c
+
+		trigger = {
+			OR = {
+				martial >= 10
+				has_trait = gallant
+				has_trait = strategist
+			}
+		}
+
+		add_martial_lifestyle_xp = 400
+		add_prestige = 100
+
+		random_list = {
+			70 = {
+				add_character_modifier = {
+					modifier = bracken_warhorse_training_bla
+					years = 5
+				}
+
+				custom_tooltip = agot_riverlands_bla.0400.c.success_tt
+			}
+
+			30 = {
+				change_variable = {
+					name = blackwood_bracken_feud_intensity_bla
+					add = 1
+				}
+
+				add_character_modifier = {
+					modifier = bracken_reckless_riders_bla
+					years = 5
+				}
+
+				custom_tooltip = agot_riverlands_bla.0400.c.rivalry_tt
+			}
+		}
+	}
+	
+	option = {
+		name = agot_riverlands_bla.0400.d
+
+		trigger = {
+			exists = liege
+			
+			OR = {
+				has_trait = diplomat
+				diplomacy >= 10
+			}
+		}
+
+		add_prestige = 50
+		add_stress = 10
+		remove_short_term_gold = 50
+
+		liege = {
+			add_opinion = {
+				target = root
+				modifier = grateful_opinion
+				opinion = 25
+			}
+		}
+
+		add_hook = {
+			target = liege
+			type = loyalty_hook
+		}
+
+		add_character_modifier = {
+			modifier = bracken_liege_favor_bla
+			years = 5
+		}
+	}
+}
+
+# =========================================================
+# House Bracken
+# The Red Stallion Rides
+# =========================================================
+
+agot_riverlands_bla.0401 = {
+	type = character_event
+	title = agot_riverlands_bla.0401.t
+	desc = agot_riverlands_bla.0401.desc
+	theme = martial
+
+	override_background = {
+		reference = feast
+	}
+
+	left_portrait = {
+		character = root
+		animation = personality_bold
+	}
+
+	trigger = {
+		is_ruler = yes
+		is_landed = yes
+		is_available_adult = yes
+		dynasty = dynasty:dynn_Bracken
+
+		NOT = {
+			has_character_flag = bracken_charge_recently_bla
+		}
+	}
+
+	immediate = {
+		add_character_flag = {
+			flag = bracken_charge_recently_bla
+			years = 6
+		}
+	}
+
+	option = {
+		name = agot_riverlands_bla.0401.a
+
+		add_prestige = 175
+
+		dynasty = {
+			add_dynasty_prestige = 50
+		}
+	}
+
+	option = {
+		name = agot_riverlands_bla.0401.b
+
+		add_dread = 10
+		add_prestige = 150
+
+		every_vassal = {
+			limit = {
+				is_available_adult = yes
+			}
+
+			add_opinion = {
+				target = root
+				modifier = scared_opinion
+				opinion = -10
+			}
+		}
+	}
+
+	option = {
+		name = agot_riverlands_bla.0401.c
+
+		trigger = {
+			OR = {
+				martial >= 10
+				has_trait = strategist
+				has_trait = overseer
+			}
+		}
+
+		add_martial_lifestyle_xp = 500
+
+		capital_county = {
+			change_county_control = 10
+		}
+
+		add_character_modifier = {
+			modifier = bracken_hardened_riders_bla
+			years = 5
+		}
+	}
+	option = {
+		name = agot_riverlands_bla.0401.d
+
+		trigger = {
+			OR = {
+				has_trait = wrathful
+				has_trait = arrogant
+			}
+		}
+
+		add_prestige = 100
+		add_dread = 5
+	
+		add_character_modifier = {
+			modifier = bracken_border_posturing_bla
+			years = 5
+		}
+
+	}
+}
+
+# =========================================================
+# House Bracken
+# The Warrior's Shield
+# =========================================================
+
+agot_riverlands_bla.0402 = {
+	type = character_event
+	title = agot_riverlands_bla.0402.t
+	desc = agot_riverlands_bla.0402.desc
+	theme = diplomacy
+
+	override_background = {
+		reference = temple
+	}
+
+	left_portrait = {
+		character = root
+		animation = personality_honorable
+	}
+
+	trigger = {
+		is_ruler = yes
+		is_landed = yes
+		is_available_adult = yes
+		dynasty = dynasty:dynn_Bracken
+
+		NOT = {
+			has_character_flag = bracken_andal_blood_recently_bla
+		}
+	}
+
+	immediate = {
+		add_character_flag = {
+			flag = bracken_andal_blood_recently_bla
+			years = 8
+		}
+		random_living_character = {
+			limit = {
+				is_house_head = yes
+				is_landed = yes
+				NOT = { this = root }
+
+				OR = {
+					AND = {
+						root = { dynasty = dynasty:dynn_Blackwood }
+						dynasty = dynasty:dynn_Bracken
+					}
+
+					AND = {
+						root = { dynasty = dynasty:dynn_Bracken }
+						dynasty = dynasty:dynn_Blackwood
+					}
+				}
+			}
+
+			save_scope_as = feud_rival_bla
+		}
+	}
+
+	option = {
+		name = agot_riverlands_bla.0402.a
+
+		add_piety = 150
+		add_prestige = 75
+
+		every_vassal = {
+			limit = {
+				faith = root.faith
+			}
+
+			add_opinion = {
+				target = root
+				modifier = respect_opinion
+				opinion = 10
+			}
+		}
+	}
+
+	option = {
+		name = agot_riverlands_bla.0402.b
+
+		add_prestige = 125
+		add_dread = 10
+
+		every_courtier_or_guest = {
+			limit = {
+				NOT = { faith = root.faith }
+			}
+
+			add_opinion = {
+				target = root
+				modifier = disappointed_opinion
+				opinion = -15
+			}
+		}
+	}
+
+	option = {
+		name = agot_riverlands_bla.0402.c
+
+		trigger = {
+			OR = {
+				diplomacy >= 10
+				has_trait = diplomat
+				has_trait = august
+			}
+		}
+
+		add_diplomacy_lifestyle_xp = 350
+
+		capital_county = {
+			change_county_control = 10
+		}
+
+		random_list = {
+			70 = {
+				add_prestige = 75
+
+				add_character_modifier = {
+					modifier = bracken_border_diplomacy_bla
+					years = 5
+				}
+
+				custom_tooltip = agot_riverlands_bla.0402.c.success_tt
+			}
+
+			30 = {
+				change_variable = {
+					name = blackwood_bracken_feud_intensity_bla
+					add = 1
+				}
+
+				add_stress = 20
+
+				scope:feud_rival_bla = {
+					add_opinion = {
+						target = root
+						modifier = suspicious_opinion
+						opinion = -15
+					}
+				}
+
+				custom_tooltip = agot_riverlands_bla.0402.c.failure_tt
+			}
+		}
+	}
+
+	option = {
+		name = agot_riverlands_bla.0402.d
+
+		trigger = {
+			OR = {
+				intrigue >= 10
+				has_trait = cynical
+				has_trait = deceitful
+			}
+		}
+
+		add_intrigue_lifestyle_xp = 250
+		add_stress = 20
+		add_dread = 10
+	}
+}
+
+# =========================================================
+# House Bracken
+# The Lists of Stone Hedge
+# =========================================================
+
+agot_riverlands_bla.0403 = {
+	type = character_event
+	title = agot_riverlands_bla.0403.t
+	desc = agot_riverlands_bla.0403.desc
+	theme = martial
+
+	override_background = {
+		reference = ep2_tournament
+	}
+
+	left_portrait = {
+		character = root
+		animation = personality_bold
+	}
+
+	trigger = {
+		is_ruler = yes
+		is_landed = yes
+		is_available_adult = yes
+		dynasty = dynasty:dynn_Bracken
+
+		NOT = {
+			has_character_flag = bracken_tourney_recently_bla
+		}
+	}
+
+	immediate = {
+		add_character_flag = {
+			flag = bracken_tourney_recently_bla
+			years = 8
+		}
+	}
+
+	option = {
+		name = agot_riverlands_bla.0403.a
+
+		add_prestige = 300
+		remove_short_term_gold = 50
+
+		random_knight = {
+			limit = {
+				is_alive = yes
+			}
+
+			add_opinion = {
+				target = root
+				modifier = respect_opinion
+				opinion = 20
+			}
+		}
+	}
+
+	option = {
+		name = agot_riverlands_bla.0403.b
+
+		add_gold = 75
+
+		every_vassal = {
+			limit = {
+				is_available_adult = yes
+			}
+
+			add_opinion = {
+				target = root
+				modifier = disappointed_opinion
+				opinion = -10
+			}
+		}
+	}
+
+	option = {
+		name = agot_riverlands_bla.0403.c
+
+		trigger = {
+			OR = {
+				martial >= 10
+				has_trait = gallant
+				has_trait = lifestyle_blademaster
+			}
+		}
+
+		add_martial_lifestyle_xp = 500
+		add_prestige = 100
+
+		add_character_modifier = {
+			modifier = bracken_tourney_glory_bla
+			years = 5
+		}
+	}
+
+	option = {
+		name = agot_riverlands_bla.0403.d
+
+		trigger = {
+			OR = {
+				stewardship >= 10
+				has_trait = diligent
+				has_trait = architect
+			}
+		}
+
+		add_stewardship_lifestyle_xp = 300
+
+		capital_county = {
+			change_development_progress = 10
+		}
+
+		add_gold = 50
+	}
+}
+
+# =========================================================
+# House Bracken
+# The Red Stallion's Burden
+# =========================================================
+
+agot_riverlands_bla.0404 = {
+	type = character_event
+	title = agot_riverlands_bla.0404.t
+	desc = agot_riverlands_bla.0404.desc
+	theme = realm
+
+	override_background = {
+		reference = throne_room
+	}
+
+	left_portrait = {
+		character = root
+		animation = thinking
+	}
+
+	trigger = {
+		is_ruler = yes
+		is_landed = yes
+		is_available_adult = yes
+		dynasty = dynasty:dynn_Bracken
+
+		NOT = {
+			has_character_flag = bracken_banner_weight_recently_bla
+		}
+	}
+
+	immediate = {
+		add_character_flag = {
+			flag = bracken_banner_weight_recently_bla
+			years = 8
+		}
+	}
+
+	option = {
+		name = agot_riverlands_bla.0404.a
+
+		add_prestige = 175
+
+		dynasty = {
+			add_dynasty_prestige = 75
+		}
+	}
+
+	option = {
+		name = agot_riverlands_bla.0404.b
+
+		add_gold = 75
+		add_prestige = 75
+
+		capital_county = {
+			change_county_control = 10
+		}
+	}
+
+	option = {
+		name = agot_riverlands_bla.0404.c
+
+		trigger = {
+			OR = {
+				diplomacy >= 10
+				has_trait = august
+				has_trait = diplomat
+			}
+		}
+
+		add_diplomacy_lifestyle_xp = 350
+
+		every_vassal = {
+			limit = {
+				is_available_adult = yes
+			}
+
+			add_opinion = {
+				target = root
+				modifier = respect_opinion
+				opinion = 15
+			}
+		}
+	}
+
+	option = {
+		name = agot_riverlands_bla.0404.d
+
+		trigger = {
+			OR = {
+				intrigue >= 10
+				has_trait = arbitrary
+				has_trait = cynical
+			}
+		}
+
+		add_intrigue_lifestyle_xp = 300
+		add_dread = 10
+		add_stress = 20
+	}
+}
+
+# =========================================================
+# House Bracken
+# The Knight of the Mire
+# =========================================================
+
+agot_riverlands_bla.0405 = {
+	type = character_event
+	title = agot_riverlands_bla.0405.t
+	desc = agot_riverlands_bla.0405.desc
+	theme = martial
+
+	override_background = {
+		reference = courtyard
+	}
+
+	left_portrait = {
+		character = root
+		animation = personality_honorable
+	}
+
+	trigger = {
+		is_ruler = yes
+		is_landed = yes
+		is_available_adult = yes
+		dynasty = dynasty:dynn_Bracken
+
+		NOT = {
+			has_character_flag = bracken_river_knight_recently_bla
+		}
+	}
+
+	immediate = {
+		add_character_flag = {
+			flag = bracken_river_knight_recently_bla
+			years = 8
+		}
+		create_character = {
+			template = agot_hedgeknight_character
+			location = root.location
+			culture = root.culture
+			faith = root.faith
+			gender_female_chance = 0
+			age = { 20 35 }
+
+			martial = { 8 14 }
+			prowess = { 10 18 }
+
+			trait = loyal
+			trait = brave
+			trait = knight
+
+			save_scope_as = bracken_river_knight_bla
+		}
+
+		random_living_character = {
+			limit = {
+				is_house_head = yes
+				is_landed = yes
+				NOT = { this = root }
+
+				OR = {
+					AND = {
+						root = { dynasty = dynasty:dynn_Blackwood }
+						dynasty = dynasty:dynn_Bracken
+					}
+
+					AND = {
+						root = { dynasty = dynasty:dynn_Bracken }
+						dynasty = dynasty:dynn_Blackwood
+					}
+				}
+			}
+
+			save_scope_as = feud_rival_bla
+		}
+	}
+
+	option = {
+		name = agot_riverlands_bla.0405.a
+
+		add_prestige = 175
+		add_martial_lifestyle_xp = 400
+	}
+
+	option = {
+		name = agot_riverlands_bla.0405.b
+
+		add_prestige = 100
+		remove_short_term_gold = 125
+
+		add_courtier = scope:bracken_river_knight_bla
+
+		scope:bracken_river_knight_bla = {
+			add_opinion = {
+				target = root
+				modifier = grateful_opinion
+				opinion = 15
+			}
+		}
+
+		random_knight = {
+			limit = {
+				is_alive = yes
+			}
+
+			add_opinion = {
+				target = root
+				modifier = respect_opinion
+				opinion = 10
+			}
+		}
+	}
+
+	option = {
+		name = agot_riverlands_bla.0405.c
+
+		trigger = {
+			OR = {
+				martial >= 10
+				has_trait = strategist
+				has_trait = overseer
+			}
+		}
+
+		add_martial_lifestyle_xp = 500
+
+		add_character_modifier = {
+			modifier = bracken_river_riders_bla
+			years = 5
+		}
+	}
+	option = {
+		name = agot_riverlands_bla.0405.d
+
+		trigger = {
+			OR = {
+				intrigue >= 10
+				has_trait = deceitful
+				has_trait = aggressive_attacker
+			}
+		}
+
+		add_intrigue_lifestyle_xp = 350
+		add_dread = 10
+
+		change_variable = {
+			name = blackwood_bracken_feud_intensity_bla
+			add = 2
+		}
+
+		add_character_modifier = {
+			modifier = bracken_shadow_riders_bla
+			years = 5
+		}
+
+		random_list = {
+			70 = {
+				add_prestige = 100
+
+				custom_tooltip = agot_riverlands_bla.0405.d.success_tt
+			}
+
+			30 = {
+				add_prestige = -75
+				add_stress = 20
+
+				scope:feud_rival_bla = {
+					add_opinion = {
+						target = root
+						modifier = hate_opinion
+						opinion = -25
+					}
+				}
+
+				custom_tooltip = agot_riverlands_bla.0405.d.failure_tt
+			}
+		}
+	}
+}
+
+# =========================================================
+# House Bracken
+# Stone Hedge Must Prosper
+# =========================================================
+
+agot_riverlands_bla.0406 = {
+	type = character_event
+	title = agot_riverlands_bla.0406.t
+	desc = agot_riverlands_bla.0406.desc
+	theme = stewardship
+
+	override_background = {
+		reference = market
+	}
+
+	left_portrait = {
+		character = root
+		animation = personality_bold
+	}
+
+	trigger = {
+		is_ruler = yes
+		is_landed = yes
+		is_available_adult = yes
+		dynasty = dynasty:dynn_Bracken
+
+		NOT = {
+			has_character_flag = bracken_prosperity_recently_bla
+		}
+	}
+
+	immediate = {
+		add_character_flag = {
+			flag = bracken_prosperity_recently_bla
+			years = 8
+		}
+	}
+
+	option = {
+		name = agot_riverlands_bla.0406.a
+
+		add_gold = 125
+		add_prestige = 100
+
+		capital_county = {
+			change_development_progress = 15
+		}
+	}
+
+	option = {
+		name = agot_riverlands_bla.0406.b
+
+		add_gold = 75
+
+		dynasty = {
+			add_dynasty_prestige = 50
+		}
+
+		every_vassal = {
+			limit = {
+				is_available_adult = yes
+			}
+
+			add_opinion = {
+				target = root
+				modifier = respect_opinion
+				opinion = 10
+			}
+		}
+	}
+
+	option = {
+		name = agot_riverlands_bla.0406.c
+
+		trigger = {
+			OR = {
+				stewardship >= 10
+				has_trait = administrator
+				has_trait = diligent
+			}
+		}
+
+		add_stewardship_lifestyle_xp = 400
+
+		capital_county = {
+			change_county_control = 10
+		}
+
+		add_character_modifier = {
+			modifier = bracken_prosperous_fields_bla
+			years = 5
+		}
+	}
+
+	option = {
+		name = agot_riverlands_bla.0406.d
+
+		trigger = {
+			OR = {
+				intrigue >= 10
+				has_trait = greedy
+				has_trait = arbitrary
+			}
+		}
+
+		add_gold = 200
+		add_dread = 10
+		add_stress = 25
+
+		every_vassal = {
+			add_opinion = {
+				target = root
+				modifier = disappointed_opinion
+				opinion = -10
+			}
+		}
+	}
+}
+
+# =========================================================
+# House Bracken
+# Blood and Banner
+# =========================================================
+
+agot_riverlands_bla.0407 = {
+	type = character_event
+	title = agot_riverlands_bla.0407.t
+	desc = agot_riverlands_bla.0407.desc
+	theme = family
+
+	override_background = {
+		reference = throne_room
+	}
+
+	left_portrait = {
+		character = root
+		animation = thinking
+	}
+
+	trigger = {
+		is_ruler = yes
+		is_landed = yes
+		is_available_adult = yes
+		dynasty = dynasty:dynn_Bracken
+
+		NOT = {
+			has_character_flag = bracken_heirs_recently_bla
+		}
+	}
+
+	immediate = {
+		add_character_flag = {
+			flag = bracken_heirs_recently_bla
+			years = 10
+		}
+	}
+
+	option = {
+		name = agot_riverlands_bla.0407.a
+
+		add_prestige = 200
+
+		dynasty = {
+			add_dynasty_prestige = 100
+		}
+
+		every_close_family_member = {
+			limit = {
+				is_alive = yes
+				is_available = yes
+			}
+
+			add_opinion = {
+				target = root
+				modifier = respect_opinion
+				opinion = 15
+			}
+		}
+	}
+
+	option = {
+		name = agot_riverlands_bla.0407.b
+
+		add_gold = 125
+
+		capital_county = {
+			change_development_progress = 50
+		}
+	}
+
+	option = {
+		name = agot_riverlands_bla.0407.c
+
+		trigger = {
+			OR = {
+				martial >= 10
+				has_trait = gallant
+				has_trait = strategist
+			}
+		}
+
+		add_martial_lifestyle_xp = 500
+		add_prestige = 100
+
+		random_child = {
+			limit = {
+				is_alive = yes
+			}
+
+			add_opinion = {
+				target = root
+				modifier = respect_opinion
+				opinion = 15
+			}
+		}
+
+		add_character_modifier = {
+			modifier = bracken_heirs_drilled_bla
+			years = 5
+		}
+	}
+
+	option = {
+		name = agot_riverlands_bla.0407.d
+
+		trigger = {
+			OR = {
+				diplomacy >= 10
+				has_trait = august
+				has_trait = ambitious
+			}
+		}
+
+		add_diplomacy_lifestyle_xp = 500
+		add_prestige = 100
+
+		every_vassal = {
+			limit = {
+				is_available_adult = yes
+			}
+
+			add_opinion = {
+				target = root
+				modifier = respect_opinion
+				opinion = 15
+			}
+		}
+
+		add_stress = 20
+	}
+}

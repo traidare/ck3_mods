@@ -1,0 +1,1372 @@
+﻿####################################
+# MFA Activity Converter
+# Converted pulse_actions to on_actions
+# only effect block remains and is nestled behind scope:activity, while is_valid and weight blocks moved to main relay on_action
+####################################
+
+MFA_pulse_courtier_improved_skill = {
+	effect = {
+		scope:activity = {
+			scope:host = {
+				random_courtier_or_guest = {
+					limit = {
+						is_physically_able_ai = yes
+						is_participant_in_activity = scope:activity
+					}
+					weight = {
+						base = 1
+						modifier = {
+							add = 1
+							is_player_heir_of = scope:host
+						}
+						modifier = {
+							add = 1
+							is_knight_of = scope:host
+						}
+						modifier = {
+							add = 1
+							is_councillor_of = scope:host
+						}
+					}
+					save_scope_as = first
+				}
+			}
+			scope:activity = {
+				add_activity_log_entry = {
+					key = courtier_improved_skill
+					tags = { good }
+					score = 5
+					character = scope:first
+					# Effects
+					scope:first = {
+						random_list = {
+							1 = { add_diplomacy_skill = 1 }
+							1 = { add_intrigue_skill = 1 }
+							1 = { add_learning_skill = 1 }
+							1 = { add_martial_skill = 1 }
+							1 = { add_prowess_skill = 1 }
+							1 = { add_stewardship_skill = 1 }
+						}
+					}
+				}
+			}
+
+			every_attending_character = {
+				limit = {
+					is_ai = no
+					has_game_rule = MFA_pulse_notifications_enabled
+				}
+				send_interface_message = {
+					type = send_interface_message
+					title = courtier_improved_skill_title
+					left_icon = scope:first
+					show_as_tooltip = {
+						scope:activity = {
+							scope:first = {
+								random_list = {
+									1 = { add_diplomacy_skill = 1 }
+									1 = { add_intrigue_skill = 1 }
+									1 = { add_learning_skill = 1 }
+									1 = { add_martial_skill = 1 }
+									1 = { add_prowess_skill = 1 }
+									1 = { add_stewardship_skill = 1 }
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+}
+
+MFA_pulse_courtier_learned_language = {
+	effect = {
+		scope:activity = {
+			scope:activity.activity_location.county.holder = {
+				save_scope_as = second
+			}
+			scope:host = {
+				random_courtier_or_guest = {
+					limit = {
+						is_physically_able_ai = yes
+						is_participant_in_activity = scope:activity
+						NOT = { knows_language_of_culture = scope:activity.activity_location.county.holder.culture }
+					}
+					weight = {
+						base = 1
+						modifier = {
+							add = learning
+						}
+					}
+					save_scope_as = first
+				}
+			}
+			scope:activity = {
+				add_activity_log_entry = {
+					key = courtier_learned_language
+					tags = { bad }
+					score = 5
+					character = scope:first
+					target = scope:second
+					# Effects
+					scope:first = {
+						learn_language_of_culture = scope:second.culture
+					}
+				}
+			}
+
+			every_attending_character = {
+				limit = {
+					is_ai = no
+					has_game_rule = MFA_pulse_notifications_enabled
+				}
+				send_interface_message = {
+					type = MFA_pulse_msg_language
+					title = courtier_learned_language_title
+					left_icon = scope:first
+					right_icon = scope:second
+					show_as_tooltip = {
+						scope:activity = {
+							scope:first = {
+								learn_language_of_culture = scope:second.culture
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+}
+
+MFA_pulse_liege_visited_benevolence = {
+	effect = {
+		scope:activity = {
+			scope:host = { save_scope_as = first }
+			scope:host.location.county = {
+				save_scope_as = second
+				set_variable = { name = recent_dev value = yes days = 60 }
+			}
+			scope:activity = {
+				add_activity_log_entry = {
+					key = liege_visited_benevolence
+					tags = { good }
+					score = 5
+					character = scope:first
+					# Effects
+					if = {
+						limit = {
+							scope:host.location.county = { uses_county_fertility = yes }
+						}
+						scope:host.location.county = {
+							change_county_fertility = 5
+						}
+					}
+					else = {
+						scope:host.location.county = {
+							change_development_progress = 10
+						}
+					}
+				}
+			}
+
+			every_attending_character = {
+				limit = {
+					is_ai = no
+					has_game_rule = MFA_pulse_notifications_enabled
+				}
+				send_interface_message = {
+					type = MFA_pulse_msg_development
+					title = liege_visited_benevolence_title
+					left_icon = scope:first
+					show_as_tooltip = {
+						scope:activity = {
+							if = {
+								limit = {
+									scope:host.location.county = { uses_county_fertility = yes }
+								}
+								scope:host.location.county = {
+									change_county_fertility = 5
+								}
+							}
+							else = {
+								scope:host.location.county = {
+									change_development_progress = 10
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+}
+
+MFA_pulse_courtiers_became_lovers = {
+	effect = {
+		scope:activity = {
+			scope:host = {
+				random_courtier_or_guest = {
+					limit = {
+						might_cheat_on_every_partner_trigger = yes
+						num_of_relation_lover < 2
+						is_physically_able_ai_adult = yes
+						is_participant_in_activity = scope:activity
+						save_temporary_scope_as = first_lover_temp
+						scope:activity.activity_location.county.holder = {
+							any_courtier_or_guest = {
+								this != scope:first_lover_temp
+								might_cheat_on_every_partner_trigger = yes
+								NOT = { has_relation_lover = scope:first_lover_temp }
+								num_of_relation_lover < 2
+								is_physically_able_ai_adult = yes
+								NOT = { has_relation_lover = scope:first_lover_temp }
+								save_temporary_scope_as = second_lover_temp
+								matching_gender_and_sexuality_trigger = {
+									CHARACTER_1 = scope:second_lover_temp
+									CHARACTER_2 = scope:first_lover_temp
+								}
+							}
+						}
+					}
+					save_scope_as = first
+				}
+			}
+			scope:activity.activity_location.county.holder = {
+				random_courtier_or_guest = {
+					limit = {
+						this != scope:first
+						might_cheat_on_every_partner_trigger = yes
+						NOT = { has_relation_lover = scope:first }
+						num_of_relation_lover < 2
+						is_physically_able_ai_adult = yes
+						NOT = { has_relation_lover = scope:first }
+						save_temporary_scope_as = second_lover_temp
+						matching_gender_and_sexuality_trigger = {
+							CHARACTER_1 = scope:second_lover_temp
+							CHARACTER_2 = scope:first
+						}
+					}
+					weight = {
+						base = 1
+						modifier = {
+							factor = 2
+							trait_compatibility = {
+								target = scope:first
+								value >= low_positive_trait_compatibility
+							}
+						}
+						modifier = {
+							factor = 10
+							trait_compatibility = {
+								target = scope:first
+								value >= medium_positive_trait_compatibility
+							}
+						}
+					}
+					save_scope_as = second
+				}
+			}
+			scope:activity = {
+				add_activity_log_entry = {
+					key = courtiers_became_lovers
+					tags = { good }
+					score = 5
+					character = scope:first
+					target = scope:second
+					# Effects
+					scope:second = {
+						set_relation_lover = {
+							target = scope:first
+							reason = lover_courtiers_bonded_on_tour
+						}
+					}
+				}
+			}
+
+			every_attending_character = {
+				limit = {
+					is_ai = no
+					has_game_rule = MFA_pulse_notifications_enabled
+				}
+				send_interface_message = {
+					type = MFA_pulse_msg_lover
+					title = courtiers_became_lovers_title
+					left_icon = scope:first
+					right_icon = scope:second
+					show_as_tooltip = {
+						scope:activity = {
+							scope:second = {
+								set_relation_lover = {
+									target = scope:first
+									reason = lover_courtiers_bonded_on_tour
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+}
+
+MFA_pulse_courtier_friendship = {
+	effect = {
+		scope:activity = {
+			scope:host = {
+				random_courtier_or_guest = {
+					limit = {
+						num_of_relation_friend < 2
+						is_participant_in_activity = scope:activity
+						is_physically_able_ai_adult = yes
+						save_temporary_scope_as = friend_1
+						scope:activity.activity_location.county.holder = {
+							any_courtier_or_guest = {
+								num_of_relation_friend < 2
+								is_physically_able_ai_adult = yes
+								this != scope:friend_1
+								NOT = {
+									has_relation_friend = scope:friend_1
+								}
+							}
+						}
+					}
+					save_scope_as = first
+				}
+			}
+			scope:activity.activity_location.county.holder = {
+				random_courtier_or_guest = {
+					limit = {
+						num_of_relation_friend < 2
+						is_physically_able_ai_adult = yes
+						this != scope:first
+						NOT = {
+							has_relation_friend = scope:first
+						}
+					}
+					weight = {
+						base = 1
+						modifier = {
+							factor = 2
+							trait_compatibility = {
+								target = scope:first
+								value >= low_positive_trait_compatibility
+							}
+						}
+						modifier = {
+							factor = 10
+							trait_compatibility = {
+								target = scope:first
+								value >= medium_positive_trait_compatibility
+							}
+						}
+					}
+					save_scope_as = second
+				}
+			}
+			scope:activity = {
+				add_activity_log_entry = {
+					key = courtier_friendship
+					tags = { good }
+					score = 5
+					character = scope:first
+					target = scope:second
+					# Effects
+					scope:second = {
+						set_relation_friend = {
+							target = scope:first
+							reason = friend_courtiers_bonded_on_tour
+						}
+					}
+				}
+			}
+
+			every_attending_character = {
+				limit = {
+					is_ai = no
+					has_game_rule = MFA_pulse_notifications_enabled
+				}
+				send_interface_message = {
+					type = MFA_pulse_msg_friend
+					title = courtier_friendship_title
+					left_icon = scope:first
+					right_icon = scope:second
+					show_as_tooltip = {
+						scope:activity = {
+							scope:second = {
+								set_relation_friend = {
+									target = scope:first
+									reason = friend_courtiers_bonded_on_tour
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+}
+
+MFA_pulse_courtiers_got_into_fight = {
+	effect = {
+		scope:activity = {
+			scope:host = {
+				random_courtier = {
+					limit = {
+						OR = { # Likely to start fights
+							has_trait = vengeful
+							has_trait = wrathful
+							has_trait = arrogant
+							has_trait = callous
+							has_trait = sadistic
+							has_trait = drunkard
+						}
+						NOT = {
+							is_player_heir_of = scope:host
+						}
+						OR = {
+							is_physically_able_ai_adult = yes
+							child_not_infant_trigger = yes
+						}
+						save_temporary_scope_as = first_fighter
+						scope:activity.activity_location.county.holder = {
+							any_courtier = {
+								count >= 2
+								OR = {
+									is_physically_able_ai_adult = yes
+									child_not_infant_trigger = yes
+								}
+								OR = {
+									is_physically_able_ai_adult = yes
+									age > scope:first_fighter.age_minus_3
+									scope:first_fighter.age > age_minus_3
+								}
+							}
+						}
+					}
+					save_scope_as = first
+				}
+			}
+			scope:activity.activity_location.county.holder = {
+				random_courtier = {
+					limit = {
+						OR = {
+							is_physically_able_ai_adult = yes
+							child_not_infant_trigger = yes
+						}
+						OR = {
+							is_physically_able_ai_adult = yes
+							age > scope:first.age_minus_3
+							scope:first.age > age_minus_3
+						}
+					}
+					weight = {
+						base = 1
+						modifier = {
+							add = ai_vengefulness
+						}
+						modifier = {
+							factor = 2
+							trait_compatibility = {
+								target = scope:first
+								value <= low_negative_trait_compatibility
+							}
+						}
+						modifier = {
+							factor = 10
+							trait_compatibility = {
+								target = scope:first
+								value <= medium_negative_trait_compatibility
+							}
+						}
+					}
+					save_scope_as = second
+				}
+			}
+			scope:activity = {
+				add_activity_log_entry = {
+					key = courtiers_got_into_fight
+					tags = { bad }
+					score = -5
+					character = scope:first
+					target = scope:second
+					# Effects
+					scope:second = {
+						duel = {
+							skill = prowess
+							target = scope:first
+							50 = {
+								compare_modifier = {
+									 value = scope:duel_value
+									 multiplier = 3.5
+									 min = -49
+								}
+								scope:first = {
+									increase_wounds_no_death_effect = { REASON = duel }
+								}
+							}
+							50 = {
+								compare_modifier = {
+									value = scope:duel_value
+									multiplier = -3.5
+									min = -49
+								}
+								increase_wounds_no_death_effect = { REASON = duel }
+							}
+						}
+					}
+				}
+			}
+
+			every_attending_character = {
+				limit = {
+					is_ai = no
+					has_game_rule = MFA_pulse_notifications_enabled
+				}
+				send_interface_message = {
+					type = MFA_pulse_msg_wound
+					title = courtiers_got_into_fight_title
+					left_icon = scope:first
+					right_icon = scope:second
+					show_as_tooltip = {
+						scope:activity = {
+							scope:second = {
+								duel = {
+									skill = prowess
+									target = scope:first
+									50 = {
+										compare_modifier = {
+											 value = scope:duel_value
+											 multiplier = 3.5
+											 min = -49
+										}
+										scope:first = {
+											increase_wounds_no_death_effect = { REASON = duel }
+										}
+									}
+									50 = {
+										compare_modifier = {
+											value = scope:duel_value
+											multiplier = -3.5
+											min = -49
+										}
+										increase_wounds_no_death_effect = { REASON = duel }
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+}
+
+MFA_pulse_courtiers_became_rivals = {
+	effect = {
+		scope:activity = {
+			scope:host = {
+				random_courtier_or_guest = {
+					limit = {
+						num_of_relation_rival < 2
+						is_participant_in_activity = scope:activity
+						is_physically_able_ai_adult = yes
+						save_temporary_scope_as = first_rival
+						scope:activity.activity_location.county.holder = {
+							any_courtier_or_guest = {
+								count >= 2
+								num_of_relation_rival < 2
+								is_physically_able_ai_adult = yes
+								NOT = { has_relation_rival = scope:first_rival }
+							}
+						}
+					}
+					save_scope_as = first
+				}
+			}
+			scope:activity.activity_location.county.holder = {
+				random_courtier_or_guest = {
+					limit = {
+						num_of_relation_rival < 2
+						is_physically_able_ai_adult = yes
+						NOT = {
+							has_relation_rival = scope:first
+						}
+					}
+					weight = {
+						base = 1
+						modifier = {
+							factor = 2
+							trait_compatibility = {
+								target = scope:first
+								value <= low_negative_trait_compatibility
+							}
+						}
+						modifier = {
+							factor = 10
+							trait_compatibility = {
+								target = scope:first
+								value <= medium_negative_trait_compatibility
+							}
+						}
+					}
+					save_scope_as = second
+				}
+			}
+			scope:activity = {
+				add_activity_log_entry = {
+					key = courtiers_became_rivals
+					tags = { bad }
+					score = -5
+					character = scope:first
+					target = scope:second
+					# Effects
+					scope:second = {
+						set_relation_rival = {
+							target = scope:first
+							reason = rival_courtiers_friction_on_tour
+						}
+					}
+				}
+			}
+
+			every_attending_character = {
+				limit = {
+					is_ai = no
+					has_game_rule = MFA_pulse_notifications_enabled
+				}
+				send_interface_message = {
+					type = MFA_pulse_msg_negative
+					title = courtiers_became_rivals_title
+					left_icon = scope:first
+					right_icon = scope:second
+					show_as_tooltip = {
+						scope:activity = {
+							scope:second = {
+								set_relation_rival = {
+									target = scope:first
+									reason = rival_courtiers_friction_on_tour
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+}
+
+MFA_pulse_liege_intimidated_courtier = {
+	effect = {
+		scope:activity = {
+			scope:host = {
+				save_scope_as = first
+			}
+			scope:activity.activity_location.county.holder = {
+				random_courtier = {
+					save_scope_as = second
+				}
+			}
+			increase_tour_success_effect = { POINTS = 1 }
+			scope:activity = {
+				add_activity_log_entry = {
+					key = liege_intimidated_courtier
+					tags = { bad }
+					score = 5
+					character = scope:first
+					target = scope:second
+
+					scope:host = { add_dread = minor_dread_gain }
+				}
+			}
+
+			every_attending_character = {
+				limit = {
+					is_ai = no
+					has_game_rule = MFA_pulse_notifications_enabled
+				}
+				send_interface_message = {
+					type = MFA_pulse_msg_icon_dread
+					title = liege_intimidated_courtier_title
+					left_icon = scope:first
+					right_icon = scope:second
+					show_as_tooltip = {
+						scope:activity = {
+							scope:host = {
+								add_dread = minor_dread_gain
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+}
+
+MFA_pulse_liege_local_benevolence = {
+	effect = {
+		scope:activity = {
+			increase_tour_success_effect = { POINTS = 1 }
+			scope:host = {
+				save_scope_as = first
+			}
+			scope:host.location.county = {
+				save_scope_as = second
+			}
+			scope:activity = {
+				add_activity_log_entry = {
+					key = liege_local_benevolence
+					tags = { bad }
+					score = 5
+					character = scope:first
+
+					scope:host.location.county = {
+						add_county_modifier = {
+							modifier = ep2_popular_liege
+							years = 10
+						}
+					}
+				}
+			}
+
+			every_attending_character = {
+				limit = {
+					is_ai = no
+					has_game_rule = MFA_pulse_notifications_enabled
+				}
+				send_interface_message = {
+					type = MFA_pulse_msg_positive
+					title = liege_local_benevolence_title
+					left_icon = scope:first
+					show_as_tooltip = {
+						scope:activity = {
+							scope:host.location.county = {
+								add_county_modifier = {
+									modifier = ep2_popular_liege
+									years = 10
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+}
+
+MFA_pulse_increased_control = {
+	effect = {
+		scope:activity = {
+			scope:host.location.county = {
+				save_scope_as = second
+			}
+			increase_tour_success_effect = { POINTS = 1 }
+			scope:host = { save_scope_as = first }
+			scope:activity = {
+				add_activity_log_entry = {
+					key = increased_control
+					tags = { good }
+					score = 5
+					character = scope:first
+					# Effects
+					scope:second = {
+						change_county_control = 15
+					}
+				}
+			}
+
+			every_attending_character = {
+				limit = {
+					is_ai = no
+					has_game_rule = MFA_pulse_notifications_enabled
+				}
+				send_interface_message = {
+					type = MFA_pulse_msg_control
+					title = increased_control_title
+					left_icon = scope:first
+					show_as_tooltip = {
+						scope:activity = {
+							scope:second = {
+								change_county_control = 15
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+}
+
+MFA_pulse_liege_local_tax = {
+	effect = {
+		scope:activity = {
+			increase_tour_success_effect = { POINTS = 1 }
+			scope:host = { save_scope_as = first }
+			scope:host.location.barony = {
+				save_scope_as = second
+				set_variable = { name = recent_tax value = yes days = 60 }
+			}
+			scope:activity = {
+				add_activity_log_entry = {
+					key = liege_local_tax
+					tags = { bad }
+					score = 5
+					character = scope:first
+
+					scope:host = { add_gold = scope:host.location.tour_tax_gold_value }
+				}
+			}
+
+			every_attending_character = {
+				limit = {
+					is_ai = no
+					has_game_rule = MFA_pulse_notifications_enabled
+				}
+				send_interface_message = {
+					type = MFA_pulse_msg_money
+					title = liege_local_tax_title
+					left_icon = scope:first
+					show_as_tooltip = {
+						scope:activity = {
+							scope:host = {
+								add_gold = scope:host.location.tour_tax_gold_value
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+}
+
+MFA_pulse_levied_tax = {
+	effect = {
+		scope:activity = {
+			scope:activity.activity_location.county.holder = {
+				random_courtier = {
+					limit = {
+						NOR = {
+							is_clergy = yes
+							has_council_position = councillor_court_chaplain
+						}
+						gold >= 5
+					}
+					weight = {
+						modifier = {
+							add = gold
+						}
+					}
+					save_scope_as = second
+				}
+			}
+			increase_tour_success_effect = { POINTS = 1 }
+			scope:host = { save_scope_as = first }
+			scope:activity = {
+				add_activity_log_entry = {
+					key = levied_tax
+					tags = { good }
+					score = 5
+					character = scope:first
+					target = scope:second
+					# Effects
+					scope:second = {
+						if = {
+							limit = {
+								gold >= scope:host.minor_gold_value
+							}
+							pay_short_term_gold = {
+								target = scope:host
+								gold = scope:host.minor_gold_value
+							}
+						}
+						else_if = {
+							limit = {
+								gold >= scope:host.tiny_gold_value
+							}
+							pay_short_term_gold = {
+								target = scope:host
+								gold = scope:host.tiny_gold_value
+							}
+						}
+						else = {
+							pay_short_term_gold = {
+								target = scope:host
+								gold = scope:second.gold
+							}
+						}
+						add_opinion = {
+							modifier = taxation_tour_opinion
+							target = scope:host
+							opinion = -10
+						}
+					}
+				}
+			}
+
+			every_attending_character = {
+				limit = {
+					is_ai = no
+					has_game_rule = MFA_pulse_notifications_enabled
+				}
+				send_interface_message = {
+					type = MFA_pulse_msg_money
+					title = levied_tax_title
+					left_icon = scope:first
+					right_icon = scope:second
+					show_as_tooltip = {
+						scope:activity = {
+							scope:second = {
+								if = {
+									limit = {
+										gold >= scope:host.minor_gold_value
+									}
+									pay_short_term_gold = {
+										target = scope:host
+										gold = scope:host.minor_gold_value
+									}
+								}
+								else_if = {
+									limit = {
+										gold >= scope:host.tiny_gold_value
+									}
+									pay_short_term_gold = {
+										target = scope:host
+										gold = scope:host.tiny_gold_value
+									}
+								}
+								else = {
+									pay_short_term_gold = {
+										target = scope:host
+										gold = scope:second.gold
+									}
+								}
+								add_opinion = {
+									modifier = taxation_tour_opinion
+									target = scope:host
+									opinion = -10
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+}
+
+MFA_pulse_local_mayor_tax = {
+	effect = {
+		scope:activity = {
+			scope:host.location.barony.holder = {
+				save_scope_as = first
+				primary_title = {
+					save_scope_as = city
+				}
+			}
+			increase_tour_success_effect = { POINTS = 1 }
+			scope:host = { save_scope_as = second }
+			scope:activity = {
+				add_activity_log_entry = {
+					key = local_mayor_tax
+					tags = { good }
+					score = 5
+					character = scope:second
+					target = scope:first
+					# Effects
+					scope:first = {
+						if = {
+							limit = {
+								gold >= scope:host.medium_gold_value
+							}
+							pay_short_term_gold = {
+								target = scope:host
+								gold = scope:host.medium_gold_value
+							}
+						}
+						else = {
+							pay_short_term_gold = {
+								target = scope:host
+								gold = scope:host.minor_gold_value
+							}
+						}
+						add_opinion = {
+							modifier = taxation_tour_opinion
+							target = scope:host
+							opinion = -10
+						}
+					}
+				}
+			}
+
+			every_attending_character = {
+				limit = {
+					is_ai = no
+					has_game_rule = MFA_pulse_notifications_enabled
+				}
+				send_interface_message = {
+					type = MFA_pulse_msg_money
+					title = local_mayor_tax_title
+					left_icon = scope:second
+					right_icon = scope:first
+					show_as_tooltip = {
+						scope:activity = {
+							scope:first = {
+								if = {
+									limit = {
+										gold >= scope:host.medium_gold_value
+									}
+									pay_short_term_gold = {
+										target = scope:host
+										gold = scope:host.medium_gold_value
+									}
+								}
+								else = {
+									pay_short_term_gold = {
+										target = scope:host
+										gold = scope:host.minor_gold_value
+									}
+								}
+								add_opinion = {
+									modifier = taxation_tour_opinion
+									target = scope:host
+									opinion = -10
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+}
+
+MFA_pulse_tax_rich_local = {
+	effect = {
+		scope:activity = {
+			random_pool_character = {
+				province = scope:host.location
+				limit = {
+					gold >= 5
+				}
+				save_scope_as = first
+			}
+			increase_tour_success_effect = { POINTS = 1 }
+			scope:host = { save_scope_as = second }
+			scope:activity = {
+				add_activity_log_entry = {
+					key = tax_rich_local
+					tags = { good }
+					score = 5
+					character = scope:first
+					# Effects
+					scope:first = {
+						if = {
+							limit = {
+								gold >= scope:host.medium_gold_value
+							}
+							pay_short_term_gold = {
+								target = scope:host
+								gold = scope:host.medium_gold_value
+							}
+						}
+						else_if = {
+							limit = {
+								gold >= major_gold_value
+							}
+							pay_short_term_gold = {
+								target = scope:host
+								gold = major_gold_value
+							}
+						}
+						else_if = {
+							limit = {
+								gold >= medium_gold_value
+							}
+							pay_short_term_gold = {
+								target = scope:host
+								gold = medium_gold_value
+							}
+						}
+						else = {
+							pay_short_term_gold = {
+								target = scope:host
+								gold = scope:first.gold
+							}
+						}
+						add_opinion = {
+							modifier = taxation_tour_opinion
+							target = scope:host
+							opinion = -15
+						}
+					}
+				}
+			}
+
+			every_attending_character = {
+				limit = {
+					is_ai = no
+					has_game_rule = MFA_pulse_notifications_enabled
+				}
+				send_interface_message = {
+					type = MFA_pulse_msg_money
+					title = tax_rich_local_title
+					left_icon = scope:first
+					right_icon = scope:host
+					show_as_tooltip = {
+						scope:activity = {
+							scope:first = {
+								if = {
+									limit = {
+										gold >= scope:host.medium_gold_value
+									}
+									pay_short_term_gold = {
+										target = scope:host
+										gold = scope:host.medium_gold_value
+									}
+								}
+								else_if = {
+									limit = {
+										gold >= major_gold_value
+									}
+									pay_short_term_gold = {
+										target = scope:host
+										gold = major_gold_value
+									}
+								}
+								else_if = {
+									limit = {
+										gold >= medium_gold_value
+									}
+									pay_short_term_gold = {
+										target = scope:host
+										gold = medium_gold_value
+									}
+								}
+								else = {
+									pay_short_term_gold = {
+										target = scope:host
+										gold = scope:first.gold
+									}
+								}
+								add_opinion = {
+									modifier = taxation_tour_opinion
+									target = scope:host
+									opinion = -15
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+}
+
+MFA_pulse_church_tax = {
+	effect = {
+		scope:activity = {
+			scope:host.location.county.holder = {
+				random_courtier_or_guest = {
+					limit = {
+						OR = {
+							is_clergy = yes
+							has_council_position = councillor_court_chaplain
+						}
+						gold >= 5
+					}
+					save_scope_as = first
+				}
+			}
+			increase_tour_success_effect = { POINTS = 1 }
+			scope:host = { save_scope_as = second }
+			scope:activity = {
+				add_activity_log_entry = {
+					key = church_tax
+					tags = { good }
+					score = 5
+					character = scope:second
+					target = scope:first
+					# Effects
+					scope:first = {
+						if = {
+							limit = {
+								gold >= scope:host.minor_gold_value
+							}
+							pay_short_term_gold = {
+								target = scope:host
+								gold = scope:host.minor_gold_value
+							}
+						}
+						else_if = {
+							limit = {
+								gold >= scope:host.tiny_gold_value
+							}
+							pay_short_term_gold = {
+								target = scope:host
+								gold = scope:host.tiny_gold_value
+							}
+						}
+						else = {
+							pay_short_term_gold = {
+								target = scope:host
+								gold = scope:first.gold
+							}
+						}
+						scope:host = {
+							add_piety = miniscule_piety_loss
+						}
+					}
+				}
+			}
+
+			every_attending_character = {
+				limit = {
+					is_ai = no
+					has_game_rule = MFA_pulse_notifications_enabled
+				}
+				send_interface_message = {
+					type = MFA_pulse_msg_money
+					title = church_tax_title
+					left_icon = scope:second
+					right_icon = scope:first
+					show_as_tooltip = {
+						scope:activity = {
+							scope:first = {
+								if = {
+									limit = {
+										gold >= scope:host.minor_gold_value
+									}
+									pay_short_term_gold = {
+										target = scope:host
+										gold = scope:host.minor_gold_value
+									}
+								}
+								else_if = {
+									limit = {
+										gold >= scope:host.tiny_gold_value
+									}
+									pay_short_term_gold = {
+										target = scope:host
+										gold = scope:host.tiny_gold_value
+									}
+								}
+								else = {
+									pay_short_term_gold = {
+										target = scope:host
+										gold = scope:first.gold
+									}
+								}
+								scope:host = {
+									add_piety = miniscule_piety_loss
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+}
+
+MFA_pulse_local_baron_tax = {
+	effect = {
+		scope:activity = {
+			scope:host.location.barony.holder = {
+				save_scope_as = first
+				primary_title = {
+					save_scope_as = barony
+				}
+			}
+			increase_tour_success_effect = { POINTS = 1 }
+			scope:host = { save_scope_as = second }
+			scope:activity = {
+				add_activity_log_entry = {
+					key = local_baron_tax
+					tags = { good }
+					score = 5
+					character = scope:first
+					# Effects
+					scope:first = {
+						if = {
+							limit = {
+								gold >= scope:host.minor_gold_value
+							}
+							pay_short_term_gold = {
+								target = scope:host
+								gold = scope:host.minor_gold_value
+							}
+						}
+						else_if = {
+							limit = {
+								gold >= scope:host.tiny_gold_value
+							}
+							pay_short_term_gold = {
+								target = scope:host
+								gold = scope:host.tiny_gold_value
+							}
+						}
+						else = {
+							pay_short_term_gold = {
+								target = scope:host
+								gold = scope:first.gold
+							}
+						}
+						add_opinion = {
+							modifier = taxation_tour_opinion
+							target = scope:host
+							opinion = -10
+						}
+					}
+				}
+			}
+
+			every_attending_character = {
+				limit = {
+					is_ai = no
+					has_game_rule = MFA_pulse_notifications_enabled
+				}
+				send_interface_message = {
+					type = MFA_pulse_msg_money
+					title = local_baron_tax_title
+					left_icon = scope:first
+					right_icon = scope:host
+					show_as_tooltip = {
+						scope:activity = {
+							scope:first = {
+								if = {
+									limit = {
+										gold >= scope:host.minor_gold_value
+									}
+									pay_short_term_gold = {
+										target = scope:host
+										gold = scope:host.minor_gold_value
+									}
+								}
+								else_if = {
+									limit = {
+										gold >= scope:host.tiny_gold_value
+									}
+									pay_short_term_gold = {
+										target = scope:host
+										gold = scope:host.tiny_gold_value
+									}
+								}
+								else = {
+									pay_short_term_gold = {
+										target = scope:host
+										gold = scope:first.gold
+									}
+								}
+								add_opinion = {
+									modifier = taxation_tour_opinion
+									target = scope:host
+									opinion = -10
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+}

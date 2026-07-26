@@ -1,0 +1,7 @@
+﻿distribute_artifact = {
+  scope = character
+  saved_scopes = {
+    target
+  }
+  effect = {trigger_event = distributeartifacts.1}
+}

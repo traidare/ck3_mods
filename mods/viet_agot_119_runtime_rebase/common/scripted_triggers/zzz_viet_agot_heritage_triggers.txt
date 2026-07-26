@@ -1,0 +1,129 @@
+﻿# VIET expects vanilla's broad cultural-heritage helper triggers. AGOT replaces
+# the vanilla heritage database, so these use lore-analogous AGOT heritages.
+
+culture_has_asian_heritage_pillar_trigger = {
+	OR = {
+		culture_has_east_asian_heritage_pillar_trigger = yes
+		culture_has_west_asian_heritage_pillar_trigger = yes
+		culture_has_southeast_asian_heritage_pillar_trigger = yes
+		culture_has_central_asian_heritage_pillar_trigger = yes
+	}
+}
+
+culture_has_east_asian_heritage_pillar_trigger = {
+	culture = {
+		OR = {
+			has_cultural_pillar = heritage_yitish
+			has_cultural_pillar = heritage_nghai
+		}
+	}
+}
+
+culture_has_west_asian_heritage_pillar_trigger = {
+	culture = {
+		OR = {
+			has_cultural_pillar = heritage_grasslands
+			has_cultural_pillar = heritage_hyrkoonan
+			has_cultural_pillar = heritage_qaathi
+			has_cultural_pillar = heritage_sarnori
+			has_cultural_pillar = heritage_shadowlanders
+		}
+	}
+}
+
+culture_has_southeast_asian_heritage_pillar_trigger = {
+	culture = { has_cultural_pillar = heritage_jadeislands }
+}
+
+culture_has_central_asian_heritage_pillar_trigger = {
+	culture = {
+		OR = {
+			has_cultural_pillar = heritage_grasslands
+			has_cultural_pillar = heritage_hyrkoonan
+			has_cultural_pillar = heritage_nghai
+			has_cultural_pillar = heritage_sarnori
+		}
+	}
+}
+
+culture_has_central_african_heritage_pillar_trigger = {
+	culture = { has_cultural_pillar = heritage_sothoryi }
+}
+
+culture_has_east_african_heritage_pillar_trigger = {
+	culture = {
+		OR = {
+			has_cultural_pillar = heritage_moraqi
+			has_cultural_pillar = heritage_sothoryi
+			has_cultural_pillar = heritage_summer
+		}
+	}
+}
+
+culture_has_north_african_heritage_pillar_trigger = {
+	culture = {
+		OR = {
+			has_cultural_pillar = heritage_ghiscari
+			has_cultural_pillar = heritage_moraqi
+		}
+	}
+}
+
+culture_has_mena_heritage_pillar_trigger = {
+	culture = {
+		OR = {
+			has_cultural_pillar = heritage_freecities
+			has_cultural_pillar = heritage_ghiscari
+			has_cultural_pillar = heritage_qaathi
+			has_cultural_pillar = heritage_rhoynar
+			has_cultural_pillar = heritage_shadowlanders
+			has_cultural_pillar = heritage_valyrian
+		}
+	}
+}
+
+culture_has_european_heritage_pillar_trigger = {
+	culture = {
+		OR = {
+			has_cultural_pillar = heritage_andal
+			has_cultural_pillar = heritage_first_man
+			has_cultural_pillar = heritage_ironman
+			has_cultural_pillar = heritage_wildling
+		}
+	}
+}
+
+culture_has_east_european_heritage_pillar_trigger = {
+	always = no
+}
+
+culture_has_central_european_heritage_pillar_trigger = {
+	culture = { has_cultural_pillar = heritage_andal }
+}
+
+culture_has_south_european_heritage_pillar_trigger = {
+	culture = {
+		OR = {
+			has_cultural_pillar = heritage_andal
+			has_cultural_pillar = heritage_freecities
+			has_cultural_pillar = heritage_rhoynar
+			has_cultural_pillar = heritage_valyrian
+		}
+	}
+}
+
+culture_has_north_european_heritage_pillar_trigger = {
+	culture = {
+		OR = {
+			has_cultural_pillar = heritage_first_man
+			has_cultural_pillar = heritage_ironman
+			has_cultural_pillar = heritage_wildling
+		}
+	}
+}
+
+# Christianity does not exist in AGOT. Events that require it are separately
+# stubbed, while this definition lets optional VIET script parse safely.
+is_christian_trigger = {
+	always = no
+}

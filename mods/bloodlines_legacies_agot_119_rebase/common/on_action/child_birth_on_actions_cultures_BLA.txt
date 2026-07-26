@@ -1,0 +1,239 @@
+﻿# On actions for child birth and pregnancy notification events, triggered automatically by the game
+
+on_birth_child = {
+	on_actions = {
+		on_birth_child_culture_BLA
+	}
+}
+
+on_birth_child_culture_BLA = {
+	effect = {
+		#BLA Cultural Dynasty Perk traits
+		hidden_effect = {
+			if = {
+				limit = {
+					exists = scope:child.dynasty
+					scope:child.dynasty = { has_dynasty_perk = skagosi_legacy_4	 }
+					OR = { # The child must have a real parent of the Dynasty...
+						scope:mother.dynasty = scope:child.dynasty
+						scope:real_father.dynasty = scope:child.dynasty
+					}
+					NOR = {
+						has_trait = cannibal
+						has_trait = compassionate
+					}
+				}
+				random = {
+					chance = blood_legacy_4_chance
+					modifier = {
+						add = blood_legacy_4_extra_player_chance
+					}
+					add_trait = cannibal
+				}
+			}
+			if = {
+				limit = {
+					exists = scope:child.dynasty
+					scope:child.dynasty = { has_dynasty_perk = wildling_legacy_1	 }
+					OR = { # The child must have a real parent of the Dynasty...
+						scope:mother.dynasty = scope:child.dynasty
+						scope:real_father.dynasty = scope:child.dynasty
+					}
+					NOR = {
+						has_trait = strong
+						has_trait = physique_bad
+					}
+				}
+				random = {
+					chance = blood_legacy_4_chance
+					modifier = {
+						add = blood_legacy_4_extra_player_chance
+					}
+
+					add_trait = strong
+				}
+			}
+			if = {
+				limit = {
+					exists = scope:child.dynasty
+					scope:child.dynasty = { has_dynasty_perk = myrish_legacy_1	 }
+					OR = { # The child must have a real parent of the Dynasty...
+						scope:mother.dynasty = scope:child.dynasty
+						scope:real_father.dynasty = scope:child.dynasty
+					}
+					NOR = {
+						has_trait = diligent
+						has_trait = lazy
+					}
+				}
+				random = {
+					chance = blood_legacy_4_chance
+					modifier = {
+						add = blood_legacy_4_extra_player_chance
+					}
+
+					add_trait = diligent
+				}
+			}
+			if = {
+				limit = {
+					exists = scope:child.dynasty
+					scope:child.dynasty = { has_dynasty_perk = lyseni_legacy_1	 }
+					OR = { # The child must have a real parent of the Dynasty...
+						scope:mother.dynasty = scope:child.dynasty
+						scope:real_father.dynasty = scope:child.dynasty
+					}
+					NOR = {
+						has_trait = beauty_good
+						has_trait = beauty_bad
+					}
+				}
+				random = {
+					chance = blood_legacy_4_chance
+					modifier = {
+						add = blood_dynasty_extra_player_chance
+
+					}
+					  random_list = {
+        					1 = { add_trait = beauty_good_1 }
+       						1 = { add_trait = beauty_good_2 }
+        					1 = { add_trait = beauty_good_3 }
+				}
+				}
+			}
+			if = {
+				limit = {
+					exists = scope:child.dynasty
+					scope:child.dynasty = { has_dynasty_perk = lyseni_legacy_1	 }
+					OR = { # The child must have a real parent of the Dynasty...
+						scope:mother.dynasty = scope:child.dynasty
+						scope:real_father.dynasty = scope:child.dynasty
+					}
+					NOR = {
+						has_trait = greedy
+						has_trait = generous
+					}
+				}
+				random = {
+					chance = blood_legacy_4_chance
+					modifier = {
+						add = blood_legacy_4_extra_player_chance
+					}
+					add_trait = greedy 
+
+				}
+			}
+			if = {
+				limit = {
+					exists = scope:child.dynasty
+					scope:child.dynasty = { has_dynasty_perk = crownlander_legacy_2	 }
+					OR = { # The child must have a real parent of the Dynasty...
+						scope:mother.dynasty = scope:child.dynasty
+						scope:real_father.dynasty = scope:child.dynasty
+					}
+					NOR = {
+						has_trait = ambitious
+						has_trait = content
+					}
+				}
+				random = {
+					chance = blood_legacy_4_chance
+					modifier = {
+						add = blood_legacy_4_extra_player_chance
+					}
+					add_trait = ambitious
+
+				}
+			}
+
+			if = {
+				limit = {
+					exists = scope:child.dynasty
+					scope:child.dynasty = { has_dynasty_perk = stone_dornish_legacy_1	 }
+					OR = { # The child must have a real parent of the Dynasty...
+						scope:mother.dynasty = scope:child.dynasty
+						scope:real_father.dynasty = scope:child.dynasty
+					}
+					NOR = {
+						has_trait = fickle
+						has_trait = stubborn
+					}
+				}
+				random = {
+					chance = blood_legacy_4_chance
+					modifier = {
+						add = blood_legacy_4_extra_player_chance
+					}
+					add_trait = stubborn 
+
+				}
+			}
+			if = {
+				limit = {
+					exists = scope:child.dynasty
+					scope:child.dynasty = { has_dynasty_perk = bearman_legacy_4	 }
+					OR = { # The child must have a real parent of the Dynasty...
+						scope:mother.dynasty = scope:child.dynasty
+						scope:real_father.dynasty = scope:child.dynasty
+					}
+					NOR = {
+						has_trait = lifestyle_hunter
+					}
+				}
+				random = {
+					chance = blood_legacy_4_chance
+					modifier = {
+						add = blood_legacy_4_extra_player_chance
+					}
+					add_trait = lifestyle_hunter 
+
+				}
+			}
+			if = {
+				limit = {
+					exists = scope:child.dynasty
+					scope:child.dynasty = { has_dynasty_perk = wolfswood_clansman_legacy_1	 }
+					OR = { # The child must have a real parent of the Dynasty...
+						scope:mother.dynasty = scope:child.dynasty
+						scope:real_father.dynasty = scope:child.dynasty
+					}
+					NOR = {
+						has_trait = stubborn
+						has_trait = fickle
+					}
+				}
+				random = {
+					chance = blood_legacy_4_chance
+					modifier = {
+						add = blood_legacy_4_extra_player_chance
+					}
+					add_trait = stubborn
+
+				}
+			}
+			if = {
+				limit = {
+					exists = scope:child.dynasty
+					scope:child.dynasty = { has_dynasty_perk = thenn_legacy_1	 }
+					OR = { # The child must have a real parent of the Dynasty...
+						scope:mother.dynasty = scope:child.dynasty
+						scope:real_father.dynasty = scope:child.dynasty
+					}
+					NOR = {
+						has_trait = stubborn
+						has_trait = fickle
+					}
+				}
+				random = {
+					chance = blood_legacy_4_chance
+					modifier = {
+						add = blood_legacy_4_extra_player_chance
+					}
+					add_trait = stubborn
+
+				}
+			}
+
+		}
+	}
+}

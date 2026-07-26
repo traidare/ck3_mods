@@ -1,4 +1,4 @@
-version="1.0.0"
+version="1.0.23"
 tags={
 	"Fixes"
 	"Gameplay"
@@ -6,7 +6,7 @@ tags={
 	"Total Conversion"
 	"Utilities"
 }
-name="AGOT Personal Playset Compatch"
+name="AGOT Playset Compatch"
 supported_version="1.19.*"
 path="mod/agot_full_playset_compatch"
 dependencies={
@@ -23,11 +23,16 @@ dependencies={
 	"Legacy Of The Dragon - Linux Texture Fix"
 	"Grand Remembrance 1.8.1 - CK3 1.19 Runtime Fix"
 	"AGOT MPD 0.3.0 - CK3 1.19 Runtime Rebase"
+	"VIET 1.3.0 - AGOT CK3 1.19 Runtime Rebase"
 	"Legacy of Valyria"
 	"Legacy of Valyria - AGOT 0.4.39 Temporary Compatch RC65"
+	"Legacy of Valyria RC65 - CK3 1.19 Runtime Rebase"
+	"AGOT Additional Models and Special Buildings"
+	"TEMPORARY AGOT Additional Models / AGOT+ / LoV Compatch (1.19 Fixed)"
 	"Essos Expanded"
 	"Essos Expanded + LoV - CK3 1.19 History Rebase"
 	"Essos Expanded - TempLoV Compatch"
 	"TEMPORARY AGOT More Dragon Eggs - Legacy of Valyria REBASED Compatch"
 	"AGOT NOW + Legacy of Valyria + Essos Expanded Map Compatch"
+	"AGOT Playset Runtime Fixes"
 }

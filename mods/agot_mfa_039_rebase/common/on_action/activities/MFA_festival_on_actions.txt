@@ -1,0 +1,315 @@
+﻿####################################
+# MFA Activity Converter
+# Pulse relay for festival activity
+# Root scope = the character (same as on_weekly_pulse).
+####################################
+
+
+
+MFA_festival_0_relay = {
+	trigger = {
+		is_ruler = yes
+		exists = var:MFA_phase_0_remaining
+	}
+
+	effect = {
+		if = {
+			limit = {
+				var:MFA_phase_0_remaining >= 1
+				scope:activity = { is_current_phase_active = yes }
+			}
+			# Fires for every attendee
+			trigger_event = {
+				on_action = festival_random_pulse
+			}
+		}
+
+		change_variable = {
+			name = MFA_phase_0_remaining
+			add = -1
+		}
+		if = {
+			limit = {
+				var:MFA_phase_0_remaining >= 1
+			}
+			trigger_event = { on_action = MFA_festival_0_relay days = MFA_1_week_days }
+		}
+		else = {
+			remove_variable = MFA_phase_0_remaining
+		}
+	}
+}
+
+MFA_festival_pulse_relay = {
+	effect = {
+		if = {
+			limit = {
+				has_variable = MFA_pulse_relay_tick
+			}
+			change_variable = { name = MFA_pulse_relay_tick add = 1 }
+		}
+		else = {
+			set_variable = { name = MFA_pulse_relay_tick value = 1 }
+		}
+		if = {
+			limit = {
+				exists = scope:activity
+			}
+			trigger_event = { on_action = MFA_festival_pulse_relay_effects }
+		}
+		if = {
+			limit = {
+				exists = scope:activity
+			}
+			trigger_event = { on_action = MFA_festival_pulse_relay days = 1 }
+		}
+		else = {
+			remove_variable = MFA_pulse_relay_tick
+		}
+	}
+}
+
+MFA_festival_pulse_relay_effects = {
+	trigger = {
+		var:MFA_pulse_relay_tick > MFA_pulse_relay_timer
+	}
+	effect = {
+		random_list = {
+			5 = { } # chance_of_no_event
+			1 = { # courtier_improved_skill
+				trigger = {
+					scope:activity = {
+						exists = scope:activity.activity_location.county.holder
+						scope:host.location = scope:activity.activity_location
+						scope:activity.activity_location.county.holder != scope:host
+						scope:activity.activity_location.county.holder.top_liege = scope:host.top_liege
+						scope:host = {
+							any_courtier_or_guest = {
+								is_physically_able_ai = yes
+								is_participant_in_activity = scope:activity
+							}
+						}
+					}
+				}
+				trigger_event = { on_action = MFA_pulse_courtier_improved_skill }
+			}
+			1 = { # courtier_learned_language
+				trigger = {
+					scope:activity = {
+						exists = scope:activity.activity_location.county.holder
+						scope:host.location = scope:activity.activity_location
+						scope:activity.activity_location.county.holder != scope:host
+						scope:activity.activity_location.county.holder.top_liege = scope:host.top_liege
+						scope:host = {
+							any_courtier_or_guest = {
+								is_physically_able_ai = yes
+								is_participant_in_activity = scope:activity
+								NOT = { knows_language_of_culture = scope:activity.activity_location.county.holder.culture }
+							}
+						}
+					}
+				}
+				trigger_event = { on_action = MFA_pulse_courtier_learned_language }
+			}
+			2 = { # liege_visited_benevolence
+				trigger = {
+					scope:activity = {
+						exists = scope:host.location.barony.holder
+						scope:host.location.barony.holder != scope:host
+						scope:host.location.county.holder.top_liege = scope:host.top_liege
+						NOT = {
+							scope:host.location.county = {
+								has_variable = recent_dev
+							}
+						}
+					}
+				}
+				trigger_event = { on_action = MFA_pulse_liege_visited_benevolence }
+			}
+			1 = { # guest_friendship
+				trigger = {
+					scope:activity = {
+						is_current_phase_active = yes
+						any_attending_character = {
+							location = scope:activity.activity_location
+							save_temporary_scope_as = first_temp
+							involved_activity = {
+								any_attending_character = {
+									location = scope:activity.activity_location
+									this != scope:first_temp
+								}
+							}
+						}
+					}
+				}
+				trigger_event = { on_action = MFA_pulse_guest_friendship }
+			}
+			1 = { # guest_insulted
+				trigger = {
+					scope:activity = {
+						is_current_phase_active = yes
+						any_attending_character = {
+							location = scope:activity.activity_location
+							save_temporary_scope_as = first_temp
+							involved_activity = {
+								any_attending_character = {
+									location = scope:activity.activity_location
+									this != scope:first_temp
+								}
+							}
+						}
+					}
+				}
+				trigger_event = { on_action = MFA_pulse_guest_insulted }
+			}
+			1 = { # festival_friendship
+				trigger = {
+					scope:activity = {
+						is_current_phase_active = yes
+						any_attending_character = {
+							num_of_relation_friend < 2
+							is_physically_able_ai_adult = yes
+							save_temporary_scope_as = friend_1
+						}
+						any_attending_character = {
+							this != scope:friend_1
+							num_of_relation_friend < 2
+							is_physically_able_ai_adult = yes
+							NOT = { has_relation_friend = scope:friend_1 }
+						}
+					}
+				}
+				trigger_event = { on_action = MFA_pulse_festival_friendship }
+			}
+			1 = { # festival_romance
+				trigger = {
+					scope:activity = {
+						is_current_phase_active = yes
+						any_attending_character = {
+							might_cheat_on_every_partner_trigger = yes
+							num_of_relation_lover < 2
+							is_physically_able_ai_adult = yes
+							save_temporary_scope_as = first_lover_temp
+						}
+						any_attending_character = {
+							this != scope:first_lover_temp
+							might_cheat_on_every_partner_trigger = yes
+							NOT = { has_relation_lover = scope:first_lover_temp }
+							num_of_relation_lover < 2
+							is_physically_able_ai_adult = yes
+							save_temporary_scope_as = second_lover_temp
+							matching_gender_and_sexuality_trigger = {
+								CHARACTER_1 = scope:second_lover_temp
+								CHARACTER_2 = scope:first_lover_temp
+							}
+						}
+					}
+				}
+				trigger_event = { on_action = MFA_pulse_festival_romance }
+			}
+			1 = { # festival_rivalry
+				trigger = {
+					scope:activity = {
+						is_current_phase_active = yes
+						any_attending_character = {
+							num_of_relation_rival < 2
+							is_physically_able_ai_adult = yes
+							save_temporary_scope_as = first_rival
+						}
+						any_attending_character = {
+							num_of_relation_rival < 2
+							is_physically_able_ai_adult = yes
+							NOT = { has_relation_rival = scope:first_rival }
+						}
+					}
+				}
+				trigger_event = { on_action = MFA_pulse_festival_rivalry }
+			}
+			1 = { # beautiful_festival
+				trigger = {
+					scope:activity = {
+						is_current_phase_active = yes
+						any_attending_character = {
+							has_activity_intent = reduce_stress_intent
+						}
+					}
+				}
+				trigger_event = { on_action = MFA_pulse_beautiful_festival }
+			}
+			1 = { # festival_learning
+				trigger = {
+					scope:activity = {
+						is_current_phase_active = yes
+						any_attending_character = {
+							count > 2
+						}
+					}
+				}
+				trigger_event = { on_action = MFA_pulse_festival_learning }
+			}
+			2 = { # liege_festival_presence
+				trigger = {
+					scope:activity = {
+						is_current_phase_active = yes
+						NOT = {
+							scope:host.location.county = {
+								has_county_modifier = ep2_popular_liege
+							}
+						}
+						scope:host.location = {
+							has_holding = yes
+						}
+					}
+				}
+				trigger_event = { on_action = MFA_pulse_liege_festival_presence }
+			}
+			1 = { # festival_cohesion
+				trigger = {
+					scope:activity = {
+						is_current_phase_active = yes
+						any_attending_character = {
+							has_activity_intent = raise_cohesion_intent
+							save_temporary_scope_as = first_house
+						}
+						any_attending_character = {
+							has_activity_intent = raise_cohesion_intent
+							this != scope:first_house
+							house = scope:first_house.house
+						}
+					}
+				}
+				trigger_event = { on_action = MFA_pulse_festival_cohesion }
+			}
+			1 = { # festival_join_bloc
+				trigger = {
+					scope:activity = {
+						is_current_phase_active = yes
+						any_attending_character = {
+							has_activity_intent = add_to_bloc_intent
+							is_confederation_member = yes
+						}
+						any_attending_character = {
+							is_confederation_member = no
+						}
+					}
+				}
+				trigger_event = { on_action = MFA_pulse_festival_join_bloc }
+			}
+			1 = { # festival_remove_from_bloc
+				trigger = {
+					scope:activity = {
+						is_current_phase_active = yes
+						any_attending_character = {
+							has_activity_intent = remove_from_bloc_intent
+						}
+						any_attending_character = {
+							is_confederation_member = yes
+						}
+					}
+				}
+				trigger_event = { on_action = MFA_pulse_festival_remove_from_bloc }
+			}
+		}
+		set_variable = { name = MFA_pulse_relay_tick value = 1 }
+	}
+}

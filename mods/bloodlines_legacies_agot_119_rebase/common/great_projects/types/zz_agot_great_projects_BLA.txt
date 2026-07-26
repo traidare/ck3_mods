@@ -1,0 +1,1305 @@
+﻿@msg_completion_effect_generic = "event:/DLC/EP4/SFX/Stingers/China/tgp_mx_sting_finishing_great_project_generic"
+
+@agot_build_fleet_icon = "gfx/interface/icons/activities/activity_sailing.dds"
+@agot_build_fleet_illustration = "gfx/interface/illustrations/decisions/decision_fleet.dds"
+
+### Build a Fleet ~ by Aerien
+construct_great_fleet_01 = {
+	icon = {
+		reference = @agot_build_fleet_icon
+	}
+	illustration = {
+		reference = @agot_build_fleet_illustration
+	}
+
+	name = {
+		desc = great_project_type_construct_great_fleet_01
+	}
+
+	is_important = yes
+
+	is_shown = {
+		is_landed = yes
+		is_lowborn = no
+		NOR = {
+			is_planning_great_project = construct_great_fleet_01
+			government_has_flag = government_is_tribal
+			government_has_flag = government_is_nw
+			any_held_county = {
+				any_county_province = {
+					has_building_or_higher = agot_great_fleet_01
+				}
+			}
+		}
+	}
+
+	can_start_planning = {
+		trigger_if = {
+			limit = {
+				agot_is_independent_ruler = no
+			}
+			trigger_if = {
+				limit = {
+					exists = var:agot_pwl_top
+				}
+				has_strong_hook = root.var:agot_pwl_top
+			}
+			trigger_else_if = {
+				limit = {
+					NOT = { exists = var:agot_pwl_top }
+					exists = var:agot_pwl_direct
+				}
+				has_strong_hook = root.var:agot_pwl_direct
+			}
+			trigger_else = {
+				has_strong_hook = root.top_liege
+			}
+		}
+		trigger_else = {
+			agot_is_independent_ruler = yes
+		}
+		top_liege = { agot_is_independent_ruler = yes }
+		trigger_if = {
+			limit = {
+				dynasty ?= { has_dynasty_perk = velaryon_legacy_1_BLA }
+			}
+			highest_held_title_tier >= tier_duchy
+		}
+		trigger_else = { highest_held_title_tier >= tier_kingdom }
+		any_held_county = {
+			is_coastal_county = yes
+			any_county_province = { has_holding = yes }
+		}
+		trigger_if = {
+			limit = { is_ai = yes }
+			capital_county.title_province = { is_coastal = yes }
+		}
+	}
+
+	is_valid = {
+	}
+	owner = founder_primary_title_owner
+
+	province_filter = geographical_region
+	province_filter_target = coastal_counties
+
+	is_location_valid = {
+		scope:province = {
+			scope:founder ?= { has_title = scope:province.county }
+			custom_tooltip = {
+				text = great_project_type_construct_great_fleet_01_coastal_barony
+				is_coastal = yes
+				has_holding = yes
+			}
+			trigger_if = {
+				limit = {
+					scope:founder ?= { is_ai = yes }
+				}
+				this = scope:founder.capital_county.title_province
+			}
+		}
+	}
+
+	cost = {
+		treasury_or_gold = {
+			value = great_project_base_starting_cost
+			multiply = 2.5
+		}
+	}
+
+	construction_time = {
+		value = great_project_base_construction_time
+		multiply = common_great_project_construction_time_multiplier_value
+	}
+
+	allowed_contributor_filter = {
+		owner = yes
+		vassals = yes
+		tributaries = yes
+		liege = yes
+		top_liege = yes
+	}
+
+	contributor_cooldown = standard_contributor_cooldown_value
+
+	on_start_build = {}
+
+	on_complete = {
+		custom_tooltip = {
+			text = great_project_type_construct_great_fleet_01_province_gains_great_fleet_01_building
+			scope:province ?= {
+				add_great_building = agot_great_fleet_01
+			}
+		}
+		great_project_notify_completion = { CHARACTER = scope:founder }
+
+		show_as_tooltip = {
+			scope:founder ?= { # because the real owner doesn't exist in the effect preview
+				send_interface_toast = {
+					type = event_generic_neutral_text
+					title = great_project_completed_msg_t
+					left_icon = scope:founder
+					right_icon = scope:province.county
+					desc = great_project_completed_msg_desc
+					if = {
+						limit = { is_valid_for_legitimacy_change = yes }
+						add_legitimacy = {
+							value = medium_legitimacy_gain
+						}
+					}
+					dynasty = { add_dynasty_prestige = 500 }
+				}
+			}
+		}
+		hidden_effect = {
+			scope:founder ?= {
+				send_interface_toast = {
+					type = event_generic_neutral_text
+					title = great_project_completed_msg_t
+					left_icon = scope:founder
+					right_icon = scope:province.county
+					desc = great_project_completed_msg_desc
+					if = {
+						limit = { is_valid_for_legitimacy_change = yes }
+						add_legitimacy = {
+							value = medium_legitimacy_gain
+						}
+					}
+					dynasty = { add_dynasty_prestige = 500 }
+				}
+			}
+		}
+	}
+
+	on_cancel = {}
+
+	# Top liege pays with the treasury, while vassals may pitch in with gold
+	project_contributions = {
+		materials = {
+			cost = {
+				treasury_or_gold = {
+					value = 7500
+				}
+			}
+
+			allowed_contributor_filter = {
+				owner = yes
+				vassals = yes
+				tributaries = yes
+				liege = yes
+				top_liege = yes
+			}
+
+			contributor_cooldown = individual_contribution_cooldown_value
+
+			is_required = yes
+
+			on_complete = {
+				great_project_reward_contribution_completion_notification_effect = {
+					LEVEL = major
+					NON_OWNER_REWARD_EFFECT = great_project_reward_contribution_completion_null
+					OWNER_REWARD_EFFECT = great_project_reward_contribution_completion_null
+				}
+			}
+			on_contribution_funded = {
+				great_project_notify_contribution = yes
+				#great_project_contribution_catalyst_effect = yes
+				agot_great_project_funded_great_fleet = { LEVEL = 1 }
+			}
+
+			ai_check_interval_by_tier = {
+				barony = 0
+				county = 12
+				duchy = 9
+				kingdom = 6
+				empire = 6
+				hegemony = 6
+			}
+			ai_will_do = {
+				value = great_fleet_great_projects_contribution_ai_will_do_base_value
+			}
+		}
+		workforce = {
+			cost = {
+				treasury_or_gold = {
+					value = 7500
+				}
+			}
+
+			allowed_contributor_filter = {
+				owner = yes
+				vassals = yes
+				tributaries = yes
+				liege = yes
+				top_liege = yes
+			}
+
+			contributor_cooldown = individual_contribution_cooldown_value
+
+			is_required = yes
+
+			on_complete = {
+				great_project_reward_contribution_completion_notification_effect = {
+					LEVEL = major
+					NON_OWNER_REWARD_EFFECT = great_project_reward_contribution_completion_null
+					OWNER_REWARD_EFFECT = great_project_reward_contribution_completion_null
+				}
+			}
+			on_contribution_funded = {
+				great_project_notify_contribution = yes
+				#great_project_contribution_catalyst_effect = yes
+				agot_great_project_funded_great_fleet = { LEVEL = 1 }
+			}
+
+			ai_check_interval_by_tier = {
+				barony = 0
+				county = 12
+				duchy = 9
+				kingdom = 6
+				empire = 6
+				hegemony = 6
+			}
+			ai_will_do = {
+				value = great_fleet_great_projects_contribution_ai_will_do_base_value
+			}
+		}
+		engineers = {
+			cost = {
+				treasury_or_gold = {
+					value = 1000
+				}
+			}
+
+			allowed_contributor_filter = {
+				owner = yes
+				vassals = yes
+				tributaries = yes
+				liege = yes
+				top_liege = yes
+			}
+
+			contributor_cooldown = individual_contribution_cooldown_value
+
+			is_required = no
+
+			on_complete = {
+				great_project_reward_contribution_completion_notification_effect = {
+					LEVEL = minor
+					NON_OWNER_REWARD_EFFECT = great_project_reward_contribution_completion_null
+					OWNER_REWARD_EFFECT = great_project_reward_contribution_completion_null
+				}
+				custom_tooltip = {
+					text = great_project_type_construct_great_fleet_province_gains_engineers_modifier
+					scope:province.county ?= {
+						add_county_modifier = {
+							modifier = agot_build_great_fleet_engineers_modifier
+							years = 15
+						}
+					}
+				}
+			}
+			on_contribution_funded = {
+				great_project_notify_contribution = yes
+				#great_project_contribution_catalyst_effect = yes
+				agot_great_project_funded_great_fleet = { LEVEL = 1 }
+			}
+
+			ai_check_interval_by_tier = {
+				barony = 0
+				county = 12
+				duchy = 9
+				kingdom = 6
+				empire = 6
+				hegemony = 6
+			}
+			ai_will_do = {
+				value = great_fleet_great_projects_contribution_ai_will_do_base_value
+			}
+		}
+		military_wharf = {
+			cost = {
+				treasury_or_gold = {
+					value = 1000
+				}
+			}
+
+			allowed_contributor_filter = {
+				owner = yes
+				vassals = yes
+				tributaries = yes
+				liege = yes
+				top_liege = yes
+			}
+
+			contributor_cooldown = individual_contribution_cooldown_value
+
+			is_required = no
+
+			on_complete = {
+				great_project_reward_contribution_completion_notification_effect = {
+					LEVEL = minor
+					NON_OWNER_REWARD_EFFECT = great_project_reward_contribution_completion_null
+					OWNER_REWARD_EFFECT = great_project_reward_contribution_completion_null
+				}
+				custom_tooltip = {
+					text = great_project_type_construct_great_fleet_province_gains_military_wharf_modifier
+					scope:province ?= {
+						add_province_modifier = {
+							modifier = agot_build_great_fleet_military_wharf_modifier
+							years = 15
+						}
+					}
+				}
+			}
+			on_contribution_funded = {
+				great_project_notify_contribution = yes
+				#great_project_contribution_catalyst_effect = yes
+				agot_great_project_funded_great_fleet = { LEVEL = 1 }
+			}
+
+			ai_check_interval_by_tier = {
+				barony = 0
+				county = 12
+				duchy = 9
+				kingdom = 6
+				empire = 6
+				hegemony = 6
+			}
+			ai_will_do = {
+				value = great_fleet_great_projects_contribution_ai_will_do_base_value
+			}
+		}
+		merchant_quays = {
+			cost = {
+				treasury_or_gold = {
+					value = 1000
+				}
+			}
+
+			allowed_contributor_filter = {
+				owner = yes
+				vassals = yes
+				tributaries = yes
+				liege = yes
+				top_liege = yes
+			}
+
+			contributor_cooldown = individual_contribution_cooldown_value
+
+			is_required = no
+
+			on_complete = {
+				great_project_reward_contribution_completion_notification_effect = {
+					LEVEL = minor
+					NON_OWNER_REWARD_EFFECT = great_project_reward_contribution_completion_null
+					OWNER_REWARD_EFFECT = great_project_reward_contribution_completion_null
+				}
+				custom_tooltip = {
+					text = great_project_type_construct_great_fleet_province_gains_merchant_quays_modifier
+					scope:province.county ?= {
+						add_county_modifier = {
+							modifier = agot_build_great_fleet_merchant_quays_modifier
+							years = 15
+						}
+					}
+				}
+			}
+			on_contribution_funded = {
+				great_project_notify_contribution = yes
+				#great_project_contribution_catalyst_effect = yes
+				agot_great_project_funded_great_fleet = { LEVEL = 1 }
+			}
+
+			ai_check_interval_by_tier = {
+				barony = 0
+				county = 12
+				duchy = 9
+				kingdom = 6
+				empire = 6
+				hegemony = 6
+			}
+			ai_will_do = {
+				value = great_fleet_great_projects_contribution_ai_will_do_base_value
+			}
+		}
+	}
+
+	ai_target_quick_trigger = {
+		adult = yes
+	}
+	ai_check_interval_by_tier = {
+		barony = 0
+		county = 0
+		duchy = 24
+		kingdom = 6
+		empire = 6
+		hegemony = 6
+	}
+	ai_will_do = {
+		value = 0
+		if = {
+			limit = { short_term_gold >= 10000 }
+			add = 25
+		}
+		if = {
+			limit = { agot_prefers_sailing = yes }
+			add = 25
+		}
+		if = {
+			limit = { is_at_war = yes }
+			multiply = 0
+		}
+		if = {
+			limit = { agot_is_independent_ruler = no }
+			multiply = 0
+		}
+	}
+
+	completion_sound_effect = @msg_completion_effect_generic
+}
+
+construct_great_fleet_02 = {
+	icon = {
+		reference = @agot_build_fleet_icon
+	}
+	illustration = {
+		reference = @agot_build_fleet_illustration
+	}
+
+	name = {
+		desc = great_project_type_construct_great_fleet_02
+	}
+
+	is_important = yes
+
+	is_shown = {
+		is_landed = yes
+		is_lowborn = no
+		OR = {
+			highest_held_title_tier >= tier_kingdom
+			dynasty ?= { has_dynasty_perk = velaryon_legacy_1_BLA }
+		}
+		any_held_county = {
+			is_coastal_county = yes
+		}
+		NOT = {
+			is_planning_great_project = construct_great_fleet_02
+		}
+		NOR = {
+			government_has_flag = government_is_tribal
+			government_has_flag = government_is_nw
+		}
+		NOT = {
+			any_held_county = {
+				any_county_province = {
+					has_building_or_higher = agot_great_fleet_02
+				}
+			}
+		}
+
+		any_sub_realm_county = {
+			title_province = {
+				has_building_with_flag = agot_great_fleet_01
+			}
+		}
+	}
+
+	is_valid = {
+	}
+	owner = founder_primary_title_owner
+
+	province_filter = geographical_region
+	province_filter_target = coastal_counties
+
+	is_location_valid = {
+		scope:province = {
+			custom_tooltip = {
+				text = great_project_type_construct_great_fleet_02_coastal_county
+				is_coastal = yes
+				has_holding = yes
+			}
+			has_building_with_flag = agot_great_fleet_01
+		}
+	}
+
+	cost = {
+		treasury_or_gold = {
+			value = great_project_base_starting_cost
+			multiply = 2.5
+		}
+	}
+
+	construction_time = {
+		value = great_project_base_construction_time
+		multiply = common_great_project_construction_time_multiplier_value
+	}
+
+	allowed_contributor_filter = {
+		owner = yes
+		vassals = yes
+		tributaries = yes
+		liege = yes
+		top_liege = yes
+	}
+
+	contributor_cooldown = standard_contributor_cooldown_value
+
+	on_start_build = {}
+
+	on_complete = {
+		custom_tooltip = {
+			text = great_project_type_construct_great_fleet_02_province_gains_great_fleet_02_building
+			scope:province ?= {
+				hidden_effect = { remove_building = agot_great_fleet_01 }
+				set_great_building = agot_great_fleet_02
+			}
+		}
+		great_project_notify_completion = { CHARACTER = scope:owner }
+
+		show_as_tooltip = {
+			scope:founder ?= { # because the real owner doesn't exist in the effect preview
+				send_interface_toast = {
+					type = event_generic_neutral_text
+					title = great_project_completed_msg_t
+					left_icon = scope:owner
+					right_icon = scope:province.county
+					desc = great_project_completed_msg_desc
+					if = {
+						limit = { is_valid_for_legitimacy_change = yes }
+						add_legitimacy = {
+							value = medium_legitimacy_gain
+						}
+					}
+					dynasty = { add_dynasty_prestige = 1000 }
+				}
+			}
+		}
+		hidden_effect = {
+			scope:owner ?= {
+				send_interface_toast = {
+					type = event_generic_neutral_text
+					title = great_project_completed_msg_t
+					left_icon = scope:owner
+					right_icon = scope:province.county
+					desc = great_project_completed_msg_desc
+					if = {
+						limit = { is_valid_for_legitimacy_change = yes }
+						add_legitimacy = {
+							value = medium_legitimacy_gain
+						}
+					}
+					dynasty = { add_dynasty_prestige = 1000 }
+				}
+			}
+		}
+	}
+
+	on_cancel = {}
+
+	# Top liege pays with the treasury, while vassals may pitch in with gold
+	project_contributions = {
+		materials = {
+			cost = {
+				treasury_or_gold = {
+					value = 9000
+				}
+			}
+
+			allowed_contributor_filter = {
+				owner = yes
+				vassals = yes
+				tributaries = yes
+				liege = yes
+				top_liege = yes
+			}
+
+			contributor_cooldown = individual_contribution_cooldown_value
+
+			is_required = yes
+
+			on_complete = {
+				great_project_reward_contribution_completion_notification_effect = {
+					LEVEL = major
+					NON_OWNER_REWARD_EFFECT = great_project_reward_contribution_completion_null
+					OWNER_REWARD_EFFECT = great_project_reward_contribution_completion_null
+				}
+			}
+			on_contribution_funded = {
+				great_project_notify_contribution = yes
+				#great_project_contribution_catalyst_effect = yes
+				agot_great_project_funded_great_fleet = { LEVEL = 2 }
+			}
+
+			ai_check_interval_by_tier = {
+				barony = 0
+				county = 12
+				duchy = 9
+				kingdom = 6
+				empire = 6
+				hegemony = 6
+			}
+			ai_will_do = {
+				value = great_fleet_great_projects_contribution_ai_will_do_base_value
+			}
+		}
+		workforce = {
+			cost = {
+				treasury_or_gold = {
+					value = 9000
+				}
+			}
+
+			allowed_contributor_filter = {
+				owner = yes
+				vassals = yes
+				tributaries = yes
+				liege = yes
+				top_liege = yes
+			}
+
+			contributor_cooldown = individual_contribution_cooldown_value
+
+			is_required = yes
+
+			on_complete = {
+				great_project_reward_contribution_completion_notification_effect = {
+					LEVEL = major
+					NON_OWNER_REWARD_EFFECT = great_project_reward_contribution_completion_null
+					OWNER_REWARD_EFFECT = great_project_reward_contribution_completion_null
+				}
+			}
+			on_contribution_funded = {
+				great_project_notify_contribution = yes
+				#great_project_contribution_catalyst_effect = yes
+				agot_great_project_funded_great_fleet = { LEVEL = 2 }
+			}
+
+			ai_check_interval_by_tier = {
+				barony = 0
+				county = 12
+				duchy = 9
+				kingdom = 6
+				empire = 6
+				hegemony = 6
+			}
+			ai_will_do = {
+				value = great_fleet_great_projects_contribution_ai_will_do_base_value
+			}
+		}
+		engineers = {
+			cost = {
+				treasury_or_gold = {
+					value = 1500
+				}
+			}
+
+			allowed_contributor_filter = {
+				owner = yes
+				vassals = yes
+				tributaries = yes
+				liege = yes
+				top_liege = yes
+			}
+
+			contributor_cooldown = individual_contribution_cooldown_value
+
+			is_required = no
+
+			on_complete = {
+				great_project_reward_contribution_completion_notification_effect = {
+					LEVEL = minor
+					NON_OWNER_REWARD_EFFECT = great_project_reward_contribution_completion_null
+					OWNER_REWARD_EFFECT = great_project_reward_contribution_completion_null
+				}
+				custom_tooltip = {
+					text = great_project_type_construct_great_fleet_province_gains_engineers_modifier
+					scope:province.county ?= {
+						add_county_modifier = {
+							modifier = agot_build_great_fleet_engineers_modifier
+							years = 15
+						}
+					}
+				}
+			}
+			on_contribution_funded = {
+				great_project_notify_contribution = yes
+				#great_project_contribution_catalyst_effect = yes
+				agot_great_project_funded_great_fleet = { LEVEL = 2 }
+			}
+
+			ai_check_interval_by_tier = {
+				barony = 0
+				county = 12
+				duchy = 9
+				kingdom = 6
+				empire = 6
+				hegemony = 6
+			}
+			ai_will_do = {
+				value = great_fleet_great_projects_contribution_ai_will_do_base_value
+			}
+		}
+		military_wharf = {
+			cost = {
+				treasury_or_gold = {
+					value = 1500
+				}
+			}
+
+			allowed_contributor_filter = {
+				owner = yes
+				vassals = yes
+				tributaries = yes
+				liege = yes
+				top_liege = yes
+			}
+
+			contributor_cooldown = individual_contribution_cooldown_value
+
+			is_required = no
+
+			on_complete = {
+				great_project_reward_contribution_completion_notification_effect = {
+					LEVEL = minor
+					NON_OWNER_REWARD_EFFECT = great_project_reward_contribution_completion_null
+					OWNER_REWARD_EFFECT = great_project_reward_contribution_completion_null
+				}
+				custom_tooltip = {
+					text = great_project_type_construct_great_fleet_province_gains_military_wharf_modifier
+					scope:province ?= {
+						add_province_modifier = {
+							modifier = agot_build_great_fleet_military_wharf_modifier
+							years = 15
+						}
+					}
+				}
+			}
+			on_contribution_funded = {
+				great_project_notify_contribution = yes
+				#great_project_contribution_catalyst_effect = yes
+				agot_great_project_funded_great_fleet = { LEVEL = 2 }
+			}
+
+			ai_check_interval_by_tier = {
+				barony = 0
+				county = 12
+				duchy = 9
+				kingdom = 6
+				empire = 6
+				hegemony = 6
+			}
+			ai_will_do = {
+				value = great_fleet_great_projects_contribution_ai_will_do_base_value
+			}
+		}
+		merchant_quays = {
+			cost = {
+				treasury_or_gold = {
+					value = 1500
+				}
+			}
+
+			allowed_contributor_filter = {
+				owner = yes
+				vassals = yes
+				tributaries = yes
+				liege = yes
+				top_liege = yes
+			}
+
+			contributor_cooldown = individual_contribution_cooldown_value
+
+			is_required = no
+
+			on_complete = {
+				great_project_reward_contribution_completion_notification_effect = {
+					LEVEL = minor
+					NON_OWNER_REWARD_EFFECT = great_project_reward_contribution_completion_null
+					OWNER_REWARD_EFFECT = great_project_reward_contribution_completion_null
+				}
+				custom_tooltip = {
+					text = great_project_type_construct_great_fleet_province_gains_merchant_quays_modifier
+					scope:province.county ?= {
+						add_county_modifier = {
+							modifier = agot_build_great_fleet_merchant_quays_modifier
+							years = 15
+						}
+					}
+				}
+			}
+			on_contribution_funded = {
+				great_project_notify_contribution = yes
+				#great_project_contribution_catalyst_effect = yes
+				agot_great_project_funded_great_fleet = { LEVEL = 2 }
+			}
+
+			ai_check_interval_by_tier = {
+				barony = 0
+				county = 12
+				duchy = 9
+				kingdom = 6
+				empire = 6
+				hegemony = 6
+			}
+			ai_will_do = {
+				value = great_fleet_great_projects_contribution_ai_will_do_base_value
+			}
+		}
+	}
+
+	ai_target_quick_trigger = {
+		adult = yes
+	}
+	ai_check_interval_by_tier = {
+		barony = 0
+		county = 0
+		duchy = 24
+		kingdom = 6
+		empire = 6
+		hegemony = 6
+	}
+	ai_will_do = {
+		value = 0
+		if = {
+			limit = { short_term_gold >= 10000 }
+			add = 25
+		}
+		if = {
+			limit = { agot_prefers_sailing = yes }
+			add = 25
+		}
+		if = {
+			limit = { is_at_war = yes }
+			multiply = 0
+		}
+		if = {
+			limit = { agot_is_independent_ruler = no }
+			multiply = 0
+		}
+	}
+
+	completion_sound_effect = @msg_completion_effect_generic
+}
+
+construct_great_fleet_03 = {
+	icon = {
+		reference = @agot_build_fleet_icon
+	}
+	illustration = {
+		reference = @agot_build_fleet_illustration
+	}
+
+	name = {
+		desc = great_project_type_construct_great_fleet_03
+	}
+
+	is_important = yes
+
+	is_shown = {
+		is_landed = yes
+		is_lowborn = no
+		OR = {
+			highest_held_title_tier >= tier_kingdom
+			dynasty ?= { has_dynasty_perk = velaryon_legacy_1_BLA }
+		}
+		any_held_county = {
+			is_coastal_county = yes
+		}
+		NOT = {
+			is_planning_great_project = construct_great_fleet_03
+		}
+		NOR = {
+			government_has_flag = government_is_tribal
+			government_has_flag = government_is_nw
+		}
+		NOT = {
+			any_held_county = {
+				any_county_province = {
+					has_building_or_higher = agot_great_fleet_03
+				}
+			}
+		}
+
+		any_sub_realm_county = {
+			title_province = {
+				has_building_with_flag = agot_great_fleet_02
+			}
+		}
+	}
+
+	is_valid = {
+	}
+	owner = founder_primary_title_owner
+
+	province_filter = geographical_region
+	province_filter_target = coastal_counties
+
+	is_location_valid = {
+		scope:province = {
+			custom_tooltip = {
+				text = great_project_type_construct_great_fleet_03_coastal_county
+				is_coastal = yes
+				has_holding = yes
+			}
+			has_building_with_flag = agot_great_fleet_02
+		}
+	}
+
+	cost = {
+		treasury_or_gold = {
+			value = great_project_base_starting_cost
+			multiply = 2.5
+		}
+	}
+
+	construction_time = {
+		value = great_project_base_construction_time
+		multiply = common_great_project_construction_time_multiplier_value
+	}
+
+	allowed_contributor_filter = {
+		owner = yes
+		vassals = yes
+		tributaries = yes
+		liege = yes
+		top_liege = yes
+	}
+
+	contributor_cooldown = standard_contributor_cooldown_value
+
+	on_start_build = {}
+
+	on_complete = {
+		custom_tooltip = {
+			text = great_project_type_construct_great_fleet_03_province_gains_great_fleet_03_building
+			scope:province ?= {
+				hidden_effect = { remove_building = agot_great_fleet_02 }
+				set_great_building = agot_great_fleet_03
+			}
+		}
+		great_project_notify_completion = { CHARACTER = scope:owner }
+
+		show_as_tooltip = {
+			scope:founder ?= { # because the real owner doesn't exist in the effect preview
+				send_interface_toast = {
+					type = event_generic_neutral_text
+					title = great_project_completed_msg_t
+					left_icon = scope:owner
+					right_icon = scope:province.county
+					desc = great_project_completed_msg_desc
+					if = {
+						limit = { is_valid_for_legitimacy_change = yes }
+						add_legitimacy = {
+							value = medium_legitimacy_gain
+						}
+					}
+					dynasty = { add_dynasty_prestige = 1500 }
+				}
+			}
+		}
+		hidden_effect = {
+			scope:owner ?= {
+				send_interface_toast = {
+					type = event_generic_neutral_text
+					title = great_project_completed_msg_t
+					left_icon = scope:owner
+					right_icon = scope:province.county
+					desc = great_project_completed_msg_desc
+					if = {
+						limit = { is_valid_for_legitimacy_change = yes }
+						add_legitimacy = {
+							value = medium_legitimacy_gain
+						}
+					}
+					dynasty = { add_dynasty_prestige = 1500 }
+				}
+			}
+		}
+	}
+
+	on_cancel = {}
+
+	# Top liege pays with the treasury, while vassals may pitch in with gold
+	project_contributions = {
+		materials = {
+			cost = {
+				treasury_or_gold = {
+					value = 10500
+				}
+			}
+
+			allowed_contributor_filter = {
+				owner = yes
+				vassals = yes
+				tributaries = yes
+				liege = yes
+				top_liege = yes
+			}
+
+			contributor_cooldown = individual_contribution_cooldown_value
+
+			is_required = yes
+
+			on_complete = {
+				great_project_reward_contribution_completion_notification_effect = {
+					LEVEL = major
+					NON_OWNER_REWARD_EFFECT = great_project_reward_contribution_completion_null
+					OWNER_REWARD_EFFECT = great_project_reward_contribution_completion_null
+				}
+			}
+			on_contribution_funded = {
+				great_project_notify_contribution = yes
+				#great_project_contribution_catalyst_effect = yes
+				agot_great_project_funded_great_fleet = { LEVEL = 3 }
+			}
+
+			ai_check_interval_by_tier = {
+				barony = 0
+				county = 12
+				duchy = 9
+				kingdom = 6
+				empire = 6
+				hegemony = 6
+			}
+			ai_will_do = {
+				value = great_fleet_great_projects_contribution_ai_will_do_base_value
+			}
+		}
+		workforce = {
+			cost = {
+				treasury_or_gold = {
+					value = 10500
+				}
+			}
+
+			allowed_contributor_filter = {
+				owner = yes
+				vassals = yes
+				tributaries = yes
+				liege = yes
+				top_liege = yes
+			}
+
+			contributor_cooldown = individual_contribution_cooldown_value
+
+			is_required = yes
+
+			on_complete = {
+				great_project_reward_contribution_completion_notification_effect = {
+					LEVEL = major
+					NON_OWNER_REWARD_EFFECT = great_project_reward_contribution_completion_null
+					OWNER_REWARD_EFFECT = great_project_reward_contribution_completion_null
+				}
+			}
+			on_contribution_funded = {
+				great_project_notify_contribution = yes
+				#great_project_contribution_catalyst_effect = yes
+				agot_great_project_funded_great_fleet = { LEVEL = 3 }
+			}
+
+			ai_check_interval_by_tier = {
+				barony = 0
+				county = 12
+				duchy = 9
+				kingdom = 6
+				empire = 6
+				hegemony = 6
+			}
+			ai_will_do = {
+				value = great_fleet_great_projects_contribution_ai_will_do_base_value
+			}
+		}
+		engineers = {
+			cost = {
+				treasury_or_gold = {
+					value = 2000
+				}
+			}
+
+			allowed_contributor_filter = {
+				owner = yes
+				vassals = yes
+				tributaries = yes
+				liege = yes
+				top_liege = yes
+			}
+
+			contributor_cooldown = individual_contribution_cooldown_value
+
+			is_required = no
+
+			on_complete = {
+				great_project_reward_contribution_completion_notification_effect = {
+					LEVEL = minor
+					NON_OWNER_REWARD_EFFECT = great_project_reward_contribution_completion_null
+					OWNER_REWARD_EFFECT = great_project_reward_contribution_completion_null
+				}
+				custom_tooltip = {
+					text = great_project_type_construct_great_fleet_province_gains_engineers_modifier
+					scope:province.county ?= {
+						add_county_modifier = {
+							modifier = agot_build_great_fleet_engineers_modifier
+							years = 15
+						}
+					}
+				}
+			}
+			on_contribution_funded = {
+				great_project_notify_contribution = yes
+				#great_project_contribution_catalyst_effect = yes
+				agot_great_project_funded_great_fleet = { LEVEL = 3 }
+			}
+
+			ai_check_interval_by_tier = {
+				barony = 0
+				county = 12
+				duchy = 9
+				kingdom = 6
+				empire = 6
+				hegemony = 6
+			}
+			ai_will_do = {
+				value = great_fleet_great_projects_contribution_ai_will_do_base_value
+			}
+		}
+		military_wharf = {
+			cost = {
+				treasury_or_gold = {
+					value = 2000
+				}
+			}
+
+			allowed_contributor_filter = {
+				owner = yes
+				vassals = yes
+				tributaries = yes
+				liege = yes
+				top_liege = yes
+			}
+
+			contributor_cooldown = individual_contribution_cooldown_value
+
+			is_required = no
+
+			on_complete = {
+				great_project_reward_contribution_completion_notification_effect = {
+					LEVEL = minor
+					NON_OWNER_REWARD_EFFECT = great_project_reward_contribution_completion_null
+					OWNER_REWARD_EFFECT = great_project_reward_contribution_completion_null
+				}
+				custom_tooltip = {
+					text = great_project_type_construct_great_fleet_province_gains_military_wharf_modifier
+					scope:province ?= {
+						add_province_modifier = {
+							modifier = agot_build_great_fleet_military_wharf_modifier
+							years = 15
+						}
+					}
+				}
+			}
+			on_contribution_funded = {
+				great_project_notify_contribution = yes
+				#great_project_contribution_catalyst_effect = yes
+				agot_great_project_funded_great_fleet = { LEVEL = 3 }
+			}
+
+			ai_check_interval_by_tier = {
+				barony = 0
+				county = 12
+				duchy = 9
+				kingdom = 6
+				empire = 6
+				hegemony = 6
+			}
+			ai_will_do = {
+				value = great_fleet_great_projects_contribution_ai_will_do_base_value
+			}
+		}
+		merchant_quays = {
+			cost = {
+				treasury_or_gold = {
+					value = 2000
+				}
+			}
+
+			allowed_contributor_filter = {
+				owner = yes
+				vassals = yes
+				tributaries = yes
+				liege = yes
+				top_liege = yes
+			}
+
+			contributor_cooldown = individual_contribution_cooldown_value
+
+			is_required = no
+
+			on_complete = {
+				great_project_reward_contribution_completion_notification_effect = {
+					LEVEL = minor
+					NON_OWNER_REWARD_EFFECT = great_project_reward_contribution_completion_null
+					OWNER_REWARD_EFFECT = great_project_reward_contribution_completion_null
+				}
+				custom_tooltip = {
+					text = great_project_type_construct_great_fleet_province_gains_merchant_quays_modifier
+					scope:province.county ?= {
+						add_county_modifier = {
+							modifier = agot_build_great_fleet_merchant_quays_modifier
+							years = 15
+						}
+					}
+				}
+			}
+			on_contribution_funded = {
+				great_project_notify_contribution = yes
+				#great_project_contribution_catalyst_effect = yes
+				agot_great_project_funded_great_fleet = { LEVEL = 3 }
+			}
+
+			ai_check_interval_by_tier = {
+				barony = 0
+				county = 12
+				duchy = 9
+				kingdom = 6
+				empire = 6
+				hegemony = 6
+			}
+			ai_will_do = {
+				value = great_fleet_great_projects_contribution_ai_will_do_base_value
+			}
+		}
+	}
+
+	ai_target_quick_trigger = {
+		adult = yes
+	}
+	ai_check_interval_by_tier = {
+		barony = 0
+		county = 0
+		duchy = 24
+		kingdom = 6
+		empire = 6
+		hegemony = 6
+	}
+	ai_will_do = {
+		value = 0
+		if = {
+			limit = { short_term_gold >= 10000 }
+			add = 25
+		}
+		if = {
+			limit = { agot_prefers_sailing = yes }
+			add = 25
+		}
+		if = {
+			limit = { is_at_war = yes }
+			multiply = 0
+		}
+		if = {
+			limit = { agot_is_independent_ruler = no }
+			multiply = 0
+		}
+	}
+
+	completion_sound_effect = @msg_completion_effect_generic
+}

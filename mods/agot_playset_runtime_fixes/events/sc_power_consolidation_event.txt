@@ -1,0 +1,637 @@
+﻿namespace = sc_power_consolidation
+# ============================================================
+# EVENT: PICK VASSAL TO VISIT
+# ============================================================
+sc_power_consolidation.0001 = {
+	type = character_event
+	title = sc_power_consolidation.0001.t
+	theme = diplomacy
+
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = { root = scope:crisis_heir }
+				desc = sc_power_consolidation.0001.desc.heir
+			}
+			desc = sc_power_consolidation.0001.desc.claimant
+		}
+	}
+
+	left_portrait = {
+		character = root
+		animation = thinking
+	}
+	right_portrait = {
+		character = scope:consolidation_vassal_1
+		animation = chancellor
+	}
+	lower_left_portrait = scope:consolidation_vassal_2
+	lower_right_portrait = scope:consolidation_vassal_3
+
+	trigger = {
+		OR = {
+			exists = scope:current_ruler
+			root = {
+				any_claim = {
+					exists = holder
+					tier >= tier_kingdom
+				}
+			}
+			root = {
+				exists = father
+				father = {
+					primary_title = {
+						exists = holder
+					}
+				}
+			}
+		}
+		NOT = { has_character_flag = already_asked }
+	}
+
+	immediate = {
+		if = {
+			limit = { NOT = { exists = scope:current_ruler } }
+			root = {
+				random_claim = {
+					limit = {
+						exists = holder
+						tier >= tier_kingdom
+					}
+					holder = { save_scope_as = current_ruler }
+				}
+			}
+		}
+
+		# Fallback to father's primary title
+		if = {
+			limit = { NOT = { exists = scope:current_ruler } }
+			root = {
+				if = {
+					limit = {
+						exists = father.primary_title
+						father.primary_title.tier >= tier_kingdom
+					}
+					father = { save_scope_as = current_ruler }
+				}
+			}
+		}
+
+		scope:current_ruler = {
+			every_vassal = {
+				limit = {
+					highest_held_title_tier > tier_county
+					NOT = { has_character_flag = pledged_to_heir }
+					NOT = { has_character_flag = pledged_to_claimant }
+					NOT = { this = scope:crisis_heir }
+					NOT = { scope:crisis_special_character ?= this }
+					NOT = { this = root }
+					NOT = { has_character_flag = having_visitor }
+					NOT = { has_character_flag = visited_recently }
+					is_travelling = no
+				}
+				add_to_list = unpledged_vassals
+			}
+			random_in_list = {
+				list = unpledged_vassals
+				save_scope_as = consolidation_vassal_1
+			}
+			random_in_list = {
+				list = unpledged_vassals
+				limit = { NOT = { this = scope:consolidation_vassal_1 } }
+				save_scope_as = consolidation_vassal_2
+			}
+			random_in_list = {
+				list = unpledged_vassals
+				limit = {
+					NOT = { this = scope:consolidation_vassal_1 }
+					NOT = { this = scope:consolidation_vassal_2 }
+				}
+				save_scope_as = consolidation_vassal_3
+			}
+		}
+	}
+
+	option = {
+		name = sc_power_consolidation.0001.a
+		trigger = { exists = scope:consolidation_vassal_1 }
+		ai_chance = {
+			base = 33
+		}
+		add_character_flag = visiting_vassal
+		scope:consolidation_vassal_1 = {
+			add_character_flag = having_visitor
+			add_character_flag = {
+				flag = visited_recently
+				years = 1
+			}
+			save_scope_as = selected_consolidation_vassal
+			location = { save_scope_as = target_destination }
+		}
+		trigger_event = { id = succession_crisis_travel.0003 }
+	}
+
+	option = {
+		name = sc_power_consolidation.0001.b
+		trigger = { exists = scope:consolidation_vassal_2 }
+		ai_chance = {
+			base = 33
+		}
+		add_character_flag = visiting_vassal
+		scope:consolidation_vassal_2 = {
+			add_character_flag = having_visitor
+			add_character_flag = {
+				flag = visited_recently
+				years = 1
+			}
+			save_scope_as = selected_consolidation_vassal
+			location = { save_scope_as = target_destination }
+		}
+		trigger_event = { id = succession_crisis_travel.0003 }
+	}
+
+	option = {
+		name = sc_power_consolidation.0001.c
+		trigger = { exists = scope:consolidation_vassal_3 }
+		ai_chance = {
+			base = 33
+		}
+		add_character_flag = visiting_vassal
+		scope:consolidation_vassal_3 = {
+			add_character_flag = having_visitor
+			add_character_flag = {
+				flag = visited_recently
+				years = 1
+			}
+			save_scope_as = selected_consolidation_vassal
+			location = { save_scope_as = target_destination }
+		}
+		trigger_event = { id = succession_crisis_travel.0003 }
+	}
+
+	option = {
+		name = sc_power_consolidation.0001.d
+		trigger = { exists = scope:consolidation_vassal_1 }
+		ai_chance = {
+			base = 0
+		}
+		custom_tooltip = sc_power_consolidation.0001.d.tt
+		add_character_flag = player_not_interested
+	}
+
+	option = {
+		name = sc_power_consolidation.0001.e
+		trigger = { exists = scope:consolidation_vassal_1 }
+		ai_chance = {
+			base = 0
+		}
+		custom_tooltip = sc_power_consolidation.0001.e.tt
+		add_character_flag = {
+			flag = already_asked
+			months = 11
+		}
+		trigger_event = {
+			id = sc_power_consolidation.0001
+			months = 12
+		}
+	}
+
+	option = {
+		name = sc_power_consolidation.0001.f
+		trigger = {
+			NOT = { exists = scope:consolidation_vassal_1 }
+		}
+		custom_tooltip = sc_power_consolidation.0001.f.tt
+		ai_chance = {
+			base = 100
+		}
+	}
+}
+# ============================================================
+# EVENT: WARM RECEPTION
+# ============================================================
+sc_power_consolidation.0002 = {
+	type = character_event
+	title = sc_power_consolidation.0002.t
+	desc = sc_power_consolidation.0002.desc
+	theme = diplomacy
+
+	left_portrait = {
+		character = root
+		animation = happiness
+	}
+	right_portrait = {
+		character = scope:selected_consolidation_vassal
+		animation = toast
+	}
+
+	option = {
+		name = sc_power_consolidation.0002.a
+		ai_chance = { base = 100 }
+		trigger_event = {
+			id = sc_power_consolidation.0004
+			days = 3
+		}
+	}
+
+	option = {
+		name = sc_power_consolidation.0002.b
+		ai_chance = { base = 0 }
+		trigger_event = { id = succession_crisis_travel.0002 }
+	}
+}
+# ============================================================
+# EVENT: COLD RECEPTION
+# ============================================================
+sc_power_consolidation.0003 = {
+	type = character_event
+	title = sc_power_consolidation.0003.t
+	desc = sc_power_consolidation.0003.desc
+	theme = diplomacy
+
+	left_portrait = {
+		character = root
+		animation = disgust
+	}
+	right_portrait = {
+		character = scope:selected_consolidation_vassal
+		animation = dismissal
+	}
+
+	option = {
+		name = sc_power_consolidation.0003.a
+		ai_chance = { base = 100 }
+		trigger_event = {
+			id = sc_power_consolidation.0004
+			days = 3
+		}
+	}
+
+	option = {
+		name = sc_power_consolidation.0003.b
+		ai_chance = { base = 0 }
+		trigger_event = { id = succession_crisis_travel.0002 }
+	}
+}
+# ============================================================
+# EVENT: NEGOTIATION
+# ============================================================
+sc_power_consolidation.0004 = {
+	type = character_event
+	title = sc_power_consolidation.0004.t
+	desc = sc_power_consolidation.0004.desc
+	theme = diplomacy
+
+	left_portrait = {
+		character = root
+		animation = debating
+	}
+	right_portrait = {
+		character = scope:selected_consolidation_vassal
+		animation = thinking
+	}
+
+	option = {
+		name = sc_power_consolidation.0004.a
+		ai_chance = {
+			base = 33
+			modifier = {
+				add = 20
+				diplomacy >= 15
+			}
+			modifier = {
+				add = 20
+				has_trait = gregarious
+			}
+			modifier = {
+				factor = 0.5
+				has_trait = shy
+			}
+		}
+		scope:selected_consolidation_vassal = {
+			trigger_event = {
+				id = succession_crisis_vassal.0003
+				days = 3
+			}
+		}
+	}
+
+	option = {
+		name = sc_power_consolidation.0004.b
+		ai_chance = {
+			base = 33
+			modifier = {
+				add = 20
+				prestige >= 1000
+			}
+			modifier = {
+				add = 20
+				has_trait = arrogant
+			}
+			modifier = {
+				add = 20
+				has_trait = ambitious
+			}
+		}
+		scope:selected_consolidation_vassal = {
+			trigger_event = {
+				id = succession_crisis_vassal.0004
+				days = 3
+			}
+		}
+	}
+
+	option = {
+		name = sc_power_consolidation.0004.c
+		ai_chance = {
+			base = 33
+			modifier = {
+				add = 20
+				piety >= 1000
+			}
+			modifier = {
+				add = 20
+				has_trait = zealous
+			}
+			modifier = {
+				factor = 0
+				has_trait = cynical
+			}
+		}
+		scope:selected_consolidation_vassal = {
+			trigger_event = {
+				id = succession_crisis_vassal.0005
+				days = 3
+			}
+		}
+	}
+}
+# ============================================================
+# EVENT: VASSAL PLEDGE
+# ============================================================
+sc_power_consolidation.0005 = {
+	type = character_event
+	title = sc_power_consolidation.0005.t
+	desc = sc_power_consolidation.0005.desc
+	theme = diplomacy
+
+	left_portrait = {
+		character = root
+		animation = happiness
+	}
+	right_portrait = {
+		character = scope:selected_consolidation_vassal
+		animation = toast
+	}
+
+	option = {
+		name = sc_power_consolidation.0005.a
+		remove_character_flag = visiting_vassal
+		scope:selected_consolidation_vassal = {
+			remove_character_flag = having_visitor
+		}
+		trigger_event = { id = succession_crisis_travel.0002 }
+	}
+}
+
+# ============================================================
+# EVENT: VASSAL NOT PLEDGING
+# ============================================================
+sc_power_consolidation.0006 = {
+	type = character_event
+	title = sc_power_consolidation.0006.t
+	desc = sc_power_consolidation.0006.desc
+	theme = diplomacy
+
+	left_portrait = {
+		character = root
+		animation = anger
+	}
+	right_portrait = {
+		character = scope:selected_consolidation_vassal
+		animation = dismissal
+	}
+
+	option = {
+		name = sc_power_consolidation.0006.a
+		remove_character_flag = visiting_vassal
+		scope:selected_consolidation_vassal = {
+			remove_character_flag = having_visitor
+		}
+		trigger_event = { id = succession_crisis_travel.0002 }
+	}
+}
+
+# ============================================================
+# EVENT: BARGAIN GOLD
+# ============================================================
+sc_power_consolidation.0007 = {
+	type = character_event
+	title = sc_power_consolidation.0007.t
+	desc = sc_power_consolidation.0007.desc
+	theme = diplomacy
+
+	left_portrait = {
+		character = root
+		animation = thinking
+	}
+	right_portrait = {
+		character = scope:selected_consolidation_vassal
+		animation = admiration
+	}
+
+	option = {
+		name = sc_power_consolidation.0007.a
+		ai_chance = {
+			base = 50
+			modifier = {
+				add = 30
+				has_trait = generous
+			}
+			modifier = {
+				factor = 0
+				has_trait = greedy
+			}
+		}
+		pay_short_term_gold = {
+			target = scope:selected_consolidation_vassal
+			gold = major_gold_value
+		}
+		scope:selected_consolidation_vassal = {
+			if = {
+				limit = {
+					scope:asker = scope:current_ruler.primary_heir
+				}
+				add_character_flag = pledged_to_heir
+			}
+			else = {
+				add_character_flag = pledged_to_claimant
+			}
+			trigger_event = { id = succession_crisis_vassal.0009 }
+		}
+		trigger_event = {
+			id = sc_power_consolidation.0005
+			days = 3
+		}
+	}
+
+	option = {
+		name = sc_power_consolidation.0007.b
+		ai_chance = {
+			base = 50
+			modifier = {
+				add = 30
+				has_trait = greedy
+			}
+		}
+		scope:selected_consolidation_vassal = {
+			trigger_event = { id = succession_crisis_vassal.0010 }
+		}
+		trigger_event = {
+			id = succession_crisis_travel.0002
+			days = 1
+		}
+	}
+}
+
+# ============================================================
+# EVENT: BARGAIN FAVOR
+# ============================================================
+sc_power_consolidation.0008 = {
+	type = character_event
+	title = sc_power_consolidation.0008.t
+	desc = sc_power_consolidation.0008.desc
+	theme = diplomacy
+
+	left_portrait = {
+		character = root
+		animation = thinking
+	}
+	right_portrait = {
+		character = scope:selected_consolidation_vassal
+		animation = scheme
+	}
+
+	option = {
+		name = sc_power_consolidation.0008.a
+		ai_chance = {
+			base = 50
+			modifier = {
+				add = 30
+				has_trait = trusting
+			}
+			modifier = {
+				factor = 0
+				has_trait = paranoid
+			}
+		}
+		scope:selected_consolidation_vassal = {
+			add_hook = {
+				target = root
+				type = favor_hook
+			}
+			if = {
+				limit = {
+					scope:asker = scope:current_ruler.primary_heir
+				}
+				add_character_flag = pledged_to_heir
+			}
+			else = {
+				add_character_flag = pledged_to_claimant
+			}
+			trigger_event = { id = succession_crisis_vassal.0009 }
+		}
+		trigger_event = {
+			id = sc_power_consolidation.0005
+			days = 3
+		}
+	}
+
+	option = {
+		name = sc_power_consolidation.0008.b
+		ai_chance = {
+			base = 50
+			modifier = {
+				add = 30
+				has_trait = paranoid
+			}
+		}
+		scope:selected_consolidation_vassal = {
+			trigger_event = { id = succession_crisis_vassal.0010 }
+		}
+		trigger_event = {
+			id = succession_crisis_travel.0002
+			days = 1
+		}
+	}
+}
+
+# ============================================================
+# EVENT: BARGAIN PRESTIGE
+# ============================================================
+sc_power_consolidation.0009 = {
+	type = character_event
+	title = sc_power_consolidation.0009.t
+	desc = sc_power_consolidation.0009.desc
+	theme = diplomacy
+
+	left_portrait = {
+		character = root
+		animation = thinking
+	}
+	right_portrait = {
+		character = scope:selected_consolidation_vassal
+		animation = marshal
+	}
+
+	option = {
+		name = sc_power_consolidation.0009.a
+		ai_chance = {
+			base = 50
+			modifier = {
+				add = 30
+				has_trait = humble
+			}
+			modifier = {
+				factor = 0
+				has_trait = arrogant
+			}
+		}
+		add_prestige = -250
+		scope:selected_consolidation_vassal = {
+			add_prestige = 250
+			if = {
+				limit = {
+					scope:asker = scope:current_ruler.primary_heir
+				}
+				add_character_flag = pledged_to_heir
+			}
+			else = {
+				add_character_flag = pledged_to_claimant
+			}
+			trigger_event = { id = succession_crisis_vassal.0009 }
+		}
+		trigger_event = {
+			id = sc_power_consolidation.0005
+			days = 3
+		}
+	}
+
+	option = {
+		name = sc_power_consolidation.0009.b
+		ai_chance = {
+			base = 50
+			modifier = {
+				add = 30
+				has_trait = arrogant
+			}
+		}
+		scope:selected_consolidation_vassal = {
+			trigger_event = { id = succession_crisis_vassal.0010 }
+		}
+		trigger_event = {
+			id = succession_crisis_travel.0002
+			days = 1
+		}
+	}
+}

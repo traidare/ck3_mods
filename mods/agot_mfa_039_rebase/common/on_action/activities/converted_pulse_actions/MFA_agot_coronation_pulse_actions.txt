@@ -1,0 +1,463 @@
+﻿####################################
+# MFA Activity Converter
+# Converted pulse_actions to on_actions
+# only effect block remains and is nestled behind scope:activity, while is_valid and weight blocks moved to main relay on_action
+####################################
+
+MFA_pulse_agot_coronation_dynasty_blessing = {
+	effect = {
+		scope:activity = {
+			scope:host = {
+				save_scope_as = root_scope
+			}
+
+			random_attending_character = {
+				limit = {
+					NOR = {
+						this = scope:host
+						this = scope:activity.special_guest:coronation_target
+					}
+					is_physically_able_ai_adult = yes
+					location = scope:activity.activity_location
+					dynasty ?= { dynasty_prestige_level > scope:host.dynasty.dynasty_prestige_level }
+				}
+				save_scope_as = first
+			}
+
+			add_activity_log_entry = {
+				key = dynasty_blessing
+				tags = { pulse_action }
+				character = scope:first
+
+				scope:host.dynasty = {
+					add_dynasty_prestige = medium_dynasty_prestige_gain
+				}
+				scope:first = {
+					add_opinion = {
+						modifier = impressed_opinion
+						target = scope:host
+						opinion = 10
+					}
+				}
+			}
+
+			every_attending_character = {
+				limit = {
+					is_ai = no
+					has_game_rule = MFA_pulse_notifications_enabled
+				}
+				send_interface_message = {
+					type = MFA_pulse_msg_public
+					title = agot_coronation_dynasty_blessing_title
+					left_icon = scope:first
+					right_icon = scope:host
+					show_as_tooltip = {
+						scope:activity = {
+							scope:host.dynasty = {
+								add_dynasty_prestige = medium_dynasty_prestige_gain
+							}
+							scope:first = {
+								add_opinion = {
+									modifier = impressed_opinion
+									target = scope:host
+									opinion = 10
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+}
+
+MFA_pulse_agot_coronation_contact_network = {
+	effect = {
+		scope:activity = {
+			scope:host = {
+				save_scope_as = root_scope
+			}
+
+			random_attending_character = {
+				limit = {
+					is_physically_able_adult = yes
+					OR = {
+						is_ai = no
+						this = scope:host
+					}
+					location = scope:activity.activity_location
+					has_lifestyle = diplomacy_lifestyle
+					OR = {
+						this = scope:host
+						this = scope:activity.special_guest:coronation_target
+					}
+				}
+				alternative_limit = {
+					is_physically_able_adult = yes
+					OR = {
+						is_ai = no
+						this = scope:host
+					}
+					location = scope:activity.activity_location
+					has_lifestyle = diplomacy_lifestyle
+				}
+				save_scope_as = first
+			}
+
+			add_activity_log_entry = {
+				key = contact_network
+				tags = { pulse_action }
+				character = scope:first
+
+				scope:first = {
+					add_diplomacy_lifestyle_xp = miniscule_lifestyle_xp
+				}
+			}
+
+			every_attending_character = {
+				limit = {
+					is_ai = no
+					has_game_rule = MFA_pulse_notifications_enabled
+				}
+				send_interface_message = {
+					type = MFA_pulse_msg_courtly
+					title = agot_coronation_contact_network_title
+					left_icon = scope:first
+					show_as_tooltip = {
+						scope:activity = {
+							scope:first = {
+								add_diplomacy_lifestyle_xp = miniscule_lifestyle_xp
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+}
+
+MFA_pulse_agot_coronation_admired_venue = {
+	effect = {
+		scope:activity = {
+			scope:host = {
+				save_scope_as = root_scope
+			}
+
+			random_attending_character = {
+				limit = {
+					NOR = {
+						this = scope:host
+						this = scope:activity.special_guest:coronation_target
+					}
+					is_physically_able_ai_adult = yes
+					location = scope:activity.activity_location
+					has_activity_intent = reduce_stress_intent
+				}
+				save_scope_as = first
+			}
+
+			add_activity_log_entry = {
+				key = admired_venue
+				tags = { pulse_action }
+				character = scope:first
+
+				scope:first = {
+					stress_impact = {
+						base = minor_stress_impact_loss
+					}
+				}
+			}
+
+			every_attending_character = {
+				limit = {
+					is_ai = no
+					has_game_rule = MFA_pulse_notifications_enabled
+				}
+				send_interface_message = {
+					type = MFA_pulse_msg_public
+					title = agot_coronation_admired_venue_title
+					left_icon = scope:first
+					show_as_tooltip = {
+						scope:activity = {
+							scope:first = {
+								stress_impact = {
+									base = minor_stress_impact_loss
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+}
+
+MFA_pulse_agot_coronation_knight_praised = {
+	effect = {
+		scope:activity = {
+			scope:host = {
+				save_scope_as = root_scope
+			}
+
+			random_attending_character = {
+				limit = {
+					is_physically_able_ai_adult = yes
+					location = scope:activity.activity_location
+					is_acclaimed = yes
+					liege ?= {
+						OR = {
+							is_ai = no
+							this = scope:host
+						}
+					}
+				}
+				save_scope_as = first
+				set_variable = {
+					name = court_6040_best_looking_var
+					days = 2
+				}
+			}
+
+			add_activity_log_entry = {
+				key = knight_praised
+				tags = { pulse_action }
+				character = scope:first
+
+				scope:first.accolade = {
+					add_glory = minor_glory_gain
+				}
+			}
+
+			every_attending_character = {
+				limit = {
+					is_ai = no
+					has_game_rule = MFA_pulse_notifications_enabled
+				}
+				send_interface_message = {
+					type = MFA_pulse_msg_martial
+					title = agot_coronation_knight_praised_title
+					left_icon = scope:first
+					show_as_tooltip = {
+						scope:activity = {
+							scope:first.accolade = {
+								add_glory = minor_glory_gain
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+}
+
+MFA_pulse_agot_coronation_seductive_exchange = {
+	effect = {
+		scope:activity = {
+			scope:host = {
+				save_scope_as = root_scope
+			}
+
+			random_attending_character = {
+				limit = {
+					has_activity_intent = woo_attendee_intent
+					is_physically_able_ai_adult = yes
+					location = scope:activity.activity_location
+					intent_target = {
+						is_physically_able_ai_adult = yes
+						location = scope:activity.activity_location
+						is_ai = yes
+					}
+				}
+				save_scope_as = first
+			}
+			scope:first.intent_target = { save_scope_as = second }
+
+			add_activity_log_entry = {
+				key = seductive_exchange
+				tags = { pulse_action }
+				character = scope:first
+				target = scope:second
+
+				scope:first = {
+					progress_towards_lover_effect = {
+						CHARACTER = scope:second
+						OPINION = default_lover_opinion
+						REASON = lover_wedding_seductive_exchange
+					}
+				}
+			}
+
+			every_attending_character = {
+				limit = {
+					is_ai = no
+					has_game_rule = MFA_pulse_notifications_enabled
+				}
+				send_interface_message = {
+					type = MFA_pulse_msg_intrigue
+					title = agot_coronation_seductive_exchange_title
+					left_icon = scope:first
+					right_icon = scope:second
+					show_as_tooltip = {
+						scope:activity = {
+							scope:first = {
+								progress_towards_lover_effect = {
+									CHARACTER = scope:second
+									OPINION = default_lover_opinion
+									REASON = lover_wedding_seductive_exchange
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+}
+
+MFA_pulse_agot_coronation_music_performance = {
+	effect = {
+		scope:activity = {
+			scope:host = {
+				save_scope_as = root_scope
+			}
+
+			random_attending_character = {
+				limit = {
+					NOR = {
+						this = scope:host
+						this = scope:activity.special_guest:coronation_target
+					}
+					is_physically_able_ai_adult = yes
+					location = scope:activity.activity_location
+					has_court_position = court_musician_court_position
+					aptitude = {
+						court_position = court_musician_court_position
+						value >= 3
+					}
+					court_owner = scope:host
+				}
+				save_scope_as = first
+			}
+
+			add_activity_log_entry = {
+				key = music_performance
+				tags = { pulse_action }
+				character = scope:first
+
+				scope:first = {
+					add_prestige = minor_prestige_gain
+				}
+				scope:host = {
+					add_prestige = minor_prestige_gain
+				}
+			}
+
+			every_attending_character = {
+				limit = {
+					is_ai = no
+					has_game_rule = MFA_pulse_notifications_enabled
+				}
+				send_interface_message = {
+					type = MFA_pulse_msg_public
+					title = agot_coronation_music_performance_title
+					left_icon = scope:first
+					show_as_tooltip = {
+						scope:activity = {
+							scope:first = {
+								add_prestige = minor_prestige_gain
+							}
+							scope:host = {
+								add_prestige = minor_prestige_gain
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+}
+
+MFA_pulse_agot_coronation_poetry_performance = {
+	effect = {
+		scope:activity = {
+			scope:host = {
+				save_scope_as = root_scope
+			}
+			if = {
+				limit = {
+					scope:host = {
+						has_trait = lifestyle_poet
+						is_physically_able_ai_adult = yes
+						location = scope:activity.activity_location
+					}
+				}
+				scope:host = { save_scope_as = first }
+			}
+			else = {
+				random_attending_character = {
+					limit = {
+						OR = {
+							has_trait = lifestyle_poet
+							AND = {
+								has_court_position = court_poet_court_position
+								aptitude = {
+									court_position = court_poet_court_position
+									value >= 3
+								}
+								court_owner = scope:host
+							}
+						}
+						is_physically_able_ai_adult = yes
+						location = scope:activity.activity_location
+					}
+					save_scope_as = first
+				}
+			}
+
+			add_activity_log_entry = {
+				key = poetry_performance
+				tags = { pulse_action }
+				character = scope:first
+
+				scope:first = {
+					add_prestige = minor_prestige_gain
+				}
+				if = {
+					limit = {
+						NOT = { scope:first = scope:host }
+					}
+					scope:host = {
+						add_prestige = minor_prestige_gain
+					}
+				}
+			}
+
+			every_attending_character = {
+				limit = {
+					is_ai = no
+					has_game_rule = MFA_pulse_notifications_enabled
+				}
+				send_interface_message = {
+					type = MFA_pulse_msg_public
+					title = agot_coronation_poetry_performance_title
+					left_icon = scope:first
+					show_as_tooltip = {
+						scope:activity = {
+							scope:first = {
+								add_prestige = minor_prestige_gain
+							}
+							if = {
+								limit = {
+									NOT = { scope:first = scope:host }
+								}
+								scope:host = {
+									add_prestige = minor_prestige_gain
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+}

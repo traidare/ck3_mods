@@ -1,0 +1,874 @@
+﻿namespace = agot_riverlands_trident_council_decision
+
+##########################################
+# The Lords of the Trident
+##########################################
+
+
+agot_riverlands_trident_council_decision.0100 = {
+	type = character_event
+	title = agot_riverlands_trident_council_decision.0100.t
+	desc = agot_riverlands_trident_council_decision.0100.desc
+	theme = diplomacy
+
+	override_background = {
+		reference = throne_room
+	}
+
+	left_portrait = {
+		character = root
+		animation = personality_honorable
+	}
+
+	option = {
+		name = agot_riverlands_trident_council_decision.0100.a # Grievances
+
+		add_diplomacy_lifestyle_xp = 150
+
+		custom_tooltip = agot_riverlands_trident_council_decision.0100.a.tt
+
+		hidden_effect = {
+			random_list = {
+			34 = {
+				trigger_event = {
+					id = agot_riverlands_trident_council_decision.0110
+				}
+			}
+
+			33 = {
+				trigger_event = {
+				id = agot_riverlands_trident_council_decision.0111
+				}
+			}
+
+			33 = {
+				trigger_event = {
+				id = agot_riverlands_trident_council_decision.0112
+				}
+			}
+		}
+	}
+		
+	}
+
+	option = {
+		name = agot_riverlands_trident_council_decision.0100.b # Trade
+
+		add_stewardship_lifestyle_xp = 150
+
+		custom_tooltip = agot_riverlands_trident_council_decision.0100.b.tt
+
+		hidden_effect = {
+			random_list = {
+			34 = {
+				trigger_event = {
+					id = agot_riverlands_trident_council_decision.0120
+				}
+			}	
+
+			33 = {
+				trigger_event = {
+					id = agot_riverlands_trident_council_decision.0121
+				}
+			}
+
+			33 = {
+				trigger_event = {
+					id = agot_riverlands_trident_council_decision.0122
+				}
+			}
+		}
+	}
+	}
+
+	option = {
+		name = agot_riverlands_trident_council_decision.0100.c # Defense
+
+		add_martial_lifestyle_xp = 150
+
+		custom_tooltip = agot_riverlands_trident_council_decision.0100.c.tt
+
+		hidden_effect = {
+		random_list = {
+			34 = {
+				trigger_event = {
+					id = agot_riverlands_trident_council_decision.0130
+				}
+			}
+
+			33 = {
+				trigger_event = {
+				id = agot_riverlands_trident_council_decision.0131
+				}
+			}
+
+			33 = {
+				trigger_event = {
+				id = agot_riverlands_trident_council_decision.0132
+				}
+			}
+		}
+	}
+	}
+
+	option = {
+		name = agot_riverlands_trident_council_decision.0100.d # Authority
+
+		add_dread = 5
+
+		custom_tooltip = agot_riverlands_trident_council_decision.0100.d.tt
+
+		hidden_effect = {
+		random_list = {
+			34 = {
+				trigger_event = {
+					id = agot_riverlands_trident_council_decision.0140
+				}
+			}
+
+			33 = {
+				trigger_event = {
+					id = agot_riverlands_trident_council_decision.0141
+				}
+			}
+
+			33 = {
+				trigger_event = {
+				id = agot_riverlands_trident_council_decision.0142
+				}
+			}
+		}
+	}
+	}
+}
+
+agot_riverlands_trident_council_decision.0110 = {
+	type = character_event
+	title = agot_riverlands_trident_council_decision.0110.t
+	desc = agot_riverlands_trident_council_decision.0110.desc
+	theme = diplomacy
+
+	override_background = {
+		reference = feast
+	}
+
+	left_portrait = {
+		character = root
+		animation = personality_rational
+	}
+
+	option = {
+		name = agot_riverlands_trident_council_decision.0110.a
+
+		add_prestige = 75
+		add_diplomacy_lifestyle_xp = 200
+
+		add_character_modifier = {
+			modifier = trident_council_mediator_bla
+			years = 5
+		}
+	}
+
+	option = {
+		name = agot_riverlands_trident_council_decision.0110.b
+
+		trigger = {
+			OR = {
+				has_trait = wrathful
+				has_trait = arbitrary
+				has_trait = callous
+			}
+		}
+
+		add_dread = 10
+		add_martial_lifestyle_xp = 200
+
+		random_vassal = {
+			limit = { is_landed = yes }
+
+			add_opinion = {
+				target = root
+				modifier = intimidated_opinion
+				opinion = -15
+			}
+		}
+	}
+
+	option = {
+		name = agot_riverlands_trident_council_decision.0110.c
+
+		add_prestige = 25
+
+		random_vassal = {
+			limit = { is_landed = yes }
+
+			add_opinion = {
+				target = root
+				modifier = disappointed_opinion
+				opinion = -10
+			}
+		}
+	}
+}
+
+agot_riverlands_trident_council_decision.0111 = {
+	type = character_event
+	title = agot_riverlands_trident_council_decision.0111.t
+	desc = agot_riverlands_trident_council_decision.0111.desc
+	theme = stewardship
+
+	override_background = {
+		reference = village
+	}
+
+	left_portrait = {
+		character = root
+		animation = worry
+	}
+
+	option = {
+		name = agot_riverlands_trident_council_decision.0111.a
+
+		remove_short_term_gold = 100
+		add_piety = 75
+		add_stewardship_lifestyle_xp = 250
+
+		capital_county = {
+			add_county_modifier = {
+				modifier = trident_rebuilding_relief_bla
+				years = 5
+			}
+		}
+	}
+
+	option = {
+		name = agot_riverlands_trident_council_decision.0111.b
+
+		trigger = {
+			OR = {
+				has_trait = greedy
+				has_trait = callous
+				has_trait = arbitrary
+			}
+		}
+
+		add_short_term_gold = 75
+		add_dread = 5
+		add_prestige = -25
+	}
+
+	option = {
+		name = agot_riverlands_trident_council_decision.0111.c
+
+		add_prestige = -10
+
+		random_vassal = {
+			limit = {
+				is_landed = yes
+			}
+
+			add_opinion = {
+				target = root
+				modifier = disappointed_opinion
+				opinion = -10
+			}
+		}
+	}
+}
+
+agot_riverlands_trident_council_decision.0112 = {
+	type = character_event
+	title = agot_riverlands_trident_council_decision.0112.t
+	desc = agot_riverlands_trident_council_decision.0112.desc
+	theme = stewardship
+
+	override_background = {
+		reference = docks
+	}
+
+	left_portrait = {
+		character = root
+		animation = personality_rational
+	}
+
+	option = {
+		name = agot_riverlands_trident_council_decision.0112.a
+
+		add_prestige = 75
+		add_stewardship_lifestyle_xp = 250
+
+		add_character_modifier = {
+			modifier = trident_fair_toll_ruling_bla
+			years = 5
+		}
+	}
+
+	option = {
+		name = agot_riverlands_trident_council_decision.0112.b
+
+		trigger = {
+			OR = {
+				has_trait = greedy
+				has_trait = deceitful
+				intrigue >= 10
+			}
+		}
+
+		add_short_term_gold = 125
+		add_intrigue_lifestyle_xp = 200
+
+		add_character_modifier = {
+			modifier = trident_toll_compromise_bla
+			years = 5
+		}
+	}
+
+	option = {
+		name = agot_riverlands_trident_council_decision.0112.c
+
+		add_short_term_gold = 40
+		add_prestige = -25
+	}
+}
+
+agot_riverlands_trident_council_decision.0120 = {
+	type = character_event
+	title = agot_riverlands_trident_council_decision.0120.t
+	desc = agot_riverlands_trident_council_decision.0120.desc
+	theme = stewardship
+
+	override_background = {
+		reference = market
+	}
+
+	left_portrait = {
+		character = root
+		animation = personality_rational
+	}
+
+	option = {
+		name = agot_riverlands_trident_council_decision.0120.a
+
+		remove_short_term_gold = 75
+
+		capital_county = {
+			change_development_progress = 20
+		}
+
+		add_character_modifier = {
+			modifier = trident_trade_expansion_bla
+			years = 5
+		}
+	}
+
+	option = {
+		name = agot_riverlands_trident_council_decision.0120.b
+
+		trigger = {
+			OR = {
+				has_trait = greedy
+				has_trait = arbitrary
+			}
+		}
+
+		add_short_term_gold = 150
+		add_prestige = -25
+
+		add_character_modifier = {
+			modifier = trident_heavy_trade_tariffs_bla
+			years = 5
+		}
+	}
+
+	option = {
+		name = agot_riverlands_trident_council_decision.0120.c
+
+		add_short_term_gold = 50
+		add_prestige = -10
+	}
+}
+
+agot_riverlands_trident_council_decision.0121 = {
+	type = character_event
+	title = agot_riverlands_trident_council_decision.0121.t
+	desc = agot_riverlands_trident_council_decision.0121.desc
+	theme = diplomacy
+
+	override_background = {
+		reference = ep2_travel_bridge
+	}
+
+	left_portrait = {
+		character = root
+		animation = personality_rational
+	}
+
+	option = {
+		name = agot_riverlands_trident_council_decision.0121.a
+
+		add_prestige = 100
+		add_diplomacy_lifestyle_xp = 250
+
+		every_vassal = {
+			limit = {
+				is_landed = yes
+			}
+
+			add_opinion = {
+				target = root
+				modifier = attended_trident_council_bla
+				opinion = 10
+			}
+		}
+	}
+
+	option = {
+		name = agot_riverlands_trident_council_decision.0121.b
+
+		trigger = {
+			OR = {
+				has_trait = greedy
+				has_trait = deceitful
+				intrigue >= 10
+			}
+		}
+
+		add_short_term_gold = 125
+		add_intrigue_lifestyle_xp = 200
+
+		add_character_modifier = {
+			modifier = trident_crossing_profits_bla
+			years = 5
+		}
+	}
+
+	option = {
+		name = agot_riverlands_trident_council_decision.0121.c
+
+		add_prestige = 25
+
+		random_vassal = {
+			limit = {
+				is_landed = yes
+			}
+
+			add_opinion = {
+				target = root
+				modifier = disappointed_opinion
+				opinion = -10
+			}
+		}
+	}
+}
+
+agot_riverlands_trident_council_decision.0122 = {
+	type = character_event
+	title = agot_riverlands_trident_council_decision.0122.t
+	desc = agot_riverlands_trident_council_decision.0122.desc
+	theme = intrigue
+
+	override_background = {
+		reference = docks
+	}
+
+	left_portrait = {
+		character = root
+		animation = personality_rational
+	}
+
+	option = {
+		name = agot_riverlands_trident_council_decision.0122.a
+
+		add_intrigue_lifestyle_xp = 300
+		add_dread = 5
+
+		add_character_modifier = {
+			modifier = trident_smuggler_crackdown_bla
+			years = 5
+		}
+	}
+
+	option = {
+		name = agot_riverlands_trident_council_decision.0122.b
+
+		trigger = {
+			OR = {
+				has_trait = greedy
+				has_trait = deceitful
+			}
+		}
+
+		add_short_term_gold = 100
+
+		add_character_modifier = {
+			modifier = trident_smuggling_tolerated_bla
+			years = 5
+		}
+	}
+
+	option = {
+		name = agot_riverlands_trident_council_decision.0122.c
+
+		add_short_term_gold = 40
+		capital_county = {
+			change_county_control = -10
+		}
+	}
+}
+
+agot_riverlands_trident_council_decision.0130 = {
+	type = character_event
+	title = agot_riverlands_trident_council_decision.0130.t
+	desc = agot_riverlands_trident_council_decision.0130.desc
+	theme = martial
+
+	override_background = {
+		reference = battlefield
+	}
+
+	left_portrait = {
+		character = root
+		animation = personality_bold
+	}
+
+	option = {
+		name = agot_riverlands_trident_council_decision.0130.a
+
+		remove_short_term_gold = 100
+		add_martial_lifestyle_xp = 300
+
+		add_character_modifier = {
+			modifier = trident_river_patrols_bla
+			years = 5
+		}
+	}
+
+	option = {
+		name = agot_riverlands_trident_council_decision.0130.b
+
+		trigger = {
+			OR = {
+				has_trait = wrathful
+				has_trait = arrogant
+				has_trait = callous
+			}
+		}
+
+		add_dread = 10
+		add_prestige = 75
+
+		add_character_modifier = {
+			modifier = trident_reaver_warnings_bla
+			years = 5
+		}
+	}
+
+	option = {
+		name = agot_riverlands_trident_council_decision.0130.c
+
+		add_prestige = 25
+		add_martial_lifestyle_xp = 100
+	}
+}
+
+agot_riverlands_trident_council_decision.0131 = {
+	type = character_event
+	title = agot_riverlands_trident_council_decision.0131.t
+	desc = agot_riverlands_trident_council_decision.0131.desc
+	theme = martial
+
+	override_background = {
+		reference = wilderness
+	}
+
+	left_portrait = {
+		character = root
+		animation = worry
+	}
+
+	option = {
+		name = agot_riverlands_trident_council_decision.0131.a
+
+		remove_short_term_gold = 75
+		add_piety = 50
+		add_martial_lifestyle_xp = 200
+
+		add_character_modifier = {
+			modifier = trident_roads_secured_bla
+			years = 5
+		}
+	}
+
+	option = {
+		name = agot_riverlands_trident_council_decision.0131.b
+
+		trigger = {
+			OR = {
+				has_trait = callous
+				has_trait = wrathful
+				has_trait = sadistic
+			}
+		}
+
+		add_dread = 15
+		add_martial_lifestyle_xp = 200
+
+		add_character_modifier = {
+			modifier = trident_hanged_broken_men_bla
+			years = 5
+		}
+	}
+
+	option = {
+		name = agot_riverlands_trident_council_decision.0131.c
+
+		add_prestige = 25
+		capital_county = {
+			change_county_control = -10
+		}
+	}
+}
+
+agot_riverlands_trident_council_decision.0132 = {
+	type = character_event
+	title = agot_riverlands_trident_council_decision.0132.t
+	desc = agot_riverlands_trident_council_decision.0132.desc
+	theme = stewardship
+
+	override_background = {
+		reference = army_camp
+	}
+
+	left_portrait = {
+		character = root
+		animation = personality_rational
+	}
+
+	option = {
+		name = agot_riverlands_trident_council_decision.0132.a
+
+		remove_short_term_gold = 125
+		add_stewardship_lifestyle_xp = 250
+		add_prestige = 50
+
+		add_character_modifier = {
+			modifier = trident_watchtowers_repaired_bla
+			years = 5
+		}
+	}
+
+	option = {
+		name = agot_riverlands_trident_council_decision.0132.b
+
+		trigger = {
+			OR = {
+				has_trait = greedy
+				has_trait = arbitrary
+			}
+		}
+
+		add_short_term_gold = 75
+		add_prestige = -25
+
+		add_character_modifier = {
+			modifier = trident_watchtower_levies_ignored_bla
+			years = 5
+		}
+	}
+
+	option = {
+		name = agot_riverlands_trident_council_decision.0132.c
+
+		add_short_term_gold = 40
+		capital_county = {
+			add_county_modifier = {
+				modifier = weakened_defenses_bla
+				years = 5
+			}
+		}
+	}
+}
+
+agot_riverlands_trident_council_decision.0140 = {
+	type = character_event
+	title = agot_riverlands_trident_council_decision.0140.t
+	desc = agot_riverlands_trident_council_decision.0140.desc
+	theme = intrigue
+
+	override_background = {
+		reference = council_chamber
+	}
+
+	left_portrait = {
+		character = root
+		animation = personality_callous
+	}
+
+	option = {
+		name = agot_riverlands_trident_council_decision.0140.a
+
+		add_dread = 15
+		add_prestige = 75
+
+		add_character_modifier = {
+			modifier = trident_hard_authority_bla
+			years = 5
+		}
+	}
+
+	option = {
+		name = agot_riverlands_trident_council_decision.0140.b
+
+		trigger = {
+			OR = {
+				has_trait = just
+				has_trait = patient
+				diplomacy >= 10
+			}
+		}
+
+		add_diplomacy_lifestyle_xp = 300
+		add_prestige = 75
+
+		every_vassal = {
+			limit = { is_landed = yes }
+
+			add_opinion = {
+				target = root
+				modifier = attended_trident_council_bla
+				opinion = 10
+			}
+		}
+	}
+
+	option = {
+		name = agot_riverlands_trident_council_decision.0140.c
+
+		add_prestige = 25
+
+		random_vassal = {
+			limit = { is_landed = yes }
+
+			add_opinion = {
+				target = root
+				modifier = disappointed_opinion
+				opinion = -10
+			}
+		}
+	}
+}
+
+agot_riverlands_trident_council_decision.0141 = {
+	type = character_event
+	title = agot_riverlands_trident_council_decision.0141.t
+	desc = agot_riverlands_trident_council_decision.0141.desc
+	theme = diplomacy
+
+	override_background = {
+		reference = throne_room
+	}
+
+	left_portrait = {
+		character = root
+		animation = personality_rational
+	}
+
+	option = {
+		name = agot_riverlands_trident_council_decision.0141.a
+
+		add_piety = 50
+		add_learning_lifestyle_xp = 250
+
+		add_character_modifier = {
+			modifier = trident_lawful_arbitration_bla
+			years = 5
+		}
+	}
+
+	option = {
+		name = agot_riverlands_trident_council_decision.0141.b
+
+		trigger = {
+			OR = {
+				has_trait = deceitful
+				has_trait = greedy
+				intrigue >= 10
+			}
+		}
+
+		add_short_term_gold = 100
+		add_intrigue_lifestyle_xp = 250
+
+		add_character_modifier = {
+			modifier = trident_bought_judgment_bla
+			years = 5
+		}
+	}
+
+	option = {
+		name = agot_riverlands_trident_council_decision.0141.c
+
+		add_prestige = -25
+		capital_county = {
+			change_county_control = -10
+		}
+	}
+}
+
+agot_riverlands_trident_council_decision.0142 = {
+	type = character_event
+	title = agot_riverlands_trident_council_decision.0142.t
+	desc = agot_riverlands_trident_council_decision.0142.desc
+	theme = realm
+
+	override_background = {
+		reference = throne_room
+	}
+
+	left_portrait = {
+		character = root
+		animation = personality_honorable
+	}
+
+	option = {
+		name = agot_riverlands_trident_council_decision.0142.a
+
+		remove_short_term_gold = 100
+		add_prestige = 100
+		add_stewardship_lifestyle_xp = 250
+
+		add_character_modifier = {
+			modifier = trident_ordered_river_law_bla
+			years = 5
+		}
+	}
+
+	option = {
+		name = agot_riverlands_trident_council_decision.0142.b
+
+		trigger = {
+			OR = {
+				has_trait = callous
+				has_trait = arbitrary
+				has_trait = wrathful
+			}
+		}
+
+		add_dread = 10
+		add_prestige = 50
+
+		add_character_modifier = {
+			modifier = trident_forced_obedience_bla
+			years = 5
+		}
+	}
+
+	option = {
+		name = agot_riverlands_trident_council_decision.0142.c
+
+		add_short_term_gold = 50
+		capital_county = {
+			change_county_control = -10
+		}
+	}
+}

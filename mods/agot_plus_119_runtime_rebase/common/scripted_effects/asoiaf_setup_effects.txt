@@ -58,7 +58,7 @@ asoiaf_setup_houses_effect = {
 					any_ancestor = {
 						this = character:Baelish_2
 					}
-					house = house:asoiaf_founders_old_house
+					house = scope:asoiaf_founders_old_house
 				}
 				set_house = house:house_BaelishHH
 				trigger_event = { id = agot_coa_events.1 }
@@ -1383,11 +1383,12 @@ asoiaf_setup_characters_effect = {
 			set_court_language = language_agot_westeros
 		}
 	}
-	exists = character:Strong_30 #Harwin Strong (son of Lyonel)
-	character:Targaryen_75 ?= { set_real_father = character:Strong_30 } #for some reason this is not already the case in the base game
-	character:Targaryen_76 ?= { set_real_father = character:Strong_30 }
-	character:Targaryen_77 ?= { set_real_father = character:Strong_30 }
-	exists = character:Stark_5 #Lyanna Stark
+	if = {
+		limit = { exists = character:Strong_30 }
+		character:Targaryen_75 ?= { set_real_father = character:Strong_30 } #for some reason this is not already the case in the base game
+		character:Targaryen_76 ?= { set_real_father = character:Strong_30 }
+		character:Targaryen_77 ?= { set_real_father = character:Strong_30 }
+	}
 	character:Targaryen_3 ?= {
 		add_martial_skill = 5
 		#add_prowess_skill = -2 #otherwise he's higher even than Robert
@@ -1469,6 +1470,7 @@ asoiaf_setup_characters_effect = {
 		if = {
 			limit = {
 				current_date >= 8282.6.15 #one month before Rhaegar and lyanna run away together
+				exists = character:Stark_5
 			}
 			set_relation_soulmate = character:Stark_5 #Lyanna; should be lover, but it glitches out and deletes when you unpause the game
 		}
@@ -1766,7 +1768,7 @@ asoiaf_setup_characters_effect = {
 	character:asoiaf_Capon_2 ?= { #Hans Capon easter egg
 		add_trait_xp = {
 			trait = lifestyle_hunter
-			track = venator
+			track = hunter
 			value = 100
 		}
 		add_trait_xp = {
@@ -2167,8 +2169,7 @@ asoiaf_setup_characters_effect = {
 			add_trait = whole_of_body
 		}
 	}
-	exists = character:Lannister_1
-	character:Lannister_1 = { #Tywin Lannister (son of Tytos)
+	character:Lannister_1 ?= { #Tywin Lannister (son of Tytos)
 		add_intrigue_skill = 5
 		add_trait = shrewd
 		if = {
@@ -2427,8 +2428,6 @@ asoiaf_setup_characters_effect = {
 			remove_trait = zealous
 		}
 	}
-	exists = character:Seaworth_1 #Davos
-	exists = character:Melisandre_1 #Melisandre
 	character:Baratheon_3 ?= {
 		if = {
 			limit = {
@@ -2439,12 +2438,14 @@ asoiaf_setup_characters_effect = {
 		if = {
 			limit = {
 				current_date >= 8283.1.1 #Davos saves Storm's End
+				exists = character:Seaworth_1
 			}
 			set_relation_friend = character:Seaworth_1
 		}
 		if = {
 			limit = {
 				current_date >= 8300.1.1 #Melisande arrived some years prior, and by now has Stannis around her finger
+				exists = character:Melisandre_1
 			}
 			set_relation_lover = character:Melisandre_1
 		}
@@ -2480,8 +2481,8 @@ asoiaf_setup_characters_effect = {
 		if = {
 			limit = {
 				is_alive = yes
-				has_claim = title:e_the_reach
-				has_claim = title:k_the_mander
+				has_claim_on = title:e_the_reach
+				has_claim_on = title:k_the_mander
 			}
 			remove_claim = title:e_the_reach
 			remove_claim = title:k_the_mander
@@ -2490,14 +2491,18 @@ asoiaf_setup_characters_effect = {
 	character:Melisandre_1 ?= {
 		create_artifact_asoiaf_red_priest_necklace_effect = { OWNER = this }
 	}
-	exists = character:Tyrell_13 #Loras Tyrell (son of Mace)
 	character:Tyrell_14 ?= { #Margaery Tyrell (daughter of Mace)
 		set_relation_friend = character:Redwyne_2 #Olenna
-		set_relation_friend = character:Tyrell_13 #Loras
+		if = {
+			limit = { exists = character:Tyrell_13 }
+			set_relation_friend = character:Tyrell_13 #Loras
+		}
 	}
-	exists = character:Baratheon_4 #Renly Baratheon (son of Steffon); friends before lovers, and even friends while lovers
 	character:Tyrell_13 ?= {
-		set_relation_best_friend = character:Baratheon_4 #Renly
+		if = {
+			limit = { exists = character:Baratheon_4 }
+			set_relation_best_friend = character:Baratheon_4 #Renly
+		}
 	}
 	character:Eunuch_1 ?= { #Varys
 		add_intrigue_skill = 6
@@ -2632,8 +2637,7 @@ asoiaf_setup_characters_effect = {
 			remove_trait = vengeful
 		}
 	}
-	exists = character:Lannister_135 #Orson Lannister (son of Daven)
-	character:Lannister_135 = {
+	character:Lannister_135 ?= { #Orson Lannister (son of Daven)
 		if = {
 			limit = {
 				has_trait = intellect_bad_2
@@ -2649,7 +2653,7 @@ asoiaf_setup_characters_effect = {
 }
 
 asoiaf_got_names_effect = {
-	character:Dormund_1 ?= { #Artys Dormand
+	character:Dormand_10 ?= { #Artys Dormand
 		change_first_name = Artys
 	}
 	character:Greyjoy_13 ?= { #Yara Greyjoy (daughter of Balon)
@@ -2903,7 +2907,8 @@ asoiaf_alternative_ages_effect = {
 		change_age = -14 #AGOT+ birthday: 244.1.1
 		if = {
 			limit = {
-				asoiaf_underaged ?= { age >= 16 }
+				scope:asoiaf_underaged ?= this
+				age >= 16
 			}
 			asoiaf_alternative_ages_cleanup_effect = yes
 		}
@@ -2916,7 +2921,8 @@ asoiaf_alternative_ages_effect = {
 		change_age = -7 #AGOT+ birthday: 230.1.1
 		if = {
 			limit = {
-				asoiaf_underaged ?= { age >= 16 }
+				scope:asoiaf_underaged ?= this
+				age >= 16
 			}
 			asoiaf_alternative_ages_cleanup_effect = yes
 		}
@@ -2929,7 +2935,8 @@ asoiaf_alternative_ages_effect = {
 		change_age = 5 #AGOT+ birthday: 238.1.1
 		if = {
 			limit = {
-				asoiaf_underaged ?= { age >= 16 }
+				scope:asoiaf_underaged ?= this
+				age >= 16
 			}
 			asoiaf_alternative_ages_cleanup_effect = yes
 		}
@@ -2942,7 +2949,8 @@ asoiaf_alternative_ages_effect = {
 		change_age = 375 #7898.1.1
 		if = {
 			limit = {
-				asoiaf_underaged ?= { age >= 16 }
+				scope:asoiaf_underaged ?= this
+				age >= 16
 			}
 			asoiaf_alternative_ages_cleanup_effect = yes
 		}
@@ -2955,7 +2963,8 @@ asoiaf_alternative_ages_effect = {
 		change_age = -12 #AGOT+ birthday: 80.1.1
 		if = {
 			limit = {
-				asoiaf_underaged ?= { age >= 16 }
+				scope:asoiaf_underaged ?= this
+				age >= 16
 			}
 			asoiaf_alternative_ages_cleanup_effect = yes
 		}
@@ -2968,7 +2977,8 @@ asoiaf_alternative_ages_effect = {
 		change_age = -12 #AGOT+ birthday: 81.1.1
 		if = {
 			limit = {
-				asoiaf_underaged ?= { age >= 16 }
+				scope:asoiaf_underaged ?= this
+				age >= 16
 			}
 			asoiaf_alternative_ages_cleanup_effect = yes
 		}
@@ -2981,7 +2991,8 @@ asoiaf_alternative_ages_effect = {
 		change_age = 5
 		if = {
 			limit = {
-				asoiaf_underaged ?= { age >= 16 }
+				scope:asoiaf_underaged ?= this
+				age >= 16
 			}
 			asoiaf_alternative_ages_cleanup_effect = yes
 		}
@@ -2994,7 +3005,8 @@ asoiaf_alternative_ages_effect = {
 		change_age = -15 #AGOT+ birthday: 231.1.1
 		if = {
 			limit = {
-				asoiaf_underaged ?= { age >= 16 }
+				scope:asoiaf_underaged ?= this
+				age >= 16
 			}
 			asoiaf_alternative_ages_cleanup_effect = yes
 		}
@@ -3007,7 +3019,8 @@ asoiaf_alternative_ages_effect = {
 		change_age = -2 #AGOT+ birthday: 265.1.1
 		if = {
 			limit = {
-				asoiaf_underaged ?= { age >= 16 }
+				scope:asoiaf_underaged ?= this
+				age >= 16
 			}
 			asoiaf_alternative_ages_cleanup_effect = yes
 		}
@@ -3020,7 +3033,8 @@ asoiaf_alternative_ages_effect = {
 		change_age = 10 #AGOT+ birthday: 270.1.1
 		if = {
 			limit = {
-				asoiaf_underaged ?= { age >= 16 }
+				scope:asoiaf_underaged ?= this
+				age >= 16
 			}
 			asoiaf_alternative_ages_cleanup_effect = yes
 		}
@@ -3033,7 +3047,8 @@ asoiaf_alternative_ages_effect = {
 		change_age = -5 #AGOT+ birthday: 256.1.1
 		if = {
 			limit = {
-				asoiaf_underaged ?= { age >= 16 }
+				scope:asoiaf_underaged ?= this
+				age >= 16
 			}
 			asoiaf_alternative_ages_cleanup_effect = yes
 		}
@@ -3046,7 +3061,8 @@ asoiaf_alternative_ages_effect = {
 		change_age = 7 #AGOT+ birthday: 273.1.1
 		if = {
 			limit = {
-				asoiaf_underaged ?= { age >= 16 }
+				scope:asoiaf_underaged ?= this
+				age >= 16
 			}
 			asoiaf_alternative_ages_cleanup_effect = yes
 		}
@@ -3059,7 +3075,8 @@ asoiaf_alternative_ages_effect = {
 		change_age = -2 #AGOT+ birthday: 264.1.1
 		if = {
 			limit = {
-				asoiaf_underaged ?= { age >= 16 }
+				scope:asoiaf_underaged ?= this
+				age >= 16
 			}
 			asoiaf_alternative_ages_cleanup_effect = yes
 		}
@@ -3072,7 +3089,8 @@ asoiaf_alternative_ages_effect = {
 		change_age = 6 #AGOT+ birthday: 261.1.1
 		if = {
 			limit = {
-				asoiaf_underaged ?= { age >= 16 }
+				scope:asoiaf_underaged ?= this
+				age >= 16
 			}
 			asoiaf_alternative_ages_cleanup_effect = yes
 		}
@@ -3085,7 +3103,8 @@ asoiaf_alternative_ages_effect = {
 		change_age = -1 #AGOT+ birthday: 249.1.1
 		if = {
 			limit = {
-				asoiaf_underaged ?= { age >= 16 }
+				scope:asoiaf_underaged ?= this
+				age >= 16
 			}
 			asoiaf_alternative_ages_cleanup_effect = yes
 		}
@@ -3098,7 +3117,8 @@ asoiaf_alternative_ages_effect = {
 		change_age = 2 #AGOT+ birthday: 285.1.1
 		if = {
 			limit = {
-				asoiaf_underaged ?= { age >= 16 }
+				scope:asoiaf_underaged ?= this
+				age >= 16
 			}
 			asoiaf_alternative_ages_cleanup_effect = yes
 		}
@@ -3111,7 +3131,8 @@ asoiaf_alternative_ages_effect = {
 		change_age = -3 #AGOT+ birthday: 275.1.1
 		if = {
 			limit = {
-				asoiaf_underaged ?= { age >= 16 }
+				scope:asoiaf_underaged ?= this
+				age >= 16
 			}
 			asoiaf_alternative_ages_cleanup_effect = yes
 		}
@@ -3124,7 +3145,8 @@ asoiaf_alternative_ages_effect = {
 		change_age = -3 #AGOT+ birthday: 278.1.1
 		if = {
 			limit = {
-				asoiaf_underaged ?= { age >= 16 }
+				scope:asoiaf_underaged ?= this
+				age >= 16
 			}
 			asoiaf_alternative_ages_cleanup_effect = yes
 		}
@@ -3137,7 +3159,8 @@ asoiaf_alternative_ages_effect = {
 		change_age = -3 #AGOT+ birthday: 280.1.1
 		if = {
 			limit = {
-				asoiaf_underaged ?= { age >= 16 }
+				scope:asoiaf_underaged ?= this
+				age >= 16
 			}
 			asoiaf_alternative_ages_cleanup_effect = yes
 		}
@@ -3150,7 +3173,8 @@ asoiaf_alternative_ages_effect = {
 		change_age = 5 #AGOT+ birthday: 109.1.1
 		if = {
 			limit = {
-				asoiaf_underaged ?= { age >= 16 }
+				scope:asoiaf_underaged ?= this
+				age >= 16
 			}
 			asoiaf_alternative_ages_cleanup_effect = yes
 		}
@@ -3163,7 +3187,8 @@ asoiaf_alternative_ages_effect = {
 		change_age = 5 #AGOT+ birthday: 111.1.1
 		if = {
 			limit = {
-				asoiaf_underaged ?= { age >= 16 }
+				scope:asoiaf_underaged ?= this
+				age >= 16
 			}
 			asoiaf_alternative_ages_cleanup_effect = yes
 		}
@@ -3176,7 +3201,8 @@ asoiaf_alternative_ages_effect = {
 		change_age = 5 #AGOT+ birthday: 114.1.1
 		if = {
 			limit = {
-				asoiaf_underaged ?= { age >= 16 }
+				scope:asoiaf_underaged ?= this
+				age >= 16
 			}
 			asoiaf_alternative_ages_cleanup_effect = yes
 		}
@@ -3189,7 +3215,8 @@ asoiaf_alternative_ages_effect = {
 		change_age = 5 #AGOT+ birthday: 112.1.1
 		if = {
 			limit = {
-				asoiaf_underaged ?= { age >= 16 }
+				scope:asoiaf_underaged ?= this
+				age >= 16
 			}
 			asoiaf_alternative_ages_cleanup_effect = yes
 		}
@@ -3202,7 +3229,8 @@ asoiaf_alternative_ages_effect = {
 		change_age = 3 #AGOT+ birthday: 274.1.1
 		if = {
 			limit = {
-				asoiaf_underaged ?= { age >= 16 }
+				scope:asoiaf_underaged ?= this
+				age >= 16
 			}
 			asoiaf_alternative_ages_cleanup_effect = yes
 		}
@@ -3215,7 +3243,8 @@ asoiaf_alternative_ages_effect = {
 		change_age = 1 #AGOT+ birthday: 285.5.5
 		if = {
 			limit = {
-				asoiaf_underaged ?= { age >= 16 }
+				scope:asoiaf_underaged ?= this
+				age >= 16
 			}
 			asoiaf_alternative_ages_cleanup_effect = yes
 		}
@@ -3228,7 +3257,8 @@ asoiaf_alternative_ages_effect = {
 		change_age = 3 #AGOT+ birthday: 287.1.1
 		if = {
 			limit = {
-				asoiaf_underaged ?= { age >= 16 }
+				scope:asoiaf_underaged ?= this
+				age >= 16
 			}
 			asoiaf_alternative_ages_cleanup_effect = yes
 		}
@@ -3241,7 +3271,8 @@ asoiaf_alternative_ages_effect = {
 		change_age = 3 #AGOT+ birthday: 288.1.1
 		if = {
 			limit = {
-				asoiaf_underaged ?= { age >= 16 }
+				scope:asoiaf_underaged ?= this
+				age >= 16
 			}
 			asoiaf_alternative_ages_cleanup_effect = yes
 		}
@@ -3254,7 +3285,8 @@ asoiaf_alternative_ages_effect = {
 		change_age = 10 #AGOT+ birthday: 237.1.1
 		if = {
 			limit = {
-				asoiaf_underaged ?= { age >= 16 }
+				scope:asoiaf_underaged ?= this
+				age >= 16
 			}
 			asoiaf_alternative_ages_cleanup_effect = yes
 		}
@@ -3267,7 +3299,8 @@ asoiaf_alternative_ages_effect = {
 		change_age = 4 #AGOT+ birthday: 262.1.1
 		if = {
 			limit = {
-				asoiaf_underaged ?= { age >= 16 }
+				scope:asoiaf_underaged ?= this
+				age >= 16
 			}
 			asoiaf_alternative_ages_cleanup_effect = yes
 		}
@@ -3280,7 +3313,8 @@ asoiaf_alternative_ages_effect = {
 		change_age = 4 #AGOT+ birthday: 258.1.1
 		if = {
 			limit = {
-				asoiaf_underaged ?= { age >= 16 }
+				scope:asoiaf_underaged ?= this
+				age >= 16
 			}
 			asoiaf_alternative_ages_cleanup_effect = yes
 		}
@@ -3293,7 +3327,8 @@ asoiaf_alternative_ages_effect = {
 		change_age = 4 #AGOT+ birthday: 259.1.1
 		if = {
 			limit = {
-				asoiaf_underaged ?= { age >= 16 }
+				scope:asoiaf_underaged ?= this
+				age >= 16
 			}
 			asoiaf_alternative_ages_cleanup_effect = yes
 		}
@@ -3306,7 +3341,8 @@ asoiaf_alternative_ages_effect = {
 		change_age = 4 #AGOT+ birthday: 262.1.1
 		if = {
 			limit = {
-				asoiaf_underaged ?= { age >= 16 }
+				scope:asoiaf_underaged ?= this
+				age >= 16
 			}
 			asoiaf_alternative_ages_cleanup_effect = yes
 		}
@@ -3319,7 +3355,8 @@ asoiaf_alternative_ages_effect = {
 		change_age = 3 #AGOT+ birthday: 264.1.1
 		if = {
 			limit = {
-				asoiaf_underaged ?= { age >= 16 }
+				scope:asoiaf_underaged ?= this
+				age >= 16
 			}
 			asoiaf_alternative_ages_cleanup_effect = yes
 		}
@@ -3332,7 +3369,8 @@ asoiaf_alternative_ages_effect = {
 		change_age = 1 #AGOT+ birthday: 285.1.1
 		if = {
 			limit = {
-				asoiaf_underaged ?= { age >= 16 }
+				scope:asoiaf_underaged ?= this
+				age >= 16
 			}
 			asoiaf_alternative_ages_cleanup_effect = yes
 		}
@@ -3345,7 +3383,8 @@ asoiaf_alternative_ages_effect = {
 		change_age = 1 #AGOT+ birthday: 285.1.1
 		if = {
 			limit = {
-				asoiaf_underaged ?= { age >= 16 }
+				scope:asoiaf_underaged ?= this
+				age >= 16
 			}
 			asoiaf_alternative_ages_cleanup_effect = yes
 		}
@@ -3358,7 +3397,8 @@ asoiaf_alternative_ages_effect = {
 		change_age = 2 #AGOT+ birthday: 287.1.1
 		if = {
 			limit = {
-				asoiaf_underaged ?= { age >= 16 }
+				scope:asoiaf_underaged ?= this
+				age >= 16
 			}
 			asoiaf_alternative_ages_cleanup_effect = yes
 		}
@@ -3371,7 +3411,8 @@ asoiaf_alternative_ages_effect = {
 		change_age = 2 #AGOT+ birthday: 287.1.1
 		if = {
 			limit = {
-				asoiaf_underaged ?= { age >= 16 }
+				scope:asoiaf_underaged ?= this
+				age >= 16
 			}
 			asoiaf_alternative_ages_cleanup_effect = yes
 		}
@@ -3384,7 +3425,8 @@ asoiaf_alternative_ages_effect = {
 		change_age = 2 #AGOT+ birthday: 288.1.1
 		if = {
 			limit = {
-				asoiaf_underaged ?= { age >= 16 }
+				scope:asoiaf_underaged ?= this
+				age >= 16
 			}
 			asoiaf_alternative_ages_cleanup_effect = yes
 		}
@@ -3397,7 +3439,8 @@ asoiaf_alternative_ages_effect = {
 		change_age = 2 #AGOT+ birthday: 288.1.1
 		if = {
 			limit = {
-				asoiaf_underaged ?= { age >= 16 }
+				scope:asoiaf_underaged ?= this
+				age >= 16
 			}
 			asoiaf_alternative_ages_cleanup_effect = yes
 		}
@@ -3410,7 +3453,8 @@ asoiaf_alternative_ages_effect = {
 		change_age = 3 #AGOT+ birthday: 292.1.1
 		if = {
 			limit = {
-				asoiaf_underaged ?= { age >= 16 }
+				scope:asoiaf_underaged ?= this
+				age >= 16
 			}
 			asoiaf_alternative_ages_cleanup_effect = yes
 		}
@@ -3423,7 +3467,8 @@ asoiaf_alternative_ages_effect = {
 		change_age = 3 #AGOT+ birthday: 292.1.1
 		if = {
 			limit = {
-				asoiaf_underaged ?= { age >= 16 }
+				scope:asoiaf_underaged ?= this
+				age >= 16
 			}
 			asoiaf_alternative_ages_cleanup_effect = yes
 		}
@@ -3436,7 +3481,8 @@ asoiaf_alternative_ages_effect = {
 		change_age = 1 #AGOT+ birthday: 285.1.1
 		if = {
 			limit = {
-				asoiaf_underaged ?= { age >= 16 }
+				scope:asoiaf_underaged ?= this
+				age >= 16
 			}
 			asoiaf_alternative_ages_cleanup_effect = yes
 		}
@@ -3449,7 +3495,8 @@ asoiaf_alternative_ages_effect = {
 		change_age = 1 #AGOT+ birthday: 285.1.1
 		if = {
 			limit = {
-				asoiaf_underaged ?= { age >= 16 }
+				scope:asoiaf_underaged ?= this
+				age >= 16
 			}
 			asoiaf_alternative_ages_cleanup_effect = yes
 		}
@@ -3462,7 +3509,8 @@ asoiaf_alternative_ages_effect = {
 		change_age = 8 #AGOT+ birthday: 271.1.1
 		if = {
 			limit = {
-				asoiaf_underaged ?= { age >= 16 }
+				scope:asoiaf_underaged ?= this
+				age >= 16
 			}
 			asoiaf_alternative_ages_cleanup_effect = yes
 		}
@@ -3475,7 +3523,8 @@ asoiaf_alternative_ages_effect = {
 		change_age = 2 #AGOT+ birthday: 263.1.1
 		if = {
 			limit = {
-				asoiaf_underaged ?= { age >= 16 }
+				scope:asoiaf_underaged ?= this
+				age >= 16
 			}
 			asoiaf_alternative_ages_cleanup_effect = yes
 		}
@@ -3488,7 +3537,8 @@ asoiaf_alternative_ages_effect = {
 		change_age = 2 #AGOT+ birthday: 263.1.1
 		if = {
 			limit = {
-				asoiaf_underaged ?= { age >= 16 }
+				scope:asoiaf_underaged ?= this
+				age >= 16
 			}
 			asoiaf_alternative_ages_cleanup_effect = yes
 		}
@@ -3501,7 +3551,8 @@ asoiaf_alternative_ages_effect = {
 		change_age = 2 #AGOT+ birthday: 265.1.1
 		if = {
 			limit = {
-				asoiaf_underaged ?= { age >= 16 }
+				scope:asoiaf_underaged ?= this
+				age >= 16
 			}
 			asoiaf_alternative_ages_cleanup_effect = yes
 		}
@@ -3514,7 +3565,8 @@ asoiaf_alternative_ages_effect = {
 		change_age = 6 #AGOT+ birthday: 267.1.1
 		if = {
 			limit = {
-				asoiaf_underaged ?= { age >= 16 }
+				scope:asoiaf_underaged ?= this
+				age >= 16
 			}
 			asoiaf_alternative_ages_cleanup_effect = yes
 		}
@@ -3527,7 +3579,8 @@ asoiaf_alternative_ages_effect = {
 		change_age = -10 #AGOT+ birthday: 64.1.1
 		if = {
 			limit = {
-				asoiaf_underaged ?= { age >= 16 }
+				scope:asoiaf_underaged ?= this
+				age >= 16
 			}
 			asoiaf_alternative_ages_cleanup_effect = yes
 		}
@@ -3540,7 +3593,8 @@ asoiaf_alternative_ages_effect = {
 		change_age = -9 #AGOT+ birthday: 66.1.1
 		if = {
 			limit = {
-				asoiaf_underaged ?= { age >= 16 }
+				scope:asoiaf_underaged ?= this
+				age >= 16
 			}
 			asoiaf_alternative_ages_cleanup_effect = yes
 		}
@@ -3553,7 +3607,8 @@ asoiaf_alternative_ages_effect = {
 		change_age = 1 #AGOT+ birthday: 283.1.1
 		if = {
 			limit = {
-				asoiaf_underaged ?= { age >= 16 }
+				scope:asoiaf_underaged ?= this
+				age >= 16
 			}
 			asoiaf_alternative_ages_cleanup_effect = yes
 		}
@@ -3566,7 +3621,8 @@ asoiaf_alternative_ages_effect = {
 		change_age = 1 #AGOT+ birthday: 282.1.1
 		if = {
 			limit = {
-				asoiaf_underaged ?= { age >= 16 }
+				scope:asoiaf_underaged ?= this
+				age >= 16
 			}
 			asoiaf_alternative_ages_cleanup_effect = yes
 		}
@@ -3579,7 +3635,8 @@ asoiaf_alternative_ages_effect = {
 		change_age = -1 #AGOT+ birthday: 283.1.1
 		if = {
 			limit = {
-				asoiaf_underaged ?= { age >= 16 }
+				scope:asoiaf_underaged ?= this
+				age >= 16
 			}
 			asoiaf_alternative_ages_cleanup_effect = yes
 		}
@@ -3592,7 +3649,8 @@ asoiaf_alternative_ages_effect = {
 		change_age = 1 #AGOT+ birthday: 81.1.1
 		if = {
 			limit = {
-				asoiaf_underaged ?= { age >= 16 }
+				scope:asoiaf_underaged ?= this
+				age >= 16
 			}
 			asoiaf_alternative_ages_cleanup_effect = yes
 		}
@@ -3605,7 +3663,8 @@ asoiaf_alternative_ages_effect = {
 		change_age = 3 #AGOT+ birthday: 289.1.1
 		if = {
 			limit = {
-				asoiaf_underaged ?= { age >= 16 }
+				scope:asoiaf_underaged ?= this
+				age >= 16
 			}
 			asoiaf_alternative_ages_cleanup_effect = yes
 		}
@@ -3618,7 +3677,8 @@ asoiaf_alternative_ages_effect = {
 		change_age = -2 #AGOT+ birthday: 242.1.1
 		if = {
 			limit = {
-				asoiaf_underaged ?= { age >= 16 }
+				scope:asoiaf_underaged ?= this
+				age >= 16
 			}
 			asoiaf_alternative_ages_cleanup_effect = yes
 		}
@@ -3631,7 +3691,8 @@ asoiaf_alternative_ages_effect = {
 		change_age = -8 #AGOT+ birthday: 259.1.1
 		if = {
 			limit = {
-				asoiaf_underaged ?= { age >= 16 }
+				scope:asoiaf_underaged ?= this
+				age >= 16
 			}
 			asoiaf_alternative_ages_cleanup_effect = yes
 		}
@@ -3644,7 +3705,8 @@ asoiaf_alternative_ages_effect = {
 		change_age = 2 #AGOT+ birthday: 262.1.1
 		if = {
 			limit = {
-				asoiaf_underaged ?= { age >= 16 }
+				scope:asoiaf_underaged ?= this
+				age >= 16
 			}
 			asoiaf_alternative_ages_cleanup_effect = yes
 		}
@@ -3657,7 +3719,8 @@ asoiaf_alternative_ages_effect = {
 		change_age = -5 #AGOT+ birthday: 258.1.1
 		if = {
 			limit = {
-				asoiaf_underaged ?= { age >= 16 }
+				scope:asoiaf_underaged ?= this
+				age >= 16
 			}
 			asoiaf_alternative_ages_cleanup_effect = yes
 		}
@@ -3670,7 +3733,8 @@ asoiaf_alternative_ages_effect = {
 		change_age = 3 #AGOT+ birthday: 265.1.1
 		if = {
 			limit = {
-				asoiaf_underaged ?= { age >= 16 }
+				scope:asoiaf_underaged ?= this
+				age >= 16
 			}
 			asoiaf_alternative_ages_cleanup_effect = yes
 		}
@@ -3683,7 +3747,8 @@ asoiaf_alternative_ages_effect = {
 		change_age = -1 #AGOT+ birthday: 68.1.1
 		if = {
 			limit = {
-				asoiaf_underaged ?= { age >= 16 }
+				scope:asoiaf_underaged ?= this
+				age >= 16
 			}
 			asoiaf_alternative_ages_cleanup_effect = yes
 		}
@@ -3696,7 +3761,8 @@ asoiaf_alternative_ages_effect = {
 		change_age = 1 #AGOT+ birthday: 287.1.1
 		if = {
 			limit = {
-				asoiaf_underaged ?= { age >= 16 }
+				scope:asoiaf_underaged ?= this
+				age >= 16
 			}
 			asoiaf_alternative_ages_cleanup_effect = yes
 		}
@@ -3709,7 +3775,8 @@ asoiaf_alternative_ages_effect = {
 		change_age = 5 #AGOT+ birthday: 237.1.1
 		if = {
 			limit = {
-				asoiaf_underaged ?= { age >= 16 }
+				scope:asoiaf_underaged ?= this
+				age >= 16
 			}
 			asoiaf_alternative_ages_cleanup_effect = yes
 		}
@@ -3722,7 +3789,8 @@ asoiaf_alternative_ages_effect = {
 		change_age = 5 #AGOT+ birthday: 261.1.1
 		if = {
 			limit = {
-				asoiaf_underaged ?= { age >= 16 }
+				scope:asoiaf_underaged ?= this
+				age >= 16
 			}
 			asoiaf_alternative_ages_cleanup_effect = yes
 		}
@@ -3735,7 +3803,8 @@ asoiaf_alternative_ages_effect = {
 		change_age = 5 #AGOT+ birthday: 261.1.1
 		if = {
 			limit = {
-				asoiaf_underaged ?= { age >= 16 }
+				scope:asoiaf_underaged ?= this
+				age >= 16
 			}
 			asoiaf_alternative_ages_cleanup_effect = yes
 		}
@@ -3748,7 +3817,8 @@ asoiaf_alternative_ages_effect = {
 		change_age = 5 #AGOT+ birthday: 268.1.1
 		if = {
 			limit = {
-				asoiaf_underaged ?= { age >= 16 }
+				scope:asoiaf_underaged ?= this
+				age >= 16
 			}
 			asoiaf_alternative_ages_cleanup_effect = yes
 		}
@@ -3761,7 +3831,8 @@ asoiaf_alternative_ages_effect = {
 		change_age = 2 #AGOT+ birthday: 280.1.1
 		if = {
 			limit = {
-				asoiaf_underaged ?= { age >= 16 }
+				scope:asoiaf_underaged ?= this
+				age >= 16
 			}
 			asoiaf_alternative_ages_cleanup_effect = yes
 		}
@@ -3774,7 +3845,8 @@ asoiaf_alternative_ages_effect = {
 		change_age = 2 #AGOT+ birthday: 284.1.1
 		if = {
 			limit = {
-				asoiaf_underaged ?= { age >= 16 }
+				scope:asoiaf_underaged ?= this
+				age >= 16
 			}
 			asoiaf_alternative_ages_cleanup_effect = yes
 		}
@@ -3787,7 +3859,8 @@ asoiaf_alternative_ages_effect = {
 		change_age = 2 #AGOT+ birthday: 284.1.1
 		if = {
 			limit = {
-				asoiaf_underaged ?= { age >= 16 }
+				scope:asoiaf_underaged ?= this
+				age >= 16
 			}
 			asoiaf_alternative_ages_cleanup_effect = yes
 		}
@@ -3800,7 +3873,8 @@ asoiaf_alternative_ages_effect = {
 		change_age = 11 #AGOT+ birthday: 286.1.1
 		if = {
 			limit = {
-				asoiaf_underaged ?= { age >= 16 }
+				scope:asoiaf_underaged ?= this
+				age >= 16
 			}
 			asoiaf_alternative_ages_cleanup_effect = yes
 		}
@@ -3813,7 +3887,8 @@ asoiaf_alternative_ages_effect = {
 		change_age = -6 #AGOT+ birthday: 271.1.1
 		if = {
 			limit = {
-				asoiaf_underaged ?= { age >= 16 }
+				scope:asoiaf_underaged ?= this
+				age >= 16
 			}
 			asoiaf_alternative_ages_cleanup_effect = yes
 		}
@@ -3826,7 +3901,8 @@ asoiaf_alternative_ages_effect = {
 		change_age = 2 #AGOT+ birthday: 194.1.1
 		if = {
 			limit = {
-				asoiaf_underaged ?= { age >= 16 }
+				scope:asoiaf_underaged ?= this
+				age >= 16
 			}
 			asoiaf_alternative_ages_cleanup_effect = yes
 		}
@@ -3839,7 +3915,8 @@ asoiaf_alternative_ages_effect = {
 		change_age = 3 #AGOT+ birthday: 279.1.1
 		if = {
 			limit = {
-				asoiaf_underaged ?= { age >= 16 }
+				scope:asoiaf_underaged ?= this
+				age >= 16
 			}
 			asoiaf_alternative_ages_cleanup_effect = yes
 		}
@@ -3852,7 +3929,8 @@ asoiaf_alternative_ages_effect = {
 		change_age = 3 #AGOT+ birthday: 280.1.1
 		if = {
 			limit = {
-				asoiaf_underaged ?= { age >= 16 }
+				scope:asoiaf_underaged ?= this
+				age >= 16
 			}
 			asoiaf_alternative_ages_cleanup_effect = yes
 		}
@@ -3865,7 +3943,8 @@ asoiaf_alternative_ages_effect = {
 		change_age = -3 #AGOT+ birthday: 85.1.1
 		if = {
 			limit = {
-				asoiaf_underaged ?= { age >= 16 }
+				scope:asoiaf_underaged ?= this
+				age >= 16
 			}
 			asoiaf_alternative_ages_cleanup_effect = yes
 		}
@@ -3878,7 +3957,8 @@ asoiaf_alternative_ages_effect = {
 		change_age = -2 #AGOT+ birthday: 92.1.1
 		if = {
 			limit = {
-				asoiaf_underaged ?= { age >= 16 }
+				scope:asoiaf_underaged ?= this
+				age >= 16
 			}
 			asoiaf_alternative_ages_cleanup_effect = yes
 		}
@@ -3891,7 +3971,8 @@ asoiaf_alternative_ages_effect = {
 		change_age = -6 #AGOT+ birthday: 99.1.1
 		if = {
 			limit = {
-				asoiaf_underaged ?= { age >= 16 }
+				scope:asoiaf_underaged ?= this
+				age >= 16
 			}
 			asoiaf_alternative_ages_cleanup_effect = yes
 		}
@@ -3904,7 +3985,8 @@ asoiaf_alternative_ages_effect = {
 		change_age = -1 #AGOT+ birthday: 49.1.1
 		if = {
 			limit = {
-				asoiaf_underaged ?= { age >= 16 }
+				scope:asoiaf_underaged ?= this
+				age >= 16
 			}
 			asoiaf_alternative_ages_cleanup_effect = yes
 		}
@@ -3917,7 +3999,8 @@ asoiaf_alternative_ages_effect = {
 		change_age = 4 #AGOT+ birthday: 263.1.1
 		if = {
 			limit = {
-				asoiaf_underaged ?= { age >= 16 }
+				scope:asoiaf_underaged ?= this
+				age >= 16
 			}
 			asoiaf_alternative_ages_cleanup_effect = yes
 		}
@@ -3930,7 +4013,8 @@ asoiaf_alternative_ages_effect = {
 		change_age = 3 #AGOT+ birthday: 82.1.1
 		if = {
 			limit = {
-				asoiaf_underaged ?= { age >= 16 }
+				scope:asoiaf_underaged ?= this
+				age >= 16
 			}
 			asoiaf_alternative_ages_cleanup_effect = yes
 		}
@@ -3943,7 +4027,8 @@ asoiaf_alternative_ages_effect = {
 		change_age = -2 #AGOT+ birthday: 54.1.1
 		if = {
 			limit = {
-				asoiaf_underaged ?= { age >= 16 }
+				scope:asoiaf_underaged ?= this
+				age >= 16
 			}
 			asoiaf_alternative_ages_cleanup_effect = yes
 		}
@@ -3956,7 +4041,8 @@ asoiaf_alternative_ages_effect = {
 		change_age = -3 #AGOT+ birthday: 84.1.1
 		if = {
 			limit = {
-				asoiaf_underaged ?= { age >= 16 }
+				scope:asoiaf_underaged ?= this
+				age >= 16
 			}
 			asoiaf_alternative_ages_cleanup_effect = yes
 		}
@@ -3969,7 +4055,8 @@ asoiaf_alternative_ages_effect = {
 		change_age = 2 #AGOT+ birthday: 95.1.1
 		if = {
 			limit = {
-				asoiaf_underaged ?= { age >= 16 }
+				scope:asoiaf_underaged ?= this
+				age >= 16
 			}
 			asoiaf_alternative_ages_cleanup_effect = yes
 		}
@@ -3982,7 +4069,8 @@ asoiaf_alternative_ages_effect = {
 		change_age = 2 #AGOT+ birthday: 112.12.27; 16 a week or so (max) after the Battle of Rook's Rest
 		if = {
 			limit = {
-				asoiaf_underaged ?= { age >= 16 }
+				scope:asoiaf_underaged ?= this
+				age >= 16
 			}
 			asoiaf_alternative_ages_cleanup_effect = yes
 		}
@@ -3995,7 +4083,8 @@ asoiaf_alternative_ages_effect = {
 		change_age = 2 #AGOT+ birthday: 241.1.1
 		if = {
 			limit = {
-				asoiaf_underaged ?= { age >= 16 }
+				scope:asoiaf_underaged ?= this
+				age >= 16
 			}
 			asoiaf_alternative_ages_cleanup_effect = yes
 		}
@@ -4008,7 +4097,8 @@ asoiaf_alternative_ages_effect = {
 		change_age = 2 #AGOT+ birthday: 243.1.1
 		if = {
 			limit = {
-				asoiaf_underaged ?= { age >= 16 }
+				scope:asoiaf_underaged ?= this
+				age >= 16
 			}
 			asoiaf_alternative_ages_cleanup_effect = yes
 		}
@@ -4021,7 +4111,8 @@ asoiaf_alternative_ages_effect = {
 		change_age = 1 #AGOT+ birthday: 105.1.1
 		if = {
 			limit = {
-				asoiaf_underaged ?= { age >= 16 }
+				scope:asoiaf_underaged ?= this
+				age >= 16
 			}
 			asoiaf_alternative_ages_cleanup_effect = yes
 		}
@@ -4034,7 +4125,8 @@ asoiaf_alternative_ages_effect = {
 		change_age = 1 #AGOT+ birthday: 100.1.1; needs to be older than Leon, who had his age increased by 4
 		if = {
 			limit = {
-				asoiaf_underaged ?= { age >= 16 }
+				scope:asoiaf_underaged ?= this
+				age >= 16
 			}
 			asoiaf_alternative_ages_cleanup_effect = yes
 		}
@@ -4047,7 +4139,8 @@ asoiaf_alternative_ages_effect = {
 		change_age = 4 #AGOT+ birthday: 101.1.1
 		if = {
 			limit = {
-				asoiaf_underaged ?= { age >= 16 }
+				scope:asoiaf_underaged ?= this
+				age >= 16
 			}
 			asoiaf_alternative_ages_cleanup_effect = yes
 		}
@@ -4060,7 +4153,8 @@ asoiaf_alternative_ages_effect = {
 		change_age = -3 #AGOT+ birthday: 78.1.1
 		if = {
 			limit = {
-				asoiaf_underaged ?= { age >= 16 }
+				scope:asoiaf_underaged ?= this
+				age >= 16
 			}
 			asoiaf_alternative_ages_cleanup_effect = yes
 		}
@@ -4073,7 +4167,8 @@ asoiaf_alternative_ages_effect = {
 		change_age = -2 #AGOT+ birthday: 82.1.1
 		if = {
 			limit = {
-				asoiaf_underaged ?= { age >= 16 }
+				scope:asoiaf_underaged ?= this
+				age >= 16
 			}
 			asoiaf_alternative_ages_cleanup_effect = yes
 		}
@@ -4086,7 +4181,8 @@ asoiaf_alternative_ages_effect = {
 		change_age = -2 #AGOT+ birthday: 82.1.1
 		if = {
 			limit = {
-				asoiaf_underaged ?= { age >= 16 }
+				scope:asoiaf_underaged ?= this
+				age >= 16
 			}
 			asoiaf_alternative_ages_cleanup_effect = yes
 		}
@@ -4099,7 +4195,8 @@ asoiaf_alternative_ages_effect = {
 		change_age = -6 #AGOT+ birthday: 88.1.1
 		if = {
 			limit = {
-				asoiaf_underaged ?= { age >= 16 }
+				scope:asoiaf_underaged ?= this
+				age >= 16
 			}
 			asoiaf_alternative_ages_cleanup_effect = yes
 		}
@@ -4114,7 +4211,8 @@ asoiaf_alternative_ages_effect = {
 		set_father = character:Appleton_70
 		if = {
 			limit = {
-				asoiaf_underaged ?= { age >= 16 }
+				scope:asoiaf_underaged ?= this
+				age >= 16
 			}
 			asoiaf_alternative_ages_cleanup_effect = yes
 		}
@@ -4127,7 +4225,8 @@ asoiaf_alternative_ages_effect = {
 		change_age = 7 #AGOT+ birthday: 88.1.1
 		if = {
 			limit = {
-				asoiaf_underaged ?= { age >= 16 }
+				scope:asoiaf_underaged ?= this
+				age >= 16
 			}
 			asoiaf_alternative_ages_cleanup_effect = yes
 		}
@@ -4140,7 +4239,8 @@ asoiaf_alternative_ages_effect = {
 		change_age = 5 #AGOT+ birthday: 86.1.1
 		if = {
 			limit = {
-				asoiaf_underaged ?= { age >= 16 }
+				scope:asoiaf_underaged ?= this
+				age >= 16
 			}
 			asoiaf_alternative_ages_cleanup_effect = yes
 		}
@@ -4153,7 +4253,8 @@ asoiaf_alternative_ages_effect = {
 		change_age = 2 #AGOT+ birthday: 274.1.1
 		if = {
 			limit = {
-				asoiaf_underaged ?= { age >= 16 }
+				scope:asoiaf_underaged ?= this
+				age >= 16
 			}
 			asoiaf_alternative_ages_cleanup_effect = yes
 		}
@@ -4168,7 +4269,8 @@ asoiaf_alternative_ages_effect = {
 		set_mother = character:Upcliff_22 #Arwen Upcliff (daughter of Estin)
 		if = {
 			limit = {
-				asoiaf_underaged ?= { age >= 16 }
+				scope:asoiaf_underaged ?= this
+				age >= 16
 			}
 			asoiaf_alternative_ages_cleanup_effect = yes
 		}
@@ -4181,7 +4283,8 @@ asoiaf_alternative_ages_effect = {
 		change_age = -15 #AGOT+ birthday: 262.1.1
 		if = {
 			limit = {
-				asoiaf_underaged ?= { age >= 16 }
+				scope:asoiaf_underaged ?= this
+				age >= 16
 			}
 			asoiaf_alternative_ages_cleanup_effect = yes
 		}
@@ -4194,7 +4297,8 @@ asoiaf_alternative_ages_effect = {
 		change_age = 4 #AGOT+ birthday: 258.1.1
 		if = {
 			limit = {
-				asoiaf_underaged ?= { age >= 16 }
+				scope:asoiaf_underaged ?= this
+				age >= 16
 			}
 			asoiaf_alternative_ages_cleanup_effect = yes
 		}
@@ -4207,7 +4311,8 @@ asoiaf_alternative_ages_effect = {
 		change_age = -14 #AGOT+ birthday: 81.1.1
 		if = {
 			limit = {
-				asoiaf_underaged ?= { age >= 16 }
+				scope:asoiaf_underaged ?= this
+				age >= 16
 			}
 			asoiaf_alternative_ages_cleanup_effect = yes
 		}
@@ -4220,7 +4325,8 @@ asoiaf_alternative_ages_effect = {
 		change_age = 4 #AGOT+ birthday: 252.1.1
 		if = {
 			limit = {
-				asoiaf_underaged ?= { age >= 16 }
+				scope:asoiaf_underaged ?= this
+				age >= 16
 			}
 			asoiaf_alternative_ages_cleanup_effect = yes
 		}
@@ -4233,7 +4339,8 @@ asoiaf_alternative_ages_effect = {
 		change_age = -14 #AGOT+ birthday: 266.1.1
 		if = {
 			limit = {
-				asoiaf_underaged ?= { age >= 16 }
+				scope:asoiaf_underaged ?= this
+				age >= 16
 			}
 			asoiaf_alternative_ages_cleanup_effect = yes
 		}
@@ -4246,7 +4353,8 @@ asoiaf_alternative_ages_effect = {
 		change_age = -10 #AGOT+ birthday: 282.1.1
 		if = {
 			limit = {
-				asoiaf_underaged ?= { age >= 16 }
+				scope:asoiaf_underaged ?= this
+				age >= 16
 			}
 			asoiaf_alternative_ages_cleanup_effect = yes
 		}
@@ -4259,7 +4367,8 @@ asoiaf_alternative_ages_effect = {
 		change_age = -10 #AGOT+ birthday: 284.1.1
 		if = {
 			limit = {
-				asoiaf_underaged ?= { age >= 16 }
+				scope:asoiaf_underaged ?= this
+				age >= 16
 			}
 			asoiaf_alternative_ages_cleanup_effect = yes
 		}
@@ -4272,7 +4381,8 @@ asoiaf_alternative_ages_effect = {
 		change_age = -10 #AGOT+ birthday: 287.1.1
 		if = {
 			limit = {
-				asoiaf_underaged ?= { age >= 16 }
+				scope:asoiaf_underaged ?= this
+				age >= 16
 			}
 			asoiaf_alternative_ages_cleanup_effect = yes
 		}
@@ -4285,7 +4395,8 @@ asoiaf_alternative_ages_effect = {
 		change_age = -10 #AGOT+ birthday: 288.1.1
 		if = {
 			limit = {
-				asoiaf_underaged ?= { age >= 16 }
+				scope:asoiaf_underaged ?= this
+				age >= 16
 			}
 			asoiaf_alternative_ages_cleanup_effect = yes
 		}
@@ -4307,7 +4418,7 @@ asoiaf_got_traits_effect = {
 		add_trait = shrewd
 		add_trait = lifestyle_poet
 		add_trait = education_martial_prowess_4
-		add_trait = august_trait
+		add_trait = august
 		add_trait = diplomat
 		if = { limit = { is_alive = yes } add_perk = firm_hand_perk }
 		if = { limit = { is_alive = yes } add_perk = praetorian_guard_perk }
@@ -4632,7 +4743,7 @@ asoiaf_got_traits_effect = {
 		add_trait = fashionable
 		add_trait = education_martial_prowess_3
 		add_trait = organizer
-		add_trait = tourney_participan
+		add_trait = tourney_participant
 		add_trait_xp = {
 			trait = tourney_participant
 			track = wit
@@ -4936,7 +5047,7 @@ asoiaf_got_traits_effect = {
 			set_focus = education_diplomacy
 		}
 		if = {
-			limit = { is_dead = yes }
+			limit = { is_alive = no }
 			set_death_reason = {
 				death_reason = death_dragon_fire
 				killer = character:dragon_vhagar
@@ -5114,7 +5225,7 @@ asoiaf_got_traits_effect = {
 			set_focus = education_martial
 		}
 		set_father = character:Broome_54 #Morrec broome (son of Briony)
-		set_mother = character:Broome_rs_54
+		set_mother = character:Brax_67
 	}
 	character:Swyft_1 ?= { #Harys Swyft (son of Sheldon)
 		asoiaf_clear_personality_traits_effect = yes
@@ -5467,7 +5578,6 @@ asoiaf_got_traits_effect = {
 		asoiaf_clear_personality_traits_effect = yes
 		asoiaf_clear_inherited_traits_effect = yes
 		remove_trait = lifestyle_reveler
-		remove_trait = lifestyle_reveler_2_history
 		remove_trait = improvident
 		add_trait = inquisitive
 		add_trait = stubborn
@@ -5561,7 +5671,7 @@ asoiaf_got_traits_effect = {
 		add_trait = wrathful
 		add_trait = ambitious
 		add_trait = callous #ruthless
-		add_trait = blademaster
+		add_trait = lifestyle_blademaster
 		add_trait = aggressive_attacker
 		add_trait = reckless
 		add_trait = shrewd
@@ -5607,7 +5717,7 @@ asoiaf_got_traits_effect = {
 		remove_trait = spindly
 		remove_trait = hunchbacked
 		if = {
-			limit = { is_dead = yes }
+			limit = { is_alive = no }
 			set_death_reason = { death_reason = death_dragon_fire }
 		}
 	}
@@ -5648,7 +5758,7 @@ asoiaf_got_traits_effect = {
 			set_focus = education_diplomacy
 		}
 		if = {
-			limit = { has_claim = title:c_godsroost }
+			limit = { has_claim_on = title:c_godsroost }
 			remove_claim = title:c_godsroost
 		}
 	}
@@ -6246,7 +6356,7 @@ asoiaf_got_traits_effect = {
 		add_trait = shrewd
 		if = {
 			limit = { age < 16 }
-			set_focus = education_stewardhip
+			set_focus = education_stewardship
 		}
 	}
 	character:Targaryen_89 ?= { #Aemon Targaryen (son of Viserys II)
@@ -6666,7 +6776,7 @@ asoiaf_got_traits_effect = {
 		add_trait = beauty_good_2
 		if = {
 			limit = { age < 16 }
-			set_focus = bossy
+			add_trait = bossy
 		}
 	}
 	character:Targaryen_126 ?= { #Duncan Targaryen (son of Aegon V)
@@ -7553,11 +7663,11 @@ asoiaf_got_traits_effect = {
 	}
 	character:Lannister_129 ?= { #Tytos Lannister (son of Gerold)
 		if = {
-			limit = { has_claim = title:c_trembley } #he GAVE it to someone else, hence he does not get a claim
+			limit = { has_claim_on = title:c_trembley } #he GAVE it to someone else, hence he does not get a claim
 			remove_claim = title:c_trembley
 		}
 		if = {
-			limit = { has_claim = title:c_fang_hill } #he GAVE it to someone else, hence he does not get a claim
+			limit = { has_claim_on = title:c_fang_hill } #he GAVE it to someone else, hence he does not get a claim
 			remove_claim = title:c_fang_hill
 		}
 		if = {
@@ -7624,11 +7734,11 @@ asoiaf_got_traits_effect = {
 			set_focus = education_stewardship
 		}
 		if = {
-			limit = { has_claim = title:c_trembley } #his father GAVE it to someone else, hence neither he nor his children get a claim
+			limit = { has_claim_on = title:c_trembley } #his father GAVE it to someone else, hence neither he nor his children get a claim
 			remove_claim = title:c_trembley
 		}
 		if = {
-			limit = { has_claim = title:c_fang_hill } #his father GAVE it to someone else, hence neither he nor his children get a claim
+			limit = { has_claim_on = title:c_fang_hill } #his father GAVE it to someone else, hence neither he nor his children get a claim
 			remove_claim = title:c_fang_hill
 		}
 		if = {
@@ -7696,21 +7806,21 @@ asoiaf_got_traits_effect = {
 			}
 		}
 		if = {
-			limit = { has_claim = title:c_trembley } #his father GAVE it to someone else, hence neither he nor his children get a claim
+			limit = { has_claim_on = title:c_trembley } #his father GAVE it to someone else, hence neither he nor his children get a claim
 			remove_claim = title:c_trembley
 		}
 		if = {
-			limit = { has_claim = title:c_fang_hill } #his father GAVE it to someone else, hence neither he nor his children get a claim
+			limit = { has_claim_on = title:c_fang_hill } #his father GAVE it to someone else, hence neither he nor his children get a claim
 			remove_claim = title:c_fang_hill
 		}
 	}
 	character:Lannister_3 ?= { #Genna Lannister (daughter of Tytos)
 		if = {
-			limit = { has_claim = title:c_trembley } #her father GAVE it to someone else, hence neither she nor her children get a claim
+			limit = { has_claim_on = title:c_trembley } #her father GAVE it to someone else, hence neither she nor her children get a claim
 			remove_claim = title:c_trembley
 		}
 		if = {
-			limit = { has_claim = title:c_fang_hill } #her father GAVE it to someone else, hence neither she nor her children get a claim
+			limit = { has_claim_on = title:c_fang_hill } #her father GAVE it to someone else, hence neither she nor her children get a claim
 			remove_claim = title:c_fang_hill
 		}
 	}
@@ -7731,11 +7841,11 @@ asoiaf_got_traits_effect = {
 			set_focus = education_martial
 		}
 		if = {
-			limit = { has_claim = title:c_trembley } #his father GAVE it to someone else, hence neither he nor his children get a claim
+			limit = { has_claim_on = title:c_trembley } #his father GAVE it to someone else, hence neither he nor his children get a claim
 			remove_claim = title:c_trembley
 		}
 		if = {
-			limit = { has_claim = title:c_fang_hill } #his father GAVE it to someone else, hence neither he nor his children get a claim
+			limit = { has_claim_on = title:c_fang_hill } #his father GAVE it to someone else, hence neither he nor his children get a claim
 			remove_claim = title:c_fang_hill
 		}
 	}
@@ -7755,11 +7865,11 @@ asoiaf_got_traits_effect = {
 			set_focus = education_martial
 		}
 		if = {
-			limit = { has_claim = title:c_trembley } #his father GAVE it to someone else, hence neither he nor his children get a claim
+			limit = { has_claim_on = title:c_trembley } #his father GAVE it to someone else, hence neither he nor his children get a claim
 			remove_claim = title:c_trembley
 		}
 		if = {
-			limit = { has_claim = title:c_fang_hill } #his father GAVE it to someone else, hence neither he nor his children get a claim
+			limit = { has_claim_on = title:c_fang_hill } #his father GAVE it to someone else, hence neither he nor his children get a claim
 			remove_claim = title:c_fang_hill
 		}
 	}
@@ -8434,12 +8544,6 @@ asoiaf_got_traits_effect = {
 			}
 			add_character_modifier = asoiaf_stress_jarred_children #keeps her stillborn children in jars
 		}
-		if = { #for people using the More Bookmarks mod, so that Selyse is of the proper faith
-			limit = {
-				faith = faith:rhllor
-			}
-			set_character_faith = faith:rhllor_fots
-		}
 	}
 	character:Florent_8 ?= { #Melessa Florent (daughter of Alester)
 		asoiaf_clear_personality_traits_effect = yes
@@ -9074,18 +9178,6 @@ asoiaf_got_traits_effect = {
 				opinion = 200
 				target = character:Melisandre_1
 			}
-		}
-		if = { #for people using the More Bookmarks mod, so that Stannis and his followers are of the proper faith
-			limit = {
-				#AND = {
-					#current_date >= 8299.3.3 #the day Stannis converts
-					faith = faith:rhllor
-				#}
-			}
-			set_character_faith = faith:rhllor_fots
-			every_courtier_or_guest  = { limit = { faith = faith:rhllor } set_character_faith = faith:rhllor_fots }
-			every_vassal_or_below  = { limit = { faith = faith:rhllor } set_character_faith = faith:rhllor_fots }
-			every_vassal_or_below = { every_courtier_or_guest  = { limit = { faith = faith:rhllor } set_character_faith = faith:rhllor_fots } }
 		}
 	}
 	character:Baratheon_4 ?= { #Renly Baratheon (son of Steffon)
@@ -10604,7 +10696,7 @@ asoiaf_got_traits_effect = {
 			add_trait = pensive
 		}
 	}
-	character:Dormund_1 ?= { #Jon Dormund -> Artys Dormand
+	character:Dormand_10 ?= { #Jon Dormund -> Artys Dormand
 		add_trait = knight
 	}
 	character:Stark_7 ?= { #Jon Snow
@@ -11533,8 +11625,10 @@ asoiaf_new_dnas_effect = {
 		character:Lowborn_Kings_Landing_1 ?= { copy_inheritable_appearance_from = character:Shae_asoiaf_1 }
 		character:Saan_2 ?= {
 			copy_inheritable_appearance_from = character:Saan_asoiaf_2
-			exists = character:Saan_asoiaf_2_mother
-			set_mother = character:Saan_asoiaf_2_mother #Salladhor's Summer Islander mother
+			if = {
+				limit = { exists = character:Saan_asoiaf_2_mother }
+				set_mother = character:Saan_asoiaf_2_mother #Salladhor's Summer Islander mother
+			}
 			add_trait = wild_oat
 			character:Saan_asoiaf_2_mother ?= {
 				add_trait = fornicator

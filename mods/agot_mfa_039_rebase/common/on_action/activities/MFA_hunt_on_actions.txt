@@ -1,0 +1,656 @@
+﻿####################################
+# MFA Activity Converter
+# Pulse relay for hunt activity
+# Root scope = the character (same as on_weekly_pulse).
+####################################
+
+
+
+MFA_hunt_0_relay = {
+	trigger = {
+		is_ruler = yes
+		exists = var:MFA_phase_0_remaining
+	}
+
+	effect = {
+		if = {
+			limit = {
+				var:MFA_phase_0_remaining >= 1
+				scope:activity = { is_current_phase_active = yes }
+			}
+			# Fires for every attendee
+						trigger_event = hunt.0081 # Invalidation
+		}
+
+		change_variable = {
+			name = MFA_phase_0_remaining
+			add = -1
+		}
+		if = {
+			limit = {
+				var:MFA_phase_0_remaining >= 1
+			}
+			trigger_event = { on_action = MFA_hunt_0_relay days = MFA_1_week_days }
+		}
+		else = {
+			remove_variable = MFA_phase_0_remaining
+		}
+	}
+}
+
+MFA_hunt_pulse_relay = {
+	effect = {
+		if = {
+			limit = {
+				has_variable = MFA_pulse_relay_tick
+			}
+			change_variable = { name = MFA_pulse_relay_tick add = 1 }
+		}
+		else = {
+			set_variable = { name = MFA_pulse_relay_tick value = 1 }
+		}
+		if = {
+			limit = {
+				exists = scope:activity
+			}
+			trigger_event = { on_action = MFA_hunt_pulse_relay_effects }
+		}
+		if = {
+			limit = {
+				exists = scope:activity
+			}
+			trigger_event = { on_action = MFA_hunt_pulse_relay days = 1 }
+		}
+		else = {
+			remove_variable = MFA_pulse_relay_tick
+		}
+	}
+}
+
+MFA_hunt_pulse_relay_effects = {
+	trigger = {
+		var:MFA_pulse_relay_tick > MFA_pulse_relay_timer
+	}
+	effect = {
+		random_list = {
+			3 = { } # chance_of_no_event
+			1 = { # guest_friendship
+				trigger = {
+					scope:activity = {
+						is_current_phase_active = yes
+						any_attending_character = {
+							location = scope:activity.activity_location
+							save_temporary_scope_as = first_temp
+							involved_activity = {
+								any_attending_character = {
+									location = scope:activity.activity_location
+									this != scope:first_temp
+								}
+							}
+						}
+					}
+				}
+				trigger_event = { on_action = MFA_pulse_guest_friendship }
+			}
+			1 = { # guest_insulted
+				trigger = {
+					scope:activity = {
+						is_current_phase_active = yes
+						any_attending_character = {
+							location = scope:activity.activity_location
+							save_temporary_scope_as = first_temp
+							involved_activity = {
+								any_attending_character = {
+									location = scope:activity.activity_location
+									this != scope:first_temp
+								}
+							}
+						}
+					}
+				}
+				trigger_event = { on_action = MFA_pulse_guest_insulted }
+			}
+			1 = { # hunt_tracks_character
+				trigger = {
+					scope:activity = {
+						is_current_phase_active = yes
+						hunt_is_nerge_type = no
+						# A hunter is present
+						any_attending_character = {
+							has_trait = lifestyle_hunter
+							can_be_combatant_based_on_gender_trigger = { ARMY_OWNER = this.involved_activity.activity_host }
+						}
+						NOR = {
+							has_activity_option = { category = special_type option = hunt_type_falconry }
+							exists = var:hunt_success
+						}
+					}
+				}
+				trigger_event = { on_action = MFA_pulse_hunt_tracks_character }
+			}
+			1 = { # hunt_tracks_option
+				trigger = {
+					scope:activity = {
+						is_current_phase_active = yes
+						hunt_is_nerge_type = no
+						OR = {
+							has_activity_option = { category = hunt_option_attendants option = hunt_attendants_normal }
+							has_activity_option = { category = hunt_option_attendants option = hunt_attendants_many }
+							scope:host = { government_has_flag = government_is_nomadic }
+						}
+						NOR = {
+							has_activity_option = { category = special_type option = hunt_type_falconry }
+							exists = var:hunt_success
+						}
+					}
+				}
+				modifier = {
+					scope:activity = {
+						has_activity_option = { category = hunt_option_attendants option = hunt_attendants_normal }
+					}
+					add = {
+						value = 0.25
+						multiply = hunt_success_chance_roco_amenity_level_value
+					}
+				}
+				trigger_event = { on_action = MFA_pulse_hunt_tracks_option }
+			}
+			1 = { # hunt_tracks_dog
+				trigger = {
+					scope:activity = {
+						is_current_phase_active = yes
+						hunt_is_nerge_type = no
+						any_attending_character = { has_character_modifier = dog_story_modifier }
+						NOR = {
+							has_activity_option = { category = special_type option = hunt_type_falconry }
+							exists = var:hunt_success
+						}
+					}
+				}
+				trigger_event = { on_action = MFA_pulse_hunt_tracks_dog }
+			}
+			1 = { # hunt_tracks_building
+				trigger = {
+					scope:activity = {
+						is_current_phase_active = yes
+						hunt_is_nerge_type = no
+						activity_location = {
+							province_owner = root.activity_host
+							OR = {
+								has_building_or_higher = hunting_grounds_01
+								has_building_or_higher = royal_forest_01
+							}
+						}
+						NOR = {
+							has_activity_option = { category = special_type option = hunt_type_falconry }
+							exists = var:hunt_success
+						}
+					}
+				}
+				trigger_event = { on_action = MFA_pulse_hunt_tracks_building }
+			}
+			1 = { # hunt_hunters_bond
+				trigger = {
+					scope:activity = {
+						is_current_phase_active = yes
+						any_attending_character = {
+							has_trait = lifestyle_hunter
+							save_temporary_scope_as = hunter_1
+							involved_activity = {
+								any_attending_character = {
+									has_trait = lifestyle_hunter
+									NOR = {
+										this = scope:hunter_1
+										has_any_bad_relationship_with_character_trigger = { CHARACTER = scope:hunter_1 }
+										has_opinion_modifier = { modifier = friendliness_opinion target = scope:hunter_1 }
+										has_any_scripted_relation = scope:hunter_1
+										AND = {
+											scope:hunter_1 = { has_activity_intent = murder_attendee_intent }
+											scope:hunter_1.intent_target ?= this
+										}
+										AND = {
+											has_activity_intent = murder_attendee_intent
+											intent_target ?= scope:hunter_1
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+				modifier = {
+					scope:activity = {
+						activity_host.culture = { has_cultural_parameter = hunting_traits_more_common }
+					}
+					add = 1
+				}
+				modifier = {
+					scope:activity = {
+						activity_host.culture = { has_cultural_parameter = hunting_traits_more_valued }
+					}
+					add = 1
+				}
+				trigger_event = { on_action = MFA_pulse_hunt_hunters_bond }
+			}
+			1 = { # hunt_dog_bond
+				trigger = {
+					scope:activity = {
+						is_current_phase_active = yes
+						any_attending_character = {
+							has_character_modifier = dog_story_modifier
+							save_temporary_scope_as = hunter_1
+							involved_activity = {
+								any_attending_character = {
+									has_character_modifier = dog_story_modifier
+									NOR = {
+										this = scope:hunter_1
+										has_any_bad_relationship_with_character_trigger = { CHARACTER = scope:hunter_1 }
+										has_opinion_modifier = { modifier = friendliness_opinion target = scope:hunter_1 }
+										has_any_scripted_relation = scope:hunter_1
+										AND = {
+											scope:hunter_1 = { has_activity_intent = murder_attendee_intent }
+											scope:hunter_1.intent_target ?= this
+										}
+										AND = {
+											has_activity_intent = murder_attendee_intent
+											intent_target ?= scope:hunter_1
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+				trigger_event = { on_action = MFA_pulse_hunt_dog_bond }
+			}
+			1 = { # hunt_knowledge_sharing
+				trigger = {
+					scope:activity = {
+						is_current_phase_active = yes
+						any_attending_character = {
+							# Has things to teach
+							has_trait = lifestyle_hunter
+							OR = {
+								# Hunty things
+								AND = {
+									has_trait_xp = { trait = lifestyle_hunter track = hunter value >= 25 }
+									NOT = {
+										involved_activity = { has_activity_option = { category = special_type option = hunt_type_falconry } }
+									}
+								}
+								# Hawky things
+								AND = {
+									has_trait_xp = { trait = lifestyle_hunter track = falconer value >= 25 }
+									involved_activity = { has_activity_option = { category = special_type option = hunt_type_falconry } }
+								}
+							}
+							save_temporary_scope_as = hunter_1
+							involved_activity = {
+								any_attending_character = {
+									NOR = {
+										this = scope:hunter_1
+										has_any_bad_relationship_with_character_trigger = { CHARACTER = scope:hunter_1 }
+										AND = {
+											scope:hunter_1 = { has_activity_intent = murder_attendee_intent }
+											scope:hunter_1.intent_target ?= this
+										}
+										AND = {
+											has_activity_intent = murder_attendee_intent
+											intent_target ?= scope:hunter_1
+										}
+									}
+									# Has things to learn
+									has_trait = lifestyle_hunter
+									OR = {
+										# Hunty things
+										AND = {
+											scope:hunter_1 = { has_trait_xp = { trait = lifestyle_hunter track = hunter value >= 25 } }
+											has_trait_xp = { trait = lifestyle_hunter track = hunter value < 95 }
+											NOT = {
+												involved_activity = { has_activity_option = { category = special_type option = hunt_type_falconry } }
+											}
+										}
+										# Hawky things
+										AND = {
+											scope:hunter_1 = { has_trait_xp = { trait = lifestyle_hunter track = falconer value >= 25 } }
+											has_trait_xp = { trait = lifestyle_hunter track = falconer value < 95 }
+											involved_activity = { has_activity_option = { category = special_type option = hunt_type_falconry } }
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+				modifier = {
+					scope:activity = {
+						activity_host.culture = { has_cultural_parameter = hunting_traits_more_common }
+					}
+					add = 1
+				}
+				modifier = {
+					scope:activity = {
+						activity_host.culture = { has_cultural_parameter = hunting_traits_more_valued }
+					}
+					add = 1
+				}
+				trigger_event = { on_action = MFA_pulse_hunt_knowledge_sharing }
+			}
+			1 = { # hunt_small_game
+				trigger = {
+					scope:activity = {
+						is_current_phase_active = yes
+						hunt_is_nerge_type = no
+						NOT = { exists = var:hunt_success }
+					}
+				}
+				trigger_event = { on_action = MFA_pulse_hunt_small_game }
+			}
+			1 = { # hunt_moh_positive
+				trigger = {
+					scope:activity = {
+						is_current_phase_active = yes
+						hunt_is_nerge_type = no
+						any_attending_character = { involved_activity.activity_host.court_position:master_of_hunt_court_position ?= this }
+						NOT = { exists = var:hunt_success }
+					}
+				}
+				modifier = {
+					scope:activity = {
+						activity_host.court_position:master_of_hunt_court_position = {
+							aptitude = { court_position = master_of_hunt_court_position value <= 3 }
+						}
+					}
+					add = -0.33
+				}
+				modifier = {
+					scope:activity = {
+						activity_host.court_position:master_of_hunt_court_position = {
+							aptitude = { court_position = master_of_hunt_court_position value <= 2 }
+						}
+					}
+					add = -0.33
+				}
+				modifier = {
+					scope:activity = {
+						activity_host.court_position:master_of_hunt_court_position = {
+							aptitude = { court_position = master_of_hunt_court_position value <= 1 }
+						}
+					}
+					add = -0.33
+				}
+				trigger_event = { on_action = MFA_pulse_hunt_moh_positive }
+			}
+			1 = { # hunt_moh_negative
+				trigger = {
+					scope:activity = {
+						is_current_phase_active = yes
+						hunt_is_nerge_type = no
+						any_attending_character = { involved_activity.activity_host.court_position:master_of_hunt_court_position ?= this }
+						NOT = { exists = var:hunt_success }
+					}
+				}
+				modifier = {
+					scope:activity = {
+						activity_host.court_position:master_of_hunt_court_position = {
+							aptitude = { court_position = master_of_hunt_court_position value >= 2 }
+						}
+					}
+					add = -0.33
+				}
+				modifier = {
+					scope:activity = {
+						activity_host.court_position:master_of_hunt_court_position = {
+							aptitude = { court_position = master_of_hunt_court_position value >= 3 }
+						}
+					}
+					add = -0.33
+				}
+				modifier = {
+					scope:activity = {
+						activity_host.court_position:master_of_hunt_court_position = {
+							aptitude = { court_position = master_of_hunt_court_position value >= 4 }
+						}
+					}
+					add = -0.33
+				}
+				trigger_event = { on_action = MFA_pulse_hunt_moh_negative }
+			}
+			1 = { # hunt_poetic_inspiration
+				trigger = {
+					scope:activity = {
+						is_current_phase_active = yes
+						any_attending_character = { has_trait = lifestyle_poet }
+					}
+				}
+				trigger_event = { on_action = MFA_pulse_hunt_poetic_inspiration }
+			}
+			1 = { # hunt_fervor_gain
+				trigger = {
+					scope:activity = {
+						is_current_phase_active = yes
+						activity_host.faith = {
+							has_doctrine_parameter = believes_in_harmony_with_nature_invisible
+							fervor < 90
+						}
+					}
+				}
+				modifier = {
+					scope:activity = {
+						activity_host.faith.fervor >= 75
+					}
+					add = -0.25
+				}
+				modifier = {
+					scope:activity = {
+						activity_host.faith.fervor >= 50
+					}
+					add = -0.25
+				}
+				modifier = {
+					scope:activity = {
+						activity_host.faith.fervor >= 25
+					}
+					add = -0.25
+				}
+				trigger_event = { on_action = MFA_pulse_hunt_fervor_gain }
+			}
+			1 = { # hunt_distinguished_ability
+				trigger = {
+					scope:activity = {
+						is_current_phase_active = yes
+						any_attending_character = {
+							has_trait = lifestyle_hunter
+							trigger_if = {
+								limit = {
+									involved_activity = {
+										has_activity_option = { category = special_type option = hunt_type_falconry }
+									}
+								}
+								has_trait_xp = { trait = lifestyle_hunter track = falconer value >= 25 }
+							}
+							trigger_else = {
+								has_trait_xp = { trait = lifestyle_hunter track = hunter value >= 25 }
+								can_be_combatant_based_on_gender_trigger = { ARMY_OWNER = this.involved_activity.activity_host }
+							}
+						}
+						NOT = { exists = var:hunt_success }
+					}
+				}
+				trigger_event = { on_action = MFA_pulse_hunt_distinguished_ability }
+			}
+			1 = { # hunt_annoyed_owner
+				trigger = {
+					scope:activity = {
+						is_current_phase_active = yes
+						activity_location.province_owner ?= {
+							is_ai = yes
+							NOR = {
+								# Not invited
+								is_participant_in_activity = root
+								# Not friendly
+								has_any_good_relationship_with_character_trigger = { CHARACTER = root.activity_host }
+								opinion ={
+									target = root.activity_host
+									value >= 50
+								}
+								has_opinion_modifier = { modifier = annoyed_opinion target = root.activity_host }
+							}
+						}
+					}
+				}
+				modifier = {
+					scope:activity = {
+						activity_location.province_owner ?= {
+							has_any_bad_relationship_with_character_trigger = { CHARACTER = root.activity_host }
+						}
+					}
+					add = 1
+				}
+				modifier = {
+					scope:activity = {
+						activity_location.province_owner ?= {
+							opinion = { target = root.activity_host value <= 25 }
+						}
+					}
+					add = 0.5
+				}
+				modifier = {
+					scope:activity = {
+						activity_location.province_owner ?= { has_trait = lifestyle_hunter }
+					}
+					add = 1
+				}
+				trigger_event = { on_action = MFA_pulse_hunt_annoyed_owner }
+			}
+			1 = { # hunt_impressive_grounds
+				trigger = {
+					scope:activity = {
+						is_current_phase_active = yes
+						activity_location = {
+							OR = {
+								has_building_or_higher = hunting_grounds_01
+								has_building_or_higher = royal_forest_01
+							}
+						}
+						NOT = {
+							has_activity_option = { category = special_type option = hunt_type_falconry }
+						}
+						exists = activity_location.province_owner
+						save_temporary_scope_as = hunt_temp
+						any_attending_character = {
+							this != scope:hunt_temp.activity_location.province_owner
+						}
+					}
+				}
+				trigger_event = { on_action = MFA_pulse_hunt_impressive_grounds }
+			}
+			1 = { # hunt_eggs_found
+				trigger = {
+					scope:activity = {
+						is_current_phase_active = yes
+						hunt_is_nerge_type = no
+					}
+				}
+				trigger_event = { on_action = MFA_pulse_hunt_eggs_found }
+			}
+			1 = { # hunt_successful_kill
+				trigger = {
+					scope:activity = {
+						is_current_phase_active = yes
+						hunt_is_nerge_type = yes
+					}
+				}
+				trigger_event = { on_action = MFA_pulse_hunt_successful_kill }
+			}
+			1 = { # hunt_very_successful_kill
+				trigger = {
+					scope:activity = {
+						is_current_phase_active = yes
+						hunt_is_nerge_type = yes
+					}
+				}
+				trigger_event = { on_action = MFA_pulse_hunt_very_successful_kill }
+			}
+			1 = { # hunt_worked_together
+				trigger = {
+					scope:activity = {
+						is_current_phase_active = yes
+						hunt_is_nerge_type = yes
+						any_attending_character = {
+							count >= 2
+						}
+					}
+				}
+				trigger_event = { on_action = MFA_pulse_hunt_worked_together }
+			}
+			1 = { # hunt_failed_kill
+				trigger = {
+					scope:activity = {
+						is_current_phase_active = yes
+						hunt_is_nerge_type = yes
+					}
+				}
+				trigger_event = { on_action = MFA_pulse_hunt_failed_kill }
+			}
+			1 = { # hunt_failed_several_kills
+				trigger = {
+					scope:activity = {
+						is_current_phase_active = yes
+						hunt_is_nerge_type = yes
+					}
+				}
+				trigger_event = { on_action = MFA_pulse_hunt_failed_several_kills }
+			}
+			1 = { # hunt_successful_maneuver
+				trigger = {
+					scope:activity = {
+						is_current_phase_active = yes
+						hunt_is_nerge_type = yes
+						any_attending_character = {
+							has_trait_with_flag = commander_trait_flag
+						}
+					}
+				}
+				trigger_event = { on_action = MFA_pulse_hunt_successful_maneuver }
+			}
+			1 = { # hunt_learned_maneuver
+				trigger = {
+					scope:activity = {
+						is_current_phase_active = yes
+						hunt_is_nerge_type = yes
+						any_attending_character = {
+							NOT = { has_trait_with_flag = commander_trait_flag }
+						}
+					}
+				}
+				trigger_event = { on_action = MFA_pulse_hunt_learned_maneuver }
+			}
+			1 = { # hunt_prowess_mastery
+				trigger = {
+					scope:activity = {
+						is_current_phase_active = yes
+						hunt_is_nerge_type = yes
+						any_attending_character = {
+							prowess < 15
+						}
+					}
+				}
+				trigger_event = { on_action = MFA_pulse_hunt_prowess_mastery }
+			}
+			1 = { # hunt_martial_mastery
+				trigger = {
+					scope:activity = {
+						is_current_phase_active = yes
+						hunt_is_nerge_type = yes
+						any_attending_character = {
+							martial < 10
+						}
+					}
+				}
+				trigger_event = { on_action = MFA_pulse_hunt_martial_mastery }
+			}
+		}
+		set_variable = { name = MFA_pulse_relay_tick value = 1 }
+	}
+}

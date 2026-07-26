@@ -1,0 +1,939 @@
+﻿namespace = agot_riverlands_bla
+
+agot_riverlands_bla.0299 = {
+	type = character_event
+	hidden = yes
+
+	trigger = {
+		is_ai = no
+		is_landed = yes
+		is_available_adult = yes
+
+		dynasty = dynasty:dynn_Blackwood
+
+		NOT = { has_character_flag = blackwood_any_event_recently_bla }
+	}
+
+	immediate = {
+		add_character_flag = {
+			flag = blackwood_any_event_recently_bla
+			years = 3
+		}
+
+		random_list = {
+			15 = { trigger_event = agot_riverlands_bla.0300 }
+			15 = { trigger_event = agot_riverlands_bla.0301 }
+			15 = { trigger_event = agot_riverlands_bla.0302 }
+			15 = { trigger_event = agot_riverlands_bla.0303 }
+			15 = { trigger_event = agot_riverlands_bla.0304 }
+			15 = { trigger_event = agot_riverlands_bla.0305 }
+			15 = { trigger_event = agot_riverlands_bla.0306 }
+			15 = { trigger_event = agot_riverlands_bla.0307 }
+
+			120 = { }
+		}
+	}
+}
+
+# =========================================================
+# House Blackwood
+# The Ravens of Raventree
+# =========================================================
+
+agot_riverlands_bla.0300 = {
+	type = character_event
+	title = agot_riverlands_bla.0300.t
+	desc = agot_riverlands_bla.0300.desc
+	theme = faith
+
+	override_background = { reference = agot_npk_tree_of_crowns }
+
+	left_portrait = {
+		character = root
+		animation = thinking
+	}
+
+	trigger = {
+		is_ruler = yes
+		is_landed = yes
+		is_available_adult = yes
+		dynasty = dynasty:dynn_Blackwood
+		NOT = { has_character_flag = blackwood_ravens_recently_bla }
+	}
+
+	immediate = {
+		add_character_flag = { flag = blackwood_ravens_recently_bla years = 6 }
+	}
+
+	option = {
+		name = agot_riverlands_bla.0300.a
+
+		add_piety = 100
+		add_learning_lifestyle_xp = 150
+
+		capital_county = {
+			change_county_control = 5
+		}
+	}
+
+	option = {
+		name = agot_riverlands_bla.0300.b
+
+		add_prestige = 100
+
+		every_courtier_or_guest = {
+			limit = { faith = root.faith }
+			add_opinion = {
+				target = root
+				modifier = respect_opinion
+				opinion = 10
+			}
+		}
+	}
+
+	option = {
+		name = agot_riverlands_bla.0300.c
+
+		trigger = {
+			OR = {
+				learning >= 10
+				has_trait = scholar
+				has_trait = lifestyle_mystic
+			}
+		}
+
+		add_learning_lifestyle_xp = 350
+
+		random_list = {
+			70 = {
+				add_piety = 100
+				custom_tooltip = agot_riverlands_bla.0300.c.success_tt
+			}
+			30 = {
+				add_character_modifier = {
+					modifier = blackwood_raven_omens_bla
+					years = 5
+				}
+				custom_tooltip = agot_riverlands_bla.0300.c.omen_tt
+			}
+		}
+	}
+	option = {
+		name = agot_riverlands_bla.0300.d
+
+		add_stress = -10
+		add_prestige = 50
+		add_dread = 10
+
+		every_courtier_or_guest = {
+			limit = {
+				NOT = {
+				faith = root.faith
+				}
+			}
+
+			add_opinion = {
+				target = root
+				modifier = respect_opinion
+				opinion = 5
+			}
+		}
+
+		add_character_modifier = {
+			modifier = blackwood_courtyard_cleared_bla
+			years = 5
+		}
+	}
+}
+
+# =========================================================
+# House Blackwood
+# A Singer from the North
+# =========================================================
+
+agot_riverlands_bla.0301 = {
+	type = character_event
+	title = agot_riverlands_bla.0301.t
+	desc = agot_riverlands_bla.0301.desc
+	theme = court
+
+	left_portrait = {
+		character = root
+		animation = interested
+	}
+
+	trigger = {
+		is_ruler = yes
+		is_landed = yes
+		is_available_adult = yes
+		dynasty = dynasty:dynn_Blackwood
+		NOT = { has_character_flag = blackwood_northern_singer_recently_bla }
+	}
+
+	immediate = {
+		add_character_flag = { flag = blackwood_northern_singer_recently_bla years = 6 }
+	}
+
+	option = {
+		name = agot_riverlands_bla.0301.a
+
+		add_prestige = 125
+		add_piety = 50
+	}
+
+	option = {
+		name = agot_riverlands_bla.0301.b
+
+		add_prestige = 100
+
+		capital_county = {
+			change_county_control = 10
+		}
+
+	}
+
+	option = {
+		name = agot_riverlands_bla.0301.c
+
+		trigger = {
+			OR = {
+				diplomacy >= 10
+				has_trait = gregarious
+				has_trait = diplomat
+			}
+		}
+
+		add_diplomacy_lifestyle_xp = 250
+
+		every_vassal = {
+			limit = {
+				culture = { has_cultural_pillar = heritage_first_man }
+			}
+			add_opinion = {
+				target = root
+				modifier = respect_opinion
+				opinion = 15
+			}
+		}
+	}
+
+	option = {
+		name = agot_riverlands_bla.0301.d
+
+		trigger = {
+			OR = {
+				intrigue >= 10
+				has_trait = cynical
+				has_trait = deceitful
+			}
+		}
+
+		add_intrigue_lifestyle_xp = 250
+		add_prestige = -25
+
+		custom_tooltip = agot_riverlands_bla.0301.d.tt
+	}
+}
+
+# =========================================================
+# House Blackwood
+# The Bleeding Tree
+# =========================================================
+
+agot_riverlands_bla.0302 = {
+	type = character_event
+	title = agot_riverlands_bla.0302.t
+	desc = agot_riverlands_bla.0302.desc
+	theme = faith
+
+	override_background = { reference = agot_npk_tree_of_crowns }
+
+	left_portrait = {
+		character = root
+		animation = personality_zealous
+	}
+
+	trigger = {
+		is_ruler = yes
+		is_landed = yes
+		is_available_adult = yes
+		dynasty = dynasty:dynn_Blackwood
+		NOT = { has_character_flag = blackwood_dead_leaves_recently_bla }
+	}
+
+	immediate = {
+		add_character_flag = { flag = blackwood_dead_leaves_recently_bla years = 8 }
+	}
+
+	option = {
+		name = agot_riverlands_bla.0302.a
+
+		add_piety = 100
+
+		capital_county = {
+			change_county_control = 5
+		}
+	}
+
+	option = {
+		name = agot_riverlands_bla.0302.b
+
+		add_stress = -20
+
+		every_close_family_member = {
+			limit = {
+				is_alive = yes
+				is_available = yes
+			}
+			add_opinion = {
+				target = root
+				modifier = respect_opinion
+				opinion = 10
+			}
+		}
+	}
+
+	option = {
+		name = agot_riverlands_bla.0302.c
+
+		trigger = {
+			OR = {
+				learning >= 10
+				has_trait = scholar
+				has_trait = lifestyle_mystic
+			}
+		}
+
+		add_learning_lifestyle_xp = 400
+		dynasty = {
+			add_dynasty_prestige = 50
+		}
+
+		custom_tooltip = agot_riverlands_bla.0302.c.tt
+	}
+}
+
+# =========================================================
+# House Blackwood
+# Echoes in the Bark
+# =========================================================
+
+agot_riverlands_bla.0303 = {
+	type = character_event
+	title = agot_riverlands_bla.0303.t
+	desc = agot_riverlands_bla.0303.desc
+	theme = faith
+
+	override_background = { reference = agot_npk_tree_of_crowns }
+
+	left_portrait = {
+		character = root
+		animation = prayer
+	}
+
+	trigger = {
+		is_ruler = yes
+		is_landed = yes
+		is_available_adult = yes
+		dynasty = dynasty:dynn_Blackwood
+		NOT = { has_character_flag = blackwood_old_gods_remember_recently_bla }
+	}
+
+	immediate = {
+		add_character_flag = {
+			flag = blackwood_old_gods_remember_recently_bla
+			years = 10
+		}
+	}
+
+	option = {
+		name = agot_riverlands_bla.0303.a
+
+		add_piety = 150
+
+		every_vassal = {
+			limit = {
+				faith = root.faith
+			}
+
+			add_opinion = {
+				target = root
+				modifier = respect_opinion
+				opinion = 10
+			}
+		}
+	}
+
+	option = {
+		name = agot_riverlands_bla.0303.b
+
+		add_prestige = 100
+
+		every_courtier_or_guest = {
+			limit = {
+				NOT = { faith = root.faith }
+			}
+
+			add_opinion = {
+				target = root
+				modifier = disappointed_opinion
+				opinion = -15
+			}
+		}
+
+		add_character_modifier = {
+			modifier = blackwood_old_ways_strengthened_bla
+			years = 5
+		}
+	}
+
+	option = {
+		name = agot_riverlands_bla.0303.c
+
+		trigger = {
+			OR = {
+				learning >= 12
+				has_trait = scholar
+				has_trait = lifestyle_mystic
+			}
+		}
+
+		add_learning_lifestyle_xp = 500
+
+		capital_county = {
+			change_development_progress = 75
+		}
+
+		random_list = {
+			70 = {
+				add_piety = 50
+			}
+
+			30 = {
+				add_character_modifier = {
+					modifier = blackwood_whispering_faces_bla
+					years = 5
+				}
+			}
+		}
+	}
+
+	option = {
+		name = agot_riverlands_bla.0303.d
+
+		trigger = {
+			OR = {
+				intrigue >= 10
+				has_trait = cynical
+				has_trait = deceitful
+			}
+		}
+
+		add_intrigue_lifestyle_xp = 250
+		add_stress = 20
+
+		add_character_modifier = {
+			modifier = blackwood_questioned_the_gods_bla
+			years = 5
+		}
+	}
+}
+
+# =========================================================
+# House Blackwood
+# Wolves at the Gates
+# =========================================================
+
+agot_riverlands_bla.0304 = {
+	type = character_event
+	title = agot_riverlands_bla.0304.t
+	desc = agot_riverlands_bla.0304.desc
+	theme = diplomacy
+
+	left_portrait = {
+		character = root
+		animation = personality_honorable
+	}
+
+	trigger = {
+		is_ruler = yes
+		is_landed = yes
+		is_available_adult = yes
+		dynasty = dynasty:dynn_Blackwood
+		NOT = { has_character_flag = blackwood_wolf_banner_recently_bla }
+	}
+
+	immediate = {
+		add_character_flag = {
+			flag = blackwood_wolf_banner_recently_bla
+			years = 8
+		}
+	}
+
+	option = {
+		name = agot_riverlands_bla.0304.a
+
+		add_prestige = 150
+
+		every_vassal = {
+			limit = {
+				culture = {
+					has_cultural_pillar = heritage_first_man
+				}
+			}
+
+			add_opinion = {
+				target = root
+				modifier = respect_opinion
+				opinion = 10
+			}
+		}
+	}
+
+	option = {
+		name = agot_riverlands_bla.0304.b
+
+		add_piety = 150
+
+		every_courtier_or_guest = {
+			limit = {
+				NOT = { faith = root.faith }
+			}
+
+			add_opinion = {
+				target = root
+				modifier = disappointed_opinion
+				opinion = -10
+			}
+		}
+	}
+
+	option = {
+		name = agot_riverlands_bla.0304.c
+
+		trigger = {
+			OR = {
+				diplomacy >= 10
+				has_trait = diplomat
+				has_trait = calm
+			}
+		}
+
+		add_diplomacy_lifestyle_xp = 350
+
+		every_vassal = {
+			add_opinion = {
+				target = root
+				modifier = respect_opinion
+				opinion = 5
+			}
+		}
+	}
+
+	option = {
+		name = agot_riverlands_bla.0304.d
+
+		trigger = {
+			OR = {
+				martial >= 10
+				has_trait = wrathful
+				has_trait = arrogant
+			}
+		}
+
+		add_prestige = 200
+		add_dread = 10
+		add_stress = 25
+
+		change_variable = {
+			name = blackwood_bracken_feud_intensity_bla
+			add = 1
+		}
+	}
+}
+
+# =========================================================
+# House Blackwood
+# A Ledger of Ghosts
+# =========================================================
+
+agot_riverlands_bla.0305 = {
+	type = character_event
+	title = agot_riverlands_bla.0305.t
+	desc = agot_riverlands_bla.0305.desc
+	theme = family
+
+	override_background = { reference = agot_npk_tree_of_crowns }
+
+	left_portrait = {
+		character = root
+		animation = personality_zealous
+	}
+
+	trigger = {
+		is_ruler = yes
+		is_landed = yes
+		is_available_adult = yes
+		dynasty = dynasty:dynn_Blackwood
+		NOT = { has_character_flag = blackwood_names_tree_recently_bla }
+	}
+
+	immediate = {
+		add_character_flag = {
+			flag = blackwood_names_tree_recently_bla
+			years = 8
+		}
+	}
+
+	option = {
+		name = agot_riverlands_bla.0305.a
+
+		add_prestige = 150
+
+		dynasty = {
+			add_dynasty_prestige = 75
+		}
+	}
+
+	option = {
+		name = agot_riverlands_bla.0305.b
+
+		add_stress = -20
+		remove_short_term_gold = 20
+
+		every_close_family_member = {
+			limit = {
+				is_alive = yes
+				is_available = yes
+			}
+
+			add_opinion = {
+				target = root
+				modifier = respect_opinion
+				opinion = 15
+			}
+		}
+	}
+
+	option = {
+		name = agot_riverlands_bla.0305.c
+
+		trigger = {
+			OR = {
+				learning >= 10
+				has_trait = scholar
+				has_trait = lifestyle_mystic
+			}
+		}
+
+		add_learning_lifestyle_xp = 500
+		add_piety = 50
+
+		random_list = {
+			70 = {
+				dynasty = {
+					add_dynasty_prestige = 50
+				}
+			}
+
+			30 = {
+				add_character_modifier = {
+					modifier = blackwood_haunted_lineage_bla
+					years = 10
+				}
+			}
+		}
+	}
+
+	option = {
+		name = agot_riverlands_bla.0306.d
+
+		add_piety = 50
+		add_dread = 10
+
+		change_variable = {
+			name = blackwood_bracken_feud_intensity_bla
+			add = 1
+		}
+
+		add_character_modifier = {
+			modifier = blackwood_sworn_remembrance_bla
+			years = 5
+		}
+
+		every_vassal = {
+			limit = {
+				dynasty = dynasty:dynn_Blackwood
+			}
+
+			add_opinion = {
+				target = root
+				modifier = respect_opinion
+				opinion = 10
+			}
+		}
+	}
+}
+
+# =========================================================
+# House Blackwood
+# A Breath Before the Storm
+# =========================================================
+
+agot_riverlands_bla.0306 = {
+	type = character_event
+	title = agot_riverlands_bla.0306.t
+	desc = agot_riverlands_bla.0306.desc
+	theme = faith
+
+	override_background = { reference = agot_npk_tree_of_crowns }
+
+	left_portrait = {
+		character = root
+		animation = personality_zealous
+	}
+
+	trigger = {
+		is_ruler = yes
+		is_landed = yes
+		is_available_adult = yes
+		dynasty = dynasty:dynn_Blackwood
+		NOT = { has_character_flag = blackwood_quiet_godswood_recently_bla }
+	}
+
+	immediate = {
+		add_character_flag = {
+			flag = blackwood_quiet_godswood_recently_bla
+			years = 6
+		}
+	}
+
+	option = {
+		name = agot_riverlands_bla.0306.a
+
+		add_piety = 100
+		add_stress = -15
+
+		every_courtier_or_guest = {
+			limit = {
+				NOT = {
+					faith = root.faith
+				}
+			}
+
+			add_opinion = {
+				target = root
+				modifier = disappointed_opinion
+				opinion = -15
+			}
+		}
+	}
+
+	option = {
+		name = agot_riverlands_bla.0306.b
+
+		add_prestige = 125
+
+		capital_county = {
+			change_county_control = 10
+		}
+
+		every_vassal = {
+			limit = {
+				faith = root.faith
+			}
+
+			add_opinion = {
+				target = root
+				modifier = respect_opinion
+				opinion = 5
+			}
+		}
+	}
+
+	option = {
+		name = agot_riverlands_bla.0306.c
+
+		trigger = {
+			OR = {
+				learning >= 10
+				has_trait = scholar
+				has_trait = lifestyle_mystic
+			}
+		}
+
+		add_learning_lifestyle_xp = 350
+
+		random_list = {
+			70 = {
+				add_piety = 50
+			}
+
+			30 = {
+				add_character_modifier = {
+					modifier = blackwood_weirwood_whispers_bla
+					years = 5
+				}
+			}
+		}
+	}
+
+	option = {
+		name = agot_riverlands_bla.0306.d
+
+		add_intrigue_lifestyle_xp = 300
+
+		add_character_modifier = {
+			modifier = blackwood_godswood_secrets_bla
+			years = 5
+		}
+
+		cp:councillor_spymaster = {
+			add_opinion = {
+				target = root
+				modifier = respect_opinion
+				opinion = 20
+			}
+		}
+	}
+	
+}
+
+# =========================================================
+# House Blackwood
+# Bones of the Bronze Age
+# =========================================================
+
+agot_riverlands_bla.0307 = {
+	type = character_event
+	title = agot_riverlands_bla.0307.t
+	desc = agot_riverlands_bla.0307.desc
+	theme = family
+
+	override_background = { reference = agot_river }
+
+	left_portrait = {
+		character = root
+		animation = thinking
+	}
+
+	trigger = {
+		is_ruler = yes
+		is_landed = yes
+		is_available_adult = yes
+		dynasty = dynasty:dynn_Blackwood
+		NOT = { has_character_flag = blackwood_first_men_ashes_recently_bla }
+	}
+
+	immediate = {
+		add_character_flag = {
+			flag = blackwood_first_men_ashes_recently_bla
+			years = 10
+		}
+	}
+
+	option = {
+		name = agot_riverlands_bla.0307.a
+
+		add_prestige = 200
+		add_piety = 75
+
+		dynasty = {
+			add_dynasty_prestige = 100
+		}
+
+		every_vassal = {
+			limit = {
+				culture = {
+					has_cultural_pillar = heritage_first_man
+				}
+			}
+
+			add_opinion = {
+				target = root
+				modifier = respect_opinion
+				opinion = 10
+			}
+		}
+	}
+
+	option = {
+		name = agot_riverlands_bla.0307.b
+
+		add_stress = -25
+		add_martial_lifestyle_xp = 500
+
+		every_close_family_member = {
+			limit = {
+				is_alive = yes
+				is_available = yes
+			}
+
+			add_opinion = {
+				target = root
+				modifier = respect_opinion
+				opinion = 15
+			}
+		}
+	}
+
+	option = {
+		name = agot_riverlands_bla.0307.c
+
+		trigger = {
+			OR = {
+				learning >= 12
+				has_trait = scholar
+				has_trait = lifestyle_mystic
+			}
+		}
+
+		add_learning_lifestyle_xp = 500
+		add_prestige = 100
+
+		
+
+		random_list = {
+			70 = {
+				add_piety = 50
+			}
+
+			30 = {
+				add_character_modifier = {
+					modifier = blackwood_ancient_blood_bla
+					years = 10
+				}
+			}
+		}
+	}
+
+	option = {
+		name = agot_riverlands_bla.0307.d
+
+		trigger = {
+			OR = {
+				intrigue >= 10
+				has_trait = cynical
+				has_trait = deceitful
+			}
+		}
+
+		add_intrigue_lifestyle_xp = 300
+		add_stress = 25
+		capital_county = {
+			change_development_progress = 50
+		}
+
+		every_vassal = {
+			limit = {
+				faith = root.faith
+			}
+
+			add_opinion = {
+				target = root
+				modifier = disappointed_opinion
+				opinion = -10
+			}
+		}
+	}
+}

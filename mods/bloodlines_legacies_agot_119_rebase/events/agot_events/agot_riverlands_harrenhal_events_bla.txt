@@ -1,0 +1,2706 @@
+﻿namespace = agot_riverlands_bla
+
+# =========================================================
+# Harrenhal Feeder
+# =========================================================
+
+agot_riverlands_bla.0899 = {
+	type = character_event
+	hidden = yes
+
+	trigger = {
+		is_ai = no
+		is_ruler = yes
+		is_landed = yes
+		is_available_adult = yes
+
+		any_held_title = {
+			this = title:c_harrenhal
+		}
+
+		NOT = {
+			has_character_flag = harrenhal_any_event_recently_bla
+		}
+	}
+
+	immediate = {
+		random_list = {
+
+			# =====================================================
+			# Generic Harrenhal
+			# =====================================================
+
+			15 = { trigger_event = { id = agot_riverlands_bla.0900 } }
+			15 = { trigger_event = { id = agot_riverlands_bla.0901 } }
+			15 = { trigger_event = { id = agot_riverlands_bla.0902 } }
+			15 = { trigger_event = { id = agot_riverlands_bla.0903 } }
+			15 = { trigger_event = { id = agot_riverlands_bla.0904 } }
+			10 = { trigger_event = { id = agot_riverlands_bla.0905 } }
+			10 = { trigger_event = { id = agot_riverlands_bla.0906 } }
+			5 = { trigger_event = { id = agot_riverlands_bla.0940 } }
+			5 = { trigger_event = { id = agot_riverlands_bla.0941 } }
+			3 = { trigger_event = { id = agot_riverlands_bla.0942 } }
+			5 = { trigger_event = { id = agot_riverlands_bla.0943 } }
+			2 = { trigger_event = { id = agot_riverlands_bla.0944 } }
+
+			# =====================================================
+			# House Lothston
+			# =====================================================
+
+			10 = {
+				trigger = {
+					dynasty = dynasty:dynn_Lothston
+				}
+
+				trigger_event = {
+					id = agot_riverlands_bla.0910
+				}
+			}
+
+			8 = {
+				trigger = {
+					dynasty = dynasty:dynn_Lothston
+				}
+
+				trigger_event = {
+					id = agot_riverlands_bla.0911
+				}
+			}
+
+			# =====================================================
+			# House Whent
+			# =====================================================
+
+			10 = {
+				trigger = {
+					dynasty = dynasty:dynn_Whent
+				}
+
+				trigger_event = {
+					id = agot_riverlands_bla.0920
+				}
+			}
+
+			8 = {
+				trigger = {
+					dynasty = dynasty:dynn_Whent
+				}
+
+				trigger_event = {
+					id = agot_riverlands_bla.0921
+				}
+			}
+
+			# =====================================================
+			# House Strong
+			# =====================================================
+
+			10 = {
+				trigger = {
+					dynasty = dynasty:dynn_Strong
+				}
+
+				trigger_event = {
+					id = agot_riverlands_bla.0930
+				}
+			}
+
+			8 = {
+				trigger = {
+					dynasty = dynasty:dynn_Strong
+				}
+
+				trigger_event = {
+					id = agot_riverlands_bla.0931
+				}
+			}
+
+			# =====================================================
+			# Nothing Happens
+			# =====================================================
+
+			250 = { }
+		}
+	}
+}
+# =========================================================
+# Harrenhal
+# The Hall of a Hundred Hearths
+# =========================================================
+
+agot_riverlands_bla.0900 = {
+	type = character_event
+	title = agot_riverlands_bla.0900.t
+	desc = agot_riverlands_bla.0900.desc
+	theme = realm
+
+	override_background = {
+		reference = corridor_day
+	}
+
+	left_portrait = {
+		character = root
+		animation = personality_rational
+	}
+
+	trigger = {
+		is_ruler = yes
+		is_landed = yes
+		is_available_adult = yes
+
+		any_held_title = {
+			this = title:c_harrenhal
+		}
+
+		NOT = {
+			has_character_flag = harrenhal_empty_hall_recently_bla
+		}
+		NOT = { has_character_flag = harrenhal_any_event_recently_bla }
+	}
+
+	immediate = {
+		add_character_flag = {
+			flag = harrenhal_empty_hall_recently_bla
+			years = 10
+		}
+		add_character_flag = {
+			flag = harrenhal_any_event_recently_bla
+			years = 3
+		}
+	}
+
+	option = {
+		name = agot_riverlands_bla.0900.a
+
+		add_prestige = 300
+		remove_short_term_gold = 100
+
+		add_character_modifier = {
+			modifier = harrenhal_grand_feasts_bla
+			years = 8
+		}
+
+		every_vassal = {
+			limit = {
+				is_available_adult = yes
+			}
+
+			add_opinion = {
+				target = root
+				modifier = impressed_opinion
+				opinion = 10
+			}
+		}
+	}
+
+	option = {
+		name = agot_riverlands_bla.0900.b
+
+		add_gold = 75
+		add_stress = -20
+
+		add_character_modifier = {
+			modifier = harrenhal_shuttered_halls_bla
+			years = 8
+		}
+	}
+
+	option = {
+		name = agot_riverlands_bla.0900.c
+
+		trigger = {
+			OR = {
+				stewardship >= 10
+				has_trait = administrator
+				has_trait = diligent
+			}
+		}
+
+		add_stewardship_lifestyle_xp = 500
+
+		add_character_modifier = {
+			modifier = harrenhal_managed_decay_bla
+			years = 8
+		}
+	}
+
+	option = {
+		name = agot_riverlands_bla.0900.d
+
+		trigger = {
+			OR = {
+				intrigue >= 10
+				has_trait = paranoid
+				has_trait = arbitrary
+			}
+		}
+
+		add_intrigue_lifestyle_xp = 300
+		add_dread = 10
+		add_stress = 25
+
+		add_character_modifier = {
+			modifier = harrenhal_whispers_in_dark_bla
+			years = 8
+		}
+	}
+}
+
+# =========================================================
+# Harrenhal
+# The Dragon's Scar
+# =========================================================
+
+agot_riverlands_bla.0901 = {
+	type = character_event
+	title = agot_riverlands_bla.0901.t
+	desc = agot_riverlands_bla.0901.desc
+	theme = skull
+
+	override_background = {
+		reference = agot_weirwood_event_night_harrenhal
+	}
+
+	left_portrait = {
+		character = root
+		animation = interested
+	}
+
+	trigger = {
+		is_ruler = yes
+		is_landed = yes
+		is_available_adult = yes
+
+		any_held_title = {
+			this = title:c_harrenhal
+		}
+
+		NOT = {
+			has_character_flag = harrenhal_melted_stone_recently_bla
+		}
+		NOT = { has_character_flag = harrenhal_any_event_recently_bla }
+	}
+
+	immediate = {
+		add_character_flag = {
+			flag = harrenhal_melted_stone_recently_bla
+			years = 10
+		}
+		add_character_flag = {
+			flag = harrenhal_any_event_recently_bla
+			years = 3
+		}
+	}
+
+	option = {
+		name = agot_riverlands_bla.0901.a
+
+		add_learning_lifestyle_xp = 400
+		add_prestige = 100
+
+		add_character_modifier = {
+			modifier = harrenhal_dragonfire_studies_bla
+			years = 10
+		}
+	}
+
+	option = {
+		name = agot_riverlands_bla.0901.b
+
+		add_dread = 15
+		add_stress = 20
+
+		every_courtier_or_guest = {
+			add_opinion = {
+				target = root
+				modifier = scared_opinion
+				opinion = -10
+			}
+		}
+
+		add_character_modifier = {
+			modifier = harrenhal_blackened_memory_bla
+			years = 5
+		}
+	}
+
+	option = {
+		name = agot_riverlands_bla.0901.c
+
+		trigger = {
+			OR = {
+				learning >= 12
+				has_trait = scholar
+				has_trait = lifestyle_mystic
+			}
+		}
+
+		add_learning_lifestyle_xp = 750
+
+		random_list = {
+			70 = {
+				add_piety = 100
+			}
+
+			30 = {
+				add_character_modifier = {
+					modifier = harrenhal_obsessed_with_fire_bla
+					years = 10
+				}
+			}
+		}
+	}
+}
+
+# =========================================================
+# Harrenhal
+# Footsteps in the Wailing Tower
+# =========================================================
+
+agot_riverlands_bla.0902 = {
+	type = character_event
+	title = agot_riverlands_bla.0902.t
+	desc = agot_riverlands_bla.0902.desc
+	theme = intrigue
+
+	override_background = {
+		reference = temple_scope
+	}
+
+	left_portrait = {
+		character = root
+		animation = worry
+	}
+
+	trigger = {
+		is_ruler = yes
+		is_landed = yes
+		is_available_adult = yes
+
+		any_held_title = {
+			this = title:c_harrenhal
+		}
+
+		NOT = {
+			has_character_flag = harrenhal_whispers_recently_bla
+		}
+		NOT = { has_character_flag = harrenhal_any_event_recently_bla }
+	}
+
+	immediate = {
+		add_character_flag = {
+			flag = harrenhal_whispers_recently_bla
+			years = 8
+		}
+		add_character_flag = {
+			flag = harrenhal_any_event_recently_bla
+			years = 3
+		}
+
+	}
+
+	option = {
+		name = agot_riverlands_bla.0902.a
+
+		add_dread = 10
+		add_stress = 15
+
+		every_courtier_or_guest = {
+			add_opinion = {
+				target = root
+				modifier = scared_opinion
+				opinion = -10
+			}
+		}
+
+		add_character_modifier = {
+			modifier = harrenhal_feared_presence_bla
+			years = 8
+		}
+	}
+
+	option = {
+		name = agot_riverlands_bla.0902.b
+
+		add_prestige = 100
+
+		add_character_modifier = {
+			modifier = harrenhal_guarded_towers_bla
+			years = 8
+		}
+	}
+
+	option = {
+		name = agot_riverlands_bla.0902.c
+
+		trigger = {
+			OR = {
+				intrigue >= 10
+				has_trait = paranoid
+				has_trait = deceitful
+			}
+		}
+
+		add_intrigue_lifestyle_xp = 400
+
+		random_list = {
+			70 = {
+				add_gold = 50
+			}
+
+			30 = {
+				add_character_modifier = {
+					modifier = harrenhal_sleepless_nights_bla
+					years = 8
+				}
+
+				add_stress = 35
+			}
+		}
+	}
+
+	option = {
+		name = agot_riverlands_bla.0902.d
+
+		trigger = {
+			OR = {
+				learning >= 10
+				has_trait = scholar
+				has_trait = lifestyle_mystic
+			}
+		}
+
+		add_learning_lifestyle_xp = 350
+		add_piety = 75
+
+		add_character_modifier = {
+			modifier = harrenhal_listened_to_whispers_bla
+			years = 8
+		}
+	}
+}
+
+# =========================================================
+# Harrenhal
+# The Bottomless Pit
+# =========================================================
+
+agot_riverlands_bla.0903 = {
+	type = character_event
+	title = agot_riverlands_bla.0903.t
+	desc = agot_riverlands_bla.0903.desc
+	theme = stewardship
+
+	override_background = {
+		reference = agot_weirwood_event_night_harrenhal
+	}
+
+	left_portrait = {
+		character = root
+		animation = page_flipping
+	}
+
+	trigger = {
+		is_ruler = yes
+		is_landed = yes
+		is_available_adult = yes
+
+		any_held_title = {
+			this = title:c_harrenhal
+		}
+
+		NOT = {
+			has_character_flag = harrenhal_cost_recently_bla
+		}
+		NOT = { has_character_flag = harrenhal_any_event_recently_bla }
+	}
+
+	immediate = {
+		add_character_flag = {
+			flag = harrenhal_cost_recently_bla
+			years = 8
+		}
+		add_character_flag = {
+			flag = harrenhal_any_event_recently_bla
+			years = 3
+		}
+
+	}
+
+	option = {
+		name = agot_riverlands_bla.0903.a
+
+		remove_short_term_gold = 200
+		add_prestige = 200
+
+		capital_county = {
+			change_development_progress = 20
+		}
+
+		add_character_modifier = {
+			modifier = harrenhal_restoration_efforts_bla
+			years = 8
+		}
+	}
+
+	option = {
+		name = agot_riverlands_bla.0903.b
+
+		add_gold = 75
+		add_stress = -20
+
+		add_character_modifier = {
+			modifier = harrenhal_abandoned_wings_bla
+			years = 8
+		}
+
+		every_vassal = {
+			limit = {
+				is_available_adult = yes
+			}
+
+			add_opinion = {
+				target = root
+				modifier = disappointed_opinion
+				opinion = -5
+			}
+		}
+	}
+
+	option = {
+		name = agot_riverlands_bla.0903.c
+
+		trigger = {
+			OR = {
+				stewardship >= 12
+				has_trait = administrator
+				has_trait = diligent
+			}
+		}
+
+		add_stewardship_lifestyle_xp = 500
+
+		capital_county = {
+			change_county_control = 15
+		}
+
+		add_character_modifier = {
+			modifier = harrenhal_managed_reconstruction_bla
+			years = 5
+		}
+	}
+
+	option = {
+		name = agot_riverlands_bla.0903.d
+
+		trigger = {
+			OR = {
+				martial >= 10
+				has_trait = overseer
+				has_trait = wrathful
+			}
+		}
+
+		add_dread = 15
+		add_stress = 20
+
+		add_gold = 100
+
+		every_courtier_or_guest = {
+			add_opinion = {
+				target = root
+				modifier = scared_opinion
+				opinion = -10
+			}
+		}
+
+		add_character_modifier = {
+			modifier = harrenhal_forced_labor_bla
+			years = 8
+		}
+	}
+}
+
+# =========================================================
+# Harrenhal
+# The Ghost of Harren Hoare
+# =========================================================
+
+agot_riverlands_bla.0904 = {
+	type = character_event
+	title = agot_riverlands_bla.0904.t
+	desc = agot_riverlands_bla.0904.desc
+	theme = mental_health
+
+	override_background = {
+		reference = agot_weirwood_event_night_harrenhal
+	}
+
+	left_portrait = {
+		character = root
+		animation = thinking
+	}
+
+	trigger = {
+		is_ruler = yes
+		is_landed = yes
+		is_available_adult = yes
+
+		any_held_title = {
+			this = title:c_harrenhal
+		}
+
+		NOT = {
+			has_character_flag = harrenhal_another_lord_recently_bla
+		}
+		NOT = { has_character_flag = harrenhal_any_event_recently_bla }
+	}
+
+	immediate = {
+		add_character_flag = {
+			flag = harrenhal_another_lord_recently_bla
+			years = 10
+		}
+		add_character_flag = {
+			flag = harrenhal_any_event_recently_bla
+			years = 3
+		}
+
+	}
+
+	option = {
+		name = agot_riverlands_bla.0904.a
+
+		add_prestige = 250
+		add_stress = 20
+
+		dynasty = {
+			add_dynasty_prestige = 100
+		}
+
+		add_character_modifier = {
+			modifier = harrenhal_defiant_lord_bla
+			years = 5
+		}
+	}
+
+	option = {
+		name = agot_riverlands_bla.0904.b
+
+		add_piety = 150
+		add_stress = -20
+
+		add_character_modifier = {
+			modifier = harrenhal_humbled_before_history_bla
+			years = 5
+		}
+	}
+
+	option = {
+		name = agot_riverlands_bla.0904.c
+
+		trigger = {
+			OR = {
+				learning >= 12
+				has_trait = scholar
+				has_trait = lifestyle_mystic
+			}
+		}
+
+		add_learning_lifestyle_xp = 500
+
+		random_list = {
+			70 = {
+				add_prestige = 100
+			}
+
+			30 = {
+				add_character_modifier = {
+					modifier = harrenhal_obsession_with_legacy_bla
+					years = 10
+				}
+
+				add_stress = 35
+			}
+		}
+	}
+
+	option = {
+		name = agot_riverlands_bla.0904.d
+
+		trigger = {
+			OR = {
+				intrigue >= 10
+				has_trait = ambitious
+				has_trait = arbitrary
+			}
+		}
+
+		add_intrigue_lifestyle_xp = 350
+		add_dread = 10
+
+		every_vassal = {
+			limit = {
+				is_available_adult = yes
+			}
+
+			add_opinion = {
+				target = root
+				modifier = scared_opinion
+				opinion = -10
+			}
+		}
+
+		add_character_modifier = {
+			modifier = harrenhal_dark_reputation_bla
+			years = 5
+		}
+	}
+}
+
+# =========================================================
+# Harrenhal
+# Phantom Smoke
+# =========================================================
+
+agot_riverlands_bla.0905 = {
+	type = character_event
+	title = agot_riverlands_bla.0905.t
+	desc = agot_riverlands_bla.0905.desc
+	theme = skull
+
+	override_background = {
+		reference = agot_weirwood_event_night_harrenhal
+	}
+
+	left_portrait = {
+		character = root
+		animation = interested
+	}
+
+	trigger = {
+		is_ruler = yes
+		is_landed = yes
+		is_available_adult = yes
+
+		any_held_title = {
+			this = title:c_harrenhal
+		}
+
+		NOT = {
+			has_character_flag = harrenhal_fire_memory_recently_bla
+		}
+
+		NOT = {
+			has_character_flag = harrenhal_any_event_recently_bla
+		}
+	}
+
+	immediate = {
+		add_character_flag = {
+			flag = harrenhal_fire_memory_recently_bla
+			years = 10
+		}
+
+		add_character_flag = {
+			flag = harrenhal_any_event_recently_bla
+			years = 3
+		}
+	}
+
+	option = {
+		name = agot_riverlands_bla.0905.a
+
+		add_piety = 100
+		add_stress = 15
+
+		add_character_modifier = {
+			modifier = harrenhal_burned_memory_bla
+			years = 10
+		}
+
+		every_courtier_or_guest = {
+			add_opinion = {
+				target = root
+				modifier = pious_opinion
+				opinion = 5
+			}
+		}
+	}
+
+	option = {
+		name = agot_riverlands_bla.0905.b
+
+		add_prestige = 150
+		add_dread = 10
+
+		add_character_modifier = {
+			modifier = harrenhal_fire_fascination_bla
+			years = 5
+		}
+	}
+
+	option = {
+		name = agot_riverlands_bla.0905.c
+
+		trigger = {
+			OR = {
+				martial >= 12
+				has_trait = scholar
+				has_trait = strategist
+			}
+		}
+
+		add_martial_lifestyle_xp = 600
+
+		random_list = {
+			70 = {
+				add_prestige = 75
+			}
+
+			30 = {
+				add_character_modifier = {
+					modifier = harrenhal_dragonfire_obsession_bla
+					years = 10
+				}
+
+				add_stress = 35
+			}
+		}
+	}
+
+	option = {
+		name = agot_riverlands_bla.0905.d
+
+		trigger = {
+			OR = {
+				intrigue >= 10
+				has_trait = paranoid
+				has_trait = arbitrary
+			}
+		}
+
+		add_intrigue_lifestyle_xp = 350
+		add_dread = 15
+
+		every_vassal = {
+			limit = {
+				is_available_adult = yes
+			}
+
+			add_opinion = {
+				target = root
+				modifier = scared_opinion
+				opinion = -10
+			}
+		}
+	}
+}
+
+# =========================================================
+# Harrenhal
+# The Ashen Grove
+# =========================================================
+
+agot_riverlands_bla.0906 = {
+	type = character_event
+	title = agot_riverlands_bla.0906.t
+	desc = agot_riverlands_bla.0906.desc
+	theme = faith
+
+	override_background = {
+		reference = agot_weirwood_event
+	}
+
+	left_portrait = {
+		character = root
+		animation = prayer
+	}
+
+	trigger = {
+		is_ruler = yes
+		is_landed = yes
+		is_available_adult = yes
+
+		any_held_title = {
+			this = title:c_harrenhal
+		}
+
+		NOT = {
+			has_character_flag = harrenhal_godswood_recently_bla
+		}
+
+		NOT = {
+			has_character_flag = harrenhal_any_event_recently_bla
+		}
+	}
+
+	immediate = {
+		add_character_flag = {
+			flag = harrenhal_godswood_recently_bla
+			years = 10
+		}
+
+		add_character_flag = {
+			flag = harrenhal_any_event_recently_bla
+			years = 3
+		}
+	}
+
+	option = {
+		name = agot_riverlands_bla.0906.a
+
+		add_piety = 150
+		add_stress = -15
+
+		add_character_modifier = {
+			modifier = harrenhal_silent_godswood_bla
+			years = 10
+		}
+	}
+
+	option = {
+		name = agot_riverlands_bla.0906.b
+
+		add_prestige = 125
+		add_piety = 50
+
+		every_courtier_or_guest = {
+			limit = {
+				NOT = {
+					faith = root.faith
+				}
+			}
+
+			add_opinion = {
+				target = root
+				modifier = uneasy_court_opinion
+				opinion = -10
+				years = 5
+			}
+		}
+
+		add_character_modifier = {
+			modifier = harrenhal_dark_devotion_bla
+			years = 10
+		}
+	}
+
+	option = {
+		name = agot_riverlands_bla.0906.c
+
+		trigger = {
+			OR = {
+				learning >= 12
+				has_trait = lifestyle_mystic
+				has_trait = scholar
+			}
+		}
+
+		add_learning_lifestyle_xp = 500
+
+		random_list = {
+			70 = {
+				add_piety = 75
+			}
+
+			30 = {
+				add_character_modifier = {
+					modifier = harrenhal_whispering_faces_bla
+					years = 10
+				}
+
+				add_stress = 25
+			}
+		}
+	}
+	option = {
+		name = agot_riverlands_bla.0906.d
+
+		add_dread = 5
+		add_prestige = 100
+		add_stress = -25
+
+		every_courtier_or_guest = {
+			add_opinion = {
+				target = root
+				modifier = disappointed_opinion
+				opinion = -5
+			}
+		}
+
+		add_character_modifier = {
+			modifier = harrenhal_private_godswood_bla
+			years = 10
+		}
+	}
+}
+
+# =========================================================
+# House Lothston
+# The Shreaking Vaults
+# =========================================================
+
+agot_riverlands_bla.0910 = {
+	type = character_event
+	title = agot_riverlands_bla.0910.t
+	desc = agot_riverlands_bla.0910.desc
+	theme = intrigue
+
+	override_background = {
+		reference = agot_dragonstone_cave
+	}
+
+	left_portrait = {
+		character = root
+		animation = worry
+	}
+
+	trigger = {
+		is_ruler = yes
+		is_landed = yes
+		is_available_adult = yes
+
+		dynasty = dynasty:dynn_Lothston
+
+		any_held_title = {
+			this = title:c_harrenhal
+		}
+
+		NOT = {
+			has_character_flag = lothston_bat_cellars_recently_bla
+		}
+
+		NOT = {
+			has_character_flag = harrenhal_any_event_recently_bla
+		}
+	}
+
+	immediate = {
+		add_character_flag = {
+			flag = lothston_bat_cellars_recently_bla
+			years = 10
+		}
+
+		add_character_flag = {
+			flag = harrenhal_any_event_recently_bla
+			years = 3
+		}
+	}
+
+	option = {
+		name = agot_riverlands_bla.0910.a
+
+		add_stewardship_lifestyle_xp = 400
+		add_intrigue_lifestyle_xp = 200
+
+		add_character_modifier = {
+			modifier = lothston_hidden_passages_bla
+			years = 10
+		}
+	}
+
+	option = {
+		name = agot_riverlands_bla.0910.b
+
+		add_stress = -20
+		add_intrigue_lifestyle_xp = 200
+		add_learning_lifestyle_xp = 400
+
+		add_character_modifier = {
+			modifier = lothston_dark_fascination_bla
+			years = 10
+		}
+
+		every_courtier_or_guest = {
+			add_opinion = {
+				target = root
+				modifier = suspicious_opinion
+				opinion = -10
+			}
+		}
+	}
+
+	option = {
+		name = agot_riverlands_bla.0910.c
+
+		trigger = {
+			OR = {
+				learning >= 10
+				has_trait = scholar
+			}
+		}
+
+		add_learning_lifestyle_xp = 400
+
+		random_list = {
+			70 = {
+				add_piety = 50
+			}
+
+			30 = {
+				add_character_modifier = {
+					modifier = lothston_whispers_below_bla
+					years = 10
+				}
+
+				add_stress = 30
+			}
+		}
+	}
+
+	option = {
+		name = agot_riverlands_bla.0910.d
+
+		trigger = {
+			OR = {
+				has_trait = arbitrary
+				has_trait = sadistic
+				intrigue >= 12
+			}
+		}
+
+		add_dread = 20
+		add_intrigue_lifestyle_xp = 400
+
+		every_vassal = {
+			limit = {
+				is_available_adult = yes
+			}
+
+			add_opinion = {
+				target = root
+				modifier = scared_opinion
+				opinion = -15
+			}
+		}
+	}
+}
+
+# =========================================================
+# House Lothston
+# The Ghost of the Mad Lady
+# =========================================================
+
+agot_riverlands_bla.0911 = {
+	type = character_event
+	title = agot_riverlands_bla.0911.t
+	desc = agot_riverlands_bla.0911.desc
+	theme = dread
+
+	override_background = {
+		reference = agot_weirwood_event_night_harrenhal
+	}
+
+	left_portrait = {
+		character = root
+		animation = thinking
+	}
+
+	trigger = {
+		
+		# Only after Danelle's era
+		game_start_date >= 8230.1.1
+
+		is_ruler = yes
+		is_landed = yes
+		is_available_adult = yes
+
+		dynasty = dynasty:dynn_Lothston
+
+		any_held_title = {
+			this = title:c_harrenhal
+		}
+
+
+		NOT = {
+			has_character_flag = lothston_danelle_recently_bla
+		}
+
+		NOT = {
+			has_character_flag = harrenhal_any_event_recently_bla
+		}
+	}
+
+	immediate = {
+		add_character_flag = {
+			flag = lothston_danelle_recently_bla
+			years = 12
+		}
+
+		add_character_flag = {
+			flag = harrenhal_any_event_recently_bla
+			years = 3
+		}
+	}
+
+	option = {
+		name = agot_riverlands_bla.0911.a
+
+		add_prestige = 200
+		add_dread = 10
+
+		add_character_modifier = {
+			modifier = lothston_dark_legacy_bla
+			years = 12
+		}
+
+		every_vassal = {
+			limit = {
+				is_available_adult = yes
+			}
+
+			add_opinion = {
+				target = root
+				modifier = scared_opinion
+				opinion = -10
+			}
+		}
+	}
+
+	option = {
+		name = agot_riverlands_bla.0911.b
+
+		add_piety = 100
+		add_stress = 20
+
+		add_character_modifier = {
+			modifier = lothston_rejected_rumors_bla
+			years = 12
+		}
+	}
+
+	option = {
+		name = agot_riverlands_bla.0911.c
+
+		trigger = {
+			OR = {
+				intrigue >= 12
+				has_trait = deceitful
+				has_trait = arbitrary
+			}
+		}
+
+		add_intrigue_lifestyle_xp = 500
+
+		random_list = {
+			70 = {
+				add_dread = 10
+				add_prestige = 75
+			}
+
+			30 = {
+				add_character_modifier = {
+					modifier = lothston_obsessed_with_danelle_bla
+					years = 12
+				}
+
+				add_stress = 35
+			}
+		}
+	}
+
+	option = {
+		name = agot_riverlands_bla.0911.d
+
+		trigger = {
+			OR = {
+				learning >= 10
+				has_trait = scholar
+			}
+		}
+
+		add_learning_lifestyle_xp = 350
+		add_piety = 50
+
+		every_courtier_or_guest = {
+			add_opinion = {
+				target = root
+				modifier = suspicion_opinion
+				opinion = -10
+			}
+		}
+
+		capital_county = {
+			add_county_modifier = {
+			modifier = popular_rumor_denial
+			years = 12
+			}
+		}
+	}
+}
+
+# =========================================================
+# House Whent
+# Echoes of the Great Lists
+# =========================================================
+
+agot_riverlands_bla.0920 = {
+	type = character_event
+	title = agot_riverlands_bla.0920.t
+	desc = agot_riverlands_bla.0920.desc
+	theme = feast_activity
+
+	override_background = {
+		reference = ep2_tournament
+	}
+
+	left_portrait = {
+		character = root
+		animation = personality_bold
+	}
+
+	trigger = {
+		is_ruler = yes
+		is_landed = yes
+		is_available_adult = yes
+
+		dynasty = dynasty:dynn_Whent
+
+		any_held_title = {
+			this = title:c_harrenhal
+		}
+
+		NOT = {
+			has_character_flag = whent_last_tourney_recently_bla
+		}
+
+		NOT = {
+			has_character_flag = harrenhal_any_event_recently_bla
+		}
+	}
+
+	immediate = {
+		add_character_flag = {
+			flag = whent_last_tourney_recently_bla
+			years = 10
+		}
+
+		add_character_flag = {
+			flag = harrenhal_any_event_recently_bla
+			years = 3
+		}
+	}
+
+	option = {
+		name = agot_riverlands_bla.0920.a
+
+		remove_short_term_gold = 300
+		add_prestige = 300
+		add_martial_lifestyle_xp = 200
+
+		add_character_modifier = {
+			modifier = whent_tourney_revival_bla
+			years = 10
+		}
+
+		capital_county = {
+			add_county_modifier = {
+				modifier = whent_harrenhal_tourney_grounds_bla
+				years = 10
+			}
+		}
+
+		every_knight = {
+			add_opinion = {
+				target = root
+				modifier = respect_opinion
+				opinion = 15
+			}	
+		}
+
+		every_vassal = {
+			limit = { is_available_adult = yes }
+
+			add_opinion = {
+				target = root
+				modifier = impressed_opinion
+				opinion = 10
+			}
+		}
+	}
+
+	option = {
+		name = agot_riverlands_bla.0920.b
+
+		add_gold = 50
+		add_stress = -15
+
+		add_character_modifier = {
+			modifier = whent_fading_grandeur_bla
+			years = 10
+		}
+	}
+
+	option = {
+		name = agot_riverlands_bla.0920.c
+
+		trigger = {
+			OR = {
+				diplomacy >= 10
+				has_trait = august
+				has_trait = diplomat
+			}
+		}
+
+		add_diplomacy_lifestyle_xp = 400
+		add_prestige = 100
+
+		random_vassal = {
+			limit = {
+				is_alive = yes
+			}
+
+			add_opinion = {
+				target = root
+				modifier = respect_opinion
+				opinion = 15
+			}
+		}
+	}
+
+	option = {
+		name = agot_riverlands_bla.0920.d
+
+		trigger = {
+			OR = {
+				stewardship >= 10
+				has_trait = greedy
+				has_trait = administrator
+			}
+		}
+
+		add_stewardship_lifestyle_xp = 300
+		add_gold = 150
+
+		every_vassal = {
+			add_opinion = {
+				target = root
+				modifier = disappointed_opinion
+				opinion = -10
+			}
+		}
+	}
+}
+
+# =========================================================
+# House Whent
+# The Cold Chambers
+# =========================================================
+
+agot_riverlands_bla.0921 = {
+	type = character_event
+	title = agot_riverlands_bla.0921.t
+	desc = agot_riverlands_bla.0921.desc
+	theme = realm
+
+	override_background = {
+		reference = temple_scope
+	}
+
+	left_portrait = {
+		character = root
+		animation = sadness
+	}
+
+	trigger = {
+		is_ruler = yes
+		is_landed = yes
+		is_available_adult = yes
+
+		dynasty = dynasty:dynn_Whent
+
+		any_held_title = {
+			this = title:c_harrenhal
+		}
+
+		NOT = {
+			has_character_flag = whent_empty_chambers_recently_bla
+		}
+
+		NOT = {
+			has_character_flag = harrenhal_any_event_recently_bla
+		}
+	}
+
+	immediate = {
+		add_character_flag = {
+			flag = whent_empty_chambers_recently_bla
+			years = 10
+		}
+
+		add_character_flag = {
+			flag = harrenhal_any_event_recently_bla
+			years = 3
+		}
+	}
+
+	option = {
+		name = agot_riverlands_bla.0921.a
+
+		add_stress = -20
+		add_piety = 75
+
+		add_character_modifier = {
+			modifier = whent_quiet_acceptance_bla
+			years = 10
+		}
+	}
+
+	option = {
+		name = agot_riverlands_bla.0921.b
+
+		add_prestige = 175
+
+		remove_short_term_gold = 150
+
+		add_character_modifier = {
+			modifier = whent_restored_halls_bla
+			years = 10
+		}
+
+		capital_county = {
+			change_development_progress = 15
+		}
+	}
+
+	option = {
+		name = agot_riverlands_bla.0921.c
+
+		trigger = {
+			OR = {
+				learning >= 10
+				has_trait = scholar
+				has_trait = depressed_1
+			}
+		}
+
+		add_learning_lifestyle_xp = 400
+		add_gold = 30
+
+		random_list = {
+			70 = {
+				add_piety = 75
+			}
+
+			30 = {
+				add_character_modifier = {
+					modifier = whent_haunted_memories_bla
+					years = 10
+				}
+
+				add_stress = 25
+			}
+		}
+	}
+
+	option = {
+		name = agot_riverlands_bla.0921.d
+
+		trigger = {
+			OR = {
+				stewardship >= 10
+				has_trait = administrator
+				has_trait = diligent
+			}
+		}
+
+		add_stewardship_lifestyle_xp = 350
+		remove_short_term_gold = 50
+
+		add_character_modifier = {
+			modifier = whent_practical_restoration_bla
+			years = 5
+		}
+	}
+}
+
+# =========================================================
+# House Strong
+# Bones Beneath the Ash
+# =========================================================
+
+agot_riverlands_bla.0930 = {
+	type = character_event
+	title = agot_riverlands_bla.0930.t
+	desc = agot_riverlands_bla.0930.desc
+	theme = martial
+
+	override_background = {
+		reference = agot_weirwood_event_night_harrenhal
+	}
+
+	left_portrait = {
+		character = root
+		animation = disbelief
+	}
+
+	trigger = {
+		is_ruler = yes
+		is_landed = yes
+		is_available_adult = yes
+
+		# Only after Dance of the Dragon era
+		game_start_date >= 8170.1.1
+
+		dynasty = dynasty:dynn_Strong
+
+		any_held_title = {
+			this = title:c_harrenhal
+		}
+
+		NOT = {
+			has_character_flag = strong_bones_ash_recently_bla
+		}
+
+		NOT = {
+			has_character_flag = harrenhal_any_event_recently_bla
+		}
+	}
+
+	immediate = {
+		add_character_flag = {
+			flag = strong_bones_ash_recently_bla
+			years = 10
+		}
+
+		add_character_flag = {
+			flag = harrenhal_any_event_recently_bla
+			years = 3
+		}
+	}
+
+	option = {
+		name = agot_riverlands_bla.0930.a
+
+		add_martial_lifestyle_xp = 500
+		add_prestige = 150
+
+		add_character_modifier = {
+			modifier = strong_legacy_of_fire_bla
+			years = 10
+		}
+	}
+
+	option = {
+		name = agot_riverlands_bla.0930.b
+
+		add_piety = 100
+		add_dread = -5
+		add_stress = -30
+
+		every_close_family_member = {
+			limit = {
+				is_alive = yes
+				is_available = yes
+			}
+
+			add_opinion = {
+				target = root
+				modifier = respect_opinion
+				opinion = 20
+			}
+		}
+	}
+
+	option = {
+		name = agot_riverlands_bla.0930.c
+
+		trigger = {
+			OR = {
+				martial >= 12
+				has_trait = wrathful
+				has_trait = strategist
+			}
+		}
+
+		add_martial_lifestyle_xp = 700
+		add_dread = 10
+
+		random_list = {
+			70 = {
+				add_prestige = 100
+			}
+
+			30 = {
+				add_character_modifier = {
+					modifier = strong_dragonfire_fixation_bla
+					years = 10
+				}
+
+				add_stress = 25
+			}
+		}
+	}
+
+	option = {
+		name = agot_riverlands_bla.0930.d
+
+		trigger = {
+			OR = {
+				learning >= 10
+				has_trait = scholar
+				has_trait = lifestyle_mystic
+			}
+		}
+
+		add_learning_lifestyle_xp = 350
+
+		add_character_modifier = {
+			modifier = strong_ashen_histories_bla
+			years = 10
+		}
+	}
+}
+
+# =========================================================
+# House Strong
+# The Legacy of Lucamore
+# =========================================================
+
+agot_riverlands_bla.0931 = {
+	type = character_event
+	title = agot_riverlands_bla.0931.t
+	desc = agot_riverlands_bla.0931.desc
+	theme = family
+
+	override_background = {
+		reference = throne_room
+	}
+
+	left_portrait = {
+		character = root
+		animation = thinking
+	}
+
+	trigger = {
+		is_ruler = yes
+		is_landed = yes
+		is_available_adult = yes
+
+		dynasty = dynasty:dynn_Strong
+
+		any_held_title = {
+			this = title:c_harrenhal
+		}
+
+		NOT = {
+			has_character_flag = strong_lucamore_recently_bla
+		}
+
+		NOT = {
+			has_character_flag = harrenhal_any_event_recently_bla
+		}
+	}
+
+	immediate = {
+		add_character_flag = {
+			flag = strong_lucamore_recently_bla
+			years = 10
+		}
+
+		add_character_flag = {
+			flag = harrenhal_any_event_recently_bla
+			years = 3
+		}
+	}
+
+	option = {
+		name = agot_riverlands_bla.0931.a
+
+		add_prestige = 175
+		add_piety = 75
+
+		add_character_modifier = {
+			modifier = strong_knightly_expectations_bla
+			years = 10
+		}
+
+		every_knight = {
+			add_opinion = {
+				target = root
+				modifier = respect_opinion
+				opinion = 10
+			}
+		}
+	}
+
+	option = {
+		name = agot_riverlands_bla.0931.b
+
+		add_dread = 15
+		add_stress = 15
+
+		add_character_modifier = {
+			modifier = strong_harsh_discipline_bla
+			years = 5
+		}
+
+		every_courtier_or_guest = {
+			add_opinion = {
+				target = root
+				modifier = disappointed_opinion
+				opinion = -10
+			}
+		}
+	}
+
+	option = {
+		name = agot_riverlands_bla.0931.c
+
+		trigger = {
+			OR = {
+				prowess >= 10
+				martial >= 10
+				has_trait = brave
+			}
+		}
+
+		add_prestige = 175
+		add_martial_lifestyle_xp = 350
+
+		random_list = {
+			65 = {
+				add_dread = 10
+				add_stress = -20
+
+				every_knight = {
+					add_opinion = {
+						target = root
+						modifier = respect_opinion
+						opinion = 15
+					}
+				}
+
+				add_character_modifier = {
+					modifier = strong_victorious_champion_bla
+					years = 10
+				}
+
+				custom_tooltip = agot_riverlands_bla.0931.c.success_tt
+			}
+
+			35 = {
+				add_prestige = -75
+				add_stress = 20
+
+				every_knight = {
+					add_opinion = {
+						target = root
+						modifier = disappointed_opinion
+						opinion = -10
+					}
+				}
+
+				add_character_modifier = {
+					modifier = strong_failed_champion_bla
+					years = 10
+				}
+
+				custom_tooltip = agot_riverlands_bla.0931.c.failure_tt
+			}
+		}
+	}
+
+	option = {
+		name = agot_riverlands_bla.0931.d
+
+		trigger = {
+			OR = {
+				intrigue >= 10
+				has_trait = cynical
+				has_trait = arbitrary
+			}
+		}
+
+		add_intrigue_lifestyle_xp = 350
+		add_piety = -75
+		add_dread = 10
+
+		every_courtier_or_guest = {
+			limit = {
+				faith = root.faith
+			}
+
+			add_opinion = {
+				target = root
+				modifier = disappointed_opinion
+				opinion = -10
+			}
+		}
+
+		random_list = {
+			70 = {
+				add_prestige = 100
+				custom_tooltip = agot_riverlands_bla.0931.d.success_tt
+			}
+
+			30 = {
+				add_character_modifier = {
+					modifier = strong_tarnished_reputation_bla
+					years = 10
+				}
+
+				add_stress = 25
+				custom_tooltip = agot_riverlands_bla.0931.d.failure_tt
+			}
+		}
+	}
+}
+
+# =========================================================
+# Harrenhal
+# The Tower Collapse
+# =========================================================
+
+agot_riverlands_bla.0940 = {
+	type = character_event
+	title = agot_riverlands_bla.0940.t
+	desc = agot_riverlands_bla.0940.desc
+	theme = disaster
+
+	override_background = {
+		reference = agot_weirwood_event_night_harrenhal
+	}
+
+	left_portrait = {
+		character = root
+		animation = shock
+	}
+
+	trigger = {
+		is_ruler = yes
+		is_landed = yes
+		is_available_adult = yes
+
+		any_held_title = {
+			this = title:c_harrenhal
+		}
+
+		NOT = {
+			has_character_flag = harrenhal_tower_collapse_recently_bla
+		}
+
+		NOT = {
+			has_character_flag = harrenhal_any_event_recently_bla
+		}
+	}
+
+	immediate = {
+		add_character_flag = {
+			flag = harrenhal_tower_collapse_recently_bla
+			years = 15
+		}
+
+		add_character_flag = {
+			flag = harrenhal_any_event_recently_bla
+			years = 5
+		}
+	}
+
+	option = {
+		name = agot_riverlands_bla.0940.a
+
+		remove_short_term_gold = 200
+		add_prestige = 100
+
+		capital_county = {
+			change_development_progress = 20
+		}
+
+		add_character_modifier = {
+			modifier = harrenhal_rebuilding_ruins_bla
+			years = 10
+		}
+	}
+
+	option = {
+		name = agot_riverlands_bla.0940.b
+
+		add_gold = 75
+		add_stress = -20
+
+		add_character_modifier = {
+			modifier = harrenhal_abandoned_sections_bla
+			years = 10
+		}
+
+		every_vassal = {
+			add_opinion = {
+				target = root
+				modifier = disappointed_opinion
+				opinion = -10
+			}
+		}
+	}
+
+	option = {
+		name = agot_riverlands_bla.0940.c
+
+		trigger = {
+			OR = {
+				stewardship >= 12
+				has_trait = administrator
+				has_trait = diligent
+			}
+		}
+
+		add_stewardship_lifestyle_xp = 600
+
+		random_list = {
+			70 = {
+				add_prestige = 100
+			}
+
+			30 = {
+				add_character_modifier = {
+					modifier = harrenhal_endless_decay_bla
+					years = 10
+				}
+
+				add_stress = 30
+			}
+		}
+	}
+
+	option = {
+		name = agot_riverlands_bla.0940.d
+
+		trigger = {
+			OR = {
+				martial >= 10
+				has_trait = wrathful
+				has_trait = arbitrary
+			}
+		}
+
+		add_dread = 15
+		add_gold = 100
+		add_stress = 20
+
+		every_courtier_or_guest = {
+			add_opinion = {
+				target = root
+				modifier = scared_opinion
+				opinion = -15
+			}
+		}
+
+		add_character_modifier = {
+			modifier = harrenhal_forced_reconstruction_bla
+			years = 10
+		}
+	}
+}
+
+# =========================================================
+# Harrenhal
+# The Vanished Scullions
+# =========================================================
+
+agot_riverlands_bla.0941 = {
+	type = character_event
+	title = agot_riverlands_bla.0941.t
+	desc = agot_riverlands_bla.0941.desc
+	theme = intrigue
+
+	override_background = {
+		reference = temple_scope
+	}
+
+	left_portrait = {
+		character = root
+		animation = worry
+	}
+
+	trigger = {
+		is_ruler = yes
+		is_landed = yes
+		is_available_adult = yes
+
+		any_held_title = {
+			this = title:c_harrenhal
+		}
+
+		NOT = {
+			has_character_flag = harrenhal_vanishings_recently_bla
+		}
+
+		NOT = {
+			has_character_flag = harrenhal_any_event_recently_bla
+		}
+	}
+
+	immediate = {
+		add_character_flag = {
+			flag = harrenhal_vanishings_recently_bla
+			years = 15
+		}
+
+		add_character_flag = {
+			flag = harrenhal_any_event_recently_bla
+			years = 5
+		}
+	}
+
+	option = {
+		name = agot_riverlands_bla.0941.a
+
+		add_intrigue_lifestyle_xp = 400
+
+		random_list = {
+			70 = {
+				add_prestige = 75
+
+				add_character_modifier = {
+					modifier = harrenhal_hidden_passages_sealed_bla
+					years = 10
+				}
+			}
+
+			30 = {
+				add_stress = 30
+
+				add_character_modifier = {
+					modifier = harrenhal_disturbing_discoveries_bla
+					years = 10
+				}
+			}
+		}
+	}
+
+	option = {
+		name = agot_riverlands_bla.0941.b
+
+		add_dread = 20
+		add_stress = 15
+
+		every_courtier_or_guest = {
+			add_opinion = {
+				target = root
+				modifier = scared_opinion
+				opinion = -15
+			}
+		}
+
+		add_character_modifier = {
+			modifier = harrenhal_rule_through_fear_bla
+			years = 10
+		}
+	}
+
+	option = {
+		name = agot_riverlands_bla.0941.c
+
+		trigger = {
+			OR = {
+				learning >= 10
+				has_trait = scholar
+				has_trait = lifestyle_mystic
+			}
+		}
+
+		add_learning_lifestyle_xp = 500
+		add_stress = 20
+
+		random_list = {
+			70 = {
+				add_piety = 75
+			}
+
+			30 = {
+				add_character_modifier = {
+					modifier = harrenhal_whispers_growing_bla
+					years = 10
+				}
+			}
+		}
+	}
+
+	option = {
+		name = agot_riverlands_bla.0941.d
+
+		trigger = {
+			OR = {
+				stewardship >= 10
+				has_trait = greedy
+			}
+		}
+
+		add_gold = 100
+		add_stress = -10
+
+		every_vassal = {
+			add_opinion = {
+				target = root
+				modifier = disappointed_opinion
+				opinion = -10
+			}
+		}
+
+		add_character_modifier = {
+			modifier = harrenhal_silenced_rumors_bla
+			years = 10
+		}
+	}
+}
+
+# =========================================================
+# Harrenhal
+# Dragon Dreams
+# =========================================================
+
+agot_riverlands_bla.0942 = {
+	type = character_event
+	title = agot_riverlands_bla.0942.t
+	desc = agot_riverlands_bla.0942.desc
+	theme = witchcraft
+
+	override_background = {
+		reference = bedchamber
+	}
+
+	left_portrait = {
+		character = root
+		animation = fear
+	}
+
+	trigger = {
+		is_ruler = yes
+		is_landed = yes
+		is_available_adult = yes
+
+		any_held_title = {
+			this = title:c_harrenhal
+		}
+
+		NOT = {
+			has_character_flag = harrenhal_dragon_dreams_recently_bla
+		}
+
+		NOT = {
+			has_character_flag = harrenhal_any_event_recently_bla
+		}
+	}
+
+	immediate = {
+		add_character_flag = {
+			flag = harrenhal_dragon_dreams_recently_bla
+			years = 20
+		}
+
+		add_character_flag = {
+			flag = harrenhal_any_event_recently_bla
+			years = 5
+		}
+	}
+
+	option = {
+		name = agot_riverlands_bla.0942.a
+
+		add_stress = 25
+		add_learning_lifestyle_xp = 400
+
+		add_character_modifier = {
+			modifier = harrenhal_dragon_dreams_bla
+			years = 15
+		}
+	}
+
+	option = {
+		name = agot_riverlands_bla.0942.b
+
+		add_piety = 100
+		add_stress = -15
+		add_learning_lifestyle_xp = 200
+
+		add_character_modifier = {
+			modifier = harrenhal_denied_the_flames_bla
+			years = 15
+		}
+	}
+
+	option = {
+		name = agot_riverlands_bla.0944.c
+
+		trigger = {
+			OR = {
+				has_trait = dragonrider
+
+				culture = {
+				has_cultural_pillar = heritage_valyrian
+				}
+			}
+		}
+
+		add_learning_lifestyle_xp = 700
+
+		random_list = {
+			85 = {
+				add_piety = 100
+			}
+
+			15 = {
+				if = {
+					limit = {
+						NOT = { has_trait = dragon_dreams }
+					}
+
+					add_trait = dragon_dreams
+				}
+
+				add_stress = 40
+
+				add_character_modifier = {
+					modifier = harrenhal_consumed_by_dragonfire_bla
+					years = 15
+				}
+			}
+		}
+	}
+
+	option = {
+		name = agot_riverlands_bla.0942.d
+
+		trigger = {
+			OR = {
+				has_trait = ambitious
+				has_trait = arrogant
+				intrigue >= 10
+			}
+		}
+
+		add_dread = 10
+		add_prestige = 150
+
+		add_character_modifier = {
+			modifier = harrenhal_fireborn_ambition_bla
+			years = 15
+		}
+	}
+}
+
+# =========================================================
+# Harrenhal
+# The Harrenhal Devourer
+# =========================================================
+
+agot_riverlands_bla.0943 = {
+	type = character_event
+	title = agot_riverlands_bla.0943.t
+	desc = agot_riverlands_bla.0943.desc
+	theme = realm
+
+	override_background = {
+		reference = temple
+	}
+
+	left_portrait = {
+		character = root
+		animation = thinking
+	}
+
+	trigger = {
+		is_ruler = yes
+		is_landed = yes
+		is_available_adult = yes
+
+		any_held_title = {
+			this = title:c_harrenhal
+		}
+
+		NOT = {
+			has_character_flag = harrenhal_curse_recently_bla
+		}
+
+		NOT = {
+			has_character_flag = harrenhal_any_event_recently_bla
+		}
+	}
+
+	immediate = {
+		add_character_flag = {
+			flag = harrenhal_curse_recently_bla
+			years = 20
+		}
+
+		add_character_flag = {
+			flag = harrenhal_any_event_recently_bla
+			years = 5
+		}
+	}
+
+	option = {
+		name = agot_riverlands_bla.0943.a
+
+		add_piety = 150
+		add_stress = -15
+
+		add_character_modifier = {
+			modifier = harrenhal_public_devotion_bla
+			years = 15
+		}
+
+		every_vassal = {
+			limit = {
+				faith = root.faith
+			}
+
+			add_opinion = {
+				target = root
+				modifier = respect_opinion
+				opinion = 10
+			}
+		}
+	}
+
+	option = {
+		name = agot_riverlands_bla.0943.b
+
+		add_prestige = 250
+		add_stress = 20
+
+		add_character_modifier = {
+			modifier = harrenhal_defied_the_curse_bla
+			years = 15
+		}
+	}
+
+	option = {
+		name = agot_riverlands_bla.0943.c
+
+		trigger = {
+			OR = {
+				intrigue >= 12
+				has_trait = paranoid
+				has_trait = deceitful
+			}
+		}
+
+		add_intrigue_lifestyle_xp = 500
+		add_dread = 15
+
+		random_list = {
+			70 = {
+				add_prestige = 100
+			}
+
+			30 = {
+				add_character_modifier = {
+					modifier = harrenhal_consumed_by_paranoia_bla
+					years = 15
+				}
+
+				add_stress = 40
+			}
+		}
+	}
+
+	option = {
+		name = agot_riverlands_bla.0943.d
+
+		trigger = {
+			OR = {
+				dread >= 20
+				learning >= 12
+			}
+		}
+
+		add_intrigue_lifestyle_xp = 200
+		add_learning_lifestyle_xp = 200
+		add_piety = -75
+
+		add_character_modifier = {
+			modifier = harrenhal_studied_the_curse_bla
+			years = 15
+		}
+	}
+}
+
+# =========================================================
+# Harrenhal
+# Beneath Black Stone
+# =========================================================
+
+agot_riverlands_bla.0944 = {
+	type = character_event
+	title = agot_riverlands_bla.0944.t
+	desc = agot_riverlands_bla.0944.desc
+	theme = dynasty
+
+	override_background = {
+		reference = temple_scope
+	}
+
+	left_portrait = {
+		character = root
+		animation = disbelief
+	}
+
+	trigger = {
+		is_ruler = yes
+		is_landed = yes
+		is_available_adult = yes
+
+		any_held_title = {
+			this = title:c_harrenhal
+		}
+
+		NOT = {
+			has_character_flag = harrenhal_black_stone_recently_bla
+		}
+
+		NOT = {
+			has_character_flag = harrenhal_any_event_recently_bla
+		}
+	}
+
+	immediate = {
+		add_character_flag = {
+			flag = harrenhal_black_stone_recently_bla
+			years = 25
+		}
+
+		add_character_flag = {
+			flag = harrenhal_any_event_recently_bla
+			years = 5
+		}
+	}
+
+	option = {
+		name = agot_riverlands_bla.0944.a
+
+		add_learning_lifestyle_xp = 500
+		add_prestige = 100
+
+		random_list = {
+
+			40 = {
+				add_gold = 150
+
+				custom_tooltip = agot_riverlands_bla.0944.a.gold_tt
+			}
+
+			30 = {
+				add_piety = 100
+
+				add_character_modifier = {
+					modifier = harrenhal_ancient_discovery_bla
+					years = 15
+				}
+
+				custom_tooltip = agot_riverlands_bla.0944.a.discovery_tt
+			}
+
+			30 = {
+				add_stress = 30
+
+				add_character_modifier = {
+					modifier = harrenhal_disturbing_relics_bla
+					years = 15
+				}
+
+				custom_tooltip = agot_riverlands_bla.0944.a.relic_tt
+			}
+			10 = {
+				
+				trigger = {
+					NOT = { has_global_variable = harrenhal_crown_fragment_found_bla }
+				}
+
+				agot_create_artifact_harrenhal_crown_fragment_effect = {
+					OWNER = root
+				}
+
+				set_global_variable = {
+					name = harrenhal_crown_fragment_found_bla
+					value = yes
+				}
+
+				add_prestige = 300
+
+				custom_tooltip = agot_riverlands_bla.0944.a.artifact_tt
+			}
+		}
+	}
+
+	option = {
+		name = agot_riverlands_bla.0944.b
+
+		add_dread = 15
+		add_stress = 15
+
+		add_character_modifier = {
+			modifier = harrenhal_sealed_the_depths_bla
+			years = 15
+		}
+
+		every_courtier_or_guest = {
+			add_opinion = {
+				target = root
+				modifier = scared_opinion
+				opinion = -10
+			}
+		}
+	}
+
+	option = {
+		name = agot_riverlands_bla.0944.c
+
+		trigger = {
+			OR = {
+				learning >= 12
+				has_trait = scholar
+				has_trait = lifestyle_mystic
+			}
+		}
+
+		add_learning_lifestyle_xp = 700
+
+		random_list = {
+			70 = {
+				add_prestige = 150
+				custom_tooltip = agot_riverlands_bla.0944.c.success_tt
+			}
+
+			30 = {
+				add_stress = 35
+
+				add_character_modifier = {
+					modifier = harrenhal_whispers_beneath_stone_bla
+					years = 15
+				}
+
+				custom_tooltip = agot_riverlands_bla.0944.c.whispers_tt
+			}
+		}
+	}
+
+	option = {
+		name = agot_riverlands_bla.0944.d
+
+		trigger = {
+			OR = {
+				stewardship >= 10
+				has_trait = greedy
+				has_trait = arbitrary
+			}
+		}
+
+		add_gold = 200
+		add_stress = 20
+
+		every_vassal = {
+			add_opinion = {
+				target = root
+				modifier = disappointed_opinion
+				opinion = -10
+			}
+		}
+
+		add_character_modifier = {
+			modifier = harrenhal_looted_vaults_bla
+			years = 15
+		}
+	}
+}

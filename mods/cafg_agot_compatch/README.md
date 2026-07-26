@@ -15,3 +15,48 @@ the vanilla `tradition_steppe_tolerance`; the four invalid checks are omitted
 while all surviving CaFG criteria are preserved. This prevents the repeated
 `has_cultural_tradition` null-target failures seen while initial laws are
 selected for rulers.
+
+## Cultural men-at-arms boons
+
+AGOT and later playset mods replace several vanilla men-at-arms files by
+filename. CaFG's cultural-boon tables still instantiated its generic regiment
+refill effect for 35 unit types removed from the resulting database. CK3
+post-validated each parameterized instance three times, producing the 105
+`is_maa_type` database failures in the 258 A.C. playtest.
+
+The two generated scripted-effect overrides remove only weighted branches whose
+unit type does not exist. Eighteen valid AGOT/playset unit gifts remain
+unchanged. When all outcomes of a nested random list are invalid, its enclosing
+weighted branch is removed so the boon selection cannot choose an empty outcome.
+
+The same rebase removes eleven other weighted branches whose vanilla/TGP
+traditions do not exist in AGOT. It retains the pastoralist boon using its
+plains/steppe conditions without the removed `world_steppe` region, gives the
+ordinary `pilgrim` trait instead of querying vanilla Islam for `hajjaj`, and
+keeps the scholar-official character reward without vanilla Han-language and
+Confucian-education operations.
+
+Regenerate these overrides from current CaFG Workshop sources with:
+
+```sh
+scripts/generate-cafg-agot-runtime-rebase.py
+```
+
+The generator verifies the exact missing type and branch counts and stops if a
+CaFG update changes the source assumptions.
+
+## Disabled vanilla-only decisions
+
+CaFG also ships whole-file replacements for two vanilla decisions that have no
+valid counterpart in AGOT:
+
+- `adopt_a_new_faith_for_persia_decision`, which requires the Persian Struggle,
+  Islam, its vanilla faiths, and vanilla head-of-faith titles; and
+- `embrace_outremer_culture_decision`, which requires vanilla Catholic/Arabic
+  cultures, titles, and Middle Eastern geographical regions.
+
+Because decision `is_shown` blocks are evaluated repeatedly, these otherwise
+unreachable definitions generated roughly 13,500 invalid database-scope script
+locations during the 258 A.C. playtest. Exact-path, intentionally empty
+overrides prevent CaFG's two definitions from loading without changing any
+AGOT-native decision.

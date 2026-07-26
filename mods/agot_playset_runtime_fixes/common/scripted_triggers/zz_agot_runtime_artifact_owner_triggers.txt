@@ -1,0 +1,287 @@
+﻿# Current AGOT pattern triggers assume an artifact owner already exists.
+# These narrow later definitions preserve their logic while making that scope optional.
+
+artifact_feature_pattern_wolf_trigger = {
+	trigger_if = {
+		limit = {
+			exists = scope:newly_created_artifact
+			scope:newly_created_artifact = { artifact_type = book }
+		}
+		scope:newly_created_artifact = {
+			OR = {
+				has_artifact_feature = book_subject_hunter
+				has_artifact_feature = book_subject_cannibal
+				has_artifact_feature = book_subject_mystical_animal
+				has_artifact_feature = book_subject_animals
+				has_artifact_feature = book_subject_martial
+				has_artifact_feature = book_subject_intrigue
+			}
+		}
+	}
+	# Artifact generation can evaluate feature triggers before an owner is assigned.
+	trigger_if = {
+		limit = { exists = scope:owner }
+		scope:owner = {
+			faith = {
+				NOR = {
+					has_doctrine = tenet_aniconism
+					#AGOT Disabled
+					#religion = religion:islam_religion
+				}
+			}
+		}
+	}
+}
+
+artifact_feature_pattern_animals_trigger = {
+	# Artifact generation can evaluate feature triggers before an owner is assigned.
+	trigger_if = {
+		limit = { exists = scope:owner }
+		scope:owner = {
+			faith = {
+				NOR = {
+					has_doctrine = tenet_aniconism
+					#AGOT Disabled
+					#religion = religion:islam_religion
+				}
+			}
+		}
+	}
+}
+
+artifact_feature_pattern_local_animal_trigger = {
+	# Artifact generation can evaluate feature triggers before an owner is assigned.
+	trigger_if = {
+		limit = { exists = scope:owner }
+		scope:owner = {
+			faith = {
+				NOR = {
+					has_doctrine = tenet_aniconism
+					#AGOT Disabled
+					#religion = religion:islam_religion
+				}
+			}
+		}
+	}
+}
+
+artifact_feature_pattern_beasts_trigger = {
+	# Artifact generation can evaluate feature triggers before an owner is assigned.
+	trigger_if = {
+		limit = { exists = scope:owner }
+		scope:owner = {
+			faith = {
+				NOR = {
+					has_doctrine = tenet_aniconism
+					#AGOT Disabled
+					#religion = religion:islam_religion
+				}
+			}
+		}
+	}
+}
+
+artifact_feature_pattern_bird_trigger = {
+	# Artifact generation can evaluate feature triggers before an owner is assigned.
+	trigger_if = {
+		limit = { exists = scope:owner }
+		scope:owner = {
+			faith = {
+				NOR = {
+					has_doctrine = tenet_aniconism
+					#AGOT Disabled
+					#religion = religion:islam_religion
+				}
+			}
+		}
+	}
+}
+
+artifact_feature_pattern_war_god_trigger = {
+	trigger_if = {
+		limit = {
+			exists = scope:newly_created_artifact
+			scope:newly_created_artifact = { artifact_type = book }
+		}
+		scope:newly_created_artifact = {
+			OR = {
+				has_artifact_feature = book_subject_martial
+				has_artifact_feature = book_subject_blademaster
+				has_artifact_feature = book_subject_hunter
+				has_artifact_feature = book_subject_mystical_animal
+			}
+		}
+	}
+	# Artifact generation can evaluate feature triggers before an owner is assigned.
+	trigger_if = {
+		limit = { exists = scope:owner }
+		scope:owner = {
+			faith = {
+				NOR = {
+					has_doctrine = tenet_aniconism
+					has_doctrine = tenet_pacifism
+				}
+			}
+		}
+	}
+}
+
+artifact_feature_pattern_religion_trigger = {
+	trigger_if = {
+		limit = {
+			exists = scope:newly_created_artifact
+			scope:newly_created_artifact = { artifact_type = book }
+		}
+		scope:newly_created_artifact = { has_artifact_feature = book_subject_learning }
+	}
+	# Artifact generation can evaluate feature triggers before an owner is assigned.
+	trigger_if = {
+		limit = { exists = scope:owner }
+		scope:owner = {
+			faith = {
+				NOR = {
+					has_doctrine = tenet_aniconism
+					#AGOT Disabled
+					#religion = religion:islam_religion
+				}
+			}
+		}
+	}
+}
+
+artifact_feature_pattern_eschatology_trigger = {
+	trigger_if = {
+		limit = {
+			exists = scope:newly_created_artifact
+			scope:newly_created_artifact = { artifact_type = book }
+		}
+		scope:newly_created_artifact = {
+			OR = {
+				has_artifact_feature = book_subject_learning
+				has_artifact_feature = book_subject_mystic
+			}
+		}
+	}
+	# Artifact generation can evaluate feature triggers before an owner is assigned.
+	trigger_if = {
+		limit = { exists = scope:owner }
+		scope:owner = {
+			faith = {
+				NOR = {
+					has_doctrine = tenet_aniconism
+					#AGOT Disabled
+					#religion = religion:islam_religion
+				}
+			}
+		}
+	}
+}
+
+artifact_feature_pattern_religious_symbol_trigger = {
+	trigger_if = {
+		limit = {
+			exists = scope:newly_created_artifact
+			scope:newly_created_artifact = { artifact_type = book }
+		}
+		scope:newly_created_artifact = {
+			OR = {
+				has_artifact_feature = book_subject_learning
+				has_artifact_feature = book_subject_mystic
+			}
+		}
+	}
+	# Artifact generation can evaluate feature triggers before an owner is assigned.
+	trigger_if = {
+		limit = { exists = scope:owner }
+		scope:owner = {
+			faith = {
+				NOR = {
+					has_doctrine = tenet_aniconism
+					#AGOT Disabled
+					#religion = religion:islam_religion
+				}
+			}
+		}
+	}
+}
+
+artifact_feature_pattern_gibberish_trigger = {
+	trigger_if = {
+		limit = {
+			exists = scope:newly_created_artifact
+			scope:newly_created_artifact = { artifact_type = book }
+		}
+		scope:newly_created_artifact = {
+			OR = {
+				has_artifact_feature = book_subject_witch
+				has_artifact_feature = book_subject_mystic
+				has_artifact_feature = book_subject_lunatic
+				has_artifact_feature = book_subject_childhood
+			}
+		}
+	}
+	# Artifact generation can evaluate feature triggers before an owner is assigned.
+	trigger_if = {
+		limit = { exists = scope:owner }
+		scope:owner = {
+			OR = {
+				has_trait = lifestyle_mystic
+				has_trait = paranoid
+				has_trait = lunatic
+				has_trait = witch
+			}
+		}
+	}
+}
+
+artifact_feature_pattern_culture_symbol_trigger = {
+	trigger_if = {
+		limit = {
+			exists = scope:newly_created_artifact
+			scope:newly_created_artifact = { artifact_type = book }
+		}
+		scope:newly_created_artifact = {
+			OR = {
+				has_artifact_feature = book_subject_empire
+				has_artifact_feature = book_subject_kingdom
+				has_artifact_feature = book_subject_dynasty
+				has_artifact_feature = book_subject_stewardship
+			}
+		}
+	}
+	# Artifact generation can evaluate feature triggers before an owner is assigned.
+	trigger_if = {
+		limit = { exists = scope:owner }
+		scope:owner = {
+			has_royal_court = yes
+			has_dlc_feature = royal_court
+			court_grandeur_current_level > 1
+		}
+	}
+}
+
+artifact_feature_pattern_culture_style_trigger = {
+	trigger_if = {
+		limit = {
+			exists = scope:newly_created_artifact
+			scope:newly_created_artifact = { artifact_type = book }
+		}
+		scope:newly_created_artifact = {
+			OR = {
+				has_artifact_feature = book_subject_empire
+				has_artifact_feature = book_subject_kingdom
+				has_artifact_feature = book_subject_dynasty
+				has_artifact_feature = book_subject_stewardship
+			}
+		}
+	}
+	# Artifact generation can evaluate feature triggers before an owner is assigned.
+	trigger_if = {
+		limit = { exists = scope:owner }
+		scope:owner = {
+			has_royal_court = yes
+			has_dlc_feature = royal_court
+			court_grandeur_current_level > 1
+		}
+	}
+}

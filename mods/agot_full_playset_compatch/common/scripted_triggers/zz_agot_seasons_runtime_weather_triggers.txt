@@ -1,0 +1,14 @@
+﻿# AGOT calls this trigger after entering a province through character.location.
+# Seasons' nested location switch therefore received a province and failed.
+has_winter_combat_trigger = {
+	OR = {
+		has_province_modifier = winter_north_modifier
+		has_province_modifier = winter_mild_modifier
+		has_province_modifier = winter_normal_modifier
+		has_province_modifier = winter_normal_modifier_1
+		has_province_modifier = winter_harsh_modifier
+		has_province_modifier = winter_cold_modifier
+		has_province_modifier = winter_light_modifier
+		has_province_modifier = winter_southern_modifier
+	}
+}

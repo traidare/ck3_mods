@@ -1,0 +1,3399 @@
+﻿namespace = hire
+scripted_effect find_nearby_cultures_effect = {
+	culture = {
+		add_to_list = nearby_cultures
+	}
+	capital_county = {
+		culture = {
+			add_to_list = nearby_cultures
+		}
+	}
+	every_vassal_or_below = {
+		culture = {
+			add_to_list = nearby_cultures
+		}
+		capital_county = {
+			culture = {
+				add_to_list = nearby_cultures
+			}
+		}
+	}
+	every_liege_or_above = {
+		culture = {
+			add_to_list = nearby_cultures
+		}
+		capital_county.culture = {
+			add_to_list = nearby_cultures
+		}
+		every_vassal_or_below = {
+			culture = {
+				add_to_list = nearby_cultures
+			}
+			capital_county.culture = {
+				add_to_list = nearby_cultures
+			}
+		}
+	}
+	every_neighboring_top_liege_realm_owner = {
+		culture = {
+			add_to_list = nearby_cultures
+		}
+		capital_county = {
+			culture = {
+				add_to_list = nearby_cultures
+			}
+		}
+		every_vassal_or_below = {
+			culture = {
+				add_to_list = nearby_cultures
+			}
+			capital_county = {
+				culture = {
+					add_to_list = nearby_cultures
+				}
+			}
+		}
+	}
+	every_neighboring_and_across_water_top_liege_realm_owner = {
+		culture = {
+			add_to_list = nearby_cultures
+		}
+		capital_county = {
+			culture = {
+				add_to_list = nearby_cultures
+			}
+		}
+		every_vassal_or_below = {
+			culture = {
+				add_to_list = nearby_cultures
+			}
+			capital_county = {
+				culture = {
+					add_to_list = nearby_cultures
+				}
+			}
+		}
+	}
+	every_neighboring_realm_same_rank_owner = {
+		culture = {
+			add_to_list = nearby_cultures
+		}
+		capital_county = {
+			culture = {
+				add_to_list = nearby_cultures
+			}
+		}
+		every_liege_or_above = {
+			culture = {
+				add_to_list = nearby_cultures
+			}
+			capital_county = {
+				culture = {
+					add_to_list = nearby_cultures
+				}
+			}
+		}
+		every_vassal_or_below = {
+			culture = {
+				add_to_list = nearby_cultures
+			}
+			capital_county = {
+				culture = {
+					add_to_list = nearby_cultures
+				}
+			}
+		}
+	}
+	random_in_list = {
+		list = nearby_cultures
+		save_scope_as = nearby_culture_1
+	}
+	random_in_list = {
+		list = nearby_cultures
+		limit = {
+			NOT = {
+				this = scope:nearby_culture_1
+			}
+		}
+		save_scope_as = nearby_culture_2
+	}
+	random_in_list = {
+		list = nearby_cultures
+		limit = {
+			NOT = {
+				this = scope:nearby_culture_1
+				this = scope:nearby_culture_2
+			}
+		}
+		save_scope_as = nearby_culture_3
+	}
+}
+
+hire.0001 = {
+	# Court Tutor
+	type = character_event
+	title = hire.0001.t
+	desc = hire.0001.desc
+	theme = education
+	left_portrait = {
+		character = scope:mid_skill_tutor
+		animation = personality_content
+	}
+	right_portrait = {
+		character = scope:low_skill_tutor
+		animation = personality_rational
+	}
+	lower_center_portrait = {
+		character = scope:high_skill_tutor
+		animation = idle
+	}
+	trigger = {
+		exists = capital_province
+	}
+	immediate = {
+		hidden_effect = {
+			find_nearby_cultures_effect = yes
+			if = {
+				limit = {
+					is_ai = no
+				}
+				if = {
+					limit = {
+						learning >= high_skill_rating
+					}
+					random_pool_character = {
+						province = capital_province
+						limit = {
+							can_be_employed_as = court_tutor_court_position
+							learning >= high_skill_rating
+							excellent_sum_of_all_skills_trigger = yes
+							probably_intelligent_trigger = yes
+							NOR = {
+								has_trait = shy
+								has_trait = reclusive
+								culture = root.culture
+								faith = {
+								    faith_hostility_level = {
+								    target = root.faith
+								    value >= faith_hostile_level
+								    }
+								}
+							}
+						}
+						weight = {
+							base = 1
+							modifier = {
+								has_trait = intellect_good_1
+								factor = 5
+							}
+							modifier = {
+								has_trait = intellect_good_2
+								factor = 10
+							}
+							modifier = {
+								has_trait = intellect_good_3
+								factor = 15
+							}
+							modifier = {
+								has_trait = shrewd
+								factor = 10
+							}
+							modifier = {
+								has_trait = scholar
+								factor = 10
+							}
+							modifier = {
+								has_trait = patient
+								factor = 10
+							}
+						}
+						save_scope_as = high_skill_tutor
+					}
+					if = {
+						limit = {
+							NOT = {
+								exists = scope:high_skill_tutor
+							}
+						}
+						create_character = {
+							location = root.capital_province
+							template = tutor_high_character_template
+							culture = scope:nearby_culture_1
+							faith = root.faith
+							save_scope_as = high_skill_tutor
+						}
+					}
+				}
+					random_pool_character = {
+						province = capital_province
+						limit = {
+							can_be_employed_as = court_tutor_court_position
+							learning >= medium_skill_rating
+							good_sum_of_all_skills_trigger = yes
+							probably_unintelligent_trigger = no
+							NOR = {
+								scope:high_skill_tutor ?= this
+								faith = {
+								    faith_hostility_level = {
+								    target = root.faith
+								    value >= faith_hostile_level
+								    }
+								}
+							}
+						}
+						weight = {
+							base = 1
+							modifier = {
+								has_trait = intellect_good_1
+								factor = 10
+							}
+							modifier = {
+								has_trait = intellect_good_2
+								factor = 5
+							}
+							modifier = {
+								has_trait = patient
+								factor = 5
+							}
+							modifier = {
+								culture = root.culture
+								factor = 10
+							}
+						}
+						save_scope_as = mid_skill_tutor
+					}
+				if = {
+					limit = {
+						NOT = {
+							exists = scope:mid_skill_tutor
+						}
+					}
+					create_character = {
+						location = root.capital_province
+						template = tutor_mid_character_template
+						culture = scope:nearby_culture_2
+						faith = root.faith
+						save_scope_as = mid_skill_tutor
+					}
+				}
+				random_pool_character = {
+					province = root.capital_province
+					limit = {
+						NOT = {
+							scope:high_skill_tutor ?= this
+						}
+						NOT = {
+							scope:mid_skill_tutor ?= this
+						}
+						NOT = {
+							faith = {
+							    faith_hostility_level = {
+							    target = root.faith
+							    value >= faith_hostile_level
+							    }
+							}
+						}
+						average_sum_of_all_skills_trigger = yes
+						can_be_employed_as = court_tutor_court_position
+					}
+					weight = {
+						base = 1
+						modifier = {
+							culture = root.culture
+							factor = 20
+						}
+						modifier = {
+							is_lowborn = yes
+							factor = 10
+						}
+					}
+					save_scope_as = low_skill_tutor
+				}
+				if = {
+					limit = {
+						NOT = {
+							exists = scope:low_skill_tutor
+						}
+					}
+					create_character = {
+						location = root.capital_province
+						template = tutor_low_character_template
+						culture = scope:nearby_culture_3
+						faith = root.faith
+						save_scope_as = low_skill_tutor
+					}
+				}
+			}
+		}
+	}
+	option = {
+		# Excellent choice
+		trigger = {
+			exists = scope:high_skill_tutor
+			is_landed = yes
+		}
+		name = hire.0001.high
+		trait = scholar
+		trait = shrewd
+		trait = theologian
+		trait = intellect_good_1
+		trait = intellect_good_2
+		trait = intellect_good_3
+		custom_tooltip = hire.0001.high_aptitude
+		stress_impact = {
+			greedy = major_stress_impact_gain
+		}
+		pay_short_term_gold = {
+			target = scope:high_skill_tutor
+			gold = 80
+		}
+		hidden_effect = {
+			add_courtier = scope:high_skill_tutor
+		}
+		appoint_court_position = {
+			recipient = scope:high_skill_tutor
+			court_position = court_tutor_court_position
+		}
+		scope:high_skill_tutor = {
+			add_opinion = {
+				modifier = hired_me_opinion
+				opinion = 30
+				target = root
+			}
+		}
+	}
+	option = {
+		# Mid choice
+		trigger = {
+			is_landed = yes
+		}
+		name = hire.0001.mid
+		custom_tooltip = hire.0001.mid_aptitude
+		pay_short_term_gold = {
+			target = scope:mid_skill_tutor
+			gold = 50
+		}
+		hidden_effect = {
+			add_courtier = scope:mid_skill_tutor
+		}
+		appoint_court_position = {
+			recipient = scope:mid_skill_tutor
+			court_position = court_tutor_court_position
+		}
+		scope:mid_skill_tutor = {
+			add_opinion = {
+				modifier = hired_me_opinion
+				opinion = 30
+				target = root
+			}
+		}
+	}
+	option = {
+		# Low choice
+		trigger = {
+			is_landed = yes
+		}
+		name = hire.0001.low
+		custom_tooltip = hire.0001.low_aptitude
+		trait = greedy
+		stress_impact = {
+			greedy = minor_stress_impact_loss
+		}
+		pay_short_term_gold = {
+			target = scope:low_skill_tutor
+			gold = 20
+		}
+		hidden_effect = {
+			add_courtier = scope:low_skill_tutor
+		}
+		appoint_court_position = {
+			recipient = scope:low_skill_tutor
+			court_position = court_tutor_court_position
+		}
+		scope:low_skill_tutor = {
+			add_opinion = {
+				modifier = hired_me_opinion
+				opinion = 30
+				target = root
+			}
+		}
+	}
+	option = {
+		# Decide against it
+		name = hire.0001.none
+		custom_tooltip = hire.0001.none_tt
+	}
+}
+
+hire.0002 = {
+	# Chronicler
+	type = character_event
+	title = hire.0002.t
+	desc = hire.0002.desc
+	theme = legend
+	left_portrait = {
+		character = scope:mid_skill_chronicler
+		animation = writing
+	}
+	right_portrait = {
+		character = scope:low_skill_chronicler
+		animation = personality_rational
+	}
+	lower_center_portrait = {
+		character = scope:high_skill_chronicler
+		animation = idle
+	}
+	trigger = {
+		exists = capital_province
+	}
+	immediate = {
+		hidden_effect = {
+			find_nearby_cultures_effect = yes
+			if = {
+				limit = {
+					is_ai = no
+				}
+				if = {
+					limit = {
+						OR = {
+							learning >= high_skill_rating
+							diplomacy >= high_skill_rating
+							highest_held_title_tier = tier_empire
+						}
+					}
+					random_pool_character = {
+						province = capital_province
+						limit = {
+							can_be_employed_as = chronicler_court_position
+							diplomacy >= high_skill_rating
+							probably_intelligent_trigger = yes
+							NOT = {
+								faith = {
+								    faith_hostility_level = {
+								    target = root.faith
+								    value >= faith_hostile_level
+								    }
+								}
+							}
+						}
+						weight = {
+							base = 1
+							modifier = {
+								has_trait = diplomat
+								factor = 10
+							}
+							modifier = {
+								has_trait = lifestyle_poet
+								factor = 10
+							}
+							modifier = {
+								has_trait = lifestyle_poet
+								factor = 10
+							}
+						}
+						save_scope_as = high_skill_chronicler
+					}
+					if = {
+						limit = {
+							NOT = {
+								exists = scope:high_skill_chronicler
+							}
+						}
+						create_character = {
+							location = root.capital_province
+							template = chronicler_high_character_template
+							culture = scope:nearby_culture_1
+							save_scope_as = high_skill_chronicler
+							faith = root.faith
+						}
+					}
+				}
+					random_pool_character = {
+						province = capital_province
+						limit = {
+							can_be_employed_as = chronicler_court_position
+							diplomacy >= medium_skill_rating
+							probably_unintelligent_trigger = no
+							NOT = {
+								scope:high_skill_chronicler ?= this
+							}
+							NOT = {
+								faith = {
+								    faith_hostility_level = {
+								    target = root.faith
+								    value >= faith_hostile_level
+								    }
+								}
+							}
+						}
+						weight = {
+							base = 1
+							modifier = {
+								has_trait = diplomat
+								factor = 10
+							}
+							modifier = {
+								has_trait = lifestyle_poet
+								factor = 10
+							}
+							modifier = {
+								has_trait = lifestyle_poet
+								factor = 10
+							}
+						}
+						save_scope_as = mid_skill_chronicler
+					}
+				if = {
+					limit = {
+						NOT = {
+							exists = scope:mid_skill_chronicler
+						}
+					}
+					create_character = {
+						location = root.capital_province
+						template = chronicler_mid_character_template
+						culture = scope:nearby_culture_2
+						faith = root.faith
+						save_scope_as = mid_skill_chronicler
+					}
+				}
+				random_pool_character = {
+					province = root.capital_province
+					limit = {
+						can_be_employed_as = chronicler_court_position
+						NOT = {
+							scope:high_skill_chronicler ?= this
+						}
+						NOT = {
+							scope:mid_skill_chronicler ?= this
+						}
+						NOT = {
+							faith = {
+							    faith_hostility_level = {
+							    target = root.faith
+							    value >= faith_hostile_level
+							    }
+							}
+						}
+						diplomacy >= mediocre_skill_rating
+						diplomacy < medium_skill_rating
+					}
+					weight = {
+						base = 1
+						modifier = {
+							culture = root.culture
+							factor = 10
+						}
+						modifier = {
+							is_lowborn = yes
+							factor = 10
+						}
+					}
+					save_scope_as = low_skill_chronicler
+				}
+				if = {
+					limit = {
+						NOT = {
+							exists = scope:low_skill_chronicler
+						}
+					}
+					create_character = {
+						location = root.capital_province
+						template = chronicler_low_character_template
+						culture = scope:nearby_culture_3
+						faith = root.faith
+						save_scope_as = low_skill_chronicler
+					}
+				}
+			}
+		}
+	}
+	option = {
+		# Hire the excellent choice
+		trigger = {
+			exists = scope:high_skill_chronicler
+			is_landed = yes
+		}
+		name = hire.0002.high
+		trait = scholar
+		trait = diplomat
+		trait = theologian
+		trait = intellect_good_1
+		trait = intellect_good_2
+		trait = intellect_good_3
+		custom_tooltip = hire.0002.high_aptitude
+		pay_short_term_gold = {
+			target = scope:high_skill_chronicler
+			gold = 80
+		}
+		hidden_effect = {
+			add_courtier = scope:high_skill_chronicler
+		}
+		appoint_court_position = {
+			recipient = scope:high_skill_chronicler
+			court_position = chronicler_court_position
+		}
+		scope:high_skill_chronicler = {
+			add_opinion = {
+				modifier = hired_me_opinion
+				opinion = 30
+				target = root
+			}
+		}
+		stress_impact = {
+			greedy = major_stress_impact_gain
+		}
+	}
+	option = {
+		# Hire the mid choice
+		trigger = {
+			is_landed = yes
+		}
+		name = hire.0002.mid
+		custom_tooltip = hire.0002.mid_aptitude
+		pay_short_term_gold = {
+			target = scope:mid_skill_chronicler
+			gold = 50
+		}
+		hidden_effect = {
+			add_courtier = scope:mid_skill_chronicler
+		}
+		appoint_court_position = {
+			recipient = scope:mid_skill_chronicler
+			court_position = chronicler_court_position
+		}
+		scope:mid_skill_chronicler = {
+			add_opinion = {
+				modifier = hired_me_opinion
+				opinion = 30
+				target = root
+			}
+		}
+	}
+	option = {
+		# Hire the low choice
+		trigger = {
+			is_landed = yes
+		}
+		name = hire.0002.low
+		trait = greedy
+		custom_tooltip = hire.0002.low_aptitude
+		pay_short_term_gold = {
+			target = scope:low_skill_chronicler
+			gold = 20
+		}
+		hidden_effect = {
+			add_courtier = scope:low_skill_chronicler
+		}
+		appoint_court_position = {
+			recipient = scope:low_skill_chronicler
+			court_position = chronicler_court_position
+		}
+		scope:low_skill_chronicler = {
+			add_opinion = {
+				modifier = hired_me_opinion
+				opinion = 30
+				target = root
+			}
+		}
+		stress_impact = {
+			greedy = minor_stress_impact_loss
+		}
+	}
+	option = {
+		# None
+		name = hire.0002.none
+		custom_tooltip = hire.0002.none_tt
+	}
+}
+
+hire.0003 = {
+	# Lady in Waiting
+	type = character_event
+	title = hire.0003.t
+	desc = hire.0003.desc
+	theme = court
+	left_portrait = {
+		character = scope:high_skill_lady
+		animation = personality_forgiving
+	}
+	right_portrait = {
+		character = scope:low_skill_lady
+		animation = personality_compassionate
+	}
+	trigger = {
+		exists = capital_province
+		is_female = yes
+		highest_held_title_tier >= tier_kingdom
+	}
+	immediate = {
+		hidden_effect = {
+			find_nearby_cultures_effect = yes
+			random_pool_character = {
+				province = capital_province
+				limit = {
+					can_be_employed_as = lady_in_waiting_court_position
+					diplomacy >= medium_skill_rating
+					good_sum_of_all_skills_trigger = yes
+					trait_compatibility = {
+						target = root
+						value >= medium_positive_trait_compatibility
+					}
+					NOT = {
+						faith = {
+						    faith_hostility_level = {
+						    target = root.faith
+						    value >= faith_hostile_level
+						    }
+						}
+					}
+					NOT = {
+						is_lowborn = yes
+					}
+				}
+				weight = {
+					base = 1
+					modifier = {
+						culture = root.culture
+						factor = 5
+					}
+					modifier = {
+						trait_compatibility = {
+							target = root
+							value >= high_positive_trait_compatibility
+						}
+						factor = 5
+					}
+					modifier = {
+						has_trait = gregarious
+						factor = 2
+					}
+					modifier = {
+						has_trait = honest
+						factor = 2
+					}
+				}
+				save_scope_as = high_skill_lady
+			}
+			if = {
+				limit = {
+					NOT = {
+						exists = scope:high_skill_lady
+					}
+				}
+				create_character = {
+					location = root.capital_province
+					template = liw_good_character_template
+					culture = scope:nearby_culture_1
+					dynasty = generate
+					save_scope_as = high_skill_lady
+				}
+			}
+			random_pool_character = {
+				province = capital_province
+				limit = {
+					can_be_employed_as = lady_in_waiting_court_position
+					diplomacy >= low_skill_rating
+					average_sum_of_all_skills_trigger = yes
+					trait_compatibility = {
+						target = root
+						value >= low_positive_trait_compatibility
+					}
+					NOT = {
+						this = scope:high_skill_lady
+					}
+					NOT = {
+						faith = {
+						    faith_hostility_level = {
+						    target = root.faith
+						    value >= faith_hostile_level
+						    }
+						}
+					}
+					NOT = {
+						is_lowborn = yes
+					}
+				}
+				weight = {
+					base = 1
+					modifier = {
+						culture = root.culture
+						factor = 5
+					}
+					modifier = {
+						has_trait = gregarious
+						factor = 1.5
+					}
+					modifier = {
+						has_trait = honest
+						factor = 1.5
+					}
+				}
+				save_scope_as = low_skill_lady
+			}
+			if = {
+				limit = {
+					NOT = {
+						exists = scope:low_skill_lady
+					}
+				}
+				create_character = {
+					location = root.capital_province
+					template = liw_good_character_template
+					culture = scope:nearby_culture_2
+					dynasty = generate
+					save_scope_as = low_skill_lady
+				}
+			}
+		}
+	}
+	option = {
+		# Hire the highly skilled lady
+		name = hire.0003.high
+		custom_tooltip = hire.0003.high_aptitude
+		stress_impact = {
+			greedy = major_stress_impact_gain
+		}
+		pay_short_term_gold = {
+			target = scope:high_skill_lady
+			gold = 50
+		}
+		hidden_effect = {
+			add_courtier = scope:high_skill_lady
+		}
+		appoint_court_position = {
+			recipient = scope:high_skill_lady
+			court_position = lady_in_waiting_court_position
+		}
+		scope:high_skill_lady = {
+			add_opinion = {
+				modifier = hired_me_opinion
+				opinion = 30
+				target = root
+			}
+		}
+	}
+	option = {
+		# Hire the less skilled lady
+		name = hire.0003.low
+		custom_tooltip = hire.0003.low_aptitude
+		pay_short_term_gold = {
+			target = scope:low_skill_lady
+			gold = 20
+		}
+		hidden_effect = {
+			add_courtier = scope:low_skill_lady
+		}
+		appoint_court_position = {
+			recipient = scope:low_skill_lady
+			court_position = lady_in_waiting_court_position
+		}
+		scope:low_skill_lady = {
+			add_opinion = {
+				modifier = hired_me_opinion
+				opinion = 30
+				target = root
+			}
+		}
+	}
+	option = {
+		# There's two slots open, why not hire both?
+		trigger = {
+			NOT = {
+				employs_court_position = lady_in_waiting_court_position
+			}
+		}
+		name = hire.0003.both
+		custom_tooltip = hire.0003.high_aptitude
+		custom_tooltip = hire.0003.low_aptitude
+		stress_impact = {
+			greedy = max_stress_gain_threshold
+			generous = major_stress_impact_loss
+		}
+		pay_short_term_gold = {
+			target = scope:high_skill_lady
+			gold = 50
+		}
+		hidden_effect = {
+			add_courtier = scope:high_skill_lady
+		}
+		appoint_court_position = {
+			recipient = scope:high_skill_lady
+			court_position = lady_in_waiting_court_position
+		}
+		scope:high_skill_lady = {
+			add_opinion = {
+				modifier = hired_me_opinion
+				opinion = 30
+				target = root
+			}
+		}
+		pay_short_term_gold = {
+			target = scope:low_skill_lady
+			gold = 20
+		}
+		hidden_effect = {
+			add_courtier = scope:low_skill_lady
+		}
+		appoint_court_position = {
+			recipient = scope:low_skill_lady
+			court_position = lady_in_waiting_court_position
+		}
+		scope:low_skill_lady = {
+			add_opinion = {
+				modifier = hired_me_opinion
+				opinion = 30
+				target = root
+			}
+		}
+	}
+	option = {
+		# Hire neither
+		name = hire.0003.none
+		custom_tooltip = hire.0003.none_tt
+	}
+}
+
+hire.0004 = {
+	# Court Antiquarian
+	type = character_event
+	title = hire.0004.t
+	desc = hire.0004.desc
+	theme = learning
+	left_portrait = {
+		character = scope:mid_skill_antiquarian
+		animation = personality_bold
+	}
+	right_portrait = {
+		character = scope:low_skill_antiquarian
+		animation = personality_rational
+	}
+	lower_center_portrait = {
+		character = scope:high_skill_antiquarian
+		animation = idle
+	}
+	trigger = {
+		exists = capital_province
+	}
+	immediate = {
+		hidden_effect = {
+			find_nearby_cultures_effect = yes
+			if = {
+				limit = {
+					is_ai = no
+				}
+				if = {
+					limit = {
+						learning >= high_skill_rating
+					}
+					random_pool_character = {
+						province = capital_province
+						limit = {
+							can_be_employed_as = antiquarian_court_position
+							learning >= high_skill_rating
+							excellent_sum_of_all_skills_trigger = yes
+							probably_intelligent_trigger = yes
+							NOR = {
+								has_trait = shy
+								has_trait = reclusive
+								culture = root.culture
+								faith = {
+								    faith_hostility_level = {
+								    target = root.faith
+								    value >= faith_hostile_level
+								    }
+								}
+							}
+						}
+						weight = {
+							base = 1
+							modifier = {
+								has_trait = intellect_good_1
+								factor = 5
+							}
+							modifier = {
+								has_trait = intellect_good_2
+								factor = 10
+							}
+							modifier = {
+								has_trait = intellect_good_3
+								factor = 15
+							}
+							modifier = {
+								has_trait = shrewd
+								factor = 10
+							}
+							modifier = {
+								has_trait = scholar
+								factor = 10
+							}
+							modifier = {
+								has_trait = patient
+								factor = 10
+							}
+						}
+						save_scope_as = high_skill_antiquarian
+					}
+					if = {
+						limit = {
+							NOT = {
+								exists = scope:high_skill_antiquarian
+							}
+						}
+						create_character = {
+							location = root.capital_province
+							template = antiquarian_high_character_template
+							culture = scope:nearby_culture_1
+							faith = root.faith
+							save_scope_as = high_skill_antiquarian
+						}
+					}
+				}
+					random_pool_character = {
+						province = capital_province
+						limit = {
+							can_be_employed_as = antiquarian_court_position
+							learning >= medium_skill_rating
+							good_sum_of_all_skills_trigger = yes
+							probably_unintelligent_trigger = no
+							NOR = {
+								scope:high_skill_antiquarian ?= this
+								faith = {
+								    faith_hostility_level = {
+								    target = root.faith
+								    value >= faith_hostile_level
+								    }
+								}
+							}
+						}
+						weight = {
+							base = 1
+							modifier = {
+								has_trait = intellect_good_1
+								factor = 10
+							}
+							modifier = {
+								has_trait = intellect_good_2
+								factor = 5
+							}
+							modifier = {
+								has_trait = patient
+								factor = 5
+							}
+							modifier = {
+								culture = root.culture
+								factor = 10
+							}
+						}
+						save_scope_as = mid_skill_antiquarian
+					}
+				if = {
+					limit = {
+						NOT = {
+							exists = scope:mid_skill_antiquarian
+						}
+					}
+					create_character = {
+						location = root.capital_province
+						template = antiquarian_mid_character_template
+						culture = scope:nearby_culture_2
+						faith = root.faith
+						save_scope_as = mid_skill_antiquarian
+					}
+				}
+				random_pool_character = {
+					province = root.capital_province
+					limit = {
+						NOT = {
+							scope:high_skill_antiquarian ?= this
+						}
+						NOT = {
+							scope:mid_skill_antiquarian ?= this
+						}
+						NOT = {
+							faith = {
+							    faith_hostility_level = {
+							    target = root.faith
+							    value >= faith_hostile_level
+							    }
+							}
+						}
+						average_sum_of_all_skills_trigger = yes
+						can_be_employed_as = antiquarian_court_position
+					}
+					weight = {
+						base = 1
+						modifier = {
+							culture = root.culture
+							factor = 20
+						}
+						modifier = {
+							is_lowborn = yes
+							factor = 10
+						}
+					}
+					save_scope_as = low_skill_antiquarian
+				}
+				if = {
+					limit = {
+						NOT = {
+							exists = scope:low_skill_antiquarian
+						}
+					}
+					create_character = {
+						location = root.capital_province
+						template = antiquarian_low_character_template
+						culture = scope:nearby_culture_3
+						faith = root.faith
+						save_scope_as = low_skill_antiquarian
+					}
+				}
+			}
+		}
+	}
+	option = {
+		# Excellent choice
+		trigger = {
+			exists = scope:high_skill_antiquarian
+			is_landed = yes
+		}
+		name = hire.0004.high
+		trait = scholar
+		trait = shrewd
+		trait = intellect_good_1
+		trait = intellect_good_2
+		trait = intellect_good_3
+		custom_tooltip = hire.0004.high_aptitude
+		stress_impact = {
+			greedy = major_stress_impact_gain
+		}
+		pay_short_term_gold = {
+			target = scope:high_skill_antiquarian
+			gold = 80
+		}
+		hidden_effect = {
+			add_courtier = scope:high_skill_antiquarian
+		}
+		appoint_court_position = {
+			recipient = scope:high_skill_antiquarian
+			court_position = antiquarian_court_position
+		}
+		scope:high_skill_antiquarian = {
+			add_opinion = {
+				modifier = hired_me_opinion
+				opinion = 30
+				target = root
+			}
+		}
+	}
+	option = {
+		# Mid choice
+		trigger = {
+			is_landed = yes
+		}
+		name = hire.0004.mid
+		custom_tooltip = hire.0004.mid_aptitude
+		pay_short_term_gold = {
+			target = scope:mid_skill_antiquarian
+			gold = 50
+		}
+		hidden_effect = {
+			add_courtier = scope:mid_skill_antiquarian
+		}
+		appoint_court_position = {
+			recipient = scope:mid_skill_antiquarian
+			court_position = antiquarian_court_position
+		}
+		scope:mid_skill_antiquarian = {
+			add_opinion = {
+				modifier = hired_me_opinion
+				opinion = 30
+				target = root
+			}
+		}
+	}
+	option = {
+		# Low choice
+		trigger = {
+			is_landed = yes
+		}
+		name = hire.0004.low
+		custom_tooltip = hire.0004.low_aptitude
+		trait = greedy
+		stress_impact = {
+			greedy = minor_stress_impact_loss
+		}
+		pay_short_term_gold = {
+			target = scope:low_skill_antiquarian
+			gold = 20
+		}
+		hidden_effect = {
+			add_courtier = scope:low_skill_antiquarian
+		}
+		appoint_court_position = {
+			recipient = scope:low_skill_antiquarian
+			court_position = antiquarian_court_position
+		}
+		scope:low_skill_antiquarian = {
+			add_opinion = {
+				modifier = hired_me_opinion
+				opinion = 30
+				target = root
+			}
+		}
+	}
+	option = {
+		# Decide against it
+		name = hire.0004.none
+		custom_tooltip = hire.0004.none_tt
+	}
+}
+
+hire.0005 = {
+	# Court Seneschal
+	type = character_event
+	title = hire.0005.t
+	desc = hire.0005.desc
+	theme = stewardship
+	left_portrait = {
+		character = scope:mid_skill_seneschal
+		animation = writing
+	}
+	right_portrait = {
+		character = scope:low_skill_seneschal
+		animation = personality_rational
+	}
+	lower_center_portrait = {
+		character = scope:high_skill_seneschal
+		animation = idle
+	}
+	trigger = {
+		exists = capital_province
+	}
+	immediate = {
+		hidden_effect = {
+			find_nearby_cultures_effect = yes
+			if = {
+				limit = {
+					is_ai = no
+				}
+				if = {
+					limit = {
+						stewardship >= high_skill_rating
+					}
+					random_pool_character = {
+						province = capital_province
+						limit = {
+							can_be_employed_as = seneschal_court_position
+							stewardship >= high_skill_rating
+							excellent_sum_of_all_skills_trigger = yes
+							probably_intelligent_trigger = yes
+							NOR = {
+								has_trait = shy
+								has_trait = reclusive
+								culture = root.culture
+								faith = {
+								    faith_hostility_level = {
+								    target = root.faith
+								    value >= faith_hostile_level
+								    }
+								}
+							}
+						}
+						weight = {
+							base = 1
+							modifier = {
+								has_trait = intellect_good_1
+								factor = 5
+							}
+							modifier = {
+								has_trait = intellect_good_2
+								factor = 10
+							}
+							modifier = {
+								has_trait = intellect_good_3
+								factor = 15
+							}
+							modifier = {
+								has_trait = shrewd
+								factor = 10
+							}
+							modifier = {
+								has_trait = scholar
+								factor = 10
+							}
+							modifier = {
+								has_trait = patient
+								factor = 10
+							}
+						}
+						save_scope_as = high_skill_seneschal
+					}
+					if = {
+						limit = {
+							NOT = {
+								exists = scope:high_skill_seneschal
+							}
+						}
+						create_character = {
+							location = root.capital_province
+							template = seneschal_high_character_template
+							culture = scope:nearby_culture_1
+							faith = root.faith
+							save_scope_as = high_skill_seneschal
+						}
+					}
+				}
+					random_pool_character = {
+						province = capital_province
+						limit = {
+							can_be_employed_as = seneschal_court_position
+							stewardship >= medium_skill_rating
+							good_sum_of_all_skills_trigger = yes
+							probably_unintelligent_trigger = no
+							NOR = {
+								scope:high_skill_seneschal ?= this
+								faith = {
+								    faith_hostility_level = {
+								    target = root.faith
+								    value >= faith_hostile_level
+								    }
+								}
+							}
+						}
+						weight = {
+							base = 1
+							modifier = {
+								has_trait = intellect_good_1
+								factor = 10
+							}
+							modifier = {
+								has_trait = intellect_good_2
+								factor = 5
+							}
+							modifier = {
+								has_trait = patient
+								factor = 5
+							}
+							modifier = {
+								culture = root.culture
+								factor = 10
+							}
+						}
+						save_scope_as = mid_skill_seneschal
+					}
+				if = {
+					limit = {
+						NOT = {
+							exists = scope:mid_skill_seneschal
+						}
+					}
+					create_character = {
+						location = root.capital_province
+						template = seneschal_mid_character_template
+						culture = scope:nearby_culture_2
+						faith = root.faith
+						save_scope_as = mid_skill_seneschal
+					}
+				}
+				random_pool_character = {
+					province = root.capital_province
+					limit = {
+						NOT = {
+							scope:high_skill_seneschal ?= this
+						}
+						NOT = {
+							scope:mid_skill_seneschal ?= this
+						}
+						NOT = {
+							faith = {
+							    faith_hostility_level = {
+							    target = root.faith
+							    value >= faith_hostile_level
+							    }
+							}
+						}
+						average_sum_of_all_skills_trigger = yes
+						can_be_employed_as = seneschal_court_position
+					}
+					weight = {
+						base = 1
+						modifier = {
+							culture = root.culture
+							factor = 20
+						}
+						modifier = {
+							is_lowborn = yes
+							factor = 10
+						}
+					}
+					save_scope_as = low_skill_seneschal
+				}
+				if = {
+					limit = {
+						NOT = {
+							exists = scope:low_skill_seneschal
+						}
+					}
+					create_character = {
+						location = root.capital_province
+						template = seneschal_low_character_template
+						culture = scope:nearby_culture_3
+						faith = root.faith
+						save_scope_as = low_skill_seneschal
+					}
+				}
+			}
+		}
+	}
+	option = {
+		# Excellent choice
+		trigger = {
+			exists = scope:high_skill_seneschal
+			is_landed = yes
+		}
+		name = hire.0005.high
+		trait = shrewd
+		trait = patient
+		trait = intellect_good_1
+		trait = intellect_good_2
+		trait = intellect_good_3
+		custom_tooltip = hire.0005.high_aptitude
+		stress_impact = {
+			greedy = major_stress_impact_gain
+		}
+		pay_short_term_gold = {
+			target = scope:high_skill_seneschal
+			gold = 80
+		}
+		hidden_effect = {
+			add_courtier = scope:high_skill_seneschal
+		}
+		appoint_court_position = {
+			recipient = scope:high_skill_seneschal
+			court_position = seneschal_court_position
+		}
+		scope:high_skill_seneschal = {
+			add_opinion = {
+				modifier = hired_me_opinion
+				opinion = 30
+				target = root
+			}
+		}
+	}
+	option = {
+		# Mid choice
+		trigger = {
+			is_landed = yes
+		}
+		name = hire.0005.mid
+		custom_tooltip = hire.0005.mid_aptitude
+		pay_short_term_gold = {
+			target = scope:mid_skill_seneschal
+			gold = 50
+		}
+		hidden_effect = {
+			add_courtier = scope:mid_skill_seneschal
+		}
+		appoint_court_position = {
+			recipient = scope:mid_skill_seneschal
+			court_position = seneschal_court_position
+		}
+		scope:mid_skill_seneschal = {
+			add_opinion = {
+				modifier = hired_me_opinion
+				opinion = 30
+				target = root
+			}
+		}
+	}
+	option = {
+		# Low choice
+		trigger = {
+			is_landed = yes
+		}
+		name = hire.0005.low
+		custom_tooltip = hire.0005.low_aptitude
+		trait = greedy
+		stress_impact = {
+			greedy = minor_stress_impact_loss
+		}
+		pay_short_term_gold = {
+			target = scope:low_skill_seneschal
+			gold = 20
+		}
+		hidden_effect = {
+			add_courtier = scope:low_skill_seneschal
+		}
+		appoint_court_position = {
+			recipient = scope:low_skill_seneschal
+			court_position = seneschal_court_position
+		}
+		scope:low_skill_seneschal = {
+			add_opinion = {
+				modifier = hired_me_opinion
+				opinion = 30
+				target = root
+			}
+		}
+	}
+	option = {
+		# Decide against it
+		name = hire.0005.none
+		custom_tooltip = hire.0005.none_tt
+	}
+}
+
+hire.0006 = {
+	# High Almoner
+	type = character_event
+	title = hire.0006.t
+	desc = hire.0006.desc
+	theme = learning
+	left_portrait = {
+		character = scope:mid_skill_high_almoner
+		animation = eccentric
+	}
+	right_portrait = {
+		character = scope:low_skill_high_almoner
+		animation = personality_rational
+	}
+	lower_center_portrait = {
+		character = scope:high_skill_high_almoner
+		animation = idle
+	}
+	trigger = {
+		exists = capital_province
+	}
+	immediate = {
+		hidden_effect = {
+			find_nearby_cultures_effect = yes
+			if = {
+				limit = {
+					is_ai = no
+				}
+				if = {
+					limit = {
+						learning >= high_skill_rating
+					}
+					random_pool_character = {
+						province = capital_province
+						limit = {
+							can_be_employed_as = high_almoner_court_position
+							learning >= high_skill_rating
+							excellent_sum_of_all_skills_trigger = yes
+							probably_intelligent_trigger = yes
+							NOR = {
+								has_trait = shy
+								has_trait = reclusive
+								faith = {
+								    faith_hostility_level = {
+								    target = root.faith
+								    value >= faith_hostile_level
+								    }
+								}
+							}
+						}
+						weight = {
+							base = 1
+							modifier = {
+								has_trait = intellect_good_1
+								factor = 5
+							}
+							modifier = {
+								has_trait = intellect_good_2
+								factor = 10
+							}
+							modifier = {
+								has_trait = intellect_good_3
+								factor = 15
+							}
+							modifier = {
+								has_trait = scholar
+								factor = 10
+							}
+							modifier = {
+								has_trait = theologian
+								factor = 10
+							}
+							modifier = {
+								has_trait = zealous
+								factor = 5
+							}
+						}
+						save_scope_as = high_skill_high_almoner
+					}
+					if = {
+						limit = {
+							NOT = {
+								exists = scope:high_skill_high_almoner
+							}
+						}
+						create_character = {
+							location = root.capital_province
+							template = high_almoner_high_character_template
+							culture = scope:nearby_culture_1
+							faith = root.faith
+							save_scope_as = high_skill_high_almoner
+						}
+					}
+				}
+					random_pool_character = {
+						province = capital_province
+						limit = {
+							can_be_employed_as = high_almoner_court_position
+							learning >= medium_skill_rating
+							good_sum_of_all_skills_trigger = yes
+							probably_unintelligent_trigger = no
+							NOR = {
+								scope:high_skill_high_almoner ?= this
+								faith = {
+								    faith_hostility_level = {
+								    target = root.faith
+								    value >= faith_hostile_level
+								    }
+								}
+							}
+						}
+						weight = {
+							base = 1
+							modifier = {
+								has_trait = intellect_good_1
+								factor = 10
+							}
+							modifier = {
+								has_trait = intellect_good_2
+								factor = 5
+							}
+							modifier = {
+								faith = root.faith
+								factor = 10
+							}
+						}
+						save_scope_as = mid_skill_high_almoner
+					}
+				if = {
+					limit = {
+						NOT = {
+							exists = scope:mid_skill_high_almoner
+						}
+					}
+					create_character = {
+						location = root.capital_province
+						template = high_almoner_mid_character_template
+						culture = scope:nearby_culture_2
+						faith = root.faith
+						save_scope_as = mid_skill_high_almoner
+					}
+				}
+				random_pool_character = {
+					province = root.capital_province
+					limit = {
+						NOT = {
+							scope:high_skill_high_almoner ?= this
+						}
+						NOT = {
+							scope:mid_skill_high_almoner ?= this
+						}
+						NOT = {
+							faith = {
+							    faith_hostility_level = {
+							    target = root.faith
+							    value >= faith_hostile_level
+							    }
+							}
+						}
+						average_sum_of_all_skills_trigger = yes
+						can_be_employed_as = high_almoner_court_position
+					}
+					weight = {
+						base = 1
+						modifier = {
+							faith = root.faith
+							factor = 20
+						}
+						modifier = {
+							is_lowborn = yes
+							factor = 10
+						}
+					}
+					save_scope_as = low_skill_high_almoner
+				}
+				if = {
+					limit = {
+						NOT = {
+							exists = scope:low_skill_high_almoner
+						}
+					}
+					create_character = {
+						location = root.capital_province
+						template = high_almoner_low_character_template
+						culture = scope:nearby_culture_3
+						faith = root.faith
+						save_scope_as = low_skill_high_almoner
+					}
+				}
+			}
+		}
+	}
+	option = {
+		# Excellent choice
+		trigger = {
+			exists = scope:high_skill_high_almoner
+			is_landed = yes
+		}
+		name = hire.0006.high
+		trait = scholar
+		trait = zealous
+		trait = intellect_good_1
+		custom_tooltip = hire.0006.high_aptitude
+		stress_impact = {
+			greedy = major_stress_impact_gain
+		}
+		pay_short_term_gold = {
+			target = scope:high_skill_high_almoner
+			gold = 80
+		}
+		hidden_effect = {
+			add_courtier = scope:high_skill_high_almoner
+		}
+		appoint_court_position = {
+			recipient = scope:high_skill_high_almoner
+			court_position = high_almoner_court_position
+		}
+		scope:high_skill_high_almoner = {
+			add_opinion = {
+				modifier = hired_me_opinion
+				opinion = 30
+				target = root
+			}
+		}
+	}
+	option = {
+		# Mid choice
+		trigger = {
+			is_landed = yes
+		}
+		name = hire.0006.mid
+		custom_tooltip = hire.0006.mid_aptitude
+		pay_short_term_gold = {
+			target = scope:mid_skill_high_almoner
+			gold = 50
+		}
+		hidden_effect = {
+			add_courtier = scope:mid_skill_high_almoner
+		}
+		appoint_court_position = {
+			recipient = scope:mid_skill_high_almoner
+			court_position = high_almoner_court_position
+		}
+		scope:mid_skill_high_almoner = {
+			add_opinion = {
+				modifier = hired_me_opinion
+				opinion = 30
+				target = root
+			}
+		}
+	}
+	option = {
+		# Low choice
+		trigger = {
+			is_landed = yes
+		}
+		name = hire.0006.low
+		custom_tooltip = hire.0006.low_aptitude
+		trait = greedy
+		stress_impact = {
+			greedy = minor_stress_impact_loss
+		}
+		pay_short_term_gold = {
+			target = scope:low_skill_high_almoner
+			gold = 20
+		}
+		hidden_effect = {
+			add_courtier = scope:low_skill_high_almoner
+		}
+		appoint_court_position = {
+			recipient = scope:low_skill_high_almoner
+			court_position = high_almoner_court_position
+		}
+		scope:low_skill_high_almoner = {
+			add_opinion = {
+				modifier = hired_me_opinion
+				opinion = 30
+				target = root
+			}
+		}
+	}
+	option = {
+		# Decide against it
+		name = hire.0006.none
+		custom_tooltip = hire.0006.none_tt
+	}
+}
+
+hire.0007 = {
+	# Royal Architect
+	type = character_event
+	title = hire.0007.t
+	desc = hire.0007.desc
+	theme = stewardship
+	left_portrait = {
+		character = scope:mid_skill_royal_architect
+		animation = writing
+	}
+	right_portrait = {
+		character = scope:low_skill_royal_architect
+		animation = personality_rational
+	}
+	lower_center_portrait = {
+		character = scope:high_skill_royal_architect
+		animation = idle
+	}
+	trigger = {
+		exists = capital_province
+	}
+	immediate = {
+		hidden_effect = {
+			find_nearby_cultures_effect = yes
+			if = {
+				limit = {
+					is_ai = no
+				}
+				if = {
+					limit = {
+						stewardship >= high_skill_rating
+					}
+					random_pool_character = {
+						province = capital_province
+						limit = {
+							can_be_employed_as = royal_architect_court_position
+							stewardship >= high_skill_rating
+							excellent_sum_of_all_skills_trigger = yes
+							probably_intelligent_trigger = yes
+							NOR = {
+								has_trait = shy
+								has_trait = reclusive
+								culture = root.culture
+								faith = {
+								    faith_hostility_level = {
+								    target = root.faith
+								    value >= faith_hostile_level
+								    }
+								}
+							}
+						}
+						weight = {
+							base = 1
+							modifier = {
+								has_trait = architect
+								factor = 15
+							}
+							modifier = {
+								has_trait = architect
+								factor = 10
+							}
+							modifier = {
+								has_trait = intellect_good_1
+								factor = 5
+							}
+							modifier = {
+								has_trait = intellect_good_2
+								factor = 10
+							}
+							modifier = {
+								has_trait = intellect_good_3
+								factor = 15
+							}
+							modifier = {
+								has_trait = shrewd
+								factor = 10
+							}
+							modifier = {
+								has_trait = ambitious
+								factor = 10
+							}
+						}
+						save_scope_as = high_skill_royal_architect
+					}
+					if = {
+						limit = {
+							NOT = {
+								exists = scope:high_skill_royal_architect
+							}
+						}
+						create_character = {
+							location = root.capital_province
+							template = royal_architect_high_character_template
+							culture = scope:nearby_culture_1
+							faith = root.faith
+							save_scope_as = high_skill_royal_architect
+						}
+					}
+				}
+					random_pool_character = {
+						province = capital_province
+						limit = {
+							can_be_employed_as = royal_architect_court_position
+							stewardship >= medium_skill_rating
+							good_sum_of_all_skills_trigger = yes
+							probably_unintelligent_trigger = no
+							NOR = {
+								scope:high_skill_royal_architect ?= this
+								faith = {
+								    faith_hostility_level = {
+								    target = root.faith
+								    value >= faith_hostile_level
+								    }
+								}
+							}
+						}
+						weight = {
+							base = 1
+							modifier = {
+								has_trait = intellect_good_1
+								factor = 10
+							}
+							modifier = {
+								has_trait = intellect_good_2
+								factor = 5
+							}
+							modifier = {
+								has_trait = architect
+								factor = 10
+							}
+							modifier = {
+								culture = root.culture
+								factor = 10
+							}
+						}
+						save_scope_as = mid_skill_royal_architect
+					}
+				if = {
+					limit = {
+						NOT = {
+							exists = scope:mid_skill_royal_architect
+						}
+					}
+					create_character = {
+						location = root.capital_province
+						template = royal_architect_mid_character_template
+						culture = scope:nearby_culture_2
+						faith = root.faith
+						save_scope_as = mid_skill_royal_architect
+					}
+				}
+				random_pool_character = {
+					province = root.capital_province
+					limit = {
+						NOT = {
+							scope:high_skill_royal_architect ?= this
+						}
+						NOT = {
+							scope:mid_skill_royal_architect ?= this
+						}
+						NOT = {
+							faith = {
+							    faith_hostility_level = {
+							    target = root.faith
+							    value >= faith_hostile_level
+							    }
+							}
+						}
+						average_sum_of_all_skills_trigger = yes
+						can_be_employed_as = royal_architect_court_position
+					}
+					weight = {
+						base = 1
+						modifier = {
+							culture = root.culture
+							factor = 20
+						}
+						modifier = {
+							is_lowborn = yes
+							factor = 10
+						}
+					}
+					save_scope_as = low_skill_royal_architect
+				}
+				if = {
+					limit = {
+						NOT = {
+							exists = scope:low_skill_royal_architect
+						}
+					}
+					create_character = {
+						location = root.capital_province
+						template = royal_architect_low_character_template
+						culture = scope:nearby_culture_3
+						faith = root.faith
+						save_scope_as = low_skill_royal_architect
+					}
+				}
+			}
+		}
+	}
+	option = {
+		# Excellent choice
+		trigger = {
+			exists = scope:high_skill_royal_architect
+			is_landed = yes
+		}
+		name = hire.0007.high
+		trait = architect
+		trait = ambitious
+		trait = intellect_good_1
+		trait = intellect_good_2
+		custom_tooltip = hire.0007.high_aptitude
+		stress_impact = {
+			greedy = major_stress_impact_gain
+		}
+		pay_short_term_gold = {
+			target = scope:high_skill_royal_architect
+			gold = 80
+		}
+		hidden_effect = {
+			add_courtier = scope:high_skill_royal_architect
+		}
+		appoint_court_position = {
+			recipient = scope:high_skill_royal_architect
+			court_position = royal_architect_court_position
+		}
+		scope:high_skill_royal_architect = {
+			add_opinion = {
+				modifier = hired_me_opinion
+				opinion = 30
+				target = root
+			}
+		}
+	}
+	option = {
+		# Mid choice
+		trigger = {
+			is_landed = yes
+		}
+		name = hire.0007.mid
+		custom_tooltip = hire.0007.mid_aptitude
+		pay_short_term_gold = {
+			target = scope:mid_skill_royal_architect
+			gold = 50
+		}
+		hidden_effect = {
+			add_courtier = scope:mid_skill_royal_architect
+		}
+		appoint_court_position = {
+			recipient = scope:mid_skill_royal_architect
+			court_position = royal_architect_court_position
+		}
+		scope:mid_skill_royal_architect = {
+			add_opinion = {
+				modifier = hired_me_opinion
+				opinion = 30
+				target = root
+			}
+		}
+	}
+	option = {
+		# Low choice
+		trigger = {
+			is_landed = yes
+		}
+		name = hire.0007.low
+		custom_tooltip = hire.0007.low_aptitude
+		trait = greedy
+		stress_impact = {
+			greedy = minor_stress_impact_loss
+		}
+		pay_short_term_gold = {
+			target = scope:low_skill_royal_architect
+			gold = 20
+		}
+		hidden_effect = {
+			add_courtier = scope:low_skill_royal_architect
+		}
+		appoint_court_position = {
+			recipient = scope:low_skill_royal_architect
+			court_position = royal_architect_court_position
+		}
+		scope:low_skill_royal_architect = {
+			add_opinion = {
+				modifier = hired_me_opinion
+				opinion = 30
+				target = root
+			}
+		}
+	}
+	option = {
+		# Decide against it
+		name = hire.0007.none
+		custom_tooltip = hire.0007.none_tt
+	}
+}
+
+hire.0008 = {
+	# Food Taster
+	type = character_event
+	title = hire.0008.t
+	desc = hire.0008.desc
+	theme = intrigue
+	left_portrait = {
+		character = scope:mid_skill_food_taster
+		animation = personality_bold
+	}
+	right_portrait = {
+		character = scope:low_skill_food_taster
+		animation = personality_rational
+	}
+	lower_center_portrait = {
+		character = scope:high_skill_food_taster
+		animation = idle
+	}
+	trigger = {
+		exists = capital_province
+	}
+	immediate = {
+		hidden_effect = {
+			find_nearby_cultures_effect = yes
+			if = {
+				limit = {
+					is_ai = no
+				}
+				if = {
+					limit = {
+						intrigue >= high_skill_rating
+					}
+					random_pool_character = {
+						province = capital_province
+						limit = {
+							can_be_employed_as = food_taster_court_position
+							intrigue >= high_skill_rating
+							excellent_sum_of_all_skills_trigger = yes
+							probably_intelligent_trigger = yes
+							NOR = {
+								has_trait = trusting
+								has_trait = honest
+								culture = root.culture
+								faith = {
+								    faith_hostility_level = {
+								    target = root.faith
+								    value >= faith_hostile_level
+								    }
+								}
+							}
+						}
+						weight = {
+							base = 1
+							modifier = {
+								has_trait = education_intrigue_3
+								factor = 15
+							}
+							modifier = {
+								has_trait = deceitful
+								factor = 10
+							}
+							modifier = {
+								has_trait = intellect_good_1
+								factor = 5
+							}
+							modifier = {
+								has_trait = intellect_good_2
+								factor = 10
+							}
+							modifier = {
+								has_trait = intellect_good_3
+								factor = 15
+							}
+							modifier = {
+								has_trait = shrewd
+								factor = 10
+							}
+							modifier = {
+								has_trait = paranoid
+								factor = 10
+							}
+						}
+						save_scope_as = high_skill_food_taster
+					}
+					if = {
+						limit = {
+							NOT = {
+								exists = scope:high_skill_food_taster
+							}
+						}
+						create_character = {
+							location = root.capital_province
+							template = food_taster_high_character_template
+							culture = scope:nearby_culture_1
+							faith = root.faith
+							save_scope_as = high_skill_food_taster
+						}
+					}
+				}
+					random_pool_character = {
+						province = capital_province
+						limit = {
+							can_be_employed_as = food_taster_court_position
+							intrigue >= medium_skill_rating
+							good_sum_of_all_skills_trigger = yes
+							probably_unintelligent_trigger = no
+							NOR = {
+								scope:high_skill_food_taster ?= this
+								faith = {
+								    faith_hostility_level = {
+								    target = root.faith
+								    value >= faith_hostile_level
+								    }
+								}
+							}
+						}
+						weight = {
+							base = 1
+							modifier = {
+								has_trait = intellect_good_1
+								factor = 10
+							}
+							modifier = {
+								has_trait = intellect_good_2
+								factor = 5
+							}
+							modifier = {
+								has_trait = paranoid
+								factor = 5
+							}
+							modifier = {
+								culture = root.culture
+								factor = 10
+							}
+						}
+						save_scope_as = mid_skill_food_taster
+					}
+				if = {
+					limit = {
+						NOT = {
+							exists = scope:mid_skill_food_taster
+						}
+					}
+					create_character = {
+						location = root.capital_province
+						template = food_taster_mid_character_template
+						culture = scope:nearby_culture_2
+						faith = root.faith
+						save_scope_as = mid_skill_food_taster
+					}
+				}
+				random_pool_character = {
+					province = root.capital_province
+					limit = {
+						NOT = {
+							scope:high_skill_food_taster ?= this
+						}
+						NOT = {
+							scope:mid_skill_food_taster ?= this
+						}
+						NOT = {
+							faith = {
+							    faith_hostility_level = {
+							    target = root.faith
+							    value >= faith_hostile_level
+							    }
+							}
+						}
+						average_sum_of_all_skills_trigger = yes
+						can_be_employed_as = food_taster_court_position
+					}
+					weight = {
+						base = 1
+						modifier = {
+							culture = root.culture
+							factor = 20
+						}
+						modifier = {
+							is_lowborn = yes
+							factor = 10
+						}
+					}
+					save_scope_as = low_skill_food_taster
+				}
+				if = {
+					limit = {
+						NOT = {
+							exists = scope:low_skill_food_taster
+						}
+					}
+					create_character = {
+						location = root.capital_province
+						template = food_taster_low_character_template
+						culture = scope:nearby_culture_3
+						faith = root.faith
+						save_scope_as = low_skill_food_taster
+					}
+				}
+			}
+		}
+	}
+	option = {
+		# Excellent choice
+		trigger = {
+			exists = scope:high_skill_food_taster
+			is_landed = yes
+		}
+		name = hire.0008.high
+		trait = education_intrigue_3
+		trait = paranoid
+		trait = intellect_good_1
+		trait = intellect_good_2
+		custom_tooltip = hire.0008.high_aptitude
+		stress_impact = {
+			trusting = major_stress_impact_gain
+		}
+		pay_short_term_gold = {
+			target = scope:high_skill_food_taster
+			gold = 80
+		}
+		hidden_effect = {
+			add_courtier = scope:high_skill_food_taster
+		}
+		appoint_court_position = {
+			recipient = scope:high_skill_food_taster
+			court_position = food_taster_court_position
+		}
+		scope:high_skill_food_taster = {
+			add_opinion = {
+				modifier = hired_me_opinion
+				opinion = 30
+				target = root
+			}
+		}
+	}
+	option = {
+		# Mid choice
+		trigger = {
+			is_landed = yes
+		}
+		name = hire.0008.mid
+		custom_tooltip = hire.0008.mid_aptitude
+		pay_short_term_gold = {
+			target = scope:mid_skill_food_taster
+			gold = 50
+		}
+		hidden_effect = {
+			add_courtier = scope:mid_skill_food_taster
+		}
+		appoint_court_position = {
+			recipient = scope:mid_skill_food_taster
+			court_position = food_taster_court_position
+		}
+		scope:mid_skill_food_taster = {
+			add_opinion = {
+				modifier = hired_me_opinion
+				opinion = 30
+				target = root
+			}
+		}
+	}
+	option = {
+		# Low choice
+		trigger = {
+			is_landed = yes
+		}
+		name = hire.0008.low
+		custom_tooltip = hire.0008.low_aptitude
+		trait = paranoid
+		stress_impact = {
+			trusting = minor_stress_impact_loss
+		}
+		pay_short_term_gold = {
+			target = scope:low_skill_food_taster
+			gold = 20
+		}
+		hidden_effect = {
+			add_courtier = scope:low_skill_food_taster
+		}
+		appoint_court_position = {
+			recipient = scope:low_skill_food_taster
+			court_position = food_taster_court_position
+		}
+		scope:low_skill_food_taster = {
+			add_opinion = {
+				modifier = hired_me_opinion
+				opinion = 30
+				target = root
+			}
+		}
+	}
+	option = {
+		# Decide against it
+		name = hire.0008.none
+		custom_tooltip = hire.0008.none_tt
+	}
+}
+
+hire.0009 = {
+	# Court Jester
+	type = character_event
+	title = hire.0009.t
+	desc = hire.0009.desc
+	theme = court
+	left_portrait = {
+		character = scope:mid_skill_court_jester
+		animation = personality_cynical
+	}
+	right_portrait = {
+		character = scope:low_skill_court_jester
+		animation = eccentric
+	}
+	lower_center_portrait = {
+		character = scope:high_skill_court_jester
+		animation = idle
+	}
+	trigger = {
+		exists = capital_province
+		highest_held_title_tier >= tier_duchy
+	}
+	immediate = {
+		hidden_effect = {
+			find_nearby_cultures_effect = yes
+			if = {
+				limit = {
+					is_ai = no
+				}
+				if = {
+					limit = {
+						diplomacy >= high_skill_rating
+					}
+					random_pool_character = {
+						province = capital_province
+						limit = {
+							can_be_employed_as = court_jester_court_position
+							diplomacy >= high_skill_rating
+							excellent_sum_of_all_skills_trigger = yes
+							probably_intelligent_trigger = yes
+							NOR = {
+								has_trait = shy
+								has_trait = craven
+								culture = root.culture
+								faith = {
+								    faith_hostility_level = {
+								    target = root.faith
+								    value >= faith_hostile_level
+								    }
+								}
+							}
+						}
+						weight = {
+							base = 1
+							modifier = {
+								has_trait = lifestyle_poet
+								factor = 10
+							}
+							modifier = {
+								has_trait = lifestyle_reveler
+								factor = 15
+							}
+							modifier = {
+								has_trait = gregarious
+								factor = 10
+							}
+							modifier = {
+								has_trait = charming
+								factor = 10
+							}
+							modifier = {
+								has_trait = intellect_good_1
+								factor = 5
+							}
+							modifier = {
+								has_trait = intellect_good_2
+								factor = 10
+							}
+						}
+						save_scope_as = high_skill_court_jester
+					}
+					if = {
+						limit = {
+							NOT = {
+								exists = scope:high_skill_court_jester
+							}
+						}
+						create_character = {
+							location = root.capital_province
+							template = court_jester_high_character_template
+							culture = scope:nearby_culture_1
+							faith = root.faith
+							save_scope_as = high_skill_court_jester
+						}
+					}
+				}
+					random_pool_character = {
+						province = capital_province
+						limit = {
+							can_be_employed_as = court_jester_court_position
+							diplomacy >= medium_skill_rating
+							good_sum_of_all_skills_trigger = yes
+							probably_unintelligent_trigger = no
+							NOR = {
+								scope:high_skill_court_jester ?= this
+								faith = {
+								    faith_hostility_level = {
+								    target = root.faith
+								    value >= faith_hostile_level
+								    }
+								}
+							}
+						}
+						weight = {
+							base = 1
+							modifier = {
+								has_trait = lifestyle_poet
+								factor = 10
+							}
+							modifier = {
+								has_trait = gregarious
+								factor = 10
+							}
+							modifier = {
+								culture = root.culture
+								factor = 10
+							}
+						}
+						save_scope_as = mid_skill_court_jester
+					}
+				if = {
+					limit = {
+						NOT = {
+							exists = scope:mid_skill_court_jester
+						}
+					}
+					create_character = {
+						location = root.capital_province
+						template = court_jester_mid_character_template
+						culture = scope:nearby_culture_2
+						faith = root.faith
+						save_scope_as = mid_skill_court_jester
+					}
+				}
+				random_pool_character = {
+					province = root.capital_province
+					limit = {
+						NOT = {
+							scope:high_skill_court_jester ?= this
+						}
+						NOT = {
+							scope:mid_skill_court_jester ?= this
+						}
+						NOT = {
+							faith = {
+							    faith_hostility_level = {
+							    target = root.faith
+							    value >= faith_hostile_level
+							    }
+							}
+						}
+						average_sum_of_all_skills_trigger = yes
+						can_be_employed_as = court_jester_court_position
+					}
+					weight = {
+						base = 1
+						modifier = {
+							culture = root.culture
+							factor = 20
+						}
+						modifier = {
+							is_lowborn = yes
+							factor = 10
+						}
+					}
+					save_scope_as = low_skill_court_jester
+				}
+				if = {
+					limit = {
+						NOT = {
+							exists = scope:low_skill_court_jester
+						}
+					}
+					create_character = {
+						location = root.capital_province
+						template = court_jester_low_character_template
+						culture = scope:nearby_culture_3
+						faith = root.faith
+						save_scope_as = low_skill_court_jester
+					}
+				}
+			}
+		}
+	}
+	option = {
+		# Excellent choice
+		trigger = {
+			exists = scope:high_skill_court_jester
+			is_landed = yes
+		}
+		name = hire.0009.high
+		trait = lifestyle_poet
+		trait = charming
+		trait = intellect_good_1
+		trait = intellect_good_2
+		custom_tooltip = hire.0009.high_aptitude
+		stress_impact = {
+			irritable = major_stress_impact_loss
+			depressed_1 = major_stress_impact_loss depressed_genetic = major_stress_impact_loss
+		}
+		pay_short_term_gold = {
+			target = scope:high_skill_court_jester
+			gold = 60
+		}
+		hidden_effect = {
+			add_courtier = scope:high_skill_court_jester
+		}
+		appoint_court_position = {
+			recipient = scope:high_skill_court_jester
+			court_position = court_jester_court_position
+		}
+		scope:high_skill_court_jester = {
+			add_opinion = {
+				modifier = hired_me_opinion
+				opinion = 30
+				target = root
+			}
+		}
+	}
+	option = {
+		# Mid choice
+		trigger = {
+			is_landed = yes
+		}
+		name = hire.0009.mid
+		custom_tooltip = hire.0009.mid_aptitude
+		stress_impact = {
+			irritable = minor_stress_impact_loss
+		}
+		pay_short_term_gold = {
+			target = scope:mid_skill_court_jester
+			gold = 40
+		}
+		hidden_effect = {
+			add_courtier = scope:mid_skill_court_jester
+		}
+		appoint_court_position = {
+			recipient = scope:mid_skill_court_jester
+			court_position = court_jester_court_position
+		}
+		scope:mid_skill_court_jester = {
+			add_opinion = {
+				modifier = hired_me_opinion
+				opinion = 30
+				target = root
+			}
+		}
+	}
+	option = {
+		# Low choice
+		trigger = {
+			is_landed = yes
+		}
+		name = hire.0009.low
+		custom_tooltip = hire.0009.low_aptitude
+		pay_short_term_gold = {
+			target = scope:low_skill_court_jester
+			gold = 15
+		}
+		hidden_effect = {
+			add_courtier = scope:low_skill_court_jester
+		}
+		appoint_court_position = {
+			recipient = scope:low_skill_court_jester
+			court_position = court_jester_court_position
+		}
+		scope:low_skill_court_jester = {
+			add_opinion = {
+				modifier = hired_me_opinion
+				opinion = 30
+				target = root
+			}
+		}
+	}
+	option = {
+		# Decide against it
+		name = hire.0009.none
+		custom_tooltip = hire.0009.none_tt
+	}
+}
+
+hire.0010 = {
+	# Executioner
+	type = character_event
+	title = hire.0010.t
+	desc = hire.0010.desc
+	theme = intrigue
+	left_portrait = {
+		character = scope:mid_skill_executioner
+		animation = threatening
+	}
+	right_portrait = {
+		character = scope:low_skill_executioner
+		animation = personality_cynical
+	}
+	lower_center_portrait = {
+		character = scope:high_skill_executioner
+		animation = idle
+	}
+	trigger = {
+		exists = capital_province
+		highest_held_title_tier >= tier_kingdom
+	}
+	immediate = {
+		hidden_effect = {
+			find_nearby_cultures_effect = yes
+			if = {
+				limit = {
+					is_ai = no
+				}
+				if = {
+					limit = {
+						intrigue >= high_skill_rating
+					}
+					random_pool_character = {
+						province = capital_province
+						limit = {
+							can_be_employed_as = executioner_court_position
+							intrigue >= high_skill_rating
+							excellent_sum_of_all_skills_trigger = yes
+							probably_intelligent_trigger = yes
+							NOR = {
+								has_trait = compassionate
+								has_trait = compassionate
+								culture = root.culture
+								faith = {
+								    faith_hostility_level = {
+								    target = root.faith
+								    value >= faith_hostile_level
+								    }
+								}
+							}
+						}
+						weight = {
+							base = 1
+							modifier = {
+								has_trait = torturer
+								factor = 15
+							}
+							modifier = {
+								has_trait = sadistic
+								factor = 15
+							}
+							modifier = {
+								has_trait = sadistic
+								factor = 10
+							}
+							modifier = {
+								has_trait = wrathful
+								factor = 10
+							}
+							modifier = {
+								has_trait = intellect_good_1
+								factor = 5
+							}
+							modifier = {
+								has_trait = intellect_good_2
+								factor = 10
+							}
+						}
+						save_scope_as = high_skill_executioner
+					}
+					if = {
+						limit = {
+							NOT = {
+								exists = scope:high_skill_executioner
+							}
+						}
+						create_character = {
+							location = root.capital_province
+							template = executioner_high_character_template
+							culture = scope:nearby_culture_1
+							faith = root.faith
+							save_scope_as = high_skill_executioner
+						}
+					}
+				}
+					random_pool_character = {
+						province = capital_province
+						limit = {
+							can_be_employed_as = executioner_court_position
+							intrigue >= medium_skill_rating
+							good_sum_of_all_skills_trigger = yes
+							probably_unintelligent_trigger = no
+							NOR = {
+								scope:high_skill_executioner ?= this
+								faith = {
+								    faith_hostility_level = {
+								    target = root.faith
+								    value >= faith_hostile_level
+								    }
+								}
+							}
+						}
+						weight = {
+							base = 1
+							modifier = {
+								has_trait = sadistic
+								factor = 10
+							}
+							modifier = {
+								has_trait = intellect_good_1
+								factor = 10
+							}
+							modifier = {
+								culture = root.culture
+								factor = 10
+							}
+						}
+						save_scope_as = mid_skill_executioner
+					}
+				if = {
+					limit = {
+						NOT = {
+							exists = scope:mid_skill_executioner
+						}
+					}
+					create_character = {
+						location = root.capital_province
+						template = executioner_mid_character_template
+						culture = scope:nearby_culture_2
+						faith = root.faith
+						save_scope_as = mid_skill_executioner
+					}
+				}
+				random_pool_character = {
+					province = root.capital_province
+					limit = {
+						NOT = {
+							scope:high_skill_executioner ?= this
+						}
+						NOT = {
+							scope:mid_skill_executioner ?= this
+						}
+						NOT = {
+							faith = {
+							    faith_hostility_level = {
+							    target = root.faith
+							    value >= faith_hostile_level
+							    }
+							}
+						}
+						average_sum_of_all_skills_trigger = yes
+						can_be_employed_as = executioner_court_position
+					}
+					weight = {
+						base = 1
+						modifier = {
+							culture = root.culture
+							factor = 20
+						}
+						modifier = {
+							is_lowborn = yes
+							factor = 10
+						}
+					}
+					save_scope_as = low_skill_executioner
+				}
+				if = {
+					limit = {
+						NOT = {
+							exists = scope:low_skill_executioner
+						}
+					}
+					create_character = {
+						location = root.capital_province
+						template = executioner_low_character_template
+						culture = scope:nearby_culture_3
+						faith = root.faith
+						save_scope_as = low_skill_executioner
+					}
+				}
+			}
+		}
+	}
+	option = {
+		# Excellent choice
+		trigger = {
+			exists = scope:high_skill_executioner
+			is_landed = yes
+		}
+		name = hire.0010.high
+		trait = torturer
+		trait = wrathful
+		trait = intellect_good_1
+		custom_tooltip = hire.0010.high_aptitude
+		stress_impact = {
+			compassionate = major_stress_impact_gain
+		}
+		pay_short_term_gold = {
+			target = scope:high_skill_executioner
+			gold = 70
+		}
+		hidden_effect = {
+			add_courtier = scope:high_skill_executioner
+		}
+		appoint_court_position = {
+			recipient = scope:high_skill_executioner
+			court_position = executioner_court_position
+		}
+		scope:high_skill_executioner = {
+			add_opinion = {
+				modifier = hired_me_opinion
+				opinion = 30
+				target = root
+			}
+		}
+	}
+	option = {
+		# Mid choice
+		trigger = {
+			is_landed = yes
+		}
+		name = hire.0010.mid
+		custom_tooltip = hire.0010.mid_aptitude
+		pay_short_term_gold = {
+			target = scope:mid_skill_executioner
+			gold = 45
+		}
+		hidden_effect = {
+			add_courtier = scope:mid_skill_executioner
+		}
+		appoint_court_position = {
+			recipient = scope:mid_skill_executioner
+			court_position = executioner_court_position
+		}
+		scope:mid_skill_executioner = {
+			add_opinion = {
+				modifier = hired_me_opinion
+				opinion = 30
+				target = root
+			}
+		}
+	}
+	option = {
+		# Low choice
+		trigger = {
+			is_landed = yes
+		}
+		name = hire.0010.low
+		custom_tooltip = hire.0010.low_aptitude
+		pay_short_term_gold = {
+			target = scope:low_skill_executioner
+			gold = 25
+		}
+		hidden_effect = {
+			add_courtier = scope:low_skill_executioner
+		}
+		appoint_court_position = {
+			recipient = scope:low_skill_executioner
+			court_position = executioner_court_position
+		}
+		scope:low_skill_executioner = {
+			add_opinion = {
+				modifier = hired_me_opinion
+				opinion = 30
+				target = root
+			}
+		}
+	}
+	option = {
+		# Decide against it
+		name = hire.0010.none
+		custom_tooltip = hire.0010.none_tt
+	}
+}
+
+hire.0011 = {
+    # Cup Bearer
+    type = character_event
+    title = hire.0011.t
+    desc = hire.0011.desc
+    theme = court
+    left_portrait = {
+        character = scope:mid_skill_cupbearer
+        animation = personality_bold
+    }
+    right_portrait = {
+        character = scope:low_skill_cupbearer
+        animation = personality_rational
+    }
+    lower_center_portrait = {
+        character = scope:high_skill_cupbearer
+        animation = idle
+    }
+    trigger = {
+        exists = capital_province
+        highest_held_title_tier >= tier_kingdom
+    }
+    immediate = {
+        hidden_effect = {
+            find_nearby_cultures_effect = yes
+            if = {
+                limit = { is_ai = no }
+                if = {
+                    limit = { diplomacy >= high_skill_rating }
+                    random_pool_character = {
+                        province = capital_province
+                        limit = {
+                            can_be_employed_as = cupbearer_court_position
+                            diplomacy >= high_skill_rating
+                            excellent_sum_of_all_skills_trigger = yes
+                            probably_intelligent_trigger = yes
+                            NOR = {
+                                has_trait = shy
+                                has_trait = craven
+                                culture = root.culture
+                                faith = { faith_hostility_level = { target = root.faith value >= faith_hostile_level } }
+                            }
+                        }
+                        weight = {
+                            base = 1
+                            modifier = { has_trait = honest factor = 10 }
+                            modifier = { has_trait = trusting factor = 10 }
+                            modifier = { has_trait = gregarious factor = 5 }
+                            modifier = { has_trait = intellect_good_1 factor = 5 }
+                            modifier = { has_trait = intellect_good_2 factor = 10 }
+                        }
+                        save_scope_as = high_skill_cupbearer
+                    }
+                    if = {
+                        limit = { NOT = { exists = scope:high_skill_cupbearer } }
+                        create_character = { location = root.capital_province template = cupbearer_high_character_template culture = scope:nearby_culture_1 faith = root.faith save_scope_as = high_skill_cupbearer }
+                    }
+                }
+                    random_pool_character = {
+                        province = capital_province
+                        limit = {
+                            can_be_employed_as = cupbearer_court_position
+                            diplomacy >= medium_skill_rating
+                            good_sum_of_all_skills_trigger = yes
+                            probably_unintelligent_trigger = no
+                            NOR = { scope:high_skill_cupbearer ?= this faith = { faith_hostility_level = { target = root.faith value >= faith_hostile_level } } }
+                        }
+                        weight = { base = 1 modifier = { has_trait = honest factor = 10 } modifier = { has_trait = trusting factor = 10 } modifier = { culture = root.culture factor = 10 } }
+                        save_scope_as = mid_skill_cupbearer
+                    }
+                if = {
+                    limit = { NOT = { exists = scope:mid_skill_cupbearer } }
+                    create_character = { location = root.capital_province template = cupbearer_mid_character_template culture = scope:nearby_culture_2 faith = root.faith save_scope_as = mid_skill_cupbearer }
+                }
+                random_pool_character = {
+                    province = root.capital_province
+                    limit = { NOT = { scope:high_skill_cupbearer ?= this } NOT = { scope:mid_skill_cupbearer ?= this } NOT = { faith = { faith_hostility_level = { target = root.faith value >= faith_hostile_level } } } average_sum_of_all_skills_trigger = yes can_be_employed_as = cupbearer_court_position }
+                    weight = { base = 1 modifier = { culture = root.culture factor = 20 } modifier = { is_lowborn = yes factor = 10 } }
+                    save_scope_as = low_skill_cupbearer
+                }
+                if = {
+                    limit = { NOT = { exists = scope:low_skill_cupbearer } }
+                    create_character = { location = root.capital_province template = cupbearer_low_character_template culture = scope:nearby_culture_3 faith = root.faith save_scope_as = low_skill_cupbearer }
+                }
+            }
+        }
+    }
+    option = {
+        # Excellent choice
+        trigger = { exists = scope:high_skill_cupbearer is_landed = yes }
+        name = hire.0011.high
+        trait = honest
+        trait = trusting
+        trait = intellect_good_1
+        trait = intellect_good_2
+        custom_tooltip = hire.0011.high_aptitude
+        stress_impact = { irritable = major_stress_impact_loss depressed_1 = major_stress_impact_loss depressed_genetic = major_stress_impact_loss }
+        pay_short_term_gold = { target = scope:high_skill_cupbearer gold = 60 }
+        hidden_effect = { add_courtier = scope:high_skill_cupbearer }
+        appoint_court_position = { recipient = scope:high_skill_cupbearer court_position = cupbearer_court_position }
+        scope:high_skill_cupbearer = { add_opinion = { modifier = hired_me_opinion opinion = 30 target = root } }
+    }
+    option = {
+        # Mid choice
+        trigger = { is_landed = yes }
+        name = hire.0011.mid
+        custom_tooltip = hire.0011.mid_aptitude
+        stress_impact = { irritable = minor_stress_impact_loss }
+        pay_short_term_gold = { target = scope:mid_skill_cupbearer gold = 40 }
+        hidden_effect = { add_courtier = scope:mid_skill_cupbearer }
+        appoint_court_position = { recipient = scope:mid_skill_cupbearer court_position = cupbearer_court_position }
+        scope:mid_skill_cupbearer = { add_opinion = { modifier = hired_me_opinion opinion = 30 target = root } }
+    }
+    option = {
+        # Low choice
+        trigger = { is_landed = yes }
+        name = hire.0011.low
+        custom_tooltip = hire.0011.low_aptitude
+        pay_short_term_gold = { target = scope:low_skill_cupbearer gold = 15 }
+        hidden_effect = { add_courtier = scope:low_skill_cupbearer }
+        appoint_court_position = { recipient = scope:low_skill_cupbearer court_position = cupbearer_court_position }
+        scope:low_skill_cupbearer = { add_opinion = { modifier = hired_me_opinion opinion = 30 target = root } }
+    }
+    option = {
+        # Decide against it
+        name = hire.0011.none
+        custom_tooltip = hire.0011.none_tt
+    }
+}
+
+hire.0012 = {
+    # Court Musician
+    type = character_event
+    title = hire.0012.t
+    desc = hire.0012.desc
+    theme = court
+    left_portrait = {
+        character = scope:mid_skill_court_musician
+        animation = eccentric
+    }
+    right_portrait = {
+        character = scope:low_skill_court_musician
+        animation = personality_rational
+    }
+    lower_center_portrait = {
+        character = scope:high_skill_court_musician
+        animation = idle
+    }
+    trigger = {
+        exists = capital_province
+        highest_held_title_tier >= tier_kingdom
+    }
+    immediate = {
+        hidden_effect = {
+            find_nearby_cultures_effect = yes
+            if = {
+                limit = { is_ai = no }
+                if = {
+                    limit = { diplomacy >= high_skill_rating }
+                    random_pool_character = {
+                        province = capital_province
+                        limit = {
+                            can_be_employed_as = court_musician_court_position
+                            diplomacy >= high_skill_rating
+                            excellent_sum_of_all_skills_trigger = yes
+                            probably_intelligent_trigger = yes
+                            NOR = {
+                                has_trait = shy
+                                has_trait = craven
+                                culture = root.culture
+                                faith = { faith_hostility_level = { target = root.faith value >= faith_hostile_level } }
+                            }
+                        }
+                        weight = {
+                            base = 1
+                            modifier = { has_trait = honest factor = 10 }
+                            modifier = { has_trait = trusting factor = 10 }
+                            modifier = { has_trait = gregarious factor = 5 }
+                            modifier = { has_trait = intellect_good_1 factor = 5 }
+                            modifier = { has_trait = intellect_good_2 factor = 10 }
+                        }
+                        save_scope_as = high_skill_court_musician
+                    }
+                    if = {
+                        limit = { NOT = { exists = scope:high_skill_court_musician } }
+                        create_character = { location = root.capital_province template = court_musician_high_character_template culture = scope:nearby_culture_1 faith = root.faith save_scope_as = high_skill_court_musician }
+                    }
+                }
+                    random_pool_character = {
+                        province = capital_province
+                        limit = {
+                            can_be_employed_as = court_musician_court_position
+                            diplomacy >= medium_skill_rating
+                            good_sum_of_all_skills_trigger = yes
+                            probably_unintelligent_trigger = no
+                            NOR = { scope:high_skill_court_musician ?= this faith = { faith_hostility_level = { target = root.faith value >= faith_hostile_level } } }
+                        }
+                        weight = { base = 1 modifier = { has_trait = honest factor = 10 } modifier = { has_trait = trusting factor = 10 } modifier = { culture = root.culture factor = 10 } }
+                        save_scope_as = mid_skill_court_musician
+                    }
+                if = {
+                    limit = { NOT = { exists = scope:mid_skill_court_musician } }
+                    create_character = { location = root.capital_province template = court_musician_mid_character_template culture = scope:nearby_culture_2 faith = root.faith save_scope_as = mid_skill_court_musician }
+                }
+                random_pool_character = {
+                    province = root.capital_province
+                    limit = { NOT = { scope:high_skill_court_musician ?= this } NOT = { scope:mid_skill_court_musician ?= this } NOT = { faith = { faith_hostility_level = { target = root.faith value >= faith_hostile_level } } } average_sum_of_all_skills_trigger = yes can_be_employed_as = court_musician_court_position }
+                    weight = { base = 1 modifier = { culture = root.culture factor = 20 } modifier = { is_lowborn = yes factor = 10 } }
+                    save_scope_as = low_skill_court_musician
+                }
+                if = {
+                    limit = { NOT = { exists = scope:low_skill_court_musician } }
+                    create_character = { location = root.capital_province template = court_musician_low_character_template culture = scope:nearby_culture_3 faith = root.faith save_scope_as = low_skill_court_musician }
+                }
+            }
+        }
+    }
+    option = {
+        # Excellent choice
+        trigger = { exists = scope:high_skill_court_musician is_landed = yes }
+        name = hire.0012.high
+        trait = honest
+        trait = trusting
+        trait = intellect_good_1
+        trait = intellect_good_2
+        custom_tooltip = hire.0012.high_aptitude
+        stress_impact = { irritable = major_stress_impact_loss depressed_1 = major_stress_impact_loss depressed_genetic = major_stress_impact_loss }
+        pay_short_term_gold = { target = scope:high_skill_court_musician gold = 60 }
+        hidden_effect = { add_courtier = scope:high_skill_court_musician }
+        appoint_court_position = { recipient = scope:high_skill_court_musician court_position = court_musician_court_position }
+        scope:high_skill_court_musician = { add_opinion = { modifier = hired_me_opinion opinion = 30 target = root } }
+    }
+    option = {
+        # Mid choice
+        trigger = { is_landed = yes }
+        name = hire.0012.mid
+        custom_tooltip = hire.0012.mid_aptitude
+        stress_impact = { irritable = minor_stress_impact_loss }
+        pay_short_term_gold = { target = scope:mid_skill_court_musician gold = 40 }
+        hidden_effect = { add_courtier = scope:mid_skill_court_musician }
+        appoint_court_position = { recipient = scope:mid_skill_court_musician court_position = court_musician_court_position }
+        scope:mid_skill_court_musician = { add_opinion = { modifier = hired_me_opinion opinion = 30 target = root } }
+    }
+    option = {
+        # Low choice
+        trigger = { is_landed = yes }
+        name = hire.0012.low
+        custom_tooltip = hire.0012.low_aptitude
+        pay_short_term_gold = { target = scope:low_skill_court_musician gold = 15 }
+        hidden_effect = { add_courtier = scope:low_skill_court_musician }
+        appoint_court_position = { recipient = scope:low_skill_court_musician court_position = court_musician_court_position }
+        scope:low_skill_court_musician = { add_opinion = { modifier = hired_me_opinion opinion = 30 target = root } }
+    }
+    option = {
+        # Decide against it
+        name = hire.0012.none
+        custom_tooltip = hire.0012.none_tt
+    }
+}
+
+hire.0013 = {
+    # Court Poet
+    type = character_event
+    title = hire.0013.t
+    desc = hire.0013.desc
+    theme = court
+    left_portrait = {
+        character = scope:mid_skill_court_poet
+        animation = writing
+    }
+    right_portrait = {
+        character = scope:low_skill_court_poet
+        animation = personality_rational
+    }
+    lower_center_portrait = {
+        character = scope:high_skill_court_poet
+        animation = idle
+    }
+    trigger = {
+        exists = capital_province
+        highest_held_title_tier >= tier_kingdom
+    }
+    immediate = {
+        hidden_effect = {
+            find_nearby_cultures_effect = yes
+            if = {
+                limit = { is_ai = no }
+                if = {
+                    limit = { diplomacy >= high_skill_rating }
+                    random_pool_character = {
+                        province = capital_province
+                        limit = {
+                            can_be_employed_as = court_poet_court_position
+                            diplomacy >= high_skill_rating
+                            excellent_sum_of_all_skills_trigger = yes
+                            probably_intelligent_trigger = yes
+                            NOR = {
+                                has_trait = shy
+                                has_trait = craven
+                                culture = root.culture
+                                faith = { faith_hostility_level = { target = root.faith value >= faith_hostile_level } }
+                            }
+                        }
+                        weight = {
+                            base = 1
+                            modifier = { has_trait = honest factor = 10 }
+                            modifier = { has_trait = trusting factor = 10 }
+                            modifier = { has_trait = gregarious factor = 5 }
+                            modifier = { has_trait = intellect_good_1 factor = 5 }
+                            modifier = { has_trait = intellect_good_2 factor = 10 }
+                        }
+                        save_scope_as = high_skill_court_poet
+                    }
+                    if = {
+                        limit = { NOT = { exists = scope:high_skill_court_poet } }
+                        create_character = { location = root.capital_province template = court_poet_high_character_template culture = scope:nearby_culture_1 faith = root.faith save_scope_as = high_skill_court_poet }
+                    }
+                }
+                    random_pool_character = {
+                        province = capital_province
+                        limit = {
+                            can_be_employed_as = court_poet_court_position
+                            diplomacy >= medium_skill_rating
+                            good_sum_of_all_skills_trigger = yes
+                            probably_unintelligent_trigger = no
+                            NOR = { scope:high_skill_court_poet ?= this faith = { faith_hostility_level = { target = root.faith value >= faith_hostile_level } } }
+                        }
+                        weight = { base = 1 modifier = { has_trait = honest factor = 10 } modifier = { has_trait = trusting factor = 10 } modifier = { culture = root.culture factor = 10 } }
+                        save_scope_as = mid_skill_court_poet
+                    }
+                if = {
+                    limit = { NOT = { exists = scope:mid_skill_court_poet } }
+                    create_character = { location = root.capital_province template = court_poet_mid_character_template culture = scope:nearby_culture_2 faith = root.faith save_scope_as = mid_skill_court_poet }
+                }
+                random_pool_character = {
+                    province = capital_province
+                    limit = { NOT = { scope:high_skill_court_poet ?= this } NOT = { scope:mid_skill_court_poet ?= this } NOT = { faith = { faith_hostility_level = { target = root.faith value >= faith_hostile_level } } } average_sum_of_all_skills_trigger = yes can_be_employed_as = court_poet_court_position }
+                    weight = { base = 1 modifier = { culture = root.culture factor = 20 } modifier = { is_lowborn = yes factor = 10 } }
+                    save_scope_as = low_skill_court_poet
+                }
+                if = {
+                    limit = { NOT = { exists = scope:low_skill_court_poet } }
+                    create_character = { location = root.capital_province template = court_poet_low_character_template culture = scope:nearby_culture_3 faith = root.faith save_scope_as = low_skill_court_poet }
+                }
+            }
+        }
+    }
+    option = {
+        # Excellent choice
+        trigger = { exists = scope:high_skill_court_poet is_landed = yes }
+        name = hire.0013.high
+        trait = honest
+        trait = trusting
+        trait = intellect_good_1
+        trait = intellect_good_2
+        custom_tooltip = hire.0013.high_aptitude
+        stress_impact = { irritable = major_stress_impact_loss depressed_1 = major_stress_impact_loss depressed_genetic = major_stress_impact_loss }
+        pay_short_term_gold = { target = scope:high_skill_court_poet gold = 60 }
+        hidden_effect = { add_courtier = scope:high_skill_court_poet }
+        appoint_court_position = { recipient = scope:high_skill_court_poet court_position = court_poet_court_position }
+        scope:high_skill_court_poet = { add_opinion = { modifier = hired_me_opinion opinion = 30 target = root } }
+    }
+    option = {
+        # Mid choice
+        trigger = { is_landed = yes }
+        name = hire.0013.mid
+        custom_tooltip = hire.0013.mid_aptitude
+        stress_impact = { irritable = minor_stress_impact_loss }
+        pay_short_term_gold = { target = scope:mid_skill_court_poet gold = 40 }
+        hidden_effect = { add_courtier = scope:mid_skill_court_poet }
+        appoint_court_position = { recipient = scope:mid_skill_court_poet court_position = court_poet_court_position }
+        scope:mid_skill_court_poet = { add_opinion = { modifier = hired_me_opinion opinion = 30 target = root } }
+    }
+    option = {
+        # Low choice
+        trigger = { is_landed = yes }
+        name = hire.0013.low
+        custom_tooltip = hire.0013.low_aptitude
+        pay_short_term_gold = { target = scope:low_skill_court_poet gold = 15 }
+        hidden_effect = { add_courtier = scope:low_skill_court_poet }
+        appoint_court_position = { recipient = scope:low_skill_court_poet court_position = court_poet_court_position }
+        scope:low_skill_court_poet = { add_opinion = { modifier = hired_me_opinion opinion = 30 target = root } }
+    }
+    option = {
+        # Decide against it
+        name = hire.0013.none
+        custom_tooltip = hire.0013.none_tt
+    }
+}
+
+
+

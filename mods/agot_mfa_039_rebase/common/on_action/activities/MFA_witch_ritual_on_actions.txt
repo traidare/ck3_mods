@@ -1,0 +1,206 @@
+﻿####################################
+# MFA Activity Converter
+# Pulse relay for witch_ritual activity
+# Root scope = the character (same as on_weekly_pulse).
+####################################
+
+
+
+MFA_witch_ritual_pulse_relay = {
+	effect = {
+		if = {
+			limit = {
+				has_variable = MFA_pulse_relay_tick
+			}
+			change_variable = { name = MFA_pulse_relay_tick add = 1 }
+		}
+		else = {
+			set_variable = { name = MFA_pulse_relay_tick value = 1 }
+		}
+		if = {
+			limit = {
+				exists = scope:activity
+			}
+			trigger_event = { on_action = MFA_witch_ritual_pulse_relay_effects }
+		}
+		if = {
+			limit = {
+				exists = scope:activity
+			}
+			trigger_event = { on_action = MFA_witch_ritual_pulse_relay days = 1 }
+		}
+		else = {
+			remove_variable = MFA_pulse_relay_tick
+		}
+	}
+}
+
+MFA_witch_ritual_pulse_relay_effects = {
+	trigger = {
+		var:MFA_pulse_relay_tick > MFA_pulse_relay_timer
+	}
+	effect = {
+		random_list = {
+			5 = { } # chance_of_no_event
+			1 = { # sacrifed_small_animal
+				trigger = {
+					scope:activity = {
+						is_current_phase_active = yes
+						any_attending_character = {
+							location = scope:activity.activity_location
+							NOT = { has_trait = compassionate }
+						}
+					}
+				}
+				modifier = {
+					scope:activity = {
+						scope:host = {
+							OR = {
+								has_trait = callous
+								has_trait = sadistic
+							}
+						}
+					}
+					add = 0.5
+				}
+				trigger_event = { on_action = MFA_pulse_sacrifed_small_animal }
+			}
+			1 = { # demonic_chant
+				trigger = {
+					scope:activity = {
+						is_current_phase_active = yes
+						any_attending_character = {
+							location = scope:activity.activity_location
+							count >= 1
+						}
+					}
+				}
+				trigger_event = { on_action = MFA_pulse_demonic_chant }
+			}
+			1 = { # recited_witchcraft_treatise
+				trigger = {
+					scope:activity = {
+						is_current_phase_active = yes
+						any_attending_character = {
+							location = scope:activity.activity_location
+							has_lifestyle = learning_lifestyle
+						}
+					}
+				}
+				trigger_event = { on_action = MFA_pulse_recited_witchcraft_treatise }
+			}
+			1 = { # admire_moon
+				trigger = {
+					scope:activity = {
+						is_current_phase_active = yes
+						any_attending_character = {
+							location = scope:activity.activity_location
+							count >= 1
+						}
+					}
+				}
+				trigger_event = { on_action = MFA_pulse_admire_moon }
+			}
+			1 = { # mournful_music
+				trigger = {
+					scope:activity = {
+						is_current_phase_active = yes
+						any_attending_character = {
+							location = scope:activity.activity_location
+							count >= 1
+						}
+					}
+				}
+				trigger_event = { on_action = MFA_pulse_mournful_music }
+			}
+			1 = { # praised_horned_god_together
+				trigger = {
+					scope:activity = {
+						is_current_phase_active = yes
+						any_attending_character = {
+							location = scope:activity.activity_location
+							count >= 2
+						}
+					}
+				}
+				trigger_event = { on_action = MFA_pulse_praised_horned_god_together }
+			}
+			1 = { # apa_communal_prayer
+				trigger = {
+					scope:activity = {
+						is_current_phase_active = yes
+						any_attending_character = {
+							location = scope:activity.activity_location
+							is_adult = yes
+							likes_character_trigger = { CHARACTER = scope:host }
+							this != scope:host
+						}
+						OR = {
+							AND = {
+								has_activity_type = activity_pilgrimage
+								OR = {
+									has_activity_option = {
+										category = special_type
+										option = pilgrimage_type_pious
+									}
+									#AGOT Disabled
+									# has_activity_option = {
+									# 	category = special_type
+									# 	option = pilgrimage_type_hajj
+									# }
+								}
+							}
+							has_activity_type = activity_witch_ritual
+						}
+					}
+				}
+				trigger_event = { on_action = MFA_pulse_apa_communal_prayer }
+			}
+			1 = { # apa_silent_contemplation
+				trigger = {
+					scope:activity = {
+						is_current_phase_active = yes
+						OR = {
+							AND = {
+								has_activity_type = activity_pilgrimage
+								any_attending_character = {
+									location = scope:activity.activity_location
+									has_activity_intent = reflection_intent
+									OR = {
+										this = scope:host
+										is_close_family_of = scope:host
+										likes_character_trigger = { CHARACTER = scope:host }
+									}
+								}
+							}
+							AND = {
+								has_activity_type = activity_witch_ritual
+								any_attending_character = {
+									location = scope:activity.activity_location
+									count >= 1
+								}
+							}
+						}
+					}
+				}
+				trigger_event = { on_action = MFA_pulse_apa_silent_contemplation }
+			}
+			1 = { # apa_imbued_artifact
+				trigger = {
+					scope:activity = {
+						is_current_phase_active = yes
+						any_attending_character = {
+							location = scope:activity.activity_location
+							any_character_artifact = {
+								category = inventory
+								NOT = { has_variable = had_apa_imbued_artifact_var }
+							}
+						}
+					}
+				}
+				trigger_event = { on_action = MFA_pulse_apa_imbued_artifact }
+			}
+		}
+		set_variable = { name = MFA_pulse_relay_tick value = 1 }
+	}
+}

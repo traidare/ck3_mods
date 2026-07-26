@@ -1,0 +1,6 @@
+﻿# AGOT compatibility: intentionally empty.
+#
+# CaFG's replacement defines the vanilla Outremer culture decision. AGOT has
+# neither the vanilla Outremer titles and regions nor its Catholic/Arabic
+# culture setup, so merely evaluating the decision produces repeated invalid
+# faith, culture, title, and geographical-region scopes.

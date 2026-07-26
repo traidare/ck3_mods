@@ -1,0 +1,28 @@
+﻿on_combat_end_winner = {
+    on_actions = {
+        on_add_vet_modifier
+    }
+}
+
+on_combat_end_loser = {
+    on_actions = {
+        on_add_vet_modifier
+    }
+}
+
+on_add_vet_modifier = {
+    effect = {
+        every_side_knight = {
+            if = {
+                limit = {
+                    is_ruler = no
+                    # Optional comparison avoids switching through a
+                    # missing father and replaces the nonexistent
+                    # is_army_owner trigger used by the Workshop source.
+                    NOT = { father ?= root.side_primary_participant }
+                }
+                add_character_modifier = veteran_modifier
+            }
+        }
+    }
+}

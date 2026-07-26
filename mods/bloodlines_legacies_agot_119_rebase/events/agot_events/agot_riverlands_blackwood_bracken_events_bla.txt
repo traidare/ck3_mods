@@ -1,0 +1,2318 @@
+﻿namespace = agot_riverlands_bla
+
+# =========================================================
+# Blackwood-Bracken Feud
+# =========================================================
+
+agot_riverlands_bla.0199 = {
+	type = character_event
+	hidden = yes
+
+	trigger = {
+		is_ai = no
+		is_ruler = yes
+		is_landed = yes
+		is_available_adult = yes
+
+		OR = {
+			dynasty = dynasty:dynn_Blackwood
+			dynasty = dynasty:dynn_Bracken
+		}
+
+		blackwood_bracken_rival_exists_trigger = yes
+
+		NOT = { has_character_flag = blackwood_bracken_any_feud_event_recently_bla }
+	}
+
+	immediate = {
+
+		add_character_flag = {
+			flag = blackwood_bracken_any_feud_event_recently_bla
+			years = 3
+		}
+
+		random_list = {
+			15 = { trigger_event = agot_riverlands_bla.0200 }
+			15 = { trigger_event = agot_riverlands_bla.0201 }
+			15 = { trigger_event = agot_riverlands_bla.0202 }
+			15 = { trigger_event = agot_riverlands_bla.0203 }
+			15 = { trigger_event = agot_riverlands_bla.0204 }
+
+			10 = {
+				trigger = { var:blackwood_bracken_feud_intensity_bla >= 3 }
+				trigger_event = agot_riverlands_bla.0205
+			}
+
+			8 = {
+				trigger = { var:blackwood_bracken_feud_intensity_bla >= 4 }
+				trigger_event = agot_riverlands_bla.0206
+			}
+
+			5 = {
+				trigger = { var:blackwood_bracken_feud_intensity_bla >= 6 }
+				trigger_event = agot_riverlands_bla.0207
+			}
+
+			7 = {
+				trigger = { var:blackwood_bracken_feud_intensity_bla >= 4 }
+				trigger_event = agot_riverlands_bla.0208
+			}
+
+			10 = { trigger_event = agot_riverlands_bla.0209 }
+
+			120 = { }
+		}
+	}
+}
+
+# =========================================================
+# Blood in the Border Mud
+# =========================================================
+
+agot_riverlands_bla.0200 = {
+	type = character_event
+	title = agot_riverlands_bla.0200.t
+	desc = agot_riverlands_bla.0200.desc
+	theme = rival_relation
+
+	override_background = {
+		reference = agot_river
+	}
+
+	left_portrait = {
+		character = root
+		animation = anger
+	}
+
+	trigger = {
+		is_ruler = yes
+		is_landed = yes
+		is_available_adult = yes
+
+		OR = {
+			dynasty = dynasty:dynn_Blackwood
+			dynasty = dynasty:dynn_Bracken
+		}
+
+		blackwood_bracken_rival_exists_trigger = yes
+
+		NOT = { has_character_flag = blackwood_bracken_any_feud_event_recently_bla }
+		NOT = { has_character_flag = blackwood_bracken_border_dead_recently_bla }
+	}
+
+	immediate = {
+		add_character_flag = { flag = blackwood_bracken_any_feud_event_recently_bla years = 2 }
+		add_character_flag = { flag = blackwood_bracken_border_dead_recently_bla years = 5 }
+
+		random_living_character = {
+			limit = {
+				is_house_head = yes
+				is_landed = yes
+				NOT = { this = root }
+
+				OR = {
+					AND = {
+						root = { dynasty = dynasty:dynn_Blackwood }
+						dynasty = dynasty:dynn_Bracken
+					}
+					AND = {
+						root = { dynasty = dynasty:dynn_Bracken }
+						dynasty = dynasty:dynn_Blackwood
+					}
+				}
+			}
+
+			save_scope_as = feud_rival_bla
+		}
+	}
+	option = {
+		name = agot_riverlands_bla.0200.a
+
+		add_prestige = 100
+		add_dread = 10
+
+		change_variable = {
+			name = blackwood_bracken_feud_intensity_bla
+			add = 1
+		}
+
+		scope:feud_rival_bla = {
+			add_opinion = {
+				target = root
+				modifier = insulted_opinion
+				opinion = -30
+			}
+		}
+
+		add_character_modifier = {
+			modifier = blackwood_bracken_rekindled_hatred_bla
+			years = 5
+		}
+	}
+
+	option = {
+		name = agot_riverlands_bla.0200.b
+
+		add_piety = 75
+		add_prestige = 25
+
+		change_variable = {
+			name = blackwood_bracken_feud_intensity_bla
+			add = -1
+		}
+
+		scope:feud_rival_bla = {
+			add_opinion = {
+				target = root
+				modifier = grateful_opinion
+				opinion = 15
+			}
+		}
+
+		add_character_modifier = {
+			modifier = blackwood_bracken_fragile_truce_bla
+			years = 3
+		}
+	}
+
+	option = {
+		name = agot_riverlands_bla.0200.c
+
+		trigger = {
+			OR = {
+				intrigue >= 10
+				has_trait = deceitful
+				has_trait = schemer
+			}
+		}
+
+		random_list = {
+			70 = {
+				change_variable = {
+					name = blackwood_bracken_feud_intensity_bla
+					add = 2
+				}
+
+				add_hook = {
+					target = scope:feud_rival_bla
+					type = fabrication_hook
+				}
+
+				scope:feud_rival_bla = {
+					add_opinion = {
+						target = root
+						modifier = suspicious_opinion
+						opinion = -40
+					}
+				}
+
+				custom_tooltip = agot_riverlands_bla.0200.c.success_tt
+			}
+
+			30 = {
+				add_prestige = -75
+
+				scope:feud_rival_bla = {
+					add_opinion = {
+						target = root
+						modifier = exposed_criminal_opinion
+						opinion = -50
+					}
+				}
+
+				custom_tooltip = agot_riverlands_bla.0200.c.failure_tt
+			}
+		}
+	}
+
+	option = {
+		name = agot_riverlands_bla.0200.d
+
+		trigger = {
+			OR = {
+				martial >= 10
+				prowess >= 8
+				has_trait = wrathful
+				has_trait = brave
+			}
+		}
+
+		add_prestige = 150
+		add_dread = 5
+
+		change_variable = {
+			name = blackwood_bracken_feud_intensity_bla
+			add = 2
+		}
+
+		add_character_flag = {
+			flag = blackwood_bracken_duel_demands_bla
+			years = 2
+		}
+
+		scope:feud_rival_bla = {
+			add_opinion = {
+				target = root
+				modifier = rival_opinion
+				opinion = -40
+			}
+		}
+	}
+}
+
+# =========================================================
+# Sour Wine
+# =========================================================
+
+agot_riverlands_bla.0201 = {
+	type = character_event
+	title = agot_riverlands_bla.0201.t
+	desc = agot_riverlands_bla.0201.desc
+	theme = rival_relation
+
+	override_background = {
+		reference = feast
+	}
+
+	left_portrait = {
+		character = root
+		animation = anger
+	}
+
+	right_portrait = {
+		character = scope:feud_rival_bla
+		animation = anger
+	}
+
+	trigger = {
+		is_ruler = yes
+		is_landed = yes
+		is_available_adult = yes
+
+		blackwood_bracken_rival_exists_trigger = yes
+
+		OR = {
+			dynasty = dynasty:dynn_Blackwood
+			dynasty = dynasty:dynn_Bracken
+
+		}
+
+		NOT = { has_character_flag = blackwood_bracken_any_feud_event_recently_bla }
+		NOT = { has_character_flag = blackwood_bracken_feast_insult_recently_bla }
+	}
+
+	immediate = {
+		add_character_flag = {
+			flag = blackwood_bracken_any_feud_event_recently_bla
+			years = 2
+		}
+
+		add_character_flag = {
+			flag = blackwood_bracken_feast_insult_recently_bla
+			years = 4
+		}
+
+		random_living_character = {
+			limit = {
+				is_house_head = yes
+				is_landed = yes
+				NOT = { this = root }
+
+			OR = {
+				AND = {
+					root = { dynasty = dynasty:dynn_Blackwood }
+					dynasty = dynasty:dynn_Bracken
+					}
+				AND = {
+					root = { dynasty = dynasty:dynn_Bracken }
+					dynasty = dynasty:dynn_Blackwood
+				}
+
+			}
+			}
+
+			save_scope_as = feud_rival_bla
+		}
+	}
+
+	option = {
+		name = agot_riverlands_bla.0201.a
+
+		add_prestige = 100
+		add_dread = 5
+
+		change_variable = {
+			name = blackwood_bracken_feud_intensity_bla
+			add = 1
+		}
+
+		scope:feud_rival_bla = {
+			add_opinion = {
+				target = root
+				modifier = insulted_opinion
+				opinion = -30
+			}
+		}
+
+		add_character_modifier = {
+			modifier = blackwood_bracken_rekindled_hatred_bla
+			years = 4
+		}
+	}
+
+	option = {
+		name = agot_riverlands_bla.0201.b
+
+		add_prestige = 50
+		add_piety = 25
+
+		change_variable = {
+			name = blackwood_bracken_feud_intensity_bla
+			add = -1
+		}
+
+		scope:feud_rival_bla = {
+			add_opinion = {
+				target = root
+				modifier = grateful_opinion
+				opinion = 10
+			}
+		}
+
+		add_character_modifier = {
+			modifier = blackwood_bracken_fragile_truce_bla
+			years = 3
+		}
+	}
+
+	option = {
+		name = agot_riverlands_bla.0201.c
+
+		trigger = {
+			OR = {
+				intrigue >= 10
+				has_trait = deceitful
+				has_trait = schemer
+			}
+		}
+
+		add_intrigue_lifestyle_xp = 250
+
+		random_list = {
+			70 = {
+				add_hook = {
+					target = scope:feud_rival_bla
+					type = fabrication_hook
+				}
+
+				change_variable = {
+					name = blackwood_bracken_feud_intensity_bla
+					add = 1
+				}
+
+				scope:feud_rival_bla = {
+					add_opinion = {
+						target = root
+						modifier = suspicious_opinion
+						opinion = -25
+					}
+				}
+
+				custom_tooltip = agot_riverlands_bla.0201.c.success_tt
+			}
+
+			30 = {
+				add_prestige = -50
+
+				scope:feud_rival_bla = {
+					add_opinion = {
+						target = root
+						modifier = exposed_criminal_opinion
+						opinion = -40
+					}
+				}
+
+				custom_tooltip = agot_riverlands_bla.0201.c.failure_tt
+			}
+		}
+	}
+
+	option = {
+		name = agot_riverlands_bla.0201.d
+
+		trigger = {
+			OR = {
+				martial >= 10
+				prowess >= 8
+				has_trait = wrathful
+				has_trait = arrogant
+			}
+		}
+
+		add_prestige = 150
+		add_dread = 10
+
+		change_variable = {
+			name = blackwood_bracken_feud_intensity_bla
+			add = 2
+		}
+
+		if = {
+			limit = {
+				NOT = {
+					has_relation_rival = scope:feud_rival_bla
+				}
+			}
+
+			set_relation_rival = scope:feud_rival_bla
+		}
+
+		scope:feud_rival_bla = {
+			add_opinion = {
+				target = root
+				modifier = rival_opinion
+				opinion = -40
+			}
+		}
+
+		add_character_modifier = {
+			modifier = blackwood_bracken_rekindled_hatred_bla
+			years = 5
+		}
+	}
+}
+
+# =========================================================
+# Crossed Wings
+# =========================================================
+
+agot_riverlands_bla.0202 = {
+	type = character_event
+	title = agot_riverlands_bla.0202.t
+	desc = agot_riverlands_bla.0202.desc
+	theme = rival_relation
+
+	left_portrait = {
+		character = root
+		animation = spymaster
+	}
+
+	trigger = {
+		is_ruler = yes
+		is_landed = yes
+		is_available_adult = yes
+
+		blackwood_bracken_rival_exists_trigger = yes
+
+		OR = {
+			dynasty = dynasty:dynn_Blackwood
+			dynasty = dynasty:dynn_Bracken
+		}
+
+		NOT = { has_character_flag = blackwood_bracken_any_feud_event_recently_bla }
+		NOT = { has_character_flag = blackwood_bracken_missing_ravens_recently_bla }
+	}
+
+	immediate = {
+		add_character_flag = { flag = blackwood_bracken_any_feud_event_recently_bla years = 2 }
+		add_character_flag = { flag = blackwood_bracken_missing_ravens_recently_bla years = 6 }
+
+		random_living_character = {
+			limit = {
+				is_house_head = yes
+				is_landed = yes
+				NOT = { this = root }
+
+				OR = {
+					AND = {
+						root = { dynasty = dynasty:dynn_Blackwood }
+						dynasty = dynasty:dynn_Bracken
+					}
+
+					AND = {
+						root = { dynasty = dynasty:dynn_Bracken }
+						dynasty = dynasty:dynn_Blackwood
+					}
+				}
+			}
+
+			save_scope_as = feud_rival_bla
+		}
+	}
+
+	option = {
+		name = agot_riverlands_bla.0202.a
+
+		add_prestige = 75
+
+		change_variable = {
+			name = blackwood_bracken_feud_intensity_bla
+			add = 1
+		}
+
+		scope:feud_rival_bla = {
+			add_opinion = {
+				target = root
+				modifier = suspicious_opinion
+				opinion = -25
+			}
+		}
+
+		add_character_modifier = {
+			modifier = blackwood_bracken_rekindled_hatred_bla
+			years = 4
+		}
+	}
+
+	option = {
+		name = agot_riverlands_bla.0202.b
+
+		add_piety = 50
+		add_prestige = -25
+
+		change_variable = {
+			name = blackwood_bracken_feud_intensity_bla
+			add = -1
+		}
+
+		scope:feud_rival_bla = {
+			add_opinion = {
+				target = root
+				modifier = grateful_opinion
+				opinion = 10
+			}
+		}
+
+		add_character_modifier = {
+			modifier = blackwood_bracken_fragile_truce_bla
+			years = 3
+		}
+	}
+
+	option = {
+		name = agot_riverlands_bla.0202.c
+
+		trigger = {
+			OR = {
+				intrigue >= 10
+				has_trait = deceitful
+				has_trait = schemer
+			}
+		}
+
+		random_list = {
+			70 = {
+				add_intrigue_lifestyle_xp = 300
+
+				add_hook = {
+					target = scope:feud_rival_bla
+					type = fabrication_hook
+				}
+
+				change_variable = {
+					name = blackwood_bracken_feud_intensity_bla
+					add = 2
+				}
+
+				add_character_modifier = {
+					modifier = blackwood_bracken_secret_networks_bla
+					years = 5
+				}
+
+				custom_tooltip = agot_riverlands_bla.0202.c.success_tt
+			}
+
+			30 = {
+				add_prestige = -75
+
+				scope:feud_rival_bla = {
+					add_opinion = {
+						target = root
+						modifier = exposed_criminal_opinion
+						opinion = -40
+					}
+				}
+
+				custom_tooltip = agot_riverlands_bla.0202.c.failure_tt
+			}
+		}
+	}
+}
+
+# =========================================================
+# The Ancient Venom
+# =========================================================
+
+agot_riverlands_bla.0203 = {
+	type = character_event
+	title = agot_riverlands_bla.0203.t
+	desc = agot_riverlands_bla.0203.desc
+	theme = rival_relation
+
+	override_background = {
+		reference = agot_npk_tree_of_crowns
+	}
+
+	left_portrait = {
+		character = root
+		animation = anger
+	}
+
+	trigger = {
+		is_ruler = yes
+		is_landed = yes
+		is_available_adult = yes
+
+		blackwood_bracken_rival_exists_trigger = yes
+
+		OR = {
+			dynasty = dynasty:dynn_Blackwood
+			dynasty = dynasty:dynn_Bracken
+		}
+
+		NOT = { has_character_flag = blackwood_bracken_any_feud_event_recently_bla }
+		NOT = { has_character_flag = blackwood_bracken_dead_tree_recently_bla }
+	}
+
+	immediate = {
+		add_character_flag = {
+			flag = blackwood_bracken_any_feud_event_recently_bla
+			years = 2
+		}
+
+		add_character_flag = {
+			flag = blackwood_bracken_dead_tree_recently_bla
+			years = 8
+		}
+
+		random_living_character = {
+			limit = {
+				is_house_head = yes
+				is_landed = yes
+				NOT = { this = root }
+
+				OR = {
+					AND = {
+						root = { dynasty = dynasty:dynn_Blackwood }
+						dynasty = dynasty:dynn_Bracken
+					}
+
+					AND = {
+						root = { dynasty = dynasty:dynn_Bracken }
+						dynasty = dynasty:dynn_Blackwood
+					}
+				}
+			}
+
+			save_scope_as = feud_rival_bla
+		}
+
+	}
+
+	option = {
+		name = agot_riverlands_bla.0203.a
+
+		trigger = {
+			dynasty = dynasty:dynn_Blackwood
+		}
+
+		add_piety = 150
+		add_prestige = 75
+
+		change_variable = {
+			name = blackwood_bracken_feud_intensity_bla
+			add = 1
+		}
+
+		add_character_modifier = {
+			modifier = blackwood_bracken_old_gods_fervor_bla
+			years = 5
+		}
+
+		scope:feud_rival_bla = {
+			add_opinion = {
+				target = root
+				modifier = cultural_disapproval_opinion
+				opinion = -25
+			}
+		}
+
+		custom_tooltip = agot_riverlands_bla.0203.a.tt
+	}
+
+	option = {
+		name = agot_riverlands_bla.0203.b
+
+		trigger = {
+			dynasty = dynasty:dynn_Bracken
+		}
+
+		add_prestige = 150
+
+		change_variable = {
+			name = blackwood_bracken_feud_intensity_bla
+			add = 1
+		}
+
+		add_character_modifier = {
+			modifier = blackwood_bracken_andal_righteousness_bla
+			years = 5
+		}
+
+		scope:feud_rival_bla = {
+			add_opinion = {
+				target = root
+				modifier = cultural_disapproval_opinion
+				opinion = -25
+			}
+		}
+
+		custom_tooltip = agot_riverlands_bla.0203.b.tt
+	}
+
+	option = {
+		name = agot_riverlands_bla.0203.c
+
+		trigger = {
+			OR = {
+				intrigue >= 10
+				has_trait = deceitful
+				has_trait = schemer
+			}
+		}
+
+		random_list = {
+			70 = {
+				change_variable = {
+					name = blackwood_bracken_feud_intensity_bla
+					add = 2
+				}
+
+				add_hook = {
+					target = scope:feud_rival_bla
+					type = fabrication_hook
+				}
+
+				scope:feud_rival_bla = {
+					add_opinion = {
+						target = root
+						modifier = suspicious_opinion
+						opinion = -40
+					}
+				}
+
+				add_character_modifier = {
+					modifier = blackwood_bracken_secret_feud_bla
+					years = 5
+				}
+
+				custom_tooltip = agot_riverlands_bla.0203.c.success_tt
+			}
+
+			30 = {
+				add_prestige = -75
+
+				scope:feud_rival_bla = {
+					add_opinion = {
+						target = root
+						modifier = hate_opinion
+						opinion = -50
+					}
+				}
+
+				custom_tooltip = agot_riverlands_bla.0203.c.failure_tt
+			}
+		}
+	}
+
+	option = {
+		name = agot_riverlands_bla.0203.d
+
+		trigger = {
+			OR = {
+				diplomacy >= 10
+				has_trait = calm
+				has_trait = compassionate
+			}
+		}
+
+		add_piety = 75
+		add_prestige = 50
+
+		change_variable = {
+			name = blackwood_bracken_feud_intensity_bla
+			add = -1
+		}
+
+		add_character_modifier = {
+			modifier = blackwood_bracken_fragile_truce_bla
+			years = 5
+		}
+
+		scope:feud_rival_bla = {
+			add_opinion = {
+				target = root
+				modifier = grateful_opinion
+				opinion = 15
+			}
+		}
+
+		custom_tooltip = agot_riverlands_bla.0203.d.tt
+	}
+}
+# =========================================================
+# Stolen Stallions
+# =========================================================
+
+agot_riverlands_bla.0204 = {
+	type = character_event
+	title = agot_riverlands_bla.0204.t
+	desc = agot_riverlands_bla.0204.desc
+	theme = rival_relation
+
+	left_portrait = {
+		character = root
+		animation = anger
+	}
+
+	trigger = {
+		is_ruler = yes
+		is_landed = yes
+		is_available_adult = yes
+
+		blackwood_bracken_rival_exists_trigger = yes
+
+		OR = {
+			dynasty = dynasty:dynn_Blackwood
+			dynasty = dynasty:dynn_Bracken
+		}
+
+		NOT = { has_character_flag = blackwood_bracken_any_feud_event_recently_bla }
+		NOT = { has_character_flag = blackwood_bracken_horse_theft_recently_bla }
+	}
+
+	immediate = {
+		add_character_flag = {
+			flag = blackwood_bracken_any_feud_event_recently_bla
+			years = 2
+		}
+
+		add_character_flag = {
+			flag = blackwood_bracken_horse_theft_recently_bla
+			years = 4
+		}
+
+		random_living_character = {
+			limit = {
+				is_house_head = yes
+				is_landed = yes
+				NOT = { this = root }
+
+				OR = {
+					AND = {
+						root = { dynasty = dynasty:dynn_Blackwood }
+						dynasty = dynasty:dynn_Bracken
+					}
+
+					AND = {
+						root = { dynasty = dynasty:dynn_Bracken }
+						dynasty = dynasty:dynn_Blackwood
+					}
+				}
+			}
+
+			save_scope_as = feud_rival_bla
+		}
+
+
+		random_list = {
+			40 = {
+				add_character_flag = blackwood_bracken_theft_real_bla
+			}
+
+			35 = {
+				add_character_flag = blackwood_bracken_theft_bandits_bla
+			}
+
+			25 = {
+				add_character_flag = blackwood_bracken_theft_false_bla
+			}
+		}
+	}
+
+	option = {
+		name = agot_riverlands_bla.0204.a
+
+		add_prestige = 100
+		add_dread = 5
+
+		change_variable = {
+			name = blackwood_bracken_feud_intensity_bla
+			add = 1
+		}
+
+		scope:feud_rival_bla = {
+			add_opinion = {
+				target = root
+				modifier = insulted_opinion
+				opinion = -30
+			}
+		}
+
+		custom_tooltip = agot_riverlands_bla.0204.a.investigation_tt
+
+		trigger_event = {
+			id = agot_riverlands_bla.02040
+			days = 2
+		}
+
+	}
+
+	option = {
+		name = agot_riverlands_bla.0204.b
+
+		trigger = {
+			OR = {
+				intrigue >= 10
+				stewardship >= 10
+				has_trait = deceitful
+				has_trait = diligent
+			}
+		}
+
+		add_intrigue_lifestyle_xp = 250
+
+		custom_tooltip = agot_riverlands_bla.0204.b.investigation_tt
+
+		trigger_event = {
+			id = agot_riverlands_bla.02041
+			days = 2
+		}
+	}
+
+	option = {
+		name = agot_riverlands_bla.0204.c
+
+		add_prestige = 50
+
+		add_character_modifier = {
+			modifier = blackwood_bracken_border_patrols_bla
+			years = 5
+		}
+
+		capital_county = {
+			change_county_control = 10
+		}
+
+		change_variable = {
+			name = blackwood_bracken_feud_intensity_bla
+			add = -1
+		}
+	}
+
+	option = {
+		name = agot_riverlands_bla.0204.d
+
+		trigger = {
+			OR = {
+				has_trait = wrathful
+				has_trait = arrogant
+				martial >= 10
+			}
+		}
+
+		add_prestige = 150
+		add_dread = 10
+
+		change_variable = {
+			name = blackwood_bracken_feud_intensity_bla
+			add = 2
+		}
+
+		scope:feud_rival_bla = {
+			add_opinion = {
+				target = root
+				modifier = hate_opinion
+				opinion = -50
+			}
+		}
+
+		add_character_modifier = {
+			modifier = blackwood_bracken_rekindled_hatred_bla
+			years = 5
+		}
+
+		if = {
+			limit = {
+				has_character_flag = blackwood_bracken_theft_bandits_bla
+			}
+
+			add_prestige = -100
+		}
+
+		if = {
+			limit = {
+				exists = liege
+			}
+
+			liege = {
+				add_opinion = {
+					target = root
+					modifier = disappointed_opinion
+					opinion = -20
+				}
+			}
+		}
+	}
+}
+
+agot_riverlands_bla.02040 = {
+	type = character_event
+	title = agot_riverlands_bla.02040.t
+	desc = agot_riverlands_bla.02040.desc
+	theme = rival_relation
+
+	left_portrait = {
+		character = root
+		animation = thinking
+	}
+
+	immediate = {
+		# Result branches remain hidden until this event opens.
+	}
+
+	option = {
+		name = agot_riverlands_bla.02040.a
+
+		if = {
+			limit = {
+				has_character_flag = blackwood_bracken_theft_real_bla
+			}
+
+			add_character_modifier = {
+				modifier = blackwood_bracken_border_victory_bla
+				years = 5
+			}
+
+			custom_tooltip = agot_riverlands_bla.0204.result.real_tt
+		}
+
+		if = {
+			limit = {
+				has_character_flag = blackwood_bracken_theft_bandits_bla
+			}
+
+			add_prestige = -50
+
+			capital_county = {
+				change_county_control = -10
+			}
+
+			custom_tooltip = agot_riverlands_bla.0204.result.bandits_tt
+		}
+
+		if = {
+			limit = {
+				has_character_flag = blackwood_bracken_theft_false_bla
+			}
+
+			add_prestige = -75
+
+			scope:feud_rival_bla = {
+				add_hook = {
+					target = root
+					type = fabrication_hook
+				}
+			}
+
+			custom_tooltip = agot_riverlands_bla.0204.result.false_tt
+		}
+
+		remove_character_flag = blackwood_bracken_theft_real_bla
+		remove_character_flag = blackwood_bracken_theft_bandits_bla
+		remove_character_flag = blackwood_bracken_theft_false_bla
+	}
+}
+
+agot_riverlands_bla.02041 = {
+	type = character_event
+	title = agot_riverlands_bla.02041.t
+	desc = agot_riverlands_bla.02041.desc
+	theme = rival_relation
+
+	left_portrait = {
+		character = root
+		animation = thinking
+	}
+
+	option = {
+		name = agot_riverlands_bla.02041.a
+
+		if = {
+			limit = {
+				has_character_flag = blackwood_bracken_theft_real_bla
+			}
+
+			add_hook = {
+				target = scope:feud_rival_bla
+				type = fabrication_hook
+			}
+
+			custom_tooltip = agot_riverlands_bla.0204.b.real_tt
+		}
+
+		if = {
+			limit = {
+				has_character_flag = blackwood_bracken_theft_bandits_bla
+			}
+
+			add_prestige = 75
+			add_gold = 50
+
+			change_variable = {
+				name = blackwood_bracken_feud_intensity_bla
+				add = -1
+			}
+
+			custom_tooltip = agot_riverlands_bla.0204.b.bandit_tt
+		}
+
+		if = {
+			limit = {
+				has_character_flag = blackwood_bracken_theft_false_bla
+			}
+
+			add_character_modifier = {
+				modifier = blackwood_bracken_secret_networks_bla
+				years = 5
+			}
+
+			custom_tooltip = agot_riverlands_bla.0204.b.false_tt
+		}
+
+		remove_character_flag = blackwood_bracken_theft_real_bla
+		remove_character_flag = blackwood_bracken_theft_bandits_bla
+		remove_character_flag = blackwood_bracken_theft_false_bla
+	}
+}
+
+# =========================================================
+# An Ultimatum of Steel
+# =========================================================
+
+agot_riverlands_bla.0205 = {
+	type = character_event
+	title = agot_riverlands_bla.0205.t
+	desc = agot_riverlands_bla.0205.desc
+	theme = rival_relation
+
+	override_background = {
+		reference = courtyard
+	}
+
+	left_portrait = {
+		character = root
+		animation = anger
+	}
+
+	trigger = {
+		is_ruler = yes
+		is_landed = yes
+		is_available_adult = yes
+
+		blackwood_bracken_rival_exists_trigger = yes
+
+		OR = {
+			dynasty = dynasty:dynn_Blackwood
+			dynasty = dynasty:dynn_Bracken
+		}
+
+		var:blackwood_bracken_feud_intensity_bla >= 3
+
+		OR = {
+			has_character_modifier = blackwood_bracken_rekindled_hatred_bla
+			has_character_modifier = blackwood_bracken_secret_feud_bla
+			has_character_modifier = blackwood_bracken_border_patrols_bla
+			has_character_modifier = blackwood_bracken_secret_networks_bla
+		}
+
+		NOT = { has_character_flag = blackwood_bracken_any_feud_event_recently_bla }
+		NOT = { has_character_flag = blackwood_bracken_satisfaction_recently_bla }
+	}
+
+	immediate = {
+		add_character_flag = {
+			flag = blackwood_bracken_any_feud_event_recently_bla
+			years = 2
+		}
+
+		add_character_flag = {
+			flag = blackwood_bracken_satisfaction_recently_bla
+			years = 6
+		}
+
+		random_living_character = {
+			limit = {
+				is_house_head = yes
+				is_landed = yes
+				NOT = { this = root }
+
+				OR = {
+					AND = {
+						root = { dynasty = dynasty:dynn_Blackwood }
+						dynasty = dynasty:dynn_Bracken
+					}
+
+					AND = {
+						root = { dynasty = dynasty:dynn_Bracken }
+						dynasty = dynasty:dynn_Blackwood
+					}
+				}
+			}
+
+			save_scope_as = feud_rival_bla
+		}
+
+	}
+
+	option = {
+		name = agot_riverlands_bla.0205.a
+
+		trigger = {
+			OR = {
+				martial >= 12
+				prowess >= 10
+				has_trait = wrathful
+				has_trait = brave
+			}
+		}
+
+		add_prestige = 200
+		add_dread = 10
+
+		change_variable = {
+			name = blackwood_bracken_feud_intensity_bla
+			add = 2
+		}
+		
+		if = {
+			limit = {
+				NOT = {
+					has_relation_rival = scope:feud_rival_bla
+				}
+			}
+
+			set_relation_rival = scope:feud_rival_bla
+		}
+
+		random_list = {
+			75 = {
+				add_character_modifier = {
+					modifier = blackwood_bracken_dueling_reputation_bla
+					years = 8
+				}
+				custom_tooltip = agot_riverlands_bla.0205.a.success_tt
+			}
+
+			25 = {
+				add_character_modifier = {
+					modifier = blackwood_bracken_failed_champion_bla
+					years = 8
+				}
+				add_prestige = -75
+
+				custom_tooltip = agot_riverlands_bla.0205.a.wounded_tt
+			}
+		}
+
+		scope:feud_rival_bla = {
+			add_opinion = {
+				target = root
+				modifier = rival_opinion
+				opinion = -50
+			}
+		}
+	}
+
+	option = {
+		name = agot_riverlands_bla.0205.b
+
+		remove_short_term_gold = 150
+
+		add_prestige = -50
+		add_piety = 75
+
+		change_variable = {
+			name = blackwood_bracken_feud_intensity_bla
+			add = -2
+		}
+
+		add_character_modifier = {
+			modifier = blackwood_bracken_fragile_truce_bla
+			years = 5
+		}
+
+		scope:feud_rival_bla = {
+			add_opinion = {
+				target = root
+				modifier = grateful_opinion
+				opinion = 20
+			}
+		}
+
+		custom_tooltip = agot_riverlands_bla.0205.b.tt
+	}
+
+	option = {
+		name = agot_riverlands_bla.0205.c
+
+		trigger = {
+			OR = {
+				intrigue >= 12
+				has_trait = deceitful
+				has_trait = schemer
+			}
+		}
+
+		add_intrigue_lifestyle_xp = 350
+
+		change_variable = {
+			name = blackwood_bracken_feud_intensity_bla
+			add = 1
+		}
+
+		add_character_flag = {
+			flag = blackwood_bracken_secret_retaliation_bla
+			years = 10
+		}
+
+		add_character_modifier = {
+			modifier = blackwood_bracken_secret_networks_bla
+			years = 5
+		}
+
+		random_list = {
+			70 = {
+				add_hook = {
+					target = scope:feud_rival_bla
+					type = fabrication_hook
+				}
+
+				custom_tooltip = agot_riverlands_bla.0205.c.success_tt
+			}
+
+			30 = {
+
+				add_prestige = -100
+				scope:feud_rival_bla = {
+					add_opinion = {
+						target = root
+						modifier = suspicious_opinion
+						opinion = -35
+					}
+				}
+
+				custom_tooltip = agot_riverlands_bla.0205.c.failure_tt
+			}
+		}
+	}
+
+	option = {
+		name = agot_riverlands_bla.0205.d
+
+		add_dread = 15
+		add_prestige = 100
+
+		change_variable = {
+			name = blackwood_bracken_feud_intensity_bla
+			add = 2
+		}
+
+		add_character_modifier = {
+			modifier = blackwood_bracken_rekindled_hatred_bla
+			years = 6
+		}
+
+		scope:feud_rival_bla = {
+			add_opinion = {
+				target = root
+				modifier = insulted_opinion
+				opinion = -60
+			}
+		}
+
+		if = {
+			limit = {
+				exists = liege
+			}
+
+			liege = {
+				add_opinion = {
+					target = root
+					modifier = disappointed_opinion
+					opinion = -15
+				}
+			}
+		}
+	}
+}
+# =========================================================
+# The Liege’s Shadow
+# =========================================================
+
+agot_riverlands_bla.0206 = {
+	type = character_event
+	title = agot_riverlands_bla.0206.t
+	desc = agot_riverlands_bla.0206.desc
+	theme = rival_relation
+
+	override_background = {
+		reference = throne_room
+	}
+
+	left_portrait = {
+		character = root
+		animation = personality_rational
+	}
+
+	right_portrait = {
+		character = root.liege
+		animation = personality_rational
+	}
+
+
+	trigger = {
+		is_ruler = yes
+		is_landed = yes
+		is_available_adult = yes
+
+		exists = liege
+
+		liege = {
+			OR = {
+				has_title = title:e_the_riverlands
+				has_title = title:k_armistia
+			}
+		}
+
+		blackwood_bracken_rival_exists_trigger = yes
+
+		OR = {
+			dynasty = dynasty:dynn_Blackwood
+			dynasty = dynasty:dynn_Bracken
+		}
+
+		var:blackwood_bracken_feud_intensity_bla >= 4
+
+		NOT = { has_character_flag = blackwood_bracken_any_feud_event_recently_bla }
+		NOT = { has_character_flag = blackwood_bracken_liege_intervention_recently_bla }
+	}
+
+	immediate = {
+		add_character_flag = {
+			flag = blackwood_bracken_any_feud_event_recently_bla
+			years = 2
+		}
+
+		add_character_flag = {
+			flag = blackwood_bracken_liege_intervention_recently_bla
+			years = 8
+		}
+
+		random_living_character = {
+			limit = {
+				is_house_head = yes
+				is_landed = yes
+				NOT = { this = root }
+
+				OR = {
+					AND = {
+						root = { dynasty = dynasty:dynn_Blackwood }
+						dynasty = dynasty:dynn_Bracken
+					}
+
+					AND = {
+						root = { dynasty = dynasty:dynn_Bracken }
+						dynasty = dynasty:dynn_Blackwood
+					}
+				}
+			}
+
+			save_scope_as = feud_rival_bla
+		}
+
+	}
+
+	option = {
+		name = agot_riverlands_bla.0206.a
+
+		add_prestige = -75
+		add_piety = 75
+
+		change_variable = {
+			name = blackwood_bracken_feud_intensity_bla
+			add = -2
+		}
+
+		add_character_modifier = {
+			modifier = blackwood_bracken_forced_truce_bla
+			years = 5
+		}
+
+		liege = {
+			add_opinion = {
+				target = root
+				modifier = grateful_opinion
+				opinion = 20
+			}
+		}
+
+		scope:feud_rival_bla = {
+			add_opinion = {
+				target = root
+				modifier = suspicious_opinion
+				opinion = 10
+			}
+		}
+
+		custom_tooltip = agot_riverlands_bla.0206.a.tt
+	}
+
+	option = {
+		name = agot_riverlands_bla.0206.b
+
+		trigger = {
+			OR = {
+				diplomacy >= 12
+				has_trait = diplomat
+				has_trait = gregarious
+			}
+		}
+
+		add_diplomacy_lifestyle_xp = 350
+		add_prestige = 100
+
+		random_list = {
+			70 = {
+				liege = {
+					add_opinion = {
+						target = root
+						modifier = impressed_opinion
+						opinion = 30
+					}
+				}
+
+				scope:feud_rival_bla = {
+					add_opinion = {
+						target = root
+						modifier = jealous_opinion
+						opinion = -30
+					}
+				}
+
+				add_hook = {
+					target = liege
+					type = loyalty_hook
+				}
+
+				custom_tooltip = agot_riverlands_bla.0206.b.success_tt
+			}
+
+			30 = {
+
+				add_prestige = -100
+
+				liege = {
+					add_opinion = {
+						target = root
+						modifier = suspicious_opinion
+						opinion = -15
+					}
+				}
+
+				custom_tooltip = agot_riverlands_bla.0206.b.failure_tt
+			}
+		}
+	}
+
+	option = {
+		name = agot_riverlands_bla.0206.c
+
+		trigger = {
+			OR = {
+				intrigue >= 12
+				has_trait = deceitful
+				has_trait = schemer
+			}
+		}
+
+		add_intrigue_lifestyle_xp = 350
+
+		add_character_flag = {
+			flag = blackwood_bracken_secret_retaliation_bla
+			years = 10
+		}
+
+		add_character_modifier = {
+			modifier = blackwood_bracken_secret_feud_bla
+			years = 6
+		}
+
+		change_variable = {
+			name = blackwood_bracken_feud_intensity_bla
+			add = 1
+		}
+
+		random_list = {
+			70 = {
+				add_prestige = 100
+				custom_tooltip = agot_riverlands_bla.0206.c.success_tt
+			}
+
+			30 = {
+				liege = {
+					add_opinion = {
+						target = root
+						modifier = suspicious_opinion
+						opinion = -25
+					}
+				}
+
+				custom_tooltip = agot_riverlands_bla.0206.c.failure_tt
+			}
+		}
+	}
+
+	option = {
+		name = agot_riverlands_bla.0206.d
+
+		add_dread = 15
+		add_prestige = 150
+
+		change_variable = {
+			name = blackwood_bracken_feud_intensity_bla
+			add = 2
+		}
+
+		add_character_modifier = {
+			modifier = blackwood_bracken_rekindled_hatred_bla
+			years = 6
+		}
+
+		liege = {
+			add_opinion = {
+				target = root
+				modifier = disappointed_opinion
+				opinion = -35
+			}
+		}
+
+		scope:feud_rival_bla = {
+			add_opinion = {
+				target = root
+				modifier = hate_opinion
+				opinion = -50
+			}
+		}
+
+		custom_tooltip = agot_riverlands_bla.0206.d.tt
+	}
+}
+
+# =========================================================
+# The Embers Flare
+# =========================================================
+
+agot_riverlands_bla.0207 = {
+	type = character_event
+	title = agot_riverlands_bla.0207.t
+	desc = agot_riverlands_bla.0207.desc
+	theme = rival_relation
+
+	override_background = {
+		reference = burning_building
+	}
+
+	left_portrait = {
+		character = root
+		animation = anger
+	}
+
+	trigger = {
+		is_ruler = yes
+		is_landed = yes
+		is_available_adult = yes
+
+		blackwood_bracken_rival_exists_trigger = yes
+
+		OR = {
+			dynasty = dynasty:dynn_Blackwood
+			dynasty = dynasty:dynn_Bracken
+		}
+
+		var:blackwood_bracken_feud_intensity_bla >= 6
+
+		OR = {
+			has_character_modifier = blackwood_bracken_rekindled_hatred_bla
+			has_character_modifier = blackwood_bracken_secret_feud_bla
+			has_character_modifier = blackwood_bracken_dueling_reputation_bla
+		}
+
+		NOT = { has_character_flag = blackwood_bracken_any_feud_event_recently_bla }
+		NOT = { has_character_flag = blackwood_bracken_embers_recently_bla }
+	}
+
+	immediate = {
+		add_character_flag = {
+			flag = blackwood_bracken_any_feud_event_recently_bla
+			years = 2
+		}
+
+		add_character_flag = {
+			flag = blackwood_bracken_embers_recently_bla
+			years = 8
+		}
+
+		random_living_character = {
+			limit = {
+				is_house_head = yes
+				is_landed = yes
+				NOT = { this = root }
+
+				OR = {
+					AND = {
+						root = { dynasty = dynasty:dynn_Blackwood }
+						dynasty = dynasty:dynn_Bracken
+					}
+
+					AND = {
+						root = { dynasty = dynasty:dynn_Bracken }
+						dynasty = dynasty:dynn_Blackwood
+					}
+				}
+			}
+
+			save_scope_as = feud_rival_bla
+		}
+
+	}
+
+	option = {
+		name = agot_riverlands_bla.0207.a
+
+		add_dread = 20
+		add_prestige = 150
+
+		change_variable = {
+			name = blackwood_bracken_feud_intensity_bla
+			add = 3
+		}
+
+		add_character_modifier = {
+			modifier = blackwood_bracken_open_raids_bla
+			years = 6
+		}
+
+		capital_county = {
+			change_county_control = -15
+
+			add_county_modifier = {
+				modifier = blackwood_bracken_burning_borderlands_bla
+				years = 6
+			}
+		}
+
+		scope:feud_rival_bla = {
+			add_opinion = {
+				target = root
+				modifier = hate_opinion
+				opinion = -60
+			}
+		}
+
+		random_list = {
+			25 = {
+				add_trait = wounded_1
+				add_prestige = -50
+				custom_tooltip = agot_riverlands_bla.0207.a.wounded_tt
+			}
+
+			75 = {
+
+				add_gold = 100
+				add_prestige = 75
+
+				custom_tooltip = agot_riverlands_bla.0207.a.tt
+			}
+		}
+	}
+
+	option = {
+		name = agot_riverlands_bla.0207.b
+
+		trigger = {
+			OR = {
+				diplomacy >= 12
+				has_trait = calm
+				has_trait = compassionate
+			}
+		}
+
+		add_piety = 150
+		add_stress = 25
+
+		change_variable = {
+			name = blackwood_bracken_feud_intensity_bla
+			add = -4
+		}
+
+		add_character_modifier = {
+			modifier = blackwood_bracken_wearied_peace_bla
+			years = 8
+		}
+
+		scope:feud_rival_bla = {
+			add_opinion = {
+				target = root
+				modifier = suspicious_opinion
+				opinion = 20
+			}
+		}
+
+		if = {
+			limit = {
+				exists = liege
+			}
+
+			liege = {
+				add_opinion = {
+					target = root
+					modifier = grateful_opinion
+					opinion = 25
+				}
+			}
+		}
+
+		custom_tooltip = agot_riverlands_bla.0207.b.tt
+	}
+
+
+	option = {
+		name = agot_riverlands_bla.0207.c
+
+		trigger = {
+			OR = {
+				intrigue >= 12
+				has_trait = deceitful
+				has_trait = schemer
+			}
+		}
+
+		add_intrigue_lifestyle_xp = 400
+
+		change_variable = {
+			name = blackwood_bracken_feud_intensity_bla
+			add = 1
+		}
+
+		add_character_flag = {
+			flag = blackwood_bracken_secret_retaliation_bla
+			years = 12
+		}
+
+		add_character_modifier = {
+			modifier = blackwood_bracken_secret_feud_bla
+			years = 8
+		}
+
+		random_list = {
+			70 = {
+				add_hook = {
+					target = scope:feud_rival_bla
+					type = fabrication_hook
+				}
+
+				scope:feud_rival_bla = {
+					add_opinion = {
+						target = root
+						modifier = suspicious_opinion
+						opinion = -40
+					}
+				}
+
+				custom_tooltip = agot_riverlands_bla.0207.c.success_tt
+			}
+
+			30 = {
+
+				add_prestige = -50
+			if = {
+				limit = {
+					exists = liege
+				}
+
+				liege = {
+					add_opinion = {
+						target = root
+						modifier = suspicious_opinion
+						opinion = -20
+					}
+				}
+			}
+
+				custom_tooltip = agot_riverlands_bla.0207.c.failure_tt
+			}
+		}
+	}
+}
+
+# =========================================================
+# A Weary Sheathing
+# =========================================================
+
+agot_riverlands_bla.0208 = {
+	type = character_event
+	title = agot_riverlands_bla.0208.t
+	desc = agot_riverlands_bla.0208.desc
+	theme = rival_relation
+
+	override_background = {
+		reference = council_chamber
+	}
+
+	left_portrait = {
+		character = root
+		animation = personality_rational
+	}
+
+	right_portrait = {
+		character = scope:feud_rival_bla
+		animation = interested
+	}
+
+	trigger = {
+		is_ruler = yes
+		is_landed = yes
+		is_available_adult = yes
+
+		blackwood_bracken_rival_exists_trigger = yes
+
+		OR = {
+			dynasty = dynasty:dynn_Blackwood
+			dynasty = dynasty:dynn_Bracken
+		}
+
+		var:blackwood_bracken_feud_intensity_bla >= 4
+
+		OR = {
+			has_character_modifier = blackwood_bracken_burning_borderlands_bla
+			has_character_modifier = blackwood_bracken_open_raids_bla
+			has_character_modifier = blackwood_bracken_rekindled_hatred_bla
+		}
+
+		NOT = { has_character_flag = blackwood_bracken_any_feud_event_recently_bla }
+		NOT = { has_character_flag = blackwood_bracken_weary_peace_recently_bla }
+	}
+
+	immediate = {
+		add_character_flag = {
+			flag = blackwood_bracken_any_feud_event_recently_bla
+			years = 2
+		}
+
+		add_character_flag = {
+			flag = blackwood_bracken_weary_peace_recently_bla
+			years = 8
+		}
+
+		random_living_character = {
+			limit = {
+				is_house_head = yes
+				is_landed = yes
+				NOT = { this = root }
+
+				OR = {
+					AND = {
+						root = { dynasty = dynasty:dynn_Blackwood }
+						dynasty = dynasty:dynn_Bracken
+					}
+
+					AND = {
+						root = { dynasty = dynasty:dynn_Bracken }
+						dynasty = dynasty:dynn_Blackwood
+					}
+				}
+			}
+
+			save_scope_as = feud_rival_bla
+		}
+
+	}
+
+	option = {
+		name = agot_riverlands_bla.0208.a
+
+		add_piety = 100
+		add_stress = -20
+
+		change_variable = {
+			name = blackwood_bracken_feud_intensity_bla
+			add = -3
+		}
+
+		add_character_modifier = {
+			modifier = blackwood_bracken_wearied_peace_bla
+			years = 8
+		}
+
+		scope:feud_rival_bla = {
+			add_opinion = {
+				target = root
+				modifier = suspicious_opinion
+				opinion = 20
+			}
+		}
+
+		if = {
+			limit = {
+				exists = liege
+			}
+
+			liege = {
+				add_opinion = {
+					target = root
+					modifier = grateful_opinion
+					opinion = 20
+				}
+			}
+		}
+
+		custom_tooltip = agot_riverlands_bla.0208.a.tt
+	}
+
+	option = {
+		name = agot_riverlands_bla.0208.b
+
+		trigger = {
+			OR = {
+				intrigue >= 10
+				has_trait = deceitful
+				has_trait = schemer
+			}
+		}
+
+		add_intrigue_lifestyle_xp = 300
+
+		change_variable = {
+			name = blackwood_bracken_feud_intensity_bla
+			add = -1
+		}
+
+		add_character_flag = {
+			flag = blackwood_bracken_secret_retaliation_bla
+			years = 10
+		}
+
+		add_character_modifier = {
+			modifier = blackwood_bracken_secret_feud_bla
+			years = 5
+		}
+
+		custom_tooltip = agot_riverlands_bla.0208.b.tt
+	}
+
+	option = {
+		name = agot_riverlands_bla.0208.c
+
+		trigger = {
+			OR = {
+				has_trait = wrathful
+				has_trait = vengeful
+				martial >= 12
+			}
+		}
+
+		add_dread = 10
+		add_prestige = 100
+
+		change_variable = {
+			name = blackwood_bracken_feud_intensity_bla
+			add = 1
+		}
+
+		add_character_modifier = {
+			modifier = blackwood_bracken_rekindled_hatred_bla
+			years = 6
+		}
+
+		scope:feud_rival_bla = {
+			add_opinion = {
+				target = root
+				modifier = hate_opinion
+				opinion = -40
+			}
+		}
+
+		custom_tooltip = agot_riverlands_bla.0208.c.tt
+	}
+}
+
+# =========================================================
+# Songs of Red and Black
+# =========================================================
+
+agot_riverlands_bla.0209 = {
+	type = character_event
+	title = agot_riverlands_bla.0209.t
+	desc = agot_riverlands_bla.0209.desc
+	theme = rival_relation
+
+	override_background = {
+		reference = feast
+	}
+
+	left_portrait = {
+		character = root
+		animation = thinking
+	}
+
+	trigger = {
+		is_ruler = yes
+		is_landed = yes
+		is_available_adult = yes
+
+		blackwood_bracken_rival_exists_trigger = yes
+
+		OR = {
+			dynasty = dynasty:dynn_Blackwood
+			dynasty = dynasty:dynn_Bracken
+		}
+
+		NOT = { has_character_flag = blackwood_bracken_any_feud_event_recently_bla }
+		NOT = { has_character_flag = blackwood_bracken_songs_recently_bla }
+	}
+
+	immediate = {
+		add_character_flag = {
+			flag = blackwood_bracken_any_feud_event_recently_bla
+			years = 2
+		}
+
+		add_character_flag = {
+			flag = blackwood_bracken_songs_recently_bla
+			years = 10
+		}
+
+		random_living_character = {
+			limit = {
+				is_house_head = yes
+				is_landed = yes
+				NOT = { this = root }
+
+				OR = {
+					AND = {
+						root = { dynasty = dynasty:dynn_Blackwood }
+						dynasty = dynasty:dynn_Bracken
+					}
+
+					AND = {
+						root = { dynasty = dynasty:dynn_Bracken }
+						dynasty = dynasty:dynn_Blackwood
+					}
+				}
+			}
+
+			save_scope_as = feud_rival_bla
+		}
+
+	}
+
+	option = {
+		name = agot_riverlands_bla.0209.a
+
+		add_prestige = 100
+
+		change_variable = {
+			name = blackwood_bracken_feud_intensity_bla
+			add = 1
+		}
+
+		add_character_modifier = {
+			modifier = blackwood_bracken_legacy_of_hatred_bla
+			years = 10
+		}
+
+		scope:feud_rival_bla = {
+			add_opinion = {
+				target = root
+				modifier = insulted_opinion
+				opinion = -20
+			}
+		}
+
+		custom_tooltip = agot_riverlands_bla.0209.a.tt
+	}
+
+	option = {
+		name = agot_riverlands_bla.0209.b
+
+		add_martial_lifestyle_xp = 250
+		add_piety = 75
+
+		change_variable = {
+			name = blackwood_bracken_feud_intensity_bla
+			add = -2
+		}
+
+		add_character_modifier = {
+			modifier = blackwood_bracken_fragile_truce_bla
+			years = 6
+		}
+
+		custom_tooltip = agot_riverlands_bla.0209.b.tt
+	}
+
+	option = {
+		name = agot_riverlands_bla.0209.c
+
+		trigger = {
+			OR = {
+				intrigue >= 10
+				has_trait = deceitful
+				has_trait = lifestyle_poet
+			}
+		}
+
+		add_intrigue_lifestyle_xp = 250
+
+		random_list = {
+			70 = {
+				add_hook = {
+					target = scope:feud_rival_bla
+					type = fabrication_hook
+				}
+
+				add_character_modifier = {
+					modifier = blackwood_bracken_secret_feud_bla
+					years = 5
+				}
+
+				custom_tooltip = agot_riverlands_bla.0209.c.success_tt
+			}
+
+			30 = {
+				add_prestige = -50
+
+				scope:feud_rival_bla = {
+					add_opinion = {
+						target = root
+						modifier = suspicious_opinion
+						opinion = -25
+					}
+				}
+
+				custom_tooltip = agot_riverlands_bla.0209.c.failure_tt
+			}
+		}
+	}
+}

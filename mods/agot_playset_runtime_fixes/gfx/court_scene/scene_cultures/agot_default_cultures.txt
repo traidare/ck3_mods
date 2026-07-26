@@ -1,0 +1,241 @@
+﻿pyke = {
+	trigger = {
+		# Scene selection is briefly queried without a valid court owner during cleanup.
+		trigger_if = {
+			limit = { exists = root }
+			capital_county = title:c_pyke
+		}
+		trigger_else = { always = no }
+	}
+}
+
+ironthrone = {
+	trigger = {
+		# Scene selection is briefly queried without a valid court owner during cleanup.
+		trigger_if = {
+			limit = { exists = root }
+			capital_county = title:c_kings_landing
+		}
+		trigger_else = { always = no }
+	}
+}
+
+casterlyrock = {
+	trigger = {
+		# Scene selection is briefly queried without a valid court owner during cleanup.
+		trigger_if = {
+			limit = { exists = root }
+			capital_county = title:c_casterly_rock
+		}
+		trigger_else = { always = no }
+	}
+}
+
+highgarden = {
+	trigger = {
+		# Scene selection is briefly queried without a valid court owner during cleanup.
+		trigger_if = {
+			limit = { exists = root }
+			capital_county = title:c_highgarden
+			NOT = {
+				any_equipped_character_artifact = { has_variable = restored_oakenseat }
+			}
+		}
+		trigger_else = { always = no }
+	}
+}
+
+highgarden_new = {
+	trigger = {
+		# Scene selection is briefly queried without a valid court owner during cleanup.
+		trigger_if = {
+			limit = { exists = root }
+			capital_county = title:c_highgarden
+			any_equipped_character_artifact = { has_variable = restored_oakenseat }
+		}
+		trigger_else = { always = no }
+	}
+}
+
+reach_1 = {
+	trigger = {
+		# Scene selection is briefly queried without a valid court owner during cleanup.
+		trigger_if = {
+			limit = { exists = root }
+			NOT = {
+				capital_county = title:c_highgarden
+			}
+			agot_is_graphical_reach_region_trigger = yes
+		}
+		trigger_else = { always = no }
+	}
+}
+
+dragonstone = {
+	trigger = {
+		# Scene selection is briefly queried without a valid court owner during cleanup.
+		trigger_if = {
+			limit = { exists = root }
+			# game_start_date > 7996.1.2
+			capital_county = title:c_dragonstone
+			any_character_artifact = {
+				has_variable = painted_table
+				is_equipped = yes
+			}
+		}
+		trigger_else = { always = no }
+	}
+}
+
+dragonstone_no_table = {
+	trigger = {
+		# Scene selection is briefly queried without a valid court owner during cleanup.
+		trigger_if = {
+			limit = { exists = root }
+			# game_start_date < 7996.1.1
+			capital_county = title:c_dragonstone
+			NOT = {
+				any_character_artifact = {
+					has_variable = painted_table
+					is_equipped = yes
+				}
+			}
+		}
+		trigger_else = { always = no }
+	}
+}
+
+winterfell_1 = {
+	trigger = {
+		# Scene selection is briefly queried without a valid court owner during cleanup.
+		trigger_if = {
+			limit = { exists = root }
+			dynasty = dynasty:dynn_Stark
+			capital_county = title:c_winterfell
+		}
+		trigger_else = { always = no }
+	}
+}
+
+winterfell_2 = {
+	trigger = {
+		# Scene selection is briefly queried without a valid court owner during cleanup.
+		trigger_if = {
+			limit = { exists = root }
+			NOR = {
+				dynasty = dynasty:dynn_Stark
+				dynasty = dynasty:dynn_Bolton
+			}
+			capital_county = title:c_winterfell
+		}
+		trigger_else = { always = no }
+	}
+}
+
+winterfell_3 = {
+	trigger = {
+		# Scene selection is briefly queried without a valid court owner during cleanup.
+		trigger_if = {
+			limit = { exists = root }
+			dynasty = dynasty:dynn_Bolton
+			capital_county = title:c_winterfell
+		}
+		trigger_else = { always = no }
+	}
+}
+
+the_eyrie = {
+	trigger = {
+		# Scene selection is briefly queried without a valid court owner during cleanup.
+		trigger_if = {
+			limit = { exists = root }
+			capital_county = title:c_the_eyrie
+		}
+		trigger_else = { always = no }
+	}
+}
+
+riverrun = {
+	trigger = {
+		# Scene selection is briefly queried without a valid court owner during cleanup.
+		trigger_if = {
+			limit = { exists = root }
+			capital_county = title:c_riverrun
+		}
+		trigger_else = { always = no }
+	}
+}
+
+storms_end = {
+	trigger = {
+		# Scene selection is briefly queried without a valid court owner during cleanup.
+		trigger_if = {
+			limit = { exists = root }
+			capital_county = title:c_storms_end
+		}
+		trigger_else = { always = no }
+	}
+}
+
+pentos_court = {
+	trigger = {
+		# Scene selection is briefly queried without a valid court owner during cleanup.
+		trigger_if = {
+			limit = { exists = root }
+			has_ep3_dlc_trigger = yes
+			OR = {
+				capital_county = title:c_pentos
+				capital_county = title:c_princes_quarter
+			}
+		}
+		trigger_else = { always = no }
+	}
+}
+
+lys_court = {
+	trigger = {
+		# Scene selection is briefly queried without a valid court owner during cleanup.
+		trigger_if = {
+			limit = { exists = root }
+			has_ep3_dlc_trigger = yes
+			capital_county = title:c_lys
+		}
+		trigger_else = { always = no }
+	}
+}
+
+myr_court = {
+	trigger = {
+		# Scene selection is briefly queried without a valid court owner during cleanup.
+		trigger_if = {
+			limit = { exists = root }
+			has_ep3_dlc_trigger = yes
+			capital_county = title:c_myr
+		}
+		trigger_else = { always = no }
+	}
+}
+
+tyrosh_court = {
+	trigger = {
+		# Scene selection is briefly queried without a valid court owner during cleanup.
+		trigger_if = {
+			limit = { exists = root }
+			has_ep3_dlc_trigger = yes
+			capital_county = title:c_tyrosh
+		}
+		trigger_else = { always = no }
+	}
+}
+
+braavos_court = {
+	trigger = {
+		# Scene selection is briefly queried without a valid court owner during cleanup.
+		trigger_if = {
+			limit = { exists = root }
+			has_ep3_dlc_trigger = yes
+			capital_county = title:c_braavos
+		}
+		trigger_else = { always = no }
+	}
+}

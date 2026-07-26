@@ -1,0 +1,1379 @@
+﻿############################################################################################################################
+# 
+# Basic 2 - Put into a separate file because the original VIET_events_basic was getting too large
+# In fact, it's larger than all except one vanilla event file as of me writing this in January 2026!
+# 
+# Generic Flavor Events - VIETmisc.0400-VIETmisc.0999 reserved
+# Fired from the on_actions for every one, two, five, and ten years depending on rarity
+# 
+# Note to self:
+# 
+# is_available_at_peace_adult = yes <-- use as trigger if needed
+# on_actions also has triggers
+# has_game_rule = VIET_all_events / VIET_serious_events / VIET_balanced_events
+# has_game_rule = VIET_normal_universe_events / VIET_historical_universe_events / VIET_conversion_universe_events
+# 
+# base = miniscule_stress_impact_loss
+# content = minor_stress_impact_loss
+# calm = medium_stress_impact_loss
+# 
+# Animations: idle, chancellor, steward, marshal, spymaster, chaplain, anger, rage, disapproval, disbelief, disgust, fear, sadness, shame, shock, worry, boredom, grief, paranoia, dismissal, flirtation, flirtation_left, love, schadenfreude, stress, happiness, ecstasy, admiration, lunatic (?), scheme, beg, pain, newborn, sick, severelywounded, prisonhouse, prisondungeon, war_attacker, war_defender, war_over_tie, war_over_win, war_over_loss, pregnant, personality_honorable, personality_dishonorable, personality_bold, personality_coward, personality_greedy, personality_content, personality_vengeful, personality_forgiving, personality_rational, personality_irrational, personality_compassionate, personality_callous, personality_zealous, personality_cynical
+# 
+# 
+# ##### GRAND LIST OF EVENTS #####
+# 
+# 0400-0406		Strawberries
+# 0407-0409 	Horses
+# 0410-0414 	White
+# 0415-0416 	Earth Day
+# 0417-0420 	Byzantine and Turkish
+# 
+############################################################################################################################
+
+namespace = VIETmisc
+
+##################################################################
+# 0400-0406 Strawberries
+##################################################################
+
+# Local woman accuses another of throwing strawberries at her while she was pregnant
+VIETmisc.0400 = {
+	type = character_event
+	title = VIETmisc.0400.t
+	desc = VIETmisc.0400.desc
+	theme = VIET_theme_small_town
+
+
+	right_portrait = {
+		character = root
+		animation = boredom
+	}
+
+	trigger = {	
+		has_game_rule = VIET_normal_universe_events
+		capital_province = {
+			VIET_is_in_wild_strawberry_region_trigger = yes
+		}	
+		# This appears to be a medieval (Western?) European superstition
+		culture_has_european_heritage_pillar_trigger = yes
+	}
+	
+	weight_multiplier = {
+		base = 1
+		modifier = {
+			add = 0.2
+			has_trait = compassionate
+		}
+		modifier = {
+			add = -0.2
+			has_trait = callous
+		}
+		modifier = {
+			add = 0.2
+			has_trait = just
+		}
+		modifier = {
+			add = -0.2
+			has_trait = arbitrary
+		}
+		modifier = {
+			add = 0.2
+			has_trait = patient
+		}
+		modifier = {
+			add = -0.2
+			has_trait = impatient
+		}
+	}
+	
+	option = { # Support the mother
+		name = VIETmisc.0400.a
+		add_character_modifier = {
+			modifier = VIET_sympathetic_to_mothers
+			years = 5
+		}
+	}	
+	
+	option = { # Support the other woman
+		name = VIETmisc.0400.b
+		add_character_modifier = {
+			modifier = VIET_suspicious_of_hystical_women
+			years = 5
+		}
+	}	
+	
+	option = { # GTFO
+		name = VIETmisc.0400.c
+		VIET_huge_prestige_gain_effect = yes
+		stress_impact = {
+			just = miniscule_stress_impact_gain
+			patient = miniscule_stress_impact_gain
+			calm = miniscule_stress_impact_gain
+		}
+	}	
+
+
+	after = {		
+		if = {
+			limit = {
+				has_game_rule = VIET_historical_context_on
+			}
+			custom_tooltip = VIETmisc.0400.info
+		}
+	}
+
+}
+
+
+
+# Inspecting a church under construction with chaplain, and seeing the strawberries being drawn everywhere
+VIETmisc.0401 = {
+	type = character_event
+	hidden = yes
+	trigger = { always = no }
+}
+
+
+
+# Physician suggests a salve made out of strawberries and pepper for irritated eyes
+VIETmisc.0402 = {
+	type = character_event
+	title = VIETmisc.0402.t
+	desc = VIETmisc.0402.desc
+	theme = physical_health
+
+
+	left_portrait = {
+		character = root
+		animation = stress
+	}
+	
+	right_portrait = {
+		character = scope:physician
+		animation = physician
+	}
+	
+	trigger = {
+		court_physician_available_trigger = yes
+		capital_province = {
+			VIET_is_in_wild_strawberry_region_trigger = yes
+		}	
+	}
+	
+	weight_multiplier = {
+		base = 1
+		modifier = {
+			add = 0.2
+			has_trait = zealous
+		}
+		modifier = {
+			add = -0.2
+			has_trait = cynical
+		}
+		modifier = {
+			add = 0.2
+			has_trait = gregarious
+		}
+		modifier = {
+			add = -0.2
+			has_trait = shy
+		}
+		modifier = {
+			add = 0.2
+			has_trait = diligent
+		}
+		modifier = {
+			add = -0.2
+			has_trait = lazy
+		}
+	}
+	
+	immediate = {
+		save_court_physician_as_effect = { SCOPE_NAME = physician }
+	}
+
+	option = { # Ok
+		name = VIETmisc.0402.a
+		trigger = {
+			OR = {
+				gold >= 25
+				is_ai = no
+			}
+		}
+		remove_short_term_gold = 25
+		stress_impact = {
+			greedy = miniscule_stress_impact_gain
+		}
+	}	
+
+	option = { # Ok
+		name = VIETmisc.0402.b	
+		add_character_modifier = {
+			modifier = VIET_irritated_eyes
+			years = 10
+		}			
+		stress_impact = {
+			diligent = miniscule_stress_impact_gain
+		}
+	}	
+
+
+	after = {		
+		if = {
+			limit = {
+				has_game_rule = VIET_historical_context_on
+			}
+			custom_tooltip = VIETmisc.0402.info
+		}
+	}
+
+}
+
+
+# Physician says you need to put more sugar on strawberries for your health
+VIETmisc.0403 = {
+	type = character_event
+	title = VIETmisc.0403.t
+	desc = VIETmisc.0403.desc
+	theme = feast_activity
+
+
+	left_portrait = {
+		character = root
+		animation = drink_goblet
+	}
+	
+	right_portrait = {
+		character = scope:physician
+		animation = disapproval
+	}
+	
+	trigger = {
+		has_game_rule = VIET_normal_universe_events
+		court_physician_available_trigger = yes
+		capital_province = {
+			VIET_is_in_wild_strawberry_region_trigger = yes
+		}
+	}
+	
+	weight_multiplier = {
+		base = 1
+		modifier = {
+			add = 0.2
+			has_trait = zealous
+		}
+		modifier = {
+			add = -0.2
+			has_trait = cynical
+		}
+		modifier = {
+			add = 0.2
+			has_trait = gregarious
+		}
+		modifier = {
+			add = -0.2
+			has_trait = shy
+		}
+		modifier = {
+			add = 0.2
+			has_trait = diligent
+		}
+		modifier = {
+			add = -0.2
+			has_trait = lazy
+		}
+	}
+	
+	immediate = {
+		save_court_physician_as_effect = { SCOPE_NAME = physician }
+	}
+
+	option = { # Ok
+		name = VIETmisc.0403.a
+		VIET_large_prestige_loss_effect = yes
+		stress_impact = {
+			temperate = miniscule_stress_impact_gain
+		}
+	}	
+
+	option = { # Ok
+		name = VIETmisc.0403.b
+		scope:physician = {
+			add_opinion = {
+				modifier = disappointed_opinion
+				opinion = -10
+				target = root
+			}
+		}
+		stress_impact = {
+			trusting = miniscule_stress_impact_gain
+			gluttonous = minor_stress_impact_gain
+		}
+	}	
+
+	option = { # Ok
+		name = VIETmisc.0403.c
+		VIET_small_prestige_loss_effect = yes
+		scope:physician = {
+			add_opinion = {
+				target = root
+				modifier = amused_opinion
+				opinion = 5
+			}
+		}
+	}	
+
+	option = { # Ok
+		name = VIETmisc.0403.d
+		trigger = {
+			learning >= decent_skill_rating			
+		}
+		skill = learning
+		show_as_unavailable = {
+			learning < decent_skill_rating
+		}
+		VIET_medium_prestige_gain_effect = yes
+		add_character_modifier = {
+			modifier = VIET_impressed_others_with_knowledge
+			days = 365
+		}	
+	}	
+
+
+	after = {		
+		if = {
+			limit = {
+				has_game_rule = VIET_historical_context_on
+			}
+			custom_tooltip = VIETmisc.0403.info
+		}
+	}
+
+}
+
+
+
+
+# Christian chaplain gives lecture about the religious symbolism of strawberries
+VIETmisc.0404 = {
+	type = character_event
+	hidden = yes
+	trigger = { always = no }
+}
+
+
+
+# Physician recommends a tonic made of the Strawberry Tree
+VIETmisc.0405 = {
+	type = character_event
+	hidden = yes
+	trigger = { always = no }
+}
+
+
+
+
+# You realized strawberry trees are found in the Mediterranean... but also Ireland, for some reason
+VIETmisc.0406 = {
+	type = character_event
+	hidden = yes
+	trigger = { always = no }
+}
+
+
+
+##################################################################
+# 0407-0409 Horses
+##################################################################
+
+# Observe a stablehand testing colts to see whether they'd make good warhorses
+VIETmisc.0407 = {
+	type = character_event
+	title = VIETmisc.0407.t
+	desc = VIETmisc.0407.desc
+	theme = VIET_theme_courtyard_generic
+	override_icon = { reference = "gfx/interface/icons/event_types/type_chivalry.dds" }
+
+
+	right_portrait = {
+		character = root
+		animation = thinking
+	}
+
+	trigger = {	
+		is_healthy = yes
+		# Should only be a ruler where it makes sense for them to have lots of horses around
+		is_landed = yes 
+	}
+	
+	weight_multiplier = {
+		base = 1
+		modifier = {
+			add = 0.2
+			has_trait = diligent
+		}
+		modifier = {
+			add = -0.2
+			has_trait = lazy
+		}
+		modifier = {
+			add = 0.2
+			has_trait = ambitious
+		}
+		modifier = {
+			add = -0.2
+			has_trait = content
+		}
+		modifier = {
+			add = 0.2
+			has_trait = brave
+		}
+		modifier = {
+			add = -0.2
+			has_trait = craven
+		}
+	}
+	
+	option = { # As you were
+		name = VIETmisc.0407.a
+		VIET_huge_prestige_gain_effect = yes
+	}	
+	
+	option = { # Learn about methods for finding good warhorses
+		name = VIETmisc.0407.b
+		VIET_medium_prestige_loss_effect = yes
+		add_character_modifier = {
+			modifier = VIET_learned_about_warhorse_rearing
+			years = 7
+		}
+		stress_impact = {
+			arrogant = miniscule_stress_impact_gain
+			craven = minor_stress_impact_gain
+			lazy = miniscule_stress_impact_gain
+			paranoid = miniscule_stress_impact_gain
+			shy = miniscule_stress_impact_gain
+		}
+	}	
+	
+	option = { # Help the stablehand
+		name = VIETmisc.0407.c
+		trigger = {
+			prowess >= decent_skill_rating			
+		}
+		skill = prowess
+		show_as_unavailable = {
+			prowess < decent_skill_rating
+		}
+		VIET_huge_prestige_loss_effect = yes
+		add_character_modifier = {
+			modifier = VIET_experience_handling_young_horses
+			years = 7
+		}
+		stress_impact = {
+			arrogant = minor_stress_impact_gain
+			craven = minor_stress_impact_gain
+			lazy = minor_stress_impact_gain
+			paranoid = miniscule_stress_impact_gain
+			shy = miniscule_stress_impact_gain
+		}
+	}	
+
+
+	after = {		
+		if = {
+			limit = {
+				has_game_rule = VIET_historical_context_on
+			}
+			custom_tooltip = VIETmisc.0407.info
+		}
+	}
+
+}
+
+
+
+# Bloodletting horses - hire a new doctor?
+VIETmisc.0408 = {
+	type = character_event
+	title = VIETmisc.0408.t
+	desc = VIETmisc.0408.desc
+	theme = VIET_theme_courtyard_generic
+	override_icon = { reference = "gfx/interface/icons/event_types/type_chivalry.dds" }
+
+
+	right_portrait = root
+
+	trigger = {	
+		# Should only be a ruler where it makes sense for them to have lots of horses around
+		is_landed = yes 
+	}
+	
+	weight_multiplier = {
+		base = 1
+		modifier = {
+			add = 0.2
+			has_trait = diligent
+		}
+		modifier = {
+			add = -0.2
+			has_trait = lazy
+		}
+		modifier = {
+			add = 0.2
+			has_trait = patient
+		}
+		modifier = {
+			add = -0.2
+			has_trait = impatient
+		}
+		modifier = {
+			add = 0.2
+			has_trait = just
+		}
+		modifier = {
+			add = -0.2
+			has_trait = arbitrary
+		}
+	}
+	
+	option = { # Just let it be
+		name = VIETmisc.0408.a
+		add_character_modifier = {
+			modifier = VIET_did_not_do_horse_bloodletting
+			years = 5
+		}
+		stress_impact = {
+			diligent = minor_stress_impact_gain
+			brave = miniscule_stress_impact_gain
+			ambitious = minor_stress_impact_gain
+			paranoid = miniscule_stress_impact_gain
+		}
+	}	
+	
+	option = { # Hire doctors
+		name = VIETmisc.0408.b
+		trigger = {
+			OR = {
+				gold >= 50
+				is_ai = no
+			}
+		}
+		remove_short_term_gold = 50
+		add_character_modifier = {
+			modifier = VIET_did_horse_bloodletting
+			years = 5
+		}
+		stress_impact = {
+			content = miniscule_stress_impact_gain
+			greedy = minor_stress_impact_gain
+			lazy = miniscule_stress_impact_gain
+		}
+	}	
+	
+	option = { # Do the bloodletting yourself
+		name = VIETmisc.0408.c
+		trigger = {
+			learning >= high_skill_rating			
+		}
+		skill = learning
+		show_as_unavailable = {
+			learning < high_skill_rating
+		}
+		VIET_huge_prestige_loss_effect = yes
+		add_character_modifier = {
+			modifier = VIET_did_horse_bloodletting
+			years = 5
+		}
+		stress_impact = {
+			base = miniscule_stress_impact_gain
+			arrogant = minor_stress_impact_gain
+			craven = miniscule_stress_impact_gain
+			lazy = minor_stress_impact_gain
+			paranoid = miniscule_stress_impact_gain
+		}
+	}	
+
+
+	after = {		
+		if = {
+			limit = {
+				has_game_rule = VIET_historical_context_on
+			}
+			custom_tooltip = VIETmisc.0408.info
+		}
+	}
+
+}
+
+
+# Courtier gets briefly sick and claims to have seen Ox Head and Horse Face in a dream 牛头馬面 / 우두귀와 마두귀 / Ngưu Đầu & Mã Diện
+VIETmisc.0409 = {
+	type = character_event
+	hidden = yes
+	trigger = { always = no }
+}
+
+
+
+##################################################################
+# 0410-0414 White
+##################################################################
+
+
+# Female courtier enjoys bathing in white milk / milk bather
+VIETmisc.0410 = {
+	type = character_event
+	title = VIETmisc.0410.t
+	desc = VIETmisc.0410.desc
+	theme = seduction
+	override_background = { reference = relaxing_room }
+
+
+	left_portrait = {
+		character = root
+		animation = personality_cynical
+	}
+
+	right_portrait = {
+		character = scope:milk_bather
+		animation = eyeroll
+	}
+
+	trigger = {	
+		OR = {
+			any_courtier_or_guest = {
+				is_available_ai_adult = yes
+				is_female = yes
+				VIET_is_cheese_culture_trigger = yes # Won't happen to cultures where milk isn't as important
+				NOR = {
+					has_trait = temperate
+					has_trait = humble
+					has_trait = reclusive
+					probably_unintelligent_trigger = yes
+					diplomacy <= low_skill_rating
+					learning <= low_skill_rating
+				}
+			}
+			any_vassal = {
+				is_available_ai_adult = yes
+				is_female = yes
+				VIET_is_cheese_culture_trigger = yes # Won't happen to cultures where milk isn't as important
+				NOR = {
+					has_trait = temperate
+					has_trait = humble
+					has_trait = reclusive
+					probably_unintelligent_trigger = yes
+					diplomacy <= low_skill_rating
+					learning <= low_skill_rating
+				}
+			}
+		}
+	}
+	
+	weight_multiplier = {
+		base = 1
+		modifier = {
+			add = 0.2
+			has_trait = zealous
+		}
+		modifier = {
+			add = -0.2
+			has_trait = cynical
+		}
+		modifier = {
+			add = 0.2
+			has_trait = honest
+		}
+		modifier = {
+			add = -0.2
+			has_trait = deceitful
+		}
+		modifier = {
+			add = 0.2
+			has_trait = fickle
+		}
+		modifier = {
+			add = -0.2
+			has_trait = stubborn
+		}
+	}
+	
+	immediate = {
+		every_courtier_or_guest = {
+			limit = {
+				is_available_ai_adult = yes
+				is_female = yes
+				VIET_is_cheese_culture_trigger = yes # Won't happen to cultures where milk isn't as important
+				NOR = {
+					has_trait = temperate
+					has_trait = humble
+					has_trait = reclusive
+					probably_unintelligent_trigger = yes
+					diplomacy <= low_skill_rating
+					learning <= low_skill_rating
+				}
+			}
+			add_to_list = candidate_characters
+		}
+		every_vassal = {
+			limit = {
+				is_available_ai_adult = yes
+				is_female = yes
+				VIET_is_cheese_culture_trigger = yes # Won't happen to cultures where milk isn't as important
+				NOR = {
+					has_trait = temperate
+					has_trait = humble
+					has_trait = reclusive
+					probably_unintelligent_trigger = yes
+					diplomacy <= low_skill_rating
+					learning <= low_skill_rating
+				}
+			}
+			add_to_list = candidate_characters
+		}
+		random_in_list = {
+			list = candidate_characters
+			save_scope_as = milk_bather
+			add_character_modifier = {
+				modifier = VIET_milk_bather
+				years = 10
+			}
+		}
+	}
+
+	option = { # Let her be
+		name = VIETmisc.0410.a
+		remove_short_term_gold = 25
+		stress_impact = {
+			temperate = minor_stress_impact_gain
+			humble = miniscule_stress_impact_gain
+		}
+	}	
+
+	option = { # Convince her to stop
+		name = VIETmisc.0410.b
+		VIET_huge_piety_gain_effect = yes
+		duel = {
+			skill = diplomacy
+			target = scope:milk_bather
+			50 = { # Failure
+				compare_modifier = {
+					value = scope:duel_value
+					multiplier = -1.1
+					min = -49
+				}
+				desc = VIETmisc.0410.b.toast_bad
+				send_interface_toast = {
+					type = event_toast_effect_bad
+					left_icon = scope:milk_bather
+					title = VIETmisc.0410.b.toast_bad
+					remove_short_term_gold = 25
+					scope:milk_bather = {
+						add_opinion = {
+							target = root
+							modifier = VIET_opinion_chastised_me_in_private
+						}				
+						reverse_add_opinion = {
+							modifier = disappointed_opinion
+							target = root
+							opinion = -10
+						}
+					}
+				}
+			}
+			50 = { # Success
+				compare_modifier = {
+					value = scope:duel_value
+					multiplier = 1.1
+					min = -49
+				}
+				desc = VIETmisc.0410.b.toast_good
+				send_interface_toast = {
+					type = event_toast_effect_good
+					left_icon = scope:milk_bather
+					title = VIETmisc.0410.b.toast_good
+					scope:milk_bather = {
+						add_opinion = {
+							target = root
+							modifier = VIET_opinion_good_advice
+						}
+						reverse_add_opinion = {
+							target = root
+							modifier = VIET_opinion_listened_to_my_advice
+						}
+					}
+				}
+			}
+		}
+		stress_impact = {
+			content = miniscule_stress_impact_gain
+			shy = miniscule_stress_impact_gain
+		}
+	}	
+
+	option = { # Start doing it yourself
+		name = VIETmisc.0410.c
+		trigger = {
+			OR = {
+				gold >= 50
+				is_ai = no
+			}
+		}
+		remove_short_term_gold = 50
+		add_character_modifier = {
+			modifier = VIET_milk_bather
+			years = 10
+		}
+		stress_impact = {
+			greedy = minor_stress_impact_gain
+			temperate = minor_stress_impact_gain
+			content = miniscule_stress_impact_gain
+			humble = miniscule_stress_impact_gain
+		}
+	}	
+
+
+}
+
+
+
+# Are black or white robes more appropriate for Christian monks?
+VIETmisc.0411 = {
+	type = character_event
+	hidden = yes
+	trigger = { always = no }
+}
+
+
+
+# Physician suggests a lily of the valley tonic to improve memory
+VIETmisc.0412 = {
+	type = character_event
+	hidden = yes
+	trigger = { always = no }
+}
+
+
+
+# Kid asks why white and red are opposites
+VIETmisc.0413 = {
+	type = character_event
+	hidden = yes
+	trigger = { always = no }
+}
+
+
+
+# Jasmine tea
+VIETmisc.0414 = {
+	type = character_event
+	title = VIETmisc.0414.t
+	desc = VIETmisc.0414.desc
+	theme = friendly
+	override_background = { reference = relaxing_room }
+	
+	left_portrait = {
+		character = root
+		animation = drink
+	}
+
+	trigger = {
+		has_game_rule = VIET_normal_universe_events
+		VIET_is_lesser_sinosphere_culture_trigger = yes
+	}
+
+	weight_multiplier = {
+		base = 1
+		modifier = {
+			add = 0.2
+			has_trait = content
+		}
+		modifier = {
+			add = -0.2
+			has_trait = ambitious
+		}
+		modifier = {
+			add = 0.2
+			has_trait = lazy
+		}
+		modifier = {
+			add = -0.2
+			has_trait = diligent
+		}
+		modifier = {
+			add = 0.2
+			has_trait = compassionate
+		}
+		modifier = {
+			add = -0.2
+			has_trait = sadistic
+		}
+	}
+	
+	option = { # ok
+		name = VIETmisc.0414.a
+		stress_impact = {
+			base = miniscule_stress_impact_loss
+			lazy = miniscule_stress_impact_loss
+		}
+		add_character_modifier = {
+			modifier = VIET_jasmine_tea
+			years = 5
+		}
+	}
+}
+
+
+
+##################################################################
+# 0415-0416 Earth Day
+##################################################################
+
+
+# Peasant says praying to fertility god/saint helped their crops grow on barren land
+VIETmisc.0415 = {
+	type = character_event
+	title = VIETmisc.0415.t
+	desc = VIETmisc.0415.desc
+	theme = VIET_theme_tuscan_country
+
+
+	left_portrait = {
+		character = root
+		animation = personality_cynical
+	}
+
+	right_portrait = {
+		character = scope:peasant
+		animation = storyteller
+	}
+
+	trigger = {	
+		is_landed = yes
+		capital_province = {
+			NOR = {
+				terrain = desert
+				terrain = desert_mountains
+				terrain = mountains
+				terrain = taiga
+			}
+		}
+	}
+	
+	weight_multiplier = {
+		base = 1
+		modifier = {
+			add = 0.2
+			has_trait = trusting
+		}
+		modifier = {
+			add = -0.2
+			has_trait = paranoid
+		}
+		modifier = {
+			add = 0.2
+			has_trait = humble
+		}
+		modifier = {
+			add = -0.2
+			has_trait = arrogant
+		}
+		modifier = {
+			add = 0.2
+			has_trait = fickle
+		}
+		modifier = {
+			add = -0.2
+			has_trait = stubborn
+		}
+	}
+	
+	immediate = {
+		capital_county = {
+			save_scope_as = target_county
+		}
+		create_character = {
+			location = root.location
+			template = VIET_generic_middle_aged_local_template
+			culture = scope:target_county.culture
+			faith = scope:target_county.faith
+			save_scope_as = peasant
+		}		
+	}
+
+	option = { # Ok
+		name = VIETmisc.0415.a
+		trigger = {
+			root.faith.religion = scope:peasant.faith.religion
+		}
+		VIET_large_piety_gain_effect = yes
+		stress_impact = {
+			cynical = minor_stress_impact_gain
+			arrogant = miniscule_stress_impact_gain
+			paranoid = miniscule_stress_impact_gain
+		}
+	}	
+
+	option = { # Ok
+		name = VIETmisc.0415.b
+		trigger = {
+			NOT = { root.faith.religion = scope:peasant.faith.religion }
+		}
+		VIET_large_piety_gain_effect = yes
+		stress_impact = {
+			cynical = minor_stress_impact_gain
+			arrogant = miniscule_stress_impact_gain
+			paranoid = miniscule_stress_impact_gain
+		}
+	}	
+
+	option = { # Nah
+		name = VIETmisc.0415.c
+		add_character_modifier = {
+			modifier = VIET_skeptical_ruler
+			days = 800
+		}
+		stress_impact = {
+			cynical = minor_stress_impact_loss
+			zealous = minor_stress_impact_gain
+		}
+	}	
+
+	after = {
+		scope:peasant ?= { silent_disappearance_effect = yes }
+	}
+
+}
+
+
+# Scholarly courtier blabbers about the circumference of the earth
+VIETmisc.0416 = {
+	type = character_event
+	title = VIETmisc.0416.t
+	desc = VIETmisc.0416.desc
+	theme = diplomacy
+	override_icon = { reference = "gfx/interface/icons/event_types/type_learning.dds" }
+
+
+	left_portrait = {
+		character = root
+		animation = personality_cynical
+	}
+
+	right_portrait = {
+		character = scope:scholar
+		animation = debating
+	}
+
+	trigger = {	
+		has_game_rule = VIET_normal_universe_events
+		OR = {
+			any_courtier_or_guest = {
+				is_available_ai_adult = yes
+				OR = {
+					learning >= high_skill_rating
+					has_trait = scholar
+					has_trait = theologian
+					has_trait = education_learning_1
+					has_trait = education_learning_2
+					has_trait = education_learning_3
+					has_trait = education_learning_4
+					has_trait = education_learning_5
+				}
+				OR = {
+					has_trait = ambitious
+					has_trait = diligent
+					has_trait = arrogant
+					has_trait = gregarious
+					has_trait = eccentric
+				}
+				NOR = {
+					has_trait = lazy
+					has_trait = shy
+				}
+			}
+			any_vassal = {
+				is_available_ai_adult = yes
+				OR = {
+					learning >= high_skill_rating
+					has_trait = scholar
+					has_trait = theologian
+					has_trait = education_learning_1
+					has_trait = education_learning_2
+					has_trait = education_learning_3
+					has_trait = education_learning_4
+					has_trait = education_learning_5
+				}
+				OR = {
+					has_trait = ambitious
+					has_trait = diligent
+					has_trait = arrogant
+					has_trait = gregarious
+					has_trait = eccentric
+				}
+				NOR = {
+					has_trait = lazy
+					has_trait = shy
+				}
+			}
+		}
+	}
+	
+	weight_multiplier = {
+		base = 1
+		modifier = {
+			add = 0.2
+			has_trait = zealous
+		}
+		modifier = {
+			add = -0.2
+			has_trait = cynical
+		}
+		modifier = {
+			add = 0.2
+			has_trait = gregarious
+		}
+		modifier = {
+			add = -0.2
+			has_trait = shy
+		}
+		modifier = {
+			add = 0.2
+			has_trait = patient
+		}
+		modifier = {
+			add = -0.2
+			has_trait = impatient
+		}
+	}
+	
+	immediate = {
+		every_courtier_or_guest = {
+			limit = {
+				is_available_ai_adult = yes
+				OR = {
+					learning >= high_skill_rating
+					has_trait = scholar
+					has_trait = theologian
+					has_trait = education_learning_1
+					has_trait = education_learning_2
+					has_trait = education_learning_3
+					has_trait = education_learning_4
+					has_trait = education_learning_5
+				}
+				OR = {
+					has_trait = ambitious
+					has_trait = diligent
+					has_trait = arrogant
+					has_trait = gregarious
+					has_trait = eccentric
+				}
+				NOR = {
+					has_trait = lazy
+					has_trait = shy
+				}
+			}
+			add_to_list = candidate_characters
+		}
+		every_vassal = {
+			limit = {
+				is_available_ai_adult = yes
+				OR = {
+					learning >= high_skill_rating
+					has_trait = scholar
+					has_trait = theologian
+					has_trait = education_learning_1
+					has_trait = education_learning_2
+					has_trait = education_learning_3
+					has_trait = education_learning_4
+					has_trait = education_learning_5
+				}
+				OR = {
+					has_trait = ambitious
+					has_trait = diligent
+					has_trait = arrogant
+					has_trait = gregarious
+					has_trait = eccentric
+				}
+				NOR = {
+					has_trait = lazy
+					has_trait = shy
+				}
+			}
+			add_to_list = candidate_characters
+		}
+		random_in_list = {
+			list = candidate_characters
+			save_scope_as = scholar
+		}
+		scope:scholar = {
+			add_character_modifier = {
+				modifier = VIET_intellectual_obsessions
+				years = 10
+			}
+		}
+	}
+
+	option = { # Ok
+		name = VIETmisc.0416.a
+		VIET_large_prestige_gain_effect = yes
+		scope:scholar = {
+			add_opinion = {
+				modifier = disappointed_opinion
+				opinion = -10
+				target = root
+			}
+		}
+		stress_impact = {
+			patient = minor_stress_impact_gain
+			humble = miniscule_stress_impact_gain
+			content = miniscule_stress_impact_gain
+			eccentric = miniscule_stress_impact_gain
+		}
+	}	
+
+	option = { # Ok
+		name = VIETmisc.0416.b
+		add_learning_lifestyle_xp = major_lifestyle_xp
+		VIET_large_prestige_loss_effect = yes
+		scope:scholar = {
+			add_opinion = {
+				target = root
+				modifier = VIET_opinion_interesting_conversation
+			}
+			reverse_add_opinion = {
+				target = root
+				modifier = VIET_opinion_interesting_conversation
+			}
+		}
+		stress_impact = {
+			impatient = minor_stress_impact_gain
+			arrogant = minor_stress_impact_gain
+			lazy = miniscule_stress_impact_gain
+			shy = miniscule_stress_impact_gain
+		}
+	}	
+
+
+}
+
+
+
+##################################################################
+# 0417-0420 Byzantine and Turkish
+##################################################################
+
+
+# Consulting oneirokritika (dream handbooks) about dreams
+VIETmisc.0417 = {
+	type = character_event
+	hidden = yes
+	trigger = { always = no }
+}
+
+
+# Physician talks about the writings of Paul of Aegina, especially in regards to surgery
+VIETmisc.0418 = {
+	type = character_event
+	hidden = yes
+	trigger = { always = no }
+}
+
+
+# Adding Turkic/Seljuk style decorations to residence?
+VIETmisc.0419 = {
+	type = character_event
+	title = VIETmisc.0419.t
+	desc = VIETmisc.0419.desc
+	theme = VIET_theme_garden_generic
+
+
+	left_portrait = {
+		character = root
+		animation = personality_forgiving
+	}
+
+	trigger = {
+		has_game_rule = VIET_normal_universe_events
+		is_landed_or_landless_administrative = yes
+		VIET_anatolian_or_near_east_turkish = yes
+	}
+	
+	weight_multiplier = {
+		base = 1
+		modifier = {
+			add = 0.2
+			has_trait = diligent
+		}
+		modifier = {
+			add = -0.2
+			has_trait = lazy
+		}
+		modifier = {
+			add = 0.2
+			has_trait = gregarious
+		}
+		modifier = {
+			add = -0.2
+			has_trait = shy
+		}
+		modifier = {
+			add = 0.2
+			has_trait = honest
+		}
+		modifier = {
+			add = -0.2
+			has_trait = deceitful
+		}
+	}
+
+	option = { # ok
+		name = VIETmisc.0419.a
+		add_character_modifier = {
+			modifier = VIET_double_headed_dragon_protection
+			years = 10
+		}
+	}	
+
+	option = { # ok
+		name = VIETmisc.0419.b
+		add_character_modifier = {
+			modifier = VIET_double_headed_eagle_protection
+			years = 10
+		}
+	}	
+
+	option = { # ok
+		name = VIETmisc.0419.c
+		add_character_modifier = {
+			modifier = VIET_sirens_and_harpies_protection
+			years = 10
+		}
+	}	
+
+	option = { # ok
+		name = VIETmisc.0419.d
+		add_character_modifier = {
+			modifier = VIET_peacocks_of_paradise_protection
+			years = 10
+		}
+	}	
+
+	after = {	
+		if = {
+			limit = {
+				has_game_rule = VIET_historical_context_on
+			}
+			custom_tooltip = VIETmisc.0419.info
+		}			
+	}
+	
+}
+
+
+# Courtier suggests patronizing the occult, like what Turkic rulers such as the Seljuks did, to legitimize their rule
+VIETmisc.0420 = {
+	type = character_event
+	hidden = yes
+	trigger = { always = no }
+}

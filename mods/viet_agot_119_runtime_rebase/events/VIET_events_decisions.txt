@@ -1,0 +1,4828 @@
+﻿############################################################################################################################
+# 
+# Events connected to decisions - VIETmisc.2000-VIETmisc.2999 reserved
+# Fired from the on_actions for every one, two, five, and ten years depending on intended rarity
+# 
+# Note to self:
+# 
+# is_available_at_peace_adult = yes <-- use as trigger if needed
+# on_actions also has triggers
+# has_game_rule = VIET_all_events / VIET_serious_events / VIET_balanced_events
+# has_game_rule = VIET_normal_universe_events / VIET_historical_universe_events / VIET_conversion_universe_events
+# 
+# base = miniscule_stress_impact_loss
+# content = minor_stress_impact_loss
+# calm = medium_stress_impact_loss
+# 
+# Animations: idle, chancellor, steward, marshal, spymaster, chaplain, anger, rage, disapproval, disbelief, disgust, fear, sadness, shame, shock, worry, boredom, grief, paranoia, dismissal, flirtation, flirtation_left, love, schadenfreude, stress, happiness, ecstasy, admiration, lunatic (?), scheme, beg, pain, newborn, sick, severelywounded, prisonhouse, prisondungeon, war_attacker, war_defender, war_over_tie, war_over_win, war_over_loss, pregnant, personality_honorable, personality_dishonorable, personality_bold, personality_coward, personality_greedy, personality_content, personality_vengeful, personality_forgiving, personality_rational, personality_irrational, personality_compassionate, personality_callous, personality_zealous, personality_cynical
+# 
+# 
+# ##### GRAND LIST OF EVENTS #####
+# 
+# 2001-2003		Baklava Merchant
+# 2004-2006		Spice Merchant
+# 2007-2013		Ghost Exorcism
+# 2014-2018		Shadowbanish Wine
+# 2019-2020		Mysterious Treasure Chest
+# 2021-2022		Hire Mercenary Scholar
+# 2023-2038		Servants Kidnapped
+# 2039-2042		Baklava Merchant Gifting
+# 2043-2046		Spice Merchant Gifting
+# 2047-2060		Deal with the Crows
+# 2061-2062		Learning Shorthand
+# 2063-2072		County Event Decisions
+# 2073-2077		Animals
+# 2078			Generic
+# 2079-2081 	Snow Festival
+# 2082-2084		Strawberries
+# 
+############################################################################################################################
+
+
+namespace = VIETmisc
+
+
+##################################################################
+# BAKLAVA MERCHANT 2001-2003
+##################################################################
+
+# Traveling baklava merchant arrives in town
+VIETmisc.2001 = {
+	type = character_event
+	hidden = yes
+	trigger = { always = no }
+}
+
+
+# Purchase something from the baklava merchant?
+VIETmisc.2002 = {
+	type = character_event
+	title = VIETmisc.2002.t
+	desc = VIETmisc.2002.desc
+	theme = VIET_theme_small_town #feast_activity
+	override_icon = { reference = "gfx/interface/icons/event_types/type_feast.dds" }
+	#override_background = { reference = market }
+	
+	left_portrait = {
+		character = root
+		animation = ecstasy
+	}
+	
+	option = { # Ok
+		name = VIETmisc.2002.a
+		trigger = {
+			NOT = { has_character_modifier = VIET_bought_traveling_merchant_baklava }
+		}
+		add_character_modifier = {
+			modifier = VIET_bought_traveling_merchant_baklava
+			years = 5
+		}		
+	}
+	option = { # Ok
+		name = VIETmisc.2002.b
+		trigger = {
+			NOT = { has_character_modifier = VIET_bought_traveling_merchant_lokma }
+		}
+		add_character_modifier = {
+			modifier = VIET_bought_traveling_merchant_lokma
+			years = 5
+		}		
+	}	
+	option = { # Ok
+		name = VIETmisc.2002.c
+		trigger = {
+			NOT = { has_character_modifier = VIET_bought_traveling_merchant_kanafeh }
+		}
+		add_character_modifier = {
+			modifier = VIET_bought_traveling_merchant_kanafeh
+			years = 5
+		}		
+	}	
+	option = { # Ok
+		name = VIETmisc.2002.d
+		trigger = {
+			NOT = { has_character_modifier = VIET_bought_traveling_merchant_halwa }
+		}
+		add_character_modifier = {
+			modifier = VIET_bought_traveling_merchant_halwa
+			years = 5
+		}		
+	}
+	option = { # Ok
+		name = VIETmisc.2002.e
+		trigger = {
+			NOT = { has_character_modifier = VIET_bought_traveling_merchant_qatayef }
+		}
+		add_character_modifier = {
+			modifier = VIET_bought_traveling_merchant_qatayef
+			years = 5
+		}		
+	}
+}
+
+# Traveling baklava merchant leaves town
+VIETmisc.2003 = {
+	type = character_event
+	title = VIETmisc.2003.t
+	desc = VIETmisc.2003.desc
+	theme = VIET_theme_small_town
+	override_icon = { reference = "gfx/interface/icons/event_types/type_feast.dds" }
+	
+	left_portrait = {
+		character = root
+		animation = sadness
+	}
+	
+	option = { # Ok
+		name = VIETmisc.2003.a
+		remove_character_modifier = VIET_traveling_baklava_merchant_in_town
+	}
+}
+
+
+
+##################################################################
+# SPICE MERCHANT 2004-2006
+##################################################################
+
+# Traveling spice merchant arrives in town
+VIETmisc.2004 = {
+	type = character_event
+	title = VIETmisc.2004.t
+	desc = VIETmisc.2004.desc
+	theme = VIET_theme_small_town
+	override_icon = { reference = "gfx/interface/icons/event_types/type_feast.dds" }
+	
+	left_portrait = root
+	
+	trigger = {
+		is_landed = yes
+	}
+	
+	weight_multiplier = {
+		base = 1
+		modifier = {
+			add = 0.2
+			has_trait = just
+		}
+		modifier = {
+			add = -0.2
+			has_trait = arbitrary
+		}
+		modifier = {
+			add = 0.2
+			has_trait = diligent
+		}
+		modifier = {
+			add = -0.2
+			has_trait = callous
+		}
+		modifier = {
+			add = 0.2
+			has_trait = gluttonous
+		}
+		modifier = {
+			add = -0.2
+			has_trait = temperate
+		}
+	}
+	
+	option = { # Ok
+		name = VIETmisc.2004.a
+		add_character_modifier = {
+			modifier = VIET_traveling_spice_merchant_in_town
+		}
+		custom_tooltip = VIETmisc.2004.tooltip
+		hidden_effect = {
+			random_list = {
+				10 = {
+					trigger_event = {
+						id = VIETmisc.2006
+						months = { 12 16 }
+					}
+				}
+				10 = {
+					trigger_event = {
+						id = VIETmisc.2006
+						months = { 20 24 }
+					}
+				}
+				10 = {
+					trigger_event = {
+						id = VIETmisc.2006
+						months = { 28 32 }
+					}
+				}
+				10 = {
+					trigger_event = {
+						id = VIETmisc.2006
+						months = { 36 40 }
+					}
+				}
+			}
+		}
+	}
+}
+
+
+# Purchase something from the spice merchant?
+VIETmisc.2005 = {
+	type = character_event
+	title = VIETmisc.2005.t
+	desc = VIETmisc.2005.desc
+	theme = VIET_theme_small_town #feast_activity
+	override_icon = { reference = "gfx/interface/icons/event_types/type_feast.dds" }
+	#override_background = { reference = market }
+	
+	left_portrait = {
+		character = root
+		animation = personality_content
+	}
+	
+	option = { # Ok
+		name = VIETmisc.2005.a
+		add_character_modifier = {
+			modifier = VIET_bought_five_spice_blend
+			years = 5
+		}		
+	}
+}
+
+# Traveling spice merchant leaves town
+VIETmisc.2006 = {
+	type = character_event
+	title = VIETmisc.2006.t
+	desc = VIETmisc.2006.desc
+	theme = VIET_theme_small_town
+	override_icon = { reference = "gfx/interface/icons/event_types/type_feast.dds" }
+	
+	left_portrait = {
+		character = root
+		animation = sadness
+	}
+	
+	option = { # Ok
+		name = VIETmisc.2006.a
+		remove_character_modifier = VIET_traveling_spice_merchant_in_town
+	}
+}
+
+
+
+##################################################################
+# EXORCISE THE GHOST 2007-2013
+##################################################################
+
+# A ghost seems to be haunting you
+VIETmisc.2007 = {
+	type = character_event
+	title = VIETmisc.2007.t
+	desc = VIETmisc.2007.desc
+	theme = intrigue
+	
+	left_portrait = {
+		character = root
+		animation = paranoia
+	}
+	
+	weight_multiplier = {
+		base = 1
+		modifier = {
+			add = 0.2
+			has_trait = zealous
+		}
+		modifier = {
+			add = -0.2
+			has_trait = cynical
+		}
+		modifier = {
+			add = 0.2
+			has_trait = paranoid
+		}
+		modifier = {
+			add = -0.2
+			has_trait = trusting
+		}
+		modifier = {
+			add = 0.2
+			num_sinful_traits >= 1
+		}
+		modifier = {
+			add = -0.2
+			num_virtuous_traits >= 1
+		}
+	}
+	
+	immediate = {
+		play_music_cue = "mx_cue_murder"
+	}
+	
+	option = { # Ok
+		name = VIETmisc.2007.a
+		add_character_modifier = {
+			modifier = VIET_ghost_haunting
+		}
+		custom_tooltip = VIETmisc.2007.tooltip
+		hidden_effect = {
+			random_list = {
+				10 = {
+					trigger_event = {
+						id = VIETmisc.2008
+						months = 24
+					}
+				}
+				10 = {
+					trigger_event = {
+						id = VIETmisc.2008
+						months = 48
+					}
+				}
+				10 = {
+					trigger_event = {
+						id = VIETmisc.2008
+						months = 72
+					}
+				}
+				10 = {
+					trigger_event = {
+						id = VIETmisc.2008
+						months = 96
+					}
+				}
+				10 = {
+					trigger_event = {
+						id = VIETmisc.2008
+						months = 120
+					}
+				}
+				20 = { # Maybe the ghost is real?
+
+				}
+			}
+		}
+	}
+}
+
+# The ghost is gone
+VIETmisc.2008 = {
+	type = character_event
+	title = VIETmisc.2008.t
+	desc = VIETmisc.2008.desc
+	theme = VIET_theme_garden_generic
+	
+	left_portrait = {
+		character = root
+		animation = personality_cynical
+	}
+
+	trigger = {
+		has_character_modifier = VIET_ghost_haunting
+	}
+	
+	option = { # Ok
+		name = VIETmisc.2008.a
+		remove_character_modifier = VIET_ghost_haunting
+	}
+}
+
+
+# Pay the exorcist
+VIETmisc.2009 = {
+	type = character_event
+	title = VIETmisc.2009.t
+	desc = VIETmisc.2009.desc
+	theme = faith
+	
+	left_portrait = {
+		character = root
+		animation = personality_zealous
+	}
+	
+	option = { # Normal fee
+		name = VIETmisc.2009.a
+		remove_short_term_gold = 50
+		custom_tooltip = VIETmisc.2009.a.tooltip
+		hidden_effect = {
+			random_list = {
+				20 = {	# Hoax
+					trigger_event = VIETmisc.2010
+				}
+				40 = {	# Good result
+					trigger_event = VIETmisc.2011	
+				}
+				20 = {	# Malevolent ghost vows revenge
+					trigger_event = VIETmisc.2012		
+				}
+				20 = {	# Benevolent ghost apologizes
+					trigger_event = VIETmisc.2013		
+				}
+			}
+		}
+	}	
+	option = { # Large fee
+		name = VIETmisc.2009.b
+		remove_short_term_gold = 100
+		custom_tooltip = VIETmisc.2009.b.tooltip
+		stress_impact = {
+			greedy = medium_stress_impact_gain
+			cynical = minor_stress_impact_gain
+		}
+		hidden_effect = {
+			random_list = {
+				10 = {	# Hoax
+					trigger_event = VIETmisc.2010				
+				}
+				60 = {	# Good result
+					trigger_event = VIETmisc.2011
+				
+				}
+				10 = {	# Malevolent ghost vows revenge
+					trigger_event = VIETmisc.2012			
+				}
+				20 = {	# Benevolent ghost apologizes
+					trigger_event = VIETmisc.2013				
+				}
+			}
+		}
+	}	
+	option = { # No fee
+		name = VIETmisc.2009.c
+		custom_tooltip = VIETmisc.2009.c.tooltip
+		stress_impact = {
+			humble = medium_stress_impact_gain
+			generous = minor_stress_impact_gain
+			just = minor_stress_impact_gain
+		}
+		hidden_effect = {
+			random_list = {
+				25 = {	# Hoax
+					trigger_event = VIETmisc.2010
+				}
+				30 = {	# Good result
+					trigger_event = VIETmisc.2011
+				
+				}
+				25 = {	# Malevolent ghost vows revenge
+					trigger_event = VIETmisc.2012
+				
+				}
+				20 = {	# Benevolent ghost apologizes
+					trigger_event = VIETmisc.2013				
+				}
+			}
+		}
+	}
+}
+
+
+
+# It's a hoax!
+VIETmisc.2010 = {
+	type = character_event
+	title = VIETmisc.2010.t
+	desc = VIETmisc.2010.desc
+	theme = corruption
+	
+	left_portrait = {
+		character = root
+		animation = rage
+	}
+	
+	immediate = {
+		remove_character_modifier = VIET_ghost_haunting
+	}
+	
+	option = { # Bah
+		name = VIETmisc.2010.a
+		VIET_huge_prestige_loss_effect = yes
+		stress_impact = {
+			base = minor_stress_impact_gain
+			greedy = minor_stress_impact_gain
+			wrathful = minor_stress_impact_gain
+		}
+	}
+}
+
+# The ghost is gone
+VIETmisc.2011 = {
+	type = character_event
+	title = VIETmisc.2011.t
+	desc = VIETmisc.2011.desc
+	theme = friendly
+	
+	left_portrait = {
+		character = root
+		animation = happiness
+	}
+	
+	immediate = {
+		remove_character_modifier = VIET_ghost_haunting
+	}
+	
+	option = { # Bah
+		name = VIETmisc.2011.a
+	}
+}
+
+
+# The ghost turns out to be malevolent
+VIETmisc.2012 = {
+	type = character_event
+	title = VIETmisc.2012.t
+	desc = VIETmisc.2012.desc
+	theme = VIET_theme_nightmare
+	
+	left_portrait = {
+		character = root
+		animation = shock
+	}
+	
+	immediate = {
+		remove_character_modifier = VIET_ghost_haunting
+		play_music_cue = mx_cue_crusade_starts 
+	}
+	
+	option = { # Crap
+		name = VIETmisc.2012.a
+		add_character_modifier = {
+			modifier = VIET_ghost_curse
+		}
+		stress_impact = {
+			base = medium_stress_impact_gain
+			craven = medium_stress_impact_gain
+			zealous = minor_stress_impact_gain
+		}
+	}
+}
+
+
+# The ghost turns out to be benevolent
+VIETmisc.2013 = {
+	type = character_event
+	title = VIETmisc.2013.t
+	desc = VIETmisc.2013.desc
+	theme = VIET_theme_good_dream
+	
+	left_portrait = {
+		character = root
+		animation = personality_content
+	}
+	
+	immediate = {
+		remove_character_modifier = VIET_ghost_haunting
+		play_music_cue = "mx_cue_positive_effect"
+	}
+	
+	option = { # Ok
+		name = VIETmisc.2013.a
+		add_character_modifier = {
+			modifier = VIET_ghost_blessing
+		}
+		stress_impact = {
+			base = medium_stress_impact_loss
+			compassionate = medium_stress_impact_loss
+			humble = medium_stress_impact_loss
+			trusting = medium_stress_impact_loss
+			zealous = medium_stress_impact_loss
+		}
+	}
+}
+
+
+
+
+##################################################################
+# SHADOWBANISH WINE 2014-2018
+##################################################################
+
+# Your soldiers find Shadowbanish Wine
+VIETmisc.2014 = {
+	type = character_event
+	title = VIETmisc.2014.t
+	desc = VIETmisc.2014.desc
+	theme = VIET_theme_ancient_cairn
+	
+	left_portrait = {
+		character = root
+		animation = personality_rational
+	}
+
+	trigger = {		
+		is_landed = yes
+	}
+	
+	weight_multiplier = {
+		base = 1
+		modifier = {
+			add = 0.2
+			has_trait = lazy
+		}
+		modifier = {
+			add = -0.2
+			has_trait = diligent
+		}
+		modifier = {
+			add = 0.2
+			has_trait = brave
+		}
+		modifier = {
+			add = -0.2
+			has_trait = craven
+		}
+		modifier = {
+			add = 0.2
+			has_trait = trusting
+		}
+		modifier = {
+			add = -0.2
+			has_trait = paranoid
+		}
+	}
+	
+	option = { # Ok
+		name = VIETmisc.2014.a
+		trigger_event = {
+			id = VIETmisc.2015
+			days = { 3 8 }
+		}
+	}
+}
+
+# Old lady recognizes the wine bottle
+VIETmisc.2015 = {
+	type = character_event
+	title = VIETmisc.2015.t
+	desc = VIETmisc.2015.desc.x
+	theme = VIET_theme_small_town
+	
+	left_portrait = {
+		character = root
+		animation = personality_rational
+	}
+	
+	option = { # Ok
+		name = VIETmisc.2015.a
+		trigger_event = VIETmisc.2016
+	}
+}
+
+# Old lady recognizes the wine bottle
+VIETmisc.2016 = {
+	type = character_event
+	hidden = yes
+	trigger = { always = no }
+}
+
+
+
+
+# Drink the wine bottle
+VIETmisc.2017 = {
+	type = character_event
+	hidden = yes
+	trigger = { always = no }
+}
+
+
+
+# Destroy the wine bottle
+VIETmisc.2018 = {
+	type = character_event
+	title = VIETmisc.2018.t
+	desc = VIETmisc.2018.desc
+	theme = VIET_theme_skyrim_forest
+	
+	left_portrait = {
+		character = root
+		animation = personality_zealous
+	}
+	
+	immediate = {		
+		remove_character_modifier = VIET_has_shadowbanish_wine_bottle
+	}
+	
+	option = { # Ok
+		name = VIETmisc.2018.a
+		add_character_modifier = {
+			modifier = VIET_destroyed_shadowbanish_wine
+			years = 10
+		}
+		VIET_huge_piety_gain_effect = yes
+	}
+}
+
+
+
+
+##################################################################
+# MYSTERIOUS TREASURE CHEST 2019-2020
+##################################################################
+
+# Your servants find a mysterious treasure chest
+VIETmisc.2019 = {
+	type = character_event
+	title = VIETmisc.2019.t
+	desc = VIETmisc.2019.desc
+	theme = VIET_theme_tuscan_country
+	
+	right_portrait = root
+	
+	weight_multiplier = {
+		base = 1
+		modifier = {
+			add = 0.2
+			has_trait = diligent
+		}
+		modifier = {
+			add = -0.2
+			has_trait = lazy
+		}
+		modifier = {
+			add = 0.2
+			has_trait = calm
+		}
+		modifier = {
+			add = -0.2
+			has_trait = wrathful
+		}
+		modifier = {
+			add = 0.2
+			has_trait = compassionate
+		}
+		modifier = {
+			add = -0.2
+			has_trait = sadistic
+		}
+	}
+	
+	immediate = {
+		random_list = {
+			10 = {
+				add_character_modifier = {
+					modifier = VIET_has_mysterious_chest
+					years = 5
+				}
+			}
+			20 = {
+				add_character_modifier = {
+					modifier = VIET_has_mysterious_chest
+					years = 10
+				}
+			}
+			10 = {
+				add_character_modifier = {
+					modifier = VIET_has_mysterious_chest
+					years = 15
+				}
+			}
+		}
+	}
+	
+	option = { # Ok
+		name = VIETmisc.2019.a
+		custom_tooltip = VIETmisc.2019.tooltip
+	}
+}
+
+
+
+# Opening the treasure chest
+VIETmisc.2020 = {
+	type = character_event
+	title = VIETmisc.2020.t
+	desc = {
+		desc = VIETmisc.2020.desc
+		first_valid = {
+			triggered_desc = {
+				trigger = { has_character_flag = VIET_decision_chest_nothing }
+				desc = VIETmisc.2020.desc.a
+			}
+			triggered_desc = {
+				trigger = { has_character_flag = VIET_decision_chest_small_gold }
+				desc = VIETmisc.2020.desc.b
+			}
+			triggered_desc = {
+				trigger = { has_character_flag = VIET_decision_chest_large_gold }
+				desc = VIETmisc.2020.desc.c
+			}
+			triggered_desc = {
+				trigger = { has_character_flag = VIET_decision_chest_ancient_scroll }
+				desc = VIETmisc.2020.desc.d
+			}
+			triggered_desc = {
+				trigger = { has_character_flag = VIET_decision_chest_golden_rose }
+				desc = VIETmisc.2020.desc.e
+			}
+		}
+	}
+	theme = realm
+	
+	left_portrait = {
+		character = root
+		animation = personality_rational
+	}
+	artifact = { # To display the artifact in the event-window
+		trigger = { exists = scope:VIET_clutter_artifact }
+		target = scope:VIET_clutter_artifact
+		position = lower_center_portrait
+	}
+	
+	immediate = {
+		remove_character_modifier = VIET_has_mysterious_chest
+		random_list = {
+			# Nothing
+			15 = {
+				add_character_flag = VIET_decision_chest_nothing
+			}
+			# Small amount of gold
+			20 = {
+				add_character_flag = VIET_decision_chest_small_gold
+				random_list = {
+					10 = { add_gold = 20 }
+					10 = { add_gold = 30 }
+					10 = { add_gold = 40 }
+				}
+			}
+			# Large amount of gold
+			10 = {
+				add_character_flag = VIET_decision_chest_large_gold
+				random_list = {
+					10 = { add_gold = 50 }
+					10 = { add_gold = 75 }
+					10 = { add_gold = 100 }
+					10 = { add_gold = 125 }
+					10 = { add_gold = 150 }
+				}
+			}
+			# Ancient Scroll
+			10 = {
+				add_character_flag = VIET_decision_chest_ancient_scroll
+				add_character_modifier = {
+					modifier = VIET_chest_ancient_scroll
+					years = 10
+				}
+			}
+			# Golden Rose
+			5 = {
+				# Reduce spam
+				modifier = {
+					add = -3
+					any_character_artifact = {
+						has_variable = VIET_golden_rose_variable
+					}
+				}
+				add_character_flag = VIET_decision_chest_golden_rose
+				hidden_effect_new_object = {
+					create_artifact = {	
+						name = VIET_golden_rose_name
+						description = VIET_golden_rose_desc
+						type = VIET_clutter
+						visuals = VIET_golden_rose
+						quality = 30
+						wealth = 30
+						modifier = artifact_VIET_golden_rose_modifier
+						max_durability = 40
+						save_scope_as = VIET_clutter_artifact
+						history = {
+							type = created_before_history
+						}
+					}
+					scope:VIET_clutter_artifact = {
+						set_variable = VIET_golden_rose_variable
+					}
+				}
+			}
+		}
+	}
+	
+	option = { # Ok
+		name = VIETmisc.2020.a
+		trigger = { has_character_flag = VIET_decision_chest_nothing }
+	}	
+	option = { # Ok
+		name = VIETmisc.2020.b
+		trigger = { has_character_flag = VIET_decision_chest_small_gold }
+	}	
+	option = { # Ok
+		name = VIETmisc.2020.c
+		trigger = { has_character_flag = VIET_decision_chest_large_gold }
+	}	
+	option = { # Ok
+		name = VIETmisc.2020.d
+		trigger = { has_character_flag = VIET_decision_chest_ancient_scroll }
+	}	
+	option = { # Ok
+		name = VIETmisc.2020.e
+		trigger = { has_character_flag = VIET_decision_chest_golden_rose }
+		show_as_tooltip = {
+			scope:VIET_clutter_artifact = {
+				set_owner = {
+					target = root
+				}
+			}
+		}
+	}
+	
+	after = {
+		if = {
+			limit = { has_character_flag = VIET_decision_chest_nothing }
+			remove_character_flag = VIET_decision_chest_nothing
+		}
+		if = {
+			limit = { has_character_flag = VIET_decision_chest_small_gold }
+			remove_character_flag = VIET_decision_chest_small_gold
+		}
+		if = {
+			limit = { has_character_flag = VIET_decision_chest_large_gold }
+			remove_character_flag = VIET_decision_chest_large_gold
+		}
+		if = {
+			limit = { has_character_flag = VIET_decision_chest_ancient_scroll }
+			remove_character_flag = VIET_decision_chest_ancient_scroll
+		}
+		if = {
+			limit = { has_character_flag = VIET_decision_chest_golden_rose }
+			remove_character_flag = VIET_decision_chest_golden_rose
+		}
+	}
+}
+
+
+
+
+
+
+##################################################################
+# HIRE MERCENARY SCHOLAR 2021-2022 (Loosely based off Belrand in Skyrim)
+##################################################################
+
+# Meet the mercenary scholar at an inn
+VIETmisc.2021 = {
+	type = character_event
+	title = VIETmisc.2021.t
+	desc = VIETmisc.2021.desc
+	theme = martial_chivalry_focus
+	override_background = { reference = tavern }
+	
+	
+	left_portrait = root
+
+	trigger = {		
+		is_landed = yes
+	}
+	
+	weight_multiplier = {
+		base = 1
+		modifier = {
+			add = 0.2
+			has_trait = gluttonous
+		}
+		modifier = {
+			add = -0.2
+			has_trait = temperate
+		}
+		modifier = {
+			add = 0.2
+			has_trait = gregarious
+		}
+		modifier = {
+			add = -0.2
+			has_trait = shy
+		}
+		modifier = {
+			add = 0.2
+			has_trait = trusting
+		}
+		modifier = {
+			add = -0.2
+			has_trait = paranoid
+		}
+	}
+	
+	immediate = {
+		random_list = {
+			10 = {
+				add_character_modifier = {
+					modifier = VIET_mercenary_scholar_in_town
+					years = 2
+				}
+			}
+			10 = {
+				add_character_modifier = {
+					modifier = VIET_mercenary_scholar_in_town
+					years = 3
+				}
+			}
+			10 = {
+				add_character_modifier = {
+					modifier = VIET_mercenary_scholar_in_town
+					years = 4
+				}
+			}
+			10 = {
+				add_character_modifier = {
+					modifier = VIET_mercenary_scholar_in_town
+					years = 5
+				}
+			}
+		}
+	}
+	
+	option = { # Ok
+		name = VIETmisc.2021.a
+		custom_tooltip = VIETmisc.2021.tooltip
+	}
+}
+
+# The mercenary is hired
+VIETmisc.2022 = {
+	type = character_event
+	title = VIETmisc.2022.t
+	desc = VIETmisc.2022.desc
+	theme = martial_chivalry_focus
+	override_background = { reference = tavern }
+	
+	
+	left_portrait = {
+		character = root
+		animation = personality_content
+	}
+	
+	immediate = {
+		remove_character_modifier = VIET_mercenary_scholar_in_town
+	}
+	
+	option = { # Ok
+		name = VIETmisc.2022.a
+		add_character_modifier = {
+			modifier = VIET_hired_belrand
+			years = 10
+		}
+	}
+}
+
+
+
+##################################################################
+# SERVANTS KIDNAPPED 2023-2038
+##################################################################
+
+# Servants are kidnapped - start the countdown
+VIETmisc.2023 = {
+	type = character_event
+	title = VIETmisc.2023.t
+	desc = VIETmisc.2023.desc
+	theme = corruption
+	override_background = { reference = throne_room }
+	
+	
+	left_portrait = {
+		character = root
+		animation = worry
+	}
+
+	trigger = {		
+		is_landed = yes
+	}
+	
+	weight_multiplier = {
+		base = 1
+		modifier = {
+			add = 0.2
+			has_trait = lazy
+		}
+		modifier = {
+			add = -0.2
+			has_trait = diligent
+		}
+		modifier = {
+			add = 0.2
+			has_trait = fickle
+		}
+		modifier = {
+			add = -0.2
+			has_trait = stubborn
+		}
+		modifier = {
+			add = 0.2
+			has_trait = greedy
+		}
+		modifier = {
+			add = -0.2
+			has_trait = generous
+		}
+	}
+	
+	immediate = {
+		play_music_cue = mx_cue_stress  
+	}
+	
+	option = { # Ok
+		name = VIETmisc.2023.a
+		#hidden_effect = { # Start countdown to ransom deadline
+		#	trigger_event = {
+		#		id = VIETmisc.2008
+		#		days = 366
+		#	}		
+		#}
+		add_character_modifier = {
+			modifier = VIET_servant_hostage_countdown
+			days = 365
+		}
+		add_character_flag = VIET_servant_hostage_countdown_real
+		if = {
+			limit = {
+				is_ai = no
+			}
+			hidden_effect = {
+				random_list = {
+					35 = { # Random unexpected outcome
+						trigger_event = {
+							id = VIETmisc.2035
+							days = { 30 240 }
+						}
+					}
+					65 = { # Deadline is not met
+						trigger_event = {
+							id = VIETmisc.2032
+							days = 366 # When this event triggers, the modifier is already removed - use a hidden flag?
+						}
+					}
+				}		
+			}
+		}
+		else = {
+			random_list = {
+				35 = { # Random unexpected outcome
+					trigger_event = {
+						id = VIETmisc.2035
+						days = { 30 240 }
+					}
+				}
+				65 = { # Deadline is not met
+					trigger_event = {
+						id = VIETmisc.2032
+						days = 366 # When this event triggers, the modifier is already removed - use a hidden flag?
+					}
+				}
+				100 = { # Deadline is met
+					modifier = {
+						add = 10
+						NOR = {
+							has_trait = callous
+							has_trait = sadistic
+							has_trait = greedy
+							has_trait = arbitrary
+						}							
+					}
+					modifier = {
+						add = 15
+						has_trait = compassionate						
+					}
+					modifier = {
+						add = 15
+						has_trait = just						
+					}
+					trigger_event = {
+						id = VIETmisc.2024
+						days = { 30 240 }
+					}
+				}
+			}
+		}
+		#else = { # AI does nothing
+		#	
+		#}
+		custom_tooltip = VIETmisc.2023.tooltip
+	}
+}
+
+
+
+# Choose whether to pay the ransom or rescue the servants
+VIETmisc.2024 = {
+	type = character_event
+	title = VIETmisc.2024.t
+	desc = VIETmisc.2024.desc
+	theme = corruption
+	override_background = { reference = throne_room }
+	
+	
+	left_portrait = {
+		character = root
+		animation = personality_bold
+	}
+	
+	immediate = {
+		hidden_effect = {
+			remove_character_modifier = VIET_servant_hostage_countdown
+			remove_character_flag = VIET_servant_hostage_countdown_real
+		}
+	}
+	
+	option = { # Pay the ransom
+		name = VIETmisc.2024.a
+		custom_tooltip = VIETmisc.2024.a.tooltip
+		stress_impact = {
+			greedy = medium_stress_impact_gain
+			vengeful = minor_stress_impact_gain
+		}
+		hidden_effect = {
+			random_list = {
+				55 = { # Bandits accept ransom as originally agreed
+					modifier = {
+						add = 4
+						dread > 25
+					}
+					modifier = {
+						add = 6
+						dread > 50
+					}
+					modifier = {
+						add = 8
+						dread > 75
+					}
+					modifier = { # You're a man/woman of your word
+						add = 10
+						OR = {
+							has_trait = just
+							has_trait = honest
+						}
+					}
+					modifier = {
+						add = 5
+						probably_intelligent_trigger = yes
+					}
+					modifier = {
+						add = 10
+						diplomacy > decent_skill_rating
+					}
+					trigger_event = VIETmisc.2025						
+				}
+				25 = { # Bandits demand increase in ransom
+					modifier = {
+						add = 5
+						martial < mediocre_skill_rating
+					}
+					modifier = {
+						add = 5
+						intrigue < mediocre_skill_rating
+					}
+					modifier = {
+						add = 5
+						probably_unintelligent_trigger = yes
+					}
+					trigger_event = VIETmisc.2026				
+				}
+				20 = { # Bandits kill servants
+					modifier = {
+						add = 5
+						martial < mediocre_skill_rating
+					}
+					modifier = {
+						add = 5
+						intrigue < mediocre_skill_rating
+					}
+					modifier = {
+						add = 5
+						OR = {
+							has_trait = trusting
+							has_trait = honest
+						}
+					}
+					modifier = {
+						add = 5
+						probably_unintelligent_trigger = yes
+					}
+					trigger_event = VIETmisc.2028				
+				}
+			}
+		}
+	}	
+	option = { # Attempt to rescue servants
+		name = VIETmisc.2024.b
+		custom_tooltip = VIETmisc.2024.b.tooltip
+		stress_impact = {
+			craven = medium_stress_impact_gain
+			paranoid = minor_stress_impact_gain
+		}
+		hidden_effect = {
+			random_list = {
+				30 = { # Rescue fails
+					modifier = {
+						add = 5
+						martial < mediocre_skill_rating
+					}
+					modifier = {
+						add = 5
+						intrigue < mediocre_skill_rating
+					}
+					modifier = {
+						add = 5
+						probably_unintelligent_trigger = yes
+					}
+					trigger_event = VIETmisc.2029						
+				}
+				40 = { # Rescue is partial success
+					trigger_event = VIETmisc.2030						
+				}
+				30 = { # Rescue succeeds
+					modifier = {
+						add = 5
+						martial > decent_skill_rating
+					}
+					modifier = {
+						add = 5
+						intrigue > decent_skill_rating
+					}
+					modifier = {
+						add = 5
+						probably_intelligent_trigger = yes
+					}
+					trigger_event = VIETmisc.2031						
+				}
+			}
+		}
+	}
+}
+
+
+# Ransom is paid without incident
+VIETmisc.2025 = {
+	type = character_event
+	title = VIETmisc.2025.t
+	desc = VIETmisc.2025.desc
+	theme = corruption
+	override_background = { reference = VIET_background_skyrim_forest }
+	
+	
+	right_portrait = {
+		character = root
+		animation = personality_bold
+	}
+	
+	option = { # Pay the ransom
+		name = VIETmisc.2025.a
+		remove_short_term_gold = 100
+		add_character_modifier = {
+			modifier = VIET_ransomed_servants
+			years = 10
+		}
+		#VIET_huge_prestige_loss_effect = yes
+	}
+}
+
+
+# Bandits demand increased ransom
+VIETmisc.2026 = {
+	type = character_event
+	title = VIETmisc.2026.t
+	desc = VIETmisc.2026.desc
+	theme = corruption
+	override_background = { reference = VIET_background_skyrim_forest }
+	
+	
+	right_portrait = {
+		character = root
+		animation = anger
+	}
+	
+	option = { # Pay the increased ransom
+		name = VIETmisc.2026.a
+		stress_impact = {
+			greedy = medium_stress_impact_gain
+			vengeful = minor_stress_impact_gain
+		}
+		remove_short_term_gold = 200
+		add_character_modifier = {
+			modifier = VIET_ransomed_servants
+			years = 10
+		}
+		VIET_massive_prestige_loss_effect = yes
+	}	
+	option = { # Pay the original amount!
+		name = VIETmisc.2026.b
+		trigger = {
+			diplomacy >= medium_skill_rating
+		}
+		skill = diplomacy
+		remove_short_term_gold = 100
+		add_character_modifier = {
+			modifier = VIET_ransomed_servants
+			years = 10
+		}
+		#VIET_huge_prestige_loss_effect = yes
+	}
+	option = { # Servants will die
+		name = VIETmisc.2026.c
+		stress_impact = {
+			compassionate = major_stress_gain
+			just = major_stress_gain
+			vengeful = medium_stress_gain
+		}
+		add_character_modifier = {
+			modifier = VIET_let_servants_die
+			years = 10
+		}
+		VIET_massive_piety_loss_effect = yes
+	}
+	option = { # Risky last minute rescue
+		name = VIETmisc.2026.d
+		trigger = {
+			martial >= medium_skill_rating
+			NOT = {
+				intrigue >= medium_skill_rating
+			}
+		}
+		skill = martial
+		custom_tooltip = VIETmisc.2026.d.tooltip
+		stress_impact = {
+			craven = medium_stress_impact_gain
+			paranoid = minor_stress_impact_gain
+		}
+		#hidden_effect = {
+			trigger_event = VIETmisc.2027
+		#}
+	}
+	option = { # Risky last minute rescue
+		name = VIETmisc.2026.d
+		trigger = {
+			intrigue >= medium_skill_rating
+		}
+		skill = intrigue
+		custom_tooltip = VIETmisc.2026.d.tooltip
+		stress_impact = {
+			craven = medium_stress_impact_gain
+			paranoid = minor_stress_impact_gain
+		}
+		#hidden_effect = {
+			trigger_event = VIETmisc.2027
+		#}
+	}
+}
+
+# Last minute distraction, some die
+VIETmisc.2027 = {
+	type = character_event
+	title = VIETmisc.2027.t
+	desc = VIETmisc.2027.desc
+	theme = battle
+	override_background = { reference = VIET_background_skyrim_forest }	
+	
+	right_portrait = {
+		character = root
+		animation = personality_callous
+	}
+	
+	option = { # Yay
+		name = VIETmisc.2027.a
+		add_character_modifier = {
+			modifier = VIET_partly_successful_rescue_of_servants
+			years = 10
+		}
+	}
+}
+
+# Bandits betray you
+VIETmisc.2028 = {
+	type = character_event
+	title = VIETmisc.2028.t
+	desc = VIETmisc.2028.desc
+	theme = battle
+	override_background = { reference = VIET_background_skyrim_forest }	
+	
+	right_portrait = {
+		character = root
+		animation = personality_vengeful
+	}
+	
+	immediate = {
+		play_music_cue = "mx_cue_death"
+	}
+	
+	option = { # Dammit!
+		name = VIETmisc.2028.a
+		stress_impact = {
+			base = minor_stress_impact_gain
+			paranoid = minor_stress_impact_gain
+			wrathful = minor_stress_impact_gain
+		}
+		add_character_modifier = {
+			modifier = VIET_servants_die_not_fault
+			years = 10
+		}
+		VIET_huge_prestige_loss_effect = yes
+	}
+}
+
+# Rescue fails
+VIETmisc.2029 = {
+	type = character_event
+	title = VIETmisc.2029.t
+	desc = VIETmisc.2029.desc
+	theme = battle
+	override_background = { reference = VIET_background_skyrim_forest }	
+	
+	right_portrait = {
+		character = root
+		animation = personality_vengeful
+	}
+	
+	immediate = {
+		play_music_cue = "mx_cue_death"
+	}
+	
+	option = { # Dammit!
+		name = VIETmisc.2029.a
+		stress_impact = {
+			base = minor_stress_impact_gain
+			diligent = minor_stress_impact_gain
+			compassionate = minor_stress_impact_gain
+			wrathful = minor_stress_impact_gain
+		}
+		add_character_modifier = {
+			modifier = VIET_failed_to_rescue_servants
+			years = 10
+		}
+		VIET_huge_prestige_loss_effect = yes
+	}
+}
+
+# Rescue is partial success
+VIETmisc.2030 = {
+	type = character_event
+	title = VIETmisc.2030.t
+	desc = VIETmisc.2030.desc
+	theme = battle
+	override_background = { reference = VIET_background_skyrim_forest }
+	
+	right_portrait = {
+		character = root
+		animation = personality_callous
+	}
+	
+	option = { # Ok
+		name = VIETmisc.2030.a
+		add_character_modifier = {
+			modifier = VIET_partly_successful_rescue_of_servants
+			years = 10
+		}
+	}
+}
+
+# Rescue is success
+VIETmisc.2031 = {
+	type = character_event
+	title = VIETmisc.2031.t
+	desc = VIETmisc.2031.desc
+	theme = battle
+	override_background = { reference = VIET_background_skyrim_forest }
+	
+	right_portrait = {
+		character = root
+		animation = personality_callous
+	}
+	
+	option = { # Ok
+		name = VIETmisc.2031.a
+		stress_impact = {
+			base = minor_stress_impact_loss
+			vengeful = minor_stress_impact_loss
+			compassionate = minor_stress_impact_loss
+		}
+		add_character_modifier = {
+			modifier = VIET_rescued_servants_success
+			years = 10
+		}
+	}
+}
+
+
+# Ping for outcome if nothing is done
+VIETmisc.2032 = {
+	type = character_event
+	hidden = yes
+	
+	immediate = {	
+		if = {
+			limit = {
+				has_character_flag = VIET_servant_hostage_countdown_real
+			}
+			remove_character_flag = VIET_servant_hostage_countdown_real
+			random_list = {
+				30 = { trigger_event = VIETmisc.2033 } # Servants defect
+				70 = { trigger_event = VIETmisc.2034 } # Servants are killed
+			}
+		}	
+	}
+}
+
+# Servants defect to bandits
+VIETmisc.2033 = {
+	type = character_event
+	title = VIETmisc.2033.t
+	desc = VIETmisc.2033.desc
+	theme = realm
+	
+	left_portrait = {
+		character = root
+		animation = worry
+	}
+	
+	immediate = {
+		play_music_cue = "mx_cue_murder"
+	}
+	
+	option = { # Ok
+		name = VIETmisc.2033.a
+		stress_impact = {
+			base = minor_stress_impact_gain
+			arrogant = minor_stress_impact_gain
+			paranoid = minor_stress_impact_gain
+			wrathful = minor_stress_impact_gain
+		}
+		add_character_modifier = {
+			modifier = VIET_kidnapped_servants_defect
+			years = 10
+		}
+		VIET_massive_prestige_loss_effect = yes
+	}
+}
+
+# Servants are killed
+VIETmisc.2034 = {
+	type = character_event
+	title = VIETmisc.2034.t
+	desc = VIETmisc.2034.desc
+	theme = realm
+	
+	left_portrait = {
+		character = root
+		animation = worry
+	}
+	
+	immediate = {
+		play_music_cue = "mx_cue_murder"
+	}
+	
+	option = { # Ok
+		name = VIETmisc.2034.a
+		stress_impact = {
+			base = minor_stress_impact_gain
+			diligent = minor_stress_impact_gain
+			compassionate = minor_stress_impact_gain
+			wrathful = minor_stress_impact_gain
+		}
+		add_character_modifier = {
+			modifier = VIET_kidnapped_servants_killed
+			years = 10
+		}
+		VIET_massive_prestige_loss_effect = yes
+	}
+}
+
+# Ping for unexpected outcome
+VIETmisc.2035 = {
+	type = character_event
+	hidden = yes
+	
+	immediate = {
+		remove_character_flag = VIET_servant_hostage_countdown_real
+		if = {
+			limit = {
+				has_character_modifier = VIET_servant_hostage_countdown
+			}
+			random_list = {
+				10 = { trigger_event = VIETmisc.2036 } # Servants execute a bungled escape attempt
+				10 = { trigger_event = VIETmisc.2037 } # Servants are killed early in gang war
+				10 = { trigger_event = VIETmisc.2038 } # Servants escape successfully
+			}
+		}	
+	}
+}
+
+# Servants execute a bungled escape attempt
+VIETmisc.2036 = {
+	type = character_event
+	title = VIETmisc.2036.t
+	desc = VIETmisc.2036.desc
+	theme = realm
+	
+	left_portrait = root
+	
+	immediate = {
+		remove_character_modifier = VIET_servant_hostage_countdown
+		VIET_huge_prestige_loss_effect = yes
+	}
+	
+	option = { # Ok
+		name = VIETmisc.2036.a
+	}
+}
+
+# Servants are killed early in gang war
+VIETmisc.2037 = {
+	type = character_event
+	title = VIETmisc.2037.t
+	desc = VIETmisc.2037.desc
+	theme = realm
+	
+	left_portrait = root
+	
+	immediate = {
+		remove_character_modifier = VIET_servant_hostage_countdown
+		VIET_massive_prestige_loss_effect = yes
+	}
+	
+	option = { # Ok
+		name = VIETmisc.2037.a
+		stress_impact = {
+			base = minor_stress_impact_gain
+			compassionate = minor_stress_impact_gain
+		}
+	}
+}
+
+# Servants escape successfully
+VIETmisc.2038 = {
+	type = character_event
+	title = VIETmisc.2038.t
+	desc = VIETmisc.2038.desc
+	theme = realm
+	
+	left_portrait = {
+		character = root
+		animation = personality_content
+	}	
+	right_portrait = {
+		character = scope:servant
+		animation = personality_bold
+	}
+	
+	immediate = {
+		remove_character_modifier = VIET_servant_hostage_countdown
+		VIET_massive_prestige_gain_effect = yes
+		add_character_modifier = {
+			modifier = VIET_useful_intel_on_bandits
+			years = 5
+		}
+		create_character = {
+			location = root.capital_province
+			template = VIET_heroic_servant_template
+			save_scope_as = servant
+		}
+	}
+	
+	option = { # Ok
+		name = VIETmisc.2038.a
+		add_character_modifier = {
+			modifier = VIET_brilliant_servant
+			years = 20
+		}
+		hidden_effect = {
+			scope:servant = {
+				death = {
+					death_reason = death_disappearance
+				}
+			}
+		}
+	}	
+	option = { # Ok
+		name = VIETmisc.2038.b
+		VIET_massive_prestige_gain_effect = yes
+		pay_short_term_gold = {
+			target = scope:servant
+			gold = minor_gold_value
+		}
+		add_courtier = scope:servant
+	}
+}
+
+
+##################################################################
+# BAKLAVA MERCHANT GIFT 2039-2042
+##################################################################
+
+
+# Meet with the merchant to purchase desserts
+VIETmisc.2039 = {
+	type = character_event
+	title = VIETmisc.2039.t
+	desc = VIETmisc.2039.desc
+	theme = VIET_theme_small_town
+	override_icon = { reference = "gfx/interface/icons/event_types/type_feast.dds" }
+	
+	left_portrait = {
+		character = root
+		animation = personality_content
+	}
+	
+	option = { # Ok
+		name = VIETmisc.2039.a
+		scope:recipient = {
+			add_character_flag = VIET_was_gifted_baklava
+			show_as_tooltip = {
+				add_character_modifier = {
+					modifier = VIET_bought_traveling_merchant_baklava
+					years = 5
+				}			
+			}
+		}	
+	}
+	option = { # Ok
+		name = VIETmisc.2039.b
+		scope:recipient = {
+			add_character_flag = VIET_was_gifted_lokma
+			show_as_tooltip = {
+				add_character_modifier = {
+					modifier = VIET_bought_traveling_merchant_lokma
+					years = 5
+				}			
+			}
+		}	
+	}	
+	option = { # Ok
+		name = VIETmisc.2039.c
+		scope:recipient = {
+			add_character_flag = VIET_was_gifted_kanafeh
+			show_as_tooltip = {
+				add_character_modifier = {
+					modifier = VIET_bought_traveling_merchant_kanafeh
+					years = 5
+				}			
+			}
+		}	
+	}	
+	option = { # Ok
+		name = VIETmisc.2039.d
+		scope:recipient = {
+			add_character_flag = VIET_was_gifted_halwa
+			show_as_tooltip = {
+				add_character_modifier = {
+					modifier = VIET_bought_traveling_merchant_halwa
+					years = 5
+				}			
+			}
+		}		
+	}
+	option = { # Ok
+		name = VIETmisc.2039.e
+		scope:recipient = {
+			add_character_flag = VIET_was_gifted_qatayef
+			show_as_tooltip = {
+				add_character_modifier = {
+					modifier = VIET_bought_traveling_merchant_qatayef
+					years = 5
+				}			
+			}
+		}	
+	}
+	
+	after = {
+		scope:recipient = {
+			trigger_event = VIETmisc.2040
+		}		
+	}
+}
+
+
+
+# Gift target receives desserts
+VIETmisc.2040 = {
+	type = letter_event
+	opening = {
+		desc = VIETmisc.2040.opening
+	}
+	desc = VIETmisc.2040.desc
+	
+	sender = scope:actor
+
+	option = { # Accept the gift
+		name = VIETmisc.2040.a
+		if = {
+			limit = { has_character_flag = VIET_was_gifted_baklava }
+			add_character_modifier = {
+				modifier = VIET_bought_traveling_merchant_baklava
+				years = 5
+			}	
+		}
+		if = {
+			limit = { has_character_flag = VIET_was_gifted_lokma }
+			add_character_modifier = {
+				modifier = VIET_bought_traveling_merchant_lokma
+				years = 5
+			}	
+		}
+		if = {
+			limit = { has_character_flag = VIET_was_gifted_kanafeh }
+			add_character_modifier = {
+				modifier = VIET_bought_traveling_merchant_kanafeh
+				years = 5
+			}	
+		}
+		if = {
+			limit = { has_character_flag = VIET_was_gifted_halwa }
+			add_character_modifier = {
+				modifier = VIET_bought_traveling_merchant_halwa
+				years = 5
+			}	
+		}
+		if = {
+			limit = { has_character_flag = VIET_was_gifted_qatayef }
+			add_character_modifier = {
+				modifier = VIET_bought_traveling_merchant_qatayef
+				years = 5
+			}	
+		}
+		scope:recipient = {
+			add_opinion = {
+				target = scope:actor
+				modifier = VIET_opinion_gifted_baklava
+			}			
+		}
+		scope:actor = {
+			trigger_event = VIETmisc.2041
+			show_as_tooltip = {
+				VIET_huge_prestige_gain_effect = yes
+			}
+		}
+	}
+	option = { # Refuse the gift
+		name = VIETmisc.2040.b
+		scope:actor = {
+			trigger_event = VIETmisc.2042
+			show_as_tooltip = {
+				add_opinion = {
+					target = scope:recipient
+					modifier = VIET_opinion_refused_gift_baklava
+				}			
+			}
+		}
+	}
+}
+
+
+
+# Gift is accepted
+VIETmisc.2041 = {
+	type = letter_event
+	opening = {
+		desc = VIETmisc.2041.opening
+	}
+	desc = VIETmisc.2041.desc
+	
+	sender = scope:recipient
+	
+	immediate = {
+		if = {
+			limit = { scope:recipient = { has_character_flag = VIET_was_gifted_baklava } }
+			show_as_tooltip = {
+				scope:recipient = {
+					add_character_modifier = {
+						modifier = VIET_bought_traveling_merchant_baklava
+						years = 5
+					}					
+				}			
+			}
+		}
+		if = {
+			limit = { scope:recipient = { has_character_flag = VIET_was_gifted_lokma } }
+			show_as_tooltip = {
+				scope:recipient = {
+					add_character_modifier = {
+						modifier = VIET_bought_traveling_merchant_lokma
+						years = 5
+					}					
+				}			
+			}
+		}
+		if = {
+			limit = { scope:recipient = { has_character_flag = VIET_was_gifted_kanafeh } }
+			show_as_tooltip = {
+				scope:recipient = {
+					add_character_modifier = {
+						modifier = VIET_bought_traveling_merchant_kanafeh
+						years = 5
+					}					
+				}			
+			}
+		}
+		if = {
+			limit = { scope:recipient = { has_character_flag = VIET_was_gifted_halwa } }
+			show_as_tooltip = {
+				scope:recipient = {
+					add_character_modifier = {
+						modifier = VIET_bought_traveling_merchant_halwa
+						years = 5
+					}					
+				}			
+			}
+		}
+		if = {
+			limit = { scope:recipient = { has_character_flag = VIET_was_gifted_qatayef } }
+			show_as_tooltip = {
+				scope:recipient = {
+					add_character_modifier = {
+						modifier = VIET_bought_traveling_merchant_qatayef
+						years = 5
+					}					
+				}			
+			}
+		}
+		
+	}
+
+	option = { # ok
+		name = VIETmisc.2041.a
+		scope:actor = {
+			VIET_huge_prestige_gain_effect = yes
+		}
+		scope:recipient = {
+			show_as_tooltip = {
+				add_opinion = {
+					target = scope:actor
+					modifier = VIET_opinion_gifted_baklava
+				}			
+			}
+		}
+	}
+	
+	after = {
+		if = {
+			limit = { scope:recipient = { has_character_flag = VIET_was_gifted_baklava } }
+			remove_character_flag = VIET_was_gifted_baklava
+		}
+		if = {
+			limit = { scope:recipient = { has_character_flag = VIET_was_gifted_lokma } }
+			remove_character_flag = VIET_was_gifted_lokma
+		}
+		if = {
+			limit = { scope:recipient = { has_character_flag = VIET_was_gifted_kanafeh } }
+			remove_character_flag = VIET_was_gifted_kanafeh
+		}
+		if = {
+			limit = { scope:recipient = { has_character_flag = VIET_was_gifted_halwa } }
+			remove_character_flag = VIET_was_gifted_halwa
+		}
+		if = {
+			limit = { scope:recipient = { has_character_flag = VIET_was_gifted_qatayef } }
+			remove_character_flag = VIET_was_gifted_qatayef
+		}
+	}	
+	
+}
+
+# Gift is refused
+VIETmisc.2042 = {
+	type = letter_event
+	opening = {
+		desc = VIETmisc.2042.opening
+	}
+	desc = VIETmisc.2042.desc
+	
+	sender = scope:recipient
+
+	option = { # ok
+		name = VIETmisc.2042.a
+		scope:actor = {
+			add_opinion = {
+				target = scope:recipient
+				modifier = VIET_opinion_refused_gift_baklava
+			}
+		}
+	}
+	
+	after = {
+		if = {
+			limit = { scope:recipient = { has_character_flag = VIET_was_gifted_baklava } }
+			remove_character_flag = VIET_was_gifted_baklava
+		}
+		if = {
+			limit = { scope:recipient = { has_character_flag = VIET_was_gifted_lokma } }
+			remove_character_flag = VIET_was_gifted_lokma
+		}
+		if = {
+			limit = { scope:recipient = { has_character_flag = VIET_was_gifted_kanafeh } }
+			remove_character_flag = VIET_was_gifted_kanafeh
+		}
+		if = {
+			limit = { scope:recipient = { has_character_flag = VIET_was_gifted_halwa } }
+			remove_character_flag = VIET_was_gifted_halwa
+		}
+		if = {
+			limit = { scope:recipient = { has_character_flag = VIET_was_gifted_qatayef } }
+			remove_character_flag = VIET_was_gifted_qatayef
+		}
+	}	
+	
+}
+
+
+
+##################################################################
+# SPICE MERCHANT GIFT 2043-2046
+##################################################################
+
+
+# Meet with the merchant to purchase spices
+VIETmisc.2043 = {
+	type = character_event
+	title = VIETmisc.2043.t
+	desc = VIETmisc.2043.desc
+	theme = VIET_theme_small_town
+	override_icon = { reference = "gfx/interface/icons/event_types/type_feast.dds" }
+	
+	left_portrait = {
+		character = root
+		animation = personality_content
+	}
+	
+	option = { # Ok
+		name = VIETmisc.2043.a
+		scope:recipient = {
+			show_as_tooltip = {
+				add_character_modifier = {
+					modifier = VIET_bought_five_spice_blend
+					years = 5
+				}			
+			}
+		}	
+	}
+	
+	after = {
+		scope:recipient = {
+			trigger_event = VIETmisc.2044
+		}		
+	}
+}
+
+
+
+# Gift target receives desserts
+VIETmisc.2044 = {
+	type = letter_event
+	opening = {
+		desc = VIETmisc.2044.opening
+	}
+	desc = VIETmisc.2044.desc
+	
+	sender = scope:actor
+
+	option = { # Accept the gift
+		name = VIETmisc.2044.a
+		add_character_modifier = {
+			modifier = VIET_bought_five_spice_blend
+			years = 5
+		}	
+		scope:recipient = {
+			add_opinion = {
+				target = scope:actor
+				modifier = VIET_opinion_gifted_spices
+			}			
+		}
+		scope:actor = {
+			trigger_event = VIETmisc.2045
+			show_as_tooltip = {
+				VIET_huge_prestige_gain_effect = yes
+			}
+		}
+	}
+	option = { # Refuse the gift
+		name = VIETmisc.2044.b
+		scope:actor = {
+			trigger_event = VIETmisc.2046
+			show_as_tooltip = {
+				add_opinion = {
+					target = scope:recipient
+					modifier = VIET_opinion_refused_gift_spices
+				}			
+			}
+		}
+	}
+}
+
+
+
+# Gift is accepted
+VIETmisc.2045 = {
+	type = letter_event
+	opening = {
+		desc = VIETmisc.2045.opening
+	}
+	desc = VIETmisc.2045.desc
+	
+	sender = scope:recipient
+	
+	immediate = {
+		show_as_tooltip = {
+			scope:recipient = {
+				add_character_modifier = {
+					modifier = VIET_bought_five_spice_blend
+					years = 5
+				}					
+			}			
+		}	
+	}
+
+	option = { # ok
+		name = VIETmisc.2045.a
+		scope:actor = {
+			VIET_huge_prestige_gain_effect = yes
+		}
+		scope:recipient = {
+			show_as_tooltip = {
+				add_opinion = {
+					target = scope:actor
+					modifier = VIET_opinion_gifted_spices
+				}			
+			}
+		}
+	}
+}
+
+# Gift is refused
+VIETmisc.2046 = {
+	type = letter_event
+	opening = {
+		desc = VIETmisc.2046.opening
+	}
+	desc = VIETmisc.2046.desc
+	
+	sender = scope:recipient
+
+	option = { # ok
+		name = VIETmisc.2046.a
+		scope:actor = {
+			add_opinion = {
+				target = scope:recipient
+				modifier = VIET_opinion_gifted_spices
+			}
+		}
+	}
+}
+
+
+##################################################################
+# DEAL WITH THE CROWS 2047-2060
+##################################################################
+
+# Crows keep following you around for some reason
+VIETmisc.2047 = {
+	type = character_event
+	title = VIETmisc.2047.t
+	desc = VIETmisc.2047.desc
+	theme = skull
+	override_background = { reference = courtyard }
+	
+	right_portrait = {
+		character = root
+		animation = boredom
+	}
+	
+	weight_multiplier = {
+		base = 1
+		modifier = {
+			add = 0.2
+			has_trait = deceitful
+		}
+		modifier = {
+			add = -0.2
+			has_trait = honest
+		}
+		modifier = {
+			add = 0.2
+			has_trait = paranoid
+		}
+		modifier = {
+			add = -0.2
+			has_trait = trusting
+		}
+		modifier = {
+			add = 0.2
+			has_trait = calm
+		}
+		modifier = {
+			add = -0.2
+			has_trait = wrathful
+		}
+	}
+	
+	immediate = {
+		play_music_cue = "mx_cue_murder"
+	}
+	
+	option = { # Ok
+		name = VIETmisc.2047.a
+		add_character_modifier = {
+			modifier = VIET_crows_following
+		}
+		custom_tooltip = VIETmisc.2047.tooltip
+		hidden_effect = {
+			random_list = {
+				10 = {
+					trigger_event = {
+						id = VIETmisc.2060
+						months = { 24 36 }
+					}
+				}
+				10 = {
+					trigger_event = {
+						id = VIETmisc.2060
+						months = { 48 60 }
+					}
+				}
+				10 = {
+					trigger_event = {
+						id = VIETmisc.2060
+						months = { 72 84 }
+					}
+				}
+				10 = {
+					trigger_event = {
+						id = VIETmisc.2060
+						months = { 96 108 }
+					}
+				}
+				10 = {
+					trigger_event = {
+						id = VIETmisc.2060
+						months = { 120 132 }
+					}
+				}
+				40 = { # Crows stick around forever
+
+				}
+			}
+		}
+	}
+}
+
+
+# Crows disappear for good
+VIETmisc.2048 = {
+	type = character_event
+	title = VIETmisc.2048.t
+	desc = VIETmisc.2048.desc
+	theme = skull
+	override_background = { reference = courtyard }
+	
+	left_portrait = {
+		character = root
+		animation = personality_irrational
+	}
+	
+	immediate = {
+		play_music_cue = "mx_cue_murder"
+	}
+	
+	option = { # Ok
+		name = VIETmisc.2048.a
+		remove_character_modifier = VIET_crows_following
+	}
+}
+
+
+# What to do with the crows?
+VIETmisc.2049 = {
+	type = character_event
+	title = VIETmisc.2049.t
+	desc = VIETmisc.2049.desc
+	theme = skull
+	override_background = { reference = council_chamber }
+	
+	left_portrait = {
+		character = root
+		animation = worry
+	}
+	
+	immediate = {
+		capital_province = { save_scope_as = capital_province } #For loc.
+		# Stop characters from planning multiple activities at once.
+		#add_character_flag = planning_an_activity
+		add_character_flag = VIET_doing_crow_activities
+	}
+	
+	option = { # Get rid of them
+		name = VIETmisc.2049.a
+		VIET_huge_prestige_gain_effect = yes
+		stress_impact = {
+			compassionate = minor_stress_impact_gain
+			forgiving = minor_stress_impact_gain
+			patient = minor_stress_impact_gain
+			calm = minor_stress_impact_gain
+			content = minor_stress_impact_gain
+		}
+		custom_tooltip = VIETmisc.2049.a.tooltip
+		# Choose appropriate location
+		# scope:capital_province = {	
+		# 	spawn_activity = {
+		# 		owner = root
+		# 		type = activity_VIET_crow_removal
+		# 	}	
+		# }
+		hidden_effect = {
+			random_list = {
+				# Crows are gone for good
+				40 = {
+					modifier = {
+						add = 4
+						dread > 25
+					}
+					modifier = {
+						add = 6
+						dread > 50
+					}
+					modifier = {
+						add = 8
+						dread > 75
+					}
+					modifier = {
+						add = 5
+						num_virtuous_traits >= 1
+					}
+					modifier = {
+						add = 5
+						has_trait = humble
+					}
+					modifier = {
+						add = 5
+						has_trait = compassionate
+					}
+					modifier = {
+						add = 5
+						has_trait = patient
+					}
+					trigger_event = {
+						id = VIETmisc.2050
+						days = { 20 60 }
+					}				
+				}
+				# Crows take revenge on you
+				60 = {
+					modifier = {
+						add = 4
+						num_sinful_traits >= 1
+					}
+					modifier = {
+						add = 4
+						has_trait = arrogant
+					}
+					modifier = {
+						add = 4
+						has_trait = sadistic
+					}
+					modifier = {
+						add = 4
+						has_trait = wrathful
+					}
+					modifier = {
+						add = 4
+						has_trait = vengeful
+					}
+					trigger_event = {
+						id = VIETmisc.2051
+						days = { 20 60 }
+					}				
+				}
+			}
+		}
+	}	
+	option = { # Try to make peace with them
+		name = VIETmisc.2049.b
+		VIET_huge_prestige_loss_effect = yes
+		VIET_huge_piety_loss_effect = yes
+		stress_impact = {
+			wrathful = minor_stress_impact_gain
+			vengeful = minor_stress_impact_gain
+			impatient = minor_stress_impact_gain
+			sadistic = minor_stress_impact_gain
+			paranoid = minor_stress_impact_gain
+		}
+		custom_tooltip = VIETmisc.2049.b.tooltip
+		# Choose appropriate location
+		# scope:capital_province = {	
+		# 	spawn_activity = {
+		# 		owner = root
+		# 		type = activity_VIET_crow_appeasement
+		# 	}	
+		# }
+		hidden_effect = {
+			trigger_event = {
+				id = VIETmisc.2052
+				days = { 15 35 }
+			}
+		}
+	}
+}
+
+
+# The crows actually left for good...?
+VIETmisc.2050 = {
+	type = character_event
+	title = VIETmisc.2050.t
+	desc = VIETmisc.2050.desc
+	theme = skull
+	override_background = { reference = garden }
+	
+	left_portrait = {
+		character = root
+		animation = personality_irrational
+	}
+	
+	immediate = {
+		remove_character_modifier = VIET_crows_following
+	}
+	
+	option = { # Ok
+		name = VIETmisc.2050.a
+		if = {
+			limit = {
+				has_character_flag = VIET_doing_crow_activities
+			}
+			remove_character_flag = VIET_doing_crow_activities
+		}
+	}
+	
+	# after = {
+	# 	trigger_event = {
+	# 		id = VIETmisc.2059
+	# 		days = 1
+	# 	}
+	# }
+}
+
+
+# The crows stick around to annoy the hell out of you
+VIETmisc.2051 = {
+	type = character_event
+	title = VIETmisc.2051.t
+	desc = VIETmisc.2051.desc
+	theme = skull
+	override_background = { reference = garden }
+	
+	left_portrait = {
+		character = root
+		animation = paranoia
+	}
+	
+	immediate = {
+		play_music_cue = mx_cue_secret
+		remove_character_modifier = VIET_crows_following
+		random_list = {
+			10 = {
+				add_character_modifier = {
+					modifier = VIET_crow_enemy
+					years = 10
+				}			
+			}
+			10 = {
+				add_character_modifier = {
+					modifier = VIET_crow_enemy
+					years = 20
+				}			
+			}
+			10 = {
+				add_character_modifier = {
+					modifier = VIET_crow_enemy
+					years = 30
+				}			
+			}
+			10 = {
+				add_character_modifier = {
+					modifier = VIET_crow_enemy
+					years = 40
+				}			
+			}
+			60 = {
+				modifier = {
+					add = 3
+					num_sinful_traits >= 1
+				}
+				modifier = {
+					add = 3
+					has_trait = arrogant
+				}
+				modifier = {
+					add = 3
+					has_trait = sadistic
+				}
+				modifier = {
+					add = 3
+					has_trait = wrathful
+				}
+				modifier = {
+					add = 3
+					has_trait = vengeful
+				}
+				add_character_modifier = {
+					modifier = VIET_crow_enemy
+				}			
+			}
+		}
+	}
+	
+	option = { # Ok
+		name = VIETmisc.2051.a
+		VIET_massive_prestige_loss_effect = yes
+		VIET_massive_piety_loss_effect = yes
+		stress_impact = {
+			base = minor_stress_impact_gain
+			wrathful = minor_stress_impact_gain
+			paranoid = medium_stress_impact_gain
+		}
+		if = {
+			limit = {
+				has_character_flag = VIET_doing_crow_activities
+			}
+			remove_character_flag = VIET_doing_crow_activities
+		}
+	}
+	
+	# after = {
+	# 	trigger_event = {
+	# 		id = VIETmisc.2059
+	# 		days = 1
+	# 	}
+	# }
+}
+
+
+
+# Feeding the crows
+VIETmisc.2052 = {
+	type = character_event
+	title = VIETmisc.2052.t
+	desc = VIETmisc.2052.desc
+	theme = skull
+	override_background = { reference = garden }
+	
+	left_portrait = {
+		character = root
+		animation = personality_forgiving
+	}
+	
+	option = { # Ok
+		name = VIETmisc.2052.a
+		custom_tooltip = VIETmisc.2052.tooltip.a
+		hidden_effect = {
+			random_list = {
+				50 = {
+					modifier = {
+						add = 4
+						num_virtuous_traits >= 1
+					}
+					modifier = {
+						add = 4
+						has_trait = humble
+					}
+					modifier = {
+						add = 4
+						has_trait = compassionate
+					}
+					modifier = {
+						add = 4
+						has_trait = just
+					}
+					modifier = {
+						add = 4
+						has_trait = calm
+					}
+					trigger_event = {
+						id = VIETmisc.2055
+						days = { 15 35 }
+					}		
+				}
+				50 = {
+					modifier = {
+						add = 3
+						num_sinful_traits >= 1
+					}
+					modifier = {
+						add = 3
+						has_trait = arrogant
+					}
+					modifier = {
+						add = 3
+						has_trait = sadistic
+					}
+					modifier = {
+						add = 3
+						has_trait = wrathful
+					}
+					modifier = {
+						add = 3
+						has_trait = vengeful
+					}
+					trigger_event = {
+						id = VIETmisc.2054
+						days = { 15 35 }
+					}		
+				}
+			}
+		}
+	}
+	
+	option = { # Ok
+		name = VIETmisc.2052.b_
+		trigger = {
+			OR = {
+				is_ai = no
+				gold >= 25
+			}
+		}
+		remove_short_term_gold = 25
+		VIET_huge_prestige_loss_effect = yes
+		custom_tooltip = VIETmisc.2052.tooltip.b
+		trigger_event = {
+			id = VIETmisc.2053
+			days = { 10 20 }
+		}
+	}
+}
+
+
+
+# Build a fountain for the crows
+VIETmisc.2053 = {
+	type = character_event
+	title = VIETmisc.2053.t
+	desc = VIETmisc.2053.desc
+	theme = skull
+	override_background = { reference = garden }
+	
+	left_portrait = {
+		character = root
+		animation = personality_forgiving
+	}
+	
+	option = { # Ok
+		name = VIETmisc.2053.a
+		VIET_huge_piety_gain_effect = yes
+		trigger_event = {
+			id = VIETmisc.2055
+			days = { 10 25 }
+		}
+	}
+}
+
+
+
+# Crows leave for good
+VIETmisc.2054 = {
+	type = character_event
+	title = VIETmisc.2054.t
+	desc = VIETmisc.2054.desc
+	theme = skull
+	override_background = { reference = garden }
+	
+	left_portrait = {
+		character = root
+		animation = personality_forgiving
+	}
+	
+	immediate = {
+		remove_character_modifier = VIET_crows_following
+	}
+	
+	option = { # Ok
+		name = VIETmisc.2054.a
+		if = {
+			limit = {
+				has_character_flag = VIET_doing_crow_activities
+			}
+			remove_character_flag = VIET_doing_crow_activities
+		}
+	}
+	
+	# after = {
+	# 	trigger_event = {
+	# 		id = VIETmisc.2059
+	# 		days = 1
+	# 	}
+	# }
+}
+
+
+# Crows stay
+VIETmisc.2055 = {
+	type = character_event
+	hidden = yes
+	trigger = { always = no }
+}
+
+
+# Crows save you from a bandit attack
+VIETmisc.2056 = {
+	type = character_event
+	title = VIETmisc.2056.t
+	desc = VIETmisc.2056.desc
+	theme = battle	
+	override_background = { reference = VIET_background_tuscan_country }
+	
+	right_portrait = {
+		character = root
+		animation = admiration
+	}	
+	
+	trigger = {
+		VIET_is_crow_lord_or_lady_trigger = yes
+	}
+	
+	weight_multiplier = {
+		base = 1
+		modifier = {
+			add = 0.2
+			has_trait = brave
+		}
+		modifier = {
+			add = -0.2
+			has_trait = craven
+		}
+		modifier = {
+			add = 0.2
+			has_trait = diligent
+		}
+		modifier = {
+			add = -0.2
+			has_trait = lazy
+		}
+		modifier = {
+			add = 0.2
+			has_trait = ambitious
+		}
+		modifier = {
+			add = -0.2
+			has_trait = paranoid
+		}
+	}
+	
+	option = { # ok
+		name = VIETmisc.2056.a
+		VIET_large_prestige_gain_effect = yes
+		add_dread = 10
+		add_character_modifier = {
+			modifier = VIET_rescued_by_crows
+			years = 5
+		}		
+	}
+}
+
+# Crows give you some presents
+VIETmisc.2057 = {
+	type = character_event
+	title = VIETmisc.2057.t
+	desc = VIETmisc.2057.desc
+	theme = skull
+	override_background = { reference = garden }
+	
+	left_portrait = {
+		character = root
+		animation = personality_content
+	}
+	
+	trigger = {
+		VIET_is_crow_lord_or_lady_trigger = yes
+	}
+	
+	immediate = {
+		random_list = {
+			10 = {
+				add_character_flag = VIET_crow_present_gold
+				random_list = {
+					10 = { add_gold = 1 }
+					10 = { add_gold = 2 }
+					10 = { add_gold = 5 }
+					10 = { add_gold = 8 }
+					10 = { add_gold = 10 }
+					10 = { add_gold = 12 }
+					10 = { add_gold = 16 }
+					10 = { add_gold = 20 }
+				}
+			}
+			10 = {
+				add_character_flag = VIET_crow_present_jewels
+				random_list = {
+					10 = { add_gold = 5 }
+					10 = { add_gold = 10 }
+					10 = { add_gold = 20 }
+					10 = { add_gold = 30 }
+					10 = { add_gold = 40 }
+					10 = { add_gold = 50 }
+				}
+			}
+			10 = {
+				add_character_flag = VIET_crow_present_parchment
+				VIET_random_small_prestige_gain_effect = yes
+			}
+			10 = {
+				add_character_flag = VIET_crow_present_rocks
+				VIET_random_small_piety_gain_effect = yes
+			}
+			10 = {
+				add_character_flag = VIET_crow_present_plants
+				add_character_modifier = {
+					modifier = VIET_crow_gift_plants
+					years = 2
+				}
+			}
+		}
+	}
+	
+	weight_multiplier = {
+		base = 1
+		modifier = {
+			add = 0.2
+			has_trait = compassionate
+		}
+		modifier = {
+			add = -0.2
+			has_trait = callous
+		}
+		modifier = {
+			add = 0.2
+			has_trait = calm
+		}
+		modifier = {
+			add = -0.2
+			has_trait = wrathful
+		}
+		modifier = {
+			add = 0.2
+			has_trait = generous
+		}
+		modifier = {
+			add = -0.2
+			has_trait = greedy
+		}
+	}
+	
+	option = { # Ok
+		name = VIETmisc.2057.a
+		trigger = { has_character_flag = VIET_crow_present_gold }
+	}	
+	option = { # Ok
+		name = VIETmisc.2057.b
+		trigger = { has_character_flag = VIET_crow_present_jewels }
+	}	
+	option = { # Ok
+		name = VIETmisc.2057.c
+		trigger = { has_character_flag = VIET_crow_present_parchment }
+	}	
+	option = { # Ok
+		name = VIETmisc.2057.d
+		trigger = { has_character_flag = VIET_crow_present_rocks }
+	}	
+	option = { # Ok
+		name = VIETmisc.2057.e
+		trigger = { has_character_flag = VIET_crow_present_plants }
+	}
+	
+	after = {
+		if = {
+			limit = { has_character_flag = VIET_crow_present_gold }
+			remove_character_flag = VIET_crow_present_gold
+		}
+		if = {
+			limit = { has_character_flag = VIET_crow_present_jewels }
+			remove_character_flag = VIET_crow_present_jewels
+		}
+		if = {
+			limit = { has_character_flag = VIET_crow_present_parchment }
+			remove_character_flag = VIET_crow_present_parchment
+		}
+		if = {
+			limit = { has_character_flag = VIET_crow_present_rocks }
+			remove_character_flag = VIET_crow_present_rocks
+		}
+		if = {
+			limit = { has_character_flag = VIET_crow_present_plants }
+			remove_character_flag = VIET_crow_present_plants
+		}
+	}
+}
+
+
+# Relaxing with the crows
+VIETmisc.2058 = {
+	type = character_event
+	title = VIETmisc.2058.t
+	desc = VIETmisc.2058.desc
+	theme = skull
+	override_background = { reference = garden }
+	
+	left_portrait = {
+		character = root
+		animation = personality_content
+	}
+	
+	option = { # Ok
+		name = VIETmisc.2058.a
+		add_dread = 10
+		stress_impact = {
+			base = minor_stress_impact_loss
+			compassionate = minor_stress_impact_loss
+			calm = minor_stress_impact_loss
+		}
+	}
+}
+
+
+# Misc cleanup
+# VIETmisc.2059 = {
+# 	hidden = yes	
+# 	immediate = {
+# 		scope:activity = {
+# 			complete_activity = yes
+# 		}
+# 	}
+# }
+
+
+# Ping to check if currently doing anything with crows or if crow situation is resolved
+VIETmisc.2060 = {
+	hidden = yes	
+	immediate = {
+		if = {
+			limit = {
+				NOR = {
+					has_character_flag = VIET_doing_crow_activities
+					has_character_modifier = VIET_crow_enemy
+					has_character_modifier = VIET_crow_friend
+				}
+			}
+			trigger_event = VIETmisc.2048
+		}
+	}
+}
+
+
+
+
+
+
+##################################################################
+# SHORTHAND 2061-2062
+##################################################################
+
+# Character gains interest in learning how to write shorthand
+VIETmisc.2061 = {
+	type = character_event
+	title = VIETmisc.2061.t
+	desc = VIETmisc.2061.desc
+	theme = learning_scholarship_focus
+	
+	left_portrait = {
+		character = root
+		animation = personality_rational
+	}
+	
+	trigger = {
+		NOR = {
+			has_character_modifier = VIET_currently_learning_shorthand
+			has_character_modifier = VIET_learned_shorthand_1
+			has_character_modifier = VIET_learned_shorthand_2
+			has_character_modifier = VIET_learned_shorthand_3
+			has_character_modifier = VIET_learned_shorthand_4
+		}
+		# Weed out most cultures that probably aren't literate at the game start and wouldn't be writing stuff like letters
+		NOT = { government_has_flag = government_is_tribal }	
+		# Want someone who's probably literate and who isn't an idiot
+		NOT = { has_trait = blind }
+		probably_unintelligent_trigger = no
+		diplomacy >= low_skill_rating
+		learning >= low_skill_rating
+	}
+	
+	weight_multiplier = {
+		base = 1
+		modifier = {
+			add = 0.2
+			has_trait = impatient
+		}
+		modifier = {
+			add = -0.2
+			has_trait = patient
+		}
+		modifier = {
+			add = 0.2
+			has_trait = diligent
+		}
+		modifier = {
+			add = -0.2
+			has_trait = lazy
+		}
+		modifier = {
+			add = 0.2
+			has_trait = fickle
+		}
+		modifier = {
+			add = -0.2
+			has_trait = stubborn
+		}
+	}
+	
+	immediate = {
+		# Randomize how long the character modifier will be
+		random_list = {
+			10 = {
+				add_character_modifier = {
+					modifier = VIET_shorthand_interest
+					years = 2
+				}
+			}
+			15 = {
+				add_character_modifier = {
+					modifier = VIET_shorthand_interest
+					years = 4
+				}
+			}
+			15 = {
+				add_character_modifier = {
+					modifier = VIET_shorthand_interest
+					years = 6
+				}
+			}
+			15 = {
+				add_character_modifier = {
+					modifier = VIET_shorthand_interest
+					years = 8
+				}
+			}
+			10 = {
+				add_character_modifier = {
+					modifier = VIET_shorthand_interest
+					years = 10
+				}
+			}
+		}
+	}
+	
+	option = { # Ok
+		name = VIETmisc.2061.a
+		custom_tooltip = VIETmisc.2061.tooltip
+	}
+}
+
+# Character learns shorthand
+VIETmisc.2062 = {
+	type = character_event
+	title = VIETmisc.2062.t
+	desc = VIETmisc.2062.desc
+	theme = learning_scholarship_focus
+	
+	left_portrait = {
+		character = root
+		animation = chancellor
+	}
+	
+	immediate = {
+		remove_character_modifier = VIET_currently_learning_shorthand
+		# Randomize how good the character's skill is
+		random_list = {
+			35 = {
+				modifier = {
+					add = 5
+					diplomacy <= mediocre_skill_rating
+				}
+				modifier = {
+					add = 5
+					learning <= mediocre_skill_rating
+				}
+				modifier = {
+					add = 3
+					has_trait = impatient
+				}
+				modifier = {
+					add = 3
+					has_trait = fickle
+				}
+				modifier = {
+					add = 3
+					has_trait = lazy
+				}
+				add_character_modifier = {
+					modifier = VIET_learned_shorthand_1
+				}
+			}
+			45 = {
+				add_character_modifier = {
+					modifier = VIET_learned_shorthand_2
+				}
+			}
+			25 = {
+				modifier = {
+					add = 5
+					diplomacy >= decent_skill_rating
+				}
+				modifier = {
+					add = 5
+					learning >= decent_skill_rating
+				}
+				modifier = {
+					add = 5
+					probably_intelligent_trigger = yes
+				}
+				modifier = {
+					add = 3
+					has_trait = patient
+				}
+				modifier = {
+					add = 3
+					has_trait = diligent
+				}
+				modifier = {
+					add = 3
+					has_trait = ambitious
+				}
+				add_character_modifier = {
+					modifier = VIET_learned_shorthand_3
+				}
+			}
+			10 = {
+				modifier = {
+					add = 5
+					diplomacy >= high_skill_rating
+				}
+				modifier = {
+					add = 5
+					learning >= high_skill_rating
+				}
+				modifier = {
+					add = 5
+					diplomacy >= decent_skill_rating
+				}
+				modifier = {
+					add = 5
+					learning >= decent_skill_rating
+				}
+				modifier = {
+					add = 5
+					probably_intelligent_trigger = yes
+				}
+				modifier = {
+					add = 3
+					has_trait = patient
+				}
+				modifier = {
+					add = 3
+					has_trait = diligent
+				}
+				modifier = {
+					add = 3
+					has_trait = ambitious
+				}
+				add_character_modifier = {
+					modifier = VIET_learned_shorthand_4
+				}
+			}
+		}
+	}
+	
+	option = { # Ok
+		name = VIETmisc.2062.a
+		VIET_large_prestige_gain_effect = yes
+	}
+}
+
+
+##################################################################
+#
+# COUNTY DECISIONS 2063-2072
+#
+##################################################################
+
+# Buy the medicinal berries
+VIETmisc.2063 = {
+	type = character_event
+	title = VIETmisc.2063.t
+	desc = VIETmisc.2063.desc
+	theme = medicine
+	
+	
+	left_portrait = {
+		character = root
+		animation = personality_rational
+	}
+	
+	option = { # Ok
+		name = VIETmisc.2063.a
+		remove_short_term_gold = 15
+		add_character_modifier = {
+			modifier = VIET_berry_good_medicine
+			years = 3
+		}
+	}	
+	option = { # Ok
+		name = VIETmisc.2063.b
+		trigger = {
+			OR = {
+				gold >= 30
+				is_ai = no
+			}
+		}
+		remove_short_term_gold = 30
+		add_character_modifier = {
+			modifier = VIET_berry_good_medicine
+			years = 6
+		}
+	}	
+	option = { # Ok
+		name = VIETmisc.2063.c
+		trigger = {
+			OR = {
+				gold >= 45
+				is_ai = no
+			}
+		}
+		remove_short_term_gold = 45
+		add_character_modifier = {
+			modifier = VIET_berry_good_medicine
+			years = 9
+		}
+	}
+}
+
+# Employ the blacksmiths
+VIETmisc.2064 = {
+	type = character_event
+	title = VIETmisc.2064.t
+	desc = VIETmisc.2064.desc
+	theme = martial
+	
+	
+	left_portrait = {
+		character = root
+		animation = personality_rational
+	}
+	
+	option = { # Ok
+		name = VIETmisc.2064.a
+		add_character_modifier = {
+			modifier = VIET_employed_renowned_blacksmiths_armor
+			years = 10
+		}
+	}	
+	option = { # Ok
+		name = VIETmisc.2064.b
+		add_character_modifier = {
+			modifier = VIET_employed_renowned_blacksmiths_weapons
+			years = 10
+		}
+	}	
+	option = { # Ok
+		name = VIETmisc.2064.c
+		add_character_modifier = {
+			modifier = VIET_employed_renowned_blacksmiths_supplies
+			years = 10
+		}
+	}
+}
+
+# Visit the burial mound
+VIETmisc.2065 = {
+	type = activity_event
+	title = VIETmisc.2065.t	
+	desc = {
+		desc = VIETmisc.2065.desc
+		first_valid = {
+			triggered_desc = {
+				trigger = {
+					scope:county = { has_county_modifier = VIET_tomb_monument_warrior }
+				}
+				desc = VIETmisc.2065.desc.warrior
+			}
+			triggered_desc = {
+				trigger = {
+					scope:county = { has_county_modifier = VIET_tomb_monument_holy }
+				}
+				desc = VIETmisc.2065.desc.holy
+			}
+			triggered_desc = {
+				trigger = {
+					scope:county = { has_county_modifier = VIET_tomb_monument_ruler }
+				}
+				desc = VIETmisc.2065.desc.monarch
+			}
+		}
+	}
+	theme = VIET_theme_ancient_cairn
+	
+	left_portrait = {
+		character = root
+		animation = personality_zealous
+	}
+	
+	immediate = {
+		play_music_cue = mx_cue_sacredrite
+		scope:activity.activity_location.county = {
+			save_scope_as = county			
+		}		
+	}
+	
+	option = { # Results
+		name = VIETmisc.2065.a
+		VIET_burial_mound_visit_completed_log_entry_effect = yes
+		# if = {
+		# 	limit = {
+		# 		scope:county = { has_county_modifier = VIET_tomb_monument_warrior }
+		# 	}
+		# 	add_character_modifier = {
+		# 		modifier = VIET_burial_mound_inspired_warrior
+		# 		years = 8
+		# 	}
+		# }
+		# else_if = {
+		# 	limit = {
+		# 		scope:county = { has_county_modifier = VIET_tomb_monument_holy }
+		# 	}
+		# 	add_character_modifier = {
+		# 		modifier = VIET_burial_mound_inspired_holy
+		# 		years = 8
+		# 	}
+		# }
+		# else_if = {
+		# 	limit = {
+		# 		scope:county = { has_county_modifier = VIET_tomb_monument_ruler }
+		# 	}
+		# 	add_character_modifier = {
+		# 		modifier = VIET_burial_mound_inspired_monarch
+		# 		years = 8
+		# 	}
+		# }
+		# if = {
+		# 	limit = {
+		# 		scope:activity = {
+		# 			has_activity_option = {
+		# 				category = special_type
+		# 				option = VIET_burial_mound_visit_type_relax
+		# 			}
+		# 		}				
+		# 	}
+		# 	stress_impact = {
+		# 		base = miniscule_stress_impact_loss
+		# 		lazy = miniscule_stress_impact_loss
+		# 	}
+		# }
+		# else_if = {
+		# 	limit = {
+		# 		scope:activity = {
+		# 			has_activity_option = {
+		# 				category = special_type
+		# 				option = VIET_burial_mound_visit_type_investigate
+		# 			}
+		# 		}				
+		# 	}
+		# 	VIET_major_lifestyle_experience_gain_effect = yes
+		# }
+		# else_if = {
+		# 	limit = {
+		# 		scope:activity = {
+		# 			has_activity_option = {
+		# 				category = special_type
+		# 				option = VIET_burial_mound_visit_type_venerate
+		# 			}
+		# 		}				
+		# 	}
+		# 	VIET_huge_piety_gain_effect = yes
+		# }
+	}
+	
+	after = {
+		if = {
+			limit = {
+				root = scope:host
+			}
+			scope:activity = {
+				# every_attending_character = {
+				# 	limit = { NOT = { this = scope:host } }
+				# 	custom = EVERY_ACTIVITY_PARTICIPANT_EFFECT
+				# 	VIET_medium_prestige_gain_effect = yes
+				# }
+				hidden_effect = { skip_activity_phase = yes }
+			}
+		}	
+	}	
+}
+
+# Ghost Town Investigation
+VIETmisc.2066 = {
+	type = activity_event
+	title = VIETmisc.2066.t
+	desc = VIETmisc.2066.desc
+	theme = death
+	override_background = { reference = alley_night }
+	
+	
+	left_portrait = {
+		character = root
+		animation = paranoia
+	}
+
+	immediate = {
+		scope:activity.activity_location.county = {
+			save_scope_as = county			
+		}
+	}
+	
+	option = { # Ok
+		name = VIETmisc.2066.a
+		hidden_effect = {
+			random_list = {
+
+				# See the ghosts
+				25 = {					
+					modifier = {
+						add = 5
+						scope:activity = {
+							has_activity_option = {
+								category = VIET_ghost_town_investigation_sincerity_type
+								option = VIET_ghost_town_investigation_sincerity_type_serious
+							}
+						}
+					}
+					modifier = {
+						add = 10
+						scope:activity = {
+							has_activity_option = {
+								category = VIET_ghost_town_investigation_sincerity_type
+								option = VIET_ghost_town_investigation_sincerity_type_obsessed
+							}
+						}
+					}
+					trigger_event = VIETmisc.2067
+				} 
+
+				# No ghosts show up
+				50 = {
+					trigger_event = VIETmisc.2068
+				} 
+
+				# Guard claims to see it
+				25 = {
+					modifier = {
+						add = 5
+						scope:activity = {
+							has_activity_option = {
+								category = VIET_ghost_town_investigation_sincerity_type
+								option = VIET_ghost_town_investigation_sincerity_type_serious
+							}
+						}
+					}
+					modifier = {
+						add = 10
+						scope:activity = {
+							has_activity_option = {
+								category = VIET_ghost_town_investigation_sincerity_type
+								option = VIET_ghost_town_investigation_sincerity_type_obsessed
+							}
+						}
+					}
+					trigger_event = VIETmisc.2069
+				} 
+
+			}
+		}
+	}
+}
+
+# See the ghosts
+VIETmisc.2067 = {
+	type = activity_event
+	title = VIETmisc.2067.t
+	desc = VIETmisc.2067.desc
+	theme = death
+	override_background = { reference = alley_night }
+	
+	
+	left_portrait = {
+		character = root
+		animation = disbelief
+	}
+	
+	immediate = {
+		play_music_cue = mx_cue_touching_moment
+	}
+	
+	option = { # Ok
+		name = VIETmisc.2067.a		
+		VIET_ghost_town_investigation_saw_something_completed_log_entry_effect = yes
+	}
+	
+	after = {
+		if = {
+			limit = {
+				root = scope:host
+			}
+			scope:activity = {
+				hidden_effect = { skip_activity_phase = yes }
+			}
+		}	
+	}
+}
+
+# No ghosts show up
+VIETmisc.2068 = {
+	type = activity_event
+	title = VIETmisc.2068.t
+	desc = VIETmisc.2068.desc
+	theme = death
+	override_background = { reference = alley_night }
+	
+	
+	left_portrait = {
+		character = root
+		animation = personality_irrational
+	}
+	
+	option = { # Ok
+		name = VIETmisc.2068.a
+		VIET_ghost_town_investigation_nothing_completed_log_entry_effect = yes
+	}
+	
+	after = {
+		if = {
+			limit = {
+				root = scope:host
+			}
+			scope:activity = {
+				hidden_effect = { skip_activity_phase = yes }
+			}
+		}
+	}
+}
+
+# Guard claims to see it
+VIETmisc.2069 = {
+	type = activity_event
+	title = VIETmisc.2069.t
+	desc = VIETmisc.2069.desc
+	theme = death
+	override_background = { reference = alley_night }
+	
+	
+	left_portrait = {
+		character = root
+		animation = personality_cynical
+	}
+	
+	immediate = {
+		play_music_cue = mx_cue_touching_moment
+	}
+	
+	option = { # Believe him
+		name = VIETmisc.2069.a
+		VIET_ghost_town_investigation_guard_saw_something_belief_completed_log_entry_effect = yes
+	}	
+	option = { # Don't believe him
+		name = VIETmisc.2069.b
+		VIET_ghost_town_investigation_guard_saw_something_disbelief_completed_log_entry_effect = yes
+	}
+	
+	after = {
+		if = {
+			limit = {
+				root = scope:host
+			}
+			scope:activity = {
+				hidden_effect = { skip_activity_phase = yes }
+			}
+		}
+	}
+}
+
+# Visit the hermit site
+VIETmisc.2070 = {
+	type = character_event
+	title = VIETmisc.2070.t
+	desc = VIETmisc.2070.desc
+	theme = VIET_theme_ancient_cairn	
+	
+	right_portrait = {
+		character = root
+		animation = personality_zealous
+	}
+	
+	immediate = {
+		play_music_cue = mx_cue_sacredrite
+	}
+	
+	option = { # ok
+		name = VIETmisc.2070.a
+		VIET_huge_piety_gain_effect = yes
+	}	
+	option = { # ok
+		name = VIETmisc.2070.b
+		trigger = {
+			OR = {
+				gold >= 15
+				is_ai = no
+			}
+		}
+		remove_short_term_gold = 15
+		VIET_massive_piety_gain_effect = yes
+		stress_impact = {
+			cynical = minor_stress_impact_gain
+			arrogant = minor_stress_impact_gain
+			greedy = minor_stress_impact_gain
+		}
+	}
+	
+}
+
+
+# Visit the great shade tree
+VIETmisc.2071 = {
+	type = activity_event
+	title = VIETmisc.2071.t
+	desc = VIETmisc.2071.desc
+	theme = VIET_theme_small_town	
+	
+	right_portrait = {
+		character = root
+		animation = personality_content
+	}
+	
+	immediate = {
+		play_music_cue = mx_cue_low_key_positive
+		scope:activity.activity_location.county = {
+			save_scope_as = county			
+		}
+	}
+	
+	option = { # ok
+		name = VIETmisc.2071.a
+		VIET_giant_shade_tree_visit_completed_log_entry_effect = yes
+
+	}
+	
+	after = {
+		if = {
+			limit = {
+				root = scope:host
+			}
+			scope:activity = {
+				hidden_effect = { skip_activity_phase = yes }
+			}
+		}
+	}
+}
+
+
+# Visit the ancient stone monument
+VIETmisc.2072 = {
+	type = activity_event
+	title = VIETmisc.2072.t
+	desc = VIETmisc.2072.desc
+	theme = VIET_theme_ancient_cairn	
+	
+	right_portrait = {
+		character = root
+		animation = personality_content
+	}
+	
+	immediate = {
+		play_music_cue = mx_cue_sacredrite
+		scope:activity.activity_location.county = {
+			save_scope_as = county			
+		}
+	}
+	
+	option = { # ok
+		name = VIETmisc.2072.a
+		VIET_ancient_stone_monument_relax_completed_log_entry_effect = yes
+	}	
+	option = { # ok
+		name = VIETmisc.2072.b
+		VIET_ancient_stone_monument_study_completed_log_entry_effect = yes
+	}
+	
+	after = {
+		if = {
+			limit = {
+				root = scope:host
+			}
+			scope:activity = {
+				hidden_effect = { skip_activity_phase = yes }
+			}
+		}
+	}
+}
+
+
+
+##################################################################
+#
+# ANIMAL DECISIONS 2073-2077
+#
+##################################################################
+
+# Buy the donkeys
+VIETmisc.2073 = {
+	type = character_event
+	title = VIETmisc.2073.t
+	desc = VIETmisc.2073.desc
+	theme = VIET_theme_small_town
+	
+	
+	left_portrait = root
+	
+	option = { # Ok
+		name = VIETmisc.2073.a
+		remove_short_term_gold = 30
+		add_character_modifier = {
+			modifier = VIET_small_herd_donkeys
+			years = 10
+		}
+	}	
+	option = { # Ok
+		name = VIETmisc.2073.b
+		trigger = {
+			OR = {
+				gold >= 60
+				is_ai = no
+			}
+		}
+		remove_short_term_gold = 60
+		add_character_modifier = {
+			modifier = VIET_medium_herd_donkeys
+			years = 10
+		}
+	}	
+	option = { # Ok
+		name = VIETmisc.2073.c
+		trigger = {
+			OR = {
+				gold >= 90
+				is_ai = no
+			}
+		}
+		remove_short_term_gold = 90
+		add_character_modifier = {
+			modifier = VIET_large_herd_donkeys
+			years = 10
+		}
+	}
+}
+
+
+
+# Courtier suggests you add dovecotes to your residence
+VIETmisc.2074 = {
+	type = character_event
+	title = VIETmisc.2074.t
+	desc = VIETmisc.2074.desc
+	theme = realm
+
+	left_portrait = { 	
+		character = scope:courtier
+		animation = personality_forgiving
+	}	
+	right_portrait = {
+		character = root
+		animation = personality_rational
+	}
+	
+
+	trigger = {
+		has_game_rule = VIET_normal_universe_events
+		NOT = { government_has_flag = government_is_tribal }
+		any_courtier = {
+			is_available_ai_adult = yes
+			# Want someone for whom it'd make sense to suggest this
+			probably_unintelligent_trigger = no
+			OR = {
+				probably_intelligent_trigger = yes
+				stewardship >= medium_skill_rating
+				intrigue >= medium_skill_rating
+			}
+		}
+	}
+	
+	weight_multiplier = {
+		base = 1
+		modifier = {
+			add = 0.2
+			has_trait = lazy
+		}
+		modifier = {
+			add = -0.2
+			has_trait = diligent
+		}
+		modifier = {
+			add = 0.2
+			has_trait = calm
+		}
+		modifier = {
+			add = -0.2
+			has_trait = wrathful
+		}
+		modifier = {
+			add = 0.2
+			has_trait = humble
+		}
+		modifier = {
+			add = -0.2
+			has_trait = arrogant
+		}
+	}
+	
+	immediate = {
+		random_courtier = {
+			limit = {
+				is_available_ai_adult = yes
+				# Want someone for whom it'd make sense to suggest this
+				probably_unintelligent_trigger = no
+				OR = {
+					probably_intelligent_trigger = yes
+					stewardship >= medium_skill_rating
+					intrigue >= medium_skill_rating
+				}
+			}
+			save_scope_as = courtier
+		}
+		random_list = {
+			10 = {				
+				add_character_modifier = {
+					modifier = VIET_dovecote_interest
+					years = 4
+				}
+			}
+			10 = {				
+				add_character_modifier = {
+					modifier = VIET_dovecote_interest
+					years = 5
+				}
+			}
+			10 = {				
+				add_character_modifier = {
+					modifier = VIET_dovecote_interest
+					years = 6
+				}
+			}
+			10 = {				
+				add_character_modifier = {
+					modifier = VIET_dovecote_interest
+					years = 7
+				}
+			}
+			10 = {				
+				add_character_modifier = {
+					modifier = VIET_dovecote_interest
+					years = 8
+				}
+			}
+			10 = {				
+				add_character_modifier = {
+					modifier = VIET_dovecote_interest
+					years = 9
+				}
+			}
+			10 = {				
+				add_character_modifier = {
+					modifier = VIET_dovecote_interest
+					years = 10
+				}
+			}
+		}
+	}
+
+	option = { # Ok
+		name = VIETmisc.2074.a
+		custom_tooltip = VIETmisc.2074.tooltip
+		VIET_medium_piety_gain_effect = yes
+		stress_impact = {
+			arrogant = miniscule_stress_impact_gain
+			ambitious = miniscule_stress_impact_gain
+			diligent = miniscule_stress_impact_gain
+			gluttonous = miniscule_stress_impact_gain
+		}
+		scope:courtier = {
+			add_opinion = {
+				target = root
+				modifier = VIET_opinion_dovecote_not_heeded
+			}
+			reverse_add_opinion = {
+				target = root
+				modifier = VIET_opinion_dovecote_disapprove
+			}			
+		}
+		if = {
+			limit = {
+				has_game_rule = VIET_historical_context_on
+			}
+			custom_tooltip = VIETmisc.2074.info
+		}
+	}
+	option = { # Ok
+		name = VIETmisc.2074.b
+		custom_tooltip = VIETmisc.2074.tooltip
+		VIET_medium_prestige_gain_effect = yes
+		stress_impact = {
+			humble = miniscule_stress_impact_gain
+			content = miniscule_stress_impact_gain
+			lazy = miniscule_stress_impact_gain
+			temperate = miniscule_stress_impact_gain
+		}
+		scope:courtier = {
+			add_opinion = {
+				target = root
+				modifier = VIET_opinion_dovecote_heeded
+			}
+			reverse_add_opinion = {
+				target = root
+				modifier = VIET_opinion_dovecote_approve
+			}			
+		}
+		if = {
+			limit = {
+				has_game_rule = VIET_historical_context_on
+			}
+			custom_tooltip = VIETmisc.2074.info
+		}
+	}
+}
+
+
+
+# Build the dovecotes
+VIETmisc.2075 = {
+	type = character_event
+	title = VIETmisc.2075.t
+	desc = VIETmisc.2075.desc
+	theme = diplomacy_majesty_focus	
+	
+	left_portrait = root
+	
+	option = { # Ok
+		name = VIETmisc.2075.a
+		remove_short_term_gold = 50
+		add_character_modifier = {
+			modifier = VIET_built_dovecotes_small
+			years = 15
+		}
+	}	
+	option = { # Ok
+		name = VIETmisc.2075.b
+		trigger = {
+			OR = {
+				gold >= 100
+				is_ai = no
+			}
+		}
+		remove_short_term_gold = 100
+		add_character_modifier = {
+			modifier = VIET_built_dovecotes_medium
+			years = 15
+		}
+	}	
+	option = { # Ok
+		name = VIETmisc.2075.c
+		trigger = {
+			OR = {
+				gold >= 150
+				is_ai = no
+			}
+		}
+		remove_short_term_gold = 150
+		add_character_modifier = {
+			modifier = VIET_built_dovecotes_large
+			years = 15
+		}
+	}
+}
+
+
+# Will you become a songbird fan or enjoyer?
+VIETmisc.2076 = {
+	type = character_event
+	title = VIETmisc.2076.t
+	desc = VIETmisc.2076.desc
+	theme = VIET_theme_skyrim_forest	
+	
+	left_portrait = {
+		character = root
+		animation = personality_content
+	}
+	
+	option = { # Ok
+		name = VIETmisc.2076.a
+		custom_tooltip = VIETmisc.2076.tooltip
+		VIET_massive_prestige_loss_effect = yes
+		add_character_modifier = {
+			modifier = VIET_songbird_enjoyer
+		}
+	}
+	option = { # Ok
+		name = VIETmisc.2076.b
+		add_character_modifier = {
+			modifier = VIET_songbird_average_fan
+			years = 10
+		}
+	}
+}
+
+
+# Listen to the songbirds
+VIETmisc.2077 = {
+	type = character_event
+	title = VIETmisc.2077.t
+	desc = VIETmisc.2077.desc
+	theme = VIET_theme_skyrim_forest	
+	
+	left_portrait = {
+		character = root
+		animation = admiration
+	}
+
+	immediate = {
+		VIET_immediate_songbird_sound_effect = yes
+	}
+	
+	option = { # Ok
+		name = VIETmisc.2077.a
+		VIET_option_songbird_sound_effect = yes
+	}
+
+	after = {
+		if = {
+			limit = {
+				has_character_flag = planning_an_activity
+			}
+			remove_character_flag = planning_an_activity
+		}
+	}
+
+}
+
+##################################################################
+#
+# GENERIC DECISIONS 2078
+#
+##################################################################
+
+# Enjoy the flowers
+VIETmisc.2078 = {
+	type = activity_event
+	title = VIETmisc.2078.t
+	desc = VIETmisc.2078.desc
+	theme = VIET_theme_skyrim_forest	
+	
+	left_portrait = {
+		character = scope:host
+		animation = admiration
+	}
+
+	immediate = {
+		scope:activity.activity_location.county = {
+			save_scope_as = county			
+		}
+		VIET_random_medium_piety_gain_effect = yes
+	}
+	
+	option = { # Ok
+		name = VIETmisc.2078.a
+		stress_impact = {
+			base = miniscule_stress_impact_loss
+			content = miniscule_stress_impact_loss
+			humble = miniscule_stress_impact_loss
+			zealous = miniscule_stress_impact_loss
+		}
+	}
+
+	after = {
+		if = {
+			limit = {
+				root = scope:host
+			}
+			scope:activity = {
+				every_attending_character = {
+					limit = { NOT = { this = scope:host } }
+					custom = EVERY_ACTIVITY_PARTICIPANT_EFFECT
+					VIET_random_small_piety_gain_effect = yes
+				}
+				hidden_effect = { skip_activity_phase = yes }
+			}
+		}	
+	}	
+
+}
+
+
+
+
+##################################################################
+# SNOW FESTIVAL 2079-2081
+##################################################################
+
+# Officials suggest the snow festival idea
+VIETmisc.2079 = {
+	type = character_event
+	title = VIETmisc.2079.t
+	desc = VIETmisc.2079.desc
+	theme = feast_activity
+	override_background = { reference = VIET_background_snowy_winter_wonderland }
+	widget = { gui = event_window_widget_vfx_snow container = foreground_shader_vfx_container }
+	
+	right_portrait = {
+		character = root
+		animation = thinking
+	}
+
+	trigger = {		
+		is_landed = yes
+		exists = capital_province
+		location_has_winter_trigger = yes
+	}
+	
+	weight_multiplier = {
+		base = 1
+		modifier = {
+			add = 0.2
+			has_trait = generous
+		}
+		modifier = {
+			add = -0.2
+			has_trait = greedy
+		}
+		modifier = {
+			add = 0.2
+			has_trait = gregarious
+		}
+		modifier = {
+			add = -0.2
+			has_trait = shy
+		}
+		modifier = {
+			add = 0.2
+			has_trait = diligent
+		}
+		modifier = {
+			add = -0.2
+			has_trait = lazy
+		}
+	}
+	
+	immediate = {
+		random_list = {
+			10 = {
+				add_character_modifier = {
+					modifier = VIET_snow_festival_idea
+					years = 10
+				}
+			}
+			10 = {
+				add_character_modifier = {
+					modifier = VIET_snow_festival_idea
+					years = 15
+				}
+			}
+			10 = {
+				add_character_modifier = {
+					modifier = VIET_snow_festival_idea
+					years = 20
+				}
+			}
+			10 = {
+				add_character_modifier = {
+					modifier = VIET_snow_festival_idea
+					years = 25
+				}
+			}
+		}
+	}
+	
+	option = { # Ok
+		name = VIETmisc.2079.a
+		stress_impact = {
+			greedy = miniscule_stress_impact_gain
+			shy = miniscule_stress_impact_gain
+			arrogant = miniscule_stress_impact_gain
+			paranoid = miniscule_stress_impact_gain
+			callous = miniscule_stress_impact_gain
+		}
+		custom_tooltip = VIETmisc.2079.tooltip
+	}
+	
+	option = { # Ok
+		name = VIETmisc.2079.b
+		VIET_huge_prestige_gain_effect = yes
+		stress_impact = {
+			gregarious = miniscule_stress_impact_gain
+			humble = miniscule_stress_impact_gain
+			lazy = miniscule_stress_impact_gain
+			generous = miniscule_stress_impact_gain
+		}
+		remove_character_modifier = VIET_snow_festival_idea
+	}
+
+	after = {				
+		if = {
+			limit = {
+				has_game_rule = VIET_historical_context_on
+			}
+			custom_tooltip = VIET_decision_snow_festival_context_tooltip
+		}
+	}
+
+}
+
+# Do the winter festival
+VIETmisc.2080 = {
+	type = character_event
+	title = VIETmisc.2080.t
+	desc = VIETmisc.2080.desc
+	theme = feast_activity
+	override_background = { reference = VIET_background_snowy_winter_wonderland }
+	right_portrait = {
+		character = root
+		animation = personality_content
+	}
+
+	widget = {
+		gui = "event_window_widget_vfx_snow"
+		container = "foreground_shader_vfx_container"
+	}
+
+	immediate = {
+		remove_character_modifier = VIET_snow_festival_idea
+		capital_province = { save_scope_as = capital_province }
+		capital_county = { save_scope_as = county }
+		scope:county = {
+			culture = { save_scope_as = culture }
+			faith = { save_scope_as = faith }
+		}
+	}
+	
+	option = { # Ok
+		name = VIETmisc.2080.a
+		hidden_effect = {
+			random_list = {
+				10 = {
+					set_variable = {
+						name = VIET_snow_festival_result
+						value = flag:wholesome
+					}
+				}
+				10 = {
+					set_variable = {
+						name = VIET_snow_festival_result
+						value = flag:naughty
+					}				
+				}
+			}			
+		}
+		trigger_event = VIETmisc.2081 # It should happen immediately, in case you lose the title for some reason
+	}
+
+	after = {		
+		if = {
+			limit = {
+				has_game_rule = VIET_historical_context_on
+			}
+			custom_tooltip = VIET_decision_snow_festival_context_tooltip
+		}
+	}
+
+}
+
+
+# Do the winter festival
+VIETmisc.2081 = {
+	type = character_event
+	title = VIETmisc.2081.t
+	window = big_event_window
+	desc = {
+		desc = VIETmisc.2081.desc.intro
+		first_valid = {
+			triggered_desc = {
+				trigger = {
+					var:VIET_snow_festival_result ?= flag:naughty
+				}
+				desc = VIETmisc.2081.desc.naughty
+			}
+			desc = VIETmisc.2081.desc.wholesome
+		}
+		desc = VIETmisc.2081.desc.conclusion
+	}
+	theme = feast_activity
+	override_background = { reference = VIET_background_small_town }
+	#override_background = { reference = VIET_background_snowy_winter_wonderland }
+	right_portrait = {
+		character = root
+		animation = interested
+	}
+
+
+	widget = {
+		gui = "event_window_widget_vfx_snow"
+		container = "foreground_shader_vfx_container"
+	}
+
+	immediate = {
+		remove_character_modifier = VIET_snow_festival_idea
+		add_legitimacy = minor_legitimacy_gain
+		if = {
+			limit = {
+				var:VIET_snow_festival_result ?= flag:naughty
+			}
+			VIET_massive_prestige_gain_effect = yes
+			scope:county = {
+				add_county_modifier = {
+					modifier = VIET_snow_festival_result_county_naughty
+					years = 10
+				}
+			}
+			random_list = {
+				10 = {
+					add_character_modifier = {
+						modifier = VIET_snow_festival_result_naughty_1
+						years = 10
+					}
+				}
+				10 = {
+					add_character_modifier = {
+						modifier = VIET_snow_festival_result_naughty_2
+						years = 10
+					}
+				}
+				10 = {
+					add_character_modifier = {
+						modifier = VIET_snow_festival_result_naughty_3
+						years = 10
+					}
+				}
+				10 = {
+					add_character_modifier = {
+						modifier = VIET_snow_festival_result_naughty_4
+						years = 10
+					}
+				}
+				10 = {
+					add_character_modifier = {
+						modifier = VIET_snow_festival_result_naughty_5
+						years = 10
+					}
+				}
+			}
+		}
+		else_if = {
+			limit = {
+				var:VIET_snow_festival_result ?= flag:wholesome
+			}
+			VIET_massive_piety_gain_effect = yes
+			scope:county = {
+				add_county_modifier = {
+					modifier = VIET_snow_festival_result_county_wholesome
+					years = 10
+				}
+			}
+			random_list = {
+				10 = {
+					add_character_modifier = {
+						modifier = VIET_snow_festival_result_wholesome_1
+						years = 10
+					}
+				}
+				10 = {
+					add_character_modifier = {
+						modifier = VIET_snow_festival_result_wholesome_2
+						years = 10
+					}
+				}
+				10 = {
+					add_character_modifier = {
+						modifier = VIET_snow_festival_result_wholesome_3
+						years = 10
+					}
+				}
+				10 = {
+					add_character_modifier = {
+						modifier = VIET_snow_festival_result_wholesome_4
+						years = 10
+					}
+				}
+				10 = {
+					add_character_modifier = {
+						modifier = VIET_snow_festival_result_wholesome_5
+						years = 10
+					}
+				}
+			}
+		}
+	}
+	
+	option = { # Ok
+		name = VIETmisc.2081.a
+	}
+	
+	option = { # Ok
+		name = VIETmisc.2081.b
+		trigger = {
+			var:VIET_snow_festival_result ?= flag:naughty
+		}
+		VIET_huge_prestige_loss_effect = yes
+		VIET_huge_piety_gain_effect = yes
+	}
+
+	after = {		
+		if = {
+			limit = { has_variable = VIET_snow_festival_result }
+			remove_variable = VIET_snow_festival_result
+		}			
+		if = {
+			limit = {
+				has_game_rule = VIET_historical_context_on
+			}
+			custom_tooltip = VIET_decision_snow_festival_context_tooltip
+		}
+	}
+}
+
+
+
+
+
+##################################################################
+# STRAWBERRIES 2082-2084
+##################################################################
+
+# Someone suggests strawberry gardens in your capital county
+VIETmisc.2082 = {
+	type = character_event
+	title = VIETmisc.2082.t
+	desc = VIETmisc.2082.desc
+	theme = realm
+	override_icon = { reference = "gfx/interface/icons/event_types/type_seduction.dds" }
+	
+	left_portrait = {
+		character = root
+		animation = thinking
+	}
+	
+	right_portrait = {
+		character = scope:courtier
+		animation = storyteller
+	}
+
+	trigger = {	
+		VIET_is_a_literate_society = yes
+		capital_province = {
+			VIET_is_in_wild_strawberry_region_trigger = yes
+		}
+		OR = {
+			any_courtier_or_guest = {
+				is_available_ai_adult = yes
+				OR = {
+					stewardship >= average_skill_rating
+					learning >= average_skill_rating
+					has_trait = ambitious
+					has_trait = diligent
+					has_trait = lifestyle_gardener
+					has_trait = lifestyle_herbalist
+					has_trait = lifestyle_physician
+					has_trait = lifestyle_traveler
+				}
+				NOR = {
+					has_trait = lazy
+					has_trait = shy
+					has_trait = content
+				}
+			}
+			any_vassal = {
+				is_available_ai_adult = yes
+				OR = {
+					stewardship >= average_skill_rating
+					learning >= average_skill_rating
+					has_trait = ambitious
+					has_trait = diligent
+					has_trait = lifestyle_gardener
+					has_trait = lifestyle_herbalist
+					has_trait = lifestyle_physician
+					has_trait = lifestyle_traveler
+				}
+				NOR = {
+					has_trait = lazy
+					has_trait = shy
+					has_trait = content
+				}
+			}
+		}
+	}
+	
+	weight_multiplier = {
+		base = 1
+		modifier = {
+			add = 0.2
+			has_trait = gregarious
+		}
+		modifier = {
+			add = -0.2
+			has_trait = shy
+		}
+		modifier = {
+			add = 0.2
+			has_trait = gluttonous
+		}
+		modifier = {
+			add = -0.2
+			has_trait = temperate
+		}
+		modifier = {
+			add = 0.2
+			has_trait = ambitious
+		}
+		modifier = {
+			add = -0.2
+			has_trait = content
+		}
+	}
+
+	immediate = {
+		every_courtier_or_guest = {
+			limit = {
+				is_available_ai_adult = yes
+				OR = {
+					stewardship >= average_skill_rating
+					learning >= average_skill_rating
+					has_trait = ambitious
+					has_trait = diligent
+					has_trait = lifestyle_gardener
+					has_trait = lifestyle_herbalist
+					has_trait = lifestyle_physician
+					has_trait = lifestyle_traveler
+				}
+				NOR = {
+					has_trait = lazy
+					has_trait = shy
+					has_trait = content
+				}
+			}
+			add_to_list = candidate_characters
+		}
+		every_vassal = {
+			limit = {
+				is_available_ai_adult = yes
+				OR = {
+					stewardship >= average_skill_rating
+					learning >= average_skill_rating
+					has_trait = ambitious
+					has_trait = diligent
+					has_trait = lifestyle_gardener
+					has_trait = lifestyle_herbalist
+					has_trait = lifestyle_physician
+					has_trait = lifestyle_traveler
+				}
+				NOR = {
+					has_trait = lazy
+					has_trait = shy
+					has_trait = content
+				}
+			}
+			add_to_list = candidate_characters
+		}
+		random_in_list = {
+			list = candidate_characters
+			save_scope_as = courtier
+		}
+		capital_county = {
+			save_scope_as = capital
+			# add_county_modifier = {
+			# 	modifier = VIET_potential_strawberry_gardens
+			# 	years = 20
+			# }
+		}
+	}
+	
+	option = { # Ok
+		name = VIETmisc.2082.a
+		scope:courtier = {
+			add_opinion = {
+				modifier = disappointed_opinion
+				opinion = -5
+				target = root
+			}
+		}
+		VIET_huge_piety_gain_effect = yes
+		stress_impact = {
+			gluttonous = miniscule_stress_impact_gain
+			ambitious = miniscule_stress_impact_gain
+		}
+		# scope:capital = {
+		# 	remove_county_modifier = VIET_potential_strawberry_gardens
+		# }
+	}
+	
+	option = { # Ok
+		name = VIETmisc.2082.b
+		scope:courtier = {
+			add_opinion = {
+				target = root
+				opinion = 5
+				modifier = pleased_opinion
+			}
+		}
+		VIET_huge_prestige_loss_effect = yes
+		scope:capital = {
+			add_county_modifier = {
+				modifier = VIET_potential_strawberry_gardens
+				years = 20
+			}
+		}
+		stress_impact = {
+			temperate = miniscule_stress_impact_gain
+			lazy = miniscule_stress_impact_gain
+		}
+		custom_tooltip = VIETmisc.2082.tooltip
+	}
+
+	after = {				
+		if = {
+			limit = {
+				has_game_rule = VIET_historical_context_on
+			}
+			custom_tooltip = VIET_decision_strawberry_garden_context_tooltip
+		}
+	}
+
+}
+
+
+# Establishing the strawberry gardens
+VIETmisc.2083 = {
+	type = character_event
+	title = VIETmisc.2083.t
+	desc = VIETmisc.2083.desc
+	theme = VIET_theme_tuscan_country
+	override_icon = { reference = "gfx/interface/icons/event_types/type_seduction.dds" }
+	
+	left_portrait = {
+		character = root
+		animation = war_over_win
+	}
+	
+	immediate = {
+		VIET_create_strawberry_gardens_effect = yes
+	}
+	
+	option = { # Ok
+		name = VIETmisc.2083.a
+	}
+
+	after = {				
+		if = {
+			limit = {
+				has_game_rule = VIET_historical_context_on
+			}
+			custom_tooltip = VIET_decision_strawberry_garden_context_tooltip
+		}
+	}
+
+}
+
+
+# Picking strawberries (ruler)
+VIETmisc.2084 = {
+	type = character_event
+	title = VIETmisc.2084.t
+	desc = {
+		desc = VIETmisc.2084.desc
+		first_valid = {
+			triggered_desc = {
+				trigger = {
+					government_has_flag = government_is_landless_adventurer
+				}
+				desc = VIETmisc.2084.desc.landless
+			}
+			desc = VIETmisc.2084.desc.landed
+		}
+	}
+	theme = VIET_theme_tuscan_country
+	override_icon = { reference = "gfx/interface/icons/event_types/type_seduction.dds" }
+	
+	right_portrait = {
+		character = root
+		animation = personality_greedy
+	}
+	
+	immediate = {
+		location.county = {
+			save_scope_as = capital
+		}
+		VIET_harvest_strawberries_effect = yes
+	}
+	
+	option = { # Ok
+		name = VIETmisc.2084.a
+	}
+
+	after = {				
+		if = {
+			limit = {
+				has_game_rule = VIET_historical_context_on
+			}
+			custom_tooltip = VIET_decision_strawberry_garden_context_tooltip
+		}
+	}
+
+}
+

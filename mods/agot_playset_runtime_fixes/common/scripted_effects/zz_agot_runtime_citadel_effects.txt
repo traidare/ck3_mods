@@ -1,0 +1,19 @@
+﻿agot_seed_maesters_effect = {
+	every_ruler = {
+		limit = {
+			exists = capital_county
+			capital_county.title_province = { geographical_region = world_westeros_seven_kingdoms }
+			can_employ_court_position_type = maester_court_position
+			NOT = { employs_court_position = maester_court_position }
+		}
+		save_scope_as = ruler
+		agot_grab_new_maester_effect = yes
+		if = {
+			limit = { exists = scope:new_maester }
+			set_court_physician_effect = {
+				EMPLOYER = scope:ruler
+				PHYSICIAN = scope:new_maester
+			}
+		}
+	}
+}

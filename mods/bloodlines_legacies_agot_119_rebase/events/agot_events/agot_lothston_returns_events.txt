@@ -1,0 +1,134 @@
+﻿namespace = agot_lothston_returns
+
+##########################################
+# House Lothston Returns Event
+##########################################
+
+
+agot_lothston_returns.0001 = {
+	type = character_event
+	trigger = {
+		game_start_date >= 8239.1.1
+		NOT = {
+			dynasty = dynasty:dynn_Lothston
+			dynasty = dynasty:dynn_Strong
+			dynasty = dynasty:dynn_Mudd
+			primary_title = title:c_riverbend
+			primary_title = title:d_harrenhal
+		}
+	}
+
+	immediate = {
+		# Scope the correct Lothston based on start date with is_alive check
+		if = {
+			limit = { character:Lothston_21 = { is_alive = yes } }
+			character:Lothston_21 = { save_scope_as = lothston_candidate }
+		}
+		else_if = {
+			limit = { character:Lothston_22 = { is_alive = yes } }
+			character:Lothston_22 = { save_scope_as = lothston_candidate }
+		}
+		title:d_tridents_mouth.holder = {
+			save_scope_as = darry_lord
+		}
+	}
+
+	title = agot_lothston_returns.0001.t
+	desc = agot_lothston_returns.0001.desc
+	theme = realm
+
+	left_portrait = {
+		character = scope:darry_lord
+		animation = personality_rational
+	}
+
+	right_portrait = {
+		character = scope:lothston_candidate
+		animation = personality_bold
+	}
+
+	option = {
+		name = agot_lothston_returns.0001.a
+		scope:lothston_candidate = {
+			get_title = title:c_riverbend
+			create_title_and_vassal_change = {
+				type = granted
+				save_scope_as = change
+				add_claim_on_loss = no
+			}
+			add_prestige = 1000
+			add_gold = 500
+			add_legitimacy = 350
+			add_trait = ambitious
+			trigger_event = {
+			id = agot_lothston_returns.0002
+			days = 60
+			}
+		}
+	}
+
+	option = {
+		name = agot_lothston_returns.0001.b
+		# Deny the petition
+	}
+
+	option = {
+		name = agot_lothston_returns.0001.c
+		trigger = { is_ai = no }
+		scope:lothston_candidate = {
+			get_title = title:c_riverbend
+			create_title_and_vassal_change = {
+				type = granted
+				save_scope_as = change
+				add_claim_on_loss = no
+			}
+			add_prestige = 1000
+			add_gold = 500
+			add_legitimacy = 350
+			add_trait = ambitious
+			trigger_event = {
+			id = agot_lothston_returns.0002
+			days = 60
+			}
+		}
+		set_player_character = scope:lothston_candidate
+	}
+}
+
+agot_lothston_returns.0002 = {
+	type = character_event
+	trigger = {
+		always = yes
+	}
+
+	title = agot_lothston_returns.0002.t
+	desc = agot_lothston_returns.0002.desc
+	theme = martial
+
+	left_portrait = {
+		character = root
+		animation = marshal
+	}
+
+	immediate = {
+		spawn_army = { 
+		name = lothston_retinue
+		men_at_arms = { 
+		type = light_footmen stacks = 2 
+		}
+		men_at_arms = { 
+		type = bowmen stacks = 2 
+		}
+		men_at_arms = { 
+		type = armored_footmen stacks = 1 
+		}
+		location = capital_province 
+		}
+		add_prestige = 100
+	}
+
+	option = {
+		name = agot_lothston_returns.0002.a
+		custom_tooltip = agot_lothston_returns.0002.a.tt
+	}
+}

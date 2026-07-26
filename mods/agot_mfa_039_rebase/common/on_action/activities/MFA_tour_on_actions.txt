@@ -1,0 +1,576 @@
+﻿####################################
+# MFA Activity Converter
+# Pulse relay for tour activity
+# Root scope = the character (same as on_weekly_pulse).
+####################################
+
+
+
+MFA_tour_1a_relay = {
+	trigger = {
+		exists = scope:activity
+		is_ruler = yes
+		scope:activity = { is_current_phase_active = yes }
+	}
+
+	effect = {
+		if = {
+			limit = {
+				this = scope:host
+			}
+			scope:activity = {
+				if = { # Migrate the heir to the tour activity
+					limit = {
+						OR = {
+							NOT = { exists = var:stop_host }
+							var:stop_host = { is_alive = no }
+							NOT = { activity_location.county.holder = var:stop_host }
+						}
+					}
+					remove_variable = stop_host
+					tour_stop_host_effect = yes
+					add_to_variable_list = {
+						name = tour_vassals_to_visit
+						target = var:stop_host
+					}
+				}
+			}
+			tour_progress_effect = yes
+		}
+		scope:host.location.barony = {
+			save_scope_as = touring_grounds_scope
+		}
+		tour_monthly_pulse_effect = {
+			ON_ACTION_POOL = on_tour_grounds
+		}
+
+		if = {
+			limit = {
+				scope:activity = { is_current_phase_active = yes }
+			}
+			trigger_event = { on_action = MFA_tour_1a_relay days = 30 }
+		}
+	}
+}
+
+MFA_tour_1b_relay = {
+	trigger = {
+		exists = scope:activity
+		is_ruler = yes
+		scope:activity = { is_current_phase_active = yes }
+	}
+
+	effect = {
+		if = {
+			limit = {
+				this = scope:host
+			}
+			scope:activity = {
+				if = { # Migrate the heir to the tour activity
+					limit = {
+						OR = {
+							NOT = { exists = var:stop_host }
+							var:stop_host = { is_alive = no }
+							NOT = { activity_location.county.holder = var:stop_host }
+						}
+					}
+					remove_variable = stop_host
+					tour_stop_host_effect = yes
+					add_to_variable_list = {
+						name = tour_vassals_to_visit
+						target = var:stop_host
+					}
+				}
+			}
+			tour_progress_effect = yes
+		}
+		tour_monthly_pulse_effect = {
+			ON_ACTION_POOL = on_tour_dinner
+		}
+
+		if = {
+			limit = {
+				scope:activity = { is_current_phase_active = yes }
+			}
+			trigger_event = { on_action = MFA_tour_1b_relay days = 30 }
+		}
+	}
+}
+
+MFA_tour_1c_relay = {
+	trigger = {
+		exists = scope:activity
+		is_ruler = yes
+		scope:activity = { is_current_phase_active = yes }
+	}
+
+	effect = {
+		if = {
+			limit = {
+				this = scope:host
+			}
+			scope:activity = {
+				if = { # Migrate the heir to the tour activity
+					limit = {
+						OR = {
+							NOT = { exists = var:stop_host }
+							var:stop_host = { is_alive = no }
+							NOT = { activity_location.county.holder = var:stop_host }
+						}
+					}
+					remove_variable = stop_host
+					tour_stop_host_effect = yes
+					add_to_variable_list = {
+						name = tour_vassals_to_visit
+						target = var:stop_host
+					}
+				}
+			}
+			tour_progress_effect = yes
+		}
+		scope:host.location.county = { #remember in events that this is a county scope
+			save_scope_as = cultural_festival_scope
+		}
+		tour_monthly_pulse_effect = {
+			ON_ACTION_POOL = on_tour_festival
+		}
+
+		if = {
+			limit = {
+				scope:activity = { is_current_phase_active = yes }
+			}
+			trigger_event = { on_action = MFA_tour_1c_relay days = 30 }
+		}
+	}
+}
+
+MFA_tour_pulse_relay = {
+	effect = {
+		if = {
+			limit = {
+				has_variable = MFA_pulse_relay_tick
+			}
+			change_variable = { name = MFA_pulse_relay_tick add = 1 }
+		}
+		else = {
+			set_variable = { name = MFA_pulse_relay_tick value = 1 }
+		}
+		if = {
+			limit = {
+				exists = scope:activity
+			}
+			trigger_event = { on_action = MFA_tour_pulse_relay_effects }
+		}
+		if = {
+			limit = {
+				exists = scope:activity
+			}
+			trigger_event = { on_action = MFA_tour_pulse_relay days = 1 }
+		}
+		else = {
+			remove_variable = MFA_pulse_relay_tick
+		}
+	}
+}
+
+MFA_tour_pulse_relay_effects = {
+	trigger = {
+		var:MFA_pulse_relay_tick > MFA_pulse_relay_timer
+	}
+	effect = {
+		random_list = {
+			5 = { } # chance_of_no_event
+			1 = { # courtiers_became_lovers
+				trigger = {
+					scope:activity = {
+						exists = scope:activity.activity_location.county.holder
+						scope:host.location = scope:activity.activity_location
+						scope:activity.activity_location.county.holder != scope:host
+						scope:activity.activity_location.county.holder.top_liege = scope:host.top_liege
+						scope:host = {
+							any_courtier_or_guest = {
+								might_cheat_on_every_partner_trigger = yes
+								num_of_relation_lover < 2
+								is_participant_in_activity = scope:activity
+								is_physically_able_ai_adult = yes
+								save_temporary_scope_as = first_lover_temp
+							}
+						}
+						scope:activity.activity_location.county.holder = {
+							any_courtier_or_guest = {
+								this != scope:first_lover_temp
+								might_cheat_on_every_partner_trigger = yes
+								NOT = { has_relation_lover = scope:first_lover_temp }
+								num_of_relation_lover < 2
+								is_physically_able_ai_adult = yes
+								NOT = { has_relation_lover = scope:first_lover_temp }
+								save_temporary_scope_as = second_lover_temp
+								matching_gender_and_sexuality_trigger = {
+									CHARACTER_1 = scope:second_lover_temp
+									CHARACTER_2 = scope:first_lover_temp
+								}
+							}
+						}
+					}
+				}
+				trigger_event = { on_action = MFA_pulse_courtiers_became_lovers }
+			}
+			1 = { # courtier_friendship
+				trigger = {
+					scope:activity = {
+						exists = scope:activity.activity_location.county.holder
+						scope:host.location = scope:activity.activity_location
+						scope:activity.activity_location.county.holder != scope:host
+						scope:activity.activity_location.county.holder.top_liege = scope:host.top_liege
+						scope:host = {
+							any_courtier_or_guest = {
+								num_of_relation_friend < 2
+								is_participant_in_activity = scope:activity
+								is_physically_able_ai_adult = yes
+								save_temporary_scope_as = friend_1
+							}
+						}
+						scope:activity.activity_location.county.holder = {
+							any_courtier_or_guest = {
+								this != scope:friend_1
+								num_of_relation_friend < 2
+								is_physically_able_ai_adult = yes
+								NOT = { has_relation_friend = scope:friend_1 }
+							}
+						}
+					}
+				}
+				trigger_event = { on_action = MFA_pulse_courtier_friendship }
+			}
+			1 = { # courtier_improved_skill
+				trigger = {
+					scope:activity = {
+						exists = scope:activity.activity_location.county.holder
+						scope:host.location = scope:activity.activity_location
+						scope:activity.activity_location.county.holder != scope:host
+						scope:activity.activity_location.county.holder.top_liege = scope:host.top_liege
+						scope:host = {
+							any_courtier_or_guest = {
+								is_physically_able_ai = yes
+								is_participant_in_activity = scope:activity
+							}
+						}
+					}
+				}
+				trigger_event = { on_action = MFA_pulse_courtier_improved_skill }
+			}
+			1 = { # courtier_learned_language
+				trigger = {
+					scope:activity = {
+						exists = scope:activity.activity_location.county.holder
+						scope:host.location = scope:activity.activity_location
+						scope:activity.activity_location.county.holder != scope:host
+						scope:activity.activity_location.county.holder.top_liege = scope:host.top_liege
+						scope:host = {
+							any_courtier_or_guest = {
+								is_physically_able_ai = yes
+								is_participant_in_activity = scope:activity
+								NOT = { knows_language_of_culture = scope:activity.activity_location.county.holder.culture }
+							}
+						}
+					}
+				}
+				trigger_event = { on_action = MFA_pulse_courtier_learned_language }
+			}
+			1 = { # courtiers_got_into_fight
+				trigger = {
+					scope:activity = {
+						exists = scope:activity.activity_location.county.holder
+						scope:host.location = scope:activity.activity_location
+						scope:activity.activity_location.county.holder != scope:host
+						scope:activity.activity_location.county.holder.top_liege = scope:host.top_liege
+						scope:host = {
+							any_courtier = {
+								OR = { # Likely to start fights
+									has_trait = vengeful
+									has_trait = wrathful
+									has_trait = arrogant
+									has_trait = callous
+									has_trait = sadistic
+									has_trait = drunkard
+								}
+								NOT = {
+									is_player_heir_of = scope:host
+								}
+								OR = {
+									is_physically_able_ai_adult = yes
+									child_not_infant_trigger = yes
+								}
+								save_temporary_scope_as = first
+							}
+						}
+						scope:activity.activity_location.county.holder = {
+							any_courtier = {
+								count >= 2
+								OR = {
+									is_physically_able_ai_adult = yes
+									child_not_infant_trigger = yes
+								}
+								OR = {
+									is_physically_able_ai_adult = yes
+									age > scope:first.age_minus_3
+									scope:first.age > age_minus_3
+								}
+							}
+						}
+					}
+				}
+				trigger_event = { on_action = MFA_pulse_courtiers_got_into_fight }
+			}
+			1 = { # courtiers_became_rivals
+				trigger = {
+					scope:activity = {
+						exists = scope:activity.activity_location.county.holder
+						scope:host.location = scope:activity.activity_location
+						scope:activity.activity_location.county.holder != scope:host
+						scope:activity.activity_location.county.holder.top_liege = scope:host.top_liege
+						scope:host = {
+							any_courtier_or_guest = {
+								count >= 2
+								num_of_relation_rival < 2
+								is_participant_in_activity = scope:activity
+								is_physically_able_ai_adult = yes
+								save_temporary_scope_as = first_rival
+							}
+						}
+						scope:activity.activity_location.county.holder = {
+							any_courtier_or_guest = {
+								count >= 2
+								num_of_relation_rival < 2
+								is_physically_able_ai_adult = yes
+								NOT = { has_relation_rival = scope:first_rival }
+							}
+						}
+					}
+				}
+				trigger_event = { on_action = MFA_pulse_courtiers_became_rivals }
+			}
+			2 = { # liege_intimidated_courtier
+				trigger = {
+					scope:activity = {
+						exists = scope:activity.activity_location.county.holder
+						scope:host.location = scope:activity.activity_location
+						scope:activity.activity_location.county.holder != scope:host
+						scope:activity.activity_location.county.holder.top_liege = scope:host.top_liege
+						scope:activity = {
+							has_activity_option = {
+								category = special_type
+								option = tour_type_intimidation
+							}
+						}
+						scope:activity.activity_location = {
+							has_holding = yes
+						}
+					}
+				}
+				trigger_event = { on_action = MFA_pulse_liege_intimidated_courtier }
+			}
+			2 = { # liege_visited_benevolence
+				trigger = {
+					scope:activity = {
+						exists = scope:host.location.barony.holder
+						scope:host.location.barony.holder != scope:host
+						scope:host.location.county.holder.top_liege = scope:host.top_liege
+						NOT = {
+							scope:host.location.county = {
+								has_variable = recent_dev
+							}
+						}
+					}
+				}
+				trigger_event = { on_action = MFA_pulse_liege_visited_benevolence }
+			}
+			2 = { # liege_local_benevolence
+				trigger = {
+					scope:activity = {
+						exists = scope:host.location.barony.holder
+						scope:host.location.barony.holder != scope:host
+						scope:host.location.county.holder.top_liege = scope:host.top_liege
+						NOT = {
+							scope:host.location.county = {
+								has_county_modifier = ep2_popular_liege
+							}
+						}
+						scope:activity = {
+							has_activity_option = {
+								category = special_type
+								option = tour_type_majesty
+							}
+						}
+						scope:host.location = {
+							has_holding = yes
+						}
+					}
+				}
+				trigger_event = { on_action = MFA_pulse_liege_local_benevolence }
+			}
+			1 = { # increased_control
+				trigger = {
+					scope:activity = {
+						exists = scope:host.location.barony.holder
+						scope:host.location.barony.holder != scope:host
+						scope:host.location.county.holder.top_liege = scope:host.top_liege
+						scope:host.location.county = {
+							county_control < 100
+						}
+						scope:activity = {
+							NOT = {
+								has_activity_option = {
+									category = special_type
+									option = tour_type_taxation
+								}
+							}
+						}
+					}
+				}
+				trigger_event = { on_action = MFA_pulse_increased_control }
+			}
+			3 = { # liege_local_tax
+				trigger = {
+					scope:activity = {
+						exists = scope:host.location.barony.holder
+						scope:host.location.barony.holder != scope:host
+						scope:host.location.county.holder.top_liege = scope:host.top_liege
+						NOT = {
+							scope:host.location.barony = {
+								has_variable = recent_tax
+							}
+						}
+						scope:activity = {
+							has_activity_option = {
+								category = special_type
+								option = tour_type_taxation
+							}
+						}
+						scope:host.location = {
+							has_holding = yes
+						}
+						scope:host.location.tour_tax_gold_value >= 1
+					}
+				}
+				trigger_event = { on_action = MFA_pulse_liege_local_tax }
+			}
+			3 = { # levied_tax
+				trigger = {
+					scope:activity = {
+						exists = scope:activity.activity_location.county.holder
+						scope:host.location = scope:activity.activity_location
+						scope:activity.activity_location.county.holder != scope:host
+						scope:activity.activity_location.county.holder.top_liege = scope:host.top_liege
+						scope:activity = {
+							has_activity_option = {
+								category = special_type
+								option = tour_type_taxation
+							}
+						}
+						scope:activity.activity_location.county.holder = {
+							any_courtier = {
+								NOR = {
+									is_clergy = yes
+									has_council_position = councillor_court_chaplain
+								}
+								gold >= 5
+							}
+						}
+					}
+				}
+				trigger_event = { on_action = MFA_pulse_levied_tax }
+			}
+			6 = { # local_mayor_tax
+				trigger = {
+					scope:activity = {
+						exists = scope:host.location.barony.holder
+						scope:host.location.barony.holder != scope:host
+						scope:host.location.county.holder.top_liege = scope:host.top_liege
+						scope:host.location.barony.holder = {
+							government_has_flag = government_is_republic
+							gold >= scope:host.minor_gold_value
+						}
+						scope:activity = {
+							has_activity_option = {
+								category = special_type
+								option = tour_type_taxation
+							}
+						}
+					}
+				}
+				trigger_event = { on_action = MFA_pulse_local_mayor_tax }
+			}
+			3 = { # tax_rich_local
+				trigger = {
+					scope:activity = {
+						exists = scope:host.location.barony.holder
+						scope:host.location.barony.holder != scope:host
+						scope:host.location.county.holder.top_liege = scope:host.top_liege
+						scope:host.location != scope:activity.activity_location
+						any_pool_character = {
+							province = scope:host.location
+							gold >= 5
+						}
+						scope:activity = {
+							has_activity_option = {
+								category = special_type
+								option = tour_type_taxation
+							}
+						}
+					}
+				}
+				trigger_event = { on_action = MFA_pulse_tax_rich_local }
+			}
+			3 = { # church_tax
+				trigger = {
+					scope:activity = {
+						exists = scope:host.location.barony.holder
+						scope:host.location.barony.holder != scope:host
+						scope:host.location.county.holder.top_liege = scope:host.top_liege
+						scope:host.location.county.holder = {
+							any_courtier_or_guest = {
+								OR = {
+									is_clergy = yes
+									has_council_position = councillor_court_chaplain
+								}
+								gold >= 5
+							}
+						}
+						scope:activity = {
+							has_activity_option = {
+								category = special_type
+								option = tour_type_taxation
+							}
+						}
+					}
+				}
+				trigger_event = { on_action = MFA_pulse_church_tax }
+			}
+			10 = { # local_baron_tax
+				trigger = {
+					scope:activity = {
+						exists = scope:host.location.barony.holder
+						scope:host.location.barony.holder != scope:host
+						scope:host.location.county.holder.top_liege = scope:host.top_liege
+						scope:host.location.barony.holder = {
+							NOT = {
+								government_has_flag = government_is_republic
+							}
+							highest_held_title_tier = tier_barony
+							gold >= 5
+						}
+						scope:activity = {
+							has_activity_option = {
+								category = special_type
+								option = tour_type_taxation
+							}
+						}
+					}
+				}
+				trigger_event = { on_action = MFA_pulse_local_baron_tax }
+			}
+		}
+		set_variable = { name = MFA_pulse_relay_tick value = 1 }
+	}
+}

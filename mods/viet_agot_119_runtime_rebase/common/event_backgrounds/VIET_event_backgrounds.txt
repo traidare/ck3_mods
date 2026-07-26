@@ -1,0 +1,186 @@
+﻿### EVENT BACKGROUNDS LIST:
+# VIET_oblivion_pastoral_dream
+# VIET_background_light_dream
+# VIET_background_nightmare
+# VIET_background_tuscan_country
+# VIET_background_ancient_cairn
+# VIET_background_small_town
+# VIET_background_scarborough_fair
+# VIET_background_lord_huron_strange_trails
+# VIET_background_oblivion_prison_sewer
+# VIET_background_desert_frontier
+# VIET_background_night_beach
+
+
+### OBLIVION PASTORAL ###
+VIET_background_oblivion_pastoral_dream = {
+	background = {
+		reference = "gfx/interface/illustrations/event_scenes/VIET_oblivion_pastoral_dream.dds"
+		environment = "environment_event_garden"
+		ambience = "event:/SFX/Events/Backgrounds/castle_garden_day"
+	}
+}
+
+### LIGHT DREAM ###
+VIET_background_light_dream = {
+	background = {
+		reference = "gfx/interface/illustrations/event_scenes/VIET_light_dream.dds"
+		environment = "environment_event_desert"
+		ambience = "event:/SFX/Events/Backgrounds/desert_day"
+	}
+}
+
+### NIGHTMARE ###
+VIET_background_nightmare = {
+	background = {
+		reference = "gfx/interface/illustrations/event_scenes/VIET_nightmare.dds"
+		environment = "environment_event_corridor"
+		ambience = "event:/SFX/Events/Backgrounds/steppe_day"
+	}
+}
+
+### TUSCAN COUNTRY ###
+VIET_background_tuscan_country = {
+	background = {
+		reference = "gfx/interface/illustrations/event_scenes/VIET_tuscan_country.dds"
+		environment = "environment_event_garden"
+		ambience = "event:/SFX/Events/Backgrounds/castle_garden_day"
+	}
+}
+
+### ANCIENT CAIRN ###
+VIET_background_ancient_cairn = {
+	background = {
+		reference = "gfx/interface/illustrations/event_scenes/VIET_ancient_cairn.dds"
+		environment = "environment_event_forest"
+		ambience = "event:/SFX/Events/Backgrounds/deciduous_forest_day"
+	}
+}
+
+### SMALL TOWN ###
+VIET_background_small_town = {
+	background = {
+		reference = "gfx/interface/illustrations/event_scenes/VIET_small_town.dds"
+		environment = "environment_event_garden"
+		ambience = "event:/SFX/Events/Backgrounds/townmarket_western_day"
+	}
+}
+
+
+
+### SKYRIM FOREST ###
+VIET_background_skyrim_forest = {
+	background = {
+		reference = "gfx/interface/illustrations/event_scenes/VIET_skyrim_forest.dds"
+		environment = "environment_event_forest_pine"
+		ambience = "event:/SFX/Events/Backgrounds/coniferous_forest_day"
+	}
+}
+
+
+
+
+### SCARBOROUGH FAIR ###
+VIET_background_scarborough_fair = {
+	background = {
+		reference = "gfx/interface/illustrations/event_scenes/VIET_scarborough_fair.dds"
+		environment = "environment_event_garden"
+		ambience = "event:/SFX/Events/Backgrounds/castle_garden_day"
+	}
+}
+
+
+
+### STRANGE TRAILS (LORD HURON) ###
+VIET_background_lord_huron_strange_trails = {
+	background = {
+		reference = "gfx/interface/illustrations/event_scenes/VIET_lord_huron_strange_trails.dds"
+		environment = "environment_event_corridor"
+		ambience = "event:/SFX/Events/Backgrounds/coniferous_forest_day"
+	}
+}
+
+
+### OBLIVION PRISON SEWER ###
+VIET_background_oblivion_prison_sewer = {
+	background = {
+		reference = "gfx/interface/illustrations/event_scenes/VIET_oblivion_prison_sewer.dds"
+		environment = "environment_event_corridor"
+		ambience = "event:/SFX/Events/Backgrounds/castle_corridor_night"
+	}
+}
+
+
+### WEDDING ###
+VIET_background_wedding = {
+	background = {	 #East Asian
+		trigger = {
+			location ?= {
+				OR = {
+					culture ?= { has_graphical_east_asia_culture_group_trigger = yes }
+					steppe_building_gfx_use_east_asian_trigger = yes
+				}
+			}
+		}
+		reference = "gfx/interface/illustrations/event_scenes/tgp_wedding_ceremony_asia.dds"
+		environment = "environment_tgp_wedding_ceremony_asia"
+		ambience = "event:/DLC/EP2/SFX/Events/Grand_Activities/Weddings/ep2_event_grand_wedding"
+	}
+	background = {	 #Indian
+		trigger = {
+			OR = {
+				location.culture ?= { has_graphical_india_culture_group_trigger = yes }
+				location ?= { steppe_building_gfx_use_indian_trigger = yes }
+			}
+		}
+		reference = "gfx/interface/illustrations/event_scenes/ep2_wedding_ceremony_indian.dds"
+		environment = "environment_indian_wedding"
+		ambience = "event:/DLC/EP2/SFX/Events/Grand_Activities/Weddings/ep2_event_grand_wedding"
+	}
+	background = {	 #MENA (also steppes and African )
+		trigger = {
+			OR = {
+				location.culture ?= { has_graphical_mena_culture_group_trigger = yes }
+				location.culture ?= { has_graphical_steppe_culture_group_trigger = yes }
+				location.culture ?= { has_graphical_african_culture_group_trigger = yes }
+				location.culture ?= { has_building_gfx = iranian_building_gfx }
+				location ?= { steppe_building_gfx_use_mena_trigger = yes }
+			}
+		}
+		reference = "gfx/interface/illustrations/event_scenes/ep2_wedding_ceremony_mena.dds"
+		environment = "environment_mena_wedding"
+		ambience = "event:/DLC/EP2/SFX/Events/Grand_Activities/Weddings/ep2_event_grand_wedding"
+	}
+	background = {	 # Western - Fallback
+		reference = "gfx/interface/illustrations/event_scenes/ep2_wedding_ceremony_western.dds"
+		environment = "environment_western_wedding"
+		ambience = "event:/DLC/EP2/SFX/Events/Grand_Activities/Weddings/ep2_event_grand_wedding"
+	}
+}
+
+### DESERT FRONTIER ###
+VIET_background_desert_frontier = {
+	background = {
+		reference = "gfx/interface/illustrations/event_scenes/VIET_desert_frontier.dds"
+		environment = "environment_event_desert"
+		ambience = "event:/SFX/Events/Backgrounds/desert_day"
+	}
+}
+
+### NIGHT BEACH ###
+VIET_background_night_beach = {
+	background = {
+		reference = "gfx/interface/illustrations/event_scenes/VIET_night_beach.dds"
+		environment = "environment_event_fp3_courtyard_night" 
+		ambience = "event:/DLC/FP1/SFX/Events/event_beached_longships"
+	}
+}
+
+### NIGHT BEACH ###
+VIET_background_snowy_winter_wonderland = {
+	background = {
+		reference = "gfx/interface/illustrations/event_scenes/VIET_snowy_winter_wonderland.dds"
+		environment = "environment_hunt_snowy_forest"
+		ambience = "event:/SFX/Events/Backgrounds/mountains_day" 
+	}
+}

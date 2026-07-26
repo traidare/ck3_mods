@@ -1,0 +1,384 @@
+﻿####################################
+# MFA Activity Converter
+# Converted pulse_actions to on_actions
+# only effect block remains and is nestled behind scope:activity, while is_valid and weight blocks moved to main relay on_action
+####################################
+
+MFA_pulse_apa_cheering_on_competitors = {
+	effect = {
+		scope:activity = {
+			random_guest_subset = {
+				name = spectators
+				limit = {
+					NOR = {
+						this = scope:host
+						scope:activity.special_guest:chariot_race_honorary_guest ?= this
+					}
+					is_physically_able_ai_adult = yes
+					num_of_relation_friend < 2
+					location = scope:activity.activity_location
+				}
+				save_scope_as = first
+			}
+
+			random_guest_subset = {
+				name = spectators
+				limit = {
+					NOR = {
+						this = scope:host
+						scope:activity.special_guest:chariot_race_honorary_guest ?= this
+						this = scope:first
+					}
+					is_physically_able_ai_adult = yes
+					num_of_relation_friend < 2
+					location = scope:activity.activity_location
+					number_of_traits_in_common = {
+						target = scope:first
+						value >= 1
+					}
+					can_set_relation_friend_trigger = { CHARACTER = scope:first }
+				}
+				save_scope_as = second
+			}
+
+			add_activity_log_entry = {
+				key = apa_cheering_on_competitors
+				tags = { pulse_action }
+				character = scope:first
+				target = scope:second
+
+				scope:second = {
+					progress_towards_friend_effect = {
+						REASON = friend_chariot_convincing_display
+						CHARACTER = scope:first
+						OPINION = default_friend_opinion
+					}
+				}
+			}
+
+			every_attending_character = {
+				limit = {
+					is_ai = no
+					has_game_rule = MFA_pulse_notifications_enabled
+				}
+				send_interface_message = {
+					type = MFA_pulse_msg_public
+					title = apa_cheering_on_competitors_title
+					left_icon = scope:first
+					right_icon = scope:second
+					show_as_tooltip = {
+						scope:activity = {
+							scope:second = {
+								progress_towards_friend_effect = {
+									REASON = friend_chariot_convincing_display
+									CHARACTER = scope:first
+									OPINION = default_friend_opinion
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+}
+
+MFA_pulse_apa_thunderous_applause = {
+	effect = {
+		scope:activity = {
+			random_guest_subset = {
+				name = charioteers
+				limit = {
+					var:current_place_in_race > 1
+				}
+				save_scope_as = first
+			}
+
+			random_guest_subset = {
+				name = charioteers
+				limit = {
+					var:current_place_in_race = scope:first.ahead_charioteer_index
+				}
+				save_scope_as = second
+			}
+
+			add_activity_log_entry = {
+				key = apa_thunderous_applause
+				tags = { pulse_action }
+				character = scope:first
+				target = scope:second
+
+				advance_place_in_ranking_effect = {
+					NEW_LEADING_CHAR = scope:first
+					NEW_TRAILING_CHAR = scope:second
+				}
+				update_chariot_race_standings_effect = yes
+			}
+
+			every_attending_character = {
+				limit = {
+					is_ai = no
+					has_game_rule = MFA_pulse_notifications_enabled
+				}
+				send_interface_message = {
+					type = MFA_pulse_msg_public
+					title = apa_thunderous_applause_title
+					left_icon = scope:first
+					right_icon = scope:second
+					show_as_tooltip = {
+						scope:activity = {
+							advance_place_in_ranking_effect = {
+								NEW_LEADING_CHAR = scope:first
+								NEW_TRAILING_CHAR = scope:second
+							}
+							update_chariot_race_standings_effect = yes
+						}
+					}
+				}
+			}
+		}
+	}
+}
+
+MFA_pulse_apa_celebrating_unexpected_overtake = {
+	effect = {
+		scope:activity = {
+			random_guest_subset = {
+				name = charioteers
+				limit = {
+					var:current_place_in_race > 2
+				}
+				save_scope_as = first
+			}
+
+			random_guest_subset = {
+				name = charioteers
+				limit = {
+					var:current_place_in_race = scope:first.2_ahead_charioteer_index
+				}
+				save_scope_as = second
+			}
+
+			add_activity_log_entry = {
+				key = apa_celebrating_unexpected_overtake
+				tags = { pulse_action }
+				character = scope:first
+				target = scope:second
+
+				advance_place_in_ranking_effect = {
+					NEW_LEADING_CHAR = scope:first
+					NEW_TRAILING_CHAR = scope:second
+				}
+				update_chariot_race_standings_effect = yes
+			}
+
+			every_attending_character = {
+				limit = {
+					is_ai = no
+					has_game_rule = MFA_pulse_notifications_enabled
+				}
+				send_interface_message = {
+					type = MFA_pulse_msg_public
+					title = apa_celebrating_unexpected_overtake_title
+					left_icon = scope:first
+					right_icon = scope:second
+					show_as_tooltip = {
+						scope:activity = {
+							advance_place_in_ranking_effect = {
+								NEW_LEADING_CHAR = scope:first
+								NEW_TRAILING_CHAR = scope:second
+							}
+							update_chariot_race_standings_effect = yes
+						}
+					}
+				}
+			}
+		}
+	}
+}
+
+MFA_pulse_apa_exchanging_race_commentary = {
+	effect = {
+		scope:activity = {
+			random_guest_subset = {
+				name = spectators
+				limit = {
+					NOR = {
+						scope:host = this
+						scope:activity.special_guest:chariot_race_honorary_guest ?= this
+					}
+					is_ai = yes
+					is_adult = yes
+					might_cheat_on_every_partner_trigger = yes
+				}
+				save_scope_as = first
+			}
+			random_guest_subset = {
+				name = spectators
+				limit = {
+					NOR = {
+						scope:host = this
+						scope:activity.special_guest:chariot_race_honorary_guest ?= this
+					}
+					is_attracted_to_gender_of = scope:first
+					possibly_interested_in_character_trigger = {
+						CHARACTER = scope:first
+					}
+					is_ai = yes
+					is_adult = yes
+					OR = {
+						might_cheat_on_every_partner_trigger = yes
+						is_consort_of = scope:first
+					}
+				}
+				save_scope_as = second
+			}
+			add_activity_log_entry = {
+				key = apa_exchanging_race_commentary
+				tags = { pulse_action }
+				character = scope:first
+				target = scope:second
+
+				scope:first = {
+					had_sex_with_effect = {
+						CHARACTER = scope:second
+						PREGNANCY_CHANCE = pregnancy_chance
+					}
+					if = {
+						limit = {
+							has_activity_intent = woo_attendee_intent
+						}
+						complete_activity_intent = yes
+					}
+				}
+				scope:second = {
+					if = {
+						limit = {
+							has_activity_intent = woo_attendee_intent
+						}
+						complete_activity_intent = yes
+					}
+				}
+			}
+
+			every_attending_character = {
+				limit = {
+					is_ai = no
+					has_game_rule = MFA_pulse_notifications_enabled
+				}
+				send_interface_message = {
+					type = MFA_pulse_msg_public
+					title = apa_exchanging_race_commentary_title
+					left_icon = scope:first
+					right_icon = scope:second
+					show_as_tooltip = {
+						scope:activity = {
+							scope:first = {
+								had_sex_with_effect = {
+									CHARACTER = scope:second
+									PREGNANCY_CHANCE = pregnancy_chance
+								}
+								if = {
+									limit = {
+										has_activity_intent = woo_attendee_intent
+									}
+									complete_activity_intent = yes
+								}
+							}
+							scope:second = {
+								if = {
+									limit = {
+										has_activity_intent = woo_attendee_intent
+									}
+									complete_activity_intent = yes
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+}
+
+MFA_pulse_apa_forging_alliances = {
+	effect = {
+		scope:activity = {
+			random_guest_subset = {
+				name = spectators
+				limit = { is_governor = yes }
+				save_scope_as = apa_target
+			}
+			add_activity_log_entry = {
+				key = apa_forging_alliances
+				tags = { pulse_action }
+				character = scope:apa_target
+
+				scope:apa_target = {
+					change_influence = miniscule_influence_gain
+				}
+			}
+
+			every_attending_character = {
+				limit = {
+					is_ai = no
+					has_game_rule = MFA_pulse_notifications_enabled
+				}
+				send_interface_message = {
+					type = MFA_pulse_msg_public
+					title = apa_forging_alliances_title
+					left_icon = scope:apa_target
+					show_as_tooltip = {
+						scope:activity = {
+							scope:apa_target = {
+								change_influence = miniscule_influence_gain
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+}
+
+MFA_pulse_apa_donates_to_the_poor = {
+	effect = {
+		scope:activity = {
+			random_attending_character = {
+				limit = {
+					OR = {
+						is_governor = yes
+						is_landless_ruler = yes
+					}
+				}
+				save_scope_as = first
+			}
+			add_activity_log_entry = {
+				key = apa_donates_to_the_poor
+				tags = { pulse_action }
+				character = scope:first
+
+				scope:first = { add_piety = miniscule_piety_gain }
+			}
+
+			every_attending_character = {
+				limit = {
+					is_ai = no
+					has_game_rule = MFA_pulse_notifications_enabled
+				}
+				send_interface_message = {
+					type = MFA_pulse_msg_public
+					title = apa_donates_to_the_poor_title
+					left_icon = scope:first
+					show_as_tooltip = {
+						scope:activity = {
+							scope:first = {
+								add_piety = miniscule_piety_gain
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+}

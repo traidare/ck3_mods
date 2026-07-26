@@ -1,0 +1,147 @@
+﻿namespace = agot_john_mudd
+
+##########################################
+# John Mudd Reclaim Hammerford
+##########################################
+
+
+agot_john_mudd.0001 = {
+    type = character_event
+
+    trigger = {
+        game_start_date >= 8258.1.1
+        NOT = {
+            any_player = {
+                dynasty = dynasty:dynn_Mudd
+                primary_title = title:c_hammerford
+            }
+        }
+        OR = {
+            AND = {
+                current_date < 8290.1.1
+                exists = character:Mudd_54
+            }
+            exists = character:Mudd_2
+        }
+    }
+
+    immediate = {
+        if = {
+            limit = {
+                current_date < 8290.1.1
+                exists = character:Mudd_54
+            }
+            character:Mudd_54 = { save_scope_as = john_mudd }
+        }
+        else_if = {
+            limit = { exists = character:Mudd_2 }
+            character:Mudd_2 = { save_scope_as = john_mudd }
+        }
+        title:d_cape_of_eagles.holder = { save_scope_as = mallister_lord }
+    }
+
+    title = agot_john_mudd.0001.t
+    desc = agot_john_mudd.0001.desc
+    theme = realm
+
+    left_portrait = {
+        character = scope:mallister_lord
+        animation = personality_rational
+    }
+
+    right_portrait = {
+        character = scope:john_mudd
+        animation = personality_bold
+    }
+
+    option = {
+        name = agot_john_mudd.0001.a
+
+        create_title_and_vassal_change = {
+            type = granted
+            save_scope_as = change
+            add_claim_on_loss = no
+        }
+
+        title:c_hammerford = {
+            change_title_holder = {
+                holder = scope:john_mudd
+                change = scope:change
+            }
+        }
+
+        resolve_title_and_vassal_change = scope:change
+
+        scope:john_mudd = {
+            dynasty:dynn_Mudd.dynasty_founder.house = {
+                save_scope_as = bastard_house_of
+            }
+            agot_house_revival_effect = {
+                NEW_HOUSE = dynasty:dynn_Mudd.dynasty_founder.house
+            }
+
+            add_prestige = 500
+            add_gold = 1000
+            add_legitimacy = 350
+            add_trait = ambitious
+
+            spawn_army = {
+                name = golden_company_retinue
+                men_at_arms = { type = armored_footmen stacks = 2 }
+                men_at_arms = { type = pikemen_unit stacks = 1 }
+                men_at_arms = { type = armored_horsemen stacks = 2 }
+                men_at_arms = { type = longbowmen stacks = 1 }
+                location = capital_province
+            }
+        }
+    }
+
+    option = {
+        name = agot_john_mudd.0001.b
+        # Deny the petition
+    }
+
+    option = {
+        name = agot_john_mudd.0001.c
+
+        create_title_and_vassal_change = {
+            type = granted
+            save_scope_as = change
+            add_claim_on_loss = no
+        }
+
+        title:c_hammerford = {
+            change_title_holder = {
+                holder = scope:john_mudd
+                change = scope:change
+            }
+        }
+
+        resolve_title_and_vassal_change = scope:change
+
+        scope:john_mudd = {
+            dynasty:dynn_Mudd.dynasty_founder.house = {
+                save_scope_as = bastard_house_of
+            }
+            agot_house_revival_effect = {
+                NEW_HOUSE = dynasty:dynn_Mudd.dynasty_founder.house
+            }
+
+            add_prestige = 500
+            add_gold = 1000
+            add_legitimacy = 350
+            add_trait = ambitious
+
+            spawn_army = {
+                name = golden_company_retinue
+                men_at_arms = { type = armored_footmen stacks = 2 }
+                men_at_arms = { type = pikemen_unit stacks = 1 }
+                men_at_arms = { type = armored_horsemen stacks = 2 }
+                men_at_arms = { type = longbowmen stacks = 1 }
+                location = capital_province
+            }
+        }
+
+        set_player_character = scope:john_mudd
+    }
+}

@@ -1,0 +1,750 @@
+﻿create_artifact_wall_banner_effect = {
+	$OWNER$ = { save_scope_as = owner }
+	$CREATOR$ = { save_scope_as = creator }
+	$TARGET$ = { save_scope_as = target } #Can be a title, a house or a dynasty
+
+	# Startup banner history requires a capital province. If a malformed or
+	# titular royal-court owner has none, use the existing created-banner branch
+	# instead; it still creates and grants the banner without an invalid location.
+	$OWNER$ = {
+		if = {
+			limit = {
+				has_variable = startup_banner
+				NOT = { exists = capital_province }
+			}
+			remove_variable = startup_banner
+		}
+	}
+
+	#This effect can be used to generate banners - either from battle or a character.
+	#For battle banners the variables epic_battle_location and epic_loser must be set.
+	#To generate a dynasty banner the variable banner_from_dynasty must be set
+	#To generate a house banner the variable banner_from_house must be set
+	#To generate a banner for a title no special variables need to be set
+
+	hidden_effect_new_object = {
+		if = {
+			limit = { has_variable = epic_battle_location }
+			var:epic_battle_location = { save_scope_as = epic_battle_location }
+			remove_variable = epic_battle_location
+		}
+		if = {
+			limit = { has_variable = epic_loser }
+			var:epic_loser = { save_scope_as = epic_loser }
+			remove_variable = epic_loser
+		}
+		# Dynasty banner rarity determined by Dynasty Splendor
+		if = {
+			limit = {
+				scope:owner = { has_variable = banner_from_dynasty }
+			}
+			if = {
+				limit = { scope:owner.dynasty.dynasty_prestige_level = max_dynasty_prestige_level }
+				set_artifact_rarity_illustrious = yes
+			}
+			else_if = {
+				limit = { scope:owner.dynasty.dynasty_prestige_level >= high_dynasty_prestige_level }
+				set_artifact_rarity_famed = yes
+			}
+			else_if = {
+				limit = { scope:owner.dynasty.dynasty_prestige_level >= medium_dynasty_prestige_level }
+				set_artifact_rarity_masterwork = yes
+			}
+			else = { set_artifact_rarity_common = yes }
+		}
+		# Other banners use default rarity script
+		else = {
+			get_artifact_quality_effect = yes
+			get_artifact_wealth_effect = yes
+		}
+
+		scope:owner = {
+			if = { #Dynasty Banner
+				limit = { has_variable = banner_from_dynasty }
+				if = { #Startup Banner
+					limit = { has_variable = startup_banner }
+					create_artifact = {
+						name = artifact_wall_banner_dynasty_name
+						description = artifact_wall_banner_dynasty_description
+						visuals = banner
+						visuals_source = scope:target
+						template = dynasty_banner_template
+						type = wall_big
+						modifier = artifact_placeholder_modifier
+						save_scope_as = newly_created_artifact
+						wealth = scope:wealth
+						quality = scope:quality
+						history = {
+							type = created
+							recipient = scope:owner
+							location = scope:owner.capital_province
+						}
+					}
+					remove_variable = startup_banner
+				}
+				else = { #Created Banner
+					create_artifact = {
+						name = artifact_wall_banner_dynasty_name
+						creator = scope:creator
+						description = artifact_wall_banner_dynasty_description
+						visuals = banner
+						visuals_source = scope:target
+						template = dynasty_banner_template
+						type = wall_big
+						modifier = artifact_placeholder_modifier
+						save_scope_as = newly_created_artifact
+						wealth = scope:wealth
+						quality = scope:quality
+					}
+				}
+				scope:newly_created_artifact = {
+					set_variable = { # Tracks house
+						name = banner_dynasty
+						value = scope:target
+					}
+					set_variable = { # Tracks first owner
+						name = banner_commissioner
+						value = scope:owner
+					}
+					grant_banner_house_claim_effect = yes
+					set_artifact_description = artifact_wall_banner_dynasty_description # For commissioner flavor
+				}
+				remove_variable = banner_from_dynasty
+			}
+			else_if = { #House Banner
+				limit = { has_variable = banner_from_house }
+				if = { #Startup Banner
+					limit = { has_variable = startup_banner }
+					create_artifact = {
+						name = artifact_wall_banner_house_name
+						description = artifact_wall_banner_house_description
+						visuals = banner
+						visuals_source = scope:target
+						template = house_banner_template
+						type = wall_big
+						modifier = artifact_placeholder_modifier
+						save_scope_as = newly_created_artifact
+						wealth = scope:wealth
+						quality = scope:quality
+						history = {
+							type = created
+							recipient = scope:owner
+							location = scope:owner.capital_province
+						}
+					}
+					remove_variable = startup_banner
+				}
+				else = { #Created Banner
+					create_artifact = {
+						name = artifact_wall_banner_house_name
+						creator = scope:creator
+						description = artifact_wall_banner_house_description
+						visuals = banner
+						visuals_source = scope:target
+						template = house_banner_template
+						type = wall_big
+						modifier = artifact_placeholder_modifier
+						save_scope_as = newly_created_artifact
+						wealth = scope:wealth
+						quality = scope:quality
+					}
+				}
+				scope:newly_created_artifact = {
+					set_variable = { # Tracks house
+						name = banner_house
+						value = scope:target
+					}
+				}
+				remove_variable = banner_from_house
+			}
+			else_if = { # For banners looted after a battle
+				limit = {
+					exists = scope:epic_battle_location
+					exists = scope:epic_loser
+				}
+				create_artifact = {
+					name = artifact_wall_banner_battle_name
+					creator = scope:creator
+					description = artifact_wall_banner_battle_description
+					visuals = banner
+					visuals_source = scope:target
+					type = wall_big
+					modifier = artifact_placeholder_modifier
+					quality = conquered_banner_value
+					wealth = conquered_banner_value
+					decaying = no
+					save_scope_as = newly_created_artifact
+					history = {
+						location = scope:epic_battle_location
+						actor = scope:epic_loser
+						recipient = scope:owner
+						type = conquest
+					}
+				}
+			}
+			else = { #Royal Banner
+				create_artifact = {
+					name = artifact_wall_banner_royal_name
+					creator = scope:creator
+					description = artifact_wall_banner_royal_description
+					visuals = banner
+					visuals_source = scope:target
+					type = wall_big
+					modifier = artifact_placeholder_modifier
+					save_scope_as = newly_created_artifact
+					wealth = scope:wealth
+					quality = scope:quality
+				}
+			}
+		}
+
+		# Modifiers are completely randomized - Possible modifiers are based on the battle
+		scope:newly_created_artifact = {
+			add_scaled_artifact_modifier_grandeur_small_effect = yes
+			if = {
+				limit = {
+					exists = scope:epic_loser
+				}
+				random_list = {
+					pick = 2
+					unique = yes
+					10 = { # Knight Limit
+						random_list = {
+							10 = {
+								add_artifact_modifier = artifact_knight_limit_1_modifier
+							}
+							5 = {
+								add_artifact_modifier = artifact_knight_limit_2_modifier
+							}
+						}
+					}
+					10 = { # Knight Effectiveness
+						random_list = {
+							15 = {
+								add_artifact_modifier = artifact_knight_effectiveness_1_modifier
+							}
+							10 = {
+								add_artifact_modifier = artifact_knight_effectiveness_2_modifier
+							}
+							5 = {
+								add_artifact_modifier = artifact_knight_effectiveness_3_modifier
+							}
+						}
+					}
+					10 = { # Levy Reinforcement Rate
+						random_list = {
+							15 = {
+								add_artifact_modifier = artifact_levy_reinforcement_rate_1_modifier
+							}
+							5 = {
+								add_artifact_modifier = artifact_levy_reinforcement_rate_2_modifier
+							}
+						}
+					}
+					10 = { # Dread Gain
+						random_list = {
+							15 = {
+								add_artifact_modifier = artifact_dread_gain_mult_1_modifier
+							}
+							5 = {
+								add_artifact_modifier = artifact_dread_gain_mult_2_modifier
+							}
+						}
+					}
+					10 = { # Dread Baseline
+						random_list = {
+							20 = {
+								add_artifact_modifier = artifact_dread_baseline_add_1_modifier
+							}
+							5 = {
+								add_artifact_modifier = artifact_dread_baseline_add_2_modifier
+							}
+						}
+					}
+					10 = { # Prestige Bonus - You only get one, as we don't want these to stack too much
+						random_list = {
+							10 = { # Monthly Prestige
+								random_list = {
+									10 = {
+										add_artifact_modifier = artifact_monthly_prestige_1_modifier
+									}
+									5 = {
+										add_artifact_modifier = artifact_monthly_prestige_2_modifier
+									}
+								}
+							}
+							10 = { # Prestige per Knight
+								random_list = {
+									10 = {
+										add_artifact_modifier = artifact_monthly_prestige_gain_per_knight_add_1_modifier
+									}
+									5 = {
+										add_artifact_modifier = artifact_monthly_prestige_gain_per_knight_add_2_modifier
+									}
+								}
+							}
+							10 = { # Prestige per Dread
+								random_list = {
+									10 = {
+										add_artifact_modifier = artifact_monthly_prestige_gain_per_dread_add_1_modifier
+									}
+									5 = {
+										add_artifact_modifier = artifact_monthly_prestige_gain_per_dread_add_2_modifier
+									}
+								}
+							}
+						}
+					}
+					10 = { # Advantage vs other Faiths
+						trigger = {
+							exists = scope:epic_loser
+							exists = scope:owner
+							scope:epic_loser = {
+								faith != scope:owner.faith
+							}
+						}
+						random_list = {
+							15 = {
+								add_artifact_modifier = artifact_tolerance_advantage_mod_2_modifier
+							}
+							10 = {
+								add_artifact_modifier = artifact_tolerance_advantage_mod_3_modifier
+							}
+							5 = {
+								add_artifact_modifier = artifact_tolerance_advantage_mod_4_modifier
+							}
+						}
+					}
+					10 = { # Controlled Province Advantage
+						trigger = {
+							exists = scope:owner
+							exists = scope:epic_loser
+							exists = scope:epic_battle_location
+							scope:owner = {
+								any_character_war = {
+									is_defender = scope:owner
+									is_attacker = scope:epic_loser
+								}
+								any_realm_province = {
+									this = scope:epic_battle_location
+								}
+							}
+						}
+						random_list = {
+							15 = {
+								add_artifact_modifier = artifact_controlled_province_advantage_1_modifier
+							}
+							10 = {
+								add_artifact_modifier = artifact_controlled_province_advantage_2_modifier
+							}
+							5 = {
+								add_artifact_modifier = artifact_controlled_province_advantage_3_modifier
+							}
+						}
+					}
+					# Chance to acquire an advantage bonus for the terrain the battle was fought in
+					10 = { # Plains Advantage
+						trigger = {
+							exists = scope:epic_battle_location
+							scope:epic_battle_location = {
+								#AGOT Modified
+								#terrain = plains
+								agot_is_plains_terrain = yes
+							}
+						}
+						random_list = {
+							15 = {
+								add_artifact_modifier = artifact_plains_advantage_1_modifier
+							}
+							10 = {
+								add_artifact_modifier = artifact_plains_advantage_2_modifier
+							}
+							5 = {
+								add_artifact_modifier = artifact_plains_advantage_3_modifier
+							}
+						}
+					}
+					10 = { # Farmlands Advantage
+						trigger = {
+							exists = scope:epic_battle_location
+							scope:epic_battle_location = {
+								#AGOT Modified
+								#terrain = farmlands
+								OR = {
+									agot_is_farmlands_terrain = yes
+									agot_is_urban_terrain = yes
+								}
+							}
+						}
+						random_list = {
+							15 = {
+								add_artifact_modifier = artifact_farmlands_advantage_1_modifier
+							}
+							10 = {
+								add_artifact_modifier = artifact_farmlands_advantage_2_modifier
+							}
+							5 = {
+								add_artifact_modifier = artifact_farmlands_advantage_3_modifier
+							}
+						}
+					}
+					10 = { # Hills Advantage
+						trigger = {
+							exists = scope:epic_battle_location
+							scope:epic_battle_location = {
+								#AGOT Modified
+								#terrain = hills
+								OR = {
+									agot_is_hills_terrain = yes
+									agot_is_highlands_terrain = yes
+								}
+							}
+						}
+						random_list = {
+							15 = {
+								add_artifact_modifier = artifact_hills_advantage_1_modifier
+							}
+							10 = {
+								add_artifact_modifier = artifact_hills_advantage_2_modifier
+							}
+							5 = {
+								add_artifact_modifier = artifact_hills_advantage_3_modifier
+							}
+						}
+					}
+					10 = { # Mountains Advantage
+						trigger = {
+							exists = scope:epic_battle_location
+							scope:epic_battle_location = {
+								#AGOT Modified
+								#terrain = mountains
+								OR = {
+									agot_is_mountains_terrain = yes
+									agot_is_glacier_terrain = yes
+								}
+							}
+						}
+						random_list = {
+							15 = {
+								add_artifact_modifier = artifact_mountains_advantage_1_modifier
+							}
+							10 = {
+								add_artifact_modifier = artifact_mountains_advantage_2_modifier
+							}
+							5 = {
+								add_artifact_modifier = artifact_mountains_advantage_3_modifier
+							}
+						}
+					}
+					10 = { # Desert Advantage
+						trigger = {
+							exists = scope:epic_battle_location
+							scope:epic_battle_location = {
+								#AGOT Modified
+								#terrain = desert
+								agot_is_desert_terrain = yes
+							}
+						}
+						random_list = {
+							15 = {
+								add_artifact_modifier = artifact_desert_advantage_1_modifier
+							}
+							10 = {
+								add_artifact_modifier = artifact_desert_advantage_2_modifier
+							}
+							5 = {
+								add_artifact_modifier = artifact_desert_advantage_3_modifier
+							}
+						}
+					}
+					10 = { # Desert Mountains Advantage
+						trigger = {
+							exists = scope:epic_battle_location
+							scope:epic_battle_location = {
+								#AGOT Modified
+								#terrain = desert_mountains
+								OR = {
+									agot_is_desert_mountains_terrain = yes
+									agot_is_canyon_terrain = yes
+								}
+							}
+						}
+						random_list = {
+							15 = {
+								add_artifact_modifier = artifact_desert_mountains_advantage_1_modifier
+							}
+							10 = {
+								add_artifact_modifier = artifact_desert_mountains_advantage_2_modifier
+							}
+							5 = {
+								add_artifact_modifier = artifact_desert_mountains_advantage_3_modifier
+							}
+						}
+					}
+					10 = { # Oasis Advantage
+						trigger = {
+							exists = scope:epic_battle_location
+							scope:epic_battle_location = {
+								#AGOT Modified
+								#terrain = oasis
+								agot_is_oasis_terrain = yes
+							}
+						}
+						random_list = {
+							15 = {
+								add_artifact_modifier = artifact_oasis_advantage_1_modifier
+							}
+							10 = {
+								add_artifact_modifier = artifact_oasis_advantage_2_modifier
+							}
+							5 = {
+								add_artifact_modifier = artifact_oasis_advantage_3_modifier
+							}
+						}
+					}
+					10 = { # Jungle Advantage
+						trigger = {
+							exists = scope:epic_battle_location
+							scope:epic_battle_location = {
+								#AGOT Modified
+								#terrain = jungle
+								agot_is_jungle_terrain = yes
+							}
+						}
+						random_list = {
+							15 = {
+								add_artifact_modifier = artifact_jungle_advantage_1_modifier
+							}
+							10 = {
+								add_artifact_modifier = artifact_jungle_advantage_2_modifier
+							}
+							5 = {
+								add_artifact_modifier = artifact_jungle_advantage_3_modifier
+							}
+						}
+					}
+					10 = { # Forest Advantage
+						trigger = {
+							exists = scope:epic_battle_location
+							scope:epic_battle_location = {
+								#AGOT Modified
+								#terrain = forest
+								OR = {
+									agot_is_forest_terrain = yes
+									agot_is_cloudforest_terrain = yes
+								}
+							}
+						}
+						random_list = {
+							15 = {
+								add_artifact_modifier = artifact_forest_advantage_1_modifier
+							}
+							10 = {
+								add_artifact_modifier = artifact_forest_advantage_2_modifier
+							}
+							5 = {
+								add_artifact_modifier = artifact_forest_advantage_3_modifier
+							}
+						}
+					}
+					10 = { # Taiga Advantage
+						trigger = {
+							exists = scope:epic_battle_location
+							scope:epic_battle_location = {
+								#AGOT Modified
+								#terrain = taiga
+								OR = {
+									agot_is_taiga_terrain = yes
+									agot_is_taiga_bog_terrain = yes
+								}
+							}
+						}
+						random_list = {
+							15 = {
+								add_artifact_modifier = artifact_taiga_advantage_1_modifier
+							}
+							10 = {
+								add_artifact_modifier = artifact_taiga_advantage_2_modifier
+							}
+							5 = {
+								add_artifact_modifier = artifact_taiga_advantage_3_modifier
+							}
+						}
+					}
+					10 = { # Wetlands Advantage
+						trigger = {
+							exists = scope:epic_battle_location
+							scope:epic_battle_location = {
+								#AGOT Modified
+								#terrain = wetlands
+								OR = {
+									agot_is_wetlands_terrain = yes
+									agot_is_the_bog_terrain = yes
+								}
+							}
+						}
+						random_list = {
+							15 = {
+								add_artifact_modifier = artifact_wetlands_advantage_1_modifier
+							}
+							10 = {
+								add_artifact_modifier = artifact_wetlands_advantage_2_modifier
+							}
+							5 = {
+								add_artifact_modifier = artifact_wetlands_advantage_3_modifier
+							}
+						}
+					}
+					10 = { # Steppe Advantage
+						trigger = {
+							exists = scope:epic_battle_location
+							scope:epic_battle_location = {
+								#AGOT Modified
+								#terrain = steppe
+								OR = {
+									agot_is_steppe_terrain = yes
+									agot_is_frozen_flats_terrain = yes
+								}
+							}
+						}
+						random_list = {
+							15 = {
+								add_artifact_modifier = artifact_steppe_advantage_1_modifier
+							}
+							10 = {
+								add_artifact_modifier = artifact_steppe_advantage_2_modifier
+							}
+							5 = {
+								add_artifact_modifier = artifact_steppe_advantage_3_modifier
+							}
+						}
+					}
+					10 = { # Floodplains Advantage
+						trigger = {
+							exists = scope:epic_battle_location
+							scope:epic_battle_location = {
+								#AGOT Modified
+								#terrain = floodplains
+								agot_is_floodplains_terrain = yes
+							}
+						}
+						random_list = {
+							15 = {
+								add_artifact_modifier = artifact_floodplains_advantage_1_modifier
+							}
+							10 = {
+								add_artifact_modifier = artifact_floodplains_advantage_2_modifier
+							}
+							5 = {
+								add_artifact_modifier = artifact_floodplains_advantage_3_modifier
+							}
+						}
+					}
+					10 = { # Drylands Advantage
+						trigger = {
+							exists = scope:epic_battle_location
+							scope:epic_battle_location = {
+								#AGOT Modified
+								#terrain = drylands
+								agot_is_drylands_terrain = yes
+							}
+						}
+						random_list = {
+							15 = {
+								add_artifact_modifier = artifact_drylands_advantage_1_modifier
+							}
+							10 = {
+								add_artifact_modifier = artifact_drylands_advantage_2_modifier
+							}
+							5 = {
+								add_artifact_modifier = artifact_drylands_advantage_3_modifier
+							}
+						}
+					}
+					# glory_hound_opinion
+					10 = {
+						if = {
+							limit = { rarity = common }
+							add_artifact_modifier = artifact_glory_hound_vassal_opinion_1_modifier
+						}
+						else_if = {
+							limit = { rarity = masterwork }
+							add_artifact_modifier = artifact_glory_hound_vassal_opinion_2_modifier
+						}
+						else_if = {
+							limit = { rarity = famed }
+							add_artifact_modifier = artifact_glory_hound_vassal_opinion_3_modifier
+						}
+						else_if = {
+							limit = { rarity = illustrious }
+							add_artifact_modifier = artifact_glory_hound_vassal_opinion_4_modifier
+						}
+					}
+					# glory_hound_levy_mult
+					10 = {
+						if = {
+							limit = { rarity = common }
+							add_artifact_modifier = artifact_glory_hound_levy_contribution_mult_1_modifier
+						}
+						else_if = {
+							limit = { rarity = masterwork }
+							add_artifact_modifier = artifact_glory_hound_levy_contribution_mult_2_modifier
+						}
+						else_if = {
+							limit = { rarity = famed }
+							add_artifact_modifier = artifact_glory_hound_levy_contribution_mult_3_modifier
+						}
+						else_if = {
+							limit = { rarity = illustrious }
+							add_artifact_modifier = artifact_glory_hound_levy_contribution_mult_4_modifier
+						}
+					}
+					# belligerent_opinion
+					10 = {
+						if = {
+							limit = { rarity = common }
+							add_artifact_modifier = artifact_belligerent_vassal_opinion_1_modifier
+						}
+						else_if = {
+							limit = { rarity = masterwork }
+							add_artifact_modifier = artifact_belligerent_vassal_opinion_2_modifier
+						}
+						else_if = {
+							limit = { rarity = famed }
+							add_artifact_modifier = artifact_belligerent_vassal_opinion_3_modifier
+						}
+						else_if = {
+							limit = { rarity = illustrious }
+							add_artifact_modifier = artifact_belligerent_vassal_opinion_4_modifier
+						}
+					}
+					# belligerent_levy_mult
+					10 = {
+						if = {
+							limit = { rarity = common }
+							add_artifact_modifier = artifact_belligerent_levy_contribution_mult_1_modifier
+						}
+						else_if = {
+							limit = { rarity = masterwork }
+							add_artifact_modifier = artifact_belligerent_levy_contribution_mult_2_modifier
+						}
+						else_if = {
+							limit = { rarity = famed }
+							add_artifact_modifier = artifact_belligerent_levy_contribution_mult_3_modifier
+						}
+						else_if = {
+							limit = { rarity = illustrious }
+							add_artifact_modifier = artifact_belligerent_levy_contribution_mult_4_modifier
+						}
+					}
+				}
+			}
+			else = {
+				add_scaled_artifact_modifier_dynasty_prestige_effect = yes
+				add_scaled_artifact_modifier_prestige_effect = yes
+				add_scaled_artifact_modifier_rulership_effect = yes
+			}
+			remove_artifact_modifier = artifact_placeholder_modifier
+		}
+	}
+}

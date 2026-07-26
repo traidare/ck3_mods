@@ -1,0 +1,40 @@
+﻿# Bloodlines used opinion ids removed from current CK3.
+attended_trident_council_bla = {
+	opinion = 0
+	stacking = yes
+}
+
+intimidated_opinion = {
+	opinion = 0
+	stacking = yes
+}
+
+fear_opinion = {
+	opinion = 0
+	stacking = yes
+}
+
+uneasy_court_opinion = {
+	opinion = 0
+	stacking = yes
+}
+
+exposed_criminal_opinion = {
+	opinion = 0
+	stacking = yes
+}
+
+rival_opinion = {
+	opinion = 0
+	stacking = yes
+}
+
+cultural_disapproval_opinion = {
+	opinion = 0
+	stacking = yes
+}
+
+offended_opinion = {
+	opinion = 0
+	stacking = yes
+}

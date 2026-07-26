@@ -1,0 +1,1805 @@
+﻿namespace = rk_crackclaw
+namespace = rk_landingfield
+namespace = rk_lps
+namespace = rk_nw
+namespace = rk_mh
+
+# Title Events
+############################################################################################################################################################
+
+rk_crackclaw.0001 = { #The Broken Claw
+	type = character_event
+	title = rk_crackclaw.0001.t
+	desc = rk_crackclaw.0001.desc
+	theme = rk_red_keep
+	override_background = {
+		reference = rk_hands_room
+	}
+	left_portrait = {
+		character = scope:rk_hand
+		animation = debating
+	}
+	right_portrait = {
+		character = root
+		animation = thinking
+	}
+	trigger = {
+		is_imprisoned = no
+		is_incapable = no
+		is_ai = no
+		has_title = title:c_kings_landing
+		is_at_war = no
+		is_available_adult = yes
+		title:b_dyre_den.holder = {
+			is_imprisoned = no
+			is_incapable = no
+			is_available_adult = yes
+		}
+	}
+	immediate = {
+		cp:councillor_castellan = {
+			save_scope_as = rk_hand
+		}
+	}
+	option = {  #Send a royal envoy to Crackclaw Point.
+		name = rk_crackclaw.0001.a
+		custom_tooltip = rk_crackclaw.0001.a_tt
+		trigger_event = rk_crackclaw.0002
+	}
+	option = {  #Do nothing—for now.
+		name = rk_crackclaw.0001.b
+		custom_tooltip = rk_crackclaw.0001.b_tt
+	}
+}
+
+
+rk_crackclaw.0002 = { #The Broken Claw: A Royal Envoy
+	type = character_event
+	title = rk_crackclaw.0002.t
+	desc = rk_crackclaw.0002.desc
+	theme = rk_red_keep
+	override_background = {
+		reference = agot_iron_throne
+	}
+	right_portrait = {
+		character = scope:rk_hand
+		animation = idle
+	}
+	left_portrait = {
+		character = root
+		animation = thinking
+	}
+	lower_center_portrait = {
+		character = scope:rk_envoy_1
+		animation = thinking
+	}
+	lower_right_portrait = {
+		character = scope:rk_envoy_2
+		animation = thinking
+	}
+	trigger = {
+		is_imprisoned = no
+		is_incapable = no
+		is_ai = no
+		has_title = title:c_kings_landing
+		is_at_war = no
+		is_available_adult = yes
+		title:b_dyre_den.holder = {
+			is_imprisoned = no
+			is_incapable = no
+			is_available_adult = yes
+		}
+	}
+	on_trigger_fail = {
+		trigger_event = {
+			id = rk_crackclaw.0002
+			months = 2
+		}
+	}
+	immediate = {
+		create_character = {
+				location = root.capital_province
+				template = rk_envoy_1
+				save_scope_as = rk_envoy_1
+				stewardship = 10
+		}
+		create_character = {
+				location = root.capital_province
+				template = rk_envoy_2
+				save_scope_as = rk_envoy_2
+				martial = 5
+		}
+		scope:rk_envoy_2 = {
+			add_character_flag = {
+				flag = need_military_outfit
+				 years = 1
+			}
+			add_character_flag = {
+				flag = no_headgear
+				 years = 1
+			}
+		}
+		hidden_effect = {
+			scope:rk_hand = {
+				add_courtier = scope:rk_envoy_1
+			}
+			root = {
+				add_courtier = scope:rk_envoy_2
+			}
+		}
+	}
+	option = {  #Send X, Lord Hand's Administrator
+		name = rk_crackclaw.0002.a
+		custom_tooltip = rk_crackclaw.0002.a_tt
+		hidden_effect = {
+			scope:rk_envoy_1 = {
+				save_scope_as = rk_envoy_crack
+			}
+			random_list = {
+				50 = {
+					trigger_event = {
+						id = rk_crackclaw.0003
+						months = 2
+					}
+				}
+				50 = {
+					trigger_event = {
+						id = rk_crackclaw.0013
+						months = 2
+					}
+				}
+			}
+			set_variable = {
+				name = rk_sent_envoy_1
+				years = 1
+			}
+		}
+	}
+	option = {  #Send X, the Clawman
+		name = rk_crackclaw.0002.b
+		custom_tooltip = rk_crackclaw.0002.b_tt
+		hidden_effect = {
+			scope:rk_envoy_2 = {
+				save_scope_as = rk_envoy_crack
+			}
+			random_list = {
+				60 = {
+					trigger_event = {
+						id = rk_crackclaw.0003
+						months = 2
+					}
+				}
+				40 = {
+					trigger_event = {
+						id = rk_crackclaw.0013
+						months = 2
+					}
+				}
+			}
+			set_variable = {
+				name = rk_sent_envoy_2
+				years = 1
+			}
+		}
+	}
+	option = {  #Send Lord Hand Himself.
+		name = rk_crackclaw.0002.c
+		custom_tooltip = rk_crackclaw.0002.c_tt
+		add_prestige = -50
+		hidden_effect = {
+			scope:rk_hand = {
+				save_scope_as = rk_envoy_crack
+			}
+			random_list = {
+				100 = { ####REVISE
+					trigger_event = {
+						id = rk_crackclaw.0003
+						months = 2
+					}
+				}
+				0 = {
+					trigger_event = {
+						id = rk_crackclaw.0013
+						months = 2
+					}
+				}
+			}
+			set_variable = {
+				name = rk_sent_hand
+				years = 1
+			}
+		}
+	}
+}
+
+rk_crackclaw.0003 = { #The Broken Claw: The Envoy Returns
+	type = character_event
+	title = rk_crackclaw.0003.t
+	theme = rk_red_keep
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = {
+					has_variable = rk_sent_envoy_1
+				}
+			desc =  rk_crackclaw.0003.desc.1
+			}
+			triggered_desc = {
+				trigger = {
+					has_variable = rk_sent_envoy_2
+				}
+			desc =   rk_crackclaw.0003.desc.2
+			}
+			triggered_desc = {
+				trigger = {
+					has_variable = rk_sent_hand
+				}
+			desc =   rk_crackclaw.0003.desc.3
+			}
+		}
+	}
+	override_background = {
+		reference = rk_hands_room
+	}
+	left_portrait = {
+		character = scope:rk_envoy_crack
+		animation = obsequious_bow
+	}
+	right_portrait = {
+		character = root
+		animation = idle
+	}
+	trigger = {
+		is_imprisoned = no
+		is_incapable = no
+		is_ai = no
+		has_title = title:c_kings_landing
+		is_at_war = no
+		is_available_adult = yes
+		title:b_dyre_den.holder = {
+			is_imprisoned = no
+			is_incapable = no
+			is_available_adult = yes
+		}
+	}
+	on_trigger_fail = {
+		trigger_event = {
+			id = rk_crackclaw.0003
+			months = 2
+		}
+	}
+	immediate = {
+		title:b_dyre_den.holder = {
+			save_scope_as = rk_dyre_lord
+		}
+		if = {
+			limit = {
+				NOT = {
+					has_variable = rk_sent_hand
+				}
+			}
+			add_courtier = scope:rk_envoy_crack
+		}
+	}
+	option = {  #Summon the Lord of Dyre Den to the Red Keep.
+		name = rk_crackclaw.0003.a
+		custom_tooltip = rk_crackclaw.0003.a_tt
+		trigger_event = {
+			id = rk_crackclaw.0004
+			days = 25
+		}
+	}
+	option = {  #Leave matters be for now.
+		name = rk_crackclaw.0003.b
+		custom_tooltip = rk_crackclaw.0003.b_tt
+	}
+}
+
+rk_crackclaw.0004 = { #The Broken Claw: Before the Iron Throne
+	type = court_event
+	title = rk_crackclaw.0004.t
+	desc = rk_crackclaw.0004.desc
+	theme = court
+	court_scene = {
+		button_position_character = scope:rk_dyrehost
+		court_event_force_open = yes
+		show_timeout_info = no
+		should_pause_time = yes
+		roles = {
+			scope:rk_dyrehost = {
+				group = petitioners_group
+				animation = throne_room_curtsey_1
+			}
+		}
+	}
+	trigger = {
+		is_imprisoned = no
+		is_incapable = no
+		is_ai = no
+		has_title = title:c_kings_landing
+		is_at_war = no
+		is_available_adult = yes
+		title:b_dyre_den.holder = {
+			is_imprisoned = no
+			is_incapable = no
+			is_available_adult = yes
+		}
+	}
+	on_trigger_fail = {
+		trigger_event = {
+			id = rk_crackclaw.0004
+			months = 2
+		}
+	}
+	immediate = {
+		title:b_dyre_den.holder = {
+			save_scope_as = rk_dyrehost
+		}
+	}
+	option = { #May the Father guide your task.
+		name = rk_crackclaw.0004.a
+		custom_tooltip = rk_crackclaw.0004.a_tt
+		trigger_event = rk_crackclaw.0005
+	}
+	option = { #I need to reconsider this
+		name = rk_crackclaw.0004.b
+		custom_tooltip = rk_crackclaw.0004.b_tt
+	}
+}
+
+rk_crackclaw.0005 = { #
+	type = court_event
+	title = rk_crackclaw.0005.t
+	desc = rk_crackclaw.0005.desc
+	theme = court
+	court_scene = {
+		button_position_character = scope:rk_dyrehost
+		court_event_force_open = yes
+		show_timeout_info = no
+		should_pause_time = yes
+		roles = {
+			scope:rk_dyrehost = {
+				group = petitioners_group
+				animation = throne_room_curtsey_1
+			}
+		}
+	}
+	trigger = {
+		is_imprisoned = no
+		is_incapable = no
+		is_ai = no
+		has_title = title:c_kings_landing
+		is_at_war = no
+		is_available_adult = yes
+		title:b_dyre_den.holder = {
+			is_imprisoned = no
+			is_incapable = no
+			is_available_adult = yes
+		}
+	}
+	on_trigger_fail = {
+		trigger_event = {
+			id = rk_crackclaw.0005
+			months = 2
+		}
+	}
+	immediate = {
+		title:b_dyre_den.holder = {
+			save_scope_as = rk_dyrehost
+		}
+	}
+	option = { #Why not go to the local lord?
+		name = rk_crackclaw.0005.a
+		custom_tooltip = rk_crackclaw.0005.a_tt
+		trigger_event = {
+			id = rk_crackclaw.0006
+			days = 30
+		}
+		add_prestige = -200
+		scope:rk_dyrehost = {
+			add_opinion = {
+				modifier = respect_opinion
+				opinion = 20
+				target = root
+			}
+		}
+	}
+	option = { #
+		name = rk_crackclaw.0005.b
+		custom_tooltip = rk_crackclaw.0005.b_tt
+		trigger_event = {
+			id = rk_crackclaw.0006
+			days = 30
+		}
+		remove_short_term_gold = 200
+		scope:rk_dyrehost = {
+			add_opinion = {
+				modifier = respect_opinion
+				opinion = 20
+				target = root
+			}
+		}
+	}
+	option = { #
+		name = rk_crackclaw.0005.c
+		custom_tooltip = rk_crackclaw.0005.c_tt
+		trigger_event = {
+			id = rk_crackclaw.0006
+			days = 30
+		}
+		add_piety = -200
+		scope:rk_dyrehost = {
+			add_opinion = {
+				modifier = respect_opinion
+				opinion = 20
+				target = root
+			}
+		}
+	}
+}
+
+rk_crackclaw.0006 = { #
+	type = letter_event
+	title = rk_crackclaw.0006.t
+	opening = {
+		desc = rk_crackclaw.0006.opening
+	}
+	desc = rk_crackclaw.0006.desc
+	sender = {
+		character = scope:rk_dyrehost
+	}
+	trigger = {
+		is_imprisoned = no
+		is_incapable = no
+		is_ai = no
+		has_title = title:c_kings_landing
+		is_at_war = no
+		is_available_adult = yes
+		title:b_dyre_den.holder = {
+			is_imprisoned = no
+			is_incapable = no
+			is_available_adult = yes
+		}
+	}
+	on_trigger_fail = {
+		trigger_event = {
+			id = rk_crackclaw.0006
+			months = 2
+		}
+	}
+	immediate = {
+	}
+	option = {  #
+		name = rk_crackclaw.0006.a
+		custom_tooltip = rk_crackclaw.0006.a_tt
+		ROOT = {
+			start_travel_plan = {
+				destination = title:b_dyre_den.title_province
+				on_travel_planner_cancel_event = rk_crackclaw.0014
+				on_arrival_event = rk_crackclaw.0007
+			}
+		}
+	}
+	option = {  #
+		name = rk_crackclaw.0006.b
+		custom_tooltip = rk_crackclaw.0006.b_tt
+	}
+}
+
+rk_crackclaw.0007 = { #
+	type = character_event
+	title = rk_crackclaw.0007.t
+	desc = rk_crackclaw.0007.desc
+	theme = rk_red_keep
+	override_background = {
+		reference = rk_dyre_den
+	}
+	right_portrait = {
+		character = root
+		animation = idle
+		camera = camera_event_center_away
+	}
+	trigger = {
+		is_imprisoned = no
+		is_incapable = no
+		is_ai = no
+		has_title = title:c_kings_landing
+	}
+	immediate = {
+		cp:councillor_castellan = {
+			save_scope_as = rk_hand
+		}
+	}
+	option = {  #
+		name = rk_crackclaw.0007.a
+		custom_tooltip = rk_crackclaw.0007.a_tt
+		trigger_event = rk_crackclaw.0008
+	}
+}
+
+rk_crackclaw.0008 = { #
+	type = character_event
+	title = rk_crackclaw.0008.t
+	desc = rk_crackclaw.0008.desc
+	theme = rk_red_keep
+	override_background = {
+		reference = rk_dyredenhall
+	}
+	left_portrait = {
+		character = scope:rk_dyrehost
+		animation = debating
+	}
+	right_portrait = {
+		character = root
+		animation = idle
+	}
+	lower_left_portrait = {
+		character = scope:rk_hardy_lord
+	}
+	lower_center_portrait = {
+		character = scope:rk_crabb_lord
+	}
+	lower_right_portrait = {
+		character = scope:rk_pyne_lord
+	}
+	trigger = {
+		is_imprisoned = no
+		is_incapable = no
+		is_ai = no
+		has_title = title:c_kings_landing
+	}
+	immediate = {
+		title:b_strongcliff.holder = {
+			save_scope_as = rk_crabb_lord
+		}
+		title:b_pointside.holder = {
+			save_scope_as = rk_hardy_lord
+		}
+		title:b_needlewater.holder = {
+			save_scope_as = rk_pyne_lord
+		}
+	}
+	option = {  #
+		name = rk_crackclaw.0008.a
+		custom_tooltip = rk_crackclaw.0008.a_tt
+		trigger_event = rk_crackclaw.0009
+		stress_impact = {
+			wrathful = minor_stress_gain
+			arrogant = minor_stress_gain
+			impatient = minor_stress_gain
+			humble = minor_stress_loss
+			patient = minor_stress_loss
+		}
+	}
+	option = {  #
+		name = rk_crackclaw.0008.b
+		custom_tooltip = rk_crackclaw.0008.b_tt
+		trigger_event = rk_crackclaw.0012
+		stress_impact = {
+			wrathful = minor_stress_loss
+			arrogant = minor_stress_loss
+			impatient = minor_stress_loss
+			humble = minor_stress_gain
+			patient = minor_stress_gain
+		}
+		trigger_event = rk_crackclaw.0012
+	}
+}
+
+rk_crackclaw.0009 = { #
+	type = character_event
+	title = rk_crackclaw.0009.t
+	desc = rk_crackclaw.0009.desc
+	theme = rk_red_keep
+	override_background = {
+		reference = rk_dyredenhall
+	}
+	left_portrait = {
+		character = scope:rk_dyrehost
+		animation = debating
+	}
+	right_portrait = {
+		character = root
+		animation = thinking
+	}
+	lower_left_portrait = {
+		character = scope:rk_hardy_lord
+	}
+	lower_center_portrait = {
+		character = scope:rk_crabb_lord
+	}
+	lower_right_portrait = {
+		character = scope:rk_pyne_lord
+	}
+	trigger = {
+		is_imprisoned = no
+		is_incapable = no
+		is_ai = no
+		has_title = title:c_kings_landing
+	}
+	immediate = {
+		cp:councillor_castellan = {
+			save_scope_as = rk_hand
+		}
+	}
+	option = {  #
+		name = rk_crackclaw.0009.a
+		custom_tooltip = rk_crackclaw.0009.a_tt
+		trigger_event = rk_crackclaw.0012
+	}
+	option = {  #
+		name = rk_crackclaw.0009.b
+		custom_tooltip = rk_crackclaw.0009.b_tt
+		trigger_event = rk_crackclaw.0010
+	}
+}
+
+rk_crackclaw.0010 = { #
+	type = character_event
+	title = rk_crackclaw.0010.t
+	desc = rk_crackclaw.0010.desc
+	theme = rk_red_keep
+	override_background = {
+		reference = rk_dyredenhall
+	}
+	left_portrait = {
+		character = scope:rk_dyrehost
+		animation = debating
+	}
+	right_portrait = {
+		character = root
+		animation = thinking
+	}
+	lower_left_portrait = {
+		character = scope:rk_hardy_lord
+	}
+	lower_center_portrait = {
+		character = scope:rk_crabb_lord
+	}
+	lower_right_portrait = {
+		character = scope:rk_pyne_lord
+	}
+	trigger = {
+		is_imprisoned = no
+		is_incapable = no
+		is_ai = no
+		has_title = title:c_kings_landing
+	}
+	immediate = {
+		cp:councillor_castellan = {
+			save_scope_as = rk_hand
+		}
+	}
+	option = {  #
+		name = rk_crackclaw.0010.a
+		custom_tooltip = rk_crackclaw.0010.a_tt
+		trigger_event = rk_crackclaw.0012
+	}
+	option = {  #
+		name = rk_crackclaw.0010.b
+		custom_tooltip = rk_crackclaw.0010.b_tt
+		trigger_event = rk_crackclaw.0011
+	}
+}
+
+rk_crackclaw.0011 = { #
+	type = character_event
+	title = rk_crackclaw.0011.t
+	desc = rk_crackclaw.0011.desc
+	theme = rk_red_keep
+	override_background = {
+		reference = rk_dyredenhall
+	}
+	left_portrait = {
+		character = scope:rk_dyrehost
+		animation = idle
+	}
+	right_portrait = {
+		character = root
+		animation = idle
+	}
+	lower_left_portrait = {
+		character = scope:rk_hardy_lord
+	}
+	lower_center_portrait = {
+		character = scope:rk_crabb_lord
+	}
+	lower_right_portrait = {
+		character = scope:rk_pyne_lord
+	}
+	trigger = {
+		is_imprisoned = no
+		is_incapable = no
+		is_ai = no
+		has_title = title:c_kings_landing
+	}
+	immediate = {
+		cp:councillor_castellan = {
+			save_scope_as = rk_hand
+		}
+	}
+	option = {  #
+		name = rk_crackclaw.0011.a
+		custom_tooltip = rk_crackclaw.0011.a_tt
+		create_title_and_vassal_change = {
+			type = created
+			save_scope_as = change
+			add_claim_on_loss = no
+		}
+		title:d_crackclaw_point = {
+			change_title_holder = {
+				holder = root
+				change = scope:change
+			}
+		}
+		resolve_title_and_vassal_change = scope:change
+		add_tyranny = 10
+		add_prestige = 200
+		dynasty = {
+			add_dynasty_prestige = 25
+		}
+	}
+}
+
+rk_crackclaw.0012 = { #
+	type = character_event
+	title = rk_crackclaw.0012.t
+	desc = rk_crackclaw.0012.desc
+	theme = rk_red_keep
+	override_background = {
+		reference = rk_dyredenhall
+	}
+	left_portrait = {
+		character = scope:rk_dyrehost
+		animation = idle
+	}
+	right_portrait = {
+		character = root
+		animation = idle
+	}
+	lower_left_portrait = {
+		character = scope:rk_hardy_lord
+	}
+	lower_center_portrait = {
+		character = scope:rk_crabb_lord
+	}
+	lower_right_portrait = {
+		character = scope:rk_pyne_lord
+	}
+	trigger = {
+		is_imprisoned = no
+		is_incapable = no
+		is_ai = no
+		has_title = title:c_kings_landing
+	}
+	option = {  #
+		name = rk_crackclaw.0012.a
+		custom_tooltip = rk_crackclaw.0012.a_tt
+	}
+	option = {  #
+		name = rk_crackclaw.0012.b
+		custom_tooltip = rk_crackclaw.0012.b_tt
+	}
+}
+
+rk_crackclaw.0013 = { #
+	type = character_event
+	title = rk_crackclaw.0013.t
+	desc = rk_crackclaw.0013.desc
+	theme = rk_red_keep
+	override_background = {
+		reference = rk_hands_room
+	}
+	right_portrait = {
+		character = root
+		animation = worry
+	}
+	trigger = {
+		is_imprisoned = no
+		is_incapable = no
+		is_ai = no
+		has_title = title:c_kings_landing
+	}
+	immediate = {
+		scope:rk_envoy_crack = {
+			show_as_tooltip = {
+				death = {
+					death_reason = death_disappearance
+				}
+			}
+		}
+	}
+	option = {  #
+		name = rk_crackclaw.0013.a
+		custom_tooltip = rk_crackclaw.0013.a_tt
+	}
+}
+
+rk_crackclaw.0014 = { #
+	hidden = yes
+	override_background = {
+		reference = rk_hands_room
+	}
+	immediate = {
+		start_travel_plan = {
+			destination = title:b_dyre_den.title_province
+			on_travel_planner_cancel_event = rk_crackclaw.0014
+			on_arrival_event = rk_crackclaw.0007
+		}
+	}
+}
+
+#### Landingfield
+
+
+rk_landingfield.0001 = { #Royal Demesne
+	type = character_event
+	title = rk_landingfield.0001.t
+	desc = rk_landingfield.0001.desc
+	theme = rk_red_keep
+	override_background = {
+		reference = rk_hands_room
+	}
+	left_portrait = {
+		character = root
+		animation = thinking
+	}
+	trigger = {
+		is_imprisoned = no
+		is_incapable = no
+		is_ai = no
+		has_title = title:c_kings_landing
+		is_at_war = no
+		is_available_adult = yes
+	}
+	immediate = {
+		cp:councillor_castellan = {
+			save_scope_as = rk_hand
+		}
+	}
+	option = {  #
+		name = rk_landingfield.0001.a
+		custom_tooltip = rk_landingfield.0001.a_tt
+		trigger_event = rk_landingfield.0002
+	}
+	option = {  #
+		name = rk_landingfield.0001.b
+		custom_tooltip = rk_landingfield.0001.b_tt
+	}
+}
+
+
+rk_landingfield.0002 = { #Royal Demesne
+	type = character_event
+	title = rk_landingfield.0002.t
+	desc = rk_landingfield.0002.desc
+	theme = rk_red_keep
+	override_background = {
+		reference = rk_hands_room
+	}
+	left_portrait = {
+		character = scope:rk_hand
+		animation = debating
+	}
+	right_portrait = {
+		character = root
+		animation = thinking
+	}
+	trigger = {
+		is_imprisoned = no
+		is_incapable = no
+		is_ai = no
+		has_title = title:c_kings_landing
+		is_at_war = no
+		is_available_adult = yes
+	}
+	immediate = {
+		cp:councillor_castellan = {
+			save_scope_as = rk_hand
+		}
+	}
+	option = {  #
+		name = rk_landingfield.0002.a
+		custom_tooltip = rk_landingfield.0002.a_tt
+		trigger_event = {
+			id = rk_landingfield.0003
+			days = 40
+		}
+	}
+	option = {  #
+		name = rk_landingfield.0002.b
+		custom_tooltip = rk_landingfield.0002.b_tt
+	}
+}
+
+
+rk_landingfield.0003 = { #Royal Demesne
+	desc = rk_landingfield.0003.desc
+	type = letter_event
+	opening = {
+		desc = rk_landingfield.0003.opening
+	}
+	sender = {
+		character = scope:rk_hand
+	}
+	trigger = {
+		is_imprisoned = no
+		is_incapable = no
+		is_ai = no
+		has_title = title:c_kings_landing
+		is_available_adult = yes
+	}
+	immediate = {
+		cp:councillor_castellan = {
+			save_scope_as = rk_hand
+		}
+	}
+	option = {  #
+		name = rk_landingfield.0003.a
+		custom_tooltip = rk_landingfield.0003.a_tt
+		remove_short_term_gold = 250
+		set_global_variable  = rk_demesne_expanded_var
+		stress_impact = {
+			greedy = minor_stress_gain
+			generous = minor_stress_loss
+			compassionate = minor_stress_loss
+			arrogant = minor_stress_gain
+		}
+		title:b_landingfield = {
+			title_province = {
+				set_holding_type = castle_holding
+			}
+		}
+		create_title_and_vassal_change = {
+			type = created
+			save_scope_as = title_change
+			add_claim_on_loss = no
+		}
+		title:b_landingfield = {
+			change_title_holder = {
+				holder = root
+				change = scope:title_change
+			}
+		}
+		resolve_title_and_vassal_change = scope:title_change
+		add_tyranny = 5
+		trigger_event = {
+			id = rk_landingfield.0004
+			days = 60
+		}
+	}
+	option = {  #
+		name = rk_landingfield.0003.b
+		custom_tooltip = rk_landingfield.0003.b_tt
+		set_global_variable  = rk_demesne_expanded_var
+		stress_impact = {
+			greedy = minor_stress_loss
+			generous = minor_stress_gain
+			compassionate = minor_stress_gain
+		}
+		title:b_landingfield = {
+			title_province = {
+				set_holding_type = castle_holding
+			}
+		}
+		title:c_kings_landing = {
+			add_county_modifier = {
+				modifier = rk_seized_communal_lands
+				years = 20
+			}
+		}
+			create_title_and_vassal_change = {
+				type = created
+				save_scope_as = title_change
+				add_claim_on_loss = no
+			}
+			title:b_landingfield = {
+				change_title_holder = {
+					holder = root
+					change = scope:title_change
+				}
+			}
+		resolve_title_and_vassal_change = scope:title_change
+		add_tyranny = 5
+		trigger_event = {
+			id = rk_landingfield.0004
+			days = 60
+		}
+	}
+	option = {  #
+		name = rk_landingfield.0003.c
+		custom_tooltip = rk_landingfield.0003.c_tt
+	}
+}
+
+
+rk_landingfield.0004 = { #Royal Demesne
+	desc = rk_landingfield.0004.desc
+	type = letter_event
+	opening = {
+		desc = rk_landingfield.0004.opening
+	}
+	sender = {
+		character = scope:rk_hand
+	}
+	trigger = {
+		is_imprisoned = no
+		is_incapable = no
+		is_ai = no
+		has_title = title:c_kings_landing
+		is_available_adult = yes
+	}
+	immediate = {
+		cp:councillor_castellan = {
+			save_scope_as = rk_hand
+		}
+		trigger_event = {
+			id = rk_landingfield.0006
+			days = 30
+		}
+	}
+	option = {  #
+		name = rk_landingfield.0004.a
+		custom_tooltip = rk_landingfield.0004.a_tt
+		start_travel_plan = {
+			destination = title:b_landingfield.title_province
+			on_travel_planner_cancel_event = rk_landingfield.0005
+			on_arrival_event = rk_landingfield.0005
+			return_trip = yes
+		}
+	}
+	option = {  #
+		name = rk_landingfield.0004.b
+		custom_tooltip = rk_landingfield.0004.b_tt
+	}
+}
+
+
+rk_landingfield.0005 = { #Royal Demesne
+	type = character_event
+	title = rk_landingfield.0005.t
+	desc = rk_landingfield.0005.desc
+	theme = rk_red_keep
+	override_background = {
+		reference = rk_village_wheat
+	}
+	right_portrait = {
+		character = root
+		animation = survey
+		camera = camera_event_center_away
+	}
+	trigger = {
+		is_imprisoned = no
+		is_incapable = no
+		is_ai = no
+		has_title = title:c_kings_landing
+		is_at_war = no
+		is_available_adult = yes
+	}
+	immediate = {
+		cp:councillor_castellan = {
+			save_scope_as = rk_hand
+		}
+	}
+	option = {  #
+		name = rk_landingfield.0005.a
+		custom_tooltip = rk_landingfield.0005.a_tt
+		add_prestige = 100
+		add_stress = -20
+	}
+}
+
+
+rk_landingfield.0006 = { #Royal Demesne
+	type = character_event
+	title = rk_landingfield.0006.t
+	desc = rk_landingfield.0006.desc
+	theme = rk_red_keep
+	override_background = {
+		reference = rk_hands_room
+	}
+	left_portrait = {
+		character = scope:rk_spymaster
+		animation = throne_room_conversation_1
+	}
+	right_portrait = {
+		character = root
+		animation = idle
+	}
+	trigger = {
+		is_imprisoned = no
+		is_incapable = no
+		is_ai = no
+		has_title = title:c_kings_landing
+		is_at_war = no
+		is_available_adult = yes
+	}
+	immediate = {
+		cp:councillor_spymaster = {
+			save_scope_as = rk_spymaster
+		}
+	}
+	option = {  #
+		name = rk_landingfield.0006.a
+		custom_tooltip = rk_landingfield.0006.a_tt
+		add_character_modifier = {
+			modifier = rk_landing_rumors
+			years = 5
+		}
+		add_prestige = -50
+	}
+	option = {  #
+		name = rk_landingfield.0006.b
+		custom_tooltip = rk_landingfield.0006.b_tt
+		add_character_modifier = {
+			modifier = rk_landing_rumors_1
+			years = 5
+		}
+		add_tyranny = 5
+	}
+}
+
+rk_landingfield.0007 = { #
+	hidden = yes
+	override_background = {
+		reference = rk_hands_room
+	}
+	immediate = {
+		start_travel_plan = {
+			destination = title:b_landingfield.title_province
+			on_travel_planner_cancel_event = rk_landingfield.0007
+			on_arrival_event = rk_landingfield.0005
+		}
+	}
+}
+
+
+######################### LP PETITION Events
+
+
+rk_lps.0001 = { # Request permission for standing Army - Westerlands
+	type = court_event
+	title = rk_lps.0001.t
+	desc = rk_lps.0001.desc
+	theme = court
+	court_scene = {
+		button_position_character = scope:rk_lp_westerlands
+		court_event_force_open = yes
+		show_timeout_info = no
+		should_pause_time = yes
+		roles = {
+			scope:rk_lp_westerlands = {
+				group = petitioners_group
+				animation = throne_room_curtsey_1
+			}
+		}
+	}
+	trigger = {
+		is_imprisoned = no
+		is_incapable = no
+		is_ai = no
+		has_title = title:c_kings_landing
+		is_at_war = no
+		is_available_adult = yes
+		title:e_the_westerlands.holder = {
+			is_vassal_of = ROOT
+			is_imprisoned = no
+			is_incapable = no
+			is_available_adult = yes
+		}
+	}
+	immediate = {
+		title:e_the_westerlands.holder = {
+			save_scope_as = rk_lp_westerlands
+		}
+	}
+	option = { #
+		name = rk_lps.0001.a
+		custom_tooltip = rk_lps.0001.a_tt
+		scope:rk_lp_westerlands = {
+			add_opinion = {
+				modifier = pleased_opinion
+				opinion = 10
+				target = root
+			}
+			add_character_modifier = rk_standing_army
+		}
+		title:e_the_iron_islands.holder = {
+			add_opinion = {
+				modifier = blamed_me_unjustly
+				opinion = -15
+				target = root
+			}
+		}
+	}
+	option = { #
+		name = rk_lps.0001.b
+		custom_tooltip = rk_lps.0001.b_tt
+		scope:rk_lp_westerlands = {
+			add_character_modifier = rk_troops_west_2
+			add_opinion = {
+				modifier = refusal_opinion
+				opinion = 5
+				target = root
+			}
+		}
+		add_character_modifier = rk_troops_west
+		title:e_the_iron_islands.holder = {
+			add_opinion = {
+				modifier = blamed_me_unjustly
+				opinion = -15
+				target = root
+			}
+		}
+	}
+	option = { #
+		name = rk_lps.0001.c
+		custom_tooltip = rk_lps.0001.c_tt
+		scope:rk_lp_westerlands = {
+			add_opinion = {
+				modifier = refusal_opinion
+				opinion = -40
+				target = root
+			}
+		}
+	}
+}
+
+
+rk_lps.0002 = { #The North Asks for Food
+	type = court_event
+	title = rk_lps.0002.t
+	desc = rk_lps.0002.desc
+	theme = court
+	court_scene = {
+		button_position_character = scope:rk_lp_north
+		court_event_force_open = yes
+		show_timeout_info = no
+		should_pause_time = yes
+		roles = {
+			scope:rk_lp_north = {
+				group = petitioners_group
+				animation = throne_room_curtsey_1
+			}
+		}
+	}
+	trigger = {
+		is_imprisoned = no
+		is_incapable = no
+		is_ai = no
+		has_title = title:c_kings_landing
+		is_at_war = no
+		is_available_adult = yes
+		title:e_the_north.holder = {
+			is_vassal_of = ROOT
+			is_imprisoned = no
+			is_incapable = no
+			is_available_adult = yes
+			has_title = title:c_winterfell
+		}
+	}
+	immediate = {
+		title:e_the_north.holder = {
+			save_scope_as = rk_lp_north
+		}
+	}
+	option = { #
+		name = rk_lps.0002.a
+		custom_tooltip = rk_lps.0002.a_tt
+		scope:rk_lp_north = {
+			add_opinion = {
+				modifier = pleased_opinion
+				opinion = 20
+				target = root
+			}
+		}
+		remove_short_term_gold = 500
+		if = {
+		    limit = {
+				title:c_kings_landing = {
+					has_county_modifier = rk_well_fed
+				}
+			}
+			send_interface_toast = {
+				type = event_toast_effect_bad
+				title = rk_descend_population_now_sufficiently_fed_title
+				custom_tooltip = rk_descend_population_now_sufficiently_fed_desc
+				left_icon = cp:councillor_castellan
+				title:c_kings_landing = {
+					remove_county_modifier = rk_well_fed
+					add_county_modifier = rk_sufficiently_fed
+				}
+			}
+		}
+		else_if = {
+		    limit = {
+				title:c_kings_landing = {
+					has_county_modifier = rk_sufficiently_fed
+				}
+			}
+			send_interface_toast = {
+				type = event_toast_effect_bad
+				title = rk_descend_food_supply_strained_title
+				custom_tooltip = rk_descend_food_supply_strained_desc
+				left_icon = cp:councillor_castellan
+				title:c_kings_landing = {
+					remove_county_modifier = rk_sufficiently_fed
+					add_county_modifier = rk_food_strained
+				}
+			}
+		}
+		else_if = {
+		    limit = {
+				title:c_kings_landing = {
+					has_county_modifier = rk_food_strained
+				}
+			}
+			send_interface_toast = {
+				type = event_toast_effect_bad
+				title = rk_descend_food_supply_hungry_title
+				custom_tooltip = rk_descend_food_supply_hungry_desc
+				left_icon = cp:councillor_castellan
+				title:c_kings_landing = {
+					remove_county_modifier = rk_food_strained
+					add_county_modifier = rk_hungry_population
+				}
+			}
+		}
+		else_if = {
+		    limit = {
+				title:c_kings_landing = {
+					has_county_modifier = rk_hungry_population
+				}
+			}
+			title:c_kings_landing = {
+				remove_county_modifier = rk_hungry_population
+				add_county_modifier = rk_starving_population
+			}
+			send_interface_toast = {
+				type = event_toast_effect_bad
+				title = rk_remain_population_now_starving_title
+				custom_tooltip = rk_remain_population_now_starving_desc
+				left_icon = cp:councillor_castellan
+				title:c_kings_landing = {
+					remove_county_modifier = rk_hungry_population
+					add_county_modifier = rk_starving_population
+				}
+			}
+		}
+		else_if = {
+		    limit = {
+				title:c_kings_landing = {
+					has_county_modifier = rk_starving_population
+				}
+			}
+			title:c_kings_landing = {
+				remove_county_modifier = rk_starving_population
+				add_county_modifier = rk_starving_population
+			}
+			send_interface_toast = {
+				type = event_toast_effect_bad
+				title = rk_remain_population_now_starving_title
+				custom_tooltip = rk_remain_population_now_starving_desc
+				left_icon = cp:councillor_castellan
+				title:c_kings_landing = {
+					remove_county_modifier = rk_starving_population
+					add_county_modifier = rk_starving_population
+				}
+			}
+		}
+	}
+	option = { #
+		name = rk_lps.0002.b
+		custom_tooltip = rk_lps.0002.b_tt
+		scope:rk_lp_north = {
+			add_opinion = {
+				modifier = refusal_opinion
+				opinion = 20
+				target = root
+			}
+		}
+		title:e_the_reach.holder = {
+			add_opinion = {
+				modifier = angry_opinion
+				opinion = -40
+				target = root
+			}
+		}
+		title:e_the_riverlands.holder = {
+			add_opinion = {
+				modifier = angry_opinion
+				opinion = -40
+				target = root
+			}
+		}
+	}
+	option = { #
+		name = rk_lps.0002.c
+		custom_tooltip = rk_lps.0002.c_tt
+		scope:rk_lp_north = {
+			add_opinion = {
+				modifier = refusal_opinion
+				opinion = -50
+				target = root
+			}
+		}
+		title:c_winterfell = {
+			change_development_level = -5
+		}
+	}
+}
+
+
+rk_lps.0003 = { #Flood in the Riverlands
+	type = court_event
+	title = rk_lps.0003.t
+	desc = rk_lps.0003.desc
+	theme = court
+	court_scene = {
+		button_position_character = scope:rk_lp_riverlands
+		court_event_force_open = yes
+		show_timeout_info = no
+		should_pause_time = yes
+		roles = {
+			scope:rk_lp_riverlands = {
+				group = petitioners_group
+				animation = throne_room_curtsey_1
+			}
+		}
+	}
+	trigger = {
+		is_imprisoned = no
+		is_incapable = no
+		is_ai = no
+		has_title = title:c_kings_landing
+		is_at_war = no
+		is_available_adult = yes
+		title:e_the_riverlands.holder = {
+			is_vassal_of = ROOT
+			is_imprisoned = no
+			is_incapable = no
+			is_available_adult = yes
+		}
+	}
+	immediate = {
+		title:e_the_riverlands.holder = {
+			save_scope_as = rk_lp_riverlands
+		}
+	}
+	option = { #
+		name = rk_lps.0003.a
+		custom_tooltip = rk_lps.0003.a_tt
+		title:e_the_reach.holder = {
+			add_opinion = {
+				modifier = angry_opinion
+				opinion = -20
+				target = root
+			}
+		}
+		scope:rk_lp_riverlands = {
+			add_opinion = {
+				modifier = pleased_opinion
+				opinion = 20
+				target = root
+			}
+			add_character_modifier = {
+				modifier = rk_river_tolls
+				years = 20
+			}
+			title:c_kings_landing = {
+				add_county_modifier = {
+					modifier = rk_reduced_trade
+					years = 15
+				}
+			}
+		}
+	}
+	option = { #
+		name = rk_lps.0003.b
+		custom_tooltip = rk_lps.0003.b_tt
+		scope:rk_lp_riverlands = {
+			add_opinion = {
+				modifier = pleased_opinion
+				opinion = 5
+				target = root
+			}
+			add_character_modifier = {
+				modifier = rk_river_tolls_1
+				years = 20
+			}
+		}
+		add_character_modifier = {
+			modifier = rk_river_tolls_1
+			years = 20
+		}
+		title:e_the_reach.holder = {
+			add_opinion = {
+				modifier = angry_opinion
+				opinion = -20
+				target = root
+			}
+		}
+	}
+	option = { #
+		name = rk_lps.0003.c
+		custom_tooltip = rk_lps.0003.c_tt
+		scope:rk_lp_riverlands = {
+			add_opinion = {
+				modifier = refusal_opinion
+				opinion = -35
+				target = root
+			}
+		}
+		title:c_winterfell = {
+			change_development_level = -5
+		}
+	}
+}
+
+#### Nightswatch Events
+
+
+rk_nw.0001 = { #Nightswatch Petition
+	type = court_event
+	title = rk_nw.0001.t
+	desc = rk_nw.0001.desc
+	theme = court
+	court_scene = {
+		button_position_character = scope:rk_nw_envoy
+		court_event_force_open = yes
+		show_timeout_info = no
+		should_pause_time = yes
+		roles = {
+			scope:rk_nw_envoy = {
+				group = petitioners_group
+				animation = throne_room_curtsey_1
+			}
+		}
+	}
+
+	immediate = {
+		title:k_the_wall.holder = {
+			random_courtier = {
+				limit = {
+					has_trait = nightswatch
+				}
+				save_scope_as = rk_nw_envoy
+			}
+		}
+	}
+	option = { #
+		name = rk_nw.0001.a
+		custom_tooltip = rk_nw.0001.a_tt
+		stress_impact = {
+			greedy = minor_stress_gain
+			generous = minor_stress_loss
+		}
+		remove_short_term_gold = 500
+		add_piety = 150
+		title:k_the_wall.holder = {
+			add_long_term_gold = 500
+			add_opinion = {
+				modifier = pleased_opinion
+				opinion = 20
+				target = root
+			}
+		}
+	}
+	option = { #
+		name = rk_nw.0001.b
+		custom_tooltip = rk_nw.0001.b_tt
+		add_piety = 50
+		add_prestige = -75
+			add_character_modifier = {
+				modifier = rk_crown_support_armies_1
+				years = 20
+			}
+		stress_impact = {
+			arrogant = minor_stress_gain
+			just = minor_stress_loss
+		}
+		title:k_the_wall.holder = {
+			add_character_modifier = {
+				modifier = rk_crown_support_armies
+				years = 20
+			}
+			add_opinion = {
+				modifier = pleased_opinion
+				opinion = 15
+				target = root
+			}
+		}
+	}
+	option = { #
+		name = rk_nw.0001.c
+		custom_tooltip = rk_nw.0001.c_tt
+		add_piety = -100
+		title:k_the_wall.holder = {
+			add_opinion = {
+				modifier = angry_opinion
+				opinion = -35
+				target = root
+			}
+		}
+	}
+}
+
+
+### Travelling to the Wall
+
+
+rk_nw.0002 = { #Journey North
+	type = character_event
+	title = rk_nw.0002.t
+	desc = rk_nw.0002.desc
+	theme = rk_red_keep
+	override_background = {
+		reference = rk_hands_room
+	}
+	right_portrait = {
+		character = root
+		animation = chancellor
+	}
+	immediate = {
+		if = {
+			limit = { exists = cp:councillor_castellan }
+			cp:councillor_castellan = {
+				save_scope_as = rk_hand
+			}
+		}
+	}
+	option = {  #
+		name = rk_nw.0002.a
+		custom_tooltip = rk_nw.0002.a_tt
+		start_travel_plan = {
+			destination = title:b_castle_black.title_province
+			on_travel_planner_cancel_event = rk_nw.0003
+			on_arrival_event = rk_nw.0004
+		}
+	}
+	option = {  #
+		name = rk_nw.0002.b
+		custom_tooltip = rk_nw.0002.b_tt
+	}
+}
+
+rk_nw.0003 = { #
+	hidden = yes
+	override_background = {
+		reference = rk_hands_room
+	}
+	immediate = {
+		start_travel_plan = {
+			destination = title:b_castle_black.title_province
+			on_travel_planner_cancel_event = rk_nw.0003
+			on_arrival_event = rk_nw.0003
+		}
+	}
+}
+
+rk_nw.0004 = { #Arrival
+	type = character_event
+	title = rk_nw.0004.t
+	desc = rk_nw.0004.desc
+	theme = rk_red_keep
+	override_background = {
+		reference = rk_the_wall_arrival
+	}
+	right_portrait = {
+		character = root
+		animation = survey
+		camera = camera_event_center_away
+	}
+	immediate = {
+		cp:councillor_castellan = {
+			save_scope_as = rk_hand
+		}
+		add_character_flag = rk_winter_clothing
+	}
+	option = {  #
+		name = rk_nw.0004.a
+		custom_tooltip = rk_nw.0004.a_tt
+		trigger_event = rk_nw.0005
+	}
+	option = {  #
+		name = rk_nw.0004.b
+		custom_tooltip = rk_nw.0004.b_tt
+		trigger_event = rk_nw.0005
+	}
+}
+
+rk_nw.0005 = { #Arrival
+	type = character_event
+	title = rk_nw.0005.t
+	desc = rk_nw.0005.desc
+	theme = rk_red_keep
+	override_background = {
+		reference = rk_castle_black_1
+	}
+	right_portrait = {
+		character = root
+		animation = idle
+	}
+	left_portrait = {
+		character = scope:rk_lcommander
+		animation = idle
+	}
+	immediate = {
+		title:k_the_wall.holder = {
+			save_scope_as = rk_lcommander
+		}
+		add_character_flag = rk_winter_clothing
+	}
+	option = {  #
+		name = rk_nw.0005.a
+		custom_tooltip = rk_nw.0005.a_tt
+		trigger_event = rk_nw.0006
+	}
+	option = {  #
+		name = rk_nw.0005.b
+		custom_tooltip = rk_nw.0005.b_tt
+		trigger_event = rk_nw.0007
+	}
+}
+
+rk_nw.0006 = { #Arrival
+	type = character_event
+	title = rk_nw.0006.t
+	desc = rk_nw.0006.desc
+	theme = rk_red_keep
+	override_background = {
+		reference = rk_atop_the_wall
+	}
+	right_portrait = {
+		character = root
+		animation = idle
+	}
+	left_portrait = {
+		character = scope:rk_lcommander
+		animation = idle
+	}
+	immediate = {
+		title:k_the_wall.holder = {
+			save_scope_as = rk_lcommander
+		}
+		add_character_flag = rk_winter_clothing
+	}
+	option = {  #
+		name = rk_nw.0006.a
+		custom_tooltip = rk_nw.0006.a_tt
+		trigger_event = rk_nw.0007
+		scope:rk_lcommander = {
+			add_opinion = {
+				modifier = respect_opinion
+				opinion = 20
+				target = root
+			}
+		}
+	}
+	option = {  #
+		name = rk_nw.0006.b
+		custom_tooltip = rk_nw.0006.b_tt
+		trigger_event = rk_nw.0007
+		add_martial_lifestyle_xp = 150
+	}
+	option = {  #
+		name = rk_nw.0006.c
+		custom_tooltip = rk_nw.0006.c_tt
+		trigger_event = rk_nw.0007
+		add_learning_lifestyle_xp = 150
+	}
+}
+
+rk_nw.0007 = { #
+	hidden = yes
+	override_background = {
+		reference = rk_hands_room
+	}
+	immediate = {
+		start_travel_plan = {
+			destination = title:b_the_red_keep.title_province
+			on_travel_planner_cancel_event = rk_nw.0007
+			on_arrival_event = rk_nw.0007
+		}
+	}
+}

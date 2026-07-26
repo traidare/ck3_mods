@@ -1,0 +1,6 @@
+﻿# AGOT compatibility: intentionally empty.
+#
+# CaFG's replacement defines the vanilla Persian Struggle faith-conversion
+# decision. AGOT removes the Persian Struggle, Islam, its vanilla faiths, and
+# the associated head-of-faith titles, so evaluating the decision continuously
+# produces invalid database scopes.

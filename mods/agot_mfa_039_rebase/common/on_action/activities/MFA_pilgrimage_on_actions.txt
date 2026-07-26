@@ -1,0 +1,487 @@
+﻿####################################
+# MFA Activity Converter
+# Pulse relay for pilgrimage activity
+# Root scope = the character (same as on_weekly_pulse).
+####################################
+
+
+
+MFA_pilgrimage_0_relay = {
+	trigger = {
+		is_ruler = yes
+		exists = var:MFA_phase_0_remaining
+	}
+
+	effect = {
+		if = {
+			limit = {
+				var:MFA_phase_0_remaining >= 1
+				scope:activity = { is_current_phase_active = yes }
+			}
+			if = {
+				limit = { this = scope:host }
+				#We are in a Pilgrimage event chain or Hajjing
+				if = {
+					limit = {
+						OR = {
+							#AGOT Disabled, no hajj references
+							#Hajj destination events are railroaded via pilgrimage.3101
+							#AGOT Modified, remove hajj references
+							# scope:activity = {
+							# 	has_activity_option = {
+							# 		category = special_type
+							# 		option = pilgrimage_type_hajj
+							# 	}
+							# }
+							#No events until you're done with your chain
+							has_character_flag = in_pilgrimage_event_chain
+						}
+					}
+					#No events until you're done with your chain
+				}
+				#We're just doing regular pilgrim destination stuff
+				else = {
+					trigger_event = { on_action = pilgrimage_destination_events }
+				}
+			}
+		}
+
+		change_variable = {
+			name = MFA_phase_0_remaining
+			add = -1
+		}
+		if = {
+			limit = {
+				var:MFA_phase_0_remaining >= 1
+			}
+			trigger_event = { on_action = MFA_pilgrimage_0_relay days = MFA_1_month_days }
+		}
+		else = {
+			remove_variable = MFA_phase_0_remaining
+		}
+	}
+}
+
+MFA_pilgrimage_pulse_relay = {
+	effect = {
+		if = {
+			limit = {
+				has_variable = MFA_pulse_relay_tick
+			}
+			change_variable = { name = MFA_pulse_relay_tick add = 1 }
+		}
+		else = {
+			set_variable = { name = MFA_pulse_relay_tick value = 1 }
+		}
+		if = {
+			limit = {
+				exists = scope:activity
+			}
+			trigger_event = { on_action = MFA_pilgrimage_pulse_relay_effects }
+		}
+		if = {
+			limit = {
+				exists = scope:activity
+			}
+			trigger_event = { on_action = MFA_pilgrimage_pulse_relay days = 1 }
+		}
+		else = {
+			remove_variable = MFA_pulse_relay_tick
+		}
+	}
+}
+
+MFA_pilgrimage_pulse_relay_effects = {
+	trigger = {
+		var:MFA_pulse_relay_tick > MFA_pulse_relay_timer
+	}
+	effect = {
+		random_list = {
+			50 = { } # chance_of_no_event
+			10 = { # apa_preaching_wrath_of_god
+				trigger = {
+					scope:activity = {
+						is_current_phase_active = yes
+						scope:host = {
+							location = scope:activity.activity_location
+							has_activity_intent = zealot_intent
+						}
+					}
+				}
+				trigger_event = { on_action = MFA_pulse_apa_preaching_wrath_of_god }
+			}
+			10 = { # apa_studying_scripture
+				trigger = {
+					scope:activity = {
+						scope:host = {
+							has_focus_learning = yes
+							location = scope:activity.activity_location
+						}
+						is_current_phase_active = yes
+					}
+				}
+				trigger_event = { on_action = MFA_pulse_apa_studying_scripture }
+			}
+			10 = { # apa_visited_markets
+				trigger = {
+					scope:activity = {
+						scope:host = {
+							has_focus_stewardship = yes
+							location = scope:activity.activity_location
+						}
+						is_current_phase_active = yes
+					}
+				}
+				trigger_event = { on_action = MFA_pulse_apa_visited_markets }
+			}
+			10 = { # apa_prayer
+				trigger = {
+					scope:activity = {
+						has_activity_type = activity_pilgrimage
+						is_current_phase_active = yes
+						OR = {
+							has_activity_option = {
+								category = special_type
+								option = pilgrimage_type_pious
+							}
+							#AGOT Disabled
+							# has_activity_option = {
+							# 	category = special_type
+							# 	option = pilgrimage_type_hajj
+							# }
+							any_attending_character = {
+								location = scope:activity.activity_location
+								OR = {
+									this = scope:host
+									is_close_family_of = scope:host
+									likes_character_trigger = { CHARACTER = scope:host }
+								}
+								trigger_if = {
+									limit = {
+										involved_activity = {
+											has_activity_option = { category = special_type option = pilgrimage_type_worldly }
+										}
+									}
+									has_activity_intent = reflection_intent
+								}
+							}
+						}
+					}
+				}
+				trigger_event = { on_action = MFA_pulse_apa_prayer }
+			}
+			10 = { # apa_silent_contemplation
+				trigger = {
+					scope:activity = {
+						is_current_phase_active = yes
+						OR = {
+							AND = {
+								has_activity_type = activity_pilgrimage
+								any_attending_character = {
+									location = scope:activity.activity_location
+									has_activity_intent = reflection_intent
+									OR = {
+										this = scope:host
+										is_close_family_of = scope:host
+										likes_character_trigger = { CHARACTER = scope:host }
+									}
+								}
+							}
+							AND = {
+								has_activity_type = activity_witch_ritual
+								any_attending_character = {
+									location = scope:activity.activity_location
+									count >= 1
+								}
+							}
+						}
+					}
+				}
+				trigger_event = { on_action = MFA_pulse_apa_silent_contemplation }
+			}
+			1 = { # apa_preaching_to_unbelievers
+				trigger = {
+					scope:activity = {
+						is_current_phase_active = yes
+						scope:host = { #This intent is only available to the host
+							location = scope:activity.activity_location
+							has_activity_intent = zealot_intent
+							any_pool_character = {
+								province = scope:activity.activity_location
+								is_physically_able_ai_adult = yes
+								faith != scope:host.faith
+								NOT = { has_trait = zealous }
+							}
+						}
+					}
+				}
+				trigger_event = { on_action = MFA_pulse_apa_preaching_to_unbelievers }
+			}
+			10 = { # apa_sight_seeing_group
+				trigger = {
+					scope:activity = {
+						is_current_phase_active = yes
+						scope:host = {
+							has_trait = lifestyle_traveler
+						}
+						any_attending_character = {
+							location = scope:activity.activity_location
+							has_trait = lifestyle_traveler
+							this != scope:host
+							OR = {
+								likes_character_trigger = { CHARACTER = scope:host }
+								is_close_family_of = scope:host
+							}
+						}
+					}
+				}
+				trigger_event = { on_action = MFA_pulse_apa_sight_seeing_group }
+			}
+			10 = { # apa_cultured_discussion
+				trigger = {
+					scope:activity = {
+						is_current_phase_active = yes
+						has_activity_option = {
+							category = special_type
+							option = pilgrimage_type_worldly
+						}
+						activity_host = {
+							location = scope:activity.activity_location
+							NOT = {
+								has_character_flag = cultural_acceptance_pilgrim
+							}
+						}
+						exists = scope:activity.activity_location.province_owner.culture
+						activity_host != scope:activity.activity_location.province_owner
+						activity_host.culture != scope:activity.activity_location.province_owner.culture
+					}
+				}
+				trigger_event = { on_action = MFA_pulse_apa_cultured_discussion }
+			}
+			10 = { # apa_audience
+				trigger = {
+					scope:activity = {
+						is_current_phase_active = yes
+						has_activity_option = {
+							category = special_type
+							option = pilgrimage_type_worldly
+						}
+						scope:host = {
+							location = scope:activity.activity_location
+							NOT = {
+								has_character_flag = visited_ruler
+							}
+						}
+						exists = scope:activity.activity_location.province_owner
+						activity_host != scope:activity.activity_location.province_owner
+					}
+				}
+				trigger_event = { on_action = MFA_pulse_apa_audience }
+			}
+			10 = { # apa_communal_prayer
+				trigger = {
+					scope:activity = {
+						is_current_phase_active = yes
+						any_attending_character = {
+							location = scope:activity.activity_location
+							is_adult = yes
+							likes_character_trigger = { CHARACTER = scope:host }
+							this != scope:host
+						}
+						OR = {
+							AND = {
+								has_activity_type = activity_pilgrimage
+								OR = {
+									has_activity_option = {
+										category = special_type
+										option = pilgrimage_type_pious
+									}
+									#AGOT Disabled
+									# has_activity_option = {
+									# 	category = special_type
+									# 	option = pilgrimage_type_hajj
+									# }
+								}
+							}
+							has_activity_type = activity_witch_ritual
+						}
+					}
+				}
+				trigger_event = { on_action = MFA_pulse_apa_communal_prayer }
+			}
+			1 = { # apa_comet_sighted
+				trigger = {
+					scope:activity = {
+						is_current_phase_active = yes
+					}
+				}
+				trigger_event = { on_action = MFA_pulse_apa_comet_sighted }
+			}
+			5 = { # apa_good_omen
+				trigger = {
+					scope:activity = {
+						is_current_phase_active = yes
+					}
+				}
+				trigger_event = { on_action = MFA_pulse_apa_good_omen }
+			}
+			20 = { # apa_pilgrim_protection
+				trigger = {
+					scope:activity = {
+						is_current_phase_active = yes
+						any_attending_character = { #Any Accolade Knight you have brought along is going to be a relevant character for you
+							location = scope:activity.activity_location
+							is_acclaimed = yes
+						}
+					}
+				}
+				trigger_event = { on_action = MFA_pulse_apa_pilgrim_protection }
+			}
+			50 = { # apa_pilgrim_hospitals
+				trigger = {
+					scope:activity = {
+						has_activity_type = activity_pilgrimage
+						is_current_phase_active = yes
+						any_attending_character = {
+							location = scope:activity.activity_location
+							OR = {
+								has_trait = wounded_1
+								has_trait = wounded_2
+								has_trait = wounded_3
+								has_trait = ill
+							}
+							OR = {
+								this = scope:host
+								is_close_family_of = scope:host
+							}
+						}
+					}
+				}
+				trigger_event = { on_action = MFA_pulse_apa_pilgrim_hospitals }
+			}
+			10 = { # apa_foreign_custom
+				trigger = {
+					scope:activity = {
+						is_current_phase_active = yes
+						scope:host = {
+							has_focus_diplomacy = yes
+							location = scope:activity.activity_location
+						}
+						scope:activity.activity_location = {
+							culture != scope:host.culture
+						}
+					}
+				}
+				trigger_event = { on_action = MFA_pulse_apa_foreign_custom }
+			}
+			10 = { # apa_tended_to_travellers
+				trigger = {
+					scope:activity = {
+						is_current_phase_active = yes
+						scope:host = {
+							location = scope:activity.activity_location
+							has_activity_intent = altruism_intent
+						}
+					}
+				}
+				trigger_event = { on_action = MFA_pulse_apa_tended_to_travellers }
+			}
+			10 = { # apa_donated_to_holy_site_temple
+				trigger = {
+					scope:activity = {
+						is_current_phase_active = yes
+						scope:host = {
+							location = scope:activity.activity_location
+							has_activity_intent = altruism_intent
+						}
+					}
+				}
+				trigger_event = { on_action = MFA_pulse_apa_donated_to_holy_site_temple }
+			}
+			10 = { # apa_charity_for_the_poor
+				trigger = {
+					scope:activity = {
+						is_current_phase_active = yes
+						scope:host = {
+							location = scope:activity.activity_location
+							has_activity_intent = altruism_intent
+						}
+					}
+				}
+				trigger_event = { on_action = MFA_pulse_apa_charity_for_the_poor }
+			}
+			10 = { # apa_spiritual_journey
+				trigger = {
+					scope:activity = {
+						is_current_phase_active = yes
+						any_attending_character = {
+							location = scope:activity.activity_location
+							this != scope:host
+							has_activity_intent = reflection_intent
+							likes_character_trigger = { CHARACTER = scope:host }
+						}
+					}
+				}
+				trigger_event = { on_action = MFA_pulse_apa_spiritual_journey }
+			}
+			10 = { # apa_picked_up_local_language
+				trigger = {
+					scope:activity = {
+						is_current_phase_active = yes
+						has_activity_option = {
+							category = special_type
+							option = pilgrimage_type_worldly
+						}
+						scope:host = {
+							location = scope:activity.activity_location
+							NOT = {
+								knows_language_of_culture = scope:activity.activity_location.culture
+							}
+							num_of_known_languages < language_soft_cap
+						}
+					}
+				}
+				trigger_event = { on_action = MFA_pulse_apa_picked_up_local_language }
+			}
+			10 = { # apa_lead_procession
+				trigger = {
+					scope:activity = {
+						is_current_phase_active = yes
+						OR = {
+							has_activity_option = {
+								category = special_type
+								option = pilgrimage_type_pious
+							}
+							#AGOT Disabled
+							# has_activity_option = {
+							# 	category = special_type
+							# 	option = pilgrimage_type_hajj
+							# }
+							scope:host = {
+								has_activity_intent = zealot_intent
+							}
+						}
+						any_attending_character = {
+							this != scope:host
+						}
+					}
+				}
+				trigger_event = { on_action = MFA_pulse_apa_lead_procession }
+			}
+			10 = { # apa_overcome_with_emotion
+				trigger = {
+					scope:activity = {
+						is_current_phase_active = yes
+						scope:host = {
+							location = scope:activity.activity_location
+							NOT = { has_personality_levelheaded_trigger = yes }
+							has_activity_intent = reflection_intent
+						}
+					}
+				}
+				trigger_event = { on_action = MFA_pulse_apa_overcome_with_emotion }
+			}
+		}
+		set_variable = { name = MFA_pulse_relay_tick value = 1 }
+	}
+}

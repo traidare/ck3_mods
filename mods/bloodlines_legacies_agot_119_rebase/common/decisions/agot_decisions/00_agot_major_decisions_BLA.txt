@@ -1,0 +1,640 @@
+﻿# Summon the Archmaesters
+
+hightower_summon_archmaesters_decision = {
+    picture = {
+		reference = "gfx/interface/illustrations/decisions/decision_misc.dds"
+    }
+    desc = hightower_summon_archmaesters_decision_desc
+    selection_tooltip = hightower_summon_archmaesters_decision_tooltip
+
+    decision_group_type = major
+
+
+    ai_check_interval = 120
+
+    is_shown = {
+         exists = dynasty
+    	 dynasty = dynasty:dynn_Hightower
+    }
+
+    is_valid = {
+        is_landed = yes
+        prestige >= 350
+	dynasty = {
+		has_dynasty_perk = hightower_legacy_2
+		}
+        custom_description = {
+        text = summoned_archmaesters_blocked_tt
+        NOT = { has_character_flag = summoned_archmaesters_recently }
+    }
+    }
+
+    effect = {
+       	custom_tooltip = summoned_archmaesters_effect_tooltip
+        trigger_event = hightower_archmaesters.0001
+    }
+
+    cooldown = {
+        years = 5
+    }
+
+    ai_potential = {
+        always = no
+    }
+     cost = {
+        prestige = 250
+    }
+
+
+    confirm_text = hightower_summon_archmaesters_decision_confirm
+}
+
+##### Reclaim Castamere
+
+reclaim_castamere_decision = {
+    picture = { 
+	reference = "gfx/interface/illustrations/decisions/decision_realm.dds" 
+    }
+    
+    desc = reclaim_castamere_decision_desc
+    selection_tooltip = reclaim_castamere_decision_tooltip
+
+    decision_group_type = major
+
+    ai_check_interval = 120
+
+    is_shown = {
+        dynasty = dynasty:dynn_Reyne
+        has_title = title:c_castamere
+	has_title = title:d_castamere
+	NOT = { has_global_variable = castamere_reclaimed }
+    }
+
+    is_valid = {
+        prestige >= 200
+	gold >= 700
+	custom_description = {
+   		text = ruins_drained_requirement_tt
+		any_held_county = {  
+		any_county_province = {
+			has_building_or_higher = ruin_flooded_02
+			}
+		}
+	}
+    }
+
+    effect = {
+        add_prestige = 300
+	give_nickname = nick_the_red_lion
+        set_global_variable = castamere_reclaimed
+        add_character_modifier = {
+            modifier = reclaimed_castamere
+            years = 10
+        }
+        trigger_event = agot_reyne_excavation.1000 
+    }
+
+    ai_potential = {
+        always = no
+    }
+
+    cost = {
+        prestige = 200
+	gold = 300
+    }
+
+    confirm_text = reclaim_castamere_decision_confirm
+}
+
+
+
+### Host Redwyne Arbor Festival
+
+agot_redwyne_festival_decision = {
+	picture = {
+		reference = "gfx/interface/illustrations/decisions/decision_culture.dds"
+	}
+	decision_group_type = major
+
+	ai_check_interval = 120
+	
+	desc = agot_redwyne_festival_decision_desc
+	selection_tooltip = agot_redwyne_festival_decision_tooltip
+
+
+ 	is_shown = {
+        	dynasty = dynasty:dynn_Redwyne
+		has_title = title:d_the_arbor
+	}
+
+	is_valid = {
+		gold >= 500
+		custom_description = {
+        		text = agot_redwyne_festival_blocked_tt
+        		NOT = { has_character_flag = hosted_redwyne_festival }
+    		}
+
+        }
+
+    	effect = {
+        	custom_tooltip = redwyne_festival_hosted_tooltip
+               	trigger_event = agot_redwyne_festival.0001 
+   	 }
+
+	cooldown = {
+        	years = 10
+    	}
+
+
+    	ai_potential = {
+        	always = no
+    	}
+
+   	cost = {
+		gold = 500
+    	}
+
+    	confirm_text = agot_redwyne_festival_decision_confirm
+}
+
+
+#### Reforge Red Rain
+
+reforge_red_rain_decision = {
+	picture = {
+		reference = "gfx/interface/illustrations/decisions/decision_smith.dds"
+	}
+	decision_group_type = major
+
+	ai_check_interval = 120
+	
+
+	desc = reforge_red_rain_decision_desc
+	selection_tooltip = reforge_red_rain_decision_tooltip
+
+	is_shown = {
+		any_character_artifact = {
+			has_artifact_modifier = vs_red_rain_modifier
+		}
+        	NOT = { culture = culture:ironborn }
+		dynasty = dynasty:dynn_Reyne
+	}
+	is_valid = {
+            dynasty = dynasty:dynn_Reyne
+		gold >= 1000
+	}
+	ai_potential = {
+		always = no
+	}
+		
+	effect = {
+		trigger_event = reforge_red_rain.0001
+		}
+
+	cost = {
+        gold = 1000
+	}
+	confirm_text = reforge_red_rain_decision_confirm
+}
+
+#### Rebuild Whitewalls
+
+agot_restore_whitewalls_decision = {
+    picture = { reference = "gfx/interface/illustrations/decisions/decision_realm.dds" }
+    decision_group_type = major
+
+    ai_check_interval = 120
+
+
+    desc = agot_restore_whitewalls_decision_desc
+    selection_tooltip = agot_restore_whitewalls_decision_tt
+
+
+    is_shown = {
+	current_date > 8213.1.1
+        dynasty = dynasty:dynn_Butterwell
+        has_title = title:c_milkstone
+	NOT = { exists = title:b_whitewalls.holder }
+        NOT = { has_global_variable = whitewalls_rebuilt }
+    }
+
+    is_valid = {
+	prestige_level >= 3
+        gold >= 3000
+    }
+
+    effect = {
+	 custom_tooltip = agot_restore_whitewalls_gold_cost_tt
+         set_global_variable = whitewalls_rebuilt
+        trigger_event = agot_butterwell_whitewalls.0001
+    }
+
+    ai_potential = { always = no }
+
+    cost = {
+        gold = 3000
+    }
+
+    confirm_text = agot_restore_whitewalls_decision_confirm
+
+}
+
+#### Convene Riverlords
+
+convene_lords_of_the_trident_bla = {
+	picture = {
+		reference = "gfx/interface/illustrations/decisions/decision_realm.dds"
+	}
+
+	desc = convene_lords_of_the_trident_bla_desc
+	selection_tooltip = convene_lords_of_the_trident_bla_tooltip
+
+	decision_group_type = major
+	ai_check_interval = 0
+
+	is_shown = {
+		is_ruler = yes
+		is_landed = yes
+
+		OR = {
+			has_title = title:e_the_riverlands
+		}
+	}
+
+	is_valid = {
+		gold >= 150
+		prestige_level >= 1
+
+		NOT = {
+			custom_tooltip = {
+				text = convened_trident_lords_required_bla
+				has_character_flag = convened_trident_lords_recently_bla
+			}
+		}
+	}
+
+	effect = {
+		remove_short_term_gold = 150
+		add_prestige = 250
+
+		add_character_flag = {
+			flag = convened_trident_lords_recently_bla
+			years = 10
+		}
+
+		every_vassal = {
+			limit = {
+				is_landed = yes
+				any_held_county = {
+					title_province = {
+						geographical_region = world_westeros_the_riverlands
+					}
+				}
+			}
+
+			add_opinion = {
+				target = root
+				modifier = attended_trident_council_bla
+				opinion = 15
+			}
+		}
+
+		random_vassal = {
+			limit = {
+				is_landed = yes
+				opinion = { target = root value < 0 }
+				any_held_county = {
+					title_province = {
+						geographical_region = world_westeros_the_riverlands
+					}
+				}
+			}
+
+			add_opinion = {
+				target = root
+				modifier = insulted_opinion
+				opinion = -20
+			}
+		}
+
+		trigger_event = {
+			id = agot_riverlands_trident_council_decision.0100
+		}
+	}
+
+	ai_potential = {
+		always = no
+	}
+
+	ai_will_do = {
+		base = 0
+	}
+}
+
+#### Challenge Riverrun
+
+challenge_riverrun_bla = {
+	picture = {
+		reference = "gfx/interface/illustrations/decisions/fp2_decision_struggle_hostility.dds"
+	}
+
+	desc = challenge_riverrun_bla_desc
+	selection_tooltip = challenge_riverrun_bla_tooltip
+
+	decision_group_type = major
+	ai_check_interval = 0
+
+	is_shown = {
+		is_ruler = yes
+		is_landed = yes
+
+		has_character_flag = vance_preparing_riverrun_challenge_bla
+
+		dynasty = dynasty:dynn_Vance
+
+		exists = liege
+		liege = {
+			has_title = title:d_riverrun
+		}
+	}
+
+	is_valid = {
+		prestige_level >= 1
+
+		NOT = {
+			has_trait = craven
+		}
+
+		gold >= 250
+	}
+
+	effect = {
+		remove_short_term_gold = 250
+		add_prestige = 250
+		add_dread = 10
+
+		remove_character_flag = vance_preparing_riverrun_challenge_bla
+
+		add_character_modifier = {
+			modifier = vance_rallying_support_bla
+			years = 5
+		}
+
+		liege = {
+			add_opinion = {
+				target = root
+				modifier = outraged_opinion
+				opinion = -50
+			}
+		}
+
+		add_pressed_claim = title:d_riverrun
+
+		custom_tooltip = agot_riverlands_bla.challenge_riverrun_outcomes_tt
+
+		hidden_effect = {
+			random_list = {
+				60 = {
+					add_character_modifier = {
+						modifier = vance_gathered_river_support_bla
+						years = 5
+					}
+				}
+
+				40 = {
+					add_character_modifier = {
+						modifier = vance_isolated_claimant_bla
+						years = 5
+					}
+				}
+			}
+		}
+
+		trigger_event = agot_riverlands_bla.0810
+	}
+
+	ai_potential = {
+		always = no
+	}
+
+	ai_will_do = {
+		base = 0
+	}
+}
+
+#### Fashion Ravenwood Bow
+
+fashion_blackwood_weirwood_bow_decision = {
+	picture = {
+		reference = "gfx/interface/illustrations/decisions/decision_smith.dds"
+	}
+
+	desc = fashion_blackwood_weirwood_bow_decision_desc
+	selection_tooltip = fashion_blackwood_weirwood_bow_decision_tooltip
+
+	decision_group_type = artifact
+
+	sort_order = 80
+
+	is_shown = {
+		dynasty = dynasty:dynn_Blackwood
+		current_date < 8130.1.1
+		NOT = { has_global_variable = bla_blackwood_bow_created }
+		NOT = { has_global_variable = bla_blackwood_bow_lost }
+		NOT = { has_character_flag = bla_blackwood_bow_chain_started }
+	}
+
+	is_valid = {
+		is_available_adult = yes
+		is_landed = yes
+		is_ruler = yes
+		prestige_level >= 2
+		gold >= 400
+		prestige >= 300
+
+		NOT = {
+			any_character_artifact = {
+				has_variable = blackwood_weirwood_bow
+			}
+		}	
+
+		custom_description = {
+			text = fashion_blackwood_weirwood_bow_raventree_requirement
+			OR = {
+				has_title = title:c_raventree
+				capital_county = title:c_raventree
+			}
+		}
+	}
+
+	cost = {
+		gold = 400
+		prestige = 300
+	}
+
+	effect = {
+		add_character_flag = bla_blackwood_bow_chain_started
+		trigger_event = agot_blackwood_bow_bla.0001
+	}
+
+	ai_potential = {
+		dynasty = dynasty:dynn_Blackwood
+		is_landed = yes
+		is_available_adult = yes
+	}
+
+	ai_will_do = {
+		base = 10
+		modifier = {
+			add = 25
+			has_trait = zealous
+		}
+		modifier = {
+			add = 25
+			has_trait = brave
+		}
+		modifier = {
+			add = 25
+			has_trait = lifestyle_hunter
+		}
+		modifier = {
+			add = -50
+			has_trait = cynical
+		}
+	}
+}
+
+recover_robb_rivers_bow_decision = {
+	picture = {
+		reference = "gfx/interface/illustrations/decisions/decision_misc.dds"
+	}
+
+	desc = recover_robb_rivers_bow_decision_desc
+	selection_tooltip = recover_robb_rivers_bow_decision_tooltip
+	confirm_text = fashion_blackwood_weirwood_bow_decision_confirm
+
+	decision_group_type = artifact
+
+	sort_order = 81
+
+	is_shown = {
+		dynasty = dynasty:dynn_Blackwood
+		current_date >= 8131.1.1
+		has_global_variable = bla_blackwood_bow_lost
+		NOT = { has_global_variable = bla_blackwood_bow_recovered }
+		NOT = { has_global_variable = bla_blackwood_bow_recovery_active }
+	}
+
+	is_valid = {
+		is_available_adult = yes
+		is_ruler = yes
+		is_landed = yes
+		prestige_level >= 2
+		gold >= 400
+		prestige >= 500
+
+		NOT = {
+			any_character_artifact = {
+				has_variable = blackwood_weirwood_bow
+			}
+		}	
+
+		custom_description = {
+			text = recover_robb_rivers_bow_raventree_requirement
+			OR = {
+				has_title = title:c_raventree
+				capital_county = title:c_raventree
+			}
+		}
+	}
+
+	cost = {
+		gold = 400
+		prestige = 500
+	}
+
+	effect = {
+		set_global_variable = {
+			name = bla_blackwood_bow_recovery_active
+			value = yes
+		}
+		trigger_event = agot_blackwood_bow_bla.0100
+	}
+
+	ai_potential = {
+		dynasty = dynasty:dynn_Blackwood
+		is_landed = yes
+		is_available_adult = yes
+	}
+
+	ai_will_do = {
+		base = 10
+		modifier = {
+			add = 25
+			has_trait = ambitious
+		}
+		modifier = {
+			add = 25
+			has_trait = zealous
+		}
+		modifier = {
+			add = 25
+			has_trait = stubborn
+		}
+	}
+}
+
+explore_oldstones_ruins_decision = {
+	picture = {
+		reference = "gfx/interface/illustrations/decisions/decision_legend.dds"
+	}
+
+	desc = explore_oldstones_ruins_decision_desc
+	selection_tooltip = explore_oldstones_ruins_decision_tooltip
+
+	decision_group_type = artifact
+
+	is_shown = {
+		is_landed = yes
+
+		OR = {
+			has_title = title:b_oldstones
+			capital_county = title:c_hammerford
+		}
+
+		NOT = { has_character_flag = oldstones_excavation_in_progress }
+		NOT = { exists = global_var:oldstones_royal_crypt_discovered }
+	}
+
+	is_valid = {
+		is_available_adult = yes
+		is_imprisoned = no
+		NOT = { is_at_war = yes }
+
+		gold >= 350
+		prestige >= 150
+	}
+
+	cost = {
+		gold = 350
+		prestige = 150
+	}
+
+	effect = {
+		add_character_flag = oldstones_excavation_in_progress
+
+		trigger_event = {
+			id = agot_oldstones_bla.0001
+			days = 5
+		}
+	}
+
+	cooldown = {
+		years = 15
+	}
+
+	ai_potential = {
+		always = no
+	}
+
+}

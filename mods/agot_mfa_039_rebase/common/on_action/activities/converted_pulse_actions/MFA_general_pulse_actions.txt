@@ -1,0 +1,119 @@
+﻿####################################
+# MFA Activity Converter
+# Converted pulse_actions to on_actions
+# only effect block remains and is nestled behind scope:activity, while is_valid and weight blocks moved to main relay on_action
+####################################
+
+MFA_pulse_guest_friendship = {
+	effect = {
+		scope:activity = {
+			random_attending_character = {
+				limit = { location = scope:activity.activity_location }
+				save_scope_as = first
+			}
+			random_attending_character = {
+				limit = {
+					location = scope:activity.activity_location
+					this != scope:first
+				}
+				save_scope_as = second
+			}
+
+			add_activity_log_entry = {
+				key = guest_friendship
+				tags = { pulse_action }
+				character = scope:first
+				target = scope:second
+
+				scope:first = {
+					add_opinion = {
+						modifier = friendliness_opinion
+						target = scope:second
+						opinion = 15
+					}
+				}
+			}
+
+			every_attending_character = {
+				limit = {
+					is_ai = no
+					has_game_rule = MFA_pulse_notifications_enabled
+				}
+				send_interface_message = {
+					type = MFA_pulse_msg_public
+					title = guest_friendship_title
+					left_icon = scope:first
+					right_icon = scope:second
+					show_as_tooltip = {
+						scope:activity = {
+							scope:first = {
+								add_opinion = {
+									modifier = friendliness_opinion
+									target = scope:second
+									opinion = 15
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+}
+
+MFA_pulse_guest_insulted = {
+	effect = {
+		scope:activity = {
+			random_attending_character = {
+				limit = { location = scope:activity.activity_location }
+				save_scope_as = first
+			}
+			random_attending_character = {
+				limit = {
+					location = scope:activity.activity_location
+					this != scope:first
+				}
+				save_scope_as = second
+			}
+
+			add_activity_log_entry = {
+				key = guest_insulted
+				tags = { pulse_action }
+				character = scope:first
+				target = scope:second
+
+				scope:first = {
+					add_opinion = {
+						modifier = insult_opinion
+						target = scope:second
+						opinion = -15
+					}
+				}
+			}
+
+			every_attending_character = {
+				limit = {
+					is_ai = no
+					has_game_rule = MFA_pulse_notifications_enabled
+				}
+				send_interface_message = {
+					type = MFA_pulse_msg_public
+					title = guest_insulted_title
+					left_icon = scope:first
+					right_icon = scope:second
+					show_as_tooltip = {
+						scope:activity = {
+							scope:first = {
+								add_opinion = {
+									modifier = insult_opinion
+									target = scope:second
+									opinion = -15
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+}

@@ -1,4 +1,4 @@
-version="0.1.0"
+version="0.2.0"
 tags={
 	"Fixes"
 	"Map"
@@ -9,6 +9,7 @@ dependencies={
 	"A Game of Thrones"
 	"Legacy of Valyria"
 	"Legacy of Valyria - AGOT 0.4.39 Temporary Compatch RC65"
+	"Legacy of Valyria RC65 - CK3 1.19 Runtime Rebase"
 	"Essos Expanded"
 }
 supported_version="1.19.*"

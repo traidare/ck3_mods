@@ -1,0 +1,694 @@
+﻿# =========================================================
+# OLDSTONES EVENTS
+# =========================================================
+
+namespace = agot_oldstones_bla
+
+
+agot_oldstones_bla.0001 = {
+	type = character_event
+
+	title = agot_oldstones_bla.0001.t
+	desc = agot_oldstones_bla.0001.desc
+
+	theme = dynasty
+
+	override_background = {
+		reference = wilderness_wetlands
+	}
+
+	left_portrait = {
+		character = root
+		animation = personality_rational
+	}
+
+	option = {
+		name = agot_oldstones_bla.0001.a
+		custom_tooltip = agot_oldstones_bla.0001.a.tt
+
+		remove_short_term_gold = 100
+		add_learning_lifestyle_xp = 250
+
+		add_character_flag = oldstones_careful_excavation_bla
+		add_character_flag = oldstones_excavation_in_progress
+
+		trigger_event = {
+			id = agot_oldstones_bla.0002
+			days = { 40 70 }
+		}
+	}
+
+	option = {
+		name = agot_oldstones_bla.0001.b
+		custom_tooltip = agot_oldstones_bla.0001.b.tt
+
+		remove_short_term_gold = 250
+		add_prestige = 100
+		add_stewardship_lifestyle_xp = 150
+
+		add_character_flag = oldstones_large_excavation_bla
+		add_character_flag = oldstones_excavation_in_progress
+
+		trigger_event = {
+			id = agot_oldstones_bla.0002
+			days = { 15 30 }
+		}
+	}
+
+	option = {
+		name = agot_oldstones_bla.0001.c
+
+		trigger = {
+			faith = faith:old_gods_wnw
+		}
+
+		custom_tooltip = agot_oldstones_bla.0001.c.tt
+
+		add_piety = 75
+
+		add_character_flag = oldstones_old_gods_consulted_bla
+		add_character_flag = oldstones_excavation_in_progress
+
+		trigger_event = {
+			id = agot_oldstones_bla.0002
+			days = { 25 45 }
+		}
+	}
+}
+
+
+agot_oldstones_bla.0002 = {
+	type = character_event
+
+	title = agot_oldstones_bla.0002.t
+
+	desc = {
+		desc = agot_oldstones_bla.0002.desc
+
+		triggered_desc = {
+			trigger = { has_character_flag = oldstones_careful_excavation_bla }
+			desc = agot_oldstones_bla.0002.desc_careful
+		}
+
+		triggered_desc = {
+			trigger = { has_character_flag = oldstones_large_excavation_bla }
+			desc = agot_oldstones_bla.0002.desc_forced
+		}
+
+		triggered_desc = {
+			trigger = { has_character_flag = oldstones_old_gods_consulted_bla }
+			desc = agot_oldstones_bla.0002.desc_old_gods
+		}
+	}
+
+	theme = dynasty
+
+	override_background = {
+		reference = ce1_catacombs
+	}
+
+	left_portrait = {
+		character = root
+		animation = worry
+	}
+
+	immediate = {
+		if = {
+			limit = { has_character_flag = oldstones_careful_excavation_bla }
+
+			random_list = {
+				15 = { add_character_flag = oldstones_collapsed_crypt_bla }
+				30 = { add_character_flag = oldstones_burial_hall_bla }
+				20 = { add_character_flag = oldstones_flooded_vault_bla }
+				35 = { add_character_flag = oldstones_royal_chamber_bla }
+			}
+		}
+
+		else_if = {
+			limit = { has_character_flag = oldstones_large_excavation_bla }
+
+			random_list = {
+				45 = { add_character_flag = oldstones_collapsed_crypt_bla }
+				25 = { add_character_flag = oldstones_burial_hall_bla }
+				20 = { add_character_flag = oldstones_flooded_vault_bla }
+				10 = { add_character_flag = oldstones_royal_chamber_bla }
+			}
+		}
+
+		else_if = {
+			limit = { has_character_flag = oldstones_old_gods_consulted_bla }
+
+			random_list = {
+				20 = { add_character_flag = oldstones_collapsed_crypt_bla }
+				20 = { add_character_flag = oldstones_burial_hall_bla }
+				20 = { add_character_flag = oldstones_flooded_vault_bla }
+				40 = { add_character_flag = oldstones_royal_chamber_bla }
+			}
+		}
+
+		else = {
+			random_list = {
+				30 = { add_character_flag = oldstones_collapsed_crypt_bla }
+				30 = { add_character_flag = oldstones_burial_hall_bla }
+				20 = { add_character_flag = oldstones_flooded_vault_bla }
+				20 = { add_character_flag = oldstones_royal_chamber_bla }
+			}
+		}
+	}
+
+	option = {
+		name = agot_oldstones_bla.0002.a
+		custom_tooltip = agot_oldstones_bla.0002.a.tt
+
+		add_prestige = 50
+
+		trigger_event = {
+			id = agot_oldstones_bla.0003
+			days = { 10 20 }
+		}
+	}
+
+	option = {
+		name = agot_oldstones_bla.0002.b
+		custom_tooltip = agot_oldstones_bla.0002.b.tt
+
+		add_learning_lifestyle_xp = 500
+
+		trigger_event = {
+			id = agot_oldstones_bla.0003
+			days = { 25 40 }
+		}
+	}
+
+	option = {
+		name = agot_oldstones_bla.0002.c
+		custom_tooltip = agot_oldstones_bla.0002.c.tt
+
+		add_piety = 150
+
+		if = {
+			limit = {
+				OR = {
+					has_trait = compassionate
+					has_trait = craven
+					has_trait = content
+				}
+			}
+			add_stress = medium_stress_loss
+		}
+
+		title:c_hammerford = {
+			add_county_modifier = {
+				modifier = oldstones_tombs_undisturbed_modifier
+				years = 15
+			}
+		}
+
+		remove_character_flag = oldstones_excavation_in_progress
+		remove_character_flag = oldstones_careful_excavation_bla
+		remove_character_flag = oldstones_large_excavation_bla
+		remove_character_flag = oldstones_old_gods_consulted_bla
+		remove_character_flag = oldstones_collapsed_crypt_bla
+		remove_character_flag = oldstones_burial_hall_bla
+		remove_character_flag = oldstones_flooded_vault_bla
+		remove_character_flag = oldstones_royal_chamber_bla
+	}
+}
+
+
+agot_oldstones_bla.0003 = {
+	type = character_event
+
+	title = agot_oldstones_bla.0003.t
+
+	desc = {
+		desc = agot_oldstones_bla.0003.desc
+
+		triggered_desc = {
+			trigger = { has_character_flag = oldstones_collapsed_crypt_bla }
+			desc = agot_oldstones_bla.0003.desc_collapsed
+		}
+
+		triggered_desc = {
+			trigger = { has_character_flag = oldstones_burial_hall_bla }
+			desc = agot_oldstones_bla.0003.desc_burial
+		}
+
+		triggered_desc = {
+			trigger = { has_character_flag = oldstones_flooded_vault_bla }
+			desc = agot_oldstones_bla.0003.desc_flooded
+		}
+
+		triggered_desc = {
+			trigger = { has_character_flag = oldstones_royal_chamber_bla }
+			desc = agot_oldstones_bla.0003.desc_royal_chamber
+		}
+	}
+
+	theme = dynasty
+
+	override_background = {
+		reference = ce1_catacombs
+	}
+
+	left_portrait = {
+		character = root
+		animation = fear
+	}
+
+	immediate = {
+		if = {
+			limit = {
+				NOT = { exists = global_var:oldstones_excavation_stage }
+			}
+			set_global_variable = {
+				name = oldstones_excavation_stage
+				value = flag:first
+			}
+		}
+		else_if = {
+			limit = {
+				global_var:oldstones_excavation_stage = flag:first
+			}
+			set_global_variable = {
+				name = oldstones_excavation_stage
+				value = flag:second
+			}
+		}
+		else = {
+			set_global_variable = {
+				name = oldstones_excavation_stage
+				value = flag:third
+			}
+		}
+
+		if = {
+			limit = { has_character_flag = oldstones_collapsed_crypt_bla }
+
+			random_list = {
+				65 = { add_character_flag = oldstones_ruined_find_bla }
+				25 = { add_character_flag = oldstones_historical_fragment_bla }
+				8 = { add_character_flag = oldstones_identifiable_relic_bla }
+				2 = { add_character_flag = oldstones_royal_relic_bla }
+
+				1 = {
+					trigger = { NOT = { exists = global_var:oldstones_hammer_recovered } }
+					add_character_flag = oldstones_monumental_discovery_bla
+				}
+
+				1 = {
+					trigger = {
+						NOT = { exists = global_var:oldstones_royal_crypt_discovered }
+						global_var:oldstones_excavation_stage = flag:third
+					}
+					add_character_flag = oldstones_king_beneath_bla
+				}
+			}
+		}
+
+		else_if = {
+			limit = { has_character_flag = oldstones_burial_hall_bla }
+
+			random_list = {
+				45 = { add_character_flag = oldstones_ruined_find_bla }
+				30 = { add_character_flag = oldstones_historical_fragment_bla }
+				17 = { add_character_flag = oldstones_identifiable_relic_bla }
+				6 = { add_character_flag = oldstones_royal_relic_bla }
+
+				2 = {
+					trigger = { NOT = { exists = global_var:oldstones_hammer_recovered } }
+					add_character_flag = oldstones_monumental_discovery_bla
+				}
+
+				1 = {
+					trigger = {
+						NOT = { exists = global_var:oldstones_royal_crypt_discovered }
+						global_var:oldstones_excavation_stage = flag:third
+					}
+					add_character_flag = oldstones_king_beneath_bla
+				}
+			}
+		}
+
+		else_if = {
+			limit = { has_character_flag = oldstones_flooded_vault_bla }
+
+			random_list = {
+				50 = { add_character_flag = oldstones_ruined_find_bla }
+				30 = { add_character_flag = oldstones_historical_fragment_bla }
+				14 = { add_character_flag = oldstones_identifiable_relic_bla }
+				4 = { add_character_flag = oldstones_royal_relic_bla }
+
+				2 = {
+					trigger = { NOT = { exists = global_var:oldstones_hammer_recovered } }
+					add_character_flag = oldstones_monumental_discovery_bla
+				}
+
+				1 = {
+					trigger = {
+						NOT = { exists = global_var:oldstones_royal_crypt_discovered }
+						global_var:oldstones_excavation_stage = flag:third
+					}
+					add_character_flag = oldstones_king_beneath_bla
+				}
+			}
+		}
+
+		else_if = {
+			limit = { has_character_flag = oldstones_royal_chamber_bla }
+
+			random_list = {
+				30 = { add_character_flag = oldstones_ruined_find_bla }
+				25 = { add_character_flag = oldstones_historical_fragment_bla }
+				25 = { add_character_flag = oldstones_identifiable_relic_bla }
+				14 = { add_character_flag = oldstones_royal_relic_bla }
+
+				4 = {
+					trigger = { NOT = { exists = global_var:oldstones_hammer_recovered } }
+					add_character_flag = oldstones_monumental_discovery_bla
+				}
+
+				2 = {
+					trigger = {
+						NOT = { exists = global_var:oldstones_royal_crypt_discovered }
+						global_var:oldstones_excavation_stage = flag:third
+					}
+					add_character_flag = oldstones_king_beneath_bla
+				}
+			}
+		}
+	}
+
+	option = {
+		name = agot_oldstones_bla.0003.a
+
+		trigger_event = {
+			id = agot_oldstones_bla.0004
+			days = { 10 10 }
+		}
+	}
+}
+
+
+agot_oldstones_bla.0004 = {
+	type = character_event
+
+	title = agot_oldstones_bla.0004.t
+
+	desc = {
+		desc = agot_oldstones_bla.0004.desc
+
+		triggered_desc = {
+			trigger = { has_character_flag = oldstones_ruined_find_bla }
+			desc = agot_oldstones_bla.0004.desc_ruined
+		}
+
+		triggered_desc = {
+			trigger = { has_character_flag = oldstones_historical_fragment_bla }
+			desc = agot_oldstones_bla.0004.desc_fragments
+		}
+
+		triggered_desc = {
+			trigger = { has_character_flag = oldstones_identifiable_relic_bla }
+			desc = agot_oldstones_bla.0004.desc_relic
+		}
+
+		triggered_desc = {
+			trigger = { has_character_flag = oldstones_royal_relic_bla }
+			desc = agot_oldstones_bla.0004.desc_royal
+		}
+
+		triggered_desc = {
+			trigger = { has_character_flag = oldstones_monumental_discovery_bla }
+			desc = agot_oldstones_bla.0004.desc_monumental
+		}
+
+		triggered_desc = {
+			trigger = { has_character_flag = oldstones_king_beneath_bla }
+			desc = agot_oldstones_bla.0004.desc_crypt
+		}
+	}
+
+	theme = dynasty
+
+	override_background = {
+		reference = temple_scope
+	}
+
+	left_portrait = {
+		character = root
+		animation = admiration
+	}
+
+	option = {
+		name = agot_oldstones_bla.0004.a
+
+		trigger = {
+			NOT = { has_character_flag = oldstones_king_beneath_bla }
+		}
+
+		if = {
+			limit = { has_character_flag = oldstones_ruined_find_bla }
+			custom_tooltip = agot_oldstones_bla.0004.ruined.tt
+		}
+		else = {
+			custom_tooltip = agot_oldstones_bla.0004.artifact.tt
+		}
+
+		if = {
+			limit = { has_character_flag = oldstones_ruined_find_bla }
+
+			add_prestige = 50
+			add_learning_lifestyle_xp = 250
+		}
+
+		else_if = {
+			limit = { has_character_flag = oldstones_historical_fragment_bla }
+
+			hidden_effect = {
+				random_list = {
+					25 = { agot_create_artifact_oldstones_tapestry_fragment_effect = { OWNER = root } }
+					25 = { agot_create_artifact_oldstones_goblet_fragment_effect = { OWNER = root } }
+					20 = { agot_create_artifact_oldstones_broken_river_shield_effect = { OWNER = root } }
+					20 = { agot_create_artifact_oldstones_chronicle_pages_effect = { OWNER = root } }
+					10 = { agot_create_artifact_oldstones_torque_fragment_effect = { OWNER = root } }
+				}
+			}
+		}
+
+		else_if = {
+			limit = { has_character_flag = oldstones_identifiable_relic_bla }
+
+			hidden_effect = {
+				random_list = {
+					30 = {
+						trigger = { NOT = { exists = global_var:oldstones_signet_ring_recovered } }
+						agot_create_artifact_oldstones_signet_ring_effect = { OWNER = root }
+					}
+
+					25 = {
+						trigger = { NOT = { exists = global_var:oldstones_scale_armor_recovered } }
+						agot_create_artifact_oldstones_scale_armor_effect = { OWNER = root }
+					}
+
+					25 = {
+						trigger = { NOT = { exists = global_var:oldstones_trident_shield_recovered } }
+						agot_create_artifact_shield_of_the_trident_kings_effect = { OWNER = root }
+					}
+
+					20 = {
+						trigger = { NOT = { exists = global_var:oldstones_royal_chronicle_recovered } }
+						agot_create_artifact_oldstones_royal_chronicle_effect = { OWNER = root }
+					}
+
+					5 = {
+						add_prestige = 75
+						add_learning_lifestyle_xp = 150
+					}
+				}
+			}
+		}
+
+		else_if = {
+			limit = { has_character_flag = oldstones_royal_relic_bla }
+
+			hidden_effect = {
+				random_list = {
+					40 = {
+						trigger = { NOT = { exists = global_var:oldstones_crown_fragment_recovered } }
+						agot_create_artifact_oldstones_crown_fragment_effect = { OWNER = root }
+					}
+
+					35 = {
+						trigger = { NOT = { exists = global_var:oldstones_throne_fragment_recovered } }
+						agot_create_artifact_oldstones_throne_fragment_effect = { OWNER = root }
+					}
+
+					25 = {
+						trigger = { NOT = { exists = global_var:oldstones_tristifer_skull_recovered } }
+						agot_create_artifact_skull_of_tristifer_effect = { OWNER = root }
+					}
+
+					5 = {
+						add_prestige = 100
+						add_learning_lifestyle_xp = 200
+					}
+				}
+			}
+		}
+
+		else_if = {
+			limit = { has_character_flag = oldstones_monumental_discovery_bla }
+
+			custom_tooltip = agot_oldstones_bla.0004.monumental.tt
+
+			hidden_effect = {
+				agot_create_artifact_hammer_of_the_trident_kings_effect = { OWNER = root }
+
+				set_global_variable = {
+					name = oldstones_hammer_recovered
+					value = yes
+				}
+
+				dynasty = {
+					add_dynasty_prestige = 500
+				}
+			}
+		}
+
+		remove_character_flag = oldstones_excavation_in_progress
+		remove_character_flag = oldstones_careful_excavation_bla
+		remove_character_flag = oldstones_large_excavation_bla
+		remove_character_flag = oldstones_old_gods_consulted_bla
+		remove_character_flag = oldstones_collapsed_crypt_bla
+		remove_character_flag = oldstones_burial_hall_bla
+		remove_character_flag = oldstones_flooded_vault_bla
+		remove_character_flag = oldstones_royal_chamber_bla
+		remove_character_flag = oldstones_ruined_find_bla
+		remove_character_flag = oldstones_historical_fragment_bla
+		remove_character_flag = oldstones_identifiable_relic_bla
+		remove_character_flag = oldstones_royal_relic_bla
+		remove_character_flag = oldstones_monumental_discovery_bla
+	}
+
+	option = {
+		name = agot_oldstones_bla.0004.b
+
+		trigger = {
+			has_character_flag = oldstones_king_beneath_bla
+		}
+
+		trigger_event = {
+			id = agot_oldstones_bla.0005
+		}
+	}
+}
+
+
+agot_oldstones_bla.0005 = {
+	type = character_event
+
+	title = agot_oldstones_bla.0005.t
+
+	desc = {
+		desc = agot_oldstones_bla.0005.desc
+
+		triggered_desc = {
+			trigger = { dynasty = dynasty:dynn_Mudd }
+			desc = agot_oldstones_bla.0005.desc_mudd
+		}
+	}
+
+	theme = dynasty
+
+	override_background = {
+		reference = ce1_catacombs
+	}
+
+	left_portrait = {
+		character = root
+		animation = admiration
+	}
+
+	immediate = {
+		add_prestige = 1000
+
+		dynasty = {
+			add_dynasty_prestige = 750
+		}
+
+		add_character_modifier = {
+			modifier = oldstones_royal_crypts_discovered_bla
+			years = 30
+		}
+
+		title:b_oldstones.county = {
+			add_county_modifier = {
+				modifier = oldstones_royal_crypts_county_bla
+				years = 40
+			}
+		}
+
+		set_global_variable = {
+			name = oldstones_royal_crypt_discovered
+			value = yes
+		}
+	}
+
+	option = {
+		name = agot_oldstones_bla.0005.a
+
+		trigger = {
+			NOT = { dynasty = dynasty:dynn_Mudd }
+		}
+
+		remove_character_flag = oldstones_excavation_in_progress
+		remove_character_flag = oldstones_careful_excavation_bla
+		remove_character_flag = oldstones_large_excavation_bla
+		remove_character_flag = oldstones_old_gods_consulted_bla
+		remove_character_flag = oldstones_collapsed_crypt_bla
+		remove_character_flag = oldstones_burial_hall_bla
+		remove_character_flag = oldstones_flooded_vault_bla
+		remove_character_flag = oldstones_royal_chamber_bla
+		remove_character_flag = oldstones_ruined_find_bla
+		remove_character_flag = oldstones_historical_fragment_bla
+		remove_character_flag = oldstones_identifiable_relic_bla
+		remove_character_flag = oldstones_royal_relic_bla
+		remove_character_flag = oldstones_monumental_discovery_bla
+		remove_character_flag = oldstones_king_beneath_bla
+	}
+
+	option = {
+		name = agot_oldstones_bla.0005.b
+
+		trigger = {
+			dynasty = dynasty:dynn_Mudd
+		}
+
+		add_prestige = 1500
+
+		dynasty = {
+			add_dynasty_prestige = 1000
+		}
+
+		add_character_modifier = {
+			modifier = oldstones_heirs_of_the_river_kings_bla
+			years = 30
+		}
+
+		remove_character_flag = oldstones_excavation_in_progress
+		remove_character_flag = oldstones_careful_excavation_bla
+		remove_character_flag = oldstones_large_excavation_bla
+		remove_character_flag = oldstones_old_gods_consulted_bla
+		remove_character_flag = oldstones_collapsed_crypt_bla
+		remove_character_flag = oldstones_burial_hall_bla
+		remove_character_flag = oldstones_flooded_vault_bla
+		remove_character_flag = oldstones_royal_chamber_bla
+		remove_character_flag = oldstones_ruined_find_bla
+		remove_character_flag = oldstones_historical_fragment_bla
+		remove_character_flag = oldstones_identifiable_relic_bla
+		remove_character_flag = oldstones_royal_relic_bla
+		remove_character_flag = oldstones_monumental_discovery_bla
+		remove_character_flag = oldstones_king_beneath_bla
+	}
+}

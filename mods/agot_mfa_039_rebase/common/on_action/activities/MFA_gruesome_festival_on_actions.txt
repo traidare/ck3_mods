@@ -1,0 +1,326 @@
+﻿####################################
+# MFA Activity Converter
+# Pulse relay for gruesome_festival activity
+# Root scope = the character (same as on_weekly_pulse).
+####################################
+
+
+
+MFA_gruesome_festival_pulse_relay = {
+	effect = {
+		if = {
+			limit = {
+				has_variable = MFA_pulse_relay_tick
+			}
+			change_variable = { name = MFA_pulse_relay_tick add = 1 }
+		}
+		else = {
+			set_variable = { name = MFA_pulse_relay_tick value = 1 }
+		}
+		if = {
+			limit = {
+				exists = scope:activity
+			}
+			trigger_event = { on_action = MFA_gruesome_festival_pulse_relay_effects }
+		}
+		if = {
+			limit = {
+				exists = scope:activity
+			}
+			trigger_event = { on_action = MFA_gruesome_festival_pulse_relay days = 1 }
+		}
+		else = {
+			remove_variable = MFA_pulse_relay_tick
+		}
+	}
+}
+
+MFA_gruesome_festival_pulse_relay_effects = {
+	trigger = {
+		var:MFA_pulse_relay_tick > MFA_pulse_relay_timer
+	}
+	effect = {
+		random_list = {
+			5 = { } # chance_of_no_event
+			1 = { # sacrifed_small_animal
+				trigger = {
+					scope:activity = {
+						is_current_phase_active = yes
+						any_attending_character = {
+							location = scope:activity.activity_location
+							NOT = { has_trait = compassionate }
+						}
+					}
+				}
+				modifier = {
+					scope:activity = {
+						scope:host = {
+							OR = {
+								has_trait = callous
+								has_trait = sadistic
+							}
+						}
+					}
+					add = 0.5
+				}
+				trigger_event = { on_action = MFA_pulse_sacrifed_small_animal }
+			}
+			1 = { # mournful_music
+				trigger = {
+					scope:activity = {
+						is_current_phase_active = yes
+						any_attending_character = {
+							location = scope:activity.activity_location
+							count >= 1
+						}
+					}
+				}
+				trigger_event = { on_action = MFA_pulse_mournful_music }
+			}
+			1 = { # spouse_gives_hook
+				trigger = {
+					scope:activity = {
+						is_current_phase_active = yes
+						coronation_feast_phase = yes # If Coronation, only in feast phase
+						scope:host.primary_spouse ?= {
+							involved_activity ?= scope:activity
+							is_physically_able_ai_adult = yes
+							likes_character_trigger = { CHARACTER = scope:host }
+							OR = {
+								intrigue >= 12
+								has_trait = schemer
+							}
+							location = scope:activity.activity_location
+						}
+						any_attending_character = {
+							this != scope:host
+							this != scope:host.primary_spouse
+							is_ruler = yes
+							primary_title.tier > tier_barony
+							intrigue < scope:host.primary_spouse.intrigue
+							is_physically_able_ai_adult = yes
+							location = scope:activity.activity_location
+							scope:host = {
+								can_add_hook = {
+									target = prev
+									type = manipulation_hook
+								}
+							}
+						}
+					}
+				}
+				modifier = {
+					scope:activity = {
+						scope:host.primary_spouse ?= {
+							intrigue >= 16
+						}
+					}
+					add = 0.5
+				}
+				modifier = {
+					scope:activity = {
+						scope:host.primary_spouse ?= {
+							has_personality_benevolent_trigger = yes
+						}
+					}
+					add = -0.75
+				}
+				trigger_event = { on_action = MFA_pulse_spouse_gives_hook }
+			}
+			1 = { # hook_trusting_guest
+				trigger = {
+					scope:activity = {
+						is_current_phase_active = yes
+						coronation_feast_phase = yes # If Coronation, only in feast phase
+						any_attending_character = {
+							this != scope:host
+							has_trait = trusting
+							is_ai = yes
+							location = scope:activity.activity_location
+							save_temporary_scope_as = first_temp
+						}
+						any_attending_character = {
+							this != scope:first_temp
+							location = scope:activity.activity_location
+							can_add_hook = {
+								target = scope:first_temp
+								type = favor_hook
+							}
+						}
+					}
+				}
+				trigger_event = { on_action = MFA_pulse_hook_trusting_guest }
+			}
+			1 = { # guest_brawl
+				trigger = {
+					scope:activity = {
+						is_current_phase_active = yes
+						coronation_feast_phase = yes # If Coronation, only in feast phase
+						any_attending_character = {
+							this != scope:host
+							is_physically_able_ai_adult = yes
+							location = scope:activity.activity_location
+							any_relation = {
+								type = rival
+								this != scope:host
+								is_physically_able_ai_adult = yes
+								location = scope:activity.activity_location
+							}
+						}
+					}
+				}
+				trigger_event = { on_action = MFA_pulse_guest_brawl }
+			}
+			1 = { # host_gains_diplo_xp
+				trigger = {
+					scope:activity = {
+						is_current_phase_active = yes
+						coronation_feast_phase = yes # If Coronation, only in feast phase
+						scope:host = {
+							has_lifestyle = diplomacy_lifestyle
+							location = scope:activity.activity_location
+						}
+						any_attending_character = {
+							this != scope:host
+							is_physically_able_ai_adult = yes
+							location = scope:activity.activity_location
+						}
+					}
+				}
+				trigger_event = { on_action = MFA_pulse_host_gains_diplo_xp }
+			}
+			1 = { # host_gains_steward_xp
+				trigger = {
+					scope:activity = {
+						is_current_phase_active = yes
+						coronation_feast_phase = yes # If Coronation, only in feast phase
+						scope:host = {
+							has_lifestyle = stewardship_lifestyle
+							location = scope:activity.activity_location
+						}
+						exists = scope:activity.activity_location.county
+					}
+				}
+				trigger_event = { on_action = MFA_pulse_host_gains_steward_xp }
+			}
+			1 = { # host_gains_intrigue_xp
+				trigger = {
+					scope:activity = {
+						is_current_phase_active = yes
+						coronation_feast_phase = yes # If Coronation, only in feast phase
+						scope:host = {
+							has_lifestyle = intrigue_lifestyle
+							location = scope:activity.activity_location
+						}
+						any_attending_character = {
+							this != scope:host
+							is_physically_able_ai_adult = yes
+							location = scope:activity.activity_location
+							scope:host = {
+								can_add_hook = {
+									target = prev
+									type = manipulation_hook
+								}
+							}
+						}
+					}
+				}
+				trigger_event = { on_action = MFA_pulse_host_gains_intrigue_xp }
+			}
+			1 = { # good_kitty
+				trigger = {
+					scope:activity = {
+						is_current_phase_active = yes
+						coronation_feast_phase = yes # If Coronation, only in feast phase
+						any_attending_character = {
+							location = scope:activity.activity_location
+							OR = {
+								has_character_modifier = cat_story_modifier
+								has_cat_trigger = yes
+							}
+							save_temporary_scope_as = pet_owner_temp
+						}
+						any_attending_character = {
+							location = scope:activity.activity_location
+							this != scope:pet_owner_temp
+							NOT = { has_character_modifier = cat_story_allergy_modifier }
+							NOT = { has_trait = callous }
+						}
+					}
+				}
+				trigger_event = { on_action = MFA_pulse_good_kitty }
+			}
+			1 = { # good_puppy
+				trigger = {
+					scope:activity = {
+						is_current_phase_active = yes
+						coronation_feast_phase = yes # If Coronation, only in feast phase
+						any_attending_character = {
+							location = scope:activity.activity_location
+							OR = {
+								has_character_modifier = dog_story_modifier
+								has_dog_trigger = yes
+							}
+							save_temporary_scope_as = pet_owner_temp
+						}
+						any_attending_character = {
+							this != scope:pet_owner_temp
+							location = scope:activity.activity_location
+							NOT = { has_trait = callous }
+						}
+					}
+				}
+				trigger_event = { on_action = MFA_pulse_good_puppy }
+			}
+			1 = { # antiquarian_admires_artifact
+				trigger = {
+					scope:activity = {
+						is_current_phase_active = yes
+						coronation_feast_phase = yes # If Coronation, only in feast phase
+						any_attending_character = {
+							location = scope:activity.activity_location
+							is_physically_able_ai_adult = yes
+							OR = {
+								learning >= high_skill_rating
+								has_court_position = antiquarian_court_position
+							}
+						}
+						scope:host = {
+							any_character_artifact = {
+								category = inventory
+								NOT = { rarity = common }
+							}
+						}
+					}
+				}
+				modifier = {
+					scope:activity = {
+						any_attending_character = {
+							has_court_position = antiquarian_court_position
+							location = scope:activity.activity_location
+							is_physically_able_ai_adult = yes
+						}
+					}
+					add = 2
+				}
+				trigger_event = { on_action = MFA_pulse_antiquarian_admires_artifact }
+			}
+			2 = { # apa_executioner
+				trigger = {
+					scope:activity = {
+						is_current_phase_active = yes
+						coronation_feast_phase = yes # If Coronation, only in feast phase
+						any_attending_character = {
+							location = scope:activity.activity_location
+							is_physically_able_ai_adult = yes
+							has_court_position = executioner_court_position
+							exists = employer
+						}
+					}
+				}
+				trigger_event = { on_action = MFA_pulse_apa_executioner }
+			}
+		}
+		set_variable = { name = MFA_pulse_relay_tick value = 1 }
+	}
+}

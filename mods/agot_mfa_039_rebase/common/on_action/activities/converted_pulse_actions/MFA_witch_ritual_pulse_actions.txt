@@ -1,0 +1,347 @@
+﻿####################################
+# MFA Activity Converter
+# Converted pulse_actions to on_actions
+# only effect block remains and is nestled behind scope:activity, while is_valid and weight blocks moved to main relay on_action
+####################################
+
+MFA_pulse_sacrifed_small_animal = {
+	effect = {
+		scope:activity = {
+			scope:host = {
+				save_scope_as = root_scope
+			}
+
+			random_attending_character = {
+				limit = {
+					location = scope:activity.activity_location
+					NOT = { has_trait = compassionate }
+				}
+				save_scope_as = first
+			}
+
+			add_activity_log_entry = {
+				key = sacrifed_small_animal
+				tags = { pulse_action }
+				character = scope:first
+
+				scope:first = {
+					add_stress = minor_stress_loss
+				}
+			}
+
+			every_attending_character = {
+				limit = {
+					is_ai = no
+					has_game_rule = MFA_pulse_notifications_enabled
+				}
+				send_interface_message = {
+					type = MFA_pulse_msg_public
+					title = sacrifed_small_animal_title
+					left_icon = scope:first
+					show_as_tooltip = {
+						scope:activity = {
+							scope:first = {
+								add_stress = minor_stress_loss
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+}
+
+MFA_pulse_mournful_music = {
+	effect = {
+		scope:activity = {
+			random_attending_character = {
+				limit = {
+					location = scope:activity.activity_location
+				}
+				save_scope_as = first
+			}
+
+			add_activity_log_entry = {
+				key = mournful_music
+				tags = { pulse_action }
+				character = scope:first
+
+				scope:first = {
+					add_stress = minor_stress_loss
+				}
+			}
+
+			every_attending_character = {
+				limit = {
+					is_ai = no
+					has_game_rule = MFA_pulse_notifications_enabled
+				}
+				send_interface_message = {
+					type = MFA_pulse_msg_public
+					title = mournful_music_title
+					left_icon = scope:first
+					show_as_tooltip = {
+						scope:activity = {
+							scope:first = {
+								add_stress = minor_stress_loss
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+}
+
+MFA_pulse_demonic_chant = {
+	effect = {
+		scope:activity = {
+			random_attending_character = {
+				limit = {
+					location = scope:activity.activity_location
+				}
+				save_scope_as = first
+			}
+
+			add_activity_log_entry = {
+				key = demonic_chant
+				tags = { pulse_action }
+				character = scope:first
+
+				scope:first = {
+					add_dread = minor_dread_gain
+				}
+			}
+
+			every_attending_character = {
+				limit = {
+					is_ai = no
+					has_game_rule = MFA_pulse_notifications_enabled
+				}
+				send_interface_message = {
+					type = MFA_pulse_msg_dread
+					title = demonic_chant_title
+					left_icon = scope:first
+					show_as_tooltip = {
+						scope:activity = {
+							scope:first = {
+								add_dread = minor_dread_gain
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+}
+
+MFA_pulse_recited_witchcraft_treatise = {
+	effect = {
+		scope:activity = {
+			random_attending_character = {
+				limit = {
+					location = scope:activity.activity_location
+					has_lifestyle = learning_lifestyle
+				}
+				save_scope_as = first
+			}
+
+			add_activity_log_entry = {
+				key = recited_witchcraft_treatise
+				tags = { pulse_action }
+				character = scope:first
+
+				scope:first = {
+					add_learning_lifestyle_xp = minor_lifestyle_xp
+				}
+			}
+
+			every_attending_character = {
+				limit = {
+					is_ai = no
+					has_game_rule = MFA_pulse_notifications_enabled
+				}
+				send_interface_message = {
+					type = MFA_pulse_msg_learning
+					title = recited_witchcraft_treatise_title
+					left_icon = scope:first
+					show_as_tooltip = {
+						scope:activity = {
+							scope:first = {
+								add_learning_lifestyle_xp = minor_lifestyle_xp
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+}
+
+MFA_pulse_admire_moon = {
+	effect = {
+		scope:activity = {
+			random_attending_character = {
+				limit = {
+					location = scope:activity.activity_location
+				}
+				save_scope_as = first
+			}
+
+			add_activity_log_entry = {
+				key = admire_moon
+				tags = { pulse_action }
+				character = scope:first
+
+				scope:first = {
+					add_stress = minor_stress_loss
+				}
+			}
+
+			every_attending_character = {
+				limit = {
+					is_ai = no
+					has_game_rule = MFA_pulse_notifications_enabled
+				}
+				send_interface_message = {
+					type = MFA_pulse_msg_public
+					title = admire_moon_title
+					left_icon = scope:first
+					show_as_tooltip = {
+						scope:activity = {
+							scope:first = {
+								add_stress = minor_stress_loss
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+}
+
+MFA_pulse_praised_horned_god_together = {
+	effect = {
+		scope:activity = {
+			random_attending_character = {
+				limit = {
+					location = scope:activity.activity_location
+				}
+				save_scope_as = first
+			}
+
+			random_attending_character = {
+				limit = {
+					location = scope:activity.activity_location
+					this != scope:first
+				}
+				save_scope_as = second
+			}
+
+			add_activity_log_entry = {
+				key = praised_horned_god_together
+				tags = { pulse_action }
+				character = scope:first
+
+				scope:first = {
+					add_opinion = {
+						target = scope:second
+						modifier = friendliness_opinion
+						opinion = 10
+					}
+				}
+			}
+
+			every_attending_character = {
+				limit = {
+					is_ai = no
+					has_game_rule = MFA_pulse_notifications_enabled
+				}
+				send_interface_message = {
+					type = MFA_pulse_msg_public
+					title = praised_horned_god_together_title
+					left_icon = scope:first
+					right_icon = scope:second
+					show_as_tooltip = {
+						scope:activity = {
+							scope:first = {
+								add_opinion = {
+									target = scope:second
+									modifier = friendliness_opinion
+									opinion = 10
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+}
+
+MFA_pulse_apa_imbued_artifact = {
+	effect = {
+		scope:activity = {
+			random_attending_character = {
+				limit = {
+					location = scope:activity.activity_location
+					any_character_artifact = {
+						category = inventory
+						NOT = { has_variable = had_apa_imbued_artifact_var }
+					}
+				}
+				save_scope_as = first
+			}
+
+			scope:first = {
+				random_character_artifact = {
+					limit = {
+						category = inventory
+						NOT = { has_variable = had_apa_imbued_artifact_var }
+					}
+					weight = {
+						base = 1
+						modifier = {
+							rarity = common
+							add = 2
+						}
+					}
+					save_scope_as = artifact
+					set_variable = {
+						name = had_apa_imbued_artifact_var
+						years = 2
+					}
+				}
+			}
+
+			add_activity_log_entry = {
+				key = apa_imbued_artifact
+				tags = { pulse_action }
+				character = scope:first
+
+				scope:artifact = {
+					add_artifact_modifier = artifact_monthly_piety_gain_mult_1_modifier
+				}
+			}
+
+			every_attending_character = {
+				limit = {
+					is_ai = no
+					has_game_rule = MFA_pulse_notifications_enabled
+				}
+				send_interface_message = {
+					type = MFA_pulse_msg_intrigue
+					title = apa_imbued_artifact_title
+					left_icon = scope:first
+					show_as_tooltip = {
+						scope:activity = {
+							scope:artifact = {
+								add_artifact_modifier = artifact_monthly_piety_gain_mult_1_modifier
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+}

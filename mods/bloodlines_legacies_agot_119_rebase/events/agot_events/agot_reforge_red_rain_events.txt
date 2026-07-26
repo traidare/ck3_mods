@@ -1,0 +1,40 @@
+﻿namespace = reforge_red_rain
+
+
+##########################################
+# Reforge Red Rain
+##########################################
+
+reforge_red_rain.0001 = {
+
+	type = character_event
+	title = reforge_red_rain.0001.t
+	desc = reforge_red_rain.0001.desc
+
+	theme = dynasty
+	override_background = armory
+	left_portrait = root
+
+ immediate = {
+        every_artifact = {
+            limit = {
+                has_artifact_modifier = vs_red_rain_modifier
+            }
+            save_scope_as = found_artifact
+        }
+	root = {
+		dynasty = { add_dynasty_prestige = 250 }
+	}
+
+        scope:found_artifact = {
+            remove_artifact_modifier = vs_red_rain_modifier
+            add_artifact_modifier = vs_red_rain_reyne_modifier
+	    set_artifact_description = red_rain_artifact_BLA_desc
+	}
+	}
+	option = {
+		name = reforge_red_rain.0001.a
+		add_prestige = 500
+	}
+}
+

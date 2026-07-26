@@ -1,0 +1,345 @@
+﻿agot_starting_legitimacy = {
+	effect = {
+		every_ruler = {
+			if = {
+				limit = { has_legitimacy = yes }
+				### Dump them all to level 1 first
+				if = {
+					limit = {
+						exists = capital_province
+						capital_province = { geographical_region = world_westeros_seven_kingdoms }
+					}
+					agot_init_legit_level_effect = { LEVEL = 1 }
+				}
+				### Assign them their real legitimacy
+				# Special cases
+				if = {
+					limit = { has_title = title:h_the_iron_throne }
+					if = {
+						limit = { THIS = character:Baratheon_2 } # Robert Baratheon
+						agot_init_legit_level_effect = { LEVEL = 1 }
+					}
+					else_if = {
+						limit = { THIS = character:Targaryen_1 } # Aerys Targaryen
+						agot_init_legit_level_effect = { LEVEL = 3 }
+					}
+					else_if = {
+						limit = { THIS = character:Targaryen_122 } # Aegon V Targaryen
+						agot_init_legit_level_effect = { LEVEL = 4 }
+					}
+					else = { # Fallback
+						agot_init_legit_level_effect = { LEVEL = 4 }
+					}
+				}
+				else_if = {
+					limit = { has_title = title:k_dragonstone }
+					if = {
+						limit = { THIS = character:Baratheon_3 } # Stannis Baratheon
+						agot_init_legit_level_effect = { LEVEL = 1 }
+					}
+					else_if = {
+						limit = { THIS = character:Targaryen_3 } # Rhaegar Targaryen
+						agot_init_legit_level_effect = { LEVEL = 4 }
+					}
+					else_if = {
+						limit = { THIS = character:Targaryen_1 } # Aerys Targaryen
+						agot_init_legit_level_effect = { LEVEL = 3 }
+					}
+					else = { # Fallback
+						agot_init_legit_level_effect = { LEVEL = 4 }
+					}
+				}
+				else_if = {
+					limit = {
+						has_title = title:d_the_barrowlands
+						dynasty = dynasty:dynn_Ryswell
+					}
+					agot_init_legit_level_effect = { LEVEL = 1 }
+				}
+				# Iterate by houses
+				else_if = {
+					limit = {
+						OR = {
+							THIS.house = house:house_Blackfyre
+						}
+					}
+					agot_init_legit_level_effect = { LEVEL = 0 }
+				}
+				else_if = {
+					limit = {
+						OR = {
+							THIS.house = house:house_Brownhollow
+							THIS.house = house:house_Longwaters
+							THIS.house = house:house_Cassel
+							THIS.house = house:house_ArrynGT
+							THIS.house = house:house_Fossoway_New_Barrel
+							THIS.house = house:house_Salt
+							THIS.house = house:house_Bolling
+							THIS.house = house:house_Wensington
+							THIS.house = house:house_FarwyndDL
+							THIS.house = house:house_GoodbrotherCL
+							THIS.house = house:house_GoodbrotherCPK
+							THIS.house = house:house_GoodbrotherDD
+							THIS.house = house:house_GoodbrotherOM
+							THIS.house = house:house_GoodbrotherSS
+							THIS.house = house:house_Lanny
+							THIS.house = house:house_Lannett
+							THIS.house = house:house_Lantell
+							THIS.house = house:house_Vikary
+							THIS.house = house:house_RoyceGOTM
+							THIS.house = house:house_FooteNG
+							THIS.house = house:house_Oldflowers
+							THIS.house = house:house_Goldwyne
+							THIS.house = house:house_Ringstone
+							THIS.house = house:house_Cage
+						}
+					}
+					agot_init_legit_level_effect = { LEVEL = 1 }
+				}
+				else_if = {
+					limit = {
+						OR = {
+							# The Crownlands
+							dynasty = dynasty:dynn_Sunglass
+							dynasty = dynasty:dynn_Blackberry
+							dynasty = dynasty:dynn_Staunton
+							dynasty = dynasty:dynn_Rychard
+							THIS.house = house:house_Darkwood
+							THIS.house = house:house_Dargood
+							THIS.house = house:house_Darke
+							dynasty = dynasty:dynn_Leek
+							dynasty = dynasty:dynn_Sweet
+							dynasty = dynasty:dynn_Rambton
+							dynasty = dynasty:dynn_Bean
+							dynasty = dynasty:dynn_Follard
+							dynasty = dynasty:dynn_Chyttering
+							dynasty = dynasty:dynn_Bentley
+							dynasty = dynasty:dynn_Wheaton
+							dynasty = dynasty:dynn_Largent
+							dynasty = dynasty:dynn_Byrch
+							dynasty = dynasty:dynn_Holk
+							dynasty = dynasty:dynn_Edgerton
+							dynasty = dynasty:dynn_Blount
+							dynasty = dynasty:dynn_Cargyll
+							dynasty = dynasty:dynn_Harte
+							dynasty = dynasty:dynn_Buckwell
+							dynasty = dynasty:dynn_Whitfield
+							dynasty = dynasty:dynn_Hayford
+							dynasty = dynasty:dynn_Yore
+							dynasty = dynasty:dynn_Hogg
+							dynasty = dynasty:dynn_Cressey
+							dynasty = dynasty:dynn_Farring
+							dynasty = dynasty:dynn_Chelsted
+							dynasty = dynasty:dynn_Bywater
+							dynasty = dynasty:dynn_Brune
+							# The North
+							dynasty = dynasty:dynn_Manderly
+							dynasty = dynasty:dynn_Fenn
+							dynasty = dynasty:dynn_BoggsN
+							dynasty = dynasty:dynn_Greengood
+							dynasty = dynasty:dynn_Blackmyre
+							dynasty = dynasty:dynn_Peat
+							dynasty = dynasty:dynn_Quagg
+							dynasty = dynasty:dynn_Cray
+							dynasty = dynasty:dynn_Ironsmith
+							dynasty = dynasty:dynn_Wibberley
+							dynasty = dynasty:dynn_Glover
+							dynasty = dynasty:dynn_Forrester
+							dynasty = dynasty:dynn_Whitehill
+							dynasty = dynasty:dynn_Tallhart
+							dynasty = dynasty:dynn_Cerwyn
+							THIS.house = house:house_FlintWW
+							THIS.house = house:house_FlintFF
+							# The Vale
+							dynasty = dynasty:dynn_Upcliff
+							dynasty = dynasty:dynn_Hardyng
+							dynasty = dynasty:dynn_Hunter
+							dynasty = dynasty:dynn_Corbray
+							dynasty = dynasty:dynn_Lynderly
+							dynasty = dynasty:dynn_Hersy
+							dynasty = dynasty:dynn_Elesham
+							dynasty = dynasty:dynn_Sunderland
+							dynasty = dynasty:dynn_Egen
+							# The Riverlands
+							dynasty = dynasty:dynn_Frey
+							dynasty = dynasty:dynn_Whent
+							dynasty = dynasty:dynn_Lothston
+							dynasty = dynasty:dynn_Harroway
+							dynasty = dynasty:dynn_Paege
+							dynasty = dynasty:dynn_Strong
+							dynasty = dynasty:dynn_Farwynd
+							# The Westerlands
+							dynasty = dynasty:dynn_Sarsfield
+							dynasty = dynasty:dynn_Prester
+							dynasty = dynasty:dynn_Greenfield
+							dynasty = dynasty:dynn_Swyft
+							THIS.house = house:house_LannisterLannisport
+							dynasty = dynasty:dynn_Parren
+							# The Reach
+							dynasty = dynasty:dynn_Tyrell
+							dynasty = dynasty:dynn_Cuy
+							dynasty = dynasty:dynn_Bulwer
+							dynasty = dynasty:dynn_Beesbury
+							dynasty = dynasty:dynn_Dunn
+							dynasty = dynasty:dynn_Serry
+							dynasty = dynasty:dynn_Chester
+							dynasty = dynasty:dynn_Grimm
+							dynasty = dynasty:dynn_Osgrey
+							dynasty = dynasty:dynn_Webber
+							dynasty = dynasty:dynn_Inchfield
+							# Dorne
+							dynasty = dynasty:dynn_Dalt
+						}
+					}
+					agot_init_legit_level_effect = { LEVEL = 2 }
+				}
+				else_if = {
+					limit = {
+						OR = {
+							# The Crownlands
+							dynasty = dynasty:dynn_Velaryon
+							dynasty = dynasty:dynn_Celtigar
+							dynasty = dynasty:dynn_Bar_Emmon
+							dynasty = dynasty:dynn_Darklyn
+							dynasty = dynasty:dynn_Stokeworth
+							dynasty = dynasty:dynn_Rosby
+							dynasty = dynasty:dynn_Massey
+							# The North
+							dynasty = dynasty:dynn_Woolfield
+							dynasty = dynasty:dynn_Reed
+							dynasty = dynasty:dynn_Ryswell
+							dynasty = dynasty:dynn_FisherSS
+							dynasty = dynasty:dynn_Mormont
+							dynasty = dynasty:dynn_Umber
+							THIS.house = house:house_Karstark
+							dynasty = dynasty:dynn_Bolton
+							dynasty = dynasty:dynn_Hornwood
+							dynasty = dynasty:dynn_Locke
+							dynasty = dynasty:dynn_Dustin
+							# The Vale
+							dynasty = dynasty:dynn_Grafton
+							dynasty = dynasty:dynn_Redfort
+							dynasty = dynasty:dynn_Templeton
+							dynasty = dynasty:dynn_Waynwood
+							dynasty = dynasty:dynn_Belmore
+							# The Riverlands
+							dynasty = dynasty:dynn_Tully
+							dynasty = dynasty:dynn_Teague
+							dynasty = dynasty:dynn_Justman
+							dynasty = dynasty:dynn_Mudd
+							dynasty = dynasty:dynn_Fisher
+							dynasty = dynasty:dynn_Darry
+							dynasty = dynasty:dynn_Ryger
+							dynasty = dynasty:dynn_Mooton
+							dynasty = dynasty:dynn_Goodbrook
+							dynasty = dynasty:dynn_Mandrake
+							dynasty = dynasty:dynn_Mallister
+							dynasty = dynasty:dynn_Vance
+							dynasty = dynasty:dynn_Piper
+							# The Iron Islands
+							dynasty = dynasty:dynn_Greyjoy
+							dynasty = dynasty:dynn_Harlaw
+							dynasty = dynasty:dynn_Blacktyde
+							dynasty = dynasty:dynn_Drumm
+							dynasty = dynasty:dynn_Goodbrother
+							# The Westerlands
+							dynasty = dynasty:dynn_Broome
+							dynasty = dynasty:dynn_Banefort
+							dynasty = dynasty:dynn_Westerling
+							dynasty = dynasty:dynn_Lefford
+							dynasty = dynasty:dynn_Reyne
+							dynasty = dynasty:dynn_Marbrand
+							dynasty = dynasty:dynn_Brax
+							dynasty = dynasty:dynn_Lydden
+							dynasty = dynasty:dynn_Farman
+							dynasty = dynasty:dynn_Payne
+							dynasty = dynasty:dynn_Serrett
+							dynasty = dynasty:dynn_Plumm
+							dynasty = dynasty:dynn_Crakehall
+							dynasty = dynasty:dynn_Tarbeck
+							# The Reach
+							dynasty = dynasty:dynn_Redwyne
+							dynasty = dynasty:dynn_Roxton
+							dynasty = dynasty:dynn_Costayne
+							dynasty = dynasty:dynn_Florent
+							dynasty = dynasty:dynn_Tarly
+							dynasty = dynasty:dynn_Hewett
+							dynasty = dynasty:dynn_Oakheart
+							dynasty = dynasty:dynn_Rowan
+							dynasty = dynasty:dynn_Crane
+							dynasty = dynasty:dynn_Vyrwel
+							dynasty = dynasty:dynn_Ashford
+							dynasty = dynasty:dynn_Fossoway
+							dynasty = dynasty:dynn_Merryweather
+							dynasty = dynasty:dynn_Meadows
+							dynasty = dynasty:dynn_Footly
+							dynasty = dynasty:dynn_Varner
+							dynasty = dynasty:dynn_Ball
+							dynasty = dynasty:dynn_Strickland
+							dynasty = dynasty:dynn_Caswell
+							dynasty = dynasty:dynn_Peake
+							dynasty = dynasty:dynn_Norcross
+							# The Stormlands
+							dynasty = dynasty:dynn_Baratheon
+							dynasty = dynasty:dynn_Tarth
+							dynasty = dynasty:dynn_Penrose
+							dynasty = dynasty:dynn_Errol
+							dynasty = dynasty:dynn_Connington
+							dynasty = dynasty:dynn_Estermont
+							dynasty = dynasty:dynn_Wylde
+							dynasty = dynasty:dynn_Mertyns
+							dynasty = dynasty:dynn_Fell
+							dynasty = dynasty:dynn_Toyne
+							dynasty = dynasty:dynn_Morrigen
+							dynasty = dynasty:dynn_Swann
+							dynasty = dynasty:dynn_Staedmon
+							dynasty = dynasty:dynn_Grandison
+							dynasty = dynasty:dynn_Peasebury
+							dynasty = dynasty:dynn_Dondarrion
+							dynasty = dynasty:dynn_Cafferen
+							dynasty = dynasty:dynn_Selmy
+							dynasty = dynasty:dynn_Caron
+							dynasty = dynasty:dynn_Trant
+							# Dorne
+							dynasty = dynasty:dynn_Blackmont
+							dynasty = dynasty:dynn_Dayne
+							dynasty = dynasty:dynn_Fowler
+							dynasty = dynasty:dynn_Qorgyle
+							dynasty = dynasty:dynn_Manwoody
+							dynasty = dynasty:dynn_Wyl
+							dynasty = dynasty:dynn_Vaith
+							dynasty = dynasty:dynn_Uller
+							dynasty = dynasty:dynn_Jordayne
+							dynasty = dynasty:dynn_Gargalen
+							dynasty = dynasty:dynn_Allyrion
+							dynasty = dynasty:dynn_Toland
+							dynasty = dynasty:dynn_Santagar
+						}
+					}
+					agot_init_legit_level_effect = { LEVEL = 3 }
+				}
+				else_if = {
+					limit = {
+						OR = {
+							dynasty = dynasty:dynn_Targaryen
+							dynasty = dynasty:dynn_Stark
+							dynasty = dynasty:dynn_Lannister
+							dynasty = dynasty:dynn_Arryn
+							dynasty = dynasty:dynn_Royce
+							dynasty = dynasty:dynn_Blackwood
+							dynasty = dynasty:dynn_Bracken
+							dynasty = dynasty:dynn_Hoare
+							dynasty = dynasty:dynn_Greyiron
+							dynasty = dynasty:dynn_Gardener
+							dynasty = dynasty:dynn_Hightower
+							dynasty = dynasty:dynn_Durrandon
+							dynasty = dynasty:dynn_Martell
+							dynasty = dynasty:dynn_Yronwood
+						}
+					}
+					agot_init_legit_level_effect = { LEVEL = 4 }
+				}
+			}
+		}
+	}
+}

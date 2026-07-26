@@ -1,0 +1,8 @@
+﻿# Optional VIET compatibility hook for Ethnicities & Portraits Expanded.
+# That mod is absent from this playset; keep the symbol valid and inert.
+ek_character_setup_effect = {
+	if = {
+		limit = { always = no }
+		add_prestige = 0
+	}
+}

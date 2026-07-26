@@ -1,0 +1,784 @@
+﻿westerosi_valyrian_legacy_track = {
+	is_shown = {
+		OR = { 
+			culture = {
+				OR = {
+					this = culture:westerosi_valyrian
+					any_parent_culture = {
+						this = culture:westerosi_valyrian
+						has_cultural_pillar = heritage_valyrian
+					}
+				}
+			}
+			
+		}
+	}
+}
+essosi_valyrian_legacy_track = {
+	is_shown = {
+		OR = { 
+			culture = {
+				OR = {
+					this = culture:essosi_valyrian
+					any_parent_culture = {
+						this = culture:essosi_valyrian
+						has_cultural_pillar = heritage_valyrian
+					}
+				}
+			}
+			
+		}
+	}
+}
+high_valyrian_legacy_track = {
+	is_shown = {
+		OR = { 
+			dynasty = { has_dynasty_perk = high_valyrian_legacy_1 }
+			culture = {
+				OR = {
+					this = culture:high_valyrian
+					any_parent_culture = {
+						OR = {
+							this = culture:high_valyrian
+						}
+					}
+				}
+			}
+		}
+		NOT = { 
+			OR = {
+				culture = culture:westerosi_valyrian
+				culture = culture:essosi_valyrian
+				culture = culture:lyseni
+				culture = culture:pentoshi
+				culture = culture:braavosi
+				culture = culture:myrish
+				culture = culture:tyroshi
+				culture = culture:volantene
+				culture = culture:hartalari
+				culture = culture:norvoshi
+				culture = culture:gogossite
+				culture = culture:mantaryan
+				culture = culture:tolosi
+				culture = culture:elyrian
+				culture = culture:orosi
+				culture = culture:astapori
+				culture = culture:meereenese
+				culture = culture:yunkaii
+			}
+		}
+ 	}
+}
+wildling_legacy_track = {
+	is_shown = {
+		OR = { 
+			dynasty = { has_dynasty_perk = wildling_legacy_1 }
+			culture = {
+				AND = {
+					NOT = {
+						OR = {
+							this = culture:thenn
+							any_parent_culture_or_above = {
+								this = culture:thenn
+							}
+						}
+					}
+					OR = {
+						has_cultural_tradition = tradition_agot_wildling
+						any_parent_culture_or_above = {
+							has_cultural_tradition = tradition_agot_wildling
+						}
+					}
+				}
+			}
+		}
+  	}
+}
+sisterman_legacy_track = {
+	is_shown = {
+		OR = { 
+			dynasty = { has_dynasty_perk = sisterman_legacy_1 }
+			culture = {
+				OR = {
+					this = culture:sisterman
+					any_parent_culture = {
+						OR = {
+							this = culture:sisterman
+						}
+					}
+				}
+			}
+		}
+  	}
+}
+skagosi_legacy_track = {
+	is_shown = {
+		OR = { 
+			dynasty = { has_dynasty_perk = skagosi_legacy_1 }
+			culture = {
+				OR = {
+					this = culture:skagosi
+					any_parent_culture = {
+						OR = {
+							this = culture:skagosi
+						}
+					}
+				}
+			}
+		}
+  	}
+}
+braavosi_legacy_track = {
+	is_shown = {
+		OR = { 
+			dynasty = { has_dynasty_perk = braavosi_legacy_1 }
+			culture = {
+				OR = {
+					this = culture:braavosi
+					any_parent_culture = {
+						OR = {
+							this = culture:braavosi
+						}
+					}
+				}
+			}
+		}
+  	}
+}
+pentoshi_legacy_track = {
+	is_shown = {
+		OR = {
+			dynasty = { has_dynasty_perk = pentoshi_legacy_1 }
+			culture = {
+				OR = {
+					this = culture:pentoshi
+					any_parent_culture_or_above = { this = culture:pentoshi }
+				}
+			}
+		}
+		NOT = { culture = culture:andalosi }
+	}
+}
+myrish_legacy_track = {
+	is_shown = {
+		OR = { 
+			dynasty = { has_dynasty_perk = myrish_legacy_1 }
+			culture = {
+				OR = {
+					this = culture:myrish
+					any_parent_culture = {
+						OR = {
+							this = culture:myrish
+						}
+					}
+				}
+			}
+		}
+		NOT = { 
+			OR = {
+				culture = culture:hartalari
+			}
+		}
+ 	}
+}
+
+tyroshi_legacy_track = {
+	is_shown = {
+		OR = { 
+			dynasty = { has_dynasty_perk = tyroshi_legacy_1 }
+			culture = {
+				OR = {
+					this = culture:tyroshi
+					any_parent_culture = {
+							this = culture:tyroshi
+					}
+				}
+			}
+		}
+		NOT = { 
+			OR = {
+				culture = culture:hartalari
+			}
+		}
+ 	}
+}
+lyseni_legacy_track = {
+	is_shown = {
+		OR = { 
+			dynasty = { has_dynasty_perk = lyseni_legacy_1 }
+			culture = {
+				OR = {
+					this = culture:lyseni
+					any_parent_culture = {
+							this = culture:lyseni
+					}
+				}
+			}
+		}
+		NOT = { 
+			culture = culture:tyroshi
+		}
+  	}
+}
+volantene_legacy_track = {
+	is_shown = {
+		OR = { 
+			dynasty = { has_dynasty_perk = volantene_legacy_1 }
+			culture = {
+				OR = {
+					this = culture:volantene
+					any_parent_culture = {
+							this = culture:volantene
+					}
+				}
+			}
+		}
+  	}
+}
+norvoshi_legacy_track = {
+	is_shown = {
+		OR = { 
+			dynasty = { has_dynasty_perk = norvoshi_legacy_1 }
+			culture = {
+				OR = {
+					this = culture:norvoshi
+					any_parent_culture = {
+							this = culture:norvoshi
+					}
+				}
+			}
+		}
+  	}
+}
+hartalari_legacy_track = {
+	is_shown = {
+		OR = { 
+			dynasty = { has_dynasty_perk = hartalari_legacy_1 }
+			culture = {
+				OR = {
+					this = culture:hartalari
+					any_parent_culture = {
+							this = culture:hartalari
+					}
+				}
+			}
+		}
+		NOT = { 
+			OR = {
+				culture = culture:myrish
+				culture = culture:tyroshi
+			}
+		}
+ 	}
+}
+
+rhoynish_legacy_track = {
+	is_shown = {
+		OR = { 
+			dynasty = { has_dynasty_perk = rhoynish_legacy_1 }
+			culture = {
+				OR = {
+					this = culture:rhoynar_original
+					any_parent_culture = {
+						OR = {
+							this = culture:rhoynar_original
+						}
+					}
+				}
+			}
+		}
+		NOT = { 
+			OR = {
+				culture = culture:salt_dornish
+				culture = culture:sand_dornish
+				culture = culture:stone_dornish
+			}
+		}
+
+  	}
+}
+andalosi_legacy_track = {
+	is_shown = {
+		OR = { 
+			dynasty = { has_dynasty_perk = andalosi_legacy_1 }
+			culture = {
+				OR = {
+					this = culture:andalosi
+					any_parent_culture = {
+						OR = {
+							this = culture:andalosi
+						}
+					}
+				}
+			}
+		}
+		NOT = { 
+			culture = culture:pentoshi
+		}
+  	}
+}
+clawman_legacy_track = {
+	is_shown = {
+		OR = { 
+			dynasty = { has_dynasty_perk = clawman_legacy_1 }
+			culture = {
+				OR = {
+					this = culture:clawman
+					any_parent_culture = {
+						OR = {
+							this = culture:clawman
+						}
+					}
+				}
+			}
+		}
+  	}
+}
+
+marcher_legacy_track = {
+	is_shown = {
+		OR = { 
+			dynasty = { has_dynasty_perk = marcher_legacy_1 }
+			culture = {
+				OR = {
+					this = culture:marcher
+					any_parent_culture = {
+						OR = {
+							this = culture:marcher
+						}
+					}
+				}
+			}
+		}
+		NOT = { 
+			OR = {
+				culture = culture:stormlander_main
+				culture = culture:reachman
+				culture = culture:stone_dornish
+			}
+		}
+
+  	}
+}
+crownlander_legacy_track = {
+	is_shown = {
+		OR = { 
+			dynasty = { has_dynasty_perk = crownlander_legacy_1 }
+			culture = {
+				OR = {
+					this = culture:crownlander
+					any_parent_culture = {
+						OR = {
+							this = culture:crownlander
+						}
+					}
+				}
+			}
+		}
+		NOT = { 
+			OR = {
+				culture = culture:riverman_main
+				culture = culture:stormlander_main
+			}
+		}
+
+  	}
+}
+riverlander_legacy_track = {
+	is_shown = {
+		OR = {
+			culture = {
+				OR = {
+					this = culture:riverman_main
+					any_parent_culture_or_above = {
+						this = culture:riverman_main
+					}
+				}
+			}
+			dynasty = { has_dynasty_perk = riverlander_legacy_1 }
+		}
+		NOT = { 
+				culture = culture:crownlander
+		}
+
+	}
+}
+stormlander_legacy_track = {
+	is_shown = {
+		OR = {
+			culture = {
+				OR = {
+					this = culture:stormlander_main
+					any_parent_culture_or_above = {
+						this = culture:stormlander_main
+					}
+				}
+			}
+			dynasty = { has_dynasty_perk = stormlander_legacy_1 }
+		}
+		NOT = { 
+			OR = {
+
+				culture = culture:crownlander
+				culture = culture:marcher
+				culture = culture:stone_dornish
+			}
+		}
+	}
+}
+reachman_legacy_track = {
+	is_shown = {
+		OR = {
+			culture = {
+				OR = {
+					this = culture:reachman
+					any_parent_culture_or_above = {
+						this = culture:reachman
+					}
+				}
+			}
+			dynasty = { has_dynasty_perk = reachman_legacy_1 }
+		}
+		NOT = { 
+				culture = culture:marcher
+				culture = culture:vineman
+				culture = culture:honeywiner
+				culture = culture:shieldman
+				culture = culture:stone_dornish
+				culture = culture:harborman
+		}
+
+	}
+}
+ironborn_legacy_track = {
+	is_shown = {
+		OR = {
+			culture = {
+				OR = {
+					this = culture:ironborn
+					any_parent_culture_or_above = {
+						this = culture:ironborn
+					}
+				}
+			}
+			dynasty = { has_dynasty_perk = ironborn_legacy_1 }
+		}
+		NOT = { 
+				culture = culture:shieldman
+		}
+
+	}
+}
+
+vineman_legacy_track = {
+	is_shown = {
+		OR = { 
+			dynasty = { has_dynasty_perk = vineman_legacy_1 }
+			culture = {
+				OR = {
+					this = culture:vineman
+					any_parent_culture = {
+						OR = {
+							this = culture:vineman
+						}
+					}
+				}
+			}
+		}
+  	}
+}
+honeywiner_legacy_track = {
+	is_shown = {
+		OR = { 
+			dynasty = { has_dynasty_perk = honeywiner_legacy_1 }
+			culture = {
+				OR = {
+					this = culture:honeywiner
+					any_parent_culture = {
+						OR = {
+							this = culture:honeywiner
+						}
+					}
+				}
+			}
+		}
+  	}
+}
+shieldman_legacy_track = {
+	is_shown = {
+		OR = { 
+			dynasty = { has_dynasty_perk = shieldman_legacy_1 }
+			culture = {
+				OR = {
+					this = culture:shieldman
+					any_parent_culture = {
+							this = culture:shieldman
+					}
+				}
+			}
+		}
+  	}
+}
+
+stone_dornish_legacy_track = {
+	is_shown = {
+		OR = {
+			culture = {
+				OR = {
+					this = culture:stone_dornish
+					any_parent_culture_or_above = {
+						this = culture:stone_dornish
+					}
+				}
+			}	
+			dynasty = { has_dynasty_perk = stone_dornish_legacy_1 }
+		}
+			NOT = { 
+				culture = culture:salt_dornish
+		}
+	}
+}
+
+salt_dornish_legacy_track = {
+	is_shown = {
+		OR = { 
+			culture = {
+				OR = {
+					this = culture:salt_dornish
+					any_parent_culture = {
+							this = culture:salt_dornish
+					}
+				}
+			}
+			dynasty = { has_dynasty_perk = salt_dornish_legacy_1 }
+		}
+		NOT = { 
+				culture = culture:stone_dornish
+		}
+  	}
+}
+
+dornish_legacy_track = {
+	is_shown = {
+		OR = {
+			culture = {
+				OR = {
+					this = culture:sand_dornish
+					any_parent_culture_or_above = {
+						this = culture:sand_dornish
+					}
+				}
+			}
+			dynasty = { has_dynasty_perk = dornish_legacy_1 }
+		}
+		NOT = { 
+				culture = culture:stone_dornish
+				culture = culture:salt_dornish
+		}
+
+	}
+}
+
+finger_valeman_legacy_track = {
+	is_shown = {
+		OR = { 
+			culture = {
+				OR = {
+					this = culture:valeman_finger
+					any_parent_culture = {
+							this = culture:valeman_finger
+					}
+				}
+			}
+			dynasty = { has_dynasty_perk = finger_valeman_legacy_1 }
+		}
+  	}
+}
+
+upper_valeman_legacy_track = {
+	is_shown = {
+		OR = { 
+			culture = {
+				OR = {
+					this = culture:valeman_upper
+					any_parent_culture = {
+							this = culture:valeman_upper
+					}
+				}
+			}
+			dynasty = { has_dynasty_perk = upper_valeman_legacy_1 }
+		}
+  	}
+}
+
+valeman_legacy_track = {
+	is_shown = {
+		OR = {
+			culture = {
+				OR = {
+					this = culture:valeman_main
+					any_parent_culture_or_above = {
+						this = culture:valeman_main
+					}
+				}
+			}
+			dynasty = { has_dynasty_perk = valeman_legacy_1 }
+		}
+		NOT = { 
+				culture = culture:valeman_upper
+				culture = culture:valeman_finger
+				culture = culture:sisterman
+		}
+
+	}
+}
+
+north_legacy_track = {
+	is_shown = {
+		OR = {
+			culture = {
+				OR = {
+					this = culture:northman
+					any_parent_culture_or_above = {
+						this = culture:northman
+					}
+				}
+			}
+			dynasty = { has_dynasty_perk = north_legacy_1 }
+		}
+		NOT = { 
+				culture = culture:barrowman
+				culture = culture:crannogman
+				culture = culture:bearman
+				culture = culture:krakenman
+				culture = culture:northern_clan
+				culture = culture:wolfswood_clansman
+				culture = culture:harborman
+				culture = culture:sisterman
+		}
+
+	}
+}
+
+barrowman_legacy_track = {
+	is_shown = {
+		OR = { 
+			culture = {
+				OR = {
+					this = culture:barrowman
+					any_parent_culture = {
+							this = culture:barrowman
+					}
+				}
+			}
+			dynasty = { has_dynasty_perk = barrowman_legacy_1 }
+		}
+  	}
+}
+crannogman_legacy_track = {
+	is_shown = {
+		OR = { 
+			culture = {
+				OR = {
+					this = culture:crannogman
+					any_parent_culture = {
+							this = culture:crannogman
+					}
+				}
+			}
+			dynasty = { has_dynasty_perk = crannogman_legacy_1 }
+		}
+  	}
+}
+bearman_legacy_track = {
+	is_shown = {
+		OR = { 
+			culture = {
+				OR = {
+					this = culture:bearman
+					any_parent_culture = {
+							this = culture:bearman
+					}
+				}
+			}
+			dynasty = { has_dynasty_perk = bearman_legacy_1 }
+		}
+  	}
+}
+krakenman_legacy_track = {
+	is_shown = {
+		OR = { 
+			culture = {
+				OR = {
+					this = culture:krakenman
+					any_parent_culture = {
+							this = culture:krakenman
+					}
+				}
+			}
+			dynasty = { has_dynasty_perk = krakenman_legacy_1 }
+		}
+  	}
+}
+northern_clan_legacy_track = {
+	is_shown = {
+		OR = { 
+			culture = {
+				OR = {
+					this = culture:northern_clan
+					any_parent_culture = {
+							this = culture:northern_clan
+					}
+				}
+			}
+			dynasty = { has_dynasty_perk = northern_clan_legacy_1 }
+		}
+  	}
+}
+wolfswood_clansman_legacy_track = {
+	is_shown = {
+		OR = { 
+			culture = {
+				OR = {
+					this = culture:wolfswood_clansman
+					any_parent_culture = {
+							this = culture:wolfswood_clansman
+					}
+				}
+			}
+			dynasty = { has_dynasty_perk = wolfswood_clansman_legacy_1 }
+		}
+  	}
+}
+
+harborman_legacy_track = {
+	is_shown = {
+		OR = { 
+			culture = {
+				OR = {
+					this = culture:harborman
+					any_parent_culture = {
+							this = culture:harborman
+					}
+				}
+			}
+			dynasty = { has_dynasty_perk = harborman_legacy_1 }
+		}
+  	}
+}
+
+thenn_legacy_track = {
+	is_shown = {
+		OR = {
+			dynasty = { has_dynasty_perk = thenn_legacy_1 }
+			culture = {
+				OR = {
+					this = culture:thenn
+					any_parent_culture_or_above = {
+						this = culture:thenn
+					}
+				}
+			}
+		}
+	}
+}

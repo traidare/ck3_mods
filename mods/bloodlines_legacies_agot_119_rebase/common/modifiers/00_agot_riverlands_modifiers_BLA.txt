@@ -1,0 +1,1702 @@
+﻿# =========================================================
+# Riverlands Regional Modifiers
+# =========================================================
+
+riverlands_settled_veterans_bla = {
+	icon = county_modifier_control_positive
+	levy_reinforcement_rate = 0.05
+	monthly_county_control_growth_factor = 0.05
+}
+
+riverlands_lawless_roads_bla = {
+	icon = county_modifier_control_negative
+	development_growth_factor = -0.05
+	monthly_county_control_growth_factor = 0.05
+	travel_danger = 10
+}
+
+riverlands_keeper_of_tales_bla = {
+	icon = prestige_positive
+	monthly_prestige = 0.10
+	owned_legend_spread_mult = 0.05
+}
+
+riverlands_quiet_contemplation_bla = {
+	icon = piety_positive
+	stress_loss_mult = 0.10
+	monthly_piety = 0.05
+}
+
+riverlands_spiritual_reflection_bla = {
+	icon = piety_positive
+	learning = 1
+	monthly_piety = 0.15
+	monthly_learning_lifestyle_xp_gain_mult = 0.05
+}
+
+riverlands_harrenhal_whispers_bla = {
+	icon = magic_positive
+	county_opinion_add = -5
+	travel_danger = 10
+	monthly_county_control_growth_factor = -0.05
+}
+
+riverlands_searched_black_towers_bla = {
+	icon = magic_positive
+	intrigue_scheme_resistance = 10
+	owned_legend_spread_mult = 0.05
+}
+
+riverlands_respected_convener_bla = {
+	icon = diplomacy_positive
+	vassal_opinion = 5
+	monthly_diplomacy_lifestyle_xp_gain_mult = 0.05
+}
+
+attended_trident_council_bla = {
+	icon = prestige_positive
+	vassal_opinion = 3
+	monthly_prestige = 0.10
+}
+
+riverlands_practical_mind_bla = {
+	icon = stewardship_positive
+	monthly_stewardship_lifestyle_xp_gain_mult = 0.05
+	build_gold_cost = -0.03
+}
+
+riverlands_black_tower_discipline_bla = {
+	icon = martial_positive
+	knight_effectiveness_mult = 0.05
+	monthly_martial_lifestyle_xp_gain_mult = 0.05
+}
+
+bracken_knightly_example_bla = {
+	icon = martial_positive
+	knight_effectiveness_mult = 0.05
+	knight_limit = 1
+}
+
+weakened_defenses_bla = {
+	icon = martial_negative
+	additional_fort_level = -1
+}
+
+# =========================================================
+# House Bracken Modifiers
+# =========================================================
+
+bracken_liege_favor_bla = {
+	icon = prestige_positive
+	liege_opinion = 15
+	monthly_prestige = 0.10
+}
+
+bracken_warhorse_training_bla = {
+	icon = martial_positive
+	knight_effectiveness_mult = 0.05
+	heavy_cavalry_damage_mult = 0.05
+}
+
+bracken_reckless_riders_bla = {
+	icon = dread_positive
+	knight_effectiveness_mult = 0.05
+	dread_gain_mult = 0.05
+}
+
+bracken_horse_breeders_bla = {
+	icon = stewardship_positive
+	monthly_income_mult = 0.05
+	army_maintenance_mult = -0.03
+}
+
+bracken_border_diplomacy_bla = {
+	icon = diplomacy_positive
+	monthly_prestige = 0.15
+	county_opinion_add = 5
+}
+
+bracken_hardened_riders_bla = {
+	icon = martial_positive
+	knight_effectiveness_mult = 0.05
+	army_toughness_mult = 0.05
+}
+bracken_border_posturing_bla = {
+	icon = martial_positive
+	heavy_cavalry_damage_mult = 0.10
+	heavy_cavalry_toughness_mult = 0.15
+}
+
+bracken_tourney_glory_bla = {
+	icon = prestige_positive
+	monthly_prestige = 0.2
+	same_culture_opinion = 10
+}
+
+bracken_river_riders_bla = {
+	icon = martial_positive
+	movement_speed = 0.10
+	army_pursuit_mult = 0.10
+}
+
+bracken_prosperous_fields_bla = {
+	icon = economy_positive
+	domain_tax_mult = 0.05
+	county_opinion_add = 5
+}
+
+bracken_shadow_riders_bla = {
+	icon = intrigue_positive
+	light_cavalry_damage_mult = 0.05
+	owned_hostile_scheme_success_chance_add = 5
+}
+
+bracken_heirs_drilled_bla = {
+	icon = martial_positive
+	martial = 1
+	monthly_dynasty_prestige = 0.05
+}
+
+# =========================================================
+# House Blackwood Modifiers
+# =========================================================
+
+blackwood_raven_omens_bla = {
+	icon = intrigue_positive
+	monthly_piety = 0.2
+	intrigue_scheme_resistance = 15
+}
+
+blackwood_courtyard_cleared_bla = {
+	icon = county_modifier_control_positive
+	monthly_county_control_growth_factor = 0.05
+	stress_loss_mult = 0.05
+	intrigue_scheme_resistance = -5
+}
+
+blackwood_old_ways_strengthened_bla = {
+	icon = piety_positive
+	county_opinion_add = 10
+	monthly_piety = 0.10
+}
+
+blackwood_whispering_faces_bla = {
+	icon = learning_positive
+	monthly_learning_lifestyle_xp_gain_mult = 0.10
+	short_reign_duration_mult = -0.05
+}
+
+blackwood_questioned_the_gods_bla = {
+	icon = piety_negative
+	monthly_piety = -0.1
+	intrigue = 2
+}
+
+blackwood_haunted_lineage_bla = {
+	icon = family_positive
+	monthly_dynasty_prestige = 0.05
+	stress_gain_mult = 0.10
+}
+
+blackwood_weirwood_whispers_bla = {
+	icon = learning_positive
+	monthly_learning_lifestyle_xp_gain_mult = 0.10
+	stress_loss_mult = 0.05
+}
+
+blackwood_ancient_blood_bla = {
+	icon = prestige_positive
+	monthly_prestige = 0.2
+	vassal_opinion = 5
+}
+
+blackwood_sworn_remembrance_bla = {
+	icon = dread_positive
+	monthly_prestige = 0.10
+	dread_gain_mult = 0.05
+}
+
+blackwood_godswood_secrets_bla = {
+	icon = intrigue_positive
+	owned_hostile_scheme_success_chance_add = 10
+	intrigue_scheme_resistance = 20
+}
+
+# =========================================================
+# House Frey Modifiers
+# =========================================================
+
+frey_harsh_tolls_bla = {
+	icon = economy_positive
+	monthly_income = 0.25
+	vassal_opinion = -5
+	travel_danger = 5
+}
+
+frey_open_crossings_bla = {
+	icon = county_modifier_development_positive
+	development_growth_factor = 0.05
+	travel_danger = -5
+	general_opinion = 3
+}
+
+frey_night_tolls_bla = {
+	icon = economy_positive
+	monthly_income = 0.30
+	owned_scheme_secrecy_add = 5
+	general_opinion = -3
+}
+
+frey_bridge_patrols_bla = {
+	icon = martial_positive
+	intrigue_scheme_resistance = 15
+	levy_reinforcement_rate = 0.10
+	travel_danger = -5
+}
+
+frey_silenced_rumors_bla = {
+	icon = intrigue_positive
+	owned_scheme_secrecy_add = 5
+	intrigue_scheme_resistance = 20
+	general_opinion = -5
+}
+
+frey_balanced_crossings_bla = {
+	icon = county_modifier_development_positive
+	development_growth_factor = 0.05
+	vassal_opinion = 3
+	travel_danger = -5
+}
+
+frey_favored_crossings_bla = {
+	icon = economy_positive
+	monthly_income = 0.30
+	vassal_opinion = -5
+}
+# =========================================================
+# House Mallister Modifiers
+# =========================================================
+
+mallister_coastal_watch_bla = {
+	icon = martial_positive
+	hostile_raid_time = 0.15
+	levy_reinforcement_rate = 0.05
+	coastal_advantage = 3
+}
+
+mallister_hardened_garrison_bla = {
+	icon = martial_positive
+	garrison_size = 0.10
+	defender_advantage = 3
+}
+
+mallister_salvaged_cargo_bla = {
+	icon = economy_positive
+	monthly_income = 0.25
+	development_growth_factor = 0.03
+}
+
+mallister_rekindled_watchfires_bla = {
+	icon = martial_positive
+	hostile_raid_time = 0.15
+	garrison_size = 0.05
+	travel_danger = -5
+}
+
+mallister_signal_network_bla = {
+	icon = intrigue_positive
+	intrigue_scheme_resistance = 15
+	enemy_hostile_scheme_success_chance_add = -5
+	short_reign_duration_mult = -0.05
+}
+
+mallister_seized_reaver_plunder_bla = {
+	icon = economy_positive
+	monthly_income = 0.30
+	monthly_martial_lifestyle_xp_gain_mult = 0.05
+}
+
+# =========================================================
+# HOUSE PIPER MODIFIERS
+# =========================================================
+
+piper_reckless_glory_bla = {
+	icon = martial_positive
+	knight_effectiveness_mult = 0.05
+	monthly_prestige = 0.15
+	controlled_province_advantage = 3
+}
+
+piper_measured_defense_bla = {
+	icon = martial_positive
+	defender_advantage = 3
+	monthly_prestige = 0.10
+}
+
+piper_songcourt_bla = {
+	icon = prestige_positive
+	court_grandeur_baseline_add = 2
+	same_culture_opinion = 5
+	monthly_prestige = 0.10
+}
+
+pinkmaiden_defiant_bla = {
+	icon = martial_positive
+	defender_advantage = 5
+	monthly_prestige = 0.20
+	vassal_opinion = 3
+}
+
+pinkmaiden_militia_bla = {
+	icon = martial_positive
+	levy_size = 0.10
+	monthly_county_control_growth_add = 0.20
+}
+
+piper_hard_wall_orders_bla = {
+	icon = county_modifier_control_positive
+	defender_advantage = 5
+	controlled_province_advantage = 5
+	monthly_prestige = 0.10
+}
+
+piper_courtly_favor_bla = {
+	icon = diplomacy_positive
+	monthly_prestige = 0.10
+	attraction_opinion = 5
+	court_grandeur_baseline_add = 1
+}
+
+piper_gallant_reputation_bla = {
+	icon = diplomacy_positive
+	monthly_prestige = 0.15
+	attraction_opinion = 8
+	diplomacy = 1
+}
+
+# =========================================================
+# House Mooton Modifiers
+# =========================================================
+
+mooton_busy_harbor_bla = {
+	icon = economy_positive
+	monthly_income = 0.25
+	development_growth_factor = 0.03
+	travel_danger = -5
+}
+
+mooton_famous_tourney_bla = {
+	icon = prestige_positive
+	monthly_prestige = 0.15
+	guest_opinion = 5
+	knight_effectiveness_mult = 0.03
+}
+
+mooton_cleaned_harbor_bla = {
+	icon = rat_positive
+	development_growth_factor = 0.05
+	general_opinion = 3
+	negate_health_penalty_add = 5
+}
+
+mooton_quieted_docks_bla = {
+	icon = dread_positive
+	dread_gain_mult = 0.10
+	monthly_income = 0.20
+	general_opinion = -5
+}
+
+mooton_favored_singer_bla = {
+	icon = social_positive
+	monthly_prestige = 0.10
+	guest_opinion = 10
+	courtier_opinion = 5
+}
+
+mooton_rebuilt_market_bla = {
+	icon = county_modifier_development_positive
+	development_growth_factor = 0.08
+	monthly_income = 0.20
+}
+
+mooton_higher_market_fees_bla = {
+	icon = county_modifier_development_negative
+	monthly_income = 0.35
+	general_opinion = -5
+	development_growth_factor = -0.03
+}
+
+mooton_traced_harbor_sickness_bla = {
+	icon = intrigue_positive
+	owned_scheme_secrecy_add = 5
+	monthly_learning_lifestyle_xp_gain_mult = 0.05
+	intrigue_scheme_resistance = 10
+}
+
+mooton_silenced_singer_bla = {
+	icon = dread_positive
+	dread_gain_mult = 0.10
+	monthly_piety = 0.05
+	guest_opinion = -5
+}
+
+# =========================================================
+# HOUSE JUSTMAN MODIFIERS
+# =========================================================
+
+
+justman_ancient_authority_bla = {
+	icon = legitimacy_positive
+	monthly_prestige = 0.20
+	monthly_dynasty_prestige_mult = 0.03
+	legitimacy_gain_mult = 0.10
+	vassal_opinion = 5
+}
+
+justman_peacemaker_bla = {
+	icon = diplomacy_positive
+	same_culture_opinion = 8
+	vassal_opinion = 5
+	monthly_prestige = 0.15
+}
+
+justman_lawgiver_bla = {
+	icon = county_modifier_control_positive
+	tyranny_loss_mult = 0.10
+	legitimacy_gain_mult = 0.10
+	vassal_opinion = 5
+	monthly_prestige = 0.15
+}
+
+justman_riverlord_authority_bla = {
+	icon = prestige_positive
+	short_reign_duration_mult = -0.10
+	monthly_prestige = 0.20
+	legitimacy_gain_mult = 0.05
+	same_culture_opinion = 5
+}
+
+justman_memory_of_fairmarket_bla = {
+	icon = learning_positive
+	monthly_learning_lifestyle_xp_gain_mult = 0.10
+	monthly_piety = 0.15
+	monthly_prestige = 0.10
+}
+
+justman_anti_ironborn_fervor_bla = {
+	icon = martial_positive
+	martial = 1
+	coastal_advantage = 5
+	monthly_prestige = 0.20
+	dread_gain_mult = 0.10
+}
+
+justman_crown_remembered_bla = {
+	icon = legitimacy_positive
+	monthly_prestige = 0.40
+	monthly_dynasty_prestige_mult = 0.05
+	legitimacy_gain_mult = 0.15
+	vassal_opinion = 5
+	same_culture_opinion = 10
+}
+
+justman_fair_judgment_bla = {
+	icon = county_modifier_opinion_positive
+	county_opinion_add = 5
+	monthly_county_control_growth_add = 0.25
+}
+
+justman_one_law_bla = {
+	icon = county_modifier_control_positive
+	development_growth_factor = 0.05
+	monthly_county_control_growth_add = 0.25
+	tax_mult = 0.05
+}
+
+justman_causeway_bla = {
+	icon = county_modifier_development_positive
+	development_growth_factor = 0.05
+	supply_limit_mult = 0.10
+	travel_danger = -5
+	tax_mult = 0.05
+}
+
+justman_toll_road_bla = {
+	icon = economy_positive
+	tax_mult = 0.10
+	development_growth_factor = 0.02
+	county_opinion_add = -3
+}
+
+justman_remembered_dead_bla = {
+	icon = piety_positive
+	county_opinion_add = 5
+	development_growth_factor = 0.03
+	monthly_county_control_growth_add = 0.15
+}
+
+justman_guarded_rivers_bla = {
+	icon = martial_positive
+	defender_advantage = 3
+	coastal_advantage = 3
+	monthly_prestige = 0.10
+}
+
+justman_river_king_claimant_bla = {
+	icon = prestige_positive
+	monthly_prestige = 0.30
+	vassal_opinion = 10
+	short_reign_duration_mult = -0.15
+}
+
+justman_riverlord_unifier_bla = {
+	icon = diplomacy_positive
+	monthly_legitimacy_add = 0.20
+	vassal_opinion = 15
+	diplomacy = 1
+}
+
+justman_humble_legacy_bla = {
+	icon = piety_positive
+	monthly_piety = 0.20
+	stress_loss_mult = 0.10
+	same_culture_opinion = 5
+}
+
+justman_cautious_restoration_bla = {
+	icon = diplomacy_positive
+	monthly_prestige = 0.15
+	legitimacy_gain_mult = 0.05
+	same_culture_opinion = 5
+}
+
+justman_detente_bla = {
+	icon = social_positive
+	same_culture_opinion = 5
+	vassal_opinion = 3
+	monthly_prestige = 0.10
+}
+
+justman_shared_patrols_bla = {
+	icon = county_modifier_control_positive
+	monthly_county_control_growth_add = 0.25
+	levy_reinforcement_rate = 0.05
+	travel_danger = -5
+}
+
+justman_river_compact_bla = {
+	icon = diplomacy_positive
+	vassal_opinion = 5
+	same_culture_opinion = 10
+	monthly_prestige = 0.20
+	legitimacy_gain_mult = 0.05
+}
+
+justman_forced_compact_bla = {
+	icon = dread_positive
+	dread_gain_mult = 0.10
+	vassal_opinion = -5
+	monthly_prestige = 0.15
+}
+
+# =========================================================
+# House Mudd Modifiers
+# =========================================================
+
+mudd_kings_hall_excavation_bla = {
+	icon = stewardship_positive
+	monthly_stewardship_lifestyle_xp_gain_mult = 0.05
+	build_gold_cost = -0.05
+	monthly_prestige = 0.10
+}
+
+mudd_preserved_old_stones_bla = {
+	icon = county_modifier_development_positive
+	county_opinion_add = 5
+	development_growth_factor = 0.03
+	monthly_county_control_growth_add = 0.15
+}
+
+mudd_bronze_spearhead_bla = {
+	icon = prestige_positive
+	monthly_prestige = 0.05
+	learning = 1
+}
+
+mudd_river_kings_horn_bla = {
+	icon = prestige_positive
+	monthly_prestige = 0.20
+	levy_reinforcement_rate = 0.05
+	knight_effectiveness_mult = 0.03
+}
+
+mudd_horn_of_banners_bla = {
+	icon = prestige_positive
+	monthly_prestige = 0.15
+	monthly_martial_lifestyle_xp_gain_mult = 0.05
+	vassal_opinion = 3
+}
+
+mudd_old_kings_remembered_bla = {
+	icon = prestige_positive
+	monthly_prestige = 0.30
+	monthly_dynasty_prestige_mult = 0.04
+	legitimacy_gain_mult = 0.10
+	same_culture_opinion = 5
+}
+
+mudd_reverent_heir_bla = {
+	icon = piety_positive
+	monthly_piety = 0.20
+	monthly_learning_lifestyle_xp_gain_mult = 0.05
+	stress_loss_mult = 0.05
+}
+
+mudd_trident_restorationist_bla = {
+	icon = prestige_positive
+	monthly_prestige = 0.35
+	legitimacy_gain_mult = 0.15
+	vassal_opinion = 5
+	dread_gain_mult = 0.05
+}
+
+mudd_rushbreaker_bla = {
+	icon = martial_positive
+	martial = 1
+	prowess = 4
+	monthly_prestige = 0.15
+}
+
+mudd_spearhead_display_bla = {
+	icon = prestige_positive
+	court_grandeur_baseline_add = 2
+	monthly_prestige = 0.15
+	monthly_dynasty_prestige_mult = 0.03
+}
+
+mudd_excavated_cairn_bla = {
+	icon = learning_positive
+	monthly_learning_lifestyle_xp_gain_mult = 0.05
+	monthly_prestige = 0.10
+}
+
+mudd_guardian_of_the_cairn_bla = {
+	icon = piety_positive
+	monthly_piety = 0.15
+	same_faith_opinion = 5
+}
+
+mudd_royal_memorial_bla = {
+	icon = prestige_positive
+	monthly_prestige = 0.20
+	legitimacy_gain_mult = 0.10
+	court_grandeur_baseline_add = 1
+}
+
+# =========================================================
+# Flood & River Modifiers
+# =========================================================
+
+riverlands_rich_floodplains_bla = {
+	icon = county_modifier_development_positive
+	development_growth_factor = 0.10
+	tax_mult = 0.05
+}
+
+riverlands_flooded_villages_bla = {
+	icon = county_modifier_development_negative
+	development_growth_factor = -0.10
+	tax_mult = -0.10
+	monthly_county_control_growth_factor = -0.10
+	travel_danger = 10
+}
+
+riverlands_river_trade_boom_bla = {
+	icon = economy_positive
+	development_growth_factor = 0.05
+	tax_mult = 0.10
+	travel_danger = -5
+}
+
+riverlands_drowned_roads_bla = {
+	icon = county_modifier_control_negative
+	monthly_county_control_growth_factor = -0.05
+	travel_danger = 15
+	hostile_raid_time = 0.10
+}
+
+riverlands_dead_given_rites_bla = {
+	icon = social_positive
+	county_opinion_add = 5
+	monthly_county_control_growth_factor = 0.05
+}
+
+riverlands_mass_graves_bla = {
+	icon = county_modifier_control_negative
+	county_opinion_add = -5
+	monthly_county_control_growth_factor = -0.05
+	travel_danger = 10
+}
+
+riverlands_war_relics_bla = {
+	icon = prestige_positive
+	monthly_prestige = 0.10
+	knight_effectiveness_mult = 0.03
+}
+
+riverlands_remembered_dead_bla = {
+	icon = piety_positive
+	development_growth_factor = 0.05
+	owned_legend_spread_mult = 0.05
+}
+
+riverlands_free_crossings_bla = {
+	icon = county_modifier_development_positive
+	development_growth_factor = 0.05
+	county_opinion_add = 5
+	tax_mult = -0.05
+}
+
+riverlands_oppressive_tolls_bla = {
+	icon = county_modifier_development_negative
+	tax_mult = 0.10
+	county_opinion_add = -10
+	development_growth_factor = -0.05
+}
+
+riverlands_militarized_crossing_bla = {
+	icon = county_modifier_control_positive
+	monthly_county_control_growth_factor = 0.10
+	travel_danger = -10
+	levy_reinforcement_rate = 0.05
+}
+
+riverlands_smuggler_routes_bla = {
+	icon = county_modifier_corruption_negative
+	tax_mult = 0.05
+	owned_scheme_secrecy_add = 5
+	travel_danger = 10
+}
+
+riverlands_dark_rumors_bla = {
+	icon = county_modifier_control_negative
+	county_opinion_add = -5
+	monthly_county_control_growth_factor = -0.05
+}
+
+riverlands_river_inquiries_bla = {
+	icon = intrigue_positive
+	monthly_learning_lifestyle_xp_gain_mult = 0.05
+	intrigue_scheme_resistance = 10
+}
+
+riverlands_frightened_smallfolk_bla = {
+	icon = social_negative
+	travel_danger = 10
+	county_opinion_add = -5
+}
+
+riverlands_river_watch_bla = {
+	icon = county_modifier_control_positive
+	monthly_county_control_growth_factor = 0.05
+	levy_reinforcement_rate = 0.05
+}
+# =========================================================
+# Hedge Knight Modifiers
+# =========================================================
+
+riverlands_wandering_knights_bla = {
+	icon = martial_positive
+	knight_effectiveness_mult = 0.03
+	knight_limit = 1
+}
+
+riverlands_hard_searches_bla = {
+	icon = county_modifier_control_positive
+	intrigue_scheme_resistance = 15
+	monthly_county_control_growth_factor = 0.05
+}
+
+# =========================================================
+# Feud Modifiers
+# =========================================================
+
+riverlands_border_tensions_bla = {
+	icon = county_modifier_control_negative
+	vassal_opinion = -5
+	monthly_county_control_growth_factor = -0.05
+	owned_scheme_secrecy_add = 5
+}
+
+blackwood_bracken_rekindled_hatred_bla = {
+	icon = intrigue_negative
+	monthly_prestige = 0.15
+	owned_hostile_scheme_success_chance_add = 5
+	army_damage_mult = 0.03
+}
+
+blackwood_bracken_fragile_truce_bla = {
+	icon = diplomacy_positive
+	vassal_opinion = 3
+	stress_loss_mult = 0.05
+	monthly_county_control_growth_factor = 0.05
+}
+
+blackwood_bracken_secret_feud_bla = {
+	icon = intrigue_positive
+	owned_hostile_scheme_success_chance_add = 10
+	owned_scheme_secrecy_add = 5
+	intrigue = 1
+}
+
+blackwood_bracken_old_gods_fervor_bla = {
+	icon = piety_positive
+	monthly_piety = 0.15
+	same_faith_opinion = 5
+	monthly_learning_lifestyle_xp_gain_mult = 0.05
+}
+
+blackwood_bracken_andal_righteousness_bla = {
+	icon = county_modifier_control_positive
+	monthly_prestige = 0.20
+	monthly_county_control_growth_factor = 0.05
+	vassal_opinion = 3
+}
+
+blackwood_bracken_border_patrols_bla = {
+	icon = county_modifier_control_positive
+	monthly_county_control_growth_factor = 0.08
+	garrison_size = 0.05
+	travel_danger = -5
+}
+
+blackwood_bracken_border_victory_bla = {
+	icon = martial_positive
+	monthly_prestige = 0.20
+	levy_reinforcement_rate = 0.05
+	martial = 1
+}
+
+blackwood_bracken_dueling_reputation_bla = {
+	icon = prowess_positive
+	general_opinion = -3
+	monthly_prestige = 0.25
+	prowess = 1
+}
+
+blackwood_bracken_forced_truce_bla = {
+	icon = diplomacy_positive
+	short_reign_duration_mult = -0.10
+	vassal_opinion = 5
+	stress_gain_mult = 0.05
+}
+
+blackwood_bracken_open_raids_bla = {
+	icon = county_modifier_control_negative
+	army_toughness_mult = 0.03
+	monthly_prestige = 0.25
+	monthly_county_control_growth_factor = -0.08
+}
+
+blackwood_bracken_burning_borderlands_bla = {
+	icon = 	county_modifier_development_negative
+	development_growth_factor = -0.10
+	monthly_county_control_growth_factor = -0.10
+	county_opinion_add = -5
+}
+
+blackwood_bracken_wearied_peace_bla = {
+	icon = piety_positive
+	stress_loss_mult = 0.10
+	monthly_piety = 0.10
+	same_culture_opinion = 5
+}
+
+blackwood_bracken_legacy_of_hatred_bla = {
+	icon = family_positive
+	monthly_dynasty_prestige = 0.10
+	intrigue_scheme_resistance = 10
+	martial = 1
+}
+
+blackwood_bracken_secret_networks_bla = {
+	icon = intrigue_positive
+	owned_scheme_secrecy_add = 8
+	enemy_hostile_scheme_success_chance_add = -10
+	intrigue = 1
+}
+blackwood_bracken_failed_champion_bla = {
+	icon = martial_negative
+	monthly_prestige = -0.20
+	knight_effectiveness_mult = -0.05
+}
+
+# =========================================================
+# House Vance Modifiers
+# =========================================================
+
+vance_dragon_knights_modifier = {
+	icon = martial_positive
+	knight_effectiveness_mult = 0.08
+	knight_limit = 1
+	monthly_martial_lifestyle_xp_gain_mult = 0.05
+}
+
+liane_golden_eyes_modifier = {
+	icon = intrigue_positive
+	intrigue = 1
+	owned_scheme_secrecy_add = 10
+	scheme_discovery_chance_mult = 0.05
+}
+
+vance_righteous_rule_modifier = {
+	icon = county_modifier_control_positive
+	county_opinion_add = 10
+	monthly_county_control_growth_factor = 0.10
+	tax_mult = -0.05
+}
+
+vance_gods_eye_piety_modifier = {
+	icon = piety_positive
+	monthly_piety = 0.15
+	monthly_learning_lifestyle_xp_gain_mult = 0.05
+	stress_loss_mult = -0.05
+}
+
+vance_hardened_border_tolls_bla = {
+	icon = social_negative
+	monthly_income = 0.35
+	travel_danger = 5
+	general_opinion = -5
+}
+
+vance_ordered_border_trade_bla = {
+	icon = economy_positive
+	monthly_income = 0.20
+	development_growth_factor = 0.05
+	men_at_arms_maintenance = -0.03
+}
+
+vance_rallying_support_bla = {
+	icon = prestige_positive
+	monthly_prestige = 0.15
+	monthly_martial_lifestyle_xp_gain_mult = 0.05
+}
+
+vance_gathered_river_support_bla = {
+	icon = martial_positive
+	levy_reinforcement_rate = 0.05
+	vassal_opinion = 5
+	knight_limit = 1
+}
+
+vance_isolated_claimant_bla = {
+	icon = diplomacy_negative
+	vassal_opinion = -5
+	monthly_income = -0.20
+}
+
+vance_family_reconciliation_bla = {
+	icon = diplomacy_positive
+	vassal_opinion = 5
+	stress_loss_mult = 0.10
+	monthly_prestige = 0.25
+}
+
+vance_seized_westerland_caravan_bla = {
+	icon = martial_positive
+	monthly_income = 0.25
+	monthly_martial_lifestyle_xp_gain_mult = 0.05
+	travel_danger = 5
+}
+
+vance_exposed_border_extortion_bla = {
+	icon = economy_negative
+	vassal_opinion = -5
+	general_opinion = -5
+	monthly_income = -0.20
+}
+
+vance_signal_fires_modifier = {
+	icon = county_modifier_development_positive
+	development_growth_factor = 0.08
+	travel_danger = -10
+	build_speed = 0.05
+}
+
+# =========================================================
+# Generic Harrenhal Modifiers
+# =========================================================
+
+harrenhal_grand_feasts_bla = {
+	icon = feast_positive
+	court_grandeur_baseline_add = 5
+	same_culture_opinion = 5
+}
+
+harrenhal_shuttered_halls_bla = {
+	icon = prestige_negative
+	build_gold_cost = -0.05
+	stress_loss_mult = 0.05
+	monthly_prestige = -0.05
+}
+
+harrenhal_managed_decay_bla = {
+	icon = county_modifier_control_positive
+	domain_tax_mult = 0.05
+	monthly_county_control_growth_factor = 0.05
+}
+
+harrenhal_whispers_in_dark_bla = {
+	icon = intrigue_positive
+	owned_scheme_secrecy_add = 10
+	owned_hostile_scheme_success_chance_add = 10
+	dread_gain_mult = 0.05
+}
+
+harrenhal_dragonfire_studies_bla = {
+	icon = learning_positive
+	monthly_learning_lifestyle_xp_gain_mult = 0.05
+	monthly_prestige = 0.15
+}
+
+harrenhal_blackened_memory_bla = {
+	icon = dread_positive
+	dread_gain_mult = 0.10
+	monthly_prestige = 0.10
+	monthly_county_control_growth_factor = 0.05
+}
+
+harrenhal_obsessed_with_fire_bla = {
+	icon = learning_positive
+	monthly_learning_lifestyle_xp_gain_mult = 0.05
+	stress_gain_mult = 0.10
+	dread_gain_mult = 0.05
+}
+
+harrenhal_feared_presence_bla = {
+	icon = dread_positive
+	dread_gain_mult = 0.10
+	dread_baseline_add = 5
+	same_culture_opinion = -10
+}
+
+harrenhal_guarded_towers_bla = {
+	icon = county_modifier_control_positive
+	intrigue_scheme_resistance = 10
+	additional_fort_level = 2
+	monthly_county_control_growth_factor = 0.05
+}
+
+harrenhal_sleepless_nights_bla = {
+	icon = stress_negative
+	intrigue = 1
+	stress_gain_mult = 0.15
+}
+
+harrenhal_listened_to_whispers_bla = {
+	icon = piety_positive
+	monthly_piety = 0.15
+	monthly_learning_lifestyle_xp_gain_mult = 0.05
+}
+
+harrenhal_restoration_efforts_bla = {
+	icon = county_modifier_development_positive
+	castle_holding_build_gold_cost = -0.10
+	development_growth_factor = 0.05
+}
+
+harrenhal_abandoned_wings_bla = {
+	icon = prestige_negative
+	build_gold_cost = -0.05
+	stress_loss_mult = 0.10
+	monthly_prestige = -0.10
+}
+
+harrenhal_managed_reconstruction_bla = {
+	icon = stewardship_positive
+	domain_tax_mult = 0.05
+	build_speed = -0.05
+}
+
+harrenhal_forced_labor_bla = {
+	icon = dread_positive
+	dread_gain_mult = 0.10
+	build_gold_cost = -0.10
+}
+
+harrenhal_defiant_lord_bla = {
+	icon = prestige_positive
+	monthly_prestige = 0.25
+	tyranny_gain_mult = -0.05
+}
+
+harrenhal_humbled_before_history_bla = {
+	icon = piety_positive
+	monthly_piety = 0.20
+	stress_loss_mult = 0.10
+}
+
+harrenhal_obsession_with_legacy_bla = {
+	icon = prestige_positive
+	monthly_prestige = 0.20
+	stress_gain_mult = 0.10
+}
+
+harrenhal_dark_reputation_bla = {
+	icon = dread_positive
+	dread_gain_mult = 0.10
+	same_faith_opinion = -5
+}
+
+harrenhal_burned_memory_bla = {
+	icon = piety_positive
+	monthly_piety = 0.15
+	stress_gain_mult = 0.05
+}
+
+harrenhal_fire_fascination_bla = {
+	icon = dread_positive
+	monthly_prestige = 0.20
+	dread_gain_mult = 0.05
+}
+
+harrenhal_dragonfire_obsession_bla = {
+	icon = learning_positive
+	monthly_learning_lifestyle_xp_gain_mult = 0.10
+	stress_gain_mult = 0.15
+}
+
+harrenhal_silent_godswood_bla = {
+	icon = piety_positive
+	monthly_piety = 0.20
+	stress_loss_mult = 0.10
+}
+
+harrenhal_private_godswood_bla = {
+	icon = county_modifier_control_positive
+	stress_loss_mult = 0.05
+	monthly_county_control_growth_factor = 0.05
+}
+
+harrenhal_dark_devotion_bla = {
+	icon = piety_positive
+	monthly_piety = 0.15
+	dread_gain_mult = 0.05
+}
+
+harrenhal_whispering_faces_bla = {
+	icon = stress_negative
+	intrigue = 1
+	stress_gain_mult = 0.15
+}
+
+# =========================================================
+# Lothston Modifiers
+# =========================================================
+
+lothston_hidden_passages_bla = {
+	icon = intrigue_positive
+	owned_hostile_scheme_success_chance_add = 10
+	intrigue_scheme_resistance = 15
+}
+
+lothston_dark_fascination_bla = {
+	icon = dread_positive
+	dread_gain_mult = 0.10
+	stress_loss_mult = 0.05
+}
+
+lothston_whispers_below_bla = {
+	icon = stress_negative
+	monthly_lifestyle_xp_gain_mult = 0.15
+	stress_gain_mult = 0.10
+}
+
+lothston_dark_legacy_bla = {
+	icon = dread_positive
+	monthly_prestige = 0.20
+	dread_gain_mult = 0.10
+}
+
+lothston_rejected_rumors_bla = {
+	icon = stress_negative
+	same_culture_opinion = 5
+	stress_gain_mult = 0.05
+}
+
+lothston_obsessed_with_danelle_bla = {
+	icon = stress_negative
+	intrigue = 2
+	stress_gain_mult = 0.20
+}
+
+popular_rumor_denial = {
+	icon = county_modifier_opinion_positive
+	county_opinion_add = 10
+}
+
+# =========================================================
+# Whent Modifiers
+# =========================================================
+
+whent_tourney_revival_bla = {
+	icon = prestige_positive
+	monthly_prestige = 0.25
+	same_culture_opinion = 5
+}
+
+whent_harrenhal_tourney_grounds_bla = {
+	icon = county_modifier_development_positive
+	county_opinion_add = 10
+	development_growth_factor = 0.05
+}
+
+whent_fading_grandeur_bla = {
+	icon = stress_positive
+	build_gold_cost = -0.10
+	stress_loss_mult = 0.10
+}
+
+whent_quiet_acceptance_bla = {
+	icon = stress_positive
+	monthly_piety = 0.15
+	stress_loss_mult = 0.10
+}
+
+whent_restored_halls_bla = {
+	icon = county_modifier_development_positive
+	development_growth_factor = 0.05
+	monthly_prestige = 0.15
+}
+
+whent_haunted_memories_bla = {
+	icon = stress_negative
+	learning = 1
+	stress_gain_mult = 0.10
+}
+
+whent_practical_restoration_bla = {
+	icon = economy_positive
+	build_gold_cost = -0.05
+	domain_tax_mult = 0.05
+}
+
+# =========================================================
+# Strong Modifiers
+# =========================================================
+
+strong_legacy_of_fire_bla = {
+	icon = prestige_positive
+	monthly_prestige = 0.20
+	knight_effectiveness_mult = 0.05
+}
+
+strong_dragonfire_fixation_bla = {
+	icon = stress_negative
+	martial = 1
+	stress_gain_mult = 0.10
+}
+
+strong_ashen_histories_bla = {
+	icon = learning_positive
+	monthly_learning_lifestyle_xp_gain_mult = 0.05
+	monthly_prestige = 0.10
+}
+
+strong_knightly_expectations_bla = {
+	icon = martial_positive
+	knight_effectiveness_mult = 0.05
+	same_faith_opinion = 5
+}
+
+strong_harsh_discipline_bla = {
+	icon = dread_positive
+	dread_gain_mult = 0.10
+	army_maintenance_mult = -0.10
+}
+
+strong_tarnished_reputation_bla = {
+	icon = prestige_negative
+	monthly_prestige = -0.10
+	intrigue = 1
+}
+
+strong_victorious_champion_bla = {
+	icon = martial_positive
+	monthly_prestige = 0.15
+	knight_effectiveness_mult = 0.05
+}
+
+strong_failed_champion_bla = {
+	icon = martial_negative
+	monthly_prestige = -0.15
+	knight_effectiveness_mult = -0.05
+}
+
+# =========================================================
+# Rare Escalation Modifiers
+# =========================================================
+
+harrenhal_rebuilding_ruins_bla = {
+	icon = county_modifier_development_positive
+	build_gold_cost = -0.10
+	development_growth_factor = 0.05
+}
+
+harrenhal_abandoned_sections_bla = {
+	icon = martial_negative
+	additional_fort_level = -1
+	stress_loss_mult = 0.10
+}
+
+harrenhal_endless_decay_bla = {
+	icon = stress_negative
+	stress_gain_mult = 0.15
+	build_gold_cost = 0.05
+}
+
+harrenhal_forced_reconstruction_bla = {
+	icon = dread_positive
+	dread_gain_mult = 0.10
+	build_gold_cost = -0.10
+}
+
+harrenhal_hidden_passages_sealed_bla = {
+	icon = intrigue_positive
+	intrigue_scheme_resistance = 15
+	monthly_county_control_growth_factor = 0.05
+}
+
+harrenhal_disturbing_discoveries_bla = {
+	icon = stress_negative
+	stress_gain_mult = 0.15
+	monthly_learning_lifestyle_xp_gain_mult = 0.05
+}
+
+harrenhal_rule_through_fear_bla = {
+	icon = dread_positive
+	dread_gain_mult = 0.15
+	same_culture_opinion = -5
+}
+
+harrenhal_whispers_growing_bla = {
+	icon = stress_negative
+	intrigue = 1
+	stress_gain_mult = 0.10
+}
+
+harrenhal_silenced_rumors_bla = {
+	icon = intrigue_positive
+	owned_hostile_scheme_success_chance_add = 10
+	tyranny_gain_mult = -0.05
+}
+
+harrenhal_dragon_dreams_bla = {
+	icon = learning_positive
+	monthly_learning_lifestyle_xp_gain_mult = 0.10
+	stress_gain_mult = 0.10
+}
+
+harrenhal_denied_the_flames_bla = {
+	icon = piety_positive
+	monthly_piety = 0.15
+	stress_loss_mult = 0.05
+}
+
+harrenhal_consumed_by_dragonfire_bla = {
+	icon = stress_negative
+	martial = 1
+	stress_gain_mult = 0.15
+}
+
+harrenhal_fireborn_ambition_bla = {
+	icon = dread_positive
+	knight_effectiveness_mult = 0.05
+	dread_gain_mult = 0.10
+}
+
+harrenhal_public_devotion_bla = {
+	icon = piety_positive
+	monthly_piety = 0.20
+	same_faith_opinion = 10
+}
+
+harrenhal_defied_the_curse_bla = {
+	icon = prestige_positive
+	monthly_prestige = 0.25
+	stress_gain_mult = 0.05
+}
+
+harrenhal_consumed_by_paranoia_bla = {
+	icon = stress_negative
+	intrigue_scheme_resistance = 25
+	stress_gain_mult = 0.15
+}
+
+harrenhal_studied_the_curse_bla = {
+	icon = learning_positive
+	learning = 1
+	monthly_intrigue_lifestyle_xp_gain_mult = 0.05
+}
+
+harrenhal_ancient_discovery_bla = {
+	icon = learning_positive
+	monthly_prestige = 0.20
+	monthly_learning_lifestyle_xp_gain_mult = 0.05
+}
+
+harrenhal_disturbing_relics_bla = {
+	icon = stress_negative
+	dread_gain_mult = 0.10
+	stress_gain_mult = 0.10
+}
+
+harrenhal_sealed_the_depths_bla = {
+	icon = county_modifier_control_positive
+	intrigue_scheme_resistance = 15
+	monthly_county_control_growth_factor = 0.10
+}
+
+harrenhal_whispers_beneath_stone_bla = {
+	icon = stress_negative
+	monthly_learning_lifestyle_xp_gain_mult = 0.10
+	stress_gain_mult = 0.15
+}
+
+harrenhal_looted_vaults_bla = {
+	icon = economy_positive
+	monthly_income_mult = 0.10
+	same_culture_opinion = -5
+}
+
+# =========================================================
+# Trade & Travel Modifiers
+# =========================================================
+
+riverlands_mill_taxes_bla = {
+	icon = economy_positive
+	tax_mult = 0.05
+	county_opinion_add = -5
+}
+
+riverlands_fair_water_rights_bla = {
+	icon = county_modifier_development_positive
+	development_growth_factor = 0.05
+	county_opinion_add = 5
+}
+
+riverlands_corrupt_millers_bla = {
+	icon = county_modifier_control_negative
+	tax_mult = 0.10
+	monthly_county_control_growth_factor = -0.05
+}
+
+riverlands_braavosi_trade_bla = {
+	icon = economy_positive
+	tax_mult = 0.10
+	development_growth_factor = 0.05
+}
+
+riverlands_foreign_merchants_bla = {
+	icon = county_modifier_development_positive
+	development_growth_factor = 0.10
+	monthly_county_control_growth_factor = 0.05
+}
+
+riverlands_smuggler_barges_bla = {
+	icon = county_modifier_corruption_negative
+	tax_mult = 0.15
+	travel_danger = 10
+	owned_scheme_secrecy_add = 5
+}
+
+# =========================================================
+# Trident Council Modifiers
+# =========================================================
+
+trident_council_mediator_bla = {
+	icon = diplomacy_positive
+	vassal_opinion = 5
+	monthly_diplomacy_lifestyle_xp_gain_mult = 0.05
+}
+
+trident_rebuilding_relief_bla = {
+	icon = economy_positive
+	county_opinion_add = 10
+	development_growth_factor = 0.05
+	tax_mult = -0.05
+}
+
+trident_fair_toll_ruling_bla = {
+	icon = economy_positive
+	vassal_opinion = 5
+	monthly_stewardship_lifestyle_xp_gain_mult = 0.05
+}
+
+trident_toll_compromise_bla = {
+	icon = economy_positive
+	monthly_income = 0.20
+	owned_scheme_secrecy_add = 5
+}
+
+trident_trade_expansion_bla = {
+	icon = county_modifier_development_positive
+	monthly_income = 0.20
+	development_growth_factor = 0.05
+	travel_danger = -5
+}
+
+trident_heavy_trade_tariffs_bla = {
+	icon = county_modifier_development_negative
+	monthly_income = 0.35
+	vassal_opinion = -5
+	development_growth_factor = -0.03
+}
+
+trident_crossing_profits_bla = {
+	icon = intrigue_positive
+	monthly_income = 0.25
+	owned_scheme_secrecy_add = 5
+}
+
+trident_smuggler_crackdown_bla = {
+	icon = county_modifier_control_positive
+	monthly_county_control_growth_factor = 0.10
+	dread_gain_mult = 0.05
+}
+
+trident_smuggling_tolerated_bla = {
+	icon = county_modifier_control_negative
+	monthly_income = 0.25
+	monthly_county_control_growth_factor = -0.05
+}
+
+trident_river_patrols_bla = {
+	icon = martial_positive
+	defender_advantage = 3
+	hostile_raid_time = 0.10
+	travel_danger = -5
+}
+
+trident_reaver_warnings_bla = {
+	icon = diplomacy_positive
+	dread_gain_mult = 0.10
+	monthly_prestige = 0.10
+}
+
+trident_roads_secured_bla = {
+	icon = county_modifier_control_positive
+	monthly_county_control_growth_factor = 0.10
+	travel_danger = -5
+}
+
+trident_hanged_broken_men_bla = {
+	icon = dread_positive
+	dread_gain_mult = 0.10
+	monthly_county_control_growth_factor = 0.10
+	general_opinion = -5
+}
+
+trident_watchtowers_repaired_bla = {
+	icon = martial_positive
+	defender_advantage = 3
+	garrison_size = 0.05
+}
+
+trident_watchtower_levies_ignored_bla = {
+	icon = martial_negative
+	monthly_income = 0.20
+	levy_reinforcement_rate = -0.05
+	travel_danger = 5
+}
+
+trident_hard_authority_bla = {
+	icon = county_modifier_control_positive
+	dread_gain_mult = 0.10
+	vassal_opinion = -5
+	monthly_county_control_growth_factor = 0.10
+}
+
+trident_lawful_arbitration_bla = {
+	icon = learning_positive
+	vassal_opinion = 5
+	monthly_learning_lifestyle_xp_gain_mult = 0.05
+	monthly_piety = 0.05
+}
+
+trident_bought_judgment_bla = {
+	icon = intrigue_positive
+	monthly_income = 0.20
+	owned_scheme_secrecy_add = 5
+	vassal_opinion = -5
+}
+
+trident_ordered_river_law_bla = {
+	icon = county_modifier_control_positive
+	monthly_county_control_growth_factor = 0.10
+	vassal_opinion = 5
+}
+
+trident_forced_obedience_bla = {
+	icon = county_modifier_control_positive
+	dread_gain_mult = 0.10
+	monthly_county_control_growth_factor = 0.15
+	general_opinion = -5
+}
+
+# =========================================================
+# Crossroads Inn Modifiers
+# =========================================================
+
+crossroads_travelers_tales_bla = {
+	icon = learning_positive
+	monthly_learning_lifestyle_xp_gain_mult = 0.05
+	monthly_prestige = 0.10
+}
+
+crossroads_well_informed_bla = {
+	icon = diplomacy_positive
+	monthly_diplomacy_lifestyle_xp_gain_mult = 0.05
+	owned_scheme_secrecy_add = 5
+}
+
+crossroads_hedge_knight_stories_bla = {
+	icon = martial_positive
+	monthly_martial_lifestyle_xp_gain_mult = 0.05
+	knight_effectiveness_mult = 0.03
+}
+
+# =========================================================
+# Oldstones Modifiers
+# =========================================================
+
+oldstones_royal_crypts_discovered_bla = {
+	icon = learning_positive
+	monthly_prestige = 0.35
+	monthly_dynasty_prestige_mult = 0.04
+	legitimacy_gain_mult = 0.10
+	monthly_learning_lifestyle_xp_gain_mult = 0.10
+}
+
+oldstones_royal_crypts_county_bla = {
+	icon = county_modifier_development_positive
+	development_growth_factor = 0.10
+	county_opinion_add = 5
+	monthly_county_control_growth_add = 0.25
+}
+
+oldstones_heirs_of_the_river_kings_bla = {
+	icon = prestige_positive
+	monthly_prestige = 0.50
+	monthly_dynasty_prestige_mult = 0.05
+	legitimacy_gain_mult = 0.15
+	vassal_opinion = 8
+	riverman_main_opinion = 10
+}
+
+oldstones_tombs_undisturbed_modifier = {
+	icon = piety_positive
+	county_opinion_add = 5
+	monthly_county_control_growth_add = 0.20
+}

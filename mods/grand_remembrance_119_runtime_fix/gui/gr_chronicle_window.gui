@@ -16,7 +16,7 @@ window = {
 	size = { 650 940 }
 	layer = windows_layer
 
-	visible = "[And(GetPlayer.IsValid, GetScriptedGui('gr_chronicle_window').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End ))]"
+	visible = "[GetGlobalVariable('gr_chronicle_window_open').IsSet]"
 
 	allow_outside = yes
 	movable = yes

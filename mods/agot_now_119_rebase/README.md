@@ -21,7 +21,23 @@ This whole-file rebase preserves the parent logic while:
 - using the existing `blackwater_change` title-change scope for Great Fork
   instead of the nonexistent `great_fork_change`; and
 - correcting the dummy Great Fork title's invalid `c_great_for` capital
-  reference to `c_great_fork`.
+  reference to `c_great_fork`;
+- making Summerhall candidate comparisons optional while the events search for a
+  second or third eligible family member, rather than dereferencing an unset
+  saved scope; and
+- redeclaring `namespace = agot_coa_events` in NOW's separate personal-COA event
+  file, without which CK3 rejects `agot_coa_events.0003` and leaves its three
+  calling decisions with a missing event.
+
+The Summerhall and personal-COA event overrides are generated from the current
+NOW source by:
+
+```sh
+scripts/generate-agot-playset-runtime-fixes.py
+```
+
+The generator checks all 39 candidate comparisons and stops when a NOW update
+invalidates the source assumptions.
 
 Recompare this file with NOW after every Workshop update.
 

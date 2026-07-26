@@ -1,0 +1,179 @@
+﻿namespace = artifact
+
+artifact.0031 = {
+	scope = artifact
+	hidden = yes
+
+	immediate = {
+		save_scope_as = this_artifact
+		if = {
+			limit = {
+				has_variable = artifact_succession_title #Is this an artifact that should follow a title?
+				var:artifact_succession_title = { is_title_created = yes } #Does the title the artifact should follow exist?
+				exists = var:artifact_succession_title.previous_holder
+				scope:old_owner = var:artifact_succession_title.previous_holder #Is the old owner of the artifact also the holder of the title the artifact should follow?
+				NOR = {
+					AND = {
+						has_variable = banner_dynasty
+						var:banner_dynasty != scope:owner.dynasty
+					}
+					AND = {
+						has_variable = banner_house
+						var:banner_house != scope:owner.house
+					}
+				}
+			}
+			var:artifact_succession_title = {
+				holder = {
+					save_scope_as = new_owner
+				}
+			}
+			set_owner = { #The artifact goes to the heir to the title it should follow. In a fraction of a tick this will be the new title holder.
+				target = scope:new_owner
+				history = {
+					type = inherited
+					recipient = scope:new_owner
+				}
+			}
+		}
+		else_if = {
+			limit = { exists = var:banner_house.house_head }
+			set_owner = {
+				target = var:banner_house.house_head
+				history = {
+					type = inherited
+					recipient = var:banner_house.house_head
+				}
+			}
+		}
+		else_if = { #this effect fires before the dynasty head change, but after the scope:old_owner death, so scope:old_owner can be still a dynast
+			limit = { exists = var:banner_dynasty.dynast }
+			if = {
+				limit = {
+					scope:old_owner != var:banner_dynasty.dynast
+				}
+				var:banner_dynasty.dynast = { save_scope_as = new_banner_owner }
+			}
+			else = { #hence this
+				scope:old_owner.house.house_head = {
+					save_scope_as = new_banner_owner
+				}
+			}
+			set_owner = {
+				target = scope:new_banner_owner
+				history = {
+					type = inherited
+					recipient = scope:new_banner_owner
+				}
+			}
+		}
+		if = {
+			limit = {
+				NOR = {
+					#An equipped court artifact of previous owner
+					has_variable = equipped_court_succession
+					#A historicool artifact
+					has_variable = historical_unique_artifact
+					#Inherited with special title
+					has_variable = artifact_succession_title
+					#Inherited from close relative
+					scope:old_owner = { is_close_family_of = scope:owner }
+					#Inherited by election
+					AND = {
+						exists = scope:old_owner.primary_title
+						scope:old_owner.primary_title = { has_title_law_flag = elective_succession_law }
+					}
+					# Succession caused the heir to change primary
+					trigger_if = {
+						limit = { exists = scope:old_primary }
+						scope:old_primary = scope:owner.primary_title
+					}
+					trigger_else = {
+						always = yes
+					}
+				}
+			}
+			if = {
+				limit = {
+					scope:old_owner = {
+						OR = {
+							is_close_or_extended_family_of = scope:owner
+							is_great_grandchild_of = scope:owner
+							is_great_grandparent_of = scope:owner
+						}
+					}
+					artifact_durability > 1 # We want to avoid destroying an artifact with an already low durability
+				}
+				# Remove 50% of remaining durability
+				add_durability = {
+					value = artifact_durability
+					multiply = -0.50
+				}
+			}
+			else_if = {
+				limit = {
+					NOT = { has_variable = artifact_succession_title }
+				}
+				random_list = {
+					25 = {
+						# Remove 50% of remaining durability
+						add_durability = {
+							value = artifact_durability
+							multiply = -0.50
+						}
+					}
+					25 = {
+						# Remove 75% of remaining durability
+						add_durability = {
+							value = artifact_durability
+							multiply = -0.75
+						}
+					}
+					50 = {
+						# Remove 100% of remaining durability (do not destroy yet, will cause errors!)
+						set_variable = destroy_me
+					}
+				}
+			}
+		}
+		# Cleanup variables of equipped court artifacts
+		if = {
+			limit = {
+				has_variable = equipped_court_succession
+			}
+			remove_variable = equipped_court_succession
+		}
+		if = {
+			# If the artifact has no durability left, destroy it now.
+			limit = {
+				OR = {
+					exists = var:destroy_me
+					artifact_durability <= 0
+				}
+			}
+			destroy_artifact = root
+			# NOTE: We must not run ANY script after we destroy an artifact, or we will cause errors
+		}
+		else_if = {
+			limit = {
+				NAND = {
+					exists = scope:owner.last_played_character
+					scope:owner.last_played_character = scope:old_owner
+				}
+			}
+			scope:owner = {
+				send_interface_toast = {
+					type = msg_artifact_gained
+					right_icon = scope:this_artifact
+				}
+			}
+			#AGOT Disabled
+			# hidden_effect = {
+			# 	if = {
+			# 		limit = { has_variable = desecrated_artifact_var }
+			# 		remove_variable = desecrated_artifact_var
+			# 	}
+			# }
+		}
+	}
+}

@@ -1,0 +1,183 @@
+﻿yearly_playable_pulse = {
+	on_actions = {
+		power_consolidation_pulse
+		sc_ruler_notification_pulse
+	}
+}
+
+sc_ruler_notification_pulse = {
+	trigger = {
+		is_landed = yes
+		highest_held_title_tier >= tier_kingdom
+		is_eligible_for_succession_crisis = yes
+		NOT = { has_character_flag = active_succession_crisis }
+		NOT = { has_character_flag = sc_pc_ruler_notified }
+		exists = primary_heir
+		# Heir qualifies if adult
+		primary_heir = {
+			is_eligible_for_succession_crisis = yes
+			age > 16
+			age < 21
+			NOT = { has_character_flag = player_not_interested }
+		}
+	}
+	effect = {
+		trigger_event = succession_crisis_ruler_event.0003
+		add_character_flag = sc_pc_ruler_notified
+	}
+}
+
+power_consolidation_pulse = {
+	trigger = {
+		is_landed = yes
+		highest_held_title_tier >= tier_kingdom
+		is_travelling = no
+		is_eligible_for_succession_crisis = yes
+		NOT = { has_character_flag = active_succession_crisis }
+		exists = primary_heir
+		primary_heir = {
+			NOT = { has_character_flag = active_succession_crisis }
+			NOT = { is_liege_or_above_of = root }
+		}
+		any_vassal = {
+			NOT = { has_character_flag = pledged_to_heir }
+			NOT = { has_character_flag = pledged_to_claimant }
+		}
+		OR = {
+			# Heir qualifies if adult
+			primary_heir = {
+				is_eligible_for_succession_crisis = yes
+				is_travelling = no
+				age >= 16
+				NOT = { has_character_flag = player_not_interested }
+				NOT = { has_character_flag = already_asked }
+				NOT = { is_liege_or_above_of = root }
+			}
+			# OR any claimant qualifies if adult
+			primary_title = {
+				any_claimant = {
+					is_eligible_crisis_claimant = yes
+					is_travelling = no
+					age >= 16
+					is_eligible_for_succession_crisis = yes
+					NOT = { has_character_flag = already_asked }
+					NOT = { this = root.primary_heir }
+					NOT = { is_liege_or_above_of = root }
+				}
+			}
+		}
+	}
+
+	effect = {
+		save_scope_as = current_ruler
+		primary_heir = { save_scope_as = crisis_heir }
+		primary_title = { save_scope_as = crisis_title }
+
+		if = {
+			limit = { exists = scope:crisis_title }
+			scope:crisis_title = {
+				every_claimant = {
+					limit = {
+						is_eligible_crisis_claimant = yes
+						is_travelling = no
+						age >= 16
+						is_eligible_for_succession_crisis = yes
+						NOT = { this = scope:crisis_heir }
+						NOT = { is_liege_or_above_of = root }
+					}
+
+					if = {
+						limit = {
+							has_character_flag = player_not_interested
+						}
+						remove_character_flag = crisis_special_character
+					}
+					else = {
+						add_to_list = potential_consolidation_claimants
+					}
+				}
+			}
+		}
+
+		if = {
+			limit = {
+				any_in_list = {
+					list = potential_consolidation_claimants
+					has_character_flag = crisis_special_character
+					NOT = { this = scope:crisis_heir }
+				}
+			}
+			random_in_list = {
+				list = potential_consolidation_claimants
+				limit = {
+					has_character_flag = crisis_special_character
+					NOT = { this = scope:crisis_heir }
+				}
+				save_scope_as = crisis_special_character
+			}
+		}
+		else_if = {
+			limit = {
+				any_in_list = { list = potential_consolidation_claimants }
+			}
+			random_in_list = {
+				list = potential_consolidation_claimants
+				weight = {
+					base = 100
+					modifier = {
+						add = 500
+						house = root.house
+					}
+					modifier = {
+						add = 1500
+						house = root.house
+						highest_held_title_tier < tier_kingdom
+					}
+					modifier = {
+						add = 100
+						max_military_strength >= 3000
+					}
+					modifier = {
+						add = 10000
+						is_ai = no
+					}
+				}
+				save_scope_as = crisis_special_character
+				add_character_flag = crisis_special_character
+			}
+		}
+
+		if = {
+			limit = {
+				exists = scope:crisis_special_character
+				NOT = { scope:crisis_special_character = scope:crisis_heir }
+			}
+			scope:crisis_special_character = {
+				trigger_event = {
+					id = sc_power_consolidation.0001
+					days = { 10 30 }
+				}
+			}
+		}
+
+		if = {
+			limit = {
+				exists = scope:crisis_heir
+				scope:crisis_heir = {
+					is_eligible_for_succession_crisis = yes
+					is_travelling = no
+					age >= 16
+					NOT = { has_character_flag = player_not_interested }
+					NOT = { is_liege_or_above_of = root }
+					NOT = { scope:crisis_special_character ?= this }
+				}
+			}
+			scope:crisis_heir = {
+				trigger_event = {
+					id = sc_power_consolidation.0001
+					days = { 10 30 }
+				}
+			}
+		}
+	}
+}

@@ -1,0 +1,31 @@
+﻿random_yearly_playable_pulse = {
+    on_actions = {
+        ary_supreme_blood_1
+    }
+}
+
+ary_supreme_blood_1 = {
+    trigger = {
+        OR = {
+            culture = { has_cultural_tradition = tradition_supremeblood }
+            culture = { has_cultural_tradition = tradition_supremeblood2 }
+            culture = { has_cultural_tradition = vv_tradition_supremeblood }
+            culture = { has_cultural_tradition = vv_tradition_supremeblood2 }
+            dynasty ?= { has_dynasty_modifier = ary_traditions_5_modifier }
+        }
+    }
+    effect = {
+        every_living_character = {
+            limit = {
+                OR = {
+                    culture = { has_cultural_tradition = tradition_supremeblood }
+                    culture = { has_cultural_tradition = tradition_supremeblood2 }
+                    culture = { has_cultural_tradition = vv_tradition_supremeblood }
+                    culture = { has_cultural_tradition = vv_tradition_supremeblood2 }
+                    dynasty ?= { has_dynasty_modifier = ary_traditions_5_modifier }
+                }
+            }
+            ary_supreme_blood_healing = yes
+        }
+    }
+}
