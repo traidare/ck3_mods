@@ -100,6 +100,9 @@ world_westeros_rest_of_dorne = {
 		d_scourgehead
 	}
 }
+world_lonely_light = {
+
+}
 #WINTER GROUPS SEASONS
 world_group_one = {
 	regions = {
@@ -970,8 +973,16 @@ world_the_fingers_seasons = {
 
 }
 world_iron_isles = {
-	empires = {
-		e_the_iron_islands
+	duchies = {
+		d_pyke
+		d_east_wyk
+		d_saltcliffe
+		d_hardstone_hills
+		d_old_wyk
+		d_harlaw
+		d_orkmont
+		d_blacktyde
+		d_lonely_light
 	}
 }
 world_kraken_bay = {

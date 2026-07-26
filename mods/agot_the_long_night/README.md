@@ -26,3 +26,9 @@ Regenerate the vendored payload with:
 python3 scripts/generate-agot-the-long-night.py
 python3 scripts/generate-agot-the-long-night.py --check
 ```
+
+The generator pins Seasons Workshop item `3377641022`'s
+`events/season_events.txt`. It was last rebased for manifest
+`2065378484774676314` (SHA-256
+`f5f618b90ff2f5697517310b4d3c63f95c44ecf56150a2d1ad4cb3e26b217c04`). Re-audit
+and regenerate whenever that hash changes.

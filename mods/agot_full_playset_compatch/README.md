@@ -38,7 +38,9 @@ The accompanying narrow runtime layers also repair:
   otherwise treats as zero;
 - All Men Must Serve's invalid negative `add_gold` service-cost effect;
 - Seasons' winter-combat trigger switching through `location` a second time
-  after AGOT already entered a province scope;
+  after AGOT already entered a province scope, and Seasons manifest
+  `2065378484774676314` passing the bare token `autumn` to
+  `current_season_autumn` instead of `yes`;
 - Deadly CK3 AGOT's clouded-eyes event evaluating environmental weights for
   characters without a current location, and its stale `infirm` definition
   removing the CK3 1.19 trait track used by AGOT;

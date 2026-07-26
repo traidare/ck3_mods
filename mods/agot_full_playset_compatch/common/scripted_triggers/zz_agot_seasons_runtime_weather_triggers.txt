@@ -12,3 +12,13 @@ has_winter_combat_trigger = {
 		has_province_modifier = winter_southern_modifier
 	}
 }
+
+# Seasons manifest 2065378484774676314 retained a bare `autumn` token here
+# while the spring, summer, and winter scripted-trigger calls all pass `yes`.
+# Keep the repair limited to the composite trigger; the underlying seasonal
+# triggers remain owned by Seasons.
+middle_of_year_season_trigger = {
+	current_season_spring = yes
+	current_season_summer = yes
+	current_season_autumn = yes
+}

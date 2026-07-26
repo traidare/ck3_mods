@@ -25,7 +25,7 @@ PINNED_HASHES = {
     CORE / "gfx/portraits/portrait_animations/animations.txt":
         "c0b7d8bf00ce21001e28a10ca76cc0c95cf850a0bf5ef3dd81d98b671b1a111a",
     SEASONS / "events/season_events.txt":
-        "0e0516740f8123b5420cb6a8b4299889a761bddbaf75d15d733f4983b50f5689",
+        "f5f618b90ff2f5697517310b4d3c63f95c44ecf56150a2d1ad4cb3e26b217c04",
     LONG_NIGHT / "gfx/portraits/portrait_animations/animations.txt":
         "2d8de11f686ba6772c4607f0d1a8b7938153b589a1c081d5d194dd45c06142bd",
 }

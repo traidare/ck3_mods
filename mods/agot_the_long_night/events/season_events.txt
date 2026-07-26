@@ -437,13 +437,33 @@ season_events.001 = {
 				}
 			}
 			every_ruler = {
-				trigger_event = season_events.007 #Sets to Summer
+				trigger_event = season_events.008 #Sets to Summer
 			}
-			set_AGOT_season_summer_start = yes
+			set_AGOT_season_autumn_start = yes
+		#	trigger_event = {
+		#		id = season_events.008 #Fires 12 days so 10 days to switch Autumn
+		#		days = 5 
+			#}
 			trigger_event = {
-				id = season_events.008 #Fires 12 days so 10 days to switch Autumn
-				days = 5 
+				id = season_events.044 
+				days = 705 #Then triggers the sequence for Winter 8131 
 			}
+		}
+		if = { 
+			limit = { 
+				AND = {
+					has_game_rule = agot_historical_seasons
+					game_start_date = 8129.4.1 #MODDED DoD 
+				}
+			}
+			every_ruler = {
+				trigger_event = season_events.008 #Sets to Summer
+			}
+			set_AGOT_season_autumn_start = yes
+		#	trigger_event = {
+			#	id = season_events.008 #Fires 12 days so 10 days to switch Autumn
+			#	days = 5 
+			#}
 			trigger_event = {
 				id = season_events.044 
 				days = 705 #Then triggers the sequence for Winter 8131 
@@ -457,13 +477,13 @@ season_events.001 = {
 				}
 			}
 			every_ruler = {
-				trigger_event = season_events.007 #Sets to Summer
+				trigger_event = season_events.008 #Sets to Summer
 			}
-			set_AGOT_season_summer_start = yes
-			trigger_event = {
-				id = season_events.008 #Fires 12 days so 10 days to switch Autumn
-				days = 5
-			}
+			set_AGOT_season_autumn_start = yes
+			#trigger_event = {
+			##	id = season_events.008 #Fires 12 days so 10 days to switch Autumn
+			#	days = 5
+			#}
 			trigger_event = {
 				id = season_events.044 
 				days = 769 #Then triggers the sequence for Winter 8131 
