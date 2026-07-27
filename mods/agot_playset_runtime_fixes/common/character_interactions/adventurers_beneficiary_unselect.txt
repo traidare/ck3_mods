@@ -23,7 +23,11 @@
 
 	on_accept = {
 		scope:actor = {
-			adventurers_beneficiary_assigned = { CHARACTER = -1 }
+			remove_variable = val_beneficiary
+			set_global_variable = {
+				name = AB_is_loaded
+				value = yes
+			}
 			send_interface_message = {
 				type = event_gold_neutral
 				title = adventurer_beneficiary_unselected_notif.t
@@ -34,6 +38,6 @@
 	}
 
 	ai_will_do = {
-		base = -10000  # AI Does not do this.
+		base = -10000
 	}
 }
