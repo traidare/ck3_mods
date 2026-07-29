@@ -229,10 +229,13 @@
 			map_color = { 245 216 66 } 
 			geographical_regions = { world_stepstones }
 		}
-		#essos_dothraki = { #placeholder ;) # - Removed for LoV Expansion
-		#	map_color = { 255 30 18 } 
-		#	geographical_regions = { world_essos_valyria world_essos_rhoyne world_essos_yi_ti world_essos_painted_mountains world_essos_moraq world_essos_great_grass_sea world_essos_qarth world_essos_qohor world_essos_hyrkoon }
-		#}		
+		essos_dothraki = { # Seasons June 26th update made this a live sub-region (driven by 10_seasons_scripted_effects)
+			# LoV & Seasons compatch: world_essos_valyria removed (LoV runs its own Doom situation there,
+			# seasons are intentionally excluded) and world_essos_rhoyne removed (covered by the
+			# lov_upper/middle/lower_rhoyne sub-regions below). Everything else kept from the update.
+			map_color = { 255 30 18 }
+			geographical_regions = { world_essos_yi_ti world_essos_painted_mountains world_essos_moraq world_essos_great_grass_sea world_essos_qarth world_essos_qohor world_essos_hyrkoon }
+		}
 		####ESSOS REGIONS : 
 		essos_andalosi_coast = {
 			map_color = { 201 247 218 }

@@ -660,9 +660,9 @@ set_AGOT_season_winter = {
 			situation_sub_region:essos_lys_mangroves = {
 				change_phase = seasons_dornish_winter_phase
 			}
-# 			situation_sub_region:essos_dothraki = { # - Removed for LoV Expansion
-# 				change_phase = seasons_dornish_winter_phase
-# 			}
+			situation_sub_region:essos_dothraki = {
+				change_phase = seasons_dornish_winter_phase
+			}
 			situation_sub_region:westeros_starfall = {
 				change_phase = seasons_dornish_winter_phase
 			}	
@@ -3798,46 +3798,46 @@ set_AGOT_season_spring = {
 				}				
 			}			
 		}
-# 		situation_sub_region:essos_dothraki = { # - Removed for LoV Expansion
-# 			random_list = {
-# 				10 = {
-# 					change_phase = seasons_spring_phase
-# 					every_province = {
-# 						limit = {
-# 							geographical_region = world_rest_of_essos_valyria_LOV
-# 						}
-# 						make_it_spring = yes
-# 					}
-# 				}
-# 				12 = {
-# 					change_phase = seasons_wet_spring_phase
-# 					every_province = {
-# 						limit = {
-# 							geographical_region = world_rest_of_essos_valyria_LOV
-# 						}
-# 						make_it_wet_spring = yes
-# 					}
-# 				}
-# 				10 = {
-# 					change_phase = seasons_dry_spring_phase
-# 					every_province = {
-# 						limit = {
-# 							geographical_region = world_rest_of_essos_valyria_LOV
-# 						}
-# 						make_it_dry_spring = yes
-# 					}
-# 				}
-# 				15 = {
-# 					change_phase = seasons_hot_spring_phase
-# 					every_province = {
-# 						limit = {
-# 							geographical_region = world_rest_of_essos_valyria_LOV
-# 						}
-# 						make_it_hot_spring = yes
-# 					}
-# 				}			
-# 			}
-# 		}
+		situation_sub_region:essos_dothraki = {
+			random_list = {
+				10 = {
+					change_phase = seasons_spring_phase
+					every_province = {
+						limit = {
+							geographical_region = world_rest_of_essos_valyria_LOV
+						}
+						make_it_spring = yes
+					}
+				}
+				12 = {
+					change_phase = seasons_wet_spring_phase
+					every_province = {
+						limit = {
+							geographical_region = world_rest_of_essos_valyria_LOV
+						}
+						make_it_wet_spring = yes
+					}
+				}
+				10 = {
+					change_phase = seasons_dry_spring_phase
+					every_province = {
+						limit = {
+							geographical_region = world_rest_of_essos_valyria_LOV
+						}
+						make_it_dry_spring = yes
+					}
+				}
+				15 = {
+					change_phase = seasons_hot_spring_phase
+					every_province = {
+						limit = {
+							geographical_region = world_rest_of_essos_valyria_LOV
+						}
+						make_it_hot_spring = yes
+					}
+				}
+			}
+		}
 	}
 	faith:fots_seven = { remove_doctrine = agot_seasons_doctrine_winter }
 	faith:fots_blessed = { remove_doctrine = agot_seasons_doctrine_winter }
@@ -6321,46 +6321,46 @@ set_AGOT_season_summer = {
 				}
 			}			
 		}
-# 		situation_sub_region:essos_dothraki = { # - Removed for LoV Expansion
-# 			random_list = {
-# 				30 = {
-# 					change_phase = seasons_summer_phase
-# 					every_province = {
-# 						limit = {
-# 							geographical_region = world_rest_of_essos_valyria_LOV
-# 						}
-# 						make_it_summer = yes
-# 					}			
-# 				}
-# 				1 = {
-# 					change_phase = seasons_wet_summer_phase
-# 					every_province = {
-# 						limit = {
-# 							geographical_region = world_rest_of_essos_valyria_LOV
-# 						}
-# 						make_it_wet_summer = yes
-# 					}								
-# 				}
-# 				40 = {
-# 					change_phase = seasons_dry_summer_phase
-# 					every_province = {
-# 						limit = {
-# 							geographical_region = world_rest_of_essos_valyria_LOV
-# 						}
-# 						make_it_dry_summer = yes
-# 					}			
-# 				}
-# 				70 = {
-# 					change_phase = seasons_hot_summer_phase
-# 					every_province = {
-# 						limit = {
-# 							geographical_region = world_rest_of_essos_valyria_LOV
-# 						}
-# 						make_it_hot_summer = yes
-# 					}			
-# 				}			
-# 			}
-# 		}		
+		situation_sub_region:essos_dothraki = {
+			random_list = {
+				30 = {
+					change_phase = seasons_summer_phase
+					every_province = {
+						limit = {
+							geographical_region = world_rest_of_essos_valyria_LOV
+						}
+						make_it_summer = yes
+					}
+				}
+				1 = {
+					change_phase = seasons_wet_summer_phase
+					every_province = {
+						limit = {
+							geographical_region = world_rest_of_essos_valyria_LOV
+						}
+						make_it_wet_summer = yes
+					}
+				}
+				40 = {
+					change_phase = seasons_dry_summer_phase
+					every_province = {
+						limit = {
+							geographical_region = world_rest_of_essos_valyria_LOV
+						}
+						make_it_dry_summer = yes
+					}
+				}
+				70 = {
+					change_phase = seasons_hot_summer_phase
+					every_province = {
+						limit = {
+							geographical_region = world_rest_of_essos_valyria_LOV
+						}
+						make_it_hot_summer = yes
+					}
+				}
+			}
+		}
 	}
 	faith:fots_seven = { remove_doctrine = agot_seasons_doctrine_spring }
 	faith:fots_blessed = { remove_doctrine = agot_seasons_doctrine_spring }
@@ -8797,37 +8797,37 @@ set_AGOT_season_autumn = {
 				}
 			}
 		}
-# 		situation_sub_region:essos_dothraki = { # - Removed for LoV Expansion
-# 			random_list = {
-# 				15 = {
-# 					change_phase = seasons_autumn_phase
-# 					every_province = {
-# 						limit = {
-# 							geographical_region = world_rest_of_essos_valyria_LOV
-# 						}
-# 						make_it_autumn = yes
-# 					}
-# 				}
-# 				2 = {
-# 					change_phase = seasons_wet_autumn_phase
-# 					every_province = {
-# 						limit = {
-# 							geographical_region = world_rest_of_essos_valyria_LOV
-# 						}
-# 						make_it_wet_autumn = yes
-# 					}
-# 				}
-# 				55 = {
-# 					change_phase = seasons_dry_autumn_phase
-# 					every_province = {
-# 						limit = {
-# 							geographical_region = world_rest_of_essos_valyria_LOV
-# 						}
-# 						make_it_dry_autumn = yes
-# 					}
-# 				}
-# 			}
-# 		}
+		situation_sub_region:essos_dothraki = {
+			random_list = {
+				15 = {
+					change_phase = seasons_autumn_phase
+					every_province = {
+						limit = {
+							geographical_region = world_rest_of_essos_valyria_LOV
+						}
+						make_it_autumn = yes
+					}
+				}
+				2 = {
+					change_phase = seasons_wet_autumn_phase
+					every_province = {
+						limit = {
+							geographical_region = world_rest_of_essos_valyria_LOV
+						}
+						make_it_wet_autumn = yes
+					}
+				}
+				55 = {
+					change_phase = seasons_dry_autumn_phase
+					every_province = {
+						limit = {
+							geographical_region = world_rest_of_essos_valyria_LOV
+						}
+						make_it_dry_autumn = yes
+					}
+				}
+			}
+		}
 	}
 	every_province = {
 		limit = {
@@ -11293,37 +11293,37 @@ set_AGOT_season_autumn_start = {
 				}
 			}
 		}
-# 		situation_sub_region:essos_dothraki = { # - Removed for LoV Expansion
-# 			random_list = {
-# 				55 = {
-# 					change_phase = seasons_autumn_phase
-# 					every_province = {
-# 						limit = {
-# 							geographical_region = world_rest_of_essos_valyria_LOV
-# 						}
-# 						make_it_autumn = yes
-# 					}
-# 				}
-# 				15 = {
-# 					change_phase = seasons_wet_autumn_phase
-# 					every_province = {
-# 						limit = {
-# 							geographical_region = world_rest_of_essos_valyria_LOV
-# 						}
-# 						make_it_wet_autumn = yes
-# 					}
-# 				}
-# 				95 = {
-# 					change_phase = seasons_dry_autumn_phase
-# 					every_province = {
-# 						limit = {
-# 							geographical_region = world_rest_of_essos_valyria_LOV
-# 						}
-# 						make_it_dry_autumn = yes
-# 					}
-# 				}
-# 			}
-# 		}
+		situation_sub_region:essos_dothraki = {
+			random_list = {
+				55 = {
+					change_phase = seasons_autumn_phase
+					every_province = {
+						limit = {
+							geographical_region = world_rest_of_essos_valyria_LOV
+						}
+						make_it_autumn = yes
+					}
+				}
+				15 = {
+					change_phase = seasons_wet_autumn_phase
+					every_province = {
+						limit = {
+							geographical_region = world_rest_of_essos_valyria_LOV
+						}
+						make_it_wet_autumn = yes
+					}
+				}
+				95 = {
+					change_phase = seasons_dry_autumn_phase
+					every_province = {
+						limit = {
+							geographical_region = world_rest_of_essos_valyria_LOV
+						}
+						make_it_dry_autumn = yes
+					}
+				}
+			}
+		}
 	}
 			
 	faith:fots_seven = { add_doctrine = agot_seasons_doctrine_autumn }
@@ -15178,46 +15178,46 @@ set_AGOT_season_spring_start = {
 				}				
 			}			
 		}
-# 		situation_sub_region:essos_dothraki = { # - Removed for LoV Expansion
-# 			random_list = {
-# 				10 = {
-# 					change_phase = seasons_spring_phase
-# 					every_province = {
-# 						limit = {
-# 							geographical_region = world_rest_of_essos_valyria_LOV
-# 						}
-# 						make_it_spring = yes
-# 					}
-# 				}
-# 				12 = {
-# 					change_phase = seasons_wet_spring_phase
-# 					every_province = {
-# 						limit = {
-# 							geographical_region = world_rest_of_essos_valyria_LOV
-# 						}
-# 						make_it_wet_spring = yes
-# 					}
-# 				}
-# 				10 = {
-# 					change_phase = seasons_dry_spring_phase
-# 					every_province = {
-# 						limit = {
-# 							geographical_region = world_rest_of_essos_valyria_LOV
-# 						}
-# 						make_it_dry_spring = yes
-# 					}
-# 				}
-# 				65 = {
-# 					change_phase = seasons_hot_spring_phase
-# 					every_province = {
-# 						limit = {
-# 							geographical_region = world_rest_of_essos_valyria_LOV
-# 						}
-# 						make_it_hot_spring = yes
-# 					}
-# 				}			
-# 			}
-# 		}
+		situation_sub_region:essos_dothraki = {
+			random_list = {
+				10 = {
+					change_phase = seasons_spring_phase
+					every_province = {
+						limit = {
+							geographical_region = world_rest_of_essos_valyria_LOV
+						}
+						make_it_spring = yes
+					}
+				}
+				12 = {
+					change_phase = seasons_wet_spring_phase
+					every_province = {
+						limit = {
+							geographical_region = world_rest_of_essos_valyria_LOV
+						}
+						make_it_wet_spring = yes
+					}
+				}
+				10 = {
+					change_phase = seasons_dry_spring_phase
+					every_province = {
+						limit = {
+							geographical_region = world_rest_of_essos_valyria_LOV
+						}
+						make_it_dry_spring = yes
+					}
+				}
+				65 = {
+					change_phase = seasons_hot_spring_phase
+					every_province = {
+						limit = {
+							geographical_region = world_rest_of_essos_valyria_LOV
+						}
+						make_it_hot_spring = yes
+					}
+				}
+			}
+		}
 	}
 }
 
@@ -17502,46 +17502,46 @@ set_AGOT_season_summer_start = {
 			}			
 		}	
 				
-# 		situation_sub_region:essos_dothraki = { # - Removed for LoV Expansion
-# 			random_list = {
-# 				30 = {
-# 					change_phase = seasons_summer_phase
-# 					every_province = {
-# 						limit = {
-# 							geographical_region = world_rest_of_essos_valyria_LOV
-# 						}
-# 						make_it_summer = yes
-# 					}			
-# 				}
-# 				10 = {
-# 					change_phase = seasons_wet_summer_phase
-# 					every_province = {
-# 						limit = {
-# 							geographical_region = world_rest_of_essos_valyria_LOV
-# 						}
-# 						make_it_wet_summer = yes
-# 					}								
-# 				}
-# 				10 = {
-# 					change_phase = seasons_dry_summer_phase
-# 					every_province = {
-# 						limit = {
-# 							geographical_region = world_rest_of_essos_valyria_LOV
-# 						}
-# 						make_it_dry_summer = yes
-# 					}			
-# 				}
-# 				20 = {
-# 					change_phase = seasons_hot_summer_phase
-# 					every_province = {
-# 						limit = {
-# 							geographical_region = world_rest_of_essos_valyria_LOV
-# 						}
-# 						make_it_hot_summer = yes
-# 					}			
-# 				}			
-# 			}
-# 		}
+		situation_sub_region:essos_dothraki = {
+			random_list = {
+				30 = {
+					change_phase = seasons_summer_phase
+					every_province = {
+						limit = {
+							geographical_region = world_rest_of_essos_valyria_LOV
+						}
+						make_it_summer = yes
+					}
+				}
+				10 = {
+					change_phase = seasons_wet_summer_phase
+					every_province = {
+						limit = {
+							geographical_region = world_rest_of_essos_valyria_LOV
+						}
+						make_it_wet_summer = yes
+					}
+				}
+				10 = {
+					change_phase = seasons_dry_summer_phase
+					every_province = {
+						limit = {
+							geographical_region = world_rest_of_essos_valyria_LOV
+						}
+						make_it_dry_summer = yes
+					}
+				}
+				20 = {
+					change_phase = seasons_hot_summer_phase
+					every_province = {
+						limit = {
+							geographical_region = world_rest_of_essos_valyria_LOV
+						}
+						make_it_hot_summer = yes
+					}
+				}
+			}
+		}
 	}
 
 	faith:fots_seven = { add_doctrine = agot_seasons_doctrine_summer }

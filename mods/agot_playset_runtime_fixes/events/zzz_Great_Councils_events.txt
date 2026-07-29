@@ -1804,31 +1804,24 @@ zzz_great_councils_event.0004 = { # A flavor event that tells you that the grand
 			}
 			else_if = {
 				limit = {
-					scope:zzz_great_councils_emperor = { has_character_flag = zzz_great_councils_called_daughters }
+					scope:zzz_great_councils_emperor = { has_character_flag = zzz_great_councils_called_narrow_sea }
 				}
 				scope:zzz_great_councils_emperor = { set_designated_heir_unsafe = scope:zzz_great_councils_winner }
-				scope:zzz_great_councils_winner = { add_character_flag = zzz_great_councils_won_daughters }
+				scope:zzz_great_councils_winner = { add_character_flag = zzz_great_councils_won_narrow_sea }
 			}
 			else_if = {
 				limit = {
-					scope:zzz_great_councils_emperor = { has_character_flag = zzz_great_councils_called_pentos }
+					scope:zzz_great_councils_emperor = { has_character_flag = zzz_great_councils_called_daoryrdembos }
 				}
 				scope:zzz_great_councils_emperor = { set_designated_heir_unsafe = scope:zzz_great_councils_winner }
-				scope:zzz_great_councils_winner = { add_character_flag = zzz_great_councils_won_pentos }
+				scope:zzz_great_councils_winner = { add_character_flag = zzz_great_councils_won_daoryrdembos }
 			}
 			else_if = {
 				limit = {
-					scope:zzz_great_councils_emperor = { has_character_flag = zzz_great_councils_called_braavos }
+					scope:zzz_great_councils_emperor = { has_character_flag = zzz_great_councils_called_crownlands }
 				}
 				scope:zzz_great_councils_emperor = { set_designated_heir_unsafe = scope:zzz_great_councils_winner }
-				scope:zzz_great_councils_winner = { add_character_flag = zzz_great_councils_won_braavos }
-			}
-			else_if = {
-				limit = {
-					scope:zzz_great_councils_emperor = { has_character_flag = zzz_great_councils_called_black_bay }
-				}
-				scope:zzz_great_councils_emperor = { set_designated_heir_unsafe = scope:zzz_great_councils_winner }
-				scope:zzz_great_councils_winner = { add_character_flag = zzz_great_councils_won_black_bay }
+				scope:zzz_great_councils_winner = { add_character_flag = zzz_great_councils_won_crownlands }
 			}
 			else_if = {
 				limit = {
