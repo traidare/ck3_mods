@@ -80,8 +80,10 @@ delegating unchanged to AGOT's `can_raid_trigger` for every valid character.
    Expanded and before its TempLoV compatch
 10. `AGOT NOW + Legacy of Valyria + Essos Expanded Map Compatch`, after the
     Essos Expanded LoV compatch
-11. `AGOT Playset Runtime Fixes`
-12. `AGOT Playset Compatch`
+11. `AGOT NOW + Legacy of Valyria + Essos Expanded World Data`
+12. `AGOT NOW + Legacy of Valyria + Essos Expanded Lore Governments`
+13. `AGOT Playset Runtime Fixes`
+14. `AGOT Playset Compatch`
 
 Disable these superseded compatch mods:
 

@@ -1,4 +1,4 @@
-version="1.0.25"
+version="1.0.26"
 tags={
 	"Fixes"
 	"Gameplay"
@@ -33,5 +33,7 @@ dependencies={
 	"Essos Expanded - TempLoV Compatch"
 	"TEMPORARY AGOT More Dragon Eggs - Legacy of Valyria REBASED Compatch"
 	"AGOT NOW + Legacy of Valyria + Essos Expanded Map Compatch"
+	"AGOT NOW + Legacy of Valyria + Essos Expanded World Data"
+	"AGOT NOW + Legacy of Valyria + Essos Expanded Lore Governments"
 	"AGOT Playset Runtime Fixes"
 }

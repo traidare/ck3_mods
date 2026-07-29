@@ -1,0 +1,1953 @@
+﻿# Auto-generated vassal titles for e_norvos
+k_R13G108B229 = {
+		7898.1.1 = {
+		holder = gen_2394
+	}
+	7985.1.1 = {
+		holder = gen_10
+	}
+	8082.1.1 = {
+		holder = gen_1260
+	}
+	8106.4.18 = {
+		holder = gen_1266
+	}
+	8170.12.11 = {
+		holder = gen_1272
+	}
+	8209.2.1 = {
+		holder = gen_1278
+	}
+	8211.3.1 = {
+		holder = gen_1284
+	}
+	8233.2.8 = {
+		holder = gen_1290
+	}
+	8236.2.13 = {
+		holder = gen_1296
+	}
+	8239.1.11 = {
+		holder = gen_1302
+	}
+	8258.12.21 = {
+		holder = gen_1308
+	}
+	8277.1.1 = {
+		holder = gen_1314
+	}
+}
+d_R92G180B124 = {
+		7898.1.1 = {
+		holder = gen_2394
+	}
+	7985.1.1 = {
+		holder = gen_10
+	}
+	8082.1.1 = {
+		holder = gen_1260
+	}
+	8106.4.18 = {
+		holder = gen_1266
+	}
+	8170.12.11 = {
+		holder = gen_1272
+	}
+	8209.2.1 = {
+		holder = gen_1278
+	}
+	8211.3.1 = {
+		holder = gen_1284
+	}
+	8233.2.8 = {
+		holder = gen_1290
+	}
+	8236.2.13 = {
+		holder = gen_1296
+	}
+	8239.1.11 = {
+		holder = gen_1302
+	}
+	8258.12.21 = {
+		holder = gen_1308
+	}
+	8277.1.1 = {
+		holder = gen_1314
+	}
+}
+c_R84G90B192 = {
+		7898.1.1 = {
+		holder = gen_2394
+	}
+	7985.1.1 = {
+		holder = gen_10
+	}
+	8082.1.1 = {
+		holder = gen_1260
+	}
+	8106.4.18 = {
+		holder = gen_1266
+	}
+	8170.12.11 = {
+		holder = gen_1272
+	}
+	8209.2.1 = {
+		holder = gen_1278
+	}
+	8211.3.1 = {
+		holder = gen_1284
+	}
+	8233.2.8 = {
+		holder = gen_1290
+	}
+	8236.2.13 = {
+		holder = gen_1296
+	}
+	8239.1.11 = {
+		holder = gen_1302
+	}
+	8258.12.21 = {
+		holder = gen_1308
+	}
+	8277.1.1 = {
+		holder = gen_1314
+	}
+}
+c_R162G42B212 = {
+		7898.1.1 = {
+		holder = gen_2394
+	}
+	7985.1.1 = {
+		holder = gen_10
+	}
+	8082.1.1 = {
+		holder = gen_1260
+	}
+	8106.4.18 = {
+		holder = gen_1266
+	}
+	8170.12.11 = {
+		holder = gen_1272
+	}
+	8209.2.1 = {
+		holder = gen_1278
+	}
+	8211.3.1 = {
+		holder = gen_1284
+	}
+	8233.2.8 = {
+		holder = gen_1290
+	}
+	8236.2.13 = {
+		holder = gen_1296
+	}
+	8239.1.11 = {
+		holder = gen_1302
+	}
+	8258.12.21 = {
+		holder = gen_1308
+	}
+	8277.1.1 = {
+		holder = gen_1314
+	}
+}
+c_R58G129B76 = {
+		7898.1.1 = {
+		holder = gen_2394
+	}
+	7985.1.1 = {
+		holder = gen_10
+	}
+	8082.1.1 = {
+		holder = gen_1260
+	}
+	8106.4.18 = {
+		holder = gen_1266
+	}
+	8170.12.11 = {
+		holder = gen_1272
+	}
+	8209.2.1 = {
+		holder = gen_1278
+	}
+	8211.3.1 = {
+		holder = gen_1284
+	}
+	8233.2.8 = {
+		holder = gen_1290
+	}
+	8236.2.13 = {
+		holder = gen_1296
+	}
+	8239.1.11 = {
+		holder = gen_1302
+	}
+	8258.12.21 = {
+		holder = gen_1308
+	}
+	8277.1.1 = {
+		holder = gen_1314
+	}
+}
+c_R80G222B202 = {
+		7898.1.1 = {
+		holder = gen_2394
+	}
+	7985.1.1 = {
+		holder = gen_10
+	}
+	8082.1.1 = {
+		holder = gen_1260
+	}
+	8106.4.18 = {
+		holder = gen_1266
+	}
+	8170.12.11 = {
+		holder = gen_1272
+	}
+	8209.2.1 = {
+		holder = gen_1278
+	}
+	8211.3.1 = {
+		holder = gen_1284
+	}
+	8233.2.8 = {
+		holder = gen_1290
+	}
+	8236.2.13 = {
+		holder = gen_1296
+	}
+	8239.1.11 = {
+		holder = gen_1302
+	}
+	8258.12.21 = {
+		holder = gen_1308
+	}
+	8277.1.1 = {
+		holder = gen_1314
+	}
+}
+d_R152G53B230 = {
+		7898.1.1 = {
+		holder = gen_3002
+		government = theocracy_government
+		liege = k_R13G108B229
+	}
+	7985.1.1 = {
+		holder = gen_529
+		government = theocracy_government
+		liege = k_R13G108B229
+	}
+		8082.1.1 = {
+			holder = gen_1262
+		}
+		8106.4.18 = {
+			holder = gen_1262
+		}
+		8170.12.11 = {
+			holder = gen_1270
+		}
+		8209.2.1 = {
+			holder = gen_1274
+		}
+		8211.3.1 = {
+			holder = gen_1274
+		}
+		8233.2.8 = {
+			holder = gen_1276
+		}
+		8236.2.13 = {
+			holder = gen_1276
+		}
+		8239.1.11 = {
+			holder = gen_1279
+		}
+		8258.12.21 = {
+			holder = gen_1281
+		}
+		8277.1.1 = {
+			holder = gen_1282
+		}
+}
+c_R169G181B38 = {
+		7898.1.1 = {
+		holder = gen_3002
+		liege = d_R152G53B230
+	}
+	7985.1.1 = {
+		holder = gen_529
+		liege = d_R152G53B230
+	}
+}
+c_R144G149B60 = {
+		7898.1.1 = {
+		holder = gen_3002
+		liege = d_R152G53B230
+	}
+	7985.1.1 = {
+		holder = gen_529
+		liege = d_R152G53B230
+	}
+}
+c_R211G43B224 = {
+		7898.1.1 = {
+		holder = gen_3002
+		liege = d_R152G53B230
+	}
+	7985.1.1 = {
+		holder = gen_529
+		liege = d_R152G53B230
+	}
+}
+c_R183G82B196 = {
+		7898.1.1 = {
+		holder = gen_3002
+		liege = d_R152G53B230
+	}
+	7985.1.1 = {
+		holder = gen_529
+		liege = d_R152G53B230
+	}
+}
+c_R135G122B157 = {
+		7898.1.1 = {
+		holder = gen_3003
+		government = theocracy_government
+		liege = d_R152G53B230
+	}
+	7985.1.1 = {
+		holder = gen_530
+		government = theocracy_government
+		liege = d_R152G53B230
+	}
+}
+c_R85G129B127 = {
+		7898.1.1 = {
+		holder = gen_3003
+		liege = d_R152G53B230
+	}
+	7985.1.1 = {
+		holder = gen_530
+		liege = d_R152G53B230
+	}
+}
+d_R145G48B71 = {
+		7898.1.1 = {
+		holder = gen_3004
+		government = theocracy_government
+		liege = k_R13G108B229
+	}
+	7985.1.1 = {
+		holder = gen_531
+		government = theocracy_government
+		liege = k_R13G108B229
+	}
+		8082.1.1 = {
+			holder = gen_1262
+		}
+		8106.4.18 = {
+			holder = gen_1262
+		}
+		8170.12.11 = {
+			holder = gen_1270
+		}
+		8209.2.1 = {
+			holder = gen_1274
+		}
+		8211.3.1 = {
+			holder = gen_1274
+		}
+		8233.2.8 = {
+			holder = gen_1276
+		}
+		8236.2.13 = {
+			holder = gen_1276
+		}
+		8239.1.11 = {
+			holder = gen_1279
+		}
+		8258.12.21 = {
+			holder = gen_1281
+		}
+		8277.1.1 = {
+			holder = gen_1282
+		}
+}
+c_R209G0B65 = {
+		7898.1.1 = {
+		holder = gen_3004
+		liege = d_R145G48B71
+	}
+	7985.1.1 = {
+		holder = gen_531
+		liege = d_R145G48B71
+	}
+}
+c_R181G187B84 = {
+		7898.1.1 = {
+		holder = gen_3004
+		liege = d_R145G48B71
+	}
+	7985.1.1 = {
+		holder = gen_531
+		liege = d_R145G48B71
+	}
+}
+c_R64G102B110 = {
+		7898.1.1 = {
+		holder = gen_3004
+		liege = d_R145G48B71
+	}
+	7985.1.1 = {
+		holder = gen_531
+		liege = d_R145G48B71
+	}
+}
+c_R58G124B189 = {
+		7898.1.1 = {
+		holder = gen_3004
+		liege = d_R145G48B71
+	}
+	7985.1.1 = {
+		holder = gen_531
+		liege = d_R145G48B71
+	}
+}
+d_R23G243B1 = {
+		7898.1.1 = {
+		holder = gen_3005
+		government = theocracy_government
+		liege = k_R13G108B229
+	}
+	7985.1.1 = {
+		holder = gen_532
+		government = theocracy_government
+		liege = k_R13G108B229
+	}
+		8082.1.1 = {
+			holder = gen_1261
+		}
+		8106.4.18 = {
+			holder = gen_1261
+		}
+		8170.12.11 = {
+			holder = gen_1269
+		}
+		8209.2.1 = {
+			holder = gen_1273
+		}
+		8211.3.1 = {
+			holder = gen_1273
+		}
+		8233.2.8 = {
+			holder = gen_1275
+		}
+		8236.2.13 = {
+			holder = gen_1275
+		}
+		8239.1.11 = {
+			holder = gen_1276
+		}
+		8258.12.21 = {
+			holder = gen_1280
+		}
+		8277.1.1 = {
+			holder = gen_1281
+		}
+}
+c_R194G44B26 = {
+		7898.1.1 = {
+		holder = gen_3005
+		liege = d_R23G243B1
+	}
+	7985.1.1 = {
+		holder = gen_532
+		liege = d_R23G243B1
+	}
+}
+c_R242G3B92 = {
+		7898.1.1 = {
+		holder = gen_3005
+		liege = d_R23G243B1
+	}
+	7985.1.1 = {
+		holder = gen_532
+		liege = d_R23G243B1
+	}
+}
+c_R226G67B229 = {
+		7898.1.1 = {
+		holder = gen_3005
+		liege = d_R23G243B1
+	}
+	7985.1.1 = {
+		holder = gen_532
+		liege = d_R23G243B1
+	}
+}
+c_R244G133B63 = {
+		7898.1.1 = {
+		holder = gen_3005
+		liege = d_R23G243B1
+	}
+	7985.1.1 = {
+		holder = gen_532
+		liege = d_R23G243B1
+	}
+}
+d_R24G113B109 = {
+		7898.1.1 = {
+		holder = gen_3006
+		government = theocracy_government
+		liege = k_R13G108B229
+	}
+	7985.1.1 = {
+		holder = gen_533
+		government = theocracy_government
+		liege = k_R13G108B229
+	}
+		8082.1.1 = {
+			holder = gen_1262
+		}
+		8106.4.18 = {
+			holder = gen_1262
+		}
+		8170.12.11 = {
+			holder = gen_1270
+		}
+		8209.2.1 = {
+			holder = gen_1274
+		}
+		8211.3.1 = {
+			holder = gen_1274
+		}
+		8233.2.8 = {
+			holder = gen_1276
+		}
+		8236.2.13 = {
+			holder = gen_1276
+		}
+		8239.1.11 = {
+			holder = gen_1279
+		}
+		8258.12.21 = {
+			holder = gen_1281
+		}
+		8277.1.1 = {
+			holder = gen_1282
+		}
+}
+c_R68G222B77 = {
+		7898.1.1 = {
+		holder = gen_3006
+		liege = d_R24G113B109
+	}
+	7985.1.1 = {
+		holder = gen_533
+		liege = d_R24G113B109
+	}
+}
+c_R6G25B55 = {
+		7898.1.1 = {
+		holder = gen_3006
+		liege = d_R24G113B109
+	}
+	7985.1.1 = {
+		holder = gen_533
+		liege = d_R24G113B109
+	}
+}
+c_R242G123B228 = {
+		7898.1.1 = {
+		holder = gen_3006
+		liege = d_R24G113B109
+	}
+	7985.1.1 = {
+		holder = gen_533
+		liege = d_R24G113B109
+	}
+}
+c_R122G218B70 = {
+		7898.1.1 = {
+		holder = gen_3006
+		liege = d_R24G113B109
+	}
+	7985.1.1 = {
+		holder = gen_533
+		liege = d_R24G113B109
+	}
+}
+c_R13G176B32 = {
+		7898.1.1 = {
+		holder = gen_3007
+		government = theocracy_government
+		liege = d_R24G113B109
+	}
+	7985.1.1 = {
+		holder = gen_534
+		government = theocracy_government
+		liege = d_R24G113B109
+	}
+}
+c_R97G179B144 = {
+		7898.1.1 = {
+		holder = gen_3007
+		liege = d_R24G113B109
+	}
+	7985.1.1 = {
+		holder = gen_534
+		liege = d_R24G113B109
+	}
+}
+d_R61G201B247 = {
+		7898.1.1 = {
+		holder = gen_3008
+		government = theocracy_government
+		liege = k_R13G108B229
+	}
+	7985.1.1 = {
+		holder = gen_535
+		government = theocracy_government
+		liege = k_R13G108B229
+	}
+		8082.1.1 = {
+			holder = gen_1262
+		}
+		8106.4.18 = {
+			holder = gen_1262
+		}
+		8170.12.11 = {
+			holder = gen_1270
+		}
+		8209.2.1 = {
+			holder = gen_1274
+		}
+		8211.3.1 = {
+			holder = gen_1274
+		}
+		8233.2.8 = {
+			holder = gen_1276
+		}
+		8236.2.13 = {
+			holder = gen_1276
+		}
+		8239.1.11 = {
+			holder = gen_1279
+		}
+		8258.12.21 = {
+			holder = gen_1281
+		}
+		8277.1.1 = {
+			holder = gen_1282
+		}
+}
+c_R182G182B135 = {
+		7898.1.1 = {
+		holder = gen_3008
+		liege = d_R61G201B247
+	}
+	7985.1.1 = {
+		holder = gen_535
+		liege = d_R61G201B247
+	}
+}
+c_R206G83B198 = {
+		7898.1.1 = {
+		holder = gen_3008
+		liege = d_R61G201B247
+	}
+	7985.1.1 = {
+		holder = gen_535
+		liege = d_R61G201B247
+	}
+}
+c_R185G185B12 = {
+		7898.1.1 = {
+		holder = gen_3008
+		liege = d_R61G201B247
+	}
+	7985.1.1 = {
+		holder = gen_535
+		liege = d_R61G201B247
+	}
+}
+c_R138G241B28 = {
+		7898.1.1 = {
+		holder = gen_3008
+		liege = d_R61G201B247
+	}
+	7985.1.1 = {
+		holder = gen_535
+		liege = d_R61G201B247
+	}
+}
+c_R137G243B60 = {
+		7898.1.1 = {
+		holder = gen_3009
+		government = theocracy_government
+		liege = d_R61G201B247
+	}
+	7985.1.1 = {
+		holder = gen_536
+		government = theocracy_government
+		liege = d_R61G201B247
+	}
+}
+c_R138G9B87 = {
+		7898.1.1 = {
+		holder = gen_3009
+		liege = d_R61G201B247
+	}
+	7985.1.1 = {
+		holder = gen_536
+		liege = d_R61G201B247
+	}
+}
+d_R87G54B134 = {
+		7898.1.1 = {
+		holder = gen_3010
+		government = theocracy_government
+		liege = k_R13G108B229
+	}
+	7985.1.1 = {
+		holder = gen_537
+		government = theocracy_government
+		liege = k_R13G108B229
+	}
+		8082.1.1 = {
+			holder = gen_1261
+		}
+		8106.4.18 = {
+			holder = gen_1261
+		}
+		8170.12.11 = {
+			holder = gen_1269
+		}
+		8209.2.1 = {
+			holder = gen_1273
+		}
+		8211.3.1 = {
+			holder = gen_1273
+		}
+		8233.2.8 = {
+			holder = gen_1275
+		}
+		8236.2.13 = {
+			holder = gen_1275
+		}
+		8239.1.11 = {
+			holder = gen_1276
+		}
+		8258.12.21 = {
+			holder = gen_1280
+		}
+		8277.1.1 = {
+			holder = gen_1281
+		}
+}
+c_R172G57B80 = {
+		7898.1.1 = {
+		holder = gen_3010
+		liege = d_R87G54B134
+	}
+	7985.1.1 = {
+		holder = gen_537
+		liege = d_R87G54B134
+	}
+}
+c_R187G22B201 = {
+		7898.1.1 = {
+		holder = gen_3010
+		liege = d_R87G54B134
+	}
+	7985.1.1 = {
+		holder = gen_537
+		liege = d_R87G54B134
+	}
+}
+c_R245G69B143 = {
+		7898.1.1 = {
+		holder = gen_3010
+		liege = d_R87G54B134
+	}
+	7985.1.1 = {
+		holder = gen_537
+		liege = d_R87G54B134
+	}
+}
+c_R6G165B95 = {
+		7898.1.1 = {
+		holder = gen_3010
+		liege = d_R87G54B134
+	}
+	7985.1.1 = {
+		holder = gen_537
+		liege = d_R87G54B134
+	}
+}
+c_R39G83B16 = {
+		7898.1.1 = {
+		holder = gen_3011
+		liege = d_R87G54B134
+	}
+	7985.1.1 = {
+		holder = gen_538
+		liege = d_R87G54B134
+	}
+}
+c_R111G69B101 = {
+		7898.1.1 = {
+		holder = gen_3011
+		government = theocracy_government
+		liege = d_R87G54B134
+	}
+	7985.1.1 = {
+		holder = gen_538
+		government = theocracy_government
+		liege = d_R87G54B134
+	}
+}
+d_R53G162B46 = {
+		7898.1.1 = {
+		holder = gen_3012
+		government = theocracy_government
+		liege = k_R13G108B229
+	}
+	7985.1.1 = {
+		holder = gen_539
+		government = theocracy_government
+		liege = k_R13G108B229
+	}
+		8082.1.1 = {
+			holder = gen_1262
+		}
+		8106.4.18 = {
+			holder = gen_1262
+		}
+		8170.12.11 = {
+			holder = gen_1270
+		}
+		8209.2.1 = {
+			holder = gen_1274
+		}
+		8211.3.1 = {
+			holder = gen_1274
+		}
+		8233.2.8 = {
+			holder = gen_1276
+		}
+		8236.2.13 = {
+			holder = gen_1276
+		}
+		8239.1.11 = {
+			holder = gen_1279
+		}
+		8258.12.21 = {
+			holder = gen_1281
+		}
+		8277.1.1 = {
+			holder = gen_1282
+		}
+}
+c_R132G235B194 = {
+		7898.1.1 = {
+		holder = gen_3012
+		liege = d_R53G162B46
+	}
+	7985.1.1 = {
+		holder = gen_539
+		liege = d_R53G162B46
+	}
+}
+c_R4G92B23 = {
+		7898.1.1 = {
+		holder = gen_3012
+		liege = d_R53G162B46
+	}
+	7985.1.1 = {
+		holder = gen_539
+		liege = d_R53G162B46
+	}
+}
+c_R58G41B105 = {
+		7898.1.1 = {
+		holder = gen_3012
+		liege = d_R53G162B46
+	}
+	7985.1.1 = {
+		holder = gen_539
+		liege = d_R53G162B46
+	}
+}
+c_R68G236B191 = {
+		7898.1.1 = {
+		holder = gen_3012
+		liege = d_R53G162B46
+	}
+	7985.1.1 = {
+		holder = gen_539
+		liege = d_R53G162B46
+	}
+}
+c_R30G36B169 = {
+		7898.1.1 = {
+		holder = gen_3012
+		liege = d_R53G162B46
+	}
+	7985.1.1 = {
+		holder = gen_539
+		liege = d_R53G162B46
+	}
+}
+d_R123G15B86 = {
+		7898.1.1 = {
+		holder = gen_3013
+		government = theocracy_government
+		liege = k_R13G108B229
+	}
+	7985.1.1 = {
+		holder = gen_540
+		government = theocracy_government
+		liege = k_R13G108B229
+	}
+		8082.1.1 = {
+			holder = gen_1261
+		}
+		8106.4.18 = {
+			holder = gen_1261
+		}
+		8170.12.11 = {
+			holder = gen_1269
+		}
+		8209.2.1 = {
+			holder = gen_1273
+		}
+		8211.3.1 = {
+			holder = gen_1273
+		}
+		8233.2.8 = {
+			holder = gen_1275
+		}
+		8236.2.13 = {
+			holder = gen_1275
+		}
+		8239.1.11 = {
+			holder = gen_1276
+		}
+		8258.12.21 = {
+			holder = gen_1280
+		}
+		8277.1.1 = {
+			holder = gen_1281
+		}
+}
+c_R119G57B171 = {
+		7898.1.1 = {
+		holder = gen_3013
+		liege = d_R123G15B86
+	}
+	7985.1.1 = {
+		holder = gen_540
+		liege = d_R123G15B86
+	}
+}
+c_R208G118B197 = {
+		7898.1.1 = {
+		holder = gen_3013
+		liege = d_R123G15B86
+	}
+	7985.1.1 = {
+		holder = gen_540
+		liege = d_R123G15B86
+	}
+}
+c_R147G198B173 = {
+		7898.1.1 = {
+		holder = gen_3013
+		liege = d_R123G15B86
+	}
+	7985.1.1 = {
+		holder = gen_540
+		liege = d_R123G15B86
+	}
+}
+c_R140G55B7 = {
+		7898.1.1 = {
+		holder = gen_3013
+		liege = d_R123G15B86
+	}
+	7985.1.1 = {
+		holder = gen_540
+		liege = d_R123G15B86
+	}
+}
+d_R34G237B167 = {
+		7898.1.1 = {
+		holder = gen_3014
+		government = theocracy_government
+		liege = k_R13G108B229
+	}
+	7985.1.1 = {
+		holder = gen_541
+		government = theocracy_government
+		liege = k_R13G108B229
+	}
+		8082.1.1 = {
+			holder = gen_1262
+		}
+		8106.4.18 = {
+			holder = gen_1262
+		}
+		8170.12.11 = {
+			holder = gen_1270
+		}
+		8209.2.1 = {
+			holder = gen_1274
+		}
+		8211.3.1 = {
+			holder = gen_1274
+		}
+		8233.2.8 = {
+			holder = gen_1276
+		}
+		8236.2.13 = {
+			holder = gen_1276
+		}
+		8239.1.11 = {
+			holder = gen_1279
+		}
+		8258.12.21 = {
+			holder = gen_1281
+		}
+		8277.1.1 = {
+			holder = gen_1282
+		}
+}
+c_R202G160B92 = {
+		7898.1.1 = {
+		holder = gen_3014
+		liege = d_R34G237B167
+	}
+	7985.1.1 = {
+		holder = gen_541
+		liege = d_R34G237B167
+	}
+}
+c_R80G6B88 = {
+		7898.1.1 = {
+		holder = gen_3014
+		liege = d_R34G237B167
+	}
+	7985.1.1 = {
+		holder = gen_541
+		liege = d_R34G237B167
+	}
+}
+c_R234G165B231 = {
+		7898.1.1 = {
+		holder = gen_3014
+		liege = d_R34G237B167
+	}
+	7985.1.1 = {
+		holder = gen_541
+		liege = d_R34G237B167
+	}
+}
+c_R94G145B61 = {
+		7898.1.1 = {
+		holder = gen_3014
+		liege = d_R34G237B167
+	}
+	7985.1.1 = {
+		holder = gen_541
+		liege = d_R34G237B167
+	}
+}
+k_R243G104B154 = {
+		7898.1.1 = {
+		holder = gen_3015
+		government = theocracy_government
+		liege = e_norvos
+	}
+	7985.1.1 = {
+		holder = gen_542
+		government = theocracy_government
+		liege = e_norvos
+	}
+		8082.1.1 = {
+			holder = gen_1261
+			government = theocracy_government
+		}
+		8106.4.18 = {
+			holder = gen_1261
+			government = theocracy_government
+		}
+		8170.12.11 = {
+			holder = gen_1269
+			government = theocracy_government
+		}
+		8209.2.1 = {
+			holder = gen_1273
+			government = theocracy_government
+		}
+		8211.3.1 = {
+			holder = gen_1273
+			government = theocracy_government
+		}
+		8233.2.8 = {
+			holder = gen_1275
+			government = theocracy_government
+		}
+		8236.2.13 = {
+			holder = gen_1275
+			government = theocracy_government
+		}
+		8239.1.11 = {
+			holder = gen_1276
+			government = theocracy_government
+		}
+		8258.12.21 = {
+			holder = gen_1280
+			government = theocracy_government
+		}
+		8277.1.1 = {
+			holder = gen_1281
+			government = theocracy_government
+		}
+}
+d_R131G164B173 = {
+		7898.1.1 = {
+		holder = gen_3015
+		liege = k_R243G104B154
+	}
+	7985.1.1 = {
+		holder = gen_542
+		liege = k_R243G104B154
+	}
+		8082.1.1 = {
+			holder = gen_1262
+			government = theocracy_government
+		}
+		8106.4.18 = {
+			holder = gen_1262
+			government = theocracy_government
+		}
+		8170.12.11 = {
+			holder = gen_1270
+			government = theocracy_government
+		}
+		8209.2.1 = {
+			holder = gen_1274
+			government = theocracy_government
+		}
+		8211.3.1 = {
+			holder = gen_1274
+			government = theocracy_government
+		}
+		8233.2.8 = {
+			holder = gen_1276
+			government = theocracy_government
+		}
+		8236.2.13 = {
+			holder = gen_1276
+			government = theocracy_government
+		}
+		8239.1.11 = {
+			holder = gen_1279
+			government = theocracy_government
+		}
+		8258.12.21 = {
+			holder = gen_1281
+			government = theocracy_government
+		}
+		8277.1.1 = {
+			holder = gen_1282
+			government = theocracy_government
+		}
+}
+c_R255G228B84 = {
+		7898.1.1 = {
+		holder = gen_3015
+		liege = d_R131G164B173
+	}
+	7985.1.1 = {
+		holder = gen_542
+		liege = d_R131G164B173
+	}
+}
+c_R238G236B247 = {
+		7898.1.1 = {
+		holder = gen_3015
+		liege = d_R131G164B173
+	}
+	7985.1.1 = {
+		holder = gen_542
+		liege = d_R131G164B173
+	}
+}
+c_R208G52B202 = {
+		7898.1.1 = {
+		holder = gen_3015
+		liege = d_R131G164B173
+	}
+	7985.1.1 = {
+		holder = gen_542
+		liege = d_R131G164B173
+	}
+}
+c_R216G249B106 = {
+		7898.1.1 = {
+		holder = gen_3015
+		liege = d_R131G164B173
+	}
+	7985.1.1 = {
+		holder = gen_542
+		liege = d_R131G164B173
+	}
+}
+c_R189G242B27 = {
+		7898.1.1 = {
+		holder = gen_3016
+		government = theocracy_government
+		liege = d_R131G164B173
+	}
+	7985.1.1 = {
+		holder = gen_543
+		government = theocracy_government
+		liege = d_R131G164B173
+	}
+}
+c_R9G166B218 = {
+		7898.1.1 = {
+		holder = gen_3016
+		liege = d_R131G164B173
+	}
+	7985.1.1 = {
+		holder = gen_543
+		liege = d_R131G164B173
+	}
+}
+c_R30G102B239 = {
+		7898.1.1 = {
+		holder = gen_3017
+		liege = d_R131G164B173
+	}
+	7985.1.1 = {
+		holder = gen_544
+		liege = d_R131G164B173
+	}
+}
+c_R159G132B117 = {
+		7898.1.1 = {
+		holder = gen_3017
+		government = theocracy_government
+		liege = d_R131G164B173
+	}
+	7985.1.1 = {
+		holder = gen_544
+		government = theocracy_government
+		liege = d_R131G164B173
+	}
+}
+d_R4G107B83 = {
+		7898.1.1 = {
+		holder = gen_3018
+		government = theocracy_government
+		liege = k_R243G104B154
+	}
+	7985.1.1 = {
+		holder = gen_545
+		government = theocracy_government
+		liege = k_R243G104B154
+	}
+		8082.1.1 = {
+			holder = gen_1262
+		}
+		8106.4.18 = {
+			holder = gen_1262
+		}
+		8170.12.11 = {
+			holder = gen_1270
+		}
+		8209.2.1 = {
+			holder = gen_1274
+		}
+		8211.3.1 = {
+			holder = gen_1274
+		}
+		8233.2.8 = {
+			holder = gen_1276
+		}
+		8236.2.13 = {
+			holder = gen_1276
+		}
+		8239.1.11 = {
+			holder = gen_1279
+		}
+		8258.12.21 = {
+			holder = gen_1281
+		}
+		8277.1.1 = {
+			holder = gen_1282
+		}
+}
+c_R80G181B65 = {
+		7898.1.1 = {
+		holder = gen_3018
+		liege = d_R4G107B83
+	}
+	7985.1.1 = {
+		holder = gen_545
+		liege = d_R4G107B83
+	}
+}
+c_R242G210B168 = {
+		7898.1.1 = {
+		holder = gen_3018
+		liege = d_R4G107B83
+	}
+	7985.1.1 = {
+		holder = gen_545
+		liege = d_R4G107B83
+	}
+}
+c_R107G180B120 = {
+		7898.1.1 = {
+		holder = gen_3018
+		liege = d_R4G107B83
+	}
+	7985.1.1 = {
+		holder = gen_545
+		liege = d_R4G107B83
+	}
+}
+c_R36G132B165 = {
+		7898.1.1 = {
+		holder = gen_3018
+		liege = d_R4G107B83
+	}
+	7985.1.1 = {
+		holder = gen_545
+		liege = d_R4G107B83
+	}
+}
+c_R149G45B206 = {
+		7898.1.1 = {
+		holder = gen_3019
+		liege = d_R4G107B83
+	}
+	7985.1.1 = {
+		holder = gen_546
+		liege = d_R4G107B83
+	}
+}
+c_R126G130B38 = {
+		7898.1.1 = {
+		holder = gen_3019
+		government = theocracy_government
+		liege = d_R4G107B83
+	}
+	7985.1.1 = {
+		holder = gen_546
+		government = theocracy_government
+		liege = d_R4G107B83
+	}
+}
+d_R254G186B193 = {
+		7898.1.1 = {
+		holder = gen_3020
+		government = theocracy_government
+		liege = k_R243G104B154
+	}
+	7985.1.1 = {
+		holder = gen_547
+		government = theocracy_government
+		liege = k_R243G104B154
+	}
+		8082.1.1 = {
+			holder = gen_1262
+		}
+		8106.4.18 = {
+			holder = gen_1262
+		}
+		8170.12.11 = {
+			holder = gen_1270
+		}
+		8209.2.1 = {
+			holder = gen_1274
+		}
+		8211.3.1 = {
+			holder = gen_1274
+		}
+		8233.2.8 = {
+			holder = gen_1276
+		}
+		8236.2.13 = {
+			holder = gen_1276
+		}
+		8239.1.11 = {
+			holder = gen_1279
+		}
+		8258.12.21 = {
+			holder = gen_1281
+		}
+		8277.1.1 = {
+			holder = gen_1282
+		}
+}
+c_R34G227B177 = {
+		7898.1.1 = {
+		holder = gen_3020
+		liege = d_R254G186B193
+	}
+	7985.1.1 = {
+		holder = gen_547
+		liege = d_R254G186B193
+	}
+}
+c_R241G6B76 = {
+		7898.1.1 = {
+		holder = gen_3020
+		liege = d_R254G186B193
+	}
+	7985.1.1 = {
+		holder = gen_547
+		liege = d_R254G186B193
+	}
+}
+c_R221G85B62 = {
+		7898.1.1 = {
+		holder = gen_3020
+		liege = d_R254G186B193
+	}
+	7985.1.1 = {
+		holder = gen_547
+		liege = d_R254G186B193
+	}
+}
+c_R24G76B45 = {
+		7898.1.1 = {
+		holder = gen_3020
+		liege = d_R254G186B193
+	}
+	7985.1.1 = {
+		holder = gen_547
+		liege = d_R254G186B193
+	}
+}
+c_R202G134B67 = {
+		7898.1.1 = {
+		holder = gen_3020
+		liege = d_R254G186B193
+	}
+	7985.1.1 = {
+		holder = gen_547
+		liege = d_R254G186B193
+	}
+}
+d_R183G243B176 = {
+		7898.1.1 = {
+		holder = gen_3021
+		government = theocracy_government
+		liege = k_R243G104B154
+	}
+	7985.1.1 = {
+		holder = gen_548
+		government = theocracy_government
+		liege = k_R243G104B154
+	}
+		8082.1.1 = {
+			holder = gen_1262
+		}
+		8106.4.18 = {
+			holder = gen_1262
+		}
+		8170.12.11 = {
+			holder = gen_1270
+		}
+		8209.2.1 = {
+			holder = gen_1274
+		}
+		8211.3.1 = {
+			holder = gen_1274
+		}
+		8233.2.8 = {
+			holder = gen_1276
+		}
+		8236.2.13 = {
+			holder = gen_1276
+		}
+		8239.1.11 = {
+			holder = gen_1279
+		}
+		8258.12.21 = {
+			holder = gen_1281
+		}
+		8277.1.1 = {
+			holder = gen_1282
+		}
+}
+c_R125G217B249 = {
+		7898.1.1 = {
+		holder = gen_3021
+		liege = d_R183G243B176
+	}
+	7985.1.1 = {
+		holder = gen_548
+		liege = d_R183G243B176
+	}
+}
+c_R253G100B40 = {
+		7898.1.1 = {
+		holder = gen_3021
+		liege = d_R183G243B176
+	}
+	7985.1.1 = {
+		holder = gen_548
+		liege = d_R183G243B176
+	}
+}
+c_R27G1B11 = {
+		7898.1.1 = {
+		holder = gen_3021
+		liege = d_R183G243B176
+	}
+	7985.1.1 = {
+		holder = gen_548
+		liege = d_R183G243B176
+	}
+}
+c_R181G84B126 = {
+		7898.1.1 = {
+		holder = gen_3021
+		liege = d_R183G243B176
+	}
+	7985.1.1 = {
+		holder = gen_548
+		liege = d_R183G243B176
+	}
+}
+c_R98G77B213 = {
+		7898.1.1 = {
+		holder = gen_3022
+		liege = d_R183G243B176
+	}
+	7985.1.1 = {
+		holder = gen_549
+		liege = d_R183G243B176
+	}
+}
+c_R139G35B225 = {
+		7898.1.1 = {
+		holder = gen_3022
+		government = theocracy_government
+		liege = d_R183G243B176
+	}
+	7985.1.1 = {
+		holder = gen_549
+		government = theocracy_government
+		liege = d_R183G243B176
+	}
+}
+d_R150G115B7 = {
+		7898.1.1 = {
+		holder = gen_3023
+		government = theocracy_government
+		liege = k_R243G104B154
+	}
+	7985.1.1 = {
+		holder = gen_550
+		government = theocracy_government
+		liege = k_R243G104B154
+	}
+		8082.1.1 = {
+			holder = gen_1261
+		}
+		8106.4.18 = {
+			holder = gen_1261
+		}
+		8170.12.11 = {
+			holder = gen_1269
+		}
+		8209.2.1 = {
+			holder = gen_1273
+		}
+		8211.3.1 = {
+			holder = gen_1273
+		}
+		8233.2.8 = {
+			holder = gen_1275
+		}
+		8236.2.13 = {
+			holder = gen_1275
+		}
+		8239.1.11 = {
+			holder = gen_1276
+		}
+		8258.12.21 = {
+			holder = gen_1280
+		}
+		8277.1.1 = {
+			holder = gen_1281
+		}
+}
+c_R27G130B19 = {
+		7898.1.1 = {
+		holder = gen_3023
+		liege = d_R150G115B7
+	}
+	7985.1.1 = {
+		holder = gen_550
+		liege = d_R150G115B7
+	}
+}
+c_R230G68B1 = {
+		7898.1.1 = {
+		holder = gen_3023
+		liege = d_R150G115B7
+	}
+	7985.1.1 = {
+		holder = gen_550
+		liege = d_R150G115B7
+	}
+}
+c_R37G91B134 = {
+		7898.1.1 = {
+		holder = gen_3023
+		liege = d_R150G115B7
+	}
+	7985.1.1 = {
+		holder = gen_550
+		liege = d_R150G115B7
+	}
+}
+c_R108G191B182 = {
+		7898.1.1 = {
+		holder = gen_3023
+		liege = d_R150G115B7
+	}
+	7985.1.1 = {
+		holder = gen_550
+		liege = d_R150G115B7
+	}
+}
+c_R8G91B117 = {
+		7898.1.1 = {
+		holder = gen_3023
+		liege = d_R150G115B7
+	}
+	7985.1.1 = {
+		holder = gen_550
+		liege = d_R150G115B7
+	}
+}
+c_R180G93B63 = {
+		7898.1.1 = {
+		holder = gen_3024
+		government = theocracy_government
+		liege = d_R150G115B7
+	}
+	7985.1.1 = {
+		holder = gen_551
+		government = theocracy_government
+		liege = d_R150G115B7
+	}
+}
+c_R37G147B132 = {
+		7898.1.1 = {
+		holder = gen_3024
+		liege = d_R150G115B7
+	}
+	7985.1.1 = {
+		holder = gen_551
+		liege = d_R150G115B7
+	}
+}
+d_R181G179B191 = {
+		7898.1.1 = {
+		holder = gen_3025
+		government = theocracy_government
+		liege = k_R243G104B154
+	}
+	7985.1.1 = {
+		holder = gen_552
+		government = theocracy_government
+		liege = k_R243G104B154
+	}
+		8082.1.1 = {
+			holder = gen_1261
+		}
+		8106.4.18 = {
+			holder = gen_1261
+		}
+		8170.12.11 = {
+			holder = gen_1269
+		}
+		8209.2.1 = {
+			holder = gen_1273
+		}
+		8211.3.1 = {
+			holder = gen_1273
+		}
+		8233.2.8 = {
+			holder = gen_1275
+		}
+		8236.2.13 = {
+			holder = gen_1275
+		}
+		8239.1.11 = {
+			holder = gen_1276
+		}
+		8258.12.21 = {
+			holder = gen_1280
+		}
+		8277.1.1 = {
+			holder = gen_1281
+		}
+}
+c_R135G122B82 = {
+		7898.1.1 = {
+		holder = gen_3025
+		liege = d_R181G179B191
+	}
+	7985.1.1 = {
+		holder = gen_552
+		liege = d_R181G179B191
+	}
+}
+c_R197G75B109 = {
+		7898.1.1 = {
+		holder = gen_3025
+		liege = d_R181G179B191
+	}
+	7985.1.1 = {
+		holder = gen_552
+		liege = d_R181G179B191
+	}
+}
+c_R179G111B248 = {
+		7898.1.1 = {
+		holder = gen_3025
+		liege = d_R181G179B191
+	}
+	7985.1.1 = {
+		holder = gen_552
+		liege = d_R181G179B191
+	}
+}
+c_R8G168B158 = {
+		7898.1.1 = {
+		holder = gen_3025
+		liege = d_R181G179B191
+	}
+	7985.1.1 = {
+		holder = gen_552
+		liege = d_R181G179B191
+	}
+}
+d_R61G49B168 = {
+		7898.1.1 = {
+		holder = gen_3026
+		government = theocracy_government
+		liege = k_R243G104B154
+	}
+	7985.1.1 = {
+		holder = gen_553
+		government = theocracy_government
+		liege = k_R243G104B154
+	}
+		8082.1.1 = {
+			holder = gen_1261
+		}
+		8106.4.18 = {
+			holder = gen_1261
+		}
+		8170.12.11 = {
+			holder = gen_1269
+		}
+		8209.2.1 = {
+			holder = gen_1273
+		}
+		8211.3.1 = {
+			holder = gen_1273
+		}
+		8233.2.8 = {
+			holder = gen_1275
+		}
+		8236.2.13 = {
+			holder = gen_1275
+		}
+		8239.1.11 = {
+			holder = gen_1276
+		}
+		8258.12.21 = {
+			holder = gen_1280
+		}
+		8277.1.1 = {
+			holder = gen_1281
+		}
+}
+c_R192G217B254 = {
+		7898.1.1 = {
+		holder = gen_3026
+		liege = d_R61G49B168
+	}
+	7985.1.1 = {
+		holder = gen_553
+		liege = d_R61G49B168
+	}
+}
+c_R210G180B5 = {
+		7898.1.1 = {
+		holder = gen_3026
+		liege = d_R61G49B168
+	}
+	7985.1.1 = {
+		holder = gen_553
+		liege = d_R61G49B168
+	}
+}
+c_R134G48B109 = {
+		7898.1.1 = {
+		holder = gen_3026
+		liege = d_R61G49B168
+	}
+	7985.1.1 = {
+		holder = gen_553
+		liege = d_R61G49B168
+	}
+}
+c_R253G59B134 = {
+		7898.1.1 = {
+		holder = gen_3026
+		liege = d_R61G49B168
+	}
+	7985.1.1 = {
+		holder = gen_553
+		liege = d_R61G49B168
+	}
+}
+c_R166G95B108 = {
+		7898.1.1 = {
+		holder = gen_3026
+		liege = d_R61G49B168
+	}
+	7985.1.1 = {
+		holder = gen_553
+		liege = d_R61G49B168
+	}
+}
+c_R103G172B200 = {
+		7898.1.1 = {
+		holder = gen_3027
+		government = theocracy_government
+		liege = d_R61G49B168
+	}
+	7985.1.1 = {
+		holder = gen_554
+		government = theocracy_government
+		liege = d_R61G49B168
+	}
+}
+c_R146G247B185 = {
+		7898.1.1 = {
+		holder = gen_3027
+		liege = d_R61G49B168
+	}
+	7985.1.1 = {
+		holder = gen_554
+		liege = d_R61G49B168
+	}
+}
+d_R251G4B55 = {
+		7898.1.1 = {
+		holder = gen_3028
+		government = theocracy_government
+		liege = k_R243G104B154
+	}
+	7985.1.1 = {
+		holder = gen_555
+		government = theocracy_government
+		liege = k_R243G104B154
+	}
+		8082.1.1 = {
+			holder = gen_1262
+		}
+		8106.4.18 = {
+			holder = gen_1262
+		}
+		8170.12.11 = {
+			holder = gen_1270
+		}
+		8209.2.1 = {
+			holder = gen_1274
+		}
+		8211.3.1 = {
+			holder = gen_1274
+		}
+		8233.2.8 = {
+			holder = gen_1276
+		}
+		8236.2.13 = {
+			holder = gen_1276
+		}
+		8239.1.11 = {
+			holder = gen_1279
+		}
+		8258.12.21 = {
+			holder = gen_1281
+		}
+		8277.1.1 = {
+			holder = gen_1282
+		}
+}
+c_R23G243B239 = {
+		7898.1.1 = {
+		holder = gen_3028
+		liege = d_R251G4B55
+	}
+	7985.1.1 = {
+		holder = gen_555
+		liege = d_R251G4B55
+	}
+}
+c_R167G231B32 = {
+		7898.1.1 = {
+		holder = gen_3028
+		liege = d_R251G4B55
+	}
+	7985.1.1 = {
+		holder = gen_555
+		liege = d_R251G4B55
+	}
+}
+c_R231G227B78 = {
+		7898.1.1 = {
+		holder = gen_3028
+		liege = d_R251G4B55
+	}
+	7985.1.1 = {
+		holder = gen_555
+		liege = d_R251G4B55
+	}
+}
+c_R28G93B42 = {
+		7898.1.1 = {
+		holder = gen_3028
+		liege = d_R251G4B55
+	}
+	7985.1.1 = {
+		holder = gen_555
+		liege = d_R251G4B55
+	}
+}
+c_R224G221B139 = {
+		7898.1.1 = {
+		holder = gen_3028
+		liege = d_R251G4B55
+	}
+	7985.1.1 = {
+		holder = gen_555
+		liege = d_R251G4B55
+	}
+}

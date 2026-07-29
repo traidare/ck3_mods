@@ -1,0 +1,1327 @@
+﻿# Auto-generated characters for the 7898 bookmark
+
+
+gen_2339 = {
+	name = "N'vroth"
+	culture = bloodless_man
+	religion = eldritch_fishgod
+	7838.1.1 = { birth = yes }
+}
+
+gen_2340 = {
+	name = "N'kael"
+	father = gen_2339
+	culture = bloodless_man
+	religion = eldritch_fishgod
+	7863.1.1 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+}
+
+gen_2341 = {
+	name = "Kb'sael"
+	father = gen_2339
+	culture = bloodless_man
+	religion = eldritch_fishgod
+	7861.5.15 = { birth = yes }
+}
+
+gen_2342 = {
+	name = "N'mael"
+	father = gen_2339
+	culture = bloodless_man
+	religion = eldritch_fishgod
+	7865.3.10 = { birth = yes }
+}
+
+gen_2343 = {
+	name = "Ib'keth"
+	father = gen_2340
+	culture = bloodless_man
+	religion = eldritch_fishgod
+	7884.8.1 = { birth = yes }
+}
+
+gen_2344 = {
+	name = "Kb'nael"
+	father = gen_2340
+	culture = bloodless_man
+	religion = eldritch_fishgod
+	7888.4.5 = { birth = yes }
+}
+
+
+gen_2345 = {
+	name = "Qahroth"
+	culture = qaleen
+	religion = eldritch_yellow
+	7838.1.1 = { birth = yes }
+}
+
+gen_2346 = {
+	name = "Qaraveth"
+	father = gen_2345
+	culture = qaleen
+	religion = eldritch_yellow
+	7863.1.1 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+}
+
+gen_2347 = {
+	name = "Qaaleth"
+	father = gen_2345
+	culture = qaleen
+	religion = eldritch_yellow
+	7861.5.15 = { birth = yes }
+}
+
+gen_2348 = {
+	name = "Qavron"
+	father = gen_2345
+	culture = qaleen
+	religion = eldritch_yellow
+	7865.3.10 = { birth = yes }
+}
+
+gen_2349 = {
+	name = "Qahrin"
+	father = gen_2346
+	culture = qaleen
+	religion = eldritch_yellow
+	7884.8.1 = { birth = yes }
+}
+
+gen_2350 = {
+	name = "Qaaveth"
+	father = gen_2346
+	culture = qaleen
+	religion = eldritch_yellow
+	7888.4.5 = { birth = yes }
+}
+
+
+gen_2351 = {
+	name = "Yenathal"
+	culture = kayakayanayan
+	religion = rhllor_hyrkoon
+	7838.1.1 = { birth = yes }
+}
+
+gen_2352 = {
+	name = "Yenavar"
+	father = gen_2351
+	culture = kayakayanayan
+	religion = rhllor_hyrkoon
+	7863.1.1 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+}
+
+gen_2353 = {
+	name = "Yenvor"
+	father = gen_2351
+	culture = kayakayanayan
+	religion = rhllor_hyrkoon
+	7861.5.15 = { birth = yes }
+}
+
+gen_2354 = {
+	name = "Yenakha"
+	father = gen_2351
+	culture = kayakayanayan
+	religion = rhllor_hyrkoon
+	7865.3.10 = { birth = yes }
+}
+
+gen_2355 = {
+	name = "Yenrin"
+	father = gen_2352
+	culture = kayakayanayan
+	religion = rhllor_hyrkoon
+	7884.8.1 = { birth = yes }
+}
+
+gen_2356 = {
+	name = "Yenael"
+	father = gen_2352
+	culture = kayakayanayan
+	religion = rhllor_hyrkoon
+	7888.4.5 = { birth = yes }
+}
+
+
+gen_2357 = {
+	name = "Habrath"
+	culture = ibbatese
+	religion = ib_ven_god_king
+	7838.1.1 = { birth = yes }
+	7899.8.14 = { religion = ib_ven_sound }
+}
+
+gen_2358 = {
+	name = "Habrond"
+	father = gen_2357
+	culture = ibbatese
+	religion = ib_ven_god_king
+	7863.1.1 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7899.8.14 = { religion = ib_ven_sound }
+}
+
+gen_2359 = {
+	name = "Habrond"
+	father = gen_2357
+	culture = ibbatese
+	religion = ib_ven_god_king
+	7861.5.15 = { birth = yes }
+	7899.8.14 = { religion = ib_ven_sound }
+}
+
+gen_2360 = {
+	name = "Habkus"
+	father = gen_2357
+	culture = ibbatese
+	religion = ib_ven_god_king
+	7865.3.10 = { birth = yes }
+	7899.8.14 = { religion = ib_ven_sound }
+}
+
+gen_2361 = {
+	name = "Habthor"
+	father = gen_2358
+	culture = ibbatese
+	religion = ib_ven_god_king
+	7884.8.1 = { birth = yes }
+	7899.8.14 = { religion = ib_ven_sound }
+}
+
+gen_2362 = {
+	name = "Habrel"
+	father = gen_2358
+	culture = ibbatese
+	religion = ib_ven_god_king
+	7888.4.5 = { birth = yes }
+	7899.8.14 = { religion = ib_ven_sound }
+}
+
+
+gen_2363 = {
+	name = "Elaevoth"
+	culture = ifequevron
+	religion = fg_pan_elenei
+	7838.1.1 = { birth = yes }
+}
+
+gen_2364 = {
+	name = "Elaethil"
+	father = gen_2363
+	culture = ifequevron
+	religion = fg_pan_elenei
+	7863.1.1 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+}
+
+gen_2365 = {
+	name = "Elaevar"
+	father = gen_2363
+	culture = ifequevron
+	religion = fg_pan_elenei
+	7861.5.15 = { birth = yes }
+}
+
+gen_2366 = {
+	name = "Elaethos"
+	father = gen_2363
+	culture = ifequevron
+	religion = fg_pan_elenei
+	7865.3.10 = { birth = yes }
+}
+
+gen_2367 = {
+	name = "Elaeran"
+	father = gen_2364
+	culture = ifequevron
+	religion = fg_pan_elenei
+	7884.8.1 = { birth = yes }
+}
+
+gen_2368 = {
+	name = "Elaetil"
+	father = gen_2364
+	culture = ifequevron
+	religion = fg_pan_elenei
+	7888.4.5 = { birth = yes }
+}
+
+
+gen_2369 = {
+	name = "Sahrond"
+	culture = farosi
+	religion = eldritch_bloodgod
+	7838.1.1 = { birth = yes }
+}
+
+gen_2370 = {
+	name = "Sahreth"
+	father = gen_2369
+	culture = farosi
+	religion = eldritch_bloodgod
+	7863.1.1 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+}
+
+gen_2371 = {
+	name = "Sahrok"
+	father = gen_2369
+	culture = farosi
+	religion = eldritch_bloodgod
+	7861.5.15 = { birth = yes }
+}
+
+gen_2372 = {
+	name = "Sahrael"
+	father = gen_2369
+	culture = farosi
+	religion = eldritch_bloodgod
+	7865.3.10 = { birth = yes }
+}
+
+gen_2373 = {
+	name = "Sahrin"
+	father = gen_2370
+	culture = farosi
+	religion = eldritch_bloodgod
+	7884.8.1 = { birth = yes }
+}
+
+gen_2374 = {
+	name = "Sahvor"
+	father = gen_2370
+	culture = farosi
+	religion = eldritch_bloodgod
+	7888.4.5 = { birth = yes }
+}
+
+
+gen_2375 = {
+	name = "Lhorath"
+	culture = lorathi
+	religion = fc_pan_lorath
+	7838.1.1 = { birth = yes }
+}
+
+gen_2376 = {
+	name = "Lhorvath"
+	father = gen_2375
+	culture = lorathi
+	religion = fc_pan_lorath
+	7863.1.1 = { birth = yes }
+}
+
+gen_2377 = {
+	name = "Lhorvyn"
+	father = gen_2375
+	culture = lorathi
+	religion = fc_pan_lorath
+	7861.5.15 = { birth = yes }
+}
+
+gen_2378 = {
+	name = "Lhoran"
+	father = gen_2375
+	culture = lorathi
+	religion = fc_pan_lorath
+	7865.3.10 = { birth = yes }
+}
+
+gen_2379 = {
+	name = "Lhorel"
+	father = gen_2376
+	culture = lorathi
+	religion = fc_pan_lorath
+	7884.8.1 = { birth = yes }
+}
+
+gen_2380 = {
+	name = "Lhoryth"
+	father = gen_2376
+	culture = lorathi
+	religion = fc_pan_lorath
+	7888.4.5 = { birth = yes }
+}
+
+
+gen_2381 = {
+	name = "Korghel"
+	culture = mossovite
+	religion = song_mossovy
+	7838.1.1 = { birth = yes }
+}
+
+gen_2382 = {
+	name = "Korghast"
+	father = gen_2381
+	culture = mossovite
+	religion = song_mossovy
+	7863.1.1 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+}
+
+gen_2383 = {
+	name = "Korgvan"
+	father = gen_2381
+	culture = mossovite
+	religion = song_mossovy
+	7861.5.15 = { birth = yes }
+}
+
+gen_2384 = {
+	name = "Korgath"
+	father = gen_2381
+	culture = mossovite
+	religion = song_mossovy
+	7865.3.10 = { birth = yes }
+}
+
+gen_2385 = {
+	name = "Korgrel"
+	father = gen_2382
+	culture = mossovite
+	religion = song_mossovy
+	7884.8.1 = { birth = yes }
+}
+
+gen_2386 = {
+	name = "Korgyl"
+	father = gen_2382
+	culture = mossovite
+	religion = song_mossovy
+	7888.4.5 = { birth = yes }
+}
+
+
+gen_2387 = {
+	name = "Naevarn"
+	culture = naathi
+	religion = god_naath
+	7838.1.1 = { birth = yes }
+}
+
+gen_2388 = {
+	name = "Naevori"
+	father = gen_2387
+	culture = naathi
+	religion = god_naath
+	7863.1.1 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+}
+
+gen_2389 = {
+	name = "Naevan"
+	father = gen_2387
+	culture = naathi
+	religion = god_naath
+	7861.5.15 = { birth = yes }
+}
+
+gen_2390 = {
+	name = "Naevoth"
+	father = gen_2387
+	culture = naathi
+	religion = god_naath
+	7865.3.10 = { birth = yes }
+}
+
+gen_2391 = {
+	name = "Naevlin"
+	father = gen_2388
+	culture = naathi
+	religion = god_naath
+	7884.8.1 = { birth = yes }
+}
+
+gen_2392 = {
+	name = "Naevron"
+	father = gen_2388
+	culture = naathi
+	religion = god_naath
+	7888.4.5 = { birth = yes }
+}
+
+
+gen_2393 = {
+	name = "Norvath"
+	culture = norvoshi
+	religion = fc_pan_bearded
+	7838.1.1 = { birth = yes }
+}
+
+gen_2394 = {
+	name = "Norvaen"
+	father = gen_2393
+	culture = norvoshi
+	religion = fc_pan_bearded
+	7863.1.1 = { birth = yes }
+}
+
+gen_2395 = {
+	name = "Norvyn"
+	father = gen_2393
+	culture = norvoshi
+	religion = fc_pan_bearded
+	7861.5.15 = { birth = yes }
+}
+
+gen_2396 = {
+	name = "Norvael"
+	father = gen_2393
+	culture = norvoshi
+	religion = fc_pan_bearded
+	7865.3.10 = { birth = yes }
+}
+
+gen_2397 = {
+	name = "Norvrin"
+	father = gen_2394
+	culture = norvoshi
+	religion = fc_pan_bearded
+	7884.8.1 = { birth = yes }
+}
+
+gen_2398 = {
+	name = "Norvel"
+	father = gen_2394
+	culture = norvoshi
+	religion = fc_pan_bearded
+	7888.4.5 = { birth = yes }
+}
+
+
+gen_2399 = {
+	name = "Ombryn"
+	culture = omberi
+	religion = dothraki_faith
+	7838.1.1 = { birth = yes }
+}
+
+gen_2400 = {
+	name = "Ombrath"
+	father = gen_2399
+	culture = omberi
+	religion = dothraki_faith
+	7863.1.1 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+}
+
+gen_2401 = {
+	name = "Ombvel"
+	father = gen_2399
+	culture = omberi
+	religion = dothraki_faith
+	7861.5.15 = { birth = yes }
+}
+
+gen_2402 = {
+	name = "Ombrael"
+	father = gen_2399
+	culture = omberi
+	religion = dothraki_faith
+	7865.3.10 = { birth = yes }
+}
+
+gen_2403 = {
+	name = "Ombreth"
+	father = gen_2400
+	culture = omberi
+	religion = dothraki_faith
+	7884.8.1 = { birth = yes }
+}
+
+gen_2404 = {
+	name = "Ombrin"
+	father = gen_2400
+	culture = omberi
+	religion = dothraki_faith
+	7888.4.5 = { birth = yes }
+}
+
+
+gen_2405 = {
+	name = "Qhovrath"
+	culture = qohorik
+	religion = fc_pan_blackgoat
+	7838.1.1 = { birth = yes }
+}
+
+gen_2406 = {
+	name = "Qhovren"
+	father = gen_2405
+	culture = qohorik
+	religion = fc_pan_blackgoat
+	7863.1.1 = { birth = yes }
+}
+
+gen_2407 = {
+	name = "Qhovyn"
+	father = gen_2405
+	culture = qohorik
+	religion = fc_pan_blackgoat
+	7861.5.15 = { birth = yes }
+}
+
+gen_2408 = {
+	name = "Qhovael"
+	father = gen_2405
+	culture = qohorik
+	religion = fc_pan_blackgoat
+	7865.3.10 = { birth = yes }
+}
+
+gen_2409 = {
+	name = "Qhovrin"
+	father = gen_2406
+	culture = qohorik
+	religion = fc_pan_blackgoat
+	7884.8.1 = { birth = yes }
+}
+
+gen_2410 = {
+	name = "Qhovel"
+	father = gen_2406
+	culture = qohorik
+	religion = fc_pan_blackgoat
+	7888.4.5 = { birth = yes }
+}
+
+
+gen_2411 = {
+	name = "Alzavar"
+	culture = tagaez_fen
+	religion = sarnori_faith
+	7838.1.1 = { birth = yes }
+}
+
+gen_2412 = {
+	name = "Alzavar"
+	father = gen_2411
+	culture = tagaez_fen
+	religion = sarnori_faith
+	7863.1.1 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+}
+
+gen_2413 = {
+	name = "Alzeth"
+	father = gen_2411
+	culture = tagaez_fen
+	religion = sarnori_faith
+	7861.5.15 = { birth = yes }
+}
+
+gen_2414 = {
+	name = "Alzorn"
+	father = gen_2411
+	culture = tagaez_fen
+	religion = sarnori_faith
+	7865.3.10 = { birth = yes }
+}
+
+gen_2415 = {
+	name = "Alzrin"
+	father = gen_2412
+	culture = tagaez_fen
+	religion = sarnori_faith
+	7884.8.1 = { birth = yes }
+}
+
+gen_2416 = {
+	name = "Alzvel"
+	father = gen_2412
+	culture = tagaez_fen
+	religion = sarnori_faith
+	7888.4.5 = { birth = yes }
+}
+
+
+gen_2417 = {
+	name = "Gograth"
+	culture = gogossite
+	religion = shanty_greenhell
+	7838.1.1 = { birth = yes }
+}
+
+gen_2418 = {
+	name = "Gograth"
+	father = gen_2417
+	culture = gogossite
+	religion = shanty_greenhell
+	7863.1.1 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+}
+
+gen_2419 = {
+	name = "Gogvel"
+	father = gen_2417
+	culture = gogossite
+	religion = shanty_greenhell
+	7861.5.15 = { birth = yes }
+}
+
+gen_2420 = {
+	name = "Gogorn"
+	father = gen_2417
+	culture = gogossite
+	religion = shanty_greenhell
+	7865.3.10 = { birth = yes }
+}
+
+gen_2421 = {
+	name = "Gogrin"
+	father = gen_2418
+	culture = gogossite
+	religion = shanty_greenhell
+	7884.8.1 = { birth = yes }
+}
+
+gen_2422 = {
+	name = "Gogeth"
+	father = gen_2418
+	culture = gogossite
+	religion = shanty_greenhell
+	7888.4.5 = { birth = yes }
+}
+
+
+gen_2423 = {
+	name = "Jalavar Ko"
+	culture = jhalai
+	religion = summer_gods_pan
+	7838.1.1 = { birth = yes }
+}
+
+gen_2424 = {
+	name = "Jolarr Xho"
+	father = gen_2423
+	culture = jhalai
+	religion = summer_gods_pan
+	7863.1.1 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+}
+
+gen_2425 = {
+	name = "Javon Xo"
+	father = gen_2423
+	culture = jhalai
+	religion = summer_gods_pan
+	7861.5.15 = { birth = yes }
+}
+
+gen_2426 = {
+	name = "Jolarr Ko"
+	father = gen_2423
+	culture = jhalai
+	religion = summer_gods_pan
+	7865.3.10 = { birth = yes }
+}
+
+gen_2427 = {
+	name = "Jovan Xo"
+	father = gen_2424
+	culture = jhalai
+	religion = summer_gods_pan
+	7884.8.1 = { birth = yes }
+}
+
+gen_2428 = {
+	name = "Jalavar Ro"
+	father = gen_2424
+	culture = jhalai
+	religion = summer_gods_pan
+	7888.4.5 = { birth = yes }
+}
+
+
+gen_2429 = {
+	name = "Vorrath"
+	culture = manticorian
+	religion = eldritch_fishgod
+	7838.1.1 = { birth = yes }
+}
+
+gen_2430 = {
+	name = "Vorrath"
+	father = gen_2429
+	culture = manticorian
+	religion = eldritch_fishgod
+	7863.1.1 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+}
+
+gen_2431 = {
+	name = "Vorryn"
+	father = gen_2429
+	culture = manticorian
+	religion = eldritch_fishgod
+	7861.5.15 = { birth = yes }
+}
+
+gen_2432 = {
+	name = "Vorrael"
+	father = gen_2429
+	culture = manticorian
+	religion = eldritch_fishgod
+	7865.3.10 = { birth = yes }
+}
+
+gen_2433 = {
+	name = "Vorrin"
+	father = gen_2430
+	culture = manticorian
+	religion = eldritch_fishgod
+	7884.8.1 = { birth = yes }
+}
+
+gen_2434 = {
+	name = "Vorvel"
+	father = gen_2430
+	culture = manticorian
+	religion = eldritch_fishgod
+	7888.4.5 = { birth = yes }
+}
+
+
+gen_2435 = {
+	name = "Azraveth"
+	culture = shadowman
+	religion = eldritch_bloodgod
+	7838.1.1 = { birth = yes }
+}
+
+gen_2436 = {
+	name = "Azrath"
+	father = gen_2435
+	culture = shadowman
+	religion = eldritch_bloodgod
+	7863.1.1 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+}
+
+gen_2437 = {
+	name = "Azryn"
+	father = gen_2435
+	culture = shadowman
+	religion = eldritch_bloodgod
+	7861.5.15 = { birth = yes }
+}
+
+gen_2438 = {
+	name = "Azrael"
+	father = gen_2435
+	culture = shadowman
+	religion = eldritch_bloodgod
+	7865.3.10 = { birth = yes }
+}
+
+gen_2439 = {
+	name = "Azrrin"
+	father = gen_2436
+	culture = shadowman
+	religion = eldritch_bloodgod
+	7884.8.1 = { birth = yes }
+}
+
+gen_2440 = {
+	name = "Azrvel"
+	father = gen_2436
+	culture = shadowman
+	religion = eldritch_bloodgod
+	7888.4.5 = { birth = yes }
+}
+
+
+gen_2441 = {
+	name = "Marrho"
+	culture = dothraki
+	religion = dothraki_faith
+	7838.1.1 = { birth = yes }
+}
+
+gen_2442 = {
+	name = "Marrakh"
+	father = gen_2441
+	culture = dothraki
+	religion = dothraki_faith
+	7863.1.1 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+}
+
+gen_2443 = {
+	name = "Marrikh"
+	father = gen_2441
+	culture = dothraki
+	religion = dothraki_faith
+	7861.5.15 = { birth = yes }
+}
+
+gen_2444 = {
+	name = "Marrath"
+	father = gen_2441
+	culture = dothraki
+	religion = dothraki_faith
+	7865.3.10 = { birth = yes }
+}
+
+gen_2445 = {
+	name = "Marro"
+	father = gen_2442
+	culture = dothraki
+	religion = dothraki_faith
+	7884.8.1 = { birth = yes }
+}
+
+gen_2446 = {
+	name = "Marryn"
+	father = gen_2442
+	culture = dothraki
+	religion = dothraki_faith
+	7888.4.5 = { birth = yes }
+}
+
+
+gen_2447 = {
+	name = "Jhorgath"
+	culture = dothraki
+	religion = dothraki_faith
+	7838.1.1 = { birth = yes }
+}
+
+gen_2448 = {
+	name = "Jhorgon"
+	father = gen_2447
+	culture = dothraki
+	religion = dothraki_faith
+	7863.1.1 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+}
+
+gen_2449 = {
+	name = "Jhorvo"
+	father = gen_2447
+	culture = dothraki
+	religion = dothraki_faith
+	7861.5.15 = { birth = yes }
+}
+
+gen_2450 = {
+	name = "Jhornak"
+	father = gen_2447
+	culture = dothraki
+	religion = dothraki_faith
+	7865.3.10 = { birth = yes }
+}
+
+gen_2451 = {
+	name = "Jhorrel"
+	father = gen_2448
+	culture = dothraki
+	religion = dothraki_faith
+	7884.8.1 = { birth = yes }
+}
+
+gen_2452 = {
+	name = "Jhoryn"
+	father = gen_2448
+	culture = dothraki
+	religion = dothraki_faith
+	7888.4.5 = { birth = yes }
+}
+
+
+gen_2453 = {
+	name = "Orrago"
+	culture = dothraki
+	religion = dothraki_faith
+	7838.1.1 = { birth = yes }
+}
+
+gen_2454 = {
+	name = "Orrakh"
+	father = gen_2453
+	culture = dothraki
+	religion = dothraki_faith
+	7863.1.1 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+}
+
+gen_2455 = {
+	name = "Orrath"
+	father = gen_2453
+	culture = dothraki
+	religion = dothraki_faith
+	7861.5.15 = { birth = yes }
+}
+
+gen_2456 = {
+	name = "Orrakh"
+	father = gen_2453
+	culture = dothraki
+	religion = dothraki_faith
+	7865.3.10 = { birth = yes }
+}
+
+gen_2457 = {
+	name = "Orryn"
+	father = gen_2454
+	culture = dothraki
+	religion = dothraki_faith
+	7884.8.1 = { birth = yes }
+}
+
+gen_2458 = {
+	name = "Orrith"
+	father = gen_2454
+	culture = dothraki
+	religion = dothraki_faith
+	7888.4.5 = { birth = yes }
+}
+
+
+gen_2459 = {
+	name = "Forzakh"
+	culture = dothraki
+	religion = dothraki_faith
+	7838.1.1 = { birth = yes }
+}
+
+gen_2460 = {
+	name = "Forzek"
+	father = gen_2459
+	culture = dothraki
+	religion = dothraki_faith
+	7863.1.1 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+}
+
+gen_2461 = {
+	name = "Forzon"
+	father = gen_2459
+	culture = dothraki
+	religion = dothraki_faith
+	7861.5.15 = { birth = yes }
+}
+
+gen_2462 = {
+	name = "Forzath"
+	father = gen_2459
+	culture = dothraki
+	religion = dothraki_faith
+	7865.3.10 = { birth = yes }
+}
+
+gen_2463 = {
+	name = "Forzin"
+	father = gen_2460
+	culture = dothraki
+	religion = dothraki_faith
+	7884.8.1 = { birth = yes }
+}
+
+gen_2464 = {
+	name = "Forzyn"
+	father = gen_2460
+	culture = dothraki
+	religion = dothraki_faith
+	7888.4.5 = { birth = yes }
+}
+
+
+gen_2465 = {
+	name = "Darro Fen"
+	culture = lhazareen
+	religion = shepherd_faith
+	7838.1.1 = { birth = yes }
+}
+
+gen_2466 = {
+	name = "Darro Zhan"
+	father = gen_2465
+	culture = lhazareen
+	religion = shepherd_faith
+	7863.1.1 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+}
+
+gen_2467 = {
+	name = "Darro Ko"
+	father = gen_2465
+	culture = lhazareen
+	religion = shepherd_faith
+	7861.5.15 = { birth = yes }
+}
+
+gen_2468 = {
+	name = "Darro Vin"
+	father = gen_2465
+	culture = lhazareen
+	religion = shepherd_faith
+	7865.3.10 = { birth = yes }
+}
+
+gen_2469 = {
+	name = "Darro Zin"
+	father = gen_2466
+	culture = lhazareen
+	religion = shepherd_faith
+	7884.8.1 = { birth = yes }
+}
+
+gen_2470 = {
+	name = "Darro Ral"
+	father = gen_2466
+	culture = lhazareen
+	religion = shepherd_faith
+	7888.4.5 = { birth = yes }
+}
+
+
+gen_2471 = {
+	name = "Pyreth Ko"
+	culture = qartheen
+	religion = qh_pureborn
+	7838.1.1 = { birth = yes }
+}
+
+gen_2472 = {
+	name = "Pyreth Zan"
+	father = gen_2471
+	culture = qartheen
+	religion = qh_pureborn
+	7863.1.1 = { birth = yes }
+}
+
+gen_2473 = {
+	name = "Pyreth Vo"
+	father = gen_2471
+	culture = qartheen
+	religion = qh_pureborn
+	7861.5.15 = { birth = yes }
+}
+
+gen_2474 = {
+	name = "Pyreth Ra"
+	father = gen_2471
+	culture = qartheen
+	religion = qh_pureborn
+	7865.3.10 = { birth = yes }
+}
+
+gen_2475 = {
+	name = "Pyreth Lin"
+	father = gen_2472
+	culture = qartheen
+	religion = qh_pureborn
+	7884.8.1 = { birth = yes }
+}
+
+gen_2476 = {
+	name = "Pyreth Ven"
+	father = gen_2472
+	culture = qartheen
+	religion = qh_pureborn
+	7888.4.5 = { birth = yes }
+}
+
+
+gen_2477 = {
+	name = "Lo Ven"
+	culture = feicui_ren
+	religion = yt_court_celestial
+	7838.1.1 = { birth = yes }
+}
+
+gen_2478 = {
+	name = "Lo Fen"
+	dynasty = dynn_yi_ti
+	father = gen_2477
+	culture = feicui_ren
+	religion = yt_court_celestial
+	7863.1.1 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+}
+
+gen_2479 = {
+	name = "Lo Kai"
+	father = gen_2477
+	culture = feicui_ren
+	religion = yt_court_celestial
+	7861.5.15 = { birth = yes }
+}
+
+gen_2480 = {
+	name = "Lo Ran"
+	father = gen_2477
+	culture = feicui_ren
+	religion = yt_court_celestial
+	7865.3.10 = { birth = yes }
+}
+
+gen_2481 = {
+	name = "Lo Shan"
+	father = gen_2478
+	culture = feicui_ren
+	religion = yt_court_celestial
+	7884.8.1 = { birth = yes }
+}
+
+gen_2482 = {
+	name = "Lo Veth"
+	father = gen_2478
+	culture = feicui_ren
+	religion = yt_court_celestial
+	7888.4.5 = { birth = yes }
+}
+
+
+gen_2483 = {
+	name = "Jong Fen"
+	culture = jogos_nhai
+	religion = song_nefer
+	7838.1.1 = { birth = yes }
+}
+
+gen_2484 = {
+	name = "Jong Var"
+	father = gen_2483
+	culture = jogos_nhai
+	religion = song_nefer
+	7863.1.1 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+}
+
+gen_2485 = {
+	name = "Jong Var"
+	father = gen_2483
+	culture = jogos_nhai
+	religion = song_nefer
+	7861.5.15 = { birth = yes }
+}
+
+gen_2486 = {
+	name = "Jong Kal"
+	father = gen_2483
+	culture = jogos_nhai
+	religion = song_nefer
+	7865.3.10 = { birth = yes }
+}
+
+gen_2487 = {
+	name = "Jong Ral"
+	father = gen_2484
+	culture = jogos_nhai
+	religion = song_nefer
+	7884.8.1 = { birth = yes }
+}
+
+gen_2488 = {
+	name = "Jong Vin"
+	father = gen_2484
+	culture = jogos_nhai
+	religion = song_nefer
+	7888.4.5 = { birth = yes }
+}
+
+
+gen_2489 = {
+	name = "Varom Fen"
+	culture = vahari
+	religion = eldritch_bloodgod
+	7838.1.1 = { birth = yes }
+}
+
+gen_2490 = {
+	name = "Varom Zan"
+	father = gen_2489
+	culture = vahari
+	religion = eldritch_bloodgod
+	7863.1.1 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+}
+
+gen_2491 = {
+	name = "Varom Ko"
+	father = gen_2489
+	culture = vahari
+	religion = eldritch_bloodgod
+	7861.5.15 = { birth = yes }
+}
+
+gen_2492 = {
+	name = "Varom Vin"
+	father = gen_2489
+	culture = vahari
+	religion = eldritch_bloodgod
+	7865.3.10 = { birth = yes }
+}
+
+gen_2493 = {
+	name = "Varom Zin"
+	father = gen_2490
+	culture = vahari
+	religion = eldritch_bloodgod
+	7884.8.1 = { birth = yes }
+}
+
+gen_2494 = {
+	name = "Varom Ral"
+	father = gen_2490
+	culture = vahari
+	religion = eldritch_bloodgod
+	7888.4.5 = { birth = yes }
+}
+
+
+gen_2495 = {
+	name = "Lengoreth"
+	culture = lengii
+	religion = eldritch_leng
+	7838.1.1 = { birth = yes }
+}
+
+gen_2496 = {
+	name = "Yal Tengvar"
+	father = gen_2495
+	culture = lengii
+	religion = eldritch_leng
+	7863.1.1 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+}
+
+gen_2497 = {
+	name = "Yaltovar"
+	father = gen_2495
+	culture = lengii
+	religion = eldritch_leng
+	7861.5.15 = { birth = yes }
+}
+
+gen_2498 = {
+	name = "Lengorn"
+	father = gen_2495
+	culture = lengii
+	religion = eldritch_leng
+	7865.3.10 = { birth = yes }
+}
+
+gen_2499 = {
+	name = "Yalton"
+	father = gen_2496
+	culture = lengii
+	religion = eldritch_leng
+	7884.8.1 = { birth = yes }
+}
+
+gen_2500 = {
+	name = "Lengovar"
+	father = gen_2496
+	culture = lengii
+	religion = eldritch_leng
+	7888.4.5 = { birth = yes }
+}

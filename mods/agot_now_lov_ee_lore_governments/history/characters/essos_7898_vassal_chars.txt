@@ -1,0 +1,5453 @@
+﻿# Auto-generated vassal characters for 7898 bookmark
+
+gen_2501 = {
+	name = "N'keth"
+	culture = bloodless_man
+	religion = eldritch_fishgod
+	7858.1.1 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7933.1.1 = { death = yes }
+}
+gen_2502 = {
+	name = "Ib'roth"
+	culture = bloodless_man
+	religion = eldritch_fishgod
+	7857.1.2 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7932.1.2 = { death = yes }
+}
+gen_2503 = {
+	name = "N'vaar"
+	culture = bloodless_man
+	religion = eldritch_fishgod
+	7856.1.3 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7931.1.3 = { death = yes }
+}
+gen_2504 = {
+	name = "Ib'kael"
+	culture = bloodless_man
+	religion = eldritch_fishgod
+	7855.1.4 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7930.1.4 = { death = yes }
+}
+gen_2505 = {
+	name = "N'soth"
+	culture = bloodless_man
+	religion = eldritch_fishgod
+	7854.1.5 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7929.1.5 = { death = yes }
+}
+gen_2506 = {
+	name = "Ib'voth"
+	culture = bloodless_man
+	religion = eldritch_fishgod
+	7853.1.6 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7928.1.6 = { death = yes }
+}
+gen_2507 = {
+	name = "N'laar"
+	culture = bloodless_man
+	religion = eldritch_fishgod
+	7852.1.7 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7927.1.7 = { death = yes }
+}
+gen_2508 = {
+	name = "Ib'rael"
+	culture = bloodless_man
+	religion = eldritch_fishgod
+	7851.1.8 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7926.1.8 = { death = yes }
+}
+gen_2509 = {
+	name = "N'kaar"
+	culture = bloodless_man
+	religion = eldritch_fishgod
+	7850.1.9 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7925.1.9 = { death = yes }
+}
+gen_2510 = {
+	name = "Ib'sael"
+	culture = bloodless_man
+	religion = eldritch_fishgod
+	7849.1.10 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7924.1.10 = { death = yes }
+}
+gen_2511 = {
+	name = "Drogo"
+	culture = dothraki
+	religion = dothraki_faith
+	7848.1.11 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7923.1.11 = { death = yes }
+}
+gen_2512 = {
+	name = "Rhaego"
+	culture = dothraki
+	religion = dothraki_faith
+	7847.1.12 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7922.1.12 = { death = yes }
+}
+gen_2513 = {
+	name = "Jhaqo"
+	culture = dothraki
+	religion = dothraki_faith
+	7846.1.13 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7921.1.13 = { death = yes }
+}
+gen_2514 = {
+	name = "Mago"
+	culture = dothraki
+	religion = dothraki_faith
+	7845.1.14 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7920.1.14 = { death = yes }
+}
+gen_2515 = {
+	name = "Pono"
+	culture = dothraki
+	religion = dothraki_faith
+	7844.1.15 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7919.1.15 = { death = yes }
+}
+gen_2516 = {
+	name = "Cohollo"
+	culture = dothraki
+	religion = dothraki_faith
+	7843.1.16 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7918.1.16 = { death = yes }
+}
+gen_2517 = {
+	name = "Haggo"
+	culture = dothraki
+	religion = dothraki_faith
+	7842.1.17 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7917.1.17 = { death = yes }
+}
+gen_2518 = {
+	name = "Qotho"
+	culture = dothraki
+	religion = dothraki_faith
+	7841.1.18 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7916.1.18 = { death = yes }
+}
+gen_2519 = {
+	name = "Kovarro"
+	culture = dothraki
+	religion = dothraki_faith
+	7840.1.19 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7915.1.19 = { death = yes }
+}
+gen_2520 = {
+	name = "Rakharo"
+	culture = dothraki
+	religion = dothraki_faith
+	7839.1.20 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7914.1.20 = { death = yes }
+}
+gen_2521 = {
+	name = "Aggo"
+	culture = dothraki
+	religion = dothraki_faith
+	7838.1.21 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7913.1.21 = { death = yes }
+}
+gen_2522 = {
+	name = "Jhogo"
+	culture = dothraki
+	religion = dothraki_faith
+	7837.1.22 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7912.1.22 = { death = yes }
+}
+gen_2523 = {
+	name = "Bharbo"
+	culture = dothraki
+	religion = dothraki_faith
+	7836.1.23 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7911.1.23 = { death = yes }
+}
+gen_2524 = {
+	name = "Haro"
+	culture = dothraki
+	religion = dothraki_faith
+	7858.2.24 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7933.2.24 = { death = yes }
+}
+gen_2525 = {
+	name = "Jommo"
+	culture = dothraki
+	religion = dothraki_faith
+	7857.2.25 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7932.2.25 = { death = yes }
+}
+gen_2526 = {
+	name = "Ogo"
+	culture = dothraki
+	religion = dothraki_faith
+	7856.2.26 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7931.2.26 = { death = yes }
+}
+gen_2527 = {
+	name = "Forzo"
+	culture = dothraki
+	religion = dothraki_faith
+	7855.2.27 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7930.2.27 = { death = yes }
+}
+gen_2528 = {
+	name = "Hoat"
+	culture = dothraki
+	religion = dothraki_faith
+	7854.2.28 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7929.2.28 = { death = yes }
+}
+gen_2529 = {
+	name = "Khal"
+	culture = dothraki
+	religion = dothraki_faith
+	7853.2.1 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7928.2.1 = { death = yes }
+}
+gen_2530 = {
+	name = "Vezz"
+	culture = dothraki
+	religion = dothraki_faith
+	7852.2.2 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7927.2.2 = { death = yes }
+}
+gen_2531 = {
+	name = "Temmo"
+	culture = dothraki
+	religion = dothraki_faith
+	7851.2.3 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7926.2.3 = { death = yes }
+}
+gen_2532 = {
+	name = "Jhaqar"
+	culture = dothraki
+	religion = dothraki_faith
+	7850.2.4 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7925.2.4 = { death = yes }
+}
+gen_2533 = {
+	name = "Drogo"
+	culture = dothraki
+	religion = dothraki_faith
+	7849.2.5 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7924.2.5 = { death = yes }
+}
+gen_2534 = {
+	name = "Rhal"
+	culture = dothraki
+	religion = dothraki_faith
+	7848.2.6 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7923.2.6 = { death = yes }
+}
+gen_2535 = {
+	name = "Kolka"
+	culture = dothraki
+	religion = dothraki_faith
+	7847.2.7 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7922.2.7 = { death = yes }
+}
+gen_2536 = {
+	name = "Moro"
+	culture = dothraki
+	religion = dothraki_faith
+	7846.2.8 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7921.2.8 = { death = yes }
+}
+gen_2537 = {
+	name = "Bharbo"
+	culture = dothraki
+	religion = dothraki_faith
+	7845.2.9 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7920.2.9 = { death = yes }
+}
+gen_2538 = {
+	name = "Dono"
+	culture = dothraki
+	religion = dothraki_faith
+	7844.2.10 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7919.2.10 = { death = yes }
+}
+gen_2539 = {
+	name = "Phoqo"
+	culture = dothraki
+	religion = dothraki_faith
+	7843.2.11 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7918.2.11 = { death = yes }
+}
+gen_2540 = {
+	name = "Jhoqo"
+	culture = dothraki
+	religion = dothraki_faith
+	7842.2.12 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7917.2.12 = { death = yes }
+}
+gen_2541 = {
+	name = "Foro"
+	culture = dothraki
+	religion = dothraki_faith
+	7841.2.13 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7916.2.13 = { death = yes }
+}
+gen_2542 = {
+	name = "Krazgo"
+	culture = dothraki
+	religion = dothraki_faith
+	7840.2.14 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7915.2.14 = { death = yes }
+}
+gen_2543 = {
+	name = "Drogo"
+	culture = dothraki
+	religion = dothraki_faith
+	7839.2.15 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7914.2.15 = { death = yes }
+}
+gen_2544 = {
+	name = "Rhaego"
+	culture = dothraki
+	religion = dothraki_faith
+	7838.2.16 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7913.2.16 = { death = yes }
+}
+gen_2545 = {
+	name = "Jhaqo"
+	culture = dothraki
+	religion = dothraki_faith
+	7837.2.17 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7912.2.17 = { death = yes }
+}
+gen_2546 = {
+	name = "Mago"
+	culture = dothraki
+	religion = dothraki_faith
+	7836.2.18 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7911.2.18 = { death = yes }
+}
+gen_2547 = {
+	name = "Pono"
+	culture = dothraki
+	religion = dothraki_faith
+	7858.3.19 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7933.3.19 = { death = yes }
+}
+gen_2548 = {
+	name = "Cohollo"
+	culture = dothraki
+	religion = dothraki_faith
+	7857.3.20 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7932.3.20 = { death = yes }
+}
+gen_2549 = {
+	name = "Haggo"
+	culture = dothraki
+	religion = dothraki_faith
+	7856.3.21 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7931.3.21 = { death = yes }
+}
+gen_2550 = {
+	name = "Qotho"
+	culture = dothraki
+	religion = dothraki_faith
+	7855.3.22 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7930.3.22 = { death = yes }
+}
+gen_2551 = {
+	name = "Kovarro"
+	culture = dothraki
+	religion = dothraki_faith
+	7854.3.23 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7929.3.23 = { death = yes }
+}
+gen_2552 = {
+	name = "Rakharo"
+	culture = dothraki
+	religion = dothraki_faith
+	7853.3.24 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7928.3.24 = { death = yes }
+}
+gen_2553 = {
+	name = "Aggo"
+	culture = dothraki
+	religion = dothraki_faith
+	7852.3.25 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7927.3.25 = { death = yes }
+}
+gen_2554 = {
+	name = "Jhogo"
+	culture = dothraki
+	religion = dothraki_faith
+	7851.3.26 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7926.3.26 = { death = yes }
+}
+gen_2555 = {
+	name = "Bharbo"
+	culture = dothraki
+	religion = dothraki_faith
+	7850.3.27 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7925.3.27 = { death = yes }
+}
+gen_2556 = {
+	name = "Haro"
+	culture = dothraki
+	religion = dothraki_faith
+	7849.3.28 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7924.3.28 = { death = yes }
+}
+gen_2557 = {
+	name = "Jommo"
+	culture = dothraki
+	religion = dothraki_faith
+	7848.3.1 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7923.3.1 = { death = yes }
+}
+gen_2558 = {
+	name = "Ogo"
+	culture = dothraki
+	religion = dothraki_faith
+	7847.3.2 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7922.3.2 = { death = yes }
+}
+gen_2559 = {
+	name = "Forzo"
+	culture = dothraki
+	religion = dothraki_faith
+	7846.3.3 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7921.3.3 = { death = yes }
+}
+gen_2560 = {
+	name = "Hoat"
+	culture = dothraki
+	religion = dothraki_faith
+	7845.3.4 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7920.3.4 = { death = yes }
+}
+gen_2561 = {
+	name = "Khal"
+	culture = dothraki
+	religion = dothraki_faith
+	7844.3.5 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7919.3.5 = { death = yes }
+}
+gen_2562 = {
+	name = "Vezz"
+	culture = dothraki
+	religion = dothraki_faith
+	7843.3.6 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7918.3.6 = { death = yes }
+}
+gen_2563 = {
+	name = "Temmo"
+	culture = dothraki
+	religion = dothraki_faith
+	7842.3.7 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7917.3.7 = { death = yes }
+}
+gen_2564 = {
+	name = "Jhaqar"
+	culture = dothraki
+	religion = dothraki_faith
+	7841.3.8 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7916.3.8 = { death = yes }
+}
+gen_2565 = {
+	name = "Drogo"
+	culture = dothraki
+	religion = dothraki_faith
+	7840.3.9 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7915.3.9 = { death = yes }
+}
+gen_2566 = {
+	name = "Rhal"
+	culture = dothraki
+	religion = dothraki_faith
+	7839.3.10 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7914.3.10 = { death = yes }
+}
+gen_2567 = {
+	name = "Kolka"
+	culture = dothraki
+	religion = dothraki_faith
+	7838.3.11 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7913.3.11 = { death = yes }
+}
+gen_2568 = {
+	name = "Moro"
+	culture = dothraki
+	religion = dothraki_faith
+	7837.3.12 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7912.3.12 = { death = yes }
+}
+gen_2569 = {
+	name = "Bharbo"
+	culture = dothraki
+	religion = dothraki_faith
+	7836.3.13 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7911.3.13 = { death = yes }
+}
+gen_2570 = {
+	name = "Lo Kai"
+	culture = feicui_ren
+	religion = yt_court_celestial
+	7858.4.14 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7933.4.14 = { death = yes }
+}
+gen_2571 = {
+	name = "Jong Dar"
+	culture = feicui_ren
+	religion = yt_court_celestial
+	7857.4.15 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7932.4.15 = { death = yes }
+}
+gen_2572 = {
+	name = "Yi Len"
+	culture = feicui_ren
+	religion = yt_court_celestial
+	7856.4.16 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7931.4.16 = { death = yes }
+}
+gen_2573 = {
+	name = "Quor Vo"
+	culture = feicui_ren
+	religion = yt_court_celestial
+	7855.4.17 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7930.4.17 = { death = yes }
+}
+gen_2574 = {
+	name = "Leng Pan"
+	culture = feicui_ren
+	religion = yt_court_celestial
+	7854.4.18 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7929.4.18 = { death = yes }
+}
+gen_2575 = {
+	name = "Ko Lon"
+	culture = feicui_ren
+	religion = yt_court_celestial
+	7853.4.19 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7928.4.19 = { death = yes }
+}
+gen_2576 = {
+	name = "Xhi Yan"
+	culture = feicui_ren
+	religion = yt_court_celestial
+	7852.4.20 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7927.4.20 = { death = yes }
+}
+gen_2577 = {
+	name = "Jo Max"
+	culture = feicui_ren
+	religion = yt_court_celestial
+	7851.4.21 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7926.4.21 = { death = yes }
+}
+gen_2578 = {
+	name = "Li Kai"
+	culture = feicui_ren
+	religion = yt_court_celestial
+	7850.4.22 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7925.4.22 = { death = yes }
+}
+gen_2579 = {
+	name = "Quan Vo"
+	culture = feicui_ren
+	religion = yt_court_celestial
+	7849.4.23 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7924.4.23 = { death = yes }
+}
+gen_2580 = {
+	name = "Peng Lon"
+	culture = feicui_ren
+	religion = yt_court_celestial
+	7848.4.24 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7923.4.24 = { death = yes }
+}
+gen_2581 = {
+	name = "Ki Pan"
+	culture = feicui_ren
+	religion = yt_court_celestial
+	7847.4.25 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7922.4.25 = { death = yes }
+}
+gen_2582 = {
+	name = "Shi Yan"
+	culture = feicui_ren
+	religion = yt_court_celestial
+	7846.4.26 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7921.4.26 = { death = yes }
+}
+gen_2583 = {
+	name = "Fo Max"
+	culture = feicui_ren
+	religion = yt_court_celestial
+	7845.4.27 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7920.4.27 = { death = yes }
+}
+gen_2584 = {
+	name = "Bi Kai"
+	culture = feicui_ren
+	religion = yt_court_celestial
+	7844.4.28 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7919.4.28 = { death = yes }
+}
+gen_2585 = {
+	name = "Yuan Vo"
+	culture = feicui_ren
+	religion = yt_court_celestial
+	7843.4.1 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7918.4.1 = { death = yes }
+}
+gen_2586 = {
+	name = "Feng Lon"
+	culture = feicui_ren
+	religion = yt_court_celestial
+	7842.4.2 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7917.4.2 = { death = yes }
+}
+gen_2587 = {
+	name = "Gi Pan"
+	culture = feicui_ren
+	religion = yt_court_celestial
+	7841.4.3 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7916.4.3 = { death = yes }
+}
+gen_2588 = {
+	name = "Zhi Yan"
+	culture = feicui_ren
+	religion = yt_court_celestial
+	7840.4.4 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7915.4.4 = { death = yes }
+}
+gen_2589 = {
+	name = "Ho Max"
+	culture = feicui_ren
+	religion = yt_court_celestial
+	7839.4.5 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7914.4.5 = { death = yes }
+}
+gen_2590 = {
+	name = "Di Kai"
+	culture = feicui_ren
+	religion = yt_court_celestial
+	7838.4.6 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7913.4.6 = { death = yes }
+}
+gen_2591 = {
+	name = "Ruan Vo"
+	culture = feicui_ren
+	religion = yt_court_celestial
+	7837.4.7 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7912.4.7 = { death = yes }
+}
+gen_2592 = {
+	name = "Meng Lon"
+	culture = feicui_ren
+	religion = yt_court_celestial
+	7836.4.8 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7911.4.8 = { death = yes }
+}
+gen_2593 = {
+	name = "Ni Pan"
+	culture = feicui_ren
+	religion = yt_court_celestial
+	7858.5.9 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7933.5.9 = { death = yes }
+}
+gen_2594 = {
+	name = "Chi Yan"
+	culture = feicui_ren
+	religion = yt_court_celestial
+	7857.5.10 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7932.5.10 = { death = yes }
+}
+gen_2595 = {
+	name = "Bo Max"
+	culture = feicui_ren
+	religion = yt_court_celestial
+	7856.5.11 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7931.5.11 = { death = yes }
+}
+gen_2596 = {
+	name = "Pi Kai"
+	culture = feicui_ren
+	religion = yt_court_celestial
+	7855.5.12 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7930.5.12 = { death = yes }
+}
+gen_2597 = {
+	name = "Xuan Vo"
+	culture = feicui_ren
+	religion = yt_court_celestial
+	7854.5.13 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7929.5.13 = { death = yes }
+}
+gen_2598 = {
+	name = "Heng Lon"
+	culture = feicui_ren
+	religion = yt_court_celestial
+	7853.5.14 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7928.5.14 = { death = yes }
+}
+gen_2599 = {
+	name = "Ji Pan"
+	culture = feicui_ren
+	religion = yt_court_celestial
+	7852.5.15 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7927.5.15 = { death = yes }
+}
+gen_2600 = {
+	name = "Thi Yan"
+	culture = feicui_ren
+	religion = yt_court_celestial
+	7851.5.16 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7926.5.16 = { death = yes }
+}
+gen_2601 = {
+	name = "Go Max"
+	culture = feicui_ren
+	religion = yt_court_celestial
+	7850.5.17 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7925.5.17 = { death = yes }
+}
+gen_2602 = {
+	name = "Lo Kai"
+	culture = feicui_ren
+	religion = yt_court_celestial
+	7849.5.18 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7924.5.18 = { death = yes }
+}
+gen_2603 = {
+	name = "Jong Dar"
+	culture = feicui_ren
+	religion = yt_court_celestial
+	7848.5.19 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7923.5.19 = { death = yes }
+}
+gen_2604 = {
+	name = "Yi Len"
+	culture = feicui_ren
+	religion = yt_court_celestial
+	7847.5.20 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7922.5.20 = { death = yes }
+}
+gen_2605 = {
+	name = "Quor Vo"
+	culture = feicui_ren
+	religion = yt_court_celestial
+	7846.5.21 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7921.5.21 = { death = yes }
+}
+gen_2606 = {
+	name = "Leng Pan"
+	culture = feicui_ren
+	religion = yt_court_celestial
+	7845.5.22 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7920.5.22 = { death = yes }
+}
+gen_2607 = {
+	name = "Ko Lon"
+	culture = feicui_ren
+	religion = yt_court_celestial
+	7844.5.23 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7919.5.23 = { death = yes }
+}
+gen_2608 = {
+	name = "Xhi Yan"
+	culture = feicui_ren
+	religion = yt_court_celestial
+	7843.5.24 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7918.5.24 = { death = yes }
+}
+gen_2609 = {
+	name = "Jo Max"
+	culture = feicui_ren
+	religion = yt_court_celestial
+	7842.5.25 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7917.5.25 = { death = yes }
+}
+gen_2610 = {
+	name = "Li Kai"
+	culture = feicui_ren
+	religion = yt_court_celestial
+	7841.5.26 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7916.5.26 = { death = yes }
+}
+gen_2611 = {
+	name = "Quan Vo"
+	culture = feicui_ren
+	religion = yt_court_celestial
+	7840.5.27 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7915.5.27 = { death = yes }
+}
+gen_2612 = {
+	name = "Peng Lon"
+	culture = feicui_ren
+	religion = yt_court_celestial
+	7839.5.28 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7914.5.28 = { death = yes }
+}
+gen_2613 = {
+	name = "Ki Pan"
+	culture = feicui_ren
+	religion = yt_court_celestial
+	7838.5.1 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7913.5.1 = { death = yes }
+}
+gen_2614 = {
+	name = "Shi Yan"
+	culture = feicui_ren
+	religion = yt_court_celestial
+	7837.5.2 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7912.5.2 = { death = yes }
+}
+gen_2615 = {
+	name = "Fo Max"
+	culture = feicui_ren
+	religion = yt_court_celestial
+	7836.5.3 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7911.5.3 = { death = yes }
+}
+gen_2616 = {
+	name = "Bi Kai"
+	culture = feicui_ren
+	religion = yt_court_celestial
+	7858.6.4 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7933.6.4 = { death = yes }
+}
+gen_2617 = {
+	name = "Yuan Vo"
+	culture = feicui_ren
+	religion = yt_court_celestial
+	7857.6.5 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7932.6.5 = { death = yes }
+}
+gen_2618 = {
+	name = "Feng Lon"
+	culture = feicui_ren
+	religion = yt_court_celestial
+	7856.6.6 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7931.6.6 = { death = yes }
+}
+gen_2619 = {
+	name = "Gi Pan"
+	culture = feicui_ren
+	religion = yt_court_celestial
+	7855.6.7 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7930.6.7 = { death = yes }
+}
+gen_2620 = {
+	name = "Zhi Yan"
+	culture = feicui_ren
+	religion = yt_court_celestial
+	7854.6.8 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7929.6.8 = { death = yes }
+}
+gen_2621 = {
+	name = "Ho Max"
+	culture = feicui_ren
+	religion = yt_court_celestial
+	7853.6.9 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7928.6.9 = { death = yes }
+}
+gen_2622 = {
+	name = "Di Kai"
+	culture = feicui_ren
+	religion = yt_court_celestial
+	7852.6.10 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7927.6.10 = { death = yes }
+}
+gen_2623 = {
+	name = "Ruan Vo"
+	culture = feicui_ren
+	religion = yt_court_celestial
+	7851.6.11 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7926.6.11 = { death = yes }
+}
+gen_2624 = {
+	name = "Meng Lon"
+	culture = feicui_ren
+	religion = yt_court_celestial
+	7850.6.12 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7925.6.12 = { death = yes }
+}
+gen_2625 = {
+	name = "Ni Pan"
+	culture = feicui_ren
+	religion = yt_court_celestial
+	7849.6.13 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7924.6.13 = { death = yes }
+}
+gen_2626 = {
+	name = "Chi Yan"
+	culture = feicui_ren
+	religion = yt_court_celestial
+	7848.6.14 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7923.6.14 = { death = yes }
+}
+gen_2627 = {
+	name = "Bo Max"
+	culture = feicui_ren
+	religion = yt_court_celestial
+	7847.6.15 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7922.6.15 = { death = yes }
+}
+gen_2628 = {
+	name = "Pi Kai"
+	culture = feicui_ren
+	religion = yt_court_celestial
+	7846.6.16 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7921.6.16 = { death = yes }
+}
+gen_2629 = {
+	name = "Xuan Vo"
+	culture = feicui_ren
+	religion = yt_court_celestial
+	7845.6.17 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7920.6.17 = { death = yes }
+}
+gen_2630 = {
+	name = "Heng Lon"
+	culture = feicui_ren
+	religion = yt_court_celestial
+	7844.6.18 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7919.6.18 = { death = yes }
+}
+gen_2631 = {
+	name = "Ji Pan"
+	culture = feicui_ren
+	religion = yt_court_celestial
+	7843.6.19 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7918.6.19 = { death = yes }
+}
+gen_2632 = {
+	name = "Thi Yan"
+	culture = feicui_ren
+	religion = yt_court_celestial
+	7842.6.20 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7917.6.20 = { death = yes }
+}
+gen_2633 = {
+	name = "Go Max"
+	culture = feicui_ren
+	religion = yt_court_celestial
+	7841.6.21 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7916.6.21 = { death = yes }
+}
+gen_2634 = {
+	name = "Lo Kai"
+	culture = feicui_ren
+	religion = yt_court_celestial
+	7840.6.22 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7915.6.22 = { death = yes }
+}
+gen_2635 = {
+	name = "Jong Dar"
+	culture = feicui_ren
+	religion = yt_court_celestial
+	7839.6.23 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7914.6.23 = { death = yes }
+}
+gen_2636 = {
+	name = "Yi Len"
+	culture = feicui_ren
+	religion = yt_court_celestial
+	7838.6.24 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7913.6.24 = { death = yes }
+}
+gen_2637 = {
+	name = "Quor Vo"
+	culture = feicui_ren
+	religion = yt_court_celestial
+	7837.6.25 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7912.6.25 = { death = yes }
+}
+gen_2638 = {
+	name = "Leng Pan"
+	culture = feicui_ren
+	religion = yt_court_celestial
+	7836.6.26 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7911.6.26 = { death = yes }
+}
+gen_2639 = {
+	name = "Ko Lon"
+	culture = feicui_ren
+	religion = yt_court_celestial
+	7858.7.27 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7933.7.27 = { death = yes }
+}
+gen_2640 = {
+	name = "Xhi Yan"
+	culture = feicui_ren
+	religion = yt_court_celestial
+	7857.7.28 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7932.7.28 = { death = yes }
+}
+gen_2641 = {
+	name = "Jo Max"
+	culture = feicui_ren
+	religion = yt_court_celestial
+	7856.7.1 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7931.7.1 = { death = yes }
+}
+gen_2642 = {
+	name = "Li Kai"
+	culture = feicui_ren
+	religion = yt_court_celestial
+	7855.7.2 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7930.7.2 = { death = yes }
+}
+gen_2643 = {
+	name = "Quan Vo"
+	culture = feicui_ren
+	religion = yt_court_celestial
+	7854.7.3 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7929.7.3 = { death = yes }
+}
+gen_2644 = {
+	name = "Peng Lon"
+	culture = feicui_ren
+	religion = yt_court_celestial
+	7853.7.4 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7928.7.4 = { death = yes }
+}
+gen_2645 = {
+	name = "Ki Pan"
+	culture = feicui_ren
+	religion = yt_court_celestial
+	7852.7.5 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7927.7.5 = { death = yes }
+}
+gen_2646 = {
+	name = "Shi Yan"
+	culture = feicui_ren
+	religion = yt_court_celestial
+	7851.7.6 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7926.7.6 = { death = yes }
+}
+gen_2647 = {
+	name = "Fo Max"
+	culture = feicui_ren
+	religion = yt_court_celestial
+	7850.7.7 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7925.7.7 = { death = yes }
+}
+gen_2648 = {
+	name = "Bi Kai"
+	culture = feicui_ren
+	religion = yt_court_celestial
+	7849.7.8 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7924.7.8 = { death = yes }
+}
+gen_2649 = {
+	name = "Yuan Vo"
+	culture = feicui_ren
+	religion = yt_court_celestial
+	7848.7.9 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7923.7.9 = { death = yes }
+}
+gen_2650 = {
+	name = "Feng Lon"
+	culture = feicui_ren
+	religion = yt_court_celestial
+	7847.7.10 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7922.7.10 = { death = yes }
+}
+gen_2651 = {
+	name = "Gi Pan"
+	culture = feicui_ren
+	religion = yt_court_celestial
+	7846.7.11 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7921.7.11 = { death = yes }
+}
+gen_2652 = {
+	name = "Zhi Yan"
+	culture = feicui_ren
+	religion = yt_court_celestial
+	7845.7.12 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7920.7.12 = { death = yes }
+}
+gen_2653 = {
+	name = "Ho Max"
+	culture = feicui_ren
+	religion = yt_court_celestial
+	7844.7.13 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7919.7.13 = { death = yes }
+}
+gen_2654 = {
+	name = "Di Kai"
+	culture = feicui_ren
+	religion = yt_court_celestial
+	7843.7.14 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7918.7.14 = { death = yes }
+}
+gen_2655 = {
+	name = "Ruan Vo"
+	culture = feicui_ren
+	religion = yt_court_celestial
+	7842.7.15 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7917.7.15 = { death = yes }
+}
+gen_2656 = {
+	name = "Meng Lon"
+	culture = feicui_ren
+	religion = yt_court_celestial
+	7841.7.16 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7916.7.16 = { death = yes }
+}
+gen_2657 = {
+	name = "Ni Pan"
+	culture = feicui_ren
+	religion = yt_court_celestial
+	7840.7.17 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7915.7.17 = { death = yes }
+}
+gen_2658 = {
+	name = "Chi Yan"
+	culture = feicui_ren
+	religion = yt_court_celestial
+	7839.7.18 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7914.7.18 = { death = yes }
+}
+gen_2659 = {
+	name = "Bo Max"
+	culture = feicui_ren
+	religion = yt_court_celestial
+	7838.7.19 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7913.7.19 = { death = yes }
+}
+gen_2660 = {
+	name = "Pi Kai"
+	culture = feicui_ren
+	religion = yt_court_celestial
+	7837.7.20 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7912.7.20 = { death = yes }
+}
+gen_2661 = {
+	name = "Xuan Vo"
+	culture = feicui_ren
+	religion = yt_court_celestial
+	7836.7.21 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7911.7.21 = { death = yes }
+}
+gen_2662 = {
+	name = "Heng Lon"
+	culture = feicui_ren
+	religion = yt_court_celestial
+	7858.8.22 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7933.8.22 = { death = yes }
+}
+gen_2663 = {
+	name = "Ji Pan"
+	culture = feicui_ren
+	religion = yt_court_celestial
+	7857.8.23 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7932.8.23 = { death = yes }
+}
+gen_2664 = {
+	name = "Thi Yan"
+	culture = feicui_ren
+	religion = yt_court_celestial
+	7856.8.24 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7931.8.24 = { death = yes }
+}
+gen_2665 = {
+	name = "Go Max"
+	culture = feicui_ren
+	religion = yt_court_celestial
+	7855.8.25 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7930.8.25 = { death = yes }
+}
+gen_2666 = {
+	name = "Lo Kai"
+	culture = feicui_ren
+	religion = yt_court_celestial
+	7854.8.26 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7929.8.26 = { death = yes }
+}
+gen_2667 = {
+	name = "Jong Dar"
+	culture = feicui_ren
+	religion = yt_court_celestial
+	7853.8.27 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7928.8.27 = { death = yes }
+}
+gen_2668 = {
+	name = "Yi Len"
+	culture = feicui_ren
+	religion = yt_court_celestial
+	7852.8.28 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7927.8.28 = { death = yes }
+}
+gen_2669 = {
+	name = "Quor Vo"
+	culture = feicui_ren
+	religion = yt_court_celestial
+	7851.8.1 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7926.8.1 = { death = yes }
+}
+gen_2670 = {
+	name = "Leng Pan"
+	culture = feicui_ren
+	religion = yt_court_celestial
+	7850.8.2 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7925.8.2 = { death = yes }
+}
+gen_2671 = {
+	name = "Ko Lon"
+	culture = feicui_ren
+	religion = yt_court_celestial
+	7849.8.3 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7924.8.3 = { death = yes }
+}
+gen_2672 = {
+	name = "Xhi Yan"
+	culture = feicui_ren
+	religion = yt_court_celestial
+	7848.8.4 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7923.8.4 = { death = yes }
+}
+gen_2673 = {
+	name = "Jo Max"
+	culture = feicui_ren
+	religion = yt_court_celestial
+	7847.8.5 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7922.8.5 = { death = yes }
+}
+gen_2674 = {
+	name = "Li Kai"
+	culture = feicui_ren
+	religion = yt_court_celestial
+	7846.8.6 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7921.8.6 = { death = yes }
+}
+gen_2675 = {
+	name = "Quan Vo"
+	culture = feicui_ren
+	religion = yt_court_celestial
+	7845.8.7 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7920.8.7 = { death = yes }
+}
+gen_2676 = {
+	name = "Peng Lon"
+	culture = feicui_ren
+	religion = yt_court_celestial
+	7844.8.8 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7919.8.8 = { death = yes }
+}
+gen_2677 = {
+	name = "Ki Pan"
+	culture = feicui_ren
+	religion = yt_court_celestial
+	7843.8.9 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7918.8.9 = { death = yes }
+}
+gen_2678 = {
+	name = "Shi Yan"
+	culture = feicui_ren
+	religion = yt_court_celestial
+	7842.8.10 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7917.8.10 = { death = yes }
+}
+gen_2679 = {
+	name = "Fo Max"
+	culture = feicui_ren
+	religion = yt_court_celestial
+	7841.8.11 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7916.8.11 = { death = yes }
+}
+gen_2680 = {
+	name = "Bi Kai"
+	culture = feicui_ren
+	religion = yt_court_celestial
+	7840.8.12 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7915.8.12 = { death = yes }
+}
+gen_2681 = {
+	name = "Yuan Vo"
+	culture = feicui_ren
+	religion = yt_court_celestial
+	7839.8.13 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7914.8.13 = { death = yes }
+}
+gen_2682 = {
+	name = "Feng Lon"
+	culture = feicui_ren
+	religion = yt_court_celestial
+	7838.8.14 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7913.8.14 = { death = yes }
+}
+gen_2683 = {
+	name = "Gi Pan"
+	culture = feicui_ren
+	religion = yt_court_celestial
+	7837.8.15 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7912.8.15 = { death = yes }
+}
+gen_2684 = {
+	name = "Zhi Yan"
+	culture = feicui_ren
+	religion = yt_court_celestial
+	7836.8.16 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7911.8.16 = { death = yes }
+}
+gen_2685 = {
+	name = "Ho Max"
+	culture = feicui_ren
+	religion = yt_court_celestial
+	7858.9.17 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7933.9.17 = { death = yes }
+}
+gen_2686 = {
+	name = "Di Kai"
+	culture = feicui_ren
+	religion = yt_court_celestial
+	7857.9.18 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7932.9.18 = { death = yes }
+}
+gen_2687 = {
+	name = "Ruan Vo"
+	culture = feicui_ren
+	religion = yt_court_celestial
+	7856.9.19 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7931.9.19 = { death = yes }
+}
+gen_2688 = {
+	name = "Meng Lon"
+	culture = feicui_ren
+	religion = yt_court_celestial
+	7855.9.20 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7930.9.20 = { death = yes }
+}
+gen_2689 = {
+	name = "Ni Pan"
+	culture = feicui_ren
+	religion = yt_court_celestial
+	7854.9.21 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7929.9.21 = { death = yes }
+}
+gen_2690 = {
+	name = "Chi Yan"
+	culture = feicui_ren
+	religion = yt_court_celestial
+	7853.9.22 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7928.9.22 = { death = yes }
+}
+gen_2691 = {
+	name = "Bo Max"
+	culture = feicui_ren
+	religion = yt_court_celestial
+	7852.9.23 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7927.9.23 = { death = yes }
+}
+gen_2692 = {
+	name = "Pi Kai"
+	culture = feicui_ren
+	religion = yt_court_celestial
+	7851.9.24 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7926.9.24 = { death = yes }
+}
+gen_2693 = {
+	name = "Xuan Vo"
+	culture = feicui_ren
+	religion = yt_court_celestial
+	7850.9.25 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7925.9.25 = { death = yes }
+}
+gen_2694 = {
+	name = "Heng Lon"
+	culture = feicui_ren
+	religion = yt_court_celestial
+	7849.9.26 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7924.9.26 = { death = yes }
+}
+gen_2695 = {
+	name = "Ji Pan"
+	culture = feicui_ren
+	religion = yt_court_celestial
+	7848.9.27 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7923.9.27 = { death = yes }
+}
+gen_2696 = {
+	name = "Thi Yan"
+	culture = feicui_ren
+	religion = yt_court_celestial
+	7847.9.28 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7922.9.28 = { death = yes }
+}
+gen_2697 = {
+	name = "Go Max"
+	culture = feicui_ren
+	religion = yt_court_celestial
+	7846.9.1 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7921.9.1 = { death = yes }
+}
+gen_2698 = {
+	name = "Lo Kai"
+	culture = feicui_ren
+	religion = yt_court_celestial
+	7845.9.2 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7920.9.2 = { death = yes }
+}
+gen_2699 = {
+	name = "Jong Dar"
+	culture = feicui_ren
+	religion = yt_court_celestial
+	7844.9.3 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7919.9.3 = { death = yes }
+}
+gen_2700 = {
+	name = "Yi Len"
+	culture = feicui_ren
+	religion = yt_court_celestial
+	7843.9.4 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7918.9.4 = { death = yes }
+}
+gen_2701 = {
+	name = "Quor Vo"
+	culture = feicui_ren
+	religion = yt_court_celestial
+	7842.9.5 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7917.9.5 = { death = yes }
+}
+gen_2702 = {
+	name = "Leng Pan"
+	culture = feicui_ren
+	religion = yt_court_celestial
+	7841.9.6 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7916.9.6 = { death = yes }
+}
+gen_2703 = {
+	name = "Ko Lon"
+	culture = feicui_ren
+	religion = yt_court_celestial
+	7840.9.7 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7915.9.7 = { death = yes }
+}
+gen_2704 = {
+	name = "Xhi Yan"
+	culture = feicui_ren
+	religion = yt_court_celestial
+	7839.9.8 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7914.9.8 = { death = yes }
+}
+gen_2705 = {
+	name = "Jo Max"
+	culture = feicui_ren
+	religion = yt_court_celestial
+	7838.9.9 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7913.9.9 = { death = yes }
+}
+gen_2706 = {
+	name = "Li Kai"
+	culture = feicui_ren
+	religion = yt_court_celestial
+	7837.9.10 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7912.9.10 = { death = yes }
+}
+gen_2707 = {
+	name = "Quan Vo"
+	culture = feicui_ren
+	religion = yt_court_celestial
+	7836.9.11 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7911.9.11 = { death = yes }
+}
+gen_2708 = {
+	name = "Peng Lon"
+	culture = feicui_ren
+	religion = yt_court_celestial
+	7858.10.12 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7933.10.12 = { death = yes }
+}
+gen_2709 = {
+	name = "Ki Pan"
+	culture = feicui_ren
+	religion = yt_court_celestial
+	7857.10.13 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7932.10.13 = { death = yes }
+}
+gen_2710 = {
+	name = "Dono"
+	culture = dothraki
+	religion = dothraki_faith
+	7856.10.14 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7931.10.14 = { death = yes }
+}
+gen_2711 = {
+	name = "Phoqo"
+	culture = dothraki
+	religion = dothraki_faith
+	7855.10.15 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7930.10.15 = { death = yes }
+}
+gen_2712 = {
+	name = "Jhoqo"
+	culture = dothraki
+	religion = dothraki_faith
+	7854.10.16 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7929.10.16 = { death = yes }
+}
+gen_2713 = {
+	name = "Foro"
+	culture = dothraki
+	religion = dothraki_faith
+	7853.10.17 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7928.10.17 = { death = yes }
+}
+gen_2714 = {
+	name = "Krazgo"
+	culture = dothraki
+	religion = dothraki_faith
+	7852.10.18 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7927.10.18 = { death = yes }
+}
+gen_2715 = {
+	name = "Drogo"
+	culture = dothraki
+	religion = dothraki_faith
+	7851.10.19 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7926.10.19 = { death = yes }
+}
+gen_2716 = {
+	name = "Rhaego"
+	culture = dothraki
+	religion = dothraki_faith
+	7850.10.20 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7925.10.20 = { death = yes }
+}
+gen_2717 = {
+	name = "Jhaqo"
+	culture = dothraki
+	religion = dothraki_faith
+	7849.10.21 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7924.10.21 = { death = yes }
+}
+gen_2718 = {
+	name = "Mago"
+	culture = dothraki
+	religion = dothraki_faith
+	7848.10.22 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7923.10.22 = { death = yes }
+}
+gen_2719 = {
+	name = "Pono"
+	culture = dothraki
+	religion = dothraki_faith
+	7847.10.23 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7922.10.23 = { death = yes }
+}
+gen_2720 = {
+	name = "Cohollo"
+	culture = dothraki
+	religion = dothraki_faith
+	7846.10.24 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7921.10.24 = { death = yes }
+}
+gen_2721 = {
+	name = "Haggo"
+	culture = dothraki
+	religion = dothraki_faith
+	7845.10.25 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7920.10.25 = { death = yes }
+}
+gen_2722 = {
+	name = "Qotho"
+	culture = dothraki
+	religion = dothraki_faith
+	7844.10.26 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7919.10.26 = { death = yes }
+}
+gen_2723 = {
+	name = "Kovarro"
+	culture = dothraki
+	religion = dothraki_faith
+	7843.10.27 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7918.10.27 = { death = yes }
+}
+gen_2724 = {
+	name = "Rakharo"
+	culture = dothraki
+	religion = dothraki_faith
+	7842.10.28 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7917.10.28 = { death = yes }
+}
+gen_2725 = {
+	name = "Aggo"
+	culture = dothraki
+	religion = dothraki_faith
+	7841.10.1 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7916.10.1 = { death = yes }
+}
+gen_2726 = {
+	name = "Jhogo"
+	culture = dothraki
+	religion = dothraki_faith
+	7840.10.2 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7915.10.2 = { death = yes }
+}
+gen_2727 = {
+	name = "Bharbo"
+	culture = dothraki
+	religion = dothraki_faith
+	7839.10.3 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7914.10.3 = { death = yes }
+}
+gen_2728 = {
+	name = "Haro"
+	culture = dothraki
+	religion = dothraki_faith
+	7838.10.4 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7913.10.4 = { death = yes }
+}
+gen_2729 = {
+	name = "Jommo"
+	culture = dothraki
+	religion = dothraki_faith
+	7837.10.5 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7912.10.5 = { death = yes }
+}
+gen_2730 = {
+	name = "Ogo"
+	culture = dothraki
+	religion = dothraki_faith
+	7836.10.6 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7911.10.6 = { death = yes }
+}
+gen_2731 = {
+	name = "Forzo"
+	culture = dothraki
+	religion = dothraki_faith
+	7858.11.7 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7933.11.7 = { death = yes }
+}
+gen_2732 = {
+	name = "Hoat"
+	culture = dothraki
+	religion = dothraki_faith
+	7857.11.8 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7932.11.8 = { death = yes }
+}
+gen_2733 = {
+	name = "Khal"
+	culture = dothraki
+	religion = dothraki_faith
+	7856.11.9 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7931.11.9 = { death = yes }
+}
+gen_2734 = {
+	name = "Vezz"
+	culture = dothraki
+	religion = dothraki_faith
+	7855.11.10 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7930.11.10 = { death = yes }
+}
+gen_2735 = {
+	name = "Temmo"
+	culture = dothraki
+	religion = dothraki_faith
+	7854.11.11 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7929.11.11 = { death = yes }
+}
+gen_2736 = {
+	name = "Jhaqar"
+	culture = dothraki
+	religion = dothraki_faith
+	7853.11.12 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7928.11.12 = { death = yes }
+}
+gen_2737 = {
+	name = "Drogo"
+	culture = dothraki
+	religion = dothraki_faith
+	7852.11.13 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7927.11.13 = { death = yes }
+}
+gen_2738 = {
+	name = "Rhal"
+	culture = dothraki
+	religion = dothraki_faith
+	7851.11.14 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7926.11.14 = { death = yes }
+}
+gen_2739 = {
+	name = "Kolka"
+	culture = dothraki
+	religion = dothraki_faith
+	7850.11.15 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7925.11.15 = { death = yes }
+}
+gen_2740 = {
+	name = "Moro"
+	culture = dothraki
+	religion = dothraki_faith
+	7849.11.16 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7924.11.16 = { death = yes }
+}
+gen_2741 = {
+	name = "Bharbo"
+	culture = dothraki
+	religion = dothraki_faith
+	7848.11.17 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7923.11.17 = { death = yes }
+}
+gen_2742 = {
+	name = "Dono"
+	culture = dothraki
+	religion = dothraki_faith
+	7847.11.18 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7922.11.18 = { death = yes }
+}
+gen_2743 = {
+	name = "Phoqo"
+	culture = dothraki
+	religion = dothraki_faith
+	7846.11.19 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7921.11.19 = { death = yes }
+}
+gen_2744 = {
+	name = "Jhoqo"
+	culture = dothraki
+	religion = dothraki_faith
+	7845.11.20 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7920.11.20 = { death = yes }
+}
+gen_2745 = {
+	name = "Foro"
+	culture = dothraki
+	religion = dothraki_faith
+	7844.11.21 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7919.11.21 = { death = yes }
+}
+gen_2746 = {
+	name = "Krazgo"
+	culture = dothraki
+	religion = dothraki_faith
+	7843.11.22 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7918.11.22 = { death = yes }
+}
+gen_2747 = {
+	name = "Drogo"
+	culture = dothraki
+	religion = dothraki_faith
+	7842.11.23 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7917.11.23 = { death = yes }
+}
+gen_2748 = {
+	name = "Rhaego"
+	culture = dothraki
+	religion = dothraki_faith
+	7841.11.24 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7916.11.24 = { death = yes }
+}
+gen_2749 = {
+	name = "Jhaqo"
+	culture = dothraki
+	religion = dothraki_faith
+	7840.11.25 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7915.11.25 = { death = yes }
+}
+gen_2750 = {
+	name = "Mago"
+	culture = dothraki
+	religion = dothraki_faith
+	7839.11.26 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7914.11.26 = { death = yes }
+}
+gen_2751 = {
+	name = "Pono"
+	culture = dothraki
+	religion = dothraki_faith
+	7838.11.27 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7913.11.27 = { death = yes }
+}
+gen_2752 = {
+	name = "Cohollo"
+	culture = dothraki
+	religion = dothraki_faith
+	7837.11.28 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7912.11.28 = { death = yes }
+}
+gen_2753 = {
+	name = "Haggo"
+	culture = dothraki
+	religion = dothraki_faith
+	7836.11.1 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7911.11.1 = { death = yes }
+}
+gen_2754 = {
+	name = "Qotho"
+	culture = dothraki
+	religion = dothraki_faith
+	7858.12.2 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7933.12.2 = { death = yes }
+}
+gen_2755 = {
+	name = "Kovarro"
+	culture = dothraki
+	religion = dothraki_faith
+	7857.12.3 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7932.12.3 = { death = yes }
+}
+gen_2756 = {
+	name = "Rakharo"
+	culture = dothraki
+	religion = dothraki_faith
+	7856.12.4 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7931.12.4 = { death = yes }
+}
+gen_2757 = {
+	name = "Aggo"
+	culture = dothraki
+	religion = dothraki_faith
+	7855.12.5 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7930.12.5 = { death = yes }
+}
+gen_2758 = {
+	name = "Yenara"
+	culture = kayakayanayan
+	religion = rhllor_hyrkoon
+	7854.12.6 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7929.12.6 = { death = yes }
+}
+gen_2759 = {
+	name = "Kayan"
+	culture = kayakayanayan
+	religion = rhllor_hyrkoon
+	7853.12.7 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7928.12.7 = { death = yes }
+}
+gen_2760 = {
+	name = "Kayak"
+	culture = kayakayanayan
+	religion = rhllor_hyrkoon
+	7852.12.8 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7927.12.8 = { death = yes }
+}
+gen_2761 = {
+	name = "Yenaro"
+	culture = kayakayanayan
+	religion = rhllor_hyrkoon
+	7851.12.9 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7926.12.9 = { death = yes }
+}
+gen_2762 = {
+	name = "Habok"
+	culture = ibbatese
+	religion = ib_ven_god_king
+	7850.12.10 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7899.8.14 = { religion = ib_ven_sound }
+	7925.12.10 = { death = yes }
+}
+gen_2763 = {
+	name = "Gorno"
+	culture = ibbatese
+	religion = ib_ven_god_king
+	7849.12.11 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7899.8.14 = { religion = ib_ven_sound }
+	7924.12.11 = { death = yes }
+}
+gen_2764 = {
+	name = "Thraggo"
+	culture = ibbatese
+	religion = ib_ven_god_king
+	7848.12.12 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7899.8.14 = { religion = ib_ven_sound }
+	7923.12.12 = { death = yes }
+}
+gen_2765 = {
+	name = "Hobak"
+	culture = ibbatese
+	religion = ib_ven_god_king
+	7847.12.13 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7899.8.14 = { religion = ib_ven_sound }
+	7922.12.13 = { death = yes }
+}
+gen_2766 = {
+	name = "Grugak"
+	culture = ibbatese
+	religion = ib_ven_god_king
+	7846.12.14 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7899.8.14 = { religion = ib_ven_sound }
+	7921.12.14 = { death = yes }
+}
+gen_2767 = {
+	name = "Throggo"
+	culture = ibbatese
+	religion = ib_ven_god_king
+	7845.12.15 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7899.8.14 = { religion = ib_ven_sound }
+	7920.12.15 = { death = yes }
+}
+gen_2768 = {
+	name = "Hobek"
+	culture = ibbatese
+	religion = ib_ven_god_king
+	7844.12.16 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7899.8.14 = { religion = ib_ven_sound }
+	7919.12.16 = { death = yes }
+}
+gen_2769 = {
+	name = "Grugok"
+	culture = ibbatese
+	religion = ib_ven_god_king
+	7843.12.17 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7899.8.14 = { religion = ib_ven_sound }
+	7918.12.17 = { death = yes }
+}
+gen_2770 = {
+	name = "Thraggo"
+	culture = ibbatese
+	religion = ib_ven_god_king
+	7842.12.18 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7899.8.14 = { religion = ib_ven_sound }
+	7917.12.18 = { death = yes }
+}
+gen_2771 = {
+	name = "Harak"
+	culture = ibbatese
+	religion = ib_ven_god_king
+	7841.12.19 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7899.8.14 = { religion = ib_ven_sound }
+	7916.12.19 = { death = yes }
+}
+gen_2772 = {
+	name = "Grugak"
+	culture = ibbatese
+	religion = ib_ven_god_king
+	7840.12.20 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7899.8.14 = { religion = ib_ven_sound }
+	7915.12.20 = { death = yes }
+}
+gen_2773 = {
+	name = "Throkk"
+	culture = ibbatese
+	religion = ib_ven_god_king
+	7839.12.21 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7899.8.14 = { religion = ib_ven_sound }
+	7914.12.21 = { death = yes }
+}
+gen_2774 = {
+	name = "Horak"
+	culture = ibbatese
+	religion = ib_ven_god_king
+	7838.12.22 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7899.8.14 = { religion = ib_ven_sound }
+	7913.12.22 = { death = yes }
+}
+gen_2775 = {
+	name = "Grugek"
+	culture = ibbatese
+	religion = ib_ven_god_king
+	7837.12.23 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7899.8.14 = { religion = ib_ven_sound }
+	7912.12.23 = { death = yes }
+}
+gen_2776 = {
+	name = "Throck"
+	culture = ibbatese
+	religion = ib_ven_god_king
+	7836.12.24 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7899.8.14 = { religion = ib_ven_sound }
+	7911.12.24 = { death = yes }
+}
+gen_2777 = {
+	name = "Horek"
+	culture = ibbatese
+	religion = ib_ven_god_king
+	7858.1.25 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7899.8.14 = { religion = ib_ven_sound }
+	7933.1.25 = { death = yes }
+}
+gen_2778 = {
+	name = "Graggo"
+	culture = ibbatese
+	religion = ib_ven_god_king
+	7857.1.26 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7899.8.14 = { religion = ib_ven_sound }
+	7932.1.26 = { death = yes }
+}
+gen_2779 = {
+	name = "Thrakk"
+	culture = ibbatese
+	religion = ib_ven_god_king
+	7856.1.27 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7899.8.14 = { religion = ib_ven_sound }
+	7931.1.27 = { death = yes }
+}
+gen_2780 = {
+	name = "Grok"
+	culture = ibbatese
+	religion = ib_ven_god_king
+	7855.1.28 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7899.8.14 = { religion = ib_ven_sound }
+	7930.1.28 = { death = yes }
+}
+gen_2781 = {
+	name = "Thrakgo"
+	culture = ibbatese
+	religion = ib_ven_god_king
+	7854.1.1 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7899.8.14 = { religion = ib_ven_sound }
+	7929.1.1 = { death = yes }
+}
+gen_2782 = {
+	name = "Elaevorn"
+	culture = ifequevron
+	religion = fg_pan_elenei
+	7853.1.2 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7928.1.2 = { death = yes }
+}
+gen_2783 = {
+	name = "Aelaorn"
+	culture = ifequevron
+	religion = fg_pan_elenei
+	7852.1.3 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7927.1.3 = { death = yes }
+}
+gen_2784 = {
+	name = "Sylvara"
+	culture = ifequevron
+	religion = fg_pan_elenei
+	7851.1.4 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7926.1.4 = { death = yes }
+}
+gen_2785 = {
+	name = "Elaorn"
+	culture = ifequevron
+	religion = fg_pan_elenei
+	7850.1.5 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7925.1.5 = { death = yes }
+}
+gen_2786 = {
+	name = "Aelaevorn"
+	culture = ifequevron
+	religion = fg_pan_elenei
+	7849.1.6 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7924.1.6 = { death = yes }
+}
+gen_2787 = {
+	name = "Sylvorn"
+	culture = ifequevron
+	religion = fg_pan_elenei
+	7848.1.7 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7923.1.7 = { death = yes }
+}
+gen_2788 = {
+	name = "Elaovar"
+	culture = ifequevron
+	religion = fg_pan_elenei
+	7847.1.8 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7922.1.8 = { death = yes }
+}
+gen_2789 = {
+	name = "Aelavorn"
+	culture = ifequevron
+	religion = fg_pan_elenei
+	7846.1.9 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7921.1.9 = { death = yes }
+}
+gen_2790 = {
+	name = "Sylvaor"
+	culture = ifequevron
+	religion = fg_pan_elenei
+	7845.1.10 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7920.1.10 = { death = yes }
+}
+gen_2791 = {
+	name = "Elavar"
+	culture = ifequevron
+	religion = fg_pan_elenei
+	7844.1.11 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7919.1.11 = { death = yes }
+}
+gen_2792 = {
+	name = "Aelavorn"
+	culture = ifequevron
+	religion = fg_pan_elenei
+	7843.1.12 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7918.1.12 = { death = yes }
+}
+gen_2793 = {
+	name = "Sylvator"
+	culture = ifequevron
+	religion = fg_pan_elenei
+	7842.1.13 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7917.1.13 = { death = yes }
+}
+gen_2794 = {
+	name = "Elavorn"
+	culture = ifequevron
+	religion = fg_pan_elenei
+	7841.1.14 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7916.1.14 = { death = yes }
+}
+gen_2795 = {
+	name = "Aelavor"
+	culture = ifequevron
+	religion = fg_pan_elenei
+	7840.1.15 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7915.1.15 = { death = yes }
+}
+gen_2796 = {
+	name = "Sylvaorn"
+	culture = ifequevron
+	religion = fg_pan_elenei
+	7839.1.16 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7914.1.16 = { death = yes }
+}
+gen_2797 = {
+	name = "Elavoar"
+	culture = ifequevron
+	religion = fg_pan_elenei
+	7838.1.17 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7913.1.17 = { death = yes }
+}
+gen_2798 = {
+	name = "Aelavar"
+	culture = ifequevron
+	religion = fg_pan_elenei
+	7837.1.18 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7912.1.18 = { death = yes }
+}
+gen_2799 = {
+	name = "Sylvavor"
+	culture = ifequevron
+	religion = fg_pan_elenei
+	7836.1.19 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7911.1.19 = { death = yes }
+}
+gen_2800 = {
+	name = "Elaoval"
+	culture = ifequevron
+	religion = fg_pan_elenei
+	7858.2.20 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7933.2.20 = { death = yes }
+}
+gen_2801 = {
+	name = "Aelaval"
+	culture = ifequevron
+	religion = fg_pan_elenei
+	7857.2.21 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7932.2.21 = { death = yes }
+}
+gen_2802 = {
+	name = "Sylvavel"
+	culture = ifequevron
+	religion = fg_pan_elenei
+	7856.2.22 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7931.2.22 = { death = yes }
+}
+gen_2803 = {
+	name = "Elaovarn"
+	culture = ifequevron
+	religion = fg_pan_elenei
+	7855.2.23 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7930.2.23 = { death = yes }
+}
+gen_2804 = {
+	name = "Aelavar"
+	culture = ifequevron
+	religion = fg_pan_elenei
+	7854.2.24 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7929.2.24 = { death = yes }
+}
+gen_2805 = {
+	name = "Sylvavar"
+	culture = ifequevron
+	religion = fg_pan_elenei
+	7853.2.25 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7928.2.25 = { death = yes }
+}
+gen_2806 = {
+	name = "Elaovorn"
+	culture = ifequevron
+	religion = fg_pan_elenei
+	7852.2.26 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7927.2.26 = { death = yes }
+}
+gen_2807 = {
+	name = "Aelavorn"
+	culture = ifequevron
+	religion = fg_pan_elenei
+	7851.2.27 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7926.2.27 = { death = yes }
+}
+gen_2808 = {
+	name = "Sylvavorn"
+	culture = ifequevron
+	religion = fg_pan_elenei
+	7850.2.28 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7925.2.28 = { death = yes }
+}
+gen_2809 = {
+	name = "Elaovern"
+	culture = ifequevron
+	religion = fg_pan_elenei
+	7849.2.1 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7924.2.1 = { death = yes }
+}
+gen_2810 = {
+	name = "Aelavern"
+	culture = ifequevron
+	religion = fg_pan_elenei
+	7848.2.2 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7923.2.2 = { death = yes }
+}
+gen_2811 = {
+	name = "Sylvavern"
+	culture = ifequevron
+	religion = fg_pan_elenei
+	7847.2.3 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7922.2.3 = { death = yes }
+}
+gen_2812 = {
+	name = "Elaevorn"
+	culture = ifequevron
+	religion = fg_pan_elenei
+	7846.2.4 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7921.2.4 = { death = yes }
+}
+gen_2813 = {
+	name = "Aelaorn"
+	culture = ifequevron
+	religion = fg_pan_elenei
+	7845.2.5 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7920.2.5 = { death = yes }
+}
+gen_2814 = {
+	name = "Sylvara"
+	culture = ifequevron
+	religion = fg_pan_elenei
+	7844.2.6 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7919.2.6 = { death = yes }
+}
+gen_2815 = {
+	name = "Elaorn"
+	culture = ifequevron
+	religion = fg_pan_elenei
+	7843.2.7 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7918.2.7 = { death = yes }
+}
+gen_2816 = {
+	name = "Jong Dar"
+	culture = jogos_nhai
+	religion = song_nefer
+	7842.2.8 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7917.2.8 = { death = yes }
+}
+gen_2817 = {
+	name = "Nef Lon"
+	culture = jogos_nhai
+	religion = song_nefer
+	7841.2.9 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7916.2.9 = { death = yes }
+}
+gen_2818 = {
+	name = "Yar Kai"
+	culture = jogos_nhai
+	religion = song_nefer
+	7840.2.10 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7915.2.10 = { death = yes }
+}
+gen_2819 = {
+	name = "Pon Vo"
+	culture = jogos_nhai
+	religion = song_nefer
+	7839.2.11 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7914.2.11 = { death = yes }
+}
+gen_2820 = {
+	name = "Len Max"
+	culture = jogos_nhai
+	religion = song_nefer
+	7838.2.12 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7913.2.12 = { death = yes }
+}
+gen_2821 = {
+	name = "Dar Pan"
+	culture = jogos_nhai
+	religion = song_nefer
+	7837.2.13 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7912.2.13 = { death = yes }
+}
+gen_2822 = {
+	name = "Bef Lon"
+	culture = jogos_nhai
+	religion = song_nefer
+	7836.2.14 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7911.2.14 = { death = yes }
+}
+gen_2823 = {
+	name = "Mar Kai"
+	culture = jogos_nhai
+	religion = song_nefer
+	7858.3.15 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7933.3.15 = { death = yes }
+}
+gen_2824 = {
+	name = "Son Vo"
+	culture = jogos_nhai
+	religion = song_nefer
+	7857.3.16 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7932.3.16 = { death = yes }
+}
+gen_2825 = {
+	name = "Ken Max"
+	culture = jogos_nhai
+	religion = song_nefer
+	7856.3.17 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7931.3.17 = { death = yes }
+}
+gen_2826 = {
+	name = "Far Pan"
+	culture = jogos_nhai
+	religion = song_nefer
+	7855.3.18 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7930.3.18 = { death = yes }
+}
+gen_2827 = {
+	name = "Ref Lon"
+	culture = jogos_nhai
+	religion = song_nefer
+	7854.3.19 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7929.3.19 = { death = yes }
+}
+gen_2828 = {
+	name = "Zar Kai"
+	culture = jogos_nhai
+	religion = song_nefer
+	7853.3.20 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7928.3.20 = { death = yes }
+}
+gen_2829 = {
+	name = "Won Vo"
+	culture = jogos_nhai
+	religion = song_nefer
+	7852.3.21 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7927.3.21 = { death = yes }
+}
+gen_2830 = {
+	name = "Ben Max"
+	culture = jogos_nhai
+	religion = song_nefer
+	7851.3.22 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7926.3.22 = { death = yes }
+}
+gen_2831 = {
+	name = "Car Pan"
+	culture = jogos_nhai
+	religion = song_nefer
+	7850.3.23 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7925.3.23 = { death = yes }
+}
+gen_2832 = {
+	name = "Lef Lon"
+	culture = jogos_nhai
+	religion = song_nefer
+	7849.3.24 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7924.3.24 = { death = yes }
+}
+gen_2833 = {
+	name = "Tar Kai"
+	culture = jogos_nhai
+	religion = song_nefer
+	7848.3.25 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7923.3.25 = { death = yes }
+}
+gen_2834 = {
+	name = "Jon Vo"
+	culture = jogos_nhai
+	religion = song_nefer
+	7847.3.26 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7922.3.26 = { death = yes }
+}
+gen_2835 = {
+	name = "Fen Max"
+	culture = jogos_nhai
+	religion = song_nefer
+	7846.3.27 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7921.3.27 = { death = yes }
+}
+gen_2836 = {
+	name = "Dar Pan"
+	culture = jogos_nhai
+	religion = song_nefer
+	7845.3.28 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7920.3.28 = { death = yes }
+}
+gen_2837 = {
+	name = "Nef Lon"
+	culture = jogos_nhai
+	religion = song_nefer
+	7844.3.1 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7919.3.1 = { death = yes }
+}
+gen_2838 = {
+	name = "Gar Kai"
+	culture = jogos_nhai
+	religion = song_nefer
+	7843.3.2 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7918.3.2 = { death = yes }
+}
+gen_2839 = {
+	name = "Non Vo"
+	culture = jogos_nhai
+	religion = song_nefer
+	7842.3.3 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7917.3.3 = { death = yes }
+}
+gen_2840 = {
+	name = "Ben Max"
+	culture = jogos_nhai
+	religion = song_nefer
+	7841.3.4 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7916.3.4 = { death = yes }
+}
+gen_2841 = {
+	name = "Mar Pan"
+	culture = jogos_nhai
+	religion = song_nefer
+	7840.3.5 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7915.3.5 = { death = yes }
+}
+gen_2842 = {
+	name = "Pef Lon"
+	culture = jogos_nhai
+	religion = song_nefer
+	7839.3.6 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7914.3.6 = { death = yes }
+}
+gen_2843 = {
+	name = "Har Kai"
+	culture = jogos_nhai
+	religion = song_nefer
+	7838.3.7 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7913.3.7 = { death = yes }
+}
+gen_2844 = {
+	name = "Mon Vo"
+	culture = jogos_nhai
+	religion = song_nefer
+	7837.3.8 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7912.3.8 = { death = yes }
+}
+gen_2845 = {
+	name = "Den Max"
+	culture = jogos_nhai
+	religion = song_nefer
+	7836.3.9 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7911.3.9 = { death = yes }
+}
+gen_2846 = {
+	name = "Far Pan"
+	culture = jogos_nhai
+	religion = song_nefer
+	7858.4.10 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7933.4.10 = { death = yes }
+}
+gen_2847 = {
+	name = "Ref Lon"
+	culture = jogos_nhai
+	religion = song_nefer
+	7857.4.11 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7932.4.11 = { death = yes }
+}
+gen_2848 = {
+	name = "Jong Dar"
+	culture = jogos_nhai
+	religion = song_nefer
+	7856.4.12 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7931.4.12 = { death = yes }
+}
+gen_2849 = {
+	name = "Nef Lon"
+	culture = jogos_nhai
+	religion = song_nefer
+	7855.4.13 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7930.4.13 = { death = yes }
+}
+gen_2850 = {
+	name = "Yar Kai"
+	culture = jogos_nhai
+	religion = song_nefer
+	7854.4.14 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7929.4.14 = { death = yes }
+}
+gen_2851 = {
+	name = "Pon Vo"
+	culture = jogos_nhai
+	religion = song_nefer
+	7853.4.15 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7928.4.15 = { death = yes }
+}
+gen_2852 = {
+	name = "Len Max"
+	culture = jogos_nhai
+	religion = song_nefer
+	7852.4.16 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7927.4.16 = { death = yes }
+}
+gen_2853 = {
+	name = "Dar Pan"
+	culture = jogos_nhai
+	religion = song_nefer
+	7851.4.17 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7926.4.17 = { death = yes }
+}
+gen_2854 = {
+	name = "Bef Lon"
+	culture = jogos_nhai
+	religion = song_nefer
+	7850.4.18 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7925.4.18 = { death = yes }
+}
+gen_2855 = {
+	name = "Mar Kai"
+	culture = jogos_nhai
+	religion = song_nefer
+	7849.4.19 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7924.4.19 = { death = yes }
+}
+gen_2856 = {
+	name = "Son Vo"
+	culture = jogos_nhai
+	religion = song_nefer
+	7848.4.20 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7923.4.20 = { death = yes }
+}
+gen_2857 = {
+	name = "Ken Max"
+	culture = jogos_nhai
+	religion = song_nefer
+	7847.4.21 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7922.4.21 = { death = yes }
+}
+gen_2858 = {
+	name = "Far Pan"
+	culture = jogos_nhai
+	religion = song_nefer
+	7846.4.22 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7921.4.22 = { death = yes }
+}
+gen_2859 = {
+	name = "Ref Lon"
+	culture = jogos_nhai
+	religion = song_nefer
+	7845.4.23 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7920.4.23 = { death = yes }
+}
+gen_2860 = {
+	name = "Zar Kai"
+	culture = jogos_nhai
+	religion = song_nefer
+	7844.4.24 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7919.4.24 = { death = yes }
+}
+gen_2861 = {
+	name = "Won Vo"
+	culture = jogos_nhai
+	religion = song_nefer
+	7843.4.25 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7918.4.25 = { death = yes }
+}
+gen_2862 = {
+	name = "Ben Max"
+	culture = jogos_nhai
+	religion = song_nefer
+	7842.4.26 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7917.4.26 = { death = yes }
+}
+gen_2863 = {
+	name = "Car Pan"
+	culture = jogos_nhai
+	religion = song_nefer
+	7841.4.27 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7916.4.27 = { death = yes }
+}
+gen_2864 = {
+	name = "Lef Lon"
+	culture = jogos_nhai
+	religion = song_nefer
+	7840.4.28 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7915.4.28 = { death = yes }
+}
+gen_2865 = {
+	name = "Tar Kai"
+	culture = jogos_nhai
+	religion = song_nefer
+	7839.4.1 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7914.4.1 = { death = yes }
+}
+gen_2866 = {
+	name = "Jon Vo"
+	culture = jogos_nhai
+	religion = song_nefer
+	7838.4.2 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7913.4.2 = { death = yes }
+}
+gen_2867 = {
+	name = "Fen Max"
+	culture = jogos_nhai
+	religion = song_nefer
+	7837.4.3 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7912.4.3 = { death = yes }
+}
+gen_2868 = {
+	name = "Dar Pan"
+	culture = jogos_nhai
+	religion = song_nefer
+	7836.4.4 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7911.4.4 = { death = yes }
+}
+gen_2869 = {
+	name = "Nef Lon"
+	culture = jogos_nhai
+	religion = song_nefer
+	7858.5.5 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7933.5.5 = { death = yes }
+}
+gen_2870 = {
+	name = "Gar Kai"
+	culture = jogos_nhai
+	religion = song_nefer
+	7857.5.6 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7932.5.6 = { death = yes }
+}
+gen_2871 = {
+	name = "Non Vo"
+	culture = jogos_nhai
+	religion = song_nefer
+	7856.5.7 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7931.5.7 = { death = yes }
+}
+gen_2872 = {
+	name = "Ben Max"
+	culture = jogos_nhai
+	religion = song_nefer
+	7855.5.8 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7930.5.8 = { death = yes }
+}
+gen_2873 = {
+	name = "Mar Pan"
+	culture = jogos_nhai
+	religion = song_nefer
+	7854.5.9 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7929.5.9 = { death = yes }
+}
+gen_2874 = {
+	name = "Pef Lon"
+	culture = jogos_nhai
+	religion = song_nefer
+	7853.5.10 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7928.5.10 = { death = yes }
+}
+gen_2875 = {
+	name = "Har Kai"
+	culture = jogos_nhai
+	religion = song_nefer
+	7852.5.11 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7927.5.11 = { death = yes }
+}
+gen_2876 = {
+	name = "Mon Vo"
+	culture = jogos_nhai
+	religion = song_nefer
+	7851.5.12 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7926.5.12 = { death = yes }
+}
+gen_2877 = {
+	name = "Den Max"
+	culture = jogos_nhai
+	religion = song_nefer
+	7850.5.13 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7925.5.13 = { death = yes }
+}
+gen_2878 = {
+	name = "Far Pan"
+	culture = jogos_nhai
+	religion = song_nefer
+	7849.5.14 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7924.5.14 = { death = yes }
+}
+gen_2879 = {
+	name = "Ref Lon"
+	culture = jogos_nhai
+	religion = song_nefer
+	7848.5.15 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7923.5.15 = { death = yes }
+}
+gen_2880 = {
+	name = "Jong Dar"
+	culture = jogos_nhai
+	religion = song_nefer
+	7847.5.16 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7922.5.16 = { death = yes }
+}
+gen_2881 = {
+	name = "Nef Lon"
+	culture = jogos_nhai
+	religion = song_nefer
+	7846.5.17 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7921.5.17 = { death = yes }
+}
+gen_2882 = {
+	name = "Yar Kai"
+	culture = jogos_nhai
+	religion = song_nefer
+	7845.5.18 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7920.5.18 = { death = yes }
+}
+gen_2883 = {
+	name = "Pon Vo"
+	culture = jogos_nhai
+	religion = song_nefer
+	7844.5.19 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7919.5.19 = { death = yes }
+}
+gen_2884 = {
+	name = "Len Max"
+	culture = jogos_nhai
+	religion = song_nefer
+	7843.5.20 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7918.5.20 = { death = yes }
+}
+gen_2885 = {
+	name = "Dar Pan"
+	culture = jogos_nhai
+	religion = song_nefer
+	7842.5.21 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7917.5.21 = { death = yes }
+}
+gen_2886 = {
+	name = "Bef Lon"
+	culture = jogos_nhai
+	religion = song_nefer
+	7841.5.22 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7916.5.22 = { death = yes }
+}
+gen_2887 = {
+	name = "Mar Kai"
+	culture = jogos_nhai
+	religion = song_nefer
+	7840.5.23 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7915.5.23 = { death = yes }
+}
+gen_2888 = {
+	name = "Son Vo"
+	culture = jogos_nhai
+	religion = song_nefer
+	7839.5.24 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7914.5.24 = { death = yes }
+}
+gen_2889 = {
+	name = "Ken Max"
+	culture = jogos_nhai
+	religion = song_nefer
+	7838.5.25 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7913.5.25 = { death = yes }
+}
+gen_2890 = {
+	name = "Far Pan"
+	culture = jogos_nhai
+	religion = song_nefer
+	7837.5.26 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7912.5.26 = { death = yes }
+}
+gen_2891 = {
+	name = "Ref Lon"
+	culture = jogos_nhai
+	religion = song_nefer
+	7836.5.27 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7911.5.27 = { death = yes }
+}
+gen_2892 = {
+	name = "Zar Kai"
+	culture = jogos_nhai
+	religion = song_nefer
+	7858.6.28 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7933.6.28 = { death = yes }
+}
+gen_2893 = {
+	name = "Won Vo"
+	culture = jogos_nhai
+	religion = song_nefer
+	7857.6.1 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7932.6.1 = { death = yes }
+}
+gen_2894 = {
+	name = "Ben Max"
+	culture = jogos_nhai
+	religion = song_nefer
+	7856.6.2 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7931.6.2 = { death = yes }
+}
+gen_2895 = {
+	name = "Car Pan"
+	culture = jogos_nhai
+	religion = song_nefer
+	7855.6.3 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7930.6.3 = { death = yes }
+}
+gen_2896 = {
+	name = "Lef Lon"
+	culture = jogos_nhai
+	religion = song_nefer
+	7854.6.4 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7929.6.4 = { death = yes }
+}
+gen_2897 = {
+	name = "Tar Kai"
+	culture = jogos_nhai
+	religion = song_nefer
+	7853.6.5 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7928.6.5 = { death = yes }
+}
+gen_2898 = {
+	name = "Jon Vo"
+	culture = jogos_nhai
+	religion = song_nefer
+	7852.6.6 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7927.6.6 = { death = yes }
+}
+gen_2899 = {
+	name = "Fen Max"
+	culture = jogos_nhai
+	religion = song_nefer
+	7851.6.7 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7926.6.7 = { death = yes }
+}
+gen_2900 = {
+	name = "Dar Pan"
+	culture = jogos_nhai
+	religion = song_nefer
+	7850.6.8 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7925.6.8 = { death = yes }
+}
+gen_2901 = {
+	name = "Nef Lon"
+	culture = jogos_nhai
+	religion = song_nefer
+	7849.6.9 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7924.6.9 = { death = yes }
+}
+gen_2902 = {
+	name = "Gar Kai"
+	culture = jogos_nhai
+	religion = song_nefer
+	7848.6.10 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7923.6.10 = { death = yes }
+}
+gen_2903 = {
+	name = "Non Vo"
+	culture = jogos_nhai
+	religion = song_nefer
+	7847.6.11 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7922.6.11 = { death = yes }
+}
+gen_2904 = {
+	name = "Ben Max"
+	culture = jogos_nhai
+	religion = song_nefer
+	7846.6.12 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7921.6.12 = { death = yes }
+}
+gen_2905 = {
+	name = "Mar Pan"
+	culture = jogos_nhai
+	religion = song_nefer
+	7845.6.13 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7920.6.13 = { death = yes }
+}
+gen_2906 = {
+	name = "Pef Lon"
+	culture = jogos_nhai
+	religion = song_nefer
+	7844.6.14 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7919.6.14 = { death = yes }
+}
+gen_2907 = {
+	name = "Har Kai"
+	culture = jogos_nhai
+	religion = song_nefer
+	7843.6.15 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7918.6.15 = { death = yes }
+}
+gen_2908 = {
+	name = "Mon Vo"
+	culture = jogos_nhai
+	religion = song_nefer
+	7842.6.16 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7917.6.16 = { death = yes }
+}
+gen_2909 = {
+	name = "Den Max"
+	culture = jogos_nhai
+	religion = song_nefer
+	7841.6.17 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7916.6.17 = { death = yes }
+}
+gen_2910 = {
+	name = "Far Pan"
+	culture = jogos_nhai
+	religion = song_nefer
+	7840.6.18 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7915.6.18 = { death = yes }
+}
+gen_2911 = {
+	name = "Ref Lon"
+	culture = jogos_nhai
+	religion = song_nefer
+	7839.6.19 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7914.6.19 = { death = yes }
+}
+gen_2912 = {
+	name = "Jong Dar"
+	culture = jogos_nhai
+	religion = song_nefer
+	7838.6.20 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7913.6.20 = { death = yes }
+}
+gen_2913 = {
+	name = "Nef Lon"
+	culture = jogos_nhai
+	religion = song_nefer
+	7837.6.21 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7912.6.21 = { death = yes }
+}
+gen_2914 = {
+	name = "Yar Kai"
+	culture = jogos_nhai
+	religion = song_nefer
+	7836.6.22 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7911.6.22 = { death = yes }
+}
+gen_2915 = {
+	name = "Pon Vo"
+	culture = jogos_nhai
+	religion = song_nefer
+	7858.7.23 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7933.7.23 = { death = yes }
+}
+gen_2916 = {
+	name = "Len Max"
+	culture = jogos_nhai
+	religion = song_nefer
+	7857.7.24 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7932.7.24 = { death = yes }
+}
+gen_2917 = {
+	name = "Dar Pan"
+	culture = jogos_nhai
+	religion = song_nefer
+	7856.7.25 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7931.7.25 = { death = yes }
+}
+gen_2918 = {
+	name = "Bef Lon"
+	culture = jogos_nhai
+	religion = song_nefer
+	7855.7.26 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7930.7.26 = { death = yes }
+}
+gen_2919 = {
+	name = "Mar Kai"
+	culture = jogos_nhai
+	religion = song_nefer
+	7854.7.27 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7929.7.27 = { death = yes }
+}
+gen_2920 = {
+	name = "Son Vo"
+	culture = jogos_nhai
+	religion = song_nefer
+	7853.7.28 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7928.7.28 = { death = yes }
+}
+gen_2921 = {
+	name = "Yal Tengoth"
+	culture = lengii
+	religion = eldritch_leng
+	7852.7.1 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7927.7.1 = { death = yes }
+}
+gen_2922 = {
+	name = "Lenge"
+	culture = lengii
+	religion = eldritch_leng
+	7851.7.2 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7926.7.2 = { death = yes }
+}
+gen_2923 = {
+	name = "Lengorath"
+	culture = lengii
+	religion = eldritch_leng
+	7850.7.3 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7925.7.3 = { death = yes }
+}
+gen_2924 = {
+	name = "Mirri Maz"
+	culture = lhazareen
+	religion = shepherd_faith
+	7849.7.4 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7924.7.4 = { death = yes }
+}
+gen_2925 = {
+	name = "Ogo"
+	culture = lhazareen
+	religion = shepherd_faith
+	7848.7.5 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7923.7.5 = { death = yes }
+}
+gen_2926 = {
+	name = "Haro"
+	culture = lhazareen
+	religion = shepherd_faith
+	7847.7.6 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7922.7.6 = { death = yes }
+}
+gen_2927 = {
+	name = "Dulo"
+	culture = lhazareen
+	religion = shepherd_faith
+	7846.7.7 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7921.7.7 = { death = yes }
+}
+gen_2928 = {
+	name = "Veni"
+	culture = lhazareen
+	religion = shepherd_faith
+	7845.7.8 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7920.7.8 = { death = yes }
+}
+gen_2929 = {
+	name = "Mira"
+	culture = lhazareen
+	religion = shepherd_faith
+	7844.7.9 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7919.7.9 = { death = yes }
+}
+gen_2930 = {
+	name = "Laro"
+	culture = lhazareen
+	religion = shepherd_faith
+	7843.7.10 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7918.7.10 = { death = yes }
+}
+gen_2931 = {
+	name = "Belo"
+	culture = lhazareen
+	religion = shepherd_faith
+	7842.7.11 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7917.7.11 = { death = yes }
+}
+gen_2932 = {
+	name = "Taro"
+	culture = lhazareen
+	religion = shepherd_faith
+	7841.7.12 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7916.7.12 = { death = yes }
+}
+gen_2933 = {
+	name = "Lhorvar"
+	culture = lorathi
+	religion = fc_pan_lorath
+	7840.7.13 = { birth = yes }
+	7915.7.13 = { death = yes }
+}
+gen_2934 = {
+	name = "Loreth"
+	culture = lorathi
+	religion = fc_pan_lorath
+	7839.7.14 = { birth = yes }
+	7914.7.14 = { death = yes }
+}
+gen_2935 = {
+	name = "Lhovyn"
+	culture = lorathi
+	religion = fc_pan_lorath
+	7838.7.15 = { birth = yes }
+	7913.7.15 = { death = yes }
+}
+gen_2936 = {
+	name = "Loryn"
+	culture = lorathi
+	religion = fc_pan_lorath
+	7837.7.16 = { birth = yes }
+	7912.7.16 = { death = yes }
+}
+gen_2937 = {
+	name = "Lhoreth"
+	culture = lorathi
+	religion = fc_pan_lorath
+	7836.7.17 = { birth = yes }
+	7911.7.17 = { death = yes }
+}
+gen_2938 = {
+	name = "Lorvar"
+	culture = lorathi
+	religion = fc_pan_lorath
+	7858.8.18 = { birth = yes }
+	7933.8.18 = { death = yes }
+}
+gen_2939 = {
+	name = "Lhoveth"
+	culture = lorathi
+	religion = fc_pan_lorath
+	7857.8.19 = { birth = yes }
+	7932.8.19 = { death = yes }
+}
+gen_2940 = {
+	name = "Jhogo"
+	culture = dothraki
+	religion = dothraki_faith
+	7856.8.20 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7931.8.20 = { death = yes }
+}
+gen_2941 = {
+	name = "Bharbo"
+	culture = dothraki
+	religion = dothraki_faith
+	7855.8.21 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7930.8.21 = { death = yes }
+}
+gen_2942 = {
+	name = "Haro"
+	culture = dothraki
+	religion = dothraki_faith
+	7854.8.22 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7929.8.22 = { death = yes }
+}
+gen_2943 = {
+	name = "Jommo"
+	culture = dothraki
+	religion = dothraki_faith
+	7853.8.23 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7928.8.23 = { death = yes }
+}
+gen_2944 = {
+	name = "Ogo"
+	culture = dothraki
+	religion = dothraki_faith
+	7852.8.24 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7927.8.24 = { death = yes }
+}
+gen_2945 = {
+	name = "Forzo"
+	culture = dothraki
+	religion = dothraki_faith
+	7851.8.25 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7926.8.25 = { death = yes }
+}
+gen_2946 = {
+	name = "Hoat"
+	culture = dothraki
+	religion = dothraki_faith
+	7850.8.26 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7925.8.26 = { death = yes }
+}
+gen_2947 = {
+	name = "Khal"
+	culture = dothraki
+	religion = dothraki_faith
+	7849.8.27 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7924.8.27 = { death = yes }
+}
+gen_2948 = {
+	name = "Vezz"
+	culture = dothraki
+	religion = dothraki_faith
+	7848.8.28 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7923.8.28 = { death = yes }
+}
+gen_2949 = {
+	name = "Temmo"
+	culture = dothraki
+	religion = dothraki_faith
+	7847.8.1 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7922.8.1 = { death = yes }
+}
+gen_2950 = {
+	name = "Jhaqar"
+	culture = dothraki
+	religion = dothraki_faith
+	7846.8.2 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7921.8.2 = { death = yes }
+}
+gen_2951 = {
+	name = "Drogo"
+	culture = dothraki
+	religion = dothraki_faith
+	7845.8.3 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7920.8.3 = { death = yes }
+}
+gen_2952 = {
+	name = "Rhal"
+	culture = dothraki
+	religion = dothraki_faith
+	7844.8.4 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7919.8.4 = { death = yes }
+}
+gen_2953 = {
+	name = "Kolka"
+	culture = dothraki
+	religion = dothraki_faith
+	7843.8.5 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7918.8.5 = { death = yes }
+}
+gen_2954 = {
+	name = "Moro"
+	culture = dothraki
+	religion = dothraki_faith
+	7842.8.6 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7917.8.6 = { death = yes }
+}
+gen_2955 = {
+	name = "Bharbo"
+	culture = dothraki
+	religion = dothraki_faith
+	7841.8.7 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7916.8.7 = { death = yes }
+}
+gen_2956 = {
+	name = "Dono"
+	culture = dothraki
+	religion = dothraki_faith
+	7840.8.8 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7915.8.8 = { death = yes }
+}
+gen_2957 = {
+	name = "Phoqo"
+	culture = dothraki
+	religion = dothraki_faith
+	7839.8.9 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7914.8.9 = { death = yes }
+}
+gen_2958 = {
+	name = "Jhoqo"
+	culture = dothraki
+	religion = dothraki_faith
+	7838.8.10 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7913.8.10 = { death = yes }
+}
+gen_2959 = {
+	name = "Foro"
+	culture = dothraki
+	religion = dothraki_faith
+	7837.8.11 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7912.8.11 = { death = yes }
+}
+gen_2960 = {
+	name = "Krazgo"
+	culture = dothraki
+	religion = dothraki_faith
+	7836.8.12 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7911.8.12 = { death = yes }
+}
+gen_2961 = {
+	name = "Drogo"
+	culture = dothraki
+	religion = dothraki_faith
+	7858.9.13 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7933.9.13 = { death = yes }
+}
+gen_2962 = {
+	name = "Rhaego"
+	culture = dothraki
+	religion = dothraki_faith
+	7857.9.14 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7932.9.14 = { death = yes }
+}
+gen_2963 = {
+	name = "Jhaqo"
+	culture = dothraki
+	religion = dothraki_faith
+	7856.9.15 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7931.9.15 = { death = yes }
+}
+gen_2964 = {
+	name = "Mago"
+	culture = dothraki
+	religion = dothraki_faith
+	7855.9.16 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7930.9.16 = { death = yes }
+}
+gen_2965 = {
+	name = "Pono"
+	culture = dothraki
+	religion = dothraki_faith
+	7854.9.17 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7929.9.17 = { death = yes }
+}
+gen_2966 = {
+	name = "Cohollo"
+	culture = dothraki
+	religion = dothraki_faith
+	7853.9.18 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7928.9.18 = { death = yes }
+}
+gen_2967 = {
+	name = "Haggo"
+	culture = dothraki
+	religion = dothraki_faith
+	7852.9.19 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7927.9.19 = { death = yes }
+}
+gen_2968 = {
+	name = "Qotho"
+	culture = dothraki
+	religion = dothraki_faith
+	7851.9.20 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7926.9.20 = { death = yes }
+}
+gen_2969 = {
+	name = "Kovarro"
+	culture = dothraki
+	religion = dothraki_faith
+	7850.9.21 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7925.9.21 = { death = yes }
+}
+gen_2970 = {
+	name = "Rakharo"
+	culture = dothraki
+	religion = dothraki_faith
+	7849.9.22 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7924.9.22 = { death = yes }
+}
+gen_2971 = {
+	name = "Aggo"
+	culture = dothraki
+	religion = dothraki_faith
+	7848.9.23 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7923.9.23 = { death = yes }
+}
+gen_2972 = {
+	name = "Jhogo"
+	culture = dothraki
+	religion = dothraki_faith
+	7847.9.24 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7922.9.24 = { death = yes }
+}
+gen_2973 = {
+	name = "Bharbo"
+	culture = dothraki
+	religion = dothraki_faith
+	7846.9.25 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7921.9.25 = { death = yes }
+}
+gen_2974 = {
+	name = "Haro"
+	culture = dothraki
+	religion = dothraki_faith
+	7845.9.26 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7920.9.26 = { death = yes }
+}
+gen_2975 = {
+	name = "Jommo"
+	culture = dothraki
+	religion = dothraki_faith
+	7844.9.27 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7919.9.27 = { death = yes }
+}
+gen_2976 = {
+	name = "Ogo"
+	culture = dothraki
+	religion = dothraki_faith
+	7843.9.28 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7918.9.28 = { death = yes }
+}
+gen_2977 = {
+	name = "Forzo"
+	culture = dothraki
+	religion = dothraki_faith
+	7842.9.1 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7917.9.1 = { death = yes }
+}
+gen_2978 = {
+	name = "Hoat"
+	culture = dothraki
+	religion = dothraki_faith
+	7841.9.2 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7916.9.2 = { death = yes }
+}
+gen_2979 = {
+	name = "Khal"
+	culture = dothraki
+	religion = dothraki_faith
+	7840.9.3 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7915.9.3 = { death = yes }
+}
+gen_2980 = {
+	name = "Vezz"
+	culture = dothraki
+	religion = dothraki_faith
+	7839.9.4 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7914.9.4 = { death = yes }
+}
+gen_2981 = {
+	name = "Temmo"
+	culture = dothraki
+	religion = dothraki_faith
+	7838.9.5 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7913.9.5 = { death = yes }
+}
+gen_2982 = {
+	name = "Jhaqar"
+	culture = dothraki
+	religion = dothraki_faith
+	7837.9.6 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7912.9.6 = { death = yes }
+}
+gen_2983 = {
+	name = "Drogo"
+	culture = dothraki
+	religion = dothraki_faith
+	7836.9.7 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7911.9.7 = { death = yes }
+}
+gen_2984 = {
+	name = "Rhal"
+	culture = dothraki
+	religion = dothraki_faith
+	7858.10.8 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7933.10.8 = { death = yes }
+}
+gen_2985 = {
+	name = "Kolka"
+	culture = dothraki
+	religion = dothraki_faith
+	7857.10.9 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7932.10.9 = { death = yes }
+}
+gen_2986 = {
+	name = "Moro"
+	culture = dothraki
+	religion = dothraki_faith
+	7856.10.10 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7931.10.10 = { death = yes }
+}
+gen_2987 = {
+	name = "Bharbo"
+	culture = dothraki
+	religion = dothraki_faith
+	7855.10.11 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7930.10.11 = { death = yes }
+}
+gen_2988 = {
+	name = "Dono"
+	culture = dothraki
+	religion = dothraki_faith
+	7854.10.12 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7929.10.12 = { death = yes }
+}
+gen_2989 = {
+	name = "Phoqo"
+	culture = dothraki
+	religion = dothraki_faith
+	7853.10.13 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7928.10.13 = { death = yes }
+}
+gen_2990 = {
+	name = "Jhoqo"
+	culture = dothraki
+	religion = dothraki_faith
+	7852.10.14 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7927.10.14 = { death = yes }
+}
+gen_2991 = {
+	name = "Foro"
+	culture = dothraki
+	religion = dothraki_faith
+	7851.10.15 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7926.10.15 = { death = yes }
+}
+gen_2992 = {
+	name = "Krazgo"
+	culture = dothraki
+	religion = dothraki_faith
+	7850.10.16 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7925.10.16 = { death = yes }
+}
+gen_2993 = {
+	name = "Drogo"
+	culture = dothraki
+	religion = dothraki_faith
+	7849.10.17 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7924.10.17 = { death = yes }
+}
+gen_2994 = {
+	name = "Rhaego"
+	culture = dothraki
+	religion = dothraki_faith
+	7848.10.18 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7923.10.18 = { death = yes }
+}
+gen_2995 = {
+	name = "Korgast"
+	culture = mossovite
+	religion = song_mossovy
+	7847.10.19 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7922.10.19 = { death = yes }
+}
+gen_2996 = {
+	name = "Mosgor"
+	culture = mossovite
+	religion = song_mossovy
+	7846.10.20 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7921.10.20 = { death = yes }
+}
+gen_2997 = {
+	name = "Mosvak"
+	culture = mossovite
+	religion = song_mossovy
+	7845.10.21 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7920.10.21 = { death = yes }
+}
+gen_2998 = {
+	name = "Korgath"
+	culture = mossovite
+	religion = song_mossovy
+	7844.10.22 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7919.10.22 = { death = yes }
+}
+gen_2999 = {
+	name = "Mosgar"
+	culture = mossovite
+	religion = song_mossovy
+	7843.10.23 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7918.10.23 = { death = yes }
+}
+gen_3000 = {
+	name = "Mosvyk"
+	culture = mossovite
+	religion = song_mossovy
+	7842.10.24 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7917.10.24 = { death = yes }
+}
+gen_3001 = {
+	name = "Korgan"
+	culture = mossovite
+	religion = song_mossovy
+	7841.10.25 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7916.10.25 = { death = yes }
+}
+gen_3002 = {
+	name = "Noho Dimittis"
+	culture = norvoshi
+	religion = fc_pan_bearded
+	7840.10.26 = { birth = yes }
+	7915.10.26 = { death = yes }
+}
+gen_3003 = {
+	name = "Malio Pyke"
+	culture = norvoshi
+	religion = fc_pan_bearded
+	7839.10.27 = { birth = yes }
+	7914.10.27 = { death = yes }
+}
+gen_3004 = {
+	name = "Dagon"
+	culture = norvoshi
+	religion = fc_pan_bearded
+	7838.10.28 = { birth = yes }
+	7913.10.28 = { death = yes }
+}
+gen_3005 = {
+	name = "Noho"
+	culture = norvoshi
+	religion = fc_pan_bearded
+	7837.10.1 = { birth = yes }
+	7912.10.1 = { death = yes }
+}
+gen_3006 = {
+	name = "Malio"
+	culture = norvoshi
+	religion = fc_pan_bearded
+	7836.10.2 = { birth = yes }
+	7911.10.2 = { death = yes }
+}
+gen_3007 = {
+	name = "Prester"
+	culture = norvoshi
+	religion = fc_pan_bearded
+	7858.11.3 = { birth = yes }
+	7933.11.3 = { death = yes }
+}
+gen_3008 = {
+	name = "Harmen"
+	culture = norvoshi
+	religion = fc_pan_bearded
+	7857.11.4 = { birth = yes }
+	7932.11.4 = { death = yes }
+}
+gen_3009 = {
+	name = "Pyke"
+	culture = norvoshi
+	religion = fc_pan_bearded
+	7856.11.5 = { birth = yes }
+	7931.11.5 = { death = yes }
+}
+gen_3010 = {
+	name = "Draqo"
+	culture = norvoshi
+	religion = fc_pan_bearded
+	7855.11.6 = { birth = yes }
+	7930.11.6 = { death = yes }
+}
+gen_3011 = {
+	name = "Harro"
+	culture = norvoshi
+	religion = fc_pan_bearded
+	7854.11.7 = { birth = yes }
+	7929.11.7 = { death = yes }
+}
+gen_3012 = {
+	name = "Malion"
+	culture = norvoshi
+	religion = fc_pan_bearded
+	7853.11.8 = { birth = yes }
+	7928.11.8 = { death = yes }
+}
+gen_3013 = {
+	name = "Nohon"
+	culture = norvoshi
+	religion = fc_pan_bearded
+	7852.11.9 = { birth = yes }
+	7927.11.9 = { death = yes }
+}
+gen_3014 = {
+	name = "Prelio"
+	culture = norvoshi
+	religion = fc_pan_bearded
+	7851.11.10 = { birth = yes }
+	7926.11.10 = { death = yes }
+}
+gen_3015 = {
+	name = "Draqon"
+	culture = norvoshi
+	religion = fc_pan_bearded
+	7850.11.11 = { birth = yes }
+	7925.11.11 = { death = yes }
+}
+gen_3016 = {
+	name = "Harkyn"
+	culture = norvoshi
+	religion = fc_pan_bearded
+	7849.11.12 = { birth = yes }
+	7924.11.12 = { death = yes }
+}
+gen_3017 = {
+	name = "Malro"
+	culture = norvoshi
+	religion = fc_pan_bearded
+	7848.11.13 = { birth = yes }
+	7923.11.13 = { death = yes }
+}
+gen_3018 = {
+	name = "Norvo"
+	culture = norvoshi
+	religion = fc_pan_bearded
+	7847.11.14 = { birth = yes }
+	7922.11.14 = { death = yes }
+}
+gen_3019 = {
+	name = "Preth"
+	culture = norvoshi
+	religion = fc_pan_bearded
+	7846.11.15 = { birth = yes }
+	7921.11.15 = { death = yes }
+}
+gen_3020 = {
+	name = "Drakyn"
+	culture = norvoshi
+	religion = fc_pan_bearded
+	7845.11.16 = { birth = yes }
+	7920.11.16 = { death = yes }
+}
+gen_3021 = {
+	name = "Harko"
+	culture = norvoshi
+	religion = fc_pan_bearded
+	7844.11.17 = { birth = yes }
+	7919.11.17 = { death = yes }
+}
+gen_3022 = {
+	name = "Maleth"
+	culture = norvoshi
+	religion = fc_pan_bearded
+	7843.11.18 = { birth = yes }
+	7918.11.18 = { death = yes }
+}
+gen_3023 = {
+	name = "Norath"
+	culture = norvoshi
+	religion = fc_pan_bearded
+	7842.11.19 = { birth = yes }
+	7917.11.19 = { death = yes }
+}
+gen_3024 = {
+	name = "Prenor"
+	culture = norvoshi
+	religion = fc_pan_bearded
+	7841.11.20 = { birth = yes }
+	7916.11.20 = { death = yes }
+}
+gen_3025 = {
+	name = "Dravon"
+	culture = norvoshi
+	religion = fc_pan_bearded
+	7840.11.21 = { birth = yes }
+	7915.11.21 = { death = yes }
+}
+gen_3026 = {
+	name = "Haron"
+	culture = norvoshi
+	religion = fc_pan_bearded
+	7839.11.22 = { birth = yes }
+	7914.11.22 = { death = yes }
+}
+gen_3027 = {
+	name = "Malen"
+	culture = norvoshi
+	religion = fc_pan_bearded
+	7838.11.23 = { birth = yes }
+	7913.11.23 = { death = yes }
+}
+gen_3028 = {
+	name = "Noroth"
+	culture = norvoshi
+	religion = fc_pan_bearded
+	7837.11.24 = { birth = yes }
+	7912.11.24 = { death = yes }
+}
+gen_3029 = {
+	name = "Ombhar"
+	culture = omberi
+	religion = dothraki_faith
+	7836.11.25 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7911.11.25 = { death = yes }
+}
+gen_3030 = {
+	name = "Ombrak"
+	culture = omberi
+	religion = dothraki_faith
+	7858.12.26 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7933.12.26 = { death = yes }
+}
+gen_3031 = {
+	name = "Ombreth"
+	culture = omberi
+	religion = dothraki_faith
+	7857.12.27 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7932.12.27 = { death = yes }
+}
+gen_3032 = {
+	name = "Ombron"
+	culture = omberi
+	religion = dothraki_faith
+	7856.12.28 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7931.12.28 = { death = yes }
+}
+gen_3033 = {
+	name = "Ombryn"
+	culture = omberi
+	religion = dothraki_faith
+	7855.12.1 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7930.12.1 = { death = yes }
+}
+gen_3034 = {
+	name = "Ombrath"
+	culture = omberi
+	religion = dothraki_faith
+	7854.12.2 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7929.12.2 = { death = yes }
+}
+gen_3035 = {
+	name = "Xaro Xhoan"
+	culture = qartheen
+	religion = qh_pureborn
+	7853.12.3 = { birth = yes }
+	7928.12.3 = { death = yes }
+}
+gen_3036 = {
+	name = "Daxos"
+	culture = qartheen
+	religion = qh_pureborn
+	7852.12.4 = { birth = yes }
+	7927.12.4 = { death = yes }
+}
+gen_3037 = {
+	name = "Pyat Pree"
+	culture = qartheen
+	religion = qh_pureborn
+	7851.12.5 = { birth = yes }
+	7926.12.5 = { death = yes }
+}
+gen_3038 = {
+	name = "Quaithe"
+	culture = qartheen
+	religion = qh_pureborn
+	7850.12.6 = { birth = yes }
+	7925.12.6 = { death = yes }
+}
+gen_3039 = {
+	name = "Urrathon"
+	culture = qartheen
+	religion = qh_pureborn
+	7849.12.7 = { birth = yes }
+	7924.12.7 = { death = yes }
+}
+gen_3040 = {
+	name = "Zaro"
+	culture = qartheen
+	religion = qh_pureborn
+	7848.12.8 = { birth = yes }
+	7923.12.8 = { death = yes }
+}
+gen_3041 = {
+	name = "Hareth"
+	culture = qartheen
+	religion = qh_pureborn
+	7847.12.9 = { birth = yes }
+	7922.12.9 = { death = yes }
+}
+gen_3042 = {
+	name = "Pyat"
+	culture = qartheen
+	religion = qh_pureborn
+	7846.12.10 = { birth = yes }
+	7921.12.10 = { death = yes }
+}
+gen_3043 = {
+	name = "Aegon"
+	culture = qartheen
+	religion = qh_pureborn
+	7845.12.11 = { birth = yes }
+	7920.12.11 = { death = yes }
+}
+gen_3044 = {
+	name = "Belara"
+	culture = qartheen
+	religion = qh_pureborn
+	7844.12.12 = { birth = yes }
+	7919.12.12 = { death = yes }
+}
+gen_3045 = {
+	name = "Ixas"
+	culture = qartheen
+	religion = qh_pureborn
+	7843.12.13 = { birth = yes }
+	7918.12.13 = { death = yes }
+}
+gen_3046 = {
+	name = "Nyoros"
+	culture = qartheen
+	religion = qh_pureborn
+	7842.12.14 = { birth = yes }
+	7917.12.14 = { death = yes }
+}
+gen_3047 = {
+	name = "Egon"
+	culture = qartheen
+	religion = qh_pureborn
+	7841.12.15 = { birth = yes }
+	7916.12.15 = { death = yes }
+}
+gen_3048 = {
+	name = "Belaro"
+	culture = qartheen
+	religion = qh_pureborn
+	7840.12.16 = { birth = yes }
+	7915.12.16 = { death = yes }
+}
+gen_3049 = {
+	name = "Ixarys"
+	culture = qartheen
+	religion = qh_pureborn
+	7839.12.17 = { birth = yes }
+	7914.12.17 = { death = yes }
+}
+gen_3050 = {
+	name = "Nyreth"
+	culture = qartheen
+	religion = qh_pureborn
+	7838.12.18 = { birth = yes }
+	7913.12.18 = { death = yes }
+}
+gen_3051 = {
+	name = "Ixaro"
+	culture = qartheen
+	religion = qh_pureborn
+	7837.12.19 = { birth = yes }
+	7912.12.19 = { death = yes }
+}
+gen_3052 = {
+	name = "Nymero"
+	culture = qartheen
+	religion = qh_pureborn
+	7836.12.20 = { birth = yes }
+	7911.12.20 = { death = yes }
+}
+gen_3053 = {
+	name = "Qal"
+	culture = qartheen
+	religion = qh_pureborn
+	7858.1.21 = { birth = yes }
+	7933.1.21 = { death = yes }
+}
+gen_3054 = {
+	name = "Belys"
+	culture = qartheen
+	religion = qh_pureborn
+	7857.1.22 = { birth = yes }
+	7932.1.22 = { death = yes }
+}
+gen_3055 = {
+	name = "Belos"
+	culture = qartheen
+	religion = qh_pureborn
+	7856.1.23 = { birth = yes }
+	7931.1.23 = { death = yes }
+}
+gen_3056 = {
+	name = "Qeth"
+	culture = qartheen
+	religion = qh_pureborn
+	7855.1.24 = { birth = yes }
+	7930.1.24 = { death = yes }
+}
+gen_3057 = {
+	name = "Beloth"
+	culture = qartheen
+	religion = qh_pureborn
+	7854.1.25 = { birth = yes }
+	7929.1.25 = { death = yes }
+}
+gen_3058 = {
+	name = "Ixoth"
+	culture = qartheen
+	religion = qh_pureborn
+	7853.1.26 = { birth = yes }
+	7928.1.26 = { death = yes }
+}
+gen_3059 = {
+	name = "Nymeth"
+	culture = qartheen
+	religion = qh_pureborn
+	7852.1.27 = { birth = yes }
+	7927.1.27 = { death = yes }
+}
+gen_3060 = {
+	name = "Qalos"
+	culture = qartheen
+	religion = qh_pureborn
+	7851.1.28 = { birth = yes }
+	7926.1.28 = { death = yes }
+}
+gen_3061 = {
+	name = "Ixalos"
+	culture = qartheen
+	religion = qh_pureborn
+	7850.1.1 = { birth = yes }
+	7925.1.1 = { death = yes }
+}
+gen_3062 = {
+	name = "Nyroth"
+	culture = qartheen
+	religion = qh_pureborn
+	7849.1.2 = { birth = yes }
+	7924.1.2 = { death = yes }
+}
+gen_3063 = {
+	name = "Qaleth"
+	culture = qartheen
+	religion = qh_pureborn
+	7848.1.3 = { birth = yes }
+	7923.1.3 = { death = yes }
+}
+gen_3064 = {
+	name = "Belaxo"
+	culture = qartheen
+	religion = qh_pureborn
+	7847.1.4 = { birth = yes }
+	7922.1.4 = { death = yes }
+}
+gen_3065 = {
+	name = "Xaro Xhoan"
+	culture = qartheen
+	religion = qh_pureborn
+	7846.1.5 = { birth = yes }
+	7921.1.5 = { death = yes }
+}
+gen_3066 = {
+	name = "Daxos"
+	culture = qartheen
+	religion = qh_pureborn
+	7845.1.6 = { birth = yes }
+	7920.1.6 = { death = yes }
+}
+gen_3067 = {
+	name = "Pyat Pree"
+	culture = qartheen
+	religion = qh_pureborn
+	7844.1.7 = { birth = yes }
+	7919.1.7 = { death = yes }
+}
+gen_3068 = {
+	name = "Quaithe"
+	culture = qartheen
+	religion = qh_pureborn
+	7843.1.8 = { birth = yes }
+	7918.1.8 = { death = yes }
+}
+gen_3069 = {
+	name = "Urrathon"
+	culture = qartheen
+	religion = qh_pureborn
+	7842.1.9 = { birth = yes }
+	7917.1.9 = { death = yes }
+}
+gen_3070 = {
+	name = "Zaro"
+	culture = qartheen
+	religion = qh_pureborn
+	7841.1.10 = { birth = yes }
+	7916.1.10 = { death = yes }
+}
+gen_3071 = {
+	name = "Hareth"
+	culture = qartheen
+	religion = qh_pureborn
+	7840.1.11 = { birth = yes }
+	7915.1.11 = { death = yes }
+}
+gen_3072 = {
+	name = "Pyat"
+	culture = qartheen
+	religion = qh_pureborn
+	7839.1.12 = { birth = yes }
+	7914.1.12 = { death = yes }
+}
+gen_3073 = {
+	name = "Aegon"
+	culture = qartheen
+	religion = qh_pureborn
+	7838.1.13 = { birth = yes }
+	7913.1.13 = { death = yes }
+}
+gen_3074 = {
+	name = "Belara"
+	culture = qartheen
+	religion = qh_pureborn
+	7837.1.14 = { birth = yes }
+	7912.1.14 = { death = yes }
+}
+gen_3075 = {
+	name = "Ixas"
+	culture = qartheen
+	religion = qh_pureborn
+	7836.1.15 = { birth = yes }
+	7911.1.15 = { death = yes }
+}
+gen_3076 = {
+	name = "Nyoros"
+	culture = qartheen
+	religion = qh_pureborn
+	7858.2.16 = { birth = yes }
+	7933.2.16 = { death = yes }
+}
+gen_3077 = {
+	name = "Egon"
+	culture = qartheen
+	religion = qh_pureborn
+	7857.2.17 = { birth = yes }
+	7932.2.17 = { death = yes }
+}
+gen_3078 = {
+	name = "Belaro"
+	culture = qartheen
+	religion = qh_pureborn
+	7856.2.18 = { birth = yes }
+	7931.2.18 = { death = yes }
+}
+gen_3079 = {
+	name = "Ixarys"
+	culture = qartheen
+	religion = qh_pureborn
+	7855.2.19 = { birth = yes }
+	7930.2.19 = { death = yes }
+}
+gen_3080 = {
+	name = "Nyreth"
+	culture = qartheen
+	religion = qh_pureborn
+	7854.2.20 = { birth = yes }
+	7929.2.20 = { death = yes }
+}
+gen_3081 = {
+	name = "Ixaro"
+	culture = qartheen
+	religion = qh_pureborn
+	7853.2.21 = { birth = yes }
+	7928.2.21 = { death = yes }
+}
+gen_3082 = {
+	name = "Nymero"
+	culture = qartheen
+	religion = qh_pureborn
+	7852.2.22 = { birth = yes }
+	7927.2.22 = { death = yes }
+}
+gen_3083 = {
+	name = "Qal"
+	culture = qartheen
+	religion = qh_pureborn
+	7851.2.23 = { birth = yes }
+	7926.2.23 = { death = yes }
+}
+gen_3084 = {
+	name = "Qhoryn"
+	culture = qohorik
+	religion = fc_pan_blackgoat
+	7850.2.24 = { birth = yes }
+	7925.2.24 = { death = yes }
+}
+gen_3085 = {
+	name = "Qhorak"
+	culture = qohorik
+	religion = fc_pan_blackgoat
+	7849.2.25 = { birth = yes }
+	7924.2.25 = { death = yes }
+}
+gen_3086 = {
+	name = "Rhuqar"
+	culture = qohorik
+	religion = fc_pan_blackgoat
+	7848.2.26 = { birth = yes }
+	7923.2.26 = { death = yes }
+}
+gen_3087 = {
+	name = "Qhoro"
+	culture = qohorik
+	religion = fc_pan_blackgoat
+	7847.2.27 = { birth = yes }
+	7922.2.27 = { death = yes }
+}
+gen_3088 = {
+	name = "Vhoryn"
+	culture = qohorik
+	religion = fc_pan_blackgoat
+	7846.2.28 = { birth = yes }
+	7921.2.28 = { death = yes }
+}
+gen_3089 = {
+	name = "Bhoron"
+	culture = qohorik
+	religion = fc_pan_blackgoat
+	7845.2.1 = { birth = yes }
+	7920.2.1 = { death = yes }
+}
+gen_3090 = {
+	name = "Khorak"
+	culture = qohorik
+	religion = fc_pan_blackgoat
+	7844.2.2 = { birth = yes }
+	7919.2.2 = { death = yes }
+}
+gen_3091 = {
+	name = "Rhugor"
+	culture = qohorik
+	religion = fc_pan_blackgoat
+	7843.2.3 = { birth = yes }
+	7918.2.3 = { death = yes }
+}
+gen_3092 = {
+	name = "Qhoral"
+	culture = qohorik
+	religion = fc_pan_blackgoat
+	7842.2.4 = { birth = yes }
+	7917.2.4 = { death = yes }
+}
+gen_3093 = {
+	name = "Vhorak"
+	culture = qohorik
+	religion = fc_pan_blackgoat
+	7841.2.5 = { birth = yes }
+	7916.2.5 = { death = yes }
+}
+gen_3094 = {
+	name = "Bhoryn"
+	culture = qohorik
+	religion = fc_pan_blackgoat
+	7840.2.6 = { birth = yes }
+	7915.2.6 = { death = yes }
+}
+gen_3095 = {
+	name = "Khoron"
+	culture = qohorik
+	religion = fc_pan_blackgoat
+	7839.2.7 = { birth = yes }
+	7914.2.7 = { death = yes }
+}
+gen_3096 = {
+	name = "Rhuqor"
+	culture = qohorik
+	religion = fc_pan_blackgoat
+	7838.2.8 = { birth = yes }
+	7913.2.8 = { death = yes }
+}
+gen_3097 = {
+	name = "Qhoron"
+	culture = qohorik
+	religion = fc_pan_blackgoat
+	7837.2.9 = { birth = yes }
+	7912.2.9 = { death = yes }
+}
+gen_3098 = {
+	name = "Alzaran"
+	culture = tagaez_fen
+	religion = sarnori_faith
+	7836.2.10 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7911.2.10 = { death = yes }
+}
+gen_3099 = {
+	name = "Sarnan"
+	culture = tagaez_fen
+	religion = sarnori_faith
+	7858.3.11 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7933.3.11 = { death = yes }
+}
+gen_3100 = {
+	name = "Talzar"
+	culture = tagaez_fen
+	religion = sarnori_faith
+	7857.3.12 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7932.3.12 = { death = yes }
+}
+gen_3101 = {
+	name = "Gogero"
+	culture = gogossite
+	religion = shanty_greenhell
+	7856.3.13 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7931.3.13 = { death = yes }
+}
+gen_3102 = {
+	name = "Gogorath"
+	culture = gogossite
+	religion = shanty_greenhell
+	7855.3.14 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7930.3.14 = { death = yes }
+}
+gen_3103 = {
+	name = "Jalavar"
+	culture = jhalai
+	religion = summer_gods_pan
+	7854.3.15 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7929.3.15 = { death = yes }
+}
+gen_3104 = {
+	name = "Jareth"
+	culture = jhalai
+	religion = summer_gods_pan
+	7853.3.16 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7928.3.16 = { death = yes }
+}
+gen_3105 = {
+	name = "Jalen"
+	culture = jhalai
+	religion = summer_gods_pan
+	7852.3.17 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7927.3.17 = { death = yes }
+}
+gen_3106 = {
+	name = "Javar"
+	culture = jhalai
+	religion = summer_gods_pan
+	7851.3.18 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7926.3.18 = { death = yes }
+}
+gen_3107 = {
+	name = "Jalo"
+	culture = jhalai
+	religion = summer_gods_pan
+	7850.3.19 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7925.3.19 = { death = yes }
+}
+gen_3108 = {
+	name = "Jarvar"
+	culture = jhalai
+	religion = summer_gods_pan
+	7849.3.20 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7924.3.20 = { death = yes }
+}
+gen_3109 = {
+	name = "Jalen"
+	culture = jhalai
+	religion = summer_gods_pan
+	7848.3.21 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7923.3.21 = { death = yes }
+}
+gen_3110 = {
+	name = "Javar"
+	culture = jhalai
+	religion = summer_gods_pan
+	7847.3.22 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7922.3.22 = { death = yes }
+}
+gen_3111 = {
+	name = "Jalon"
+	culture = jhalai
+	religion = summer_gods_pan
+	7846.3.23 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7921.3.23 = { death = yes }
+}
+gen_3112 = {
+	name = "Jareth"
+	culture = jhalai
+	religion = summer_gods_pan
+	7845.3.24 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7920.3.24 = { death = yes }
+}
+gen_3113 = {
+	name = "Javar"
+	culture = jhalai
+	religion = summer_gods_pan
+	7844.3.25 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7919.3.25 = { death = yes }
+}
+gen_3114 = {
+	name = "Jaron"
+	culture = jhalai
+	religion = summer_gods_pan
+	7843.3.26 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7918.3.26 = { death = yes }
+}
+gen_3115 = {
+	name = "Jarel"
+	culture = jhalai
+	religion = summer_gods_pan
+	7842.3.27 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7917.3.27 = { death = yes }
+}
+gen_3116 = {
+	name = "Javar"
+	culture = jhalai
+	religion = summer_gods_pan
+	7841.3.28 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7916.3.28 = { death = yes }
+}
+gen_3117 = {
+	name = "Jarun"
+	culture = jhalai
+	religion = summer_gods_pan
+	7840.3.1 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7915.3.1 = { death = yes }
+}
+gen_3118 = {
+	name = "Jarveth"
+	culture = jhalai
+	religion = summer_gods_pan
+	7839.3.2 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7914.3.2 = { death = yes }
+}
+gen_3119 = {
+	name = "Jalo"
+	culture = jhalai
+	religion = summer_gods_pan
+	7838.3.3 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7913.3.3 = { death = yes }
+}
+gen_3120 = {
+	name = "Jarvel"
+	culture = jhalai
+	religion = summer_gods_pan
+	7837.3.4 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7912.3.4 = { death = yes }
+}
+gen_3121 = {
+	name = "Jarun"
+	culture = jhalai
+	religion = summer_gods_pan
+	7836.3.5 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7911.3.5 = { death = yes }
+}
+gen_3122 = {
+	name = "Jarvorn"
+	culture = jhalai
+	religion = summer_gods_pan
+	7858.4.6 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7933.4.6 = { death = yes }
+}
+gen_3123 = {
+	name = "Jalen"
+	culture = jhalai
+	religion = summer_gods_pan
+	7857.4.7 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7932.4.7 = { death = yes }
+}
+gen_3124 = {
+	name = "Jarvin"
+	culture = jhalai
+	religion = summer_gods_pan
+	7856.4.8 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7931.4.8 = { death = yes }
+}
+gen_3125 = {
+	name = "Jarun"
+	culture = jhalai
+	religion = summer_gods_pan
+	7855.4.9 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7930.4.9 = { death = yes }
+}
+gen_3126 = {
+	name = "Jarvon"
+	culture = jhalai
+	religion = summer_gods_pan
+	7854.4.10 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7929.4.10 = { death = yes }
+}
+gen_3127 = {
+	name = "Javorn"
+	culture = jhalai
+	religion = summer_gods_pan
+	7853.4.11 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7928.4.11 = { death = yes }
+}
+gen_3128 = {
+	name = "Jarath"
+	culture = jhalai
+	religion = summer_gods_pan
+	7852.4.12 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7927.4.12 = { death = yes }
+}
+gen_3129 = {
+	name = "Javor"
+	culture = jhalai
+	religion = summer_gods_pan
+	7851.4.13 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7926.4.13 = { death = yes }
+}
+gen_3130 = {
+	name = "Javeth"
+	culture = jhalai
+	religion = summer_gods_pan
+	7850.4.14 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7925.4.14 = { death = yes }
+}
+gen_3131 = {
+	name = "Jarorn"
+	culture = jhalai
+	religion = summer_gods_pan
+	7849.4.15 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7924.4.15 = { death = yes }
+}
+gen_3132 = {
+	name = "Javorn"
+	culture = jhalai
+	religion = summer_gods_pan
+	7848.4.16 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7923.4.16 = { death = yes }
+}
+gen_3133 = {
+	name = "Javeth"
+	culture = jhalai
+	religion = summer_gods_pan
+	7847.4.17 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7922.4.17 = { death = yes }
+}
+gen_3134 = {
+	name = "Jarath"
+	culture = jhalai
+	religion = summer_gods_pan
+	7846.4.18 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7921.4.18 = { death = yes }
+}
+gen_3135 = {
+	name = "Jalavar"
+	culture = jhalai
+	religion = summer_gods_pan
+	7845.4.19 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7920.4.19 = { death = yes }
+}
+gen_3136 = {
+	name = "Jareth"
+	culture = jhalai
+	religion = summer_gods_pan
+	7844.4.20 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7919.4.20 = { death = yes }
+}
+gen_3137 = {
+	name = "Vorath"
+	culture = manticorian
+	religion = eldritch_fishgod
+	7843.4.21 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7918.4.21 = { death = yes }
+}
+gen_3138 = {
+	name = "Vorak"
+	culture = manticorian
+	religion = eldritch_fishgod
+	7842.4.22 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7917.4.22 = { death = yes }
+}
+gen_3139 = {
+	name = "Voreth"
+	culture = manticorian
+	religion = eldritch_fishgod
+	7841.4.23 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7916.4.23 = { death = yes }
+}
+gen_3140 = {
+	name = "Voron"
+	culture = manticorian
+	religion = eldritch_fishgod
+	7840.4.24 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7915.4.24 = { death = yes }
+}
+gen_3141 = {
+	name = "Vorkyn"
+	culture = manticorian
+	religion = eldritch_fishgod
+	7839.4.25 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7914.4.25 = { death = yes }
+}
+gen_3142 = {
+	name = "Jhaqo"
+	culture = dothraki
+	religion = dothraki_faith
+	7838.4.26 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7913.4.26 = { death = yes }
+}
+gen_3143 = {
+	name = "Mago"
+	culture = dothraki
+	religion = dothraki_faith
+	7837.4.27 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7912.4.27 = { death = yes }
+}
+gen_3144 = {
+	name = "Pono"
+	culture = dothraki
+	religion = dothraki_faith
+	7836.4.28 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7911.4.28 = { death = yes }
+}
+gen_3145 = {
+	name = "Cohollo"
+	culture = dothraki
+	religion = dothraki_faith
+	7858.5.1 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7933.5.1 = { death = yes }
+}
+gen_3146 = {
+	name = "Haggo"
+	culture = dothraki
+	religion = dothraki_faith
+	7857.5.2 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7932.5.2 = { death = yes }
+}
+gen_3147 = {
+	name = "Qotho"
+	culture = dothraki
+	religion = dothraki_faith
+	7856.5.3 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7931.5.3 = { death = yes }
+}
+gen_3148 = {
+	name = "Kovarro"
+	culture = dothraki
+	religion = dothraki_faith
+	7855.5.4 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7930.5.4 = { death = yes }
+}
+gen_3149 = {
+	name = "Rakharo"
+	culture = dothraki
+	religion = dothraki_faith
+	7854.5.5 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7929.5.5 = { death = yes }
+}
+gen_3150 = {
+	name = "Aggo"
+	culture = dothraki
+	religion = dothraki_faith
+	7853.5.6 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7928.5.6 = { death = yes }
+}
+gen_3151 = {
+	name = "Jhogo"
+	culture = dothraki
+	religion = dothraki_faith
+	7852.5.7 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7927.5.7 = { death = yes }
+}
+gen_3152 = {
+	name = "Bharbo"
+	culture = dothraki
+	religion = dothraki_faith
+	7851.5.8 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7926.5.8 = { death = yes }
+}
+gen_3153 = {
+	name = "Haro"
+	culture = dothraki
+	religion = dothraki_faith
+	7850.5.9 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7925.5.9 = { death = yes }
+}
+gen_3154 = {
+	name = "Jommo"
+	culture = dothraki
+	religion = dothraki_faith
+	7849.5.10 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7924.5.10 = { death = yes }
+}
+gen_3155 = {
+	name = "Ogo"
+	culture = dothraki
+	religion = dothraki_faith
+	7848.5.11 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7923.5.11 = { death = yes }
+}
+gen_3156 = {
+	name = "Forzo"
+	culture = dothraki
+	religion = dothraki_faith
+	7847.5.12 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7922.5.12 = { death = yes }
+}
+gen_3157 = {
+	name = "Hoat"
+	culture = dothraki
+	religion = dothraki_faith
+	7846.5.13 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7921.5.13 = { death = yes }
+}
+gen_3158 = {
+	name = "Khal"
+	culture = dothraki
+	religion = dothraki_faith
+	7845.5.14 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7920.5.14 = { death = yes }
+}
+gen_3159 = {
+	name = "Vezz"
+	culture = dothraki
+	religion = dothraki_faith
+	7844.5.15 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7919.5.15 = { death = yes }
+}
+gen_3160 = {
+	name = "Temmo"
+	culture = dothraki
+	religion = dothraki_faith
+	7843.5.16 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7918.5.16 = { death = yes }
+}
+gen_3161 = {
+	name = "Jhaqar"
+	culture = dothraki
+	religion = dothraki_faith
+	7842.5.17 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7917.5.17 = { death = yes }
+}
+gen_3162 = {
+	name = "Drogo"
+	culture = dothraki
+	religion = dothraki_faith
+	7841.5.18 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7916.5.18 = { death = yes }
+}
+gen_3163 = {
+	name = "Rhal"
+	culture = dothraki
+	religion = dothraki_faith
+	7840.5.19 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7915.5.19 = { death = yes }
+}
+gen_3164 = {
+	name = "Kolka"
+	culture = dothraki
+	religion = dothraki_faith
+	7839.5.20 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7914.5.20 = { death = yes }
+}
+gen_3165 = {
+	name = "Moro"
+	culture = dothraki
+	religion = dothraki_faith
+	7838.5.21 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7913.5.21 = { death = yes }
+}
+gen_3166 = {
+	name = "Bharbo"
+	culture = dothraki
+	religion = dothraki_faith
+	7837.5.22 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7912.5.22 = { death = yes }
+}
+gen_3167 = {
+	name = "Dono"
+	culture = dothraki
+	religion = dothraki_faith
+	7836.5.23 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7911.5.23 = { death = yes }
+}
+gen_3168 = {
+	name = "Phoqo"
+	culture = dothraki
+	religion = dothraki_faith
+	7858.6.24 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7933.6.24 = { death = yes }
+}
+gen_3169 = {
+	name = "Jhoqo"
+	culture = dothraki
+	religion = dothraki_faith
+	7857.6.25 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7932.6.25 = { death = yes }
+}
+gen_3170 = {
+	name = "Foro"
+	culture = dothraki
+	religion = dothraki_faith
+	7856.6.26 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7931.6.26 = { death = yes }
+}
+gen_3171 = {
+	name = "Krazgo"
+	culture = dothraki
+	religion = dothraki_faith
+	7855.6.27 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7930.6.27 = { death = yes }
+}
+gen_3172 = {
+	name = "Drogo"
+	culture = dothraki
+	religion = dothraki_faith
+	7854.6.28 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7929.6.28 = { death = yes }
+}
+gen_3173 = {
+	name = "Rhaego"
+	culture = dothraki
+	religion = dothraki_faith
+	7853.6.1 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7928.6.1 = { death = yes }
+}
+gen_3174 = {
+	name = "Jhaqo"
+	culture = dothraki
+	religion = dothraki_faith
+	7852.6.2 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7927.6.2 = { death = yes }
+}
+gen_3175 = {
+	name = "Mago"
+	culture = dothraki
+	religion = dothraki_faith
+	7851.6.3 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7926.6.3 = { death = yes }
+}
+gen_3176 = {
+	name = "Pono"
+	culture = dothraki
+	religion = dothraki_faith
+	7850.6.4 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7925.6.4 = { death = yes }
+}
+gen_3177 = {
+	name = "Cohollo"
+	culture = dothraki
+	religion = dothraki_faith
+	7849.6.5 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7924.6.5 = { death = yes }
+}
+gen_3178 = {
+	name = "Haggo"
+	culture = dothraki
+	religion = dothraki_faith
+	7848.6.6 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7923.6.6 = { death = yes }
+}
+gen_3179 = {
+	name = "Qotho"
+	culture = dothraki
+	religion = dothraki_faith
+	7847.6.7 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7922.6.7 = { death = yes }
+}
+gen_3180 = {
+	name = "Kovarro"
+	culture = dothraki
+	religion = dothraki_faith
+	7846.6.8 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7921.6.8 = { death = yes }
+}
+gen_3181 = {
+	name = "Rakharo"
+	culture = dothraki
+	religion = dothraki_faith
+	7845.6.9 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7920.6.9 = { death = yes }
+}
+gen_3182 = {
+	name = "Aggo"
+	culture = dothraki
+	religion = dothraki_faith
+	7844.6.10 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7919.6.10 = { death = yes }
+}
+gen_3183 = {
+	name = "Jhogo"
+	culture = dothraki
+	religion = dothraki_faith
+	7843.6.11 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7918.6.11 = { death = yes }
+}
+gen_3184 = {
+	name = "Bharbo"
+	culture = dothraki
+	religion = dothraki_faith
+	7842.6.12 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7917.6.12 = { death = yes }
+}
+gen_3185 = {
+	name = "Haro"
+	culture = dothraki
+	religion = dothraki_faith
+	7841.6.13 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7916.6.13 = { death = yes }
+}
+gen_3186 = {
+	name = "Jommo"
+	culture = dothraki
+	religion = dothraki_faith
+	7840.6.14 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7915.6.14 = { death = yes }
+}
+gen_3187 = {
+	name = "Ogo"
+	culture = dothraki
+	religion = dothraki_faith
+	7839.6.15 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7914.6.15 = { death = yes }
+}
+gen_3188 = {
+	name = "Forzo"
+	culture = dothraki
+	religion = dothraki_faith
+	7838.6.16 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7913.6.16 = { death = yes }
+}
+gen_3189 = {
+	name = "Hoat"
+	culture = dothraki
+	religion = dothraki_faith
+	7837.6.17 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7912.6.17 = { death = yes }
+}
+gen_3190 = {
+	name = "Khal"
+	culture = dothraki
+	religion = dothraki_faith
+	7836.6.18 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7911.6.18 = { death = yes }
+}
+gen_3191 = {
+	name = "Vezz"
+	culture = dothraki
+	religion = dothraki_faith
+	7858.7.19 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
+	7933.7.19 = { death = yes }
+}

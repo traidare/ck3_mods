@@ -1,0 +1,425 @@
+﻿# Auto-generated vassal titles for e_sarnor
+k_R9G84B65 = {
+		7898.1.1 = {
+		holder = gen_2412
+	}
+	7985.1.1 = {
+		holder = gen_13
+	}
+	8082.1.1 = {
+		holder = gen_1440
+	}
+	8106.4.18 = {
+		holder = gen_1446
+	}
+	8170.12.11 = {
+		holder = gen_1452
+	}
+	8209.2.1 = {
+		holder = gen_1458
+	}
+	8211.3.1 = {
+		holder = gen_1464
+	}
+	8233.2.8 = {
+		holder = gen_1470
+	}
+	8236.2.13 = {
+		holder = gen_1476
+	}
+	8239.1.11 = {
+		holder = gen_1482
+	}
+	8258.12.21 = {
+		holder = gen_1488
+	}
+	8277.1.1 = {
+		holder = gen_1494
+	}
+}
+d_R210G115B75 = {
+		7898.1.1 = {
+		holder = gen_2412
+	}
+	7985.1.1 = {
+		holder = gen_13
+	}
+	8082.1.1 = {
+		holder = gen_1440
+	}
+	8106.4.18 = {
+		holder = gen_1446
+	}
+	8170.12.11 = {
+		holder = gen_1452
+	}
+	8209.2.1 = {
+		holder = gen_1458
+	}
+	8211.3.1 = {
+		holder = gen_1464
+	}
+	8233.2.8 = {
+		holder = gen_1470
+	}
+	8236.2.13 = {
+		holder = gen_1476
+	}
+	8239.1.11 = {
+		holder = gen_1482
+	}
+	8258.12.21 = {
+		holder = gen_1488
+	}
+	8277.1.1 = {
+		holder = gen_1494
+	}
+}
+c_R12G46B216 = {
+		7898.1.1 = {
+		holder = gen_2412
+	}
+	7985.1.1 = {
+		holder = gen_13
+	}
+	8082.1.1 = {
+		holder = gen_1440
+	}
+	8106.4.18 = {
+		holder = gen_1446
+	}
+	8170.12.11 = {
+		holder = gen_1452
+	}
+	8209.2.1 = {
+		holder = gen_1458
+	}
+	8211.3.1 = {
+		holder = gen_1464
+	}
+	8233.2.8 = {
+		holder = gen_1470
+	}
+	8236.2.13 = {
+		holder = gen_1476
+	}
+	8239.1.11 = {
+		holder = gen_1482
+	}
+	8258.12.21 = {
+		holder = gen_1488
+	}
+	8277.1.1 = {
+		holder = gen_1494
+	}
+}
+c_R251G2B70 = {
+		7898.1.1 = {
+		holder = gen_2412
+	}
+	7985.1.1 = {
+		holder = gen_13
+	}
+	8082.1.1 = {
+		holder = gen_1440
+	}
+	8106.4.18 = {
+		holder = gen_1446
+	}
+	8170.12.11 = {
+		holder = gen_1452
+	}
+	8209.2.1 = {
+		holder = gen_1458
+	}
+	8211.3.1 = {
+		holder = gen_1464
+	}
+	8233.2.8 = {
+		holder = gen_1470
+	}
+	8236.2.13 = {
+		holder = gen_1476
+	}
+	8239.1.11 = {
+		holder = gen_1482
+	}
+	8258.12.21 = {
+		holder = gen_1488
+	}
+	8277.1.1 = {
+		holder = gen_1494
+	}
+}
+c_R90G80B44 = {
+		7898.1.1 = {
+		holder = gen_2412
+	}
+	7985.1.1 = {
+		holder = gen_13
+	}
+	8082.1.1 = {
+		holder = gen_1440
+	}
+	8106.4.18 = {
+		holder = gen_1446
+	}
+	8170.12.11 = {
+		holder = gen_1452
+	}
+	8209.2.1 = {
+		holder = gen_1458
+	}
+	8211.3.1 = {
+		holder = gen_1464
+	}
+	8233.2.8 = {
+		holder = gen_1470
+	}
+	8236.2.13 = {
+		holder = gen_1476
+	}
+	8239.1.11 = {
+		holder = gen_1482
+	}
+	8258.12.21 = {
+		holder = gen_1488
+	}
+	8277.1.1 = {
+		holder = gen_1494
+	}
+}
+c_R6G225B45 = {
+		7898.1.1 = {
+		holder = gen_2412
+	}
+	7985.1.1 = {
+		holder = gen_13
+	}
+	8082.1.1 = {
+		holder = gen_1440
+	}
+	8106.4.18 = {
+		holder = gen_1446
+	}
+	8170.12.11 = {
+		holder = gen_1452
+	}
+	8209.2.1 = {
+		holder = gen_1458
+	}
+	8211.3.1 = {
+		holder = gen_1464
+	}
+	8233.2.8 = {
+		holder = gen_1470
+	}
+	8236.2.13 = {
+		holder = gen_1476
+	}
+	8239.1.11 = {
+		holder = gen_1482
+	}
+	8258.12.21 = {
+		holder = gen_1488
+	}
+	8277.1.1 = {
+		holder = gen_1494
+	}
+}
+c_R157G218B162 = {
+		7898.1.1 = {
+		holder = gen_3098
+		government = feudal_government
+		liege = d_R210G115B75
+	}
+	7985.1.1 = {
+		holder = gen_625
+		government = feudal_government
+		liege = d_R210G115B75
+	}
+}
+c_R84G171B249 = {
+		7898.1.1 = {
+		holder = gen_3098
+		liege = d_R210G115B75
+	}
+	7985.1.1 = {
+		holder = gen_625
+		liege = d_R210G115B75
+	}
+}
+d_R113G237B226 = {
+		7898.1.1 = {
+		holder = gen_3099
+		government = feudal_government
+		liege = k_R9G84B65
+	}
+	7985.1.1 = {
+		holder = gen_626
+		government = feudal_government
+		liege = k_R9G84B65
+	}
+		8082.1.1 = {
+			holder = gen_1442
+			government = feudal_government
+		}
+		8106.4.18 = {
+			holder = gen_1442
+			government = feudal_government
+		}
+		8170.12.11 = {
+			holder = gen_1451
+			government = feudal_government
+		}
+		8209.2.1 = {
+			holder = gen_1454
+			government = feudal_government
+		}
+		8211.3.1 = {
+			holder = gen_1454
+			government = feudal_government
+		}
+		8233.2.8 = {
+			holder = gen_1456
+			government = feudal_government
+		}
+		8236.2.13 = {
+			holder = gen_1459
+			government = feudal_government
+		}
+		8239.1.11 = {
+			holder = gen_1460
+			government = feudal_government
+		}
+		8258.12.21 = {
+			holder = gen_1462
+			government = feudal_government
+		}
+		8277.1.1 = {
+			holder = gen_1467
+			government = feudal_government
+		}
+}
+c_R92G232B82 = {
+		7898.1.1 = {
+		holder = gen_3099
+		liege = d_R113G237B226
+	}
+	7985.1.1 = {
+		holder = gen_626
+		liege = d_R113G237B226
+	}
+}
+c_R156G179B90 = {
+		7898.1.1 = {
+		holder = gen_3099
+		liege = d_R113G237B226
+	}
+	7985.1.1 = {
+		holder = gen_626
+		liege = d_R113G237B226
+	}
+}
+c_R47G113B25 = {
+		7898.1.1 = {
+		holder = gen_3099
+		liege = d_R113G237B226
+	}
+	7985.1.1 = {
+		holder = gen_626
+		liege = d_R113G237B226
+	}
+}
+c_R112G247B55 = {
+		7898.1.1 = {
+		holder = gen_3099
+		liege = d_R113G237B226
+	}
+	7985.1.1 = {
+		holder = gen_626
+		liege = d_R113G237B226
+	}
+}
+d_R204G205B212 = {
+		7898.1.1 = {
+		holder = gen_3100
+		government = feudal_government
+		liege = k_R9G84B65
+	}
+	7985.1.1 = {
+		holder = gen_627
+		government = feudal_government
+		liege = k_R9G84B65
+	}
+		8082.1.1 = {
+			holder = gen_1442
+		}
+		8106.4.18 = {
+			holder = gen_1442
+		}
+		8170.12.11 = {
+			holder = gen_1451
+		}
+		8209.2.1 = {
+			holder = gen_1454
+		}
+		8211.3.1 = {
+			holder = gen_1454
+		}
+		8233.2.8 = {
+			holder = gen_1456
+		}
+		8236.2.13 = {
+			holder = gen_1459
+		}
+		8239.1.11 = {
+			holder = gen_1460
+		}
+		8258.12.21 = {
+			holder = gen_1462
+		}
+		8277.1.1 = {
+			holder = gen_1467
+		}
+}
+c_R32G212B253 = {
+		7898.1.1 = {
+		holder = gen_3100
+		liege = d_R204G205B212
+	}
+	7985.1.1 = {
+		holder = gen_627
+		liege = d_R204G205B212
+	}
+}
+c_R216G139B84 = {
+		7898.1.1 = {
+		holder = gen_3100
+		liege = d_R204G205B212
+	}
+	7985.1.1 = {
+		holder = gen_627
+		liege = d_R204G205B212
+	}
+}
+c_R89G38B177 = {
+		7898.1.1 = {
+		holder = gen_3100
+		liege = d_R204G205B212
+	}
+	7985.1.1 = {
+		holder = gen_627
+		liege = d_R204G205B212
+	}
+}
+c_R108G209B39 = {
+		7898.1.1 = {
+		holder = gen_3100
+		liege = d_R204G205B212
+	}
+	7985.1.1 = {
+		holder = gen_627
+		liege = d_R204G205B212
+	}
+}

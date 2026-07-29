@@ -1,0 +1,214 @@
+﻿# Auto-generated empire ruler characters
+
+gen_1 = {
+	name = "N'keth"
+	culture = bloodless_man
+	religion = eldritch_fishgod
+	7950.1.1 = { birth = yes }
+	7985.1.1 = { add_legitimacy = 3000 }
+}
+
+gen_2 = {
+	name = "Qahreel"
+	culture = qaleen
+	religion = eldritch_yellow
+	7950.1.1 = { birth = yes }
+	7985.1.1 = { add_legitimacy = 3000 }
+}
+
+gen_3 = {
+	name = "Yenara"
+	culture = kayakayanayan
+	religion = rhllor_hyrkoon
+	7950.1.1 = { birth = yes }
+	7985.1.1 = { add_legitimacy = 3000 }
+}
+
+gen_4 = {
+	name = "Habok"
+	culture = ibbatese
+	religion = ib_ven_sound
+	7950.1.1 = { birth = yes }
+}
+
+gen_5 = {
+	name = "Elaevorn"
+	culture = ifequevron
+	religion = fg_pan_elenei
+	7950.1.1 = { birth = yes }
+	7985.1.1 = { add_legitimacy = 3000 }
+}
+
+gen_6 = {
+	name = "Sarhad"
+	culture = farosi
+	religion = eldritch_bloodgod
+	7950.1.1 = { birth = yes }
+	7985.1.1 = { add_legitimacy = 3000 }
+}
+
+gen_7 = {
+	name = "Lhorvar"
+	culture = lorathi
+	religion = fc_pan_lorath
+	7950.1.1 = { birth = yes }
+}
+
+gen_8 = {
+	name = "Korgast"
+	culture = mossovite
+	religion = song_mossovy
+	7950.1.1 = { birth = yes }
+	7985.1.1 = { add_legitimacy = 3000 }
+}
+
+gen_9 = {
+	name = "Naelori"
+	culture = naathi
+	religion = god_naath
+	7950.1.1 = { birth = yes }
+	7985.1.1 = { add_legitimacy = 3000 }
+}
+
+gen_10 = {
+	name = "Norveth"
+	culture = norvoshi
+	religion = fc_pan_bearded
+	7950.1.1 = { birth = yes }
+}
+
+gen_11 = {
+	name = "Ombhar"
+	culture = omberi
+	religion = dothraki_faith
+	7950.1.1 = { birth = yes }
+	7985.1.1 = { add_legitimacy = 3000 }
+}
+
+gen_12 = {
+	name = "Qhovrak"
+	culture = qohorik
+	religion = fc_pan_blackgoat
+	7950.1.1 = { birth = yes }
+}
+
+gen_13 = {
+	name = "Alzaran"
+	culture = tagaez_fen
+	religion = sarnori_faith
+	7950.1.1 = { birth = yes }
+	7985.1.1 = { add_legitimacy = 3000 }
+}
+
+gen_14 = {
+	name = "Gogoro"
+	culture = gogossite
+	religion = shanty_greenhell
+	7950.1.1 = { birth = yes }
+	7985.1.1 = { add_legitimacy = 3000 }
+}
+
+gen_15 = {
+	name = "Jalavar Xho"
+	culture = jhalai
+	religion = summer_gods_pan
+	7950.1.1 = { birth = yes }
+	7985.1.1 = { add_legitimacy = 3000 }
+}
+
+gen_16 = {
+	name = "Vorath"
+	culture = manticorian
+	religion = eldritch_fishgod
+	7950.1.1 = { birth = yes }
+	7985.1.1 = { add_legitimacy = 3000 }
+}
+
+gen_17 = {
+	name = "Azreth"
+	culture = shadowman
+	religion = eldritch_bloodgod
+	7950.1.1 = { birth = yes }
+	7985.1.1 = { add_legitimacy = 3000 }
+}
+
+gen_18 = {
+	name = "Marro"
+	culture = dothraki
+	religion = dothraki_faith
+	7950.1.1 = { birth = yes }
+	7985.1.1 = { add_legitimacy = 3000 }
+}
+
+gen_19 = {
+	name = "Jhorno"
+	culture = dothraki
+	religion = dothraki_faith
+	7950.1.1 = { birth = yes }
+	7985.1.1 = { add_legitimacy = 3000 }
+}
+
+gen_20 = {
+	name = "Orrath"
+	culture = dothraki
+	religion = dothraki_faith
+	7950.1.1 = { birth = yes }
+	7985.1.1 = { add_legitimacy = 3000 }
+}
+
+gen_21 = {
+	name = "Forza"
+	culture = dothraki
+	religion = dothraki_faith
+	7950.1.1 = { birth = yes }
+	7985.1.1 = { add_legitimacy = 3000 }
+}
+
+gen_22 = {
+	name = "Darro Maz"
+	culture = lhazareen
+	religion = shepherd_faith
+	7950.1.1 = { birth = yes }
+	7985.1.1 = { add_legitimacy = 3000 }
+}
+
+gen_23 = {
+	name = "Pyreth Xo"
+	culture = qartheen
+	religion = qh_pureborn
+	7950.1.1 = { birth = yes }
+}
+
+gen_24 = {
+	name = "Lo Kai"
+	culture = feicui_ren
+	religion = yt_court_celestial
+	dynasty = dynn_yi_ti
+	7950.1.1 = { birth = yes }
+	7985.1.1 = { add_legitimacy = 3000 }
+}
+
+gen_25 = {
+	name = "Jong Dar"
+	culture = jogos_nhai
+	religion = song_nefer
+	7950.1.1 = { birth = yes }
+	7985.1.1 = { add_legitimacy = 3000 }
+}
+
+gen_26 = {
+	name = "Varom Dao"
+	culture = vahari
+	religion = eldritch_bloodgod
+	7950.1.1 = { birth = yes }
+	7985.1.1 = { add_legitimacy = 3000 }
+}
+
+gen_27 = {
+	name = "Yal Tengoth"
+	culture = lengii
+	religion = eldritch_leng
+	7950.1.1 = { birth = yes }
+	7985.1.1 = { add_legitimacy = 3000 }
+}
+

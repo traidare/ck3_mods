@@ -1,0 +1,1379 @@
+﻿# Auto-generated vassal titles for e_ibben
+k_R172G48B140 = {
+		7898.1.1 = {
+		holder = gen_2358
+	}
+	7985.1.1 = {
+		holder = gen_4
+	}
+	8082.1.1 = {
+		holder = gen_900
+	}
+	8106.4.18 = {
+		holder = gen_906
+	}
+	8170.12.11 = {
+		holder = gen_912
+	}
+	8209.2.1 = {
+		holder = gen_918
+	}
+	8211.3.1 = {
+		holder = gen_924
+	}
+	8233.2.8 = {
+		holder = gen_930
+	}
+	8236.2.13 = {
+		holder = gen_936
+	}
+	8239.1.11 = {
+		holder = gen_942
+	}
+	8258.12.21 = {
+		holder = gen_948
+	}
+	8277.1.1 = {
+		holder = gen_954
+	}
+}
+d_R247G223B243 = {
+		7898.1.1 = {
+		holder = gen_2358
+	}
+	7985.1.1 = {
+		holder = gen_4
+	}
+	8082.1.1 = {
+		holder = gen_900
+	}
+	8106.4.18 = {
+		holder = gen_906
+	}
+	8170.12.11 = {
+		holder = gen_912
+	}
+	8209.2.1 = {
+		holder = gen_918
+	}
+	8211.3.1 = {
+		holder = gen_924
+	}
+	8233.2.8 = {
+		holder = gen_930
+	}
+	8236.2.13 = {
+		holder = gen_936
+	}
+	8239.1.11 = {
+		holder = gen_942
+	}
+	8258.12.21 = {
+		holder = gen_948
+	}
+	8277.1.1 = {
+		holder = gen_954
+	}
+}
+c_R250G101B84 = {
+		7898.1.1 = {
+		holder = gen_2358
+	}
+	7985.1.1 = {
+		holder = gen_4
+	}
+	8082.1.1 = {
+		holder = gen_900
+	}
+	8106.4.18 = {
+		holder = gen_906
+	}
+	8170.12.11 = {
+		holder = gen_912
+	}
+	8209.2.1 = {
+		holder = gen_918
+	}
+	8211.3.1 = {
+		holder = gen_924
+	}
+	8233.2.8 = {
+		holder = gen_930
+	}
+	8236.2.13 = {
+		holder = gen_936
+	}
+	8239.1.11 = {
+		holder = gen_942
+	}
+	8258.12.21 = {
+		holder = gen_948
+	}
+	8277.1.1 = {
+		holder = gen_954
+	}
+}
+c_R215G236B4 = {
+		7898.1.1 = {
+		holder = gen_2358
+	}
+	7985.1.1 = {
+		holder = gen_4
+	}
+	8082.1.1 = {
+		holder = gen_900
+	}
+	8106.4.18 = {
+		holder = gen_906
+	}
+	8170.12.11 = {
+		holder = gen_912
+	}
+	8209.2.1 = {
+		holder = gen_918
+	}
+	8211.3.1 = {
+		holder = gen_924
+	}
+	8233.2.8 = {
+		holder = gen_930
+	}
+	8236.2.13 = {
+		holder = gen_936
+	}
+	8239.1.11 = {
+		holder = gen_942
+	}
+	8258.12.21 = {
+		holder = gen_948
+	}
+	8277.1.1 = {
+		holder = gen_954
+	}
+}
+c_R58G214B118 = {
+		7898.1.1 = {
+		holder = gen_2358
+	}
+	7985.1.1 = {
+		holder = gen_4
+	}
+	8082.1.1 = {
+		holder = gen_900
+	}
+	8106.4.18 = {
+		holder = gen_906
+	}
+	8170.12.11 = {
+		holder = gen_912
+	}
+	8209.2.1 = {
+		holder = gen_918
+	}
+	8211.3.1 = {
+		holder = gen_924
+	}
+	8233.2.8 = {
+		holder = gen_930
+	}
+	8236.2.13 = {
+		holder = gen_936
+	}
+	8239.1.11 = {
+		holder = gen_942
+	}
+	8258.12.21 = {
+		holder = gen_948
+	}
+	8277.1.1 = {
+		holder = gen_954
+	}
+}
+c_R181G178B135 = {
+		7898.1.1 = {
+		holder = gen_2358
+	}
+	7985.1.1 = {
+		holder = gen_4
+	}
+	8082.1.1 = {
+		holder = gen_900
+	}
+	8106.4.18 = {
+		holder = gen_906
+	}
+	8170.12.11 = {
+		holder = gen_912
+	}
+	8209.2.1 = {
+		holder = gen_918
+	}
+	8211.3.1 = {
+		holder = gen_924
+	}
+	8233.2.8 = {
+		holder = gen_930
+	}
+	8236.2.13 = {
+		holder = gen_936
+	}
+	8239.1.11 = {
+		holder = gen_942
+	}
+	8258.12.21 = {
+		holder = gen_948
+	}
+	8277.1.1 = {
+		holder = gen_954
+	}
+}
+c_R131G152B208 = {
+		7898.1.1 = {
+		holder = gen_2762
+		government = feudal_government
+		liege = d_R247G223B243
+	}
+	7899.8.14 = { government = oligarchic_government }
+	7985.1.1 = {
+		holder = gen_289
+		government = oligarchic_government
+		liege = d_R247G223B243
+	}
+}
+c_R36G17B75 = {
+		7898.1.1 = {
+		holder = gen_2762
+		liege = d_R247G223B243
+	}
+	7985.1.1 = {
+		holder = gen_289
+		liege = d_R247G223B243
+	}
+}
+d_R22G10B16 = {
+		7898.1.1 = {
+		holder = gen_2763
+		government = feudal_government
+		liege = k_R172G48B140
+	}
+	7899.8.14 = { government = oligarchic_government }
+	7985.1.1 = {
+		holder = gen_290
+		government = oligarchic_government
+		liege = k_R172G48B140
+	}
+		8082.1.1 = {
+			holder = gen_902
+		}
+		8106.4.18 = {
+			holder = gen_902
+		}
+		8170.12.11 = {
+			holder = gen_910
+		}
+		8209.2.1 = {
+			holder = gen_914
+		}
+		8211.3.1 = {
+			holder = gen_914
+		}
+		8233.2.8 = {
+			holder = gen_916
+		}
+		8236.2.13 = {
+			holder = gen_919
+		}
+		8239.1.11 = {
+			holder = gen_920
+		}
+		8258.12.21 = {
+			holder = gen_922
+		}
+		8277.1.1 = {
+			holder = gen_927
+		}
+}
+c_R196G215B43 = {
+		7898.1.1 = {
+		holder = gen_2763
+		liege = d_R22G10B16
+	}
+	7985.1.1 = {
+		holder = gen_290
+		liege = d_R22G10B16
+	}
+}
+c_R39G148B70 = {
+		7898.1.1 = {
+		holder = gen_2763
+		liege = d_R22G10B16
+	}
+	7985.1.1 = {
+		holder = gen_290
+		liege = d_R22G10B16
+	}
+}
+c_R237G89B225 = {
+		7898.1.1 = {
+		holder = gen_2763
+		liege = d_R22G10B16
+	}
+	7985.1.1 = {
+		holder = gen_290
+		liege = d_R22G10B16
+	}
+}
+c_R101G61B212 = {
+		7898.1.1 = {
+		holder = gen_2763
+		liege = d_R22G10B16
+	}
+	7985.1.1 = {
+		holder = gen_290
+		liege = d_R22G10B16
+	}
+}
+c_R30G249B113 = {
+		7898.1.1 = {
+		holder = gen_2763
+		liege = d_R22G10B16
+	}
+	7985.1.1 = {
+		holder = gen_290
+		liege = d_R22G10B16
+	}
+}
+c_R19G125B165 = {
+		7898.1.1 = {
+		holder = gen_2764
+		government = feudal_government
+		liege = d_R22G10B16
+	}
+	7899.8.14 = { government = oligarchic_government }
+	7985.1.1 = {
+		holder = gen_291
+		government = oligarchic_government
+		liege = d_R22G10B16
+	}
+}
+c_R30G17B76 = {
+		7898.1.1 = {
+		holder = gen_2764
+		liege = d_R22G10B16
+	}
+	7985.1.1 = {
+		holder = gen_291
+		liege = d_R22G10B16
+	}
+}
+d_R77G191B116 = {
+		7898.1.1 = {
+		holder = gen_2765
+		government = feudal_government
+		liege = k_R172G48B140
+	}
+	7899.8.14 = { government = oligarchic_government }
+	7985.1.1 = {
+		holder = gen_292
+		government = oligarchic_government
+		liege = k_R172G48B140
+	}
+		8082.1.1 = {
+			holder = gen_902
+		}
+		8106.4.18 = {
+			holder = gen_902
+		}
+		8170.12.11 = {
+			holder = gen_910
+		}
+		8209.2.1 = {
+			holder = gen_914
+		}
+		8211.3.1 = {
+			holder = gen_914
+		}
+		8233.2.8 = {
+			holder = gen_916
+		}
+		8236.2.13 = {
+			holder = gen_919
+		}
+		8239.1.11 = {
+			holder = gen_920
+		}
+		8258.12.21 = {
+			holder = gen_922
+		}
+		8277.1.1 = {
+			holder = gen_927
+		}
+}
+c_R209G141B225 = {
+		7898.1.1 = {
+		holder = gen_2765
+		liege = d_R77G191B116
+	}
+	7985.1.1 = {
+		holder = gen_292
+		liege = d_R77G191B116
+	}
+}
+c_R211G19B23 = {
+		7898.1.1 = {
+		holder = gen_2765
+		liege = d_R77G191B116
+	}
+	7985.1.1 = {
+		holder = gen_292
+		liege = d_R77G191B116
+	}
+}
+c_R129G57B123 = {
+		7898.1.1 = {
+		holder = gen_2765
+		liege = d_R77G191B116
+	}
+	7985.1.1 = {
+		holder = gen_292
+		liege = d_R77G191B116
+	}
+}
+c_R222G8B235 = {
+		7898.1.1 = {
+		holder = gen_2765
+		liege = d_R77G191B116
+	}
+	7985.1.1 = {
+		holder = gen_292
+		liege = d_R77G191B116
+	}
+}
+c_R76G206B22 = {
+		7898.1.1 = {
+		holder = gen_2765
+		liege = d_R77G191B116
+	}
+	7985.1.1 = {
+		holder = gen_292
+		liege = d_R77G191B116
+	}
+}
+c_R13G209B148 = {
+		7898.1.1 = {
+		holder = gen_2766
+		government = feudal_government
+		liege = d_R77G191B116
+	}
+	7899.8.14 = { government = oligarchic_government }
+	7985.1.1 = {
+		holder = gen_293
+		government = oligarchic_government
+		liege = d_R77G191B116
+	}
+}
+c_R28G98B151 = {
+		7898.1.1 = {
+		holder = gen_2766
+		liege = d_R77G191B116
+	}
+	7985.1.1 = {
+		holder = gen_293
+		liege = d_R77G191B116
+	}
+}
+c_R191G243B88 = {
+		7898.1.1 = {
+		holder = gen_2767
+		government = feudal_government
+		liege = d_R77G191B116
+	}
+	7899.8.14 = { government = oligarchic_government }
+	7985.1.1 = {
+		holder = gen_294
+		government = oligarchic_government
+		liege = d_R77G191B116
+	}
+}
+c_R81G212B17 = {
+		7898.1.1 = {
+		holder = gen_2767
+		liege = d_R77G191B116
+	}
+	7985.1.1 = {
+		holder = gen_294
+		liege = d_R77G191B116
+	}
+}
+d_R237G246B209 = {
+		7898.1.1 = {
+		holder = gen_2768
+		government = feudal_government
+		liege = k_R172G48B140
+	}
+	7899.8.14 = { government = oligarchic_government }
+	7985.1.1 = {
+		holder = gen_295
+		government = oligarchic_government
+		liege = k_R172G48B140
+	}
+		8082.1.1 = {
+			holder = gen_901
+		}
+		8106.4.18 = {
+			holder = gen_901
+		}
+		8170.12.11 = {
+			holder = gen_909
+		}
+		8209.2.1 = {
+			holder = gen_913
+		}
+		8211.3.1 = {
+			holder = gen_913
+		}
+		8233.2.8 = {
+			holder = gen_915
+		}
+		8236.2.13 = {
+			holder = gen_916
+		}
+		8239.1.11 = {
+			holder = gen_919
+		}
+		8258.12.21 = {
+			holder = gen_921
+		}
+		8277.1.1 = {
+			holder = gen_922
+		}
+}
+c_R104G209B193 = {
+		7898.1.1 = {
+		holder = gen_2768
+		liege = d_R237G246B209
+	}
+	7985.1.1 = {
+		holder = gen_295
+		liege = d_R237G246B209
+	}
+}
+c_R218G54B83 = {
+		7898.1.1 = {
+		holder = gen_2768
+		liege = d_R237G246B209
+	}
+	7985.1.1 = {
+		holder = gen_295
+		liege = d_R237G246B209
+	}
+}
+c_R86G244B11 = {
+		7898.1.1 = {
+		holder = gen_2768
+		liege = d_R237G246B209
+	}
+	7985.1.1 = {
+		holder = gen_295
+		liege = d_R237G246B209
+	}
+}
+c_R72G128B245 = {
+		7898.1.1 = {
+		holder = gen_2768
+		liege = d_R237G246B209
+	}
+	7985.1.1 = {
+		holder = gen_295
+		liege = d_R237G246B209
+	}
+}
+c_R199G180B49 = {
+		7898.1.1 = {
+		holder = gen_2768
+		liege = d_R237G246B209
+	}
+	7985.1.1 = {
+		holder = gen_295
+		liege = d_R237G246B209
+	}
+}
+d_R10G161B255 = {
+		7898.1.1 = {
+		holder = gen_2769
+		government = feudal_government
+		liege = k_R172G48B140
+	}
+	7899.8.14 = { government = oligarchic_government }
+	7985.1.1 = {
+		holder = gen_296
+		government = oligarchic_government
+		liege = k_R172G48B140
+	}
+		8082.1.1 = {
+			holder = gen_901
+		}
+		8106.4.18 = {
+			holder = gen_901
+		}
+		8170.12.11 = {
+			holder = gen_909
+		}
+		8209.2.1 = {
+			holder = gen_913
+		}
+		8211.3.1 = {
+			holder = gen_913
+		}
+		8233.2.8 = {
+			holder = gen_915
+		}
+		8236.2.13 = {
+			holder = gen_916
+		}
+		8239.1.11 = {
+			holder = gen_919
+		}
+		8258.12.21 = {
+			holder = gen_921
+		}
+		8277.1.1 = {
+			holder = gen_922
+		}
+}
+c_R179G159B39 = {
+		7898.1.1 = {
+		holder = gen_2769
+		liege = d_R10G161B255
+	}
+	7985.1.1 = {
+		holder = gen_296
+		liege = d_R10G161B255
+	}
+}
+c_R141G171B33 = {
+		7898.1.1 = {
+		holder = gen_2769
+		liege = d_R10G161B255
+	}
+	7985.1.1 = {
+		holder = gen_296
+		liege = d_R10G161B255
+	}
+}
+c_R181G50B39 = {
+		7898.1.1 = {
+		holder = gen_2769
+		liege = d_R10G161B255
+	}
+	7985.1.1 = {
+		holder = gen_296
+		liege = d_R10G161B255
+	}
+}
+c_R129G253B153 = {
+		7898.1.1 = {
+		holder = gen_2769
+		liege = d_R10G161B255
+	}
+	7985.1.1 = {
+		holder = gen_296
+		liege = d_R10G161B255
+	}
+}
+c_R144G172B110 = {
+		7898.1.1 = {
+		holder = gen_2769
+		liege = d_R10G161B255
+	}
+	7985.1.1 = {
+		holder = gen_296
+		liege = d_R10G161B255
+	}
+}
+c_R41G219B144 = {
+		7898.1.1 = {
+		holder = gen_2770
+		liege = d_R10G161B255
+	}
+	7985.1.1 = {
+		holder = gen_297
+		liege = d_R10G161B255
+	}
+}
+c_R104G18B91 = {
+		7898.1.1 = {
+		holder = gen_2770
+		government = feudal_government
+		liege = d_R10G161B255
+	}
+	7899.8.14 = { government = oligarchic_government }
+	7985.1.1 = {
+		holder = gen_297
+		government = oligarchic_government
+		liege = d_R10G161B255
+	}
+}
+d_R167G91B49 = {
+		7898.1.1 = {
+		holder = gen_2771
+		government = feudal_government
+		liege = k_R172G48B140
+	}
+	7899.8.14 = { government = oligarchic_government }
+	7985.1.1 = {
+		holder = gen_298
+		government = oligarchic_government
+		liege = k_R172G48B140
+	}
+		8082.1.1 = {
+			holder = gen_901
+		}
+		8106.4.18 = {
+			holder = gen_901
+		}
+		8170.12.11 = {
+			holder = gen_909
+		}
+		8209.2.1 = {
+			holder = gen_913
+		}
+		8211.3.1 = {
+			holder = gen_913
+		}
+		8233.2.8 = {
+			holder = gen_915
+		}
+		8236.2.13 = {
+			holder = gen_916
+		}
+		8239.1.11 = {
+			holder = gen_919
+		}
+		8258.12.21 = {
+			holder = gen_921
+		}
+		8277.1.1 = {
+			holder = gen_922
+		}
+}
+c_R56G186B12 = {
+		7898.1.1 = {
+		holder = gen_2771
+		liege = d_R167G91B49
+	}
+	7985.1.1 = {
+		holder = gen_298
+		liege = d_R167G91B49
+	}
+}
+c_R1G200B201 = {
+		7898.1.1 = {
+		holder = gen_2771
+		liege = d_R167G91B49
+	}
+	7985.1.1 = {
+		holder = gen_298
+		liege = d_R167G91B49
+	}
+}
+c_R156G60B174 = {
+		7898.1.1 = {
+		holder = gen_2771
+		liege = d_R167G91B49
+	}
+	7985.1.1 = {
+		holder = gen_298
+		liege = d_R167G91B49
+	}
+}
+c_R117G39B11 = {
+		7898.1.1 = {
+		holder = gen_2771
+		liege = d_R167G91B49
+	}
+	7985.1.1 = {
+		holder = gen_298
+		liege = d_R167G91B49
+	}
+}
+c_R107G7B115 = {
+		7898.1.1 = {
+		holder = gen_2772
+		government = feudal_government
+		liege = d_R167G91B49
+	}
+	7899.8.14 = { government = oligarchic_government }
+	7985.1.1 = {
+		holder = gen_299
+		government = oligarchic_government
+		liege = d_R167G91B49
+	}
+}
+c_R17G202B20 = {
+		7898.1.1 = {
+		holder = gen_2772
+		liege = d_R167G91B49
+	}
+	7985.1.1 = {
+		holder = gen_299
+		liege = d_R167G91B49
+	}
+}
+c_R42G47B79 = {
+		7898.1.1 = {
+		holder = gen_2773
+		liege = d_R167G91B49
+	}
+	7985.1.1 = {
+		holder = gen_300
+		liege = d_R167G91B49
+	}
+}
+c_R2G40B188 = {
+		7898.1.1 = {
+		holder = gen_2773
+		government = feudal_government
+		liege = d_R167G91B49
+	}
+	7899.8.14 = { government = oligarchic_government }
+	7985.1.1 = {
+		holder = gen_300
+		government = oligarchic_government
+		liege = d_R167G91B49
+	}
+}
+d_R108G223B204 = {
+		7898.1.1 = {
+		holder = gen_2774
+		government = feudal_government
+		liege = k_R172G48B140
+	}
+	7899.8.14 = { government = oligarchic_government }
+	7985.1.1 = {
+		holder = gen_301
+		government = oligarchic_government
+		liege = k_R172G48B140
+	}
+		8082.1.1 = {
+			holder = gen_901
+			government = oligarchic_government
+		}
+		8106.4.18 = {
+			holder = gen_901
+			government = oligarchic_government
+		}
+		8170.12.11 = {
+			holder = gen_909
+			government = oligarchic_government
+		}
+		8209.2.1 = {
+			holder = gen_913
+			government = oligarchic_government
+		}
+		8211.3.1 = {
+			holder = gen_913
+			government = oligarchic_government
+		}
+		8233.2.8 = {
+			holder = gen_915
+			government = oligarchic_government
+		}
+		8236.2.13 = {
+			holder = gen_916
+			government = oligarchic_government
+		}
+		8239.1.11 = {
+			holder = gen_919
+			government = oligarchic_government
+		}
+		8258.12.21 = {
+			holder = gen_921
+			government = oligarchic_government
+		}
+		8277.1.1 = {
+			holder = gen_922
+			government = oligarchic_government
+		}
+}
+c_R178G70B92 = {
+		7898.1.1 = {
+		holder = gen_2774
+		liege = d_R108G223B204
+	}
+	7985.1.1 = {
+		holder = gen_301
+		liege = d_R108G223B204
+	}
+}
+c_R168G48B25 = {
+		7898.1.1 = {
+		holder = gen_2774
+		liege = d_R108G223B204
+	}
+	7985.1.1 = {
+		holder = gen_301
+		liege = d_R108G223B204
+	}
+}
+c_R221G98B191 = {
+		7898.1.1 = {
+		holder = gen_2774
+		liege = d_R108G223B204
+	}
+	7985.1.1 = {
+		holder = gen_301
+		liege = d_R108G223B204
+	}
+}
+c_R176G48B47 = {
+		7898.1.1 = {
+		holder = gen_2774
+		liege = d_R108G223B204
+	}
+	7985.1.1 = {
+		holder = gen_301
+		liege = d_R108G223B204
+	}
+}
+d_R80G23B0 = {
+		7898.1.1 = {
+		holder = gen_2775
+		government = feudal_government
+		liege = k_R172G48B140
+	}
+	7899.8.14 = { government = oligarchic_government }
+	7985.1.1 = {
+		holder = gen_302
+		government = oligarchic_government
+		liege = k_R172G48B140
+	}
+		8082.1.1 = {
+			holder = gen_902
+		}
+		8106.4.18 = {
+			holder = gen_902
+		}
+		8170.12.11 = {
+			holder = gen_910
+		}
+		8209.2.1 = {
+			holder = gen_914
+		}
+		8211.3.1 = {
+			holder = gen_914
+		}
+		8233.2.8 = {
+			holder = gen_916
+		}
+		8236.2.13 = {
+			holder = gen_919
+		}
+		8239.1.11 = {
+			holder = gen_920
+		}
+		8258.12.21 = {
+			holder = gen_922
+		}
+		8277.1.1 = {
+			holder = gen_927
+		}
+}
+c_R164G173B27 = {
+		7898.1.1 = {
+		holder = gen_2775
+		liege = d_R80G23B0
+	}
+	7985.1.1 = {
+		holder = gen_302
+		liege = d_R80G23B0
+	}
+}
+c_R126G160B69 = {
+		7898.1.1 = {
+		holder = gen_2775
+		liege = d_R80G23B0
+	}
+	7985.1.1 = {
+		holder = gen_302
+		liege = d_R80G23B0
+	}
+}
+c_R33G1B20 = {
+		7898.1.1 = {
+		holder = gen_2775
+		liege = d_R80G23B0
+	}
+	7985.1.1 = {
+		holder = gen_302
+		liege = d_R80G23B0
+	}
+}
+c_R87G190B230 = {
+		7898.1.1 = {
+		holder = gen_2775
+		liege = d_R80G23B0
+	}
+	7985.1.1 = {
+		holder = gen_302
+		liege = d_R80G23B0
+	}
+}
+c_R199G193B211 = {
+		7898.1.1 = {
+		holder = gen_2775
+		liege = d_R80G23B0
+	}
+	7985.1.1 = {
+		holder = gen_302
+		liege = d_R80G23B0
+	}
+}
+d_R99G34B68 = {
+		7898.1.1 = {
+		holder = gen_2776
+		government = feudal_government
+		liege = k_R172G48B140
+	}
+	7899.8.14 = { government = oligarchic_government }
+	7985.1.1 = {
+		holder = gen_303
+		government = oligarchic_government
+		liege = k_R172G48B140
+	}
+		8082.1.1 = {
+			holder = gen_902
+		}
+		8106.4.18 = {
+			holder = gen_902
+		}
+		8170.12.11 = {
+			holder = gen_910
+		}
+		8209.2.1 = {
+			holder = gen_914
+		}
+		8211.3.1 = {
+			holder = gen_914
+		}
+		8233.2.8 = {
+			holder = gen_916
+		}
+		8236.2.13 = {
+			holder = gen_919
+		}
+		8239.1.11 = {
+			holder = gen_920
+		}
+		8258.12.21 = {
+			holder = gen_922
+		}
+		8277.1.1 = {
+			holder = gen_927
+		}
+}
+c_R221G231B228 = {
+		7898.1.1 = {
+		holder = gen_2776
+		liege = d_R99G34B68
+	}
+	7985.1.1 = {
+		holder = gen_303
+		liege = d_R99G34B68
+	}
+}
+c_R114G172B91 = {
+		7898.1.1 = {
+		holder = gen_2776
+		liege = d_R99G34B68
+	}
+	7985.1.1 = {
+		holder = gen_303
+		liege = d_R99G34B68
+	}
+}
+c_R19G252B4 = {
+		7898.1.1 = {
+		holder = gen_2776
+		liege = d_R99G34B68
+	}
+	7985.1.1 = {
+		holder = gen_303
+		liege = d_R99G34B68
+	}
+}
+c_R231G59B73 = {
+		7898.1.1 = {
+		holder = gen_2776
+		liege = d_R99G34B68
+	}
+	7985.1.1 = {
+		holder = gen_303
+		liege = d_R99G34B68
+	}
+}
+c_R151G40B205 = {
+		7898.1.1 = {
+		holder = gen_2776
+		liege = d_R99G34B68
+	}
+	7985.1.1 = {
+		holder = gen_303
+		liege = d_R99G34B68
+	}
+}
+d_R25G74B145 = {
+		7898.1.1 = {
+		holder = gen_2777
+		government = feudal_government
+		liege = k_R172G48B140
+	}
+	7899.8.14 = { government = oligarchic_government }
+	7985.1.1 = {
+		holder = gen_304
+		government = oligarchic_government
+		liege = k_R172G48B140
+	}
+		8082.1.1 = {
+			holder = gen_902
+		}
+		8106.4.18 = {
+			holder = gen_902
+		}
+		8170.12.11 = {
+			holder = gen_910
+		}
+		8209.2.1 = {
+			holder = gen_914
+		}
+		8211.3.1 = {
+			holder = gen_914
+		}
+		8233.2.8 = {
+			holder = gen_916
+		}
+		8236.2.13 = {
+			holder = gen_919
+		}
+		8239.1.11 = {
+			holder = gen_920
+		}
+		8258.12.21 = {
+			holder = gen_922
+		}
+		8277.1.1 = {
+			holder = gen_927
+		}
+}
+c_R174G32B5 = {
+		7898.1.1 = {
+		holder = gen_2777
+		liege = d_R25G74B145
+	}
+	7985.1.1 = {
+		holder = gen_304
+		liege = d_R25G74B145
+	}
+}
+c_R192G122B20 = {
+		7898.1.1 = {
+		holder = gen_2777
+		liege = d_R25G74B145
+	}
+	7985.1.1 = {
+		holder = gen_304
+		liege = d_R25G74B145
+	}
+}
+c_R207G231B174 = {
+		7898.1.1 = {
+		holder = gen_2777
+		liege = d_R25G74B145
+	}
+	7985.1.1 = {
+		holder = gen_304
+		liege = d_R25G74B145
+	}
+}
+c_R199G23B71 = {
+		7898.1.1 = {
+		holder = gen_2777
+		liege = d_R25G74B145
+	}
+	7985.1.1 = {
+		holder = gen_304
+		liege = d_R25G74B145
+	}
+}
+c_R245G134B205 = {
+		7898.1.1 = {
+		holder = gen_2778
+		liege = d_R25G74B145
+	}
+	7985.1.1 = {
+		holder = gen_305
+		liege = d_R25G74B145
+	}
+}
+c_R181G3B65 = {
+		7898.1.1 = {
+		holder = gen_2778
+		government = feudal_government
+		liege = d_R25G74B145
+	}
+	7899.8.14 = { government = oligarchic_government }
+	7985.1.1 = {
+		holder = gen_305
+		government = oligarchic_government
+		liege = d_R25G74B145
+	}
+}
+c_R244G157B183 = {
+		7898.1.1 = {
+		holder = gen_2779
+		government = feudal_government
+		liege = d_R25G74B145
+	}
+	7899.8.14 = { government = oligarchic_government }
+	7985.1.1 = {
+		holder = gen_306
+		government = oligarchic_government
+		liege = d_R25G74B145
+	}
+}
+c_R77G88B33 = {
+		7898.1.1 = {
+		holder = gen_2779
+		liege = d_R25G74B145
+	}
+	7985.1.1 = {
+		holder = gen_306
+		liege = d_R25G74B145
+	}
+}
+d_R1G118B42 = {
+		7898.1.1 = {
+		holder = gen_2780
+		government = feudal_government
+		liege = k_R172G48B140
+	}
+	7899.8.14 = { government = oligarchic_government }
+	7985.1.1 = {
+		holder = gen_307
+		government = oligarchic_government
+		liege = k_R172G48B140
+	}
+		8082.1.1 = {
+			holder = gen_902
+			government = oligarchic_government
+		}
+		8106.4.18 = {
+			holder = gen_902
+			government = oligarchic_government
+		}
+		8170.12.11 = {
+			holder = gen_910
+			government = oligarchic_government
+		}
+		8209.2.1 = {
+			holder = gen_914
+			government = oligarchic_government
+		}
+		8211.3.1 = {
+			holder = gen_914
+			government = oligarchic_government
+		}
+		8233.2.8 = {
+			holder = gen_916
+			government = oligarchic_government
+		}
+		8236.2.13 = {
+			holder = gen_919
+			government = oligarchic_government
+		}
+		8239.1.11 = {
+			holder = gen_920
+			government = oligarchic_government
+		}
+		8258.12.21 = {
+			holder = gen_922
+			government = oligarchic_government
+		}
+		8277.1.1 = {
+			holder = gen_927
+			government = oligarchic_government
+		}
+}
+c_R245G100B115 = {
+		7898.1.1 = {
+		holder = gen_2780
+		liege = d_R1G118B42
+	}
+	7985.1.1 = {
+		holder = gen_307
+		liege = d_R1G118B42
+	}
+}
+c_R162G193B88 = {
+		7898.1.1 = {
+		holder = gen_2780
+		liege = d_R1G118B42
+	}
+	7985.1.1 = {
+		holder = gen_307
+		liege = d_R1G118B42
+	}
+}
+c_R236G211B119 = {
+		7898.1.1 = {
+		holder = gen_2780
+		liege = d_R1G118B42
+	}
+	7985.1.1 = {
+		holder = gen_307
+		liege = d_R1G118B42
+	}
+}
+c_R11G136B142 = {
+		7898.1.1 = {
+		holder = gen_2780
+		liege = d_R1G118B42
+	}
+	7985.1.1 = {
+		holder = gen_307
+		liege = d_R1G118B42
+	}
+}
+c_R102G113B199 = {
+		7898.1.1 = {
+		holder = gen_2780
+		liege = d_R1G118B42
+	}
+	7985.1.1 = {
+		holder = gen_307
+		liege = d_R1G118B42
+	}
+}
+c_R240G81B212 = {
+		7898.1.1 = {
+		holder = gen_2781
+		government = feudal_government
+		liege = d_R1G118B42
+	}
+	7899.8.14 = { government = oligarchic_government }
+	7985.1.1 = {
+		holder = gen_308
+		government = oligarchic_government
+		liege = d_R1G118B42
+	}
+}
+c_R82G254B140 = {
+		7898.1.1 = {
+		holder = gen_2781
+		liege = d_R1G118B42
+	}
+	7985.1.1 = {
+		holder = gen_308
+		liege = d_R1G118B42
+	}
+}
