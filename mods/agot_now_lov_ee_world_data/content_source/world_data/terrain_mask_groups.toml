@@ -1,0 +1,238 @@
+version = 1
+
+[[groups]]
+name = "desert"
+role = "gameplay"
+terrain = "desert"
+weight = 1.25
+priority_threshold = 0.30
+patterns = [
+  "coastline_cliff_desert_mask.png",
+  "desert_01_mask.png",
+  "desert_02_mask.png",
+  "desert_cracked_mask.png",
+  "desert_flat_01_mask.png",
+  "desert_rocky_mask.png",
+  "desert_wavy_01_larger_mask.png",
+  "desert_wavy_01_mask.png",
+  "redsand/*.png",
+]
+
+[[groups]]
+name = "desert_mountains"
+role = "gameplay"
+terrain = "desert_mountains"
+weight = 1.50
+priority_threshold = 0.14
+patterns = [
+  "mountain_02_d_desert_mask.png",
+  "mountain_02_desert_c_mask.png",
+  "mountain_02_desert_mask.png",
+  "redmountain/red_coastline_cliff_desert_mask.png",
+  "redmountain/red_hills_01_rocks_medi_mask.png",
+  "redmountain/red_mountain_02_d_desert_mask.png",
+  "redmountain/red_mountain_02_desert_c_mask.png",
+  "redmountain/red_mountain_02_desert_mask.png",
+]
+
+[[groups]]
+name = "drylands"
+role = "gameplay"
+terrain = "drylands"
+weight = 1.10
+patterns = [
+  "crack 03_05_elis_mask.png",
+  "drylands_01_cracked_mask.png",
+  "drylands_01_grassy_mask.png",
+  "drylands_01_mask.png",
+  "medi_dry_mud_mask.png",
+  "plains_01_dry_mask.png",
+  "plains_01_dry_mud_mask.png",
+  "saltflats_mask.png",
+]
+
+[[groups]]
+name = "farmlands"
+role = "gameplay"
+terrain = "farmlands"
+weight = 1.25
+priority_threshold = 0.38
+patterns = [
+  "farmland_01_mask.png",
+  "field_fallows01_mask.png",
+  "india_farmlands_mask.png",
+  "medi_farmlands_mask.png",
+]
+
+[[groups]]
+name = "floodplains"
+role = "gameplay"
+terrain = "floodplains"
+weight = 1.60
+priority_threshold = 0.16
+patterns = ["floodplains_01_mask.png"]
+
+[[groups]]
+name = "jungle"
+role = "gameplay"
+terrain = "jungle"
+weight = 1.40
+priority_threshold = 0.26
+patterns = ["forest_jungle_01_mask.png"]
+
+[[groups]]
+name = "forest"
+role = "gameplay"
+terrain = "forest"
+weight = 1.20
+patterns = [
+  "forest_leaf_01_mask.png",
+  "forestfloor_mask.png",
+]
+
+[[groups]]
+name = "taiga"
+role = "gameplay"
+terrain = "taiga"
+weight = 1.20
+patterns = ["forest_pine_01_mask.png"]
+
+[[groups]]
+name = "frozen"
+role = "gameplay"
+terrain = "frozen_flats"
+weight = 1.25
+priority_threshold = 0.28
+patterns = [
+  "frozen *_elis_mask.png",
+  "snow_mask.png",
+]
+
+[[groups]]
+name = "hills"
+role = "gameplay"
+terrain = "hills"
+weight = 1.30
+patterns = ["hills_01*_mask.png"]
+
+[[groups]]
+name = "mountains"
+role = "gameplay"
+terrain = "mountains"
+weight = 1.55
+priority_threshold = 0.14
+patterns = [
+  "mountain_02_b_mask.png",
+  "mountain_02_c_mask.png",
+  "mountain_02_c_snow_mask.png",
+  "mountain_02_d_granite_mask.png",
+  "mountain_02_d_granitegrey_mask.png",
+  "mountain_02_d_mask.png",
+  "mountain_02_d_snow_mask.png",
+  "mountain_02_d_valleys_mask.png",
+  "mountain_02_mask.png",
+  "mountain_02_snow_mask.png",
+]
+
+[[groups]]
+name = "volcanic"
+role = "gameplay"
+terrain = "mountains"
+weight = 1.45
+priority_threshold = 0.16
+patterns = [
+  "hardened_lava_mask.png",
+  "lava_mask.png",
+]
+
+[[groups]]
+name = "wetlands"
+role = "gameplay"
+terrain = "wetlands"
+weight = 1.50
+priority_threshold = 0.18
+patterns = [
+  "mud_wet_01_mask.png",
+  "mud_wet_01_red_mask.png",
+  "neckwater_mask.png",
+  "wetlands_02_mask.png",
+  "wetlands_02_mud_mask.png",
+  "wetlands_03_mask.png",
+]
+
+[[groups]]
+name = "oasis"
+role = "gameplay"
+terrain = "oasis"
+weight = 1.70
+priority_threshold = 0.08
+patterns = ["oasis_mask.png"]
+
+[[groups]]
+name = "plains"
+role = "gameplay"
+terrain = "plains"
+weight = 1.00
+patterns = [
+  "blue_flower_fields_mask.png",
+  "grass *_elis_mask.png",
+  "medi_grass_01_mask.png",
+  "medi_lumpy_grass_mask.png",
+  "medi_noisy_grass_mask.png",
+  "mjgrass *_elis_mask.png",
+  "northern_plains_01_mask.png",
+  "plains_01_mask.png",
+  "plains_01_noisy_mask.png",
+  "plains_01_noisy_wet_mask.png",
+  "plains_01_rough_mask.png",
+  "purple_flower_fields_mask.png",
+  "red_flower_fields_mask.png",
+  "yellow_flower_fields_mask.png",
+]
+
+[[groups]]
+name = "steppe"
+role = "gameplay"
+terrain = "steppe"
+weight = 1.30
+patterns = [
+  "steppe_01_mask.png",
+  "steppe_bushes_mask.png",
+  "steppe_rocks_mask.png",
+]
+
+[[groups]]
+name = "beach_detail"
+role = "detail"
+reason = "Coast dressing does not determine a province-wide gameplay terrain."
+patterns = ["beach_02*_mask.png"]
+
+[[groups]]
+name = "rock_detail"
+role = "detail"
+reason = "Rock overlays refine a primary mountain, hill, desert, or ground mask."
+patterns = [
+  "coastline_cliff_grey_mask.png",
+  "gravel *_elis_mask.png",
+  "rock *_elis_mask.png",
+  "rusty *_elis_mask.png",
+]
+
+[[groups]]
+name = "ground_detail"
+role = "detail"
+reason = "Generic ground overlays are intentionally subordinate to semantic masks."
+patterns = [
+  "ground *_elis_mask.png",
+  "stone *_elis_mask.png",
+  "stonetile_mask.png",
+]
+
+[[groups]]
+name = "road_detail"
+role = "detail"
+reason = "Road masks cannot justify road terrain without route topology."
+patterns = [
+  "kingsroad_mask.png",
+  "road *_elis_mask.png",
+]
