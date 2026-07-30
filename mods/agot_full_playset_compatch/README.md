@@ -9,6 +9,9 @@ This combines:
 - CaFG county/province controls with LoV ruin restoration in the county view;
 - current NOW 1.2.4 titles with COW's Dunstonbury/Sisterton expectations,
   including corrected province 2709/2716/2717 history and localization;
+- AGOT, Additional Models, and COW special-building model detection with the
+  NOW-COW 1.0.2 Dunstonbury/Sisterton province remaps, while retaining LoV's
+  later graphical-background definitions;
 - LoV + NOW + Seasons regional definitions, repaint actions, map modes, seasonal
   effects, and FX.
 

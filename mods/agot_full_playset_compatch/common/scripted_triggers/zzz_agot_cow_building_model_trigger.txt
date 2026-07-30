@@ -1,0 +1,276 @@
+﻿# Final integration owner:
+# AGOT's shared special-building model trigger, Additional Models additions,
+# COW's wall-background exclusions, and NOW-COW's current province remaps.
+agot_has_special_building_model_trigger = {
+	OR = {
+		# AGOT
+		AND = {
+			this = province:4151
+			has_building_or_higher = the_red_keep_01
+		}
+		AND = {
+			this = province:4152
+			OR = {
+				has_building_or_higher = agot_sept_of_remembrance_01
+				has_building_or_higher = dragonpit_01
+				has_building_or_higher = dragonpit_ruins_01
+			}
+		}
+		AND = {
+			this = province:4153
+			OR = {
+				has_building_or_higher = holy_site_great_sept_01
+				has_building_or_higher = generic_great_sept_01
+			}
+		}
+		AND = {
+			this = province:77
+			has_building_or_higher = winterfell_01
+		}
+		AND = {
+			this = province:2251
+			has_building_or_higher = the_eyrie_01
+		}
+		AND = {
+			this = province:3237
+			has_building_or_higher = highgarden_01
+		}
+		AND = {
+			this = province:4439
+			has_building_or_higher = storms_end_01
+		}
+		AND = {
+			this = province:1658
+			has_building_or_higher = riverrun_01
+		}
+		AND = {
+			this = province:1650
+			has_building_or_higher = moat_cailin_01
+		}
+		AND = {
+			this = province:4415
+			has_building_or_higher = dragonstone_01
+		}
+		AND = {
+			this = province:3493
+			has_building_or_higher = the_hightower_01
+		}
+		AND = {
+			this = province:3500
+			has_building_or_higher = holy_site_starry_sept_01
+		}
+		AND = {
+			this = province:2795
+			has_building_or_higher = holy_site_naggas_hill_01
+		}
+		AND = {
+			this = province:1934
+			OR = {
+				has_building_or_higher = generic_harrenhal_01
+				has_building_or_higher = harrenhal_01
+				has_building_or_higher = ruins_harrenhal_01
+			}
+		}
+		AND = {
+			this = province:4939
+			has_building_or_higher = agot_the_water_gardens_01
+		}
+		AND = {
+			this = province:5472
+			has_building_or_higher = agot_ghaston_grey_01
+		}
+		AND = {
+			this = province:1882
+			has_building_or_higher = agot_inn_at_the_crossroads_01
+		}
+		AND = {
+			this = province:1737
+			has_building_or_higher = agot_oldstones_01
+		}
+		AND = {
+			this = province:4797
+			OR = {
+				has_building_or_higher = agot_summerhall_01
+				has_building_or_higher = agot_summerhall_ruins_01
+			}
+		}
+		AND = {
+			this = province:4580
+			has_building_or_higher = agot_weeping_tower_01
+		}
+
+		# COW-AGOT
+		AND = {
+			this = province:2819
+			has_building_or_higher = agot_ten_towers_01
+		}
+		AND = {
+			this = province:4241
+			has_building_or_higher = agot_duskendale_01
+		}
+		AND = {
+			this = province:4241
+			has_building_or_higher = cow_duskendale_01
+		}
+		AND = {
+			this = province:1686
+			has_building_or_higher = agot_raventree_hall_01
+		}
+		AND = {
+			this = province:5303
+			has_building_or_higher = yronwood_01
+		}
+		AND = {
+			this = province:3161
+			has_building_or_higher = crag_01
+		}
+		AND = {
+			this = province:3161
+			has_building_or_higher = crag_full
+		}
+		AND = {
+			this = province:4424
+			has_building_or_higher = agot_ruins_hightide_02
+		}
+		AND = {
+			this = province:4424
+			has_building_or_higher = agot_hightide_01
+		}
+		AND = {
+			this = province:3320
+			has_building_or_higher = agot_starpike_01
+		}
+		# AGOT NOW-COW Compatch 1.0.2 remaps Dunstonbury from 3823.
+		AND = {
+			this = province:3274
+			has_building_or_higher = agot_dunstonbury_01
+		}
+		# AGOT NOW-COW Compatch 1.0.2 adds Sisterton's Breakwater model.
+		AND = {
+			this = province:2715
+			has_building_or_higher = agot_breakwater_01
+		}
+		AND = {
+			this = province:3289
+			has_building_or_higher = agot_whitegrove_01
+		}
+		AND = {
+			this = province:4268
+			has_building_or_higher = agot_rooks_rest_01
+		}
+		AND = {
+			this = province:4268
+			has_building_or_higher = cow_rooks_rest_01
+		}
+		AND = {
+			this = province:4673
+			has_building_or_higher = agot_blackhaven_01
+		}
+		AND = {
+			this = province:4772
+			has_building_or_higher = broadarch_01
+		}
+		AND = {
+			this = province:3180
+			has_building_or_higher = agot_castamere_01
+		}
+		AND = {
+			this = province:3180
+			has_building_or_higher = 24castamere_01
+		}
+		AND = {
+			this = province:3180
+			has_building_or_higher = agot_castamere_ruins_01
+		}
+		AND = {
+			this = province:5257
+			has_building_or_higher = agot_starfall_01
+		}
+		AND = {
+			this = province:1729
+			has_building_or_higher = agot_seagard_01
+		}
+		AND = {
+			this = province:4124
+			has_building_or_higher = the_arbor_01
+		}
+		AND = {
+			this = province:4125
+			province:4124 = {
+				has_building_or_higher = the_arbor_01
+			}
+		}
+		AND = {
+			this = province:3354
+			has_building_or_higher = hornhill_01
+		}
+		AND = {
+			this = province:2455
+			has_building_or_higher = agot_runestone_01
+		}
+		AND = {
+			this = province:2455
+			has_building_or_higher = cow_runestone_01
+		}
+		AND = {
+			this = province:247
+			has_building_or_higher = agot_karhold_01
+		}
+		AND = {
+			this = province:1027
+			has_building_or_higher = ironwrath_01
+		}
+		AND = {
+			this = province:1027
+			has_building_or_higher = agot_ironrath_01
+		}
+		AND = {
+			this = province:1636
+			has_building_or_higher = agot_rodriks_gift_01
+		}
+		AND = {
+			this = province:2867
+			has_building_or_higher = fanghill_01
+		}
+		AND = {
+			this = province:4917
+			has_building_or_higher = agot_evenfall_hall_01
+		}
+		AND = {
+			this = province:5264
+			has_building_or_higher = high_hermitage_01
+		}
+		AND = {
+			this = province:3092
+			has_building_or_higher = agot_ashemark_01
+		}
+		AND = {
+			this = province:1737
+			has_building_or_higher = agot_oldstones_02
+		}
+		AND = {
+			this = province:2626
+			has_building_or_higher = flint_tower_01
+		}
+		AND = {
+			this = province:940
+			has_building_or_higher = agot_deepwood_motte_01
+		}
+		this = province:1911
+		this = province:1910
+
+		# AGOT Additional Models and Special Buildings
+		AND = {
+			this = province:5155
+			has_building_or_higher = amsb_ruins_hellgate_hall_01
+		}
+		AND = {
+			this = province:7294
+			has_building_or_higher = bloodstone_special_01
+		}
+		AND = {
+			this = province:993
+			has_building_or_higher = agot_warg_king_02
+		}
+	}
+}
