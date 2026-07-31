@@ -1,7 +1,7 @@
 # AGOT MPD 0.3.0 - CK3 1.19 Runtime Rebase
 
 Narrow runtime repair for Workshop mod **AGOT - More Personality Depth**
-(`3717990443`, version `0.3.0-rebalance`) on AGOT `0.4.39` / CK3 `1.19`.
+(`3717990443`, version `0.3.0-rebalance`) on AGOT `0.4.40` / CK3 `1.19`.
 
 Load this mod immediately after **AGOT - More Personality Depth** and before the
 local MPD + Dragon Wives GUI compatch.

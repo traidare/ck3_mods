@@ -2,7 +2,7 @@
 
 Narrow executable-script repair for:
 
-1. A Game of Thrones 0.4.39
+1. A Game of Thrones 0.4.40
 2. AGOT Nobility of Westeros 1.2.4
 3. This rebase
 
@@ -43,6 +43,6 @@ Recompare this file with NOW after every Workshop update.
 
 Validated inputs:
 
-- AGOT Workshop ID `2962333032`, version `0.4.39`
+- AGOT Workshop ID `2962333032`, version `0.4.40`
 - NOW Workshop ID `3664900993`, version `1.2.4`
 - CK3 `1.19.0.6`

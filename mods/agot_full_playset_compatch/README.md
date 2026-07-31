@@ -13,7 +13,8 @@ This combines:
   NOW-COW 1.0.2 Dunstonbury/Sisterton province remaps, while retaining LoV's
   later graphical-background definitions;
 - LoV + NOW + Seasons regional definitions, repaint actions, map modes, seasonal
-  effects, and FX.
+  effects, and FX, with AGOT 0.4.40's shader-wide skip threshold retained for
+  both pixel- and vertex-shader consumers.
 
 The accompanying narrow runtime layers also repair:
 
@@ -72,7 +73,7 @@ delegating unchanged to AGOT's `can_raid_trigger` for every valid character.
 3. `Legacy Of The Dragon - Linux Texture Fix`, immediately after Legacy Of The
    Dragon
 4. `AGOT NOW 1.2.4 - CK3 1.19 Rebase`, immediately after NOW
-5. `AGOT 0.4.39 - Much Faster Activities Rebase`, immediately after MFA
+5. `AGOT 0.4.40 - Much Faster Activities Rebase`, immediately after MFA
 6. `Grand Remembrance 1.8.1 - CK3 1.19 Runtime Fix`, immediately after the Grand
    Remembrance AGOT compatibility submod
 7. `AGOT MPD 0.3.0 - CK3 1.19 Runtime Rebase`, immediately after AGOT MPD and

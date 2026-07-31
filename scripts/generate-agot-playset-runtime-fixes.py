@@ -381,6 +381,41 @@ def guard_scene_culture_triggers(
     return text
 
 
+def rebase_additional_models_scene_guards(text: str) -> str:
+    """Carry current Additional Models exclusions into the later LoV compatch."""
+    relative = "gfx/court_scene/scene_cultures/00_default_cultures.txt"
+    additional_models = read_text(WORKSHOP / "3319354609" / relative)
+    for key in ("indian", "japanese", "southeast_asia"):
+        current_block = extract_top_level_block(additional_models, key)
+        compatch_block = extract_top_level_block(text, key)
+        if current_block.count("amsb_has_throne_room = no") != 1:
+            raise RuntimeError(
+                f"Additional Models current scene guard changed for {key}"
+            )
+        if compatch_block.count("amsb_has_throne_room = no") != 0:
+            raise RuntimeError(
+                f"Additional Models/AGOT+/LoV compatch now guards {key}; "
+                "remove the local carry-forward"
+            )
+        guarded_block = replace_exact(
+            compatch_block,
+            "\t\tagot_has_throne_room = no\n",
+            (
+                "\t\tagot_has_throne_room = no\n"
+                "\t\tamsb_has_throne_room = no\n"
+            ),
+            expected=1,
+            label=f"Additional Models 0.4.40 scene exclusion for {key}",
+        )
+        text = text.replace(compatch_block, guarded_block, 1)
+    if text.count("amsb_has_throne_room = no") != 7:
+        raise RuntimeError(
+            "Additional Models/AGOT+/LoV generic scenes: expected seven "
+            "active AMSB exclusions after rebase"
+        )
+    return text
+
+
 def generate_scene_culture_owner_guards() -> None:
     sources = (
         (
@@ -398,6 +433,8 @@ def generate_scene_culture_owner_guards() -> None:
     )
     for workshop_id, relative, expected, label in sources:
         text = read_text(WORKSHOP / workshop_id / relative)
+        if workshop_id == "3762892081":
+            text = rebase_additional_models_scene_guards(text)
         text = guard_scene_culture_triggers(
             text,
             expected=expected,

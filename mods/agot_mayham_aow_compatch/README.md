@@ -10,8 +10,12 @@ Compatibility patch for:
 
 The compatch uses Armies of Westeros' culture-tradition definitions as its
 baseline and reapplies Mayham's 55 balance changes across the 51 affected
-traditions. This preserves Armies of Westeros' MAA unlocks, parameters, costs,
-and AI behavior while retaining Mayham's intended opinion values.
+traditions. It also carries forward AGOT 0.4.40's updated Stormlands, Frozen
+Shoremen, Harbormen, and Wolfswood Clansmen traditions, which both Mayham and
+Armies of Westeros still define using the older AGOT values. This preserves
+Armies of Westeros' MAA unlocks, parameters, costs, and AI behavior while
+retaining Mayham's intended opinion values and AGOT's current cultural-tradition
+bonuses.
 
 It uses same-key overrides in one uniquely named tradition file and does not use
 `replace_path`. It is compatible with existing saves; the merged tradition

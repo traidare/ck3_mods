@@ -1,7 +1,7 @@
 # Legacy of Valyria RC65 - CK3 1.19 Runtime Rebase
 
 Narrow runtime repair for **Legacy of Valyria - AGOT 0.4.39 Temporary Compatch
-RC65** (`3719888822`) against the current AGOT 0.4.39 source.
+RC65** (`3719888822`) against the current AGOT 0.4.40 source.
 
 Load immediately after the RC65 compatch and before Essos Expanded.
 

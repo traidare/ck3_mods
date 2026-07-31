@@ -6,7 +6,7 @@ tags={
 	"Total Conversion"
 	"Utilities"
 }
-name="AGOT 0.4.39 - Much Faster Activities Rebase"
+name="AGOT 0.4.40 - Much Faster Activities Rebase"
 supported_version="1.19.*"
 dependencies={
 	"A Game of Thrones"

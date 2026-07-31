@@ -1,7 +1,7 @@
 # AGOT Playset Runtime Fixes
 
 Narrow generated repairs for executable-script failures observed in the current
-AGOT `0.4.39` playset on CK3 `1.19`.
+AGOT `0.4.40` playset on CK3 `1.19`.
 
 Load this module after **A Landed Knights Mod**, **Expanded Court Position -
 Search and Recruit**, **[LOT] Legitimacy Over Time**, **The Red Keep (Hegemony
@@ -89,7 +89,9 @@ Personal Playset Compatch**.
 - **Court-scene culture selection:** preserves AGOT's named throne rooms and the
   temporary Additional Models/AGOT+/LoV compatch's generic room routing, but
   returns false instead of evaluating character triggers when CK3 transiently
-  supplies no royal-court owner.
+  supplies no royal-court owner. It also carries Additional Models' current
+  throne-room exclusions into the compatch's Indian, Japanese, and Southeast
+  Asian fallbacks so those generic scenes cannot preempt a dedicated AMSB room.
 - **AGOT startup maintenance:** excludes rulers without capital counties from
   maester seeding and rulers without capital provinces from the Westerosi
   starting-legitimacy branch.
@@ -106,9 +108,9 @@ scripts/generate-agot-playset-runtime-fixes.py
 The generator checks exact replacement counts and stops when a parent update
 invalidates an assumption. Re-run it and review the resulting diff after any
 update to Workshop IDs `2962333032`, `3361162762`, `2967263410`, `3713902872`,
-`3719888822`, `3241130652`, `3371298408`, `3621472324`, `3324579171`,
-`3349316031`, `3761342990`, `3445965581`, `3676293022`, `3305687550`, or
-`3662281614`, `3674548216`, `2886417277`, or `3084203091`, and after CK3 updates
-that change `04_dlc_ep2_tour_effects.txt`. Re-run it after updates to
-`3762892081` as well, because the generated court-scene selector follows that
-compatch's current room-routing rules.
+`3719888822`, `3319354609`, `3241130652`, `3371298408`, `3621472324`,
+`3324579171`, `3349316031`, `3761342990`, `3445965581`, `3676293022`,
+`3305687550`, `3662281614`, `3674548216`, `2886417277`, or `3084203091`, and
+after CK3 updates that change `04_dlc_ep2_tour_effects.txt`. Re-run it after
+updates to `3762892081` as well, because the generated court-scene selector
+follows that compatch's current room-routing rules.

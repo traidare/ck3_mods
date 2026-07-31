@@ -314,6 +314,7 @@ indian = {
 			# }
 			#AGOT Added
 			agot_has_throne_room = no
+			amsb_has_throne_room = no
 			# Legacy of Valyria: reserve dedicated LoV court scenes
 			lv_has_throne_room = no
 		}
@@ -392,6 +393,7 @@ japanese = {
 			}
 			#AGOT Added
 			agot_has_throne_room = no
+			amsb_has_throne_room = no
 			# Legacy of Valyria: reserve dedicated LoV court scenes
 			lv_has_throne_room = no
 		}
@@ -415,6 +417,7 @@ southeast_asia = {
 			}
 			#AGOT Added
 			agot_has_throne_room = no
+			amsb_has_throne_room = no
 			# Legacy of Valyria: reserve dedicated LoV court scenes
 			lv_has_throne_room = no
 		}

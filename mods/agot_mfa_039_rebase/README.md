@@ -1,19 +1,20 @@
-# AGOT 0.4.39 - Much Faster Activities Rebase
+# AGOT 0.4.40 - Much Faster Activities Rebase
 
 Pinned compatibility layer for:
 
-1. A Game of Thrones 0.4.39
+1. A Game of Thrones 0.4.40
 2. AGOT - Much Faster Activities 1.1.1
 3. This rebase
 
 The Workshop mod has 27 whole-file overrides of AGOT activity, event, and GUI
-files. Those AGOT files are identical in 0.4.38 and 0.4.39, so the verified MFA
-1.1.1 timing, pulse relay, cooldown, wait-time, and activity-window behavior is
-retained. One unrelated generated override was corrected: MFA had restored
-vanilla's `tradition_land_of_the_bow` tournament block even though AGOT removes
-that tradition; the rebase keeps AGOT's block disabled. Its delayed playdate
-relay now also verifies that the activity scope still exists before checking its
-phase, because a playdate can end before the delayed relay executes.
+files. The generated rebase was revalidated unchanged against AGOT 0.4.40, so
+the verified MFA 1.1.1 timing, pulse relay, cooldown, wait-time, and
+activity-window behavior is retained. One unrelated generated override was
+corrected: MFA had restored vanilla's `tradition_land_of_the_bow` tournament
+block even though AGOT removes that tradition; the rebase keeps AGOT's block
+disabled. Its delayed playdate relay now also verifies that the activity scope
+still exists before checking its phase, because a playdate can end before the
+delayed relay executes.
 
 MFA's delayed relays retain `scope:activity`, but do not inherit the
 engine-supplied `scope:province` from the pulses they replace. Across 28
@@ -46,5 +47,5 @@ CaFG, Citadel University, or other activity mods.
 
 Validated inputs:
 
-- AGOT Workshop ID `2962333032`, version `0.4.39`
+- AGOT Workshop ID `2962333032`, version `0.4.40`
 - MFA Workshop ID `3723597729`, version `1.1.1`

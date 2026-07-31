@@ -1,7 +1,7 @@
 # Bloodlines: Legacies of AGOT - CK3 1.19 Runtime Rebase
 
 Compatibility rebase for **Bloodlines: Legacies of AGOT** (`3522779004`) and
-current **A Game of Thrones 0.4.39** (`2962333032`) on CK3 1.19.
+current **A Game of Thrones 0.4.40** (`2962333032`) on CK3 1.19.
 
 Load immediately after Bloodlines.
 

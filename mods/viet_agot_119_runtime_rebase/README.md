@@ -1,7 +1,7 @@
 # VIET 1.3.0 - AGOT CK3 1.19 Runtime Rebase
 
 Compatibility rebase for **VIET Events 1.3.0** (`2227658180`) and current **A
-Game of Thrones 0.4.39** (`2962333032`).
+Game of Thrones 0.4.40** (`2962333032`).
 
 Load immediately after VIET.
 

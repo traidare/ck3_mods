@@ -2,7 +2,7 @@
 from __future__ import annotations
 from pathlib import Path
 import argparse
-import re, subprocess, tempfile, shutil
+import hashlib, re, subprocess, tempfile, shutil
 
 parser = argparse.ArgumentParser(
     description="Regenerate the semantic NOW + LoV + Essos map merge."
@@ -297,6 +297,36 @@ def extract_named(text, name):
     raise ValueError(name)
 
 
+def resolve_agot_0440_title_conflicts(text):
+    """Keep NOW's landed-gentry fallback at two verified AGOT 0.4.40 conflicts."""
+    conflict = re.compile(
+        r"(?ms)^<<<<<<< [^\n]+\n"
+        r"(?P<ours>.*?)"
+        r"^\|\|\|\|\|\|\| [^\n]+\n"
+        r"(?P<base>.*?)"
+        r"^=======\n"
+        r"(?P<now>.*?)"
+        r"^>>>>>>> [^\n]+\n?"
+    )
+    matches = list(conflict.finditer(text))
+    assert len(matches) == 2, f"expected two AGOT 0.4.40 conflicts, found {len(matches)}"
+
+    expected_hashes = {
+        "ours": "fedd77e39f32ee971dcd97642aa80012f699fd22b603b36bf290abcf40213670",
+        "base": "667e3ca1d8bc0673c028c573514984753f7dd48a8f9c7d7045de54208b6a3d82",
+        "now": "7fc97a401f834b426432ee8ba108c28c24274d0eb4a831e221c79beea639d6fd",
+    }
+    for match in matches:
+        actual_hashes = {
+            side: hashlib.sha256(match.group(side).encode()).hexdigest()
+            for side in expected_hashes
+        }
+        assert actual_hashes == expected_hashes, (
+            f"unexpected AGOT 0.4.40 title conflict: {actual_hashes}"
+        )
+    return conflict.sub(lambda match: match.group("now"), text)
+
+
 base = read(AGOT / "common/scripted_effects/00_agot_character_data_effects.txt")
 ours = read(EEP / "common/scripted_effects/replace/00_agot_character_data_effects.txt")
 now = read(NOW / "common/scripted_effects/replace/00_agot_character_data_effects.txt")
@@ -319,8 +349,12 @@ with tempfile.TemporaryDirectory() as td:
         text=True,
         capture_output=True,
     )
-    assert r.returncode == 0 and "<<<<<<<" not in r.stdout, r.stderr
-    merged = r.stdout.rstrip("\n")
+    assert r.returncode in (0, 2), r.stderr
+    merged_output = r.stdout
+    if r.returncode == 2:
+        merged_output = resolve_agot_0440_title_conflicts(merged_output)
+    assert "<<<<<<<" not in merged_output
+    merged = merged_output.rstrip("\n")
 header = "# NOW 1.2.4 + LoV RC65 + Essos Expanded 1.0.3 semantic merge.\n# Preserves the LoV/EE government dispatcher and NOW title-localization delta.\n"
 write(
     "common/scripted_effects/replace/00_agot_character_data_effects.txt",

@@ -1,4 +1,4 @@
-﻿# AGOT 0.4.39 / CK3 1.19 runtime guard.
+﻿# AGOT 0.4.40 / CK3 1.19 runtime guard.
 
 # CK3 can query this rule without a potential-raider character, for example
 # while character-dependent UI is being rebuilt. Preserve AGOT's rule for every

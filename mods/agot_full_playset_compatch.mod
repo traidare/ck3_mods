@@ -1,4 +1,4 @@
-version="1.0.27"
+version="1.0.28"
 tags={
 	"Fixes"
 	"Gameplay"
@@ -19,7 +19,7 @@ dependencies={
 	"AGOT NOW 1.2.4 - CK3 1.19 Rebase"
 	"AGOT More Dragon Eggs"
 	"AGOT - Much Faster Activities"
-	"AGOT 0.4.39 - Much Faster Activities Rebase"
+	"AGOT 0.4.40 - Much Faster Activities Rebase"
 	"Legacy Of The Dragon - Linux Texture Fix"
 	"Grand Remembrance 1.8.1 - CK3 1.19 Runtime Fix"
 	"AGOT MPD 0.3.0 - CK3 1.19 Runtime Rebase"

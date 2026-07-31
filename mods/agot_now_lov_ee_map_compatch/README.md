@@ -19,7 +19,10 @@ This is a semantic merge rather than a last-writer copy:
 - accepts the noncanonical indentation used by several EE/LoV locator records
   and verifies that no locator id is skipped or duplicated during generation;
 - composites the two generator masks changed by NOW;
-- merges NOW's title-data changes into the LoV/Essos government dispatcher.
+- merges NOW's title-data changes into the LoV/Essos government dispatcher;
+- resolves the two verified AGOT 0.4.40 title-localization fallback conflicts to
+  NOW's warden/master rules, while failing generation for any other merge
+  conflict.
 
 `scripts/generate-agot-now-lov-ee-map-compatch.py` regenerates the text and
 source-image merge from the installed Workshop inputs.
