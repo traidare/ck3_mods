@@ -27,7 +27,13 @@ def read_text(path: Path) -> str:
     return path.read_text(encoding="utf-8-sig")
 
 
-def write_text(root: Path, relative: str, text: str) -> None:
+def write_text(
+    root: Path,
+    relative: str,
+    text: str,
+    *,
+    preserve_trailing_whitespace: bool = False,
+) -> None:
     target = root / relative
     target.parent.mkdir(parents=True, exist_ok=True)
     if root == AGOT_PLUS_OUTPUT:
@@ -35,7 +41,8 @@ def write_text(root: Path, relative: str, text: str) -> None:
         # remain reviewable against both the parent and the tracked override.
         newline = "\r\n"
     else:
-        text = re.sub(r"[ \t]+(?=\r?$)", "", text, flags=re.MULTILINE)
+        if not preserve_trailing_whitespace:
+            text = re.sub(r"[ \t]+(?=\r?$)", "", text, flags=re.MULTILINE)
         newline = ""
     target.write_text(text, encoding="utf-8-sig", newline=newline)
 
@@ -296,6 +303,141 @@ def game_root() -> Path:
     if not root.is_dir():
         raise RuntimeError(f"CK3_GAME_DIR does not exist: {root}")
     return root
+
+
+def generate_battle_graphics_agot_shaders() -> None:
+    """Rebase Battle Graphics' two additive effects onto current AGOT shaders."""
+    addition_marker = "# ACG Addition start"
+    stale_signatures = {
+        "gfx/FX/pdxmesh.shader": (
+            '"gh_pdxmesh.fxh"',
+            "GH_RETRIEVE_AND_FILTER_TERRAIN_VARIANT_STANDARD;",
+        ),
+        "gfx/FX/court_scene.shader": (
+            '"gh_pdxmesh_court_scene.fxh"',
+        ),
+    }
+    for relative, signatures in stale_signatures.items():
+        agot = read_text(WORKSHOP / "2962333032" / relative)
+        battle_graphics = read_text(WORKSHOP / "3225355262" / relative)
+        stale_compatch = read_text(WORKSHOP / "3235061780" / relative)
+
+        if addition_marker in agot:
+            raise RuntimeError(
+                f"AGOT now supplies the Battle Graphics addition in {relative}"
+            )
+        if battle_graphics.count(addition_marker) != 1:
+            raise RuntimeError(
+                f"Battle Graphics addition changed in {relative}"
+            )
+        if stale_compatch.count(addition_marker) != 1:
+            raise RuntimeError(
+                f"Battle Graphics AGOT compatch addition changed in {relative}"
+            )
+        for signature in signatures:
+            if stale_compatch.count(signature) != 1:
+                raise RuntimeError(
+                    f"Battle Graphics AGOT stale shader signature changed in "
+                    f"{relative}: {signature}"
+                )
+            if signature in agot:
+                raise RuntimeError(
+                    f"AGOT now uses the compatch shader signature in {relative}: "
+                    f"{signature}"
+                )
+
+        addition = battle_graphics[battle_graphics.index(addition_marker) :]
+        compatch_addition = stale_compatch[
+            stale_compatch.index(addition_marker) :
+        ]
+        if addition.strip() != compatch_addition.strip():
+            raise RuntimeError(
+                f"Battle Graphics additions disagree in {relative}"
+            )
+        write_text(
+            OUTPUT,
+            relative,
+            f"{agot.rstrip()}\n\n{addition.rstrip()}\n",
+            preserve_trailing_whitespace=True,
+        )
+
+
+def generate_additional_models_on_action_deduplication() -> None:
+    """Suppress AMSB definitions duplicated under a second compatch filename."""
+    relative = "common/on_action/amsb_dynasty_on_actions.txt"
+    compatch_relative = "common/on_action/amsb_artifact_on_actions.txt"
+    additional_models = read_text(WORKSHOP / "3319354609" / relative)
+    compatch = read_text(WORKSHOP / "3762892081" / compatch_relative)
+    definitions = (
+        "amsb_set_legacies",
+        "amsb_set_dragonlord_legacies",
+        "amsb_set_starting_dynasty_levels",
+    )
+    for definition in definitions:
+        pattern = rf"(?m)^{definition}\s*=\s*\{{"
+        if len(re.findall(pattern, additional_models)) != 1:
+            raise RuntimeError(
+                f"Additional Models definition changed: {definition}"
+            )
+        if len(re.findall(pattern, compatch)) != 1:
+            raise RuntimeError(
+                f"Additional Models/AGOT+/LoV compatch definition changed: "
+                f"{definition}"
+            )
+    if len(re.findall(r"(?m)^amsb_vs_weapons\s*=\s*\{", compatch)) != 1:
+        raise RuntimeError(
+            "Additional Models/AGOT+/LoV compatch no longer owns amsb_vs_weapons"
+        )
+    write_text(
+        OUTPUT,
+        relative,
+        (
+            "# Intentionally empty. The later Additional Models/AGOT+/LoV "
+            "compatch\n"
+            "# supplies these definitions plus its LoV-specific weapon setup "
+            "under\n"
+            "# common/on_action/amsb_artifact_on_actions.txt. Loading both "
+            "causes CK3\n"
+            "# to discard one of each duplicate on-action effect.\n"
+        ),
+    )
+
+
+def generate_upgrade_house_banners_event() -> None:
+    """Restore the localized close option omitted from the visible event."""
+    relative = "events/uhb_court_maintenance.txt"
+    text = read_text(WORKSHOP / "3709868073" / relative)
+    event = extract_top_level_block(text, "uhb_court_maintenance.0001")
+    if "\n\toption = {" in event:
+        raise RuntimeError(
+            "Upgrade House Banners maintenance event now supplies an option"
+        )
+    if "hidden = yes" in event:
+        raise RuntimeError(
+            "Upgrade House Banners maintenance event is now hidden"
+        )
+    localization = read_text(
+        WORKSHOP
+        / "3709868073/localization/english/uhb_court_events_altner_l_english.yml"
+    )
+    if localization.count("uhb_court_maintenance.0001.a:") != 1:
+        raise RuntimeError(
+            "Upgrade House Banners maintenance-event option localization changed"
+        )
+    repaired = (
+        f"{event[:-1]}\n"
+        "\toption = {\n"
+        "\t\tname = uhb_court_maintenance.0001.a\n"
+        "\t}\n"
+        "}"
+    )
+    text = text.replace(event, repaired, 1)
+    write_text(
+        OUTPUT,
+        relative,
+        text,
+        preserve_trailing_whitespace=True,
+    )
 
 
 def extract_top_level_block(text: str, key: str) -> str:
@@ -2001,10 +2143,9 @@ def generate_agot_starting_legitimacy() -> None:
         "common/on_action/agot_on_actions/"
         "agot_starting_legitimacy_on_actions.txt"
     )
-    source = read_text(WORKSHOP / "2962333032" / relative)
-    block = extract_top_level_block(source, "agot_starting_legitimacy")
-    block = replace_exact(
-        block,
+    text = read_text(WORKSHOP / "2962333032" / relative)
+    text = replace_exact(
+        text,
         """					limit = {
 						capital_province = { geographical_region = world_westeros_seven_kingdoms }""",
         """					limit = {
@@ -2013,15 +2154,7 @@ def generate_agot_starting_legitimacy() -> None:
         expected=1,
         label="AGOT starting-legitimacy capital-province guard",
     )
-    (OUTPUT / relative).unlink(missing_ok=True)
-    write_text(
-        OUTPUT,
-        (
-            "common/on_action/agot_on_actions/"
-            "zz_agot_runtime_starting_legitimacy.txt"
-        ),
-        f"{block}\n",
-    )
+    write_text(OUTPUT, relative, text)
 
 
 def generate_vanilla_tour_pulse() -> None:
@@ -2616,6 +2749,9 @@ def generate_agot_plus() -> None:
 
 
 def main() -> None:
+    generate_battle_graphics_agot_shaders()
+    generate_additional_models_on_action_deduplication()
+    generate_upgrade_house_banners_event()
     generate_scene_culture_owner_guards()
     generate_now_summerhall_candidate_guards()
     generate_mfa_delayed_pulse_scopes()

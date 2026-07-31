@@ -1,4 +1,4 @@
-version="0.18.0"
+version="0.19.0"
 tags={
 	"Fixes"
 	"Gameplay"
@@ -9,6 +9,8 @@ supported_version="1.19.*"
 path="mod/agot_playset_runtime_fixes"
 dependencies={
 	"A Game of Thrones"
+	"Battle Graphics"
+	"Battle Graphics AGOT Compatibility Patch"
 	"AGOT Additional Models and Special Buildings"
 	"A Landed Knights Mod"
 	"Expanded Court Position - Search and Recruit"
@@ -27,5 +29,6 @@ dependencies={
 	"Deadly ck3 AGOT"
 	"Artifact Manager"
 	"Advanced Character Search"
+	"Upgrade House Banners 3"
 	"TEMPORARY AGOT Additional Models / AGOT+ / LoV Compatch (1.19 Fixed)"
 }

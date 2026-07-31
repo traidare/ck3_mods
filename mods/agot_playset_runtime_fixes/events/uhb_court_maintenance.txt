@@ -1,0 +1,137 @@
+﻿namespace = uhb_court_maintenance 
+
+scripted_trigger house_banner_improve_rarity_trigger = {
+	trigger_if = {
+		limit = { root.dynasty.dynasty_prestige_level = max_dynasty_prestige_level }
+		NOT = { rarity = illustrious }
+	}
+	trigger_else_if = {
+		limit = { root.dynasty.dynasty_prestige_level >= high_dynasty_prestige_level }
+		NOR = {
+			rarity = famed
+			rarity = illustrious
+		}
+	}
+	trigger_else = {
+		root.dynasty.dynasty_prestige_level >= medium_dynasty_prestige_level
+		NOR = {
+			rarity = masterwork
+			rarity = famed
+			rarity = illustrious
+		}
+	}
+}
+
+scripted_effect house_banner_improve_rarity_effect = {
+	if = {
+		limit = { root.dynasty.dynasty_prestige_level = max_dynasty_prestige_level }
+		set_artifact_rarity = illustrious
+	}
+	else_if = {
+		limit = { root.dynasty.dynasty_prestige_level >= high_dynasty_prestige_level }
+		set_artifact_rarity = famed
+	}
+	else = { set_artifact_rarity = masterwork }
+	hidden_effect = {
+		set_artifact_description = artifact_wall_banner_house_description
+		clear_artifact_modifiers = yes
+		add_scaled_artifact_modifier_grandeur_small_effect = yes
+		add_scaled_artifact_modifier_dynasty_prestige_effect = yes
+		add_scaled_artifact_modifier_prestige_effect = yes
+		add_scaled_artifact_modifier_rulership_effect = yes
+	}
+}
+
+uhb_court_maintenance.0001 = {
+	theme = new_royal_court
+	type = character_event
+	title = uhb_court_maintenance.0001.t
+	desc = {
+		desc = uhb_court_maintenance.0001.desc
+		first_valid = {
+			triggered_desc = {
+				trigger = { scope:target.dynasty.dynasty_prestige_level = max_dynasty_prestige_level }
+				desc = uhb_court_maintenance.0001.desc_illustrious
+			}
+			triggered_desc = {
+				trigger = { scope:target.dynasty.dynasty_prestige_level >= high_dynasty_prestige_level }
+				desc = uhb_court_maintenance.0001.desc_masterwork
+			}
+			desc = uhb_court_maintenance.0001.desc_famed
+		}
+	}
+	left_portrait = {
+		character = root
+		animation = personality_honorable
+	}
+	artifact = { 
+	    target = scope:banner_scope
+	    position = lower_right_portrait
+	}
+
+	trigger = {
+		any_character_artifact = {
+			trigger_if = { # Vanillaのアプデに合わせたエラー回避処理
+				limit = { exists = var:banner_house }
+				var:banner_house = root.house 
+				house_banner_improve_rarity_trigger = yes 
+			}
+			trigger_else = { always = no }
+		}
+	}
+
+	immediate = {
+		house = { save_scope_as = target } 
+		every_character_artifact = {
+			limit = {
+				has_variable = banner_house
+				var:banner_house = root.house
+				house_banner_improve_rarity_trigger = yes
+			}
+			save_scope_as = banner_scope
+			house_banner_improve_rarity_effect = yes
+		}
+	}
+
+	option = {
+		name = uhb_court_maintenance.0001.a
+	}
+}
+
+# 【新規追加】重複したHouse Bannerを削除するバグ修正イベント
+uhb_court_maintenance.0002 = {
+	hidden = yes
+
+	trigger = {
+		any_character_artifact = {
+			count > 1
+			trigger_if = {
+				limit = { exists = var:banner_house }
+				var:banner_house = root.house
+			}
+			trigger_else = { always = no }
+		}
+	}
+
+	immediate = {
+		every_character_artifact = {
+			limit = {
+				has_variable = banner_house
+				var:banner_house = root.house
+			}
+			add_to_list = house_banner_list
+		}
+		ordered_in_list = { # 一番古いものを保存
+			list = house_banner_list
+			order_by = artifact_age
+			save_scope_as = banner_scope
+		}
+		every_in_list = { # それ以外を破壊
+			list = house_banner_list
+			limit = {
+				this != scope:banner_scope
+			}
+			destroy_artifact = this
+		}
+	}
+}

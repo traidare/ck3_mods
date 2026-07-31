@@ -3,20 +3,33 @@
 Narrow generated repairs for executable-script failures observed in the current
 AGOT `0.4.40` playset on CK3 `1.19`.
 
-Load this module after **AGOT Additional Models and Special Buildings**, **A
-Landed Knights Mod**, **Expanded Court Position - Search and Recruit**, **[LOT]
-Legitimacy Over Time**, **The Red Keep (Hegemony Updates)**, **Automated Squire
-Training - AGOT Micro Mod**, **AGOT: The Knighting Ceremony**, **AGOT: House
-Founders**, **Succession Crisis**, **Any New Traditions**, **AGOT Great
-Councils**, **AGOT - Suggest Dragon Bonding**, **Adventurer's Beneficiary**,
-**AGOT: All Men Must Serve**, and **Deadly ck3 AGOT**. Keep it after **Any New
-Traditions Compatibility AGOT** and **TEMPORARY AGOT Additional Models / AGOT+ /
-LoV Compatch (1.19 Fixed)** as well. It must also load after **Artifact
-Manager** and **Advanced Character Search**, and before the final **AGOT
-Personal Playset Compatch**.
+Load this module after **Battle Graphics AGOT Compatibility Patch**, **AGOT
+Additional Models and Special Buildings**, **A Landed Knights Mod**, **Expanded
+Court Position - Search and Recruit**, **[LOT] Legitimacy Over Time**, **The Red
+Keep (Hegemony Updates)**, **Automated Squire Training - AGOT Micro Mod**,
+**AGOT: The Knighting Ceremony**, **AGOT: House Founders**, **Succession
+Crisis**, **Any New Traditions**, **AGOT Great Councils**, **AGOT - Suggest
+Dragon Bonding**, **Adventurer's Beneficiary**, **AGOT: All Men Must Serve**,
+and **Deadly ck3 AGOT**. Keep it after **Any New Traditions Compatibility AGOT**
+and **TEMPORARY AGOT Additional Models / AGOT+ / LoV Compatch (1.19 Fixed)** as
+well. It must also load after **Artifact Manager**, **Advanced Character
+Search**, and **Upgrade House Banners 3**, and before the final **AGOT Personal
+Playset Compatch**.
 
 ## Repairs
 
+- **Battle Graphics AGOT Compatibility Patch:** rebases Battle Graphics' two
+  additive flag-animation effects onto AGOT 0.4.40's current `pdxmesh` and court
+  shaders. The stale parent shader still called removed `GH_*` helpers, causing
+  13,194 Vulkan compile errors, 6,769 failed materials, invisible character
+  bodies, and long shader-compilation stalls in the 2026-07-31 fresh-game run.
+- **Upgrade House Banners 3:** restores the already-localized close option to
+  its visible house-banner rarity event. CK3 reported the event as having no
+  options, allowing it to open as an empty blocking popup.
+- **Additional Models / AGOT+ / LoV:** suppresses the base Additional Models
+  dynasty on-action file because the later required compatch republishes the
+  same three definitions under another filename together with its LoV-specific
+  weapon setup. This prevents CK3 from discarding duplicate `effect` blocks.
 - **A Landed Knights Mod:** replaces the nonexistent `is_army_owner` trigger and
   makes the father comparison safe for fatherless knights.
 - **Expanded Court Position:** replaces obsolete `grumpy`, `depressed`, and
@@ -104,7 +117,8 @@ Personal Playset Compatch**.
   Asian fallbacks so those generic scenes cannot preempt a dedicated AMSB room.
 - **AGOT startup maintenance:** excludes rulers without capital counties from
   maester seeding and rulers without capital provinces from the Westerosi
-  starting-legitimacy branch.
+  starting-legitimacy branch. The legitimacy repair now replaces AGOT's exact
+  source path so it does not register a second copy of the named on-action.
 - **Tour pulse:** makes the vanilla monthly pulse a no-op when MFA relays it
   before the activity has a `stop_host` variable, rather than dereferencing the
   missing itinerary stop.
@@ -120,7 +134,8 @@ invalidates an assumption. Re-run it and review the resulting diff after any
 update to Workshop IDs `2962333032`, `3361162762`, `2967263410`, `3713902872`,
 `3719888822`, `3319354609`, `3241130652`, `3371298408`, `3621472324`,
 `3324579171`, `3349316031`, `3761342990`, `3445965581`, `3676293022`,
-`3305687550`, `3662281614`, `3674548216`, `3673468355`, `2886417277`, or
-`3084203091`, and after CK3 updates that change `04_dlc_ep2_tour_effects.txt`.
-Re-run it after updates to `3762892081` as well, because the generated
-court-scene selector follows that compatch's current room-routing rules.
+`3305687550`, `3662281614`, `3674548216`, `3673468355`, `2886417277`,
+`3084203091`, `3225355262`, `3235061780`, or `3709868073`, and after CK3 updates
+that change `04_dlc_ep2_tour_effects.txt`. Re-run it after updates to
+`3762892081` as well, because the generated court-scene selector follows that
+compatch's current room-routing rules.
