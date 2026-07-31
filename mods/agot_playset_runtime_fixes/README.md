@@ -3,18 +3,19 @@
 Narrow generated repairs for executable-script failures observed in the current
 AGOT `0.4.40` playset on CK3 `1.19`.
 
-Load this module after **Battle Graphics AGOT Compatibility Patch**, **AGOT
-Additional Models and Special Buildings**, **A Landed Knights Mod**, **Expanded
-Court Position - Search and Recruit**, **[LOT] Legitimacy Over Time**, **The Red
-Keep (Hegemony Updates)**, **Automated Squire Training - AGOT Micro Mod**,
-**AGOT: The Knighting Ceremony**, **AGOT: House Founders**, **Succession
-Crisis**, **Any New Traditions**, **AGOT Great Councils**, **AGOT - Suggest
-Dragon Bonding**, **Adventurer's Beneficiary**, **AGOT: All Men Must Serve**,
-and **Deadly ck3 AGOT**. Keep it after **Any New Traditions Compatibility AGOT**
-and **TEMPORARY AGOT Additional Models / AGOT+ / LoV Compatch (1.19 Fixed)** as
-well. It must also load after **Artifact Manager**, **Advanced Character
-Search**, and **Upgrade House Banners 3**, and before the final **AGOT Personal
-Playset Compatch**.
+Load this module after **Battle Graphics AGOT Compatibility Patch**, **AGOT :
+Seasons of Ice and Fire**, **Mari's AGOT Makeovers**, **Faster Transitions**,
+**AGOT Additional Models and Special Buildings**, **A Landed Knights Mod**,
+**Expanded Court Position - Search and Recruit**, **[LOT] Legitimacy Over
+Time**, **The Red Keep (Hegemony Updates)**, **Automated Squire Training - AGOT
+Micro Mod**, **AGOT: The Knighting Ceremony**, **AGOT: House Founders**,
+**Succession Crisis**, **Any New Traditions**, **AGOT Great Councils**, **AGOT -
+Suggest Dragon Bonding**, **Adventurer's Beneficiary**, **AGOT: All Men Must
+Serve**, and **Deadly ck3 AGOT**. Keep it after **Any New Traditions
+Compatibility AGOT** and **TEMPORARY AGOT Additional Models / AGOT+ / LoV
+Compatch (1.19 Fixed)** as well. It must also load after **Artifact Manager**,
+**Advanced Character Search**, and **Upgrade House Banners 3**, and before the
+final **AGOT Personal Playset Compatch**.
 
 ## Repairs
 
@@ -23,6 +24,22 @@ Playset Compatch**.
   shaders. The stale parent shader still called removed `GH_*` helpers, causing
   13,194 Vulkan compile errors, 6,769 failed materials, invisible character
   bodies, and long shader-compilation stalls in the 2026-07-31 fresh-game run.
+- **AGOT : Seasons of Ice and Fire:** updates its four seasonal tree shaders
+  from AGOT's removed `GH_*` shader interface to the current `AGOT_*` names. The
+  stale shaders caused all 242 undeclared-identifier compiler errors and 88
+  failed materials still present in the 19:40 retry.
+- **Mari's AGOT Makeovers:** removes 1,173 obsolete `gene_GH_marker_*` bookmark
+  and DNA entries plus eight references to the removed earrings gene, and
+  deletes a stray backtick that made the rest of Aegon V's DNA block fail to
+  parse. Removed crown, clothing, and jewelry templates are mapped to current
+  AGOT categories, and a malformed Mace Tyrell height value is repaired. The
+  effective Viserys bookmark was among the broken portrait files in the retry
+  that displayed clothing and hair without a proper character body.
+- **Faster Transitions:** rebases its event-transition types onto CK3 1.19 by
+  restoring the current fullscreen and compact pivotal-event effect layers and
+  the event-transition widget's input-handling property. The Workshop copy is
+  still based on the pre-1.19 widget definitions; the 2026-07-31 19:40 retry
+  ended in a GUI-thread SIGSEGV while an empty window was visible.
 - **Upgrade House Banners 3:** restores the already-localized close option to
   its visible house-banner rarity event. CK3 reported the event as having no
   options, allowing it to open as an empty blocking popup.
@@ -78,7 +95,13 @@ Playset Compatch**.
   filters are made explicitly false (with inverse filters true), and unavailable
   accolade traditions and innovations are removed from otherwise valid
   alternatives. Existing AGOT-compatible filters and numeric GUI filter indices
-  are preserved.
+  are preserved. Its main window is now hidden until a valid player exists, and
+  its filter state is initialized from the guarded in-game scripted GUI rather
+  than only from a widget that can be created before the game state. The
+  initializer's malformed global-list iterator is repaired as well. This
+  prevents the empty startup window and the 92 `acs_window:effect` failures for
+  the missing `acs_gv_main_filters` scope that immediately preceded the 19:40
+  SIGSEGV.
 - **Any New Traditions:** makes dynasty-modifier checks safe for characters
   without a dynasty, repairs two malformed `OR` blocks, and restores four
   renown-grant effects that incorrectly used a comparison operator.
@@ -135,7 +158,13 @@ update to Workshop IDs `2962333032`, `3361162762`, `2967263410`, `3713902872`,
 `3719888822`, `3319354609`, `3241130652`, `3371298408`, `3621472324`,
 `3324579171`, `3349316031`, `3761342990`, `3445965581`, `3676293022`,
 `3305687550`, `3662281614`, `3674548216`, `3673468355`, `2886417277`,
-`3084203091`, `3225355262`, `3235061780`, or `3709868073`, and after CK3 updates
-that change `04_dlc_ep2_tour_effects.txt`. Re-run it after updates to
-`3762892081` as well, because the generated court-scene selector follows that
-compatch's current room-routing rules.
+`3084203091`, `3225355262`, `3235061780`, `3377641022`, `3462342647`,
+`3437814875`, or `3709868073`, and after CK3 updates that change
+`04_dlc_ep2_tour_effects.txt`. Re-run it after updates to `3762892081` as well,
+because the generated court-scene selector follows that compatch's current
+room-routing rules.
+
+After installing a version that changes these shader overrides, clear CK3's
+`shadercache/vulkan` directory before the first runtime test. CK3 regenerates
+it; retaining cache data produced by the incompatible `GH_*` sources can leave
+the previous missing-material symptoms in place during verification.

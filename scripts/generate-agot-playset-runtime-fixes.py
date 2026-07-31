@@ -10,6 +10,7 @@ from __future__ import annotations
 
 import re
 import os
+import textwrap
 from decimal import Decimal
 from pathlib import Path
 
@@ -33,10 +34,14 @@ def write_text(
     text: str,
     *,
     preserve_trailing_whitespace: bool = False,
+    force_newline: str | None = None,
+    with_bom: bool = True,
 ) -> None:
     target = root / relative
     target.parent.mkdir(parents=True, exist_ok=True)
-    if root == AGOT_PLUS_OUTPUT:
+    if force_newline is not None:
+        newline = force_newline
+    elif root == AGOT_PLUS_OUTPUT:
         # AGOT+ ships CRLF files. Preserve that form so generated rebases
         # remain reviewable against both the parent and the tracked override.
         newline = "\r\n"
@@ -44,7 +49,8 @@ def write_text(
         if not preserve_trailing_whitespace:
             text = re.sub(r"[ \t]+(?=\r?$)", "", text, flags=re.MULTILINE)
         newline = ""
-    target.write_text(text, encoding="utf-8-sig", newline=newline)
+    encoding = "utf-8-sig" if with_bom else "utf-8"
+    target.write_text(text, encoding=encoding, newline=newline)
 
 
 def replace_exact(
@@ -360,6 +366,310 @@ def generate_battle_graphics_agot_shaders() -> None:
             f"{agot.rstrip()}\n\n{addition.rstrip()}\n",
             preserve_trailing_whitespace=True,
         )
+
+
+def generate_seasons_agot_shaders() -> None:
+    """Rename the removed AGOT GH shader interface in seasonal tree shaders."""
+    seasons = WORKSHOP / "3377641022"
+    current_tree = read_text(WORKSHOP / "2962333032/gfx/FX/tree.shader")
+    include_renames = {
+        "gh_atmospheric.fxh": "agot_atmospheric.fxh",
+        "gh_portrait_constants.fxh": "agot_portrait_constants.fxh",
+        "gh_portrait_decals_shared.fxh": "agot_portrait_decals_shared.fxh",
+        "gh_dynamic_terrain.fxh": "agot_dynamic_terrain.fxh",
+        "gh_tree.fxh": "agot_tree.fxh",
+    }
+    for current in include_renames.values():
+        if current_tree.count(f'"{current}"') != 1:
+            raise RuntimeError(
+                f"AGOT tree shader interface changed: expected {current}"
+            )
+    if re.search(r"\bGH_[A-Za-z0-9_]+", current_tree):
+        raise RuntimeError("AGOT tree shader restored the old GH interface")
+
+    filenames = (
+        "tree_autumn_orange.shader",
+        "tree_autumn_red.shader",
+        "tree_autumn_yellow.shader",
+        "tree_piney_winey.shader",
+    )
+    for filename in filenames:
+        relative = f"gfx/FX/{filename}"
+        text = read_text(seasons / relative)
+        for stale, current in include_renames.items():
+            text = replace_exact(
+                text,
+                f'"{stale}"',
+                f'"{current}"',
+                expected=1,
+                label=f"Seasons shader include {stale} in {filename}",
+            )
+        text = replace_regex(
+            text,
+            r"\bGH_",
+            "AGOT_",
+            expected=10,
+            label=f"Seasons AGOT shader symbols in {filename}",
+        )
+        text = replace_exact(
+            text,
+            "MOD(godherja)",
+            "MOD(agot)",
+            expected=8,
+            label=f"Seasons AGOT shader annotations in {filename}",
+        )
+        write_text(
+            OUTPUT,
+            relative,
+            text,
+            preserve_trailing_whitespace=True,
+        )
+
+
+def generate_mari_agot_portraits() -> None:
+    """Remove portrait genes deleted by AGOT 0.4.40 and repair one DNA typo."""
+    mari = WORKSHOP / "3462342647"
+    obsolete_gene_line = re.compile(
+        r"(?m)^[ \t]*(?:gene_GH_marker_clothing_[1-7]_[rgb]|"
+        r"special_accessories_earrings)\s*=\s*\{[^\r\n]*\}\r?\n"
+    )
+    template_replacements = (
+        ('"aegon_crown_gems"', '"agot_crowns"', 0, 1),
+        ('"aegon_crown_no_gems"', '"agot_crowns"', 0, 1),
+        ('"crowns_of_westeros"', '"agot_crowns"', 13, 18),
+        (
+            '"valyrian_nobility_clothing_generic"',
+            '"agot_all_clothes"',
+            3,
+            1,
+        ),
+        (
+            '"valyrian_nobility_clothing"',
+            '"agot_all_clothes"',
+            3,
+            3,
+        ),
+        ('"female_stacked_pearls"', '"no_jewelry"', 2, 0),
+        ('"female_pointed_necklace"', '"no_jewelry"', 2, 0),
+    )
+
+    relative = "common/dna_data/mari_new_dna_data.txt"
+    text = read_text(mari / relative)
+    text, removed = obsolete_gene_line.subn("", text)
+    if removed != 915:
+        raise RuntimeError(
+            "Mari DNA: expected 915 removed AGOT genes, "
+            f"found {removed}"
+        )
+    for stale, current, expected_dna, _ in template_replacements:
+        text = replace_exact(
+            text,
+            stale,
+            current,
+            expected=expected_dna,
+            label=f"Mari DNA removed template {stale}",
+        )
+    text = replace_exact(
+        text,
+        'gene_dragon_size={ "non_dragon_size" 127 '
+        '"non_dragon_size" 127 }`',
+        'gene_dragon_size={ "non_dragon_size" 127 '
+        '"non_dragon_size" 127 }',
+        expected=1,
+        label="Mari Aegon V DNA stray backtick",
+    )
+    text = replace_exact(
+        text,
+        'gene_height={ "normal_height" 126 "normal_height" 12/ }',
+        'gene_height={ "normal_height" 126 "normal_height" 127 }',
+        expected=1,
+        label="Mari Mace Tyrell DNA height value",
+    )
+    write_text(
+        OUTPUT,
+        relative,
+        text,
+        preserve_trailing_whitespace=True,
+    )
+
+    portraits = mari / "common/bookmark_portraits"
+    affected: list[tuple[Path, str, int]] = []
+    bookmark_replacement_counts = {
+        stale: 0 for stale, _, _, _ in template_replacements
+    }
+    for source in sorted(portraits.glob("*.txt")):
+        source_text = read_text(source)
+        repaired, removed = obsolete_gene_line.subn("", source_text)
+        for stale, current, _, _ in template_replacements:
+            count = repaired.count(stale)
+            bookmark_replacement_counts[stale] += count
+            repaired = repaired.replace(stale, current)
+        if repaired != source_text:
+            affected.append((source, repaired, removed))
+    if len(affected) != 50:
+        raise RuntimeError(
+            "Mari bookmarks: expected 50 affected files, "
+            f"found {len(affected)}"
+        )
+    removed_total = sum(removed for _, _, removed in affected)
+    if removed_total != 266:
+        raise RuntimeError(
+            "Mari bookmarks: expected 266 removed AGOT genes, "
+            f"found {removed_total}"
+        )
+    expected_bookmark_counts = {
+        stale: expected
+        for stale, _, _, expected in template_replacements
+    }
+    if bookmark_replacement_counts != expected_bookmark_counts:
+        raise RuntimeError(
+            "Mari bookmarks: removed-template counts changed: expected "
+            f"{expected_bookmark_counts}, found {bookmark_replacement_counts}"
+        )
+    for source, repaired, _ in affected:
+        write_text(
+            OUTPUT,
+            f"common/bookmark_portraits/{source.name}",
+            repaired,
+            preserve_trailing_whitespace=True,
+        )
+
+
+def generate_faster_transitions_gui() -> None:
+    """Carry CK3 1.19 event-window additions into Faster Transitions."""
+    relative = "gui/00_no_transition.gui"
+    text = read_text(WORKSHOP / "3437814875" / relative)
+    tournament = read_text(
+        game_root()
+        / "gui/activity_window_widgets/tournament_widget_types.gui"
+    )
+    chariot = read_text(
+        game_root()
+        / "gui/activity_window_widgets/chariot_race_widget_types.gui"
+    )
+    event_windows = read_text(game_root() / "gui/shared/event_windows.gui")
+
+    fullscreen_effect = """\t\tvideo_icon = {
+\t\t\tname = "shrouded_event_effect"
+\t\t\tvideo = "gfx/interface/component_masks/animated_masks/contest_reveal_fin.bk2"
+\t\t\tsize = { 100% 100% }
+\t\t\tloop = no
+\t\t\trestart_on_show = yes
+\t\t}"""
+    compact_effect = """\t\tvideo_icon = {
+\t\t\tname = "shrouded_event_effect"
+\t\t\tvideo = "gfx/interface/component_masks/animated_masks/contest_reveal_fin.bk2"
+\t\t\tsize = { 95.5% 99% }
+\t\t\tparentanchor = top|hcenter
+\t\t\tloop = no
+\t\t\trestart_on_show = yes
+\t\t}"""
+    if tournament.count(fullscreen_effect) != 1:
+        raise RuntimeError(
+            "CK3 pivotal fullscreen event effect changed; rebase Faster "
+            "Transitions"
+        )
+    if chariot.count(compact_effect) != 1:
+        raise RuntimeError(
+            "CK3 compact pivotal event effect changed; rebase Faster "
+            "Transitions"
+        )
+    if event_windows.count("\t\talwaystransparent = no\n") < 1:
+        raise RuntimeError(
+            "CK3 event transition input handling changed; rebase Faster "
+            "Transitions"
+        )
+    if "shrouded_event_effect" in text:
+        raise RuntimeError(
+            "Faster Transitions now carries CK3's pivotal event effects"
+        )
+
+    text = replace_exact(
+        text,
+        """    blockoverride "event_transition_video_properties"
+    {
+      parentanchor = center
+      loop = no
+      restart_on_show = yes
+    }
+  }
+
+  type event_window_transition_widget""",
+        """    blockoverride "event_transition_video_properties"
+    {
+      parentanchor = center
+      loop = no
+      restart_on_show = yes
+    }
+
+    video_icon = {
+      name = "shrouded_event_effect"
+      video = "gfx/interface/component_masks/animated_masks/contest_reveal_fin.bk2"
+      size = { 100% 100% }
+      loop = no
+      restart_on_show = yes
+    }
+  }
+
+  type event_window_transition_widget""",
+        expected=1,
+        label="Faster Transitions fullscreen pivotal event effect",
+    )
+    text = replace_exact(
+        text,
+        """  type event_window_transition_widget = margin_widget {
+\t\tsize = { 100% 100% }
+\t\tdatacontext""",
+        """  type event_window_transition_widget = margin_widget {
+\t\tsize = { 100% 100% }
+\t\talwaystransparent = no
+\t\tdatacontext""",
+        expected=1,
+        label="Faster Transitions event-transition input handling",
+    )
+    text = replace_exact(
+        text,
+        """\t\tblockoverride "event_transition_video_properties"
+\t\t{
+\t\t\tparentanchor = center
+\t\t\tloop = no
+\t\t\trestart_on_show = yes
+\t\t}
+\t}
+}
+
+
+template PivotalMomentTransitionAnimation""",
+        """\t\tblockoverride "event_transition_video_properties"
+\t\t{
+\t\t\tparentanchor = center
+\t\t\tloop = no
+\t\t\trestart_on_show = yes
+\t\t}
+
+\t\tvideo_icon = {
+\t\t\tname = "shrouded_event_effect"
+\t\t\tvideo = "gfx/interface/component_masks/animated_masks/contest_reveal_fin.bk2"
+\t\t\tsize = { 95.5% 99% }
+\t\t\tparentanchor = top|hcenter
+\t\t\tloop = no
+\t\t\trestart_on_show = yes
+\t\t}
+\t}
+}
+
+
+template PivotalMomentTransitionAnimation""",
+        expected=1,
+        label="Faster Transitions compact pivotal event effect",
+    )
+    write_text(
+        OUTPUT,
+        relative,
+        text,
+        force_newline="\r\n",
+        with_bom=False,
+    )
 
 
 def generate_additional_models_on_action_deduplication() -> None:
@@ -1565,6 +1875,96 @@ def generate_advanced_character_search() -> None:
         )
     write_text(OUTPUT, relative, text)
 
+    relative = "common/scripted_guis/acs_sg_main_scripted_gui.txt"
+    text = read_text(WORKSHOP / "3084203091" / relative)
+    init_block = extract_top_level_block(text, "acs_sg_init")
+    effect_match = re.search(r"(?m)^    effect = \{", init_block)
+    if effect_match is None:
+        raise RuntimeError(
+            "Advanced Character Search initialization effect changed"
+        )
+    effect_open = init_block.index("{", effect_match.start())
+    effect_end = balanced_brace_end(init_block, effect_open)
+    if init_block[effect_end + 1 :].strip() != "}":
+        raise RuntimeError(
+            "Advanced Character Search initialization block changed"
+        )
+    # Keep this effect in scripted-GUI context: it contains GUI list syntax
+    # which is not valid in a normal scripted_effect definition. Move the
+    # initializer from the pre-game widget hook to the guarded in-game window;
+    # leaving two copies also duplicates CK3/Tiger's list registrations.
+    initialization = textwrap.dedent(
+        init_block[effect_open + 1 : effect_end].strip("\n")
+    )
+    initialization = replace_exact(
+        initialization,
+        """every_in_global_list = {
+            list = acs_gvl_save_slot""",
+        """every_in_global_list = {
+            variable = acs_gvl_save_slot""",
+        expected=1,
+        label="Advanced Character Search global save-slot iteration",
+    )
+    initialization = textwrap.indent(initialization, "            ")
+    text = text.replace(
+        init_block,
+        """acs_sg_init = {
+    # Initialization moved to acs_window, which has a valid character root.
+    effect = { }
+}""",
+        1,
+    )
+    window_block = extract_top_level_block(text, "acs_window")
+    expected_window = (
+        "acs_window = {\n"
+        "    scope = character\n"
+        "    \n"
+        "    is_shown = { \n"
+        "        NOT = { has_variable = is_acs_building_list }\n"
+        "    }\n"
+        "\n"
+        "    effect = {\n"
+        "        create_searched_character_list = yes\n"
+        "    }\n"
+        "}"
+    )
+    if window_block != expected_window:
+        raise RuntimeError(
+            "Advanced Character Search main-window scripted GUI changed"
+        )
+    guarded_window = f"""acs_window = {{
+    scope = character
+
+    is_shown = {{
+        exists = root
+        NOT = {{ has_variable = is_acs_building_list }}
+    }}
+
+    effect = {{
+        if = {{
+            limit = {{ exists = root }}
+{initialization}
+            create_searched_character_list = yes
+        }}
+    }}
+}}"""
+    text = text.replace(window_block, guarded_window, 1)
+    write_text(OUTPUT, relative, text, force_newline="\r\n")
+
+    relative = "gui/acs.gui"
+    text = read_text(WORKSHOP / "3084203091" / relative)
+    text = replace_exact(
+        text,
+        "    visible = \"[GetVariableSystem.Exists('acs_window_toggle')]\"",
+        (
+            "    visible = \"[And( GetPlayer.IsValid, "
+            "GetVariableSystem.Exists('acs_window_toggle') )]\""
+        ),
+        expected=1,
+        label="Advanced Character Search invalid-player window guard",
+    )
+    write_text(OUTPUT, relative, text, force_newline="\r\n")
+
 
 def generate_any_new_traditions() -> None:
     relative = "common/on_action/any_new_traditions_on_action.txt"
@@ -2750,6 +3150,9 @@ def generate_agot_plus() -> None:
 
 def main() -> None:
     generate_battle_graphics_agot_shaders()
+    generate_seasons_agot_shaders()
+    generate_mari_agot_portraits()
+    generate_faster_transitions_gui()
     generate_additional_models_on_action_deduplication()
     generate_upgrade_house_banners_event()
     generate_scene_culture_owner_guards()

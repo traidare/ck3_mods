@@ -1,4 +1,4 @@
-version="0.19.0"
+version="0.20.0"
 tags={
 	"Fixes"
 	"Gameplay"
@@ -10,6 +10,9 @@ dependencies={
 	"A Game of Thrones"
 	"Battle Graphics"
 	"Battle Graphics AGOT Compatibility Patch"
+	"AGOT : Seasons of Ice and Fire"
+	"Mari's AGOT Makeovers"
+	"Faster Transitions"
 	"AGOT Additional Models and Special Buildings"
 	"A Landed Knights Mod"
 	"Expanded Court Position - Search and Recruit"
