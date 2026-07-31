@@ -54,22 +54,14 @@ DELTAS: dict[str, dict[str, list[tuple[str, str, str]]]] = {
             ("opinion_of_liege", "10", "20"),
             ("fellow_vassal_opinion", "10", "20"),
         ],
-        "tradition_agot_andalos": [("different_faith_opinion", "-35", "-30")],
         "tradition_agot_braavos": [("independent_ruler_opinion", "-10", "-30")],
-        "tradition_agot_religious_fc": [("different_faith_opinion", "-35", "-30")],
         "tradition_agot_pentos": [("liege_opinion", "-10", "-30")],
-        "tradition_agot_doom": [("religious_vassal_opinion", "-35", "-30")],
         "tradition_agot_slavers_bay": [("different_faith_opinion", "-10", "-30")],
         "tradition_agot_ghis": [("different_faith_opinion", "-10", "-30")],
         "tradition_agot_vale": [
             ("liege_opinion", "15", "30"),
             ("councillor_opinion", "-35", "-50"),
         ],
-        "tradition_agot_blackwater_bay": [("zealot_opinion", "-35", "-50")],
-        "tradition_agot_ironmen": [("different_faith_opinion", "-35", "-50")],
-        "tradition_agot_westerlands": [("general_opinion", "-35", "-50")],
-        "tradition_agot_dorne": [("different_culture_opinion", "-35", "-50")],
-        "tradition_agot_reach": [("different_faith_opinion", "-35", "-50")],
     },
     "00_agot_unique_traditions.txt": {
         "tradition_agot_essosi_valyrian": [("different_culture_opinion", "10", "5")],
@@ -97,7 +89,6 @@ DELTAS: dict[str, dict[str, list[tuple[str, str, str]]]] = {
         "tradition_agot_high_valyrian": [("different_culture_opinion", "10", "5")],
         "tradition_agot_western_valyrian": [("different_culture_opinion", "10", "5")],
         "tradition_agot_northern_clans": [("dynasty_opinion", "10", "20")],
-        "tradition_agot_stoneborn": [("different_culture_opinion", "-10", "-50")],
         "tradition_agot_crannogmen": [("opinion_of_liege", "10", "20")],
         "tradition_agot_greenblood": [("different_faith_opinion", "10", "20")],
         "tradition_agot_stone_dornish": [("same_culture_opinion", "10", "20")],
@@ -114,27 +105,31 @@ DELTAS: dict[str, dict[str, list[tuple[str, str, str]]]] = {
     },
 }
 
-# Definitions where Mayham and AoW still carry an older, identical AGOT block.
-# Emit the current AGOT definition so the later-loaded compatch does not undo
-# upstream changes. Exact equality checks below make this an explicit rebase,
-# not a blanket preference for AGOT.
+# Definitions where AoW still carries an older AGOT block. Emit the current
+# AGOT definition so the later-loaded compatch does not undo upstream changes.
+# Exact equality checks below make this an explicit rebase, not a blanket
+# preference for AGOT.
 UPSTREAM_REBASES: dict[str, tuple[str, ...]] = {
     "00_agot_regional_traditions.txt": ("tradition_agot_stormlands",),
     "00_agot_unique_traditions.txt": (
         "tradition_agot_harbormen",
         "tradition_agot_frozen_shoremen",
         "tradition_agot_wolfswood_clansmen",
+        "tradition_agot_stoneborn",
     ),
 }
 
-# AGOT 0.4.40 changed four fields that Mayham deliberately overrides. AoW
-# still has the older AGOT values, so record those separate source values when
-# applying Mayham's final value to AoW's otherwise richer definitions.
-AOW_BASE_VALUES: dict[tuple[str, str], str] = {
-    ("tradition_agot_andalos", "different_faith_opinion"): "-10",
-    ("tradition_agot_religious_fc", "different_faith_opinion"): "-10",
-    ("tradition_agot_doom", "religious_vassal_opinion"): "-10",
-    ("tradition_agot_stoneborn", "different_culture_opinion"): "-35",
+# Mayham has balance deltas on definitions that also need the current AGOT
+# rebase. Apply them after the current AGOT blocks are selected.
+UPSTREAM_REBASE_DELTAS: dict[str, dict[str, list[tuple[str, str, str]]]] = {
+    "00_agot_unique_traditions.txt": {
+        "tradition_agot_wolfswood_clansmen": [
+            ("liege_opinion", "10", "20"),
+        ],
+        "tradition_agot_stoneborn": [
+            ("different_culture_opinion", "-10", "-30"),
+        ],
+    },
 }
 
 
@@ -308,16 +303,23 @@ def generate() -> str:
         for tradition in upstream_rebases:
             if tradition not in aow:
                 raise ValueError(f"{filename}: AoW is missing {tradition}")
-            if mayham[tradition] != aow[tradition]:
+            rebase_deltas = UPSTREAM_REBASE_DELTAS.get(filename, {}).get(
+                tradition, []
+            )
+            expected_mayham = apply_deltas(
+                agot[tradition], tradition, rebase_deltas
+            )
+            if expected_mayham != mayham[tradition]:
                 raise ValueError(
-                    f"{filename}: Mayham and AoW no longer agree on {tradition}"
+                    f"{filename}: upstream rebase delta drift for {tradition}"
                 )
-            if agot[tradition] == mayham[tradition]:
+            if agot[tradition] == aow[tradition]:
                 raise ValueError(
                     f"{filename}: upstream rebase for {tradition} is no longer needed"
                 )
-            generated.append(agot[tradition])
+            generated.append(apply_deltas(agot[tradition], tradition, rebase_deltas))
             definition_count += 1
+            delta_count += len(rebase_deltas)
 
         for tradition, deltas in expected.items():
             if tradition not in aow:
@@ -325,7 +327,7 @@ def generate() -> str:
             aow_deltas = [
                 (
                     field,
-                    AOW_BASE_VALUES.get((tradition, field), agot_value),
+                    agot_value,
                     mayham_value,
                 )
                 for field, agot_value, mayham_value in deltas
@@ -349,7 +351,7 @@ def generate() -> str:
             definition_count += 1
             delta_count += len(deltas)
 
-    if definition_count != 55 or delta_count != 55:
+    if definition_count != 47 or delta_count != 48:
         raise ValueError(
             f"unexpected manifest size: {definition_count} definitions, {delta_count} deltas"
         )
@@ -383,7 +385,7 @@ def main() -> None:
     )
     print(
         f"Generated {OUT.relative_to(ROOT)} "
-        "(55 definitions, 55 deltas, 4 upstream rebases)"
+        "(47 definitions, 48 deltas, 5 upstream rebases)"
     )
 
 

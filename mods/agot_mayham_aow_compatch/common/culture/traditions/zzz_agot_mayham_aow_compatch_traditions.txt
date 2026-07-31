@@ -244,52 +244,6 @@ tradition_agot_rushlander = {
 	}
 }
 
-tradition_agot_andalos = {
-	category = regional
-
-	layers = {
-		0 = learning
-		1 = western
-		4 = greeting.dds
-	}
-
-	is_shown = {
-		scope:character = {
-			any_held_county = {
-				title_province = { geographical_region = world_essos_andalos }
-			}
-		}
-	}
-
-	parameters = {
-		bossy_trait_more_common = yes
-		aggressive_attacker_trait_more_common = yes
-		hill_trait_bonuses = yes
-		zealous_trait_more_common = yes
-		wanderers_gain_extra_combat_skills = yes
-		cynical_trait_looked_down_upon = yes
-		culture_can_raid_at_sea_even_if_feudal = yes
-	}
-
-	character_modifier = {
-		different_faith_opinion = -30
-	}
-
-	cost = {
-		prestige = {
-			add = {
-				value = tradition_base_cost
-				desc = BASE
-				format = "BASE_VALUE_FORMAT"
-			}
-		}
-	}
-
-	ai_will_do = {
-		value = 100
-	}
-}
-
 tradition_agot_braavos = {
 	category = regional
 
@@ -336,52 +290,6 @@ tradition_agot_braavos = {
 	}
 }
 
-tradition_agot_religious_fc = {
-	category = regional
-
-	layers = {
-		0 = martial
-		1 = mena
-		4 = king.dds
-	}
-
-	is_shown = {
-		always = no
-	}
-
-	parameters = {
-		hill_trait_bonuses = yes
-		pensive_trait_more_common = yes
-		holy_warrior_trait_more_common = yes
-		zealous_trait_more_common = yes
-		cynical_trait_looked_down_upon = yes
-		wanderers_gain_extra_learning_skills = yes
-	}
-
-	province_modifier = {
-
-	}
-
-	character_modifier = {
-		martial_per_piety_level = 2
-		different_faith_opinion = -30
-	}
-
-	cost = {
-		prestige = {
-			add = {
-				value = tradition_base_cost
-				desc = BASE
-				format = "BASE_VALUE_FORMAT"
-			}
-		}
-	}
-
-	ai_will_do = {
-		value = 100
-	}
-}
-
 tradition_agot_pentos = {
 	category = regional
 
@@ -411,48 +319,6 @@ tradition_agot_pentos = {
 
 	character_modifier = {
 		liege_opinion = -30
-	}
-
-	cost = {
-		prestige = {
-			add = {
-				value = tradition_base_cost
-				desc = BASE
-				format = "BASE_VALUE_FORMAT"
-			}
-		}
-	}
-
-	ai_will_do = {
-		value = 100
-	}
-}
-
-tradition_agot_doom = {
-	category = regional
-
-	layers = {
-		0 = learning
-		1 = mediterranean
-		4 = laurel.dds
-	}
-
-	is_shown = {
-		has_cultural_pillar = heritage_valyrian
-	}
-
-	parameters = {
-		bossy_trait_more_common = yes
-		arrogant_trait_more_common = yes
-		military_engineer_trait_more_common = yes
-		plains_trait_bonuses = yes
-		zealous_trait_looked_down_upon = yes
-		wanderers_gain_extra_combat_skills = yes
-		shortened_truce_period = yes
-	}
-
-	character_modifier = {
-		religious_vassal_opinion = -30
 	}
 
 	cost = {
@@ -605,295 +471,6 @@ tradition_agot_vale = {
 	}
 }
 
-tradition_agot_blackwater_bay = {
-	category = regional
-
-	layers = {
-		0 = intrigue
-		1 = western
-		4 = crown.dds
-	}
-
-	is_shown = {
-		scope:character.culture = {
-			any_culture_county = {
-				title_province = { geographical_region = world_westeros_the_crownlands }
-				count >= 9
-			}
-		}
-	}
-
-	parameters = {
-		curious_trait_more_common = yes
-		open_terrain_expert_trait_more_common = yes
-		lazy_trait_looked_down_upon = yes
-		arrogant_trait_more_common = yes
-		wanderers_gain_extra_diplomacy_skills = yes
-		urban_trait_bonuses = yes
-		doesnt_care_about_culture_faith_in_factions = yes
-	}
-
-	character_modifier = {
-		zealot_opinion = -50
-	}
-
-	cost = {
-		prestige = {
-			add = {
-				value = tradition_base_cost
-				desc = BASE
-				format = "BASE_VALUE_FORMAT"
-			}
-		}
-	}
-
-	ai_will_do = {
-		value = 100
-	}
-}
-
-tradition_agot_ironmen = {
-	category = regional
-
-	layers = {
-		0 = martial
-		1 = western
-		4 = viking.dds
-	}
-
-	is_shown = {
-		scope:character.culture = {
-			any_culture_county = {
-				title_province = { geographical_region = world_westeros_the_iron_islands }
-				count >= 9
-			}
-		}
-	}
-
-	parameters = {
-		rowdy_trait_more_common = yes
-		hill_trait_bonuses = yes
-		craven_looked_down_upon = yes
-		wrathful_trait_more_common = yes
-		culture_can_raid_at_sea_even_if_feudal_no_restrictions = yes
-		wanderers_gain_extra_combat_skills = yes
-		reaver_trait_more_common = yes
-	}
-
-	character_modifier = {
-		different_faith_opinion = -50
-	}
-
-	cost = {
-		prestige = {
-			add = {
-				value = tradition_base_cost
-				desc = BASE
-				format = "BASE_VALUE_FORMAT"
-			}
-		}
-	}
-
-	ai_will_do = {
-		value = 100
-	}
-}
-
-tradition_agot_westerlands = {
-	category = regional
-
-	layers = {
-		0 = steward
-		1 = western
-		4 = diplomacy.dds
-	}
-
-	is_shown = {
-		scope:character.culture = {
-			any_culture_county = {
-				title_province = { geographical_region = world_westeros_the_westerlands }
-				count >= 9
-			}
-		}
-	}
-
-
-	parameters = {
-		curious_trait_more_common = yes
-		hill_trait_bonuses = yes
-		rough_terrain_expert_trait_more_common = yes
-		wanderers_gain_extra_economic_skills = yes
-		peasant_and_populist_factions_less_common = yes
-		dull_trait_looked_down_upon = yes
-		arrogant_trait_more_common = yes
-		quarries_building_bonuses = yes
-		can_build_quarries_everywhere = yes
-		unlock_maa_rain_bringers = yes
-		unlock_maa_westerland_billmen = yes
-		unlock_maa_westerland_footmen = yes
-		unlock_maa_westerland_knights = yes
-	}
-	character_modifier = {
-		dread_per_tyranny_add = 0.3
-		dread_decay_mult = -0.3
-		revolting_siege_morale_loss_mult = 0.25
-		general_opinion = -50
-	}
-
-	cost = {
-		prestige = {
-			add = {
-				value = tradition_base_cost
-				desc = BASE
-				format = "BASE_VALUE_FORMAT"
-			}
-			if = {
-				limit = {
-					NOR = {
-						culture_pillar:ethos_spiritual = { is_in_list = traits }
-						culture_pillar:ethos_courtly = { is_in_list = traits }
-					}
-				}
-				add = {
-					value = tradition_incompatible_ethos_penalty
-					desc = not_spiritual_or_courtly_desc
-				}
-			}
-			if = {
-				limit = {
-					scope:character = {
-						any_councillor = {
-							NOR = {
-								culture = scope:character.culture
-								is_spouse_of = scope:character # Might be hard to have the right culture for the Spouse; but we can remove this helper if needed
-							}
-						}
-					}
-				}
-				add = {
-					value = tradition_unfulfilled_criteria_penalty
-					desc = has_other_cultures_in_council_desc
-				}
-			}
-
-			multiply = tradition_replacement_cost_if_relevant
-		}
-	}
-
-	ai_will_do = {
-		value = 100
-		if = {
-			limit = {
-				scope:character.dread < 25
-			}
-			multiply = 0.5
-		}
-		if = {
-			limit = {
-				scope:character.tyranny < 25
-			}
-			multiply = 0.5
-		}
-	}
-}
-
-tradition_agot_dorne = {
-	category = regional
-
-	layers = {
-		0 = intrigue
-		1 = mena
-		4 = soldiers.dds
-	}
-
-	is_shown = {
-		scope:character.culture = {
-			any_culture_county = {
-				title_province = { geographical_region = world_westeros_dorne }
-				count >= 9
-			}
-		}
-	}
-
-	parameters = {
-		charming_trait_more_common = yes
-		desert_warrior_trait_more_common = yes
-		desert_warrior_trait_is_better = yes
-		eunuch_trait_is_looked_down_upon = yes
-		vengeful_trait_more_common = yes
-		wanderers_gain_extra_intrigue_skills = yes
-		gender_equal_inheritance = yes
-		can_have_paramours = yes
-	}
-
-	character_modifier = {
-		different_culture_opinion = -50
-	}
-
-	cost = {
-		prestige = {
-			add = {
-				value = tradition_base_cost
-				desc = BASE
-				format = "BASE_VALUE_FORMAT"
-			}
-		}
-	}
-
-	ai_will_do = {
-		value = 100
-	}
-}
-
-tradition_agot_reach = {
-	category = regional
-
-	layers = {
-		0 = steward
-		1 = western
-		4 = food.dds
-	}
-
-	is_shown = {
-		scope:character.culture = {
-			any_culture_county = {
-				title_province = { geographical_region = world_westeros_the_reach }
-				count >= 9
-			}
-		}
-	}
-
-	parameters = {
-		pensive_trait_more_common = yes
-		plains_trait_bonuses = yes
-		sadistic_trait_looked_down_upon = yes
-		gregarious_trait_more_common = yes
-		open_terrain_expert_trait_more_common = yes
-		enable_garden_duchy_building = yes
-		can_appoint_court_gardener = yes
-		wanderers_gain_extra_economic_skills = yes
-		unlock_maa_reach_pikes = yes
-		unlock_maa_reach_swords = yes
-		unlock_maa_reach_scouts = yes
-	}
-	character_modifier = {
-		different_faith_opinion = -50
-	}
-	cost = {
-		prestige = {
-			add = {
-				value = tradition_base_cost
-				desc = BASE
-				format = "BASE_VALUE_FORMAT"
-			}
-		}
-	}
-
-	ai_will_do = {
-		value = 100
-	}
-}
-
 tradition_agot_harbormen = {
 	category = regional
 
@@ -996,8 +573,50 @@ tradition_agot_wolfswood_clansmen = {
 
 	character_modifier = {
 		taiga_travel_danger = taiga_low_danger_reduction
-		liege_opinion = 10
+		liege_opinion = 20
 		archers_toughness_mult = 0.1
+	}
+
+	cost = {
+		prestige = {
+			add = {
+				value = tradition_base_cost
+				desc = BASE
+				format = "BASE_VALUE_FORMAT"
+			}
+		}
+	}
+
+	ai_will_do = {
+		value = 100
+	}
+}
+
+tradition_agot_stoneborn = {
+	category = regional
+
+	layers = {
+		0 = intrigue
+		1 = western
+		4 = speech.dds
+	}
+
+	is_shown = {
+		always = no
+	}
+
+	parameters = {
+		unlock_maa_unicorn_riders = yes
+		cannibal_trait_more_valued = yes
+		culture_can_raid_at_sea_even_if_feudal_no_restrictions = yes
+		cannibal_trait_is_more_common = yes
+		hill_farms_building_bonuses = yes
+		quarries_building_bonuses = yes
+	}
+
+	character_modifier = {
+		different_culture_opinion = -30
+		raid_speed = 0.1
 	}
 
 	cost = {
@@ -1039,7 +658,7 @@ tradition_agot_essosi_valyrian = {
 
 	character_modifier = {
 		different_culture_opinion = 5
-		chariot_cavalry_maintenance_mult = -0.10
+		elephant_cavalry_maintenance_mult = -0.10
 		monthly_piety_gain_per_dread_mult = 0.1
 		domain_tax_different_faith_mult = 0.1
 		monthly_influence = 0.5
@@ -1947,48 +1566,6 @@ tradition_agot_northern_clans = {
 		heavy_infantry_toughness_mult = 0.1
 		mountains_travel_danger = mountains_low_danger_reduction
 		defender_advantage = 2
-	}
-
-	cost = {
-		prestige = {
-			add = {
-				value = tradition_base_cost
-				desc = BASE
-				format = "BASE_VALUE_FORMAT"
-			}
-		}
-	}
-
-	ai_will_do = {
-		value = 100
-	}
-}
-
-tradition_agot_stoneborn = {
-	category = regional
-
-	layers = {
-		0 = intrigue
-		1 = western
-		4 = speech.dds
-	}
-
-	is_shown = {
-		always = no
-	}
-
-	parameters = {
-		unlock_maa_unicorn_riders = yes
-		cannibal_trait_more_valued = yes
-		culture_can_raid_at_sea_even_if_feudal_no_restrictions = yes
-		cannibal_trait_is_more_common = yes
-		hill_farms_building_bonuses = yes
-		quarries_building_bonuses = yes
-	}
-
-	character_modifier = {
-		different_culture_opinion = -50
-		raid_speed = 0.1
 	}
 
 	cost = {
