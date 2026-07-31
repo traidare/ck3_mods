@@ -1,0 +1,15 @@
+﻿# Destroy the disabled empire title left behind by AGOT's realm cleanup.
+agot_playset_destroy_disabled_essos_root = {
+	$REALM$ = {
+		if = {
+			limit = { exists = holder }
+			holder = {
+				destroy_title = prev
+				if = {
+					limit = { is_ruler = no }
+					death = { death_reason = death_vanished }
+				}
+			}
+		}
+	}
+}

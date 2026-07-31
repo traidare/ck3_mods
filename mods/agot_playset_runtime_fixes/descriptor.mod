@@ -1,4 +1,4 @@
-version="0.20.0"
+version="0.21.0"
 tags={
 	"Fixes"
 	"Gameplay"
@@ -8,6 +8,8 @@ name="AGOT Playset Runtime Fixes"
 supported_version="1.19.*"
 dependencies={
 	"A Game of Thrones"
+	"Essos Expanded"
+	"Essos Expanded - TempLoV Compatch"
 	"Battle Graphics"
 	"Battle Graphics AGOT Compatibility Patch"
 	"AGOT : Seasons of Ice and Fire"

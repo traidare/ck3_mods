@@ -15,7 +15,8 @@ Serve**, and **Deadly ck3 AGOT**. Keep it after **Any New Traditions
 Compatibility AGOT** and **TEMPORARY AGOT Additional Models / AGOT+ / LoV
 Compatch (1.19 Fixed)** as well. It must also load after **Artifact Manager**,
 **Advanced Character Search**, and **Upgrade House Banners 3**, and before the
-final **AGOT Personal Playset Compatch**.
+final **AGOT Personal Playset Compatch**. For the Essos Expanded repair, it must
+also load after **Essos Expanded** and **Essos Expanded - TempLoV Compatch**.
 
 ## Repairs
 
@@ -142,6 +143,14 @@ final **AGOT Personal Playset Compatch**.
   maester seeding and rulers without capital provinces from the Westerosi
   starting-legitimacy branch. The legitimacy repair now replaces AGOT's exact
   source path so it does not register a second copy of the named on-action.
+- **Essos Expanded:** removes each disabled Essos empire's root title after
+  Essos Expanded's game-start cleanup. AGOT's `agot_remove_realm_effect`
+  destroys the subordinate titles and holdings but leaves the root `e_*` title
+  and its original holder, producing the observed `history.cpp:504` “should hold
+  at least one landed title” errors and “primary title ... has no capital”
+  errors for rulers such as Ahroth, Sareth, and Azraan. This repair only runs
+  when the corresponding Essos Expanded game rule is disabled; enabled realms
+  are untouched.
 - **Tour pulse:** makes the vanilla monthly pulse a no-op when MFA relays it
   before the activity has a `stop_host` variable, rather than dereferencing the
   missing itinerary stop.
@@ -160,9 +169,10 @@ update to Workshop IDs `2962333032`, `3361162762`, `2967263410`, `3713902872`,
 `3305687550`, `3662281614`, `3674548216`, `3673468355`, `2886417277`,
 `3084203091`, `3225355262`, `3235061780`, `3377641022`, `3462342647`,
 `3437814875`, or `3709868073`, and after CK3 updates that change
-`04_dlc_ep2_tour_effects.txt`. Re-run it after updates to `3762892081` as well,
-because the generated court-scene selector follows that compatch's current
-room-routing rules.
+`04_dlc_ep2_tour_effects.txt`. Re-run it after updates to `3682802751` because
+the Essos cleanup validates that parent's game rules and startup actions. Re-run
+it after updates to `3762892081` because the generated court-scene selector
+follows that compatch's current room-routing rules.
 
 After installing a version that changes these shader overrides, clear CK3's
 `shadercache/vulkan` directory before the first runtime test. CK3 regenerates

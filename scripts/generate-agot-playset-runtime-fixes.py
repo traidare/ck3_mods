@@ -713,6 +713,118 @@ def generate_additional_models_on_action_deduplication() -> None:
     )
 
 
+def generate_essos_disabled_realm_cleanup() -> None:
+    """Remove Essos Expanded root titles left by AGOT realm cleanup."""
+    realms = (
+        "bloodless_men",
+        "cannibal_sands",
+        "hidden_sea",
+        "ibben",
+        "ifequevron",
+        "lesser_moraq",
+        "lorath",
+        "mossovy",
+        "naath",
+        "norvos",
+        "omber",
+        "qohor",
+        "sarnor",
+        "sothoryos",
+        "summer_isles",
+        "thousand_islands",
+        "ulthos",
+        "upper_sarne_dothraki",
+        "lower_sarne_dothraki",
+        "great_grass_sea_dothraki",
+        "bone_mountain_dothraki",
+        "lhazar",
+        "qarth",
+        "golden_yi_ti",
+        "jogos_nhai",
+        "great_moraq",
+        "leng",
+    )
+    game_rules = read_text(
+        WORKSHOP / "3682802751/common/game_rules/01_essos_empire_game_rules.txt"
+    )
+    on_action = read_text(
+        WORKSHOP / "3682802751/common/on_action/essos_game_start.txt"
+    )
+    for realm in realms:
+        rule = f"essos_empire_{realm}_disabled"
+        root_title = f"title:e_{realm}"
+        if game_rules.count(f"{rule} = {{") != 1:
+            raise RuntimeError(
+                f"Essos Expanded game rule changed: expected one {rule}"
+            )
+        if on_action.count(f"essos_remove_realm_{realm} = {{") != 1:
+            raise RuntimeError(
+                f"Essos Expanded removal action changed: expected one "
+                f"essos_remove_realm_{realm}"
+            )
+        if on_action.count(
+            f"agot_remove_realm_effect = {{ REALM = {root_title} }}"
+        ) != 1:
+            raise RuntimeError(
+                f"Essos Expanded removal target changed: expected one "
+                f"{root_title}"
+            )
+
+    cleanup_blocks = []
+    for realm in realms:
+        cleanup_blocks.append(
+            "\t\tif = {\n"
+            f"\t\t\tlimit = {{ has_game_rule = essos_empire_{realm}_disabled }}\n"
+            f"\t\t\tagot_playset_destroy_disabled_essos_root = {{ REALM = title:e_{realm} }}\n"
+            "\t\t}"
+        )
+    on_action_text = (
+        "# Essos Expanded's agot_remove_realm_effect clears the subordinate\n"
+        "# realm but leaves the disabled empire title and its original holder.\n"
+        "# Run this after the upstream Essos game-start chain and remove that\n"
+        "# final root title so disabled realms cannot leave invalid rulers.\n"
+        "\n"
+        "on_game_start = {\n"
+        "\ton_actions = {\n"
+        "\t\tagot_playset_cleanup_disabled_essos_roots\n"
+        "\t}\n"
+        "}\n"
+        "\n"
+        "agot_playset_cleanup_disabled_essos_roots = {\n"
+        "\teffect = {\n"
+        + "\n".join(cleanup_blocks)
+        + "\n\t}\n"
+        "}\n"
+    )
+    effect_text = (
+        "# Destroy the disabled empire title left behind by AGOT's realm cleanup.\n"
+        "agot_playset_destroy_disabled_essos_root = {\n"
+        "\t$REALM$ = {\n"
+        "\t\tif = {\n"
+        "\t\t\tlimit = { exists = holder }\n"
+        "\t\t\tholder = {\n"
+        "\t\t\t\tdestroy_title = prev\n"
+        "\t\t\t\tif = {\n"
+        "\t\t\t\t\tlimit = { is_ruler = no }\n"
+        "\t\t\t\t\tdeath = { death_reason = death_vanished }\n"
+        "\t\t\t\t}\n"
+        "\t\t\t}\n"
+        "\t\t}\n"
+        "\t}\n"
+        "}\n"
+    )
+    write_text(
+        OUTPUT,
+        "common/on_action/zz_essos_disabled_realm_cleanup.txt",
+        on_action_text,
+    )
+    write_text(
+        OUTPUT,
+        "common/scripted_effects/zz_essos_disabled_realm_cleanup_effect.txt",
+        effect_text,
+    )
+
+
 def generate_upgrade_house_banners_event() -> None:
     """Restore the localized close option omitted from the visible event."""
     relative = "events/uhb_court_maintenance.txt"
@@ -3160,6 +3272,7 @@ def main() -> None:
     generate_mari_agot_portraits()
     generate_faster_transitions_gui()
     generate_additional_models_on_action_deduplication()
+    generate_essos_disabled_realm_cleanup()
     generate_upgrade_house_banners_event()
     generate_scene_culture_owner_guards()
     generate_now_summerhall_candidate_guards()

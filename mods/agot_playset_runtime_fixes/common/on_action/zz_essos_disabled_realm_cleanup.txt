@@ -1,0 +1,123 @@
+﻿# Essos Expanded's agot_remove_realm_effect clears the subordinate
+# realm but leaves the disabled empire title and its original holder.
+# Run this after the upstream Essos game-start chain and remove that
+# final root title so disabled realms cannot leave invalid rulers.
+
+on_game_start = {
+	on_actions = {
+		agot_playset_cleanup_disabled_essos_roots
+	}
+}
+
+agot_playset_cleanup_disabled_essos_roots = {
+	effect = {
+		if = {
+			limit = { has_game_rule = essos_empire_bloodless_men_disabled }
+			agot_playset_destroy_disabled_essos_root = { REALM = title:e_bloodless_men }
+		}
+		if = {
+			limit = { has_game_rule = essos_empire_cannibal_sands_disabled }
+			agot_playset_destroy_disabled_essos_root = { REALM = title:e_cannibal_sands }
+		}
+		if = {
+			limit = { has_game_rule = essos_empire_hidden_sea_disabled }
+			agot_playset_destroy_disabled_essos_root = { REALM = title:e_hidden_sea }
+		}
+		if = {
+			limit = { has_game_rule = essos_empire_ibben_disabled }
+			agot_playset_destroy_disabled_essos_root = { REALM = title:e_ibben }
+		}
+		if = {
+			limit = { has_game_rule = essos_empire_ifequevron_disabled }
+			agot_playset_destroy_disabled_essos_root = { REALM = title:e_ifequevron }
+		}
+		if = {
+			limit = { has_game_rule = essos_empire_lesser_moraq_disabled }
+			agot_playset_destroy_disabled_essos_root = { REALM = title:e_lesser_moraq }
+		}
+		if = {
+			limit = { has_game_rule = essos_empire_lorath_disabled }
+			agot_playset_destroy_disabled_essos_root = { REALM = title:e_lorath }
+		}
+		if = {
+			limit = { has_game_rule = essos_empire_mossovy_disabled }
+			agot_playset_destroy_disabled_essos_root = { REALM = title:e_mossovy }
+		}
+		if = {
+			limit = { has_game_rule = essos_empire_naath_disabled }
+			agot_playset_destroy_disabled_essos_root = { REALM = title:e_naath }
+		}
+		if = {
+			limit = { has_game_rule = essos_empire_norvos_disabled }
+			agot_playset_destroy_disabled_essos_root = { REALM = title:e_norvos }
+		}
+		if = {
+			limit = { has_game_rule = essos_empire_omber_disabled }
+			agot_playset_destroy_disabled_essos_root = { REALM = title:e_omber }
+		}
+		if = {
+			limit = { has_game_rule = essos_empire_qohor_disabled }
+			agot_playset_destroy_disabled_essos_root = { REALM = title:e_qohor }
+		}
+		if = {
+			limit = { has_game_rule = essos_empire_sarnor_disabled }
+			agot_playset_destroy_disabled_essos_root = { REALM = title:e_sarnor }
+		}
+		if = {
+			limit = { has_game_rule = essos_empire_sothoryos_disabled }
+			agot_playset_destroy_disabled_essos_root = { REALM = title:e_sothoryos }
+		}
+		if = {
+			limit = { has_game_rule = essos_empire_summer_isles_disabled }
+			agot_playset_destroy_disabled_essos_root = { REALM = title:e_summer_isles }
+		}
+		if = {
+			limit = { has_game_rule = essos_empire_thousand_islands_disabled }
+			agot_playset_destroy_disabled_essos_root = { REALM = title:e_thousand_islands }
+		}
+		if = {
+			limit = { has_game_rule = essos_empire_ulthos_disabled }
+			agot_playset_destroy_disabled_essos_root = { REALM = title:e_ulthos }
+		}
+		if = {
+			limit = { has_game_rule = essos_empire_upper_sarne_dothraki_disabled }
+			agot_playset_destroy_disabled_essos_root = { REALM = title:e_upper_sarne_dothraki }
+		}
+		if = {
+			limit = { has_game_rule = essos_empire_lower_sarne_dothraki_disabled }
+			agot_playset_destroy_disabled_essos_root = { REALM = title:e_lower_sarne_dothraki }
+		}
+		if = {
+			limit = { has_game_rule = essos_empire_great_grass_sea_dothraki_disabled }
+			agot_playset_destroy_disabled_essos_root = { REALM = title:e_great_grass_sea_dothraki }
+		}
+		if = {
+			limit = { has_game_rule = essos_empire_bone_mountain_dothraki_disabled }
+			agot_playset_destroy_disabled_essos_root = { REALM = title:e_bone_mountain_dothraki }
+		}
+		if = {
+			limit = { has_game_rule = essos_empire_lhazar_disabled }
+			agot_playset_destroy_disabled_essos_root = { REALM = title:e_lhazar }
+		}
+		if = {
+			limit = { has_game_rule = essos_empire_qarth_disabled }
+			agot_playset_destroy_disabled_essos_root = { REALM = title:e_qarth }
+		}
+		if = {
+			limit = { has_game_rule = essos_empire_golden_yi_ti_disabled }
+			agot_playset_destroy_disabled_essos_root = { REALM = title:e_golden_yi_ti }
+		}
+		if = {
+			limit = { has_game_rule = essos_empire_jogos_nhai_disabled }
+			agot_playset_destroy_disabled_essos_root = { REALM = title:e_jogos_nhai }
+		}
+		if = {
+			limit = { has_game_rule = essos_empire_great_moraq_disabled }
+			agot_playset_destroy_disabled_essos_root = { REALM = title:e_great_moraq }
+		}
+		if = {
+			limit = { has_game_rule = essos_empire_leng_disabled }
+			agot_playset_destroy_disabled_essos_root = { REALM = title:e_leng }
+		}
+	}
+}
