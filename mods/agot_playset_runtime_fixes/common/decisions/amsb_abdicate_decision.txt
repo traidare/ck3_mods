@@ -1,0 +1,415 @@
+﻿amsb_abdicate_throne = {
+	#Feudal Abdication Effect
+	picture = {
+		reference = "gfx/interface/illustrations/event_scenes/ironthrone/throneroom_ironthrone.dds"
+	}
+	decision_group_type = royal_court_change
+	is_shown = {
+		is_ruler = yes
+		is_landless_adventurer = no
+		NOT = {
+			OR = {
+				has_government = administrative_government
+				has_government = nights_watch_government
+			}
+		}
+		OR = {
+			AND = {
+				has_game_rule = amsb_abdicate_restricted
+				OR = {
+					has_trait = infirm
+					has_trait = incapable
+					AND = {
+						has_game_rule = amsb_player_abdicate_age_60
+						age >= 60
+					}
+					AND = {
+						has_game_rule = amsb_player_abdicate_age_70
+						age >= 70
+					}
+					AND = {
+						has_game_rule = amsb_player_abdicate_age_80
+						age >= 80
+					}
+				}
+			}
+			has_game_rule = amsb_abdicate_no_restriction
+		}
+	}
+	is_valid = {
+		is_ruler = yes
+		is_landed = yes
+		is_imprisoned = no
+		is_at_war = no
+	}
+	cost = {
+		prestige = 1500
+	}
+	effect = {
+		custom_tooltip = amsb_abdicate_decision_effect_tooltip
+		hidden_effect = {
+			depose = yes
+		}
+		if = {
+			limit = {
+				exists = house
+				is_house_head = yes
+				house = {
+					any_house_member = {
+						count > 1
+					}
+				}
+			}
+			if = {
+				limit = {
+					exists = primary_heir
+					house = primary_heir.house
+				}
+				primary_heir = {
+					save_scope_as = new_house_head
+				}
+				house = {
+					set_house_head = scope:new_house_head
+				}
+			}
+			else_if = {
+				limit = {
+					house = {
+						any_house_member = {
+							is_ruler = yes
+						}
+					}
+				}
+				house = {
+					ordered_house_member = {
+						limit = {
+							is_ruler = yes
+						}
+						order_by = primary_title.tier
+						save_scope_as = new_house_head
+					}
+				}
+				house = {
+					set_house_head = scope:new_house_head
+				}
+			}
+			else = {
+				house = {
+					random_house_member = {
+						limit = {
+						}
+						save_scope_as = new_house_head
+					}
+				}
+				house = {
+					set_house_head = scope:new_house_head
+				}
+			}
+		}
+		if = {
+			primary_title = {
+				save_scope_as = ruler_primary_title
+			}
+			agot_add_new_house_progress = {
+				TITLE = scope:ruler_primary_title
+				CHANGE = -10
+			}
+		}
+		add_trait = amsb_abdicated
+	}
+	ai_will_do = {
+		base = 0
+		modifier = {
+			factor = 0
+			NOT = {
+				has_game_rule = amsb_ai_abdicate_enabled
+			}
+		}
+		modifier = {
+			factor = 2
+			has_trait = infirm
+		}
+		modifier = {
+			factor = 1.5
+			has_trait = content
+		}
+		modifier = {
+			factor = 1.2
+			has_trait = lazy
+		}
+		modifier = {
+			factor = 1.1
+			has_trait = generous
+		}
+		modifier = {
+			factor = 1.3
+			has_trait = shy
+		}
+		modifier = {
+			factor = 1.4
+			has_trait = humble
+		}
+		modifier = {
+			factor = 1.6
+			has_trait = craven
+		}
+		modifier = {
+			factor = 1.5
+			has_trait = excommunicated
+		}
+		modifier = {
+			factor = 1.7
+			has_trait = lunatic
+		}
+		modifier = {
+			factor = 1.2
+			has_trait = weak
+		}
+		modifier = {
+			factor = 1.3
+			has_trait = physique_bad_2
+		}
+		modifier = {
+			factor = 1.5
+			has_trait = physique_bad_3
+		}
+		modifier = {
+			factor = 2
+			has_trait = intellect_bad_3
+		}
+		modifier = {
+			factor = 1.7
+			has_trait = intellect_bad_2
+		}
+		modifier = {
+			factor = 0.5
+			has_trait = stubborn
+		}
+		modifier = {
+			factor = 0.4
+			has_trait = ambitious
+		}
+		modifier = {
+			factor = 0.8
+			has_trait = greedy
+		}
+		modifier = {
+			factor = 0.6
+			has_trait = arrogant
+		}
+		modifier = {
+			factor = 0.6
+			has_trait = diligent
+		}
+		modifier = {
+			factor = 0.7
+			has_trait = patient
+		}
+		modifier = {
+			factor = 0.5
+			has_trait = cynical
+		}
+		modifier = {
+			factor = 0.2
+			has_trait = whole_of_body
+		}
+		modifier = {
+			factor = 0.3
+			has_trait = strong
+		}
+		modifier = {
+			factor = 0.5
+			has_trait = intellect_good_3
+		}
+		modifier = {
+			factor = 0.4
+			has_trait = intellect_good_2
+		}
+		modifier = {
+			factor = 0.5
+			has_trait = pure_blooded
+		}
+		modifier = {
+			factor = 0.4
+			has_trait = physique_good_2
+		}
+		modifier = {
+			factor = 0.4
+			has_trait = physique_good_3
+		}
+	}
+	ai_check_interval = 10
+}
+
+amsb_step_down_from_power = {
+	#Free City/Admin Resign Effect
+	picture = {
+		reference = "gfx/interface/illustrations/event_scenes/ironthrone/throneroom_ironthrone.dds"
+	}
+	decision_group_type = royal_court_change
+	is_shown = {
+		is_ruler = yes
+		NOT = { has_title = title:k_pentos }
+		government_has_flag = government_is_administrative
+		OR = {
+			AND = {
+				has_game_rule = amsb_abdicate_restricted
+				OR = {
+					has_trait = infirm
+					has_trait = incapable
+					AND = {
+						has_game_rule = amsb_player_abdicate_age_60
+						age >= 60
+					}
+					AND = {
+						has_game_rule = amsb_player_abdicate_age_70
+						age >= 70
+					}
+					AND = {
+						has_game_rule = amsb_player_abdicate_age_80
+						age >= 80
+					}
+				}
+			}
+			has_game_rule = amsb_abdicate_no_restriction
+		}
+	}
+	is_valid = {
+		is_ruler = yes
+		is_landed = yes
+		is_imprisoned = no
+		is_at_war = no
+	}
+	cost = {
+		prestige = 1500
+	}
+	effect = {
+		custom_tooltip = amsb_step_down_from_power_effect_tooltip
+		hidden_effect = {
+			depose = yes
+		}
+		add_trait = amsb_abdicated
+	}
+	ai_will_do = {
+		base = 0
+		modifier = {
+			factor = 0
+			NOT = {
+				has_game_rule = amsb_ai_abdicate_enabled
+			}
+		}
+		modifier = {
+			factor = 2
+			has_trait = infirm
+		}
+		modifier = {
+			factor = 1.5
+			has_trait = content
+		}
+		modifier = {
+			factor = 1.2
+			has_trait = lazy
+		}
+		modifier = {
+			factor = 1.1
+			has_trait = generous
+		}
+		modifier = {
+			factor = 1.3
+			has_trait = shy
+		}
+		modifier = {
+			factor = 1.4
+			has_trait = humble
+		}
+		modifier = {
+			factor = 1.6
+			has_trait = craven
+		}
+		modifier = {
+			factor = 1.5
+			has_trait = excommunicated
+		}
+		modifier = {
+			factor = 1.7
+			has_trait = lunatic
+		}
+		modifier = {
+			factor = 1.2
+			has_trait = weak
+		}
+		modifier = {
+			factor = 1.3
+			has_trait = physique_bad_2
+		}
+		modifier = {
+			factor = 1.5
+			has_trait = physique_bad_3
+		}
+		modifier = {
+			factor = 2
+			has_trait = intellect_bad_3
+		}
+		modifier = {
+			factor = 1.7
+			has_trait = intellect_bad_2
+		}
+		modifier = {
+			factor = 0.5
+			has_trait = stubborn
+		}
+		modifier = {
+			factor = 0.4
+			has_trait = ambitious
+		}
+		modifier = {
+			factor = 0.8
+			has_trait = greedy
+		}
+		modifier = {
+			factor = 0.6
+			has_trait = arrogant
+		}
+		modifier = {
+			factor = 0.6
+			has_trait = diligent
+		}
+		modifier = {
+			factor = 0.7
+			has_trait = patient
+		}
+		modifier = {
+			factor = 0.5
+			has_trait = cynical
+		}
+		modifier = {
+			factor = 0.2
+			has_trait = whole_of_body
+		}
+		modifier = {
+			factor = 0.3
+			has_trait = strong
+		}
+		modifier = {
+			factor = 0.5
+			has_trait = intellect_good_3
+		}
+		modifier = {
+			factor = 0.4
+			has_trait = intellect_good_2
+		}
+		modifier = {
+			factor = 0.5
+			has_trait = pure_blooded
+		}
+		modifier = {
+			factor = 0.4
+			has_trait = physique_good_2
+		}
+		modifier = {
+			factor = 0.4
+			has_trait = physique_good_3
+		}
+	}
+	ai_check_interval = 10
+}

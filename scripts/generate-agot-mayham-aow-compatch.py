@@ -34,6 +34,10 @@ OUT = (
     / "traditions"
     / "zzz_agot_mayham_aow_compatch_traditions.txt"
 )
+AOW_UNIQUE_RELATIVE = Path(
+    "common/culture/traditions/00_agot_unique_traditions.txt"
+)
+AOW_UNIQUE_OUT = ROOT / "mods" / "agot_mayham_aow_compatch" / AOW_UNIQUE_RELATIVE
 
 # Each entry is (field, AGOT value, Mayham value). The generator verifies that
 # this manifest describes every difference between AGOT and Mayham in the three
@@ -117,8 +121,8 @@ DELTAS: dict[str, dict[str, list[tuple[str, str, str]]]] = {
 UPSTREAM_REBASES: dict[str, tuple[str, ...]] = {
     "00_agot_regional_traditions.txt": ("tradition_agot_stormlands",),
     "00_agot_unique_traditions.txt": (
-        "tradition_agot_frozen_shoremen",
         "tradition_agot_harbormen",
+        "tradition_agot_frozen_shoremen",
         "tradition_agot_wolfswood_clansmen",
     ),
 }
@@ -287,11 +291,12 @@ def generate() -> str:
 
         if agot.keys() != mayham.keys():
             raise ValueError(f"{filename}: AGOT and Mayham definition sets differ")
-        upstream_rebases = set(UPSTREAM_REBASES.get(filename, ()))
+        upstream_rebases = UPSTREAM_REBASES.get(filename, ())
+        upstream_rebase_set = set(upstream_rebases)
         changed = {
             name
             for name in agot
-            if agot[name] != mayham[name] and name not in upstream_rebases
+            if agot[name] != mayham[name] and name not in upstream_rebase_set
         }
         if changed != set(expected):
             missing = sorted(changed - set(expected))
@@ -357,9 +362,25 @@ def generate() -> str:
     return header + "\n\n".join(generated) + "\n"
 
 
+def generate_aow_unique_syntax_repair() -> str:
+    text = read(AOW / AOW_UNIQUE_RELATIVE)
+    old = "\t\treveler_traits_more_valued \n"
+    found = text.count(old)
+    if found != 1:
+        raise ValueError(
+            "AoW Arbor tradition syntax repair: expected one malformed "
+            f"parameter, found {found}"
+        )
+    return text.replace(old, "\t\treveler_traits_more_valued = yes\n")
+
+
 def main() -> None:
     OUT.parent.mkdir(parents=True, exist_ok=True)
     OUT.write_text(generate(), encoding="utf-8-sig")
+    AOW_UNIQUE_OUT.parent.mkdir(parents=True, exist_ok=True)
+    AOW_UNIQUE_OUT.write_text(
+        generate_aow_unique_syntax_repair(), encoding="utf-8-sig"
+    )
     print(
         f"Generated {OUT.relative_to(ROOT)} "
         "(55 definitions, 55 deltas, 4 upstream rebases)"

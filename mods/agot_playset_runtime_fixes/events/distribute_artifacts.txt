@@ -1,0 +1,138 @@
+﻿namespace = distributeartifacts
+
+distributeartifacts.1 = {
+  type = character_event
+	desc = "DISTRIBUTE_ARTIFACT_DESC"
+  title = "DISTRIBUTE_ARTIFACT_TITLE"
+	theme = vassal
+
+  immediate = {
+    random_vassal = {
+      limit = {
+        is_physically_able_ai_adult = yes
+      }
+      save_scope_as = r_vassal
+    }
+    random_knight = {
+      limit = {
+        is_physically_able_ai_adult = yes
+      }
+      save_scope_as = r_knight
+    }
+    random_close_or_extended_family_member = {
+      save_scope_as = r_dyny
+    }
+  }
+
+  option = {
+	  name = "MY_LOYAL_VASSAL_TARGET"
+     trigger = {
+      exists = scope:r_vassal
+    }
+    scope:r_vassal = {
+      add_opinion = {
+        target = root
+        modifier = grateful_opinion
+        opinion = 5
+      }
+    }
+    scope:target = {
+      set_owner = scope:r_vassal
+    }
+    stress_impact = {
+		  greedy = medium_stress_impact_gain
+      generous = minor_stress_impact_loss
+	  }
+	}
+
+  option = {
+	  name = "MY_GALLANT_KNIGHT_TARGET"
+     trigger = {
+      exists = scope:r_knight
+    }
+    scope:r_knight = {
+      add_opinion = {
+        target = root
+        modifier = grateful_opinion
+        opinion = 5
+      }
+    }
+    scope:target = {
+      set_owner = scope:r_knight
+    }
+    stress_impact = {
+		  greedy = medium_stress_impact_gain
+      generous = minor_stress_impact_loss
+	  }
+	}
+
+  option = {
+	  name = "MY_FAMILY_MEMBER_TARGET"
+    highlight_portrait = scope:r_dyny
+    trigger = {
+      exists = scope:r_dyny
+    }
+    scope:r_dyny = {
+      add_opinion = {
+        target = root
+        modifier = grateful_opinion
+        opinion = 5
+      }
+    }
+
+    scope:target = {
+      set_owner = scope:r_dyny
+    }
+    stress_impact = {
+		  greedy = medium_stress_impact_gain
+      generous = minor_stress_impact_loss
+	  }
+	}
+
+  option = {
+    name = "LUNATIC_OWNER_TARGET"
+    trigger = {
+      has_trait = lunatic
+    }
+    trait = lunatic_1
+  }
+
+  option = {
+    name = "GREEDY_OWNER_TARGET"
+    trigger = {
+      has_trait = greedy
+      NOT = {
+        has_trait = lunatic
+      }
+    }
+    trait = greedy
+  }
+
+  option = {
+    name = "NEVERMIND_TARGET"
+    trigger = {
+      NOR = {
+        has_trait = greedy
+        has_trait = lunatic
+      }
+    }
+    trait = greedy
+  }
+
+  left_portrait = {
+		character = root
+	}
+	right_portrait = {
+		character = scope:r_vassal
+	}
+	lower_center_portrait = {
+		character = scope:r_knight
+	}
+	lower_right_portrait = {
+		character = scope:r_dyny
+	}
+  artifact = {
+    target = scope:target
+    position = lower_left_portrait
+  }
+}

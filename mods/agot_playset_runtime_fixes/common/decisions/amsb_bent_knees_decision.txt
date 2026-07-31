@@ -1,0 +1,261 @@
+﻿amsb_summon_realm_bend_knees = {
+	picture = {
+		reference = "gfx/interface/illustrations/event_scenes/ironthrone/throneroom_ironthrone.dds"
+	}
+	decision_group_type = royal_court_change
+	cooldown = {
+		days = 5478
+	}
+	is_shown = {
+		primary_title.tier >= tier_kingdom
+		NOT = {
+			has_government = administrative_government
+			has_government = nights_watch_government
+		}
+		is_ruler = yes
+		is_landed = yes
+		is_landless_adventurer = no
+		culture = {
+			agot_is_wildling_culture = no
+		}
+	}
+	is_valid = {
+		is_imprisoned = no
+		is_at_war = no
+		is_available = yes
+		is_adult = yes
+		NOT = {
+			has_trait = incapable
+		}
+	}
+	cost = {
+		prestige = 2000
+	}
+	effect = {
+		root = {
+			save_scope_as = actor
+			stress_impact = {
+				craven = medium_stress_impact_gain
+				shy = medium_stress_impact_gain
+				trusting = medium_stress_impact_gain
+				compassionate = medium_stress_impact_gain
+				arrogant = medium_stress_impact_loss
+				paranoid = major_stress_impact_loss
+			}
+			capital_province = {
+				save_scope_as = actor_capital
+			}
+		}
+		every_vassal = {
+			limit = {
+				NOR = {
+					primary_title = title:k_the_most_devout
+					primary_title = title:k_the_red_priesthood
+					primary_title = title:k_the_wall
+					primary_title = title:d_kingsguard
+					primary_title = title:d_the_citadel
+					primary_title = title:d_the_silent_sisterhood
+					primary_title = title:d_wildling_army
+					is_at_war_with = scope:actor
+					is_allied_to = scope:actor
+					has_strong_hook = scope:actor
+					has_character_flag = joining_faction_block
+					has_character_flag = refused_to_bend_knees
+				}
+				can_join_or_create_faction_against = scope:actor
+				is_ruler = yes
+				is_imprisoned = no
+				is_human = yes
+				is_available = yes
+				age >= 13
+				primary_title.tier >= tier_duchy
+			}
+			save_scope_as = recipient
+			if = {
+				limit = {
+					scope:recipient.capital_province = {
+						squared_distance = {
+							target = scope:actor_capital
+							value < 10000
+						}
+					}
+				}
+				trigger_event = {
+					id = amsb_bent_knees.0001
+					days = 1
+				}
+			}
+			else_if = {
+				limit = {
+					scope:recipient.capital_province = {
+						squared_distance = {
+							target = scope:actor_capital
+							value < 40000
+						}
+					}
+				}
+				trigger_event = {
+					id = amsb_bent_knees.0001
+					days = 25
+				}
+			}
+			else_if = {
+				limit = {
+					scope:recipient.capital_province = {
+						squared_distance = {
+							target = scope:actor_capital
+							value < 90000
+						}
+					}
+				}
+				trigger_event = {
+					id = amsb_bent_knees.0001
+					days = 35
+				}
+			}
+			else_if = {
+				limit = {
+					scope:recipient.capital_province = {
+						squared_distance = {
+							target = scope:actor_capital
+							value < 160000
+						}
+					}
+				}
+				trigger_event = {
+					id = amsb_bent_knees.0001
+					days = 45
+				}
+			}
+			else_if = {
+				limit = {
+					scope:recipient.capital_province = {
+						squared_distance = {
+							target = scope:actor_capital
+							value < 250000
+						}
+					}
+				}
+				trigger_event = {
+					id = amsb_bent_knees.0001
+					days = 55
+				}
+			}
+			else_if = {
+				limit = {
+					scope:recipient.capital_province = {
+						squared_distance = {
+							target = scope:actor_capital
+							value < 490000
+						}
+					}
+				}
+				trigger_event = {
+					id = amsb_bent_knees.0001
+					days = 65
+				}
+			}
+			else_if = {
+				limit = {
+					scope:recipient.capital_province = {
+						squared_distance = {
+							target = scope:actor_capital
+							value < 810000
+						}
+					}
+				}
+				trigger_event = {
+					id = amsb_bent_knees.0001
+					days = 75
+				}
+			}
+			else_if = {
+				limit = {
+					scope:recipient.capital_province = {
+						squared_distance = {
+							target = scope:actor_capital
+							value < 1440000
+						}
+					}
+				}
+				trigger_event = {
+					id = amsb_bent_knees.0001
+					days = 85
+				}
+			}
+			else_if = {
+				limit = {
+					scope:recipient.capital_province = {
+						squared_distance = {
+							target = scope:actor_capital
+							value < 2250000
+						}
+					}
+				}
+				trigger_event = {
+					id = amsb_bent_knees.0001
+					days = 95
+				}
+			}
+			else_if = {
+				limit = {
+					scope:recipient.capital_province = {
+						squared_distance = {
+							target = scope:actor_capital
+							value > 2250000
+						}
+					}
+				}
+				trigger_event = {
+					id = amsb_bent_knees.0001
+					days = 100
+				}
+			}
+		}
+	}
+	ai_potential = {
+		OR = {
+			AND = {
+				is_available = yes
+				is_at_war = no
+				is_physically_able_adult = no
+				is_imprisoned = no
+				NOT = {
+					has_trait = incapable
+				}
+			}
+		}
+	}
+	ai_will_do = {
+		base = 0
+		modifier = {
+			add = -50
+			has_trait = craven
+		}
+		modifier = {
+			add = -25
+			has_trait = shy
+		}
+		modifier = {
+			add = -50
+			has_trait = trusting
+		}
+		modifier = {
+			add = -50
+			has_trait = compassionate
+		}
+		modifier = {
+			add = 25
+			has_trait = arrogant
+		}
+		modifier = {
+			add = 25
+			has_trait = paranoid
+		}
+		modifier = {
+			add = 50
+			has_trait = authoritative
+		}
+	}
+	ai_check_interval = 10
+}

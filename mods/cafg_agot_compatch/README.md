@@ -45,6 +45,16 @@ scripts/generate-cafg-agot-runtime-rebase.py
 The generator verifies the exact missing type and branch counts and stops if a
 CaFG update changes the source assumptions.
 
+## Cultural-benefit trigger chance
+
+CaFG's five-year benefit pulse queried three traditions and the Chinese heritage
+pillar that do not exist in AGOT's replaced culture database. The generated
+script-value override removes those four invalid alternatives while preserving
+the remaining isolationist, fierce-independence, ruling-caste,
+cultivated-sophistication, communal, tolerant-law, and xenophilic modifiers.
+This repairs the null `has_cultural_tradition` targets recorded at lines 78, 80,
+and 110 of the parent file in the 2026-07-31 crash logs.
+
 ## Disabled vanilla-only decisions
 
 CaFG also ships whole-file replacements for two vanilla decisions that have no
@@ -60,3 +70,11 @@ unreachable definitions generated roughly 13,500 invalid database-scope script
 locations during the 258 A.C. playtest. Exact-path, intentionally empty
 overrides prevent CaFG's two definitions from loading without changing any
 AGOT-native decision.
+
+CaFG also reintroduces three files of vanilla-only definitions that AGOT
+explicitly disables: the Zanj rebellion casus belli, seven vanilla regional
+decision effects, and five Persian-Struggle effects. Those definitions cannot
+execute in AGOT and fail load-time validation against removed wars, doctrines,
+faiths, effects, and script values. Generated empty exact-path overrides now
+keep them disabled, matching AGOT's source rather than compiling unreachable
+vanilla content into the total conversion.

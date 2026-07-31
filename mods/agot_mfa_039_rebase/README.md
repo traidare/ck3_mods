@@ -24,6 +24,14 @@ The generated rebase points those checks to the equivalent preserved
 coronations, chariot races, feasts, festivals, funerals, hunts, pilgrimages,
 playdates, tours, tournaments, weddings, and witch rituals.
 
+The hunt relay also ran from a character root while six event-selection checks
+dereferenced `root.activity_host`, which requires an activity. Its success
+weight likewise read an activity script value from that character root. Both now
+use the relay's preserved `scope:activity`; its province-owner check also
+compares participation against that activity instead of the character root. This
+removes the repeated `activity_host` type mismatch and the null
+relationship/opinion targets that followed it in the 2026-07-31 crash logs.
+
 Five of those event-selection lists used 19 fractional top-level weights. CK3
 1.19 treats fractional random-list weights as zero, silently disabling the
 affected rare outcomes. The generator multiplies every weight in each affected
@@ -37,8 +45,9 @@ scripts/generate-agot-playset-runtime-fixes.py
 ```
 
 The generator checks the exact playdate relay block, the expected per-file count
-of all 695 location references, and all five affected random lists with their 19
-fractional weights. It stops when an MFA update invalidates any source
+of all 695 location references, the hunt relay's six host links, one success
+value, and one participant check, and all five affected random lists with their
+19 fractional weights. It stops when an MFA update invalidates any source
 assumption.
 
 MFA's additive files remain supplied by the Workshop parent. Load this mod

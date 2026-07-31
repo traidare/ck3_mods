@@ -14,8 +14,10 @@ from pathlib import Path
 
 
 ROOT = Path(__file__).resolve().parents[1]
-SOURCE = ROOT / ".ignored/CK3_workshop/3206891770/common/scripted_effects"
-OUTPUT = ROOT / "mods/cafg_agot_compatch/common/scripted_effects"
+MOD_SOURCE = ROOT / ".ignored/CK3_workshop/3206891770"
+SOURCE = MOD_SOURCE / "common/scripted_effects"
+MOD_OUTPUT = ROOT / "mods/cafg_agot_compatch"
+OUTPUT = MOD_OUTPUT / "common/scripted_effects"
 
 INVALID_MAA_TYPES = frozenset(
     """
@@ -90,8 +92,8 @@ def read_text(path: Path) -> str:
     return path.read_text(encoding="utf-8-sig")
 
 
-def write_text(relative: str, text: str) -> None:
-    path = OUTPUT / relative
+def write_text(relative: str, text: str, *, root: Path = OUTPUT) -> None:
+    path = root / relative
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(text, encoding="utf-8-sig", newline="\n")
 
@@ -336,12 +338,102 @@ def generate_benefits() -> None:
     write_text(relative, text)
 
 
+def generate_benefit_values() -> None:
+    relative = "common/script_values/kei_cafg_cultural_benefits_values.txt"
+    text = read_text(MOD_SOURCE / relative)
+    for tradition in (
+        "tradition_cultural_primacy",
+        "tradition_tgp_inward_perfection",
+    ):
+        text = replace_exact(
+            text,
+            f"                has_cultural_tradition = {tradition}\n",
+            "",
+            expected=1,
+            label=f"CaFG AGOT cultural benefit {tradition}",
+        )
+    text = replace_exact(
+        text,
+        """    if = {
+        limit = {
+            has_cultural_tradition = tradition_sinophilic
+            scope:char.culture = { has_cultural_pillar = heritage_chinese }
+        }
+        multiply = 1.5
+    }
+""",
+        "",
+        expected=1,
+        label="CaFG AGOT Sinophilic cultural benefit",
+    )
+    invalid = {
+        "tradition_cultural_primacy",
+        "tradition_tgp_inward_perfection",
+        "tradition_sinophilic",
+        "heritage_chinese",
+    }
+    remaining = sorted(identifier for identifier in invalid if identifier in text)
+    if remaining:
+        raise RuntimeError(
+            "CaFG cultural-benefit values retain AGOT-invalid identifiers: "
+            f"{remaining}"
+        )
+    write_text(relative, text, root=MOD_OUTPUT)
+
+
+def generate_disabled_vanilla_overrides() -> None:
+    vanilla_definitions = {
+        "common/casus_belli_types/99_kei_cafg_replaced_fp3_wars.txt": (
+            "fp3_zanj_rebellion_war",
+        ),
+        "common/scripted_effects/99_kei_cafg_replaced_decisions_effects.txt": (
+            "reclaim_britannia_decision_effect",
+            "embrace_english_culture_effect",
+            "form_portugal_decision_effects",
+            "unite_africa_decision_effects",
+            "avenge_the_battle_of_tours_decision_effects",
+            "become_saoshyant_decision_effect",
+            "launch_hungarian_migration_scripted_effect",
+        ),
+        (
+            "common/scripted_effects/"
+            "99_kei_cafg_replaced_dlc_fp3_scripted_effects.txt"
+        ): (
+            "avenge_the_battle_of_nahrawan_scripted_effect",
+            "fp3_ending_effects_assertion",
+            "fp3_struggle_ending_shia_caliphate_effects",
+            "fp3_struggle_ending_vassalize_caliph_effects",
+            "fp3_struggle_rekindle_iran_effects",
+        ),
+    }
+    for relative, definitions in vanilla_definitions.items():
+        source = read_text(MOD_SOURCE / relative)
+        for definition in definitions:
+            found = source.count(f"{definition} = {{")
+            if found != 1:
+                raise RuntimeError(
+                    f"CaFG vanilla-only override {relative}: expected one "
+                    f"{definition} definition, found {found}"
+                )
+        write_text(
+            relative,
+            (
+                "# Intentionally empty for AGOT. CaFG copies vanilla-only "
+                "definitions that AGOT disables.\n"
+            ),
+            root=MOD_OUTPUT,
+        )
+
+
 def main() -> None:
     generate_boons()
     generate_benefits()
+    generate_benefit_values()
+    generate_disabled_vanilla_overrides()
     print(
         "Generated CaFG/AGOT cultural-boon rebase "
-        "(35 removed MAA types, 11 removed traditions)."
+        "(35 removed MAA types, 11 removed traditions, 4 runtime identifiers, "
+        "3 vanilla-only files disabled)."
     )
 
 

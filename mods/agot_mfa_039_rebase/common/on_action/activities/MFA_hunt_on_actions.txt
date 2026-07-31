@@ -150,7 +150,7 @@ MFA_hunt_pulse_relay_effects = {
 					}
 					add = {
 						value = 0.25
-						multiply = hunt_success_chance_roco_amenity_level_value
+						multiply = scope:activity.hunt_success_chance_roco_amenity_level_value
 					}
 				}
 				trigger_event = { on_action = MFA_pulse_hunt_tracks_option }
@@ -175,7 +175,7 @@ MFA_hunt_pulse_relay_effects = {
 						is_current_phase_active = yes
 						hunt_is_nerge_type = no
 						activity_location = {
-							province_owner = root.activity_host
+							province_owner = scope:activity.activity_host
 							OR = {
 								has_building_or_higher = hunting_grounds_01
 								has_building_or_higher = royal_forest_01
@@ -487,14 +487,14 @@ MFA_hunt_pulse_relay_effects = {
 							is_ai = yes
 							NOR = {
 								# Not invited
-								is_participant_in_activity = root
+								is_participant_in_activity = scope:activity
 								# Not friendly
-								has_any_good_relationship_with_character_trigger = { CHARACTER = root.activity_host }
+								has_any_good_relationship_with_character_trigger = { CHARACTER = scope:activity.activity_host }
 								opinion ={
-									target = root.activity_host
+									target = scope:activity.activity_host
 									value >= 50
 								}
-								has_opinion_modifier = { modifier = annoyed_opinion target = root.activity_host }
+								has_opinion_modifier = { modifier = annoyed_opinion target = scope:activity.activity_host }
 							}
 						}
 					}
@@ -502,7 +502,7 @@ MFA_hunt_pulse_relay_effects = {
 				modifier = {
 					scope:activity = {
 						activity_location.province_owner ?= {
-							has_any_bad_relationship_with_character_trigger = { CHARACTER = root.activity_host }
+							has_any_bad_relationship_with_character_trigger = { CHARACTER = scope:activity.activity_host }
 						}
 					}
 					add = 1
@@ -510,7 +510,7 @@ MFA_hunt_pulse_relay_effects = {
 				modifier = {
 					scope:activity = {
 						activity_location.province_owner ?= {
-							opinion = { target = root.activity_host value <= 25 }
+							opinion = { target = scope:activity.activity_host value <= 25 }
 						}
 					}
 					add = 0.5

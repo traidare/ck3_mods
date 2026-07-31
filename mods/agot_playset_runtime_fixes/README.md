@@ -3,9 +3,10 @@
 Narrow generated repairs for executable-script failures observed in the current
 AGOT `0.4.40` playset on CK3 `1.19`.
 
-Load this module after **A Landed Knights Mod**, **Expanded Court Position -
-Search and Recruit**, **[LOT] Legitimacy Over Time**, **The Red Keep (Hegemony
-Updates)**, **Automated Squire Training - AGOT Micro Mod**, **AGOT: House
+Load this module after **AGOT Additional Models and Special Buildings**, **A
+Landed Knights Mod**, **Expanded Court Position - Search and Recruit**, **[LOT]
+Legitimacy Over Time**, **The Red Keep (Hegemony Updates)**, **Automated Squire
+Training - AGOT Micro Mod**, **AGOT: The Knighting Ceremony**, **AGOT: House
 Founders**, **Succession Crisis**, **Any New Traditions**, **AGOT Great
 Councils**, **AGOT - Suggest Dragon Bonding**, **Adventurer's Beneficiary**,
 **AGOT: All Men Must Serve**, and **Deadly ck3 AGOT**. Keep it after **Any New
@@ -30,8 +31,16 @@ Personal Playset Compatch**.
   both forms prevented parts of the automated training event from parsing. Its
   copied AGOT downtime event also displays the knight scope it actually saves,
   rather than an unavailable `second_squire`.
-- **AGOT: House Founders:** uses optional `primary_title` scopes when checking
-  whether a reveal-bastard story can start.
+- **AGOT: The Knighting Ceremony:** removes the obsolete `is_triggered_only`
+  field from its hidden relay event; CK3 1.19 event files no longer accept that
+  field.
+- **AGOT: House Founders:** uses optional `top_liege` and `primary_title` scopes
+  when checking whether a reveal-bastard story can start. This prevents unlanded
+  interaction recipients from repeatedly failing the context switch.
+- **Additional Models decision illustrations:** replaces three references to the
+  parent's nonexistent `agot_court/throne.dds` with AGOT's existing Iron Throne
+  room illustration. The missing path produced 578 asset errors in the
+  2026-07-31 crash bundle.
 - **Succession Crisis:** makes comparisons with the optional
   `crisis_special_character` scope safe and removes its copied vanilla call to
   `misc.0001`, which AGOT intentionally disables; its copied landless-title
@@ -48,7 +57,8 @@ Personal Playset Compatch**.
   giveaway-recipient guards, and the batch-combination routine's invalid `else`
   syntax. Its direct-upgrade routine now targets AGOT's actual maximum prowess
   modifier and skips vanilla-only merit and Confucian modifier families absent
-  from AGOT.
+  from AGOT. The distribution event now uses current stress-impact constants and
+  a typed saved scope for its highlighted family portrait.
 - **Advanced Character Search:** makes its generated filters compatible with
   AGOT's total-conversion database: 36 references to unavailable
   imperial-minister titles are removed, vanilla-only trait/religion/minister
@@ -110,7 +120,7 @@ invalidates an assumption. Re-run it and review the resulting diff after any
 update to Workshop IDs `2962333032`, `3361162762`, `2967263410`, `3713902872`,
 `3719888822`, `3319354609`, `3241130652`, `3371298408`, `3621472324`,
 `3324579171`, `3349316031`, `3761342990`, `3445965581`, `3676293022`,
-`3305687550`, `3662281614`, `3674548216`, `2886417277`, or `3084203091`, and
-after CK3 updates that change `04_dlc_ep2_tour_effects.txt`. Re-run it after
-updates to `3762892081` as well, because the generated court-scene selector
-follows that compatch's current room-routing rules.
+`3305687550`, `3662281614`, `3674548216`, `3673468355`, `2886417277`, or
+`3084203091`, and after CK3 updates that change `04_dlc_ep2_tour_effects.txt`.
+Re-run it after updates to `3762892081` as well, because the generated
+court-scene selector follows that compatch's current room-routing rules.

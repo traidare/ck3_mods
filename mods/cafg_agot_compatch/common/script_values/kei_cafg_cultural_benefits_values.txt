@@ -1,0 +1,106 @@
+﻿V_kCAFG_cultural_benefits_maximum_tension = 0.1
+V_kCAFG_cultural_benefits_days_required = 1825 # Days required under the maximum tension value to get cultural benefits events
+V_kCAFG_cultural_benefits_minimum_base_cultural_acceptance = 40
+V_kCAFG_cultural_benefits_minimum_county_opinion = -10
+
+
+V_kCAFG_cultural_province_modifier_culture_scale_min_20 = {
+    scope:culture = { prev = { value = V_kCAFG_province_prev_culture_factor } }
+    # Rescale from 0-1 to 0.2-1
+    multiply = 0.8
+    add = 0.2
+}
+
+V_kCAFG_cultural_province_modifier_culture_scale_min_25 = {
+    scope:culture = { prev = { value = V_kCAFG_province_prev_culture_factor } }
+    # Rescale from 0-1 to 0.2-1
+    multiply = 0.75
+    add = 0.25
+}
+
+# Scope : culture
+# 0-100
+V_kCAFG_cultural_benefits_trigger_chance = {
+    value = 0
+    scope:char = {
+        every_directly_owned_province = {
+            add = {
+                value = V_kCAFG_province_culture_factor
+                multiply = V_kCAFG_province_relative_values_scale
+            }
+        }
+    }
+    max = 1
+    # Rescale to 0.2-0.75
+    multiply = 0.55
+    if = { # if the character already had benefits, reduce max chance by 5% each benefit, up to 5 benefits, then 1% each after that, up to max 55% reduction
+        limit = { scope:char = { has_variable = kCAFG_cultural_benefits_count } }
+        subtract = {
+            value = scope:char.var:kCAFG_cultural_benefits_count
+            if = {
+                limit = { scope:char.var:kCAFG_cultural_benefits_count <= 5 }
+                multiply = 0.05
+            }
+            else = {
+                subtract = 5
+                multiply = 0.02
+                # add 0.05 * 5 from the 5 first kCAFG_cultural_benefits_count
+                add = 0.25
+            }
+            max = 0.55
+        }
+    }
+    min = 0
+    add = 0.2
+
+    # Rescale to 0-100
+    multiply = 100
+
+    # Acceptance factor
+    multiply = {
+        value = "cultural_acceptance(scope:char.culture)"
+
+        subtract = V_kCAFG_cultural_benefits_minimum_base_cultural_acceptance
+        min = 0
+        divide = {
+            value = 100
+            subtract = V_kCAFG_cultural_benefits_minimum_base_cultural_acceptance
+        }
+
+        divide = 100
+        multiply = 0.4
+        add = 0.6
+    }
+    
+    if = {
+        limit = {
+            OR = {
+                has_cultural_tradition = tradition_isolationist
+                has_cultural_tradition = tradition_fp3_fierce_independence
+            }
+        }
+        multiply = 0.25
+    }
+    else_if = {
+        limit = {
+            OR = {
+                has_cultural_tradition = tradition_ruling_caste
+                has_cultural_tradition = tradition_ep3_cultivated_sophistication
+            }
+        }
+        multiply = 0.5
+    }
+
+    if = {
+        limit = { has_cultural_pillar = ethos_communal }
+        multiply = 0.8
+    }
+    if = {
+        limit = { scope:char = { has_realm_law = kCAFG_culture_tolerant_law } }
+        multiply = 1.2
+    }
+    if = {
+        limit = { has_cultural_tradition = tradition_xenophilic }
+        multiply = 1.25
+    }
+}

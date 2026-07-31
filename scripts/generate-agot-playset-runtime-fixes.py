@@ -532,6 +532,31 @@ def generate_mfa_delayed_pulse_scopes() -> None:
             expected=expected,
             label=f"MFA delayed pulse activity locations in {filename}",
         )
+        if filename == "MFA_hunt_on_actions.txt":
+            text = replace_exact(
+                text,
+                "multiply = hunt_success_chance_roco_amenity_level_value",
+                (
+                    "multiply = scope:activity."
+                    "hunt_success_chance_roco_amenity_level_value"
+                ),
+                expected=1,
+                label="MFA delayed hunt success activity value",
+            )
+            text = replace_exact(
+                text,
+                "root.activity_host",
+                "scope:activity.activity_host",
+                expected=6,
+                label="MFA delayed hunt activity-host scopes",
+            )
+            text = replace_exact(
+                text,
+                "is_participant_in_activity = root",
+                "is_participant_in_activity = scope:activity",
+                expected=1,
+                label="MFA delayed hunt participant activity scope",
+            )
         if filename in fractional_random_lists:
             expected_lists, expected_weights = fractional_random_lists[filename]
             text = scale_fractional_random_list_weights(
@@ -859,6 +884,19 @@ def generate_automated_squire_training_events() -> None:
     write_text(OUTPUT, relative, text)
 
 
+def generate_knighting_ceremony_event() -> None:
+    relative = "events/zz_agot_squire_automation_events.txt"
+    text = read_text(WORKSHOP / "3673468355" / relative)
+    text = replace_exact(
+        text,
+        "\tis_triggered_only = yes\n",
+        "",
+        expected=1,
+        label="Knighting Ceremony obsolete event field",
+    )
+    write_text(OUTPUT, relative, text)
+
+
 def generate_house_founders() -> None:
     relative = (
         "common/character_interactions/00_agot_hf_revealbastards.txt"
@@ -871,7 +909,66 @@ def generate_house_founders() -> None:
         expected=2,
         label="House Founders optional primary-title guards",
     )
+    text = replace_exact(
+        text,
+        "\t\tscope:recipient.top_liege = {",
+        "\t\tscope:recipient.top_liege ?= {",
+        expected=2,
+        label="House Founders optional top-liege guards",
+    )
     write_text(OUTPUT, relative, text)
+
+
+def generate_artifact_manager_distribution_event() -> None:
+    relative = "events/distribute_artifacts.txt"
+    text = read_text(WORKSHOP / "2886417277" / relative)
+    text = replace_exact(
+        text,
+        "small_stress_impact_loss",
+        "minor_stress_impact_loss",
+        expected=2,
+        label="Artifact Manager current stress-impact values",
+    )
+    text = replace_exact(
+        text,
+        "highlight_portrait = r_dyny",
+        "highlight_portrait = scope:r_dyny",
+        expected=1,
+        label="Artifact Manager family portrait scope",
+    )
+    write_text(OUTPUT, relative, text)
+
+
+def generate_additional_models_decision_illustrations() -> None:
+    missing = "gfx/interface/illustrations/agot_court/throne.dds"
+    fallback = (
+        "gfx/interface/illustrations/event_scenes/ironthrone/"
+        "throneroom_ironthrone.dds"
+    )
+    sources = {
+        "common/decisions/amsb_bent_knees_decision.txt": 1,
+        "common/decisions/amsb_abdicate_decision.txt": 2,
+    }
+    if not (WORKSHOP / "2962333032" / fallback).is_file():
+        raise RuntimeError(
+            "Additional Models decision illustration fallback is absent "
+            "from current AGOT"
+        )
+    if (WORKSHOP / "3319354609" / missing).exists():
+        raise RuntimeError(
+            "Additional Models now supplies its throne illustration; "
+            "remove the local fallback rebase"
+        )
+    for relative, expected in sources.items():
+        text = read_text(WORKSHOP / "3319354609" / relative)
+        text = replace_exact(
+            text,
+            missing,
+            fallback,
+            expected=expected,
+            label=f"Additional Models decision illustration in {relative}",
+        )
+        write_text(OUTPUT, relative, text)
 
 
 def generate_succession_crisis() -> None:
@@ -2453,6 +2550,70 @@ def generate_agot_plus() -> None:
         ),
     )
 
+    incomplete_children = tuple(range(98, 105))
+    trigger_source = read_text(
+        WORKSHOP
+        / "2950245430/common/scripted_triggers/asoiaf_canon_children_triggers.txt"
+    )
+    effect_source = read_text(
+        WORKSHOP
+        / "2950245430/common/scripted_effects/asoiaf_canon_children_effects.txt"
+    )
+    trigger_counts = {
+        child: len(
+            re.findall(
+                rf"(?m)^asoiaf_canon_children_Targaryen_{child}_trigger\s*=\s*\{{",
+                trigger_source,
+            )
+        )
+        for child in incomplete_children
+    }
+    expected_trigger_counts = {
+        98: 1,
+        99: 2,
+        100: 1,
+        101: 0,
+        102: 0,
+        103: 0,
+        104: 0,
+    }
+    if trigger_counts != expected_trigger_counts:
+        raise RuntimeError(
+            "AGOT+ incomplete Aegon IV child triggers changed: "
+            f"expected {expected_trigger_counts}, found {trigger_counts}"
+        )
+    for child in incomplete_children:
+        effect_name = f"asoiaf_canon_children_Targaryen_{child}_birth_effect"
+        if re.search(rf"(?m)^{effect_name}\s*=\s*\{{", effect_source):
+            raise RuntimeError(
+                f"AGOT+ now defines {effect_name}; rebase the disabled branch"
+            )
+    write_text(
+        AGOT_PLUS_OUTPUT,
+        "common/scripted_triggers/zz_asoiaf_runtime_disabled_incomplete_children.txt",
+        (
+            "# AGOT+ references these incomplete branches without defining all "
+            "trigger/effect pairs.\n"
+            + "\n".join(
+                f"asoiaf_canon_children_Targaryen_{child}_trigger = {{ always = no }}"
+                for child in incomplete_children
+            )
+            + "\n"
+        ),
+    )
+    write_text(
+        AGOT_PLUS_OUTPUT,
+        "common/scripted_effects/zz_asoiaf_runtime_disabled_incomplete_children.txt",
+        (
+            "# Compile-safe no-ops for the disabled incomplete event branches.\n"
+            + "\n".join(
+                f"asoiaf_canon_children_Targaryen_{child}_birth_effect = {{ }}"
+                for child in incomplete_children
+            )
+            + "\n"
+        ),
+    )
+
 
 def main() -> None:
     generate_scene_culture_owner_guards()
@@ -2464,7 +2625,10 @@ def main() -> None:
     generate_legitimacy_over_time_ai()
     generate_red_keep_castellan_guard()
     generate_automated_squire_training_events()
+    generate_knighting_ceremony_event()
     generate_house_founders()
+    generate_artifact_manager_distribution_event()
+    generate_additional_models_decision_illustrations()
     generate_succession_crisis()
     generate_artifact_manager_scripted_guis()
     generate_artifact_manager_upgrade_guis()

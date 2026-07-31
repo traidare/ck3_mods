@@ -43,7 +43,7 @@
 		}
 		trigger_if = {
 			limit = { scope:actor = { is_ai = yes }	}
-			scope:recipient.top_liege = {
+			scope:recipient.top_liege ?= {
 				primary_title ?= {
 					NOT = {
 						has_variable = agot_hf_revealbastard_started_ai
@@ -77,7 +77,7 @@
 			is_adult = yes
 			is_at_home = yes
 		}
-		scope:recipient.top_liege = {
+		scope:recipient.top_liege ?= {
 			custom_description = {
 				text = agot_hf_character_blocked_from_revealbastard
 				primary_title ?= {

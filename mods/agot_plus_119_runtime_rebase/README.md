@@ -12,6 +12,8 @@ makes the intended winner unambiguous.
 - `common/scripted_effects/asoiaf_canon_children_effects.txt`
 - `common/scripted_effects/asoiaf_setup_effects.txt`
 - `common/scripted_effects/asoiaf_scripted_effects_strong_seed.txt`
+- `common/scripted_effects/zz_asoiaf_runtime_disabled_incomplete_children.txt`
+- `common/scripted_triggers/zz_asoiaf_runtime_disabled_incomplete_children.txt`
 - `common/modifiers/zz_asoiaf_runtime_missing_modifiers.txt`
 
 ## Canon-child creation
@@ -81,6 +83,13 @@ AGOT+ localizes and applies a separate Asha variant of its Greyjoy canon-child
 modifier but omits the modifier definition. The additive modifier file defines
 that variant with the same gameplay values as AGOT+'s Yara variant while
 preserving the separate Asha localization.
+
+Two Aegon IV event branches reference seven child birth effects that AGOT+ does
+not define, and four of their triggers are missing as well. The generated late
+definitions force only those incomplete triggers false and provide compile-safe
+no-op effects. This prevents the branches from terminating a pregnancy before
+calling a nonexistent birth effect while leaving every complete canon-child
+branch enabled.
 
 Refresh this generated override with:
 

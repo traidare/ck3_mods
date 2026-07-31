@@ -1,0 +1,744 @@
+﻿namespace = agot_knighting_ceremony
+
+# Silent counterpart to AGOT's agot_squirehood_ongoing.0400/.0401, fired only for
+# the story cycle's widened "player's own knight, automation on" branch. Mirrors
+# .0400's mechanics (skill types, XP amounts, weighted outcomes) but with no popup.
+# Scope contract matches .0400: root = the knight, scope:my_squire set by the
+# caller. AI-controlled knights keep firing the real .0400/.0401 pair.
+
+agot_knighting_ceremony.0060 = {
+	type = character_event
+	hidden = yes
+
+	#Strategy
+	option = {
+		name = agot_squirehood_ongoing.0400.a
+		ai_chance = {
+			base = 20
+			modifier = {
+				scope:my_squire = {
+					has_trait_xp = { trait = squire track = knight value >= 25 }
+				}
+				add = 25
+			}
+			modifier = {
+				scope:my_squire = {
+					has_trait_xp = { trait = squire track = knight value >= 10 }
+				}
+				add = 2
+			}
+			modifier = {
+				scope:my_squire.learning > mediocre_skill_rating
+				add = 3
+			}
+			modifier = {
+				scope:my_squire.martial > mediocre_skill_rating
+				add = 5
+			}
+			modifier = {
+				scope:my_squire = { has_trait = education_martial_prowess }
+				add = 1
+			}
+			modifier = {
+				scope:my_squire = { has_trait = intellect_good_1 }
+				add = 5
+			}
+			modifier = {
+				scope:my_squire = { has_trait = intellect_good_2 }
+				add = 7
+			}
+			modifier = {
+				scope:my_squire = { has_trait = intellect_good_3 }
+				add = 9
+			}
+			modifier = {
+				scope:my_squire = { has_trait = shrewd }
+				add = 9
+			}
+			modifier = {
+				scope:my_squire = { has_trait = strategist }
+				add = 25
+			}
+			modifier = {
+				scope:my_squire = { has_trait = bossy }
+				add = 3
+			}
+			modifier = {
+				scope:my_squire = { has_trait = curious }
+				add = 1
+			}
+		}
+		random_list = {
+			3 = { #Good Training Session Chance
+				modifier = {
+					scope:my_squire = {
+						has_trait_xp = { trait = squire track = knight value >= 25 }
+					}
+					add = 25
+				}
+				modifier = {
+					scope:my_squire = {
+						has_trait_xp = { trait = squire track = knight value >= 10 }
+					}
+					add = 2
+				}
+				modifier = {
+					scope:my_squire.learning > mediocre_skill_rating
+					add = 3
+				}
+				modifier = {
+					scope:my_squire.martial > mediocre_skill_rating
+					add = 5
+				}
+				modifier = {
+					scope:my_squire = { has_trait = education_martial_prowess }
+					add = 1
+				}
+				modifier = {
+					scope:my_squire = { has_trait = intellect_good_1 }
+					add = 5
+				}
+				modifier = {
+					scope:my_squire = { has_trait = intellect_good_2 }
+					add = 7
+				}
+				modifier = {
+					scope:my_squire = { has_trait = intellect_good_3 }
+					add = 9
+				}
+				modifier = {
+					scope:my_squire = { has_trait = shrewd }
+					add = 9
+				}
+				modifier = {
+					scope:my_squire = { has_trait = strategist }
+					add = 25
+				}
+				modifier = {
+					scope:my_squire = { has_trait = bossy }
+					add = 3
+				}
+				modifier = {
+					scope:my_squire = { has_trait = curious }
+					add = 1
+				}
+				agot_squire_automation_good_training_effect = { GOOD_DESC = agot_knighting_ceremony.0060.strat.good }
+			}
+			2 = { #Bad Training Session Chance
+				modifier = {
+					scope:my_squire.learning < mediocre_skill_rating
+					add = 1
+				}
+				modifier = {
+					scope:my_squire.martial < mediocre_skill_rating
+					add = 2
+				}
+				modifier = {
+					scope:my_squire = { has_trait = lazy }
+					add = 5
+				}
+				modifier = {
+					scope:my_squire = { has_trait = intellect_bad_1 }
+					add = 5
+				}
+				modifier = {
+					scope:my_squire = { has_trait = intellect_bad_2 }
+					add = 7
+				}
+				modifier = {
+					scope:my_squire = { has_trait = intellect_bad_3 }
+					add = 9
+				}
+				modifier = {
+					scope:my_squire = { has_trait = dull }
+					add = 5
+				}
+				agot_squire_automation_bad_training_effect = { BAD_DESC = agot_knighting_ceremony.0060.strat.bad }
+			}
+		}
+	}
+
+	#Chivalry
+	option = {
+		name = agot_squirehood_ongoing.0400.b
+		ai_chance = {
+			base = 20
+			modifier = {
+				scope:my_squire = {
+					has_trait_xp = { trait = squire track = knight value >= 25 }
+				}
+				add = 25
+			}
+			modifier = {
+				scope:my_squire = {
+					has_trait_xp = { trait = squire track = knight value >= 10 }
+				}
+				add = 2
+			}
+			modifier = {
+				scope:my_squire.learning > mediocre_skill_rating
+				add = 1
+			}
+			modifier = {
+				scope:my_squire.martial > mediocre_skill_rating
+				add = 1
+			}
+			modifier = {
+				scope:my_squire.intrigue > mediocre_skill_rating
+				add = 4
+			}
+			modifier = {
+				scope:my_squire.diplomacy > mediocre_skill_rating
+				add = 3
+			}
+			modifier = {
+				scope:my_squire = { has_trait = intellect_good_1 }
+				add = 3
+			}
+			modifier = {
+				scope:my_squire = { has_trait = intellect_good_2 }
+				add = 5
+			}
+			modifier = {
+				scope:my_squire = { has_trait = intellect_good_3 }
+				add = 7
+			}
+			modifier = {
+				scope:my_squire = { has_trait = education_martial }
+				add = 2
+			}
+			modifier = {
+				scope:my_squire = { has_trait = gregarious }
+				add = 3
+			}
+			modifier = {
+				scope:my_squire = { has_trait = gallant }
+				add = 25
+			}
+			modifier = {
+				scope:my_squire = { has_trait = charming }
+				add = 3
+			}
+		}
+		random_list = {
+			4 = { #Good Training Session
+				modifier = {
+					scope:my_squire = {
+						has_trait_xp = { trait = squire track = knight value >= 25 }
+					}
+					add = 25
+				}
+				modifier = {
+					scope:my_squire = {
+						has_trait_xp = { trait = squire track = knight value >= 10 }
+					}
+					add = 2
+				}
+				modifier = {
+					scope:my_squire.learning > mediocre_skill_rating
+					add = 1
+				}
+				modifier = {
+					scope:my_squire.martial > mediocre_skill_rating
+					add = 1
+				}
+				modifier = {
+					scope:my_squire.intrigue > mediocre_skill_rating
+					add = 4
+				}
+				modifier = {
+					scope:my_squire.diplomacy > mediocre_skill_rating
+					add = 3
+				}
+				modifier = {
+					scope:my_squire = { has_trait = intellect_good_1 }
+					add = 3
+				}
+				modifier = {
+					scope:my_squire = { has_trait = intellect_good_2 }
+					add = 5
+				}
+				modifier = {
+					scope:my_squire = { has_trait = intellect_good_3 }
+					add = 7
+				}
+				modifier = {
+					scope:my_squire = { has_trait = education_martial }
+					add = 2
+				}
+				modifier = {
+					scope:my_squire = { has_trait = gregarious }
+					add = 3
+				}
+				modifier = {
+					scope:my_squire = { has_trait = gallant }
+					add = 25
+				}
+				modifier = {
+					scope:my_squire = { has_trait = charming }
+					add = 3
+				}
+				agot_squire_automation_good_training_effect = { GOOD_DESC = agot_knighting_ceremony.0060.chiv.good }
+			}
+			2 = { #Bad Training Session
+				modifier = {
+					scope:my_squire.learning < mediocre_skill_rating
+					add = 1
+				}
+				modifier = {
+					scope:my_squire.martial < mediocre_skill_rating
+					add = 1
+				}
+				modifier = {
+					scope:my_squire.intrigue < mediocre_skill_rating
+					add = 2
+				}
+				modifier = {
+					scope:my_squire.diplomacy < mediocre_skill_rating
+					add = 2
+				}
+				modifier = {
+					scope:my_squire = { has_trait = lazy }
+					add = 5
+				}
+				modifier = {
+					scope:my_squire = { has_trait = intellect_bad_1 }
+					add = 5
+				}
+				modifier = {
+					scope:my_squire = { has_trait = intellect_bad_2 }
+					add = 7
+				}
+				modifier = {
+					scope:my_squire = { has_trait = intellect_bad_3 }
+					add = 9
+				}
+				modifier = {
+					scope:my_squire = { has_trait = dull }
+					add = 2
+				}
+				modifier = {
+					scope:my_squire = { has_trait = shy }
+					add = 3
+				}
+				modifier = {
+					scope:my_squire = { has_trait = pensive }
+					add = 5
+				}
+				modifier = {
+					scope:my_squire = { has_trait = rude }
+					add = 7
+				}
+				modifier = {
+					scope:my_squire = { has_trait = arrogant }
+					add = 5
+				}
+				modifier = {
+					scope:my_squire = { has_trait = sadistic }
+					add = 5
+				}
+				agot_squire_automation_bad_training_effect = { BAD_DESC = agot_knighting_ceremony.0060.chiv.bad }
+			}
+		}
+	}
+
+	#Train Arms
+	option = {
+		name = agot_squirehood_ongoing.0400.c
+		ai_chance = {
+			base = 20
+			modifier = {
+				scope:my_squire = {
+					has_trait_xp = { trait = squire track = knight value >= 25 }
+				}
+				add = 25
+			}
+			modifier = {
+				scope:my_squire = {
+					has_trait_xp = { trait = squire track = knight value >= 10 }
+				}
+				add = 2
+			}
+			modifier = {
+				scope:my_squire.martial > mediocre_skill_rating
+				add = 5
+			}
+			modifier = {
+				scope:my_squire.prowess > mediocre_skill_rating
+				add = 5
+			}
+			modifier = {
+				scope:my_squire = { has_trait = education_martial }
+				add = 2
+			}
+			modifier = {
+				scope:my_squire = { has_trait = education_martial_prowess_1 }
+				add = 5
+			}
+			modifier = {
+				scope:my_squire = { has_trait = education_martial_prowess_2 }
+				add = 7
+			}
+			modifier = {
+				scope:my_squire = { has_trait = education_martial_prowess_3 }
+				add = 9
+			}
+			modifier = {
+				scope:my_squire = { has_trait = education_martial_prowess_4 }
+				add = 11
+			}
+			modifier = {
+				scope:my_squire = { has_trait = education_martial_prowess_5 }
+				add = 13
+			}
+			modifier = {
+				scope:my_squire = { has_trait = intellect_good_1 }
+				add = 3
+			}
+			modifier = {
+				scope:my_squire = { has_trait = intellect_good_2 }
+				add = 5
+			}
+			modifier = {
+				scope:my_squire = { has_trait = intellect_good_3 }
+				add = 7
+			}
+			modifier = {
+				scope:my_squire = { has_trait = shrewd }
+				add = 7
+			}
+			modifier = {
+				scope:my_squire = { has_trait = overseer }
+				add = 25
+			}
+			modifier = {
+				scope:my_squire = { has_trait = bossy }
+				add = 2
+			}
+			modifier = {
+				scope:my_squire = { has_trait = rowdy }
+				add = 3
+			}
+		}
+		random_list = {
+			4 = { #Good Training Session
+				modifier = {
+					scope:my_squire = {
+						has_trait_xp = { trait = squire track = knight value >= 25 }
+					}
+					add = 25
+				}
+				modifier = {
+					scope:my_squire = {
+						has_trait_xp = { trait = squire track = knight value >= 10 }
+					}
+					add = 2
+				}
+				modifier = {
+					scope:my_squire.martial > mediocre_skill_rating
+					add = 5
+				}
+				modifier = {
+					scope:my_squire.prowess > mediocre_skill_rating
+					add = 5
+				}
+				modifier = {
+					scope:my_squire = { has_trait = education_martial }
+					add = 2
+				}
+				modifier = {
+					scope:my_squire = { has_trait = education_martial_prowess_1 }
+					add = 5
+				}
+				modifier = {
+					scope:my_squire = { has_trait = education_martial_prowess_2 }
+					add = 7
+				}
+				modifier = {
+					scope:my_squire = { has_trait = education_martial_prowess_3 }
+					add = 9
+				}
+				modifier = {
+					scope:my_squire = { has_trait = education_martial_prowess_4 }
+					add = 11
+				}
+				modifier = {
+					scope:my_squire = { has_trait = education_martial_prowess_5 }
+					add = 13
+				}
+				modifier = {
+					scope:my_squire = { has_trait = intellect_good_1 }
+					add = 3
+				}
+				modifier = {
+					scope:my_squire = { has_trait = intellect_good_2 }
+					add = 5
+				}
+				modifier = {
+					scope:my_squire = { has_trait = intellect_good_3 }
+					add = 7
+				}
+				modifier = {
+					scope:my_squire = { has_trait = shrewd }
+					add = 7
+				}
+				modifier = {
+					scope:my_squire = { has_trait = overseer }
+					add = 25
+				}
+				modifier = {
+					scope:my_squire = { has_trait = bossy }
+					add = 2
+				}
+				modifier = {
+					scope:my_squire = { has_trait = rowdy }
+					add = 3
+				}
+				agot_squire_automation_good_training_effect = { GOOD_DESC = agot_knighting_ceremony.0060.arms.good }
+			}
+			1 = { #Bad Training Session
+				modifier = {
+					scope:my_squire.prowess < mediocre_skill_rating
+					add = 1
+				}
+				modifier = {
+					scope:my_squire.martial < mediocre_skill_rating
+					add = 2
+				}
+				modifier = {
+					scope:my_squire = { has_trait = lazy }
+					add = 5
+				}
+				modifier = {
+					scope:my_squire = { has_trait = intellect_bad_1 }
+					add = 3
+				}
+				modifier = {
+					scope:my_squire = { has_trait = intellect_bad_2 }
+					add = 5
+				}
+				modifier = {
+					scope:my_squire = { has_trait = intellect_bad_3 }
+					add = 7
+				}
+				modifier = {
+					scope:my_squire = { has_trait = dull }
+					add = 2
+				}
+				modifier = {
+					scope:my_squire = { has_trait = shy }
+					add = 3
+				}
+				modifier = {
+					scope:my_squire = { has_trait = pensive }
+					add = 4
+				}
+				modifier = {
+					scope:my_squire = { has_trait = craven }
+					add = 3
+				}
+				agot_squire_automation_bad_training_effect = { BAD_DESC = agot_knighting_ceremony.0060.arms.bad }
+			}
+		}
+	}
+
+	#Train Horseriding
+	option = {
+		name = agot_squirehood_ongoing.0400.d
+		ai_chance = {
+			base = 20
+			modifier = {
+				scope:my_squire = {
+					has_trait_xp = { trait = squire track = knight value >= 25 }
+				}
+				add = 25
+			}
+			modifier = {
+				scope:my_squire = {
+					has_trait_xp = { trait = squire track = knight value >= 10 }
+				}
+				add = 2
+			}
+			modifier = {
+				scope:my_squire.martial > mediocre_skill_rating
+				add = 5
+			}
+			modifier = {
+				scope:my_squire.prowess > mediocre_skill_rating
+				add = 5
+			}
+			modifier = {
+				scope:my_squire.learning > mediocre_skill_rating
+				add = 2
+			}
+			modifier = {
+				scope:my_squire = { has_trait = education_martial }
+				add = 2
+			}
+			modifier = {
+				scope:my_squire = { has_trait = education_martial_prowess_1 }
+				add = 5
+			}
+			modifier = {
+				scope:my_squire = { has_trait = education_martial_prowess_2 }
+				add = 5
+			}
+			modifier = {
+				scope:my_squire = { has_trait = education_martial_prowess_3 }
+				add = 7
+			}
+			modifier = {
+				scope:my_squire = { has_trait = education_martial_prowess_4 }
+				add = 9
+			}
+			modifier = {
+				scope:my_squire = { has_trait = education_martial_prowess_5 }
+				add = 11
+			}
+			modifier = {
+				scope:my_squire = { has_trait = intellect_good_1 }
+				add = 3
+			}
+			modifier = {
+				scope:my_squire = { has_trait = intellect_good_2 }
+				add = 5
+			}
+			modifier = {
+				scope:my_squire = { has_trait = intellect_good_3 }
+				add = 7
+			}
+			modifier = {
+				scope:my_squire = { has_trait = overseer }
+				add = 25
+			}
+			modifier = {
+				scope:my_squire = { has_trait = bossy }
+				add = 2
+			}
+			modifier = {
+				scope:my_squire = { has_trait = rowdy }
+				add = 2
+			}
+		}
+		random_list = {
+			4 = { #Good Training Session
+				modifier = {
+					scope:my_squire = {
+						has_trait_xp = { trait = squire track = knight value >= 25 }
+					}
+					add = 25
+				}
+				modifier = {
+					scope:my_squire = {
+						has_trait_xp = { trait = squire track = knight value >= 10 }
+					}
+					add = 2
+				}
+				modifier = {
+					scope:my_squire.martial > mediocre_skill_rating
+					add = 5
+				}
+				modifier = {
+					scope:my_squire.prowess > mediocre_skill_rating
+					add = 5
+				}
+				modifier = {
+					scope:my_squire.learning > mediocre_skill_rating
+					add = 2
+				}
+				modifier = {
+					scope:my_squire = { has_trait = education_martial }
+					add = 2
+				}
+				modifier = {
+					scope:my_squire = { has_trait = education_martial_prowess_1 }
+					add = 5
+				}
+				modifier = {
+					scope:my_squire = { has_trait = education_martial_prowess_2 }
+					add = 5
+				}
+				modifier = {
+					scope:my_squire = { has_trait = education_martial_prowess_3 }
+					add = 7
+				}
+				modifier = {
+					scope:my_squire = { has_trait = education_martial_prowess_4 }
+					add = 9
+				}
+				modifier = {
+					scope:my_squire = { has_trait = education_martial_prowess_5 }
+					add = 11
+				}
+				modifier = {
+					scope:my_squire = { has_trait = intellect_good_1 }
+					add = 3
+				}
+				modifier = {
+					scope:my_squire = { has_trait = intellect_good_2 }
+					add = 5
+				}
+				modifier = {
+					scope:my_squire = { has_trait = intellect_good_3 }
+					add = 7
+				}
+				modifier = {
+					scope:my_squire = { has_trait = overseer }
+					add = 25
+				}
+				modifier = {
+					scope:my_squire = { has_trait = bossy }
+					add = 2
+				}
+				modifier = {
+					scope:my_squire = { has_trait = rowdy }
+					add = 2
+				}
+				agot_squire_automation_good_training_effect = { GOOD_DESC = agot_knighting_ceremony.0060.horse.good }
+			}
+			2 = { #Bad Training Session
+				modifier = {
+					scope:my_squire.prowess < mediocre_skill_rating
+					add = 1
+				}
+				modifier = {
+					scope:my_squire.learning < mediocre_skill_rating
+					add = 1
+				}
+				modifier = {
+					scope:my_squire.martial < mediocre_skill_rating
+					add = 2
+				}
+				modifier = {
+					scope:my_squire = { has_trait = lazy }
+					add = 5
+				}
+				modifier = {
+					scope:my_squire = { has_trait = intellect_bad_1 }
+					add = 3
+				}
+				modifier = {
+					scope:my_squire = { has_trait = intellect_bad_2 }
+					add = 5
+				}
+				modifier = {
+					scope:my_squire = { has_trait = intellect_bad_3 }
+					add = 7
+				}
+				modifier = {
+					scope:my_squire = { has_trait = dull }
+					add = 2
+				}
+				modifier = {
+					scope:my_squire = { has_trait = pensive }
+					add = 4
+				}
+				modifier = {
+					scope:my_squire = { has_trait = craven }
+					add = 1
+				}
+				agot_squire_automation_bad_training_effect = { BAD_DESC = agot_knighting_ceremony.0060.horse.bad }
+			}
+		}
+	}
+}
