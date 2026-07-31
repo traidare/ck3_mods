@@ -1,8 +1,8 @@
-﻿# AM/AGOT+/LoV Compatch: scene cultures merged on Fesir's RC70 base (his July 26th rework kept)
-# with this compatch's court routing re-applied: mediterranean+mena re-enabled for Dorne only,
-# tribal Dothraki khalasars claimed by the steppe court, western broadened into the universal
-# fallback, vanilla chinese room disabled, and AMSB throne rooms reserved alongside AGOT/LoV ones.
-
+﻿# AM/LoV Compatch merged scene cultures, rebuilt July 31st 2026 on Fesir's current (AGOT 0.4.40
+# structure) file: his LoV throne-room guards kept, AMSB 0.4.40's amsb_has_throne_room guards
+# restored (Fesir's copy drops them), plus our Dorne-only mediterranean/mena gate, tribal Dothraki
+# steppe routing, universal western fallback and disabled vanilla chinese room. Rebuild when
+# AGOT, AMSB or Fesir's compatch update this file.
 byzantine = {
 	trigger = {
 		# Scene selection is briefly queried without a valid court owner during cleanup.
@@ -97,7 +97,7 @@ mediterranean = {
 			# }
 			#AGOT Added
 			agot_has_throne_room = no
-			amsb_has_throne_room = no # Compatch: AMSB court scenes reserved too
+			amsb_has_throne_room = no
 			# Legacy of Valyria: reserve dedicated LoV court scenes
 			lv_has_throne_room = no
 		}
@@ -169,7 +169,7 @@ steppe = {
 			# }
 			#AGOT Added
 			agot_has_throne_room = no
-			amsb_has_throne_room = no # Compatch: AMSB court scenes reserved too
+			amsb_has_throne_room = no
 			# Legacy of Valyria: reserve dedicated LoV court scenes
 			lv_has_throne_room = no
 		}
@@ -182,8 +182,8 @@ mena = {
 		# Scene selection is briefly queried without a valid court owner during cleanup.
 		trigger_if = {
 			limit = { exists = root }
-			# COMPATCH: re-enabled for DORNE ONLY (AGOT maps sandy Dornish rulers here).
-			# Still disabled everywhere else.
+			# COMPATCH: re-enabled for DORNE ONLY (AGOT uses this room as the Dornish court).
+			# Still disabled everywhere else (Essos, Asshai...).
 			capital_province ?= { geographical_region = world_westeros_dorne }
 			trigger_if = {
 				limit = {
@@ -276,7 +276,7 @@ mena = {
 			# }
 			#AGOT Added
 			agot_has_throne_room = no
-			amsb_has_throne_room = no # Compatch: AMSB court scenes reserved too
+			amsb_has_throne_room = no
 			# Legacy of Valyria: reserve dedicated LoV court scenes
 			lv_has_throne_room = no
 		}

@@ -844,21 +844,27 @@ def rebase_additional_models_scene_guards(text: str) -> str:
             raise RuntimeError(
                 f"Additional Models current scene guard changed for {key}"
             )
-        if compatch_block.count("amsb_has_throne_room = no") != 0:
+        amsb_guard_count = compatch_block.count("amsb_has_throne_room = no")
+        if amsb_guard_count > 1:
             raise RuntimeError(
-                f"Additional Models/AGOT+/LoV compatch now guards {key}; "
-                "remove the local carry-forward"
+                f"Additional Models/AGOT+/LoV compatch duplicates its AMSB "
+                f"guard for {key}"
             )
-        guarded_block = replace_exact(
-            compatch_block,
-            "\t\tagot_has_throne_room = no\n",
-            (
-                "\t\tagot_has_throne_room = no\n"
-                "\t\tamsb_has_throne_room = no\n"
-            ),
-            expected=1,
-            label=f"Additional Models 0.4.40 scene exclusion for {key}",
-        )
+        if amsb_guard_count == 0:
+            guarded_block = replace_exact(
+                compatch_block,
+                "\t\tagot_has_throne_room = no\n",
+                (
+                    "\t\tagot_has_throne_room = no\n"
+                    "\t\tamsb_has_throne_room = no\n"
+                ),
+                expected=1,
+                label=f"Additional Models 0.4.40 scene exclusion for {key}",
+            )
+        else:
+            # Newer upstream compatches can carry this exclusion themselves.
+            # Preserve that authoritative guard instead of duplicating it.
+            guarded_block = compatch_block
         text = text.replace(compatch_block, guarded_block, 1)
     if text.count("amsb_has_throne_room = no") != 7:
         raise RuntimeError(
