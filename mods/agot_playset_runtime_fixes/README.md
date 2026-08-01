@@ -154,6 +154,42 @@ also load after **Essos Expanded** and **Essos Expanded - TempLoV Compatch**.
 - **Tour pulse:** makes the vanilla monthly pulse a no-op when MFA relays it
   before the activity has a `stop_host` variable, rather than dereferencing the
   missing itinerary stop.
+- **LoV nomad title-gain setup (Workshop 3719888822):** guards yurt main
+  buildings with the current vanilla construction requirements. The upstream
+  1200/1300 branches attempted to add `yurt_main_03` and `yurt_main_04` without
+  checking nomadic authority or the previous building, producing the repeated
+  `Domicile owner failed to meet triggered requirements` and
+  `Cannot construct an upgrade when previous building has not been built`
+  errors. The 900/1100 branches also avoid duplicate main-building additions.
+- **LoV pirate succession (Workshop 3719888822):** rebases both the title-gain
+  handler and RC70 reconciliation effect from a county floor to the duchy floor
+  required by the owned `pirate_succession_law` definition. This preserves the
+  earlier LoV law/history repair while preventing invalid county-level
+  `add_title_law` calls.
+- **Dragon Wives marriage modifiers (Workshop 3541596590):** replaces two
+  unguarded `var:legitimate_house` comparisons with AGOT's
+  `title_is_not_held_by_legitimate_house` trigger, which verifies both variables
+  before comparing them. This removes the invalid-left-side,
+  failed-variable-fetch, and unset-event-target cascade seen in marriage AI.
+- **AGOT court event `court_events.3020`:** removes the optional
+  `scope:physician ?=` block from `court_scene.roles`. Optional scope syntax is
+  valid in event effects but not in court-scene role declarations; the physician
+  and architect descriptions/cleanup remain conditional.
+- **Same-path event rebases:** the court-events, AGOT artifact, and Deadly CK3
+  health repairs replace their parent paths with complete generated files,
+  retaining every sibling event while changing only the diagnosed block. This is
+  required because CK3 replaces event files by relative path; the generator
+  checks the parent namespace and exact replacement count before writing them.
+- **LoV Aurion recovery fallback (Workshop 3719888822):** makes the RC61
+  title-gain fallback inert. The recovery event remains owned by LoV's travel
+  movement/arrival on-actions, while the title-gain copy was attached to every
+  title transfer and correlated with repeated unique-title holder collisions.
+- **COW-AGOT province setup (Workshop 2971198450):** removes a Lordsport
+  holder-change block whose `change` object is commented out but whose
+  `scope:change` is still dereferenced during game start. It also rebases COW's
+  stale trade-port, ironwood, Cheesemonger, Bear Island, and Harlaw mines
+  identifiers onto current AGOT definitions; Lordsport's current holder and
+  province setup remain intact.
 
 The files are generated from current Workshop sources by:
 
@@ -168,13 +204,9 @@ update to Workshop IDs `2962333032`, `3361162762`, `2967263410`, `3713902872`,
 `3324579171`, `3349316031`, `3761342990`, `3445965581`, `3676293022`,
 `3305687550`, `3662281614`, `3674548216`, `3673468355`, `2886417277`,
 `3084203091`, `3225355262`, `3235061780`, `3377641022`, `3462342647`,
-`3437814875`, or `3709868073`, and after CK3 updates that change
-`04_dlc_ep2_tour_effects.txt`. Re-run it after updates to `3682802751` because
-the Essos cleanup validates that parent's game rules and startup actions. Re-run
-it after updates to `3762892081` because the generated court-scene selector
-follows that compatch's current room-routing rules.
-
-After installing a version that changes these shader overrides, clear CK3's
-`shadercache/vulkan` directory before the first runtime test. CK3 regenerates
-it; retaining cache data produced by the incompatible `GH_*` sources can leave
-the previous missing-material symptoms in place during verification.
+`3437814875`, `3709868073`, `3541596590`, `3719888822`, or `2971198450`, and
+after CK3 updates that change `04_dlc_ep2_tour_effects.txt`. Re-run it after
+updates to `3682802751` because the Essos cleanup validates that parent's game
+rules and startup actions. Re-run it after updates to `3762892081` because the
+generated court-scene selector follows that compatch's current room-routing
+rules.

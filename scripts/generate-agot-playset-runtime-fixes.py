@@ -53,6 +53,12 @@ def write_text(
     target.write_text(text, encoding=encoding, newline=newline)
 
 
+def normalize_rebased_source(text: str) -> str:
+    """Keep full-file rebases clean without changing their script tokens."""
+    text = re.sub(r" +\t", "\t", text)
+    return text.rstrip() + "\n"
+
+
 def replace_exact(
     text: str,
     old: str,
@@ -822,6 +828,438 @@ def generate_essos_disabled_realm_cleanup() -> None:
         OUTPUT,
         "common/scripted_effects/zz_essos_disabled_realm_cleanup_effect.txt",
         effect_text,
+    )
+
+
+def generate_nomad_yurt_guards() -> None:
+    """Keep title-gain yurt setup within current vanilla building laws."""
+    relative = "common/on_action/title_on_actions.txt"
+    source = read_text(WORKSHOP / "3719888822" / relative)
+
+    def yurt_main_block(external_count: int) -> str:
+        external = (
+            "\n".join(
+                "\t\t\t\t\tadd_random_yurt_external_building_effect = yes"
+                for _ in range(external_count)
+            )
+            + "\n"
+            + "\n".join(
+                "\t\t\t\t\tupgrade_random_yurt_external_building_effect = yes"
+                for _ in range(external_count)
+            )
+        )
+        return textwrap.indent(
+            (
+            "\t\t\t\ttitle_domicile = {\n"
+            "\t\t\t\t\tif = {\n"
+            "\t\t\t\t\t\tlimit = {\n"
+            "\t\t\t\t\t\t\tNOT = { has_domicile_building = yurt_main_02 }\n"
+            "\t\t\t\t\t\t}\n"
+            "\t\t\t\t\t\tadd_domicile_building = yurt_main_02\n"
+            "\t\t\t\t\t}\n"
+            "\t\t\t\t\tif = {\n"
+            "\t\t\t\t\t\tlimit = {\n"
+            "\t\t\t\t\t\t\thas_domicile_building = yurt_main_02\n"
+            "\t\t\t\t\t\t\towner ?= {\n"
+            "\t\t\t\t\t\t\t\tOR = {\n"
+            "\t\t\t\t\t\t\t\t\thas_realm_law = nomadic_authority_2\n"
+            "\t\t\t\t\t\t\t\t\thas_realm_law = nomadic_authority_3\n"
+            "\t\t\t\t\t\t\t\t\thas_realm_law = nomadic_authority_4\n"
+            "\t\t\t\t\t\t\t\t\thas_realm_law = nomadic_authority_5\n"
+            "\t\t\t\t\t\t\t\t}\n"
+            "\t\t\t\t\t\t\t}\n"
+            "\t\t\t\t\t\t\tNOT = { has_domicile_building = yurt_main_03 }\n"
+            "\t\t\t\t\t\t}\n"
+            "\t\t\t\t\t\tadd_domicile_building = yurt_main_03\n"
+            "\t\t\t\t\t}\n"
+            "\t\t\t\t\tif = {\n"
+            "\t\t\t\t\t\tlimit = {\n"
+            "\t\t\t\t\t\t\thas_domicile_building = yurt_main_03\n"
+            "\t\t\t\t\t\t\towner ?= {\n"
+            "\t\t\t\t\t\t\t\tOR = {\n"
+            "\t\t\t\t\t\t\t\t\thas_realm_law = nomadic_authority_3\n"
+            "\t\t\t\t\t\t\t\t\thas_realm_law = nomadic_authority_4\n"
+            "\t\t\t\t\t\t\t\t\thas_realm_law = nomadic_authority_5\n"
+            "\t\t\t\t\t\t\t\t}\n"
+            "\t\t\t\t\t\t\t}\n"
+            "\t\t\t\t\t\t\tNOT = { has_domicile_building = yurt_main_04 }\n"
+            "\t\t\t\t\t\t}\n"
+            "\t\t\t\t\t\tadd_domicile_building = yurt_main_04\n"
+            "\t\t\t\t\t}\n"
+            f"{external}\n"
+                "\t\t\t\t}"
+            ),
+            "\t\t\t",
+        )
+
+    old_1300 = (
+        "\t\t\t\ttitle_domicile = {\n"
+        "\t\t\t\t\tadd_domicile_building = yurt_main_02\n"
+        "\t\t\t\t\tadd_domicile_building = yurt_main_03\n"
+        "\t\t\t\t\tadd_domicile_building = yurt_main_04\n"
+        "\t\t\t\t\tadd_random_yurt_external_building_effect = yes\n"
+        "\t\t\t\t\tadd_random_yurt_external_building_effect = yes\n"
+        "\t\t\t\t\tadd_random_yurt_external_building_effect = yes\n"
+        "\t\t\t\t\tadd_random_yurt_external_building_effect = yes\n"
+        "\t\t\t\t\tupgrade_random_yurt_external_building_effect = yes\n"
+        "\t\t\t\t\tupgrade_random_yurt_external_building_effect = yes\n"
+        "\t\t\t\t\tupgrade_random_yurt_external_building_effect = yes\n"
+        "\t\t\t\t\tupgrade_random_yurt_external_building_effect = yes\n"
+        "\t\t\t\t}"
+    )
+    old_1300 = textwrap.indent(old_1300, "\t\t\t")
+    old_1200 = (
+        "\t\t\t\ttitle_domicile = {\n"
+        "\t\t\t\t\tadd_domicile_building = yurt_main_02\n"
+        "\t\t\t\t\tadd_domicile_building = yurt_main_03\n"
+        "\t\t\t\t\tadd_domicile_building = yurt_main_04\n"
+        "\t\t\t\t\tadd_random_yurt_external_building_effect = yes\n"
+        "\t\t\t\t\tadd_random_yurt_external_building_effect = yes\n"
+        "\t\t\t\t\tadd_random_yurt_external_building_effect = yes\n"
+        "\t\t\t\t\tupgrade_random_yurt_external_building_effect = yes\n"
+        "\t\t\t\t\tupgrade_random_yurt_external_building_effect = yes\n"
+        "\t\t\t\t\tupgrade_random_yurt_external_building_effect = yes\n"
+        "\t\t\t\t}"
+    )
+    old_1200 = textwrap.indent(old_1200, "\t\t\t")
+    source = replace_exact(
+        source,
+        old_1300,
+        yurt_main_block(4),
+        expected=1,
+        label="LoV nomad 1300 yurt setup",
+    )
+    source = replace_exact(
+        source,
+        old_1200,
+        yurt_main_block(3),
+        expected=1,
+        label="LoV nomad 1200 yurt setup",
+    )
+
+    old_1100 = (
+        "\t\t\t\ttitle_domicile = {\n"
+        "\t\t\t\t\tadd_domicile_building = yurt_main_02\n"
+        "\t\t\t\t\tif = {\n"
+        "\t\t\t\t\t\tlimit = {\n"
+        "\t\t\t\t\t\t\thas_domicile_building = yurt_main_02\n"
+        "\t\t\t\t\t\t\towner ?= {\n"
+        "\t\t\t\t\t\t\t\tOR = {\n"
+        "\t\t\t\t\t\t\t\t\thas_realm_law = nomadic_authority_2\n"
+        "\t\t\t\t\t\t\t\t\thas_realm_law = nomadic_authority_3\n"
+        "\t\t\t\t\t\t\t\t\thas_realm_law = nomadic_authority_4\n"
+        "\t\t\t\t\t\t\t\t\thas_realm_law = nomadic_authority_5\n"
+        "\t\t\t\t\t\t\t\t}\n"
+        "\t\t\t\t\t\t\t}\n"
+        "\t\t\t\t\t\t}\n"
+        "\t\t\t\t\t\tadd_domicile_building = yurt_main_03\n"
+        "\t\t\t\t\t}\n"
+        "\t\t\t\t\tadd_random_yurt_external_building_effect = yes\n"
+        "\t\t\t\t\tadd_random_yurt_external_building_effect = yes\n"
+        "\t\t\t\t\tupgrade_random_yurt_external_building_effect = yes\n"
+        "\t\t\t\t\tupgrade_random_yurt_external_building_effect = yes\n"
+        "\t\t\t\t}"
+    )
+    new_1100 = old_1100.replace(
+        "\t\t\t\t\tadd_domicile_building = yurt_main_02\n",
+        "\t\t\t\t\tif = {\n"
+        "\t\t\t\t\t\tlimit = { NOT = { has_domicile_building = yurt_main_02 } }\n"
+        "\t\t\t\t\t\tadd_domicile_building = yurt_main_02\n"
+        "\t\t\t\t\t}\n",
+        1,
+    )
+    new_1100 = new_1100.replace(
+        "\t\t\t\t\t\t\t}\n"
+        "\t\t\t\t\t\t}\n"
+        "\t\t\t\t\t\tadd_domicile_building = yurt_main_03\n",
+        "\t\t\t\t\t\t\t}\n"
+        "\t\t\t\t\t\t\tNOT = { has_domicile_building = yurt_main_03 }\n"
+        "\t\t\t\t\t\t}\n"
+        "\t\t\t\t\t\tadd_domicile_building = yurt_main_03\n",
+        1,
+    )
+    old_1100 = textwrap.indent(old_1100, "\t\t\t")
+    new_1100 = textwrap.indent(new_1100, "\t\t\t")
+    source = replace_exact(
+        source,
+        old_1100,
+        new_1100,
+        expected=1,
+        label="LoV nomad 1100 yurt setup",
+    )
+    old_900 = (
+        "\t\t\t\ttitle_domicile = {\n"
+        "\t\t\t\t\tadd_domicile_building = yurt_main_02\n"
+        "\t\t\t\t\tadd_random_yurt_external_building_effect = yes\n"
+        "\t\t\t\t\tupgrade_random_yurt_external_building_effect = yes\n"
+        "\t\t\t\t}"
+    )
+    new_900 = old_900.replace(
+        "\t\t\t\t\tadd_domicile_building = yurt_main_02\n",
+        "\t\t\t\t\tif = {\n"
+        "\t\t\t\t\t\tlimit = { NOT = { has_domicile_building = yurt_main_02 } }\n"
+        "\t\t\t\t\t\tadd_domicile_building = yurt_main_02\n"
+        "\t\t\t\t\t}\n",
+        1,
+    )
+    old_900 = textwrap.indent(old_900, "\t\t\t")
+    new_900 = textwrap.indent(new_900, "\t\t\t")
+    source = replace_exact(
+        source,
+        old_900,
+        new_900,
+        expected=1,
+        label="LoV nomad 900 yurt setup",
+    )
+    write_text(OUTPUT, relative, source)
+
+
+def generate_pirate_succession_guards() -> None:
+    """Keep pirate elective law on titles that satisfy its duchy floor."""
+    on_action_relative = "common/on_action/agot_on_actions/agot_title_on_actions.txt"
+    on_action = read_text(WORKSHOP / "3719888822" / on_action_relative)
+    block = extract_top_level_block(on_action, "agot_on_title_gain")
+    repaired_block = replace_exact(
+        block,
+        "\t\t\t\t\ttier >= tier_county\n",
+        "\t\t\t\t\ttier >= tier_duchy\n",
+        expected=1,
+        label="LoV pirate title-gain law floor",
+    )
+    repaired_block = replace_exact(
+        repaired_block,
+        "\t\t\t\t\tscope:title = {\n"
+        "\t\t\t\t\t\tNOT = { var:current_house = root.house }\n"
+        "\t\t\t\t\t\tNOT = { var:legitimate_house = root.house }\n"
+        "\t\t\t\t\t}",
+        "\t\t\t\t\tscope:title = {\n"
+        "\t\t\t\t\t\texists = var:current_house\n"
+        "\t\t\t\t\t\texists = var:legitimate_house\n"
+        "\t\t\t\t\t\tNOT = { var:current_house = root.house }\n"
+        "\t\t\t\t\t\tNOT = { var:legitimate_house = root.house }\n"
+        "\t\t\t\t\t}",
+        expected=1,
+        label="AGOT title-gain legitimate-house guard",
+    )
+    repaired_block = replace_exact(
+        repaired_block,
+        "\t\t\t\t\t\tvar:current_house = root.house\n",
+        "\t\t\t\t\t\texists = var:current_house\n"
+        "\t\t\t\t\t\tvar:current_house = root.house\n",
+        expected=1,
+        label="AGOT title-gain current-house guard",
+    )
+    on_action = on_action.replace(block, repaired_block, 1)
+    write_text(OUTPUT, on_action_relative, on_action)
+
+    effect_relative = (
+        "common/scripted_effects/zz_lv_agot_pirate_succession_reconciliation_rc69.txt"
+    )
+    effect = read_text(WORKSHOP / "3719888822" / effect_relative)
+    effect = replace_exact(
+        effect,
+        "\t\t\ttier >= tier_county\n",
+        "\t\t\ttier >= tier_duchy\n",
+        expected=1,
+        label="LoV pirate reconciliation law floor",
+    )
+    write_text(OUTPUT, effect_relative, effect)
+
+
+def generate_faction_legitimate_house_guards() -> None:
+    """Guard AGOT claimant-faction legitimate-house comparisons."""
+    relative = "common/scripted_modifiers/00_faction_modifiers.txt"
+    source = read_text(WORKSHOP / "2962333032" / relative)
+    source = replace_exact(
+        source,
+        "\t\t$FACTION_TITLE$ = {\n"
+        "\t\t\ttitle_uses_legitimate_house_mechanic = yes\n"
+        "\t\t\tNOT = { var:legitimate_house = $FACTION_TARGET$.house } # Not held by the legitimate house\n"
+        "\t\t}",
+        "\t\t$FACTION_TITLE$ = {\n"
+        "\t\t\ttitle_uses_legitimate_house_mechanic = yes\n"
+        "\t\t\ttitle_is_not_held_by_legitimate_house = yes\n"
+        "\t\t}",
+        expected=1,
+        label="AGOT claimant faction illegitimate-house guard",
+    )
+    source = replace_exact(
+        source,
+        "\t\t$FACTION_TITLE$ = {\n"
+        "\t\t\ttitle_uses_legitimate_house_mechanic = yes\n"
+        "\t\t\tvar:legitimate_house = $FACTION_TARGET$.house # The title is held by the legitimate house\n"
+        "\t\t}",
+        "\t\t$FACTION_TITLE$ = {\n"
+        "\t\t\ttitle_uses_legitimate_house_mechanic = yes\n"
+        "\t\t\ttitle_is_held_by_legitimate_house = yes\n"
+        "\t\t}",
+        expected=1,
+        label="AGOT claimant faction legitimate-house guard",
+    )
+    write_text(OUTPUT, relative, source)
+
+
+def generate_dragon_wives_legitimate_house_guards() -> None:
+    """Use AGOT's guarded legitimate-house trigger in Dragon Wives modifiers."""
+    relative = "common/scripted_modifiers/00_marriage_scripted_modifiers.txt"
+    source = read_text(WORKSHOP / "3541596590" / relative)
+    source = replace_exact(
+        source,
+        "\t\t\tNOT = { var:legitimate_house = var:current_house }\n",
+        "\t\t\ttitle_is_not_held_by_legitimate_house = yes\n",
+        expected=2,
+        label="Dragon Wives legitimate-house comparison",
+    )
+    write_text(OUTPUT, relative, source)
+
+
+def generate_court_events_3020_role_guard() -> None:
+    """Remove optional-scope syntax unsupported by court-scene roles."""
+    relative = "events/court_events/01_ep3_court_events_3.txt"
+    source = read_text(WORKSHOP / "2962333032" / relative)
+    event = extract_top_level_block(source, "court_events.3020")
+    physician_role = (
+        "\t\t\tscope:physician ?= {\n"
+        "\t\t\t\tgroup = event_group\n"
+        "\t\t\t\tanimation = physician\n"
+        "\t\t\t}\n"
+    )
+    repaired_event = replace_exact(
+        event,
+        physician_role,
+        "",
+        expected=1,
+        label="AGOT court_events.3020 physician role",
+    )
+    source = replace_exact(
+        source,
+        event,
+        repaired_event,
+        expected=1,
+        label="AGOT court event 3020 in-place replacement",
+    )
+    if "namespace = court_events" not in source:
+        raise RuntimeError(
+            "AGOT court events source lost its namespace during rebase"
+        )
+    if "court_events.3000 = {" not in source:
+        raise RuntimeError(
+            "AGOT court events source lost sibling event court_events.3000"
+        )
+    source = normalize_rebased_source(source)
+    write_text(
+        OUTPUT,
+        relative,
+        "# Runtime rebase: court scene roles require an existing scope.\n\n"
+        + source,
+    )
+
+
+def generate_aurion_title_gain_guard() -> None:
+    """Disable LoV's obsolete title-gain recovery fallback.
+
+    Aurion's recovery event is already attached to travel-plan movement and
+    arrival in the LoV base on-actions.  The later RC61 title-gain fallback
+    tests every gained county for the expedition building, then attempts to
+    grant unique titles to whichever holder happens to gain that county.  The
+    latter is the source of repeated title-holder collision errors in normal
+    title transfers, so retain its registration but make the fallback inert.
+    """
+    relative = (
+        "common/on_action/cob_on_actions/zz_lv_aurion_lost_expedition_title_gain_rc61.txt"
+    )
+    source = read_text(WORKSHOP / "3719888822" / relative)
+    handler = extract_top_level_block(
+        source, "lv_aurion_lost_expedition_recovery_on_title_gain"
+    )
+    replacement = (
+        "lv_aurion_lost_expedition_recovery_on_title_gain = {\n"
+        "    # RC61's title-gain fallback runs in the wrong scope. Recovery\n"
+        "    # remains owned by LoV's travel movement/arrival on-actions.\n"
+        "    trigger = { always = no }\n"
+        "    effect = { }\n"
+        "}"
+    )
+    source = source.replace(handler, replacement, 1)
+    write_text(OUTPUT, relative, source)
+
+
+def generate_cow_province_setup_rebase() -> None:
+    """Repair COW's stale startup scopes and current AGOT identifiers."""
+    relative = "common/on_action/cowagot_province_on_actions.txt"
+    source = read_text(WORKSHOP / "2971198450" / relative)
+    lordsport_change = (
+        "\t\t\ttitle:b_lordsport = {\n"
+        "\t\t\t\tchange_title_holder = {\n"
+        "\t\t\t\t  holder = scope:lordsport_holder\n"
+        "\t\t\t\t  change = scope:change\n"
+        "\t\t\t  }\n"
+        "\t\t\t}\n"
+    )
+    source = replace_exact(
+        source,
+        lordsport_change,
+        "",
+        expected=1,
+        label="COW Lordsport undefined title-change scope",
+    )
+    source = replace_exact(
+        source,
+        "\t\t\t\tadd_building = common_trade_03\n",
+        "\t\t\t\tadd_building = common_tradeport_03\n",
+        expected=1,
+        label="COW stale trade-port building",
+    )
+    source = replace_exact(
+        source,
+        "\t\t\t\tremove_building = ironwood_01\n",
+        "\t\t\t\tremove_building = agot_ironwood_01\n",
+        expected=1,
+        label="COW stale ironwood building",
+    )
+    source = replace_exact(
+        source,
+        "\t\t\ttitle:b_graced_castle.title_province = {\n"
+        "\t\t\t\tadd_building = castle_05\n"
+        "\t\t\t}\n\n",
+        "",
+        expected=1,
+        label="COW removed Graced Castle barony",
+    )
+    source = replace_exact(
+        source,
+        "title:b_cheesemonger_manse.title_province",
+        "title:b_cheesemongers_manse.title_province",
+        expected=1,
+        label="COW stale Cheesemonger barony",
+    )
+    source = replace_exact(
+        source,
+        "\t\t\t\tadd_special_building_slot = bearisland_01\n",
+        "\t\t\t\tadd_special_building_slot = agot_rodriks_gift_01\n",
+        expected=1,
+        label="COW stale Bear Island building slot",
+    )
+    source = replace_exact(
+        source,
+        "\t\t\t\tadd_special_building = bearisland_01\n",
+        "\t\t\t\tadd_special_building = agot_rodriks_gift_01\n",
+        expected=1,
+        label="COW stale Bear Island building",
+    )
+    source = replace_exact(
+        source,
+        "\t\t\tadd_special_building_slot = harlaw_mines_01\n",
+        "\t\t\tadd_building = agot_iron_island_mines_01\n",
+        expected=1,
+        label="COW stale Harlaw mines building",
+    )
+    write_text(
+        OUTPUT,
+        relative,
+        "# Runtime rebase: remove the dead title-change scope and rebase COW's\n"
+        "# stale building/barony identifiers onto current AGOT definitions.\n"
+        + source,
     )
 
 
@@ -2437,7 +2875,7 @@ def generate_agot_artifact_succession() -> None:
     relative = "events/artifacts/artifact_events.txt"
     source = read_text(WORKSHOP / "2962333032" / relative)
     block = extract_top_level_block(source, "artifact.0031")
-    block = replace_exact(
+    repaired_block = replace_exact(
         block,
         """				var:artifact_succession_title = { is_title_created = yes } #Does the title the artifact should follow exist?
 				scope:old_owner = var:artifact_succession_title.previous_holder #Is the old owner of the artifact also the holder of the title the artifact should follow?""",
@@ -2447,11 +2885,21 @@ def generate_agot_artifact_succession() -> None:
         expected=1,
         label="AGOT artifact succession previous-holder guard",
     )
-    (OUTPUT / relative).unlink(missing_ok=True)
+    source = replace_exact(
+        source,
+        block,
+        repaired_block,
+        expected=1,
+        label="AGOT artifact succession in-place replacement",
+    )
+    source = normalize_rebased_source(source)
+    (OUTPUT / "events/artifacts/zz_agot_runtime_artifact_events.txt").unlink(
+        missing_ok=True
+    )
     write_text(
         OUTPUT,
-        "events/artifacts/zz_agot_runtime_artifact_events.txt",
-        f"namespace = artifact\n\n{block}\n",
+        relative,
+        source,
     )
 
 
@@ -2564,7 +3012,7 @@ def generate_deadly_ck3_health_location_guards() -> None:
     relative = "events/health_events.txt"
     source = read_text(WORKSHOP / "3445965581" / relative)
     block = extract_top_level_block(source, "health.7300")
-    block = replace_exact(
+    repaired_block = replace_exact(
         block,
         """\t\tmodifier = { # Glare
 \t\t\tis_ruler = yes # For performance reasons we limit this as checking modifiers is expensive
@@ -2576,8 +3024,8 @@ def generate_deadly_ck3_health_location_guards() -> None:
         expected=1,
         label="Deadly CK3 AGOT clouded-eyes glare location guard",
     )
-    block = replace_exact(
-        block,
+    repaired_block = replace_exact(
+        repaired_block,
         """\t\tmodifier = { # Bright sunlight
 \t\t\tlocation = {""",
         """\t\tmodifier = { # Bright sunlight
@@ -2586,8 +3034,8 @@ def generate_deadly_ck3_health_location_guards() -> None:
         expected=1,
         label="Deadly CK3 AGOT clouded-eyes sunlight location guard",
     )
-    block = replace_exact(
-        block,
+    repaired_block = replace_exact(
+        repaired_block,
         """\t\tmodifier = { # Shade
 \t\t\tlocation = {""",
         """\t\tmodifier = { # Shade
@@ -2596,10 +3044,21 @@ def generate_deadly_ck3_health_location_guards() -> None:
         expected=1,
         label="Deadly CK3 AGOT clouded-eyes shade location guard",
     )
+    source = replace_exact(
+        source,
+        block,
+        repaired_block,
+        expected=1,
+        label="Deadly CK3 AGOT health event in-place replacement",
+    )
+    source = normalize_rebased_source(source)
+    (OUTPUT / "events/zz_agot_runtime_health_events.txt").unlink(
+        missing_ok=True
+    )
     write_text(
         OUTPUT,
-        "events/zz_agot_runtime_health_events.txt",
-        f"namespace = health\n\n{block}\n",
+        relative,
+        source,
     )
 
 
@@ -3273,6 +3732,13 @@ def main() -> None:
     generate_faster_transitions_gui()
     generate_additional_models_on_action_deduplication()
     generate_essos_disabled_realm_cleanup()
+    generate_nomad_yurt_guards()
+    generate_pirate_succession_guards()
+    generate_faction_legitimate_house_guards()
+    generate_dragon_wives_legitimate_house_guards()
+    generate_court_events_3020_role_guard()
+    generate_aurion_title_gain_guard()
+    generate_cow_province_setup_rebase()
     generate_upgrade_house_banners_event()
     generate_scene_culture_owner_guards()
     generate_now_summerhall_candidate_guards()

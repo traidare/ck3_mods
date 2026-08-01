@@ -1,0 +1,15 @@
+﻿# RC61 — Aurion's Lost Expedition recovery fallback.
+# root = new holder; scope:title = gained title.
+
+on_title_gain = {
+    on_actions = {
+        lv_aurion_lost_expedition_recovery_on_title_gain
+    }
+}
+
+lv_aurion_lost_expedition_recovery_on_title_gain = {
+    # RC61's title-gain fallback runs in the wrong scope. Recovery
+    # remains owned by LoV's travel movement/arrival on-actions.
+    trigger = { always = no }
+    effect = { }
+}
