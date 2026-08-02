@@ -8,8 +8,9 @@ stale whole-file override.
 
 from __future__ import annotations
 
-import re
+import hashlib
 import os
+import re
 import textwrap
 from decimal import Decimal
 from pathlib import Path
@@ -683,6 +684,86 @@ def generate_additional_models_on_action_deduplication() -> None:
         raise RuntimeError(
             f"expected a file or no output at {output_path}"
         )
+
+
+def generate_kurultai_succession_scope_repairs() -> None:
+    """Repair the two invalid scopes reached by chaotic Kurultai succession."""
+    source_relative = "common/scripted_effects/09_dlc_mpo_scripted_effects.txt"
+    parent_sources = {
+        "AGOT": read_text(WORKSHOP / "2962333032" / source_relative),
+        "CK3": read_text(game_root() / source_relative),
+    }
+    expected_hashes = {
+        "nomadic_heir_cleanup_realm_effect": (
+            "5833144559ca644280803314b5874e04e397b6705bcc2af2539b201562d563bf"
+        ),
+        "nomadic_realm_split_effect": (
+            "3dbe761f4557589422c44a5ef276549550a22a7d168bc736f20dee27b51423b6"
+        ),
+    }
+    blocks: dict[str, str] = {}
+    for effect, expected_hash in expected_hashes.items():
+        for parent, source in parent_sources.items():
+            block = extract_top_level_block(source, effect)
+            actual_hash = hashlib.sha256(block.encode()).hexdigest()
+            if actual_hash != expected_hash:
+                raise RuntimeError(
+                    f"{parent} Kurultai source changed: {effect} expected "
+                    f"{expected_hash}, found {actual_hash}"
+                )
+            if parent == "AGOT":
+                blocks[effect] = block
+
+    cleanup = replace_exact(
+        blocks["nomadic_heir_cleanup_realm_effect"],
+        "\t\t\t\tscope:recipient = {\n"
+        "\t\t\t\t\tchange_liege = {",
+        "\t\t\t\tscope:inheritor_char = {\n"
+        "\t\t\t\t\tchange_liege = {",
+        expected=1,
+        label="Kurultai inheritor liege scope",
+    )
+    if "scope:recipient = {" in cleanup:
+        raise RuntimeError("Kurultai cleanup retained the missing recipient scope")
+
+    realm_split = replace_exact(
+        blocks["nomadic_realm_split_effect"],
+        "\t\t\tif = {\n"
+        "\t\t\t\tlimit = {\n"
+        "\t\t\t\t\tNOT = {\n"
+        "\t\t\t\t\t\tthis = scope:new_ruler_scope\n"
+        "\t\t\t\t\t}\n"
+        "\t\t\t\t\tholder = {\n",
+        "\t\t\tif = {\n"
+        "\t\t\t\tlimit = {\n"
+        "\t\t\t\t\tNOT = {\n"
+        "\t\t\t\t\t\tholder = scope:new_ruler_scope\n"
+        "\t\t\t\t\t}\n"
+        "\t\t\t\t\tholder = {\n",
+        expected=1,
+        label="Kurultai county-holder comparison scope",
+    )
+    repaired_holder_guard = (
+        "\t\t\t\t\tNOT = {\n"
+        "\t\t\t\t\t\tholder = scope:new_ruler_scope\n"
+        "\t\t\t\t\t}\n"
+        "\t\t\t\t\tholder = {\n"
+    )
+    if realm_split.count(repaired_holder_guard) != 1:
+        raise RuntimeError("Kurultai split holder comparison repair changed")
+    if realm_split.count("this = scope:new_ruler_scope") != 1:
+        raise RuntimeError("Kurultai split valid holder-scope comparison changed")
+
+    write_text(
+        OUTPUT,
+        "common/scripted_effects/zz_agot_playset_kurultai_succession_fixes.txt",
+        (
+            "# Generated narrow repairs for CK3 1.19 chaotic Kurultai succession.\n"
+            "# Source: AGOT 0.4.40 / common/scripted_effects/"
+            "09_dlc_mpo_scripted_effects.txt\n\n"
+            f"{cleanup}\n\n{realm_split}\n"
+        ),
+    )
 
 
 def generate_essos_disabled_realm_cleanup() -> None:
@@ -3733,6 +3814,7 @@ def main() -> None:
     generate_mari_agot_portraits()
     generate_faster_transitions_gui()
     generate_additional_models_on_action_deduplication()
+    generate_kurultai_succession_scope_repairs()
     generate_essos_disabled_realm_cleanup()
     generate_nomad_yurt_guards()
     generate_pirate_succession_guards()

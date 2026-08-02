@@ -3,20 +3,21 @@
 Narrow generated repairs for executable-script failures observed in the current
 AGOT `0.4.40` playset on CK3 `1.19`.
 
-Load this module after **Battle Graphics AGOT Compatibility Patch**, **AGOT :
-Seasons of Ice and Fire**, **Mari's AGOT Makeovers**, **Faster Transitions**,
-**AGOT Additional Models and Special Buildings**, **A Landed Knights Mod**,
-**Expanded Court Position - Search and Recruit**, **[LOT] Legitimacy Over
-Time**, **The Red Keep (Hegemony Updates)**, **Automated Squire Training - AGOT
-Micro Mod**, **AGOT: The Knighting Ceremony**, **AGOT: House Founders**,
-**Succession Crisis**, **Any New Traditions**, **AGOT Great Councils**, **AGOT -
-Suggest Dragon Bonding**, **Adventurer's Beneficiary**, **AGOT: All Men Must
-Serve**, and **Deadly ck3 AGOT**. Keep it after **Any New Traditions
-Compatibility AGOT** and **TEMPORARY AGOT Additional Models / AGOT+ / LoV
-Compatch (1.19 Fixed)** as well. It must also load after **Artifact Manager**,
-**Advanced Character Search**, and **Upgrade House Banners 3**, and before the
-final **AGOT Personal Playset Compatch**. For the Essos Expanded repair, it must
-also load after **Essos Expanded** and **Essos Expanded - TempLoV Compatch**.
+Load this module after **A Game of Thrones**, **Battle Graphics AGOT
+Compatibility Patch**, **AGOT : Seasons of Ice and Fire**, **Mari's AGOT
+Makeovers**, **Faster Transitions**, **AGOT Additional Models and Special
+Buildings**, **A Landed Knights Mod**, **Expanded Court Position - Search and
+Recruit**, **[LOT] Legitimacy Over Time**, **The Red Keep (Hegemony Updates)**,
+**Automated Squire Training - AGOT Micro Mod**, **AGOT: The Knighting
+Ceremony**, **AGOT: House Founders**, **Succession Crisis**, **Any New
+Traditions**, **AGOT Great Councils**, **AGOT - Suggest Dragon Bonding**,
+**Adventurer's Beneficiary**, **AGOT: All Men Must Serve**, and **Deadly ck3
+AGOT**. Keep it after **Any New Traditions Compatibility AGOT** and **TEMPORARY
+AGOT Additional Models / AGOT+ / LoV Compatch (1.19 Fixed)** as well. It must
+also load after **Artifact Manager**, **Advanced Character Search**, and
+**Upgrade House Banners 3**, and before the final **AGOT Personal Playset
+Compatch**. For the Essos Expanded repair, it must also load after **Essos
+Expanded** and **Essos Expanded - TempLoV Compatch**.
 
 ## Repairs
 
@@ -59,8 +60,7 @@ also load after **Essos Expanded** and **Essos Expanded - TempLoV Compatch**.
   interaction recipients from repeatedly failing the context switch.
 - **Additional Models decision illustrations:** replaces three references to the
   parent's nonexistent `agot_court/throne.dds` with AGOT's existing Iron Throne
-  room illustration. The missing path produced 578 asset errors in the
-  2026-07-31 crash bundle.
+  room illustration.
 - **Succession Crisis:** makes comparisons with the optional
   `crisis_special_character` scope safe and removes its copied vanilla call to
   `misc.0001`, which AGOT intentionally disables; its copied landless-title
@@ -128,6 +128,13 @@ also load after **Essos Expanded** and **Essos Expanded - TempLoV Compatch**.
 - **AGOT startup maintenance:** excludes rulers without capital counties from
   maester seeding and rulers without capital provinces from the Westerosi
   starting-legitimacy branch.
+- **Chaotic Kurultai succession:** repairs two invalid scopes in AGOT's copy of
+  CK3's `09_dlc_mpo_scripted_effects.txt`. The generated override reuses the
+  newly created `inheritor_char` for the liege change and compares each county's
+  `holder` with the new ruler. Workshop `2962333032` is the effective parent and
+  no later enabled mod owns either effect. Only those two top-level effects are
+  redefined; their parent-block hashes and both exact replacements are checked.
+  Re-audit after AGOT or CK3 changes either nomadic effect.
 - **Essos Expanded:** adds root-title cleanup as the final child of its
   `essos_remove_realms` dispatcher—after its 27 disabled-realm removals and
   before its family generation. AGOT's `agot_remove_realm_effect` transfers
