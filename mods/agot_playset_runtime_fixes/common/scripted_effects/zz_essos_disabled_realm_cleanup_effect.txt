@@ -1,23 +1,100 @@
-﻿# AGOT's realm cleanup first transfers these counties to d_unknown. County
-# destruction is not stable for landed de jure titles: CK3 can recreate them
-# and later fail to move them away from Local_Rulers. Use the effective LoV
-# wilderness conversion so holder, holdings, faith/culture, development, and
-# LoV dummy-ruler location state are updated as one supported operation.
-agot_playset_convert_disabled_essos_counties_to_wilderness = {
+﻿# Disabled Essos realms must not be staged through AGOT's c_unknown or
+# Local_Rulers. Preserve AGOT's removal semantics while converting every
+# county through the effective LoV wilderness operation.
+agot_playset_make_disabled_essos_realm_wilderness = {
 	$REALM$ = {
+		save_scope_as = agot_playset_disabled_essos_realm
+		# Remove noble-family titles before the landed hierarchy disappears.
 		every_in_de_jure_hierarchy = {
-			limit = {
-				tier = tier_county
-				exists = holder
+			limit = { exists = holder tier >= tier_duchy }
+			holder = {
+				every_held_title = {
+					limit = { is_noble_family_title = yes }
+					holder = {
+						if = {
+							limit = { is_landed = no }
+							every_courtier_or_guest = {
+								death = { death_reason = death_vanished }
+							}
+						}
+						destroy_title = prev
+					}
+				}
+				every_vassal = {
+					every_held_title = {
+						limit = { is_noble_family_title = yes }
+						holder = {
+							if = {
+								limit = { is_landed = no }
+								every_courtier_or_guest = {
+									death = { death_reason = death_vanished }
+								}
+							}
+							destroy_title = prev
+						}
+					}
+				}
 			}
-			make_settlement_county_wilderness = { COUNTY = this }
 		}
-	}
-}
-
-# Destroy the disabled empire title left behind by AGOT's realm cleanup.
-agot_playset_destroy_disabled_essos_root = {
-	$REALM$ = {
+		# Remove de-jure duchy-and-higher titles before county conversion.
+		every_in_de_jure_hierarchy = {
+			limit = { exists = holder tier >= tier_duchy }
+			holder = { destroy_title = prev }
+		}
+		# Clean landless companies whose capital remains inside this realm.
+		every_ruler = {
+			limit = {
+				OR = {
+					is_landless_adventurer = yes
+					primary_title = { is_mercenary_company = yes }
+				}
+				exists = capital_province
+				capital_province.county = {
+					scope:agot_playset_disabled_essos_realm = {
+						is_de_jure_liege_or_above_target = prev
+					}
+				}
+			}
+			every_courtier_or_guest = {
+				death = { death_reason = death_vanished }
+			}
+			destroy_title = primary_title
+			death = { death_reason = death_vanished }
+		}
+		every_in_de_jure_hierarchy = {
+			limit = { tier = tier_county }
+			every_county_province = {
+				agot_remove_realms_remove_special_buildings_effect = yes
+				save_scope_as = agot_playset_disabled_essos_pool_province
+				every_pool_character = {
+					province = scope:agot_playset_disabled_essos_pool_province
+					death = { death_reason = death_vanished }
+				}
+			}
+			if = {
+				limit = { exists = holder }
+				holder = {
+					save_scope_as = agot_playset_disabled_essos_old_holder
+					if = {
+						limit = { any_held_title = { tier = tier_county count = 1 } }
+						every_courtier_or_guest = {
+							death = { death_reason = death_vanished }
+						}
+					}
+				}
+				make_settlement_county_wilderness = { COUNTY = this }
+				scope:agot_playset_disabled_essos_old_holder = {
+					if = {
+						limit = { is_ruler = no }
+						death = { death_reason = death_vanished }
+					}
+				}
+			}
+			else = {
+				make_settlement_county_wilderness = { COUNTY = this }
+			}
+		}
+		# The de-jure iterator excludes the root empire title itself.
 		if = {
 			limit = { exists = holder }
 			holder = {

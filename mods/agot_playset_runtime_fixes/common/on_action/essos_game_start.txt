@@ -1,0 +1,297 @@
+﻿# Essos Empire removal on game start
+# Each empire checks its game rule; if disabled, initializes LoV wilderness.
+
+on_game_start = {
+	on_actions = {
+		essos_remove_realms
+	}
+}
+
+# Families need final ruler capitals and LoV's wilderness state.
+on_game_start_after_lobby = {
+	on_actions = {
+		essos_generate_families
+	}
+}
+
+essos_remove_realms = {
+	on_actions = {
+		essos_remove_realm_bloodless_men
+		essos_remove_realm_cannibal_sands
+		essos_remove_realm_hidden_sea
+		essos_remove_realm_ibben
+		essos_remove_realm_ifequevron
+		essos_remove_realm_lesser_moraq
+		essos_remove_realm_lorath
+		essos_remove_realm_mossovy
+		essos_remove_realm_naath
+		essos_remove_realm_norvos
+		essos_remove_realm_omber
+		essos_remove_realm_qohor
+		essos_remove_realm_sarnor
+		essos_remove_realm_sothoryos
+		essos_remove_realm_summer_isles
+		essos_remove_realm_thousand_islands
+		essos_remove_realm_ulthos
+		essos_remove_realm_upper_sarne_dothraki
+		essos_remove_realm_lower_sarne_dothraki
+		essos_remove_realm_great_grass_sea_dothraki
+		essos_remove_realm_bone_mountain_dothraki
+		essos_remove_realm_lhazar
+		essos_remove_realm_qarth
+		essos_remove_realm_golden_yi_ti
+		essos_remove_realm_jogos_nhai
+		essos_remove_realm_great_moraq
+		essos_remove_realm_leng
+	}
+}
+
+essos_remove_realm_bloodless_men = {
+	trigger = { essos_realm_bloodless_men_disabled = yes }
+	effect = {
+		agot_playset_make_disabled_essos_realm_wilderness = { REALM = title:e_bloodless_men }
+	}
+}
+
+essos_remove_realm_cannibal_sands = {
+	trigger = { essos_realm_cannibal_sands_disabled = yes }
+	effect = {
+		agot_playset_make_disabled_essos_realm_wilderness = { REALM = title:e_cannibal_sands }
+	}
+}
+
+essos_remove_realm_hidden_sea = {
+	trigger = { essos_realm_hidden_sea_disabled = yes }
+	effect = {
+		agot_playset_make_disabled_essos_realm_wilderness = { REALM = title:e_hidden_sea }
+	}
+}
+
+essos_remove_realm_ibben = {
+	trigger = { essos_realm_ibben_disabled = yes }
+	effect = {
+		agot_playset_make_disabled_essos_realm_wilderness = { REALM = title:e_ibben }
+	}
+}
+
+essos_remove_realm_ifequevron = {
+	trigger = { essos_realm_ifequevron_disabled = yes }
+	effect = {
+		agot_playset_make_disabled_essos_realm_wilderness = { REALM = title:e_ifequevron }
+	}
+}
+
+essos_remove_realm_lesser_moraq = {
+	trigger = { essos_realm_lesser_moraq_disabled = yes }
+	effect = {
+		agot_playset_make_disabled_essos_realm_wilderness = { REALM = title:e_lesser_moraq }
+	}
+}
+
+essos_remove_realm_lorath = {
+	trigger = { essos_realm_lorath_disabled = yes }
+	effect = {
+		agot_playset_make_disabled_essos_realm_wilderness = { REALM = title:e_lorath }
+	}
+}
+
+essos_remove_realm_mossovy = {
+	trigger = { essos_realm_mossovy_disabled = yes }
+	effect = {
+		agot_playset_make_disabled_essos_realm_wilderness = { REALM = title:e_mossovy }
+	}
+}
+
+essos_remove_realm_naath = {
+	trigger = { essos_realm_naath_disabled = yes }
+	effect = {
+		agot_playset_make_disabled_essos_realm_wilderness = { REALM = title:e_naath }
+	}
+}
+
+essos_remove_realm_norvos = {
+	trigger = { essos_realm_norvos_disabled = yes }
+	effect = {
+		agot_playset_make_disabled_essos_realm_wilderness = { REALM = title:e_norvos }
+	}
+}
+
+essos_remove_realm_omber = {
+	trigger = { essos_realm_omber_disabled = yes }
+	effect = {
+		agot_playset_make_disabled_essos_realm_wilderness = { REALM = title:e_omber }
+	}
+}
+
+essos_remove_realm_qohor = {
+	trigger = { essos_realm_qohor_disabled = yes }
+	effect = {
+		agot_playset_make_disabled_essos_realm_wilderness = { REALM = title:e_qohor }
+	}
+}
+
+essos_remove_realm_sarnor = {
+	trigger = { essos_realm_sarnor_disabled = yes }
+	effect = {
+		agot_playset_make_disabled_essos_realm_wilderness = { REALM = title:e_sarnor }
+	}
+}
+
+essos_remove_realm_sothoryos = {
+	trigger = { essos_realm_sothoryos_disabled = yes }
+	effect = {
+		agot_playset_make_disabled_essos_realm_wilderness = { REALM = title:e_sothoryos }
+	}
+}
+
+essos_remove_realm_summer_isles = {
+	trigger = { essos_realm_summer_isles_disabled = yes }
+	effect = {
+		agot_playset_make_disabled_essos_realm_wilderness = { REALM = title:e_summer_isles }
+	}
+}
+
+essos_remove_realm_thousand_islands = {
+	trigger = { essos_realm_thousand_islands_disabled = yes }
+	effect = {
+		agot_playset_make_disabled_essos_realm_wilderness = { REALM = title:e_thousand_islands }
+	}
+}
+
+essos_remove_realm_ulthos = {
+	trigger = { essos_realm_ulthos_disabled = yes }
+	effect = {
+		agot_playset_make_disabled_essos_realm_wilderness = { REALM = title:e_ulthos }
+	}
+}
+
+essos_remove_realm_upper_sarne_dothraki = {
+	trigger = { essos_realm_upper_sarne_dothraki_disabled = yes }
+	effect = {
+		agot_playset_make_disabled_essos_realm_wilderness = { REALM = title:e_upper_sarne_dothraki }
+	}
+}
+
+essos_remove_realm_lower_sarne_dothraki = {
+	trigger = { essos_realm_lower_sarne_dothraki_disabled = yes }
+	effect = {
+		agot_playset_make_disabled_essos_realm_wilderness = { REALM = title:e_lower_sarne_dothraki }
+	}
+}
+
+essos_remove_realm_great_grass_sea_dothraki = {
+	trigger = { essos_realm_great_grass_sea_dothraki_disabled = yes }
+	effect = {
+		agot_playset_make_disabled_essos_realm_wilderness = { REALM = title:e_great_grass_sea_dothraki }
+	}
+}
+
+essos_remove_realm_bone_mountain_dothraki = {
+	trigger = { essos_realm_bone_mountain_dothraki_disabled = yes }
+	effect = {
+		agot_playset_make_disabled_essos_realm_wilderness = { REALM = title:e_bone_mountain_dothraki }
+	}
+}
+
+essos_remove_realm_lhazar = {
+	trigger = { essos_realm_lhazar_disabled = yes }
+	effect = {
+		agot_playset_make_disabled_essos_realm_wilderness = { REALM = title:e_lhazar }
+	}
+}
+
+essos_remove_realm_qarth = {
+	trigger = { essos_realm_qarth_disabled = yes }
+	effect = {
+		agot_playset_make_disabled_essos_realm_wilderness = { REALM = title:e_qarth }
+	}
+}
+
+essos_remove_realm_golden_yi_ti = {
+	trigger = { essos_realm_golden_yi_ti_disabled = yes }
+	effect = {
+		agot_playset_make_disabled_essos_realm_wilderness = { REALM = title:e_golden_yi_ti }
+	}
+}
+
+essos_remove_realm_jogos_nhai = {
+	trigger = { essos_realm_jogos_nhai_disabled = yes }
+	effect = {
+		agot_playset_make_disabled_essos_realm_wilderness = { REALM = title:e_jogos_nhai }
+	}
+}
+
+essos_remove_realm_great_moraq = {
+	trigger = { essos_realm_great_moraq_disabled = yes }
+	effect = {
+		agot_playset_make_disabled_essos_realm_wilderness = { REALM = title:e_great_moraq }
+	}
+}
+
+essos_remove_realm_leng = {
+	trigger = { essos_realm_leng_disabled = yes }
+	effect = {
+		agot_playset_make_disabled_essos_realm_wilderness = { REALM = title:e_leng }
+	}
+}
+
+############################
+# ESSOS FAMILY GENERATION  #
+############################
+# Iterates every living character whose top liege holds one of the 27 Essos
+# empire titles, skips GoT canon characters, and gives spouses + children to
+# any such ruler aged 30+ who doesn't already have them.
+
+essos_generate_families = {
+	effect = {
+		every_living_character = {
+			limit = {
+				is_ruler = yes
+				is_landed = yes
+				exists = capital_province
+				exists = top_liege
+				age >= 30
+				NOT = { any_child = { always = yes } }
+				NOR = {
+					has_character_flag = canon_status_canon
+					has_character_flag = canon_status_semicanon
+					has_character_flag = do_not_generate_starting_family
+				}
+				# Restrict to characters whose realm ultimately belongs to
+				# one of the 27 Essos empires defined in this mod.
+				top_liege = {
+					OR = {
+						primary_title = title:e_bloodless_men
+						primary_title = title:e_cannibal_sands
+						primary_title = title:e_hidden_sea
+						primary_title = title:e_ibben
+						primary_title = title:e_ifequevron
+						primary_title = title:e_lesser_moraq
+						primary_title = title:e_lorath
+						primary_title = title:e_mossovy
+						primary_title = title:e_naath
+						primary_title = title:e_norvos
+						primary_title = title:e_omber
+						primary_title = title:e_qohor
+						primary_title = title:e_sarnor
+						primary_title = title:e_sothoryos
+						primary_title = title:e_summer_isles
+						primary_title = title:e_thousand_islands
+						primary_title = title:e_ulthos
+						primary_title = title:e_upper_sarne_dothraki
+						primary_title = title:e_lower_sarne_dothraki
+						primary_title = title:e_great_grass_sea_dothraki
+						primary_title = title:e_bone_mountain_dothraki
+						primary_title = title:e_lhazar
+						primary_title = title:e_qarth
+						primary_title = title:e_golden_yi_ti
+						primary_title = title:e_jogos_nhai
+						primary_title = title:e_great_moraq
+						primary_title = title:e_leng
+					}
+				}
+			}
+			essos_give_family_effect = yes
+		}
+	}
+}

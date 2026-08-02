@@ -1,0 +1,628 @@
+﻿succession_crisis_cb = {
+	icon = claim_cb
+	group = claim
+
+	war_name = "SUCCESSION_CRISIS_WAR_NAME"
+	cb_name = "SUCCESSION_CRISIS_CB_NAME"
+	on_victory_desc = "succession_crisis_cb_victory_desc"
+	on_defeat_desc = "succession_crisis_cb_defeat_desc"
+	on_white_peace_desc = "succession_crisis_cb_white_peace_desc"
+	on_invalidated_desc = "succession_crisis_cb_invalidated_desc"
+
+	mutually_exclusive_titles = { always = no }
+
+	allowed_for_character = {
+		scope:attacker = {
+			has_character_flag = crisis_war_enabled
+			is_eligible_for_succession_crisis = yes
+		}
+	}
+	allowed_against_character = {
+		scope:defender = {
+			has_character_flag = crisis_war_target
+			is_eligible_for_succession_crisis = yes
+		}
+	}
+
+	is_allowed_claim_title = {
+		exists = scope:crisis_title
+		this = scope:crisis_title
+	}
+
+	cost = { prestige = { value = 0 } }
+
+	target_titles = claim
+
+	on_declaration = {
+		on_declared_war = yes
+		random_in_list = {
+			list = target_titles
+			save_scope_as = crisis_title
+		}
+		scope:attacker = {
+			add_character_flag = active_succession_crisis
+			agot_succession_prewar_maintenance = yes
+		}
+		scope:defender = {
+			add_character_flag = active_succession_crisis
+			agot_succession_prewar_maintenance = yes
+		}
+	}
+
+	should_invalidate = {
+		OR = {
+			# Attacker or Defender no longer eligible
+			scope:attacker = { is_eligible_for_succession_crisis = no }
+			scope:defender = { is_eligible_for_succession_crisis = no }
+
+			# War invalidates if they somehow become the same person
+			scope:attacker = scope:defender
+		}
+	}
+
+	on_invalidated = {
+		hidden_effect = {
+			scope:attacker = {
+				remove_character_flag = active_succession_crisis
+				every_held_title = {
+					limit = { has_variable = title_to_destroy }
+					save_scope_as = temp_title_to_nuke
+				}
+			}
+			scope:defender = {
+				remove_character_flag = active_succession_crisis
+				if = {
+					limit = { exists = scope:temp_title_to_nuke }
+					add_pressed_claim = scope:temp_title_to_nuke
+				}
+			}
+			scope:war ?= {
+				every_war_attacker = {
+					remove_character_flag = pledged_to_ruler_flag
+					remove_character_flag = pledged_to_warleader_flag
+				}
+				every_war_defender = {
+					remove_character_flag = pledged_to_ruler_flag
+					remove_character_flag = pledged_to_warleader_flag
+				}
+			}
+		}
+	}
+
+	on_victory = {
+		scope:war ?= {
+			scope:attacker = {
+				hidden_effect = {
+					if = {
+						limit = {
+							has_character_flag = previous_vassal
+						}
+						create_title_and_vassal_change = {
+							type = swear_fealty
+							save_scope_as = victory_fealty_change
+							add_claim_on_loss = no
+						}
+						change_liege = {
+							liege = scope:defender
+							change = scope:victory_fealty_change
+						}
+						resolve_title_and_vassal_change = scope:victory_fealty_change
+					}
+				}
+				every_vassal = {
+					hidden_effect = {
+						create_title_and_vassal_change = {
+							type = swear_fealty
+							save_scope_as = victory_fealty_change
+							add_claim_on_loss = no
+						}
+						change_liege = {
+							liege = scope:defender
+							change = scope:victory_fealty_change
+						}
+						resolve_title_and_vassal_change = scope:victory_fealty_change
+					}
+				}
+			}
+		}
+
+		hidden_effect = {
+			scope:attacker = {
+				every_held_title = {
+					limit = { has_variable = title_to_destroy }
+					save_scope_as = temp_title_to_nuke
+				}
+				if = {
+					limit = { exists = scope:temp_title_to_nuke }
+					destroy_title = scope:temp_title_to_nuke
+				}
+				if = {
+					limit = {
+						NOT = {
+							any_character_war = {
+								NOT = {
+									AND = {
+										primary_attacker = scope:attacker
+										primary_defender = scope:defender
+									}
+								}
+								using_cb = succession_crisis_cb
+							}
+						}
+					}
+					remove_character_flag = active_succession_crisis
+				}
+			}
+			scope:defender = {
+				remove_character_flag = active_succession_crisis
+			}
+
+			scope:war ?= {
+				every_war_attacker = {
+					remove_character_flag = pledged_to_ruler_flag
+					remove_character_flag = pledged_to_warleader_flag
+					if = {
+						limit = {
+							exists = var:sc_prewar_liege_title
+							var:sc_prewar_liege_title = { exists = holder }
+						}
+						create_title_and_vassal_change = {
+							type = swear_fealty
+							save_scope_as = liege_change
+							add_claim_on_loss = no
+						}
+						change_liege = {
+							liege = var:sc_prewar_liege_title.holder
+							change = scope:liege_change
+						}
+						resolve_title_and_vassal_change = scope:liege_change
+					}
+					else = {
+						agot_return_to_prewar_liege = yes
+					}
+				}
+				every_war_defender = {
+					remove_character_flag = pledged_to_ruler_flag
+					remove_character_flag = pledged_to_warleader_flag
+					if = {
+						limit = {
+							exists = var:sc_prewar_liege_title
+							var:sc_prewar_liege_title = { exists = holder }
+						}
+						create_title_and_vassal_change = {
+							type = swear_fealty
+							save_scope_as = liege_change
+							add_claim_on_loss = no
+						}
+						change_liege = {
+							liege = var:sc_prewar_liege_title.holder
+							change = scope:liege_change
+						}
+						resolve_title_and_vassal_change = scope:liege_change
+					}
+					else = {
+						agot_return_to_prewar_liege = yes
+					}
+				}
+			}
+		}
+
+		random_in_list = {
+			list = target_titles
+			save_scope_as = crisis_title
+		}
+
+		scope:defender = {
+			capital_province = {
+				save_scope_as = crisis_destination
+			}
+		}
+
+		succession_crisis_war_victory_transfer_effect = yes
+
+		scope:defender = {
+			trigger_event = succession_crisis_misc.0001
+		}
+
+		rightfully_imprison_character_effect = {
+			TARGET = scope:defender
+			IMPRISONER = scope:attacker
+		}
+
+		setup_claim_cb = {
+			titles = target_titles
+			attacker = scope:attacker
+			defender = scope:defender
+			claimant = scope:attacker
+			victory = no
+		}
+
+		hidden_effect = {
+			scope:attacker = {
+				if = {
+					limit = {
+						is_independent_ruler = no
+						has_variable = agot_prewar_liege
+					}
+					trigger_event = {
+						id = succession_crisis_misc.0013
+						days = { 1 10 }
+					}
+				}
+				else_if = {
+					limit = {
+						OR = {
+							is_independent_ruler = yes
+							has_government = landless_adventurer_government
+						}
+						exists = var:sc_prewar_liege_title
+						var:sc_prewar_liege_title = { exists = holder }
+					}
+					create_title_and_vassal_change = {
+						type = swear_fealty
+						save_scope_as = liege_change
+						add_claim_on_loss = no
+					}
+					change_liege = {
+						liege = var:sc_prewar_liege_title.holder
+						change = scope:liege_change
+					}
+					resolve_title_and_vassal_change = scope:liege_change
+				}
+				else_if = {
+					limit = {
+						OR = {
+							is_independent_ruler = yes
+							has_government = landless_adventurer_government
+						}
+					}
+					agot_return_to_prewar_liege = yes
+				}
+			}
+			scope:defender = {
+				if = {
+					limit = {
+						is_independent_ruler = yes
+						exists = var:sc_prewar_liege_title
+						var:sc_prewar_liege_title = { exists = holder }
+					}
+					create_title_and_vassal_change = {
+						type = swear_fealty
+						save_scope_as = liege_change
+						add_claim_on_loss = no
+					}
+					change_liege = {
+						liege = var:sc_prewar_liege_title.holder
+						change = scope:liege_change
+					}
+					resolve_title_and_vassal_change = scope:liege_change
+				}
+				else_if = {
+					limit = {
+						is_independent_ruler = yes
+					}
+					agot_return_to_prewar_liege = yes
+				}
+			}
+		}
+
+		modify_all_participants_fame_values = {
+			WINNER = scope:attacker
+			LOSER = scope:defender
+			FAME_BASE = scope:cb_prestige_factor
+			IS_RELIGIOUS_WAR = no
+			WINNER_FAME_SCALE = 10
+			LOSER_FAME_SCALE = 10
+			WINNER_ALLY_FAME_SCALE = 10
+			LOSER_ALLY_FAME_SCALE = 10
+		}
+		add_truce_attacker_victory_effect = yes
+	}
+
+	on_white_peace = {
+		scope:attacker = { show_pow_release_message_effect = yes }
+
+		#EP2 accolade glory gain for doing ok against higher ranked enemy
+		scope:defender = { accolade_defender_war_end_glory_gain_low_effect = yes }
+
+		# Create an 'helper' de jure CB which we won't execute, but can use to determine how much Prestige should be given to war participants.
+		setup_de_jure_cb = {
+			attacker = scope:attacker
+			defender = scope:defender
+			victory = no
+		}
+		# Prestige loss for the attacker
+		scope:attacker = {
+			add_prestige = {
+				value = scope:cb_prestige_factor # Set by 'setup_de_jure_cb'
+				multiply = -5.0
+			}
+			stress_impact = {
+				ambitious = medium_stress_impact_gain
+				arrogant = medium_stress_impact_gain
+			}
+		}
+
+		# Allies on both sides get full prestige value for helping in the war, based on their war participation.
+		modify_allies_of_participants_fame_values = {
+			WINNER = scope:attacker
+			FAME_BASE = scope:cb_prestige_factor # Set by 'setup_de_jure_cb'
+			IS_RELIGIOUS_WAR = no
+			WINNER_ALLY_FAME_SCALE = 100
+			LOSER_ALLY_FAME_SCALE = 100
+		}
+		# Defender neither gains nor loses any prestige.
+		scope:defender = {
+			stress_impact = {
+				arrogant = medium_stress_impact_gain
+			}
+		}
+
+		# Truce
+		hidden_effect = {
+			scope:attacker = {
+				add_truce_both_ways = {
+					character = scope:defender
+					days = 365
+					war = root.war
+					result = white_peace
+				}
+			}
+		}
+
+		hidden_effect = {
+			scope:attacker = {
+				remove_character_flag = active_succession_crisis
+				every_held_title = {
+					limit = { has_variable = title_to_destroy }
+					save_scope_as = temp_title_to_nuke
+				}
+			}
+			scope:defender = {
+				remove_character_flag = active_succession_crisis
+				if = {
+					limit = { exists = scope:temp_title_to_nuke }
+					add_pressed_claim = scope:temp_title_to_nuke
+				}
+			}
+			scope:war ?= {
+				every_war_attacker = {
+					remove_character_flag = pledged_to_ruler_flag
+					remove_character_flag = pledged_to_warleader_flag
+				}
+				every_war_defender = {
+					remove_character_flag = pledged_to_ruler_flag
+					remove_character_flag = pledged_to_warleader_flag
+				}
+			}
+		}
+
+		scope:attacker = { add_character_flag = crisis_war_enabled }
+		scope:defender = { add_character_flag = crisis_war_target }
+
+		# EP3: note gold gained from military assistance/join war contracts and their war contribution threshold
+		laamp_as_mercenary_payout_tooltip_effect = yes
+	}
+
+	on_defeat = {
+		scope:attacker = {
+			every_vassal = {
+				hidden_effect = {
+					create_title_and_vassal_change = {
+						type = swear_fealty
+						save_scope_as = victory_fealty_change
+						add_claim_on_loss = no
+					}
+					change_liege = {
+						liege = scope:defender
+						change = scope:victory_fealty_change
+					}
+					resolve_title_and_vassal_change = scope:victory_fealty_change
+				}
+			}
+			hidden_effect = {
+				remove_character_flag = active_succession_crisis
+				every_held_title = {
+					limit = { has_variable = title_to_destroy }
+					save_scope_as = temp_title_to_nuke
+				}
+				if = {
+					limit = { exists = scope:temp_title_to_nuke }
+					destroy_title = scope:temp_title_to_nuke
+				}
+				if = {
+					limit = {
+						has_character_flag = previous_vassal
+					}
+					create_title_and_vassal_change = {
+						type = swear_fealty
+						save_scope_as = attacker_fealty_change
+						add_claim_on_loss = no
+					}
+					change_liege = {
+						liege = scope:defender
+						change = scope:attacker_fealty_change
+					}
+					resolve_title_and_vassal_change = scope:attacker_fealty_change
+				}
+			}
+
+			rightfully_imprison_character_effect = {
+				TARGET = scope:attacker
+				IMPRISONER = scope:defender
+			}
+
+			hidden_effect = {
+				if = {
+					limit = {
+						is_independent_ruler = yes
+						NOT = { has_government = landless_adventurer_government }
+						exists = var:sc_prewar_liege_title
+						var:sc_prewar_liege_title = { exists = holder }
+					}
+					create_title_and_vassal_change = {
+						type = swear_fealty
+						save_scope_as = liege_change
+						add_claim_on_loss = no
+					}
+					change_liege = {
+						liege = var:sc_prewar_liege_title.holder
+						change = scope:liege_change
+					}
+					resolve_title_and_vassal_change = scope:liege_change
+				}
+				else_if = {
+					limit = {
+						is_independent_ruler = yes
+						NOT = { has_government = landless_adventurer_government }
+					}
+					agot_return_to_prewar_liege = yes
+				}
+			}
+		}
+
+		hidden_effect = {
+			scope:defender = {
+				if = {
+					limit = {
+						NOT = {
+							any_character_war = {
+								NOT = {
+									AND = {
+										primary_attacker = scope:attacker
+										primary_defender = scope:defender
+									}
+								}
+								using_cb = succession_crisis_cb
+							}
+						}
+					}
+					remove_character_flag = active_succession_crisis
+				}
+				if = {
+					limit = {
+						is_independent_ruler = yes
+						exists = var:sc_prewar_liege_title
+						var:sc_prewar_liege_title = { exists = holder }
+					}
+					create_title_and_vassal_change = {
+						type = swear_fealty
+						save_scope_as = liege_change
+						add_claim_on_loss = no
+					}
+					change_liege = {
+						liege = var:sc_prewar_liege_title.holder
+						change = scope:liege_change
+					}
+					resolve_title_and_vassal_change = scope:liege_change
+				}
+				else_if = {
+					limit = {
+						is_independent_ruler = yes
+					}
+					agot_return_to_prewar_liege = yes
+				}
+			}
+
+			scope:war ?= {
+				every_war_attacker = {
+					remove_character_flag = pledged_to_ruler_flag
+					remove_character_flag = pledged_to_warleader_flag
+					if = {
+						limit = {
+							NOT = {
+								AND = {
+									this = scope:attacker
+									has_character_flag = previous_vassal
+								}
+							}
+							exists = var:sc_prewar_liege_title
+							var:sc_prewar_liege_title = { exists = holder }
+						}
+						create_title_and_vassal_change = {
+							type = swear_fealty
+							save_scope_as = liege_change
+							add_claim_on_loss = no
+						}
+						change_liege = {
+							liege = var:sc_prewar_liege_title.holder
+							change = scope:liege_change
+						}
+						resolve_title_and_vassal_change = scope:liege_change
+					}
+					else_if = {
+						limit = {
+							NOT = {
+								AND = {
+									this = scope:attacker
+									has_character_flag = previous_vassal
+								}
+							}
+						}
+						agot_return_to_prewar_liege = yes
+					}
+				}
+				every_war_defender = {
+					remove_character_flag = pledged_to_ruler_flag
+					remove_character_flag = pledged_to_warleader_flag
+					if = {
+						limit = {
+							exists = var:sc_prewar_liege_title
+							var:sc_prewar_liege_title = { exists = holder }
+						}
+						create_title_and_vassal_change = {
+							type = swear_fealty
+							save_scope_as = liege_change
+							add_claim_on_loss = no
+						}
+						change_liege = {
+							liege = var:sc_prewar_liege_title.holder
+							change = scope:liege_change
+						}
+						resolve_title_and_vassal_change = scope:liege_change
+					}
+					else = {
+						agot_return_to_prewar_liege = yes
+					}
+				}
+			}
+		}
+
+		every_in_list = {
+			list = target_titles
+			scope:attacker = { remove_claim = prev }
+		}
+
+		scope:attacker = {
+			pay_short_term_gold_reparations_effect = { GOLD_VALUE = 5 }
+		}
+
+		setup_claim_cb = {
+			titles = target_titles
+			attacker = scope:attacker
+			defender = scope:defender
+			claimant = scope:attacker
+			victory = no
+		}
+
+		modify_all_participants_fame_values = {
+			WINNER = scope:defender
+			LOSER = scope:attacker
+			FAME_BASE = scope:cb_prestige_factor
+			IS_RELIGIOUS_WAR = no
+			WINNER_FAME_SCALE = 10
+			LOSER_FAME_SCALE = 10
+			WINNER_ALLY_FAME_SCALE = 10
+			LOSER_ALLY_FAME_SCALE = 10
+		}
+
+		add_truce_attacker_defeat_effect = yes
+	}
+
+	on_primary_attacker_death = inherit
+	on_primary_defender_death = inherit
+	transfer_behavior = transfer
+	attacker_allies_inherit = yes
+	defender_allies_inherit = yes
+	interface_priority = 100
+}

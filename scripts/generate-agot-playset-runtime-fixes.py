@@ -93,6 +93,23 @@ def replace_regex(
     return text
 
 
+def assert_source_block_hash(
+    text: str,
+    key: str,
+    expected_hash: str,
+    *,
+    label: str,
+) -> str:
+    """Return a pinned top-level block, failing closed on upstream drift."""
+    block = extract_top_level_block(text, key)
+    actual_hash = hashlib.sha256(block.encode()).hexdigest()
+    if actual_hash != expected_hash:
+        raise RuntimeError(
+            f"{label} changed: expected {expected_hash}, found {actual_hash}"
+        )
+    return block
+
+
 def script_brace_delta(line: str) -> int:
     code = line.split("#", 1)[0]
     code = re.sub(r'"(?:\\.|[^"\\])*"', '""', code)
@@ -767,35 +784,14 @@ def generate_kurultai_succession_scope_repairs() -> None:
 
 
 def generate_essos_disabled_realm_cleanup() -> None:
-    """Convert disabled Essos Expanded realms to LoV-compatible wilderness."""
+    """Initialize disabled Essos Expanded realms directly as LoV wilderness."""
     realms = (
-        "bloodless_men",
-        "cannibal_sands",
-        "hidden_sea",
-        "ibben",
-        "ifequevron",
-        "lesser_moraq",
-        "lorath",
-        "mossovy",
-        "naath",
-        "norvos",
-        "omber",
-        "qohor",
-        "sarnor",
-        "sothoryos",
-        "summer_isles",
-        "thousand_islands",
-        "ulthos",
-        "upper_sarne_dothraki",
-        "lower_sarne_dothraki",
-        "great_grass_sea_dothraki",
-        "bone_mountain_dothraki",
-        "lhazar",
-        "qarth",
-        "golden_yi_ti",
-        "jogos_nhai",
-        "great_moraq",
-        "leng",
+        "bloodless_men", "cannibal_sands", "hidden_sea", "ibben", "ifequevron",
+        "lesser_moraq", "lorath", "mossovy", "naath", "norvos", "omber",
+        "qohor", "sarnor", "sothoryos", "summer_isles", "thousand_islands",
+        "ulthos", "upper_sarne_dothraki", "lower_sarne_dothraki",
+        "great_grass_sea_dothraki", "bone_mountain_dothraki", "lhazar", "qarth",
+        "golden_yi_ti", "jogos_nhai", "great_moraq", "leng",
     )
     game_rules = read_text(
         WORKSHOP / "3682802751/common/game_rules/01_essos_empire_game_rules.txt"
@@ -803,123 +799,238 @@ def generate_essos_disabled_realm_cleanup() -> None:
     on_action = read_text(
         WORKSHOP / "3682802751/common/on_action/essos_game_start.txt"
     )
+    family_effects = read_text(
+        WORKSHOP / "3682802751/common/scripted_effects/essos_family_effects.txt"
+    )
+    agot_remove_realms = read_text(
+        WORKSHOP
+        / "2962333032/common/scripted_effects/00_agot_remove_realms_effects.txt"
+    )
     lov_colonization = read_text(
         WORKSHOP
         / "3719888822/common/scripted_effects/00_agot_colonization_effects.txt"
     )
-    wilderness_effect = extract_top_level_block(
-        lov_colonization, "make_settlement_county_wilderness"
+    assert_source_block_hash(
+        on_action, "essos_generate_families",
+        "b94b4bc55ecdf1890ec6667fe4366b38a5b6a6af8f9d4d941b5b9726df14d3f7",
+        label="Essos Expanded startup family dispatcher",
     )
-    expected_wilderness_hash = (
-        "4bac248019f401289eac2f39e1e10c5bcd7bd7142db32ef5744af82a9066580b"
+    assert_source_block_hash(
+        family_effects, "essos_give_family_effect",
+        "465c1415a8987439f6ce4d1ca9009710793299f5b2bf30301f6b5d34915e8345",
+        label="Essos Expanded family effect",
     )
-    actual_wilderness_hash = hashlib.sha256(wilderness_effect.encode()).hexdigest()
-    if actual_wilderness_hash != expected_wilderness_hash:
-        raise RuntimeError(
-            "LoV wilderness conversion changed: "
-            f"expected {expected_wilderness_hash}, found {actual_wilderness_hash}"
-        )
+    assert_source_block_hash(
+        agot_remove_realms, "agot_remove_realm_effect",
+        "9168fb5f64500cb04f28a321ddec8c6f658cc459dca4cfb62c3217a361a67b3b",
+        label="AGOT realm-removal effect",
+    )
+    assert_source_block_hash(
+        lov_colonization, "make_settlement_county_wilderness",
+        "4bac248019f401289eac2f39e1e10c5bcd7bd7142db32ef5744af82a9066580b",
+        label="LoV wilderness conversion",
+    )
     if on_action.count("essos_remove_realms = {") != 1:
-        raise RuntimeError(
-            "Essos Expanded startup dispatcher changed: expected one "
-            "essos_remove_realms"
-        )
+        raise RuntimeError("Essos Expanded startup dispatcher changed")
+
     for realm in realms:
         rule = f"essos_empire_{realm}_disabled"
         root_title = f"title:e_{realm}"
+        old_removal = f"agot_remove_realm_effect = {{ REALM = {root_title} }}"
         if game_rules.count(f"{rule} = {{") != 1:
-            raise RuntimeError(
-                f"Essos Expanded game rule changed: expected one {rule}"
-            )
+            raise RuntimeError(f"Essos Expanded game rule changed: {rule}")
         if on_action.count(f"essos_remove_realm_{realm} = {{") != 1:
-            raise RuntimeError(
-                f"Essos Expanded removal action changed: expected one "
-                f"essos_remove_realm_{realm}"
-            )
-        if on_action.count(
-            f"agot_remove_realm_effect = {{ REALM = {root_title} }}"
-        ) != 1:
-            raise RuntimeError(
-                f"Essos Expanded removal target changed: expected one "
-                f"{root_title}"
-            )
-        if on_action.count(f"\t\tessos_remove_realm_{realm}\n") != 1:
-            raise RuntimeError(
-                f"Essos Expanded startup dispatcher changed: expected one "
-                f"essos_remove_realm_{realm} child"
-            )
-
-    cleanup_blocks = []
-    for realm in realms:
-        cleanup_blocks.append(
-            "\t\tif = {\n"
-            f"\t\t\tlimit = {{ has_game_rule = essos_empire_{realm}_disabled }}\n"
-            f"\t\t\tagot_playset_convert_disabled_essos_counties_to_wilderness = {{ REALM = title:e_{realm} }}\n"
-            f"\t\t\tagot_playset_destroy_disabled_essos_root = {{ REALM = title:e_{realm} }}\n"
-            "\t\t}"
+            raise RuntimeError(f"Essos Expanded removal action changed: {realm}")
+        on_action = replace_exact(
+            on_action,
+            old_removal,
+            (
+                "agot_playset_make_disabled_essos_realm_wilderness = "
+                f"{{ REALM = {root_title} }}"
+            ),
+            expected=1,
+            label=f"Essos Expanded {realm} wilderness replacement",
         )
-    on_action_text = (
-        "# Essos Expanded's agot_remove_realm_effect clears the subordinate\n"
-        "# realm but leaves the disabled empire title and its original holder.\n"
-        "# Attach this as the final child of Essos Expanded's own removal\n"
-        "# dispatcher, after its 27 realm removals and before family generation.\n"
-        "# A sibling on_game_start hook cannot guarantee that sequencing.\n"
-        "\n"
-        "essos_remove_realms = {\n"
-        "\ton_actions = {\n"
-        "\t\tagot_playset_cleanup_disabled_essos_roots\n"
-        "\t}\n"
-        "}\n"
-        "\n"
-        "agot_playset_cleanup_disabled_essos_roots = {\n"
-        "\teffect = {\n"
-        + "\n".join(cleanup_blocks)
-        + "\n\t}\n"
-        "}\n"
+
+    on_action = replace_exact(
+        on_action,
+        "on_game_start = {\n\ton_actions = {\n\t\tessos_remove_realms\n"
+        "\t\tessos_generate_families\n\t}\n}",
+        "on_game_start = {\n\ton_actions = {\n\t\tessos_remove_realms\n\t}\n}\n"
+        "\n# Families need final ruler capitals and LoV's wilderness state.\n"
+        "on_game_start_after_lobby = {\n\ton_actions = {\n"
+        "\t\tessos_generate_families\n\t}\n}",
+        expected=1,
+        label="Essos Expanded family-generation timing",
     )
-    effect_text = (
-        "# AGOT's realm cleanup first transfers these counties to d_unknown. County\n"
-        "# destruction is not stable for landed de jure titles: CK3 can recreate them\n"
-        "# and later fail to move them away from Local_Rulers. Use the effective LoV\n"
-        "# wilderness conversion so holder, holdings, faith/culture, development, and\n"
-        "# LoV dummy-ruler location state are updated as one supported operation.\n"
-        "agot_playset_convert_disabled_essos_counties_to_wilderness = {\n"
-        "\t$REALM$ = {\n"
-        "\t\tevery_in_de_jure_hierarchy = {\n"
-        "\t\t\tlimit = {\n"
-        "\t\t\t\ttier = tier_county\n"
-        "\t\t\t\texists = holder\n"
-        "\t\t\t}\n"
-        "\t\t\tmake_settlement_county_wilderness = { COUNTY = this }\n"
-        "\t\t}\n"
-        "\t}\n"
-        "}\n"
-        "\n"
-        "# Destroy the disabled empire title left behind by AGOT's realm cleanup.\n"
-        "agot_playset_destroy_disabled_essos_root = {\n"
-        "\t$REALM$ = {\n"
-        "\t\tif = {\n"
-        "\t\t\tlimit = { exists = holder }\n"
-        "\t\t\tholder = {\n"
-        "\t\t\t\tdestroy_title = prev\n"
-        "\t\t\t\tif = {\n"
-        "\t\t\t\t\tlimit = { is_ruler = no }\n"
-        "\t\t\t\t\tdeath = { death_reason = death_vanished }\n"
-        "\t\t\t\t}\n"
-        "\t\t\t}\n"
-        "\t\t}\n"
-        "\t}\n"
-        "}\n"
+    on_action = replace_exact(
+        on_action,
+        "# Each empire checks its game rule; if disabled, calls agot_remove_realm_effect.",
+        "# Each empire checks its game rule; if disabled, initializes LoV wilderness.",
+        expected=1,
+        label="Essos Expanded direct-wilderness startup description",
+    )
+    on_action = replace_exact(
+        on_action,
+        "\t\t\t\tis_ruler = yes\n\t\t\t\tage >= 30",
+        "\t\t\t\tis_ruler = yes\n\t\t\t\tis_landed = yes\n"
+        "\t\t\t\texists = capital_province\n\t\t\t\texists = top_liege\n"
+        "\t\t\t\tage >= 30",
+        expected=1,
+        label="Essos Expanded family-ruler location guards",
+    )
+
+    for descendant in ("essos_child_1", "essos_child_2", "essos_child_3"):
+        family_effects = replace_exact(
+            family_effects,
+            f"LOCATION  = scope:{descendant}",
+            "LOCATION  = scope:essos_gen_char",
+            expected=1,
+            label=f"Essos family {descendant} location",
+        )
+    family_block = extract_top_level_block(family_effects, "essos_give_family_effect")
+    family_open = family_block.index("{")
+    guarded_family_block = (
+        "essos_give_family_effect = {\n"
+        "\t# The dispatcher filters this too; the AGOT helper dereferences\n"
+        "\t# $LOCATION$.location, so direct callers must satisfy this invariant.\n"
+        "\tif = {\n\t\tlimit = {\n\t\t\tis_landed = yes\n"
+        "\t\t\texists = capital_province\n\t\t}\n"
+        + textwrap.indent(family_block[family_open + 1 : -1].strip(), "\t\t")
+        + "\n\t}\n}"
+    )
+    family_effects = replace_exact(
+        family_effects, family_block, guarded_family_block, expected=1,
+        label="Essos family location guard wrapper",
+    )
+
+    effect_text = textwrap.dedent(
+        """\
+        # Disabled Essos realms must not be staged through AGOT's c_unknown or
+        # Local_Rulers. Preserve AGOT's removal semantics while converting every
+        # county through the effective LoV wilderness operation.
+        agot_playset_make_disabled_essos_realm_wilderness = {
+        \t$REALM$ = {
+        \t\tsave_scope_as = agot_playset_disabled_essos_realm
+        \t\t# Remove noble-family titles before the landed hierarchy disappears.
+        \t\tevery_in_de_jure_hierarchy = {
+        \t\t\tlimit = { exists = holder tier >= tier_duchy }
+        \t\t\tholder = {
+        \t\t\t\tevery_held_title = {
+        \t\t\t\t\tlimit = { is_noble_family_title = yes }
+        \t\t\t\t\tholder = {
+        \t\t\t\t\t\tif = {
+        \t\t\t\t\t\t\tlimit = { is_landed = no }
+        \t\t\t\t\t\t\tevery_courtier_or_guest = {
+        \t\t\t\t\t\t\t\tdeath = { death_reason = death_vanished }
+        \t\t\t\t\t\t\t}
+        \t\t\t\t\t\t}
+        \t\t\t\t\t\tdestroy_title = prev
+        \t\t\t\t\t}
+        \t\t\t\t}
+        \t\t\t\tevery_vassal = {
+        \t\t\t\t\tevery_held_title = {
+        \t\t\t\t\t\tlimit = { is_noble_family_title = yes }
+        \t\t\t\t\t\tholder = {
+        \t\t\t\t\t\t\tif = {
+        \t\t\t\t\t\t\t\tlimit = { is_landed = no }
+        \t\t\t\t\t\t\t\tevery_courtier_or_guest = {
+        \t\t\t\t\t\t\t\t\tdeath = { death_reason = death_vanished }
+        \t\t\t\t\t\t\t\t}
+        \t\t\t\t\t\t\t}
+        \t\t\t\t\t\t\tdestroy_title = prev
+        \t\t\t\t\t\t}
+        \t\t\t\t\t}
+        \t\t\t\t}
+        \t\t\t}
+        \t\t}
+        \t\t# Remove de-jure duchy-and-higher titles before county conversion.
+        \t\tevery_in_de_jure_hierarchy = {
+        \t\t\tlimit = { exists = holder tier >= tier_duchy }
+        \t\t\tholder = { destroy_title = prev }
+        \t\t}
+        \t\t# Clean landless companies whose capital remains inside this realm.
+        \t\tevery_ruler = {
+        \t\t\tlimit = {
+        \t\t\t\tOR = {
+        \t\t\t\t\tis_landless_adventurer = yes
+        \t\t\t\t\tprimary_title = { is_mercenary_company = yes }
+        \t\t\t\t}
+        \t\t\t\texists = capital_province
+        \t\t\t\tcapital_province.county = {
+        \t\t\t\t\tscope:agot_playset_disabled_essos_realm = {
+        \t\t\t\t\t\tis_de_jure_liege_or_above_target = prev
+        \t\t\t\t\t}
+        \t\t\t\t}
+        \t\t\t}
+        \t\t\tevery_courtier_or_guest = {
+        \t\t\t\tdeath = { death_reason = death_vanished }
+        \t\t\t}
+        \t\t\tdestroy_title = primary_title
+        \t\t\tdeath = { death_reason = death_vanished }
+        \t\t}
+        \t\tevery_in_de_jure_hierarchy = {
+        \t\t\tlimit = { tier = tier_county }
+        \t\t\tevery_county_province = {
+        \t\t\t\tagot_remove_realms_remove_special_buildings_effect = yes
+        \t\t\t\tsave_scope_as = agot_playset_disabled_essos_pool_province
+        \t\t\t\tevery_pool_character = {
+        \t\t\t\t\tprovince = scope:agot_playset_disabled_essos_pool_province
+        \t\t\t\t\tdeath = { death_reason = death_vanished }
+        \t\t\t\t}
+        \t\t\t}
+        \t\t\tif = {
+        \t\t\t\tlimit = { exists = holder }
+        \t\t\t\tholder = {
+        \t\t\t\t\tsave_scope_as = agot_playset_disabled_essos_old_holder
+        \t\t\t\t\tif = {
+        \t\t\t\t\t\tlimit = { any_held_title = { tier = tier_county count = 1 } }
+        \t\t\t\t\t\tevery_courtier_or_guest = {
+        \t\t\t\t\t\t\tdeath = { death_reason = death_vanished }
+        \t\t\t\t\t\t}
+        \t\t\t\t\t}
+        \t\t\t\t}
+        \t\t\t\tmake_settlement_county_wilderness = { COUNTY = this }
+        \t\t\t\tscope:agot_playset_disabled_essos_old_holder = {
+        \t\t\t\t\tif = {
+        \t\t\t\t\t\tlimit = { is_ruler = no }
+        \t\t\t\t\t\tdeath = { death_reason = death_vanished }
+        \t\t\t\t\t}
+        \t\t\t\t}
+        \t\t\t}
+        \t\t\telse = {
+        \t\t\t\tmake_settlement_county_wilderness = { COUNTY = this }
+        \t\t\t}
+        \t\t}
+        \t\t# The de-jure iterator excludes the root empire title itself.
+        \t\tif = {
+        \t\t\tlimit = { exists = holder }
+        \t\t\tholder = {
+        \t\t\t\tdestroy_title = prev
+        \t\t\t\tif = {
+        \t\t\t\t\tlimit = { is_ruler = no }
+        \t\t\t\t\tdeath = { death_reason = death_vanished }
+        \t\t\t\t}
+        \t\t\t}
+        \t\t}
+        \t}
+        }
+        """
     )
     write_text(
-        OUTPUT,
-        "common/on_action/zz_essos_disabled_realm_cleanup.txt",
-        on_action_text,
+        OUTPUT, "common/on_action/essos_game_start.txt",
+        normalize_rebased_source(on_action),
     )
     write_text(
-        OUTPUT,
-        "common/scripted_effects/zz_essos_disabled_realm_cleanup_effect.txt",
+        OUTPUT, "common/scripted_effects/essos_family_effects.txt",
+        normalize_rebased_source(family_effects),
+    )
+    write_text(
+        OUTPUT, "common/scripted_effects/zz_essos_disabled_realm_cleanup_effect.txt",
         effect_text,
+    )
+    (OUTPUT / "common/on_action/zz_essos_disabled_realm_cleanup.txt").unlink(
+        missing_ok=True
     )
 
 
@@ -2082,6 +2193,125 @@ def generate_succession_crisis() -> None:
         label="Succession Crisis event optional special-character comparison",
     )
     write_text(OUTPUT, relative, text)
+
+    relative = "common/casus_belli_types/succession_crisis_cb.txt"
+    text = read_text(WORKSHOP / "3713902872" / relative)
+    assert_source_block_hash(
+        text,
+        "succession_crisis_cb",
+        "251ae06b03e802a3f496f7fb4015a165df73c3bbf468834a4b90c36c3ec970b6",
+        label="Succession Crisis casus belli",
+    )
+    text = replace_exact(
+        text,
+        "scope:war = {",
+        "scope:war ?= {",
+        expected=5,
+        label="Succession Crisis optional war scopes",
+    )
+    write_text(OUTPUT, relative, normalize_rebased_source(text))
+
+
+def generate_more_interactive_vassals_war_join_guards() -> None:
+    """Refuse MIV war joins that conflict with any current participant."""
+    relative = "events/interactive_events/interactive_events.txt"
+    text = read_text(WORKSHOP / "2712590542" / relative)
+    assert_source_block_hash(
+        text,
+        "interactive.0007",
+        "9135f5b9aac37842b6e71281041130606bb9a348786e7b4fe6bccb90ad236ddb",
+        label="More Interactive Vassals interactive.0007",
+    )
+    for joiner in ("scope:vassal", "scope:vassals_vassal"):
+        pattern = (
+            r"(?m)^(?P<indent>\t+)limit = \{\n"
+            r"(?P=indent)\tprimary_attacker = \{\n"
+            r"(?P=indent)\t\tNOT = \{\n"
+            rf"(?P=indent)\t\t\tis_at_war_with = {re.escape(joiner)}\n"
+            r"(?P=indent)\t\t\}\n"
+            r"(?P=indent)\t\}\n"
+            r"(?P=indent)\tprimary_defender = \{\n"
+            r"(?P=indent)\t\tNOT = \{\n"
+            rf"(?P=indent)\t\t\tis_at_war_with = {re.escape(joiner)}\n"
+            r"(?P=indent)\t\t\}\n"
+            r"(?P=indent)\t\}\n"
+            r"(?P=indent)\}"
+        )
+        replacement = (
+            "\\g<indent>limit = {\n"
+            f"\\g<indent>\tNOT = {{ any_war_participant = {{ this = {joiner} }} }}\n"
+            f"\\g<indent>\tNOT = {{\n"
+            f"\\g<indent>\t\tany_war_participant = {{\n"
+            f"\\g<indent>\t\t\tis_at_war_with = {joiner}\n"
+            f"\\g<indent>\t\t}}\n"
+            f"\\g<indent>\t}}\n"
+            "\\g<indent>}"
+        )
+        text = replace_regex(
+            text,
+            pattern,
+            replacement,
+            expected=2,
+            label=f"MIV all-participant war guard for {joiner}",
+        )
+    text = replace_exact(
+        text,
+        "vassal_contract_has_flag = has_warden_contract",
+        "always = no # CK3 1.19 has no has_warden_contract definition",
+        expected=3,
+        label="MIV unavailable warden-contract branches",
+    )
+    write_text(OUTPUT, relative, normalize_rebased_source(text))
+
+
+def generate_agot_war_value_guards() -> None:
+    """Make AGOT's house-relation AI score tolerate house-less participants."""
+    relative = "common/script_values/00_war_values.txt"
+    source = read_text(WORKSHOP / "2962333032" / relative)
+    assert_source_block_hash(
+        source,
+        "house_relation_ai_score_value",
+        "5725a0fe1abb147a729742c45c6b164499cc519bff31eb3711cfe87754edce5d",
+        label="AGOT house-relation AI score",
+    )
+    repaired = """house_relation_ai_score_value = {
+\tvalue = 0
+\tif = {
+\t\tlimit = {
+\t\t\texists = scope:attacker.house
+\t\t\texists = scope:defender.house
+\t\t}
+\t\tscope:attacker.house = {
+\t\t\tif = {
+\t\t\t\tlimit = {
+\t\t\t\t\tscope:defender.house = {
+\t\t\t\t\t\tNOT = { this = scope:attacker.house }
+\t\t\t\t\t\thas_house_relation_with = scope:attacker.house
+\t\t\t\t\t}
+\t\t\t\t}
+\t\t\t\tevery_house_relation = {
+\t\t\t\t\tlimit = {
+\t\t\t\t\t\tany_relation_house = { this = scope:defender.house }
+\t\t\t\t\t}
+\t\t\t\t\tif = {
+\t\t\t\t\t\tlimit = { has_house_relation_parameter = less_likely_war_target }
+\t\t\t\t\t\tadd = house_relation_less_likely_war_target_value
+\t\t\t\t\t}
+\t\t\t\t\telse_if = {
+\t\t\t\t\t\tlimit = { has_house_relation_parameter = more_likely_war_target }
+\t\t\t\t\t\tadd = house_relation_more_likely_war_target_value
+\t\t\t\t\t}
+\t\t\t\t}
+\t\t\t}
+\t\t}
+\t}
+}
+"""
+    write_text(
+        OUTPUT,
+        "common/script_values/zz_agot_playset_war_value_guards.txt",
+        repaired,
+    )
 
     relative = (
         "common/scripted_effects/"
@@ -3846,6 +4076,8 @@ def main() -> None:
     generate_artifact_manager_distribution_event()
     generate_additional_models_decision_illustrations()
     generate_succession_crisis()
+    generate_more_interactive_vassals_war_join_guards()
+    generate_agot_war_value_guards()
     generate_artifact_manager_scripted_guis()
     generate_artifact_manager_upgrade_guis()
     generate_advanced_character_search()

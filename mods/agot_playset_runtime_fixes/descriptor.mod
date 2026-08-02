@@ -24,6 +24,7 @@ dependencies={
 	"AGOT: The Knighting Ceremony"
 	"AGOT: House Founders"
 	"Succession Crisis"
+	"More Interactive Vassals"
 	"Any New Traditions"
 	"Any New Traditions Compatibility AGOT"
 	"AGOT Great Councils"

@@ -1,0 +1,70 @@
+﻿########################################
+# ESSOS FAMILY GENERATION
+# Gives spouses and children to all
+# Essos rulers aged 30+ at game start.
+########################################
+
+# Called from essos_generate_families on_action (essos_game_start.txt).
+# This is a thin wrapper that sets the correct scope and delegates to GoT's
+# game_rule_create_spouse_and_children, which handles:
+#   - Creating an opposite-gender spouse (if not already married)
+#   - Creating up to 3 children scaled to the mother's age
+#     (child 1: mother 17+, child 2: mother 25+, child 3: mother 33+)
+
+essos_give_family_effect = {
+	# The dispatcher filters this too; the AGOT helper dereferences
+	# $LOCATION$.location, so direct callers must satisfy this invariant.
+	if = {
+		limit = {
+			is_landed = yes
+			exists = capital_province
+		}
+		# 'this' = the character to give a family to.
+			# Guards throughout prevent double-creation for characters who already have
+			# children (e.g. from history files at later bookmark start dates).
+			save_scope_as = essos_gen_char
+			game_rule_create_spouse_and_children = {
+				CHARACTER = scope:essos_gen_char
+				LOCATION  = scope:essos_gen_char
+			}
+
+			# Level 2 – children of the original character who are aged 30+
+			every_child = {
+				limit = {
+					age >= 30
+					NOT = { any_child = { always = yes } }
+				}
+				save_scope_as = essos_child_1
+				game_rule_create_spouse_and_children = {
+					CHARACTER = scope:essos_child_1
+					LOCATION  = scope:essos_gen_char
+				}
+
+				# Level 3 – grandchildren aged 30+
+				every_child = {
+					limit = {
+						age >= 30
+						NOT = { any_child = { always = yes } }
+					}
+					save_scope_as = essos_child_2
+					game_rule_create_spouse_and_children = {
+						CHARACTER = scope:essos_child_2
+						LOCATION  = scope:essos_gen_char
+					}
+
+					# Level 4 – great-grandchildren aged 30+ (edge case for very old chars)
+					every_child = {
+						limit = {
+							age >= 30
+							NOT = { any_child = { always = yes } }
+						}
+						save_scope_as = essos_child_3
+						game_rule_create_spouse_and_children = {
+							CHARACTER = scope:essos_child_3
+							LOCATION  = scope:essos_gen_char
+						}
+					}
+				}
+			}
+	}
+}

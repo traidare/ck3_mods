@@ -10,16 +10,17 @@ Buildings**, **A Landed Knights Mod**, **Expanded Court Position - Search and
 Recruit**, **[LOT] Legitimacy Over Time**, **The Red Keep (Hegemony Updates)**,
 **Automated Squire Training - AGOT Micro Mod**, **AGOT: The Knighting
 Ceremony**, **AGOT: House Founders**, **Succession Crisis**, **Any New
-Traditions**, **AGOT Great Councils**, **AGOT - Suggest Dragon Bonding**,
-**Adventurer's Beneficiary**, **AGOT: All Men Must Serve**, and **Deadly ck3
-AGOT**. Keep it after **Any New Traditions Compatibility AGOT** and **TEMPORARY
-AGOT Additional Models / AGOT+ / LoV Compatch (1.19 Fixed)** as well. It must
-also load after **Artifact Manager**, **Advanced Character Search**, and
-**Upgrade House Banners 3**, and before the final **AGOT Personal Playset
-Compatch**. For the Essos Expanded repair, it must also load after **Essos
-Expanded** and **Essos Expanded - TempLoV Compatch**. The wilderness conversion
-also requires **Legacy of Valyria - AGOT 0.4.39 Temporary Compatch RC71**, whose
-colonization effect is the effective last writer in this playset.
+Traditions**, **More Interactive Vassals**, **AGOT Great Councils**, **AGOT -
+Suggest Dragon Bonding**, **Adventurer's Beneficiary**, **AGOT: All Men Must
+Serve**, and **Deadly ck3 AGOT**. Keep it after **Any New Traditions
+Compatibility AGOT** and **TEMPORARY AGOT Additional Models / AGOT+ / LoV
+Compatch (1.19 Fixed)** as well. It must also load after **Artifact Manager**,
+**Advanced Character Search**, and **Upgrade House Banners 3**, and before the
+final **AGOT Personal Playset Compatch**. For the Essos Expanded repair, it must
+also load after **Essos Expanded** and **Essos Expanded - TempLoV Compatch**.
+The wilderness conversion also requires **Legacy of Valyria - AGOT 0.4.39
+Temporary Compatch RC71**, whose colonization effect is the effective last
+writer in this playset.
 
 ## Repairs
 
@@ -67,7 +68,17 @@ colonization effect is the effective last writer in this playset.
   `crisis_special_character` scope safe and removes its copied vanilla call to
   `misc.0001`, which AGOT intentionally disables; its copied landless-title
   naming table also follows AGOT by removing the nonexistent Kurdish-culture
-  gate.
+  gate. Its terminal handlers now use optional `scope:war` switches, so CK3 can
+  build victory, defeat, white-peace, and invalidation tooltips without an
+  unavailable war event target.
+- **More Interactive Vassals:** rechecks all participants immediately before
+  each direct or indirect civil-war join. A vassal already in that war, or at
+  war with any current participant, is skipped rather than passed to
+  `add_attacker` or `add_defender`; its three references to the unavailable
+  `has_warden_contract` flag are explicitly false on CK3 1.19.
+- **AGOT war AI:** returns a neutral house-relation score when either war
+  participant has no house, before evaluating the original house-relation
+  scoring logic.
 - **Artifact Manager:** repairs four invalid scripted-GUI saved-scope
   declarations, inlines a bare trigger that could not be defined in a
   scripted-GUI file, and uses the current optional global-variable scope syntax.
@@ -137,22 +148,18 @@ colonization effect is the effective last writer in this playset.
   no later enabled mod owns either effect. Only those two top-level effects are
   redefined; their parent-block hashes and both exact replacements are checked.
   Re-audit after AGOT or CK3 changes either nomadic effect.
-- **Essos Expanded:** adds disabled-realm normalization as the final child of
-  its `essos_remove_realms` dispatcher—after its 27 disabled-realm removals and
-  before its family generation. AGOT's `agot_remove_realm_effect` transfers
-  every county to its hidden `d_unknown` holder while destroying only
-  duchy-and-higher titles, and also leaves the root `e_*` title and its original
-  holder. Destroying the transferred counties proved unstable: CK3 recreated
-  landed de jure counties and later failed to move them away from
-  `Local_Rulers`. The replacement converts every disabled county through the
-  effective LoV `make_settlement_county_wilderness` effect, giving it to the
-  guarded wilderness holder, normalizing its holdings and county state, and
-  running LoV's dummy-ruler relocation before the leftover root is destroyed.
-  This repair only runs when the corresponding Essos Expanded game rule is
-  disabled; enabled realms are untouched. The generator pins LoV's effective
-  wilderness effect and Essos Expanded's startup dispatcher. Re-audit when
-  Workshop `3719888822` changes the wilderness effect, Workshop `3682802751`
-  changes disabled-realm startup, or AGOT changes `agot_remove_realm_effect`.
+- **Essos Expanded:** replaces each of its 27 disabled-realm calls to
+  `agot_remove_realm_effect` with a direct wilderness initializer. It preserves
+  AGOT's noble-title, court, province-pool, landless-company, and title cleanup,
+  but converts every county straight through the effective LoV
+  `make_settlement_county_wilderness` effect—never through `c_unknown` or
+  `Local_Rulers`. The disabled root title is then removed with its now-unlanded
+  former holder. Family generation runs after the lobby, only for landed,
+  capital-valid rulers in enabled Essos realms; every recursive generation uses
+  that valid ruler as its court location. The generator pins the Essos startup
+  and family blocks, AGOT removal semantics, and LoV wilderness effect. Re-audit
+  when Workshops `3682802751`, `2962333032`, or `3719888822` change those
+  blocks.
 - **Tour pulse:** makes the vanilla monthly pulse a no-op when MFA relays it
   before the activity has a `stop_host` variable, rather than dereferencing the
   missing itinerary stop.
