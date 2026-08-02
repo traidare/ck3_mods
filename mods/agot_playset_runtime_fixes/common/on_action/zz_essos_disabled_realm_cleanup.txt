@@ -14,137 +14,137 @@ agot_playset_cleanup_disabled_essos_roots = {
 	effect = {
 		if = {
 			limit = { has_game_rule = essos_empire_bloodless_men_disabled }
-			agot_playset_destroy_disabled_essos_subordinate_titles = { REALM = title:e_bloodless_men }
+			agot_playset_convert_disabled_essos_counties_to_wilderness = { REALM = title:e_bloodless_men }
 			agot_playset_destroy_disabled_essos_root = { REALM = title:e_bloodless_men }
 		}
 		if = {
 			limit = { has_game_rule = essos_empire_cannibal_sands_disabled }
-			agot_playset_destroy_disabled_essos_subordinate_titles = { REALM = title:e_cannibal_sands }
+			agot_playset_convert_disabled_essos_counties_to_wilderness = { REALM = title:e_cannibal_sands }
 			agot_playset_destroy_disabled_essos_root = { REALM = title:e_cannibal_sands }
 		}
 		if = {
 			limit = { has_game_rule = essos_empire_hidden_sea_disabled }
-			agot_playset_destroy_disabled_essos_subordinate_titles = { REALM = title:e_hidden_sea }
+			agot_playset_convert_disabled_essos_counties_to_wilderness = { REALM = title:e_hidden_sea }
 			agot_playset_destroy_disabled_essos_root = { REALM = title:e_hidden_sea }
 		}
 		if = {
 			limit = { has_game_rule = essos_empire_ibben_disabled }
-			agot_playset_destroy_disabled_essos_subordinate_titles = { REALM = title:e_ibben }
+			agot_playset_convert_disabled_essos_counties_to_wilderness = { REALM = title:e_ibben }
 			agot_playset_destroy_disabled_essos_root = { REALM = title:e_ibben }
 		}
 		if = {
 			limit = { has_game_rule = essos_empire_ifequevron_disabled }
-			agot_playset_destroy_disabled_essos_subordinate_titles = { REALM = title:e_ifequevron }
+			agot_playset_convert_disabled_essos_counties_to_wilderness = { REALM = title:e_ifequevron }
 			agot_playset_destroy_disabled_essos_root = { REALM = title:e_ifequevron }
 		}
 		if = {
 			limit = { has_game_rule = essos_empire_lesser_moraq_disabled }
-			agot_playset_destroy_disabled_essos_subordinate_titles = { REALM = title:e_lesser_moraq }
+			agot_playset_convert_disabled_essos_counties_to_wilderness = { REALM = title:e_lesser_moraq }
 			agot_playset_destroy_disabled_essos_root = { REALM = title:e_lesser_moraq }
 		}
 		if = {
 			limit = { has_game_rule = essos_empire_lorath_disabled }
-			agot_playset_destroy_disabled_essos_subordinate_titles = { REALM = title:e_lorath }
+			agot_playset_convert_disabled_essos_counties_to_wilderness = { REALM = title:e_lorath }
 			agot_playset_destroy_disabled_essos_root = { REALM = title:e_lorath }
 		}
 		if = {
 			limit = { has_game_rule = essos_empire_mossovy_disabled }
-			agot_playset_destroy_disabled_essos_subordinate_titles = { REALM = title:e_mossovy }
+			agot_playset_convert_disabled_essos_counties_to_wilderness = { REALM = title:e_mossovy }
 			agot_playset_destroy_disabled_essos_root = { REALM = title:e_mossovy }
 		}
 		if = {
 			limit = { has_game_rule = essos_empire_naath_disabled }
-			agot_playset_destroy_disabled_essos_subordinate_titles = { REALM = title:e_naath }
+			agot_playset_convert_disabled_essos_counties_to_wilderness = { REALM = title:e_naath }
 			agot_playset_destroy_disabled_essos_root = { REALM = title:e_naath }
 		}
 		if = {
 			limit = { has_game_rule = essos_empire_norvos_disabled }
-			agot_playset_destroy_disabled_essos_subordinate_titles = { REALM = title:e_norvos }
+			agot_playset_convert_disabled_essos_counties_to_wilderness = { REALM = title:e_norvos }
 			agot_playset_destroy_disabled_essos_root = { REALM = title:e_norvos }
 		}
 		if = {
 			limit = { has_game_rule = essos_empire_omber_disabled }
-			agot_playset_destroy_disabled_essos_subordinate_titles = { REALM = title:e_omber }
+			agot_playset_convert_disabled_essos_counties_to_wilderness = { REALM = title:e_omber }
 			agot_playset_destroy_disabled_essos_root = { REALM = title:e_omber }
 		}
 		if = {
 			limit = { has_game_rule = essos_empire_qohor_disabled }
-			agot_playset_destroy_disabled_essos_subordinate_titles = { REALM = title:e_qohor }
+			agot_playset_convert_disabled_essos_counties_to_wilderness = { REALM = title:e_qohor }
 			agot_playset_destroy_disabled_essos_root = { REALM = title:e_qohor }
 		}
 		if = {
 			limit = { has_game_rule = essos_empire_sarnor_disabled }
-			agot_playset_destroy_disabled_essos_subordinate_titles = { REALM = title:e_sarnor }
+			agot_playset_convert_disabled_essos_counties_to_wilderness = { REALM = title:e_sarnor }
 			agot_playset_destroy_disabled_essos_root = { REALM = title:e_sarnor }
 		}
 		if = {
 			limit = { has_game_rule = essos_empire_sothoryos_disabled }
-			agot_playset_destroy_disabled_essos_subordinate_titles = { REALM = title:e_sothoryos }
+			agot_playset_convert_disabled_essos_counties_to_wilderness = { REALM = title:e_sothoryos }
 			agot_playset_destroy_disabled_essos_root = { REALM = title:e_sothoryos }
 		}
 		if = {
 			limit = { has_game_rule = essos_empire_summer_isles_disabled }
-			agot_playset_destroy_disabled_essos_subordinate_titles = { REALM = title:e_summer_isles }
+			agot_playset_convert_disabled_essos_counties_to_wilderness = { REALM = title:e_summer_isles }
 			agot_playset_destroy_disabled_essos_root = { REALM = title:e_summer_isles }
 		}
 		if = {
 			limit = { has_game_rule = essos_empire_thousand_islands_disabled }
-			agot_playset_destroy_disabled_essos_subordinate_titles = { REALM = title:e_thousand_islands }
+			agot_playset_convert_disabled_essos_counties_to_wilderness = { REALM = title:e_thousand_islands }
 			agot_playset_destroy_disabled_essos_root = { REALM = title:e_thousand_islands }
 		}
 		if = {
 			limit = { has_game_rule = essos_empire_ulthos_disabled }
-			agot_playset_destroy_disabled_essos_subordinate_titles = { REALM = title:e_ulthos }
+			agot_playset_convert_disabled_essos_counties_to_wilderness = { REALM = title:e_ulthos }
 			agot_playset_destroy_disabled_essos_root = { REALM = title:e_ulthos }
 		}
 		if = {
 			limit = { has_game_rule = essos_empire_upper_sarne_dothraki_disabled }
-			agot_playset_destroy_disabled_essos_subordinate_titles = { REALM = title:e_upper_sarne_dothraki }
+			agot_playset_convert_disabled_essos_counties_to_wilderness = { REALM = title:e_upper_sarne_dothraki }
 			agot_playset_destroy_disabled_essos_root = { REALM = title:e_upper_sarne_dothraki }
 		}
 		if = {
 			limit = { has_game_rule = essos_empire_lower_sarne_dothraki_disabled }
-			agot_playset_destroy_disabled_essos_subordinate_titles = { REALM = title:e_lower_sarne_dothraki }
+			agot_playset_convert_disabled_essos_counties_to_wilderness = { REALM = title:e_lower_sarne_dothraki }
 			agot_playset_destroy_disabled_essos_root = { REALM = title:e_lower_sarne_dothraki }
 		}
 		if = {
 			limit = { has_game_rule = essos_empire_great_grass_sea_dothraki_disabled }
-			agot_playset_destroy_disabled_essos_subordinate_titles = { REALM = title:e_great_grass_sea_dothraki }
+			agot_playset_convert_disabled_essos_counties_to_wilderness = { REALM = title:e_great_grass_sea_dothraki }
 			agot_playset_destroy_disabled_essos_root = { REALM = title:e_great_grass_sea_dothraki }
 		}
 		if = {
 			limit = { has_game_rule = essos_empire_bone_mountain_dothraki_disabled }
-			agot_playset_destroy_disabled_essos_subordinate_titles = { REALM = title:e_bone_mountain_dothraki }
+			agot_playset_convert_disabled_essos_counties_to_wilderness = { REALM = title:e_bone_mountain_dothraki }
 			agot_playset_destroy_disabled_essos_root = { REALM = title:e_bone_mountain_dothraki }
 		}
 		if = {
 			limit = { has_game_rule = essos_empire_lhazar_disabled }
-			agot_playset_destroy_disabled_essos_subordinate_titles = { REALM = title:e_lhazar }
+			agot_playset_convert_disabled_essos_counties_to_wilderness = { REALM = title:e_lhazar }
 			agot_playset_destroy_disabled_essos_root = { REALM = title:e_lhazar }
 		}
 		if = {
 			limit = { has_game_rule = essos_empire_qarth_disabled }
-			agot_playset_destroy_disabled_essos_subordinate_titles = { REALM = title:e_qarth }
+			agot_playset_convert_disabled_essos_counties_to_wilderness = { REALM = title:e_qarth }
 			agot_playset_destroy_disabled_essos_root = { REALM = title:e_qarth }
 		}
 		if = {
 			limit = { has_game_rule = essos_empire_golden_yi_ti_disabled }
-			agot_playset_destroy_disabled_essos_subordinate_titles = { REALM = title:e_golden_yi_ti }
+			agot_playset_convert_disabled_essos_counties_to_wilderness = { REALM = title:e_golden_yi_ti }
 			agot_playset_destroy_disabled_essos_root = { REALM = title:e_golden_yi_ti }
 		}
 		if = {
 			limit = { has_game_rule = essos_empire_jogos_nhai_disabled }
-			agot_playset_destroy_disabled_essos_subordinate_titles = { REALM = title:e_jogos_nhai }
+			agot_playset_convert_disabled_essos_counties_to_wilderness = { REALM = title:e_jogos_nhai }
 			agot_playset_destroy_disabled_essos_root = { REALM = title:e_jogos_nhai }
 		}
 		if = {
 			limit = { has_game_rule = essos_empire_great_moraq_disabled }
-			agot_playset_destroy_disabled_essos_subordinate_titles = { REALM = title:e_great_moraq }
+			agot_playset_convert_disabled_essos_counties_to_wilderness = { REALM = title:e_great_moraq }
 			agot_playset_destroy_disabled_essos_root = { REALM = title:e_great_moraq }
 		}
 		if = {
 			limit = { has_game_rule = essos_empire_leng_disabled }
-			agot_playset_destroy_disabled_essos_subordinate_titles = { REALM = title:e_leng }
+			agot_playset_convert_disabled_essos_counties_to_wilderness = { REALM = title:e_leng }
 			agot_playset_destroy_disabled_essos_root = { REALM = title:e_leng }
 		}
 	}

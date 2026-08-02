@@ -1,24 +1,16 @@
-﻿# AGOT's realm cleanup transfers county titles to d_unknown but only
-# destroys duchy-and-higher titles. Remove those county remnants before
-# destroying the disabled empire title that it also leaves behind.
-agot_playset_destroy_disabled_essos_subordinate_titles = {
+﻿# AGOT's realm cleanup first transfers these counties to d_unknown. County
+# destruction is not stable for landed de jure titles: CK3 can recreate them
+# and later fail to move them away from Local_Rulers. Use the effective LoV
+# wilderness conversion so holder, holdings, faith/culture, development, and
+# LoV dummy-ruler location state are updated as one supported operation.
+agot_playset_convert_disabled_essos_counties_to_wilderness = {
 	$REALM$ = {
 		every_in_de_jure_hierarchy = {
 			limit = {
 				tier = tier_county
 				exists = holder
 			}
-			add_to_temporary_list = agot_playset_disabled_essos_county_titles
-		}
-		every_in_list = {
-			list = agot_playset_disabled_essos_county_titles
-			holder = {
-				destroy_title = prev
-				if = {
-					limit = { is_ruler = no }
-					death = { death_reason = death_vanished }
-				}
-			}
+			make_settlement_county_wilderness = { COUNTY = this }
 		}
 	}
 }

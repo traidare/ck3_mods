@@ -17,7 +17,9 @@ AGOT Additional Models / AGOT+ / LoV Compatch (1.19 Fixed)** as well. It must
 also load after **Artifact Manager**, **Advanced Character Search**, and
 **Upgrade House Banners 3**, and before the final **AGOT Personal Playset
 Compatch**. For the Essos Expanded repair, it must also load after **Essos
-Expanded** and **Essos Expanded - TempLoV Compatch**.
+Expanded** and **Essos Expanded - TempLoV Compatch**. The wilderness conversion
+also requires **Legacy of Valyria - AGOT 0.4.39 Temporary Compatch RC71**, whose
+colonization effect is the effective last writer in this playset.
 
 ## Repairs
 
@@ -135,17 +137,22 @@ Expanded** and **Essos Expanded - TempLoV Compatch**.
   no later enabled mod owns either effect. Only those two top-level effects are
   redefined; their parent-block hashes and both exact replacements are checked.
   Re-audit after AGOT or CK3 changes either nomadic effect.
-- **Essos Expanded:** adds root-title cleanup as the final child of its
-  `essos_remove_realms` dispatcher—after its 27 disabled-realm removals and
+- **Essos Expanded:** adds disabled-realm normalization as the final child of
+  its `essos_remove_realms` dispatcher—after its 27 disabled-realm removals and
   before its family generation. AGOT's `agot_remove_realm_effect` transfers
   every county to its hidden `d_unknown` holder while destroying only
   duchy-and-higher titles, and also leaves the root `e_*` title and its original
-  holder. The cleanup destroys the transferred county remnants before the root,
-  preventing the generated `Local_Rulers` / `d_unknown` failures and the
-  apparent `MISSING_TITLE_LOC` rulers in disabled regions. This repair only runs
-  when the corresponding Essos Expanded game rule is disabled; enabled realms
-  are untouched. Re-audit when either parent changes its disabled-realm startup
-  dispatcher or AGOT changes `agot_remove_realm_effect`.
+  holder. Destroying the transferred counties proved unstable: CK3 recreated
+  landed de jure counties and later failed to move them away from
+  `Local_Rulers`. The replacement converts every disabled county through the
+  effective LoV `make_settlement_county_wilderness` effect, giving it to the
+  guarded wilderness holder, normalizing its holdings and county state, and
+  running LoV's dummy-ruler relocation before the leftover root is destroyed.
+  This repair only runs when the corresponding Essos Expanded game rule is
+  disabled; enabled realms are untouched. The generator pins LoV's effective
+  wilderness effect and Essos Expanded's startup dispatcher. Re-audit when
+  Workshop `3719888822` changes the wilderness effect, Workshop `3682802751`
+  changes disabled-realm startup, or AGOT changes `agot_remove_realm_effect`.
 - **Tour pulse:** makes the vanilla monthly pulse a no-op when MFA relays it
   before the activity has a `stop_host` variable, rather than dereferencing the
   missing itinerary stop.
@@ -202,6 +209,7 @@ update to Workshop IDs `2962333032`, `3361162762`, `2967263410`, `3713902872`,
 `3437814875`, `3709868073`, `3541596590`, `3719888822`, or `2971198450`, and
 after CK3 updates that change `04_dlc_ep2_tour_effects.txt`. Re-run it after
 updates to `3682802751` because the Essos cleanup validates that parent's game
-rules and startup actions. Re-run it after updates to `3762892081` because the
-generated court-scene selector follows that compatch's current room-routing
-rules.
+rules and startup actions, and after updates to `3719888822` because the same
+repair is pinned to LoV's effective wilderness-conversion effect. Re-run it
+after updates to `3762892081` because the generated court-scene selector follows
+that compatch's current room-routing rules.

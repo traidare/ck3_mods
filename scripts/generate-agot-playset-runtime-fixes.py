@@ -767,7 +767,7 @@ def generate_kurultai_succession_scope_repairs() -> None:
 
 
 def generate_essos_disabled_realm_cleanup() -> None:
-    """Remove Essos Expanded root titles left by AGOT realm cleanup."""
+    """Convert disabled Essos Expanded realms to LoV-compatible wilderness."""
     realms = (
         "bloodless_men",
         "cannibal_sands",
@@ -803,6 +803,22 @@ def generate_essos_disabled_realm_cleanup() -> None:
     on_action = read_text(
         WORKSHOP / "3682802751/common/on_action/essos_game_start.txt"
     )
+    lov_colonization = read_text(
+        WORKSHOP
+        / "3719888822/common/scripted_effects/00_agot_colonization_effects.txt"
+    )
+    wilderness_effect = extract_top_level_block(
+        lov_colonization, "make_settlement_county_wilderness"
+    )
+    expected_wilderness_hash = (
+        "4bac248019f401289eac2f39e1e10c5bcd7bd7142db32ef5744af82a9066580b"
+    )
+    actual_wilderness_hash = hashlib.sha256(wilderness_effect.encode()).hexdigest()
+    if actual_wilderness_hash != expected_wilderness_hash:
+        raise RuntimeError(
+            "LoV wilderness conversion changed: "
+            f"expected {expected_wilderness_hash}, found {actual_wilderness_hash}"
+        )
     if on_action.count("essos_remove_realms = {") != 1:
         raise RuntimeError(
             "Essos Expanded startup dispatcher changed: expected one "
@@ -838,7 +854,7 @@ def generate_essos_disabled_realm_cleanup() -> None:
         cleanup_blocks.append(
             "\t\tif = {\n"
             f"\t\t\tlimit = {{ has_game_rule = essos_empire_{realm}_disabled }}\n"
-            f"\t\t\tagot_playset_destroy_disabled_essos_subordinate_titles = {{ REALM = title:e_{realm} }}\n"
+            f"\t\t\tagot_playset_convert_disabled_essos_counties_to_wilderness = {{ REALM = title:e_{realm} }}\n"
             f"\t\t\tagot_playset_destroy_disabled_essos_root = {{ REALM = title:e_{realm} }}\n"
             "\t\t}"
         )
@@ -862,27 +878,19 @@ def generate_essos_disabled_realm_cleanup() -> None:
         "}\n"
     )
     effect_text = (
-        "# AGOT's realm cleanup transfers county titles to d_unknown but only\n"
-        "# destroys duchy-and-higher titles. Remove those county remnants before\n"
-        "# destroying the disabled empire title that it also leaves behind.\n"
-        "agot_playset_destroy_disabled_essos_subordinate_titles = {\n"
+        "# AGOT's realm cleanup first transfers these counties to d_unknown. County\n"
+        "# destruction is not stable for landed de jure titles: CK3 can recreate them\n"
+        "# and later fail to move them away from Local_Rulers. Use the effective LoV\n"
+        "# wilderness conversion so holder, holdings, faith/culture, development, and\n"
+        "# LoV dummy-ruler location state are updated as one supported operation.\n"
+        "agot_playset_convert_disabled_essos_counties_to_wilderness = {\n"
         "\t$REALM$ = {\n"
         "\t\tevery_in_de_jure_hierarchy = {\n"
         "\t\t\tlimit = {\n"
         "\t\t\t\ttier = tier_county\n"
         "\t\t\t\texists = holder\n"
         "\t\t\t}\n"
-        "\t\t\tadd_to_temporary_list = agot_playset_disabled_essos_county_titles\n"
-        "\t\t}\n"
-        "\t\tevery_in_list = {\n"
-        "\t\t\tlist = agot_playset_disabled_essos_county_titles\n"
-        "\t\t\tholder = {\n"
-        "\t\t\t\tdestroy_title = prev\n"
-        "\t\t\t\tif = {\n"
-        "\t\t\t\t\tlimit = { is_ruler = no }\n"
-        "\t\t\t\t\tdeath = { death_reason = death_vanished }\n"
-        "\t\t\t\t}\n"
-        "\t\t\t}\n"
+        "\t\t\tmake_settlement_county_wilderness = { COUNTY = this }\n"
         "\t\t}\n"
         "\t}\n"
         "}\n"
