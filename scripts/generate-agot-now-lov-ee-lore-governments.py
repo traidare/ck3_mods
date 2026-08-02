@@ -601,7 +601,7 @@ def transform_effect(text: str) -> str:
     if "### LORE GOVERNMENT INTEGRATION ###" in text:
         raise AssertionError("map compatch input already contains lore integration")
     text = text.replace(
-        "# NOW 1.2.4 + LoV RC65 + Essos Expanded 1.0.3 semantic merge.",
+        "# NOW 1.2.4 + LoV RC71 + Essos Expanded 1.0.3 semantic merge.",
         "# NOW + LoV + Essos Expanded lore-government integration.",
         1,
     )

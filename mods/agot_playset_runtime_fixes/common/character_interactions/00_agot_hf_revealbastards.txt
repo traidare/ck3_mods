@@ -30,27 +30,20 @@
 	is_shown = {
 		exists = scope:recipient.real_father
 		trigger_if = {
-			limit = { scope:recipient = { real_paternal_held_iron_throne_claim = yes } }
-			OR = {
-				scope:recipient.father = scope:recipient.real_father
-				scope:recipient.father.father = scope:recipient.real_father.father
-				scope:recipient.father.mother = scope:recipient.real_father.mother
-			}
-		}
-		trigger_if = {
 			limit = { scope:actor = { is_ai = yes }	}
 			has_game_rule = agot_hf_revealbastard_enabled
 		}
 		trigger_if = {
 			limit = { scope:actor = { is_ai = yes }	}
+			exists = scope:recipient.top_liege.primary_title
 			scope:recipient.top_liege ?= {
 				primary_title ?= {
-					NOT = {
-						has_variable = agot_hf_revealbastard_started_ai
-					}
+					NOT = { has_variable = agot_hf_revealbastard_started_ai }
 				}
 			}
 		}
+
+		scope:recipient = { NOT = { has_character_flag = agot_hf_royal_bastard } }
 
 		scope:actor = {
 			NOT = { has_trait = incapable }

@@ -20,15 +20,6 @@ also load after **Essos Expanded** and **Essos Expanded - TempLoV Compatch**.
 
 ## Repairs
 
-- **Battle Graphics AGOT Compatibility Patch:** rebases Battle Graphics' two
-  additive flag-animation effects onto AGOT 0.4.40's current `pdxmesh` and court
-  shaders. The stale parent shader still called removed `GH_*` helpers, causing
-  13,194 Vulkan compile errors, 6,769 failed materials, invisible character
-  bodies, and long shader-compilation stalls in the 2026-07-31 fresh-game run.
-- **AGOT : Seasons of Ice and Fire:** updates its four seasonal tree shaders
-  from AGOT's removed `GH_*` shader interface to the current `AGOT_*` names. The
-  stale shaders caused all 242 undeclared-identifier compiler errors and 88
-  failed materials still present in the 19:40 retry.
 - **Mari's AGOT Makeovers:** removes 1,173 obsolete `gene_GH_marker_*` bookmark
   and DNA entries plus eight references to the removed earrings gene, and
   deletes a stray backtick that made the rest of Aegon V's DNA block fail to
@@ -44,10 +35,8 @@ also load after **Essos Expanded** and **Essos Expanded - TempLoV Compatch**.
 - **Upgrade House Banners 3:** restores the already-localized close option to
   its visible house-banner rarity event. CK3 reported the event as having no
   options, allowing it to open as an empty blocking popup.
-- **Additional Models / AGOT+ / LoV:** suppresses the base Additional Models
-  dynasty on-action file because the later required compatch republishes the
-  same three definitions under another filename together with its LoV-specific
-  weapon setup. This prevents CK3 from discarding duplicate `effect` blocks.
+- **Additional Models / AGOT+ / LoV:** the rebuilt compatch owns its LoV-aware
+  artifact setup.
 - **A Landed Knights Mod:** replaces the nonexistent `is_army_owner` trigger and
   makes the father comparison safe for fatherless knights.
 - **Expanded Court Position:** replaces obsolete `grumpy`, `depressed`, and
@@ -99,10 +88,7 @@ also load after **Essos Expanded** and **Essos Expanded - TempLoV Compatch**.
   are preserved. Its main window is now hidden until a valid player exists, and
   its filter state is initialized from the guarded in-game scripted GUI rather
   than only from a widget that can be created before the game state. The
-  initializer's malformed global-list iterator is repaired as well. This
-  prevents the empty startup window and the 92 `acs_window:effect` failures for
-  the missing `acs_gv_main_filters` scope that immediately preceded the 19:40
-  SIGSEGV.
+  initializer's malformed global-list iterator is repaired as well.
 - **Any New Traditions:** makes dynasty-modifier checks safe for characters
   without a dynasty, repairs two malformed `OR` blocks, and restores four
   renown-grant effects that incorrectly used a comparison operator.
@@ -141,16 +127,18 @@ also load after **Essos Expanded** and **Essos Expanded - TempLoV Compatch**.
   Asian fallbacks so those generic scenes cannot preempt a dedicated AMSB room.
 - **AGOT startup maintenance:** excludes rulers without capital counties from
   maester seeding and rulers without capital provinces from the Westerosi
-  starting-legitimacy branch. The legitimacy repair now replaces AGOT's exact
-  source path so it does not register a second copy of the named on-action.
-- **Essos Expanded:** removes each disabled Essos empire's root title after
-  Essos Expanded's game-start cleanup. AGOT's `agot_remove_realm_effect`
-  destroys the subordinate titles and holdings but leaves the root `e_*` title
-  and its original holder, producing the observed `history.cpp:504` “should hold
-  at least one landed title” errors and “primary title ... has no capital”
-  errors for rulers such as Ahroth, Sareth, and Azraan. This repair only runs
+  starting-legitimacy branch.
+- **Essos Expanded:** adds root-title cleanup as the final child of its
+  `essos_remove_realms` dispatcher—after its 27 disabled-realm removals and
+  before its family generation. AGOT's `agot_remove_realm_effect` transfers
+  every county to its hidden `d_unknown` holder while destroying only
+  duchy-and-higher titles, and also leaves the root `e_*` title and its original
+  holder. The cleanup destroys the transferred county remnants before the root,
+  preventing the generated `Local_Rulers` / `d_unknown` failures and the
+  apparent `MISSING_TITLE_LOC` rulers in disabled regions. This repair only runs
   when the corresponding Essos Expanded game rule is disabled; enabled realms
-  are untouched.
+  are untouched. Re-audit when either parent changes its disabled-realm startup
+  dispatcher or AGOT changes `agot_remove_realm_effect`.
 - **Tour pulse:** makes the vanilla monthly pulse a no-op when MFA relays it
   before the activity has a `stop_host` variable, rather than dereferencing the
   missing itinerary stop.

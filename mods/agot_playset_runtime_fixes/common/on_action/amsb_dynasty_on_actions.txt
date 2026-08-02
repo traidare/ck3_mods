@@ -1,4 +1,0 @@
-﻿# Intentionally empty. The later Additional Models/AGOT+/LoV compatch
-# supplies these definitions plus its LoV-specific weapon setup under
-# common/on_action/amsb_artifact_on_actions.txt. Loading both causes CK3
-# to discard one of each duplicate on-action effect.

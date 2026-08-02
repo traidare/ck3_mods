@@ -355,7 +355,7 @@ with tempfile.TemporaryDirectory() as td:
         merged_output = resolve_agot_0440_title_conflicts(merged_output)
     assert "<<<<<<<" not in merged_output
     merged = merged_output.rstrip("\n")
-header = "# NOW 1.2.4 + LoV RC65 + Essos Expanded 1.0.3 semantic merge.\n# Preserves the LoV/EE government dispatcher and NOW title-localization delta.\n"
+header = "# NOW 1.2.4 + LoV RC71 + Essos Expanded 1.0.3 semantic merge.\n# Preserves the LoV/EE government dispatcher and NOW title-localization delta.\n"
 write(
     "common/scripted_effects/replace/00_agot_character_data_effects.txt",
     header + ours[:os] + merged + ours[oe:],

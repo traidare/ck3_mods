@@ -172,7 +172,6 @@ c_astapor = {
 # NAKLOZ DOMAINS
 c_slavers_road = {
 	7849.1.1 = {
-		liege = d_astapor
 		holder = Nakloz_1
 		effect = {
 			add_county_modifier = slave_pop_4
@@ -210,7 +209,6 @@ c_slavers_road = {
 # MAZLAQ DOMAINS
 c_ghiscar_point = {
 	7860.1.1 = {
-		liege = d_astapor
 		government = oligarchic_government
 		holder = Mazlaq_1
 		effect = {
@@ -247,7 +245,6 @@ c_ghiscar_point = {
 }
 c_marghadhan = {
 	7860.1.1 = {
-		liege = d_astapor
 		holder = Mazlaq_1
 		effect = {
 			add_county_modifier = slave_pop_2
@@ -283,7 +280,6 @@ c_marghadhan = {
 }
 c_kirsadh = {
 	7860.1.1 = {
-		liege = d_astapor
 		holder = Mazlaq_1
 		effect = {
 			add_county_modifier = slave_pop_2
@@ -322,7 +318,6 @@ c_kirsadh = {
 # ULLHOR DOMAINS
 c_dhozai = {
 	7872.1.1 = {
-		liege = d_astapor
 		government = oligarchic_government
 		holder = Ullhor_1
 		effect = {
@@ -358,7 +353,6 @@ c_dhozai = {
 }
 c_khorvash = {
 	7872.1.1 = {
-		liege = d_astapor
 		holder = Ullhor_1
 		effect = {
 			add_county_modifier = slave_pop_3
@@ -393,7 +387,6 @@ c_khorvash = {
 }
 c_ghadron = {
 	7872.1.1 = {
-		liege = d_astapor
 		holder = Ullhor_1
 		effect = {
 			add_county_modifier = slave_pop_3
@@ -430,7 +423,6 @@ c_ghadron = {
 # GRAZDHAN DOMAINS
 c_gadhis = {
 	7860.1.1 = { # Grazdan (nc)
-		liege = d_astapor
 		government = oligarchic_government
 		holder = Grazdhan_1
 		effect = {
@@ -468,7 +460,6 @@ c_gadhis = {
 # GRAZLAR DOMAINS
 c_horns_of_hazzat = {
 	7865.1.1 = {
-		liege = d_astapor
 		government = oligarchic_government
 		holder = Grazlar_1
 		effect = {
@@ -506,7 +497,6 @@ c_horns_of_hazzat = {
 }
 c_jharazil = {
 	7865.1.1 = {
-		liege = d_astapor
 		holder = Grazlar_1
 		effect = {
 			add_county_modifier = slave_pop_3

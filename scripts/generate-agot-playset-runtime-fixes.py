@@ -317,65 +317,8 @@ def game_root() -> Path:
     return root
 
 
-def generate_battle_graphics_agot_shaders() -> None:
-    """Rebase Battle Graphics' two additive effects onto current AGOT shaders."""
-    addition_marker = "# ACG Addition start"
-    stale_signatures = {
-        "gfx/FX/pdxmesh.shader": (
-            '"gh_pdxmesh.fxh"',
-            "GH_RETRIEVE_AND_FILTER_TERRAIN_VARIANT_STANDARD;",
-        ),
-        "gfx/FX/court_scene.shader": (
-            '"gh_pdxmesh_court_scene.fxh"',
-        ),
-    }
-    for relative, signatures in stale_signatures.items():
-        agot = read_text(WORKSHOP / "2962333032" / relative)
-        battle_graphics = read_text(WORKSHOP / "3225355262" / relative)
-        stale_compatch = read_text(WORKSHOP / "3235061780" / relative)
-
-        if addition_marker in agot:
-            raise RuntimeError(
-                f"AGOT now supplies the Battle Graphics addition in {relative}"
-            )
-        if battle_graphics.count(addition_marker) != 1:
-            raise RuntimeError(
-                f"Battle Graphics addition changed in {relative}"
-            )
-        if stale_compatch.count(addition_marker) != 1:
-            raise RuntimeError(
-                f"Battle Graphics AGOT compatch addition changed in {relative}"
-            )
-        for signature in signatures:
-            if stale_compatch.count(signature) != 1:
-                raise RuntimeError(
-                    f"Battle Graphics AGOT stale shader signature changed in "
-                    f"{relative}: {signature}"
-                )
-            if signature in agot:
-                raise RuntimeError(
-                    f"AGOT now uses the compatch shader signature in {relative}: "
-                    f"{signature}"
-                )
-
-        addition = battle_graphics[battle_graphics.index(addition_marker) :]
-        compatch_addition = stale_compatch[
-            stale_compatch.index(addition_marker) :
-        ]
-        if addition.strip() != compatch_addition.strip():
-            raise RuntimeError(
-                f"Battle Graphics additions disagree in {relative}"
-            )
-        write_text(
-            OUTPUT,
-            relative,
-            f"{agot.rstrip()}\n\n{addition.rstrip()}\n",
-            preserve_trailing_whitespace=True,
-        )
-
-
 def generate_seasons_agot_shaders() -> None:
-    """Rename the removed AGOT GH shader interface in seasonal tree shaders."""
+    """Repair legacy Seasons shaders or retire the superseded local override."""
     seasons = WORKSHOP / "3377641022"
     current_tree = read_text(WORKSHOP / "2962333032/gfx/FX/tree.shader")
     include_renames = {
@@ -402,34 +345,58 @@ def generate_seasons_agot_shaders() -> None:
     for filename in filenames:
         relative = f"gfx/FX/{filename}"
         text = read_text(seasons / relative)
-        for stale, current in include_renames.items():
+        stale_includes = sum(text.count(f'"{stale}"') for stale in include_renames)
+        if stale_includes:
+            if stale_includes != len(include_renames):
+                raise RuntimeError(
+                    f"Seasons shader interface is partially rebased: {filename}"
+                )
+            for stale, current in include_renames.items():
+                text = replace_exact(
+                    text,
+                    f'"{stale}"',
+                    f'"{current}"',
+                    expected=1,
+                    label=f"Seasons shader include {stale} in {filename}",
+                )
+            text = replace_regex(
+                text,
+                r"\bGH_",
+                "AGOT_",
+                expected=10,
+                label=f"Seasons AGOT shader symbols in {filename}",
+            )
             text = replace_exact(
                 text,
-                f'"{stale}"',
-                f'"{current}"',
-                expected=1,
-                label=f"Seasons shader include {stale} in {filename}",
+                "MOD(godherja)",
+                "MOD(agot)",
+                expected=8,
+                label=f"Seasons AGOT shader annotations in {filename}",
             )
-        text = replace_regex(
-            text,
-            r"\bGH_",
-            "AGOT_",
-            expected=10,
-            label=f"Seasons AGOT shader symbols in {filename}",
-        )
-        text = replace_exact(
-            text,
-            "MOD(godherja)",
-            "MOD(agot)",
-            expected=8,
-            label=f"Seasons AGOT shader annotations in {filename}",
-        )
-        write_text(
-            OUTPUT,
-            relative,
-            text,
-            preserve_trailing_whitespace=True,
-        )
+            write_text(
+                OUTPUT,
+                relative,
+                text,
+                preserve_trailing_whitespace=True,
+            )
+            continue
+
+        for current in include_renames.values():
+            if text.count(f'"{current}"') != 1:
+                raise RuntimeError(
+                    f"Seasons shader interface changed: expected {current} in {filename}"
+                )
+        if re.search(r"\bGH_[A-Za-z0-9_]+", text) or "MOD(godherja)" in text:
+            raise RuntimeError(f"Seasons shader retained the old GH interface: {filename}")
+
+        # Seasons 0.5.6 includes the current AGOT interface itself.  Remove the
+        # old whole-file replacement so later updates are not hidden by a stale
+        # local copy.
+        output_path = OUTPUT / relative
+        if output_path.is_file():
+            output_path.unlink()
+        elif output_path.exists():
+            raise RuntimeError(f"expected a file or no output at {output_path}")
 
 
 def generate_mari_agot_portraits() -> None:
@@ -679,9 +646,9 @@ template PivotalMomentTransitionAnimation""",
 
 
 def generate_additional_models_on_action_deduplication() -> None:
-    """Suppress AMSB definitions duplicated under a second compatch filename."""
+    """Retire the superseded AMSB dynasty-on-action suppressor."""
     relative = "common/on_action/amsb_dynasty_on_actions.txt"
-    compatch_relative = "common/on_action/amsb_artifact_on_actions.txt"
+    compatch_relative = "common/scripted_effects/zz_am_lov_artifact_dedup_effects.txt"
     additional_models = read_text(WORKSHOP / "3319354609" / relative)
     compatch = read_text(WORKSHOP / "3762892081" / compatch_relative)
     definitions = (
@@ -695,28 +662,27 @@ def generate_additional_models_on_action_deduplication() -> None:
             raise RuntimeError(
                 f"Additional Models definition changed: {definition}"
             )
-        if len(re.findall(pattern, compatch)) != 1:
+        if len(re.findall(pattern, compatch)) != 0:
+            raise RuntimeError(
+                f"Additional Models/AGOT+/LoV compatch restored duplicate "
+                f"definition: {definition}"
+            )
+    for definition in (
+        "amsb_historical_artifacts_setup",
+        "amsb_assign_starting_family_weapons_effect",
+    ):
+        if len(re.findall(rf"(?m)^{definition}\s*=\s*\{{", compatch)) != 1:
             raise RuntimeError(
                 f"Additional Models/AGOT+/LoV compatch definition changed: "
                 f"{definition}"
             )
-    if len(re.findall(r"(?m)^amsb_vs_weapons\s*=\s*\{", compatch)) != 1:
+    output_path = OUTPUT / relative
+    if output_path.is_file():
+        output_path.unlink()
+    elif output_path.exists():
         raise RuntimeError(
-            "Additional Models/AGOT+/LoV compatch no longer owns amsb_vs_weapons"
+            f"expected a file or no output at {output_path}"
         )
-    write_text(
-        OUTPUT,
-        relative,
-        (
-            "# Intentionally empty. The later Additional Models/AGOT+/LoV "
-            "compatch\n"
-            "# supplies these definitions plus its LoV-specific weapon setup "
-            "under\n"
-            "# common/on_action/amsb_artifact_on_actions.txt. Loading both "
-            "causes CK3\n"
-            "# to discard one of each duplicate on-action effect.\n"
-        ),
-    )
 
 
 def generate_essos_disabled_realm_cleanup() -> None:
@@ -756,6 +722,11 @@ def generate_essos_disabled_realm_cleanup() -> None:
     on_action = read_text(
         WORKSHOP / "3682802751/common/on_action/essos_game_start.txt"
     )
+    if on_action.count("essos_remove_realms = {") != 1:
+        raise RuntimeError(
+            "Essos Expanded startup dispatcher changed: expected one "
+            "essos_remove_realms"
+        )
     for realm in realms:
         rule = f"essos_empire_{realm}_disabled"
         root_title = f"title:e_{realm}"
@@ -775,22 +746,29 @@ def generate_essos_disabled_realm_cleanup() -> None:
                 f"Essos Expanded removal target changed: expected one "
                 f"{root_title}"
             )
+        if on_action.count(f"\t\tessos_remove_realm_{realm}\n") != 1:
+            raise RuntimeError(
+                f"Essos Expanded startup dispatcher changed: expected one "
+                f"essos_remove_realm_{realm} child"
+            )
 
     cleanup_blocks = []
     for realm in realms:
         cleanup_blocks.append(
             "\t\tif = {\n"
             f"\t\t\tlimit = {{ has_game_rule = essos_empire_{realm}_disabled }}\n"
+            f"\t\t\tagot_playset_destroy_disabled_essos_subordinate_titles = {{ REALM = title:e_{realm} }}\n"
             f"\t\t\tagot_playset_destroy_disabled_essos_root = {{ REALM = title:e_{realm} }}\n"
             "\t\t}"
         )
     on_action_text = (
         "# Essos Expanded's agot_remove_realm_effect clears the subordinate\n"
         "# realm but leaves the disabled empire title and its original holder.\n"
-        "# Run this after the upstream Essos game-start chain and remove that\n"
-        "# final root title so disabled realms cannot leave invalid rulers.\n"
+        "# Attach this as the final child of Essos Expanded's own removal\n"
+        "# dispatcher, after its 27 realm removals and before family generation.\n"
+        "# A sibling on_game_start hook cannot guarantee that sequencing.\n"
         "\n"
-        "on_game_start = {\n"
+        "essos_remove_realms = {\n"
         "\ton_actions = {\n"
         "\t\tagot_playset_cleanup_disabled_essos_roots\n"
         "\t}\n"
@@ -803,6 +781,31 @@ def generate_essos_disabled_realm_cleanup() -> None:
         "}\n"
     )
     effect_text = (
+        "# AGOT's realm cleanup transfers county titles to d_unknown but only\n"
+        "# destroys duchy-and-higher titles. Remove those county remnants before\n"
+        "# destroying the disabled empire title that it also leaves behind.\n"
+        "agot_playset_destroy_disabled_essos_subordinate_titles = {\n"
+        "\t$REALM$ = {\n"
+        "\t\tevery_in_de_jure_hierarchy = {\n"
+        "\t\t\tlimit = {\n"
+        "\t\t\t\ttier = tier_county\n"
+        "\t\t\t\texists = holder\n"
+        "\t\t\t}\n"
+        "\t\t\tadd_to_temporary_list = agot_playset_disabled_essos_county_titles\n"
+        "\t\t}\n"
+        "\t\tevery_in_list = {\n"
+        "\t\t\tlist = agot_playset_disabled_essos_county_titles\n"
+        "\t\t\tholder = {\n"
+        "\t\t\t\tdestroy_title = prev\n"
+        "\t\t\t\tif = {\n"
+        "\t\t\t\t\tlimit = { is_ruler = no }\n"
+        "\t\t\t\t\tdeath = { death_reason = death_vanished }\n"
+        "\t\t\t\t}\n"
+        "\t\t\t}\n"
+        "\t\t}\n"
+        "\t}\n"
+        "}\n"
+        "\n"
         "# Destroy the disabled empire title left behind by AGOT's realm cleanup.\n"
         "agot_playset_destroy_disabled_essos_root = {\n"
         "\t$REALM$ = {\n"
@@ -3726,7 +3729,6 @@ def generate_agot_plus() -> None:
 
 
 def main() -> None:
-    generate_battle_graphics_agot_shaders()
     generate_seasons_agot_shaders()
     generate_mari_agot_portraits()
     generate_faster_transitions_gui()

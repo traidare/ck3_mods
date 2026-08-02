@@ -2157,6 +2157,7 @@ on_title_gain = {
 					current_date_is_start_date_trigger = no
 				}
 				save_scope_as = emperor
+				save_scope_as = new_holder
 				#Should trigger special event during fourth crusade!
 				#AGOT Disabled
 				# if = {
@@ -2482,6 +2483,9 @@ on_title_gain = {
 							cancel_travel_plan = yes
 						}
 					}
+					var:pledge_loyalty_to_liege_scope = {
+						save_scope_as = pledge_loyalty_to_liege_scope
+					}
 					trigger_event = pledge_loyalty_to_liege.0601
 					add_character_flag = {
 						flag = currently_invalidating_petition_liege_travel
@@ -2679,7 +2683,9 @@ on_title_gain = {
 					}
 				}
 			}
-			scope:bloc = { add_confederation_member = scope:bloc_joiner }
+			scope:title = {
+				add_title_law = confederation_elective_succession_law
+			}
 		}
 		#Coronation modifier is lost
 		if = {
@@ -2777,13 +2783,6 @@ on_title_gain = {
 				is_ai = yes
 				government_is_japanese_trigger = yes
 				scope:previous_holder = {
-					is_ai = yes
-					trigger_if = {
-						limit = { exists = scope:player_heir }
-						player_heir = { is_ai = yes }
-					}
-				}
-				scope:new_holder = {
 					is_ai = yes
 					trigger_if = {
 						limit = { exists = scope:player_heir }
@@ -4351,7 +4350,6 @@ on_rank_down = { # Will not fire during history execution or for dying character
 			limit = {
 				highest_held_title_tier < tier_county
 				has_variable = promised_grand_wedding_marriage_countdown
-				scope:transfer_type = flag:abdication
 			}
 
 			scope:title.holder ?= {

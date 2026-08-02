@@ -1,4 +1,29 @@
-﻿# Destroy the disabled empire title left behind by AGOT's realm cleanup.
+﻿# AGOT's realm cleanup transfers county titles to d_unknown but only
+# destroys duchy-and-higher titles. Remove those county remnants before
+# destroying the disabled empire title that it also leaves behind.
+agot_playset_destroy_disabled_essos_subordinate_titles = {
+	$REALM$ = {
+		every_in_de_jure_hierarchy = {
+			limit = {
+				tier = tier_county
+				exists = holder
+			}
+			add_to_temporary_list = agot_playset_disabled_essos_county_titles
+		}
+		every_in_list = {
+			list = agot_playset_disabled_essos_county_titles
+			holder = {
+				destroy_title = prev
+				if = {
+					limit = { is_ruler = no }
+					death = { death_reason = death_vanished }
+				}
+			}
+		}
+	}
+}
+
+# Destroy the disabled empire title left behind by AGOT's realm cleanup.
 agot_playset_destroy_disabled_essos_root = {
 	$REALM$ = {
 		if = {

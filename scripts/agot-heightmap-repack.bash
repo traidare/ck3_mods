@@ -182,7 +182,7 @@ write_minimal_playset() {
       "steamId": "3403938445"
     },
     {
-      "displayName": "Legacy of Valyria - AGOT 0.4.39 Temporary Compatch RC65",
+      "displayName": "Legacy of Valyria - AGOT 0.4.39 Temporary Compatch RC71",
       "enabled": true,
       "position": 3,
       "steamId": "3719888822"

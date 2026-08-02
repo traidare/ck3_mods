@@ -51,7 +51,7 @@ The accompanying narrow runtime layers also repair:
 - AGOT and the temporary Additional Models/AGOT+/LoV compatch evaluating
   court-scene culture triggers without a valid royal-court owner;
 - VIET's vanilla-only events, region selectors, and missing heritage helpers;
-- LoV RC65's invalid county-tier pirate elective assignments;
+- LoV RC71's invalid county-tier pirate elective assignments;
 - Essos Expanded's 54 CK3 1.19-invalid title-history capital tokens; and
 - CaFG's four references to AGOT-absent `tradition_steppe_tolerance`, handled
   directly by the CaFG AGOT compatch, plus its 35 cultural-boon MAA types
@@ -78,8 +78,8 @@ delegating unchanged to AGOT's `can_raid_trigger` for every valid character.
    Remembrance AGOT compatibility submod
 7. `AGOT MPD 0.3.0 - CK3 1.19 Runtime Rebase`, immediately after AGOT MPD and
    before the local MPD + Dragon Wives compatch
-8. `Legacy of Valyria RC65 - CK3 1.19 Runtime Rebase`, immediately after the LoV
-   RC65 compatch
+8. `Legacy of Valyria RC71 - CK3 1.19 Runtime Rebase`, immediately after the LoV
+   RC71 compatch
 9. `Essos Expanded + LoV - CK3 1.19 History Rebase`, immediately after Essos
    Expanded and before its TempLoV compatch
 10. `AGOT NOW + Legacy of Valyria + Essos Expanded Map Compatch`, after the
@@ -95,3 +95,4 @@ Disable these superseded compatch mods:
 - `3753608966` — AGOT Seasons-NoW Compatch
 - `3762893385` — Temporary Seasons of Valyria compatch
 - `3766038754` — NOW/LoV/Seasons fork
+- `3773608127` — Essos Expanded TempLoV/NOW compatch

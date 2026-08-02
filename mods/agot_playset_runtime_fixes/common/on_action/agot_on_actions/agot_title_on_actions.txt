@@ -1066,7 +1066,7 @@ agot_on_title_gain = {
 						}
 					}
 					left_icon = root
-					right_icon ?= scope:previous_holder
+					right_icon = scope:previous_holder
 				}
 			}
 			else_if = { # Is the new holder the legitimate house?
@@ -1106,7 +1106,7 @@ agot_on_title_gain = {
 						dynasty = { add_dynasty_prestige = major_prestige_value }
 					}
 					left_icon = root
-					right_icon ?= scope:previous_holder
+					right_icon = scope:previous_holder
 				}
 			}
 		}
@@ -1264,6 +1264,9 @@ agot_on_title_gain = {
 						has_trait = nightswatch_historical
 					}
 				}
+			}
+			scope:previous_holder ?= {
+				save_scope_as = the_lc
 			}
 			every_player = {
 				limit = {
@@ -2270,7 +2273,7 @@ agot_on_title_lost_dragonpit = {
 				}
 			}
 		}
-		scope:previous_holder = {
+		root = {
 			is_alive = yes
 			exists = var:current_dragon
 			var:current_dragon ?= {
@@ -2280,7 +2283,7 @@ agot_on_title_lost_dragonpit = {
 		}
 	}
 	effect = {
-		scope:previous_holder = {
+		root = {
 			var:current_dragon = {
 				save_scope_as = dragon
 				remove_character_flag = dragon_put_in_different_pit
@@ -3511,7 +3514,7 @@ agot_title_destroyed_mega_wars_on_action = {
 									story_type = story_agot_mw_rebel
 									OR = {
 										is_target_in_variable_list = { name = mw_rebel_supporter_list target = scope:t_ruler }
-										var:mw_crown_story_var.story_owner ?= scope:old_holder
+										var:mw_crown_story_var.story_owner ?= root
 									}
 								}
 							}
@@ -3540,7 +3543,7 @@ agot_title_destroyed_mega_wars_on_action = {
 									story_type = story_agot_mw_rebel
 									OR = {
 										is_target_in_variable_list = { name = mw_rebel_supporter_list target = scope:t_ruler }
-										var:mw_crown_story_var.story_owner ?= scope:old_holder
+										var:mw_crown_story_var.story_owner ?= root
 									}
 								}
 							}
@@ -3791,6 +3794,7 @@ agot_nw_conquered = {
 		}
 	}
 	effect = {
+		save_scope_as = the_lc
 		every_player = {
 			limit = {
 				culture = { NOT = { agot_is_wildling_culture = yes } }
