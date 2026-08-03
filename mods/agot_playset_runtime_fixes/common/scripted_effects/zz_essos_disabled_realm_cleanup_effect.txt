@@ -75,11 +75,8 @@ agot_playset_make_disabled_essos_realm_wilderness = {
 				limit = { exists = holder }
 				holder = {
 					save_scope_as = agot_playset_disabled_essos_old_holder
-					if = {
-						limit = { any_held_title = { tier = tier_county count = 1 } }
-						every_courtier_or_guest = {
-							death = { death_reason = death_vanished }
-						}
+					every_courtier_or_guest = {
+						death = { death_reason = death_vanished }
 					}
 				}
 				make_settlement_county_wilderness = { COUNTY = this }

@@ -983,11 +983,8 @@ def generate_essos_disabled_realm_cleanup() -> None:
         \t\t\t\tlimit = { exists = holder }
         \t\t\t\tholder = {
         \t\t\t\t\tsave_scope_as = agot_playset_disabled_essos_old_holder
-        \t\t\t\t\tif = {
-        \t\t\t\t\t\tlimit = { any_held_title = { tier = tier_county count = 1 } }
-        \t\t\t\t\t\tevery_courtier_or_guest = {
-        \t\t\t\t\t\t\tdeath = { death_reason = death_vanished }
-        \t\t\t\t\t\t}
+        \t\t\t\t\tevery_courtier_or_guest = {
+        \t\t\t\t\t\tdeath = { death_reason = death_vanished }
         \t\t\t\t\t}
         \t\t\t\t}
         \t\t\t\tmake_settlement_county_wilderness = { COUNTY = this }
@@ -1029,6 +1026,13 @@ def generate_essos_disabled_realm_cleanup() -> None:
         OUTPUT, "common/scripted_effects/zz_essos_disabled_realm_cleanup_effect.txt",
         effect_text,
     )
+    for relative in (
+        "common/decisions/zz_agot_playset_essos_migration_decision.txt",
+        "common/scripted_triggers/zz_agot_playset_essos_migration_triggers.txt",
+        "events/zz_agot_playset_essos_migration_events.txt",
+        "localization/english/agot_playset_runtime_fixes_l_english.yml",
+    ):
+        (OUTPUT / relative).unlink(missing_ok=True)
     (OUTPUT / "common/on_action/zz_essos_disabled_realm_cleanup.txt").unlink(
         missing_ok=True
     )

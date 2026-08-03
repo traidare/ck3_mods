@@ -156,10 +156,11 @@ writer in this playset.
   `Local_Rulers`. The disabled root title is then removed with its now-unlanded
   former holder. Family generation runs after the lobby, only for landed,
   capital-valid rulers in enabled Essos realms; every recursive generation uses
-  that valid ruler as its court location. The generator pins the Essos startup
-  and family blocks, AGOT removal semantics, and LoV wilderness effect. Re-audit
-  when Workshops `3682802751`, `2962333032`, or `3719888822` change those
-  blocks.
+  that valid ruler as its court location. Former county holders now lose their
+  court regardless of how many counties they held, matching AGOT's removal
+  semantics. The generator pins the Essos startup and family blocks, AGOT
+  removal semantics, and LoV's wilderness effect. Re-audit when Workshops
+  `3682802751`, `2962333032`, or `3719888822` change those blocks.
 - **Tour pulse:** makes the vanilla monthly pulse a no-op when MFA relays it
   before the activity has a `stop_host` variable, rather than dereferencing the
   missing itinerary stop.
