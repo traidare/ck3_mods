@@ -200,6 +200,10 @@ writer in this playset.
   stale trade-port, ironwood, Cheesemonger, Bear Island, and Harlaw mines
   identifiers onto current AGOT definitions; Lordsport's current holder and
   province setup remain intact.
+- **MPO nomad event guard:** changes AGOT's two MPO nomad event references to
+  `the_great_steppe` into optional scope switches. AGOT deliberately disables
+  that situation, so the events fail closed instead of evaluating an unset
+  scope.
 
 The files are generated from current Workshop sources by:
 

@@ -4129,6 +4129,39 @@ def generate_agot_plus() -> None:
     )
 
 
+def generate_mpo_nomad_event_guards() -> None:
+    """Guard MPO nomad events against AGOT's disabled Great Steppe situation."""
+    relative = "events/dlc/mpo/mpo_nomads_flavour_events.txt"
+    source = read_text(WORKSHOP / "2962333032" / relative)
+    source = replace_exact(
+        source,
+        """\t\tmodifier = {
+\t\t\tadd = 3
+\t\t\tsituation:the_great_steppe = {
+""",
+        """\t\tmodifier = {
+\t\t\tadd = 3
+\t\t\tsituation:the_great_steppe ?= {
+""",
+        expected=1,
+        label="AGOT MPO snow-wolf event optional Great Steppe situation",
+    )
+    source = replace_exact(
+        source,
+        """\t\tsituation:the_great_steppe = {
+\t\t\tNOR = {
+\t\t\t    any_situation_sub_region = {
+""",
+        """\t\tsituation:the_great_steppe ?= {
+\t\t\tNOR = {
+\t\t\t    any_situation_sub_region = {
+""",
+        expected=1,
+        label="AGOT MPO low-herd event optional Great Steppe situation",
+    )
+    write_text(OUTPUT, relative, normalize_rebased_source(source))
+
+
 def main() -> None:
     generate_seasons_agot_shaders()
     generate_mari_agot_portraits()
@@ -4178,6 +4211,7 @@ def main() -> None:
     generate_agot_citadel()
     generate_agot_starting_legitimacy()
     generate_vanilla_tour_pulse()
+    generate_mpo_nomad_event_guards()
     generate_agot_plus()
     print(
         "Generated AGOT playset runtime fixes and AGOT+ runtime rebase."
