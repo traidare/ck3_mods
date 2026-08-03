@@ -21,6 +21,17 @@ SOURCE_RELATIVES = {
     "SEASON_FX": Path("gfx/FX/province_effects.fxh"),
     "SEASON_REGIONS": Path("map_data/geographical_regions/north_sans_neck.txt"),
 }
+OUTPUT_RELATIVES = {
+    "NOW": SOURCE_RELATIVES["NOW"],
+    "SEASON_EVENTS": SOURCE_RELATIVES["SEASON_EVENTS"],
+    "SEASON_FX": SOURCE_RELATIVES["SEASON_FX"],
+    # Geographical-region files merge by named block.  A normal-path final
+    # override therefore duplicates every bridge membership at runtime.
+    "SEASON_REGIONS": Path(
+        "map_data/geographical_regions/replace/north_sans_neck.txt"
+    ),
+}
+OBSOLETE_OUTPUTS = (SOURCE_RELATIVES["SEASON_REGIONS"],)
 
 
 def parse_args() -> argparse.Namespace:
@@ -325,14 +336,14 @@ def generate_outputs(workshop: dict[str, Path]) -> dict[Path, bytes]:
 
     bridge = workshop["SEASONS_BRIDGE"]
     return {
-        SOURCE_RELATIVES["NOW"]: normalize_output(title).encode("utf-8-sig"),
-        SOURCE_RELATIVES["SEASON_EVENTS"]: normalize_output(
+        OUTPUT_RELATIVES["NOW"]: normalize_output(title).encode("utf-8-sig"),
+        OUTPUT_RELATIVES["SEASON_EVENTS"]: normalize_output(
             generate_events(read_text(bridge / SOURCE_RELATIVES["SEASON_EVENTS"]))
         ).encode("utf-8-sig"),
-        SOURCE_RELATIVES["SEASON_FX"]: normalize_output(
+        OUTPUT_RELATIVES["SEASON_FX"]: normalize_output(
             generate_shader(read_text(bridge / SOURCE_RELATIVES["SEASON_FX"]))
         ).encode("utf-8"),
-        SOURCE_RELATIVES["SEASON_REGIONS"]: normalize_output(
+        OUTPUT_RELATIVES["SEASON_REGIONS"]: normalize_output(
             generate_regions(read_text(bridge / SOURCE_RELATIVES["SEASON_REGIONS"]))
         ).encode("utf-8-sig"),
     }
@@ -419,6 +430,11 @@ def main() -> int:
             for relative, data in outputs.items()
             if not (module / relative).is_file() or (module / relative).read_bytes() != data
         ]
+        stale.extend(
+            relative.as_posix()
+            for relative in OBSOLETE_OUTPUTS
+            if (module / relative).exists()
+        )
         if stale:
             raise AssertionError(f"generated full-compatch outputs are stale: {stale}")
         print(f"Full-compatch generated outputs are current: {len(outputs)} files")
@@ -428,6 +444,12 @@ def main() -> int:
         target = module / relative
         target.parent.mkdir(parents=True, exist_ok=True)
         target.write_bytes(data)
+    for relative in OBSOLETE_OUTPUTS:
+        target = module / relative
+        if target.is_file():
+            target.unlink()
+        elif target.exists():
+            raise AssertionError(f"obsolete generated output is not a file: {target}")
     print(f"Generated full-compatch overrides: {len(outputs)} files")
     return 0
 
