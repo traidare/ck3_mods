@@ -12,11 +12,18 @@ This module intentionally owns the effective history files it emits under
 `history/titles`, `history/characters`, and `history/provinces`, plus the
 effective `00_agot_character_data_effects.txt` scripted-effect file.
 
-The full-file overrides are generated because CK3 merges history by filename and
-title/character/province key; small fragments cannot safely amend every dated
-holder without risking duplicate keys or losing later parent history. The
-generator first reconstructs the effective LoV/EE source layer, then makes only
-the audited government, culture, faith, legitimacy, and flavor-effect changes.
+The full-file history overrides are generated because CK3 merges history by
+filename and title/character/province key; small fragments cannot safely amend
+every dated holder without risking duplicate keys or losing later parent
+history. The generator first reconstructs the effective LoV/EE source layer,
+then makes only the audited government, culture, faith, legitimacy, and
+flavor-effect changes.
+
+The effective character-title dispatcher starts with
+`Essos Expanded - TempLoV/NOW Compatch`, the final Workshop compatch in the
+required chain. This module transforms that dispatcher in place: it preserves
+its AGOT mapping semantics, adds the two lore government fallbacks through
+AGOT's feudal path, and does not recreate the old map-compatch government lists.
 
 This module does not own landed-title structure, map data, terrain, holdings,
 holder succession, names, dynasties, or unrelated faith history.
@@ -67,5 +74,5 @@ transition. `--update-source-manifest` is required after an intentional upstream
 change; review the upstream diff before accepting the new manifest.
 
 Re-run the audit after updates to Workshop mods `2962333032`, `3664900993`,
-`3403938445`, `3719888822`, `3682802751`, or `3768149491`, or after changing the
-LoV/EE rebases or the map compatch.
+`3403938445`, `3719888822`, `3682802751`, `3768149491`, or `3773608127`, or
+after changing the LoV/EE rebases or the map compatch.

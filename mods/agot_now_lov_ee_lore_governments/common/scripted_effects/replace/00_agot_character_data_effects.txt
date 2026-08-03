@@ -1,22 +1,22 @@
-﻿# NOW + LoV + Essos Expanded lore-government integration.
-# Preserves the LoV/EE government dispatcher and NOW title-localization delta.
-# EE TempLoV Compatch: this file replaces AGOT's own common/scripted_effects/00_agot_character_data_effects.txt
-# (path-replacement is required to win over Nobility of Westeros's own replace/ copy of this same file,
-# which as of NOW July 5th 2026 still lacks oligarchic support and still calls the renamed-away
-# agot_flavour_is_vassal_lord_in_westeros_trigger - see zz_ee_compatch_now_trigger_shim.txt).
+﻿# EE TempLoV/NOW Compatch: this file replaces AGOT's common/scripted_effects/00_agot_character_data_effects.txt
+# and wins over BOTH the EE TempLoV Compatch's copy and Nobility of Westeros's July 23rd 2026 replace/ copy.
 #
-# Rebuilt July 18th 2026 on top of Legacy of Valyria RC60's zz_lv_agot_title_loc_hotfix_effects.txt
-# (Fesir's restored oligarchic Meereen/Yunkai/Astapor titles, New Valyria Emperor/Empress, Painted
-# Mountains Khal/Khaleesi, and the full un-stripped government dispatcher chain), with our own
-# Essos Expanded additions layered on top: the FAR EAST LORE TITLES culture-gated block (Yi-Ti/Leng,
-# Asshai, Hidden Sea, Jogos Nhai, Dothraki, Ibben, Sarnor) and Qartheen "Merchant King/Queen" checks
-# at empire/kingdom/duchy tiers in the OLIGARCHIC branch. Rebuild again whenever LoV or NOW update
-# this file.
+# Built July 28th 2026 as a three-way merge:
+#   BASE:  Nobility of Westeros July 23rd 2026 apply_character_title_data (King/Queen Consort titles,
+#          Prince/Princess of Summerhall, Royal Prince/Princess, Lord/Lady Reaper of Pyke, City Watch
+#          commander, landed gentry/knights/captains in Westeros, the full NOW naming rework)
+#   PLUS:  the EE TempLoV Compatch's title layers, re-inserted on top: LoV RC60-derived New Valyria
+#          Emperor/Empress and Painted Mountains Khal/Khaleesi overrides, the temple-barony
+#          MISSING_TITLE_LOC fixes (x2), the oligarchic branch fix with Qartheen Merchant King/Queen,
+#          and the FAR EAST LORE TITLES culture-gated block (Yi-Ti/Leng, Asshai, Hidden Sea,
+#          Jogos Nhai, Dothraki, Ibben, Sarnor)
+#   PLUS:  the EE TempLoV Compatch's four government data effects, carried verbatim (this file
+#          replaces the EE compatch's whole copy, so they must ride along)
 #
-# Legacy of Valyria / AGOT RC60 title-data compatibility layer (upstream header, preserved):
-# The five definitions below are rebased from AGOT 0.4.38. Only the LoV
-# oligarchic-government integration and two explicit LoV title-holder fixes
-# differ from the current AGOT source.
+# NOW's five Westeros naming triggers (prince_summerhall, royal_prince, landed_gentry, landed_knight,
+# captain in Westeros) are defined by NOW itself; agot_flavour_is_vassal_lord_in_westeros_trigger is
+# restored by the EE TempLoV Compatch's shim. Both mods are REQUIRED. Rebuild whenever NOW, LoV or
+# the EE TempLoV Compatch update this file.
 
 assign_government_data_effect = {
 	### REMOVE FROM OLD LISTS ###
@@ -93,24 +93,6 @@ assign_government_data_effect = {
 		remove_list_global_variable = { name = ruins_government_list target = $SCOPE$ }
 	}
 
-	### LORE GOVERNMENT INTEGRATION ###
-	if = {
-		limit = { NOT = { flag:$GOV$ = flag:nomad } }
-		remove_list_global_variable = { name = nomad_government_list target = $SCOPE$ }
-	}
-	if = {
-		limit = { NOT = { flag:$GOV$ = flag:celestial } }
-		remove_list_global_variable = { name = celestial_government_list target = $SCOPE$ }
-	}
-	if = {
-		limit = { NOT = { flag:$GOV$ = flag:meritocratic } }
-		remove_list_global_variable = { name = meritocratic_government_list target = $SCOPE$ }
-	}
-	if = {
-		limit = { NOT = { flag:$GOV$ = flag:mandala } }
-		remove_list_global_variable = { name = mandala_government_list target = $SCOPE$ }
-	}
-
 	### ASSIGN TO LIST ###
 	if = {
 		limit = {
@@ -141,10 +123,6 @@ prune_government_data_effect = {
 	remove_list_global_variable = { name = landless_adventurer_government_list target = $SCOPE$ }
 	remove_list_global_variable = { name = command_government_list target = $SCOPE$ }
 	remove_list_global_variable = { name = ruins_government_list target = $SCOPE$ }
-	remove_list_global_variable = { name = nomad_government_list target = $SCOPE$ }
-	remove_list_global_variable = { name = celestial_government_list target = $SCOPE$ }
-	remove_list_global_variable = { name = meritocratic_government_list target = $SCOPE$ }
-	remove_list_global_variable = { name = mandala_government_list target = $SCOPE$ }
 }
 agot_on_change_government_data_effect = {
 	### Set Government ###
@@ -167,13 +145,15 @@ agot_on_change_government_data_effect = {
 			pirate_no_dlc_government = { assign_government_data_effect = { GOV = pirate_no_dlc SCOPE = $SCOPE$ } }
 			tribal_government = { assign_government_data_effect = { GOV = tribal SCOPE = $SCOPE$ } }
 			clan_government = { assign_government_data_effect = { GOV = clan SCOPE = $SCOPE$ } }
-			nomad_government = { assign_government_data_effect = { GOV = nomad SCOPE = $SCOPE$ } }
-			celestial_government = { assign_government_data_effect = { GOV = celestial SCOPE = $SCOPE$ } }
-			meritocratic_government = { assign_government_data_effect = { GOV = meritocratic SCOPE = $SCOPE$ } }
-			mandala_government = { assign_government_data_effect = { GOV = mandala SCOPE = $SCOPE$ } }
 			landless_adventurer_government = { assign_government_data_effect = { GOV = landless_adventurer SCOPE = $SCOPE$ } }
 			command_government = { assign_government_data_effect = { GOV = command SCOPE = $SCOPE$ } }
 			ruins_government = { assign_government_data_effect = { GOV = ruins SCOPE = $SCOPE$ } }
+			# EE TempLoV Compatch: map DLC governments onto AGOT's historical lists so dead rulers keep proper titles
+			nomad_government = { assign_government_data_effect = { GOV = tribal SCOPE = $SCOPE$ } }
+			celestial_government = { assign_government_data_effect = { GOV = feudal SCOPE = $SCOPE$ } }
+			# Lore governments reuse AGOT's feudal historical-title path.
+			meritocratic_government = { assign_government_data_effect = { GOV = feudal SCOPE = $SCOPE$ } }
+			mandala_government = { assign_government_data_effect = { GOV = feudal SCOPE = $SCOPE$ } }
 			fallback = { prune_government_data_effect = { SCOPE = $SCOPE$ } }
 		}
 		if = {
@@ -310,26 +290,10 @@ agot_assign_fallback_government_data_effect = {
 				}
 			}
 			if = {
-				limit = { $SCOPE$.primary_title.previous_holder ?= { agot_ruler_is_government_trigger = { GOV = nomad } } }
-				set_variable = {
-					name = temp_government_type
-					value = flag:nomad
-					days = 1
-				}
-			}
-			if = {
-				limit = { $SCOPE$.primary_title.previous_holder ?= { agot_ruler_is_government_trigger = { GOV = celestial } } }
-				set_variable = {
-					name = temp_government_type
-					value = flag:celestial
-					days = 1
-				}
-			}
-			if = {
 				limit = { $SCOPE$.primary_title.previous_holder ?= { agot_ruler_is_government_trigger = { GOV = meritocratic } } }
 				set_variable = {
 					name = temp_government_type
-					value = flag:meritocratic
+					value = flag:feudal
 					days = 1
 				}
 			}
@@ -337,7 +301,7 @@ agot_assign_fallback_government_data_effect = {
 				limit = { $SCOPE$.primary_title.previous_holder ?= { agot_ruler_is_government_trigger = { GOV = mandala } } }
 				set_variable = {
 					name = temp_government_type
-					value = flag:mandala
+					value = flag:feudal
 					days = 1
 				}
 			}
@@ -564,6 +528,18 @@ apply_character_title_data = {
 					}
 					else_if = {
 						limit = {
+							OR = {
+								culture = culture:feicui_ren
+								culture = culture:lengii
+							}
+							has_government = celestial_government
+							$SCOPED_TITLE$.holder ?= $SCOPE$
+						}
+						set_title_localization_effect = { SCOPE = $SCOPE$ KEY = "ee_yiti_governor_male" GENDER = male }
+						set_title_localization_effect = { SCOPE = $SCOPE$ KEY = "ee_yiti_governor_female" GENDER = female }
+					}
+					else_if = {
+						limit = {
 							culture = culture:asshaii
 							$SCOPED_TITLE$.holder ?= $SCOPE$
 							primary_title ?= { tier >= tier_duchy }
@@ -614,8 +590,8 @@ apply_character_title_data = {
 						limit = {
 							culture = culture:dothraki
 							OR = {
-								has_government = nomad_government
 								has_government = tribal_government
+								has_government = nomad_government
 							}
 							primary_title ?= { tier >= tier_kingdom }
 							$SCOPED_TITLE$.holder ?= $SCOPE$
@@ -628,10 +604,10 @@ apply_character_title_data = {
 						limit = {
 							culture = culture:dothraki
 							OR = {
-								has_government = nomad_government
 								has_government = tribal_government
+								has_government = nomad_government
 							}
-							primary_title ?= { tier = tier_duchy }
+							primary_title ?= { tier <= tier_duchy }
 							$SCOPED_TITLE$.holder ?= $SCOPE$
 						}
 						set_title_localization_effect = { SCOPE = $SCOPE$ KEY = "ee_khal_male" GENDER = male }
@@ -1382,7 +1358,12 @@ apply_character_title_data = {
 					### FEUDAL ###
 					else_if = {
 						limit = {
-							agot_localization_government_trigger = { GOV = feudal SPOUSE_SCOPE = scope:spouse_scope }
+							OR = {
+								agot_localization_government_trigger = { GOV = feudal SPOUSE_SCOPE = scope:spouse_scope }
+								# EE TempLoV Compatch: celestial rulers (Yi-Ti/Leng under All Under Heaven DLC) reuse feudal naming as fallback
+								has_government = celestial_government
+								scope:spouse_scope ?= { has_government = celestial_government }
+							}
 						}
 
 						### HEGEMONY ###
@@ -3159,7 +3140,12 @@ apply_character_title_data = {
 					### TRIBAL ###
 					else_if = {
 						limit = {
-							agot_localization_government_trigger = { GOV = tribal SPOUSE_SCOPE = scope:spouse_scope }
+							OR = {
+								agot_localization_government_trigger = { GOV = tribal SPOUSE_SCOPE = scope:spouse_scope }
+								# EE TempLoV Compatch: nomad rulers (Dothraki under Khans of the Steppe DLC) reuse tribal naming as fallback
+								has_government = nomad_government
+								scope:spouse_scope ?= { has_government = nomad_government }
+							}
 						}
 
 						### HEGEMONY ###

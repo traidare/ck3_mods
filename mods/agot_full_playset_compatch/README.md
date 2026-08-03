@@ -7,20 +7,20 @@ This combines:
 - LoV tournament guards, MFA's cooldown, and CaFG's granular county-faith
   conversion in `contest_events.txt`;
 - CaFG county/province controls with LoV ruin restoration in the county view;
-- current NOW 1.2.4 titles with COW's Dunstonbury/Sisterton expectations,
-  including corrected province 2709/2716/2717 history and localization;
+- current NOW 1.2.4.1 titles with COW's Dunstonbury/Sisterton expectations;
 - AGOT, Additional Models, and COW special-building model detection with the
   NOW-COW 1.0.2 Dunstonbury/Sisterton province remaps, while retaining LoV's
   later graphical-background definitions;
-- LoV + NOW + Seasons regional definitions, repaint actions, map modes, seasonal
-  effects, and FX, with AGOT 0.4.40's shader-wide skip threshold retained for
-  both pixel- and vertex-shader consumers.
+- COW's Dunstonbury/Sisterton province history and localization, while the
+  enabled Seasons-of-Valyria Workshop fork supplies its maintained regional
+  definitions, repaint actions, map modes, seasonal effects, GUI, situations,
+  and localization.
 
 The accompanying narrow runtime layers also repair:
 
 - AGOT+'s CK3 1.19-invalid canon-child creation and dead-character perk
   assignments;
-- NOW 1.2.4's CK3 1.19-invalid effects, game-start scoping, and optional
+- NOW 1.2.4.1's CK3 1.19-invalid effects, game-start scoping, and optional
   Summerhall candidate comparisons;
 - AGOT MPD's startup calculator parameter, variable, and XP-track failures;
 - Grand Remembrance's no-character chronicle visibility loop;
@@ -57,13 +57,20 @@ The accompanying narrow runtime layers also repair:
   directly by the CaFG AGOT compatch, plus its 35 cultural-boon MAA types
   removed by AGOT's same-file overrides.
 
-The rebase also repairs current-parent defects encountered during validation:
-NOW's `d_lychester` creation check still referenced removed `d_medway`; the
-NOW/Seasons region merge put duchy `d_ironwater` in a county list and retained
-removed county `c_sunvane`. These now resolve to `d_lychester`, `c_ironwater`,
-and `c_brittlebush`. A narrow `can_raid` scripted-rule override also returns
-false when CK3 evaluates the rule without a potential-raider character, while
-delegating unchanged to AGOT's `can_raid_trigger` for every valid character.
+The final generated layer owns only four cross-parent whole-file overrides:
+NOW's landed titles (`d_lychester` no longer tests removed `d_medway`), the
+three historical Dance-of-the-Dragons season starts (autumn rather than a
+summer-to-autumn delay), the shared Seasons shader skip threshold, and the
+Seasons regional cleanup memberships. The latter rebases `d_ironwater`,
+`c_sallydance`, `d_greenbelt`, and `c_brittlebush`; it also keeps the Iron Isles
+specific and covers LoV regions without applying seasons to wilderness ruins.
+`scripts/generate-agot-full-playset-compatch-rebases.py` regenerates those
+outputs from the current NOW and Seasons fork, records their source hashes in
+`content_source/source_manifest.json`, and supports `--check`.
+
+A narrow `can_raid` scripted-rule override also returns false when CK3 evaluates
+the rule without a potential-raider character, while delegating unchanged to
+AGOT's `can_raid_trigger` for every valid character.
 
 ## Required load order
 
@@ -72,7 +79,7 @@ delegating unchanged to AGOT's `can_raid_trigger` for every valid character.
    Children EZ Mode
 3. `Legacy Of The Dragon - Linux Texture Fix`, immediately after Legacy Of The
    Dragon
-4. `AGOT NOW 1.2.4 - CK3 1.19 Rebase`, immediately after NOW
+4. `AGOT NOW - CK3 1.19 Rebase`, immediately after NOW
 5. `AGOT 0.4.40 - Much Faster Activities Rebase`, immediately after MFA
 6. `Grand Remembrance 1.8.1 - CK3 1.19 Runtime Fix`, immediately after the Grand
    Remembrance AGOT compatibility submod
@@ -82,17 +89,17 @@ delegating unchanged to AGOT's `can_raid_trigger` for every valid character.
    RC71 compatch
 9. `Essos Expanded + LoV - CK3 1.19 History Rebase`, immediately after Essos
    Expanded and before its TempLoV compatch
-10. `AGOT NOW + Legacy of Valyria + Essos Expanded Map Compatch`, after the
-    Essos Expanded LoV compatch
-11. `AGOT NOW + Legacy of Valyria + Essos Expanded World Data`
-12. `AGOT NOW + Legacy of Valyria + Essos Expanded Lore Governments`
-13. `AGOT Playset Runtime Fixes`
-14. `AGOT Playset Compatch`
+10. `AGOT NOW-Season of Ice and Fire Compatch`, after the Essos Expanded LoV
+    compatch
+11. `Seasons of Valyria - TempLoV/NOW/Seasons Compatch`
+12. `Essos Expanded - TempLoV/NOW Compatch`
+13. `AGOT NOW + Legacy of Valyria + Essos Expanded Map Compatch`
+14. `AGOT NOW + Legacy of Valyria + Essos Expanded World Data`
+15. `AGOT NOW + Legacy of Valyria + Essos Expanded Lore Governments`
+16. `AGOT Playset Runtime Fixes`
+17. `AGOT Playset Compatch`
 
 Disable these superseded compatch mods:
 
 - `3742055253` — AGOT NOW-COW Compatch
-- `3753608966` — AGOT Seasons-NoW Compatch
 - `3762893385` — Temporary Seasons of Valyria compatch
-- `3766038754` — NOW/LoV/Seasons fork
-- `3773608127` — Essos Expanded TempLoV/NOW compatch

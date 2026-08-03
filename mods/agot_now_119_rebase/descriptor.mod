@@ -1,11 +1,11 @@
-version="1.2.0"
+version="1.3.0"
 tags={
 	"Fixes"
 	"Gameplay"
 	"Total Conversion"
 	"Utilities"
 }
-name="AGOT NOW 1.2.4 - CK3 1.19 Rebase"
+name="AGOT NOW - CK3 1.19 Rebase"
 supported_version="1.19.*"
 dependencies={
 	"A Game of Thrones"

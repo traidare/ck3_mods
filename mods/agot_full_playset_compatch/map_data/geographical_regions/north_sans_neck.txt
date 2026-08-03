@@ -1,4 +1,4 @@
-world_westeros_the_north_sans_neck = {
+﻿world_westeros_the_north_sans_neck = {
 	regions = {
 		world_westeros_the_north_mainland
 	}
@@ -26,32 +26,32 @@ world_westeros_the_reach_without_south_or_marches = {
 	duchies = {
 		d_highgarden
 		d_bitterbridge
-		
+
 		d_blueburn
-		
+
 		d_cockleswhent
 		d_darkdell
 		d_darstone
 		d_fullharvest
-		
+
 		d_goldenfields
 		d_goldengrove
 		d_heartland_heights
-		
+
 		d_manderfields
 
-		
+
 		d_orchard_way
-		
+
 		d_red_front
-		
-		
+
+
 		d_sunnyvale
-		
+
 		d_the_northmarch
 		d_the_ocean_road
 		d_the_roseroad
-		
+
 		d_tumbleton
 	}
 }
@@ -123,7 +123,7 @@ world_group_one_b = {
 	regions = {
 		world_upper_vale_seasons
 	}
-}	
+}
 world_group_two = {
 	regions = {
 		world_westerlands_high
@@ -143,9 +143,11 @@ world_group_three = {
 		world_lower_vale_seasons
 		world_andal_hills
 
-		# LoV Regions:
-		world_lov_upper_rhoyne
 
+
+
+		# LoV/Seasons compatch cleanup coverage.
+		world_lov_upper_rhoyne
 	}
 }
 world_group_four = {
@@ -155,7 +157,8 @@ world_group_four = {
 		world_andalosi_coast
 		world_central_stormlands
 
-		# LoV Regions:
+
+		# LoV/Seasons compatch cleanup coverage.
 		world_lov_middle_rhoyne
 	}
 }
@@ -164,7 +167,7 @@ world_group_five = {
 	regions = {
 		world_rainwood
 		world_upper_reach
-	
+
 
 	}
 }
@@ -181,11 +184,14 @@ world_group_seven = {
 		world_the_shield_islands
 		world_the_arbor
 		world_honey_lands
-		
-		# LoV Regions:
-		world_lov_mantarys	
+
+
+
+
+		# LoV/Seasons compatch cleanup coverage.
+		world_lov_mantarys
 		world_lov_lower_rhoyne
-		world_lov_volantene_steppe		
+		world_lov_volantene_steppe
 	}
 }
 world_group_eight = {
@@ -201,16 +207,14 @@ world_group_nine = {
 		world_dorne_south_coast
 		world_dorne_north_coast
 
-		# LoV Regions:
+
+
+		# LoV/Seasons compatch cleanup coverage.
 		world_lov_south_ghiscar
-		# v-fix: these four were missing from every cleanup group, so their season
-		# modifiers stacked forever instead of cycling (reported by warNIya, Jul 18 2026)
 		world_lov_western_sothoryos
 		world_lov_eastern_sothoryos
 		world_lov_marahai
 		world_lov_asshai
-
-
 	}
 }
 world_group_ten = {
@@ -224,7 +228,7 @@ world_group_ten = {
 		world_stepstones
 		world_rest_of_essos_valyria_LOV
 
-		# LoV Regions:
+		# LoV/Seasons compatch cleanup coverage.
 		world_lov_volantene_coast
 		world_lov_north_ghiscar
 	}
@@ -362,7 +366,7 @@ world_upper_crown = {
 }
 world_upper_reach = {
 	regions = {
-	
+
 	}
 	duchies = {
 		d_greatstock
@@ -401,7 +405,7 @@ world_upper_reach = {
 		#c_sommelfield
 		#c_blandford
 		#c_greenridge
-		
+
 	}
 }
 
@@ -465,7 +469,7 @@ world_pentoshi_coast_lowlands = {
 	duchies = {
 		d_nyojon
 		d_pentos
-		d_shepamoti		
+		d_shepamoti
 	}
 }
 world_pentoshi_inland_lowlands = {
@@ -528,7 +532,7 @@ world_disputed_lands_hills = {
 		c_drelyia
 		c_devosh
 		c_restianys
-		
+
 	}
 	duchies = {
 		d_great_vilibosh
@@ -598,7 +602,6 @@ world_dorne_south_coast = {
 		c_sourmarket
 		c_sweetwater
 
-		c_brittlebush
 	}
 }
 world_dorne_desert = {
@@ -625,7 +628,7 @@ world_dorne_desert = {
 		c_dreadsands
 		c_white_dunes
 		c_drywell
-		
+
 	}
 	#baronies = {
 	#	b_silence
@@ -638,13 +641,13 @@ world_rest_of_dreadsands = {
 	#	b_coarse_keep
 	#	b_brickmounds
 	#	b_dreadsand
-	#	
+	#
 	#}
 }
 world_star_fall = {
 	duchies = {
 		d_torrentine
-	}	
+	}
 	counties = {
 		c_stinging_sands
 		c_stained_sands
@@ -781,7 +784,7 @@ world_westerlands_low = {
 		c_lansdale
 		c_rutland
 		c_lonmont
-		
+
 	}
 }
 world_westerlands_high = {
@@ -875,7 +878,7 @@ world_riverlands_central = {
 }
 world_upper_vale_seasons = {
 	duchies = {
-	
+
 	}
 	counties = {
 		c_stonyhead
@@ -1084,7 +1087,7 @@ world_whiteknife_seasons = {
 		c_trenchwood
 
 		c_heapsdown
-	}	
+	}
 }
 world_winterfell_seasons = {
 	counties = {
@@ -1154,7 +1157,7 @@ world_sheepshead_hills = {
 world_skagos_seasons = {
 	kingdoms = {
 		k_skagos
-		
+
 	}
 }
 world_wall_seasons = {
@@ -1209,7 +1212,7 @@ world_the_arbor = {
 	duchies = {
 		d_the_arbor
 	}
-	
+
 }
 world_the_shield_islands = {
 	duchies = {
@@ -1221,9 +1224,9 @@ world_the_shield_islands = {
 
 }
 world_rest_of_essos_valyria_LOV = {
-	duchies = {
-		d_ruins
-	}
+	# LoV & Seasons compatch: was duchies = { d_ruins }, which is EVERY wasteland on the map.
+	# AGOT 0.4.40 stubbed the real Essos regions, so upstream's essos_dothraki rolls were
+	# carpet-painting all ruins provinces with one season. Emptied on purpose.
 }
 
 
@@ -1240,7 +1243,7 @@ world_trident = {
 		c_ramsford
 		c_riverbend
 		c_fairmarket
-	}	
+	}
 }
 
 world_crossing_flood = {
@@ -1277,43 +1280,18 @@ world_the_neck_flood = {
 	}
 }
 
-### Legacy of Valyria Regions:
+#Stepstones
 
-# world_lov_valyria = { #unused
-# 	duchies = {
-# 		d_valyria
-# 		d_aquos_dhaen
-# 		d_tyria
-# 		d_jarqanor
-# 		d_dragonfields
+world_stepstones = {
+	duchies = {
+		d_first_stepstones
+		d_skull_tides
+		d_the_maidens
+		d_saans_stones
+	}
+}
 
-# 		d_kastaryia
-# 		d_mhysa_faer
-
-# 		d_gelios
-# 		d_nuqiria
-# 		d_pyrys
-# 		d_egrys
-# 	}
-# }
-
-# world_lov_long_summer = { #unused
-# 	duchies = {
-# 		d_martivia
-# 		d_vharomar
-# 		d_argava
-
-# 		d_oros
-# 		d_sombazbion
-# 		d_jelmazmar
-# 		d_daervos
-# 		d_orbar
-# 		d_rhyos
-
-# 		d_port_of_sighs
-# 		d_zoglos
-# 	}
-# }
+# TempLoV/NOW/Seasons compatch: LoV/Stepstones region definitions (used by the lov_* seasonal sub-regions)
 world_lov_mantarys = {
 	duchies = {
 		d_mantarys
@@ -1475,17 +1453,5 @@ world_lov_asshai = { # enabled by LoV & Seasons compatch
 		d_ostiros
 		d_chalysa
 		d_hattar
-	}
-}
-
-#Stepstones (from the AGOT NOW-Seasons of Ice and Fire Compatch, June 28th 2026)
-
-
-world_stepstones = {
-	duchies = {
-		d_first_stepstones
-		d_skull_tides
-		d_the_maidens
-		d_saans_stones
 	}
 }

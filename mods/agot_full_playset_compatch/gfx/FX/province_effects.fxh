@@ -19,13 +19,14 @@ struct EffectIntensities
 	float _ValyriaRestored1;
 	float _ValyriaRestored2;
 	float _ValyriaRehabilitated;
-};
+}
 
 Code
 [[
-	// AGOT 0.4.40: shared because this include is used by vertex shaders too.
+	// AGOT: this include is also consumed by vertex shaders.
 	static const float SKIP_VALUE = 0.001f;
 ]]
+;
 
 PixelShader =
 {
@@ -56,6 +57,7 @@ PixelShader =
 		// #define DEBUG_PROVINCE_EFFECT_MASK_SNOWNEW
 
 		static const float3 UP_VECTOR = float3( 0.0f, 1.0f, 0.0f );
+
 		void DebugCondition( inout float3 Diffuse, EffectIntensities ConditionData )
 		{
 			#if defined( DEBUG_PROVINCE_EFFECT_MASK_DROUGHT )
@@ -72,7 +74,7 @@ PixelShader =
 
 			#if defined( DEBUG_PROVINCE_EFFECT_MASK_SNOW )
 				Diffuse.rgb = lerp( Diffuse.rgb, float3( 1.0f, 1.0f, 0.0f ), ConditionData._Snow );
-			#endif			
+			#endif
 			#if defined( DEBUG_PROVINCE_EFFECT_MASK_SNOWNEW )
 				Diffuse.rgb = lerp( Diffuse.rgb, float3( 1.0f, 1.0f, 0.0f ), ConditionData._SnowNew );
 			#endif
@@ -153,7 +155,7 @@ PixelShader =
 			float Snow2 = lerp( C12.r == SNOW_INDEX, C22.r == SNOW_INDEX, FracCoord.x );
 			ConditionData._Snow = lerp( Snow1, Snow2, FracCoord.y ) * Impact;
 			//Seasons Added
-			
+
 			//normal autumn
 			float Autumn1 = lerp( C11.r == AUTUMN_INDEX, C21.r == AUTUMN_INDEX, FracCoord.x );
 			float Autumn2 = lerp( C12.r == AUTUMN_INDEX, C22.r == AUTUMN_INDEX, FracCoord.x );
@@ -165,13 +167,13 @@ PixelShader =
 			//wet autumn
 			float WetAutumn1 = lerp( C11.r == WET_AUTUMN_INDEX, C21.r == WET_AUTUMN_INDEX, FracCoord.x );
 			float WetAutumn2 = lerp( C12.r == WET_AUTUMN_INDEX, C22.r == WET_AUTUMN_INDEX, FracCoord.x );
-			ConditionData._WetAutumn = lerp( WetAutumn1, WetAutumn2, FracCoord.y ) * Impact;			
-			
+			ConditionData._WetAutumn = lerp( WetAutumn1, WetAutumn2, FracCoord.y ) * Impact;
+
 			float Snow3 = lerp( C11.r == SNOWNEW_INDEX, C21.r == SNOWNEW_INDEX, FracCoord.x );
 			float Snow4 = lerp( C12.r == SNOWNEW_INDEX, C22.r == SNOWNEW_INDEX, FracCoord.x );
 			ConditionData._SnowNew = lerp( Snow3, Snow4, FracCoord.y ) * Impact;
-			
-			
+
+
 			//End Seasons Added
 			// Legacy of Valyria
 			float ValyriaRuined1 = lerp( C11.r == VALYRIARUINED_INDEX, C21.r == VALYRIARUINED_INDEX, FracCoord.x );
@@ -191,7 +193,7 @@ PixelShader =
 			ConditionData._ValyriaRehabilitated = lerp( ValyriaRehabilitated1, ValyriaRehabilitated2, FracCoord.y ) * Impact;
 
 		}
-		
+
 		void SampleProvinceEffectsMask( float2 MapCoords, inout EffectIntensities ConditionData )
 		{
 			//SEASONS MODDED
@@ -211,7 +213,7 @@ PixelShader =
 				ConditionData._ValyriaRehabilitated = 0.0f;
 				return;
 			#endif
-			
+
 			float2 Pixel = MapCoords * IndirectionMapSize + 0.5f;
 			Pixel = floor( Pixel ) / IndirectionMapSize - InvIndirectionMapSize / 2.0f;
 			float4 Sample = SampleProvinceEffects( Pixel );
@@ -252,7 +254,7 @@ PixelShader =
 			{
 				return;
 			}
-			
+
 			float2 MapCoords = WorldSpacePosXz * WorldSpaceToTerrain0To1;
 			float2 DetailUV = CalcDetailUV( WorldSpacePosXz );
 
@@ -323,7 +325,7 @@ PixelShader =
 			Properties = lerp( Properties, DroughtProperties, ConditionValue );
 		}
 		//Seasons Added
-		
+
 		void ApplyAutumnDiffuseTerrain( inout float4 Diffuse, inout float3 Normal, inout float4 Properties, float2 WorldSpacePosXz, float ConditionValue )
 		{
 			if ( ConditionValue <= SKIP_VALUE )
@@ -450,12 +452,12 @@ PixelShader =
 			Diffuse.rgb = lerp( Diffuse.rgb, DryAutumnDiffuse.rgb, ConditionValue );
 			Normal = lerp( Normal, DryAutumnNormal, ConditionValue );
 			Properties = lerp( Properties, DryAutumnProperties, ConditionValue );
-		}	
-		
-		
+		}
+
+
 		//END ALT DRY AUTUMN
 
-		
+
 		//End Seasons Added
 		void ApplyFloodingDiffuseTerrain( inout float4 Diffuse, inout float3 Normal, inout float4 Properties, float2 WorldSpacePosXz, float ConditionValue, inout float WaterNormalLerp )
 		{
@@ -764,7 +766,7 @@ PixelShader =
 			Normal = lerp( Normal, ValyriaRestored2Normal, ConditionValue );
 			Properties = lerp( Properties, ValyriaRestored2Properties, ConditionValue );
 		}
-		
+
 		void ApplyValyriaRehabilitatedDiffuseTerrain( inout float4 Diffuse, inout float3 Normal, inout float4 Properties, float2 WorldSpacePosXz, float ConditionValue )
 		{
 			if ( ConditionValue <= SKIP_VALUE )
@@ -821,7 +823,7 @@ PixelShader =
 			#ifdef LOW_SPEC_SHADERS
 				return;
 			#endif
-			
+
 			//MOD SEASONS
 			// Do not apply any effects to the snow.
 			//float3 SnowColor = float3( 0.1f, 0.1f, 0.1f );
@@ -891,8 +893,8 @@ PixelShader =
 			float3 SummerDiffuse = Overlay( Diffuse.rgb, SummerOverlayTree );
 			Diffuse.rgb = lerp( Diffuse.rgb, SummerDiffuse, ConditionValue );
 		}
-		//#SEASONS ADDED 
-		
+		//#SEASONS ADDED
+
 		void ApplyAutumnDiffuseTree( inout float4 Diffuse, float2 WorldSpacePosXz, float ConditionValue )
 		{
 			if ( ConditionValue <= SKIP_VALUE )
@@ -1063,7 +1065,7 @@ PixelShader =
 			ApplyValyriaRestored1DiffuseTree( Diffuse, WorldSpacePosXz, ConditionData._ValyriaRestored1 );
 			ApplyValyriaRestored2DiffuseTree( Diffuse, WorldSpacePosXz, ConditionData._ValyriaRestored2 );
 			ApplyValyriaRehabilitatedDiffuseTree( Diffuse, WorldSpacePosXz, ConditionData._ValyriaRehabilitated );
-						
+
 			DebugCondition( Diffuse.rgb, ConditionData );
 		}
 		void ApplyProvinceEffectsTree_yellow( in EffectIntensities ConditionData, inout float4 Diffuse, float2 MapCoords, float2 WorldSpacePosXz )
@@ -1079,7 +1081,7 @@ PixelShader =
 			ApplyWetAutumnDiffuseTree( Diffuse, WorldSpacePosXz, ConditionData._DryAutumn );
 			ApplyWetAutumnDiffuseTree( Diffuse, WorldSpacePosXz, ConditionData._WetAutumn );
 			//ApplySummerDiffuseTree( Diffuse, WorldSpacePosXz, ConditionData._Autumn );
-			
+
 			DebugCondition( Diffuse.rgb, ConditionData );
 		}
 		void ApplyProvinceEffectsTree_red( in EffectIntensities ConditionData, inout float4 Diffuse, float2 MapCoords, float2 WorldSpacePosXz )
@@ -1095,7 +1097,7 @@ PixelShader =
 			ApplyAutumnDiffuseTree( Diffuse, WorldSpacePosXz, ConditionData._DryAutumn );
 			ApplyAutumnDiffuseTree( Diffuse, WorldSpacePosXz, ConditionData._WetAutumn );
 			//ApplySummerDiffuseTree( Diffuse, WorldSpacePosXz, ConditionData._Autumn );
-			
+
 			DebugCondition( Diffuse.rgb, ConditionData );
 		}
 		void ApplyProvinceEffectsTree_orange( in EffectIntensities ConditionData, inout float4 Diffuse, float2 MapCoords, float2 WorldSpacePosXz )
@@ -1111,7 +1113,7 @@ PixelShader =
 			ApplyDryAutumnDiffuseTree( Diffuse, WorldSpacePosXz, ConditionData._DryAutumn );
 			ApplyDryAutumnDiffuseTree( Diffuse, WorldSpacePosXz, ConditionData._WetAutumn );
 			//ApplySummerDiffuseTree( Diffuse, WorldSpacePosXz, ConditionData._Autumn );
-			
+
 			DebugCondition( Diffuse.rgb, ConditionData );
 		}
 		void ApplyDroughtDiffuseDecal( inout float3 Diffuse, float ConditionValue )

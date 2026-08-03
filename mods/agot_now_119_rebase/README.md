@@ -1,9 +1,9 @@
-# AGOT NOW 1.2.4 - CK3 1.19 Rebase
+# AGOT NOW - CK3 1.19 Rebase
 
 Narrow executable-script repair for:
 
 1. A Game of Thrones 0.4.40
-2. AGOT Nobility of Westeros 1.2.4
+2. AGOT Nobility of Westeros 1.2.4.1
 3. This rebase
 
 Load immediately after NOW and before the local NOW + LoV + Essos Expanded map
@@ -44,5 +44,5 @@ Recompare this file with NOW after every Workshop update.
 Validated inputs:
 
 - AGOT Workshop ID `2962333032`, version `0.4.40`
-- NOW Workshop ID `3664900993`, version `1.2.4`
+- NOW Workshop ID `3664900993`, version `1.2.4.1`
 - CK3 `1.19.0.6`

@@ -2,10 +2,16 @@
 
 Load after AGOT, AGOT Nobility of Westeros (NOW), Legacy of Valyria (LoV), the
 AGOT 0.4.39 LoV temporary compatch, Essos Expanded, and its LoV compatch. The
-local `AGOT NOW 1.2.4 - CK3 1.19 Rebase` must load immediately after NOW and
-before this map layer. The local
-`Essos Expanded + LoV - CK3 1.19 History Rebase` must load immediately after
-Essos Expanded and before its TempLoV compatch.
+local `AGOT NOW - CK3 1.19 Rebase` must load immediately after NOW and before
+this map layer. The local `Essos Expanded + LoV - CK3 1.19 History Rebase` must
+load immediately after Essos Expanded and before its TempLoV compatch.
+
+The three Workshop compatches must follow the history rebase, in this order,
+before this module:
+
+1. `AGOT NOW-Season of Ice and Fire Compatch`
+2. `Seasons of Valyria - TempLoV/NOW/Seasons Compatch`
+3. `Essos Expanded - TempLoV/NOW Compatch`
 
 This is a semantic merge rather than a last-writer copy:
 
@@ -19,13 +25,28 @@ This is a semantic merge rather than a last-writer copy:
 - accepts the noncanonical indentation used by several EE/LoV locator records
   and verifies that no locator id is skipped or duplicated during generation;
 - composites the two generator masks changed by NOW;
-- merges NOW's title-data changes into the LoV/Essos government dispatcher;
 - resolves the two verified AGOT 0.4.40 title-localization fallback conflicts to
   NOW's warden/master rules, while failing generation for any other merge
   conflict.
 
-`scripts/generate-agot-now-lov-ee-map-compatch.py` regenerates the text and
-source-image merge from the installed Workshop inputs.
+It deliberately does not own `00_agot_character_data_effects.txt`: the third
+Workshop compatch owns its upstream dispatcher and the later Lore Governments
+module applies the final lore-specific transform. Keeping map data and
+character-title dispatch separate prevents a map rebase from restoring stale
+government behavior.
+
+`scripts/generate-agot-now-lov-ee-map-compatch.py` stages generated output and
+only copies completed files into the local module. Its source manifest pins all
+text and image inputs, so an upstream update must be reviewed explicitly:
+
+```sh
+scripts/generate-agot-now-lov-ee-map-compatch.py --text-only
+scripts/generate-agot-now-lov-ee-map-compatch.py --check --text-only
+scripts/generate-agot-now-lov-ee-map-compatch.py --update-source-manifest
+```
+
+Run without `--text-only` when an accepted upstream update changes a source map
+image or mask; the normal generator then also rebuilds the image composites.
 
 At runtime this layer deliberately leaves the coherent Essos Expanded 1.0
 `heightmap.png` and packed heightmap set in control, so the small NOW elevation

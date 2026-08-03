@@ -59,6 +59,7 @@ WORKSHOP_IDS = {
     "RC": "3719888822",
     "EE": "3682802751",
     "EEP": "3768149491",
+    "BRIDGE": "3773608127",
 }
 
 
@@ -599,49 +600,23 @@ def family_closure(
 
 def transform_effect(text: str) -> str:
     if "### LORE GOVERNMENT INTEGRATION ###" in text:
-        raise AssertionError("map compatch input already contains lore integration")
-    text = text.replace(
-        "# NOW 1.2.4 + LoV RC71 + Essos Expanded 1.0.3 semantic merge.",
-        "# NOW + LoV + Essos Expanded lore-government integration.",
-        1,
+        raise AssertionError("bridge input already contains lore integration")
+    upstream_mappings = (
+        "\t\t\tnomad_government = { assign_government_data_effect = { GOV = tribal SCOPE = $SCOPE$ } }\n"
+        "\t\t\tcelestial_government = { assign_government_data_effect = { GOV = feudal SCOPE = $SCOPE$ } }\n"
     )
-    marker = "\n\t### ASSIGN TO LIST ###"
-    if text.count(marker) != 1:
-        raise AssertionError("assign_government_data_effect marker changed")
-    removals = []
-    for short in ("nomad", "celestial", "meritocratic", "mandala"):
-        removals.append(
-            "\tif = {\n"
-            f"\t\tlimit = {{ NOT = {{ flag:$GOV$ = flag:{short} }} }}\n"
-            f"\t\tremove_list_global_variable = {{ name = {short}_government_list target = $SCOPE$ }}\n"
-            "\t}\n"
+    if text.count(upstream_mappings) != 1:
+        raise AssertionError(
+            "bridge nomad/celestial historical-government mappings changed"
         )
     text = text.replace(
-        marker,
-        "\n\t### LORE GOVERNMENT INTEGRATION ###\n" + "".join(removals) + marker,
+        upstream_mappings,
+        upstream_mappings
+        + "\t\t\t# Lore governments reuse AGOT's feudal historical-title path.\n"
+        + "\t\t\tmeritocratic_government = { assign_government_data_effect = { GOV = feudal SCOPE = $SCOPE$ } }\n"
+        + "\t\t\tmandala_government = { assign_government_data_effect = { GOV = feudal SCOPE = $SCOPE$ } }\n",
+        1,
     )
-    prune_needle = "\tremove_list_global_variable = { name = ruins_government_list target = $SCOPE$ }\n"
-    if text.count(prune_needle) != 2:
-        raise AssertionError("prune government list tail changed")
-    prune_add = "".join(
-        f"\tremove_list_global_variable = {{ name = {short}_government_list target = $SCOPE$ }}\n"
-        for short in ("nomad", "celestial", "meritocratic", "mandala")
-    )
-    prune_position = text.rfind(prune_needle)
-    text = (
-        text[:prune_position]
-        + prune_needle
-        + prune_add
-        + text[prune_position + len(prune_needle) :]
-    )
-    switch_needle = "\t\t\tclan_government = { assign_government_data_effect = { GOV = clan SCOPE = $SCOPE$ } }\n"
-    if text.count(switch_needle) != 1:
-        raise AssertionError("government switch clan branch changed")
-    switch_add = "".join(
-        f"\t\t\t{short}_government = {{ assign_government_data_effect = {{ GOV = {short} SCOPE = $SCOPE$ }} }}\n"
-        for short in ("nomad", "celestial", "meritocratic", "mandala")
-    )
-    text = text.replace(switch_needle, switch_needle + switch_add)
     fallback_needle = (
         "\t\t\tif = {\n"
         "\t\t\t\tlimit = { $SCOPE$.primary_title.previous_holder ?= { agot_ruler_is_government_trigger = { GOV = landless_adventurer } } }\n"
@@ -649,13 +624,13 @@ def transform_effect(text: str) -> str:
     if text.count(fallback_needle) != 1:
         raise AssertionError("fallback government insertion point changed")
     fallback_add = ""
-    for short in ("nomad", "celestial", "meritocratic", "mandala"):
+    for short in ("meritocratic", "mandala"):
         fallback_add += (
             "\t\t\tif = {\n"
             f"\t\t\t\tlimit = {{ $SCOPE$.primary_title.previous_holder ?= {{ agot_ruler_is_government_trigger = {{ GOV = {short} }} }} }}\n"
             "\t\t\t\tset_variable = {\n"
             "\t\t\t\t\tname = temp_government_type\n"
-            f"\t\t\t\t\tvalue = flag:{short}\n"
+            "\t\t\t\t\tvalue = flag:feudal\n"
             "\t\t\t\t\tdays = 1\n"
             "\t\t\t\t}\n"
             "\t\t\t}\n"
@@ -664,20 +639,15 @@ def transform_effect(text: str) -> str:
     if text.count("culture = culture:jhalai") != 2:
         raise AssertionError("Jogos/Jhalai flavor branch changed")
     text = text.replace("culture = culture:jhalai", "culture = culture:jogos_nhai")
-    dothraki_needle = (
-        "\t\t\t\t\t\t\tculture = culture:dothraki\n"
-        "\t\t\t\t\t\t\thas_government = tribal_government\n"
-    )
-    if text.count(dothraki_needle) != 2:
-        raise AssertionError("Dothraki flavor government checks changed")
-    dothraki_replacement = (
+    dothraki_branch = (
         "\t\t\t\t\t\t\tculture = culture:dothraki\n"
         "\t\t\t\t\t\t\tOR = {\n"
-        "\t\t\t\t\t\t\t\thas_government = nomad_government\n"
         "\t\t\t\t\t\t\t\thas_government = tribal_government\n"
+        "\t\t\t\t\t\t\t\thas_government = nomad_government\n"
         "\t\t\t\t\t\t\t}\n"
     )
-    text = text.replace(dothraki_needle, dothraki_replacement)
+    if text.count(dothraki_branch) != 2:
+        raise AssertionError("Dothraki flavor government checks changed")
     ibben_needle = "\t\t\t\t\t\t\tculture = culture:ibbatese\n"
     if text.count(ibben_needle) != 1:
         raise AssertionError("Ibben flavor branch changed")
@@ -685,6 +655,11 @@ def transform_effect(text: str) -> str:
         ibben_needle,
         ibben_needle + "\t\t\t\t\t\t\tfaith = faith:ib_ven_god_king\n",
     )
+    if text.count("ee_yiti_governor_male") != 1:
+        raise AssertionError("Yi Ti governor title branch changed")
+    for short in ("nomad", "celestial", "meritocratic", "mandala"):
+        if f"{short}_government_list" in text:
+            raise AssertionError(f"unexpected {short} historical-government list")
     return text
 
 
@@ -738,10 +713,7 @@ def main() -> int:
     source = module / "content_source/lore_governments"
     rules_path = source / "government_lore_rules.csv"
     manifest_path = source / "source_manifest.json"
-    effect_source = (
-        root
-        / "mods/agot_now_lov_ee_map_compatch/common/scripted_effects/replace/00_agot_character_data_effects.txt"
-    )
+    effect_source = workshop["BRIDGE"] / "common/scripted_effects/replace/00_agot_character_data_effects.txt"
     roots = [
         ("LOV", workshop["LOV"]),
         ("RC", workshop["RC"]),

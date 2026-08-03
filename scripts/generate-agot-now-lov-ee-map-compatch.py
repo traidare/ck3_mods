@@ -1,15 +1,33 @@
 #!/usr/bin/env python3
 from __future__ import annotations
-from pathlib import Path
 import argparse
-import hashlib, re, subprocess, tempfile, shutil
+import hashlib
+import json
+import re
+import shutil
+import subprocess
+import tempfile
+from pathlib import Path
 
 parser = argparse.ArgumentParser(
     description="Regenerate the semantic NOW + LoV + Essos map merge."
 )
 parser.add_argument("--root", type=Path, default=Path(__file__).resolve().parents[1])
 parser.add_argument(
-    "--output", type=Path, default=Path("/tmp/agot_now_lov_ee_map_compatch")
+    "--output", type=Path, default=None,
+    help="Destination module or scratch directory (defaults to the tracked map module).",
+)
+mode = parser.add_mutually_exclusive_group()
+mode.add_argument("--check", action="store_true", help="Verify tracked textual outputs.")
+mode.add_argument(
+    "--update-source-manifest",
+    action="store_true",
+    help="Accept reviewed upstream input hashes.",
+)
+parser.add_argument(
+    "--text-only",
+    action="store_true",
+    help="Skip raster composites; useful when only script/map-object inputs changed.",
 )
 args = parser.parse_args()
 
@@ -21,10 +39,12 @@ LOV = WS / "3403938445"
 RC = WS / "3719888822"
 EE = WS / "3682802751"
 EEP = WS / "3768149491"
-OUT = args.output.resolve()
-if OUT.exists():
-    shutil.rmtree(OUT)
-OUT.mkdir(parents=True)
+TRACKED_OUTPUT = ROOT / "mods/agot_now_lov_ee_map_compatch"
+DESTINATION = (args.output or TRACKED_OUTPUT).resolve()
+# Build only in a disposable stage. A failed ImageMagick process must never
+# leave a tracked module half-deleted.
+OUT = Path(tempfile.mkdtemp(prefix="agot_now_lov_ee_map_compatch."))
+MANIFEST_PATH = TRACKED_OUTPUT / "content_source/source_manifest.json"
 RECT = (
     575.0,
     2060.0,
@@ -53,11 +73,76 @@ map_paths = [
 ]
 
 
+def sha256_file(path: Path) -> str:
+    digest = hashlib.sha256()
+    with path.open("rb") as handle:
+        while chunk := handle.read(1024 * 1024):
+            digest.update(chunk)
+    return digest.hexdigest()
+
+
 def winner(rel):
     for p in (EEP, EE, RC, LOV, AGOT):
         if (p / rel).is_file():
             return p / rel
     raise FileNotFoundError(rel)
+
+
+def source_manifest() -> dict[str, object]:
+    inputs = {
+        AGOT / rel for rel in map_paths
+    } | {
+        NOW / rel for rel in map_paths
+    } | {
+        winner(rel) for rel in map_paths
+    } | {
+        AGOT / "map_data/definition.csv",
+        NOW / "map_data/definition.csv",
+        winner("map_data/definition.csv"),
+        AGOT / "map_data/heightmap.png",
+        NOW / "map_data/heightmap.png",
+        EE / "map_data/heightmap.png",
+        AGOT / "content_source/map_objects/masks/tree_leaf_01_single_mask.png",
+        NOW / "content_source/map_objects/masks/tree_leaf_01_single_mask.png",
+        EE / "content_source/map_objects/masks/tree_leaf_01_single_mask.png",
+        AGOT / "content_source/map_objects/masks/tree_pine_01_a_mask.png",
+        NOW / "content_source/map_objects/masks/tree_pine_01_a_mask.png",
+        EE / "content_source/map_objects/masks/tree_pine_01_a_mask.png",
+    }
+    modules = {"AGOT": AGOT, "NOW": NOW, "LOV": LOV, "RC": RC, "EE": EE, "EEP": EEP}
+    versions = {}
+    for label, module in modules.items():
+        descriptor = module / "descriptor.mod"
+        match = re.search(
+            r'(?m)^version="([^"]+)"',
+            descriptor.read_text(encoding="utf-8-sig"),
+        )
+        versions[label] = match.group(1) if match else "unversioned"
+    return {
+        "schema_version": 1,
+        "workshop_ids": {label: module.name for label, module in modules.items()},
+        "versions": versions,
+        "files": {
+            path.relative_to(ROOT).as_posix(): {
+                "sha256": sha256_file(path),
+                "size": path.stat().st_size,
+            }
+            for path in sorted(inputs)
+        },
+    }
+
+
+CURRENT_MANIFEST = source_manifest()
+if args.update_source_manifest:
+    pass
+elif not MANIFEST_PATH.is_file():
+    raise FileNotFoundError(
+        f"{MANIFEST_PATH} missing; review inputs and run --update-source-manifest"
+    )
+elif json.loads(MANIFEST_PATH.read_text(encoding="utf-8")) != CURRENT_MANIFEST:
+    raise AssertionError(
+        "map-compatch upstream source manifest drifted; review and run --update-source-manifest"
+    )
 
 
 def read(p):
@@ -271,97 +356,6 @@ out = [
 write("map_data/definition.csv", "\n".join(out) + "\n", encoding="utf-8")
 
 
-# Character title effect: clean three-way merge NOW apply block into EE/LoV full dispatcher.
-def extract_named(text, name):
-    needle = f"{name} = {{"
-    start = text.index(needle)
-    depth = 0
-    quoted = False
-    comment = False
-    for i in range(start, len(text)):
-        c = text[i]
-        if comment:
-            if c == "\n":
-                comment = False
-        elif c == '"':
-            quoted = not quoted
-        elif c == "#" and not quoted:
-            comment = True
-        elif not quoted:
-            if c == "{":
-                depth += 1
-            elif c == "}":
-                depth -= 1
-                if depth == 0:
-                    return start, i + 1, text[start : i + 1]
-    raise ValueError(name)
-
-
-def resolve_agot_0440_title_conflicts(text):
-    """Keep NOW's landed-gentry fallback at two verified AGOT 0.4.40 conflicts."""
-    conflict = re.compile(
-        r"(?ms)^<<<<<<< [^\n]+\n"
-        r"(?P<ours>.*?)"
-        r"^\|\|\|\|\|\|\| [^\n]+\n"
-        r"(?P<base>.*?)"
-        r"^=======\n"
-        r"(?P<now>.*?)"
-        r"^>>>>>>> [^\n]+\n?"
-    )
-    matches = list(conflict.finditer(text))
-    assert len(matches) == 2, f"expected two AGOT 0.4.40 conflicts, found {len(matches)}"
-
-    expected_hashes = {
-        "ours": "fedd77e39f32ee971dcd97642aa80012f699fd22b603b36bf290abcf40213670",
-        "base": "667e3ca1d8bc0673c028c573514984753f7dd48a8f9c7d7045de54208b6a3d82",
-        "now": "7fc97a401f834b426432ee8ba108c28c24274d0eb4a831e221c79beea639d6fd",
-    }
-    for match in matches:
-        actual_hashes = {
-            side: hashlib.sha256(match.group(side).encode()).hexdigest()
-            for side in expected_hashes
-        }
-        assert actual_hashes == expected_hashes, (
-            f"unexpected AGOT 0.4.40 title conflict: {actual_hashes}"
-        )
-    return conflict.sub(lambda match: match.group("now"), text)
-
-
-base = read(AGOT / "common/scripted_effects/00_agot_character_data_effects.txt")
-ours = read(EEP / "common/scripted_effects/replace/00_agot_character_data_effects.txt")
-now = read(NOW / "common/scripted_effects/replace/00_agot_character_data_effects.txt")
-_, _, bb = extract_named(base, "apply_character_title_data")
-os, oe, ob = extract_named(ours, "apply_character_title_data")
-_, _, nb = extract_named(now, "apply_character_title_data")
-with tempfile.TemporaryDirectory() as td:
-    td = Path(td)
-    for n, t in [("base", bb), ("ours", ob), ("now", nb)]:
-        (td / n).write_text(t + "\n")
-    r = subprocess.run(
-        [
-            "git",
-            "merge-file",
-            "-p",
-            str(td / "ours"),
-            str(td / "base"),
-            str(td / "now"),
-        ],
-        text=True,
-        capture_output=True,
-    )
-    assert r.returncode in (0, 2), r.stderr
-    merged_output = r.stdout
-    if r.returncode == 2:
-        merged_output = resolve_agot_0440_title_conflicts(merged_output)
-    assert "<<<<<<<" not in merged_output
-    merged = merged_output.rstrip("\n")
-header = "# NOW 1.2.4 + LoV RC71 + Essos Expanded 1.0.3 semantic merge.\n# Preserves the LoV/EE government dispatcher and NOW title-localization delta.\n"
-write(
-    "common/scripted_effects/replace/00_agot_character_data_effects.txt",
-    header + ours[:os] + merged + ours[oe:],
-)
-
-
 # Exact-pixel delta composites for source heightmap and the two NOW-changed generator masks.
 def composite_delta(base, now, ours, out):
     out.parent.mkdir(parents=True, exist_ok=True)
@@ -387,19 +381,20 @@ def composite_delta(base, now, ours, out):
         )
 
 
-composite_delta(
-    AGOT / "map_data/heightmap.png",
-    NOW / "map_data/heightmap.png",
-    EE / "map_data/heightmap.png",
-    OUT / "content_source/heightmap/heightmap_now_delta_unpacked.png",
-)
-for f in ("tree_leaf_01_single_mask.png", "tree_pine_01_a_mask.png"):
+if not args.text_only:
     composite_delta(
-        AGOT / "content_source/map_objects/masks" / f,
-        NOW / "content_source/map_objects/masks" / f,
-        EE / "content_source/map_objects/masks" / f,
-        OUT / "content_source/map_objects/masks" / f,
+        AGOT / "map_data/heightmap.png",
+        NOW / "map_data/heightmap.png",
+        EE / "map_data/heightmap.png",
+        OUT / "content_source/heightmap/heightmap_now_delta_unpacked.png",
     )
+    for f in ("tree_leaf_01_single_mask.png", "tree_pine_01_a_mask.png"):
+        composite_delta(
+            AGOT / "content_source/map_objects/masks" / f,
+            NOW / "content_source/map_objects/masks" / f,
+            EE / "content_source/map_objects/masks" / f,
+            OUT / "content_source/map_objects/masks" / f,
+        )
 
 # Fail generation rather than emitting structurally inconsistent map objects.
 locator_paths = {
@@ -443,7 +438,36 @@ assert len(definition_ids) == len(set(definition_ids)), (
     "duplicate province id in definition.csv"
 )
 
-print("generated", OUT)
-for p in sorted(OUT.rglob("*")):
-    if p.is_file():
-        print(p.relative_to(OUT), p.stat().st_size)
+text_outputs = [*map_paths, "map_data/definition.csv"]
+if args.check:
+    stale = [
+        relative
+        for relative in text_outputs
+        if not (TRACKED_OUTPUT / relative).is_file()
+        or (TRACKED_OUTPUT / relative).read_bytes() != (OUT / relative).read_bytes()
+    ]
+    if stale:
+        raise AssertionError(
+            "tracked map-compatch textual outputs are stale: " + ", ".join(stale)
+        )
+    print("map-compatch textual outputs are current")
+elif args.update_source_manifest:
+    MANIFEST_PATH.parent.mkdir(parents=True, exist_ok=True)
+    MANIFEST_PATH.write_text(
+        json.dumps(CURRENT_MANIFEST, indent=2, sort_keys=True) + "\n",
+        encoding="utf-8",
+    )
+    print(f"updated {MANIFEST_PATH.relative_to(ROOT)}")
+else:
+    if DESTINATION in {ROOT, ROOT / "mods"}:
+        raise ValueError(f"refusing broad map-compatch destination: {DESTINATION}")
+    for source in sorted(path for path in OUT.rglob("*") if path.is_file()):
+        relative = source.relative_to(OUT)
+        target = DESTINATION / relative
+        target.parent.mkdir(parents=True, exist_ok=True)
+        shutil.copy2(source, target)
+    print("generated", DESTINATION)
+    for source in sorted(path for path in OUT.rglob("*") if path.is_file()):
+        print(source.relative_to(OUT), source.stat().st_size)
+
+shutil.rmtree(OUT)

@@ -1,0 +1,273 @@
+{
+  "files": {
+    ".ignored/CK3_workshop/2962333032/content_source/map_objects/masks/tree_leaf_01_single_mask.png": {
+      "sha256": "7bc8b539e6a9e289a6be4efde3aec4214d4c9d2d779a378987a075e6b2e20e94",
+      "size": 405818
+    },
+    ".ignored/CK3_workshop/2962333032/content_source/map_objects/masks/tree_pine_01_a_mask.png": {
+      "sha256": "8bc2857606a9879bdcfb98e61d5c91d2343082aef77a5b94fc413b72b2867058",
+      "size": 497375
+    },
+    ".ignored/CK3_workshop/2962333032/gfx/map/map_object_data/activities.txt": {
+      "sha256": "71e63fbf22a98cb22c0d10283e4a9219f866cd62427f2eec3400ab9f7950e619",
+      "size": 1183895
+    },
+    ".ignored/CK3_workshop/2962333032/gfx/map/map_object_data/building_locators.txt": {
+      "sha256": "4c8ddb82b26c0469b06d06a88ead9aba0e89679a27931c9b1cc96363957f6a75",
+      "size": 1183470
+    },
+    ".ignored/CK3_workshop/2962333032/gfx/map/map_object_data/combat_locators.txt": {
+      "sha256": "a492eb36c549f6c9e97461c1ee649fdfd3bd9f0977ca8212dec2a2c1960f9e14",
+      "size": 1259376
+    },
+    ".ignored/CK3_workshop/2962333032/gfx/map/map_object_data/generated/cactus_cholla_01_generator_1.txt": {
+      "sha256": "329d3c05d74a0d1f243e81b3aa3f556c74594abad5e4df74f6ccd93e82dbb97a",
+      "size": 587
+    },
+    ".ignored/CK3_workshop/2962333032/gfx/map/map_object_data/generated/tree_leaf_01_single_generator_1.txt": {
+      "sha256": "301472fa4019bc68a806773f8289df3e7cb27ca0e8df84716111bff17ec9880c",
+      "size": 43021112
+    },
+    ".ignored/CK3_workshop/2962333032/gfx/map/map_object_data/generated/tree_leaf_2_high_generator_1.txt": {
+      "sha256": "4566544a0c67f3a7d733fadc1261760c63e21bce32a246b34eea1d8464de07c9",
+      "size": 945801
+    },
+    ".ignored/CK3_workshop/2962333032/gfx/map/map_object_data/generated/tree_mangrove_generator_1.txt": {
+      "sha256": "a0a02d16a5e832cddad89ae722adbff77a30253e20c6191aca7390d04b6d16e1",
+      "size": 280441
+    },
+    ".ignored/CK3_workshop/2962333032/gfx/map/map_object_data/generated/tree_mangrove_generator_2.txt": {
+      "sha256": "6d18d8d845aece0b743278291b9a537644bdf630a0d7db4edee9490298778f28",
+      "size": 55100
+    },
+    ".ignored/CK3_workshop/2962333032/gfx/map/map_object_data/generated/tree_mangrove_generator_3.txt": {
+      "sha256": "2e8ae21ddae7a66233d8a66640882830e1615984fad2d490a18e40c62298716c",
+      "size": 119257
+    },
+    ".ignored/CK3_workshop/2962333032/gfx/map/map_object_data/generated/tree_pine_01_a_generator_1.txt": {
+      "sha256": "3296e729234d7bdb0a7833a354466047c6dee6a267ed68b90f5acb15fc44c228",
+      "size": 58557524
+    },
+    ".ignored/CK3_workshop/2962333032/gfx/map/map_object_data/new_mapobject_1.txt": {
+      "sha256": "374dada19d658166a86a91564ec682aad7cb6dee4f893f10e698c453c757f845",
+      "size": 968695
+    },
+    ".ignored/CK3_workshop/2962333032/gfx/map/map_object_data/new_mapobject_2.txt": {
+      "sha256": "562a1dcda8bc04aaeeafcf7aeb6997924dbb3d1e07a805dee703c585e6045d4a",
+      "size": 48364
+    },
+    ".ignored/CK3_workshop/2962333032/gfx/map/map_object_data/new_mapobject_3.txt": {
+      "sha256": "79e0ca9aecd1e3134800a9ddca1e3693e64b802795e5d20cc84ac50a5b2f6a78",
+      "size": 50056
+    },
+    ".ignored/CK3_workshop/2962333032/gfx/map/map_object_data/new_mapobject_5.txt": {
+      "sha256": "4f971d659ad181d00c006a8f235fcd3b307e4b2631c3da0a4e5caeb96c046c42",
+      "size": 10267
+    },
+    ".ignored/CK3_workshop/2962333032/gfx/map/map_object_data/player_stack_locators.txt": {
+      "sha256": "c10a93bfb63f7f4d5497e9afa3acb4224940236f672f381e23c1e669c7499643",
+      "size": 1261090
+    },
+    ".ignored/CK3_workshop/2962333032/gfx/map/map_object_data/siege_locators.txt": {
+      "sha256": "3e704a70283366c43f89d21635158eba9509e91232ef0e5b695d35b10c1b97f5",
+      "size": 1179752
+    },
+    ".ignored/CK3_workshop/2962333032/gfx/map/map_object_data/special_building_locators.txt": {
+      "sha256": "df47136da988aa2521cedc21bd758dd9bfc1edae076139b83496809ac65cfb17",
+      "size": 1184771
+    },
+    ".ignored/CK3_workshop/2962333032/map_data/definition.csv": {
+      "sha256": "d14fd2b0af6365f5dde70ab02cf760ed0b8ed4f51e69a9c66fd5a1b1f667e38c",
+      "size": 262100
+    },
+    ".ignored/CK3_workshop/2962333032/map_data/heightmap.png": {
+      "sha256": "fafb692f6bc29b2b866eee4e6f934952db86cc007a45cd0e16230a9e74aa6c5c",
+      "size": 21577617
+    },
+    ".ignored/CK3_workshop/3664900993/content_source/map_objects/masks/tree_leaf_01_single_mask.png": {
+      "sha256": "be5792e6b755e2481d8f8706d76d795032854e5f1731b63089e558750e68de90",
+      "size": 405835
+    },
+    ".ignored/CK3_workshop/3664900993/content_source/map_objects/masks/tree_pine_01_a_mask.png": {
+      "sha256": "74e1a54f12298d3ea4bdffb882596a39ffa3d99912fbc9e768457e8cc90806a8",
+      "size": 497435
+    },
+    ".ignored/CK3_workshop/3664900993/gfx/map/map_object_data/activities.txt": {
+      "sha256": "576eeff7b7ffe0c0683a71ae6650e821a9aaec0aa251f4dc74f49222aa6ec30e",
+      "size": 1141844
+    },
+    ".ignored/CK3_workshop/3664900993/gfx/map/map_object_data/building_locators.txt": {
+      "sha256": "1af7e5a4bf4abc263a5b368436f61a6d6c3c2bf0d279ef4d616128589b18954a",
+      "size": 1141421
+    },
+    ".ignored/CK3_workshop/3664900993/gfx/map/map_object_data/combat_locators.txt": {
+      "sha256": "d64cdb86329550c9bb4e3d9dd852bfe6491b6e0d27656d85e938da90362f357f",
+      "size": 1214505
+    },
+    ".ignored/CK3_workshop/3664900993/gfx/map/map_object_data/generated/cactus_cholla_01_generator_1.txt": {
+      "sha256": "f983273ce3434faad68381ad3a9eada5d5a40e893d5dac283fb6d005f2464cd6",
+      "size": 560
+    },
+    ".ignored/CK3_workshop/3664900993/gfx/map/map_object_data/generated/tree_leaf_01_single_generator_1.txt": {
+      "sha256": "9fdc90f5d78fd123bbf4d716fe1514104cda3235c23b1ede2b87b8ef2263518f",
+      "size": 45296237
+    },
+    ".ignored/CK3_workshop/3664900993/gfx/map/map_object_data/generated/tree_leaf_2_high_generator_1.txt": {
+      "sha256": "6977f78c76cab73da5e256d6ac7ce8f5ca43257552f456ada0a57c87ed4f4568",
+      "size": 974309
+    },
+    ".ignored/CK3_workshop/3664900993/gfx/map/map_object_data/generated/tree_mangrove_generator_1.txt": {
+      "sha256": "609949e5d1a81e1a08b2ca5e8599a519d949f8ce74c6a2104dd9970c2a138971",
+      "size": 299855
+    },
+    ".ignored/CK3_workshop/3664900993/gfx/map/map_object_data/generated/tree_mangrove_generator_2.txt": {
+      "sha256": "70010821abcc28aae51f27aded8fa95d39d900bb78422da7855907638e819bf1",
+      "size": 56454
+    },
+    ".ignored/CK3_workshop/3664900993/gfx/map/map_object_data/generated/tree_mangrove_generator_3.txt": {
+      "sha256": "e30c86f912bdf2376937ad5615e5cd8898edf562731caaaca4a4871c5a90b09d",
+      "size": 124300
+    },
+    ".ignored/CK3_workshop/3664900993/gfx/map/map_object_data/generated/tree_pine_01_a_generator_1.txt": {
+      "sha256": "7c7fe27c2fa5eb53759aa05ac4ebe18968bbb40823c75fcc8fb4cb24f6b8863b",
+      "size": 58742169
+    },
+    ".ignored/CK3_workshop/3664900993/gfx/map/map_object_data/new_mapobject_1.txt": {
+      "sha256": "2573b032402ccf92e9426f407620f44a66acfec46a08d77d457ed88422d8b404",
+      "size": 960215
+    },
+    ".ignored/CK3_workshop/3664900993/gfx/map/map_object_data/new_mapobject_2.txt": {
+      "sha256": "67bc9049fe06d5578e2f79e8301347cd1a020c5870de91ba7f222afa7c3ff87d",
+      "size": 48377
+    },
+    ".ignored/CK3_workshop/3664900993/gfx/map/map_object_data/new_mapobject_3.txt": {
+      "sha256": "4aadf094d9473299040f39373d7632f173e748cf0e72516525b8d68d580eb1a2",
+      "size": 49612
+    },
+    ".ignored/CK3_workshop/3664900993/gfx/map/map_object_data/new_mapobject_5.txt": {
+      "sha256": "4c6adfe004687a1565a168314478455a88abf3e76db8db94edaaa96f2faa7175",
+      "size": 10148
+    },
+    ".ignored/CK3_workshop/3664900993/gfx/map/map_object_data/player_stack_locators.txt": {
+      "sha256": "e4cf14b929cb9fca987d4c002ece77f1efab78f3698d042899c36e6efb562bea",
+      "size": 1216210
+    },
+    ".ignored/CK3_workshop/3664900993/gfx/map/map_object_data/siege_locators.txt": {
+      "sha256": "acd6c8eef90399d63c46a2a118462db100768ab92622fc8eced587a6038727ab",
+      "size": 1137705
+    },
+    ".ignored/CK3_workshop/3664900993/gfx/map/map_object_data/special_building_locators.txt": {
+      "sha256": "b3073035802d5788c82c4f33aa32ef86b9eeb92c13f77151f4a15a238a1cbce6",
+      "size": 1142717
+    },
+    ".ignored/CK3_workshop/3664900993/map_data/definition.csv": {
+      "sha256": "f8f73d50c1c1589768b318e9e8cc6d83e3b8c58ecfc957e70af5f79c0bb77442",
+      "size": 253869
+    },
+    ".ignored/CK3_workshop/3664900993/map_data/heightmap.png": {
+      "sha256": "10eb1eec20f1695725decf963cc69b1649cc3bad7ae1aae02a40c9b730b2c295",
+      "size": 21580157
+    },
+    ".ignored/CK3_workshop/3682802751/content_source/map_objects/masks/tree_leaf_01_single_mask.png": {
+      "sha256": "c9266fd392ef2c76e036e007ebe55fa01a9730034ce75a25e1efb0a3782dfb36",
+      "size": 615857
+    },
+    ".ignored/CK3_workshop/3682802751/content_source/map_objects/masks/tree_pine_01_a_mask.png": {
+      "sha256": "06cdbc9f8f9db021967dbd8aa0e51340fb95ec60bc1a2a76c33449d523582713",
+      "size": 499892
+    },
+    ".ignored/CK3_workshop/3682802751/gfx/map/map_object_data/activities.txt": {
+      "sha256": "482cc1eba3c7861f0ed53f524ef8992f52be8b09eec7e075b7f917cfff51075c",
+      "size": 3685166
+    },
+    ".ignored/CK3_workshop/3682802751/gfx/map/map_object_data/building_locators.txt": {
+      "sha256": "955a7c5087d48c794cbacc485ee0b2b707210efc649c39ccd5d3b5b85aa25291",
+      "size": 3686250
+    },
+    ".ignored/CK3_workshop/3682802751/gfx/map/map_object_data/combat_locators.txt": {
+      "sha256": "a06175c15e062bfc8fb650b1540af28669beecad8c809e238be874132a08e9fa",
+      "size": 3940614
+    },
+    ".ignored/CK3_workshop/3682802751/gfx/map/map_object_data/generated/cactus_cholla_01_generator_1.txt": {
+      "sha256": "80c51d9c02d655ee57fa612f0377cfa79b46a9ab5081112e6c03d17eebd441fb",
+      "size": 315688
+    },
+    ".ignored/CK3_workshop/3682802751/gfx/map/map_object_data/generated/tree_leaf_01_single_generator_1.txt": {
+      "sha256": "5c9ec812920743a7322e48564cbc6535a5dd7d72eb7fa91173752f80cd202f1f",
+      "size": 67749940
+    },
+    ".ignored/CK3_workshop/3682802751/gfx/map/map_object_data/generated/tree_leaf_2_high_generator_1.txt": {
+      "sha256": "9d70a7fa0fd05eb61cadcfc8a966bfc7ebc4d4efde46c429a63285ca1bcefd40",
+      "size": 23243288
+    },
+    ".ignored/CK3_workshop/3682802751/gfx/map/map_object_data/generated/tree_mangrove_generator_1.txt": {
+      "sha256": "00b027cf648145821719a84b5a21d4929366f4d5f9d546699a880005dc9829de",
+      "size": 2150474
+    },
+    ".ignored/CK3_workshop/3682802751/gfx/map/map_object_data/generated/tree_mangrove_generator_2.txt": {
+      "sha256": "3d2ba2772c0cb61945bbeaa45b0bcde09bd1ec029b0cd006d3153920e5acd2d5",
+      "size": 1323171
+    },
+    ".ignored/CK3_workshop/3682802751/gfx/map/map_object_data/generated/tree_mangrove_generator_3.txt": {
+      "sha256": "1ad8821f70498d96fae508c35fa42f1a16d6d65c5dc6e48830a789536f1411a1",
+      "size": 2732190
+    },
+    ".ignored/CK3_workshop/3682802751/gfx/map/map_object_data/generated/tree_pine_01_a_generator_1.txt": {
+      "sha256": "12eeb0b1b5e2bbeb5d7a09296c35a799483ff0317c14211d16b76f56893a58d5",
+      "size": 58395713
+    },
+    ".ignored/CK3_workshop/3682802751/gfx/map/map_object_data/new_mapobject_1.txt": {
+      "sha256": "cc68a86d12c7401112dcd8385ac3f5a7d5881b47d1aa2029193a65e3ab6c6083",
+      "size": 960009
+    },
+    ".ignored/CK3_workshop/3682802751/gfx/map/map_object_data/new_mapobject_2.txt": {
+      "sha256": "69c75450b5c9c72f8aa78f1217cc0a4321856a130c830befb93c79d1f21cb757",
+      "size": 47605
+    },
+    ".ignored/CK3_workshop/3682802751/gfx/map/map_object_data/new_mapobject_3.txt": {
+      "sha256": "cfae5e4dbf2ac72022065c5865c048e927a1fff36127606a332bd6fea0c3ba8a",
+      "size": 11693
+    },
+    ".ignored/CK3_workshop/3682802751/gfx/map/map_object_data/new_mapobject_5.txt": {
+      "sha256": "4c6adfe004687a1565a168314478455a88abf3e76db8db94edaaa96f2faa7175",
+      "size": 10148
+    },
+    ".ignored/CK3_workshop/3682802751/gfx/map/map_object_data/player_stack_locators.txt": {
+      "sha256": "83a3e59d0736a22cc7a0c46fd00585fa71bba69141a7c3b82b86fafc5fc748e6",
+      "size": 3942070
+    },
+    ".ignored/CK3_workshop/3682802751/gfx/map/map_object_data/siege_locators.txt": {
+      "sha256": "6281d38e460e3cd9473797518c6e80a7857306349832752d7e85a246d7b8d85f",
+      "size": 3654581
+    },
+    ".ignored/CK3_workshop/3682802751/gfx/map/map_object_data/special_building_locators.txt": {
+      "sha256": "7624312b07eb120a37713ba423a2247ff5225896ce876640f4d49cdd68187444",
+      "size": 3692095
+    },
+    ".ignored/CK3_workshop/3682802751/map_data/heightmap.png": {
+      "sha256": "e1ff605b7b0e2b1f80a2d9362bba1f6e157549a6f214961b469b85d06aa79f56",
+      "size": 24008512
+    },
+    ".ignored/CK3_workshop/3768149491/map_data/definition.csv": {
+      "sha256": "091aa0474e81f753212000eec8f2836fc205343ec97064707b4ac4eb51e93c0d",
+      "size": 804613
+    }
+  },
+  "schema_version": 1,
+  "versions": {
+    "AGOT": "0.4.40",
+    "EE": "1.0",
+    "EEP": "1.0.9",
+    "LOV": "1.5.2.13",
+    "NOW": "1.2.4.1",
+    "RC": "0.4.39-rebased-rc71-tiger-hard-error-repair"
+  },
+  "workshop_ids": {
+    "AGOT": "2962333032",
+    "EE": "3682802751",
+    "EEP": "3768149491",
+    "LOV": "3403938445",
+    "NOW": "3664900993",
+    "RC": "3719888822"
+  }
+}

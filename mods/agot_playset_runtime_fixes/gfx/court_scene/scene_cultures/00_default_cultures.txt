@@ -340,6 +340,25 @@ western = {
 					culture = culture:dothraki
 				}
 			}
+			# COMPATCH August 2nd 2026: East Asian (Yi-Ti sphere) rulers get the chinese court room -
+			# keep the universal fallback from tying with (and beating) it for them.
+			NOR = {
+				capital_county ?= {
+					OR = {
+						culture = { has_graphical_chinese_culture_group_trigger = yes }
+						culture = { has_graphical_japanese_culture_group_trigger = yes }
+						culture = culture:jhalai
+						culture = culture:jogos_nhai
+						# nefer displays as N'ghai and carries placeholder WESTERN building gfx, so it must
+						# be excluded by name or this fallback steals the Jhattar from the Dragon's Mandate
+						culture = culture:nefer
+					}
+				}
+				culture = { has_graphical_east_asia_culture_group_trigger = yes }
+				culture = culture:jhalai
+				culture = culture:jogos_nhai
+				culture = culture:nefer
+			}
 			#AGOT Added
 			agot_has_throne_room = no
 			amsb_has_throne_room = no
@@ -355,9 +374,58 @@ chinese = {
 		# Scene selection is briefly queried without a valid court owner during cleanup.
 		trigger_if = {
 			limit = { exists = root }
-			# COMPATCH v1.1.8: vanilla CK3 court room disabled for the GoT total conversion.
-			# Rulers that used to fall into this scene now use the generic "western" hall below.
-			always = no
+			# COMPATCH August 2nd 2026: RE-ENABLED. This is the Yi-Ti sphere's East Asian court room.
+			# The July 31st rebuild wrongly disabled it (regression vs v1.1.4), which sent Yi-Ti and
+			# Leng rulers into the western stone hall. Block restored verbatim from AM compatch v1.1.4.
+			NOT = {
+				government_has_flag = government_is_nomadic
+			}
+			# COMPATCH: Jogos Nhai / N'ghai realms use the Dragon's Mandate room (chinese_alt) instead
+			NOR = {
+				culture = culture:jhalai
+				culture = culture:jogos_nhai
+				culture = culture:nefer
+				capital_county ?= {
+					OR = {
+						culture = culture:jhalai
+						culture = culture:jogos_nhai
+						culture = culture:nefer
+					}
+				}
+			}
+			OR = {
+				capital_county ?= {
+					OR = {
+						culture = { has_graphical_chinese_culture_group_trigger = yes }
+						culture = { has_graphical_japanese_culture_group_trigger = yes }
+						AND = {
+							title_province = { steppe_building_gfx_use_east_asian_trigger = yes }
+							title_province = { steppe_building_gfx_use_japanese_trigger = no }
+						}
+					}
+				}
+				culture = { has_graphical_east_asia_culture_group_trigger = yes }
+				#AGOT Disabled
+				# primary_title ?= title:h_china
+			}
+			# Is a Japanese Ceremonial Liege or indepedent ruler
+			trigger_if = {
+				limit = {
+					tgp_realm_has_ceremonial_liege_trigger = yes
+					capital_county ?= {
+						OR = {
+							culture = { has_graphical_japanese_culture_group_trigger = yes }
+							title_province = { steppe_building_gfx_use_japanese_trigger = yes }
+						}
+					}
+				}
+				tgp_has_ceremonial_liege_title_trigger = yes
+			}
+			#AGOT Added
+			agot_has_throne_room = no
+			amsb_has_throne_room = no
+			#LEGACY OF VALYRIA ADDED
+			lv_has_throne_room = no
 		}
 		trigger_else = { always = no }
 	}
@@ -415,6 +483,20 @@ southeast_asia = {
 					culture = { has_building_gfx = southeast_asian_building_gfx }
 				}
 			}
+			# COMPATCH August 2nd 2026: Jogos Nhai counties carry placeholder southeast asian graphics,
+			# which let this scene steal the Jhattar from the Dragon's Mandate room. Keep them out.
+			NOR = {
+				culture = culture:jhalai
+				culture = culture:jogos_nhai
+				culture = culture:nefer
+				capital_county ?= {
+					OR = {
+						culture = culture:jhalai
+						culture = culture:jogos_nhai
+						culture = culture:nefer
+					}
+				}
+			}
 			#AGOT Added
 			agot_has_throne_room = no
 			amsb_has_throne_room = no
@@ -430,7 +512,63 @@ chinese_alt = {
 		# Scene selection is briefly queried without a valid court owner during cleanup.
 		trigger_if = {
 			limit = { exists = root }
-			always = no # This is by design, we don't want an ahistorical throne room to spawn for players, in the future we might add a game rule though
+			# COMPATCH August 2nd 2026: Dragon's Mandate court room for the Jogos Nhai sphere
+			# (jhalai culture or N'ghai heritage, ruler or capital county). Requires All Under Heaven.
+			has_tgp_dlc_trigger = yes
+			NOT = {
+				government_has_flag = government_is_nomadic
+			}
+			OR = {
+				culture = culture:jhalai
+				culture = culture:jogos_nhai
+				culture = culture:nefer
+				capital_county ?= {
+					OR = {
+						culture = culture:jhalai
+						culture = culture:jogos_nhai
+						culture = culture:nefer
+					}
+				}
+			}
+			#AGOT Added
+			agot_has_throne_room = no
+			amsb_has_throne_room = no
+			#LEGACY OF VALYRIA ADDED
+			lv_has_throne_room = no
+		}
+		trigger_else = { always = no }
+	}
+}
+
+# EETLV COMPATCH August 2nd 2026: dedicated scene key for the Jogos Nhai sphere. The engine never
+# auto-selects the vanilla chinese_alt (Dragon's Mandate) scene, so this key reuses the same room
+# through our own scene_settings (scene_settings_eetlv_jogos_g1-g3) and auto-picks like any other.
+eetlv_jogos = {
+	trigger = {
+		# Scene selection is briefly queried without a valid court owner during cleanup.
+		trigger_if = {
+			limit = { exists = root }
+			has_tgp_dlc_trigger = yes
+			NOT = {
+				government_has_flag = government_is_nomadic
+			}
+			OR = {
+				culture = culture:jogos_nhai
+				culture = culture:nefer
+				culture = culture:jhalai
+				capital_county ?= {
+					OR = {
+						culture = culture:jogos_nhai
+						culture = culture:nefer
+						culture = culture:jhalai
+					}
+				}
+			}
+			#AGOT Added
+			agot_has_throne_room = no
+			amsb_has_throne_room = no
+			#LEGACY OF VALYRIA ADDED
+			lv_has_throne_room = no
 		}
 		trigger_else = { always = no }
 	}

@@ -277,13 +277,13 @@
       "sha256": "1619b64d36c2eb0954d0bd661aefaff947695019b012de8255279055b68ae68f",
       "size": 1284138
     },
+    ".ignored/CK3_workshop/3773608127/common/scripted_effects/replace/00_agot_character_data_effects.txt": {
+      "sha256": "497779d6fce9cb1f199655523b71a591fd0976ce95e407980ddedf32cb425678",
+      "size": 140592
+    },
     "mods/agot_now_lov_ee_lore_governments/content_source/lore_governments/government_lore_rules.csv": {
       "sha256": "782d548776e0609ed7695875b1c644ab18621d77342f305847410e5d2597bcb6",
       "size": 8011
-    },
-    "mods/agot_now_lov_ee_map_compatch/common/scripted_effects/replace/00_agot_character_data_effects.txt": {
-      "sha256": "ccfb43ec1fcf1255a69951b09b3ac1b5a345a8a53e44c5fc7f80872aacd65c3d",
-      "size": 139137
     },
     "mods/essos_expanded_119_rebase/history/provinces/k_generated.txt": {
       "sha256": "05484c8eeb4771d9ef85ab2d753e923987683d593a57aa1391f34f1b1c0ca8dd",
@@ -313,13 +313,15 @@
   "schema_version": 1,
   "versions": {
     "AGOT": "0.4.40",
+    "BRIDGE": "1.0.3",
     "EE": "1.0",
-    "EEP": "1.0.7",
+    "EEP": "1.0.9",
     "LOV": "1.5.2.13",
     "RC": "0.4.39-rebased-rc71-tiger-hard-error-repair"
   },
   "workshop_ids": {
     "AGOT": "2962333032",
+    "BRIDGE": "3773608127",
     "EE": "3682802751",
     "EEP": "3768149491",
     "LOV": "3403938445",

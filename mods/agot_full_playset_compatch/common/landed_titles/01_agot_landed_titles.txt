@@ -3189,7 +3189,7 @@ e_the_iron_islands = {
 					color = { 133 164 154 }
 				}
 			}
-			
+
 		}
 	}
 	k_saltcliffe = {
@@ -4566,7 +4566,7 @@ e_the_crownlands = {
 				b_standmail = {
 					province = 4196
 					color = { 95 76 208 }
-				}				
+				}
 			}
 		}
 		d_riverline = {
@@ -4682,7 +4682,7 @@ e_the_crownlands = {
 				b_mergewater = {
 					province = 4339
 					color = { 194 96 114 }
-				}	
+				}
 				b_bevy_town = {
 					province = 4341
 					color = { 188 82 110 }
@@ -5062,16 +5062,19 @@ e_the_crownlands = {
 					province = 4437
 					color = { 183 142 219 }
 				}
-				b_gryphonrock = {
-					province = 4438
-					color = { 190 143 196 }
-				}
 			}
 			c_the_scales = {
 				color = { 190 106 224 }
 				b_vallscale = {
 					province = 4435
 					color = { 204 133 212 }
+				}
+			}
+			c_gryphonrock = {
+				color = { 190 143 196 }
+				b_gryphonrock = {
+					province = 4438
+					color = { 190 143 196 }
 				}
 			}
 		}
@@ -5167,7 +5170,7 @@ e_the_crownlands = {
 					province = 4249
 					color = { 120 107 133 }
 				}
-				
+
 			}
 			c_crownback = {
 				color = { 104 64 150 }
@@ -5862,7 +5865,7 @@ e_the_crownlands = {
 				b_seasons_forest = {
 					province = 4372
 					color = { 230 97 96 }
-				}		
+				}
 			}
 			c_wendwater_fork = {
 				color = { 175 28 174 }
@@ -5927,7 +5930,7 @@ e_the_crownlands = {
 					province = 7263
 					color = { 243 81 93 }
 				}
-			}	
+			}
 		}
 		d_the_baywater_woods = {
 			color = { 137 68 101 }
@@ -5997,7 +6000,7 @@ e_the_crownlands = {
 				b_woodsaw_creek = {
 					province = 4367
 					color = { 170 65 137 }
-				}	
+				}
 				b_woolmouth = {
 					province = 4368
 					color = { 133 72 144 }
@@ -6118,7 +6121,7 @@ e_the_crownlands = {
 					text = agot_can_create_duchy
 					agot_can_create_duchy_title = yes
 				}
-			}		
+			}
 			c_sweetmont = {
 				color = { 138 129 192 }
 				b_sweet_bay = {
@@ -6204,7 +6207,7 @@ e_the_crownlands = {
 					province = 4413
 					color = { 130 54 158 }
 				}
-			}		
+			}
 		}
 		d_wisewood = {
 			color = { 90 90 191 }
@@ -6347,7 +6350,7 @@ e_the_crownlands = {
 		}
 		d_brownhollow = {
 			color = { 118 52 97 }
-			capital = c_brownhollow
+			capital = c_strongcliffs
 			can_create = {
 				trigger_if = {
 					limit = {
@@ -6422,7 +6425,7 @@ e_the_crownlands = {
 					province = 4297
 					color = { 77 57 83 }
 				}
-			}		
+			}
 		}
 		d_strongbox = {
 			color = { 184 117 126 }
@@ -6770,7 +6773,7 @@ e_the_north = {
 					province = 1279
 					color = { 143 137 136 }
 				}
-				
+
 			}
 			c_brans_wood = {
 				color = { 166 195 188 }
@@ -7524,7 +7527,7 @@ e_the_north = {
 					province = 1063
 					color = { 189 172 193 }
 				}
-			}		
+			}
 		}
 		d_the_wull = {
 			color = { 205 230 230 }
@@ -9721,41 +9724,6 @@ e_the_north = {
 					color = { 217 201 205 }
 				}
 			}
-			c_grimm_lake = {
-				color = { 156 163 173 }
-				b_shadows_run = {
-					province = 293
-					color = { 215 184 195 }
-				}
-				b_murrow = {
-					province = 301
-					color = { 226 222 209 }
-				}
-				b_grimm_lake = {
-					province = 372
-					color = { 163 149 130 }
-				}
-				b_beechmaple = {
-					province = 373
-					color = { 163 143 155 }
-				}
-				b_warmen = {
-					province = 283
-					color = { 211 204 190 }
-				}
-				b_meltingstream = {
-					province = 284
-					color = { 220 200 181 }
-				}
-				b_steamwood = {
-					province = 291
-					color = { 225 207 198 }
-				}
-				b_full_hearth = {
-					province = 290
-					color = { 216 210 192 }
-				}
-			}
 		}
 		d_groundpress = {
 			color = { 220 228 221  }
@@ -9827,6 +9795,41 @@ e_the_north = {
 				b_heavyside = {
 					province = 267
 					color = { 208 206 205 }
+				}
+			}
+			c_grimm_lake = {
+				color = { 156 163 173 }
+				b_shadows_run = {
+					province = 293
+					color = { 215 184 195 }
+				}
+				b_murrow = {
+					province = 301
+					color = { 226 222 209 }
+				}
+				b_grimm_lake = {
+					province = 372
+					color = { 163 149 130 }
+				}
+				b_beechmaple = {
+					province = 373
+					color = { 163 143 155 }
+				}
+				b_warmen = {
+					province = 283
+					color = { 211 204 190 }
+				}
+				b_meltingstream = {
+					province = 284
+					color = { 220 200 181 }
+				}
+				b_steamwood = {
+					province = 291
+					color = { 225 207 198 }
+				}
+				b_full_hearth = {
+					province = 290
+					color = { 216 210 192 }
 				}
 			}
 			c_eastmelt = {
@@ -10248,7 +10251,7 @@ e_the_north = {
 					province = 524
 					color = { 230 233 218 }
 				}
-				
+
 			}
 		}
 		d_everstead = {
@@ -10891,6 +10894,49 @@ e_the_north = {
 					color = { 188 202 153 }
 				}
 			}
+			c_draywinds = {
+				color = { 195 223 200 }
+				b_draywin_keep = {
+					province = 1193
+					color = { 216 220 160 }
+				}
+				b_flowerdown = {
+					province = 1194
+					color = { 227 214 149 }
+				}
+				b_flank_ridges = {
+					province = 1195
+					color = { 200 210 151 }
+				}
+				b_buried_hill = {
+					province = 1196
+					color = { 197 190 144 }
+				}
+				b_draymalt = {
+					province = 1197
+					color = { 187 201 150 }
+				}
+				b_bermdown = {
+					province = 1198
+					color = { 214 218 156 }
+				}
+				b_river_barrow = {
+					province = 1199
+					color = { 199 209 152 }
+				}
+				b_rockwattle = {
+					province = 1200
+					color = { 217 212 163 }
+				}
+				b_corkford = {
+					province = 1201
+					color = { 199 213 162 }
+				}
+				b_windy_wood = {
+					province = 1202
+					color = { 191 206 152 }
+				}
+			}
 			c_roastfields = {
 				color = { 184 163 164 }
 				b_roastfield = {
@@ -11083,49 +11129,6 @@ e_the_north = {
 				b_cracked_mound = {
 					province = 1192
 					color = { 210 201 151 }
-				}
-			}
-			c_draywinds = {
-				color = { 195 223 200 }
-				b_draywin_keep = {
-					province = 1193
-					color = { 216 220 160 }
-				}
-				b_flowerdown = {
-					province = 1194
-					color = { 227 214 149 }
-				}
-				b_flank_ridges = {
-					province = 1195
-					color = { 200 210 151 }
-				}
-				b_buried_hill = {
-					province = 1196
-					color = { 197 190 144 }
-				}
-				b_draymalt = {
-					province = 1197
-					color = { 187 201 150 }
-				}
-				b_bermdown = {
-					province = 1198
-					color = { 214 218 156 }
-				}
-				b_river_barrow = {
-					province = 1199
-					color = { 199 209 152 }
-				}
-				b_rockwattle = {
-					province = 1200
-					color = { 217 212 163 }
-				}
-				b_corkford = {
-					province = 1201
-					color = { 199 213 162 }
-				}
-				b_windy_wood = {
-					province = 1202
-					color = { 191 206 152 }
 				}
 			}
 		}
@@ -14550,7 +14553,7 @@ e_the_north = {
 				}
 			}
 		}
-		
+
 	}
 	k_skagos = {
 		color = { 172 172 178 }
@@ -14672,7 +14675,7 @@ e_the_north = {
 			}
 		}
 		d_deepdown = {
-			color = { 172 172 178 }
+			color = { 177 169 196 }
 			capital = c_sudyktig
 			can_create = {
 				trigger_if = {
@@ -14775,7 +14778,7 @@ e_the_north = {
 			}
 		}
 		d_driftwood_hall = {
-			color = { 172 172 178 }
+			color = { 194 178 195 }
 			capital = c_molksyr
 			can_create = {
 				trigger_if = {
@@ -15866,7 +15869,7 @@ e_the_reach = {
 				b_merlord_town = {
 					province = 3278
 					color = { 31 106 107 }
-				}			
+				}
 			}
 			c_whitegrove = {
 				color = { 218 209 125 }
@@ -16007,14 +16010,14 @@ e_the_reach = {
 				b_apple_row = {
 					province = 3819
 					color = { 162 188 119 }
-				}		
+				}
 			}
 			c_heatherholt = {
 				color = { 0 227 90 }
 				b_heatherholt = {
 					province = 3280
 					color = { 66 143 77 }
-				}				
+				}
 				b_stonepact = {
 					province = 3281
 					color = { 53 155 68 }
@@ -23860,7 +23863,7 @@ e_the_vale = {
 				}
 			}
 			c_brackenbrick_point = {
-				color = { 109 241 206 }	
+				color = { 109 241 206 }
 				b_brackenbrick_hall = {
 					province = 2415
 					color = { 74 211 241 }
@@ -25032,7 +25035,7 @@ e_the_vale = {
 				b_murkwell = {
 					province = 2294
 					color = { 133 216 231 }
-				}	
+				}
 			}
 			c_breckland = {
 				color = { 43 208 198 }
@@ -26757,7 +26760,7 @@ e_the_westerlands = {
 					province = 3015
 					color = { 203 57 57 }
 				}
-			}		
+			}
 		}
 		d_crakehall = {
 			color = { 187 12 27 }
@@ -26929,6 +26932,26 @@ e_the_westerlands = {
 					color = { 242 3 3 }
 				}
 			}
+			c_greenfield = {
+				color = { 160 76 88 }
+				b_the_bower = {
+					province = 2922
+					color = { 136 18 18 }
+					definite_form = yes
+				}
+				b_greenfield = {
+					province = 2923
+					color = { 234 38 38 }
+				}
+				b_chartren = {
+					province = 2924
+					color = { 232 79 79 }
+				}
+				b_shuckle = {
+					province = 2925
+					color = { 181 61 61 }
+				}
+			}
 			c_broughton = {
 				color = { 192 0 66 }
 				b_broughton = {
@@ -26997,26 +27020,6 @@ e_the_westerlands = {
 					province = 2921
 					color = { 225 53 53 }
 				}
-			}
-			c_greenfield = {
-				color = { 160 76 88 }
-				b_the_bower = {
-					province = 2922
-					color = { 136 18 18 }
-					definite_form = yes
-				}
-				b_greenfield = {
-					province = 2923
-					color = { 234 38 38 }
-				}
-				b_chartren = {
-					province = 2924
-					color = { 232 79 79 }
-				}
-				b_shuckle = {
-					province = 2925
-					color = { 181 61 61 }
-				}
 				b_shearside = {
 					province = 2926
 					color = { 156 45 45 }
@@ -27043,6 +27046,29 @@ e_the_westerlands = {
 				b_ladybank = {
 					province = 2940
 					color = { 211 30 30 }
+				}
+			}
+			c_averill = {
+				color = { 151 80 54 }
+				b_sylford = {
+					province = 2927
+					color = { 230 68 68 }
+				}
+				b_coppermine = {
+					province = 2928
+					color = { 159 111 107 }
+				}
+				b_steepridge = {
+					province = 2929
+					color = { 159 62 62 }
+				}
+				b_blanchland = {
+					province = 2930
+					color = { 215 39 39 }
+				}
+				b_stone_arch = {
+					province = 2931
+					color = { 201 65 65 }
 				}
 			}
 			c_wellsmere = {
@@ -27111,29 +27137,6 @@ e_the_westerlands = {
 				b_plumleaf = {
 					province = 2946
 					color = { 188 30 30 }
-				}
-			}
-			c_averill = {
-				color = { 151 80 54 }
-				b_sylford = {
-					province = 2927
-					color = { 230 68 68 }
-				}
-				b_coppermine = {
-					province = 2928
-					color = { 159 111 107 }
-				}
-				b_steepridge = {
-					province = 2929
-					color = { 159 62 62 }
-				}
-				b_blanchland = {
-					province = 2930
-					color = { 215 39 39 }
-				}
-				b_stone_arch = {
-					province = 2931
-					color = { 201 65 65 }
 				}
 			}
 			c_pleasant_hills = {
@@ -29865,7 +29868,7 @@ e_the_riverlands = {
 				b_bluebend = {
 					province = 1976
 					color = { 51 224 255 }
-				}				
+				}
 				b_robinling = {
 					province = 1978
 					color = { 109 248 255 }
@@ -30242,7 +30245,7 @@ e_the_riverlands = {
 				b_medway = {
 					province = 2081
 					color = { 107 138 150 }
-				}				
+				}
 				b_middlestand = {
 					province = 2083
 					color = { 126 149 165 }
@@ -30653,7 +30656,7 @@ e_the_riverlands = {
 					province = 1983
 					color = { 76 234 255 }
 				}
-				
+
 			}
 			c_darkmoor = {
 				color = { 84 109 237 }
@@ -31622,7 +31625,7 @@ e_the_riverlands = {
 					color = { 171 224 255 }
 				}
 			}
-			
+
 		}
 		d_ironwater = {
 			color = { 50 121 211 }
@@ -32216,7 +32219,7 @@ e_the_riverlands = {
 					color = { 114 143 168 }
 				}
 			}
-			
+
 		}
 		d_riverbend = {
 			color = { 50 97 198 }
@@ -32305,7 +32308,7 @@ e_the_riverlands = {
 					color = { 104 138 154 }
 				}
 			}
-			
+
 		}
 	}
 }
@@ -32894,7 +32897,7 @@ e_dorne = {
 					color = { 148 168 51 }
 				}
 			}
-		}	
+		}
 		d_godsgrace = {
 			color = { 214 152 34 }
 			capital = c_godsgrace
@@ -34087,6 +34090,97 @@ e_dorne = {
 					color = { 186 200 91 }
 				}
 			}
+			c_blackvein = {
+				color = { 218 95 51 }
+				b_blackvein = {
+					province = 5466
+					color = { 183 206 31 }
+				}
+				b_veins_clot = {
+					province = 5467
+					color = { 220 251 9 }
+				}
+				b_deadmilk = {
+					province = 5468
+					color = { 206 230 48 }
+				}
+				b_serpent_rock = {
+					province = 5469
+					color = { 206 236 6 }
+				}
+				b_skullsgate = {
+					province = 5470
+					color = { 227 251 62 }
+				}
+				b_darkscale = {
+					province = 5471
+					color = { 223 241 100 }
+				}
+			}
+		}
+		d_the_vultures_gorge = {
+			color = { 242 85 95 }
+			capital = c_denmont
+			can_create = {
+				trigger_if = {
+					limit = {
+						OR = {
+							primary_title.tier >= tier_kingdom
+							AND = {
+								primary_title.tier <= tier_duchy
+								is_independent_ruler = no
+							}
+						}
+					}
+					has_title = title:d_the_vultures_gorge.title_capital_county
+				}
+				custom_tooltip = {
+					text = agot_can_create_duchy
+					agot_can_create_duchy_title = yes
+				}
+			}
+			c_denmont = {
+				color = { 232 83 59 }
+				b_vultures_roost = {
+					province = 5465
+					color = { 210 235 43 }
+				}
+				b_denmont = {
+					province = 5462
+					color = { 196 223 14 }
+				}
+				b_serpent_caves = {
+					province = 5464
+					color = { 191 211 57 }
+				}
+				b_pitwater = {
+					province = 5463
+					color = { 204 229 34 }
+				}
+			}
+			c_rustbarren = {
+				color = { 242 85 95 }
+				b_rustbarren = {
+					province = 5436
+					color = { 242 139 17 }
+				}
+				b_bonemark = {
+					province = 5437
+					color = { 223 121 1 }
+				}
+				b_lostgrave = {
+					province = 5438
+					color = { 221 128 18 }
+				}
+				b_ochre = {
+					province = 5439
+					color = { 230 134 20 }
+				}
+				b_wastewood = {
+					province = 5440
+					color = { 255 138 0 }
+				}
+			}
 			c_brinkburn = {
 				color = { 232 108 61 }
 				b_brinkburn = {
@@ -34120,10 +34214,6 @@ e_dorne = {
 					province = 5458
 					color = { 203 231 13 }
 				}
-				b_hornridge = {
-					province = 5459
-					color = { 174 194 36 }
-				}
 				b_barb_ridge = {
 					province = 5460
 					color = { 222 255 0 }
@@ -34132,51 +34222,9 @@ e_dorne = {
 					province = 5461
 					color = { 201 225 36 }
 				}
-			}
-			c_denmont = {
-				color = { 232 83 59 }
-				b_vultures_roost = {
-					province = 5465
-					color = { 210 235 43 }
-				}
-				b_denmont = {
-					province = 5462
-					color = { 196 223 14 }
-				}
-				b_pitwater = {
-					province = 5463
-					color = { 204 229 34 }
-				}
-				b_serpent_caves = {
-					province = 5464
-					color = { 191 211 57 }
-				}
-			}
-			c_blackvein = {
-				color = { 218 95 51 }
-				b_blackvein = {
-					province = 5466
-					color = { 183 206 31 }
-				}
-				b_veins_clot = {
-					province = 5467
-					color = { 220 251 9 }
-				}
-				b_deadmilk = {
-					province = 5468
-					color = { 206 230 48 }
-				}
-				b_serpent_rock = {
-					province = 5469
-					color = { 206 236 6 }
-				}
-				b_skullsgate = {
-					province = 5470
-					color = { 227 251 62 }
-				}
-				b_darkscale = {
-					province = 5471
-					color = { 223 241 100 }
+				b_hornridge = {
+					province = 5459
+					color = { 174 194 36 }
 				}
 			}
 		}
@@ -34463,29 +34511,6 @@ e_dorne = {
 				b_sour_side = {
 					province = 5435
 					color = { 225 130 18 }
-				}
-			}
-			c_rustbarren = {
-				color = { 242 85 95 }
-				b_rustbarren = {
-					province = 5436
-					color = { 242 139 17 }
-				}
-				b_bonemark = {
-					province = 5437
-					color = { 223 121 1 }
-				}
-				b_lostgrave = {
-					province = 5438
-					color = { 221 128 18 }
-				}
-				b_ochre = {
-					province = 5439
-					color = { 230 134 20 }
-				}
-				b_wastewood = {
-					province = 5440
-					color = { 255 138 0 }
 				}
 			}
 		}

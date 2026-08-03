@@ -75,16 +75,16 @@
       "size": 3738
     },
     ".ignored/CK3_workshop/3664900993/common/landed_titles/01_agot_landed_titles.txt": {
-      "sha256": "10637d1a778e2c6122b6f46136ed7e89a92041b63e71752fa86f72b1ab8c5ec0",
-      "size": 804889
+      "sha256": "f34fff01414e3c47a04d025384fd30516c166842af8022c6458f9c0d8ea35c8d",
+      "size": 805447
     },
     ".ignored/CK3_workshop/3664900993/common/province_terrain/replace/00_province_terrain.txt": {
       "sha256": "fc6f3cd1fe7ece3b73df4c88d5ea6e34762f1f7ebced0d4c5e495fcd6ea426f3",
       "size": 1300
     },
     ".ignored/CK3_workshop/3664900993/map_data/geographical_regions/replace/00_agot_geographical_region.txt": {
-      "sha256": "05349857967c5cdb2bd08e30e95ae24155537ed3e573040fc16c751b6f533e3a",
-      "size": 34180
+      "sha256": "a68e45437cae25e508c9bdc99a97b48a26ac52847c6ea345343a93b81231029c",
+      "size": 34354
     },
     ".ignored/CK3_workshop/3682802751/common/province_terrain/ee_province_properties.txt": {
       "sha256": "79f523ea433396dd5cfddc39e724a843466ca676d5a15f9c3de53600b02fff74",
@@ -901,9 +901,9 @@
   "versions": {
     "AGOT": "0.4.40",
     "EE": "1.0",
-    "EEP": "1.0.7",
+    "EEP": "1.0.9",
     "LOV": "1.5.2.13",
-    "NOW": "1.2.4",
+    "NOW": "1.2.4.1",
     "RC": "0.4.39-rebased-rc71-tiger-hard-error-repair"
   },
   "workshop_ids": {

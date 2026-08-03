@@ -1623,9 +1623,9 @@ def rebase_additional_models_scene_guards(text: str) -> str:
             # Preserve that authoritative guard instead of duplicating it.
             guarded_block = compatch_block
         text = text.replace(compatch_block, guarded_block, 1)
-    if text.count("amsb_has_throne_room = no") != 7:
+    if text.count("amsb_has_throne_room = no") != 10:
         raise RuntimeError(
-            "Additional Models/AGOT+/LoV generic scenes: expected seven "
+            "Additional Models/AGOT+/LoV generic scenes: expected ten "
             "active AMSB exclusions after rebase"
         )
     return text
@@ -1636,7 +1636,7 @@ def generate_scene_culture_owner_guards() -> None:
         (
             "3762892081",
             "gfx/court_scene/scene_cultures/00_default_cultures.txt",
-            10,
+            11,
             "Additional Models/AGOT+/LoV generic court scenes",
         ),
         (
@@ -1670,6 +1670,84 @@ def generate_now_summerhall_candidate_guards() -> None:
             label=f"NOW Summerhall optional candidate {candidate} comparisons",
         )
     write_text(NOW_OUTPUT, relative, text)
+
+
+def generate_now_core_rebase() -> None:
+    """Regenerate NOW's non-event whole-file runtime repairs."""
+    relative = "common/landed_titles/replace/03_agot_landed_titles_westeros_titular.txt"
+    text = read_text(WORKSHOP / "3664900993" / relative)
+    text = replace_exact(
+        text,
+        "capital = c_great_for\n",
+        "capital = c_great_fork\n",
+        expected=1,
+        label="NOW dummy Great Fork title capital",
+    )
+    write_text(NOW_OUTPUT, relative, normalize_rebased_source(text))
+
+    relative = "common/on_action/agot_now_on_actions.txt"
+    text = read_text(WORKSHOP / "3664900993" / relative)
+    text = replace_regex(
+        text,
+        r"(?m)^([ \t]*)agot_now_apply_command_governments_on_action(?=\n[ \t]*\}\n\})",
+        r"\1agot_now_apply_command_governments_on_game_start",
+        expected=1,
+        label="NOW game-start command-government dispatcher",
+    )
+    text = replace_exact(
+        text,
+        "                duration = -1\n",
+        "",
+        expected=7,
+        label="NOW permanent population-modifier durations",
+    )
+    game_start_effect = """agot_now_apply_command_governments_on_game_start = {
+\teffect = {
+\t\tif = {
+\t\t\tlimit = { exists = title:b_oldtown.holder }
+\t\t\ttitle:b_oldtown.holder = { change_government = command_government }
+\t\t}
+\t\tif = {
+\t\t\tlimit = { exists = title:c_moongates.holder }
+\t\t\ttitle:c_moongates.holder = { change_government = command_government }
+\t\t}
+\t\tif = {
+\t\t\tlimit = { exists = title:c_the_bloody_gate.holder }
+\t\t\ttitle:c_the_bloody_gate.holder = { change_government = command_government }
+\t\t}
+\t}
+}
+
+"""
+    text = replace_exact(
+        text,
+        "# ON DEATH\n",
+        game_start_effect + "# ON DEATH\n",
+        expected=1,
+        label="NOW scoped game-start command-government effect insertion",
+    )
+    text = replace_exact(
+        text,
+        "change = scope:great_fork_change",
+        "change = scope:blackwater_change",
+        expected=1,
+        label="NOW Great Fork title-change scope",
+    )
+    text = replace_exact(
+        text,
+        "set_government = command_government",
+        "change_government = command_government",
+        expected=1,
+        label="NOW command-government effect",
+    )
+    text = replace_exact(
+        text,
+        "set_de_jure_liege = title:e_the_crownlands",
+        "set_de_jure_liege_title = title:e_the_crownlands",
+        expected=1,
+        label="NOW Blackwater de-jure liege effect",
+    )
+    write_text(NOW_OUTPUT, relative, normalize_rebased_source(text))
 
     relative = "events/agot_events/replace/agot_coa_events.txt"
     text = read_text(WORKSHOP / "3664900993" / relative)
@@ -4067,6 +4145,7 @@ def main() -> None:
     generate_cow_province_setup_rebase()
     generate_upgrade_house_banners_event()
     generate_scene_culture_owner_guards()
+    generate_now_core_rebase()
     generate_now_summerhall_candidate_guards()
     generate_mfa_delayed_pulse_scopes()
     generate_grand_remembrance_agot_obituary()

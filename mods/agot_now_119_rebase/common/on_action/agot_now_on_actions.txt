@@ -68,7 +68,7 @@ agot_now_apply_popultation_modifiers_on_action = {
                 modifier = province_very_sparse
             }
         }
-        
+
         # The Neck
         every_province = {
             limit = {
@@ -102,21 +102,15 @@ agot_now_apply_command_governments_on_game_start = {
 	effect = {
 		if = {
 			limit = { exists = title:b_oldtown.holder }
-			title:b_oldtown.holder = {
-				change_government = command_government
-			}
+			title:b_oldtown.holder = { change_government = command_government }
 		}
 		if = {
 			limit = { exists = title:c_moongates.holder }
-			title:c_moongates.holder = {
-				change_government = command_government
-			}
+			title:c_moongates.holder = { change_government = command_government }
 		}
 		if = {
 			limit = { exists = title:c_the_bloody_gate.holder }
-			title:c_the_bloody_gate.holder = {
-				change_government = command_government
-			}
+			title:c_the_bloody_gate.holder = { change_government = command_government }
 		}
 	}
 }
@@ -137,7 +131,7 @@ agot_now_remove_health_trait_on_action = {
 		if = {
 			limit = { has_game_rule = remove_age_related_ailment_on_death_rule }
 			# Remove traits
-			remove_trait = infirm	
+			remove_trait = infirm
 			remove_trait = withering_mind
 			remove_trait = clouded_eyes
 			remove_trait = faltering_heart
@@ -160,10 +154,10 @@ agot_now_remove_health_trait_on_action = {
 			remove_trait = dysentery # Bloody Flux
 			remove_trait = ergotism # Holy Fire
 		}
-		else_if = { 
+		else_if = {
 			limit = { has_game_rule = remove_both_on_death_rule }
 			# Remove traits
-			remove_trait = infirm	
+			remove_trait = infirm
 			remove_trait = withering_mind
 			remove_trait = clouded_eyes
 			remove_trait = faltering_heart
@@ -477,7 +471,7 @@ agot_now_apply_command_governments_on_action = {
         if = {
             limit = {
                 OR = {
-    			    primary_title = title:b_oldtown
+			    primary_title = title:b_oldtown
                     primary_title = title:c_moongates
                     primary_title = title:c_the_bloody_gate
                 }
