@@ -4068,6 +4068,133 @@ def generate_mpo_nomad_event_guards() -> None:
     write_text(OUTPUT, relative, normalize_rebased_source(source))
 
 
+def generate_voluntary_laamp_repairs() -> None:
+    """Rebase the voluntary-adventurer decision and More Dragon Eggs event."""
+    flag = "unlock_voluntary_laampdom_trait"
+
+    trait_sources = (
+        (
+            "AGOT Nomadic Philosophy",
+            WORKSHOP / "2962333032/common/traits/00_traits.txt",
+            "nomadic_philosophy",
+        ),
+        (
+            "Immersive Personalities gpt_tiger",
+            WORKSHOP / "3596393244/common/traits/zz_gptev_traits.txt",
+            "gpt_tiger",
+        ),
+        (
+            "Immersive Personalities gpt_wolf",
+            WORKSHOP / "3596393244/common/traits/zz_gptev_traits.txt",
+            "gpt_wolf",
+        ),
+    )
+    for label, path, trait in trait_sources:
+        block = extract_top_level_block(read_text(path), trait)
+        if f"flag = {flag}" not in block:
+            raise RuntimeError(f"{label} no longer declares {flag}")
+
+    decision_relative = "common/decisions/zz_agot_voluntary_laamp_decision.txt"
+    decision_source = read_text(
+        WORKSHOP
+        / "2962333032/common/decisions/dlc_decisions/ep_3/06_ep3_laamp_decisions.txt"
+    )
+    decision = assert_source_block_hash(
+        decision_source,
+        "become_landless_adventurer_decision",
+        "8028398f821a2de509efbd414a3e5a5c51f52888c5a1a86ddc7299b550df2436",
+        label="AGOT voluntary-adventurer decision",
+    )
+    decision = replace_exact(
+        decision,
+        "has_trait = nomadic_philosophy",
+        f"has_trait_with_flag = {flag}",
+        expected=2,
+        label="AGOT hard-coded voluntary-adventurer trait unlocks",
+    )
+    decision = replace_exact(
+        decision,
+        """\t\t\thas_character_modifier = tgp_gave_up_modifier
+\t\t\tAND = {
+""",
+        """\t\t\thas_character_modifier = tgp_gave_up_modifier
+\t\t\tagot_is_landless_pirate_character = yes
+\t\t\tAND = {
+""",
+        expected=1,
+        label="AGOT voluntary-adventurer visibility pirate unlock",
+    )
+    decision = replace_exact(
+        decision,
+        """\t\t\t\thas_character_modifier = tgp_gave_up_modifier
+\t\t\t}
+""",
+        """\t\t\t\thas_character_modifier = tgp_gave_up_modifier
+\t\t\t\tagot_is_landless_pirate_character = yes
+\t\t\t}
+""",
+        expected=1,
+        label="AGOT voluntary-adventurer validity pirate unlock",
+    )
+    write_text(
+        OUTPUT,
+        decision_relative,
+        "# Runtime rebase: consume the generic trait flag and let stranded "
+        "landless pirates choose the voluntary-adventurer route.\n" + decision,
+    )
+
+    event_relative = "events/dlc/ep3/ep3_laamp_events.txt"
+    event_source = read_text(WORKSHOP / "3388366564" / event_relative)
+    event = assert_source_block_hash(
+        event_source,
+        "ep3_laamps.0030",
+        "6ae8981457953c35f6951818ab3041e9c9abbc78bcb301e75f537b76a88f0e24",
+        label="More Dragon Eggs voluntary-adventurer event",
+    )
+    old_event_trigger = (
+        "\ttrigger = { # MDE Modified\n"
+        "\t\texists = scope:laamp_inheritor \n"
+        "\t\tOR = {\n"
+        "\t\t\thas_game_rule = can_children_be_landless_default\n"
+        "\t\t\tAND = {\n"
+        "\t\t\t\thas_game_rule = can_children_be_landless_not_dragonrider\n"
+        "\t\t\t\troot = {\n"
+        "\t\t\t\t\tNOT = { has_trait = dragonrider }\n"
+        "\t\t\t\t}\n"
+        "\t\t\t}\n"
+        "\t\t\tAND = {\n"
+        "\t\t\t\thas_game_rule = can_children_be_landless_not_targaryen\n"
+        "\t\t\t\troot = {\n"
+        "\t\t\t\t\tNOT = { dynasty = dynasty:dynn_Targaryen }\n"
+        "\t\t\t\t}\n"
+        "\t\t\t}\n"
+        "\t\t}\n"
+        "\t}\n"
+    )
+    repaired_event = replace_exact(
+        event,
+        old_event_trigger,
+        """\ttrigger = { exists = scope:laamp_inheritor }
+""",
+        expected=1,
+        label="More Dragon Eggs misplaced voluntary-event game-rule gate",
+    )
+    event_source = replace_exact(
+        event_source,
+        event,
+        repaired_event,
+        expected=1,
+        label="More Dragon Eggs voluntary-adventurer event replacement",
+    )
+    write_text(
+        OUTPUT,
+        event_relative,
+        event_source,
+        preserve_trailing_whitespace=True,
+        force_newline="\r\n",
+    )
+
+
 def main() -> None:
     generate_seasons_agot_shaders()
     generate_mari_agot_portraits()
@@ -4118,6 +4245,7 @@ def main() -> None:
     generate_agot_starting_legitimacy()
     generate_vanilla_tour_pulse()
     generate_mpo_nomad_event_guards()
+    generate_voluntary_laamp_repairs()
     generate_agot_plus()
     print("Generated AGOT playset runtime fixes and AGOT+ runtime rebase.")
 

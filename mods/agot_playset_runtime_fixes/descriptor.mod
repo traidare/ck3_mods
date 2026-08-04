@@ -1,4 +1,4 @@
-version="0.22.0"
+version="0.23.0"
 tags={
 	"Fixes"
 	"Gameplay"
@@ -8,6 +8,8 @@ name="AGOT Playset Runtime Fixes"
 supported_version="1.19.*"
 dependencies={
 	"A Game of Thrones"
+	"AGOT More Dragon Eggs"
+	"Immersive Personalities"
 	"Essos Expanded"
 	"Essos Expanded - TempLoV Compatch"
 	"Battle Graphics"
