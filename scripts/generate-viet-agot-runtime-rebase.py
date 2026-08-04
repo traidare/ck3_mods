@@ -222,12 +222,8 @@ def add_artifact_owner_scope(event_id: str, block: str) -> str:
 
 
 def repair_character_ping_scope(event_id: str, block: str) -> str:
-    pattern = re.compile(
-        r"^(\s*)scope\s*=\s*none\s*(?:#.*)?$", re.MULTILINE
-    )
-    patched, replacements = pattern.subn(
-        r"\1type = character_event", block, count=1
-    )
+    pattern = re.compile(r"^(\s*)scope\s*=\s*none\s*(?:#.*)?$", re.MULTILINE)
+    patched, replacements = pattern.subn(r"\1type = character_event", block, count=1)
     if replacements != 1:
         raise RuntimeError(
             f"{event_id}: expected one 'scope = none' declaration, "
@@ -247,13 +243,10 @@ def remove_duplicate_widget(event_id: str, block: str) -> str:
     patched, replacements = pattern.subn("", block, count=1)
     if replacements != 1:
         raise RuntimeError(
-            f"{event_id}: expected one redundant inline widget, "
-            f"removed {replacements}"
+            f"{event_id}: expected one redundant inline widget, removed {replacements}"
         )
     if len(re.findall(r"^[ \t]*widget\s*=", patched, re.MULTILINE)) != 1:
-        raise RuntimeError(
-            f"{event_id}: expected one structured widget after repair"
-        )
+        raise RuntimeError(f"{event_id}: expected one structured widget after repair")
     return patched
 
 
@@ -289,8 +282,7 @@ def move_random_lists_out_of_toasts(event_id: str, block: str) -> tuple[str, int
         for line in random_block:
             if not line.startswith("\t"):
                 raise RuntimeError(
-                    f"{event_id}: cannot dedent toast random_list line: "
-                    f"{line!r}"
+                    f"{event_id}: cannot dedent toast random_list line: {line!r}"
                 )
             output.append(line[1:])
         moved += 1
@@ -307,9 +299,7 @@ def repair_missing_limit_else(relative: str, text: str) -> tuple[str, int]:
         r"[ \t]*=[ \t]*yes)",
         re.MULTILINE,
     )
-    patched, replacements = pattern.subn(
-        r"\g<indent>else\g<suffix>", text
-    )
+    patched, replacements = pattern.subn(r"\g<indent>else\g<suffix>", text)
     if replacements != 6:
         raise RuntimeError(
             f"{relative}: expected six limit-less else_if fallbacks, "
@@ -376,9 +366,7 @@ def replace_disabled_events(
                 toast_random_list_patches += moved
             output.append(block)
         index = end
-    output_text, else_patches = repair_missing_limit_else(
-        relative, "".join(output)
-    )
+    output_text, else_patches = repair_missing_limit_else(relative, "".join(output))
     output_text, animation_patches = repair_animation_names(output_text)
     if (
         replaced
@@ -404,9 +392,7 @@ def replace_disabled_events(
 def remove_disabled_on_action_entries(relative: str, disabled: set[str]) -> int:
     text = read_text(SOURCE / relative)
     lines = text.splitlines(keepends=True)
-    event_pattern = re.compile(
-        r"^\s*\d+\s*=\s*(VIET[A-Za-z]*\.\d+)\s*(?:#.*)?$"
-    )
+    event_pattern = re.compile(r"^\s*\d+\s*=\s*(VIET[A-Za-z]*\.\d+)\s*(?:#.*)?$")
     output: list[str] = []
     removed = 0
     for line in lines:
@@ -420,9 +406,7 @@ def remove_disabled_on_action_entries(relative: str, disabled: set[str]) -> int:
     return removed
 
 
-def replace_named_blocks(
-    source_relative: str, replacements: dict[str, str]
-) -> int:
+def replace_named_blocks(source_relative: str, replacements: dict[str, str]) -> int:
     lines = read_text(SOURCE / source_relative).splitlines(keepends=True)
     key_pattern = re.compile(
         rf"^({'|'.join(re.escape(key) for key in replacements)})\s*=\s*\{{"
@@ -505,18 +489,13 @@ def main() -> None:
         f"Repaired {sum(result[5] for result in event_results.values())} "
         "limit-less else_if fallbacks"
     )
-    toast_random_list_count = sum(
-        result[6] for result in event_results.values()
-    )
+    toast_random_list_count = sum(result[6] for result in event_results.values())
     if toast_random_list_count != 7:
         raise RuntimeError(
             "expected seven toast-nested random_list blocks, "
             f"repaired {toast_random_list_count}"
         )
-    print(
-        f"Moved {toast_random_list_count} random_list blocks out of "
-        "interface toasts"
-    )
+    print(f"Moved {toast_random_list_count} random_list blocks out of interface toasts")
     print(f"Removed {sum(on_action_counts.values())} pulse entries")
     for relative, count in on_action_counts.items():
         if count:

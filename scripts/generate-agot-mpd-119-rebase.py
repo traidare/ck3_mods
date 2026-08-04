@@ -13,14 +13,9 @@ SOURCE = (
     / ".ignored/CK3_workshop/3717990443/common/traits/"
     / "01_personality_overrides.txt"
 )
-AGOT_TRAITS = (
-    ROOT
-    / ".ignored/CK3_workshop/2962333032/common/traits/00_traits.txt"
-)
+AGOT_TRAITS = ROOT / ".ignored/CK3_workshop/2962333032/common/traits/00_traits.txt"
 OUTPUT = (
-    ROOT
-    / "mods/agot_mpd_119_rebase/common/traits/"
-    / "01_personality_overrides.txt"
+    ROOT / "mods/agot_mpd_119_rebase/common/traits/" / "01_personality_overrides.txt"
 )
 OPINION_KEYS = (
     "same_opinion",
@@ -93,9 +88,7 @@ def main() -> None:
             agot_traits,
         )
     )
-    traits = list(
-        re.finditer(r"(?m)^([A-Za-z_][A-Za-z0-9_]*)\s*=\s*\{", text)
-    )
+    traits = list(re.finditer(r"(?m)^([A-Za-z_][A-Za-z0-9_]*)\s*=\s*\{", text))
     counts = {key: 0 for key in OPINION_KEYS}
     migrated_traits = 0
 
@@ -141,13 +134,10 @@ def main() -> None:
             value = direct_property(middle_block, key, "\t\t\t")
             if value is None:
                 raise RuntimeError(
-                    f"{trait_name}: {key} occurs in its track but not at "
-                    "level 50"
+                    f"{trait_name}: {key} occurs in its track but not at level 50"
                 )
             if direct_property(trait_block, key, "\t") is not None:
-                raise RuntimeError(
-                    f"{trait_name}: refusing to duplicate root {key}"
-                )
+                raise RuntimeError(f"{trait_name}: refusing to duplicate root {key}")
             migrated.append((key, value))
 
         repaired_track = track_block
@@ -176,11 +166,7 @@ def main() -> None:
             + repaired_track
             + trait_block[track_relative_end:]
         )
-        text = (
-            text[: trait_match.start()]
-            + trait_block
-            + text[trait_end + 1 :]
-        )
+        text = text[: trait_match.start()] + trait_block + text[trait_end + 1 :]
         migrated_traits += 1
 
     if counts != EXPECTED_TRACK_FIELDS:
@@ -196,8 +182,7 @@ def main() -> None:
     text = (
         compatibility_header
         + "\n\n# Compatibility values copied from current AGOT by the "
-        "runtime-rebase generator.\n"
-        + text
+        "runtime-rebase generator.\n" + text
     )
     OUTPUT.parent.mkdir(parents=True, exist_ok=True)
     text = re.sub(r"[ \t]+(?=\r?$)", "", text, flags=re.MULTILINE)

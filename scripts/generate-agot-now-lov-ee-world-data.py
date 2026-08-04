@@ -20,6 +20,12 @@ from typing import Iterable
 import numpy as np
 from PIL import Image
 
+from ck3_source_manifest import (
+    canonical_source_path,
+    resolve_workshop_root,
+    sha256_file,
+)
+
 TARGET_FIRST = 10946
 TARGET_LAST = 26420
 TARGET_COUNT = TARGET_LAST - TARGET_FIRST + 1
@@ -137,14 +143,6 @@ def parse_args() -> argparse.Namespace:
 
 def normalized_text(path: Path) -> str:
     return path.read_text(encoding="utf-8-sig").replace("\r\n", "\n")
-
-
-def sha256_file(path: Path) -> str:
-    digest = hashlib.sha256()
-    with path.open("rb") as handle:
-        while chunk := handle.read(1024 * 1024):
-            digest.update(chunk)
-    return digest.hexdigest()
 
 
 def sha256_bytes(data: bytes) -> str:
@@ -692,8 +690,7 @@ def compute_features(
             expected_size = REFERENCE_EXPECTED_SIZES[label]
             if image.size != expected_size or image.mode != "RGB":
                 raise AssertionError(
-                    f"unexpected {label} lore map: size={image.size}, "
-                    f"mode={image.mode}"
+                    f"unexpected {label} lore map: size={image.size}, mode={image.mode}"
                 )
             resized = image.resize(REFERENCE_ANALYSIS_SIZE, Image.Resampling.LANCZOS)
             rgb = np.asarray(resized, dtype=np.float32) / 255.0
@@ -1112,11 +1109,7 @@ def repair_inherited_graphical_block(style: str, block: str) -> str:
     if closing < 0:
         raise ValueError("graphical_siberia has no closing brace")
     addition = (
-        "\tduchies = {\n"
-        "\t\td_skagos\n"
-        "\t\td_deepdown\n"
-        "\t\td_driftwood_hall\n"
-        "\t}\n"
+        "\tduchies = {\n\t\td_skagos\n\t\td_deepdown\n\t\td_driftwood_hall\n\t}\n"
     )
     return block[:closing] + addition + block[closing:]
 
@@ -1149,10 +1142,19 @@ def csv_bytes(fieldnames: list[str], rows: Iterable[dict[str, object]]) -> bytes
     return output.getvalue().encode("utf-8")
 
 
+def reference_map_paths(root: Path) -> dict[str, Path]:
+    reference_root = root / "references/agot/map_images"
+    return {
+        "detailed": reference_root / "KnownWorldDetailed.jpg",
+        "google": reference_root / "KnownWorldGoogleMaps.jpg",
+    }
+
+
 def target_source_manifest(
     *,
     root: Path,
     workshop: dict[str, Path],
+    workshop_root: Path,
     mask_paths: list[Path],
 ) -> dict[str, object]:
     source_files: set[Path] = {
@@ -1165,9 +1167,8 @@ def target_source_manifest(
         workshop["EEP"] / "common/province_terrain/ee_province_terrain.txt",
         workshop["NOW"] / "common/landed_titles/01_agot_landed_titles.txt",
         root / "mods/agot_now_lov_ee_map_compatch/map_data/definition.csv",
-        root / ".ignored/map_images/KnownWorldDetailed.jpg",
-        root / ".ignored/map_images/KnownWorldGoogleMaps.jpg",
     }
+    source_files.update(reference_map_paths(root).values())
     for module_root in workshop.values():
         for relative_root in (
             "common/province_terrain",
@@ -1178,21 +1179,15 @@ def target_source_manifest(
             if directory.is_dir():
                 source_files.update(directory.rglob("*.txt"))
 
-    def display_path(path: Path) -> str:
-        try:
-            return path.relative_to(root).as_posix()
-        except ValueError:
-            return str(path)
-
     files = {
-        display_path(path): {
+        canonical_source_path(path, root=root, workshop_root=workshop_root): {
             "sha256": sha256_file(path),
             "size": path.stat().st_size,
         }
         for path in sorted(source_files)
     }
     masks = {
-        path.relative_to(workshop["EE"] / "gfx/map/terrain").as_posix(): {
+        canonical_source_path(path, root=root, workshop_root=workshop_root): {
             "sha256": sha256_file(path),
             "size": path.stat().st_size,
         }
@@ -1228,7 +1223,7 @@ def target_source_manifest(
 def main() -> int:
     args = parse_args()
     root = args.root.resolve()
-    workshop_root = root / ".ignored/CK3_workshop"
+    workshop_root = resolve_workshop_root()
     workshop = {
         label: workshop_root / workshop_id
         for label, workshop_id in WORKSHOP_IDS.items()
@@ -1246,10 +1241,7 @@ def main() -> int:
     lore_regions_path = source / "terrain_lore_regions.csv"
     graphical_config_path = source / "graphical_style_map.csv"
     manifest_path = source / "source_manifest.json"
-    reference_paths = {
-        "detailed": root / ".ignored/map_images/KnownWorldDetailed.jpg",
-        "google": root / ".ignored/map_images/KnownWorldGoogleMaps.jpg",
-    }
+    reference_paths = reference_map_paths(root)
     missing_reference_maps = [
         path.relative_to(root).as_posix()
         for path in reference_paths.values()
@@ -1356,7 +1348,10 @@ def main() -> int:
             )
 
     current_manifest = target_source_manifest(
-        root=root, workshop=workshop, mask_paths=mask_paths
+        root=root,
+        workshop=workshop,
+        workshop_root=workshop_root,
+        mask_paths=mask_paths,
     )
     if args.update_source_manifest:
         # The full painted-color assertion is intentionally part of accepting a
@@ -1584,7 +1579,9 @@ def main() -> int:
             wooded_threshold = (
                 0.06
                 if region.wooded_terrain == "jungle"
-                else 0.08 if region.wooded_terrain == "taiga" else 0.12
+                else 0.08
+                if region.wooded_terrain == "taiga"
+                else 0.12
             )
             wooded = (
                 forest_signal >= wooded_threshold
@@ -1762,7 +1759,9 @@ def main() -> int:
                 "review_status": (
                     "pending"
                     if province_id in pending
-                    else "reviewed" if decision else "automatic"
+                    else "reviewed"
+                    if decision
+                    else "automatic"
                 ),
             }
         )

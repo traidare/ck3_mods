@@ -4,10 +4,15 @@
 from __future__ import annotations
 
 import argparse
-import hashlib
 import json
 import re
 from pathlib import Path
+
+from ck3_source_manifest import (
+    canonical_source_path,
+    resolve_workshop_root,
+    sha256_file,
+)
 
 
 WORKSHOP_IDS = {
@@ -27,9 +32,7 @@ OUTPUT_RELATIVES = {
     "SEASON_FX": SOURCE_RELATIVES["SEASON_FX"],
     # Geographical-region files merge by named block.  A normal-path final
     # override therefore duplicates every bridge membership at runtime.
-    "SEASON_REGIONS": Path(
-        "map_data/geographical_regions/replace/north_sans_neck.txt"
-    ),
+    "SEASON_REGIONS": Path("map_data/geographical_regions/replace/north_sans_neck.txt"),
 }
 OBSOLETE_OUTPUTS = (SOURCE_RELATIVES["SEASON_REGIONS"],)
 
@@ -60,14 +63,6 @@ def read_text(path: Path) -> str:
 def normalize_output(text: str) -> str:
     """Keep generated whole-file overrides reviewable without changing tokens."""
     return re.sub(r"[ \t]+(?=\n)", "", text).rstrip() + "\n"
-
-
-def sha256_file(path: Path) -> str:
-    digest = hashlib.sha256()
-    with path.open("rb") as handle:
-        while chunk := handle.read(1024 * 1024):
-            digest.update(chunk)
-    return digest.hexdigest()
 
 
 def replace_once(text: str, old: str, new: str, *, label: str) -> str:
@@ -178,7 +173,10 @@ def generate_events(source: str) -> str:
         block = text[start : end + 1]
         if "season_events.007" in block or "set_AGOT_season_summer_start" in block:
             raise AssertionError(f"historical season {date} still starts in summer")
-        if "season_events.008" not in block or "set_AGOT_season_autumn_start" not in block:
+        if (
+            "season_events.008" not in block
+            or "set_AGOT_season_autumn_start" not in block
+        ):
             raise AssertionError(f"historical season {date} no longer starts in autumn")
     return text if text.endswith("\n") else text + "\n"
 
@@ -192,12 +190,16 @@ def generate_shader(source: str) -> str:
         raise AssertionError("missing EffectIntensities declaration")
     struct_start = struct.start()
     struct_end = matching_brace(source, source.find("{", struct.start(), struct.end()))
-    text = source[: struct_end + 1] + (
-        "\n\nCode\n[[\n"
-        "\t// AGOT: this include is also consumed by vertex shaders.\n"
-        "\tstatic const float SKIP_VALUE = 0.001f;\n"
-        "]]\n"
-    ) + source[struct_end + 1 :]
+    text = (
+        source[: struct_end + 1]
+        + (
+            "\n\nCode\n[[\n"
+            "\t// AGOT: this include is also consumed by vertex shaders.\n"
+            "\tstatic const float SKIP_VALUE = 0.001f;\n"
+            "]]\n"
+        )
+        + source[struct_end + 1 :]
+    )
     text = replace_once(
         text,
         "\t\tstatic const float SKIP_VALUE = 0.001f;\n",
@@ -221,9 +223,7 @@ def add_group_regions(text: str, group: str, regions: tuple[str, ...]) -> str:
         f"\t\t{region}\n" for region in regions
     )
     region_text = region_text[:-1] + additions + "\t}"
-    group_text = (
-        group_text[:region_start] + region_text + group_text[region_end + 1 :]
-    )
+    group_text = group_text[:region_start] + region_text + group_text[region_end + 1 :]
     return text[:group_start] + group_text + text[group_end + 1 :]
 
 
@@ -349,12 +349,17 @@ def generate_outputs(workshop: dict[str, Path]) -> dict[Path, bytes]:
     }
 
 
-def source_manifest(root: Path, workshop: dict[str, Path]) -> dict[str, object]:
+def source_manifest(
+    root: Path,
+    workshop: dict[str, Path],
+    workshop_root: Path,
+) -> dict[str, object]:
     sources = {
         "NOW": workshop["NOW"] / SOURCE_RELATIVES["NOW"],
         "SEASON_EVENTS": workshop["SEASONS_BRIDGE"] / SOURCE_RELATIVES["SEASON_EVENTS"],
         "SEASON_FX": workshop["SEASONS_BRIDGE"] / SOURCE_RELATIVES["SEASON_FX"],
-        "SEASON_REGIONS": workshop["SEASONS_BRIDGE"] / SOURCE_RELATIVES["SEASON_REGIONS"],
+        "SEASON_REGIONS": workshop["SEASONS_BRIDGE"]
+        / SOURCE_RELATIVES["SEASON_REGIONS"],
         "NOW_DESCRIPTOR": workshop["NOW"] / "descriptor.mod",
         "SEASONS_BRIDGE_DESCRIPTOR": workshop["SEASONS_BRIDGE"] / "descriptor.mod",
     }
@@ -366,19 +371,15 @@ def source_manifest(root: Path, workshop: dict[str, Path]) -> dict[str, object]:
         )
         versions[label] = match.group(1) if match else "unversioned"
 
-    def display(path: Path) -> str:
-        try:
-            return path.relative_to(root).as_posix()
-        except ValueError:
-            return str(path)
-
     return {
         "schema_version": 1,
         "workshop_ids": WORKSHOP_IDS,
         "versions": versions,
         "files": {
             label: {
-                "path": display(path),
+                "path": canonical_source_path(
+                    path, root=root, workshop_root=workshop_root
+                ),
                 "sha256": sha256_file(path),
                 "size": path.stat().st_size,
             }
@@ -396,17 +397,20 @@ def source_manifest(root: Path, workshop: dict[str, Path]) -> dict[str, object]:
 def main() -> int:
     args = parse_args()
     root = args.root.resolve()
+    workshop_root = resolve_workshop_root()
     workshop = {
-        label: root / ".ignored/CK3_workshop" / workshop_id
+        label: workshop_root / workshop_id
         for label, workshop_id in WORKSHOP_IDS.items()
     }
-    missing = [f"{label}:{path}" for label, path in workshop.items() if not path.is_dir()]
+    missing = [
+        f"{label}:{path}" for label, path in workshop.items() if not path.is_dir()
+    ]
     if missing:
         raise FileNotFoundError(f"missing Workshop modules: {missing}")
 
     module = root / MODULE_RELATIVE
     manifest_path = module / "content_source/source_manifest.json"
-    manifest = source_manifest(root, workshop)
+    manifest = source_manifest(root, workshop, workshop_root)
     if args.update_source_manifest:
         manifest_path.parent.mkdir(parents=True, exist_ok=True)
         manifest_path.write_text(
@@ -428,7 +432,8 @@ def main() -> int:
         stale = [
             relative.as_posix()
             for relative, data in outputs.items()
-            if not (module / relative).is_file() or (module / relative).read_bytes() != data
+            if not (module / relative).is_file()
+            or (module / relative).read_bytes() != data
         ]
         stale.extend(
             relative.as_posix()

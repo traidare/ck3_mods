@@ -91,9 +91,7 @@ def replace_regex(
 ) -> str:
     patched, count = re.subn(pattern, replacement, text, flags=flags)
     if count != expected:
-        raise RuntimeError(
-            f"{label}: expected {expected} replacement(s), made {count}"
-        )
+        raise RuntimeError(f"{label}: expected {expected} replacement(s), made {count}")
     return patched
 
 
@@ -137,9 +135,7 @@ def extract_named_block(text: str, name: str) -> str:
     pattern = re.compile(rf"^{re.escape(name)}\s*=\s*\{{")
     starts = [index for index, line in enumerate(lines) if pattern.match(line)]
     if len(starts) != 1:
-        raise RuntimeError(
-            f"expected one {name} definition, found {len(starts)}"
-        )
+        raise RuntimeError(f"expected one {name} definition, found {len(starts)}")
     start = starts[0]
     return "".join(lines[start : block_end(lines, start)])
 
@@ -231,8 +227,7 @@ def repair_child_birth_on_action() -> None:
 
 def repair_common_files() -> None:
     relative = (
-        "common/decisions/agot_decisions/"
-        "00_agot_formable_kingdoms_decisions_BLA.txt"
+        "common/decisions/agot_decisions/00_agot_formable_kingdoms_decisions_BLA.txt"
     )
     text = read_text(BLOODLINES / relative)
     text = replace_exact(
@@ -318,10 +313,9 @@ def repair_common_files() -> None:
     if text.count("@msg_completion_effect_generic") != 3:
         raise RuntimeError("expected three generic completion sound references")
     text = (
-        '@msg_completion_effect_generic = '
+        "@msg_completion_effect_generic = "
         '"event:/DLC/EP4/SFX/Stingers/China/'
-        'tgp_mx_sting_finishing_great_project_generic"\n\n'
-        + text
+        'tgp_mx_sting_finishing_great_project_generic"\n\n' + text
     )
     write_text(relative, text)
 
@@ -332,8 +326,7 @@ def repair_common_files() -> None:
         "\tmonthly_piety = 0.20\n"
         "\tcounty_opinion_add = 5\n"
         "\tmonthly_county_control_growth_add = 0.20\n",
-        "\tcounty_opinion_add = 5\n"
-        "\tmonthly_county_control_growth_add = 0.20\n",
+        "\tcounty_opinion_add = 5\n\tmonthly_county_control_growth_add = 0.20\n",
         expected=1,
         label="Oldstones county modifier scope",
     )
@@ -385,9 +378,7 @@ def replace_script_traits(text: str) -> tuple[str, int]:
     total = 0
     field_pattern = r"(has_trait|add_trait|remove_trait|trait)"
     for old, new in TRAIT_REPLACEMENTS.items():
-        pattern = re.compile(
-            rf"\b{field_pattern}(\s*=\s*){re.escape(old)}\b"
-        )
+        pattern = re.compile(rf"\b{field_pattern}(\s*=\s*){re.escape(old)}\b")
         text, count = pattern.subn(rf"\1\2{new}", text)
         total += count
     return text, total
@@ -450,10 +441,8 @@ def repair_event(relative: str, text: str) -> tuple[str, dict[str, int]]:
         )
         text = replace_exact(
             text,
-            "\t\t\t\t\tset_employer = root\n"
-            "\t\t\t\t\tis_knight = yes\n",
-            "\t\t\t\t\tset_employer = root\n"
-            "\t\t\t\t\tset_knight_status = force\n",
+            "\t\t\t\t\tset_employer = root\n\t\t\t\t\tis_knight = yes\n",
+            "\t\t\t\t\tset_employer = root\n\t\t\t\t\tset_knight_status = force\n",
             expected=1,
             label="Crossroads knight-status effect",
         )
@@ -535,8 +524,7 @@ def repair_event(relative: str, text: str) -> tuple[str, dict[str, int]]:
             )
 
     if relative == (
-        "events/agot_events/"
-        "agot_riverlands_blackwood_bracken_events_bla.txt"
+        "events/agot_events/agot_riverlands_blackwood_bracken_events_bla.txt"
     ):
         text = replace_exact(
             text,
@@ -607,8 +595,7 @@ def repair_event(relative: str, text: str) -> tuple[str, dict[str, int]]:
         )
         text = replace_exact(
             text,
-            "        scope:john_mudd = {\n"
-            "            agot_house_revival_effect = {\n",
+            "        scope:john_mudd = {\n            agot_house_revival_effect = {\n",
             "        scope:john_mudd = {\n"
             "            dynasty:dynn_Mudd.dynasty_founder.house = {\n"
             "                save_scope_as = bastard_house_of\n"
@@ -750,12 +737,8 @@ def repair_event(relative: str, text: str) -> tuple[str, dict[str, int]]:
         )
         text = replace_exact(
             text,
-            "\t}\n"
-            "}\n"
-            "\toption = {\n",
-            "\t}\n"
-            "\t}\n"
-            "\toption = {\n",
+            "\t}\n}\n\toption = {\n",
+            "\t}\n\t}\n\toption = {\n",
             expected=1,
             label="Red Rain immediate closing-brace indentation",
         )
@@ -798,8 +781,7 @@ def generate_events() -> None:
             changed_files += 1
     if opinion_durations != 69:
         raise RuntimeError(
-            "monthly opinion durations: "
-            f"expected 69 removals, made {opinion_durations}"
+            f"monthly opinion durations: expected 69 removals, made {opinion_durations}"
         )
     if trait_replacements != 32:
         raise RuntimeError(
@@ -901,7 +883,7 @@ def generate_localization() -> None:
         text,
         "as surely as ink holds parchment.\n\n"
         "building_type_agot_jordayne_tor_library_01",
-        "as surely as ink holds parchment.\"\n\n"
+        'as surely as ink holds parchment."\n\n'
         "building_type_agot_jordayne_tor_library_01",
         expected=1,
         label="Jordayne unit localization quote",

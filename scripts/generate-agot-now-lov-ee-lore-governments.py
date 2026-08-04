@@ -5,7 +5,6 @@ from __future__ import annotations
 
 import argparse
 import csv
-import hashlib
 import io
 import json
 import re
@@ -14,6 +13,12 @@ from collections import defaultdict, deque
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Iterable
+
+from ck3_source_manifest import (
+    canonical_source_path,
+    resolve_workshop_root,
+    sha256_file,
+)
 
 DOOM = (7899, 8, 14)
 DOOM_TEXT = "7899.8.14"
@@ -367,14 +372,6 @@ def csv_bytes(fieldnames: list[str], rows: Iterable[dict[str, object]]) -> bytes
     return output.getvalue().encode("utf-8")
 
 
-def sha256_file(path: Path) -> str:
-    digest = hashlib.sha256()
-    with path.open("rb") as handle:
-        while chunk := handle.read(1024 * 1024):
-            digest.update(chunk)
-    return digest.hexdigest()
-
-
 def load_rules(path: Path) -> list[Rule]:
     priority = {"history_file", "empire", "culture", "title"}
     rules: list[Rule] = []
@@ -666,16 +663,14 @@ def transform_effect(text: str) -> str:
 def target_manifest(
     root: Path,
     workshop: dict[str, Path],
+    workshop_root: Path,
     inputs: Iterable[Path],
 ) -> dict[str, object]:
-    def display(path: Path) -> str:
-        try:
-            return path.relative_to(root).as_posix()
-        except ValueError:
-            return str(path)
-
     files = {
-        display(path): {"sha256": sha256_file(path), "size": path.stat().st_size}
+        canonical_source_path(path, root=root, workshop_root=workshop_root): {
+            "sha256": sha256_file(path),
+            "size": path.stat().st_size,
+        }
         for path in sorted(set(inputs))
     }
     versions: dict[str, str] = {}
@@ -698,7 +693,7 @@ def target_manifest(
 def main() -> int:
     args = parse_args()
     root = args.root.resolve()
-    workshop_root = root / ".ignored/CK3_workshop"
+    workshop_root = resolve_workshop_root()
     workshop = {
         label: workshop_root / workshop_id
         for label, workshop_id in WORKSHOP_IDS.items()
@@ -713,7 +708,10 @@ def main() -> int:
     source = module / "content_source/lore_governments"
     rules_path = source / "government_lore_rules.csv"
     manifest_path = source / "source_manifest.json"
-    effect_source = workshop["BRIDGE"] / "common/scripted_effects/replace/00_agot_character_data_effects.txt"
+    effect_source = (
+        workshop["BRIDGE"]
+        / "common/scripted_effects/replace/00_agot_character_data_effects.txt"
+    )
     roots = [
         ("LOV", workshop["LOV"]),
         ("RC", workshop["RC"]),
@@ -752,7 +750,7 @@ def main() -> int:
         *[path for _, path in character_winners.values()],
         *[path for _, path in province_winners.values()],
     ]
-    current_manifest = target_manifest(root, workshop, input_paths)
+    current_manifest = target_manifest(root, workshop, workshop_root, input_paths)
     if args.update_source_manifest:
         manifest_path.parent.mkdir(parents=True, exist_ok=True)
         manifest_path.write_text(

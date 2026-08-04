@@ -155,21 +155,17 @@ def replace_numbered_branch_with_constant(
     *,
     label: str,
 ) -> str:
-    pattern = re.compile(
-        rf"(?m)^([ \t]*){number}\s*=\s*\{{"
-    )
+    pattern = re.compile(rf"(?m)^([ \t]*){number}\s*=\s*\{{")
     matches = list(pattern.finditer(text))
     if len(matches) != 1:
         raise RuntimeError(
-            f"{label}: expected one switch branch {number}, "
-            f"found {len(matches)}"
+            f"{label}: expected one switch branch {number}, found {len(matches)}"
         )
     match = matches[0]
     open_index = text.index("{", match.start())
     end_index = balanced_brace_end(text, open_index)
     replacement = (
-        f"{match.group(1)}{number} = "
-        f"{{ always = {'yes' if value else 'no'} }}"
+        f"{match.group(1)}{number} = {{ always = {'yes' if value else 'no'} }}"
     )
     return text[: match.start()] + replacement + text[end_index + 1 :]
 
@@ -184,22 +180,17 @@ def remove_if_block_for_artifact_modifier(
     marker_count = text.count(marker)
     if marker_count != 1:
         raise RuntimeError(
-            f"{label}: expected one {modifier} upgrade limit, "
-            f"found {marker_count}"
+            f"{label}: expected one {modifier} upgrade limit, found {marker_count}"
         )
     marker_index = text.index(marker)
-    candidates = list(
-        re.finditer(r"(?m)^[ \t]*if\s*=\s*\{", text[:marker_index])
-    )
+    candidates = list(re.finditer(r"(?m)^[ \t]*if\s*=\s*\{", text[:marker_index]))
     if not candidates:
         raise RuntimeError(f"{label}: no enclosing if block for {modifier}")
     block_match = candidates[-1]
     open_index = text.index("{", block_match.start())
     end_index = balanced_brace_end(text, open_index)
     if marker_index >= end_index:
-        raise RuntimeError(
-            f"{label}: nearest if block did not contain {modifier}"
-        )
+        raise RuntimeError(f"{label}: nearest if block did not contain {modifier}")
     if end_index + 1 < len(text) and text[end_index + 1] == "\n":
         end_index += 1
     return text[: block_match.start()] + text[end_index + 1 :]
@@ -249,9 +240,7 @@ def scale_fractional_random_list_weights(
     replacements: list[tuple[int, int, str]] = []
     affected_lists = 0
     fractional_weights = 0
-    random_list_pattern = re.compile(
-        r"(?m)^[ \t]*random_list\s*=\s*\{"
-    )
+    random_list_pattern = re.compile(r"(?m)^[ \t]*random_list\s*=\s*\{")
     weight_pattern = re.compile(r"^[ \t]*(\d+(?:\.\d+)?)\s*(?==\s*\{)")
 
     for match in random_list_pattern.finditer(text):
@@ -405,7 +394,9 @@ def generate_seasons_agot_shaders() -> None:
                     f"Seasons shader interface changed: expected {current} in {filename}"
                 )
         if re.search(r"\bGH_[A-Za-z0-9_]+", text) or "MOD(godherja)" in text:
-            raise RuntimeError(f"Seasons shader retained the old GH interface: {filename}")
+            raise RuntimeError(
+                f"Seasons shader retained the old GH interface: {filename}"
+            )
 
         # Seasons 0.5.6 includes the current AGOT interface itself.  Remove the
         # old whole-file replacement so later updates are not hidden by a stale
@@ -449,8 +440,7 @@ def generate_mari_agot_portraits() -> None:
     text, removed = obsolete_gene_line.subn("", text)
     if removed != 915:
         raise RuntimeError(
-            "Mari DNA: expected 915 removed AGOT genes, "
-            f"found {removed}"
+            f"Mari DNA: expected 915 removed AGOT genes, found {removed}"
         )
     for stale, current, expected_dna, _ in template_replacements:
         text = replace_exact(
@@ -462,10 +452,8 @@ def generate_mari_agot_portraits() -> None:
         )
     text = replace_exact(
         text,
-        'gene_dragon_size={ "non_dragon_size" 127 '
-        '"non_dragon_size" 127 }`',
-        'gene_dragon_size={ "non_dragon_size" 127 '
-        '"non_dragon_size" 127 }',
+        'gene_dragon_size={ "non_dragon_size" 127 "non_dragon_size" 127 }`',
+        'gene_dragon_size={ "non_dragon_size" 127 "non_dragon_size" 127 }',
         expected=1,
         label="Mari Aegon V DNA stray backtick",
     )
@@ -485,9 +473,7 @@ def generate_mari_agot_portraits() -> None:
 
     portraits = mari / "common/bookmark_portraits"
     affected: list[tuple[Path, str, int]] = []
-    bookmark_replacement_counts = {
-        stale: 0 for stale, _, _, _ in template_replacements
-    }
+    bookmark_replacement_counts = {stale: 0 for stale, _, _, _ in template_replacements}
     for source in sorted(portraits.glob("*.txt")):
         source_text = read_text(source)
         repaired, removed = obsolete_gene_line.subn("", source_text)
@@ -499,18 +485,15 @@ def generate_mari_agot_portraits() -> None:
             affected.append((source, repaired, removed))
     if len(affected) != 50:
         raise RuntimeError(
-            "Mari bookmarks: expected 50 affected files, "
-            f"found {len(affected)}"
+            f"Mari bookmarks: expected 50 affected files, found {len(affected)}"
         )
     removed_total = sum(removed for _, _, removed in affected)
     if removed_total != 266:
         raise RuntimeError(
-            "Mari bookmarks: expected 266 removed AGOT genes, "
-            f"found {removed_total}"
+            f"Mari bookmarks: expected 266 removed AGOT genes, found {removed_total}"
         )
     expected_bookmark_counts = {
-        stale: expected
-        for stale, _, _, expected in template_replacements
+        stale: expected for stale, _, _, expected in template_replacements
     }
     if bookmark_replacement_counts != expected_bookmark_counts:
         raise RuntimeError(
@@ -531,12 +514,10 @@ def generate_faster_transitions_gui() -> None:
     relative = "gui/00_no_transition.gui"
     text = read_text(WORKSHOP / "3437814875" / relative)
     tournament = read_text(
-        game_root()
-        / "gui/activity_window_widgets/tournament_widget_types.gui"
+        game_root() / "gui/activity_window_widgets/tournament_widget_types.gui"
     )
     chariot = read_text(
-        game_root()
-        / "gui/activity_window_widgets/chariot_race_widget_types.gui"
+        game_root() / "gui/activity_window_widgets/chariot_race_widget_types.gui"
     )
     event_windows = read_text(game_root() / "gui/shared/event_windows.gui")
 
@@ -557,23 +538,18 @@ def generate_faster_transitions_gui() -> None:
 \t\t}"""
     if tournament.count(fullscreen_effect) != 1:
         raise RuntimeError(
-            "CK3 pivotal fullscreen event effect changed; rebase Faster "
-            "Transitions"
+            "CK3 pivotal fullscreen event effect changed; rebase Faster Transitions"
         )
     if chariot.count(compact_effect) != 1:
         raise RuntimeError(
-            "CK3 compact pivotal event effect changed; rebase Faster "
-            "Transitions"
+            "CK3 compact pivotal event effect changed; rebase Faster Transitions"
         )
     if event_windows.count("\t\talwaystransparent = no\n") < 1:
         raise RuntimeError(
-            "CK3 event transition input handling changed; rebase Faster "
-            "Transitions"
+            "CK3 event transition input handling changed; rebase Faster Transitions"
         )
     if "shrouded_event_effect" in text:
-        raise RuntimeError(
-            "Faster Transitions now carries CK3's pivotal event effects"
-        )
+        raise RuntimeError("Faster Transitions now carries CK3's pivotal event effects")
 
     text = replace_exact(
         text,
@@ -677,9 +653,7 @@ def generate_additional_models_on_action_deduplication() -> None:
     for definition in definitions:
         pattern = rf"(?m)^{definition}\s*=\s*\{{"
         if len(re.findall(pattern, additional_models)) != 1:
-            raise RuntimeError(
-                f"Additional Models definition changed: {definition}"
-            )
+            raise RuntimeError(f"Additional Models definition changed: {definition}")
         if len(re.findall(pattern, compatch)) != 0:
             raise RuntimeError(
                 f"Additional Models/AGOT+/LoV compatch restored duplicate "
@@ -691,16 +665,13 @@ def generate_additional_models_on_action_deduplication() -> None:
     ):
         if len(re.findall(rf"(?m)^{definition}\s*=\s*\{{", compatch)) != 1:
             raise RuntimeError(
-                f"Additional Models/AGOT+/LoV compatch definition changed: "
-                f"{definition}"
+                f"Additional Models/AGOT+/LoV compatch definition changed: {definition}"
             )
     output_path = OUTPUT / relative
     if output_path.is_file():
         output_path.unlink()
     elif output_path.exists():
-        raise RuntimeError(
-            f"expected a file or no output at {output_path}"
-        )
+        raise RuntimeError(f"expected a file or no output at {output_path}")
 
 
 def generate_kurultai_succession_scope_repairs() -> None:
@@ -733,10 +704,8 @@ def generate_kurultai_succession_scope_repairs() -> None:
 
     cleanup = replace_exact(
         blocks["nomadic_heir_cleanup_realm_effect"],
-        "\t\t\t\tscope:recipient = {\n"
-        "\t\t\t\t\tchange_liege = {",
-        "\t\t\t\tscope:inheritor_char = {\n"
-        "\t\t\t\t\tchange_liege = {",
+        "\t\t\t\tscope:recipient = {\n\t\t\t\t\tchange_liege = {",
+        "\t\t\t\tscope:inheritor_char = {\n\t\t\t\t\tchange_liege = {",
         expected=1,
         label="Kurultai inheritor liege scope",
     )
@@ -786,19 +755,38 @@ def generate_kurultai_succession_scope_repairs() -> None:
 def generate_essos_disabled_realm_cleanup() -> None:
     """Initialize disabled Essos Expanded realms directly as LoV wilderness."""
     realms = (
-        "bloodless_men", "cannibal_sands", "hidden_sea", "ibben", "ifequevron",
-        "lesser_moraq", "lorath", "mossovy", "naath", "norvos", "omber",
-        "qohor", "sarnor", "sothoryos", "summer_isles", "thousand_islands",
-        "ulthos", "upper_sarne_dothraki", "lower_sarne_dothraki",
-        "great_grass_sea_dothraki", "bone_mountain_dothraki", "lhazar", "qarth",
-        "golden_yi_ti", "jogos_nhai", "great_moraq", "leng",
+        "bloodless_men",
+        "cannibal_sands",
+        "hidden_sea",
+        "ibben",
+        "ifequevron",
+        "lesser_moraq",
+        "lorath",
+        "mossovy",
+        "naath",
+        "norvos",
+        "omber",
+        "qohor",
+        "sarnor",
+        "sothoryos",
+        "summer_isles",
+        "thousand_islands",
+        "ulthos",
+        "upper_sarne_dothraki",
+        "lower_sarne_dothraki",
+        "great_grass_sea_dothraki",
+        "bone_mountain_dothraki",
+        "lhazar",
+        "qarth",
+        "golden_yi_ti",
+        "jogos_nhai",
+        "great_moraq",
+        "leng",
     )
     game_rules = read_text(
         WORKSHOP / "3682802751/common/game_rules/01_essos_empire_game_rules.txt"
     )
-    on_action = read_text(
-        WORKSHOP / "3682802751/common/on_action/essos_game_start.txt"
-    )
+    on_action = read_text(WORKSHOP / "3682802751/common/on_action/essos_game_start.txt")
     family_effects = read_text(
         WORKSHOP / "3682802751/common/scripted_effects/essos_family_effects.txt"
     )
@@ -807,26 +795,29 @@ def generate_essos_disabled_realm_cleanup() -> None:
         / "2962333032/common/scripted_effects/00_agot_remove_realms_effects.txt"
     )
     lov_colonization = read_text(
-        WORKSHOP
-        / "3719888822/common/scripted_effects/00_agot_colonization_effects.txt"
+        WORKSHOP / "3719888822/common/scripted_effects/00_agot_colonization_effects.txt"
     )
     assert_source_block_hash(
-        on_action, "essos_generate_families",
+        on_action,
+        "essos_generate_families",
         "b94b4bc55ecdf1890ec6667fe4366b38a5b6a6af8f9d4d941b5b9726df14d3f7",
         label="Essos Expanded startup family dispatcher",
     )
     assert_source_block_hash(
-        family_effects, "essos_give_family_effect",
+        family_effects,
+        "essos_give_family_effect",
         "465c1415a8987439f6ce4d1ca9009710793299f5b2bf30301f6b5d34915e8345",
         label="Essos Expanded family effect",
     )
     assert_source_block_hash(
-        agot_remove_realms, "agot_remove_realm_effect",
+        agot_remove_realms,
+        "agot_remove_realm_effect",
         "9168fb5f64500cb04f28a321ddec8c6f658cc459dca4cfb62c3217a361a67b3b",
         label="AGOT realm-removal effect",
     )
     assert_source_block_hash(
-        lov_colonization, "make_settlement_county_wilderness",
+        lov_colonization,
+        "make_settlement_county_wilderness",
         "4bac248019f401289eac2f39e1e10c5bcd7bd7142db32ef5744af82a9066580b",
         label="LoV wilderness conversion",
     )
@@ -900,7 +891,10 @@ def generate_essos_disabled_realm_cleanup() -> None:
         + "\n\t}\n}"
     )
     family_effects = replace_exact(
-        family_effects, family_block, guarded_family_block, expected=1,
+        family_effects,
+        family_block,
+        guarded_family_block,
+        expected=1,
         label="Essos family location guard wrapper",
     )
 
@@ -1015,15 +1009,18 @@ def generate_essos_disabled_realm_cleanup() -> None:
         """
     )
     write_text(
-        OUTPUT, "common/on_action/essos_game_start.txt",
+        OUTPUT,
+        "common/on_action/essos_game_start.txt",
         normalize_rebased_source(on_action),
     )
     write_text(
-        OUTPUT, "common/scripted_effects/essos_family_effects.txt",
+        OUTPUT,
+        "common/scripted_effects/essos_family_effects.txt",
         normalize_rebased_source(family_effects),
     )
     write_text(
-        OUTPUT, "common/scripted_effects/zz_essos_disabled_realm_cleanup_effect.txt",
+        OUTPUT,
+        "common/scripted_effects/zz_essos_disabled_realm_cleanup_effect.txt",
         effect_text,
     )
     for relative in (
@@ -1057,43 +1054,43 @@ def generate_nomad_yurt_guards() -> None:
         )
         return textwrap.indent(
             (
-            "\t\t\t\ttitle_domicile = {\n"
-            "\t\t\t\t\tif = {\n"
-            "\t\t\t\t\t\tlimit = {\n"
-            "\t\t\t\t\t\t\tNOT = { has_domicile_building = yurt_main_02 }\n"
-            "\t\t\t\t\t\t}\n"
-            "\t\t\t\t\t\tadd_domicile_building = yurt_main_02\n"
-            "\t\t\t\t\t}\n"
-            "\t\t\t\t\tif = {\n"
-            "\t\t\t\t\t\tlimit = {\n"
-            "\t\t\t\t\t\t\thas_domicile_building = yurt_main_02\n"
-            "\t\t\t\t\t\t\towner ?= {\n"
-            "\t\t\t\t\t\t\t\tOR = {\n"
-            "\t\t\t\t\t\t\t\t\thas_realm_law = nomadic_authority_2\n"
-            "\t\t\t\t\t\t\t\t\thas_realm_law = nomadic_authority_3\n"
-            "\t\t\t\t\t\t\t\t\thas_realm_law = nomadic_authority_4\n"
-            "\t\t\t\t\t\t\t\t\thas_realm_law = nomadic_authority_5\n"
-            "\t\t\t\t\t\t\t\t}\n"
-            "\t\t\t\t\t\t\t}\n"
-            "\t\t\t\t\t\t\tNOT = { has_domicile_building = yurt_main_03 }\n"
-            "\t\t\t\t\t\t}\n"
-            "\t\t\t\t\t\tadd_domicile_building = yurt_main_03\n"
-            "\t\t\t\t\t}\n"
-            "\t\t\t\t\tif = {\n"
-            "\t\t\t\t\t\tlimit = {\n"
-            "\t\t\t\t\t\t\thas_domicile_building = yurt_main_03\n"
-            "\t\t\t\t\t\t\towner ?= {\n"
-            "\t\t\t\t\t\t\t\tOR = {\n"
-            "\t\t\t\t\t\t\t\t\thas_realm_law = nomadic_authority_3\n"
-            "\t\t\t\t\t\t\t\t\thas_realm_law = nomadic_authority_4\n"
-            "\t\t\t\t\t\t\t\t\thas_realm_law = nomadic_authority_5\n"
-            "\t\t\t\t\t\t\t\t}\n"
-            "\t\t\t\t\t\t\t}\n"
-            "\t\t\t\t\t\t\tNOT = { has_domicile_building = yurt_main_04 }\n"
-            "\t\t\t\t\t\t}\n"
-            "\t\t\t\t\t\tadd_domicile_building = yurt_main_04\n"
-            "\t\t\t\t\t}\n"
-            f"{external}\n"
+                "\t\t\t\ttitle_domicile = {\n"
+                "\t\t\t\t\tif = {\n"
+                "\t\t\t\t\t\tlimit = {\n"
+                "\t\t\t\t\t\t\tNOT = { has_domicile_building = yurt_main_02 }\n"
+                "\t\t\t\t\t\t}\n"
+                "\t\t\t\t\t\tadd_domicile_building = yurt_main_02\n"
+                "\t\t\t\t\t}\n"
+                "\t\t\t\t\tif = {\n"
+                "\t\t\t\t\t\tlimit = {\n"
+                "\t\t\t\t\t\t\thas_domicile_building = yurt_main_02\n"
+                "\t\t\t\t\t\t\towner ?= {\n"
+                "\t\t\t\t\t\t\t\tOR = {\n"
+                "\t\t\t\t\t\t\t\t\thas_realm_law = nomadic_authority_2\n"
+                "\t\t\t\t\t\t\t\t\thas_realm_law = nomadic_authority_3\n"
+                "\t\t\t\t\t\t\t\t\thas_realm_law = nomadic_authority_4\n"
+                "\t\t\t\t\t\t\t\t\thas_realm_law = nomadic_authority_5\n"
+                "\t\t\t\t\t\t\t\t}\n"
+                "\t\t\t\t\t\t\t}\n"
+                "\t\t\t\t\t\t\tNOT = { has_domicile_building = yurt_main_03 }\n"
+                "\t\t\t\t\t\t}\n"
+                "\t\t\t\t\t\tadd_domicile_building = yurt_main_03\n"
+                "\t\t\t\t\t}\n"
+                "\t\t\t\t\tif = {\n"
+                "\t\t\t\t\t\tlimit = {\n"
+                "\t\t\t\t\t\t\thas_domicile_building = yurt_main_03\n"
+                "\t\t\t\t\t\t\towner ?= {\n"
+                "\t\t\t\t\t\t\t\tOR = {\n"
+                "\t\t\t\t\t\t\t\t\thas_realm_law = nomadic_authority_3\n"
+                "\t\t\t\t\t\t\t\t\thas_realm_law = nomadic_authority_4\n"
+                "\t\t\t\t\t\t\t\t\thas_realm_law = nomadic_authority_5\n"
+                "\t\t\t\t\t\t\t\t}\n"
+                "\t\t\t\t\t\t\t}\n"
+                "\t\t\t\t\t\t\tNOT = { has_domicile_building = yurt_main_04 }\n"
+                "\t\t\t\t\t\t}\n"
+                "\t\t\t\t\t\tadd_domicile_building = yurt_main_04\n"
+                "\t\t\t\t\t}\n"
+                f"{external}\n"
                 "\t\t\t\t}"
             ),
             "\t\t\t",
@@ -1346,9 +1343,7 @@ def generate_court_events_3020_role_guard() -> None:
         label="AGOT court event 3020 in-place replacement",
     )
     if "namespace = court_events" not in source:
-        raise RuntimeError(
-            "AGOT court events source lost its namespace during rebase"
-        )
+        raise RuntimeError("AGOT court events source lost its namespace during rebase")
     if "court_events.3000 = {" not in source:
         raise RuntimeError(
             "AGOT court events source lost sibling event court_events.3000"
@@ -1357,8 +1352,7 @@ def generate_court_events_3020_role_guard() -> None:
     write_text(
         OUTPUT,
         relative,
-        "# Runtime rebase: court scene roles require an existing scope.\n\n"
-        + source,
+        "# Runtime rebase: court scene roles require an existing scope.\n\n" + source,
     )
 
 
@@ -1372,9 +1366,7 @@ def generate_aurion_title_gain_guard() -> None:
     latter is the source of repeated title-holder collision errors in normal
     title transfers, so retain its registration but make the fallback inert.
     """
-    relative = (
-        "common/on_action/cob_on_actions/zz_lv_aurion_lost_expedition_title_gain_rc61.txt"
-    )
+    relative = "common/on_action/cob_on_actions/zz_lv_aurion_lost_expedition_title_gain_rc61.txt"
     source = read_text(WORKSHOP / "3719888822" / relative)
     handler = extract_top_level_block(
         source, "lv_aurion_lost_expedition_recovery_on_title_gain"
@@ -1465,8 +1457,7 @@ def generate_cow_province_setup_rebase() -> None:
         OUTPUT,
         relative,
         "# Runtime rebase: remove the dead title-change scope and rebase COW's\n"
-        "# stale building/barony identifiers onto current AGOT definitions.\n"
-        + source,
+        "# stale building/barony identifiers onto current AGOT definitions.\n" + source,
     )
 
 
@@ -1480,9 +1471,7 @@ def generate_upgrade_house_banners_event() -> None:
             "Upgrade House Banners maintenance event now supplies an option"
         )
     if "hidden = yes" in event:
-        raise RuntimeError(
-            "Upgrade House Banners maintenance event is now hidden"
-        )
+        raise RuntimeError("Upgrade House Banners maintenance event is now hidden")
     localization = read_text(
         WORKSHOP
         / "3709868073/localization/english/uhb_court_events_altner_l_english.yml"
@@ -1564,9 +1553,7 @@ def guard_scene_culture_triggers(
         block = extract_top_level_block(text, key)
         marker_index = block.find(marker)
         if marker_index < 0 or not block.endswith(suffix):
-            raise RuntimeError(
-                f"{label}: unexpected trigger structure for {key}"
-            )
+            raise RuntimeError(f"{label}: unexpected trigger structure for {key}")
         body_start = marker_index + len(marker)
         body_end = len(block) - len(suffix)
         body = block[body_start:body_end]
@@ -1611,10 +1598,7 @@ def rebase_additional_models_scene_guards(text: str) -> str:
             guarded_block = replace_exact(
                 compatch_block,
                 "\t\tagot_has_throne_room = no\n",
-                (
-                    "\t\tagot_has_throne_room = no\n"
-                    "\t\tamsb_has_throne_room = no\n"
-                ),
+                ("\t\tagot_has_throne_room = no\n\t\tamsb_has_throne_room = no\n"),
                 expected=1,
                 label=f"Additional Models 0.4.40 scene exclusion for {key}",
             )
@@ -1868,12 +1852,8 @@ def generate_grand_remembrance_agot_obituary() -> None:
     npc_obituary = "# NPC Obituary Processing"
     section_k = "\t\t\t\t# SECTION K: FAME / EVENT TRAITS"
     section_l = "\t\t\t\t# SECTION L: HEALTH & INFAMY"
-    section_m2b = (
-        "\t\t\t\t# SECTION M2b: ELECTIVE SUCCESSION DETECTION"
-    )
-    section_m3 = (
-        "\t\t\t\t# SECTION M3: SUCCESSION CRISIS MOD DETECTION"
-    )
+    section_m2b = "\t\t\t\t# SECTION M2b: ELECTIVE SUCCESSION DETECTION"
+    section_m3 = "\t\t\t\t# SECTION M3: SUCCESSION CRISIS MOD DETECTION"
     for marker in (
         rice_revalidation,
         npc_obituary,
@@ -1934,18 +1914,13 @@ def generate_grand_remembrance_agot_obituary() -> None:
             "born_in_the_purple } } set_variable = { name = "
             "gr_dynasty_purple value = yes } }\n"
         ),
-        (
-            "\t\t\t\t# AGOT removes the vanilla born_in_the_purple "
-            "trait.\n"
-        ),
+        ("\t\t\t\t# AGOT removes the vanilla born_in_the_purple trait.\n"),
         expected=1,
         label="Grand Remembrance AGOT born-in-the-purple classifier",
     )
     write_text(GR_OUTPUT, relative, text)
 
-    relative = (
-        "common/scripted_effects/gr_npc_obituary_data_effect.txt"
-    )
+    relative = "common/scripted_effects/gr_npc_obituary_data_effect.txt"
     text = read_text(WORKSHOP / "3678529052" / relative)
     text = replace_exact(
         text,
@@ -2018,8 +1993,7 @@ def generate_grand_remembrance_agot_obituary() -> None:
     section_n_start = text.index(section_n)
     if scope_end >= section_n_start:
         raise RuntimeError(
-            "Grand Remembrance NPC elective classifier did not end before "
-            "Section N"
+            "Grand Remembrance NPC elective classifier did not end before Section N"
         )
     text = (
         text[:start]
@@ -2191,9 +2165,7 @@ def generate_knighting_ceremony_event() -> None:
 
 
 def generate_house_founders() -> None:
-    relative = (
-        "common/character_interactions/00_agot_hf_revealbastards.txt"
-    )
+    relative = "common/character_interactions/00_agot_hf_revealbastards.txt"
     text = read_text(WORKSHOP / "2967263410" / relative)
     text = replace_exact(
         text,
@@ -2235,8 +2207,7 @@ def generate_artifact_manager_distribution_event() -> None:
 def generate_additional_models_decision_illustrations() -> None:
     missing = "gfx/interface/illustrations/agot_court/throne.dds"
     fallback = (
-        "gfx/interface/illustrations/event_scenes/ironthrone/"
-        "throneroom_ironthrone.dds"
+        "gfx/interface/illustrations/event_scenes/ironthrone/throneroom_ironthrone.dds"
     )
     sources = {
         "common/decisions/amsb_bent_knees_decision.txt": 1,
@@ -2395,10 +2366,7 @@ def generate_agot_war_value_guards() -> None:
         repaired,
     )
 
-    relative = (
-        "common/scripted_effects/"
-        "sc_create_landless_adventurer_title_effect.txt"
-    )
+    relative = "common/scripted_effects/sc_create_landless_adventurer_title_effect.txt"
     text = read_text(WORKSHOP / "3713902872" / relative)
     text = replace_exact(
         text,
@@ -2483,19 +2451,10 @@ def generate_artifact_manager_scripted_guis() -> None:
     )
     unavailable_agot_modifiers = (
         *(f"artifact_prowess_{level}_modifier" for level in range(6, 11)),
-        *(
-            f"artifact_minor_prestige_{level}_modifier"
-            for level in range(1, 8)
-        ),
+        *(f"artifact_minor_prestige_{level}_modifier" for level in range(1, 8)),
         *(f"artifact_prestige_{level}_modifier" for level in range(1, 8)),
-        *(
-            f"artifact_monthly_merit_add_{level}_modifier"
-            for level in range(1, 8)
-        ),
-        *(
-            f"artifact_montly_lifestyle_xp_{level}_modifier"
-            for level in range(1, 4)
-        ),
+        *(f"artifact_monthly_merit_add_{level}_modifier" for level in range(1, 8)),
+        *(f"artifact_montly_lifestyle_xp_{level}_modifier" for level in range(1, 4)),
         *(
             f"artifact_montly_{skill}_lifestyle_xp_{level}_modifier"
             for skill in (
@@ -2559,10 +2518,7 @@ def generate_artifact_manager_upgrade_guis() -> None:
     )
     unavailable_upgrade_sources = (
         *(f"artifact_prowess_{level}_modifier" for level in range(6, 11)),
-        *(
-            f"artifact_monthly_merit_add_{level}_modifier"
-            for level in range(1, 8)
-        ),
+        *(f"artifact_monthly_merit_add_{level}_modifier" for level in range(1, 8)),
         *(
             "artifact_study_confucian_classics_scheme_phase_duration_add_"
             f"{level}_modifier"
@@ -2613,9 +2569,7 @@ def generate_artifact_manager_upgrade_guis() -> None:
             "save_scope_as = this_artifact",
             "save_scope_as = this_artifact\n\t\t\tsave_scope_as = artifact",
             expected=1,
-            label=(
-                f"Artifact Manager {scripted_gui} repair-cost artifact scope"
-            ),
+            label=(f"Artifact Manager {scripted_gui} repair-cost artifact scope"),
         )
         text = replace_exact(
             text,
@@ -2714,17 +2668,17 @@ def generate_advanced_character_search() -> None:
     # stable so the GUI's filter tags still line up, but make unavailable
     # positive filters false and their inverse filters true.
     unavailable_trait_filter_ids = (
-        187,   # varangian
-        207,   # born_in_the_purple
-        209,   # augustus
-        227,   # chakravarti
-        258,   # hajjaj
-        272,   # fp3_struggle_supporter
-        274,   # fp3_struggle_detractor
-        286,   # the_wake
-        590,   # sayyid
-        592,   # saoshyant
-        594,   # saoshyant_descendant
+        187,  # varangian
+        207,  # born_in_the_purple
+        209,  # augustus
+        227,  # chakravarti
+        258,  # hajjaj
+        272,  # fp3_struggle_supporter
+        274,  # fp3_struggle_detractor
+        286,  # the_wake
+        590,  # sayyid
+        592,  # saoshyant
+        594,  # saoshyant_descendant
         1137,  # despoiler_of_byzantium
     )
     for positive_id in unavailable_trait_filter_ids:
@@ -2747,8 +2701,7 @@ def generate_advanced_character_search() -> None:
             branch_id,
             branch_id % 2 == 1,
             label=(
-                "Advanced Character Search unavailable AGOT Confucian "
-                "education trait"
+                "Advanced Character Search unavailable AGOT Confucian education trait"
             ),
         )
 
@@ -2783,10 +2736,7 @@ def generate_advanced_character_search() -> None:
             religion_switch,
             branch_id,
             value,
-            label=(
-                "Advanced Character Search unavailable vanilla religion "
-                "families"
-            ),
+            label=("Advanced Character Search unavailable vanilla religion families"),
         )
     text = religion_prefix + religion_switch + religion_suffix
 
@@ -2800,10 +2750,7 @@ def generate_advanced_character_search() -> None:
         text,
         842,
         True,
-        label=(
-            "Advanced Character Search inverse unavailable AGOT gunner "
-            "accolade"
-        ),
+        label=("Advanced Character Search inverse unavailable AGOT gunner accolade"),
     )
 
     unavailable_alternatives = (
@@ -2840,15 +2787,11 @@ def generate_advanced_character_search() -> None:
     init_block = extract_top_level_block(text, "acs_sg_init")
     effect_match = re.search(r"(?m)^    effect = \{", init_block)
     if effect_match is None:
-        raise RuntimeError(
-            "Advanced Character Search initialization effect changed"
-        )
+        raise RuntimeError("Advanced Character Search initialization effect changed")
     effect_open = init_block.index("{", effect_match.start())
     effect_end = balanced_brace_end(init_block, effect_open)
     if init_block[effect_end + 1 :].strip() != "}":
-        raise RuntimeError(
-            "Advanced Character Search initialization block changed"
-        )
+        raise RuntimeError("Advanced Character Search initialization block changed")
     # Keep this effect in scripted-GUI context: it contains GUI list syntax
     # which is not valid in a normal scripted_effect definition. Move the
     # initializer from the pre-game widget hook to the guarded in-game window;
@@ -2889,9 +2832,7 @@ def generate_advanced_character_search() -> None:
         "}"
     )
     if window_block != expected_window:
-        raise RuntimeError(
-            "Advanced Character Search main-window scripted GUI changed"
-        )
+        raise RuntimeError("Advanced Character Search main-window scripted GUI changed")
     guarded_window = f"""acs_window = {{
     scope = character
 
@@ -2917,7 +2858,7 @@ def generate_advanced_character_search() -> None:
         text,
         "    visible = \"[GetVariableSystem.Exists('acs_window_toggle')]\"",
         (
-            "    visible = \"[And( GetPlayer.IsValid, "
+            '    visible = "[And( GetPlayer.IsValid, '
             "GetVariableSystem.Exists('acs_window_toggle') )]\""
         ),
         expected=1,
@@ -2983,8 +2924,7 @@ def generate_great_councils() -> None:
 
 def generate_suggest_dragon_bonding() -> None:
     relative = (
-        "common/character_interactions/"
-        "00_agot_suggest_dragon_bonding_interaction.txt"
+        "common/character_interactions/00_agot_suggest_dragon_bonding_interaction.txt"
     )
     text = read_text(WORKSHOP / "3324579171" / relative)
 
@@ -3068,9 +3008,7 @@ def generate_suggest_dragon_bonding() -> None:
 
 
 def generate_agot_tour_events() -> None:
-    relative = (
-        "events/activities/tour_activity/tour_phase_host_a_dinner.txt"
-    )
+    relative = "events/activities/tour_activity/tour_phase_host_a_dinner.txt"
     text = read_text(WORKSHOP / "2962333032" / relative)
     text = replace_exact(
         text,
@@ -3207,10 +3145,7 @@ def generate_agot_tour_events() -> None:
                 r"(?m)^    trigger = \{\n"
                 r"(?=[ \t]*scope:stop_host_scope = \{)"
             ),
-            (
-                "    trigger = {\n"
-                "        exists = scope:stop_host_scope\n"
-            ),
+            ("    trigger = {\n        exists = scope:stop_host_scope\n"),
             expected=1,
             label=f"{event_id} stop-host trigger guard",
         )
@@ -3235,10 +3170,7 @@ def generate_agot_tour_events() -> None:
 
 
 def generate_adventurers_beneficiary() -> None:
-    relative = (
-        "common/character_interactions/"
-        "adventurers_beneficiary_unselect.txt"
-    )
+    relative = "common/character_interactions/adventurers_beneficiary_unselect.txt"
     text = read_text(WORKSHOP / "3349316031" / relative)
     text = replace_exact(
         text,
@@ -3329,15 +3261,11 @@ def generate_agot_artifact_feature_owner_guards() -> None:
         block = extract_top_level_block(source, trigger_name)
         owner_match = re.search(r"(?m)^\tscope:owner\s*=\s*\{", block)
         if not owner_match:
-            raise RuntimeError(
-                f"{trigger_name}: expected direct owner-scope condition"
-            )
+            raise RuntimeError(f"{trigger_name}: expected direct owner-scope condition")
         owner_open = block.index("{", owner_match.start())
         owner_end = balanced_brace_end(block, owner_open)
         owner_block = block[owner_match.start() : owner_end + 1]
-        indented_owner = "\n".join(
-            f"\t{line}" for line in owner_block.splitlines()
-        )
+        indented_owner = "\n".join(f"\t{line}" for line in owner_block.splitlines())
         guarded_owner = (
             "\t# Artifact generation can evaluate feature triggers before an "
             "owner is assigned.\n"
@@ -3346,35 +3274,23 @@ def generate_agot_artifact_feature_owner_guards() -> None:
             f"{indented_owner}\n"
             "\t}"
         )
-        block = (
-            block[: owner_match.start()]
-            + guarded_owner
-            + block[owner_end + 1 :]
-        )
+        block = block[: owner_match.start()] + guarded_owner + block[owner_end + 1 :]
         repaired_blocks.append(block)
 
     write_text(
         OUTPUT,
-        (
-            "common/scripted_triggers/"
-            "zz_agot_runtime_artifact_owner_triggers.txt"
-        ),
+        ("common/scripted_triggers/zz_agot_runtime_artifact_owner_triggers.txt"),
         (
             "# Current AGOT pattern triggers assume an artifact owner already "
             "exists.\n"
             "# These narrow later definitions preserve their logic while "
-            "making that scope optional.\n\n"
-            + "\n\n".join(repaired_blocks)
-            + "\n"
+            "making that scope optional.\n\n" + "\n\n".join(repaired_blocks) + "\n"
         ),
     )
 
 
 def generate_agot_wall_banner_capital_fallback() -> None:
-    relative = (
-        "common/scripted_effects/"
-        "01_ep1_court_artifact_creation_effects.txt"
-    )
+    relative = "common/scripted_effects/01_ep1_court_artifact_creation_effects.txt"
     source = read_text(WORKSHOP / "2962333032" / relative)
     block = extract_top_level_block(source, "create_artifact_wall_banner_effect")
     block = replace_exact(
@@ -3456,9 +3372,7 @@ def generate_deadly_ck3_health_location_guards() -> None:
         label="Deadly CK3 AGOT health event in-place replacement",
     )
     source = normalize_rebased_source(source)
-    (OUTPUT / "events/zz_agot_runtime_health_events.txt").unlink(
-        missing_ok=True
-    )
+    (OUTPUT / "events/zz_agot_runtime_health_events.txt").unlink(missing_ok=True)
     write_text(
         OUTPUT,
         relative,
@@ -3521,8 +3435,7 @@ def generate_agot_citadel() -> None:
 
 def generate_agot_starting_legitimacy() -> None:
     relative = (
-        "common/on_action/agot_on_actions/"
-        "agot_starting_legitimacy_on_actions.txt"
+        "common/on_action/agot_on_actions/agot_starting_legitimacy_on_actions.txt"
     )
     text = read_text(WORKSHOP / "2962333032" / relative)
     text = replace_exact(
@@ -3545,9 +3458,7 @@ def generate_vanilla_tour_pulse() -> None:
     marker = "\tscope:activity.var:stop_host = {"
     marker_index = block.find(marker)
     if marker_index < 0:
-        raise RuntimeError(
-            "vanilla tour pulse: stop_host scope marker not found"
-        )
+        raise RuntimeError("vanilla tour pulse: stop_host scope marker not found")
     if not block.endswith("\n}"):
         raise RuntimeError("vanilla tour pulse: unexpected block ending")
     head = block[:marker_index]
@@ -3572,9 +3483,7 @@ def generate_vanilla_tour_pulse() -> None:
         ),
     )
 
-    relative = (
-        "events/activities/tour_activity/tour_phase_cultural_festival.txt"
-    )
+    relative = "events/activities/tour_activity/tour_phase_cultural_festival.txt"
     text = read_text(WORKSHOP / "2962333032" / relative)
     text = replace_exact(
         text,
@@ -3724,10 +3633,7 @@ def generate_agot_plus() -> None:
     text = replace_exact(
         text,
         "NOT = { any_spouse.house ?= character:Targaryen_13.house }",
-        (
-            "NOT = { any_spouse = { "
-            "house ?= character:Targaryen_13.house } }"
-        ),
+        ("NOT = { any_spouse = { house ?= character:Targaryen_13.house } }"),
         expected=1,
         label="AGOT+ spouse-house trigger iterator",
     )
@@ -4213,9 +4119,7 @@ def main() -> None:
     generate_vanilla_tour_pulse()
     generate_mpo_nomad_event_guards()
     generate_agot_plus()
-    print(
-        "Generated AGOT playset runtime fixes and AGOT+ runtime rebase."
-    )
+    print("Generated AGOT playset runtime fixes and AGOT+ runtime rebase.")
 
 
 if __name__ == "__main__":

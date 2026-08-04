@@ -79,13 +79,9 @@ MAA_CALL = re.compile(
     r"E_kCAFG_generic_cultural_boon_MAA_gift\s*=\s*\{"
     r"[^\r\n]*\bMAA_TYPE\s*=\s*([A-Za-z0-9_]+)"
 )
-TRADITION_CHECK = re.compile(
-    r"\bhas_cultural_tradition\s*=\s*([A-Za-z0-9_]+)"
-)
+TRADITION_CHECK = re.compile(r"\bhas_cultural_tradition\s*=\s*([A-Za-z0-9_]+)")
 WEIGHTED_BRANCH = re.compile(r"^        \d+\s*=\s*\{\s*(?:#.*)?$")
-COASTAL_HELPER_CALL = (
-    "E_kCAFG_cultural_boon_tradition_fp1_coastal_warriors = yes"
-)
+COASTAL_HELPER_CALL = "E_kCAFG_cultural_boon_tradition_fp1_coastal_warriors = yes"
 
 
 def read_text(path: Path) -> str:
@@ -114,8 +110,7 @@ def replace_exact(
     found = text.count(old)
     if found != expected:
         raise RuntimeError(
-            f"{label}: expected {expected} exact source match(es), "
-            f"found {found}"
+            f"{label}: expected {expected} exact source match(es), found {found}"
         )
     return text.replace(old, new)
 
@@ -149,9 +144,7 @@ def weighted_branch(lines: list[str], marker: int) -> tuple[int, int]:
             if end < marker:
                 break
             return start, end + 1
-    raise RuntimeError(
-        f"CaFG weighted branch at source line {start + 1} is unbalanced"
-    )
+    raise RuntimeError(f"CaFG weighted branch at source line {start + 1} is unbalanced")
 
 
 def generate_boons() -> None:
@@ -271,8 +264,7 @@ def generate_benefits() -> None:
         "vigmen",
     }:
         raise RuntimeError(
-            "CaFG cultural-benefit invalid MAA set changed: "
-            f"{dict(invalid_calls)}"
+            f"CaFG cultural-benefit invalid MAA set changed: {dict(invalid_calls)}"
         )
     if sum(invalid_calls.values()) != 30:
         raise RuntimeError(
@@ -281,9 +273,7 @@ def generate_benefits() -> None:
         )
 
     helper_markers = [
-        index
-        for index, line in enumerate(lines)
-        if COASTAL_HELPER_CALL in line
+        index for index, line in enumerate(lines) if COASTAL_HELPER_CALL in line
     ]
     if len(helper_markers) != 1:
         raise RuntimeError(
@@ -325,11 +315,7 @@ def generate_benefits() -> None:
         for tradition in TRADITION_CHECK.findall(text)
         if tradition in INVALID_TRADITIONS
     }
-    if (
-        remaining_invalid
-        or remaining_traditions
-        or COASTAL_HELPER_CALL in text
-    ):
+    if remaining_invalid or remaining_traditions or COASTAL_HELPER_CALL in text:
         raise RuntimeError(
             "CaFG cultural benefits retain an invalid database branch: "
             f"MAA={sorted(remaining_invalid)}, "
@@ -375,8 +361,7 @@ def generate_benefit_values() -> None:
     remaining = sorted(identifier for identifier in invalid if identifier in text)
     if remaining:
         raise RuntimeError(
-            "CaFG cultural-benefit values retain AGOT-invalid identifiers: "
-            f"{remaining}"
+            f"CaFG cultural-benefit values retain AGOT-invalid identifiers: {remaining}"
         )
     write_text(relative, text, root=MOD_OUTPUT)
 
@@ -395,10 +380,7 @@ def generate_disabled_vanilla_overrides() -> None:
             "become_saoshyant_decision_effect",
             "launch_hungarian_migration_scripted_effect",
         ),
-        (
-            "common/scripted_effects/"
-            "99_kei_cafg_replaced_dlc_fp3_scripted_effects.txt"
-        ): (
+        ("common/scripted_effects/99_kei_cafg_replaced_dlc_fp3_scripted_effects.txt"): (
             "avenge_the_battle_of_nahrawan_scripted_effect",
             "fp3_ending_effects_assertion",
             "fp3_struggle_ending_shia_caliphate_effects",

@@ -34,9 +34,7 @@ OUT = (
     / "traditions"
     / "zzz_agot_mayham_aow_compatch_traditions.txt"
 )
-AOW_UNIQUE_RELATIVE = Path(
-    "common/culture/traditions/00_agot_unique_traditions.txt"
-)
+AOW_UNIQUE_RELATIVE = Path("common/culture/traditions/00_agot_unique_traditions.txt")
 AOW_UNIQUE_OUT = ROOT / "mods" / "agot_mayham_aow_compatch" / AOW_UNIQUE_RELATIVE
 
 # Each entry is (field, AGOT value, Mayham value). The generator verifies that
@@ -303,12 +301,8 @@ def generate() -> str:
         for tradition in upstream_rebases:
             if tradition not in aow:
                 raise ValueError(f"{filename}: AoW is missing {tradition}")
-            rebase_deltas = UPSTREAM_REBASE_DELTAS.get(filename, {}).get(
-                tradition, []
-            )
-            expected_mayham = apply_deltas(
-                agot[tradition], tradition, rebase_deltas
-            )
+            rebase_deltas = UPSTREAM_REBASE_DELTAS.get(filename, {}).get(tradition, [])
+            expected_mayham = apply_deltas(agot[tradition], tradition, rebase_deltas)
             if expected_mayham != mayham[tradition]:
                 raise ValueError(
                     f"{filename}: upstream rebase delta drift for {tradition}"
@@ -380,9 +374,7 @@ def main() -> None:
     OUT.parent.mkdir(parents=True, exist_ok=True)
     OUT.write_text(generate(), encoding="utf-8-sig")
     AOW_UNIQUE_OUT.parent.mkdir(parents=True, exist_ok=True)
-    AOW_UNIQUE_OUT.write_text(
-        generate_aow_unique_syntax_repair(), encoding="utf-8-sig"
-    )
+    AOW_UNIQUE_OUT.write_text(generate_aow_unique_syntax_repair(), encoding="utf-8-sig")
     print(
         f"Generated {OUT.relative_to(ROOT)} "
         "(47 definitions, 48 deltas, 5 upstream rebases)"

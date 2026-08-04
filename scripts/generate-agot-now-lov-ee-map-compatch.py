@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 from __future__ import annotations
 import argparse
-import hashlib
 import json
 import re
 import shutil
@@ -9,16 +8,26 @@ import subprocess
 import tempfile
 from pathlib import Path
 
+from ck3_source_manifest import (
+    canonical_source_path,
+    resolve_workshop_root,
+    sha256_file,
+)
+
 parser = argparse.ArgumentParser(
     description="Regenerate the semantic NOW + LoV + Essos map merge."
 )
 parser.add_argument("--root", type=Path, default=Path(__file__).resolve().parents[1])
 parser.add_argument(
-    "--output", type=Path, default=None,
+    "--output",
+    type=Path,
+    default=None,
     help="Destination module or scratch directory (defaults to the tracked map module).",
 )
 mode = parser.add_mutually_exclusive_group()
-mode.add_argument("--check", action="store_true", help="Verify tracked textual outputs.")
+mode.add_argument(
+    "--check", action="store_true", help="Verify tracked textual outputs."
+)
 mode.add_argument(
     "--update-source-manifest",
     action="store_true",
@@ -32,7 +41,7 @@ parser.add_argument(
 args = parser.parse_args()
 
 ROOT = args.root.resolve()
-WS = ROOT / ".ignored/CK3_workshop"
+WS = resolve_workshop_root()
 AGOT = WS / "2962333032"
 NOW = WS / "3664900993"
 LOV = WS / "3403938445"
@@ -73,14 +82,6 @@ map_paths = [
 ]
 
 
-def sha256_file(path: Path) -> str:
-    digest = hashlib.sha256()
-    with path.open("rb") as handle:
-        while chunk := handle.read(1024 * 1024):
-            digest.update(chunk)
-    return digest.hexdigest()
-
-
 def winner(rel):
     for p in (EEP, EE, RC, LOV, AGOT):
         if (p / rel).is_file():
@@ -89,26 +90,25 @@ def winner(rel):
 
 
 def source_manifest() -> dict[str, object]:
-    inputs = {
-        AGOT / rel for rel in map_paths
-    } | {
-        NOW / rel for rel in map_paths
-    } | {
-        winner(rel) for rel in map_paths
-    } | {
-        AGOT / "map_data/definition.csv",
-        NOW / "map_data/definition.csv",
-        winner("map_data/definition.csv"),
-        AGOT / "map_data/heightmap.png",
-        NOW / "map_data/heightmap.png",
-        EE / "map_data/heightmap.png",
-        AGOT / "content_source/map_objects/masks/tree_leaf_01_single_mask.png",
-        NOW / "content_source/map_objects/masks/tree_leaf_01_single_mask.png",
-        EE / "content_source/map_objects/masks/tree_leaf_01_single_mask.png",
-        AGOT / "content_source/map_objects/masks/tree_pine_01_a_mask.png",
-        NOW / "content_source/map_objects/masks/tree_pine_01_a_mask.png",
-        EE / "content_source/map_objects/masks/tree_pine_01_a_mask.png",
-    }
+    inputs = (
+        {AGOT / rel for rel in map_paths}
+        | {NOW / rel for rel in map_paths}
+        | {winner(rel) for rel in map_paths}
+        | {
+            AGOT / "map_data/definition.csv",
+            NOW / "map_data/definition.csv",
+            winner("map_data/definition.csv"),
+            AGOT / "map_data/heightmap.png",
+            NOW / "map_data/heightmap.png",
+            EE / "map_data/heightmap.png",
+            AGOT / "content_source/map_objects/masks/tree_leaf_01_single_mask.png",
+            NOW / "content_source/map_objects/masks/tree_leaf_01_single_mask.png",
+            EE / "content_source/map_objects/masks/tree_leaf_01_single_mask.png",
+            AGOT / "content_source/map_objects/masks/tree_pine_01_a_mask.png",
+            NOW / "content_source/map_objects/masks/tree_pine_01_a_mask.png",
+            EE / "content_source/map_objects/masks/tree_pine_01_a_mask.png",
+        }
+    )
     modules = {"AGOT": AGOT, "NOW": NOW, "LOV": LOV, "RC": RC, "EE": EE, "EEP": EEP}
     versions = {}
     for label, module in modules.items():
@@ -123,7 +123,7 @@ def source_manifest() -> dict[str, object]:
         "workshop_ids": {label: module.name for label, module in modules.items()},
         "versions": versions,
         "files": {
-            path.relative_to(ROOT).as_posix(): {
+            canonical_source_path(path, root=ROOT, workshop_root=WS): {
                 "sha256": sha256_file(path),
                 "size": path.stat().st_size,
             }
@@ -177,10 +177,7 @@ def parse_instances(text):
             text,
         )
     )
-    raw_ids = [
-        int(x)
-        for x in re.findall(r"(?m)^[ \t]*id\s*=\s*(\d+)\s*$", text)
-    ]
+    raw_ids = [int(x) for x in re.findall(r"(?m)^[ \t]*id\s*=\s*(\d+)\s*$", text)]
     parsed_ids = [int(m.group(1)) for m in matches]
     assert matches
     assert len(parsed_ids) == len(set(parsed_ids)), "duplicate locator id in input"
@@ -414,10 +411,7 @@ locator_paths = {
 for rel in map_paths:
     text = read(OUT / rel)
     if rel in locator_paths:
-        ids = [
-            int(x)
-            for x in re.findall(r"(?m)^[ \t]*id\s*=\s*(\d+)\s*$", text)
-        ]
+        ids = [int(x) for x in re.findall(r"(?m)^[ \t]*id\s*=\s*(\d+)\s*$", text)]
         _, _, parsed = parse_instances(text)
         assert ids == list(parsed), f"locator parser mismatch in {rel}"
         assert len(ids) == len(set(ids)), f"duplicate locator id in {rel}"

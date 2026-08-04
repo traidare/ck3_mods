@@ -55,9 +55,7 @@ def read_source(path: Path) -> str:
     return path.read_bytes().decode("utf-8-sig")
 
 
-def replace_exact(
-    text: str, old: str, new: str, label: str, expected: int = 1
-) -> str:
+def replace_exact(text: str, old: str, new: str, label: str, expected: int = 1) -> str:
     count = text.count(old)
     if count != expected:
         raise ValueError(f"{label}: expected {expected} matches, found {count}")
@@ -82,9 +80,7 @@ def replace_braced_block_after(
     text: str, marker: str, definition: str, replacement: str, label: str
 ) -> str:
     marker_at = unique_marker(text, marker, f"{label} marker")
-    match = re.search(
-        rf"(?m)^[ \t]*{re.escape(definition)}", text[marker_at:]
-    )
+    match = re.search(rf"(?m)^[ \t]*{re.escape(definition)}", text[marker_at:])
     if match is None:
         raise ValueError(f"{label}: definition not found after marker")
     start = marker_at + match.start()
@@ -335,34 +331,85 @@ def patch_dna() -> str:
     text = read_source(LONG_NIGHT / relative)
     indent = " \t\t"
     dragon_lines = [
-        ('gene_dragon_primary_color_hue', '"dragon_primary_color_hue" 127 "dragon_primary_color_hue" 127'),
-        ('gene_dragon_primary_color_value', '"dragon_primary_color_value" 127 "dragon_primary_color_value" 127'),
-        ('gene_dragon_secondary_hue', '"dragon_secondary_hue" 127 "dragon_secondary_hue" 127'),
-        ('gene_dragon_secondary_value', '"dragon_secondary_value" 127 "dragon_secondary_value" 127'),
-        ('gene_dragon_wounded', '"dragon_scarred" 0 "dragon_scarred" 0'),
-        ('gene_dragon_tertiary_hue', '"dragon_tertiary_hue" 127 "dragon_tertiary_hue" 127'),
-        ('gene_dragon_tertiary_value', '"dragon_tertiary_value" 127 "dragon_tertiary_value" 127'),
-        ('gene_dragon_body_shading', '"dragon_body_shading_lower_black" 0 "dragon_body_shading_lower_black" 0'),
-        ('gene_dragon_wings_shading', '"dragon_wings_shading_back_black" 0 "dragon_wings_shading_back_black" 0'),
-        ('gene_dragon_eye_color_hue', '"dragon_eye_color_hue" 127 "dragon_eye_color_hue" 127'),
-        ('gene_dragon_eye_color_value', '"dragon_eye_color_value" 127 "dragon_eye_color_value" 127'),
-        ('gene_dragon_horn_color_hue', '"dragon_horn_color_hue" 127 "dragon_horn_color_hue" 127'),
-        ('gene_dragon_horn_color_value', '"dragon_horn_color_value" 127 "dragon_horn_color_value" 127'),
-        ('gene_dragon_metallic_scales_strength', '"dragon_scales_metallic" 127 "dragon_scales_metallic" 127'),
+        (
+            "gene_dragon_primary_color_hue",
+            '"dragon_primary_color_hue" 127 "dragon_primary_color_hue" 127',
+        ),
+        (
+            "gene_dragon_primary_color_value",
+            '"dragon_primary_color_value" 127 "dragon_primary_color_value" 127',
+        ),
+        (
+            "gene_dragon_secondary_hue",
+            '"dragon_secondary_hue" 127 "dragon_secondary_hue" 127',
+        ),
+        (
+            "gene_dragon_secondary_value",
+            '"dragon_secondary_value" 127 "dragon_secondary_value" 127',
+        ),
+        ("gene_dragon_wounded", '"dragon_scarred" 0 "dragon_scarred" 0'),
+        (
+            "gene_dragon_tertiary_hue",
+            '"dragon_tertiary_hue" 127 "dragon_tertiary_hue" 127',
+        ),
+        (
+            "gene_dragon_tertiary_value",
+            '"dragon_tertiary_value" 127 "dragon_tertiary_value" 127',
+        ),
+        (
+            "gene_dragon_body_shading",
+            '"dragon_body_shading_lower_black" 0 "dragon_body_shading_lower_black" 0',
+        ),
+        (
+            "gene_dragon_wings_shading",
+            '"dragon_wings_shading_back_black" 0 "dragon_wings_shading_back_black" 0',
+        ),
+        (
+            "gene_dragon_eye_color_hue",
+            '"dragon_eye_color_hue" 127 "dragon_eye_color_hue" 127',
+        ),
+        (
+            "gene_dragon_eye_color_value",
+            '"dragon_eye_color_value" 127 "dragon_eye_color_value" 127',
+        ),
+        (
+            "gene_dragon_horn_color_hue",
+            '"dragon_horn_color_hue" 127 "dragon_horn_color_hue" 127',
+        ),
+        (
+            "gene_dragon_horn_color_value",
+            '"dragon_horn_color_value" 127 "dragon_horn_color_value" 127',
+        ),
+        (
+            "gene_dragon_metallic_scales_strength",
+            '"dragon_scales_metallic" 127 "dragon_scales_metallic" 127',
+        ),
     ]
     neutral_shapes = [
-        "gene_dragon_brow_width", "gene_dragon_cheek_width",
-        "gene_dragon_chin_profile", "gene_dragon_crest_depth",
-        "gene_dragon_head_roundness", "gene_dragon_horns_eyebrow_length",
-        "gene_dragon_main_horn_shape", "gene_dragon_jaw_width",
-        "gene_dragon_lower_jaw_height", "gene_dragon_lower_jaw_width",
-        "gene_dragon_old_neck", "gene_dragon_outer_brow_height",
-        "gene_dragon_snout_height", "gene_dragon_snout_length",
-        "gene_dragon_snout_profile", "gene_dragon_snout_width",
-        "gene_dragon_upper_jaw_width", "gene_dragon_back_spike_size",
-        "gene_dragon_center_fin_size", "gene_dragon_horns_eyebrow",
-        "gene_dragon_neck_spike_size", "gene_dragon_side_fin_size",
-        "gene_dragon_snout_end_width", "gene_dragon_neck_length",
+        "gene_dragon_brow_width",
+        "gene_dragon_cheek_width",
+        "gene_dragon_chin_profile",
+        "gene_dragon_crest_depth",
+        "gene_dragon_head_roundness",
+        "gene_dragon_horns_eyebrow_length",
+        "gene_dragon_main_horn_shape",
+        "gene_dragon_jaw_width",
+        "gene_dragon_lower_jaw_height",
+        "gene_dragon_lower_jaw_width",
+        "gene_dragon_old_neck",
+        "gene_dragon_outer_brow_height",
+        "gene_dragon_snout_height",
+        "gene_dragon_snout_length",
+        "gene_dragon_snout_profile",
+        "gene_dragon_snout_width",
+        "gene_dragon_upper_jaw_width",
+        "gene_dragon_back_spike_size",
+        "gene_dragon_center_fin_size",
+        "gene_dragon_horns_eyebrow",
+        "gene_dragon_neck_spike_size",
+        "gene_dragon_side_fin_size",
+        "gene_dragon_snout_end_width",
+        "gene_dragon_neck_length",
         "gene_dragon_tail_length",
     ]
     lines = [f"{indent}{name}={{ {value} }}" for name, value in dragon_lines]
@@ -386,7 +433,12 @@ def patch_dna() -> str:
 def patch_maa() -> str:
     relative = "common/men_at_arms_types/long_night_maa_types.txt"
     text = read_source(LONG_NIGHT / relative)
-    text = replace_exact(text, "type = Other_infantry", "type = heavy_infantry", f"{relative}: MAA category")
+    text = replace_exact(
+        text,
+        "type = Other_infantry",
+        "type = heavy_infantry",
+        f"{relative}: MAA category",
+    )
     text = replace_regex(
         text,
         r"(?ms)^\s*can_recruit\s*=\s*\{.*?^\s*counters\s*=",
@@ -424,7 +476,10 @@ def patch_maa() -> str:
 def patch_cb() -> str:
     relative = "common/casus_belli_types/00_long_night_cbs.txt"
     text = read_source(LONG_NIGHT / relative)
-    for field in ("attacker_score_from_battle_scale", "defender_score_from_battle_scale"):
+    for field in (
+        "attacker_score_from_battle_scale",
+        "defender_score_from_battle_scale",
+    ):
         text = replace_regex(
             text, rf"(?m)^\s*{field}\s*=.*\r?\n", "", f"{relative}: remove {field}"
         )
@@ -492,13 +547,27 @@ def patch_scripted_effects() -> str:
     expected = {"culture = culture:dragon": 3, "faith = faith:valyrian": 3}
     for old, new in replacements.items():
         text = replace_exact(text, old, new, f"{relative}: {old}", expected.get(old, 1))
-    text = replace_regex(text, r"(?m)^\s*make_trait_inactive\s*=\s*is_targaryen_3\s*\r?\n", "", f"{relative}: removed trait")
-    text = replace_regex(text, r"(?m)^\s*template\s*=\s*other_template\s*\r?\n", "", f"{relative}: removed empty template")
+    text = replace_regex(
+        text,
+        r"(?m)^\s*make_trait_inactive\s*=\s*is_targaryen_3\s*\r?\n",
+        "",
+        f"{relative}: removed trait",
+    )
+    text = replace_regex(
+        text,
+        r"(?m)^\s*template\s*=\s*other_template\s*\r?\n",
+        "",
+        f"{relative}: removed empty template",
+    )
     marker = "longnight_reform_nightswatch_effect = {"
     marker_at = unique_marker(text, marker, f"{relative}: NW reform")
     create_at = text.find("create_character = {", marker_at)
     insert_at = text.find("\n", create_at) + 1
-    text = text[:insert_at] + "\n\t\t\t\t\t\t\tlocation = title:c_castle_black.title_province\n" + text[insert_at:]
+    text = (
+        text[:insert_at]
+        + "\n\t\t\t\t\t\t\tlocation = title:c_castle_black.title_province\n"
+        + text[insert_at:]
+    )
     text = replace_exact(
         text,
         "get_title = title:h_the_others",
@@ -506,9 +575,16 @@ def patch_scripted_effects() -> str:
         f"{relative}: dead-realm government",
     )
     for trait in (
-        "goutridden", "leper_1", "st_anthonys_fire", "great_spring_sickness",
-        "winter_fever", "blood_cough", "bloody_flux", "shaking_sickness",
-        "dancing_plague", "lover_pox",
+        "goutridden",
+        "leper_1",
+        "st_anthonys_fire",
+        "great_spring_sickness",
+        "winter_fever",
+        "blood_cough",
+        "bloody_flux",
+        "shaking_sickness",
+        "dancing_plague",
+        "lover_pox",
     ):
         text = replace_regex(
             text,
@@ -517,24 +593,34 @@ def patch_scripted_effects() -> str:
             f"{relative}: remove obsolete disease {trait}",
         )
     switch_marker = "trigger = scope:ln_maa_region"
-    switch_start = text.rfind("switch = {", 0, unique_marker(text, switch_marker, f"{relative}: regional MAA"))
+    switch_start = text.rfind(
+        "switch = {", 0, unique_marker(text, switch_marker, f"{relative}: regional MAA")
+    )
     switch_end = matching_brace(text, text.find("{", switch_start)) + 1
     regions = {
-        "north": "frog_spears", "riverlands": "river_bows", "vale": "finger_scouts",
-        "crownlands": "royal_crossbowmen", "westerlands": "rain_bringers",
-        "reach": "honeywine_quirrels", "stormlands": "marcher_longbowmen",
-        "dorne": "sun_spears", "ironman": "ironborn_reavers", "wildling": "clan_raiders",
+        "north": "frog_spears",
+        "riverlands": "river_bows",
+        "vale": "finger_scouts",
+        "crownlands": "royal_crossbowmen",
+        "westerlands": "rain_bringers",
+        "reach": "honeywine_quirrels",
+        "stormlands": "marcher_longbowmen",
+        "dorne": "sun_spears",
+        "ironman": "ironborn_reavers",
+        "wildling": "clan_raiders",
     }
     region_lines = ["switch = {", "\t\t\ttrigger = scope:ln_maa_region"]
     for region, maa in regions.items():
-        region_lines.extend([
-            f"\t\t\tflag:{region} = {{",
-            f"\t\t\t\tif = {{ limit = {{ scope:ln_camp_level >= 4 }} {literal_regiment(maa, 4, '')} }}",
-            f"\t\t\t\telse_if = {{ limit = {{ scope:ln_camp_level >= 3 }} {literal_regiment(maa, 3, '')} }}",
-            f"\t\t\t\telse_if = {{ limit = {{ scope:ln_camp_level >= 2 }} {literal_regiment(maa, 2, '')} }}",
-            f"\t\t\t\telse = {{ {literal_regiment(maa, 1, '')} }}",
-            "\t\t\t}",
-        ])
+        region_lines.extend(
+            [
+                f"\t\t\tflag:{region} = {{",
+                f"\t\t\t\tif = {{ limit = {{ scope:ln_camp_level >= 4 }} {literal_regiment(maa, 4, '')} }}",
+                f"\t\t\t\telse_if = {{ limit = {{ scope:ln_camp_level >= 3 }} {literal_regiment(maa, 3, '')} }}",
+                f"\t\t\t\telse_if = {{ limit = {{ scope:ln_camp_level >= 2 }} {literal_regiment(maa, 2, '')} }}",
+                f"\t\t\t\telse = {{ {literal_regiment(maa, 1, '')} }}",
+                "\t\t\t}",
+            ]
+        )
     region_lines.append("\t\t}")
     text = text[:switch_start] + "\n".join(region_lines) + text[switch_end:]
     return text
@@ -543,17 +629,42 @@ def patch_scripted_effects() -> str:
 def patch_decisions() -> str:
     relative = "common/decisions/00_agot_long_night_decisions.txt"
     text = read_source(LONG_NIGHT / relative)
-    text = replace_exact(text, "has_faith = faith:old_gods", "faith.religion = religion:the_pact_religion", f"{relative}: Pact religion")
-    text = replace_exact(text, "has_faith = faith:weirwood_of_the_seven", "has_faith = faith:fots_oldnew", f"{relative}: mixed faith")
-    text = replace_exact(text, "faith = faith:rhllor", "faith.religion = religion:the_rhllor_religion", f"{relative}: Rhllor religion")
+    text = replace_exact(
+        text,
+        "has_faith = faith:old_gods",
+        "faith.religion = religion:the_pact_religion",
+        f"{relative}: Pact religion",
+    )
+    text = replace_exact(
+        text,
+        "has_faith = faith:weirwood_of_the_seven",
+        "has_faith = faith:fots_oldnew",
+        f"{relative}: mixed faith",
+    )
+    text = replace_exact(
+        text,
+        "faith = faith:rhllor",
+        "faith.religion = religion:the_rhllor_religion",
+        f"{relative}: Rhllor religion",
+    )
     text = replace_regex(
         text,
         r"(?ms)^\s*modifier\s*=\s*\{\s*add\s*=\s*50\s*faith\s*=\s*faith:red_god\s*\}\s*",
         "",
         f"{relative}: duplicate Rhllor modifier",
     )
-    text = replace_exact(text, "faith = faith:trios", "faith = faith:fc_pan_tyrosh", f"{relative}: Trios faith")
-    text = replace_exact(text, "has_government = free_city_government", "government_has_flag = government_is_free_city", f"{relative}: free city government")
+    text = replace_exact(
+        text,
+        "faith = faith:trios",
+        "faith = faith:fc_pan_tyrosh",
+        f"{relative}: Trios faith",
+    )
+    text = replace_exact(
+        text,
+        "has_government = free_city_government",
+        "government_has_flag = government_is_free_city",
+        f"{relative}: free city government",
+    )
     text = replace_regex(
         text,
         r"any_sub_realm_county\s*=\s*\{\s*geographical_region\s*=\s*([^\s}]+)\s*\}",
@@ -573,7 +684,12 @@ def patch_decisions() -> str:
 def patch_story() -> str:
     relative = "common/story_cycles/the_long_night.txt"
     text = read_source(LONG_NIGHT / relative)
-    text = replace_exact(text, "add_culture_tradition = agot_tradition_wildling", "add_culture_tradition = tradition_agot_wildling", f"{relative}: wildling tradition")
+    text = replace_exact(
+        text,
+        "add_culture_tradition = agot_tradition_wildling",
+        "add_culture_tradition = tradition_agot_wildling",
+        f"{relative}: wildling tradition",
+    )
     text = replace_regex(
         text,
         r"(?m)^(\s*)add_trait\s*=\s*other_trait\s*$",
@@ -623,8 +739,16 @@ def patch_story() -> str:
 def patch_maintenance_events() -> str:
     relative = "events/others_events/others_maintenance_events.txt"
     text = read_source(LONG_NIGHT / relative)
-    text = replace_regex(text, r"(?m)^\s*type\s*=\s*empty\s*\r?\n", "", f"{relative}: empty event type", 2)
-    text = replace_exact(text, "faith:old_gods_btw", "faith:old_gods_btw_fnf", f"{relative}: BTW faith")
+    text = replace_regex(
+        text,
+        r"(?m)^\s*type\s*=\s*empty\s*\r?\n",
+        "",
+        f"{relative}: empty event type",
+        2,
+    )
+    text = replace_exact(
+        text, "faith:old_gods_btw", "faith:old_gods_btw_fnf", f"{relative}: BTW faith"
+    )
     final_marker = "game_start_date < 8298.1.1"
     if text.count(final_marker) != 2:
         raise ValueError(f"{relative}: expected two dated scheduler markers")
@@ -632,16 +756,30 @@ def patch_maintenance_events() -> str:
     final_else_if = text.find("else_if = {", marker_at)
     if final_else_if < 0:
         raise ValueError(f"{relative}: final scheduler else_if not found")
-    text = text[:final_else_if] + text[final_else_if:].replace("else_if = {", "else = {", 1)
+    text = text[:final_else_if] + text[final_else_if:].replace(
+        "else_if = {", "else = {", 1
+    )
     return text
 
 
 def patch_occupation_events() -> str:
     relative = "events/others_events/others_occupation_events.txt"
     text = read_source(LONG_NIGHT / relative)
-    text = replace_exact(text, "agot_tradition_wildling", "tradition_agot_wildling", f"{relative}: wildling tradition")
-    text = replace_exact(text, "faith:old_gods_btw", "faith:old_gods_btw_fnf", f"{relative}: BTW faith")
-    text = replace_exact(text, "faith:old_gods_south", "faith:old_gods_wnw", f"{relative}: southern Old Gods")
+    text = replace_exact(
+        text,
+        "agot_tradition_wildling",
+        "tradition_agot_wildling",
+        f"{relative}: wildling tradition",
+    )
+    text = replace_exact(
+        text, "faith:old_gods_btw", "faith:old_gods_btw_fnf", f"{relative}: BTW faith"
+    )
+    text = replace_exact(
+        text,
+        "faith:old_gods_south",
+        "faith:old_gods_wnw",
+        f"{relative}: southern Old Gods",
+    )
     return text
 
 
@@ -663,23 +801,64 @@ def patch_aftermath_event() -> str:
 def patch_traits() -> str:
     relative = "common/traits/invasions_traits.txt"
     text = read_source(LONG_NIGHT / relative)
-    text = replace_regex(text, r"(?m)^\s*(?:birth|random_creation)\s*=\s*0\s*\r?\n", "", f"{relative}: non-genetic fields", 4)
+    text = replace_regex(
+        text,
+        r"(?m)^\s*(?:birth|random_creation)\s*=\s*0\s*\r?\n",
+        "",
+        f"{relative}: non-genetic fields",
+        4,
+    )
     text = replace_regex(
         text,
         r"(?ms)(^other_trait\s*=\s*\{.*?^\s*)blocks_from_claim_inheritance\s*=\s*yes",
         r"\1inheritance_blocker = all\n\tclaim_inheritance_blocker = all",
         f"{relative}: current inheritance blockers",
     )
-    text = replace_regex(text, r"(?m)^\s*blocks_from_claim_inheritance\s*=\s*yes\s*\r?\n", "", f"{relative}: redundant wight blocker")
-    text = replace_regex(text, r"(?m)^\s*hostile_scheme_resistance_(?:mult|add)\s*=.*\r?\n", "", f"{relative}: removed scheme fields", 2)
-    text = replace_exact(text, "enemy_personal_scheme_success_chance_add = -500", "enemy_personal_scheme_success_chance_add = -500\n\tenemy_hostile_scheme_success_chance_add = -200", f"{relative}: current hostile scheme defense")
-    text = replace_regex(text, r"(?m)^\s*can_create_activity\s*=\s*no\s*\r?\n", "", f"{relative}: removed activity modifier", 2)
+    text = replace_regex(
+        text,
+        r"(?m)^\s*blocks_from_claim_inheritance\s*=\s*yes\s*\r?\n",
+        "",
+        f"{relative}: redundant wight blocker",
+    )
+    text = replace_regex(
+        text,
+        r"(?m)^\s*hostile_scheme_resistance_(?:mult|add)\s*=.*\r?\n",
+        "",
+        f"{relative}: removed scheme fields",
+        2,
+    )
+    text = replace_exact(
+        text,
+        "enemy_personal_scheme_success_chance_add = -500",
+        "enemy_personal_scheme_success_chance_add = -500\n\tenemy_hostile_scheme_success_chance_add = -200",
+        f"{relative}: current hostile scheme defense",
+    )
+    text = replace_regex(
+        text,
+        r"(?m)^\s*can_create_activity\s*=\s*no\s*\r?\n",
+        "",
+        f"{relative}: removed activity modifier",
+        2,
+    )
     for trait in (
-        "goutridden", "leper_1", "st_anthonys_fire", "great_spring_sickness",
-        "winter_fever", "blood_cough", "bloody_flux", "shaking_sickness",
-        "dancing_plague", "lover_pox",
+        "goutridden",
+        "leper_1",
+        "st_anthonys_fire",
+        "great_spring_sickness",
+        "winter_fever",
+        "blood_cough",
+        "bloody_flux",
+        "shaking_sickness",
+        "dancing_plague",
+        "lover_pox",
     ):
-        text = replace_regex(text, rf"(?m)^\s*{trait}\s*\r?\n", "", f"{relative}: obsolete trait {trait}", 3)
+        text = replace_regex(
+            text,
+            rf"(?m)^\s*{trait}\s*\r?\n",
+            "",
+            f"{relative}: obsolete trait {trait}",
+            3,
+        )
     return text
 
 
@@ -698,7 +877,9 @@ def patch_rules() -> str:
     relative = "common/scripted_rules/00_rules.txt"
     text = read_source(AGOT / relative)
     long_night = read_source(LONG_NIGHT / relative)
-    block_start = unique_marker(long_night, "\t\t#The Long Night+ Added", f"{relative}: Long Night player block")
+    block_start = unique_marker(
+        long_night, "\t\t#The Long Night+ Added", f"{relative}: Long Night player block"
+    )
     block_end = long_night.index("\t\t#AGOT Added, NW Vassals", block_start)
     player_block = long_night[block_start:block_end]
     marker = "\t\t#AGOT Added, NW Vassals"
@@ -724,14 +905,23 @@ def patch_rules() -> str:
 def patch_culture() -> str:
     relative = "common/culture/cultures/00_other_culture.txt"
     text = read_source(LONG_NIGHT / relative)
-    return replace_exact(text, "0.79500034", "0.79500", f"{relative}: supported decimal precision", 2)
+    return replace_exact(
+        text, "0.79500034", "0.79500", f"{relative}: supported decimal precision", 2
+    )
 
 
 def patch_history() -> str:
     relative = "history/characters/othersinvasion_characters.txt"
     text = read_source(LONG_NIGHT / relative)
-    text = replace_exact(text, "name = Other", "name = other_name", f"{relative}: localized name")
-    text = replace_exact(text, "house = house_theothers", "dynasty_house = house_theothers", f"{relative}: history house field")
+    text = replace_exact(
+        text, "name = Other", "name = other_name", f"{relative}: localized name"
+    )
+    text = replace_exact(
+        text,
+        "house = house_theothers",
+        "dynasty_house = house_theothers",
+        f"{relative}: history house field",
+    )
     for rank in ("novice", "apprentice", "journeyman"):
         perk = f"necromancy_{rank}_perk"
         text = replace_regex(
@@ -744,14 +934,20 @@ def patch_history() -> str:
 
 
 def patch_armor_asset() -> str:
-    relative = "gfx/models/portraits/m_clothes/other_armor/male_clothes_others_armor.asset"
+    relative = (
+        "gfx/models/portraits/m_clothes/other_armor/male_clothes_others_armor.asset"
+    )
     text = read_source(LONG_NIGHT / relative)
     first = 'name = "male_clothes_secular_other_war_02Shape"'
     positions = [match.start() for match in re.finditer(re.escape(first), text)]
     if len(positions) != 2:
-        raise ValueError(f"{relative}: expected two armor meshsettings, found {len(positions)}")
+        raise ValueError(
+            f"{relative}: expected two armor meshsettings, found {len(positions)}"
+        )
     second = positions[1]
-    text = text[:second] + text[second:].replace(first, 'name = "male_clothes_secular_other_war_02Shape-001"', 1)
+    text = text[:second] + text[second:].replace(
+        first, 'name = "male_clothes_secular_other_war_02Shape-001"', 1
+    )
     text = replace_regex(
         text,
         r"(?m)^\s*attribute\s*=\s*\{\s*name\s*=\s*\"bs_body_(?:infant|fat|gaunt|muscular|old|dwarf)_1\".*\r?\n",
@@ -765,8 +961,20 @@ def patch_armor_asset() -> str:
 def patch_gui() -> str:
     relative = "gui/event_windows/ln_topleft_wall_event.gui"
     text = read_source(LONG_NIGHT / relative)
-    text = replace_exact(text, "Select_CFixedPoint", "Select_int32", f"{relative}: integer width selectors", 5)
-    text = replace_regex(text, r"'\(CFixedPoint\)(120|170|200|250|400)'", r"'(int32)\1'", f"{relative}: integer width casts", 7)
+    text = replace_exact(
+        text,
+        "Select_CFixedPoint",
+        "Select_int32",
+        f"{relative}: integer width selectors",
+        5,
+    )
+    text = replace_regex(
+        text,
+        r"'\(CFixedPoint\)(120|170|200|250|400)'",
+        r"'(int32)\1'",
+        f"{relative}: integer width casts",
+        7,
+    )
     types_at = unique_marker(text, "types Events {", f"{relative}: copied global types")
     return text[:types_at].rstrip() + "\n"
 
@@ -775,7 +983,9 @@ def patch_theothers_localization() -> str:
     relative = "localization/english/theothers_l_english.yml"
     text = read_source(LONG_NIGHT / relative)
     for key in ("dynn_others", "dynn_Others", "dynn_others_motto"):
-        text = replace_regex(text, rf"(?m)^\s*{key}:.*\r?\n", "", f"{relative}: canonical {key}")
+        text = replace_regex(
+            text, rf"(?m)^\s*{key}:.*\r?\n", "", f"{relative}: canonical {key}"
+        )
     motto_matches = list(re.finditer(r"(?m)^\s*dynn_the_others_motto:.*\r?\n", text))
     if len(motto_matches) != 2:
         raise ValueError(
@@ -783,16 +993,25 @@ def patch_theothers_localization() -> str:
             f"found {len(motto_matches)}"
         )
     duplicate = motto_matches[1]
-    text = text[:duplicate.start()] + text[duplicate.end():]
+    text = text[: duplicate.start()] + text[duplicate.end() :]
     for key in (
-        "other_barony_male", "other_county_male", "other_duchy_male", "other_kingdom_male",
-        "other_barony_female", "other_county_female", "other_duchy_female", "other_kingdom_female",
-        "other_empire_male", "other_empire_female",
+        "other_barony_male",
+        "other_county_male",
+        "other_duchy_male",
+        "other_kingdom_male",
+        "other_barony_female",
+        "other_county_female",
+        "other_duchy_female",
+        "other_kingdom_female",
+        "other_empire_male",
+        "other_empire_female",
     ):
         matches = list(re.finditer(rf"(?m)^\s*{key}:.*\r?\n", text))
         if len(matches) != 2:
-            raise ValueError(f"{relative}: expected two {key} definitions, found {len(matches)}")
-        text = text[:matches[0].start()] + text[matches[0].end():]
+            raise ValueError(
+                f"{relative}: expected two {key} definitions, found {len(matches)}"
+            )
+        text = text[: matches[0].start()] + text[matches[0].end() :]
     text = replace_regex(text, r"fearÃ[^\s]*fear", "fear—fear", f"{relative}: mojibake")
     return text
 
@@ -850,11 +1069,17 @@ def patch_simple_files() -> dict[str, str]:
     files["common/dna_data/agot_dna_a_long_night.txt"] = patch_dna()
     files["common/men_at_arms_types/long_night_maa_types.txt"] = patch_maa()
     files["common/casus_belli_types/00_long_night_cbs.txt"] = patch_cb()
-    files["common/scripted_effects/agot_long_night_scripted_effects.txt"] = patch_scripted_effects()
+    files["common/scripted_effects/agot_long_night_scripted_effects.txt"] = (
+        patch_scripted_effects()
+    )
     files["common/decisions/00_agot_long_night_decisions.txt"] = patch_decisions()
     files["common/story_cycles/the_long_night.txt"] = patch_story()
-    files["events/others_events/others_maintenance_events.txt"] = patch_maintenance_events()
-    files["events/others_events/others_occupation_events.txt"] = patch_occupation_events()
+    files["events/others_events/others_maintenance_events.txt"] = (
+        patch_maintenance_events()
+    )
+    files["events/others_events/others_occupation_events.txt"] = (
+        patch_occupation_events()
+    )
     files["events/ln_aftermath_events.txt"] = patch_aftermath_event()
     other_events = "events/others_events/others_events.txt"
     files[other_events] = replace_regex(
@@ -875,8 +1100,12 @@ def patch_simple_files() -> dict[str, str]:
     files["common/scripted_rules/00_rules.txt"] = patch_rules()
     files["common/culture/cultures/00_other_culture.txt"] = patch_culture()
     files["history/characters/othersinvasion_characters.txt"] = patch_history()
-    files["gfx/models/portraits/m_clothes/other_armor/male_clothes_others_armor.asset"] = patch_armor_asset()
-    portrait_modifiers = "gfx/portraits/portrait_modifiers/ln_others_portrait_modifiers.txt"
+    files[
+        "gfx/models/portraits/m_clothes/other_armor/male_clothes_others_armor.asset"
+    ] = patch_armor_asset()
+    portrait_modifiers = (
+        "gfx/portraits/portrait_modifiers/ln_others_portrait_modifiers.txt"
+    )
     files[portrait_modifiers] = read_source(LONG_NIGHT / portrait_modifiers)
     background_event = "events/others_events/others_events.txt"
     files[background_event] = replace_exact(
@@ -901,12 +1130,16 @@ def patch_simple_files() -> dict[str, str]:
         f"{names}: localized Other names",
         2,
     )
-    files["localization/english/theothers_l_english.yml"] = patch_theothers_localization()
+    files["localization/english/theothers_l_english.yml"] = (
+        patch_theothers_localization()
+    )
     dynasty_loc = "localization/english/dynasties/otherdynasty_names_l_english.yml"
     files[dynasty_loc] = read_source(LONG_NIGHT / dynasty_loc)
     wall_loc = "localization/english/long_night_plus_wall_events_l_english.yml"
     files[wall_loc] = read_source(LONG_NIGHT / wall_loc)
-    files["localization/english/agot_long_night_compatch_l_english.yml"] = compatch_localization()
+    files["localization/english/agot_long_night_compatch_l_english.yml"] = (
+        compatch_localization()
+    )
     return files
 
 

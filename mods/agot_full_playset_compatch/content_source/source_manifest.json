@@ -1,32 +1,32 @@
 {
   "files": {
     "NOW": {
-      "path": ".ignored/CK3_workshop/3664900993/common/landed_titles/01_agot_landed_titles.txt",
+      "path": "3664900993/common/landed_titles/01_agot_landed_titles.txt",
       "sha256": "f34fff01414e3c47a04d025384fd30516c166842af8022c6458f9c0d8ea35c8d",
       "size": 805447
     },
     "NOW_DESCRIPTOR": {
-      "path": ".ignored/CK3_workshop/3664900993/descriptor.mod",
+      "path": "3664900993/descriptor.mod",
       "sha256": "e5453499e1ee6edbf6cfe7fa9a28190783ad85a7d029f451a5116f5d95c1111d",
       "size": 201
     },
     "SEASONS_BRIDGE_DESCRIPTOR": {
-      "path": ".ignored/CK3_workshop/3766038754/descriptor.mod",
-      "sha256": "fb15efe1a288be20fd6dd4ce39c26df7f96ba789d0b3d4ad5d1ef58a026ad4db",
-      "size": 435
+      "path": "3766038754/descriptor.mod",
+      "sha256": "4b0d0f72fc5b8f384f91e037f1fb7d422103ea0f626a007b86cf3f113876b91e",
+      "size": 429
     },
     "SEASON_EVENTS": {
-      "path": ".ignored/CK3_workshop/3766038754/events/lov_season_events.txt",
+      "path": "3766038754/events/lov_season_events.txt",
       "sha256": "68aecc6fb9c756ec0ce5a877de758cadc9fb8b9e8e62b2dda7ce0b7f100982e2",
       "size": 16687
     },
     "SEASON_FX": {
-      "path": ".ignored/CK3_workshop/3766038754/gfx/FX/province_effects.fxh",
+      "path": "3766038754/gfx/FX/province_effects.fxh",
       "sha256": "6f4f61689d423d5941dd0dcb39b47bedfe33fe2a94c7a5f057c7b3ad05578a85",
       "size": 56312
     },
     "SEASON_REGIONS": {
-      "path": ".ignored/CK3_workshop/3766038754/map_data/geographical_regions/north_sans_neck.txt",
+      "path": "3766038754/map_data/geographical_regions/north_sans_neck.txt",
       "sha256": "d34a153fd79855475332b8335ba477340d91ea8298fc6f7473d4bedb992dc7c4",
       "size": 19345
     }
@@ -40,7 +40,7 @@
   "schema_version": 1,
   "versions": {
     "NOW": "1.2.4.1",
-    "SEASONS_BRIDGE": "1.0.12"
+    "SEASONS_BRIDGE": "1.0.13"
   },
   "workshop_ids": {
     "NOW": "3664900993",

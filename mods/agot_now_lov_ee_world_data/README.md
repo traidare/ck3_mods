@@ -34,9 +34,9 @@ the helper's intended coverage directly with `d_skagos`, `d_deepdown`, and
 
 `scripts/generate-agot-now-lov-ee-world-data.py` reads the installed Workshop
 parents, the local map compatch, and the two full-world reference images in
-`.ignored/map_images/`. Their coastlines and major landmarks share the CK3 map's
-full-world projection. The generator resamples them to a common analysis grid
-and aggregates their biome evidence by exact province pixels.
+`references/agot/map_images/`. Their coastlines and major landmarks share the
+CK3 map's full-world projection. The generator resamples them to a common
+analysis grid and aggregates their biome evidence by exact province pixels.
 
 Final terrain combines:
 

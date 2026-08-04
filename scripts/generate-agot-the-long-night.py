@@ -22,12 +22,12 @@ SEASONS = WORKSHOP / "3377641022"
 LONG_NIGHT = WORKSHOP / "3766462389"
 
 PINNED_HASHES = {
-    CORE / "gfx/portraits/portrait_animations/animations.txt":
-        "c0b7d8bf00ce21001e28a10ca76cc0c95cf850a0bf5ef3dd81d98b671b1a111a",
-    SEASONS / "events/season_events.txt":
-        "f5f618b90ff2f5697517310b4d3c63f95c44ecf56150a2d1ad4cb3e26b217c04",
-    LONG_NIGHT / "gfx/portraits/portrait_animations/animations.txt":
-        "2d8de11f686ba6772c4607f0d1a8b7938153b589a1c081d5d194dd45c06142bd",
+    CORE
+    / "gfx/portraits/portrait_animations/animations.txt": "c0b7d8bf00ce21001e28a10ca76cc0c95cf850a0bf5ef3dd81d98b671b1a111a",
+    SEASONS
+    / "events/season_events.txt": "f5f618b90ff2f5697517310b4d3c63f95c44ecf56150a2d1ad4cb3e26b217c04",
+    LONG_NIGHT
+    / "gfx/portraits/portrait_animations/animations.txt": "2d8de11f686ba6772c4607f0d1a8b7938153b589a1c081d5d194dd45c06142bd",
 }
 
 SKIP = {
@@ -86,7 +86,9 @@ def core_animation() -> str:
     names = legacy.direct_definition_names(source, r"wight_pose_[A-Za-z0-9_]+")
     if len(names) != 5:
         raise ValueError(f"expected five Long Night poses, found {len(names)}")
-    poses = "".join(source[s:e] for s, e in (legacy.definition_span(source, n) for n in names))
+    poses = "".join(
+        source[s:e] for s, e in (legacy.definition_span(source, n) for n in names)
+    )
     poses = legacy.normalize_newlines(poses, newline)
     marker = f"\t\t#AGOT Added{newline}\t\thigh_septon = {{"
     legacy.unique_marker(core, marker, "Core high_septon pose")
@@ -106,7 +108,7 @@ def patch_seasons() -> str:
         raise ValueError("Seasons spring event has no immediate block")
     opening = block.find("{", immediate.start())
     closing = legacy.matching_brace(block, opening)
-    original = block[opening + 1:closing]
+    original = block[opening + 1 : closing]
     replacement = (
         "immediate = {\n"
         "\t\tif = {\n"
@@ -115,7 +117,7 @@ def patch_seasons() -> str:
         "\t\t}\n"
         "\t\telse = {" + original + "\n\t\t}\n\t}"
     )
-    block = block[:immediate.start()] + replacement + block[closing + 1:]
+    block = block[: immediate.start()] + replacement + block[closing + 1 :]
     return value[:start] + block + value[end:]
 
 
@@ -241,7 +243,12 @@ def patch_effects() -> str:
     replacement = """if = { limit = { has_game_rule = others_weak_invasion } %s }
 \t\telse_if = { limit = { has_game_rule = others_strong_invasion } %s }
 \t\telse_if = { limit = { has_game_rule = others_insane_invasion } %s }
-\t\telse = { %s }""" % (army_block(100), army_block(350), army_block(500), army_block(200))
+\t\telse = { %s }""" % (
+        army_block(100),
+        army_block(350),
+        army_block(500),
+        army_block(200),
+    )
     value = value[:first] + replacement + value[end:]
     marker = "mutate_into_other_effect = {"
     insertion = """
@@ -262,8 +269,12 @@ def patch_effects() -> str:
 \t\t}
 \t}
 """
-    value = legacy.replace_exact(value, marker, marker + insertion, "central horde conversion")
-    value = re.sub(r"(?m)^\s*change_government\s*=\s*wight_government\s*\r?\n", "", value)
+    value = legacy.replace_exact(
+        value, marker, marker + insertion, "central horde conversion"
+    )
+    value = re.sub(
+        r"(?m)^\s*change_government\s*=\s*wight_government\s*\r?\n", "", value
+    )
     value = legacy.replace_regex(
         value,
         r"(\t\tevery_player\s*=\s*\{\s*trigger_event\s*=\s*\{\s*id\s*=\s*long_night_plus_wall\.1\s*\}\s*\})",
@@ -285,7 +296,12 @@ def patch_maa() -> str:
         "siege_value = 0.9": "siege_value = 0.15",
     }.items():
         value = legacy.replace_exact(value, old, new, f"balanced MAA: {old}")
-    value = legacy.replace_exact(value, "type = heavy_infantry", "type = heavy_infantry\n\tspecial_recruit_only = yes", "event-only MAA")
+    value = legacy.replace_exact(
+        value,
+        "type = heavy_infantry",
+        "type = heavy_infantry\n\tspecial_recruit_only = yes",
+        "event-only MAA",
+    )
     return value
 
 
@@ -342,7 +358,10 @@ def patch_other_events() -> str:
     relative = "events/others_events/others_events.txt"
     value = legacy.patch_simple_files()[relative]
     marker = "\t\tthe_long_night_setup_effect = yes"
-    addition = marker + "\n\t\tset_global_variable = { name = agot_long_night_active value = yes }\n\t\tset_global_variable = { name = agot_long_night_threat value = 0 }"
+    addition = (
+        marker
+        + "\n\t\tset_global_variable = { name = agot_long_night_active value = yes }\n\t\tset_global_variable = { name = agot_long_night_threat value = 0 }"
+    )
     return legacy.replace_exact(value, marker, addition, "activate crisis state")
 
 
@@ -581,19 +600,21 @@ def expected_files() -> dict[str, bytes]:
     patched["localization/english/agot_long_night_compatch_l_english.yml"] = fixed_loc
     trait_loc = patched["localization/english/theothers_l_english.yml"]
     trait_loc = re.sub(
-        r'(?m)^\s*trait_nightking:.*$',
+        r"(?m)^\s*trait_nightking:.*$",
         ' trait_nightking:0 "Herald of the Great Other"',
         trait_loc,
     )
     trait_loc = re.sub(
-        r'(?m)^\s*trait_nightking_desc:.*$',
+        r"(?m)^\s*trait_nightking_desc:.*$",
         ' trait_nightking_desc:0 "The transferable war-leader and voice of the power behind the Long Night."',
         trait_loc,
     )
     patched["localization/english/theothers_l_english.yml"] = trait_loc
     patched["common/game_rules/long_night_game_rules.txt"] = game_rules()
     patched["common/men_at_arms_types/long_night_maa_types.txt"] = patch_maa()
-    patched["common/scripted_effects/agot_long_night_scripted_effects.txt"] = patch_effects()
+    patched["common/scripted_effects/agot_long_night_scripted_effects.txt"] = (
+        patch_effects()
+    )
     patched["common/casus_belli_types/00_long_night_cbs.txt"] = patch_cb()
     patched["common/decisions/00_agot_long_night_decisions.txt"] = patch_decisions()
     patched["common/story_cycles/the_long_night.txt"] = patch_story()
@@ -601,12 +622,18 @@ def expected_files() -> dict[str, bytes]:
     patched["events/others_events/others_events.txt"] = patch_other_events()
     patched[str(legacy.RELATIVE_ANIMATIONS)] = core_animation()
     patched["events/season_events.txt"] = patch_seasons()
-    patched["common/scripted_triggers/agot_long_night_public_triggers.txt"] = api_triggers()
-    patched["common/scripted_effects/agot_long_night_rework_effects.txt"] = rework_effects()
+    patched["common/scripted_triggers/agot_long_night_public_triggers.txt"] = (
+        api_triggers()
+    )
+    patched["common/scripted_effects/agot_long_night_rework_effects.txt"] = (
+        rework_effects()
+    )
     patched["common/on_action/agot_long_night_rework_on_actions.txt"] = on_actions()
     patched["common/modifiers/agot_long_night_rework_modifiers.txt"] = modifiers()
     patched["events/agot_long_night_rework_events.txt"] = rework_events()
-    patched["localization/english/zz_agot_long_night_rework_l_english.yml"] = localization()
+    patched["localization/english/zz_agot_long_night_rework_l_english.yml"] = (
+        localization()
+    )
 
     siege_events = text(LONG_NIGHT / "events/others_events/others_siege_events.txt")
     siege_events = legacy.replace_exact(
@@ -626,7 +653,9 @@ def expected_files() -> dict[str, bytes]:
         "",
         "optional aftermath chooser scope",
     )
-    patched["common/scripted_effects/zz_long_night_plus_aftermath_effects.txt"] = aftermath_effects
+    patched["common/scripted_effects/zz_long_night_plus_aftermath_effects.txt"] = (
+        aftermath_effects
+    )
 
     for relative in (
         "common/on_action/00_others_on_actions.txt",
@@ -636,7 +665,12 @@ def expected_files() -> dict[str, bytes]:
 
     siege_path = "common/on_action/AGOT Invasions/invasions_siege.txt"
     siege = text(LONG_NIGHT / siege_path)
-    siege = legacy.replace_exact(siege, "others_siege.0001", "others_siege.0001\n        agot_ln.20", "threat siege event")
+    siege = legacy.replace_exact(
+        siege,
+        "others_siege.0001",
+        "others_siege.0001\n        agot_ln.20",
+        "threat siege event",
+    )
     patched[siege_path] = siege
 
     for relative, value in patched.items():
@@ -659,7 +693,9 @@ def main() -> None:
                 destination.parent.mkdir(parents=True, exist_ok=True)
                 destination.write_bytes(content)
     if args.check and changed:
-        raise SystemExit("generated Long Night files are stale:\n" + "\n".join(changed[:30]))
+        raise SystemExit(
+            "generated Long Night files are stale:\n" + "\n".join(changed[:30])
+        )
     action = "checked" if args.check else "generated"
     print(f"{action} {len(files)} standalone files; {len(changed)} changed")
 

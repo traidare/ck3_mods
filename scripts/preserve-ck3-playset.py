@@ -579,9 +579,10 @@ def copy_zip_mod(mod: SourceMod, destination: Path) -> dict[str, str]:
                 target = destination.joinpath(*entry.relative_path.parts)
                 target.parent.mkdir(parents=True, exist_ok=True)
                 digest = hashlib.sha256()
-                with archive.open(entry.member_name) as source, target.open(
-                    "xb"
-                ) as output:
+                with (
+                    archive.open(entry.member_name) as source,
+                    target.open("xb") as output,
+                ):
                     while chunk := source.read(1024 * 1024):
                         output.write(chunk)
                         digest.update(chunk)
