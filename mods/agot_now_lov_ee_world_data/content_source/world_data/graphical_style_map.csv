@@ -1,6 +1,6 @@
 scope,key,graphical_region,allow_disconnected,reason
 empire,e_bloodless_men,graphical_east_asia,false,Eastern Essos architectural family
-empire,e_cannibal_sands,graphical_east_asia,false,Eastern Essos architectural family
+empire,e_cannibal_sands,graphical_east_asia,true,Eastern Essos architectural family; EETLV v2.1 adds one isolated wilderness province
 empire,e_hidden_sea,graphical_east_asia,false,Eastern Essos architectural family
 empire,e_ibben,graphical_siberia,true,Northern island realm
 empire,e_ifequevron,graphical_siberia,false,Northern forest realm

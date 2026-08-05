@@ -34,7 +34,7 @@
 10973 = desert
 10974 = desert
 10975 = desert
-10976 = plains
+10976 = drylands
 10977 = steppe
 10978 = forest
 10979 = hills
@@ -45,7 +45,7 @@
 10984 = drylands
 10985 = desert
 10986 = desert_mountains
-10987 = forest
+10987 = drylands
 10988 = jungle
 10989 = steppe
 10990 = jungle
@@ -96,7 +96,7 @@
 11035 = plains
 11036 = mountains
 11037 = plains
-11038 = forest
+11038 = drylands
 11039 = forest
 11040 = jungle
 11041 = forest
@@ -113,7 +113,7 @@
 11052 = forest
 11053 = drylands
 11054 = mountains
-11055 = plains
+11055 = drylands
 11056 = plains
 11057 = plains
 11058 = jungle
@@ -129,9 +129,9 @@
 11068 = taiga
 11069 = steppe
 11070 = drylands
-11071 = forest
+11071 = taiga
 11072 = hills
-11073 = forest
+11073 = drylands
 11074 = forest
 11075 = steppe
 11076 = drylands
@@ -159,7 +159,7 @@
 11098 = drylands
 11099 = steppe
 11100 = forest
-11101 = forest
+11101 = drylands
 11102 = jungle
 11103 = steppe
 11104 = steppe
@@ -509,7 +509,7 @@
 11448 = steppe
 11449 = forest
 11450 = steppe
-11451 = plains
+11451 = drylands
 11452 = steppe
 11453 = forest
 11454 = forest
@@ -607,7 +607,7 @@
 11546 = drylands
 11547 = steppe
 11548 = steppe
-11549 = desert
+11549 = steppe
 11550 = steppe
 11551 = jungle
 11552 = drylands
@@ -633,7 +633,7 @@
 11572 = forest
 11573 = plains
 11574 = jungle
-11575 = forest
+11575 = drylands
 11576 = desert_mountains
 11577 = jungle
 11578 = plains
@@ -795,7 +795,7 @@
 11734 = desert
 11735 = forest
 11736 = mountains
-11737 = plains
+11737 = drylands
 11738 = plains
 11739 = drylands
 11740 = desert_mountains
@@ -809,7 +809,7 @@
 11748 = forest
 11749 = drylands
 11750 = jungle
-11751 = plains
+11751 = drylands
 11752 = jungle
 11753 = forest
 11754 = drylands
@@ -850,7 +850,7 @@
 11789 = desert_mountains
 11790 = steppe
 11791 = taiga
-11792 = plains
+11792 = drylands
 11793 = drylands
 11794 = steppe
 11795 = jungle
@@ -989,14 +989,14 @@
 11928 = forest
 11929 = jungle
 11930 = taiga
-11931 = forest
+11931 = taiga
 11932 = plains
 11933 = drylands
 11934 = mountains
 11935 = forest
 11936 = plains
 11937 = forest
-11938 = forest
+11938 = drylands
 11939 = taiga
 11940 = steppe
 11941 = forest
@@ -1005,7 +1005,7 @@
 11944 = plains
 11945 = jungle
 11946 = steppe
-11947 = plains
+11947 = drylands
 11948 = drylands
 11949 = steppe
 11950 = steppe
@@ -1070,7 +1070,7 @@
 12009 = forest
 12010 = wetlands
 12011 = mountains
-12012 = plains
+12012 = drylands
 12013 = steppe
 12014 = steppe
 12015 = steppe
@@ -1097,7 +1097,7 @@
 12036 = steppe
 12037 = forest
 12038 = forest
-12039 = forest
+12039 = taiga
 12040 = taiga
 12041 = taiga
 12042 = steppe
@@ -1107,7 +1107,7 @@
 12046 = forest
 12047 = jungle
 12048 = desert
-12049 = forest
+12049 = taiga
 12050 = steppe
 12051 = steppe
 12052 = steppe
@@ -1127,7 +1127,7 @@
 12066 = forest
 12067 = mountains
 12068 = forest
-12069 = plains
+12069 = drylands
 12070 = mountains
 12071 = taiga
 12072 = taiga
@@ -1140,8 +1140,8 @@
 12079 = forest
 12080 = taiga
 12081 = desert
-12082 = plains
-12083 = plains
+12082 = drylands
+12083 = drylands
 12084 = steppe
 12085 = forest
 12086 = steppe
@@ -1203,7 +1203,7 @@
 12142 = drylands
 12143 = taiga
 12144 = steppe
-12145 = forest
+12145 = drylands
 12146 = mountains
 12147 = jungle
 12148 = plains
@@ -1213,7 +1213,7 @@
 12152 = steppe
 12153 = steppe
 12154 = hills
-12155 = plains
+12155 = drylands
 12156 = forest
 12157 = steppe
 12158 = forest
@@ -1222,7 +1222,7 @@
 12161 = forest
 12162 = plains
 12163 = taiga
-12164 = plains
+12164 = drylands
 12165 = desert_mountains
 12166 = steppe
 12167 = steppe
@@ -1242,7 +1242,7 @@
 12181 = mountains
 12182 = steppe
 12183 = hills
-12184 = plains
+12184 = drylands
 12185 = drylands
 12186 = mountains
 12187 = jungle
@@ -1307,7 +1307,7 @@
 12246 = plains
 12247 = jungle
 12248 = drylands
-12249 = forest
+12249 = taiga
 12250 = forest
 12251 = forest
 12252 = mountains
@@ -1327,7 +1327,7 @@
 12266 = taiga
 12267 = plains
 12268 = plains
-12269 = plains
+12269 = drylands
 12270 = desert_mountains
 12271 = mountains
 12272 = steppe
@@ -1352,13 +1352,13 @@
 12291 = forest
 12292 = jungle
 12293 = steppe
-12294 = plains
+12294 = drylands
 12295 = forest
 12296 = drylands
 12297 = jungle
 12298 = hills
 12299 = forest
-12300 = plains
+12300 = drylands
 12301 = desert_mountains
 12302 = steppe
 12303 = steppe
@@ -1396,7 +1396,7 @@
 12335 = taiga
 12336 = steppe
 12337 = forest
-12338 = forest
+12338 = drylands
 12339 = forest
 12340 = plains
 12341 = mountains
@@ -1527,7 +1527,7 @@
 12466 = forest
 12467 = jungle
 12468 = mountains
-12469 = forest
+12469 = taiga
 12470 = plains
 12471 = jungle
 12472 = steppe
@@ -1547,7 +1547,7 @@
 12486 = forest
 12487 = jungle
 12488 = mountains
-12489 = forest
+12489 = drylands
 12490 = steppe
 12491 = jungle
 12492 = plains
@@ -1625,7 +1625,7 @@
 12564 = steppe
 12565 = desert
 12566 = steppe
-12567 = plains
+12567 = drylands
 12568 = steppe
 12569 = steppe
 12570 = forest
@@ -1667,14 +1667,14 @@
 12606 = mountains
 12607 = forest
 12608 = forest
-12609 = plains
+12609 = drylands
 12610 = drylands
 12611 = forest
 12612 = frozen_flats
 12613 = jungle
 12614 = wetlands
 12615 = jungle
-12616 = plains
+12616 = drylands
 12617 = steppe
 12618 = desert
 12619 = forest
@@ -1772,7 +1772,7 @@
 12711 = forest
 12712 = jungle
 12713 = jungle
-12714 = desert
+12714 = forest
 12715 = forest
 12716 = jungle
 12717 = mountains
@@ -1876,7 +1876,7 @@
 12815 = desert
 12816 = plains
 12817 = plains
-12818 = forest
+12818 = taiga
 12819 = taiga
 12820 = jungle
 12821 = steppe
@@ -1886,7 +1886,7 @@
 12825 = drylands
 12826 = jungle
 12827 = forest
-12828 = desert
+12828 = steppe
 12829 = steppe
 12830 = drylands
 12831 = desert_mountains
@@ -2124,7 +2124,7 @@
 13063 = forest
 13064 = steppe
 13065 = drylands
-13066 = plains
+13066 = drylands
 13067 = steppe
 13068 = hills
 13069 = forest
@@ -2225,7 +2225,7 @@
 13164 = desert_mountains
 13165 = forest
 13166 = steppe
-13167 = forest
+13167 = drylands
 13168 = hills
 13169 = taiga
 13170 = desert
@@ -2276,7 +2276,7 @@
 13215 = drylands
 13216 = steppe
 13217 = jungle
-13218 = forest
+13218 = drylands
 13219 = desert_mountains
 13220 = jungle
 13221 = steppe
@@ -2331,7 +2331,7 @@
 13270 = steppe
 13271 = steppe
 13272 = steppe
-13273 = forest
+13273 = drylands
 13274 = jungle
 13275 = desert
 13276 = forest
@@ -2363,7 +2363,7 @@
 13302 = plains
 13303 = jungle
 13304 = mountains
-13305 = plains
+13305 = drylands
 13306 = steppe
 13307 = desert_mountains
 13308 = forest
@@ -2573,7 +2573,7 @@
 13512 = forest
 13513 = taiga
 13514 = steppe
-13515 = plains
+13515 = drylands
 13516 = desert_mountains
 13517 = steppe
 13518 = drylands
@@ -2625,7 +2625,7 @@
 13564 = desert
 13565 = mountains
 13566 = steppe
-13567 = plains
+13567 = drylands
 13568 = forest
 13569 = taiga
 13570 = steppe
@@ -2751,7 +2751,7 @@
 13690 = taiga
 13691 = plains
 13692 = forest
-13693 = plains
+13693 = drylands
 13694 = jungle
 13695 = steppe
 13696 = forest
@@ -2761,8 +2761,8 @@
 13700 = jungle
 13701 = taiga
 13702 = steppe
-13703 = plains
-13704 = plains
+13703 = drylands
+13704 = drylands
 13705 = desert
 13706 = forest
 13707 = mountains
@@ -2833,7 +2833,7 @@
 13772 = plains
 13773 = hills
 13774 = mountains
-13775 = plains
+13775 = drylands
 13776 = forest
 13777 = steppe
 13778 = forest
@@ -2856,7 +2856,7 @@
 13795 = desert
 13796 = hills
 13797 = jungle
-13798 = plains
+13798 = drylands
 13799 = drylands
 13800 = steppe
 13801 = steppe
@@ -2953,7 +2953,7 @@
 13892 = forest
 13893 = desert
 13894 = steppe
-13895 = plains
+13895 = drylands
 13896 = forest
 13897 = mountains
 13898 = mountains
@@ -3035,7 +3035,7 @@
 13974 = steppe
 13975 = forest
 13976 = taiga
-13977 = plains
+13977 = drylands
 13978 = hills
 13979 = forest
 13980 = forest
@@ -3054,7 +3054,7 @@
 13993 = steppe
 13994 = forest
 13995 = desert
-13996 = forest
+13996 = drylands
 13997 = steppe
 13998 = forest
 13999 = steppe
@@ -3112,7 +3112,7 @@
 14051 = mountains
 14052 = steppe
 14053 = forest
-14054 = forest
+14054 = drylands
 14055 = plains
 14056 = steppe
 14057 = desert
@@ -3131,7 +3131,7 @@
 14070 = forest
 14071 = taiga
 14072 = mountains
-14073 = forest
+14073 = drylands
 14074 = jungle
 14075 = plains
 14076 = desert_mountains
@@ -3170,7 +3170,7 @@
 14109 = hills
 14110 = drylands
 14111 = jungle
-14112 = forest
+14112 = drylands
 14113 = plains
 14114 = steppe
 14115 = forest
@@ -3216,7 +3216,7 @@
 14155 = forest
 14156 = desert
 14157 = desert
-14158 = forest
+14158 = drylands
 14159 = mountains
 14160 = plains
 14161 = steppe
@@ -3243,7 +3243,7 @@
 14182 = mountains
 14183 = desert
 14184 = desert
-14185 = plains
+14185 = drylands
 14186 = steppe
 14187 = hills
 14188 = desert
@@ -3254,7 +3254,7 @@
 14193 = desert
 14194 = steppe
 14195 = taiga
-14196 = plains
+14196 = drylands
 14197 = jungle
 14198 = jungle
 14199 = hills
@@ -3284,7 +3284,7 @@
 14223 = desert
 14224 = steppe
 14225 = forest
-14226 = forest
+14226 = drylands
 14227 = hills
 14228 = forest
 14229 = steppe
@@ -3295,12 +3295,12 @@
 14234 = forest
 14235 = taiga
 14236 = taiga
-14237 = forest
+14237 = taiga
 14238 = taiga
 14239 = steppe
 14240 = steppe
 14241 = jungle
-14242 = plains
+14242 = drylands
 14243 = steppe
 14244 = plains
 14245 = drylands
@@ -3460,7 +3460,7 @@
 14399 = hills
 14400 = forest
 14401 = hills
-14402 = desert
+14402 = forest
 14403 = steppe
 14404 = hills
 14405 = steppe
@@ -3468,7 +3468,7 @@
 14407 = forest
 14408 = steppe
 14409 = steppe
-14410 = desert
+14410 = taiga
 14411 = desert
 14412 = taiga
 14413 = forest
@@ -3576,7 +3576,7 @@
 14515 = plains
 14516 = forest
 14517 = plains
-14518 = forest
+14518 = drylands
 14519 = desert
 14520 = taiga
 14521 = taiga
@@ -3741,7 +3741,7 @@
 14680 = desert
 14681 = steppe
 14682 = jungle
-14683 = forest
+14683 = drylands
 14684 = steppe
 14685 = steppe
 14686 = steppe
@@ -3754,7 +3754,7 @@
 14693 = drylands
 14694 = forest
 14695 = steppe
-14696 = plains
+14696 = drylands
 14697 = plains
 14698 = forest
 14699 = steppe
@@ -3762,9 +3762,9 @@
 14701 = steppe
 14702 = drylands
 14703 = drylands
-14704 = plains
+14704 = drylands
 14705 = forest
-14706 = plains
+14706 = drylands
 14707 = drylands
 14708 = desert
 14709 = forest
@@ -3799,7 +3799,7 @@
 14738 = steppe
 14739 = plains
 14740 = desert
-14741 = plains
+14741 = drylands
 14742 = steppe
 14743 = jungle
 14744 = mountains
@@ -3808,8 +3808,8 @@
 14747 = steppe
 14748 = forest
 14749 = desert
-14750 = forest
-14751 = forest
+14750 = drylands
+14751 = taiga
 14752 = desert
 14753 = plains
 14754 = jungle
@@ -3829,7 +3829,7 @@
 14768 = steppe
 14769 = drylands
 14770 = steppe
-14771 = plains
+14771 = drylands
 14772 = steppe
 14773 = steppe
 14774 = plains
@@ -3928,7 +3928,7 @@
 14867 = mountains
 14868 = plains
 14869 = steppe
-14870 = forest
+14870 = taiga
 14871 = forest
 14872 = desert
 14873 = steppe
@@ -4142,7 +4142,7 @@
 15081 = plains
 15082 = steppe
 15083 = steppe
-15084 = forest
+15084 = drylands
 15085 = mountains
 15086 = steppe
 15087 = desert
@@ -4211,7 +4211,7 @@
 15150 = steppe
 15151 = plains
 15152 = jungle
-15153 = forest
+15153 = taiga
 15154 = mountains
 15155 = desert_mountains
 15156 = drylands
@@ -4270,12 +4270,12 @@
 15209 = plains
 15210 = desert_mountains
 15211 = forest
-15212 = desert
+15212 = steppe
 15213 = jungle
 15214 = taiga
 15215 = drylands
 15216 = steppe
-15217 = plains
+15217 = drylands
 15218 = hills
 15219 = jungle
 15220 = forest
@@ -4374,7 +4374,7 @@
 15313 = steppe
 15314 = steppe
 15315 = plains
-15316 = plains
+15316 = drylands
 15317 = taiga
 15318 = steppe
 15319 = steppe
@@ -4446,7 +4446,7 @@
 15385 = forest
 15386 = plains
 15387 = desert
-15388 = forest
+15388 = taiga
 15389 = desert
 15390 = drylands
 15391 = steppe
@@ -4469,7 +4469,7 @@
 15408 = steppe
 15409 = forest
 15410 = steppe
-15411 = plains
+15411 = drylands
 15412 = drylands
 15413 = forest
 15414 = jungle
@@ -4520,7 +4520,7 @@
 15459 = hills
 15460 = taiga
 15461 = steppe
-15462 = plains
+15462 = drylands
 15463 = taiga
 15464 = drylands
 15465 = plains
@@ -4576,12 +4576,12 @@
 15515 = plains
 15516 = desert
 15517 = forest
-15518 = desert
+15518 = steppe
 15519 = steppe
 15520 = forest
 15521 = jungle
 15522 = drylands
-15523 = forest
+15523 = drylands
 15524 = mountains
 15525 = steppe
 15526 = jungle
@@ -4665,7 +4665,7 @@
 15604 = mountains
 15605 = desert_mountains
 15606 = forest
-15607 = plains
+15607 = drylands
 15608 = taiga
 15609 = jungle
 15610 = steppe
@@ -4684,7 +4684,7 @@
 15623 = steppe
 15624 = jungle
 15625 = plains
-15626 = forest
+15626 = drylands
 15627 = forest
 15628 = forest
 15629 = steppe
@@ -4807,7 +4807,7 @@
 15746 = forest
 15747 = steppe
 15748 = plains
-15749 = plains
+15749 = drylands
 15750 = mountains
 15751 = jungle
 15752 = forest
@@ -4932,7 +4932,7 @@
 15871 = plains
 15872 = hills
 15873 = taiga
-15874 = plains
+15874 = drylands
 15875 = forest
 15876 = taiga
 15877 = forest
@@ -4993,11 +4993,11 @@
 15932 = desert
 15933 = steppe
 15934 = plains
-15935 = plains
+15935 = drylands
 15936 = desert_mountains
 15937 = mountains
-15938 = plains
-15939 = forest
+15938 = drylands
+15939 = drylands
 15940 = plains
 15941 = steppe
 15942 = drylands
@@ -5074,7 +5074,7 @@
 16013 = mountains
 16014 = forest
 16015 = plains
-16016 = plains
+16016 = drylands
 16017 = forest
 16018 = desert
 16019 = steppe
@@ -5129,7 +5129,7 @@
 16068 = steppe
 16069 = steppe
 16070 = steppe
-16071 = desert
+16071 = steppe
 16072 = plains
 16073 = steppe
 16074 = steppe
@@ -5178,7 +5178,7 @@
 16117 = mountains
 16118 = forest
 16119 = jungle
-16120 = plains
+16120 = forest
 16121 = steppe
 16122 = desert_mountains
 16123 = plains
@@ -5233,7 +5233,7 @@
 16172 = steppe
 16173 = steppe
 16174 = drylands
-16175 = plains
+16175 = drylands
 16176 = wetlands
 16177 = steppe
 16178 = taiga
@@ -5411,12 +5411,12 @@
 16350 = drylands
 16351 = plains
 16352 = mountains
-16353 = plains
+16353 = drylands
 16354 = forest
 16355 = jungle
 16356 = steppe
 16357 = taiga
-16358 = plains
+16358 = drylands
 16359 = steppe
 16360 = steppe
 16361 = forest
@@ -5428,7 +5428,7 @@
 16367 = drylands
 16368 = steppe
 16369 = mountains
-16370 = forest
+16370 = taiga
 16371 = plains
 16372 = forest
 16373 = plains
@@ -5507,7 +5507,7 @@
 16446 = steppe
 16447 = taiga
 16448 = drylands
-16449 = forest
+16449 = drylands
 16450 = desert
 16451 = desert
 16452 = plains
@@ -5558,7 +5558,7 @@
 16497 = mountains
 16498 = plains
 16499 = mountains
-16500 = plains
+16500 = drylands
 16501 = hills
 16502 = hills
 16503 = steppe
@@ -5570,7 +5570,7 @@
 16509 = mountains
 16510 = drylands
 16511 = forest
-16512 = plains
+16512 = drylands
 16513 = jungle
 16514 = jungle
 16515 = drylands
@@ -5583,7 +5583,7 @@
 16522 = drylands
 16523 = desert
 16524 = hills
-16525 = forest
+16525 = taiga
 16526 = steppe
 16527 = forest
 16528 = steppe
@@ -5639,7 +5639,7 @@
 16578 = plains
 16579 = hills
 16580 = forest
-16581 = forest
+16581 = taiga
 16582 = steppe
 16583 = hills
 16584 = steppe
@@ -5659,7 +5659,7 @@
 16598 = plains
 16599 = steppe
 16600 = desert
-16601 = desert
+16601 = steppe
 16602 = forest
 16603 = taiga
 16604 = forest
@@ -5759,7 +5759,7 @@
 16698 = drylands
 16699 = plains
 16700 = steppe
-16701 = plains
+16701 = drylands
 16702 = steppe
 16703 = plains
 16704 = steppe
@@ -5909,13 +5909,13 @@
 16848 = frozen_flats
 16849 = hills
 16850 = plains
-16851 = desert
+16851 = steppe
 16852 = taiga
 16853 = taiga
 16854 = hills
 16855 = forest
 16856 = hills
-16857 = plains
+16857 = steppe
 16858 = forest
 16859 = steppe
 16860 = wetlands
@@ -6108,7 +6108,7 @@
 17047 = desert
 17048 = wetlands
 17049 = desert_mountains
-17050 = forest
+17050 = taiga
 17051 = desert
 17052 = steppe
 17053 = steppe
@@ -6119,7 +6119,7 @@
 17058 = steppe
 17059 = steppe
 17060 = steppe
-17061 = forest
+17061 = taiga
 17062 = steppe
 17063 = desert_mountains
 17064 = forest
@@ -6143,7 +6143,7 @@
 17082 = forest
 17083 = steppe
 17084 = forest
-17085 = desert
+17085 = steppe
 17086 = steppe
 17087 = desert
 17088 = forest
@@ -6249,7 +6249,7 @@
 17188 = steppe
 17189 = forest
 17190 = forest
-17191 = plains
+17191 = drylands
 17192 = taiga
 17193 = taiga
 17194 = mountains
@@ -6403,7 +6403,7 @@
 17342 = taiga
 17343 = hills
 17344 = desert
-17345 = plains
+17345 = drylands
 17346 = hills
 17347 = steppe
 17348 = steppe
@@ -6460,7 +6460,7 @@
 17399 = plains
 17400 = steppe
 17401 = drylands
-17402 = desert
+17402 = steppe
 17403 = jungle
 17404 = steppe
 17405 = taiga
@@ -6490,7 +6490,7 @@
 17429 = forest
 17430 = taiga
 17431 = plains
-17432 = forest
+17432 = drylands
 17433 = taiga
 17434 = taiga
 17435 = jungle
@@ -6512,7 +6512,7 @@
 17451 = jungle
 17452 = mountains
 17453 = jungle
-17454 = plains
+17454 = drylands
 17455 = hills
 17456 = desert
 17457 = jungle
@@ -6547,7 +6547,7 @@
 17486 = steppe
 17487 = forest
 17488 = mountains
-17489 = desert
+17489 = steppe
 17490 = desert
 17491 = steppe
 17492 = hills
@@ -6600,7 +6600,7 @@
 17539 = steppe
 17540 = hills
 17541 = steppe
-17542 = plains
+17542 = drylands
 17543 = forest
 17544 = steppe
 17545 = forest
@@ -6713,7 +6713,7 @@
 17652 = taiga
 17653 = mountains
 17654 = drylands
-17655 = forest
+17655 = taiga
 17656 = jungle
 17657 = drylands
 17658 = jungle
@@ -6744,7 +6744,7 @@
 17683 = desert
 17684 = hills
 17685 = plains
-17686 = plains
+17686 = drylands
 17687 = mountains
 17688 = jungle
 17689 = desert
@@ -6804,7 +6804,7 @@
 17743 = taiga
 17744 = steppe
 17745 = desert_mountains
-17746 = forest
+17746 = drylands
 17747 = forest
 17748 = steppe
 17749 = jungle
@@ -6827,7 +6827,7 @@
 17766 = jungle
 17767 = plains
 17768 = drylands
-17769 = forest
+17769 = taiga
 17770 = forest
 17771 = steppe
 17772 = mountains
@@ -6876,7 +6876,7 @@
 17815 = desert
 17816 = steppe
 17817 = taiga
-17818 = plains
+17818 = drylands
 17819 = steppe
 17820 = plains
 17821 = steppe
@@ -6947,7 +6947,7 @@
 17886 = hills
 17887 = steppe
 17888 = forest
-17889 = forest
+17889 = taiga
 17890 = mountains
 17891 = steppe
 17892 = jungle
@@ -7000,7 +7000,7 @@
 17939 = drylands
 17940 = steppe
 17941 = jungle
-17942 = plains
+17942 = drylands
 17943 = hills
 17944 = jungle
 17945 = steppe
@@ -7069,7 +7069,7 @@
 18008 = jungle
 18009 = desert_mountains
 18010 = desert_mountains
-18011 = forest
+18011 = taiga
 18012 = taiga
 18013 = steppe
 18014 = jungle
@@ -7132,7 +7132,7 @@
 18071 = steppe
 18072 = jungle
 18073 = plains
-18074 = forest
+18074 = drylands
 18075 = mountains
 18076 = steppe
 18077 = steppe
@@ -7162,7 +7162,7 @@
 18101 = steppe
 18102 = steppe
 18103 = steppe
-18104 = forest
+18104 = taiga
 18105 = steppe
 18106 = taiga
 18107 = forest
@@ -7185,7 +7185,7 @@
 18124 = steppe
 18125 = plains
 18126 = taiga
-18127 = plains
+18127 = steppe
 18128 = mountains
 18129 = jungle
 18130 = forest
@@ -7198,7 +7198,7 @@
 18137 = plains
 18138 = forest
 18139 = desert
-18140 = forest
+18140 = drylands
 18141 = desert
 18142 = taiga
 18143 = forest
@@ -7220,7 +7220,7 @@
 18159 = forest
 18160 = plains
 18161 = drylands
-18162 = plains
+18162 = drylands
 18163 = mountains
 18164 = taiga
 18165 = steppe
@@ -7304,13 +7304,13 @@
 18243 = desert
 18244 = jungle
 18245 = forest
-18246 = plains
+18246 = drylands
 18247 = taiga
-18248 = forest
+18248 = drylands
 18249 = mountains
 18250 = forest
 18251 = hills
-18252 = plains
+18252 = drylands
 18253 = steppe
 18254 = steppe
 18255 = hills
@@ -7342,7 +7342,7 @@
 18281 = steppe
 18282 = desert_mountains
 18283 = jungle
-18284 = plains
+18284 = drylands
 18285 = jungle
 18286 = steppe
 18287 = jungle
@@ -7395,7 +7395,7 @@
 18334 = plains
 18335 = steppe
 18336 = steppe
-18337 = plains
+18337 = steppe
 18338 = forest
 18339 = forest
 18340 = steppe
@@ -7598,7 +7598,7 @@
 18537 = forest
 18538 = jungle
 18539 = desert
-18540 = plains
+18540 = drylands
 18541 = desert
 18542 = steppe
 18543 = plains
@@ -7618,7 +7618,7 @@
 18557 = steppe
 18558 = mountains
 18559 = hills
-18560 = forest
+18560 = drylands
 18561 = mountains
 18562 = desert
 18563 = steppe
@@ -7648,7 +7648,7 @@
 18587 = forest
 18588 = mountains
 18589 = forest
-18590 = plains
+18590 = drylands
 18591 = steppe
 18592 = desert
 18593 = desert
@@ -7664,7 +7664,7 @@
 18603 = jungle
 18604 = steppe
 18605 = steppe
-18606 = plains
+18606 = drylands
 18607 = drylands
 18608 = hills
 18609 = steppe
@@ -7720,7 +7720,7 @@
 18659 = mountains
 18660 = taiga
 18661 = desert_mountains
-18662 = forest
+18662 = drylands
 18663 = mountains
 18664 = steppe
 18665 = drylands
@@ -7881,8 +7881,8 @@
 18820 = jungle
 18821 = taiga
 18822 = hills
-18823 = plains
-18824 = forest
+18823 = drylands
+18824 = drylands
 18825 = hills
 18826 = mountains
 18827 = desert
@@ -7901,7 +7901,7 @@
 18840 = steppe
 18841 = forest
 18842 = taiga
-18843 = plains
+18843 = drylands
 18844 = forest
 18845 = desert
 18846 = taiga
@@ -8224,7 +8224,7 @@
 19163 = forest
 19164 = steppe
 19165 = mountains
-19166 = desert
+19166 = forest
 19167 = steppe
 19168 = forest
 19169 = hills
@@ -8364,7 +8364,7 @@
 19303 = jungle
 19304 = taiga
 19305 = mountains
-19306 = plains
+19306 = drylands
 19307 = taiga
 19308 = frozen_flats
 19309 = steppe
@@ -8453,7 +8453,7 @@
 19392 = plains
 19393 = jungle
 19394 = hills
-19395 = plains
+19395 = drylands
 19396 = steppe
 19397 = steppe
 19398 = forest
@@ -8528,7 +8528,7 @@
 19467 = forest
 19468 = plains
 19469 = jungle
-19470 = forest
+19470 = taiga
 19471 = desert
 19472 = mountains
 19473 = drylands
@@ -8555,7 +8555,7 @@
 19494 = jungle
 19495 = steppe
 19496 = forest
-19497 = plains
+19497 = drylands
 19498 = steppe
 19499 = plains
 19500 = forest
@@ -8580,7 +8580,7 @@
 19519 = forest
 19520 = hills
 19521 = steppe
-19522 = plains
+19522 = drylands
 19523 = jungle
 19524 = taiga
 19525 = steppe
@@ -8604,7 +8604,7 @@
 19543 = jungle
 19544 = steppe
 19545 = plains
-19546 = plains
+19546 = drylands
 19547 = forest
 19548 = forest
 19549 = steppe
@@ -8659,7 +8659,7 @@
 19598 = forest
 19599 = steppe
 19600 = plains
-19601 = forest
+19601 = taiga
 19602 = mountains
 19603 = jungle
 19604 = steppe
@@ -8861,9 +8861,9 @@
 19800 = steppe
 19801 = mountains
 19802 = mountains
-19803 = desert
+19803 = steppe
 19804 = forest
-19805 = plains
+19805 = drylands
 19806 = jungle
 19807 = desert
 19808 = steppe
@@ -8873,7 +8873,7 @@
 19812 = drylands
 19813 = steppe
 19814 = drylands
-19815 = plains
+19815 = drylands
 19816 = hills
 19817 = desert_mountains
 19818 = jungle
@@ -8900,7 +8900,7 @@
 19839 = drylands
 19840 = plains
 19841 = plains
-19842 = forest
+19842 = drylands
 19843 = forest
 19844 = jungle
 19845 = mountains
@@ -8937,7 +8937,7 @@
 19876 = forest
 19877 = jungle
 19878 = taiga
-19879 = plains
+19879 = drylands
 19880 = jungle
 19881 = jungle
 19882 = plains
@@ -8962,7 +8962,7 @@
 19901 = desert
 19902 = jungle
 19903 = forest
-19904 = plains
+19904 = drylands
 19905 = forest
 19906 = taiga
 19907 = mountains
@@ -9020,7 +9020,7 @@
 19959 = desert_mountains
 19960 = forest
 19961 = desert
-19962 = plains
+19962 = drylands
 19963 = mountains
 19964 = jungle
 19965 = plains
@@ -9153,7 +9153,7 @@
 20092 = mountains
 20093 = plains
 20094 = taiga
-20095 = plains
+20095 = drylands
 20096 = desert
 20097 = forest
 20098 = forest
@@ -9192,7 +9192,7 @@
 20131 = steppe
 20132 = jungle
 20133 = drylands
-20134 = plains
+20134 = drylands
 20135 = taiga
 20136 = taiga
 20137 = mountains
@@ -9298,7 +9298,7 @@
 20237 = steppe
 20238 = steppe
 20239 = plains
-20240 = plains
+20240 = steppe
 20241 = steppe
 20242 = desert
 20243 = forest
@@ -9316,7 +9316,7 @@
 20255 = mountains
 20256 = forest
 20257 = plains
-20258 = forest
+20258 = drylands
 20259 = wetlands
 20260 = steppe
 20261 = desert_mountains
@@ -9394,14 +9394,14 @@
 20333 = drylands
 20334 = forest
 20335 = forest
-20336 = plains
+20336 = drylands
 20337 = plains
 20338 = forest
 20339 = mountains
 20340 = steppe
 20341 = taiga
 20342 = hills
-20343 = plains
+20343 = drylands
 20344 = steppe
 20345 = forest
 20346 = steppe
@@ -9457,7 +9457,7 @@
 20396 = steppe
 20397 = forest
 20398 = jungle
-20399 = plains
+20399 = drylands
 20400 = drylands
 20401 = mountains
 20402 = steppe
@@ -9479,9 +9479,9 @@
 20418 = drylands
 20419 = steppe
 20420 = steppe
-20421 = plains
+20421 = drylands
 20422 = steppe
-20423 = plains
+20423 = drylands
 20424 = desert
 20425 = drylands
 20426 = jungle
@@ -9535,7 +9535,7 @@
 20474 = steppe
 20475 = hills
 20476 = hills
-20477 = plains
+20477 = drylands
 20478 = steppe
 20479 = hills
 20480 = jungle
@@ -9581,7 +9581,7 @@
 20520 = jungle
 20521 = mountains
 20522 = steppe
-20523 = plains
+20523 = drylands
 20524 = jungle
 20525 = desert
 20526 = plains
@@ -9699,7 +9699,7 @@
 20638 = forest
 20639 = mountains
 20640 = forest
-20641 = forest
+20641 = taiga
 20642 = taiga
 20643 = steppe
 20644 = jungle
@@ -9789,14 +9789,14 @@
 20728 = mountains
 20729 = taiga
 20730 = forest
-20731 = plains
+20731 = drylands
 20732 = frozen_flats
 20733 = steppe
 20734 = drylands
 20735 = steppe
 20736 = taiga
 20737 = jungle
-20738 = forest
+20738 = drylands
 20739 = desert
 20740 = desert
 20741 = drylands
@@ -9829,7 +9829,7 @@
 20768 = taiga
 20769 = steppe
 20770 = desert
-20771 = forest
+20771 = taiga
 20772 = steppe
 20773 = steppe
 20774 = steppe
@@ -9898,7 +9898,7 @@
 20837 = forest
 20838 = hills
 20839 = hills
-20840 = plains
+20840 = drylands
 20841 = forest
 20842 = forest
 20843 = mountains
@@ -9928,7 +9928,7 @@
 20867 = steppe
 20868 = jungle
 20869 = taiga
-20870 = plains
+20870 = drylands
 20871 = drylands
 20872 = drylands
 20873 = plains
@@ -9940,7 +9940,7 @@
 20879 = steppe
 20880 = desert
 20881 = mountains
-20882 = plains
+20882 = drylands
 20883 = jungle
 20884 = forest
 20885 = taiga
@@ -9956,14 +9956,14 @@
 20895 = desert
 20896 = mountains
 20897 = jungle
-20898 = plains
+20898 = drylands
 20899 = hills
 20900 = steppe
-20901 = plains
+20901 = drylands
 20902 = drylands
 20903 = forest
 20904 = steppe
-20905 = desert
+20905 = steppe
 20906 = drylands
 20907 = steppe
 20908 = taiga
@@ -9986,7 +9986,7 @@
 20925 = forest
 20926 = hills
 20927 = steppe
-20928 = forest
+20928 = taiga
 20929 = jungle
 20930 = jungle
 20931 = frozen_flats
@@ -10022,7 +10022,7 @@
 20961 = forest
 20962 = desert_mountains
 20963 = desert_mountains
-20964 = plains
+20964 = drylands
 20965 = steppe
 20966 = hills
 20967 = desert
@@ -10109,7 +10109,7 @@
 21048 = steppe
 21049 = steppe
 21050 = plains
-21051 = plains
+21051 = drylands
 21052 = forest
 21053 = taiga
 21054 = hills
@@ -10129,7 +10129,7 @@
 21068 = jungle
 21069 = jungle
 21070 = taiga
-21071 = plains
+21071 = drylands
 21072 = steppe
 21073 = taiga
 21074 = steppe
@@ -10160,7 +10160,7 @@
 21099 = plains
 21100 = forest
 21101 = forest
-21102 = desert
+21102 = steppe
 21103 = hills
 21104 = jungle
 21105 = jungle
@@ -10173,7 +10173,7 @@
 21112 = desert
 21113 = desert
 21114 = mountains
-21115 = plains
+21115 = drylands
 21116 = steppe
 21117 = steppe
 21118 = hills
@@ -10196,7 +10196,7 @@
 21135 = plains
 21136 = hills
 21137 = hills
-21138 = plains
+21138 = drylands
 21139 = steppe
 21140 = desert_mountains
 21141 = jungle
@@ -10257,7 +10257,7 @@
 21196 = hills
 21197 = taiga
 21198 = desert
-21199 = plains
+21199 = drylands
 21200 = steppe
 21201 = hills
 21202 = mountains
@@ -10274,11 +10274,11 @@
 21213 = steppe
 21214 = drylands
 21215 = plains
-21216 = plains
+21216 = drylands
 21217 = plains
 21218 = forest
 21219 = forest
-21220 = plains
+21220 = drylands
 21221 = jungle
 21222 = taiga
 21223 = steppe
@@ -10308,11 +10308,11 @@
 21247 = forest
 21248 = plains
 21249 = taiga
-21250 = forest
+21250 = taiga
 21251 = forest
 21252 = steppe
 21253 = jungle
-21254 = plains
+21254 = drylands
 21255 = forest
 21256 = steppe
 21257 = taiga
@@ -10467,7 +10467,7 @@
 21406 = hills
 21407 = hills
 21408 = plains
-21409 = plains
+21409 = drylands
 21410 = forest
 21411 = taiga
 21412 = desert_mountains
@@ -10516,7 +10516,7 @@
 21455 = desert_mountains
 21456 = steppe
 21457 = steppe
-21458 = plains
+21458 = drylands
 21459 = forest
 21460 = forest
 21461 = jungle
@@ -10531,7 +10531,7 @@
 21470 = forest
 21471 = steppe
 21472 = steppe
-21473 = plains
+21473 = drylands
 21474 = jungle
 21475 = hills
 21476 = steppe
@@ -10544,7 +10544,7 @@
 21483 = wetlands
 21484 = taiga
 21485 = hills
-21486 = forest
+21486 = taiga
 21487 = plains
 21488 = plains
 21489 = drylands
@@ -10637,7 +10637,7 @@
 21576 = mountains
 21577 = jungle
 21578 = forest
-21579 = plains
+21579 = drylands
 21580 = mountains
 21581 = forest
 21582 = forest
@@ -10699,7 +10699,7 @@
 21638 = steppe
 21639 = steppe
 21640 = mountains
-21641 = plains
+21641 = steppe
 21642 = forest
 21643 = forest
 21644 = desert
@@ -10747,7 +10747,7 @@
 21686 = steppe
 21687 = forest
 21688 = forest
-21689 = forest
+21689 = taiga
 21690 = steppe
 21691 = steppe
 21692 = mountains
@@ -10848,13 +10848,13 @@
 21787 = desert
 21788 = hills
 21789 = steppe
-21790 = forest
+21790 = taiga
 21791 = hills
 21792 = desert
 21793 = drylands
 21794 = steppe
 21795 = taiga
-21796 = plains
+21796 = drylands
 21797 = forest
 21798 = forest
 21799 = steppe
@@ -10956,7 +10956,7 @@
 21895 = plains
 21896 = steppe
 21897 = steppe
-21898 = plains
+21898 = drylands
 21899 = hills
 21900 = forest
 21901 = jungle
@@ -10981,7 +10981,7 @@
 21920 = desert
 21921 = steppe
 21922 = mountains
-21923 = forest
+21923 = drylands
 21924 = steppe
 21925 = steppe
 21926 = hills
@@ -11007,7 +11007,7 @@
 21946 = plains
 21947 = desert
 21948 = forest
-21949 = plains
+21949 = drylands
 21950 = plains
 21951 = taiga
 21952 = forest
@@ -11277,7 +11277,7 @@
 22216 = forest
 22217 = forest
 22218 = jungle
-22219 = forest
+22219 = drylands
 22220 = forest
 22221 = hills
 22222 = forest
@@ -11327,13 +11327,13 @@
 22266 = forest
 22267 = steppe
 22268 = mountains
-22269 = forest
-22270 = forest
+22269 = taiga
+22270 = taiga
 22271 = wetlands
 22272 = jungle
 22273 = forest
 22274 = jungle
-22275 = forest
+22275 = drylands
 22276 = steppe
 22277 = steppe
 22278 = drylands
@@ -11349,7 +11349,7 @@
 22288 = forest
 22289 = forest
 22290 = jungle
-22291 = desert
+22291 = forest
 22292 = forest
 22293 = steppe
 22294 = drylands
@@ -11454,13 +11454,13 @@
 22393 = forest
 22394 = desert_mountains
 22395 = taiga
-22396 = plains
+22396 = drylands
 22397 = drylands
 22398 = forest
 22399 = desert
 22400 = drylands
 22401 = steppe
-22402 = plains
+22402 = drylands
 22403 = mountains
 22404 = forest
 22405 = mountains
@@ -11471,7 +11471,7 @@
 22410 = drylands
 22411 = taiga
 22412 = steppe
-22413 = plains
+22413 = drylands
 22414 = steppe
 22415 = jungle
 22416 = forest
@@ -11681,7 +11681,7 @@
 22620 = taiga
 22621 = forest
 22622 = forest
-22623 = plains
+22623 = drylands
 22624 = jungle
 22625 = plains
 22626 = forest
@@ -11693,7 +11693,7 @@
 22632 = steppe
 22633 = plains
 22634 = drylands
-22635 = forest
+22635 = taiga
 22636 = steppe
 22637 = forest
 22638 = desert_mountains
@@ -12015,7 +12015,7 @@
 22954 = desert
 22955 = steppe
 22956 = jungle
-22957 = plains
+22957 = drylands
 22958 = mountains
 22959 = desert
 22960 = drylands
@@ -12089,7 +12089,7 @@
 23028 = plains
 23029 = mountains
 23030 = forest
-23031 = desert_mountains
+23031 = mountains
 23032 = desert_mountains
 23033 = plains
 23034 = plains
@@ -12152,11 +12152,11 @@
 23091 = mountains
 23092 = drylands
 23093 = plains
-23094 = forest
+23094 = drylands
 23095 = jungle
 23096 = mountains
 23097 = drylands
-23098 = plains
+23098 = drylands
 23099 = drylands
 23100 = steppe
 23101 = forest
@@ -12195,7 +12195,7 @@
 23134 = forest
 23135 = steppe
 23136 = desert
-23137 = desert
+23137 = forest
 23138 = plains
 23139 = forest
 23140 = plains
@@ -12234,7 +12234,7 @@
 23173 = jungle
 23174 = steppe
 23175 = steppe
-23176 = plains
+23176 = drylands
 23177 = plains
 23178 = drylands
 23179 = steppe
@@ -12285,7 +12285,7 @@
 23224 = taiga
 23225 = steppe
 23226 = steppe
-23227 = plains
+23227 = drylands
 23228 = steppe
 23229 = forest
 23230 = hills
@@ -12337,7 +12337,7 @@
 23276 = plains
 23277 = steppe
 23278 = jungle
-23279 = plains
+23279 = drylands
 23280 = steppe
 23281 = desert
 23282 = steppe
@@ -12384,7 +12384,7 @@
 23323 = taiga
 23324 = drylands
 23325 = steppe
-23326 = forest
+23326 = drylands
 23327 = hills
 23328 = plains
 23329 = jungle
@@ -12394,7 +12394,7 @@
 23333 = steppe
 23334 = hills
 23335 = frozen_flats
-23336 = plains
+23336 = forest
 23337 = desert
 23338 = forest
 23339 = hills
@@ -12431,7 +12431,7 @@
 23370 = taiga
 23371 = forest
 23372 = forest
-23373 = plains
+23373 = drylands
 23374 = hills
 23375 = forest
 23376 = steppe
@@ -12519,7 +12519,7 @@
 23458 = steppe
 23459 = steppe
 23460 = forest
-23461 = plains
+23461 = drylands
 23462 = plains
 23463 = desert_mountains
 23464 = desert
@@ -12553,7 +12553,7 @@
 23492 = wetlands
 23493 = drylands
 23494 = hills
-23495 = plains
+23495 = drylands
 23496 = steppe
 23497 = hills
 23498 = drylands
@@ -12831,7 +12831,7 @@
 23770 = plains
 23771 = steppe
 23772 = steppe
-23773 = plains
+23773 = drylands
 23774 = mountains
 23775 = forest
 23776 = taiga
@@ -12892,7 +12892,7 @@
 23831 = jungle
 23832 = taiga
 23833 = taiga
-23834 = plains
+23834 = drylands
 23835 = steppe
 23836 = steppe
 23837 = mountains
@@ -13002,7 +13002,7 @@
 23941 = jungle
 23942 = plains
 23943 = desert
-23944 = forest
+23944 = taiga
 23945 = taiga
 23946 = desert_mountains
 23947 = forest
@@ -13013,7 +13013,7 @@
 23952 = steppe
 23953 = forest
 23954 = forest
-23955 = forest
+23955 = drylands
 23956 = steppe
 23957 = forest
 23958 = forest
@@ -13098,7 +13098,7 @@
 24037 = desert_mountains
 24038 = steppe
 24039 = mountains
-24040 = plains
+24040 = drylands
 24041 = steppe
 24042 = drylands
 24043 = desert_mountains
@@ -13172,7 +13172,7 @@
 24111 = forest
 24112 = plains
 24113 = forest
-24114 = plains
+24114 = drylands
 24115 = steppe
 24116 = jungle
 24117 = steppe
@@ -13322,7 +13322,7 @@
 24261 = forest
 24262 = steppe
 24263 = jungle
-24264 = plains
+24264 = drylands
 24265 = jungle
 24266 = steppe
 24267 = hills
@@ -13334,7 +13334,7 @@
 24273 = forest
 24274 = jungle
 24275 = plains
-24276 = forest
+24276 = taiga
 24277 = forest
 24278 = wetlands
 24279 = mountains
@@ -13439,7 +13439,7 @@
 24378 = forest
 24379 = plains
 24380 = steppe
-24381 = plains
+24381 = drylands
 24382 = steppe
 24383 = jungle
 24384 = steppe
@@ -13468,7 +13468,7 @@
 24407 = drylands
 24408 = plains
 24409 = steppe
-24410 = forest
+24410 = drylands
 24411 = steppe
 24412 = plains
 24413 = hills
@@ -13496,7 +13496,7 @@
 24435 = forest
 24436 = jungle
 24437 = steppe
-24438 = forest
+24438 = drylands
 24439 = steppe
 24440 = mountains
 24441 = steppe
@@ -13516,7 +13516,7 @@
 24455 = drylands
 24456 = steppe
 24457 = mountains
-24458 = plains
+24458 = drylands
 24459 = forest
 24460 = drylands
 24461 = hills
@@ -13530,7 +13530,7 @@
 24469 = steppe
 24470 = drylands
 24471 = steppe
-24472 = plains
+24472 = drylands
 24473 = forest
 24474 = steppe
 24475 = desert
@@ -13561,7 +13561,7 @@
 24500 = forest
 24501 = taiga
 24502 = hills
-24503 = plains
+24503 = steppe
 24504 = taiga
 24505 = jungle
 24506 = steppe
@@ -13675,7 +13675,7 @@
 24614 = hills
 24615 = desert
 24616 = desert
-24617 = forest
+24617 = drylands
 24618 = forest
 24619 = steppe
 24620 = mountains
@@ -13696,7 +13696,7 @@
 24635 = forest
 24636 = jungle
 24637 = plains
-24638 = forest
+24638 = taiga
 24639 = drylands
 24640 = mountains
 24641 = hills
@@ -13750,7 +13750,7 @@
 24689 = desert
 24690 = steppe
 24691 = steppe
-24692 = forest
+24692 = drylands
 24693 = steppe
 24694 = mountains
 24695 = taiga
@@ -13831,7 +13831,7 @@
 24770 = steppe
 24771 = taiga
 24772 = forest
-24773 = plains
+24773 = drylands
 24774 = jungle
 24775 = taiga
 24776 = mountains
@@ -13861,7 +13861,7 @@
 24800 = steppe
 24801 = forest
 24802 = forest
-24803 = forest
+24803 = drylands
 24804 = forest
 24805 = steppe
 24806 = steppe
@@ -13880,7 +13880,7 @@
 24819 = steppe
 24820 = jungle
 24821 = plains
-24822 = desert
+24822 = steppe
 24823 = taiga
 24824 = jungle
 24825 = jungle
@@ -13897,7 +13897,7 @@
 24836 = steppe
 24837 = steppe
 24838 = desert
-24839 = forest
+24839 = taiga
 24840 = steppe
 24841 = hills
 24842 = plains
@@ -14001,7 +14001,7 @@
 24940 = steppe
 24941 = desert
 24942 = forest
-24943 = forest
+24943 = drylands
 24944 = taiga
 24945 = steppe
 24946 = steppe
@@ -14023,7 +14023,7 @@
 24962 = jungle
 24963 = mountains
 24964 = steppe
-24965 = plains
+24965 = drylands
 24966 = plains
 24967 = mountains
 24968 = drylands
@@ -14048,7 +14048,7 @@
 24987 = taiga
 24988 = taiga
 24989 = jungle
-24990 = forest
+24990 = taiga
 24991 = forest
 24992 = forest
 24993 = steppe
@@ -14057,7 +14057,7 @@
 24996 = taiga
 24997 = mountains
 24998 = steppe
-24999 = plains
+24999 = drylands
 25000 = jungle
 25001 = steppe
 25002 = jungle
@@ -14184,7 +14184,7 @@
 25123 = steppe
 25124 = mountains
 25125 = plains
-25126 = plains
+25126 = drylands
 25127 = steppe
 25128 = steppe
 25129 = taiga
@@ -14227,7 +14227,7 @@
 25166 = steppe
 25167 = forest
 25168 = steppe
-25169 = forest
+25169 = drylands
 25170 = steppe
 25171 = forest
 25172 = desert
@@ -14241,7 +14241,7 @@
 25180 = jungle
 25181 = jungle
 25182 = steppe
-25183 = plains
+25183 = drylands
 25184 = hills
 25185 = steppe
 25186 = drylands
@@ -14391,7 +14391,7 @@
 25330 = desert
 25331 = taiga
 25332 = jungle
-25333 = forest
+25333 = drylands
 25334 = drylands
 25335 = jungle
 25336 = taiga
@@ -14402,7 +14402,7 @@
 25341 = jungle
 25342 = steppe
 25343 = mountains
-25344 = forest
+25344 = drylands
 25345 = forest
 25346 = plains
 25347 = steppe
@@ -14432,7 +14432,7 @@
 25371 = desert_mountains
 25372 = desert
 25373 = steppe
-25374 = forest
+25374 = drylands
 25375 = forest
 25376 = steppe
 25377 = mountains
@@ -14468,7 +14468,7 @@
 25407 = steppe
 25408 = steppe
 25409 = plains
-25410 = plains
+25410 = drylands
 25411 = mountains
 25412 = mountains
 25413 = steppe
@@ -14503,7 +14503,7 @@
 25442 = drylands
 25443 = steppe
 25444 = forest
-25445 = forest
+25445 = drylands
 25446 = forest
 25447 = steppe
 25448 = steppe
@@ -14556,7 +14556,7 @@
 25495 = steppe
 25496 = forest
 25497 = mountains
-25498 = plains
+25498 = drylands
 25499 = drylands
 25500 = steppe
 25501 = desert
@@ -14564,7 +14564,7 @@
 25503 = steppe
 25504 = plains
 25505 = steppe
-25506 = plains
+25506 = drylands
 25507 = jungle
 25508 = forest
 25509 = steppe
@@ -14613,7 +14613,7 @@
 25552 = forest
 25553 = taiga
 25554 = steppe
-25555 = forest
+25555 = drylands
 25556 = forest
 25557 = steppe
 25558 = forest
@@ -14623,7 +14623,7 @@
 25562 = hills
 25563 = steppe
 25564 = steppe
-25565 = plains
+25565 = drylands
 25566 = desert
 25567 = hills
 25568 = jungle
@@ -14631,7 +14631,7 @@
 25570 = steppe
 25571 = forest
 25572 = drylands
-25573 = forest
+25573 = drylands
 25574 = forest
 25575 = jungle
 25576 = jungle
@@ -14646,7 +14646,7 @@
 25585 = desert
 25586 = desert
 25587 = forest
-25588 = forest
+25588 = taiga
 25589 = frozen_flats
 25590 = desert
 25591 = taiga
@@ -14766,7 +14766,7 @@
 25705 = steppe
 25706 = steppe
 25707 = forest
-25708 = plains
+25708 = drylands
 25709 = steppe
 25710 = desert
 25711 = mountains
@@ -14826,7 +14826,7 @@
 25765 = drylands
 25766 = steppe
 25767 = jungle
-25768 = forest
+25768 = taiga
 25769 = plains
 25770 = jungle
 25771 = mountains
@@ -14860,7 +14860,7 @@
 25799 = taiga
 25800 = steppe
 25801 = mountains
-25802 = forest
+25802 = drylands
 25803 = steppe
 25804 = hills
 25805 = plains
@@ -14879,7 +14879,7 @@
 25818 = steppe
 25819 = jungle
 25820 = forest
-25821 = desert
+25821 = steppe
 25822 = mountains
 25823 = frozen_flats
 25824 = jungle
@@ -14909,17 +14909,17 @@
 25848 = desert_mountains
 25849 = plains
 25850 = taiga
-25851 = plains
+25851 = drylands
 25852 = steppe
 25853 = mountains
 25854 = desert
 25855 = steppe
 25856 = desert
-25857 = plains
+25857 = drylands
 25858 = plains
 25859 = forest
 25860 = jungle
-25861 = forest
+25861 = drylands
 25862 = mountains
 25863 = plains
 25864 = plains

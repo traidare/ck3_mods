@@ -29,7 +29,7 @@ from ck3_source_manifest import (
 TARGET_FIRST = 10946
 TARGET_LAST = 26420
 TARGET_COUNT = TARGET_LAST - TARGET_FIRST + 1
-EXPECTED_TITLE_COUNT = 12834
+EXPECTED_TITLE_COUNT = 13270
 EXPECTED_MASK_COUNT = 188
 EXPECTED_SIZE = (9216, 6144)
 REFERENCE_ANALYSIS_SIZE = (2304, 1536)
@@ -1095,23 +1095,40 @@ def append_provinces_to_block(block: str, province_ids: Iterable[int]) -> str:
 def repair_inherited_graphical_block(style: str, block: str) -> str:
     if style != "graphical_siberia":
         return block
-    # NOW's graphical_siberia references its world_westeros_skagos helper.
-    # That helper is not visible after the later geographical-region
-    # replacements in this playset, so repeating the reference in our complete
-    # block is Tiger-fatal. Preserve the exact intended membership directly.
+    # Older NOW sources reference world_westeros_skagos. That helper is not
+    # visible after the later geographical-region replacements in this
+    # playset, so repeating the reference in our complete block is Tiger-fatal.
+    # Newer EEP sources already carry d_skagos directly; accept that upstream
+    # repair and extend the same duchy set with the two required Essos edges.
     needle = "\t\tworld_westeros_skagos\n"
-    if block.count(needle) != 1:
-        raise AssertionError(
-            "NOW graphical_siberia Skagos reference changed; re-audit the repair"
+    if block.count(needle) == 1:
+        block = block.replace(needle, "")
+        closing = block.rfind("}")
+        if closing < 0:
+            raise ValueError("graphical_siberia has no closing brace")
+        addition = (
+            "\tduchies = {\n\t\td_skagos\n\t\td_deepdown\n\t\td_driftwood_hall\n\t}\n"
         )
-    block = block.replace(needle, "")
-    closing = block.rfind("}")
-    if closing < 0:
-        raise ValueError("graphical_siberia has no closing brace")
-    addition = (
-        "\tduchies = {\n\t\td_skagos\n\t\td_deepdown\n\t\td_driftwood_hall\n\t}\n"
-    )
-    return block[:closing] + addition + block[closing:]
+        return block[:closing] + addition + block[closing:]
+
+    if block.count(needle) != 0:
+        raise AssertionError(
+            "graphical_siberia Skagos reference changed; re-audit the repair"
+        )
+    duchies = re.search(r"(?ms)^\tduchies\s*=\s*\{.*?^\t\}", block)
+    if not duchies or block.count("\t\td_skagos\n") != 1:
+        raise AssertionError(
+            "graphical_siberia direct Skagos block changed; re-audit the repair"
+        )
+    body = duchies.group(0)
+    for duchy in ("d_deepdown", "d_driftwood_hall"):
+        if body.count(f"\t\t{duchy}\n") > 1:
+            raise AssertionError(
+                f"graphical_siberia contains duplicate {duchy}; re-audit the repair"
+            )
+        if body.count(f"\t\t{duchy}\n") == 0:
+            body = body[:-2] + f"\t\t{duchy}\n" + "\t}"
+    return block[: duchies.start()] + body + block[duchies.end() :]
 
 
 def connected_components(

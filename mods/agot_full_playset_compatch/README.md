@@ -81,7 +81,7 @@ AGOT's `can_raid_trigger` for every valid character.
    Dragon
 4. `AGOT NOW - CK3 1.19 Rebase`, immediately after NOW
 5. `AGOT 0.4.40 - Much Faster Activities Rebase`, immediately after MFA
-6. `Grand Remembrance 1.8.1 - CK3 1.19 Runtime Fix`, immediately after the Grand
+6. `Grand Remembrance 1.8.2 - CK3 1.19 Runtime Fix`, immediately after the Grand
    Remembrance AGOT compatibility submod
 7. `AGOT MPD 0.3.0 - CK3 1.19 Runtime Rebase`, immediately after AGOT MPD and
    before the local MPD + Dragon Wives compatch

@@ -7,7 +7,7 @@
     "target_count": 15475,
     "target_first": 10946,
     "target_last": 26420,
-    "title_count": 12834
+    "title_count": 13270
   },
   "files": {
     "2962333032/common/province_terrain/00_province_terrain.txt": {
@@ -123,12 +123,16 @@
       "size": 12244
     },
     "3768149491/common/landed_titles/01_landed_titles.txt": {
-      "sha256": "1619b64d36c2eb0954d0bd661aefaff947695019b012de8255279055b68ae68f",
-      "size": 1284138
+      "sha256": "5299afc96dc321a3bd2bdfb8ad9aa9375c63b4a6045bf469967b8d92176e77a3",
+      "size": 1354341
     },
     "3768149491/common/province_terrain/ee_province_terrain.txt": {
       "sha256": "1fc0d95d3d833df40a54137c7d05bfc89fe91bceaa9a83e267a3ca1872f133a3",
       "size": 220450
+    },
+    "3768149491/map_data/geographical_regions/00_agot_geographical_region.txt": {
+      "sha256": "a13bdb595de8c3b56c56990686cd7840f065eb63ab9dd8cbbb7e0595bbfdea1e",
+      "size": 144784
     },
     "mods/agot_now_lov_ee_map_compatch/map_data/definition.csv": {
       "sha256": "8d6f604d7de28ef9bd61a588aba7520d10f81f91e49b12a954e4998a1fe697af",
@@ -901,7 +905,7 @@
   "versions": {
     "AGOT": "0.4.40",
     "EE": "1.0",
-    "EEP": "1.0.9",
+    "EEP": "2.1.0",
     "LOV": "1.5.2.13",
     "NOW": "1.2.4.1",
     "RC": "0.4.39-rebased-rc71-tiger-hard-error-repair"

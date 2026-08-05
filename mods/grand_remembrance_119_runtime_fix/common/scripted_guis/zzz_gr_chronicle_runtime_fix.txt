@@ -1,4 +1,4 @@
-﻿# Grand Remembrance 1.8.1 / CK3 1.19 runtime repair.
+﻿# Grand Remembrance 1.8.2 / CK3 1.19 runtime repair.
 # The close action also clears the scope-free global visibility flag.
 
 gr_chronicle_close = {

@@ -1,4 +1,4 @@
-version="1.1.1"
+version="1.1.2"
 tags={
 	"Fixes"
 	"Gameplay"
@@ -20,7 +20,7 @@ dependencies={
 	"AGOT - Much Faster Activities"
 	"AGOT 0.4.40 - Much Faster Activities Rebase"
 	"Legacy Of The Dragon - Linux Texture Fix"
-	"Grand Remembrance 1.8.1 - CK3 1.19 Runtime Fix"
+	"Grand Remembrance 1.8.2 - CK3 1.19 Runtime Fix"
 	"AGOT MPD 0.3.0 - CK3 1.19 Runtime Rebase"
 	"VIET 1.3.0 - AGOT CK3 1.19 Runtime Rebase"
 	"Legacy of Valyria"

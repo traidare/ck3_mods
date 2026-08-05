@@ -1,6 +1,6 @@
-# Grand Remembrance 1.8.1 - CK3 1.19 Runtime Fix
+# Grand Remembrance 1.8.2 - CK3 1.19 Runtime Fix
 
-Narrow runtime repair for **Grand Remembrance** (`3678529052`, version `1.8.1`)
+Narrow runtime repair for **Grand Remembrance** (`3678529052`, version `1.8.2`)
 with its AGOT compatibility submod (`3683507542`).
 
 Load this mod immediately after the Grand Remembrance AGOT compatibility submod.

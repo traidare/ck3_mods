@@ -67,4 +67,4 @@ reviewing the source diff and the generator's structural assertions.
 Re-run the audit after every update to Workshop mods `2962333032`, `3664900993`,
 `3403938445`, `3719888822`, `3682802751`, or `3768149491`, or after regenerating
 `agot_now_lov_ee_map_compatch`. The current reviewed baselines are NOW 1.2.4.1,
-Essos Expanded 1.0.9, and its TempLoV compatch 1.0.9.
+Essos Expanded 1.0, and its TempLoV compatch 2.1.0.

@@ -176,18 +176,6 @@
       "sha256": "06cdbc9f8f9db021967dbd8aa0e51340fb95ec60bc1a2a76c33449d523582713",
       "size": 499892
     },
-    "3682802751/gfx/map/map_object_data/activities.txt": {
-      "sha256": "482cc1eba3c7861f0ed53f524ef8992f52be8b09eec7e075b7f917cfff51075c",
-      "size": 3685166
-    },
-    "3682802751/gfx/map/map_object_data/building_locators.txt": {
-      "sha256": "955a7c5087d48c794cbacc485ee0b2b707210efc649c39ccd5d3b5b85aa25291",
-      "size": 3686250
-    },
-    "3682802751/gfx/map/map_object_data/combat_locators.txt": {
-      "sha256": "a06175c15e062bfc8fb650b1540af28669beecad8c809e238be874132a08e9fa",
-      "size": 3940614
-    },
     "3682802751/gfx/map/map_object_data/generated/cactus_cholla_01_generator_1.txt": {
       "sha256": "80c51d9c02d655ee57fa612f0377cfa79b46a9ab5081112e6c03d17eebd441fb",
       "size": 315688
@@ -232,21 +220,33 @@
       "sha256": "4c6adfe004687a1565a168314478455a88abf3e76db8db94edaaa96f2faa7175",
       "size": 10148
     },
-    "3682802751/gfx/map/map_object_data/player_stack_locators.txt": {
-      "sha256": "83a3e59d0736a22cc7a0c46fd00585fa71bba69141a7c3b82b86fafc5fc748e6",
-      "size": 3942070
-    },
-    "3682802751/gfx/map/map_object_data/siege_locators.txt": {
-      "sha256": "6281d38e460e3cd9473797518c6e80a7857306349832752d7e85a246d7b8d85f",
-      "size": 3654581
-    },
-    "3682802751/gfx/map/map_object_data/special_building_locators.txt": {
-      "sha256": "7624312b07eb120a37713ba423a2247ff5225896ce876640f4d49cdd68187444",
-      "size": 3692095
-    },
     "3682802751/map_data/heightmap.png": {
       "sha256": "e1ff605b7b0e2b1f80a2d9362bba1f6e157549a6f214961b469b85d06aa79f56",
       "size": 24008512
+    },
+    "3768149491/gfx/map/map_object_data/activities.txt": {
+      "sha256": "941e5664d05185fe0ffd622f6c24950922b0cb596bff9e24091cfbbf9b8a0890",
+      "size": 3756670
+    },
+    "3768149491/gfx/map/map_object_data/building_locators.txt": {
+      "sha256": "94b5a51974c50fc48f44ba2fd22576cd79da6e2615e011d27ff334b9a33aab87",
+      "size": 3757754
+    },
+    "3768149491/gfx/map/map_object_data/combat_locators.txt": {
+      "sha256": "4fe207a3eec82de0267f5dee5b37f911bb823b1e0bd3454100786fe5b61c6235",
+      "size": 4012118
+    },
+    "3768149491/gfx/map/map_object_data/player_stack_locators.txt": {
+      "sha256": "2c11452626d2f92a97abfc6dc2044fef27996248dd1179894f18c81063cb3c3d",
+      "size": 4013574
+    },
+    "3768149491/gfx/map/map_object_data/siege_locators.txt": {
+      "sha256": "1a6c1309d0dc2cc4ef8f16266fea9d2e62e7f06065502dc3eb51ce3b73a76b8c",
+      "size": 3726085
+    },
+    "3768149491/gfx/map/map_object_data/special_building_locators.txt": {
+      "sha256": "3db5b092d77904f2d54c320987f616de9244ead02917e5044fee1383854afddf",
+      "size": 3763599
     },
     "3768149491/map_data/definition.csv": {
       "sha256": "091aa0474e81f753212000eec8f2836fc205343ec97064707b4ac4eb51e93c0d",
@@ -257,7 +257,7 @@
   "versions": {
     "AGOT": "0.4.40",
     "EE": "1.0",
-    "EEP": "1.0.9",
+    "EEP": "2.1.0",
     "LOV": "1.5.2.13",
     "NOW": "1.2.4.1",
     "RC": "0.4.39-rebased-rc71-tiger-hard-error-repair"

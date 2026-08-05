@@ -274,8 +274,8 @@
       "size": 324
     },
     "3768149491/common/landed_titles/01_landed_titles.txt": {
-      "sha256": "1619b64d36c2eb0954d0bd661aefaff947695019b012de8255279055b68ae68f",
-      "size": 1284138
+      "sha256": "5299afc96dc321a3bd2bdfb8ad9aa9375c63b4a6045bf469967b8d92176e77a3",
+      "size": 1354341
     },
     "3773608127/common/scripted_effects/replace/00_agot_character_data_effects.txt": {
       "sha256": "497779d6fce9cb1f199655523b71a591fd0976ce95e407980ddedf32cb425678",
@@ -315,7 +315,7 @@
     "AGOT": "0.4.40",
     "BRIDGE": "1.0.4",
     "EE": "1.0",
-    "EEP": "1.0.9",
+    "EEP": "2.1.0",
     "LOV": "1.5.2.13",
     "RC": "0.4.39-rebased-rc71-tiger-hard-error-repair"
   },
