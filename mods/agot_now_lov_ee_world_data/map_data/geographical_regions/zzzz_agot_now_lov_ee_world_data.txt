@@ -320,6 +320,9 @@ graphical_mediterranean = {
 	#color = { 0 0 255 }
 	color = { 255 0 0 }
 	regions = {
+		# EE TempLoV Compatch: restored from Legacy of Valyria, this file overrides
+		# AGOT's and would otherwise drop LoV's additions to this graphical region.
+		world_essos_volantis
 		world_stepstones
 		world_essos_pentos
 		world_essos_lys
@@ -391,6 +394,9 @@ graphical_mena = {
 	graphical = yes
 	color = { 255 255 0 }
 	regions = {
+		# EE TempLoV Compatch: restored from Legacy of Valyria, this file overrides
+		# AGOT's and would otherwise drop LoV's additions to this graphical region.
+		world_essos_rhoyne world_essos_slavers_bay
 		world_westeros_dorne_rhoynish
 	}
 	provinces = {

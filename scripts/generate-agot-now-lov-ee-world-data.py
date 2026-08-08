@@ -1179,6 +1179,11 @@ def target_source_manifest(
         workshop["EE"] / "map_data/default.map",
         workshop["EE"] / "map_data/provinces.png",
         workshop["EE"] / "map_data/heightmap.png",
+        # The TempLoV compatch recolours EE's province map from 2.5.0 onward.
+        # Both halves of that pair are pinned so any future change forces a
+        # re-review of the recolour-preserves-geometry assumption below.
+        workshop["EEP"] / "map_data/definition.csv",
+        workshop["EEP"] / "map_data/provinces.png",
         workshop["EEP"] / "common/landed_titles/01_landed_titles.txt",
         workshop["EE"] / "common/province_terrain/ee_province_terrain.txt",
         workshop["EEP"] / "common/province_terrain/ee_province_terrain.txt",
@@ -1282,10 +1287,26 @@ def main() -> int:
     merged_definitions = parse_definitions(
         root / "mods/agot_now_lov_ee_map_compatch/map_data/definition.csv"
     )
+    # From 2.5.0 the TempLoV compatch recolours EE's target provinces and ships
+    # a matching `provinces.png`, so it—not EE—owns the effective definition
+    # rows that the map compatch merges.  The recolour is a pure remap: every
+    # pixel resolves to the same province ID under each mod's own
+    # definition/provinces pair, which is why the EE pair below still yields the
+    # correct province pixel sets for terrain analysis.
+    eep_definitions = parse_definitions(workshop["EEP"] / "map_data/definition.csv")
     for province_id in range(TARGET_FIRST, TARGET_LAST + 1):
-        if definitions[province_id] != merged_definitions[province_id]:
+        if eep_definitions[province_id] != merged_definitions[province_id]:
             raise AssertionError(
-                f"map compatch changed EE target definition row {province_id}"
+                f"map compatch changed TempLoV target definition row {province_id}"
+            )
+        if (
+            definitions[province_id].packed_rgb
+            == eep_definitions[province_id].packed_rgb
+        ):
+            continue
+        if definitions[province_id].name != eep_definitions[province_id].name:
+            raise AssertionError(
+                f"TempLoV recoloured target row {province_id} beyond its colour"
             )
 
     ee_terrain = parse_scalar_terrain(
@@ -1300,19 +1321,31 @@ def main() -> int:
         for province_id, terrain in ee_terrain.items()
         if terrain == "default" and province_id in expected_ids
     }
-    eep_plains = {
-        province_id
-        for province_id, terrain in eep_terrain.items()
-        if terrain == "plains" and province_id in expected_ids
-    }
     if ee_defaults != expected_ids:
         raise AssertionError(
             f"EE unfinished terrain set changed: {len(ee_defaults)} target defaults"
         )
-    if eep_plains != expected_ids:
+    # TempLoV compatch 2.5.0 replaced its blanket `plains` placeholder with real
+    # authored terrain for the east.  Those authored assignments are the
+    # effective upstream decision and win over this module's lore-map proposal;
+    # provinces the compatch still leaves at `plains` are the remaining
+    # placeholder and keep the generated terrain.
+    eep_authored = {
+        province_id: terrain
+        for province_id, terrain in eep_terrain.items()
+        if province_id in expected_ids and terrain != "plains"
+    }
+    eep_placeholder = {
+        province_id
+        for province_id, terrain in eep_terrain.items()
+        if province_id in expected_ids and terrain == "plains"
+    }
+    if not eep_authored:
         raise AssertionError(
-            f"TempLoV blanket plains set changed: {len(eep_plains)} target plains"
+            "TempLoV compatch no longer authors any non-plains target terrain"
         )
+    if eep_authored.keys() & eep_placeholder:
+        raise AssertionError("TempLoV target terrain is both authored and placeholder")
 
     ee_titles = [
         row
@@ -1708,6 +1741,22 @@ def main() -> int:
             f"{sorted(unknown_decision_ids)[:10]}"
         )
     final_terrain = dict(proposed)
+    # Defer to the TempLoV compatch's authored terrain before applying local
+    # exceptions, but never override this module's water classes: the compatch
+    # lists only land provinces, while `proposed` also carries EE's sea and
+    # coastal-sea assignments from `default.map`.
+    eep_applied = 0
+    for province_id, terrain in eep_authored.items():
+        if final_terrain.get(province_id) in {"sea", "coastal_sea"}:
+            continue
+        if terrain not in valid_terrains:
+            raise AssertionError(
+                f"TempLoV terrain {terrain} for {province_id} is not loaded"
+            )
+        if final_terrain[province_id] != terrain:
+            eep_applied += 1
+        final_terrain[province_id] = terrain
+
     pending: list[int] = []
     for province_id in sorted(expected_ids):
         decision = decisions.get(province_id)
@@ -1751,6 +1800,7 @@ def main() -> int:
                 "empire": title.empire if title else "",
                 "model_terrain": model_proposed[province_id],
                 "proposed_terrain": proposed[province_id],
+                "eep_terrain": eep_terrain.get(province_id, ""),
                 "final_terrain": final_terrain[province_id],
                 "model_confidence": f"{confidence_by_id[province_id]:.6f}",
                 "model_runner_up": runner_up[province_id],
@@ -1915,6 +1965,7 @@ def main() -> int:
             "empire",
             "model_terrain",
             "proposed_terrain",
+            "eep_terrain",
             "final_terrain",
             "model_confidence",
             "model_runner_up",

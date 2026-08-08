@@ -27,14 +27,13 @@ SOURCE_RELATIVES = {
     "SEASON_REGIONS": Path("map_data/geographical_regions/north_sans_neck.txt"),
 }
 OUTPUT_RELATIVES = {
-    "NOW": SOURCE_RELATIVES["NOW"],
     "SEASON_EVENTS": SOURCE_RELATIVES["SEASON_EVENTS"],
     "SEASON_FX": SOURCE_RELATIVES["SEASON_FX"],
     # Geographical-region files merge by named block.  A normal-path final
     # override therefore duplicates every bridge membership at runtime.
     "SEASON_REGIONS": Path("map_data/geographical_regions/replace/north_sans_neck.txt"),
 }
-OBSOLETE_OUTPUTS = (SOURCE_RELATIVES["SEASON_REGIONS"],)
+OBSOLETE_OUTPUTS = (SOURCE_RELATIVES["SEASON_REGIONS"], SOURCE_RELATIVES["NOW"])
 
 
 def parse_args() -> argparse.Namespace:
@@ -324,19 +323,18 @@ def generate_regions(source: str) -> str:
 
 
 def generate_outputs(workshop: dict[str, Path]) -> dict[Path, bytes]:
+    # NOW 1.2.5 corrected the `d_lychester` creation requirement upstream (it
+    # previously required `d_medway`'s capital county), which was this override's
+    # only delta.  Assert the fix is still present instead of shipping a
+    # no-delta whole-file copy of the parent's landed titles.
     now_title = read_text(workshop["NOW"] / SOURCE_RELATIVES["NOW"])
-    title = replace_once(
-        now_title,
-        "has_title = title:d_medway.title_capital_county",
-        "has_title = title:d_lychester.title_capital_county",
-        label="NOW d_lychester creation requirement",
-    )
-    if "title:d_medway.title_capital_county" in title:
-        raise AssertionError("NOW d_medway creation requirement remains")
+    if "title:d_medway.title_capital_county" in now_title:
+        raise AssertionError("NOW d_medway creation requirement returned")
+    if now_title.count("has_title = title:d_lychester.title_capital_county") != 1:
+        raise AssertionError("NOW d_lychester creation requirement changed")
 
     bridge = workshop["SEASONS_BRIDGE"]
     return {
-        OUTPUT_RELATIVES["NOW"]: normalize_output(title).encode("utf-8-sig"),
         OUTPUT_RELATIVES["SEASON_EVENTS"]: normalize_output(
             generate_events(read_text(bridge / SOURCE_RELATIVES["SEASON_EVENTS"]))
         ).encode("utf-8-sig"),

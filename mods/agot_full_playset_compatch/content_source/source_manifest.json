@@ -2,13 +2,13 @@
   "files": {
     "NOW": {
       "path": "3664900993/common/landed_titles/01_agot_landed_titles.txt",
-      "sha256": "f34fff01414e3c47a04d025384fd30516c166842af8022c6458f9c0d8ea35c8d",
-      "size": 805447
+      "sha256": "316dcc7283ae6243a20d0135f1135adda87504ff47be4e6f4bc3a15c32c9ec73",
+      "size": 802106
     },
     "NOW_DESCRIPTOR": {
       "path": "3664900993/descriptor.mod",
-      "sha256": "e5453499e1ee6edbf6cfe7fa9a28190783ad85a7d029f451a5116f5d95c1111d",
-      "size": 201
+      "sha256": "6b781abfe818e6bb230a109cf056e21a336b92c65ed8660a58ac8f50b8f2e822",
+      "size": 157
     },
     "SEASONS_BRIDGE_DESCRIPTOR": {
       "path": "3766038754/descriptor.mod",
@@ -39,7 +39,7 @@
   },
   "schema_version": 1,
   "versions": {
-    "NOW": "1.2.4.1",
+    "NOW": "1.2.5",
     "SEASONS_BRIDGE": "1.0.13"
   },
   "workshop_ids": {

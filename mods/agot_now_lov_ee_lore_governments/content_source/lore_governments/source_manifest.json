@@ -274,12 +274,12 @@
       "size": 324
     },
     "3768149491/common/landed_titles/01_landed_titles.txt": {
-      "sha256": "5299afc96dc321a3bd2bdfb8ad9aa9375c63b4a6045bf469967b8d92176e77a3",
-      "size": 1354341
+      "sha256": "5f84b0903280359718d27fff51a5d551c8984befed61c88d19234ea6ac661c93",
+      "size": 1354343
     },
     "3773608127/common/scripted_effects/replace/00_agot_character_data_effects.txt": {
-      "sha256": "497779d6fce9cb1f199655523b71a591fd0976ce95e407980ddedf32cb425678",
-      "size": 140592
+      "sha256": "b20666f5e69f6287b789d2e006bc1a242d4fc16216ab02d3c7e47147b1d96423",
+      "size": 146761
     },
     "mods/agot_now_lov_ee_lore_governments/content_source/lore_governments/government_lore_rules.csv": {
       "sha256": "782d548776e0609ed7695875b1c644ab18621d77342f305847410e5d2597bcb6",
@@ -313,9 +313,9 @@
   "schema_version": 1,
   "versions": {
     "AGOT": "0.4.40",
-    "BRIDGE": "1.0.4",
+    "BRIDGE": "1.0.5",
     "EE": "1.0",
-    "EEP": "2.1.0",
+    "EEP": "2.5.0",
     "LOV": "1.5.2.13",
     "RC": "0.4.39-rebased-rc71-tiger-hard-error-repair"
   },

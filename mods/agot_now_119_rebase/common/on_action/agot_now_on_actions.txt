@@ -3,7 +3,6 @@ on_game_start = {
 	on_actions = {
 		agot_now_apply_popultation_modifiers_on_action
         agot_now_appoint_court_position_on_action
-        agot_now_apply_command_governments_on_game_start
 	}
 }
 
@@ -19,7 +18,6 @@ agot_now_apply_popultation_modifiers_on_action = {
                 modifier = province_very_dense
             }
         }
-
 		# Dense population
         every_province = {
             limit = {
@@ -29,7 +27,6 @@ agot_now_apply_popultation_modifiers_on_action = {
                 modifier = province_dense
             }
         }
-
         # Slightly dense population
         every_province = {
             limit = {
@@ -48,7 +45,6 @@ agot_now_apply_popultation_modifiers_on_action = {
                 modifier = province_slightly_sparse
             }
         }
-
         # Sparse population
         every_province = {
             limit = {
@@ -58,7 +54,6 @@ agot_now_apply_popultation_modifiers_on_action = {
                 modifier = province_sparse
             }
         }
-
         # Very sparse population
         every_province = {
             limit = {
@@ -68,7 +63,6 @@ agot_now_apply_popultation_modifiers_on_action = {
                 modifier = province_very_sparse
             }
         }
-
         # The Neck
         every_province = {
             limit = {
@@ -96,23 +90,6 @@ agot_now_appoint_court_position_on_action = {
 			}
 		}
     }
-}
-
-agot_now_apply_command_governments_on_game_start = {
-	effect = {
-		if = {
-			limit = { exists = title:b_oldtown.holder }
-			title:b_oldtown.holder = { change_government = command_government }
-		}
-		if = {
-			limit = { exists = title:c_moongates.holder }
-			title:c_moongates.holder = { change_government = command_government }
-		}
-		if = {
-			limit = { exists = title:c_the_bloody_gate.holder }
-			title:c_the_bloody_gate.holder = { change_government = command_government }
-		}
-	}
 }
 
 # ON DEATH
@@ -458,63 +435,9 @@ agot_now_return_the_bloody_gate_to_the_vale = {
 # ON TITLE GAIN
 on_title_gain = {
     on_actions = {
-        agot_now_apply_command_governments_on_action
-        agot_now_blackwater_rush_on_action
         agot_now_on_title_gain_iron_throne_summerhall
         agot_now_on_title_gain_ai_iron_throne_kingslanding
         agot_now_on_title_gain_grey_cloaks
-    }
-}
-
-agot_now_apply_command_governments_on_action = {
-    effect = {
-        if = {
-            limit = {
-                OR = {
-			    primary_title = title:b_oldtown
-                    primary_title = title:c_moongates
-                    primary_title = title:c_the_bloody_gate
-                }
-            }
-            root = {
-                change_government = command_government
-            }
-        }
-    }
-}
-
-agot_now_blackwater_rush_on_action = {
-    effect = {
-        if = {
-            limit = {
-                scope:title = title:h_the_iron_throne
-                root = {
-                    house = house:house_Blackfyre
-                }
-                NOT = { exists = title:k_the_blackwater_rush.holder }
-            }
-            create_title_and_vassal_change = {
-                type = granted
-                save_scope_as = blackwater_change
-                add_claim_on_loss = no
-            }
-            title:k_the_blackwater_rush = {
-                change_title_holder = {
-                    holder = root
-                    change = scope:blackwater_change
-                }
-            }
-            title:c_great_fork = {
-                change_title_holder = {
-                    holder = root
-                    change = scope:blackwater_change
-                }
-            }
-            resolve_title_and_vassal_change = scope:blackwater_change
-            title:k_the_blackwater_rush = {
-                set_de_jure_liege_title = title:e_the_crownlands
-            }
-        }
     }
 }
 

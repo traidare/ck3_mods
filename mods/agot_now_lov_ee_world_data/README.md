@@ -10,9 +10,10 @@ Compatch**.
 
 This module intentionally owns:
 
-- `common/province_terrain/ee_province_terrain.txt`, replacing the TempLoV
-  blanket `plains` assignments for Essos Expanded provinces 10946 through 26420;
-  and
+- `common/province_terrain/ee_province_terrain.txt` for Essos Expanded provinces
+  10946 through 26420, deferring to the TempLoV compatch wherever it authors a
+  real terrain and supplying generated terrain only where it still leaves its
+  `plains` placeholder; and
 - the graphical geographical-region keys emitted in
   `map_data/geographical_regions/zzzz_agot_now_lov_ee_world_data.txt`.
 
@@ -38,7 +39,7 @@ parents, the local map compatch, and the two full-world reference images in
 CK3 map's full-world projection. The generator resamples them to a common
 analysis grid and aggregates their biome evidence by exact province pixels.
 
-Final terrain combines:
+The generated terrain combines:
 
 - the empire-level macro-biomes in `terrain_lore_regions.csv`;
 - forest, jungle, arid, snow, and mountain evidence from
@@ -66,5 +67,5 @@ reviewing the source diff and the generator's structural assertions.
 
 Re-run the audit after every update to Workshop mods `2962333032`, `3664900993`,
 `3403938445`, `3719888822`, `3682802751`, or `3768149491`, or after regenerating
-`agot_now_lov_ee_map_compatch`. The current reviewed baselines are NOW 1.2.4.1,
-Essos Expanded 1.0, and its TempLoV compatch 2.1.0.
+`agot_now_lov_ee_map_compatch`. The current reviewed baselines are NOW 1.2.5,
+Essos Expanded 1.0, and its TempLoV compatch 2.5.0.

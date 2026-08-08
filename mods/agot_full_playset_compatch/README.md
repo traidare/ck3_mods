@@ -7,7 +7,6 @@ This combines:
 - LoV tournament guards, MFA's cooldown, and CaFG's granular county-faith
   conversion in `contest_events.txt`;
 - CaFG county/province controls with LoV ruin restoration in the county view;
-- current NOW 1.2.4.1 titles with COW's Dunstonbury/Sisterton expectations;
 - AGOT, Additional Models, and COW special-building model detection with the
   NOW-COW 1.0.2 Dunstonbury/Sisterton province remaps, while retaining LoV's
   later graphical-background definitions;
@@ -20,8 +19,8 @@ The accompanying narrow runtime layers also repair:
 
 - AGOT+'s CK3 1.19-invalid canon-child creation and dead-character perk
   assignments;
-- NOW 1.2.4.1's CK3 1.19-invalid effects, game-start scoping, and optional
-  Summerhall candidate comparisons;
+- NOW 1.2.5's unsaved Great Fork title-change scope and optional Summerhall
+  candidate comparisons;
 - AGOT MPD's startup calculator parameter, variable, and XP-track failures;
 - Grand Remembrance's no-character chronicle visibility loop;
 - Grand Remembrance's vanilla/RICE-only obituary classification against AGOT's
@@ -57,8 +56,7 @@ The accompanying narrow runtime layers also repair:
   directly by the CaFG AGOT compatch, plus its 35 cultural-boon MAA types
   removed by AGOT's same-file overrides.
 
-The final generated layer owns only four cross-parent whole-file overrides:
-NOW's landed titles (`d_lychester` no longer tests removed `d_medway`), the
+The final generated layer owns only three cross-parent whole-file overrides: the
 three historical Dance-of-the-Dragons season starts (autumn rather than a
 summer-to-autumn delay), the shared Seasons shader skip threshold, and the
 Seasons regional cleanup memberships. The latter rebases `d_ironwater`,

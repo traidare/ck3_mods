@@ -1,8 +1,9 @@
 ﻿# EE TempLoV/NOW Compatch: this file replaces AGOT's common/scripted_effects/00_agot_character_data_effects.txt
 # and wins over BOTH the EE TempLoV Compatch's copy and Nobility of Westeros's July 23rd 2026 replace/ copy.
 #
-# Built July 28th 2026 as a three-way merge:
-#   BASE:  Nobility of Westeros July 23rd 2026 apply_character_title_data (King/Queen Consort titles,
+# Built July 28th 2026 as a three-way merge, re-merged August 7th 2026 onto NOW 1.2.5
+# (which added the Minor Lords system and the petty-king title flavor):
+#   BASE:  Nobility of Westeros 1.2.5 (August 7th 2026) apply_character_title_data (King/Queen Consort titles,
 #          Prince/Princess of Summerhall, Royal Prince/Princess, Lord/Lady Reaper of Pyke, City Watch
 #          commander, landed gentry/knights/captains in Westeros, the full NOW naming rework)
 #   PLUS:  the EE TempLoV Compatch's title layers, re-inserted on top: LoV RC60-derived New Valyria
@@ -871,7 +872,119 @@ apply_character_title_data = {
 						else_if = {
 							limit = { $SCOPED_TITLE$ ?= { tier = tier_kingdom } }
 
-							if = { # Prince/Princess of Dragonstone
+							if = { # Red King/Red Queen
+								limit = { 
+									$SCOPED_TITLE$ ?= title:k_red_lands
+									agot_flavour_is_lord_in_westeros_trigger = { CHAR = this }
+									agot_flavour_palatinate_is_kingdom_trigger = { CHAR = this }
+								}
+
+								set_title_localization_effect = { SCOPE = $SCOPE$ KEY = "king_the_dreadlands" GENDER = male }
+								set_title_localization_effect = { SCOPE = $SCOPE$ KEY = "queen_the_dreadlands" GENDER = female }
+							}
+							else_if = { # Barrow King/Barrow Queen
+								limit = { 
+									$SCOPED_TITLE$ ?= title:k_barrows_and_rills
+									agot_flavour_is_lord_in_westeros_trigger = { CHAR = this }
+									agot_flavour_palatinate_is_kingdom_trigger = { CHAR = this }
+								}
+
+								set_title_localization_effect = { SCOPE = $SCOPE$ KEY = "king_barrows_and_rills" GENDER = male }
+								set_title_localization_effect = { SCOPE = $SCOPE$ KEY = "queen_barrows_and_rills" GENDER = female }
+							}
+							else_if = { # Marsh King/Marsh Queen
+								limit = { 
+									$SCOPED_TITLE$ ?= title:k_the_neck
+									agot_flavour_is_lord_in_westeros_trigger = { CHAR = this }
+									agot_flavour_palatinate_is_kingdom_trigger = { CHAR = this }
+								}
+								
+								set_title_localization_effect = { SCOPE = $SCOPE$ KEY = "king_the_neck" GENDER = male }
+								set_title_localization_effect = { SCOPE = $SCOPE$ KEY = "queen_the_neck" GENDER = female }
+							}
+							else_if = { # Fool King/Maid Queen
+								limit = { 
+									$SCOPED_TITLE$ ?= title:k_fishers_haft
+									agot_flavour_is_lord_in_westeros_trigger = { CHAR = this }
+									agot_flavour_palatinate_is_kingdom_trigger = { CHAR = this }
+								}
+
+								set_title_localization_effect = { SCOPE = $SCOPE$ KEY = "king_tridents_mouth" GENDER = male }
+								set_title_localization_effect = { SCOPE = $SCOPE$ KEY = "queen_tridents_mouth" GENDER = female }
+							}
+							else_if = { # True King/True Queen
+								limit = { 
+									$SCOPED_TITLE$ ?= title:k_the_bay_of_crabs
+									agot_flavour_is_lord_in_westeros_trigger = { CHAR = this }
+									agot_flavour_palatinate_is_kingdom_trigger = { CHAR = this }
+								}
+
+								set_title_localization_effect = { SCOPE = $SCOPE$ KEY = "king_the_bay_of_crabs" GENDER = male }
+								set_title_localization_effect = { SCOPE = $SCOPE$ KEY = "queen_the_bay_of_crabs" GENDER = female }
+							}
+							else_if = { # Bronze King/Bronze Queen
+								limit = { 
+									$SCOPED_TITLE$ ?= title:k_runestone
+									agot_flavour_is_lord_in_westeros_trigger = { CHAR = this }
+									agot_flavour_palatinate_is_kingdom_trigger = { CHAR = this }
+								}
+
+								set_title_localization_effect = { SCOPE = $SCOPE$ KEY = "king_runestone" GENDER = male }
+								set_title_localization_effect = { SCOPE = $SCOPE$ KEY = "queen_runestone" GENDER = female }
+							}
+							else_if = { # Vulture King/Vulture Queen
+								limit = { 
+									$SCOPED_TITLE$ ?= title:k_the_red_mountains
+									agot_flavour_is_lord_in_westeros_trigger = { CHAR = this }
+									agot_flavour_palatinate_is_kingdom_trigger = { CHAR = this }
+								}
+
+								set_title_localization_effect = { SCOPE = $SCOPE$ KEY = "king_the_red_mountains" GENDER = male }
+								set_title_localization_effect = { SCOPE = $SCOPE$ KEY = "queen_the_red_mountains" GENDER = female }
+							}
+							else_if = { # Hooded King/Hooded Queen
+								limit = { 
+									$SCOPED_TITLE$ ?= title:k_hooded_coves
+									agot_flavour_is_lord_in_westeros_trigger = { CHAR = this }
+									agot_flavour_palatinate_is_kingdom_trigger = { CHAR = this }
+								}
+
+								set_title_localization_effect = { SCOPE = $SCOPE$ KEY = "king_withermoore" GENDER = male }
+								set_title_localization_effect = { SCOPE = $SCOPE$ KEY = "queen_withermoore" GENDER = female }
+							}
+							else_if = { # Bloodroyal
+								limit = { 
+									$SCOPED_TITLE$ ?= title:k_yronwood
+									agot_flavour_is_lord_in_westeros_trigger = { CHAR = this }
+									agot_flavour_palatinate_is_kingdom_trigger = { CHAR = this }
+								}
+
+								set_title_localization_effect = { SCOPE = $SCOPE$ KEY = "king_yronwood" GENDER = male }
+								set_title_localization_effect = { SCOPE = $SCOPE$ KEY = "queen_yronwood" GENDER = female }
+							}
+							else_if = { # Palatinate King/Queen
+								limit = {
+									agot_flavour_is_lord_in_westeros_trigger = { CHAR = this }
+									agot_flavour_palatinate_is_kingdom_trigger = { CHAR = this }
+								}
+
+								set_title_localization_effect = { SCOPE = $SCOPE$ KEY = "king" GENDER = male }
+								set_title_localization_effect = { SCOPE = $SCOPE$ KEY = "queen" GENDER = female }
+							}
+							else_if = { # Palatinate King/Queen Spouse
+								limit = {
+									any_spouse = {
+										even_if_dead = yes
+										agot_flavour_is_lord_in_westeros_trigger = { CHAR = this }
+										agot_flavour_palatinate_is_kingdom_trigger = { CHAR = this }
+										NOT = { agot_flavour_is_prince_dragonstone_trigger = { CHAR = this } }
+									}
+								}
+
+								set_title_localization_effect = { SCOPE = $SCOPE$ KEY = "king" GENDER = male }
+								set_title_localization_effect = { SCOPE = $SCOPE$ KEY = "queen" GENDER = female }
+							}
+							else_if = { # Prince/Princess of Dragonstone
 								limit = {
 									OR = {
 										agot_flavour_is_prince_dragonstone_trigger = { CHAR = this }
@@ -909,14 +1022,28 @@ apply_character_title_data = {
 								set_title_localization_effect = { SCOPE = $SCOPE$ KEY = "prince" GENDER = male }
 								set_title_localization_effect = { SCOPE = $SCOPE$ KEY = "princess" GENDER = female }
 							}
-							else_if = { # Palatinate King/Queen
-								limit = {
+							else_if = { # Rhoynish Prince/Princess
+								limit = { 
+									agot_flavour_is_prince_rhoynish_trigger = { CHAR = this }
 									agot_flavour_is_lord_in_westeros_trigger = { CHAR = this }
 									agot_flavour_palatinate_is_kingdom_trigger = { CHAR = this }
 								}
 
-								set_title_localization_effect = { SCOPE = $SCOPE$ KEY = "king" GENDER = male }
-								set_title_localization_effect = { SCOPE = $SCOPE$ KEY = "queen" GENDER = female }
+								set_title_localization_effect = { SCOPE = $SCOPE$ KEY = "king_rhoynish" GENDER = male }
+								set_title_localization_effect = { SCOPE = $SCOPE$ KEY = "princess" GENDER = female }
+							}
+							else_if = { # Rhoynish Prince/Princess Spouse
+								limit = {
+									any_spouse = {
+										even_if_dead = yes
+										agot_flavour_is_prince_rhoynish_trigger = { CHAR = this }
+										agot_flavour_is_lord_in_westeros_trigger = { CHAR = this }
+										agot_flavour_palatinate_is_kingdom_trigger = { CHAR = this }
+									}
+								}
+
+								set_title_localization_effect = { SCOPE = $SCOPE$ KEY = "king_rhoynish" GENDER = male }
+								set_title_localization_effect = { SCOPE = $SCOPE$ KEY = "princess" GENDER = female }
 							}
 							else_if = { # Lord/Lady Reaper
 								limit = { $SCOPED_TITLE$ ?= title:k_under_islands }
@@ -932,38 +1059,6 @@ apply_character_title_data = {
 								set_title_localization_effect = { SCOPE = $SCOPE$ KEY = "lord_non_paramount" GENDER = male }
 								set_title_localization_effect = { SCOPE = $SCOPE$ KEY = "lady_non_paramount" GENDER = female }
 							}
-							else_if = { # Rhoynish Prince/Princess
-								limit = { agot_flavour_is_prince_rhoynish_trigger = { CHAR = this } }
-
-								set_title_localization_effect = { SCOPE = $SCOPE$ KEY = "king_rhoynish" GENDER = male }
-								set_title_localization_effect = { SCOPE = $SCOPE$ KEY = "princess" GENDER = female }
-							}
-							else_if = { # Palatinate Rhoynish Prince/Princess Spouse
-								limit = {
-									any_spouse = {
-										even_if_dead = yes
-										agot_flavour_is_prince_rhoynish_trigger = { CHAR = this }
-										agot_flavour_is_lord_in_westeros_trigger = { CHAR = this }
-										agot_flavour_palatinate_is_kingdom_trigger = { CHAR = this }
-									}
-								}
-
-								set_title_localization_effect = { SCOPE = $SCOPE$ KEY = "lord_non_paramount" GENDER = male }
-								set_title_localization_effect = { SCOPE = $SCOPE$ KEY = "lady_non_paramount" GENDER = female }
-							}
-							else_if = { # Palatinate King/Queen Spouse
-								limit = {
-									any_spouse = {
-										even_if_dead = yes
-										agot_flavour_is_lord_in_westeros_trigger = { CHAR = this }
-										agot_flavour_palatinate_is_kingdom_trigger = { CHAR = this }
-										NOT = { agot_flavour_is_prince_dragonstone_trigger = { CHAR = this } }
-									}
-								}
-
-								set_title_localization_effect = { SCOPE = $SCOPE$ KEY = "king" GENDER = male }
-								set_title_localization_effect = { SCOPE = $SCOPE$ KEY = "queen" GENDER = female }
-							}
 							else_if = { # Lord/Lady Spouse
 								limit = {
 									any_spouse = {
@@ -974,71 +1069,6 @@ apply_character_title_data = {
 
 								set_title_localization_effect = { SCOPE = $SCOPE$ KEY = "lord_non_paramount" GENDER = male }
 								set_title_localization_effect = { SCOPE = $SCOPE$ KEY = "lady_non_paramount" GENDER = female }
-							}
-							else_if = { # Rhoynish Prince/Princess Spouse
-								limit = {
-									any_spouse = {
-										even_if_dead = yes
-										agot_flavour_is_prince_rhoynish_trigger = { CHAR = this }
-									}
-								}
-
-								set_title_localization_effect = { SCOPE = $SCOPE$ KEY = "king_rhoynish" GENDER = male }
-								set_title_localization_effect = { SCOPE = $SCOPE$ KEY = "princess" GENDER = female }
-							}
-							else_if = { # Red King/Red Queen
-								limit = { $SCOPED_TITLE$ ?= title:k_red_lands }
-
-								set_title_localization_effect = { SCOPE = $SCOPE$ KEY = "king_the_dreadlands" GENDER = male }
-								set_title_localization_effect = { SCOPE = $SCOPE$ KEY = "queen_the_dreadlands" GENDER = female }
-							}
-							else_if = { # Barrow King/Barrow Queen
-								limit = { $SCOPED_TITLE$ ?= title:k_barrows_and_rills }
-
-								set_title_localization_effect = { SCOPE = $SCOPE$ KEY = "king_barrows_and_rills" GENDER = male }
-								set_title_localization_effect = { SCOPE = $SCOPE$ KEY = "queen_barrows_and_rills" GENDER = female }
-							}
-							else_if = { # Marsh King/Marsh Queen
-								limit = { $SCOPED_TITLE$ ?= title:k_the_neck }
-
-								set_title_localization_effect = { SCOPE = $SCOPE$ KEY = "king_the_neck" GENDER = male }
-								set_title_localization_effect = { SCOPE = $SCOPE$ KEY = "queen_the_neck" GENDER = female }
-							}
-							else_if = { # Fool King/Maid Queen
-								limit = { $SCOPED_TITLE$ ?= title:k_fishers_haft }
-
-								set_title_localization_effect = { SCOPE = $SCOPE$ KEY = "king_tridents_mouth" GENDER = male }
-								set_title_localization_effect = { SCOPE = $SCOPE$ KEY = "queen_tridents_mouth" GENDER = female }
-							}
-							else_if = { # True King/True Queen
-								limit = { $SCOPED_TITLE$ ?= title:k_the_bay_of_crabs }
-
-								set_title_localization_effect = { SCOPE = $SCOPE$ KEY = "king_the_bay_of_crabs" GENDER = male }
-								set_title_localization_effect = { SCOPE = $SCOPE$ KEY = "queen_the_bay_of_crabs" GENDER = female }
-							}
-							else_if = { # Bronze King/Bronze Queen
-								limit = { $SCOPED_TITLE$ ?= title:k_runestone }
-
-								set_title_localization_effect = { SCOPE = $SCOPE$ KEY = "king_runestone" GENDER = male }
-								set_title_localization_effect = { SCOPE = $SCOPE$ KEY = "queen_runestone" GENDER = female }
-							}
-							else_if = { # Vulture King/Vulture Queen
-								limit = { $SCOPED_TITLE$ ?= title:k_the_red_mountains }
-
-								set_title_localization_effect = { SCOPE = $SCOPE$ KEY = "king_the_red_mountains" GENDER = male }
-								set_title_localization_effect = { SCOPE = $SCOPE$ KEY = "queen_the_red_mountains" GENDER = female }
-							}
-							else_if = { # Hooded King/Hooded Queen
-								limit = { $SCOPED_TITLE$ ?= title:k_hooded_coves }
-
-								set_title_localization_effect = { SCOPE = $SCOPE$ KEY = "king_withermoore" GENDER = male }
-								set_title_localization_effect = { SCOPE = $SCOPE$ KEY = "queen_withermoore" GENDER = female }
-							}
-							else_if = { # Bloodroyal
-								limit = { $SCOPED_TITLE$ ?= title:k_yronwood }
-
-								set_title_localization_effect = { SCOPE = $SCOPE$ KEY = "king_yronwood" GENDER = male }
-								set_title_localization_effect = { SCOPE = $SCOPE$ KEY = "queen_yronwood" GENDER = female }
 							}
 							else_if = { # King Fallback
 								limit = { always = yes }
@@ -1132,15 +1162,28 @@ apply_character_title_data = {
 								set_title_localization_effect = { SCOPE = $SCOPE$ KEY = "lord_non_paramount" GENDER = male }
 								set_title_localization_effect = { SCOPE = $SCOPE$ KEY = "lady_non_paramount" GENDER = female }
 							}
-							else_if = { # MINOR LORD
+							else_if = { # MINOR LORD (EXTENDED)
 								limit = {
-									has_game_rule = extended_lords_rule
+									has_game_rule = extended_minor_lords_rule
 									OR = {
 										agot_flavour_is_vassal_lord_in_westeros_trigger = { CHAR = this }
 										any_spouse = {
 											even_if_dead = yes
 											agot_flavour_is_vassal_lord_in_westeros_trigger = { CHAR = this }
 										}
+									}
+								}
+
+								set_title_localization_effect = { SCOPE = $SCOPE$ KEY = "lord_non_paramount" GENDER = male }
+								set_title_localization_effect = { SCOPE = $SCOPE$ KEY = "lady_non_paramount" GENDER = female }
+							}
+							else_if = { # MINOR LORD (LANDED GENTRY)
+								limit = {
+									has_game_rule = minor_lords_rule
+									NOR = {
+										agot_flavour_is_landed_knight_ser_trigger = { CHAR = this }
+										agot_flavour_is_landed_knight_warden_trigger = { CHAR = this }
+										agot_flavour_is_landed_knight_master_trigger = { CHAR = this }
 									}
 								}
 
@@ -1352,6 +1395,148 @@ apply_character_title_data = {
 								set_title_localization_effect = { SCOPE = $SCOPE$ KEY = "landed_knight_master" GENDER = male }
 								set_title_localization_effect = { SCOPE = $SCOPE$ KEY = "lady_non_paramount" GENDER = female }
 							}
+						}
+					}
+
+					### OLIGARCHIC ###
+					else_if = {
+						# EE TempLoV Compatch: also accept the ruler's own government directly. AGOT's spouse-aware
+						# trigger can fail for non-royal oligarchic rulers with unlanded spouses (hit by Essos
+						# Expanded's oligarchic realms when EE is loaded), which dumped them into MISSING_TITLE_LOC.
+						limit = {
+							OR = {
+								agot_localization_government_trigger = { GOV = oligarchic SPOUSE_SCOPE = scope:spouse_scope }
+								has_government = oligarchic_government
+							}
+						}
+
+						### HEGEMONY ###
+						if = {
+							limit = { $SCOPED_TITLE$ ?= { tier = tier_hegemony } }
+
+							set_title_localization_effect = { SCOPE = $SCOPE$ KEY = "hegemon_valyrian_male" GENDER = male }
+							set_title_localization_effect = { SCOPE = $SCOPE$ KEY = "hegemon_valyrian_female" GENDER = female }
+						}
+
+						### EMPIRE ###
+						else_if = {
+							limit = { $SCOPED_TITLE$ ?= { tier = tier_empire } }
+							if = {
+								# EE TempLoV Compatch: Qartheen merchant rulers
+								limit = {
+									culture = culture:qartheen
+									$SCOPED_TITLE$.holder ?= $SCOPE$
+								}
+								set_title_localization_effect = { SCOPE = $SCOPE$ KEY = "ee_king_oligarchic_male_qarth" GENDER = male }
+								set_title_localization_effect = { SCOPE = $SCOPE$ KEY = "ee_king_oligarchic_female_qarth" GENDER = female }
+							}
+							else_if = {
+								limit = { $SCOPED_TITLE$.holder != $SCOPE$ }
+
+								set_title_localization_effect = { SCOPE = $SCOPE$ KEY = "emperor_oligarchic_male_spouse" GENDER = male }
+								set_title_localization_effect = { SCOPE = $SCOPE$ KEY = "emperor_oligarchic_female_spouse" GENDER = female }
+							}
+							else_if = {
+								limit = { historical_independent_ruler = yes }
+
+								set_title_localization_effect = { SCOPE = $SCOPE$ KEY = "emperor_oligarchic_independent_male" GENDER = male }
+								set_title_localization_effect = { SCOPE = $SCOPE$ KEY = "emperor_oligarchic_independent_female" GENDER = female }
+							}
+							else = {
+								set_title_localization_effect = { SCOPE = $SCOPE$ KEY = "emperor_oligarchic_male" GENDER = male }
+								set_title_localization_effect = { SCOPE = $SCOPE$ KEY = "emperor_oligarchic_female" GENDER = female }
+							}
+						}
+
+						### KINGDOM ###
+						else_if = {
+							limit = { $SCOPED_TITLE$ ?= { tier = tier_kingdom } }
+							if = {
+								limit = { $SCOPED_TITLE$.holder != $SCOPE$ }
+
+								set_title_localization_effect = { SCOPE = $SCOPE$ KEY = "king_oligarchic_male_spouse" GENDER = male }
+								set_title_localization_effect = { SCOPE = $SCOPE$ KEY = "king_oligarchic_female_spouse" GENDER = female }
+							}
+							else_if = {
+								limit = {
+									historical_independent_ruler = yes
+									$SCOPED_TITLE$ ?= title:k_meereen
+								}
+
+								set_title_localization_effect = { SCOPE = $SCOPE$ KEY = "king_oligarchic_male_k_meereen" GENDER = male }
+								set_title_localization_effect = { SCOPE = $SCOPE$ KEY = "king_oligarchic_female_k_meereen" GENDER = female }
+							}
+							else_if = {
+								limit = {
+									historical_independent_ruler = yes
+									$SCOPED_TITLE$ ?= title:k_yunkai
+								}
+
+								set_title_localization_effect = { SCOPE = $SCOPE$ KEY = "king_oligarchic_male_k_yunkai" GENDER = male }
+								set_title_localization_effect = { SCOPE = $SCOPE$ KEY = "king_oligarchic_female_k_yunkai" GENDER = female }
+							}
+							else_if = {
+								limit = {
+									historical_independent_ruler = yes
+									$SCOPED_TITLE$ ?= title:k_astapor
+								}
+
+								set_title_localization_effect = { SCOPE = $SCOPE$ KEY = "king_oligarchic_male_k_astapor" GENDER = male }
+								set_title_localization_effect = { SCOPE = $SCOPE$ KEY = "king_oligarchic_female_k_astapor" GENDER = female }
+							}
+							else_if = {
+								# EE TempLoV Compatch: Qartheen merchant rulers
+								limit = { culture = culture:qartheen }
+								set_title_localization_effect = { SCOPE = $SCOPE$ KEY = "ee_king_oligarchic_male_qarth" GENDER = male }
+								set_title_localization_effect = { SCOPE = $SCOPE$ KEY = "ee_king_oligarchic_female_qarth" GENDER = female }
+							}
+							else_if = {
+								limit = { historical_independent_ruler = yes }
+
+								set_title_localization_effect = { SCOPE = $SCOPE$ KEY = "king_oligarchic_independent_male" GENDER = male }
+								set_title_localization_effect = { SCOPE = $SCOPE$ KEY = "king_oligarchic_independent_female" GENDER = female }
+							}
+							else = {
+								set_title_localization_effect = { SCOPE = $SCOPE$ KEY = "king_oligarchic_male" GENDER = male }
+								set_title_localization_effect = { SCOPE = $SCOPE$ KEY = "king_oligarchic_female" GENDER = female }
+							}
+						}
+
+						### DUCHY ###
+						else_if = {
+							limit = { $SCOPED_TITLE$ ?= { tier = tier_duchy } }
+							if = {
+								# EE TempLoV Compatch: Qartheen merchant rulers
+								limit = { culture = culture:qartheen }
+								set_title_localization_effect = { SCOPE = $SCOPE$ KEY = "ee_king_oligarchic_male_qarth" GENDER = male }
+								set_title_localization_effect = { SCOPE = $SCOPE$ KEY = "ee_king_oligarchic_female_qarth" GENDER = female }
+							}
+							else_if = {
+								limit = { historical_independent_ruler = yes }
+
+								set_title_localization_effect = { SCOPE = $SCOPE$ KEY = "duke_oligarchic_independent_male" GENDER = male }
+								set_title_localization_effect = { SCOPE = $SCOPE$ KEY = "duke_oligarchic_independent_female" GENDER = female }
+							}
+							else = {
+								set_title_localization_effect = { SCOPE = $SCOPE$ KEY = "duke_oligarchic_male" GENDER = male }
+								set_title_localization_effect = { SCOPE = $SCOPE$ KEY = "duke_oligarchic_female" GENDER = female }
+							}
+						}
+
+						### COUNTY ###
+						else_if = {
+							limit = { $SCOPED_TITLE$ ?= { tier = tier_county } }
+
+							set_title_localization_effect = { SCOPE = $SCOPE$ KEY = "count_oligarchic_male" GENDER = male }
+							set_title_localization_effect = { SCOPE = $SCOPE$ KEY = "count_oligarchic_female" GENDER = female }
+						}
+
+						### BARONY ###
+						else_if = {
+							limit = { $SCOPED_TITLE$ ?= { tier = tier_barony } }
+
+							set_title_localization_effect = { SCOPE = $SCOPE$ KEY = "baron_oligarchic_male" GENDER = male }
+							set_title_localization_effect = { SCOPE = $SCOPE$ KEY = "baron_oligarchic_female" GENDER = female }
 						}
 					}
 
@@ -1810,15 +1995,28 @@ apply_character_title_data = {
 								set_title_localization_effect = { SCOPE = $SCOPE$ KEY = "lord_non_paramount" GENDER = male }
 								set_title_localization_effect = { SCOPE = $SCOPE$ KEY = "lady_non_paramount" GENDER = female }
 							}
-							else_if = { # MINOR LORD
+							else_if = { # MINOR LORD (EXTENDED)
 								limit = {
-									has_game_rule = extended_lords_rule
+									has_game_rule = extended_minor_lords_rule
 									OR = {
 										agot_flavour_is_vassal_lord_in_westeros_trigger = { CHAR = this }
 										any_spouse = {
 											even_if_dead = yes
 											agot_flavour_is_vassal_lord_in_westeros_trigger = { CHAR = this }
 										}
+									}
+								}
+
+								set_title_localization_effect = { SCOPE = $SCOPE$ KEY = "lord_non_paramount" GENDER = male }
+								set_title_localization_effect = { SCOPE = $SCOPE$ KEY = "lady_non_paramount" GENDER = female }
+							}
+							else_if = { # MINOR LORD (LANDED GENTRY)
+								limit = {
+									has_game_rule = minor_lords_rule
+									NOR = {
+										agot_flavour_is_landed_knight_ser_trigger = { CHAR = this }
+										agot_flavour_is_landed_knight_warden_trigger = { CHAR = this }
+										agot_flavour_is_landed_knight_master_trigger = { CHAR = this }
 									}
 								}
 
@@ -2030,148 +2228,6 @@ apply_character_title_data = {
 								set_title_localization_effect = { SCOPE = $SCOPE$ KEY = "landed_knight_master" GENDER = male }
 								set_title_localization_effect = { SCOPE = $SCOPE$ KEY = "lady_non_paramount" GENDER = female }
 							}
-						}
-					}
-
-					### OLIGARCHIC ###
-					else_if = {
-						# EE TempLoV Compatch: also accept the ruler's own government directly. AGOT's spouse-aware
-						# trigger can fail for non-royal oligarchic rulers with unlanded spouses (hit by Essos
-						# Expanded's oligarchic realms when EE is loaded), which dumped them into MISSING_TITLE_LOC.
-						limit = {
-							OR = {
-								agot_localization_government_trigger = { GOV = oligarchic SPOUSE_SCOPE = scope:spouse_scope }
-								has_government = oligarchic_government
-							}
-						}
-
-						### HEGEMONY ###
-						if = {
-							limit = { $SCOPED_TITLE$ ?= { tier = tier_hegemony } }
-
-							set_title_localization_effect = { SCOPE = $SCOPE$ KEY = "hegemon_valyrian_male" GENDER = male }
-							set_title_localization_effect = { SCOPE = $SCOPE$ KEY = "hegemon_valyrian_female" GENDER = female }
-						}
-
-						### EMPIRE ###
-						else_if = {
-							limit = { $SCOPED_TITLE$ ?= { tier = tier_empire } }
-							if = {
-								# EE TempLoV Compatch: Qartheen merchant rulers
-								limit = {
-									culture = culture:qartheen
-									$SCOPED_TITLE$.holder ?= $SCOPE$
-								}
-								set_title_localization_effect = { SCOPE = $SCOPE$ KEY = "ee_king_oligarchic_male_qarth" GENDER = male }
-								set_title_localization_effect = { SCOPE = $SCOPE$ KEY = "ee_king_oligarchic_female_qarth" GENDER = female }
-							}
-							else_if = {
-								limit = { $SCOPED_TITLE$.holder != $SCOPE$ }
-
-								set_title_localization_effect = { SCOPE = $SCOPE$ KEY = "emperor_oligarchic_male_spouse" GENDER = male }
-								set_title_localization_effect = { SCOPE = $SCOPE$ KEY = "emperor_oligarchic_female_spouse" GENDER = female }
-							}
-							else_if = {
-								limit = { historical_independent_ruler = yes }
-
-								set_title_localization_effect = { SCOPE = $SCOPE$ KEY = "emperor_oligarchic_independent_male" GENDER = male }
-								set_title_localization_effect = { SCOPE = $SCOPE$ KEY = "emperor_oligarchic_independent_female" GENDER = female }
-							}
-							else = {
-								set_title_localization_effect = { SCOPE = $SCOPE$ KEY = "emperor_oligarchic_male" GENDER = male }
-								set_title_localization_effect = { SCOPE = $SCOPE$ KEY = "emperor_oligarchic_female" GENDER = female }
-							}
-						}
-
-						### KINGDOM ###
-						else_if = {
-							limit = { $SCOPED_TITLE$ ?= { tier = tier_kingdom } }
-							if = {
-								limit = { $SCOPED_TITLE$.holder != $SCOPE$ }
-
-								set_title_localization_effect = { SCOPE = $SCOPE$ KEY = "king_oligarchic_male_spouse" GENDER = male }
-								set_title_localization_effect = { SCOPE = $SCOPE$ KEY = "king_oligarchic_female_spouse" GENDER = female }
-							}
-							else_if = {
-								limit = {
-									historical_independent_ruler = yes
-									$SCOPED_TITLE$ ?= title:k_meereen
-								}
-
-								set_title_localization_effect = { SCOPE = $SCOPE$ KEY = "king_oligarchic_male_k_meereen" GENDER = male }
-								set_title_localization_effect = { SCOPE = $SCOPE$ KEY = "king_oligarchic_female_k_meereen" GENDER = female }
-							}
-							else_if = {
-								limit = {
-									historical_independent_ruler = yes
-									$SCOPED_TITLE$ ?= title:k_yunkai
-								}
-
-								set_title_localization_effect = { SCOPE = $SCOPE$ KEY = "king_oligarchic_male_k_yunkai" GENDER = male }
-								set_title_localization_effect = { SCOPE = $SCOPE$ KEY = "king_oligarchic_female_k_yunkai" GENDER = female }
-							}
-							else_if = {
-								limit = {
-									historical_independent_ruler = yes
-									$SCOPED_TITLE$ ?= title:k_astapor
-								}
-
-								set_title_localization_effect = { SCOPE = $SCOPE$ KEY = "king_oligarchic_male_k_astapor" GENDER = male }
-								set_title_localization_effect = { SCOPE = $SCOPE$ KEY = "king_oligarchic_female_k_astapor" GENDER = female }
-							}
-							else_if = {
-								# EE TempLoV Compatch: Qartheen merchant rulers
-								limit = { culture = culture:qartheen }
-								set_title_localization_effect = { SCOPE = $SCOPE$ KEY = "ee_king_oligarchic_male_qarth" GENDER = male }
-								set_title_localization_effect = { SCOPE = $SCOPE$ KEY = "ee_king_oligarchic_female_qarth" GENDER = female }
-							}
-							else_if = {
-								limit = { historical_independent_ruler = yes }
-
-								set_title_localization_effect = { SCOPE = $SCOPE$ KEY = "king_oligarchic_independent_male" GENDER = male }
-								set_title_localization_effect = { SCOPE = $SCOPE$ KEY = "king_oligarchic_independent_female" GENDER = female }
-							}
-							else = {
-								set_title_localization_effect = { SCOPE = $SCOPE$ KEY = "king_oligarchic_male" GENDER = male }
-								set_title_localization_effect = { SCOPE = $SCOPE$ KEY = "king_oligarchic_female" GENDER = female }
-							}
-						}
-
-						### DUCHY ###
-						else_if = {
-							limit = { $SCOPED_TITLE$ ?= { tier = tier_duchy } }
-							if = {
-								# EE TempLoV Compatch: Qartheen merchant rulers
-								limit = { culture = culture:qartheen }
-								set_title_localization_effect = { SCOPE = $SCOPE$ KEY = "ee_king_oligarchic_male_qarth" GENDER = male }
-								set_title_localization_effect = { SCOPE = $SCOPE$ KEY = "ee_king_oligarchic_female_qarth" GENDER = female }
-							}
-							else_if = {
-								limit = { historical_independent_ruler = yes }
-
-								set_title_localization_effect = { SCOPE = $SCOPE$ KEY = "duke_oligarchic_independent_male" GENDER = male }
-								set_title_localization_effect = { SCOPE = $SCOPE$ KEY = "duke_oligarchic_independent_female" GENDER = female }
-							}
-							else = {
-								set_title_localization_effect = { SCOPE = $SCOPE$ KEY = "duke_oligarchic_male" GENDER = male }
-								set_title_localization_effect = { SCOPE = $SCOPE$ KEY = "duke_oligarchic_female" GENDER = female }
-							}
-						}
-
-						### COUNTY ###
-						else_if = {
-							limit = { $SCOPED_TITLE$ ?= { tier = tier_county } }
-
-							set_title_localization_effect = { SCOPE = $SCOPE$ KEY = "count_oligarchic_male" GENDER = male }
-							set_title_localization_effect = { SCOPE = $SCOPE$ KEY = "count_oligarchic_female" GENDER = female }
-						}
-
-						### BARONY ###
-						else_if = {
-							limit = { $SCOPED_TITLE$ ?= { tier = tier_barony } }
-
-							set_title_localization_effect = { SCOPE = $SCOPE$ KEY = "baron_oligarchic_male" GENDER = male }
-							set_title_localization_effect = { SCOPE = $SCOPE$ KEY = "baron_oligarchic_female" GENDER = female }
 						}
 					}
 
