@@ -48,9 +48,11 @@ NPC scopes are both valid, then stores that numeric value on the obituary.
 Generate the obituary override from the current Grand Remembrance source with:
 
 ```sh
-scripts/generate-agot-playset-runtime-fixes.py
+ck3mm mod check grand_remembrance_119_runtime_fix
+ck3mm mod generate grand_remembrance_119_runtime_fix
 ```
 
-The generator checks section markers and stops if a Grand Remembrance update
-invalidates the assumptions. Recompare all overrides after every update to
-Workshop mod `3678529052`.
+The per-mod manifest selects Grand Remembrance and this module's
+destination-specific staged generator. It checks section markers and stops if a
+Grand Remembrance update invalidates the assumptions. Recompare all overrides
+after every update to Workshop mod `3678529052`.

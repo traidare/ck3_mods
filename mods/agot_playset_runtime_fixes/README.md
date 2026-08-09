@@ -218,21 +218,23 @@ colonization effect is the effective last writer in this playset.
 The files are generated from current Workshop sources by:
 
 ```sh
-scripts/generate-agot-playset-runtime-fixes.py
+ck3mm mod check agot_playset_runtime_fixes
+ck3mm mod generate agot_playset_runtime_fixes
 ```
 
-The generator checks exact replacement counts and stops when a parent update
-invalidates an assumption. Re-run it and review the resulting diff after any
-update to Workshop IDs `2962333032`, `3388366564`, `3596393244`, `3361162762`,
-`2967263410`, `3713902872`, `3719888822`, `3319354609`, `3241130652`,
-`3371298408`, `3621472324`, `3324579171`, `3349316031`, `3761342990`,
-`3445965581`, `3676293022`, `3305687550`, `3662281614`, `3674548216`,
-`3673468355`, `2886417277`, `3084203091`, `3225355262`, `3235061780`,
-`3377641022`, `3462342647`, `3437814875`, `3709868073`, `3541596590`,
-`3719888822`, or `2971198450`, and after CK3 updates that change
-`04_dlc_ep2_tour_effects.txt`. Re-run it after updates to `3682802751` because
-the Essos cleanup validates that parent's game rules and startup actions, and
-after updates to `3719888822` because the same repair is pinned to LoV's
-effective wilderness-conversion effect. Re-run it after updates to `3762892081`
-because the generated court-scene selector follows that compatch's current
-room-routing rules.
+The `.ck3mm/mod.toml` manifest declares this module's parents and
+destination-specific staged generator. It checks exact replacement counts and
+stops when a parent update invalidates an assumption. Re-run it and review the
+resulting diff after any update to Workshop IDs `2962333032`, `3388366564`,
+`3596393244`, `3361162762`, `2967263410`, `3713902872`, `3719888822`,
+`3319354609`, `3241130652`, `3371298408`, `3621472324`, `3324579171`,
+`3349316031`, `3761342990`, `3445965581`, `3676293022`, `3305687550`,
+`3662281614`, `3674548216`, `3673468355`, `2886417277`, `3084203091`,
+`3225355262`, `3235061780`, `3377641022`, `3462342647`, `3437814875`,
+`3709868073`, `3541596590`, `3719888822`, or `2971198450`, and after CK3 updates
+that change `04_dlc_ep2_tour_effects.txt`. Re-run it after updates to
+`3682802751` because the Essos cleanup validates that parent's game rules and
+startup actions, and after updates to `3719888822` because the same repair is
+pinned to LoV's effective wilderness-conversion effect. Re-run it after updates
+to `3762892081` because the generated court-scene selector follows that
+compatch's current room-routing rules.

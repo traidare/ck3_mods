@@ -1,0 +1,20 @@
+[generator]
+entrypoint = "generator.py:generate"
+owned_outputs = [
+  "events/lov_season_events.txt",
+  "gfx/FX/province_effects.fxh",
+  "map_data/geographical_regions/replace/north_sans_neck.txt",
+  "map_data/geographical_regions/north_sans_neck.txt",
+  "common/landed_titles/01_agot_landed_titles.txt",
+]
+assets = ["assets/source_manifest.json"]
+
+[[sources]]
+name = "agot-now"
+kind = "workshop"
+item_id = "3664900993"
+
+[[sources]]
+name = "seasons-bridge"
+kind = "workshop"
+item_id = "3766038754"

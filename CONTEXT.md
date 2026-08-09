@@ -6,8 +6,8 @@ the context required by the task, but do not write Paradox Script from memory.
 ## Start every task
 
 1. Check `git status --short` and identify the requested local mod or parent.
-2. For playset work, run `scripts/ck3-playsets.py summary [playset]`. The live
-   Launcher database is authoritative; exported JSON is a snapshot only.
+2. For playset work, run `ck3mm playset summary [playset]`. The live Launcher
+   database is authoritative; exported JSON is a snapshot only.
 3. Classify the task and read the relevant section below before changing files.
 4. State the parent mod(s), their effective load order, and the intended owner
    of each changed file.
@@ -25,9 +25,9 @@ Use sources in this order when authoring or diagnosing Paradox Script:
 6. `references/patterns/`, `references/structure/`, and `references/compat/` —
    generic CK3 patterns and workflow guides.
 
-Generate the local cache with `scripts/sync-ck3-references.bash` and check it
-with `scripts/sync-ck3-references.bash --check`; absent script-doc logs are not
-an error, but they must not be assumed to exist.
+Generate the local cache with `ck3mm refs sync` and check it with
+`ck3mm refs sync --check`; absent script-doc logs are not an error, but they
+must not be assumed to exist.
 
 ## Evidence rules
 
@@ -40,30 +40,29 @@ an error, but they must not be assumed to exist.
 
 ## Live playsets and conflicts
 
-`scripts/ck3-playsets.py` reads the Launcher SQLite database. It selects a
-playset by command argument, `CK3_PLAYSET_NAME`, then the active Launcher
-playset. Use `summary` for current load-order questions; exported JSON is only a
-snapshot.
+`ck3mm playset` reads the Launcher SQLite database. It selects a playset by
+command argument, `CK3_PLAYSET_NAME`, then the active Launcher playset. Use
+`summary` for current load-order questions; exported JSON is only a snapshot.
 
 ```sh
-scripts/ck3-playsets.py summary
-scripts/ck3-playsets.py summary AGOT
-scripts/ck3-playsets.py export > /tmp/agot-playset.json
+ck3mm playset summary
+ck3mm playset summary AGOT
+ck3mm playset export AGOT --output /tmp/agot-playset.json
 ```
 
 Start conflict inspection broad, then narrow by Workshop ID or local launcher
 registry ID:
 
 ```sh
-scripts/ck3-playsets.py export > /tmp/agot-playset.json
-ck3_mod_conflict_checker -playset /tmp/agot-playset.json -summary-only
-ck3_mod_conflict_checker -playset /tmp/agot-playset.json -involving 3206891770
-ck3_mod_conflict_checker -playset /tmp/agot-playset.json \
-  -involving mod/cafg_agot_compatch.mod
+ck3mm conflicts AGOT --summary-only
+ck3mm conflicts AGOT --involving 3206891770
+ck3mm conflicts AGOT --involving mod/cafg_agot_compatch.mod
 ```
 
-Use `-include-prefix`, `-exclude-prefix`, and `-format json` to reduce a report.
-A reported same-path conflict is an investigation starting point, not an
+Use `--include-prefix`, `--exclude-prefix`, and `--format json` to reduce a
+report. Schema-v2 JSON is deterministic and excludes host filesystem paths; it
+records same-path and `replace_path` conflicts, content status, and the
+effective winner. A reported conflict is an investigation starting point, not an
 instruction to copy a file into the final compatch.
 
 ## Compatch workflows
@@ -103,16 +102,26 @@ LoV, and Essos Expanded heightmap workflow.
 
 ## Generated outputs and validation
 
-When a module has a generator, edit the generator and regenerate its output. The
-generator's assertions are an upstream-change detector, not optional noise.
+When a module has a `.ck3mm/mod.toml` generator, edit its `.ck3mm` generator or
+assets and regenerate its declared owned outputs. The staged generator's
+assertions and granular source-manifest assets are upstream-change detectors,
+not optional noise.
+
+Keep `descriptor.mod` limited to game-facing metadata. Declare dependency load
+order for static validation only in `.ck3mm/ck3-tiger.conf`.
 
 Validate from narrow to broad:
 
 ```sh
-scripts/generate-<module>.py --check  # when supported
-just check-tiger <mod>
-scripts/ck3-playsets.py export > /tmp/agot-playset.json
-ck3_mod_conflict_checker -playset /tmp/agot-playset.json -involving <id>
+ck3mm mod check <mod>  # when the manifest declares a generator
+ck3mm mod validate <mod>
+ck3mm conflicts AGOT --involving <id>
 ```
+
+Do not accept a source lock for a broad Workshop-tree source. Review the
+generator's granular source evidence and update it deliberately after an
+intentional parent change. Commands that write to Launcher state or other
+external roots are previews by default; review their plan and repeat with
+`--apply`.
 
 Finish with the relevant runtime test when the change can execute in CK3.

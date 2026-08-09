@@ -1,0 +1,61 @@
+[generator]
+entrypoint = "generator.py:generate"
+owned_outputs = [
+  "common/province_terrain/ee_province_terrain.txt",
+  "map_data/geographical_regions/zzzz_agot_now_lov_ee_world_data.txt",
+  "content_source/world_data/terrain_audit.csv",
+  "content_source/world_data/graphical_region_audit.csv",
+]
+assets = [
+  "assets/world_data/terrain_mask_groups.toml",
+  "assets/world_data/terrain_lore_regions.csv",
+  "assets/world_data/terrain_decisions.csv",
+  "assets/world_data/graphical_style_map.csv",
+  "assets/world_data/source_manifest.json",
+]
+
+[[sources]]
+name = "agot"
+kind = "workshop"
+item_id = "2962333032"
+
+[[sources]]
+name = "agot-now"
+kind = "workshop"
+item_id = "3664900993"
+
+[[sources]]
+name = "legacy-of-valyria"
+kind = "workshop"
+item_id = "3403938445"
+
+[[sources]]
+name = "legacy-of-valyria-bridge"
+kind = "workshop"
+item_id = "3719888822"
+
+[[sources]]
+name = "essos-expanded"
+kind = "workshop"
+item_id = "3682802751"
+
+[[sources]]
+name = "essos-expanded-bridge"
+kind = "workshop"
+item_id = "3768149491"
+
+[[sources]]
+name = "map-definition"
+kind = "mod"
+mod = "agot_now_lov_ee_map_compatch"
+path = "map_data/definition.csv"
+
+[[sources]]
+name = "known-world-detailed"
+kind = "repository"
+path = "references/agot/map_images/KnownWorldDetailed.jpg"
+
+[[sources]]
+name = "known-world-google"
+kind = "repository"
+path = "references/agot/map_images/KnownWorldGoogleMaps.jpg"

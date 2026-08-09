@@ -35,18 +35,19 @@ module applies the final lore-specific transform. Keeping map data and
 character-title dispatch separate prevents a map rebase from restoring stale
 government behavior.
 
-`scripts/generate-agot-now-lov-ee-map-compatch.py` stages generated output and
-only copies completed files into the local module. Its source manifest pins all
-text and image inputs, so an upstream update must be reviewed explicitly:
+The `.ck3mm/mod.toml` generator stages generated output and only promotes a
+complete declared output set into the local module. Its granular source manifest
+pins all text and image inputs, so an upstream update must be reviewed
+explicitly:
 
 ```sh
-scripts/generate-agot-now-lov-ee-map-compatch.py --text-only
-scripts/generate-agot-now-lov-ee-map-compatch.py --check --text-only
-scripts/generate-agot-now-lov-ee-map-compatch.py --update-source-manifest
+ck3mm mod check agot_now_lov_ee_map_compatch
+ck3mm mod generate agot_now_lov_ee_map_compatch
 ```
 
-Run without `--text-only` when an accepted upstream update changes a source map
-image or mask; the normal generator then also rebuilds the image composites.
+After reviewing an intentional upstream map or mask change, update the granular
+source-manifest asset and run the full generator so the image composites are
+rebuilt with the text outputs.
 
 At runtime this layer deliberately leaves the coherent Essos Expanded 1.0
 `heightmap.png` and packed heightmap set in control, so the small NOW elevation

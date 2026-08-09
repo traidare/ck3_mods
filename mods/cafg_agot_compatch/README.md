@@ -39,11 +39,14 @@ Confucian-education operations.
 Regenerate these overrides from current CaFG Workshop sources with:
 
 ```sh
-scripts/generate-cafg-agot-runtime-rebase.py
+ck3mm mod check cafg_agot_compatch
+ck3mm mod generate cafg_agot_compatch
 ```
 
-The generator verifies the exact missing type and branch counts and stops if a
-CaFG update changes the source assumptions.
+The `.ck3mm/mod.toml` manifest declares CaFG as a portable source and limits the
+staged generator to this compatch's owned outputs. The generator verifies the
+exact missing type and branch counts and stops if a CaFG update changes the
+source assumptions.
 
 ## Cultural-benefit trigger chance
 

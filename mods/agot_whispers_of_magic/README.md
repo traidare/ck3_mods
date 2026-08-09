@@ -46,7 +46,8 @@ AGOT's latent flag; the first actual dragon dream reveals AGOT's visible
 Run:
 
 ```sh
-just check-tiger agot_whispers_of_magic
-scripts/ck3-playsets.py export > /tmp/agot-playset.json
-ck3_mod_conflict_checker -playset /tmp/agot-playset.json -all -involving mod/agot_whispers_of_magic.mod
+ck3mm mod validate agot_whispers_of_magic
+ck3mm conflicts AGOT \
+  --all-files \
+  --involving mod/agot_whispers_of_magic.mod
 ```

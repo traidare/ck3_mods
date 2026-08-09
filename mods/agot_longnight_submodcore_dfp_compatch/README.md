@@ -21,4 +21,10 @@ An animation-only compatibility patch for:
 
 Regenerate it with:
 
-    python3 scripts/generate-agot-longnight-submodcore-dfp-compatch.py
+```sh
+ck3mm mod check agot_longnight_submodcore_dfp_compatch
+ck3mm mod generate agot_longnight_submodcore_dfp_compatch
+```
+
+The `.ck3mm/mod.toml` manifest declares the parents, staged entrypoint, and
+owned animation output.

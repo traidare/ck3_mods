@@ -33,11 +33,11 @@ the helper's intended coverage directly with `d_skagos`, `d_deepdown`, and
 
 ## Generation
 
-`scripts/generate-agot-now-lov-ee-world-data.py` reads the installed Workshop
-parents, the local map compatch, and the two full-world reference images in
-`references/agot/map_images/`. Their coastlines and major landmarks share the
-CK3 map's full-world projection. The generator resamples them to a common
-analysis grid and aggregates their biome evidence by exact province pixels.
+The `.ck3mm/mod.toml` generator reads its declared Workshop parents, the local
+map compatch, and its two declared repository reference images. Their coastlines
+and major landmarks share the CK3 map's full-world projection. The generator
+resamples them to a common analysis grid and aggregates their biome evidence by
+exact province pixels.
 
 The generated terrain combines:
 
@@ -54,16 +54,15 @@ its low spatial holdout score no longer determines final terrain.
 Graphical-style generation is unchanged.
 
 ```sh
-scripts/generate-agot-now-lov-ee-world-data.py --audit
-scripts/generate-agot-now-lov-ee-world-data.py
-scripts/generate-agot-now-lov-ee-world-data.py --check
+ck3mm mod check agot_now_lov_ee_world_data
+ck3mm mod generate agot_now_lov_ee_world_data
 ```
 
 `terrain_decisions.csv` is reserved for explicit province exceptions; the
-current lore-rule baseline needs none. `--audit` writes the complete evidence
-table without changing runtime output. `--update-source-manifest` is required
-when an upstream input or either reference image changes; use it only after
-reviewing the source diff and the generator's structural assertions.
+current lore-rule baseline needs none. Generation also refreshes the complete
+evidence table. When an upstream input or reference image changes, review the
+source diff and structural assertions, then update the granular source-manifest
+asset before regenerating.
 
 Re-run the audit after every update to Workshop mods `2962333032`, `3664900993`,
 `3403938445`, `3719888822`, `3682802751`, or `3768149491`, or after regenerating

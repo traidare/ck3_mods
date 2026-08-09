@@ -119,11 +119,25 @@ on_birth_child = { events = { mod_b_events.0001 } }
 ## Using the repository conflict checker
 
 ```bash
-scripts/ck3-playsets.py export > /tmp/agot-playset.json
-ck3_mod_conflict_checker -playset /tmp/agot-playset.json -summary-only
-ck3_mod_conflict_checker -playset /tmp/agot-playset.json -involving <workshop-id>
+ck3mm conflicts AGOT --summary-only
+ck3mm conflicts AGOT --involving <workshop-id>
+ck3mm conflicts AGOT --include-prefix common/ --format json
 ```
 
 Use the live Launcher playset as the comparison scope, then narrow the report by
 Workshop ID or local launcher registry ID. It shows file conflicts and
-`replace_path` interactions for the installed playset.
+`replace_path` interactions for the installed playset. Use
+`--playset-file <file>` when a reproducible exported snapshot is required.
+
+Conflict report JSON uses schema version 2. It is deterministic and excludes
+host filesystem paths, so reports can be compared or stored as CI artifacts.
+Each file record distinguishes `same_path` from `replace_path_shadow`, lists
+physical providers and applicable `replace_path` owners, classifies content as
+identical, divergent, or unreadable, and identifies whether the effective file
+is present or removed after load-order processing. `--fail-on divergent`,
+`--fail-on any`, and `--fail-on missing` make those conditions usable as
+automation gates.
+
+The effective winner describes observed CK3 load behavior. It is not a claim
+that the winning file is semantically compatible; inspect the parent deltas
+before choosing load order or creating a compatch.

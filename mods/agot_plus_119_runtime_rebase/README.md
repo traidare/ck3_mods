@@ -94,7 +94,11 @@ branch enabled.
 Refresh this generated override with:
 
 ```sh
-scripts/generate-agot-playset-runtime-fixes.py
+ck3mm mod check agot_plus_119_runtime_rebase
+ck3mm mod generate agot_plus_119_runtime_rebase
 ```
+
+The per-mod manifest selects AGOT+ and this rebase's destination-specific staged
+generator.
 
 Recompare this override after every update to Workshop mod `2950245430`.

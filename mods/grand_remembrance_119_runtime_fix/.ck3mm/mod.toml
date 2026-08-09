@@ -1,0 +1,11 @@
+[generator]
+entrypoint = "generator.py:generate"
+owned_outputs = [
+  "common/on_action/gr_on_actions.txt",
+  "common/scripted_effects/gr_npc_obituary_data_effect.txt",
+]
+
+[[sources]]
+name = "workshop-3678529052"
+kind = "workshop"
+item_id = "3678529052"

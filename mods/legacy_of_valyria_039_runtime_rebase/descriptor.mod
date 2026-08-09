@@ -5,9 +5,4 @@ tags={
 	"Total Conversion"
 }
 name="Legacy of Valyria RC71 - CK3 1.19 Runtime Rebase"
-dependencies={
-	"A Game of Thrones"
-	"Legacy of Valyria"
-	"Legacy of Valyria - AGOT 0.4.39 Temporary Compatch RC71"
-}
 supported_version="1.19.*"

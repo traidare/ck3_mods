@@ -1,0 +1,13 @@
+[generator]
+entrypoint = "generator.py:generate"
+owned_outputs = ["common", "events", "gfx", "localization"]
+
+[[sources]]
+name = "bloodlines-legacies"
+kind = "workshop"
+item_id = "3522779004"
+
+[[sources]]
+name = "agot"
+kind = "workshop"
+item_id = "2962333032"

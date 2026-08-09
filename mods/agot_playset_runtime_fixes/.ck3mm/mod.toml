@@ -1,0 +1,158 @@
+[generator]
+entrypoint = "generator.py:generate"
+owned_outputs = ["common", "events", "gfx", "gui"]
+
+[[sources]]
+name = "game"
+kind = "game"
+path = "game"
+
+[[sources]]
+name = "workshop-2712590542"
+kind = "workshop"
+item_id = "2712590542"
+
+[[sources]]
+name = "workshop-2886417277"
+kind = "workshop"
+item_id = "2886417277"
+
+[[sources]]
+name = "workshop-2962333032"
+kind = "workshop"
+item_id = "2962333032"
+
+[[sources]]
+name = "workshop-2967263410"
+kind = "workshop"
+item_id = "2967263410"
+
+[[sources]]
+name = "workshop-2971198450"
+kind = "workshop"
+item_id = "2971198450"
+
+[[sources]]
+name = "workshop-3084203091"
+kind = "workshop"
+item_id = "3084203091"
+
+[[sources]]
+name = "workshop-3241130652"
+kind = "workshop"
+item_id = "3241130652"
+
+[[sources]]
+name = "workshop-3305687550"
+kind = "workshop"
+item_id = "3305687550"
+
+[[sources]]
+name = "workshop-3319354609"
+kind = "workshop"
+item_id = "3319354609"
+
+[[sources]]
+name = "workshop-3324579171"
+kind = "workshop"
+item_id = "3324579171"
+
+[[sources]]
+name = "workshop-3349316031"
+kind = "workshop"
+item_id = "3349316031"
+
+[[sources]]
+name = "workshop-3361162762"
+kind = "workshop"
+item_id = "3361162762"
+
+[[sources]]
+name = "workshop-3377641022"
+kind = "workshop"
+item_id = "3377641022"
+
+[[sources]]
+name = "workshop-3388366564"
+kind = "workshop"
+item_id = "3388366564"
+
+[[sources]]
+name = "workshop-3437814875"
+kind = "workshop"
+item_id = "3437814875"
+
+[[sources]]
+name = "workshop-3445965581"
+kind = "workshop"
+item_id = "3445965581"
+
+[[sources]]
+name = "workshop-3462342647"
+kind = "workshop"
+item_id = "3462342647"
+
+[[sources]]
+name = "workshop-3541596590"
+kind = "workshop"
+item_id = "3541596590"
+
+[[sources]]
+name = "workshop-3596393244"
+kind = "workshop"
+item_id = "3596393244"
+
+[[sources]]
+name = "workshop-3621472324"
+kind = "workshop"
+item_id = "3621472324"
+
+[[sources]]
+name = "workshop-3662281614"
+kind = "workshop"
+item_id = "3662281614"
+
+[[sources]]
+name = "workshop-3673468355"
+kind = "workshop"
+item_id = "3673468355"
+
+[[sources]]
+name = "workshop-3674548216"
+kind = "workshop"
+item_id = "3674548216"
+
+[[sources]]
+name = "workshop-3676293022"
+kind = "workshop"
+item_id = "3676293022"
+
+[[sources]]
+name = "workshop-3682802751"
+kind = "workshop"
+item_id = "3682802751"
+
+[[sources]]
+name = "workshop-3709868073"
+kind = "workshop"
+item_id = "3709868073"
+
+[[sources]]
+name = "workshop-3713902872"
+kind = "workshop"
+item_id = "3713902872"
+
+[[sources]]
+name = "workshop-3719888822"
+kind = "workshop"
+item_id = "3719888822"
+
+[[sources]]
+name = "workshop-3761342990"
+kind = "workshop"
+item_id = "3761342990"
+
+[[sources]]
+name = "workshop-3762892081"
+kind = "workshop"
+item_id = "3762892081"

@@ -7,7 +7,3 @@ tags={
 }
 name="AGOT NOW - CK3 1.19 Rebase"
 supported_version="1.19.*"
-dependencies={
-	"A Game of Thrones"
-	"AGOT Nobility of Westeros"
-}

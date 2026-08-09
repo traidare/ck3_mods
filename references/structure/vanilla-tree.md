@@ -97,8 +97,7 @@ folders:
 
 The game ships with `.info` files — Paradox's official syntax documentation for
 each moddable system. They document every valid key, type, and value. After
-running `scripts/sync-ck3-references.bash`, these are available at
-`references/generated/info/`.
+running `ck3mm refs sync`, these are available at `references/generated/info/`.
 
 | Location in game                                             | What it documents                            |
 | ------------------------------------------------------------ | -------------------------------------------- |

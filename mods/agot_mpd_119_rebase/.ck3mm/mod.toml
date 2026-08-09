@@ -1,0 +1,15 @@
+[generator]
+entrypoint = "generator.py:generate"
+owned_outputs = ["common/traits/01_personality_overrides.txt"]
+
+[[sources]]
+name = "more-personality-depth"
+kind = "workshop"
+item_id = "3717990443"
+path = "common/traits/01_personality_overrides.txt"
+
+[[sources]]
+name = "agot-traits"
+kind = "workshop"
+item_id = "2962333032"
+path = "common/traits/00_traits.txt"

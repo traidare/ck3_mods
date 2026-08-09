@@ -1,0 +1,28 @@
+[generator]
+entrypoint = "generator.py:generate"
+owned_outputs = ["gfx/portraits/portrait_animations/animations.txt"]
+
+[[sources]]
+name = "agot"
+kind = "workshop"
+item_id = "2962333032"
+
+[[sources]]
+name = "submod-core"
+kind = "workshop"
+item_id = "3034473189"
+
+[[sources]]
+name = "dynamic-family-portrait"
+kind = "workshop"
+item_id = "3609763696"
+
+[[sources]]
+name = "long-night"
+kind = "workshop"
+item_id = "3766462389"
+
+[[sources]]
+name = "standalone-long-night"
+kind = "mod"
+mod = "agot_the_long_night"

@@ -1,0 +1,21 @@
+[generator]
+entrypoint = "generator.py:generate"
+owned_outputs = [
+  "common/culture/traditions/zzz_agot_mayham_aow_compatch_traditions.txt",
+  "common/culture/traditions/00_agot_unique_traditions.txt",
+]
+
+[[sources]]
+name = "agot"
+kind = "workshop"
+item_id = "2962333032"
+
+[[sources]]
+name = "mayham"
+kind = "workshop"
+item_id = "3352171144"
+
+[[sources]]
+name = "armies-of-westeros"
+kind = "workshop"
+item_id = "2966543745"

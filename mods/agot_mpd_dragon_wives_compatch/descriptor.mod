@@ -6,9 +6,3 @@ tags={
 }
 name="AGOT - More Personality Depth + Dragon Wives Compatch"
 supported_version="1.19.*"
-dependencies={
-	"A Game of Thrones"
-	"AGOT Dragon Wives"
-	"AGOT - More Personality Depth"
-	"AGOT MPD 0.3.0 - CK3 1.19 Runtime Rebase"
-}

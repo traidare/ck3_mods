@@ -30,8 +30,14 @@ definitions take effect after loading the save with the compatch enabled.
 
 ## Regeneration
 
-Run `scripts/generate-agot-mayham-aow-compatch.py` from the repository root
-after updating AGOT, Mayham, or Armies of Westeros. The generator verifies the
-complete AGOT-to-Mayham delta manifest and fails on missing definitions,
-unexpected upstream changes, the malformed Arbor token changing, or ambiguous
-fields rather than silently emitting an incomplete merge.
+The `.ck3mm/mod.toml` manifest declares the AGOT, Mayham, and Armies of Westeros
+sources and the generator's owned outputs. Regenerate from the repository root:
+
+```sh
+ck3mm mod check agot_mayham_aow_compatch
+ck3mm mod generate agot_mayham_aow_compatch
+```
+
+The generator verifies the complete AGOT-to-Mayham delta manifest and fails on
+missing definitions, unexpected upstream changes, the malformed Arbor token
+changing, or ambiguous fields rather than silently emitting an incomplete merge.

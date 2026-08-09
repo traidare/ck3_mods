@@ -46,8 +46,11 @@ The event and selector files are generated directly from the current Workshop
 source:
 
 ```bash
-scripts/generate-viet-agot-runtime-rebase.py
+ck3mm mod check viet_agot_119_runtime_rebase
+ck3mm mod generate viet_agot_119_runtime_rebase
 ```
 
-The evidence-derived event manifest is `scripts/viet-agot-disabled-events.txt`.
-Re-run a full playtest and re-audit the manifest whenever VIET updates.
+The `.ck3mm/mod.toml` manifest declares VIET as a portable source, the staged
+generator, and its owned outputs. The evidence-derived disabled-event manifest
+is a generator asset below `.ck3mm/`. Re-run a full playtest and re-audit that
+asset whenever VIET updates.

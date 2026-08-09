@@ -31,8 +31,10 @@ decision-field, and opinion-duration failures addressed here.
 Generated files come from the current Workshop sources:
 
 ```bash
-scripts/generate-bloodlines-legacies-agot-119-rebase.py
+ck3mm mod check bloodlines_legacies_agot_119_rebase
+ck3mm mod generate bloodlines_legacies_agot_119_rebase
 ```
 
-The generator asserts expected replacement counts. Re-run it and re-audit this
-module whenever Bloodlines or AGOT updates.
+The `.ck3mm/mod.toml` manifest declares the parents, staged entrypoint, and
+owned outputs. The generator asserts expected replacement counts. Re-run it and
+re-audit this module whenever Bloodlines or AGOT updates.

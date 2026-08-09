@@ -23,11 +23,13 @@ This whole-file rebase preserves the parent logic while:
 The generated overrides are built from the current NOW source by:
 
 ```sh
-scripts/generate-agot-playset-runtime-fixes.py
+ck3mm mod check agot_now_119_rebase
+ck3mm mod generate agot_now_119_rebase
 ```
 
-The generator checks all 39 candidate comparisons and stops when a NOW update
-invalidates the source assumptions.
+The `.ck3mm/mod.toml` manifest selects NOW and this module's
+destination-specific generator. It checks all 39 candidate comparisons and stops
+when a NOW update invalidates the source assumptions.
 
 Recompare this file with NOW after every Workshop update.
 

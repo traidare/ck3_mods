@@ -21,7 +21,13 @@ variants of ANT's previously player-only duchy buildings.
 
 ## Regeneration
 
-Run `scripts/generate-ant-agot-vanilla-balance.py` from the repository root
-after updating either ANT Workshop dependency. The generator fails when an
-expected source definition or required field is missing instead of silently
-emitting an incomplete patch.
+The per-mod manifest declares both ANT Workshop dependencies and the staged
+generator. Regenerate from the repository root:
+
+```sh
+ck3mm mod check ant_agot_vanilla_balance
+ck3mm mod generate ant_agot_vanilla_balance
+```
+
+The generator fails when an expected source definition or required field is
+missing instead of silently emitting an incomplete patch.

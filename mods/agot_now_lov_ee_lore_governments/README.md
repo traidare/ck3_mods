@@ -63,15 +63,14 @@ order, resolves title holders and character families, and emits all runtime
 files and audit tables:
 
 ```sh
-scripts/generate-agot-now-lov-ee-lore-governments.py --audit
-scripts/generate-agot-now-lov-ee-lore-governments.py
-scripts/generate-agot-now-lov-ee-lore-governments.py --check
+ck3mm mod check agot_now_lov_ee_lore_governments
+ck3mm mod generate agot_now_lov_ee_lore_governments
 ```
 
 The audit CSVs record every government assignment, Jogos Nhai culture
 correction, Ibben character faith transition, and Ibben province faith
-transition. `--update-source-manifest` is required after an intentional upstream
-change; review the upstream diff before accepting the new manifest.
+transition. After an intentional upstream change, review the source diff and
+update the granular source-manifest asset before regenerating.
 
 Re-run the audit after updates to Workshop mods `2962333032`, `3664900993`,
 `3403938445`, `3719888822`, `3682802751`, `3768149491`, or `3773608127`, or

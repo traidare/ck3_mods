@@ -62,9 +62,14 @@ summer-to-autumn delay), the shared Seasons shader skip threshold, and the
 Seasons regional cleanup memberships. The latter rebases `d_ironwater`,
 `c_sallydance`, `d_greenbelt`, and `c_brittlebush`; it also keeps the Iron Isles
 specific and covers LoV regions without applying seasons to wilderness ruins.
-`scripts/generate-agot-full-playset-compatch-rebases.py` regenerates those
-outputs from the current NOW and Seasons fork, records their source hashes in
-`content_source/source_manifest.json`, and supports `--check`.
+The per-mod `.ck3mm/mod.toml` generator regenerates those outputs from the
+declared NOW and Seasons-fork sources. Its portable source metadata now lives
+under `.ck3mm/` instead of the installed runtime payload.
+
+```sh
+ck3mm mod check agot_full_playset_compatch
+ck3mm mod generate agot_full_playset_compatch
+```
 
 A narrow `can_raid` scripted-rule override also returns false when CK3 evaluates
 the rule without a potential-raider character, while delegating unchanged to

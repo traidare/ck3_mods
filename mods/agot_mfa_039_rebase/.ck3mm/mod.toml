@@ -1,0 +1,8 @@
+[generator]
+entrypoint = "generator.py:generate"
+owned_outputs = ["common/on_action/activities"]
+
+[[sources]]
+name = "workshop-3723597729"
+kind = "workshop"
+item_id = "3723597729"
