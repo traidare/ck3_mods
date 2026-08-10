@@ -100,15 +100,36 @@ For map-data merges:
 Use [the heightmap repack workflow](docs/agot-heightmap-repack.md) for the NOW,
 LoV, and Essos Expanded heightmap workflow.
 
+## Repository layout
+
+`mods/<slug>/` holds only installable CK3 payload. Everything used to build,
+validate, or audit that mod lives in `workspace/<slug>/` and never ships:
+
+| path                                  | contents                                    |
+| ------------------------------------- | ------------------------------------------- |
+| `mods/<slug>/descriptor.mod`          | game-facing metadata only                   |
+| `mods/<slug>/common/`, `map_data/`, … | payload CK3 loads                           |
+| `workspace/<slug>/mod.toml`           | generator manifest, declared sources        |
+| `workspace/<slug>/implementation.py`  | the mod's generator                         |
+| `workspace/<slug>/assets/`            | generator inputs and source manifests       |
+| `workspace/<slug>/artifacts/`         | generated audits and unpacked sources       |
+| `workspace/<slug>/ck3-tiger.conf`     | dependency load order for static validation |
+
+`ck3mm.toml` at the repository root marks the workspace and declares this
+layout. Both trees are ordinary visible directories, so `rg` searches them
+without `--hidden`.
+
 ## Generated outputs and validation
 
-When a module has a `.ck3mm/mod.toml` generator, edit its `.ck3mm` generator or
+When a module has a `workspace/<slug>/mod.toml` generator, edit its generator or
 assets and regenerate its declared owned outputs. The staged generator's
 assertions and granular source-manifest assets are upstream-change detectors,
 not optional noise.
 
-Keep `descriptor.mod` limited to game-facing metadata. Declare dependency load
-order for static validation only in `.ck3mm/ck3-tiger.conf`.
+A manifest declares two output roots. `owned_outputs` are payload paths promoted
+into `mods/<slug>/`; `owned_artifacts` are paths promoted into
+`workspace/<slug>/artifacts/`. Generators stage artifacts under the reserved
+`artifacts/` prefix, so audits never reach the Launcher.
 
 Validate from narrow to broad:
 

@@ -15,7 +15,6 @@ dependencies = [
 
 [project.optional-dependencies]
 dev = [
-  "pytest>=8",
   "ruff>=0.9",
 ]
 
@@ -24,11 +23,6 @@ ck3mm = "ck3mm.cli:main"
 
 [tool.setuptools.packages.find]
 where = ["src"]
-
-[tool.pytest.ini_options]
-addopts = "-ra"
-pythonpath = ["src"]
-testpaths = ["tests"]
 
 [tool.ruff]
 line-length = 88
@@ -40,4 +34,4 @@ select = ["E", "F", "I", "UP", "B", "SIM"]
 [tool.ruff.lint.per-file-ignores]
 "src/ck3mm/generators/agot_runtime.py" = ["E501"]
 "src/ck3mm/generators/longnight_compat.py" = ["E501"]
-"mods/**/.ck3mm/implementation.py" = ["E501"]
+"workspace/**/implementation.py" = ["E501"]

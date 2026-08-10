@@ -1,0 +1,9 @@
+[workspace]
+mods_dir = "mods"
+tooling_dir = "workspace"
+state_dir = ".ignored/ck3mm"
+
+# Per-mod filenames.
+descriptor = "descriptor.mod"
+manifest = "mod.toml"
+artifacts_dir = "artifacts"

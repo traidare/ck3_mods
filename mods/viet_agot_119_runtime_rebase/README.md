@@ -50,7 +50,8 @@ ck3mm mod check viet_agot_119_runtime_rebase
 ck3mm mod generate viet_agot_119_runtime_rebase
 ```
 
-The `.ck3mm/mod.toml` manifest declares VIET as a portable source, the staged
-generator, and its owned outputs. The evidence-derived disabled-event manifest
-is a generator asset below `.ck3mm/`. Re-run a full playtest and re-audit that
-asset whenever VIET updates.
+The `workspace/viet_agot_119_runtime_rebase/mod.toml` manifest declares VIET as
+a portable source, the staged generator, and its owned outputs. The
+evidence-derived disabled-event manifest is a generator asset below
+`workspace/viet_agot_119_runtime_rebase/`. Re-run a full playtest and re-audit
+that asset whenever VIET updates.

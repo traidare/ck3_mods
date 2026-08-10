@@ -71,7 +71,7 @@ export heightmap_stage="$CK3_PARADOX_DIR/mod/agot_heightmap_repack_staging"
 export heightmap_descriptor="$CK3_PARADOX_DIR/mod/agot_heightmap_repack_staging.mod"
 export heightmap_playset=".ignored/ck3mm/agot-heightmap-editor.json"
 export heightmap_backup=".ignored/ck3mm/agot-heightmap-backup"
-export heightmap_source="mods/agot_now_lov_ee_map_compatch/content_source/heightmap/heightmap_now_delta_unpacked.png"
+export heightmap_source="workspace/agot_now_lov_ee_map_compatch/artifacts/heightmap/heightmap_now_delta_unpacked.png"
 ```
 
 Choose a new `heightmap_backup` path for every promotion so an earlier recovery

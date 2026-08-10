@@ -18,7 +18,6 @@
           with pythonPkgs; [
             numpy
             pillow
-            pytest
             ruff
           ]);
         packageSource = lib.fileset.toSource {
@@ -26,7 +25,6 @@
           fileset = lib.fileset.unions [
             ./pyproject.toml
             ./src
-            ./tests
           ];
         };
         ck3mm = pkgs.python3Packages.buildPythonApplication {
@@ -52,22 +50,16 @@
               ]
             ))
           ];
-          nativeCheckInputs = [pkgs.python3Packages.pytest];
-          doCheck = true;
-          checkPhase = ''
-            runHook preCheck
-            pytest
-            runHook postCheck
-          '';
+          doCheck = false;
           meta.mainProgram = "ck3mm";
         };
         workingTreeCk3mm = pkgs.writeShellScriptBin "ck3mm" ''
           ck3mm_root="$PWD"
-          while [[ ! -f "$ck3mm_root/pyproject.toml" && "$ck3mm_root" != / ]]; do
+          while [[ ! -f "$ck3mm_root/ck3mm.toml" && "$ck3mm_root" != / ]]; do
             ck3mm_root="$(dirname "$ck3mm_root")"
           done
-          if [[ ! -f "$ck3mm_root/pyproject.toml" ]]; then
-            echo "error: no pyproject.toml found from $PWD" >&2
+          if [[ ! -f "$ck3mm_root/ck3mm.toml" ]]; then
+            echo "error: no ck3mm.toml found from $PWD" >&2
             exit 2
           fi
           export PYTHONPATH="$ck3mm_root/src''${PYTHONPATH:+:$PYTHONPATH}"

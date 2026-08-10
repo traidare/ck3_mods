@@ -27,9 +27,9 @@ ck3mm mod check agot_now_119_rebase
 ck3mm mod generate agot_now_119_rebase
 ```
 
-The `.ck3mm/mod.toml` manifest selects NOW and this module's
-destination-specific generator. It checks all 39 candidate comparisons and stops
-when a NOW update invalidates the source assumptions.
+The `workspace/agot_now_119_rebase/mod.toml` manifest selects NOW and this
+module's destination-specific generator. It checks all 39 candidate comparisons
+and stops when a NOW update invalidates the source assumptions.
 
 Recompare this file with NOW after every Workshop update.
 

@@ -33,11 +33,11 @@ the helper's intended coverage directly with `d_skagos`, `d_deepdown`, and
 
 ## Generation
 
-The `.ck3mm/mod.toml` generator reads its declared Workshop parents, the local
-map compatch, and its two declared repository reference images. Their coastlines
-and major landmarks share the CK3 map's full-world projection. The generator
-resamples them to a common analysis grid and aggregates their biome evidence by
-exact province pixels.
+The `workspace/agot_now_lov_ee_world_data/mod.toml` generator reads its declared
+Workshop parents, the local map compatch, and its two declared repository
+reference images. Their coastlines and major landmarks share the CK3 map's
+full-world projection. The generator resamples them to a common analysis grid
+and aggregates their biome evidence by exact province pixels.
 
 The generated terrain combines:
 

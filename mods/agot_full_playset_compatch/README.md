@@ -65,9 +65,11 @@ covers LoV regions without applying seasons to wilderness ruins. It is written
 to `map_data/geographical_regions/north_sans_neck.txt`, the same path the
 Seasons fork uses: `replace/` is a plain subfolder there with no engine meaning,
 so a copy inside it would load _alongside_ the fork's file and define every
-shared region twice. The per-mod `.ck3mm/mod.toml` generator regenerates those
-outputs from the declared NOW and Seasons-fork sources. Its portable source
-metadata now lives under `.ck3mm/` instead of the installed runtime payload.
+shared region twice. The per-mod `workspace/agot_full_playset_compatch/mod.toml`
+generator regenerates those outputs from the declared NOW and Seasons-fork
+sources. Its portable source metadata now lives under
+`workspace/agot_full_playset_compatch/` instead of the installed runtime
+payload.
 
 ```sh
 ck3mm mod check agot_full_playset_compatch

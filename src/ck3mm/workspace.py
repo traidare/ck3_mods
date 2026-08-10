@@ -10,8 +10,9 @@ from typing import Any
 
 from .config import Config, ConfigError
 
-ROOT_MARKER = "pyproject.toml"
+ROOT_MARKER = "ck3mm.toml"
 SOURCE_KINDS = frozenset({"workshop", "game", "repository", "mod"})
+ARTIFACT_PREFIX = "artifacts"
 
 
 class WorkspaceError(ValueError):
@@ -19,7 +20,7 @@ class WorkspaceError(ValueError):
 
 
 def discover_root(start: Path | None = None) -> Path:
-    """Find the nearest ancestor containing the repository's ``pyproject.toml``."""
+    """Find the nearest ancestor containing the repository's ``ck3mm.toml``."""
     candidate = Path.cwd() if start is None else Path(start)
     if candidate.exists() and candidate.is_file():
         candidate = candidate.parent
@@ -70,14 +71,44 @@ def _string_list(value: object, *, field_name: str) -> tuple[str, ...]:
 
 @dataclass(frozen=True, slots=True)
 class WorkspaceSettings:
+    """Repository layout, loaded from ``ck3mm.toml`` at the workspace root."""
+
     mods_dir: str = "mods"
+    tooling_dir: str = "workspace"
     state_dir: str = ".ignored/ck3mm"
     descriptor: str = "descriptor.mod"
-    manifest: str = ".ck3mm/mod.toml"
-    install_exclude: tuple[str, ...] = (
-        ".ck3mm/**",
-        "README.md",
-    )
+    manifest: str = "mod.toml"
+    artifacts_dir: str = ARTIFACT_PREFIX
+    install_exclude: tuple[str, ...] = ("README.md",)
+
+    @classmethod
+    def from_root(cls, root: Path) -> WorkspaceSettings:
+        data = _read_toml(root / ROOT_MARKER).get("workspace", {})
+        if not isinstance(data, dict):
+            raise WorkspaceError(f"{ROOT_MARKER}: workspace must be a table")
+        defaults = cls()
+        values: dict[str, Any] = {}
+        for field_name in (
+            "mods_dir",
+            "tooling_dir",
+            "state_dir",
+            "descriptor",
+            "manifest",
+            "artifacts_dir",
+        ):
+            value = data.get(field_name, getattr(defaults, field_name))
+            if not isinstance(value, str) or not value.strip():
+                raise WorkspaceError(
+                    f"{ROOT_MARKER}: workspace.{field_name} must be a non-empty string"
+                )
+            values[field_name] = value.strip()
+        exclude = data.get("install_exclude")
+        values["install_exclude"] = (
+            _string_list(exclude, field_name="workspace.install_exclude")
+            if exclude is not None
+            else defaults.install_exclude
+        )
+        return cls(**values)
 
 
 @dataclass(frozen=True, slots=True)
@@ -132,6 +163,7 @@ class SourceSpec:
 class GeneratorSpec:
     entrypoint: str
     owned_outputs: tuple[str, ...]
+    owned_artifacts: tuple[str, ...] = ()
     assets: tuple[str, ...] = ()
 
     @classmethod
@@ -159,10 +191,21 @@ class GeneratorSpec:
         if not outputs:
             raise WorkspaceError(f"{path}: generator.owned_outputs must not be empty")
         for output in outputs:
-            if PurePosixPath(output).parts[0] == ".ck3mm":
+            if PurePosixPath(output).parts[0] == ARTIFACT_PREFIX:
                 raise WorkspaceError(
-                    f"{path}: generators cannot own development metadata: {output}"
+                    f"{path}: {ARTIFACT_PREFIX}/ is reserved for "
+                    f"generator.owned_artifacts: {output}"
                 )
+
+        artifacts = tuple(
+            _relative_path(
+                item, field_name="generator.owned_artifacts", allow_glob=True
+            )
+            for item in _string_list(
+                data.get("owned_artifacts", []),
+                field_name="generator.owned_artifacts",
+            )
+        )
 
         assets = tuple(
             _relative_path(item, field_name="generator.assets", allow_glob=True)
@@ -173,6 +216,7 @@ class GeneratorSpec:
         return cls(
             entrypoint=f"{module_path}:{function}",
             owned_outputs=outputs,
+            owned_artifacts=artifacts,
             assets=assets,
         )
 
@@ -187,10 +231,14 @@ class ModManifest:
 
 @dataclass(frozen=True, slots=True)
 class Mod:
+    """One mod: an installable payload root plus its non-shipping tooling root."""
+
     slug: str
     root: Path
+    tooling_root: Path
     descriptor_path: Path
     manifest_path: Path
+    artifacts_root: Path
     manifest: ModManifest | None = None
 
 
@@ -212,7 +260,7 @@ def _source_mappings(value: object, *, path: Path) -> list[Mapping[str, Any]]:
 
 
 def load_manifest(path: Path, *, default_slug: str) -> ModManifest:
-    """Load one ``.ck3mm/mod.toml`` manifest."""
+    """Load one ``workspace/<slug>/mod.toml`` manifest."""
     data = _read_toml(path)
     slug = default_slug.strip()
     if slug in {".", ".."} or "/" in slug or "\\" in slug:
@@ -250,40 +298,52 @@ class Workspace:
     @classmethod
     def from_path(cls, start: Path | None = None) -> Workspace:
         root = discover_root(start)
-        return cls(root=root, settings=WorkspaceSettings())
+        return cls(root=root, settings=WorkspaceSettings.from_root(root))
 
     @property
     def mods_dir(self) -> Path:
         return self.root / self.settings.mods_dir
 
     @property
+    def tooling_dir(self) -> Path:
+        return self.root / self.settings.tooling_dir
+
+    @property
     def state_dir(self) -> Path:
         return self.root / self.settings.state_dir
 
+    def _mod_at(self, slug: str) -> Mod | None:
+        mod_root = self.mods_dir / slug
+        tooling_root = self.tooling_dir / slug
+        descriptor = mod_root / self.settings.descriptor
+        manifest_path = tooling_root / self.settings.manifest
+        if not descriptor.is_file() and not manifest_path.is_file():
+            return None
+        manifest = (
+            load_manifest(manifest_path, default_slug=slug)
+            if manifest_path.is_file()
+            else None
+        )
+        return Mod(
+            slug=slug,
+            root=mod_root,
+            tooling_root=tooling_root,
+            descriptor_path=descriptor,
+            manifest_path=manifest_path,
+            artifacts_root=tooling_root / self.settings.artifacts_dir,
+            manifest=manifest,
+        )
+
     def iter_mods(self) -> Iterator[Mod]:
-        """Yield local mod directories in stable slug order."""
+        """Yield mods in stable slug order, keyed by their payload directory."""
         if not self.mods_dir.is_dir():
             return
-        for mod_root in sorted(
-            (path for path in self.mods_dir.iterdir() if path.is_dir()),
-            key=lambda path: path.name,
+        for slug in sorted(
+            path.name for path in self.mods_dir.iterdir() if path.is_dir()
         ):
-            descriptor = mod_root / self.settings.descriptor
-            manifest_path = mod_root / self.settings.manifest
-            if not descriptor.is_file() and not manifest_path.is_file():
-                continue
-            manifest = (
-                load_manifest(manifest_path, default_slug=mod_root.name)
-                if manifest_path.is_file()
-                else None
-            )
-            yield Mod(
-                slug=mod_root.name,
-                root=mod_root,
-                descriptor_path=descriptor,
-                manifest_path=manifest_path,
-                manifest=manifest,
-            )
+            mod = self._mod_at(slug)
+            if mod is not None:
+                yield mod
 
     def mods(self) -> tuple[Mod, ...]:
         return tuple(self.iter_mods())

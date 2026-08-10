@@ -1,7 +1,6 @@
 .env
 .envrc
 /.ignored/
-/.pytest_cache/
 /.ruff_cache/
 /.venv/
 __pycache__/

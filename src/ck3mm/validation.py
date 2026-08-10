@@ -134,7 +134,7 @@ def run_command(command: Sequence[str], *, cwd: Path) -> CommandExecution:
 def discover_tiger_config(mod: Mod) -> Path | None:
     """Return the mod's colocated Tiger dependency configuration, if present."""
 
-    colocated = mod.root / ".ck3mm" / "ck3-tiger.conf"
+    colocated = mod.tooling_root / "ck3-tiger.conf"
     return colocated if colocated.is_file() else None
 
 

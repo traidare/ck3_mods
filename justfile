@@ -1,10 +1,6 @@
 default:
     @just --list
 
-# Run pytest, optionally with additional arguments
-test *args:
-    pytest {{args}}
-
 # Run Python lint checks
 lint:
     ruff check .

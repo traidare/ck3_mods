@@ -43,10 +43,10 @@ ck3mm mod check cafg_agot_compatch
 ck3mm mod generate cafg_agot_compatch
 ```
 
-The `.ck3mm/mod.toml` manifest declares CaFG as a portable source and limits the
-staged generator to this compatch's owned outputs. The generator verifies the
-exact missing type and branch counts and stops if a CaFG update changes the
-source assumptions.
+The `workspace/cafg_agot_compatch/mod.toml` manifest declares CaFG as a portable
+source and limits the staged generator to this compatch's owned outputs. The
+generator verifies the exact missing type and branch counts and stops if a CaFG
+update changes the source assumptions.
 
 ## Cultural-benefit trigger chance
 

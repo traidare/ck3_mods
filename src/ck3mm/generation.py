@@ -19,7 +19,7 @@ from typing import Any
 
 from .config import Config
 from .hashing import sha256_file, update_digest_from_file
-from .workspace import Mod, ModManifest, Workspace
+from .workspace import ARTIFACT_PREFIX, Mod, ModManifest, Workspace
 
 SOURCE_LOCK_NAME = "source-lock.json"
 SOURCE_LOCK_SCHEMA_VERSION = 1
@@ -71,18 +71,53 @@ def _relative_output(value: str | PurePosixPath) -> str:
     return path.as_posix()
 
 
-def output_is_owned(relative_path: str, owned_outputs: tuple[str, ...]) -> bool:
+def _matches_declaration(path: str, patterns: tuple[str, ...]) -> bool:
     """Match exact files, directory prefixes, and POSIX glob declarations."""
-    path = _relative_output(relative_path)
-    if PurePosixPath(path).parts[0] == ".ck3mm":
-        return False
-    for pattern in owned_outputs:
+    for pattern in patterns:
         if any(character in pattern for character in "*?["):
             if fnmatch.fnmatchcase(path, pattern):
                 return True
         elif path == pattern or path.startswith(pattern.rstrip("/") + "/"):
             return True
     return False
+
+
+def is_artifact(relative_path: str) -> bool:
+    """Return whether a staged path belongs to the non-shipping tooling tree."""
+    return PurePosixPath(_relative_output(relative_path)).parts[0] == ARTIFACT_PREFIX
+
+
+def artifact_relative(relative_path: str) -> str:
+    """Strip the reserved ``artifacts/`` prefix from a staged path."""
+    parts = PurePosixPath(_relative_output(relative_path)).parts
+    if not parts or parts[0] != ARTIFACT_PREFIX:
+        raise GenerationError(f"not a staged artifact path: {relative_path}")
+    if len(parts) == 1:
+        raise GenerationError(f"artifact path names no file: {relative_path}")
+    return PurePosixPath(*parts[1:]).as_posix()
+
+
+def output_is_owned(relative_path: str, owned_outputs: tuple[str, ...]) -> bool:
+    """Return whether a staged payload path is declared by the manifest."""
+    path = _relative_output(relative_path)
+    if is_artifact(path):
+        return False
+    return _matches_declaration(path, owned_outputs)
+
+
+def artifact_is_owned(relative_path: str, owned_artifacts: tuple[str, ...]) -> bool:
+    """Return whether a staged ``artifacts/`` path is declared by the manifest."""
+    path = _relative_output(relative_path)
+    if not is_artifact(path):
+        return False
+    return _matches_declaration(artifact_relative(path), owned_artifacts)
+
+
+def staged_is_owned(relative_path: str, generator: Any) -> bool:
+    """Return whether a staged path is declared as payload or as an artifact."""
+    if is_artifact(relative_path):
+        return artifact_is_owned(relative_path, generator.owned_artifacts)
+    return output_is_owned(relative_path, generator.owned_outputs)
 
 
 @dataclass(frozen=True, slots=True)
@@ -120,16 +155,29 @@ class GenerationContext:
             raise GenerationError(f"Workshop inputs do not share one root: {roots}")
         return parents.pop()
 
+    @property
+    def artifacts_root(self) -> Path:
+        """Staging root for development artifacts that never ship to CK3."""
+        return self.stage_dir / ARTIFACT_PREFIX
+
     def output_path(self, relative_path: str | PurePosixPath) -> Path:
+        """Resolve a staged path, whether it is payload or an ``artifacts/`` file."""
         relative = _relative_output(relative_path)
         generator = self.manifest.generator
-        if generator is None or not output_is_owned(relative, generator.owned_outputs):
+        if generator is None or not staged_is_owned(relative, generator):
+            kind = "artifact" if is_artifact(relative) else "output"
             raise GenerationError(
-                f"generator for {self.mod.slug} does not own output {relative}"
+                f"generator for {self.mod.slug} does not own {kind} {relative}"
             )
         output = self.stage_dir / relative
         output.parent.mkdir(parents=True, exist_ok=True)
         return output
+
+    def artifact_path(self, relative_path: str | PurePosixPath) -> Path:
+        """Resolve a path below the mod's ``artifacts/`` staging root."""
+        return self.output_path(
+            PurePosixPath(ARTIFACT_PREFIX) / _relative_output(relative_path)
+        )
 
     def write_text(
         self,
@@ -274,7 +322,9 @@ def _load_entrypoint(manifest: ModManifest) -> tuple[ModuleType, Callable[..., A
     tooling_root = manifest.path.parent.resolve()
     module_path = (tooling_root / module_name).resolve()
     if not module_path.is_relative_to(tooling_root):
-        raise GenerationError(f"generator entrypoint escapes .ck3mm: {module_path}")
+        raise GenerationError(
+            f"generator entrypoint escapes its tooling root: {module_path}"
+        )
     if not module_path.is_file():
         raise GenerationError(f"generator entrypoint not found: {module_path}")
 
@@ -406,7 +456,7 @@ def run_generator(
         unexpected = sorted(
             relative
             for relative in staged
-            if not output_is_owned(relative, manifest.generator.owned_outputs)
+            if not staged_is_owned(relative, manifest.generator)
         )
         if unexpected:
             raise GenerationError(
@@ -414,32 +464,60 @@ def run_generator(
                 + ", ".join(unexpected)
             )
 
-        current = _regular_files(selected.root)
-        current_owned = {
-            relative: path
-            for relative, path in current.items()
-            if output_is_owned(relative, manifest.generator.owned_outputs)
-        }
-        changed = sorted(
-            relative
-            for relative, staged_path in staged.items()
-            if not _same_file(staged_path, selected.root / relative)
+        # Payload promotes into mods/<slug>; artifacts promote into the mod's
+        # tooling tree and never reach the Launcher.
+        destinations = (
+            (
+                selected.root,
+                {rel: path for rel, path in staged.items() if not is_artifact(rel)},
+                lambda rel: output_is_owned(rel, manifest.generator.owned_outputs),
+                lambda rel: rel,
+            ),
+            (
+                selected.artifacts_root,
+                {
+                    artifact_relative(rel): path
+                    for rel, path in staged.items()
+                    if is_artifact(rel)
+                },
+                lambda rel: _matches_declaration(
+                    rel, manifest.generator.owned_artifacts
+                ),
+                lambda rel: f"{ARTIFACT_PREFIX}/{rel}",
+            ),
         )
-        stale = sorted(set(current_owned) - set(staged))
 
-        if not check:
-            for relative in changed:
-                staged_path = staged[relative]
+        changed: list[str] = []
+        stale: list[str] = []
+        for root, group, owned, label in destinations:
+            current_owned = {
+                relative for relative in _regular_files(root) if owned(relative)
+            }
+            group_changed = sorted(
+                relative
+                for relative, staged_path in group.items()
+                if not _same_file(staged_path, root / relative)
+            )
+            group_stale = sorted(current_owned - set(group))
+            changed.extend(label(relative) for relative in group_changed)
+            stale.extend(label(relative) for relative in group_stale)
+
+            if check:
+                continue
+            for relative in group_changed:
+                staged_path = group[relative]
                 _atomic_write(
-                    selected.root / relative,
+                    root / relative,
                     staged_path.read_bytes(),
                     mode=staged_path.stat().st_mode & 0o777,
                 )
-            for relative in stale:
-                destination = selected.root / relative
+            for relative in group_stale:
+                destination = root / relative
                 destination.unlink()
-                _remove_empty_parents(destination, stop=selected.root)
+                _remove_empty_parents(destination, stop=root)
 
+        changed.sort()
+        stale.sort()
         return GenerationResult(
             mod_slug=selected.slug,
             staged_files=tuple(sorted(staged)),

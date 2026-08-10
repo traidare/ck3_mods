@@ -35,10 +35,10 @@ module applies the final lore-specific transform. Keeping map data and
 character-title dispatch separate prevents a map rebase from restoring stale
 government behavior.
 
-The `.ck3mm/mod.toml` generator stages generated output and only promotes a
-complete declared output set into the local module. Its granular source manifest
-pins all text and image inputs, so an upstream update must be reviewed
-explicitly:
+The `workspace/agot_now_lov_ee_map_compatch/mod.toml` generator stages generated
+output and only promotes a complete declared output set into the local module.
+Its granular source manifest pins all text and image inputs, so an upstream
+update must be reviewed explicitly:
 
 ```sh
 ck3mm mod check agot_now_lov_ee_map_compatch

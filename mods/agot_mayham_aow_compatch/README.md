@@ -30,8 +30,9 @@ definitions take effect after loading the save with the compatch enabled.
 
 ## Regeneration
 
-The `.ck3mm/mod.toml` manifest declares the AGOT, Mayham, and Armies of Westeros
-sources and the generator's owned outputs. Regenerate from the repository root:
+The `workspace/agot_mayham_aow_compatch/mod.toml` manifest declares the AGOT,
+Mayham, and Armies of Westeros sources and the generator's owned outputs.
+Regenerate from the repository root:
 
 ```sh
 ck3mm mod check agot_mayham_aow_compatch

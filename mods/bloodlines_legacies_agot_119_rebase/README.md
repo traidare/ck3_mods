@@ -35,6 +35,7 @@ ck3mm mod check bloodlines_legacies_agot_119_rebase
 ck3mm mod generate bloodlines_legacies_agot_119_rebase
 ```
 
-The `.ck3mm/mod.toml` manifest declares the parents, staged entrypoint, and
-owned outputs. The generator asserts expected replacement counts. Re-run it and
-re-audit this module whenever Bloodlines or AGOT updates.
+The `workspace/bloodlines_legacies_agot_119_rebase/mod.toml` manifest declares
+the parents, staged entrypoint, and owned outputs. The generator asserts
+expected replacement counts. Re-run it and re-audit this module whenever
+Bloodlines or AGOT updates.

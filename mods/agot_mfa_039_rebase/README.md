@@ -45,12 +45,12 @@ ck3mm mod check agot_mfa_039_rebase
 ck3mm mod generate agot_mfa_039_rebase
 ```
 
-The `.ck3mm/mod.toml` manifest selects the MFA source and this module's
-destination-specific generator. It checks the exact playdate relay block, the
-expected per-file count of all 695 location references, the hunt relay's six
-host links, one success value, and one participant check, and all five affected
-random lists with their 19 fractional weights. It stops when an MFA update
-invalidates any source assumption.
+The `workspace/agot_mfa_039_rebase/mod.toml` manifest selects the MFA source and
+this module's destination-specific generator. It checks the exact playdate relay
+block, the expected per-file count of all 695 location references, the hunt
+relay's six host links, one success value, and one participant check, and all
+five affected random lists with their 19 fractional weights. It stops when an
+MFA update invalidates any source assumption.
 
 MFA's additive files remain supplied by the Workshop parent. Load this mod
 immediately after MFA and before compatibility layers that merge MFA with LoV,
