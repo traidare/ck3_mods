@@ -30,11 +30,12 @@ SOURCE_RELATIVES = {
 OUTPUT_RELATIVES = {
     "SEASON_EVENTS": SOURCE_RELATIVES["SEASON_EVENTS"],
     "SEASON_FX": SOURCE_RELATIVES["SEASON_FX"],
-    # Geographical-region files merge by named block.  A normal-path final
-    # override therefore duplicates every bridge membership at runtime.
-    "SEASON_REGIONS": Path("map_data/geographical_regions/replace/north_sans_neck.txt"),
+    "SEASON_REGIONS": SOURCE_RELATIVES["SEASON_REGIONS"],
 }
-OBSOLETE_OUTPUTS = (SOURCE_RELATIVES["SEASON_REGIONS"], SOURCE_RELATIVES["NOW"])
+OBSOLETE_OUTPUTS = (
+    Path("map_data/geographical_regions/replace/north_sans_neck.txt"),
+    SOURCE_RELATIVES["NOW"],
+)
 
 
 def parse_args() -> argparse.Namespace:
@@ -202,24 +203,18 @@ def replace_block_member(text: str, block_name: str, old: str, new: str) -> str:
 
 
 def generate_regions(source: str) -> str:
-    text = replace_once(
+    text = replace_block_member(
         source,
-        "\t\t#d_yronwood\n",
+        "world_westeros_rest_of_dorne",
+        "\t\td_yronwood\n",
         "\t\td_greenbelt\n",
-        label="NOW d_greenbelt seasonal-region membership",
     )
-    if text.count("\t\tc_sunvane\n") != 1:
-        raise AssertionError("NOW Sunvane seasonal-region membership changed")
+    if "d_yronwood" in text:
+        raise AssertionError("NOW d_greenbelt seasonal-region membership changed")
+    if "c_sunvane" in text:
+        raise AssertionError("NOW Sunvane seasonal-region membership returned")
     if text.count("\t\tc_brittlebush\n") != 1:
         raise AssertionError("NOW Brittlebush seasonal-region membership changed")
-    text = replace_once(
-        text,
-        "\t\tc_sunvane\n",
-        "",
-        label="NOW Brittlebush seasonal-region membership",
-    )
-    if text.count("\t\tc_brittlebush\n") != 1:
-        raise AssertionError("Brittlebush seasonal-region membership became duplicate")
 
     text = replace_named_block(
         text,
@@ -238,9 +233,10 @@ def generate_regions(source: str) -> str:
 \t}
 }""",
     )
-    text = replace_block_member(
-        text, "world_crossing_flood", "\t\td_ironwater\n", "\t\tc_ironwater\n"
-    )
+    crossing_start, crossing_end = named_block(text, "world_crossing_flood")
+    crossing = text[crossing_start : crossing_end + 1]
+    if "\t\tc_ironwater\n" not in crossing or "d_ironwater" in crossing:
+        raise AssertionError("Ironwater flood membership changed upstream")
     text = replace_block_member(
         text,
         "world_riverrun_flood",
@@ -249,10 +245,19 @@ def generate_regions(source: str) -> str:
     )
     rest_start, rest_end = named_block(text, "world_rest_of_essos_valyria_LOV")
     rest = text[rest_start : rest_end + 1]
-    if re.search(r"(?m)^\s*d_ruins\s*$", rest) or re.search(
+    if not re.search(r"(?m)^\s*d_ruins\s*$", rest) or re.search(
         r"(?m)^\s*regions\s*=", rest
     ):
         raise AssertionError("ruins seasonal-region exclusion changed upstream")
+    text = replace_named_block(
+        text,
+        "world_rest_of_essos_valyria_LOV",
+        """world_rest_of_essos_valyria_LOV = {
+\t# LoV & Seasons compatch: was duchies = { d_ruins }, which is EVERY wasteland on the map.
+\t# AGOT 0.4.40 stubbed the real Essos regions, so upstream's essos_dothraki rolls were
+\t# carpet-painting all ruins provinces with one season. Emptied on purpose.
+}""",
+    )
 
     for group, regions in {
         "world_group_three": ("world_lov_upper_rhoyne",),

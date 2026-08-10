@@ -10,6 +10,7 @@ gen_2339 = {
 
 gen_2340 = {
 	name = "N'kael"
+	dynasty = eetlv_dynn_nkael
 	father = gen_2339
 	culture = bloodless_man
 	religion = eldritch_fishgod
@@ -748,6 +749,7 @@ gen_2429 = {
 
 gen_2430 = {
 	name = "Vorrath"
+	dynasty = eetlv_dynn_vorrath
 	father = gen_2429
 	culture = manticorian
 	religion = eldritch_fishgod
@@ -846,6 +848,7 @@ gen_2441 = {
 
 gen_2442 = {
 	name = "Marrakh"
+	dynasty = eetlv_dynn_marrakh
 	father = gen_2441
 	culture = dothraki
 	religion = dothraki_faith
@@ -895,6 +898,7 @@ gen_2447 = {
 
 gen_2448 = {
 	name = "Jhorgon"
+	dynasty = eetlv_dynn_jhorgon
 	father = gen_2447
 	culture = dothraki
 	religion = dothraki_faith
@@ -944,6 +948,7 @@ gen_2453 = {
 
 gen_2454 = {
 	name = "Orrakh"
+	dynasty = eetlv_dynn_orrakh
 	father = gen_2453
 	culture = dothraki
 	religion = dothraki_faith
@@ -993,6 +998,7 @@ gen_2459 = {
 
 gen_2460 = {
 	name = "Forzek"
+	dynasty = eetlv_dynn_forzek
 	father = gen_2459
 	culture = dothraki
 	religion = dothraki_faith
@@ -1091,6 +1097,7 @@ gen_2471 = {
 
 gen_2472 = {
 	name = "Pyreth Zan"
+	dynasty = eetlv_dynn_pyreth
 	father = gen_2471
 	culture = qartheen
 	religion = qh_pureborn
@@ -1189,6 +1196,7 @@ gen_2483 = {
 
 gen_2484 = {
 	name = "Jong Var"
+	dynasty = eetlv_dynn_var
 	father = gen_2483
 	culture = jogos_nhai
 	religion = song_nefer
@@ -1238,6 +1246,7 @@ gen_2489 = {
 
 gen_2490 = {
 	name = "Varom Zan"
+	dynasty = eetlv_dynn_varom
 	father = gen_2489
 	culture = vahari
 	religion = eldritch_bloodgod
@@ -1287,6 +1296,7 @@ gen_2495 = {
 
 gen_2496 = {
 	name = "Yal Tengvar"
+	dynasty = eetlv_dynn_tengvar
 	father = gen_2495
 	culture = lengii
 	religion = eldritch_leng

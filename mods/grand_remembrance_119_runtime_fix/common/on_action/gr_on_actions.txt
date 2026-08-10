@@ -755,6 +755,25 @@ gr_internal_obituary_processing = {
 				# SECTION A: BASIC INFO
 				# =============================================
 
+				# Text-variant seed. MUST be rolled here, not in gr_obituary.10:
+				# Section Q creates the chronicle page during on_death and copies
+				# scope:heir's vars onto it, but the obit event does not fire until
+				# a day later. Rolling there left every player page with no seed, so
+				# replay fell back to the v1 (plainest) variant of every section
+				# while the death popup showed the rolled text. gr_obituary.10 now
+				# only rolls when this is absent, so page and popup always agree.
+				# Rolled unconditionally here so each generation gets its own value
+				# regardless of what the heir carries. The NPC path already rolls
+				# during on_death (gr_npc_obituary_data_effect) and is unaffected.
+				random_list = {
+					1 = { set_variable = { name = gr_random_seed value = 0 } }
+					1 = { set_variable = { name = gr_random_seed value = 20 } }
+					1 = { set_variable = { name = gr_random_seed value = 40 } }
+					1 = { set_variable = { name = gr_random_seed value = 60 } }
+					1 = { set_variable = { name = gr_random_seed value = 80 } }
+					1 = { set_variable = { name = gr_random_seed value = 100 } }
+				}
+
 				set_variable = {
 					name = gr_predecessor
 					value = root

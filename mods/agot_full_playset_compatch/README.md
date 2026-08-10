@@ -59,12 +59,15 @@ The accompanying narrow runtime layers also repair:
 The final generated layer owns only three cross-parent whole-file overrides: the
 three historical Dance-of-the-Dragons season starts (autumn rather than a
 summer-to-autumn delay), the shared Seasons shader skip threshold, and the
-Seasons regional cleanup memberships. The latter rebases `d_ironwater`,
-`c_sallydance`, `d_greenbelt`, and `c_brittlebush`; it also keeps the Iron Isles
-specific and covers LoV regions without applying seasons to wilderness ruins.
-The per-mod `.ck3mm/mod.toml` generator regenerates those outputs from the
-declared NOW and Seasons-fork sources. Its portable source metadata now lives
-under `.ck3mm/` instead of the installed runtime payload.
+Seasons regional cleanup memberships. The latter rebases `c_sallydance` and
+`d_greenbelt` onto NOW's tokens; it also keeps the Iron Isles specific and
+covers LoV regions without applying seasons to wilderness ruins. It is written
+to `map_data/geographical_regions/north_sans_neck.txt`, the same path the
+Seasons fork uses: `replace/` is a plain subfolder there with no engine meaning,
+so a copy inside it would load _alongside_ the fork's file and define every
+shared region twice. The per-mod `.ck3mm/mod.toml` generator regenerates those
+outputs from the declared NOW and Seasons-fork sources. Its portable source
+metadata now lives under `.ck3mm/` instead of the installed runtime payload.
 
 ```sh
 ck3mm mod check agot_full_playset_compatch

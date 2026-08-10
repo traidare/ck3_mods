@@ -17,7 +17,7 @@ This is a semantic merge rather than a last-writer copy:
 
 - keeps Essos Expanded's province table and applies the eleven province rows
   changed by NOW 1.2.4;
-- preserves NOW's exact 3,470-pixel AGOT heightmap delta composited onto the
+- preserves NOW's exact 3,470-pixel AGOT heightmap delta against the original
   Essos Expanded source under
   `content_source/heightmap/heightmap_now_delta_unpacked.png`;
 - keeps LoV/Essos map objects outside NOW's Westeros edit rectangle and NOW
@@ -48,8 +48,3 @@ ck3mm mod generate agot_now_lov_ee_map_compatch
 After reviewing an intentional upstream map or mask change, update the granular
 source-manifest asset and run the full generator so the image composites are
 rebuilt with the text outputs.
-
-At runtime this layer deliberately leaves the coherent Essos Expanded 1.0
-`heightmap.png` and packed heightmap set in control, so the small NOW elevation
-delta remains inactive. The optional activation procedure is documented only in
-`docs/agot-heightmap-repack.md`.

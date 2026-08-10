@@ -1190,6 +1190,8 @@ def target_source_manifest(
         # re-review of the recolour-preserves-geometry assumption below.
         workshop["EEP"] / "map_data/definition.csv",
         workshop["EEP"] / "map_data/provinces.png",
+        workshop["EEP"] / "map_data/default.map",
+        workshop["EEP"] / "map_data/heightmap.png",
         workshop["EEP"] / "common/landed_titles/01_landed_titles.txt",
         workshop["EE"] / "common/province_terrain/ee_province_terrain.txt",
         workshop["EEP"] / "common/province_terrain/ee_province_terrain.txt",
@@ -1290,18 +1292,11 @@ def main() -> int:
     groups, mask_to_group = load_mask_groups(mask_config_path, mask_paths, terrain_root)
     gameplay_groups = [group for group in groups if group.role == "gameplay"]
 
-    definition_path = workshop["EE"] / "map_data/definition.csv"
-    definitions = parse_definitions(definition_path)
+    ee_definitions = parse_definitions(workshop["EE"] / "map_data/definition.csv")
     merged_definitions = parse_definitions(
         MAP_DEFINITION_OVERRIDE
         or root / "mods/agot_now_lov_ee_map_compatch/map_data/definition.csv"
     )
-    # From 2.5.0 the TempLoV compatch recolours EE's target provinces and ships
-    # a matching `provinces.png`, so it—not EE—owns the effective definition
-    # rows that the map compatch merges.  The recolour is a pure remap: every
-    # pixel resolves to the same province ID under each mod's own
-    # definition/provinces pair, which is why the EE pair below still yields the
-    # correct province pixel sets for terrain analysis.
     eep_definitions = parse_definitions(workshop["EEP"] / "map_data/definition.csv")
     for province_id in range(TARGET_FIRST, TARGET_LAST + 1):
         if eep_definitions[province_id] != merged_definitions[province_id]:
@@ -1309,11 +1304,17 @@ def main() -> int:
                 f"map compatch changed TempLoV target definition row {province_id}"
             )
         if (
-            definitions[province_id].packed_rgb
+            ee_definitions[province_id].packed_rgb
             == eep_definitions[province_id].packed_rgb
         ):
             continue
-        if definitions[province_id].name != eep_definitions[province_id].name:
+        if ee_definitions[province_id].name == eep_definitions[province_id].name:
+            continue
+        if (
+            province_id != 26357
+            or ee_definitions[province_id].name != "LAKE"
+            or eep_definitions[province_id].name != "IMPASSABLE_RIDGE"
+        ):
             raise AssertionError(
                 f"TempLoV recoloured target row {province_id} beyond its colour"
             )
@@ -1395,12 +1396,12 @@ def main() -> int:
         [*ee_titles, *rutting_titles], key=lambda row: row.province_id
     )
 
-    with Image.open(workshop["EE"] / "map_data/provinces.png") as image:
+    with Image.open(workshop["EEP"] / "map_data/provinces.png") as image:
         if image.size != EXPECTED_SIZE or image.mode != "RGB":
             raise AssertionError(
                 f"unexpected provinces image: size={image.size}, mode={image.mode}"
             )
-    with Image.open(workshop["EE"] / "map_data/heightmap.png") as image:
+    with Image.open(workshop["EEP"] / "map_data/heightmap.png") as image:
         if image.size != EXPECTED_SIZE or image.mode not in {"I;16", "I;16L", "I"}:
             raise AssertionError(
                 f"unexpected heightmap image: size={image.size}, mode={image.mode}"
@@ -1416,7 +1417,7 @@ def main() -> int:
         # The full painted-color assertion is intentionally part of accepting a
         # new source baseline, not merely a hash refresh.
         _, area, _, _ = build_id_raster(
-            definitions, workshop["EE"] / "map_data/provinces.png"
+            eep_definitions, workshop["EEP"] / "map_data/provinces.png"
         )
         unpainted_titles = [
             row.province_id for row in ee_titles if area[row.province_id] == 0
@@ -1445,7 +1446,7 @@ def main() -> int:
         )
 
     id_raster, area, centroid_x, centroid_y = build_id_raster(
-        definitions, workshop["EE"] / "map_data/provinces.png"
+        eep_definitions, workshop["EEP"] / "map_data/provinces.png"
     )
     unpainted_titles = [
         row.province_id for row in graphical_titles if area[row.province_id] == 0
@@ -1462,7 +1463,7 @@ def main() -> int:
         adjacency[second].add(first)
 
     sea_zones, river_provinces, lakes = parse_default_map(
-        workshop["EE"] / "map_data/default.map"
+        workshop["EEP"] / "map_data/default.map"
     )
     water_ids = sea_zones | river_provinces | lakes
     target_ids = np.arange(TARGET_FIRST, TARGET_LAST + 1, dtype=np.int32)
@@ -1471,7 +1472,7 @@ def main() -> int:
         cache_dir=root / ".ignored/cache/agot_now_lov_ee_world_data",
         cache_key=cache_key,
         no_cache=args.no_cache,
-        heightmap_path=workshop["EE"] / "map_data/heightmap.png",
+        heightmap_path=workshop["EEP"] / "map_data/heightmap.png",
         mask_paths=mask_paths,
         terrain_root=terrain_root,
         groups=groups,
@@ -1801,7 +1802,7 @@ def main() -> int:
         terrain_audit_rows.append(
             {
                 "province_id": province_id,
-                "rgb": definitions[province_id].rgb_text,
+                "rgb": eep_definitions[province_id].rgb_text,
                 "barony": title.barony if title else "",
                 "county": title.county if title else "",
                 "duchy": title.duchy if title else "",
@@ -1944,7 +1945,7 @@ def main() -> int:
         graphical_audit_rows.append(
             {
                 "province_id": title.province_id,
-                "rgb": definitions[title.province_id].rgb_text,
+                "rgb": eep_definitions[title.province_id].rgb_text,
                 "barony": title.barony,
                 "county": title.county,
                 "duchy": title.duchy,

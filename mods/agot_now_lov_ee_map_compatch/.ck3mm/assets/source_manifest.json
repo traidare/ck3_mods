@@ -245,19 +245,19 @@
       "size": 3726085
     },
     "3768149491/gfx/map/map_object_data/special_building_locators.txt": {
-      "sha256": "a594b76a0948be2878416ec82954c1902c63ede305e42034efea16f2eff7013d",
-      "size": 3763599
+      "sha256": "b5ad30659f49a417e311e52cc276f6c1149b5d53ea7bc08cbd1b8518f54c07f4",
+      "size": 3763602
     },
     "3768149491/map_data/definition.csv": {
-      "sha256": "c063f9f63d6a955ac4bb0d0a44043a1b50201d5955365693c29d05db674179ad",
-      "size": 816064
+      "sha256": "ed5d86ae073b32dcc13d101a16697432810c66bd4c7b7262f98c0abdbb6a7ddb",
+      "size": 816076
     }
   },
   "schema_version": 1,
   "versions": {
     "AGOT": "0.4.40",
     "EE": "1.0",
-    "EEP": "2.5.0",
+    "EEP": "3.2.1",
     "LOV": "1.5.2.13",
     "NOW": "1.2.5",
     "RC": "0.4.39-rebased-rc71-tiger-hard-error-repair"

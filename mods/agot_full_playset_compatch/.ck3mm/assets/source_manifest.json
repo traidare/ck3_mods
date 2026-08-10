@@ -12,7 +12,7 @@
     },
     "SEASONS_BRIDGE_DESCRIPTOR": {
       "path": "3766038754/descriptor.mod",
-      "sha256": "4b0d0f72fc5b8f384f91e037f1fb7d422103ea0f626a007b86cf3f113876b91e",
+      "sha256": "1a52f27f228345a3ef7bba9d1c89df3c3027607ddf5390e98c7419cec6c650c4",
       "size": 429
     },
     "SEASON_EVENTS": {
@@ -27,8 +27,8 @@
     },
     "SEASON_REGIONS": {
       "path": "3766038754/map_data/geographical_regions/north_sans_neck.txt",
-      "sha256": "d34a153fd79855475332b8335ba477340d91ea8298fc6f7473d4bedb992dc7c4",
-      "size": 19345
+      "sha256": "c921889879c34ee4d49b2bf76149dbf5578f54eed66296ea60c91e5e053a91b1",
+      "size": 21910
     }
   },
   "intent": {
@@ -40,7 +40,7 @@
   "schema_version": 1,
   "versions": {
     "NOW": "1.2.5",
-    "SEASONS_BRIDGE": "1.0.13"
+    "SEASONS_BRIDGE": "1.0.14"
   },
   "workshop_ids": {
     "NOW": "3664900993",

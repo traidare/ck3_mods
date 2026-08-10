@@ -123,16 +123,24 @@
       "size": 12244
     },
     "3768149491/common/landed_titles/01_landed_titles.txt": {
-      "sha256": "5f84b0903280359718d27fff51a5d551c8984befed61c88d19234ea6ac661c93",
-      "size": 1354343
+      "sha256": "081a9e33b0405962e8cb229f639ae33d5e886a2673afc4182e9401dbd19c88d9",
+      "size": 1447245
     },
     "3768149491/common/province_terrain/ee_province_terrain.txt": {
-      "sha256": "906a81fd5ded4f8bc60ee750195ec39fb58b1927e9dd07957e1f0ce406e3160a",
-      "size": 250449
+      "sha256": "48477d9771eccaff9ea9f4e0fa284c99caacf89ead543d5c2c9c26af5a0602a2",
+      "size": 277919
+    },
+    "3768149491/common/province_terrain/zz_eetlv_roads_terrain.txt": {
+      "sha256": "b484ad87713ea53f7d1f6189f3c3d7451953bf3b0324f936cab36b36fb7fac68",
+      "size": 12302
+    },
+    "3768149491/map_data/default.map": {
+      "sha256": "5e7c4a6b5feac69b0e341276687af37e2b1c9ff0107474c1ef05b3911c9ae0cf",
+      "size": 19846
     },
     "3768149491/map_data/definition.csv": {
-      "sha256": "c063f9f63d6a955ac4bb0d0a44043a1b50201d5955365693c29d05db674179ad",
-      "size": 816064
+      "sha256": "ed5d86ae073b32dcc13d101a16697432810c66bd4c7b7262f98c0abdbb6a7ddb",
+      "size": 816076
     },
     "3768149491/map_data/geographical_regions/00_agot_geographical_region.txt": {
       "sha256": "798dae2bd79fdbb339b1549e3f324bc2bcce269bbdaf6519938d7dd5700888fa",
@@ -142,13 +150,21 @@
       "sha256": "5abd78d6682b2f454776aece82a406a373cf49da02771536b1ecc10b9572f732",
       "size": 2877
     },
+    "3768149491/map_data/geographical_regions/zz_eetlv_further_east.txt": {
+      "sha256": "3ce42e5b90078d338cdc8c5e2ef3cbd408a664bf785e20ede63dcedd86decc9a",
+      "size": 7689
+    },
+    "3768149491/map_data/heightmap.png": {
+      "sha256": "d5fbd09b5527ad200010fbf3a6386ace0c7b78c70e6951650e0c43eb69eb120e",
+      "size": 24068018
+    },
     "3768149491/map_data/provinces.png": {
       "sha256": "ef916c787b3f541c6265065364b6371afcbcb2e3c13bd29d4fc0b0a5eb469faa",
       "size": 5070538
     },
     "mods/agot_now_lov_ee_map_compatch/map_data/definition.csv": {
-      "sha256": "f170097da2a611903debb05c7ddff254fd20a3a854da30e0c3cd84a5fee417d8",
-      "size": 816064
+      "sha256": "1a4b3c84963594356ea99c3b2201fe321d136e0271c968706d3390767f9307ad",
+      "size": 816076
     },
     "references/agot/map_images/KnownWorldDetailed.jpg": {
       "sha256": "901241c1693667896d867dcadab81f3945d928ba490a47f07062ff6e321acc29",
@@ -917,7 +933,7 @@
   "versions": {
     "AGOT": "0.4.40",
     "EE": "1.0",
-    "EEP": "2.5.0",
+    "EEP": "3.2.1",
     "LOV": "1.5.2.13",
     "NOW": "1.2.5",
     "RC": "0.4.39-rebased-rc71-tiger-hard-error-repair"

@@ -471,8 +471,36 @@ def parse_character_sources(
             if text.count(broken) != 1:
                 raise AssertionError("EE bookmark gen_719 malformed header changed")
             text = text.replace(broken, fixed)
-        document = parse_document(text)
         texts[relative] = text
+
+    base_relative = Path("history/characters/essos_7898_chars.txt")
+    override_relative = Path("history/characters/zz_eetlv_bookmark_char_overrides.txt")
+    if override_relative in texts:
+        if base_relative not in texts:
+            raise AssertionError("EEP bookmark overrides have no EE character base")
+        base_document = parse_document(texts[base_relative])
+        override_document = parse_document(texts[override_relative])
+        base_blocks = {
+            block.key: block
+            for block in base_document.children(None)
+            if re.fullmatch(r"[A-Za-z0-9_]+", block.key)
+        }
+        edits: list[tuple[int, int, str]] = []
+        for override in override_document.children(None):
+            if not re.fullmatch(r"[A-Za-z0-9_]+", override.key):
+                continue
+            if override.key not in base_blocks:
+                raise AssertionError(
+                    f"EEP bookmark override {override.key} is no longer in EE base"
+                )
+            replacement = texts[override_relative][override.start : override.close + 1]
+            base = base_blocks[override.key]
+            edits.append((base.start, base.close + 1, replacement))
+        texts[base_relative] = apply_edits(texts[base_relative], edits)
+        del texts[override_relative]
+
+    for relative, text in sorted(texts.items(), key=lambda item: str(item[0])):
+        document = parse_document(text)
         documents[relative] = document
         for block in document.children(None):
             if not re.fullmatch(r"[A-Za-z0-9_]+", block.key):
@@ -525,8 +553,11 @@ def parse_character_sources(
                 death=min(death_dates) if death_dates else None,
                 relations=relations,
             )
-            if block.key in characters:
-                raise AssertionError(f"duplicate effective character ID {block.key}")
+            existing = characters.get(block.key)
+            if existing and existing.relative == relative:
+                raise AssertionError(
+                    f"duplicate character ID {block.key} in {relative}"
+                )
             characters[block.key] = character
     return texts, documents, characters
 
@@ -1289,6 +1320,11 @@ def main() -> int:
         generated[bookmark_relative] = character_texts[bookmark_relative].encode(
             "utf-8-sig"
         )
+    eep_bookmark_override = Path(
+        "history/characters/zz_eetlv_bookmark_char_overrides.txt"
+    )
+    if eep_bookmark_override in character_winners:
+        generated[eep_bookmark_override] = b"\xef\xbb\xbf\n"
 
     province_relative = Path("history/provinces/k_generated.txt")
     province_text = normalized_text(province_winners[province_relative][1])

@@ -25,6 +25,13 @@ required chain. This module transforms that dispatcher in place: it preserves
 its AGOT mapping semantics, adds the two lore government fallbacks through
 AGOT's feudal path, and does not recreate the old map-compatch government lists.
 
+EEP 3.2.1 deliberately redefines several existing bookmark characters in its
+later `zz_eetlv_bookmark_char_overrides.txt` file to add dynasties. The
+generator folds those definitions into this module's later
+`essos_7898_chars.txt` output, then emits an empty same-path
+`zz_eetlv_bookmark_char_overrides.txt` override. That preserves the dynasties
+without leaving CK3 two definitions of each character.
+
 This module does not own landed-title structure, map data, terrain, holdings,
 holder succession, names, dynasties, or unrelated faith history.
 

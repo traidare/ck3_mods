@@ -1,0 +1,1492 @@
+﻿# EE TempLoV Compatch v3.0: the Cannibal Sands as a confederation of tribes.
+#
+# This file REPLACES Essos Expanded's own vassal_titles_e_cannibal_sands.txt, which handed
+# all 85 counties of the region to the hidden Wilderness Empress at 100.1.1 and left the
+# emperor an empty title over land he did not own.
+#
+# The fourteen tribes are INDEPENDENT of each other, not vassals. A CK3 confederation binds
+# independent nomad rulers, so making them vassals of a Great Chieftain would have made the
+# confederation meaningless: they would already be one realm. The Great Chieftain carries
+# e_cannibal_sands and leads the confederation, but rules nobody's tents but his own.
+#
+# There is no canon for how the Cannibal Sands are governed. TWOIAF says one thing about
+# them, that the inhabitants allegedly consume human flesh. A scatter of bands bound loosely
+# together suits a pair of small deserts better than an empire does.
+#
+# Governments are nomad here and every county seat carries a nomad holding to match.
+# The confederation itself still needs Khans of the Steppe and is DLC-gated in its own
+# effect; without the DLC the tribes simply stay independent.
+
+### Vezkar  (9 counties)
+d_R122G121B140 = {
+	7898.1.1 = {
+		holder = eetlv_cs_1_1
+	}
+	7985.1.1 = { holder = eetlv_cs_1_2 }
+	8082.1.1 = { holder = eetlv_cs_1_3 }
+	8106.4.18 = { holder = eetlv_cs_1_4 }
+	8170.12.11 = { holder = eetlv_cs_1_5 }
+	8209.2.1 = { holder = eetlv_cs_1_6 }
+	8211.3.1 = { holder = eetlv_cs_1_7 }
+	8233.2.8 = { holder = eetlv_cs_1_8 }
+	8236.2.13 = { holder = eetlv_cs_1_9 }
+	8239.1.11 = { holder = eetlv_cs_1_10 }
+	8258.12.21 = { holder = eetlv_cs_1_11 }
+	8277.1.1 = { holder = eetlv_cs_1_12 }
+}
+c_R15G252B213 = {
+	7898.1.1 = { holder = eetlv_cs_1_1 }
+	7985.1.1 = { holder = eetlv_cs_1_2 }
+	8082.1.1 = { holder = eetlv_cs_1_3 }
+	8106.4.18 = { holder = eetlv_cs_1_4 }
+	8170.12.11 = { holder = eetlv_cs_1_5 }
+	8209.2.1 = { holder = eetlv_cs_1_6 }
+	8211.3.1 = { holder = eetlv_cs_1_7 }
+	8233.2.8 = { holder = eetlv_cs_1_8 }
+	8236.2.13 = { holder = eetlv_cs_1_9 }
+	8239.1.11 = { holder = eetlv_cs_1_10 }
+	8258.12.21 = { holder = eetlv_cs_1_11 }
+	8277.1.1 = { holder = eetlv_cs_1_12 }
+}
+c_R2G50B13 = {
+	7898.1.1 = { holder = eetlv_cs_1_1 }
+	7985.1.1 = { holder = eetlv_cs_1_2 }
+	8082.1.1 = { holder = eetlv_cs_1_3 }
+	8106.4.18 = { holder = eetlv_cs_1_4 }
+	8170.12.11 = { holder = eetlv_cs_1_5 }
+	8209.2.1 = { holder = eetlv_cs_1_6 }
+	8211.3.1 = { holder = eetlv_cs_1_7 }
+	8233.2.8 = { holder = eetlv_cs_1_8 }
+	8236.2.13 = { holder = eetlv_cs_1_9 }
+	8239.1.11 = { holder = eetlv_cs_1_10 }
+	8258.12.21 = { holder = eetlv_cs_1_11 }
+	8277.1.1 = { holder = eetlv_cs_1_12 }
+}
+c_R211G81B204 = {
+	7898.1.1 = { holder = eetlv_cs_1_1 }
+	7985.1.1 = { holder = eetlv_cs_1_2 }
+	8082.1.1 = { holder = eetlv_cs_1_3 }
+	8106.4.18 = { holder = eetlv_cs_1_4 }
+	8170.12.11 = { holder = eetlv_cs_1_5 }
+	8209.2.1 = { holder = eetlv_cs_1_6 }
+	8211.3.1 = { holder = eetlv_cs_1_7 }
+	8233.2.8 = { holder = eetlv_cs_1_8 }
+	8236.2.13 = { holder = eetlv_cs_1_9 }
+	8239.1.11 = { holder = eetlv_cs_1_10 }
+	8258.12.21 = { holder = eetlv_cs_1_11 }
+	8277.1.1 = { holder = eetlv_cs_1_12 }
+}
+c_R104G126B52 = {
+	7898.1.1 = { holder = eetlv_cs_1_1 }
+	7985.1.1 = { holder = eetlv_cs_1_2 }
+	8082.1.1 = { holder = eetlv_cs_1_3 }
+	8106.4.18 = { holder = eetlv_cs_1_4 }
+	8170.12.11 = { holder = eetlv_cs_1_5 }
+	8209.2.1 = { holder = eetlv_cs_1_6 }
+	8211.3.1 = { holder = eetlv_cs_1_7 }
+	8233.2.8 = { holder = eetlv_cs_1_8 }
+	8236.2.13 = { holder = eetlv_cs_1_9 }
+	8239.1.11 = { holder = eetlv_cs_1_10 }
+	8258.12.21 = { holder = eetlv_cs_1_11 }
+	8277.1.1 = { holder = eetlv_cs_1_12 }
+}
+c_R250G150B32 = {
+	7898.1.1 = { holder = eetlv_cs_1_1 }
+	7985.1.1 = { holder = eetlv_cs_1_2 }
+	8082.1.1 = { holder = eetlv_cs_1_3 }
+	8106.4.18 = { holder = eetlv_cs_1_4 }
+	8170.12.11 = { holder = eetlv_cs_1_5 }
+	8209.2.1 = { holder = eetlv_cs_1_6 }
+	8211.3.1 = { holder = eetlv_cs_1_7 }
+	8233.2.8 = { holder = eetlv_cs_1_8 }
+	8236.2.13 = { holder = eetlv_cs_1_9 }
+	8239.1.11 = { holder = eetlv_cs_1_10 }
+	8258.12.21 = { holder = eetlv_cs_1_11 }
+	8277.1.1 = { holder = eetlv_cs_1_12 }
+}
+c_R88G230B43 = {
+	7898.1.1 = { holder = eetlv_cs_1_1 }
+	7985.1.1 = { holder = eetlv_cs_1_2 }
+	8082.1.1 = { holder = eetlv_cs_1_3 }
+	8106.4.18 = { holder = eetlv_cs_1_4 }
+	8170.12.11 = { holder = eetlv_cs_1_5 }
+	8209.2.1 = { holder = eetlv_cs_1_6 }
+	8211.3.1 = { holder = eetlv_cs_1_7 }
+	8233.2.8 = { holder = eetlv_cs_1_8 }
+	8236.2.13 = { holder = eetlv_cs_1_9 }
+	8239.1.11 = { holder = eetlv_cs_1_10 }
+	8258.12.21 = { holder = eetlv_cs_1_11 }
+	8277.1.1 = { holder = eetlv_cs_1_12 }
+}
+c_R215G110B61 = {
+	7898.1.1 = { holder = eetlv_cs_1_1 }
+	7985.1.1 = { holder = eetlv_cs_1_2 }
+	8082.1.1 = { holder = eetlv_cs_1_3 }
+	8106.4.18 = { holder = eetlv_cs_1_4 }
+	8170.12.11 = { holder = eetlv_cs_1_5 }
+	8209.2.1 = { holder = eetlv_cs_1_6 }
+	8211.3.1 = { holder = eetlv_cs_1_7 }
+	8233.2.8 = { holder = eetlv_cs_1_8 }
+	8236.2.13 = { holder = eetlv_cs_1_9 }
+	8239.1.11 = { holder = eetlv_cs_1_10 }
+	8258.12.21 = { holder = eetlv_cs_1_11 }
+	8277.1.1 = { holder = eetlv_cs_1_12 }
+}
+c_R73G209B225 = {
+	7898.1.1 = { holder = eetlv_cs_1_1 }
+	7985.1.1 = { holder = eetlv_cs_1_2 }
+	8082.1.1 = { holder = eetlv_cs_1_3 }
+	8106.4.18 = { holder = eetlv_cs_1_4 }
+	8170.12.11 = { holder = eetlv_cs_1_5 }
+	8209.2.1 = { holder = eetlv_cs_1_6 }
+	8211.3.1 = { holder = eetlv_cs_1_7 }
+	8233.2.8 = { holder = eetlv_cs_1_8 }
+	8236.2.13 = { holder = eetlv_cs_1_9 }
+	8239.1.11 = { holder = eetlv_cs_1_10 }
+	8258.12.21 = { holder = eetlv_cs_1_11 }
+	8277.1.1 = { holder = eetlv_cs_1_12 }
+}
+c_R145G40B226 = {
+	7898.1.1 = { holder = eetlv_cs_1_1 }
+	7985.1.1 = { holder = eetlv_cs_1_2 }
+	8082.1.1 = { holder = eetlv_cs_1_3 }
+	8106.4.18 = { holder = eetlv_cs_1_4 }
+	8170.12.11 = { holder = eetlv_cs_1_5 }
+	8209.2.1 = { holder = eetlv_cs_1_6 }
+	8211.3.1 = { holder = eetlv_cs_1_7 }
+	8233.2.8 = { holder = eetlv_cs_1_8 }
+	8236.2.13 = { holder = eetlv_cs_1_9 }
+	8239.1.11 = { holder = eetlv_cs_1_10 }
+	8258.12.21 = { holder = eetlv_cs_1_11 }
+	8277.1.1 = { holder = eetlv_cs_1_12 }
+}
+
+### Qal'sar  (6 counties)
+d_R111G75B187 = {
+	7898.1.1 = {
+		holder = eetlv_cs_2_1
+		government = tribal_government
+	}
+	7985.1.1 = { holder = eetlv_cs_2_2 government = tribal_government }
+	8082.1.1 = { holder = eetlv_cs_2_3 government = tribal_government }
+	8106.4.18 = { holder = eetlv_cs_2_4 government = tribal_government }
+	8170.12.11 = { holder = eetlv_cs_2_5 government = tribal_government }
+	8209.2.1 = { holder = eetlv_cs_2_6 government = tribal_government }
+	8211.3.1 = { holder = eetlv_cs_2_7 government = tribal_government }
+	8233.2.8 = { holder = eetlv_cs_2_8 government = tribal_government }
+	8236.2.13 = { holder = eetlv_cs_2_9 government = tribal_government }
+	8239.1.11 = { holder = eetlv_cs_2_10 government = tribal_government }
+	8258.12.21 = { holder = eetlv_cs_2_11 government = tribal_government }
+	8277.1.1 = { holder = eetlv_cs_2_12 government = tribal_government }
+}
+c_R0G231B139 = {
+	7898.1.1 = { holder = eetlv_cs_2_1 }
+	7985.1.1 = { holder = eetlv_cs_2_2 }
+	8082.1.1 = { holder = eetlv_cs_2_3 }
+	8106.4.18 = { holder = eetlv_cs_2_4 }
+	8170.12.11 = { holder = eetlv_cs_2_5 }
+	8209.2.1 = { holder = eetlv_cs_2_6 }
+	8211.3.1 = { holder = eetlv_cs_2_7 }
+	8233.2.8 = { holder = eetlv_cs_2_8 }
+	8236.2.13 = { holder = eetlv_cs_2_9 }
+	8239.1.11 = { holder = eetlv_cs_2_10 }
+	8258.12.21 = { holder = eetlv_cs_2_11 }
+	8277.1.1 = { holder = eetlv_cs_2_12 }
+}
+c_R32G126B71 = {
+	7898.1.1 = { holder = eetlv_cs_2_1 }
+	7985.1.1 = { holder = eetlv_cs_2_2 }
+	8082.1.1 = { holder = eetlv_cs_2_3 }
+	8106.4.18 = { holder = eetlv_cs_2_4 }
+	8170.12.11 = { holder = eetlv_cs_2_5 }
+	8209.2.1 = { holder = eetlv_cs_2_6 }
+	8211.3.1 = { holder = eetlv_cs_2_7 }
+	8233.2.8 = { holder = eetlv_cs_2_8 }
+	8236.2.13 = { holder = eetlv_cs_2_9 }
+	8239.1.11 = { holder = eetlv_cs_2_10 }
+	8258.12.21 = { holder = eetlv_cs_2_11 }
+	8277.1.1 = { holder = eetlv_cs_2_12 }
+}
+c_R226G27B255 = {
+	7898.1.1 = { holder = eetlv_cs_2_1 }
+	7985.1.1 = { holder = eetlv_cs_2_2 }
+	8082.1.1 = { holder = eetlv_cs_2_3 }
+	8106.4.18 = { holder = eetlv_cs_2_4 }
+	8170.12.11 = { holder = eetlv_cs_2_5 }
+	8209.2.1 = { holder = eetlv_cs_2_6 }
+	8211.3.1 = { holder = eetlv_cs_2_7 }
+	8233.2.8 = { holder = eetlv_cs_2_8 }
+	8236.2.13 = { holder = eetlv_cs_2_9 }
+	8239.1.11 = { holder = eetlv_cs_2_10 }
+	8258.12.21 = { holder = eetlv_cs_2_11 }
+	8277.1.1 = { holder = eetlv_cs_2_12 }
+}
+c_R131G136B99 = {
+	7898.1.1 = { holder = eetlv_cs_2_1 }
+	7985.1.1 = { holder = eetlv_cs_2_2 }
+	8082.1.1 = { holder = eetlv_cs_2_3 }
+	8106.4.18 = { holder = eetlv_cs_2_4 }
+	8170.12.11 = { holder = eetlv_cs_2_5 }
+	8209.2.1 = { holder = eetlv_cs_2_6 }
+	8211.3.1 = { holder = eetlv_cs_2_7 }
+	8233.2.8 = { holder = eetlv_cs_2_8 }
+	8236.2.13 = { holder = eetlv_cs_2_9 }
+	8239.1.11 = { holder = eetlv_cs_2_10 }
+	8258.12.21 = { holder = eetlv_cs_2_11 }
+	8277.1.1 = { holder = eetlv_cs_2_12 }
+}
+c_R61G111B129 = {
+	7898.1.1 = { holder = eetlv_cs_2_1 }
+	7985.1.1 = { holder = eetlv_cs_2_2 }
+	8082.1.1 = { holder = eetlv_cs_2_3 }
+	8106.4.18 = { holder = eetlv_cs_2_4 }
+	8170.12.11 = { holder = eetlv_cs_2_5 }
+	8209.2.1 = { holder = eetlv_cs_2_6 }
+	8211.3.1 = { holder = eetlv_cs_2_7 }
+	8233.2.8 = { holder = eetlv_cs_2_8 }
+	8236.2.13 = { holder = eetlv_cs_2_9 }
+	8239.1.11 = { holder = eetlv_cs_2_10 }
+	8258.12.21 = { holder = eetlv_cs_2_11 }
+	8277.1.1 = { holder = eetlv_cs_2_12 }
+}
+c_R102G82B41 = {
+	7898.1.1 = { holder = eetlv_cs_2_1 }
+	7985.1.1 = { holder = eetlv_cs_2_2 }
+	8082.1.1 = { holder = eetlv_cs_2_3 }
+	8106.4.18 = { holder = eetlv_cs_2_4 }
+	8170.12.11 = { holder = eetlv_cs_2_5 }
+	8209.2.1 = { holder = eetlv_cs_2_6 }
+	8211.3.1 = { holder = eetlv_cs_2_7 }
+	8233.2.8 = { holder = eetlv_cs_2_8 }
+	8236.2.13 = { holder = eetlv_cs_2_9 }
+	8239.1.11 = { holder = eetlv_cs_2_10 }
+	8258.12.21 = { holder = eetlv_cs_2_11 }
+	8277.1.1 = { holder = eetlv_cs_2_12 }
+}
+
+### Dead Qaath  (6 counties)
+d_R240G127B159 = {
+	7898.1.1 = {
+		holder = eetlv_cs_3_1
+		government = tribal_government
+	}
+	7985.1.1 = { holder = eetlv_cs_3_2 government = tribal_government }
+	8082.1.1 = { holder = eetlv_cs_3_3 government = tribal_government }
+	8106.4.18 = { holder = eetlv_cs_3_4 government = tribal_government }
+	8170.12.11 = { holder = eetlv_cs_3_5 government = tribal_government }
+	8209.2.1 = { holder = eetlv_cs_3_6 government = tribal_government }
+	8211.3.1 = { holder = eetlv_cs_3_7 government = tribal_government }
+	8233.2.8 = { holder = eetlv_cs_3_8 government = tribal_government }
+	8236.2.13 = { holder = eetlv_cs_3_9 government = tribal_government }
+	8239.1.11 = { holder = eetlv_cs_3_10 government = tribal_government }
+	8258.12.21 = { holder = eetlv_cs_3_11 government = tribal_government }
+	8277.1.1 = { holder = eetlv_cs_3_12 government = tribal_government }
+}
+c_R188G50B73 = {
+	7898.1.1 = { holder = eetlv_cs_3_1 }
+	7985.1.1 = { holder = eetlv_cs_3_2 }
+	8082.1.1 = { holder = eetlv_cs_3_3 }
+	8106.4.18 = { holder = eetlv_cs_3_4 }
+	8170.12.11 = { holder = eetlv_cs_3_5 }
+	8209.2.1 = { holder = eetlv_cs_3_6 }
+	8211.3.1 = { holder = eetlv_cs_3_7 }
+	8233.2.8 = { holder = eetlv_cs_3_8 }
+	8236.2.13 = { holder = eetlv_cs_3_9 }
+	8239.1.11 = { holder = eetlv_cs_3_10 }
+	8258.12.21 = { holder = eetlv_cs_3_11 }
+	8277.1.1 = { holder = eetlv_cs_3_12 }
+}
+c_R32G65B147 = {
+	7898.1.1 = { holder = eetlv_cs_3_1 }
+	7985.1.1 = { holder = eetlv_cs_3_2 }
+	8082.1.1 = { holder = eetlv_cs_3_3 }
+	8106.4.18 = { holder = eetlv_cs_3_4 }
+	8170.12.11 = { holder = eetlv_cs_3_5 }
+	8209.2.1 = { holder = eetlv_cs_3_6 }
+	8211.3.1 = { holder = eetlv_cs_3_7 }
+	8233.2.8 = { holder = eetlv_cs_3_8 }
+	8236.2.13 = { holder = eetlv_cs_3_9 }
+	8239.1.11 = { holder = eetlv_cs_3_10 }
+	8258.12.21 = { holder = eetlv_cs_3_11 }
+	8277.1.1 = { holder = eetlv_cs_3_12 }
+}
+c_R246G88B41 = {
+	7898.1.1 = { holder = eetlv_cs_3_1 }
+	7985.1.1 = { holder = eetlv_cs_3_2 }
+	8082.1.1 = { holder = eetlv_cs_3_3 }
+	8106.4.18 = { holder = eetlv_cs_3_4 }
+	8170.12.11 = { holder = eetlv_cs_3_5 }
+	8209.2.1 = { holder = eetlv_cs_3_6 }
+	8211.3.1 = { holder = eetlv_cs_3_7 }
+	8233.2.8 = { holder = eetlv_cs_3_8 }
+	8236.2.13 = { holder = eetlv_cs_3_9 }
+	8239.1.11 = { holder = eetlv_cs_3_10 }
+	8258.12.21 = { holder = eetlv_cs_3_11 }
+	8277.1.1 = { holder = eetlv_cs_3_12 }
+}
+c_R194G29B161 = {
+	7898.1.1 = { holder = eetlv_cs_3_1 }
+	7985.1.1 = { holder = eetlv_cs_3_2 }
+	8082.1.1 = { holder = eetlv_cs_3_3 }
+	8106.4.18 = { holder = eetlv_cs_3_4 }
+	8170.12.11 = { holder = eetlv_cs_3_5 }
+	8209.2.1 = { holder = eetlv_cs_3_6 }
+	8211.3.1 = { holder = eetlv_cs_3_7 }
+	8233.2.8 = { holder = eetlv_cs_3_8 }
+	8236.2.13 = { holder = eetlv_cs_3_9 }
+	8239.1.11 = { holder = eetlv_cs_3_10 }
+	8258.12.21 = { holder = eetlv_cs_3_11 }
+	8277.1.1 = { holder = eetlv_cs_3_12 }
+}
+c_R116G11B60 = {
+	7898.1.1 = { holder = eetlv_cs_3_1 }
+	7985.1.1 = { holder = eetlv_cs_3_2 }
+	8082.1.1 = { holder = eetlv_cs_3_3 }
+	8106.4.18 = { holder = eetlv_cs_3_4 }
+	8170.12.11 = { holder = eetlv_cs_3_5 }
+	8209.2.1 = { holder = eetlv_cs_3_6 }
+	8211.3.1 = { holder = eetlv_cs_3_7 }
+	8233.2.8 = { holder = eetlv_cs_3_8 }
+	8236.2.13 = { holder = eetlv_cs_3_9 }
+	8239.1.11 = { holder = eetlv_cs_3_10 }
+	8258.12.21 = { holder = eetlv_cs_3_11 }
+	8277.1.1 = { holder = eetlv_cs_3_12 }
+}
+c_R128G149B122 = {
+	7898.1.1 = { holder = eetlv_cs_3_1 }
+	7985.1.1 = { holder = eetlv_cs_3_2 }
+	8082.1.1 = { holder = eetlv_cs_3_3 }
+	8106.4.18 = { holder = eetlv_cs_3_4 }
+	8170.12.11 = { holder = eetlv_cs_3_5 }
+	8209.2.1 = { holder = eetlv_cs_3_6 }
+	8211.3.1 = { holder = eetlv_cs_3_7 }
+	8233.2.8 = { holder = eetlv_cs_3_8 }
+	8236.2.13 = { holder = eetlv_cs_3_9 }
+	8239.1.11 = { holder = eetlv_cs_3_10 }
+	8258.12.21 = { holder = eetlv_cs_3_11 }
+	8277.1.1 = { holder = eetlv_cs_3_12 }
+}
+
+### Ruined Vezak  (5 counties)
+d_R41G226B41 = {
+	7898.1.1 = {
+		holder = eetlv_cs_4_1
+		government = tribal_government
+	}
+	7985.1.1 = { holder = eetlv_cs_4_2 government = tribal_government }
+	8082.1.1 = { holder = eetlv_cs_4_3 government = tribal_government }
+	8106.4.18 = { holder = eetlv_cs_4_4 government = tribal_government }
+	8170.12.11 = { holder = eetlv_cs_4_5 government = tribal_government }
+	8209.2.1 = { holder = eetlv_cs_4_6 government = tribal_government }
+	8211.3.1 = { holder = eetlv_cs_4_7 government = tribal_government }
+	8233.2.8 = { holder = eetlv_cs_4_8 government = tribal_government }
+	8236.2.13 = { holder = eetlv_cs_4_9 government = tribal_government }
+	8239.1.11 = { holder = eetlv_cs_4_10 government = tribal_government }
+	8258.12.21 = { holder = eetlv_cs_4_11 government = tribal_government }
+	8277.1.1 = { holder = eetlv_cs_4_12 government = tribal_government }
+}
+c_R75G41B166 = {
+	7898.1.1 = { holder = eetlv_cs_4_1 }
+	7985.1.1 = { holder = eetlv_cs_4_2 }
+	8082.1.1 = { holder = eetlv_cs_4_3 }
+	8106.4.18 = { holder = eetlv_cs_4_4 }
+	8170.12.11 = { holder = eetlv_cs_4_5 }
+	8209.2.1 = { holder = eetlv_cs_4_6 }
+	8211.3.1 = { holder = eetlv_cs_4_7 }
+	8233.2.8 = { holder = eetlv_cs_4_8 }
+	8236.2.13 = { holder = eetlv_cs_4_9 }
+	8239.1.11 = { holder = eetlv_cs_4_10 }
+	8258.12.21 = { holder = eetlv_cs_4_11 }
+	8277.1.1 = { holder = eetlv_cs_4_12 }
+}
+c_R103G57B17 = {
+	7898.1.1 = { holder = eetlv_cs_4_1 }
+	7985.1.1 = { holder = eetlv_cs_4_2 }
+	8082.1.1 = { holder = eetlv_cs_4_3 }
+	8106.4.18 = { holder = eetlv_cs_4_4 }
+	8170.12.11 = { holder = eetlv_cs_4_5 }
+	8209.2.1 = { holder = eetlv_cs_4_6 }
+	8211.3.1 = { holder = eetlv_cs_4_7 }
+	8233.2.8 = { holder = eetlv_cs_4_8 }
+	8236.2.13 = { holder = eetlv_cs_4_9 }
+	8239.1.11 = { holder = eetlv_cs_4_10 }
+	8258.12.21 = { holder = eetlv_cs_4_11 }
+	8277.1.1 = { holder = eetlv_cs_4_12 }
+}
+c_R201G151B252 = {
+	7898.1.1 = { holder = eetlv_cs_4_1 }
+	7985.1.1 = { holder = eetlv_cs_4_2 }
+	8082.1.1 = { holder = eetlv_cs_4_3 }
+	8106.4.18 = { holder = eetlv_cs_4_4 }
+	8170.12.11 = { holder = eetlv_cs_4_5 }
+	8209.2.1 = { holder = eetlv_cs_4_6 }
+	8211.3.1 = { holder = eetlv_cs_4_7 }
+	8233.2.8 = { holder = eetlv_cs_4_8 }
+	8236.2.13 = { holder = eetlv_cs_4_9 }
+	8239.1.11 = { holder = eetlv_cs_4_10 }
+	8258.12.21 = { holder = eetlv_cs_4_11 }
+	8277.1.1 = { holder = eetlv_cs_4_12 }
+}
+c_R113G8B176 = {
+	7898.1.1 = { holder = eetlv_cs_4_1 }
+	7985.1.1 = { holder = eetlv_cs_4_2 }
+	8082.1.1 = { holder = eetlv_cs_4_3 }
+	8106.4.18 = { holder = eetlv_cs_4_4 }
+	8170.12.11 = { holder = eetlv_cs_4_5 }
+	8209.2.1 = { holder = eetlv_cs_4_6 }
+	8211.3.1 = { holder = eetlv_cs_4_7 }
+	8233.2.8 = { holder = eetlv_cs_4_8 }
+	8236.2.13 = { holder = eetlv_cs_4_9 }
+	8239.1.11 = { holder = eetlv_cs_4_10 }
+	8258.12.21 = { holder = eetlv_cs_4_11 }
+	8277.1.1 = { holder = eetlv_cs_4_12 }
+}
+c_R181G222B169 = {
+	7898.1.1 = { holder = eetlv_cs_4_1 }
+	7985.1.1 = { holder = eetlv_cs_4_2 }
+	8082.1.1 = { holder = eetlv_cs_4_3 }
+	8106.4.18 = { holder = eetlv_cs_4_4 }
+	8170.12.11 = { holder = eetlv_cs_4_5 }
+	8209.2.1 = { holder = eetlv_cs_4_6 }
+	8211.3.1 = { holder = eetlv_cs_4_7 }
+	8233.2.8 = { holder = eetlv_cs_4_8 }
+	8236.2.13 = { holder = eetlv_cs_4_9 }
+	8239.1.11 = { holder = eetlv_cs_4_10 }
+	8258.12.21 = { holder = eetlv_cs_4_11 }
+	8277.1.1 = { holder = eetlv_cs_4_12 }
+}
+
+### Saleen  (5 counties)
+d_R193G60B253 = {
+	7898.1.1 = {
+		holder = eetlv_cs_5_1
+		government = tribal_government
+	}
+	7985.1.1 = { holder = eetlv_cs_5_2 government = tribal_government }
+	8082.1.1 = { holder = eetlv_cs_5_3 government = tribal_government }
+	8106.4.18 = { holder = eetlv_cs_5_4 government = tribal_government }
+	8170.12.11 = { holder = eetlv_cs_5_5 government = tribal_government }
+	8209.2.1 = { holder = eetlv_cs_5_6 government = tribal_government }
+	8211.3.1 = { holder = eetlv_cs_5_7 government = tribal_government }
+	8233.2.8 = { holder = eetlv_cs_5_8 government = tribal_government }
+	8236.2.13 = { holder = eetlv_cs_5_9 government = tribal_government }
+	8239.1.11 = { holder = eetlv_cs_5_10 government = tribal_government }
+	8258.12.21 = { holder = eetlv_cs_5_11 government = tribal_government }
+	8277.1.1 = { holder = eetlv_cs_5_12 government = tribal_government }
+}
+c_R206G151B189 = {
+	7898.1.1 = { holder = eetlv_cs_5_1 }
+	7985.1.1 = { holder = eetlv_cs_5_2 }
+	8082.1.1 = { holder = eetlv_cs_5_3 }
+	8106.4.18 = { holder = eetlv_cs_5_4 }
+	8170.12.11 = { holder = eetlv_cs_5_5 }
+	8209.2.1 = { holder = eetlv_cs_5_6 }
+	8211.3.1 = { holder = eetlv_cs_5_7 }
+	8233.2.8 = { holder = eetlv_cs_5_8 }
+	8236.2.13 = { holder = eetlv_cs_5_9 }
+	8239.1.11 = { holder = eetlv_cs_5_10 }
+	8258.12.21 = { holder = eetlv_cs_5_11 }
+	8277.1.1 = { holder = eetlv_cs_5_12 }
+}
+c_R194G213B111 = {
+	7898.1.1 = { holder = eetlv_cs_5_1 }
+	7985.1.1 = { holder = eetlv_cs_5_2 }
+	8082.1.1 = { holder = eetlv_cs_5_3 }
+	8106.4.18 = { holder = eetlv_cs_5_4 }
+	8170.12.11 = { holder = eetlv_cs_5_5 }
+	8209.2.1 = { holder = eetlv_cs_5_6 }
+	8211.3.1 = { holder = eetlv_cs_5_7 }
+	8233.2.8 = { holder = eetlv_cs_5_8 }
+	8236.2.13 = { holder = eetlv_cs_5_9 }
+	8239.1.11 = { holder = eetlv_cs_5_10 }
+	8258.12.21 = { holder = eetlv_cs_5_11 }
+	8277.1.1 = { holder = eetlv_cs_5_12 }
+}
+c_R158G217B194 = {
+	7898.1.1 = { holder = eetlv_cs_5_1 }
+	7985.1.1 = { holder = eetlv_cs_5_2 }
+	8082.1.1 = { holder = eetlv_cs_5_3 }
+	8106.4.18 = { holder = eetlv_cs_5_4 }
+	8170.12.11 = { holder = eetlv_cs_5_5 }
+	8209.2.1 = { holder = eetlv_cs_5_6 }
+	8211.3.1 = { holder = eetlv_cs_5_7 }
+	8233.2.8 = { holder = eetlv_cs_5_8 }
+	8236.2.13 = { holder = eetlv_cs_5_9 }
+	8239.1.11 = { holder = eetlv_cs_5_10 }
+	8258.12.21 = { holder = eetlv_cs_5_11 }
+	8277.1.1 = { holder = eetlv_cs_5_12 }
+}
+c_R130G53B177 = {
+	7898.1.1 = { holder = eetlv_cs_5_1 }
+	7985.1.1 = { holder = eetlv_cs_5_2 }
+	8082.1.1 = { holder = eetlv_cs_5_3 }
+	8106.4.18 = { holder = eetlv_cs_5_4 }
+	8170.12.11 = { holder = eetlv_cs_5_5 }
+	8209.2.1 = { holder = eetlv_cs_5_6 }
+	8211.3.1 = { holder = eetlv_cs_5_7 }
+	8233.2.8 = { holder = eetlv_cs_5_8 }
+	8236.2.13 = { holder = eetlv_cs_5_9 }
+	8239.1.11 = { holder = eetlv_cs_5_10 }
+	8258.12.21 = { holder = eetlv_cs_5_11 }
+	8277.1.1 = { holder = eetlv_cs_5_12 }
+}
+c_R244G105B106 = {
+	7898.1.1 = { holder = eetlv_cs_5_1 }
+	7985.1.1 = { holder = eetlv_cs_5_2 }
+	8082.1.1 = { holder = eetlv_cs_5_3 }
+	8106.4.18 = { holder = eetlv_cs_5_4 }
+	8170.12.11 = { holder = eetlv_cs_5_5 }
+	8209.2.1 = { holder = eetlv_cs_5_6 }
+	8211.3.1 = { holder = eetlv_cs_5_7 }
+	8233.2.8 = { holder = eetlv_cs_5_8 }
+	8236.2.13 = { holder = eetlv_cs_5_9 }
+	8239.1.11 = { holder = eetlv_cs_5_10 }
+	8258.12.21 = { holder = eetlv_cs_5_11 }
+	8277.1.1 = { holder = eetlv_cs_5_12 }
+}
+
+### Nalaal  (6 counties)
+d_R222G151B16 = {
+	7898.1.1 = {
+		holder = eetlv_cs_6_1
+		government = tribal_government
+	}
+	7985.1.1 = { holder = eetlv_cs_6_2 government = tribal_government }
+	8082.1.1 = { holder = eetlv_cs_6_3 government = tribal_government }
+	8106.4.18 = { holder = eetlv_cs_6_4 government = tribal_government }
+	8170.12.11 = { holder = eetlv_cs_6_5 government = tribal_government }
+	8209.2.1 = { holder = eetlv_cs_6_6 government = tribal_government }
+	8211.3.1 = { holder = eetlv_cs_6_7 government = tribal_government }
+	8233.2.8 = { holder = eetlv_cs_6_8 government = tribal_government }
+	8236.2.13 = { holder = eetlv_cs_6_9 government = tribal_government }
+	8239.1.11 = { holder = eetlv_cs_6_10 government = tribal_government }
+	8258.12.21 = { holder = eetlv_cs_6_11 government = tribal_government }
+	8277.1.1 = { holder = eetlv_cs_6_12 government = tribal_government }
+}
+c_R44G124B235 = {
+	7898.1.1 = { holder = eetlv_cs_6_1 }
+	7985.1.1 = { holder = eetlv_cs_6_2 }
+	8082.1.1 = { holder = eetlv_cs_6_3 }
+	8106.4.18 = { holder = eetlv_cs_6_4 }
+	8170.12.11 = { holder = eetlv_cs_6_5 }
+	8209.2.1 = { holder = eetlv_cs_6_6 }
+	8211.3.1 = { holder = eetlv_cs_6_7 }
+	8233.2.8 = { holder = eetlv_cs_6_8 }
+	8236.2.13 = { holder = eetlv_cs_6_9 }
+	8239.1.11 = { holder = eetlv_cs_6_10 }
+	8258.12.21 = { holder = eetlv_cs_6_11 }
+	8277.1.1 = { holder = eetlv_cs_6_12 }
+}
+c_R75G253B9 = {
+	7898.1.1 = { holder = eetlv_cs_6_1 }
+	7985.1.1 = { holder = eetlv_cs_6_2 }
+	8082.1.1 = { holder = eetlv_cs_6_3 }
+	8106.4.18 = { holder = eetlv_cs_6_4 }
+	8170.12.11 = { holder = eetlv_cs_6_5 }
+	8209.2.1 = { holder = eetlv_cs_6_6 }
+	8211.3.1 = { holder = eetlv_cs_6_7 }
+	8233.2.8 = { holder = eetlv_cs_6_8 }
+	8236.2.13 = { holder = eetlv_cs_6_9 }
+	8239.1.11 = { holder = eetlv_cs_6_10 }
+	8258.12.21 = { holder = eetlv_cs_6_11 }
+	8277.1.1 = { holder = eetlv_cs_6_12 }
+}
+c_R133G104B188 = {
+	7898.1.1 = { holder = eetlv_cs_6_1 }
+	7985.1.1 = { holder = eetlv_cs_6_2 }
+	8082.1.1 = { holder = eetlv_cs_6_3 }
+	8106.4.18 = { holder = eetlv_cs_6_4 }
+	8170.12.11 = { holder = eetlv_cs_6_5 }
+	8209.2.1 = { holder = eetlv_cs_6_6 }
+	8211.3.1 = { holder = eetlv_cs_6_7 }
+	8233.2.8 = { holder = eetlv_cs_6_8 }
+	8236.2.13 = { holder = eetlv_cs_6_9 }
+	8239.1.11 = { holder = eetlv_cs_6_10 }
+	8258.12.21 = { holder = eetlv_cs_6_11 }
+	8277.1.1 = { holder = eetlv_cs_6_12 }
+}
+c_R150G174B91 = {
+	7898.1.1 = { holder = eetlv_cs_6_1 }
+	7985.1.1 = { holder = eetlv_cs_6_2 }
+	8082.1.1 = { holder = eetlv_cs_6_3 }
+	8106.4.18 = { holder = eetlv_cs_6_4 }
+	8170.12.11 = { holder = eetlv_cs_6_5 }
+	8209.2.1 = { holder = eetlv_cs_6_6 }
+	8211.3.1 = { holder = eetlv_cs_6_7 }
+	8233.2.8 = { holder = eetlv_cs_6_8 }
+	8236.2.13 = { holder = eetlv_cs_6_9 }
+	8239.1.11 = { holder = eetlv_cs_6_10 }
+	8258.12.21 = { holder = eetlv_cs_6_11 }
+	8277.1.1 = { holder = eetlv_cs_6_12 }
+}
+c_R39G8B184 = {
+	7898.1.1 = { holder = eetlv_cs_6_1 }
+	7985.1.1 = { holder = eetlv_cs_6_2 }
+	8082.1.1 = { holder = eetlv_cs_6_3 }
+	8106.4.18 = { holder = eetlv_cs_6_4 }
+	8170.12.11 = { holder = eetlv_cs_6_5 }
+	8209.2.1 = { holder = eetlv_cs_6_6 }
+	8211.3.1 = { holder = eetlv_cs_6_7 }
+	8233.2.8 = { holder = eetlv_cs_6_8 }
+	8236.2.13 = { holder = eetlv_cs_6_9 }
+	8239.1.11 = { holder = eetlv_cs_6_10 }
+	8258.12.21 = { holder = eetlv_cs_6_11 }
+	8277.1.1 = { holder = eetlv_cs_6_12 }
+}
+c_R233G252B222 = {
+	7898.1.1 = { holder = eetlv_cs_6_1 }
+	7985.1.1 = { holder = eetlv_cs_6_2 }
+	8082.1.1 = { holder = eetlv_cs_6_3 }
+	8106.4.18 = { holder = eetlv_cs_6_4 }
+	8170.12.11 = { holder = eetlv_cs_6_5 }
+	8209.2.1 = { holder = eetlv_cs_6_6 }
+	8211.3.1 = { holder = eetlv_cs_6_7 }
+	8233.2.8 = { holder = eetlv_cs_6_8 }
+	8236.2.13 = { holder = eetlv_cs_6_9 }
+	8239.1.11 = { holder = eetlv_cs_6_10 }
+	8258.12.21 = { holder = eetlv_cs_6_11 }
+	8277.1.1 = { holder = eetlv_cs_6_12 }
+}
+
+### Varaal  (7 counties)
+d_R45G162B231 = {
+	7898.1.1 = {
+		holder = eetlv_cs_7_1
+		government = tribal_government
+	}
+	7985.1.1 = { holder = eetlv_cs_7_2 government = tribal_government }
+	8082.1.1 = { holder = eetlv_cs_7_3 government = tribal_government }
+	8106.4.18 = { holder = eetlv_cs_7_4 government = tribal_government }
+	8170.12.11 = { holder = eetlv_cs_7_5 government = tribal_government }
+	8209.2.1 = { holder = eetlv_cs_7_6 government = tribal_government }
+	8211.3.1 = { holder = eetlv_cs_7_7 government = tribal_government }
+	8233.2.8 = { holder = eetlv_cs_7_8 government = tribal_government }
+	8236.2.13 = { holder = eetlv_cs_7_9 government = tribal_government }
+	8239.1.11 = { holder = eetlv_cs_7_10 government = tribal_government }
+	8258.12.21 = { holder = eetlv_cs_7_11 government = tribal_government }
+	8277.1.1 = { holder = eetlv_cs_7_12 government = tribal_government }
+}
+c_R168G181B62 = {
+	7898.1.1 = { holder = eetlv_cs_7_1 }
+	7985.1.1 = { holder = eetlv_cs_7_2 }
+	8082.1.1 = { holder = eetlv_cs_7_3 }
+	8106.4.18 = { holder = eetlv_cs_7_4 }
+	8170.12.11 = { holder = eetlv_cs_7_5 }
+	8209.2.1 = { holder = eetlv_cs_7_6 }
+	8211.3.1 = { holder = eetlv_cs_7_7 }
+	8233.2.8 = { holder = eetlv_cs_7_8 }
+	8236.2.13 = { holder = eetlv_cs_7_9 }
+	8239.1.11 = { holder = eetlv_cs_7_10 }
+	8258.12.21 = { holder = eetlv_cs_7_11 }
+	8277.1.1 = { holder = eetlv_cs_7_12 }
+}
+c_R33G164B22 = {
+	7898.1.1 = { holder = eetlv_cs_7_1 }
+	7985.1.1 = { holder = eetlv_cs_7_2 }
+	8082.1.1 = { holder = eetlv_cs_7_3 }
+	8106.4.18 = { holder = eetlv_cs_7_4 }
+	8170.12.11 = { holder = eetlv_cs_7_5 }
+	8209.2.1 = { holder = eetlv_cs_7_6 }
+	8211.3.1 = { holder = eetlv_cs_7_7 }
+	8233.2.8 = { holder = eetlv_cs_7_8 }
+	8236.2.13 = { holder = eetlv_cs_7_9 }
+	8239.1.11 = { holder = eetlv_cs_7_10 }
+	8258.12.21 = { holder = eetlv_cs_7_11 }
+	8277.1.1 = { holder = eetlv_cs_7_12 }
+}
+c_R162G194B59 = {
+	7898.1.1 = { holder = eetlv_cs_7_1 }
+	7985.1.1 = { holder = eetlv_cs_7_2 }
+	8082.1.1 = { holder = eetlv_cs_7_3 }
+	8106.4.18 = { holder = eetlv_cs_7_4 }
+	8170.12.11 = { holder = eetlv_cs_7_5 }
+	8209.2.1 = { holder = eetlv_cs_7_6 }
+	8211.3.1 = { holder = eetlv_cs_7_7 }
+	8233.2.8 = { holder = eetlv_cs_7_8 }
+	8236.2.13 = { holder = eetlv_cs_7_9 }
+	8239.1.11 = { holder = eetlv_cs_7_10 }
+	8258.12.21 = { holder = eetlv_cs_7_11 }
+	8277.1.1 = { holder = eetlv_cs_7_12 }
+}
+c_R96G72B17 = {
+	7898.1.1 = { holder = eetlv_cs_7_1 }
+	7985.1.1 = { holder = eetlv_cs_7_2 }
+	8082.1.1 = { holder = eetlv_cs_7_3 }
+	8106.4.18 = { holder = eetlv_cs_7_4 }
+	8170.12.11 = { holder = eetlv_cs_7_5 }
+	8209.2.1 = { holder = eetlv_cs_7_6 }
+	8211.3.1 = { holder = eetlv_cs_7_7 }
+	8233.2.8 = { holder = eetlv_cs_7_8 }
+	8236.2.13 = { holder = eetlv_cs_7_9 }
+	8239.1.11 = { holder = eetlv_cs_7_10 }
+	8258.12.21 = { holder = eetlv_cs_7_11 }
+	8277.1.1 = { holder = eetlv_cs_7_12 }
+}
+c_R185G6B217 = {
+	7898.1.1 = { holder = eetlv_cs_7_1 }
+	7985.1.1 = { holder = eetlv_cs_7_2 }
+	8082.1.1 = { holder = eetlv_cs_7_3 }
+	8106.4.18 = { holder = eetlv_cs_7_4 }
+	8170.12.11 = { holder = eetlv_cs_7_5 }
+	8209.2.1 = { holder = eetlv_cs_7_6 }
+	8211.3.1 = { holder = eetlv_cs_7_7 }
+	8233.2.8 = { holder = eetlv_cs_7_8 }
+	8236.2.13 = { holder = eetlv_cs_7_9 }
+	8239.1.11 = { holder = eetlv_cs_7_10 }
+	8258.12.21 = { holder = eetlv_cs_7_11 }
+	8277.1.1 = { holder = eetlv_cs_7_12 }
+}
+c_R60G237B2 = {
+	7898.1.1 = { holder = eetlv_cs_7_1 }
+	7985.1.1 = { holder = eetlv_cs_7_2 }
+	8082.1.1 = { holder = eetlv_cs_7_3 }
+	8106.4.18 = { holder = eetlv_cs_7_4 }
+	8170.12.11 = { holder = eetlv_cs_7_5 }
+	8209.2.1 = { holder = eetlv_cs_7_6 }
+	8211.3.1 = { holder = eetlv_cs_7_7 }
+	8233.2.8 = { holder = eetlv_cs_7_8 }
+	8236.2.13 = { holder = eetlv_cs_7_9 }
+	8239.1.11 = { holder = eetlv_cs_7_10 }
+	8258.12.21 = { holder = eetlv_cs_7_11 }
+	8277.1.1 = { holder = eetlv_cs_7_12 }
+}
+c_R9G112B12 = {
+	7898.1.1 = { holder = eetlv_cs_7_1 }
+	7985.1.1 = { holder = eetlv_cs_7_2 }
+	8082.1.1 = { holder = eetlv_cs_7_3 }
+	8106.4.18 = { holder = eetlv_cs_7_4 }
+	8170.12.11 = { holder = eetlv_cs_7_5 }
+	8209.2.1 = { holder = eetlv_cs_7_6 }
+	8211.3.1 = { holder = eetlv_cs_7_7 }
+	8233.2.8 = { holder = eetlv_cs_7_8 }
+	8236.2.13 = { holder = eetlv_cs_7_9 }
+	8239.1.11 = { holder = eetlv_cs_7_10 }
+	8258.12.21 = { holder = eetlv_cs_7_11 }
+	8277.1.1 = { holder = eetlv_cs_7_12 }
+}
+
+### Galaen  (4 counties)
+d_R70G73B87 = {
+	7898.1.1 = {
+		holder = eetlv_cs_8_1
+		government = tribal_government
+	}
+	7985.1.1 = { holder = eetlv_cs_8_2 government = tribal_government }
+	8082.1.1 = { holder = eetlv_cs_8_3 government = tribal_government }
+	8106.4.18 = { holder = eetlv_cs_8_4 government = tribal_government }
+	8170.12.11 = { holder = eetlv_cs_8_5 government = tribal_government }
+	8209.2.1 = { holder = eetlv_cs_8_6 government = tribal_government }
+	8211.3.1 = { holder = eetlv_cs_8_7 government = tribal_government }
+	8233.2.8 = { holder = eetlv_cs_8_8 government = tribal_government }
+	8236.2.13 = { holder = eetlv_cs_8_9 government = tribal_government }
+	8239.1.11 = { holder = eetlv_cs_8_10 government = tribal_government }
+	8258.12.21 = { holder = eetlv_cs_8_11 government = tribal_government }
+	8277.1.1 = { holder = eetlv_cs_8_12 government = tribal_government }
+}
+c_R114G33B9 = {
+	7898.1.1 = { holder = eetlv_cs_8_1 }
+	7985.1.1 = { holder = eetlv_cs_8_2 }
+	8082.1.1 = { holder = eetlv_cs_8_3 }
+	8106.4.18 = { holder = eetlv_cs_8_4 }
+	8170.12.11 = { holder = eetlv_cs_8_5 }
+	8209.2.1 = { holder = eetlv_cs_8_6 }
+	8211.3.1 = { holder = eetlv_cs_8_7 }
+	8233.2.8 = { holder = eetlv_cs_8_8 }
+	8236.2.13 = { holder = eetlv_cs_8_9 }
+	8239.1.11 = { holder = eetlv_cs_8_10 }
+	8258.12.21 = { holder = eetlv_cs_8_11 }
+	8277.1.1 = { holder = eetlv_cs_8_12 }
+}
+c_R216G7B16 = {
+	7898.1.1 = { holder = eetlv_cs_8_1 }
+	7985.1.1 = { holder = eetlv_cs_8_2 }
+	8082.1.1 = { holder = eetlv_cs_8_3 }
+	8106.4.18 = { holder = eetlv_cs_8_4 }
+	8170.12.11 = { holder = eetlv_cs_8_5 }
+	8209.2.1 = { holder = eetlv_cs_8_6 }
+	8211.3.1 = { holder = eetlv_cs_8_7 }
+	8233.2.8 = { holder = eetlv_cs_8_8 }
+	8236.2.13 = { holder = eetlv_cs_8_9 }
+	8239.1.11 = { holder = eetlv_cs_8_10 }
+	8258.12.21 = { holder = eetlv_cs_8_11 }
+	8277.1.1 = { holder = eetlv_cs_8_12 }
+}
+c_R65G199B37 = {
+	7898.1.1 = { holder = eetlv_cs_8_1 }
+	7985.1.1 = { holder = eetlv_cs_8_2 }
+	8082.1.1 = { holder = eetlv_cs_8_3 }
+	8106.4.18 = { holder = eetlv_cs_8_4 }
+	8170.12.11 = { holder = eetlv_cs_8_5 }
+	8209.2.1 = { holder = eetlv_cs_8_6 }
+	8211.3.1 = { holder = eetlv_cs_8_7 }
+	8233.2.8 = { holder = eetlv_cs_8_8 }
+	8236.2.13 = { holder = eetlv_cs_8_9 }
+	8239.1.11 = { holder = eetlv_cs_8_10 }
+	8258.12.21 = { holder = eetlv_cs_8_11 }
+	8277.1.1 = { holder = eetlv_cs_8_12 }
+}
+c_R237G144B187 = {
+	7898.1.1 = { holder = eetlv_cs_8_1 }
+	7985.1.1 = { holder = eetlv_cs_8_2 }
+	8082.1.1 = { holder = eetlv_cs_8_3 }
+	8106.4.18 = { holder = eetlv_cs_8_4 }
+	8170.12.11 = { holder = eetlv_cs_8_5 }
+	8209.2.1 = { holder = eetlv_cs_8_6 }
+	8211.3.1 = { holder = eetlv_cs_8_7 }
+	8233.2.8 = { holder = eetlv_cs_8_8 }
+	8236.2.13 = { holder = eetlv_cs_8_9 }
+	8239.1.11 = { holder = eetlv_cs_8_10 }
+	8258.12.21 = { holder = eetlv_cs_8_11 }
+	8277.1.1 = { holder = eetlv_cs_8_12 }
+}
+
+### Kyth  (5 counties)
+d_R232G202B38 = {
+	7898.1.1 = {
+		holder = eetlv_cs_9_1
+		government = tribal_government
+	}
+	7985.1.1 = { holder = eetlv_cs_9_2 government = tribal_government }
+	8082.1.1 = { holder = eetlv_cs_9_3 government = tribal_government }
+	8106.4.18 = { holder = eetlv_cs_9_4 government = tribal_government }
+	8170.12.11 = { holder = eetlv_cs_9_5 government = tribal_government }
+	8209.2.1 = { holder = eetlv_cs_9_6 government = tribal_government }
+	8211.3.1 = { holder = eetlv_cs_9_7 government = tribal_government }
+	8233.2.8 = { holder = eetlv_cs_9_8 government = tribal_government }
+	8236.2.13 = { holder = eetlv_cs_9_9 government = tribal_government }
+	8239.1.11 = { holder = eetlv_cs_9_10 government = tribal_government }
+	8258.12.21 = { holder = eetlv_cs_9_11 government = tribal_government }
+	8277.1.1 = { holder = eetlv_cs_9_12 government = tribal_government }
+}
+c_R155G91B15 = {
+	7898.1.1 = { holder = eetlv_cs_9_1 }
+	7985.1.1 = { holder = eetlv_cs_9_2 }
+	8082.1.1 = { holder = eetlv_cs_9_3 }
+	8106.4.18 = { holder = eetlv_cs_9_4 }
+	8170.12.11 = { holder = eetlv_cs_9_5 }
+	8209.2.1 = { holder = eetlv_cs_9_6 }
+	8211.3.1 = { holder = eetlv_cs_9_7 }
+	8233.2.8 = { holder = eetlv_cs_9_8 }
+	8236.2.13 = { holder = eetlv_cs_9_9 }
+	8239.1.11 = { holder = eetlv_cs_9_10 }
+	8258.12.21 = { holder = eetlv_cs_9_11 }
+	8277.1.1 = { holder = eetlv_cs_9_12 }
+}
+c_R40G112B30 = {
+	7898.1.1 = { holder = eetlv_cs_9_1 }
+	7985.1.1 = { holder = eetlv_cs_9_2 }
+	8082.1.1 = { holder = eetlv_cs_9_3 }
+	8106.4.18 = { holder = eetlv_cs_9_4 }
+	8170.12.11 = { holder = eetlv_cs_9_5 }
+	8209.2.1 = { holder = eetlv_cs_9_6 }
+	8211.3.1 = { holder = eetlv_cs_9_7 }
+	8233.2.8 = { holder = eetlv_cs_9_8 }
+	8236.2.13 = { holder = eetlv_cs_9_9 }
+	8239.1.11 = { holder = eetlv_cs_9_10 }
+	8258.12.21 = { holder = eetlv_cs_9_11 }
+	8277.1.1 = { holder = eetlv_cs_9_12 }
+}
+c_R116G203B218 = {
+	7898.1.1 = { holder = eetlv_cs_9_1 }
+	7985.1.1 = { holder = eetlv_cs_9_2 }
+	8082.1.1 = { holder = eetlv_cs_9_3 }
+	8106.4.18 = { holder = eetlv_cs_9_4 }
+	8170.12.11 = { holder = eetlv_cs_9_5 }
+	8209.2.1 = { holder = eetlv_cs_9_6 }
+	8211.3.1 = { holder = eetlv_cs_9_7 }
+	8233.2.8 = { holder = eetlv_cs_9_8 }
+	8236.2.13 = { holder = eetlv_cs_9_9 }
+	8239.1.11 = { holder = eetlv_cs_9_10 }
+	8258.12.21 = { holder = eetlv_cs_9_11 }
+	8277.1.1 = { holder = eetlv_cs_9_12 }
+}
+c_R185G87B57 = {
+	7898.1.1 = { holder = eetlv_cs_9_1 }
+	7985.1.1 = { holder = eetlv_cs_9_2 }
+	8082.1.1 = { holder = eetlv_cs_9_3 }
+	8106.4.18 = { holder = eetlv_cs_9_4 }
+	8170.12.11 = { holder = eetlv_cs_9_5 }
+	8209.2.1 = { holder = eetlv_cs_9_6 }
+	8211.3.1 = { holder = eetlv_cs_9_7 }
+	8233.2.8 = { holder = eetlv_cs_9_8 }
+	8236.2.13 = { holder = eetlv_cs_9_9 }
+	8239.1.11 = { holder = eetlv_cs_9_10 }
+	8258.12.21 = { holder = eetlv_cs_9_11 }
+	8277.1.1 = { holder = eetlv_cs_9_12 }
+}
+c_R84G12B53 = {
+	7898.1.1 = { holder = eetlv_cs_9_1 }
+	7985.1.1 = { holder = eetlv_cs_9_2 }
+	8082.1.1 = { holder = eetlv_cs_9_3 }
+	8106.4.18 = { holder = eetlv_cs_9_4 }
+	8170.12.11 = { holder = eetlv_cs_9_5 }
+	8209.2.1 = { holder = eetlv_cs_9_6 }
+	8211.3.1 = { holder = eetlv_cs_9_7 }
+	8233.2.8 = { holder = eetlv_cs_9_8 }
+	8236.2.13 = { holder = eetlv_cs_9_9 }
+	8239.1.11 = { holder = eetlv_cs_9_10 }
+	8258.12.21 = { holder = eetlv_cs_9_11 }
+	8277.1.1 = { holder = eetlv_cs_9_12 }
+}
+
+### Vaes Tolorro  (7 counties)
+d_R220G226B155 = {
+	7898.1.1 = {
+		holder = eetlv_cs_10_1
+		government = tribal_government
+	}
+	7985.1.1 = { holder = eetlv_cs_10_2 government = tribal_government }
+	8082.1.1 = { holder = eetlv_cs_10_3 government = tribal_government }
+	8106.4.18 = { holder = eetlv_cs_10_4 government = tribal_government }
+	8170.12.11 = { holder = eetlv_cs_10_5 government = tribal_government }
+	8209.2.1 = { holder = eetlv_cs_10_6 government = tribal_government }
+	8211.3.1 = { holder = eetlv_cs_10_7 government = tribal_government }
+	8233.2.8 = { holder = eetlv_cs_10_8 government = tribal_government }
+	8236.2.13 = { holder = eetlv_cs_10_9 government = tribal_government }
+	8239.1.11 = { holder = eetlv_cs_10_10 government = tribal_government }
+	8258.12.21 = { holder = eetlv_cs_10_11 government = tribal_government }
+	8277.1.1 = { holder = eetlv_cs_10_12 government = tribal_government }
+}
+c_R136G164B174 = {
+	7898.1.1 = { holder = eetlv_cs_10_1 }
+	7985.1.1 = { holder = eetlv_cs_10_2 }
+	8082.1.1 = { holder = eetlv_cs_10_3 }
+	8106.4.18 = { holder = eetlv_cs_10_4 }
+	8170.12.11 = { holder = eetlv_cs_10_5 }
+	8209.2.1 = { holder = eetlv_cs_10_6 }
+	8211.3.1 = { holder = eetlv_cs_10_7 }
+	8233.2.8 = { holder = eetlv_cs_10_8 }
+	8236.2.13 = { holder = eetlv_cs_10_9 }
+	8239.1.11 = { holder = eetlv_cs_10_10 }
+	8258.12.21 = { holder = eetlv_cs_10_11 }
+	8277.1.1 = { holder = eetlv_cs_10_12 }
+}
+c_R251G93B147 = {
+	7898.1.1 = { holder = eetlv_cs_10_1 }
+	7985.1.1 = { holder = eetlv_cs_10_2 }
+	8082.1.1 = { holder = eetlv_cs_10_3 }
+	8106.4.18 = { holder = eetlv_cs_10_4 }
+	8170.12.11 = { holder = eetlv_cs_10_5 }
+	8209.2.1 = { holder = eetlv_cs_10_6 }
+	8211.3.1 = { holder = eetlv_cs_10_7 }
+	8233.2.8 = { holder = eetlv_cs_10_8 }
+	8236.2.13 = { holder = eetlv_cs_10_9 }
+	8239.1.11 = { holder = eetlv_cs_10_10 }
+	8258.12.21 = { holder = eetlv_cs_10_11 }
+	8277.1.1 = { holder = eetlv_cs_10_12 }
+}
+c_R226G17B167 = {
+	7898.1.1 = { holder = eetlv_cs_10_1 }
+	7985.1.1 = { holder = eetlv_cs_10_2 }
+	8082.1.1 = { holder = eetlv_cs_10_3 }
+	8106.4.18 = { holder = eetlv_cs_10_4 }
+	8170.12.11 = { holder = eetlv_cs_10_5 }
+	8209.2.1 = { holder = eetlv_cs_10_6 }
+	8211.3.1 = { holder = eetlv_cs_10_7 }
+	8233.2.8 = { holder = eetlv_cs_10_8 }
+	8236.2.13 = { holder = eetlv_cs_10_9 }
+	8239.1.11 = { holder = eetlv_cs_10_10 }
+	8258.12.21 = { holder = eetlv_cs_10_11 }
+	8277.1.1 = { holder = eetlv_cs_10_12 }
+}
+c_R31G197B17 = {
+	7898.1.1 = { holder = eetlv_cs_10_1 }
+	7985.1.1 = { holder = eetlv_cs_10_2 }
+	8082.1.1 = { holder = eetlv_cs_10_3 }
+	8106.4.18 = { holder = eetlv_cs_10_4 }
+	8170.12.11 = { holder = eetlv_cs_10_5 }
+	8209.2.1 = { holder = eetlv_cs_10_6 }
+	8211.3.1 = { holder = eetlv_cs_10_7 }
+	8233.2.8 = { holder = eetlv_cs_10_8 }
+	8236.2.13 = { holder = eetlv_cs_10_9 }
+	8239.1.11 = { holder = eetlv_cs_10_10 }
+	8258.12.21 = { holder = eetlv_cs_10_11 }
+	8277.1.1 = { holder = eetlv_cs_10_12 }
+}
+c_R128G141B175 = {
+	7898.1.1 = { holder = eetlv_cs_10_1 }
+	7985.1.1 = { holder = eetlv_cs_10_2 }
+	8082.1.1 = { holder = eetlv_cs_10_3 }
+	8106.4.18 = { holder = eetlv_cs_10_4 }
+	8170.12.11 = { holder = eetlv_cs_10_5 }
+	8209.2.1 = { holder = eetlv_cs_10_6 }
+	8211.3.1 = { holder = eetlv_cs_10_7 }
+	8233.2.8 = { holder = eetlv_cs_10_8 }
+	8236.2.13 = { holder = eetlv_cs_10_9 }
+	8239.1.11 = { holder = eetlv_cs_10_10 }
+	8258.12.21 = { holder = eetlv_cs_10_11 }
+	8277.1.1 = { holder = eetlv_cs_10_12 }
+}
+c_R111G225B6 = {
+	7898.1.1 = { holder = eetlv_cs_10_1 }
+	7985.1.1 = { holder = eetlv_cs_10_2 }
+	8082.1.1 = { holder = eetlv_cs_10_3 }
+	8106.4.18 = { holder = eetlv_cs_10_4 }
+	8170.12.11 = { holder = eetlv_cs_10_5 }
+	8209.2.1 = { holder = eetlv_cs_10_6 }
+	8211.3.1 = { holder = eetlv_cs_10_7 }
+	8233.2.8 = { holder = eetlv_cs_10_8 }
+	8236.2.13 = { holder = eetlv_cs_10_9 }
+	8239.1.11 = { holder = eetlv_cs_10_10 }
+	8258.12.21 = { holder = eetlv_cs_10_11 }
+	8277.1.1 = { holder = eetlv_cs_10_12 }
+}
+c_R28G205B17 = {
+	7898.1.1 = { holder = eetlv_cs_10_1 }
+	7985.1.1 = { holder = eetlv_cs_10_2 }
+	8082.1.1 = { holder = eetlv_cs_10_3 }
+	8106.4.18 = { holder = eetlv_cs_10_4 }
+	8170.12.11 = { holder = eetlv_cs_10_5 }
+	8209.2.1 = { holder = eetlv_cs_10_6 }
+	8211.3.1 = { holder = eetlv_cs_10_7 }
+	8233.2.8 = { holder = eetlv_cs_10_8 }
+	8236.2.13 = { holder = eetlv_cs_10_9 }
+	8239.1.11 = { holder = eetlv_cs_10_10 }
+	8258.12.21 = { holder = eetlv_cs_10_11 }
+	8277.1.1 = { holder = eetlv_cs_10_12 }
+}
+
+### Yaleen  (5 counties)
+d_R28G169B63 = {
+	7898.1.1 = {
+		holder = eetlv_cs_11_1
+		government = tribal_government
+	}
+	7985.1.1 = { holder = eetlv_cs_11_2 government = tribal_government }
+	8082.1.1 = { holder = eetlv_cs_11_3 government = tribal_government }
+	8106.4.18 = { holder = eetlv_cs_11_4 government = tribal_government }
+	8170.12.11 = { holder = eetlv_cs_11_5 government = tribal_government }
+	8209.2.1 = { holder = eetlv_cs_11_6 government = tribal_government }
+	8211.3.1 = { holder = eetlv_cs_11_7 government = tribal_government }
+	8233.2.8 = { holder = eetlv_cs_11_8 government = tribal_government }
+	8236.2.13 = { holder = eetlv_cs_11_9 government = tribal_government }
+	8239.1.11 = { holder = eetlv_cs_11_10 government = tribal_government }
+	8258.12.21 = { holder = eetlv_cs_11_11 government = tribal_government }
+	8277.1.1 = { holder = eetlv_cs_11_12 government = tribal_government }
+}
+c_R103G132B176 = {
+	7898.1.1 = { holder = eetlv_cs_11_1 }
+	7985.1.1 = { holder = eetlv_cs_11_2 }
+	8082.1.1 = { holder = eetlv_cs_11_3 }
+	8106.4.18 = { holder = eetlv_cs_11_4 }
+	8170.12.11 = { holder = eetlv_cs_11_5 }
+	8209.2.1 = { holder = eetlv_cs_11_6 }
+	8211.3.1 = { holder = eetlv_cs_11_7 }
+	8233.2.8 = { holder = eetlv_cs_11_8 }
+	8236.2.13 = { holder = eetlv_cs_11_9 }
+	8239.1.11 = { holder = eetlv_cs_11_10 }
+	8258.12.21 = { holder = eetlv_cs_11_11 }
+	8277.1.1 = { holder = eetlv_cs_11_12 }
+}
+c_R210G64B38 = {
+	7898.1.1 = { holder = eetlv_cs_11_1 }
+	7985.1.1 = { holder = eetlv_cs_11_2 }
+	8082.1.1 = { holder = eetlv_cs_11_3 }
+	8106.4.18 = { holder = eetlv_cs_11_4 }
+	8170.12.11 = { holder = eetlv_cs_11_5 }
+	8209.2.1 = { holder = eetlv_cs_11_6 }
+	8211.3.1 = { holder = eetlv_cs_11_7 }
+	8233.2.8 = { holder = eetlv_cs_11_8 }
+	8236.2.13 = { holder = eetlv_cs_11_9 }
+	8239.1.11 = { holder = eetlv_cs_11_10 }
+	8258.12.21 = { holder = eetlv_cs_11_11 }
+	8277.1.1 = { holder = eetlv_cs_11_12 }
+}
+c_R6G219B33 = {
+	7898.1.1 = { holder = eetlv_cs_11_1 }
+	7985.1.1 = { holder = eetlv_cs_11_2 }
+	8082.1.1 = { holder = eetlv_cs_11_3 }
+	8106.4.18 = { holder = eetlv_cs_11_4 }
+	8170.12.11 = { holder = eetlv_cs_11_5 }
+	8209.2.1 = { holder = eetlv_cs_11_6 }
+	8211.3.1 = { holder = eetlv_cs_11_7 }
+	8233.2.8 = { holder = eetlv_cs_11_8 }
+	8236.2.13 = { holder = eetlv_cs_11_9 }
+	8239.1.11 = { holder = eetlv_cs_11_10 }
+	8258.12.21 = { holder = eetlv_cs_11_11 }
+	8277.1.1 = { holder = eetlv_cs_11_12 }
+}
+c_R184G238B39 = {
+	7898.1.1 = { holder = eetlv_cs_11_1 }
+	7985.1.1 = { holder = eetlv_cs_11_2 }
+	8082.1.1 = { holder = eetlv_cs_11_3 }
+	8106.4.18 = { holder = eetlv_cs_11_4 }
+	8170.12.11 = { holder = eetlv_cs_11_5 }
+	8209.2.1 = { holder = eetlv_cs_11_6 }
+	8211.3.1 = { holder = eetlv_cs_11_7 }
+	8233.2.8 = { holder = eetlv_cs_11_8 }
+	8236.2.13 = { holder = eetlv_cs_11_9 }
+	8239.1.11 = { holder = eetlv_cs_11_10 }
+	8258.12.21 = { holder = eetlv_cs_11_11 }
+	8277.1.1 = { holder = eetlv_cs_11_12 }
+}
+c_R228G67B251 = {
+	7898.1.1 = { holder = eetlv_cs_11_1 }
+	7985.1.1 = { holder = eetlv_cs_11_2 }
+	8082.1.1 = { holder = eetlv_cs_11_3 }
+	8106.4.18 = { holder = eetlv_cs_11_4 }
+	8170.12.11 = { holder = eetlv_cs_11_5 }
+	8209.2.1 = { holder = eetlv_cs_11_6 }
+	8211.3.1 = { holder = eetlv_cs_11_7 }
+	8233.2.8 = { holder = eetlv_cs_11_8 }
+	8236.2.13 = { holder = eetlv_cs_11_9 }
+	8239.1.11 = { holder = eetlv_cs_11_10 }
+	8258.12.21 = { holder = eetlv_cs_11_11 }
+	8277.1.1 = { holder = eetlv_cs_11_12 }
+}
+
+### Xalaen  (6 counties)
+d_R81G64B118 = {
+	7898.1.1 = {
+		holder = eetlv_cs_12_1
+		government = tribal_government
+	}
+	7985.1.1 = { holder = eetlv_cs_12_2 government = tribal_government }
+	8082.1.1 = { holder = eetlv_cs_12_3 government = tribal_government }
+	8106.4.18 = { holder = eetlv_cs_12_4 government = tribal_government }
+	8170.12.11 = { holder = eetlv_cs_12_5 government = tribal_government }
+	8209.2.1 = { holder = eetlv_cs_12_6 government = tribal_government }
+	8211.3.1 = { holder = eetlv_cs_12_7 government = tribal_government }
+	8233.2.8 = { holder = eetlv_cs_12_8 government = tribal_government }
+	8236.2.13 = { holder = eetlv_cs_12_9 government = tribal_government }
+	8239.1.11 = { holder = eetlv_cs_12_10 government = tribal_government }
+	8258.12.21 = { holder = eetlv_cs_12_11 government = tribal_government }
+	8277.1.1 = { holder = eetlv_cs_12_12 government = tribal_government }
+}
+c_R150G162B210 = {
+	7898.1.1 = { holder = eetlv_cs_12_1 }
+	7985.1.1 = { holder = eetlv_cs_12_2 }
+	8082.1.1 = { holder = eetlv_cs_12_3 }
+	8106.4.18 = { holder = eetlv_cs_12_4 }
+	8170.12.11 = { holder = eetlv_cs_12_5 }
+	8209.2.1 = { holder = eetlv_cs_12_6 }
+	8211.3.1 = { holder = eetlv_cs_12_7 }
+	8233.2.8 = { holder = eetlv_cs_12_8 }
+	8236.2.13 = { holder = eetlv_cs_12_9 }
+	8239.1.11 = { holder = eetlv_cs_12_10 }
+	8258.12.21 = { holder = eetlv_cs_12_11 }
+	8277.1.1 = { holder = eetlv_cs_12_12 }
+}
+c_R60G32B18 = {
+	7898.1.1 = { holder = eetlv_cs_12_1 }
+	7985.1.1 = { holder = eetlv_cs_12_2 }
+	8082.1.1 = { holder = eetlv_cs_12_3 }
+	8106.4.18 = { holder = eetlv_cs_12_4 }
+	8170.12.11 = { holder = eetlv_cs_12_5 }
+	8209.2.1 = { holder = eetlv_cs_12_6 }
+	8211.3.1 = { holder = eetlv_cs_12_7 }
+	8233.2.8 = { holder = eetlv_cs_12_8 }
+	8236.2.13 = { holder = eetlv_cs_12_9 }
+	8239.1.11 = { holder = eetlv_cs_12_10 }
+	8258.12.21 = { holder = eetlv_cs_12_11 }
+	8277.1.1 = { holder = eetlv_cs_12_12 }
+}
+c_R22G109B251 = {
+	7898.1.1 = { holder = eetlv_cs_12_1 }
+	7985.1.1 = { holder = eetlv_cs_12_2 }
+	8082.1.1 = { holder = eetlv_cs_12_3 }
+	8106.4.18 = { holder = eetlv_cs_12_4 }
+	8170.12.11 = { holder = eetlv_cs_12_5 }
+	8209.2.1 = { holder = eetlv_cs_12_6 }
+	8211.3.1 = { holder = eetlv_cs_12_7 }
+	8233.2.8 = { holder = eetlv_cs_12_8 }
+	8236.2.13 = { holder = eetlv_cs_12_9 }
+	8239.1.11 = { holder = eetlv_cs_12_10 }
+	8258.12.21 = { holder = eetlv_cs_12_11 }
+	8277.1.1 = { holder = eetlv_cs_12_12 }
+}
+c_R169G78B137 = {
+	7898.1.1 = { holder = eetlv_cs_12_1 }
+	7985.1.1 = { holder = eetlv_cs_12_2 }
+	8082.1.1 = { holder = eetlv_cs_12_3 }
+	8106.4.18 = { holder = eetlv_cs_12_4 }
+	8170.12.11 = { holder = eetlv_cs_12_5 }
+	8209.2.1 = { holder = eetlv_cs_12_6 }
+	8211.3.1 = { holder = eetlv_cs_12_7 }
+	8233.2.8 = { holder = eetlv_cs_12_8 }
+	8236.2.13 = { holder = eetlv_cs_12_9 }
+	8239.1.11 = { holder = eetlv_cs_12_10 }
+	8258.12.21 = { holder = eetlv_cs_12_11 }
+	8277.1.1 = { holder = eetlv_cs_12_12 }
+}
+c_R2G143B151 = {
+	7898.1.1 = { holder = eetlv_cs_12_1 }
+	7985.1.1 = { holder = eetlv_cs_12_2 }
+	8082.1.1 = { holder = eetlv_cs_12_3 }
+	8106.4.18 = { holder = eetlv_cs_12_4 }
+	8170.12.11 = { holder = eetlv_cs_12_5 }
+	8209.2.1 = { holder = eetlv_cs_12_6 }
+	8211.3.1 = { holder = eetlv_cs_12_7 }
+	8233.2.8 = { holder = eetlv_cs_12_8 }
+	8236.2.13 = { holder = eetlv_cs_12_9 }
+	8239.1.11 = { holder = eetlv_cs_12_10 }
+	8258.12.21 = { holder = eetlv_cs_12_11 }
+	8277.1.1 = { holder = eetlv_cs_12_12 }
+}
+c_R179G99B246 = {
+	7898.1.1 = { holder = eetlv_cs_12_1 }
+	7985.1.1 = { holder = eetlv_cs_12_2 }
+	8082.1.1 = { holder = eetlv_cs_12_3 }
+	8106.4.18 = { holder = eetlv_cs_12_4 }
+	8170.12.11 = { holder = eetlv_cs_12_5 }
+	8209.2.1 = { holder = eetlv_cs_12_6 }
+	8211.3.1 = { holder = eetlv_cs_12_7 }
+	8233.2.8 = { holder = eetlv_cs_12_8 }
+	8236.2.13 = { holder = eetlv_cs_12_9 }
+	8239.1.11 = { holder = eetlv_cs_12_10 }
+	8258.12.21 = { holder = eetlv_cs_12_11 }
+	8277.1.1 = { holder = eetlv_cs_12_12 }
+}
+
+### Qarem  (7 counties)
+d_R238G6B173 = {
+	7898.1.1 = {
+		holder = eetlv_cs_13_1
+		government = tribal_government
+	}
+	7985.1.1 = { holder = eetlv_cs_13_2 government = tribal_government }
+	8082.1.1 = { holder = eetlv_cs_13_3 government = tribal_government }
+	8106.4.18 = { holder = eetlv_cs_13_4 government = tribal_government }
+	8170.12.11 = { holder = eetlv_cs_13_5 government = tribal_government }
+	8209.2.1 = { holder = eetlv_cs_13_6 government = tribal_government }
+	8211.3.1 = { holder = eetlv_cs_13_7 government = tribal_government }
+	8233.2.8 = { holder = eetlv_cs_13_8 government = tribal_government }
+	8236.2.13 = { holder = eetlv_cs_13_9 government = tribal_government }
+	8239.1.11 = { holder = eetlv_cs_13_10 government = tribal_government }
+	8258.12.21 = { holder = eetlv_cs_13_11 government = tribal_government }
+	8277.1.1 = { holder = eetlv_cs_13_12 government = tribal_government }
+}
+c_R199G82B162 = {
+	7898.1.1 = { holder = eetlv_cs_13_1 }
+	7985.1.1 = { holder = eetlv_cs_13_2 }
+	8082.1.1 = { holder = eetlv_cs_13_3 }
+	8106.4.18 = { holder = eetlv_cs_13_4 }
+	8170.12.11 = { holder = eetlv_cs_13_5 }
+	8209.2.1 = { holder = eetlv_cs_13_6 }
+	8211.3.1 = { holder = eetlv_cs_13_7 }
+	8233.2.8 = { holder = eetlv_cs_13_8 }
+	8236.2.13 = { holder = eetlv_cs_13_9 }
+	8239.1.11 = { holder = eetlv_cs_13_10 }
+	8258.12.21 = { holder = eetlv_cs_13_11 }
+	8277.1.1 = { holder = eetlv_cs_13_12 }
+}
+c_R174G86B138 = {
+	7898.1.1 = { holder = eetlv_cs_13_1 }
+	7985.1.1 = { holder = eetlv_cs_13_2 }
+	8082.1.1 = { holder = eetlv_cs_13_3 }
+	8106.4.18 = { holder = eetlv_cs_13_4 }
+	8170.12.11 = { holder = eetlv_cs_13_5 }
+	8209.2.1 = { holder = eetlv_cs_13_6 }
+	8211.3.1 = { holder = eetlv_cs_13_7 }
+	8233.2.8 = { holder = eetlv_cs_13_8 }
+	8236.2.13 = { holder = eetlv_cs_13_9 }
+	8239.1.11 = { holder = eetlv_cs_13_10 }
+	8258.12.21 = { holder = eetlv_cs_13_11 }
+	8277.1.1 = { holder = eetlv_cs_13_12 }
+}
+c_R46G59B165 = {
+	7898.1.1 = { holder = eetlv_cs_13_1 }
+	7985.1.1 = { holder = eetlv_cs_13_2 }
+	8082.1.1 = { holder = eetlv_cs_13_3 }
+	8106.4.18 = { holder = eetlv_cs_13_4 }
+	8170.12.11 = { holder = eetlv_cs_13_5 }
+	8209.2.1 = { holder = eetlv_cs_13_6 }
+	8211.3.1 = { holder = eetlv_cs_13_7 }
+	8233.2.8 = { holder = eetlv_cs_13_8 }
+	8236.2.13 = { holder = eetlv_cs_13_9 }
+	8239.1.11 = { holder = eetlv_cs_13_10 }
+	8258.12.21 = { holder = eetlv_cs_13_11 }
+	8277.1.1 = { holder = eetlv_cs_13_12 }
+}
+c_R103G72B109 = {
+	7898.1.1 = { holder = eetlv_cs_13_1 }
+	7985.1.1 = { holder = eetlv_cs_13_2 }
+	8082.1.1 = { holder = eetlv_cs_13_3 }
+	8106.4.18 = { holder = eetlv_cs_13_4 }
+	8170.12.11 = { holder = eetlv_cs_13_5 }
+	8209.2.1 = { holder = eetlv_cs_13_6 }
+	8211.3.1 = { holder = eetlv_cs_13_7 }
+	8233.2.8 = { holder = eetlv_cs_13_8 }
+	8236.2.13 = { holder = eetlv_cs_13_9 }
+	8239.1.11 = { holder = eetlv_cs_13_10 }
+	8258.12.21 = { holder = eetlv_cs_13_11 }
+	8277.1.1 = { holder = eetlv_cs_13_12 }
+}
+c_R250G22B167 = {
+	7898.1.1 = { holder = eetlv_cs_13_1 }
+	7985.1.1 = { holder = eetlv_cs_13_2 }
+	8082.1.1 = { holder = eetlv_cs_13_3 }
+	8106.4.18 = { holder = eetlv_cs_13_4 }
+	8170.12.11 = { holder = eetlv_cs_13_5 }
+	8209.2.1 = { holder = eetlv_cs_13_6 }
+	8211.3.1 = { holder = eetlv_cs_13_7 }
+	8233.2.8 = { holder = eetlv_cs_13_8 }
+	8236.2.13 = { holder = eetlv_cs_13_9 }
+	8239.1.11 = { holder = eetlv_cs_13_10 }
+	8258.12.21 = { holder = eetlv_cs_13_11 }
+	8277.1.1 = { holder = eetlv_cs_13_12 }
+}
+c_R9G231B236 = {
+	7898.1.1 = { holder = eetlv_cs_13_1 }
+	7985.1.1 = { holder = eetlv_cs_13_2 }
+	8082.1.1 = { holder = eetlv_cs_13_3 }
+	8106.4.18 = { holder = eetlv_cs_13_4 }
+	8170.12.11 = { holder = eetlv_cs_13_5 }
+	8209.2.1 = { holder = eetlv_cs_13_6 }
+	8211.3.1 = { holder = eetlv_cs_13_7 }
+	8233.2.8 = { holder = eetlv_cs_13_8 }
+	8236.2.13 = { holder = eetlv_cs_13_9 }
+	8239.1.11 = { holder = eetlv_cs_13_10 }
+	8258.12.21 = { holder = eetlv_cs_13_11 }
+	8277.1.1 = { holder = eetlv_cs_13_12 }
+}
+c_R117G33B12 = {
+	7898.1.1 = { holder = eetlv_cs_13_1 }
+	7985.1.1 = { holder = eetlv_cs_13_2 }
+	8082.1.1 = { holder = eetlv_cs_13_3 }
+	8106.4.18 = { holder = eetlv_cs_13_4 }
+	8170.12.11 = { holder = eetlv_cs_13_5 }
+	8209.2.1 = { holder = eetlv_cs_13_6 }
+	8211.3.1 = { holder = eetlv_cs_13_7 }
+	8233.2.8 = { holder = eetlv_cs_13_8 }
+	8236.2.13 = { holder = eetlv_cs_13_9 }
+	8239.1.11 = { holder = eetlv_cs_13_10 }
+	8258.12.21 = { holder = eetlv_cs_13_11 }
+	8277.1.1 = { holder = eetlv_cs_13_12 }
+}
+
+### Naraen  (7 counties)
+d_R42G145B84 = {
+	7898.1.1 = {
+		holder = eetlv_cs_14_1
+		government = tribal_government
+	}
+	7985.1.1 = { holder = eetlv_cs_14_2 government = tribal_government }
+	8082.1.1 = { holder = eetlv_cs_14_3 government = tribal_government }
+	8106.4.18 = { holder = eetlv_cs_14_4 government = tribal_government }
+	8170.12.11 = { holder = eetlv_cs_14_5 government = tribal_government }
+	8209.2.1 = { holder = eetlv_cs_14_6 government = tribal_government }
+	8211.3.1 = { holder = eetlv_cs_14_7 government = tribal_government }
+	8233.2.8 = { holder = eetlv_cs_14_8 government = tribal_government }
+	8236.2.13 = { holder = eetlv_cs_14_9 government = tribal_government }
+	8239.1.11 = { holder = eetlv_cs_14_10 government = tribal_government }
+	8258.12.21 = { holder = eetlv_cs_14_11 government = tribal_government }
+	8277.1.1 = { holder = eetlv_cs_14_12 government = tribal_government }
+}
+c_R111G40B120 = {
+	7898.1.1 = { holder = eetlv_cs_14_1 }
+	7985.1.1 = { holder = eetlv_cs_14_2 }
+	8082.1.1 = { holder = eetlv_cs_14_3 }
+	8106.4.18 = { holder = eetlv_cs_14_4 }
+	8170.12.11 = { holder = eetlv_cs_14_5 }
+	8209.2.1 = { holder = eetlv_cs_14_6 }
+	8211.3.1 = { holder = eetlv_cs_14_7 }
+	8233.2.8 = { holder = eetlv_cs_14_8 }
+	8236.2.13 = { holder = eetlv_cs_14_9 }
+	8239.1.11 = { holder = eetlv_cs_14_10 }
+	8258.12.21 = { holder = eetlv_cs_14_11 }
+	8277.1.1 = { holder = eetlv_cs_14_12 }
+}
+c_R101G214B158 = {
+	7898.1.1 = { holder = eetlv_cs_14_1 }
+	7985.1.1 = { holder = eetlv_cs_14_2 }
+	8082.1.1 = { holder = eetlv_cs_14_3 }
+	8106.4.18 = { holder = eetlv_cs_14_4 }
+	8170.12.11 = { holder = eetlv_cs_14_5 }
+	8209.2.1 = { holder = eetlv_cs_14_6 }
+	8211.3.1 = { holder = eetlv_cs_14_7 }
+	8233.2.8 = { holder = eetlv_cs_14_8 }
+	8236.2.13 = { holder = eetlv_cs_14_9 }
+	8239.1.11 = { holder = eetlv_cs_14_10 }
+	8258.12.21 = { holder = eetlv_cs_14_11 }
+	8277.1.1 = { holder = eetlv_cs_14_12 }
+}
+c_R56G7B241 = {
+	7898.1.1 = { holder = eetlv_cs_14_1 }
+	7985.1.1 = { holder = eetlv_cs_14_2 }
+	8082.1.1 = { holder = eetlv_cs_14_3 }
+	8106.4.18 = { holder = eetlv_cs_14_4 }
+	8170.12.11 = { holder = eetlv_cs_14_5 }
+	8209.2.1 = { holder = eetlv_cs_14_6 }
+	8211.3.1 = { holder = eetlv_cs_14_7 }
+	8233.2.8 = { holder = eetlv_cs_14_8 }
+	8236.2.13 = { holder = eetlv_cs_14_9 }
+	8239.1.11 = { holder = eetlv_cs_14_10 }
+	8258.12.21 = { holder = eetlv_cs_14_11 }
+	8277.1.1 = { holder = eetlv_cs_14_12 }
+}
+c_R209G231B83 = {
+	7898.1.1 = { holder = eetlv_cs_14_1 }
+	7985.1.1 = { holder = eetlv_cs_14_2 }
+	8082.1.1 = { holder = eetlv_cs_14_3 }
+	8106.4.18 = { holder = eetlv_cs_14_4 }
+	8170.12.11 = { holder = eetlv_cs_14_5 }
+	8209.2.1 = { holder = eetlv_cs_14_6 }
+	8211.3.1 = { holder = eetlv_cs_14_7 }
+	8233.2.8 = { holder = eetlv_cs_14_8 }
+	8236.2.13 = { holder = eetlv_cs_14_9 }
+	8239.1.11 = { holder = eetlv_cs_14_10 }
+	8258.12.21 = { holder = eetlv_cs_14_11 }
+	8277.1.1 = { holder = eetlv_cs_14_12 }
+}
+c_R166G102B92 = {
+	7898.1.1 = { holder = eetlv_cs_14_1 }
+	7985.1.1 = { holder = eetlv_cs_14_2 }
+	8082.1.1 = { holder = eetlv_cs_14_3 }
+	8106.4.18 = { holder = eetlv_cs_14_4 }
+	8170.12.11 = { holder = eetlv_cs_14_5 }
+	8209.2.1 = { holder = eetlv_cs_14_6 }
+	8211.3.1 = { holder = eetlv_cs_14_7 }
+	8233.2.8 = { holder = eetlv_cs_14_8 }
+	8236.2.13 = { holder = eetlv_cs_14_9 }
+	8239.1.11 = { holder = eetlv_cs_14_10 }
+	8258.12.21 = { holder = eetlv_cs_14_11 }
+	8277.1.1 = { holder = eetlv_cs_14_12 }
+}
+c_R156G86B18 = {
+	7898.1.1 = { holder = eetlv_cs_14_1 }
+	7985.1.1 = { holder = eetlv_cs_14_2 }
+	8082.1.1 = { holder = eetlv_cs_14_3 }
+	8106.4.18 = { holder = eetlv_cs_14_4 }
+	8170.12.11 = { holder = eetlv_cs_14_5 }
+	8209.2.1 = { holder = eetlv_cs_14_6 }
+	8211.3.1 = { holder = eetlv_cs_14_7 }
+	8233.2.8 = { holder = eetlv_cs_14_8 }
+	8236.2.13 = { holder = eetlv_cs_14_9 }
+	8239.1.11 = { holder = eetlv_cs_14_10 }
+	8258.12.21 = { holder = eetlv_cs_14_11 }
+	8277.1.1 = { holder = eetlv_cs_14_12 }
+}
+c_R110G141B33 = {
+	7898.1.1 = { holder = eetlv_cs_14_1 }
+	7985.1.1 = { holder = eetlv_cs_14_2 }
+	8082.1.1 = { holder = eetlv_cs_14_3 }
+	8106.4.18 = { holder = eetlv_cs_14_4 }
+	8170.12.11 = { holder = eetlv_cs_14_5 }
+	8209.2.1 = { holder = eetlv_cs_14_6 }
+	8211.3.1 = { holder = eetlv_cs_14_7 }
+	8233.2.8 = { holder = eetlv_cs_14_8 }
+	8236.2.13 = { holder = eetlv_cs_14_9 }
+	8239.1.11 = { holder = eetlv_cs_14_10 }
+	8258.12.21 = { holder = eetlv_cs_14_11 }
+	8277.1.1 = { holder = eetlv_cs_14_12 }
+}
+
+### The Great Chieftain: leads the confederation, rules only his own tribe
+e_cannibal_sands = {
+	7898.1.1 = {
+		holder = eetlv_cs_1_1
+		government = tribal_government
+	}
+	7985.1.1 = { holder = eetlv_cs_1_2 government = tribal_government }
+	8082.1.1 = { holder = eetlv_cs_1_3 government = tribal_government }
+	8106.4.18 = { holder = eetlv_cs_1_4 government = tribal_government }
+	8170.12.11 = { holder = eetlv_cs_1_5 government = tribal_government }
+	8209.2.1 = { holder = eetlv_cs_1_6 government = tribal_government }
+	8211.3.1 = { holder = eetlv_cs_1_7 government = tribal_government }
+	8233.2.8 = { holder = eetlv_cs_1_8 government = tribal_government }
+	8236.2.13 = { holder = eetlv_cs_1_9 government = tribal_government }
+	8239.1.11 = { holder = eetlv_cs_1_10 government = tribal_government }
+	8258.12.21 = { holder = eetlv_cs_1_11 government = tribal_government }
+	8277.1.1 = { holder = eetlv_cs_1_12 government = tribal_government }
+}

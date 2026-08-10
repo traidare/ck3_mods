@@ -1,10 +1,25 @@
-﻿world_westeros_the_north_sans_neck = {
+﻿# Seasons of Valyria - TempLoV/NOW/Seasons Compatch: seasonal regions.
+#
+# v1.0.14 REBASE onto the AGOT NOW-Seasons Compatch update of August 8th 2026.
+# That update moved its copy of this file to map_data/geographical_regions/replace/, which is a
+# plain subfolder with no engine meaning (no replace_path in its descriptor). Result: its file
+# and ours both loaded and 76 regions were defined twice, spamming 'Region has multiple entries
+# for province' and leaving region membership undefined. This mod now ships:
+#   1. THIS file, carrying upstream's full updated content (16 regions changed on August 8th)
+#      plus our Legacy of Valyria additions and the Stepstones region, each defined exactly once.
+#   2. An EMPTY map_data/geographical_regions/replace/north_sans_neck.txt, which loads after
+#      upstream's copy at the same path and blanks it, ending the double definition.
+# REBASE AGAIN when the NOW-Seasons Compatch (Steam 3753608966) next updates either file.
+
+world_westeros_the_north_sans_neck = {
 	regions = {
 		world_westeros_the_north_mainland
 	}
 	duchies = {
 		d_bear_island
 		d_skagos
+		d_deepdown
+		d_driftwood_hall
 	}
 }
 world_westeros_dornish_marches_sans_storms = {
@@ -59,9 +74,11 @@ world_westeros_the_arbor_seasons = {
 	duchies = {
 		d_the_arbor
 		d_shield_islands
+		d_greenshield
+		d_greyshield
+		d_southshield
 	}
 }
-
 world_westeros_the_stormlands_sans_marches = {
 	duchies = {
 		d_shipbreaker_bay
@@ -90,7 +107,7 @@ world_westeros_rest_of_dorne = {
 		d_broken_arm
 		d_ghost_hills
 		d_godsgrace
-		#d_lemonwood
+		d_lemonwood
 		d_oldwell
 		d_red_dunes
 		d_salt_shore
@@ -103,7 +120,6 @@ world_westeros_rest_of_dorne = {
 world_lonely_light = {
 
 }
-#WINTER GROUPS SEASONS
 world_group_one = {
 	regions = {
 		world_barrowlands_seasons
@@ -162,7 +178,6 @@ world_group_four = {
 		world_lov_middle_rhoyne
 	}
 }
-
 world_group_five = {
 	regions = {
 		world_rainwood
@@ -233,14 +248,10 @@ world_group_ten = {
 		world_lov_north_ghiscar
 	}
 }
-#NEW REGIONS FOR SEASONS
-
-
 world_tarth_and_estermont = {
 	duchies = {
 		d_estermont_isles
 		d_tarth
-
 		d_tudbury_island
 	}
 }
@@ -249,7 +260,6 @@ world_rainwood = {
 		d_the_rainwood
 		d_cape_wrath
 		d_the_drench
-
 		d_weeping_town
 	}
 	counties = {
@@ -257,9 +267,6 @@ world_rainwood = {
 	}
 }
 world_central_stormlands = {
-	kingdoms = {
-		k_the_hook
-	}
 	duchies = {
 		d_nestridge
 		d_shipbreaker_bay
@@ -270,8 +277,11 @@ world_central_stormlands = {
 		d_stackfield
 		d_the_baywater_woods
 		d_wendwater_forest
-
+		d_masseys_hook
 		d_bronzegate
+		d_sweetmont
+		d_the_glasswater_bay
+		d_wisewood
 	}
 	counties = {
 		c_rosby
@@ -282,9 +292,9 @@ world_central_stormlands = {
 		c_kings_landing
 		c_blackstripe
 		c_stonehelm
+		#c_the_gauntlet
 		c_corningstone
 		c_severisles
-
 		c_the_gauntlet
 		c_wellwend
 		c_harrowfield
@@ -306,7 +316,6 @@ world_rest_of_rosby_dusken = {
 		c_shadowshield
 		c_spinney
 		c_yellowstars
-
 		c_vairs_head
 		c_highley
 	}
@@ -317,7 +326,6 @@ world_the_gullet = {
 		d_driftmark
 		d_dragonstone
 		d_claw_isle #maybe change
-
 		d_sweetport
 	}
 }
@@ -337,7 +345,6 @@ world_gods_eye_region = {
 		c_middleton
 		c_bringrunn
 		c_briarwhite
-
 		c_worthriver
 	}
 }
@@ -386,7 +393,6 @@ world_upper_reach = {
 		d_heartland_heights
 		d_blueburn
 		d_cockleswhent
-
 		d_dunstonbury
 		d_stackhouse
 		d_holyhall
@@ -400,7 +406,9 @@ world_upper_reach = {
 		c_muchyre
 		c_clickingmoor
 		c_pippengrow
+		c_brandybottom
 		c_lace_river
+		c_nunny
 		c_rilldene
 		#c_sommelfield
 		#c_blandford
@@ -408,7 +416,6 @@ world_upper_reach = {
 
 	}
 }
-
 world_andalosi_coast = {
 	counties = {
 		c_horost
@@ -552,7 +559,6 @@ world_lys_and_mangroves = {
 	}
 
 }
-
 world_broken_arm_woods = {
 	duchies = {
 		d_broken_arm
@@ -601,7 +607,6 @@ world_dorne_south_coast = {
 		c_drillwater_islands
 		c_sourmarket
 		c_sweetwater
-
 	}
 }
 world_dorne_desert = {
@@ -663,16 +668,14 @@ world_star_fall = {
 	#	world_rest_of_dreadsands
 	#}
 }
-
 world_honey_lands = {
 	duchies = {
-		d_honeylands
-		d_oldtown
-		d_black_sound
-		d_brightwater
-		d_ridgeview
-
-		d_denflower
+	 d_honeylands
+	 d_oldtown
+	 d_black_sound
+	 d_brightwater
+	 d_ridgeview
+	 d_denflower
 	}
 	counties = {
 		c_the_ring
@@ -682,12 +685,9 @@ world_honey_lands = {
 		c_whisper_point
 		c_richglade
 		c_meadowsmeet
-
 		c_lavenderne
 	}
 }
-
-
 world_dornish_marches_seasons = {
 	regions = {
 		world_rest_of_prince_pass #incase  I want to remove to another one later
@@ -704,9 +704,7 @@ world_dornish_marches_seasons = {
 		d_whentway
 		d_palemarch
 		d_the_stoneway
-
 		d_cockscombe
-		d_the_vultures_gorge
 	}
 	counties = {
 		c_cadgemont
@@ -719,7 +717,6 @@ world_dornish_marches_seasons = {
 		c_swellcrest
 		c_grandview
 		c_greenbelt
-
 		c_fawnton
 		c_goodwreath
 		c_buttonweed
@@ -745,7 +742,6 @@ world_westerlands_low = {
 		d_withermoore
 		d_goldmarch
 		d_tarrich
-
 		d_greenrust
 		d_lannisport
 		d_kayce
@@ -772,6 +768,8 @@ world_westerlands_low = {
 		c_lowell
 		c_castamere
 		c_pendric_hills
+		c_lannisport
+		c_casterly_rock
 		c_fang_hill
 		c_hetherfield
 		c_hadersly
@@ -782,7 +780,6 @@ world_westerlands_low = {
 		c_longbolt
 		c_redbramble
 		c_lansdale
-		c_rutland
 		c_lonmont
 
 	}
@@ -833,7 +830,6 @@ world_riverlands_central = {
 		d_goldenfields
 		d_pinkmaiden
 		d_wayfarers_rest
-
 		d_ironwater
 		d_whiskermoor
 		d_branstone
@@ -845,6 +841,7 @@ world_riverlands_central = {
 	}
 	counties = {
 		c_brixworth
+		c_rutland
 		c_hammerford
 		c_hook_bay #-- turns out it's hook not hoor im gonna make that hoor my wife - frank reynolds
 		c_seagard
@@ -871,7 +868,6 @@ world_riverlands_central = {
 		c_darkmoor
 		c_rippledown_rill
 		c_horsehead
-
 		c_tumblers_falls
 		c_mainstream
 	}
@@ -928,7 +924,6 @@ world_lower_vale_seasons = {
 		d_strongstone
 		d_gulltown
 		d_runestone
-
 		d_grey_glen
 	}
 	counties = {
@@ -955,7 +950,6 @@ world_the_fingers_seasons = {
 		d_the_drainlands
 		d_grimholm
 		d_northbreach
-
 		d_pebble
 		d_midlor_point
 		d_snakewood_forest
@@ -969,9 +963,8 @@ world_the_fingers_seasons = {
 		c_bludden
 		c_hungerford
 		c_misty_moor
-		#c_
-
 		c_brume
+		#c_
 	}
 
 }
@@ -1036,6 +1029,16 @@ world_barrowlands_seasons = {
 		k_barrows_and_rills
 		k_the_rills
 	}
+	duchies = {
+		d_the_barrowlands
+		d_the_rills
+		d_goldgrass
+		d_oldbarrow
+		d_ironsmith
+	}
+	counties = {
+		c_heapsdown
+	}
 }
 world_stoney_shore_seasons = {
 	duchies = {
@@ -1048,9 +1051,9 @@ world_wolfswood_seasons = {
 		d_sea_dragon_point
 		d_the_wolfswood
 		d_edgewood
+		d_torrhens_square
 		d_the_blackpines
 		d_bear_island
-
 		d_highpoint
 	}
 	counties = {
@@ -1059,7 +1062,6 @@ world_wolfswood_seasons = {
 		c_arrendell
 		c_holdwater
 		c_brans_wood
-
 		c_darsett
 	}
 }
@@ -1085,14 +1087,13 @@ world_whiteknife_seasons = {
 		c_whitford
 		c_wolf_branch
 		c_trenchwood
-
-		c_heapsdown
+		# c_heapsdown removed: upstream's Aug 8 update lists it here AND in world_barrowlands_seasons.
+		# A county in two sub-regions of the seasons situation is a conflict. Barrowlands keeps it.
 	}
 }
 world_winterfell_seasons = {
 	counties = {
 		c_winterfell
-
 		c_greyward_tower
 	}
 }
@@ -1114,7 +1115,7 @@ world_lonely_hills = {
 		d_frostfields
 		d_last_lands
 		d_karhold
-
+		d_last_river
 		d_groundpress
 	}
 	counties = {
@@ -1122,6 +1123,8 @@ world_lonely_hills = {
 		c_dawnforest
 		c_coldstream
 		c_the_pale
+		c_the_cinders
+		c_matchwood
 		c_ethering
 		c_the_dreadfort
 		c_rightwell
@@ -1129,7 +1132,6 @@ world_lonely_hills = {
 		c_whitecross
 		c_giantsbeard
 		c_boreharrow
-
 		c_lonely_hills
 	}
 }
@@ -1137,6 +1139,8 @@ world_sheepshead_hills = {
 	duchies = {
 		d_crestview
 		d_everstead
+		d_wraithmarch
+		d_overton
 	}
 	counties = {
 		c_beam_cross
@@ -1144,19 +1148,19 @@ world_sheepshead_hills = {
 		c_the_gap
 		c_woodward
 		c_hornwood
-		c_the_cinders
 		c_velvet_grove
 		c_wraithfeld
-		c_matchwood
 		c_the_weep
 		c_overton
-
 		c_tawney_bay
+
 	}
 }
 world_skagos_seasons = {
-	kingdoms = {
-		k_skagos
+	duchies = {
+		d_skagos
+		d_deepdown
+		d_driftwood_hall
 
 	}
 }
@@ -1206,8 +1210,6 @@ world_frozen_shore_seasons = {
 		d_great_ice_river
 	}
 }
-
-
 world_the_arbor = {
 	duchies = {
 		d_the_arbor
@@ -1228,11 +1230,6 @@ world_rest_of_essos_valyria_LOV = {
 	# AGOT 0.4.40 stubbed the real Essos regions, so upstream's essos_dothraki rolls were
 	# carpet-painting all ruins provinces with one season. Emptied on purpose.
 }
-
-
-#WEATHER REGIONS
-
-
 world_trident = {
 	counties = {
 		c_gaines
@@ -1245,7 +1242,6 @@ world_trident = {
 		c_fairmarket
 	}
 }
-
 world_crossing_flood = {
 	counties = {
 		c_erenford
@@ -1280,8 +1276,7 @@ world_the_neck_flood = {
 	}
 }
 
-#Stepstones
-
+# ============ Legacy of Valyria / TempLoV additions (ours, kept across rebases) ============
 world_stepstones = {
 	duchies = {
 		d_first_stepstones
@@ -1290,8 +1285,6 @@ world_stepstones = {
 		d_saans_stones
 	}
 }
-
-# TempLoV/NOW/Seasons compatch: LoV/Stepstones region definitions (used by the lov_* seasonal sub-regions)
 world_lov_mantarys = {
 	duchies = {
 		d_mantarys
@@ -1309,7 +1302,6 @@ world_lov_mantarys = {
 		d_telyria
 	}
 }
-
 world_lov_north_ghiscar = {
 	duchies = {
 		d_meereen
@@ -1321,7 +1313,6 @@ world_lov_north_ghiscar = {
 		d_copper_hills
 	}
 }
-
 world_lov_south_ghiscar = {
 	duchies = {
 		d_new_ghis
@@ -1332,7 +1323,6 @@ world_lov_south_ghiscar = {
 
 		d_velos	}
 }
-
 world_lov_volantene_coast = {
 	duchies = {
 		d_volantis
@@ -1341,7 +1331,6 @@ world_lov_volantene_coast = {
 		d_little_valyria
 	}
 }
-
 world_lov_volantene_steppe = {
 	duchies = {
 		d_volaena
@@ -1349,7 +1338,6 @@ world_lov_volantene_steppe = {
 		d_death_swamps
 	}
 }
-
 world_lov_lower_rhoyne = {
 	duchies = {
 		d_sar_mell
@@ -1360,7 +1348,6 @@ world_lov_lower_rhoyne = {
 		d_valon_sar
 	}
 }
-
 world_lov_middle_rhoyne = {
 	duchies = {
 		d_the_sorrows
@@ -1369,7 +1356,6 @@ world_lov_middle_rhoyne = {
 		d_dagger_lake
 	}
 }
-
 world_lov_upper_rhoyne = {
 	duchies = {
 		d_ny_sar
@@ -1377,7 +1363,6 @@ world_lov_upper_rhoyne = {
 		d_ghoyan_drohe
 	}
 }
-
 world_lov_western_sothoryos = { # enabled by LoV & Seasons compatch
 	duchies = {
 		d_gogossos
@@ -1414,7 +1399,6 @@ world_lov_western_sothoryos = { # enabled by LoV & Seasons compatch
 		d_lesser_valley
 	}
 }
-
 world_lov_eastern_sothoryos = { # enabled by LoV & Seasons compatch
 	duchies = {
 	d_gorosh
@@ -1430,7 +1414,6 @@ world_lov_eastern_sothoryos = { # enabled by LoV & Seasons compatch
 	d_serpent_home
 	}
 }
-
 world_lov_marahai = { # enabled by LoV & Seasons compatch
 	duchies = {
 		d_crescent_gates
@@ -1439,7 +1422,6 @@ world_lov_marahai = { # enabled by LoV & Seasons compatch
 		d_manticore_isles
 	}
 }
-
 world_lov_asshai = { # enabled by LoV & Seasons compatch
 	duchies = {
 		d_asshai
