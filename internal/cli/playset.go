@@ -3,10 +3,13 @@ package cli
 import (
 	"fmt"
 	"os"
+	"path/filepath"
+	"strings"
 
 	"codeberg.org/traidare/ck3_mods/internal/config"
 	"codeberg.org/traidare/ck3_mods/internal/jsonout"
 	"codeberg.org/traidare/ck3_mods/internal/playset"
+	"codeberg.org/traidare/ck3_mods/internal/preserve"
 )
 
 func playsetCommand() *Command {
@@ -31,6 +34,12 @@ func playsetCommand() *Command {
 				Summary: "Preview or write an exported playset into the Launcher",
 				Usage:   "ck3mm playset import FILE [--allow-missing] [--apply]",
 				Run:     runPlaysetImport,
+			},
+			{
+				Name:    "preserve",
+				Summary: "Preview or write an update-proof copy of a playset",
+				Usage:   "ck3mm playset preserve [name] [--snapshot-name NAME] [--apply]",
+				Run:     runPlaysetPreserve,
 			},
 			{
 				Name:    "diff",
@@ -160,6 +169,73 @@ func runPlaysetDiff(env *Env) (int, error) {
 		return 0, nil
 	}
 	return 1, nil
+}
+
+func runPlaysetPreserve(env *Env) (int, error) {
+	set := flagSet("playset preserve", env)
+	snapshotName := set.String("snapshot-name", "", "name the snapshot instead of deriving one")
+	positional, err := parse(set, env.Args)
+	if err != nil {
+		return 2, nil
+	}
+	env.Args = positional
+	name, err := positionalName(env)
+	if err != nil {
+		return 2, err
+	}
+	if set.Lookup("snapshot-name").Value.String() != "" && strings.TrimSpace(*snapshotName) == "" {
+		return 2, fmt.Errorf("snapshot name cannot be empty")
+	}
+	if err := env.Config.Require(config.ParadoxDir, config.WorkshopDir); err != nil {
+		return 2, err
+	}
+
+	plan, err := preserve.Build(preserve.Options{
+		DatabasePath:      env.Config.LauncherDB(),
+		ModDirectory:      filepath.Join(env.Config.ParadoxDir, "mod"),
+		WorkshopDirectory: env.Config.WorkshopDir,
+		PlaysetName:       name,
+		ConfiguredName:    env.Config.PlaysetName,
+		SnapshotName:      *snapshotName,
+	})
+	if err != nil {
+		return 1, err
+	}
+
+	var result preserve.Result
+	if env.Apply {
+		if result, err = plan.Apply(); err != nil {
+			return 1, err
+		}
+	}
+
+	if env.JSON() {
+		document := plan.ToMap()
+		if env.Apply {
+			document["playsetId"] = result.PlaysetID
+			document["backupPath"] = result.BackupPath
+		}
+		if err := jsonout.Write(env.Stdout, document); err != nil {
+			return 1, err
+		}
+		return 0, nil
+	}
+
+	state := "preview"
+	if env.Apply {
+		state = "applied"
+	}
+	env.Printf("Preserve %s: %q -> %q\n", state, plan.SourcePlaysetName, plan.SnapshotName)
+	env.Printf("  Selection: %s\n", plan.SelectionSource)
+	env.Printf("  Directory: %s\n", plan.FinalRoot)
+	env.Printf("  Enabled mods: %d\n", len(plan.Mods))
+	env.Printf("  Content: %d bytes\n", plan.ContentBytes())
+	env.Printf("  Space: %d bytes required, %d free\n", plan.RequiredBytes, plan.FreeBytes)
+	if env.Apply {
+		env.Printf("  Playset: %s\n", result.PlaysetID)
+		env.Printf("  Backup: %s\n", result.BackupPath)
+	}
+	return 0, nil
 }
 
 func runPlaysetImport(env *Env) (int, error) {

@@ -406,7 +406,7 @@ func (d *DB) CreatePlayset(execer interface {
 }, name, pdxUserID string,
 ) (string, error) {
 	nowMillis := time.Now().UnixMilli()
-	playsetID := newUUID()
+	playsetID := NewUUID()
 	known := map[string]any{
 		"id":                           playsetID,
 		"name":                         name,

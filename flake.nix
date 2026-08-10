@@ -42,7 +42,7 @@
           pname = "ck3mm";
           version = "0.2.0";
           src = goSource;
-          vendorHash = "sha256-ZvVxjlYfBjLVYeInXNvFu2O5wxijPJO6XPiOj3FLA18=";
+          vendorHash = "sha256-3XSzXRk89c3GSiIO1q5CmK9J3X343S9rdtuRy0Kkx4c=";
           subPackages = ["cmd/ck3mm"];
           meta.mainProgram = "ck3mm";
         };

@@ -10,9 +10,9 @@ import (
 	"codeberg.org/traidare/ck3_mods/internal/fsutil"
 )
 
-// newUUID returns a random RFC 4122 version 4 identifier, the form the
+// NewUUID returns a random RFC 4122 version 4 identifier, the form the
 // Launcher uses for playset and mod primary keys.
-func newUUID() string {
+func NewUUID() string {
 	var bytes [16]byte
 	if _, err := rand.Read(bytes[:]); err != nil {
 		// crypto/rand does not fail on any supported platform; a timestamp
@@ -34,19 +34,27 @@ func Backup(databasePath string) (string, error) {
 	timestamp := time.Now().UTC().Format("20060102T150405.000000")
 	timestamp = timestamp[:15] + timestamp[16:] + "Z"
 	backupPath := databasePath + ".ck3mm-" + timestamp + ".bak"
+	if err := BackupTo(databasePath, backupPath); err != nil {
+		return "", err
+	}
+	return backupPath, nil
+}
 
+// BackupTo copies the Launcher database to an explicit destination, for
+// callers that name their backups after the operation taking them.
+func BackupTo(databasePath, backupPath string) error {
 	source, err := Open(databasePath, true)
 	if err != nil {
-		return "", err
+		return err
 	}
 	defer source.Close()
 
 	if _, err := source.Handle().Exec("VACUUM INTO ?", backupPath); err != nil {
 		os.Remove(backupPath)
-		return "", errorf("cannot back up the launcher database: %v", err)
+		return errorf("cannot back up the launcher database: %v", err)
 	}
 	if !fsutil.IsFile(backupPath) {
-		return "", errorf("launcher database backup was not created: %s", backupPath)
+		return errorf("launcher database backup was not created: %s", backupPath)
 	}
-	return backupPath, nil
+	return nil
 }
