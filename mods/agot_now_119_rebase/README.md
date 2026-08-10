@@ -23,8 +23,8 @@ This whole-file rebase preserves the parent logic while:
 The generated overrides are built from the current NOW source by:
 
 ```sh
-ck3mm mod check agot_now_119_rebase
 ck3mm mod generate agot_now_119_rebase
+ck3mm mod generate agot_now_119_rebase --apply
 ```
 
 The `workspace/agot_now_119_rebase/mod.toml` manifest selects NOW and this

@@ -46,8 +46,8 @@ The event and selector files are generated directly from the current Workshop
 source:
 
 ```bash
-ck3mm mod check viet_agot_119_runtime_rebase
 ck3mm mod generate viet_agot_119_runtime_rebase
+ck3mm mod generate viet_agot_119_runtime_rebase --apply
 ```
 
 The `workspace/viet_agot_119_runtime_rebase/mod.toml` manifest declares VIET as

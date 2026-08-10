@@ -218,8 +218,8 @@ colonization effect is the effective last writer in this playset.
 The files are generated from current Workshop sources by:
 
 ```sh
-ck3mm mod check agot_playset_runtime_fixes
 ck3mm mod generate agot_playset_runtime_fixes
+ck3mm mod generate agot_playset_runtime_fixes --apply
 ```
 
 The `workspace/agot_playset_runtime_fixes/mod.toml` manifest declares this

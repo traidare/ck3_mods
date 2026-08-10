@@ -25,8 +25,8 @@ Use sources in this order when authoring or diagnosing Paradox Script:
 6. `references/patterns/`, `references/structure/`, and `references/compat/` —
    generic CK3 patterns and workflow guides.
 
-Generate the local cache with `ck3mm refs sync` and check it with
-`ck3mm refs sync --check`; absent script-doc logs are not an error, but they
+Check the local cache with `ck3mm refs sync` and write it with
+`ck3mm refs sync --apply`; absent script-doc logs are not an error, but they
 must not be assumed to exist.
 
 ## Evidence rules
@@ -43,6 +43,8 @@ must not be assumed to exist.
 `ck3mm playset` reads the Launcher SQLite database. It selects a playset by
 command argument, `CK3_PLAYSET_NAME`, then the active Launcher playset. Use
 `summary` for current load-order questions; exported JSON is only a snapshot.
+`--format text|json` and `--apply` are global flags, so every report can be
+requested as JSON.
 
 ```sh
 ck3mm playset summary
@@ -115,10 +117,6 @@ validate, or audit that mod lives in `workspace/<slug>/` and never ships:
 | `workspace/<slug>/artifacts/`         | generated audits and unpacked sources       |
 | `workspace/<slug>/ck3-tiger.conf`     | dependency load order for static validation |
 
-`ck3mm.toml` at the repository root marks the workspace and declares this
-layout. Both trees are ordinary visible directories, so `rg` searches them
-without `--hidden`.
-
 ## Generated outputs and validation
 
 When a module has a `workspace/<slug>/mod.toml` generator, edit its generator or
@@ -134,15 +132,18 @@ into `mods/<slug>/`; `owned_artifacts` are paths promoted into
 Validate from narrow to broad:
 
 ```sh
-ck3mm mod check <mod>  # when the manifest declares a generator
+ck3mm mod generate <mod>  # when the manifest declares a generator
 ck3mm mod validate <mod>
 ck3mm conflicts AGOT --involving <id>
 ```
 
+Every command previews by default and writes only with `--apply`. This is the
+whole mutation rule: `mod generate` without `--apply` regenerates into a staging
+directory, reports what differs, and exits 1 when an owned output is stale;
+`--apply` promotes it. The same holds for `mod sources`, `mod install`,
+`playset import`, `playset preserve`, and `refs sync`. Let the user run any
+apply that writes to Launcher state or another external root.
+
 Do not accept a source lock for a broad Workshop-tree source. Review the
 generator's granular source evidence and update it deliberately after an
-intentional parent change. Commands that write to Launcher state or other
-external roots are previews by default; review their plan and repeat with
-`--apply`.
-
-Finish with the relevant runtime test when the change can execute in CK3.
+intentional parent change.

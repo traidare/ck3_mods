@@ -38,9 +38,9 @@ holder succession, names, dynasties, or unrelated faith history.
 ## Lore policy
 
 The source of truth is
-`content_source/lore_governments/government_lore_rules.csv`. Its confidence and
-source columns distinguish direct lore from conservative gameplay
-interpretations. In summary:
+`workspace/agot_now_lov_ee_lore_governments/assets/lore_governments/government_lore_rules.csv`.
+Its confidence and source columns distinguish direct lore from conservative
+gameplay interpretations. In summary:
 
 - Dothraki and Jogos Nhai rulers are nomadic; the Dosh Khaleen are theocratic.
 - Norvos and the Red Priesthood are theocratic.
@@ -70,8 +70,8 @@ order, resolves title holders and character families, and emits all runtime
 files and audit tables:
 
 ```sh
-ck3mm mod check agot_now_lov_ee_lore_governments
 ck3mm mod generate agot_now_lov_ee_lore_governments
+ck3mm mod generate agot_now_lov_ee_lore_governments --apply
 ```
 
 The audit CSVs record every government assignment, Jogos Nhai culture

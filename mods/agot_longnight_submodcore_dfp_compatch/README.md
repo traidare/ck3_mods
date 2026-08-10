@@ -22,8 +22,8 @@ An animation-only compatibility patch for:
 Regenerate it with:
 
 ```sh
-ck3mm mod check agot_longnight_submodcore_dfp_compatch
 ck3mm mod generate agot_longnight_submodcore_dfp_compatch
+ck3mm mod generate agot_longnight_submodcore_dfp_compatch --apply
 ```
 
 The `workspace/agot_longnight_submodcore_dfp_compatch/mod.toml` manifest

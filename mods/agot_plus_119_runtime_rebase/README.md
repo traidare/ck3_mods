@@ -94,8 +94,8 @@ branch enabled.
 Refresh this generated override with:
 
 ```sh
-ck3mm mod check agot_plus_119_runtime_rebase
 ck3mm mod generate agot_plus_119_runtime_rebase
+ck3mm mod generate agot_plus_119_runtime_rebase --apply
 ```
 
 The per-mod manifest selects AGOT+ and this rebase's destination-specific staged

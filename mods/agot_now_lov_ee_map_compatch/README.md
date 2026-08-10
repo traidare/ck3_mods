@@ -41,8 +41,8 @@ Its granular source manifest pins all text and image inputs, so an upstream
 update must be reviewed explicitly:
 
 ```sh
-ck3mm mod check agot_now_lov_ee_map_compatch
 ck3mm mod generate agot_now_lov_ee_map_compatch
+ck3mm mod generate agot_now_lov_ee_map_compatch --apply
 ```
 
 After reviewing an intentional upstream map or mask change, update the granular

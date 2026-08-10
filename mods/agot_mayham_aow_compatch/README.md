@@ -35,8 +35,8 @@ Mayham, and Armies of Westeros sources and the generator's owned outputs.
 Regenerate from the repository root:
 
 ```sh
-ck3mm mod check agot_mayham_aow_compatch
 ck3mm mod generate agot_mayham_aow_compatch
+ck3mm mod generate agot_mayham_aow_compatch --apply
 ```
 
 The generator verifies the complete AGOT-to-Mayham delta manifest and fails on

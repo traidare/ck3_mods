@@ -25,8 +25,8 @@ The per-mod manifest declares both ANT Workshop dependencies and the staged
 generator. Regenerate from the repository root:
 
 ```sh
-ck3mm mod check ant_agot_vanilla_balance
 ck3mm mod generate ant_agot_vanilla_balance
+ck3mm mod generate ant_agot_vanilla_balance --apply
 ```
 
 The generator fails when an expected source definition or required field is

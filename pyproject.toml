@@ -2,10 +2,14 @@
 requires = ["setuptools>=68"]
 build-backend = "setuptools.build_meta"
 
+# The CLI is Go. Python is retained only for the generator sidecar the Go core
+# runs as `python -m gen`, which needs numpy and Pillow for the map and world
+# data generators. The sidecar is imported off PYTHONPATH rather than installed;
+# this file exists so those requirements and the lint settings have one home.
 [project]
-name = "ck3mm"
-version = "0.1.0"
-description = "Repository-local Crusader Kings III mod workspace manager"
+name = "ck3mm-gen"
+version = "0.2.0"
+description = "Generator sidecar for the ck3mm CK3 mod workspace manager"
 requires-python = ">=3.11"
 authors = [{ name = "traidare" }]
 dependencies = [
@@ -18,11 +22,8 @@ dev = [
   "ruff>=0.9",
 ]
 
-[project.scripts]
-ck3mm = "ck3mm.cli:main"
-
 [tool.setuptools.packages.find]
-where = ["src"]
+where = ["tools"]
 
 [tool.ruff]
 line-length = 88
@@ -32,7 +33,7 @@ target-version = "py311"
 select = ["E", "F", "I", "UP", "B", "SIM"]
 
 [tool.ruff.lint.isort]
-known-first-party = ["ck3mm", "gen"]
+known-first-party = ["gen"]
 
 [tool.ruff.lint.per-file-ignores]
 "workspace/**/implementation.py" = ["E501"]

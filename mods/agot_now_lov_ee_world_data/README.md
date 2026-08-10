@@ -54,8 +54,8 @@ its low spatial holdout score no longer determines final terrain.
 Graphical-style generation is unchanged.
 
 ```sh
-ck3mm mod check agot_now_lov_ee_world_data
 ck3mm mod generate agot_now_lov_ee_world_data
+ck3mm mod generate agot_now_lov_ee_world_data --apply
 ```
 
 `terrain_decisions.csv` is reserved for explicit province exceptions; the

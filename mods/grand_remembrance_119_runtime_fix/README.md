@@ -48,8 +48,8 @@ NPC scopes are both valid, then stores that numeric value on the obituary.
 Generate the obituary override from the current Grand Remembrance source with:
 
 ```sh
-ck3mm mod check grand_remembrance_119_runtime_fix
 ck3mm mod generate grand_remembrance_119_runtime_fix
+ck3mm mod generate grand_remembrance_119_runtime_fix --apply
 ```
 
 The per-mod manifest selects Grand Remembrance and this module's

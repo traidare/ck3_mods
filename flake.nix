@@ -1,12 +1,7 @@
 {
   outputs = inputs:
     inputs.flake-parts.lib.mkFlake {inherit inputs;} ({...}: {
-      systems = [
-        "x86_64-linux"
-        "aarch64-linux"
-        "x86_64-darwin"
-        "aarch64-darwin"
-      ];
+      systems = ["x86_64-linux" "aarch64-linux" "x86_64-darwin" "aarch64-darwin"];
 
       perSystem = {
         config,
@@ -20,13 +15,6 @@
             pillow
             ruff
           ]);
-        packageSource = lib.fileset.toSource {
-          root = ./.;
-          fileset = lib.fileset.unions [
-            ./pyproject.toml
-            ./src
-          ];
-        };
         goSource = lib.fileset.toSource {
           root = ./.;
           fileset = lib.fileset.unions [
@@ -36,11 +24,8 @@
             ./internal
           ];
         };
-        # The Go core owns the workspace infrastructure. Python is retained
-        # only for the generators, which need numpy and Pillow. The core finds
-        # that interpreter through CK3MM_PYTHON and the sidecar itself through
-        # the workspace it is run in, so the two are versioned together.
-        ck3mm-go = pkgs.buildGoModule {
+
+        ck3mm = pkgs.buildGoModule {
           pname = "ck3mm";
           version = "0.2.0";
           src = goSource;
@@ -53,32 +38,11 @@
           '';
           meta.mainProgram = "ck3mm";
         };
-        ck3mm = pkgs.python3Packages.buildPythonApplication {
-          pname = "ck3mm";
-          version = "0.1.0";
-          pyproject = true;
-          src = packageSource;
-          build-system = [pkgs.python3Packages.setuptools];
-          dependencies = with pkgs.python3Packages; [
-            numpy
-            pillow
-          ];
-          makeWrapperArgs = [
-            "--prefix"
-            "PATH"
-            ":"
-            (lib.makeBinPath (
-              [pkgs.imagemagick]
-              ++ lib.optionals pkgs.stdenv.isLinux [
-                pkgs.coreutils
-                pkgs.gdb
-                pkgs.procps
-              ]
-            ))
-          ];
-          doCheck = false;
-          meta.mainProgram = "ck3mm";
-        };
+
+        # `ck3mm` in the dev shell is the working tree, not the packaged
+        # binary, so a change to internal/ takes effect on the next invocation.
+        # The build runs in the workspace root while the binary keeps the
+        # caller's directory, which is what root discovery reads.
         workingTreeCk3mm = pkgs.writeShellScriptBin "ck3mm" ''
           ck3mm_root="$PWD"
           while [[ ! -f "$ck3mm_root/ck3mm.toml" && "$ck3mm_root" != / ]]; do
@@ -88,38 +52,39 @@
             echo "error: no ck3mm.toml found from $PWD" >&2
             exit 2
           fi
-          export PYTHONPATH="$ck3mm_root/src''${PYTHONPATH:+:$PYTHONPATH}"
-          exec ${pythonEnv}/bin/python -m ck3mm "$@"
+          binary="''${TMPDIR:-/tmp}/ck3mm-dev-$(id -u)/ck3mm"
+          (cd "$ck3mm_root" && ${pkgs.go}/bin/go build -o "$binary" ./cmd/ck3mm) || exit 1
+          export CK3MM_PYTHON="''${CK3MM_PYTHON:-${pythonEnv}/bin/python}"
+          exec "$binary" "$@"
         '';
       in {
         packages = {
           ck3-tiger = pkgs.callPackage ./nix/ck3-tiger/package.nix {};
-          inherit ck3mm ck3mm-go;
-          default = ck3mm-go;
+          inherit ck3mm;
+          default = ck3mm;
         };
 
         apps.default = {
-          program = lib.getExe ck3mm-go;
+          program = lib.getExe ck3mm;
           meta.description = "Manage this CK3 modding workspace";
         };
 
         checks = {
-          inherit ck3mm ck3mm-go;
+          inherit ck3mm;
         };
 
         devShells.default = pkgs.mkShell {
-          packages =
-            (with pkgs; [
-              config.packages.ck3-tiger
-              workingTreeCk3mm
-              pythonEnv
-              go
-              gopls
-              just
-              imagemagick
-              prettier
-            ])
-            ++ lib.optionals pkgs.stdenv.isLinux [pkgs.gdb];
+          packages = with pkgs; [
+            config.packages.ck3-tiger
+            workingTreeCk3mm
+            pythonEnv
+            go
+            gopls
+            just
+            # Manual heightmap inspection, see docs/agot-heightmap-repack.md.
+            imagemagick
+            prettier
+          ];
         };
       };
     });
@@ -127,6 +92,5 @@
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
     flake-parts.url = "github:hercules-ci/flake-parts";
-
   };
 }

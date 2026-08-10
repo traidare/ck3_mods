@@ -23,8 +23,8 @@ systems.
 Regenerate the vendored payload with:
 
 ```sh
-ck3mm mod check agot_the_long_night
 ck3mm mod generate agot_the_long_night
+ck3mm mod generate agot_the_long_night --apply
 ```
 
 The `workspace/agot_the_long_night/mod.toml` manifest declares the staged

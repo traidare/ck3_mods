@@ -17,61 +17,26 @@ the same editor repack. Keep EEP's `nodes.dat`; this workflow does not replace
 it. Until a repack is promoted, do not ship any local heightmap quartet: the
 complete EEP quartet must remain the effective runtime source.
 
-`ck3mm` treats Workshop content and the CK3 installation as read-only. It loads
-the repository `.env`; global CLI options take precedence over already-exported
-variables, which take precedence over `.env`. Close CK3 and the Paradox Launcher
-before applying a playset import or another external write.
+This is a manual procedure. It ran as `ck3mm map heightmap` until the Go
+rewrite; the command was dropped because a repack happens rarely and always
+interactively, and the 508 lines behind it mostly wrapped `cp` and image
+inspection. The steps below are the same checks written out. Run them from the
+repository root inside `nix develop`, which provides ImageMagick.
 
-## Command reference
+`ck3mm` treats Workshop content and the CK3 installation as read-only, and so
+should you: every copy below reads from `$CK3_WORKSHOP_DIR` and writes into the
+staging directory. Close CK3 and the Paradox Launcher before importing a playset
+or writing anything else under `$CK3_PARADOX_DIR`.
 
-```text
-ck3mm map heightmap prepare [options] [--apply]
-ck3mm map heightmap verify [options]
-ck3mm map heightmap promote [options] [--apply]
-ck3mm map heightmap import-playset [options] [--apply]
-ck3mm map heightmap unregister [options] [--apply]
-```
-
-- `prepare` plans creation and registration of the writable staging mod, seeds
-  its packed files from EEP, records pre-repack hashes, and generates the
-  ignored minimal playset. Add `--apply` after reviewing the plan.
-- `verify` checks the source, formats, dimensions, topology settings, and
-  decoded packed-pixel changes without modifying the real compatch.
-- `promote` previews verification, recoverable backup, and installation of the
-  staged quartet into the real compatch; `--apply` performs the reviewed plan.
-- `import-playset` previews the portable minimal editor playset. Writing its
-  output and importing it into Launcher state are separate explicit applies.
-- `unregister` previews moving the temporary launcher descriptor into the
-  staging directory without deleting the stage; `--apply` performs the move.
-
-Available options:
-
-- `prepare` requires the source mod, merged source heightmap, EEP root, staging
-  directory, and generated playset path. Pass `--launcher-descriptor` to
-  register the stage; omit it for an unregistered custom stage.
-  `--launcher-mod-path` defaults to `mod/agot_heightmap_repack_staging`.
-- `verify` takes the staging directory as its positional argument.
-- `promote` requires the stage, target `map_data` directory, and a fresh backup
-  directory.
-- `unregister` requires the stage, registered launcher descriptor, and the
-  recovery destination for that descriptor.
-- `--apply` is mandatory before `prepare`, `promote`, `import-playset`, or
-  `unregister` writes to an external path.
-
-The default registered stage is:
-
-```text
-$CK3_PARADOX_DIR/mod/agot_heightmap_repack_staging/
-```
-
-The examples below use these shell variables:
+The examples use these shell variables:
 
 ```sh
 export heightmap_stage="$CK3_PARADOX_DIR/mod/agot_heightmap_repack_staging"
 export heightmap_descriptor="$CK3_PARADOX_DIR/mod/agot_heightmap_repack_staging.mod"
 export heightmap_playset=".ignored/ck3mm/agot-heightmap-editor.json"
-export heightmap_backup=".ignored/ck3mm/agot-heightmap-backup"
+export heightmap_backup=".ignored/ck3mm/agot-heightmap-backup-$(date +%Y%m%d)"
 export heightmap_source="workspace/agot_now_lov_ee_map_compatch/artifacts/heightmap/heightmap_now_delta_unpacked.png"
+export eep_map_data="$CK3_WORKSHOP_DIR/3682802751/map_data"
 ```
 
 Choose a new `heightmap_backup` path for every promotion so an earlier recovery
@@ -79,32 +44,61 @@ copy is never overwritten.
 
 ## Prepare the editor mod
 
-Close CK3 and run:
+Keeping the stage inside the CK3 user-data directory ensures that the launcher
+and the game see the same filesystem path. Close CK3, then seed the stage with
+EEP's packed files and the merged source:
 
 ```sh
-ck3mm map heightmap prepare \
-  --source-mod mods/agot_now_lov_ee_map_compatch \
-  --source-heightmap "$heightmap_source" \
-  --essos-expanded-root "$CK3_WORKSHOP_DIR/3682802751" \
-  --stage "$heightmap_stage" \
-  --playset-path "$heightmap_playset" \
-  --launcher-descriptor "$heightmap_descriptor"
-ck3mm map heightmap prepare \
-  --source-mod mods/agot_now_lov_ee_map_compatch \
-  --source-heightmap "$heightmap_source" \
-  --essos-expanded-root "$CK3_WORKSHOP_DIR/3682802751" \
-  --stage "$heightmap_stage" \
-  --playset-path "$heightmap_playset" \
-  --launcher-descriptor "$heightmap_descriptor" \
-  --apply
+mkdir -p "$heightmap_stage/map_data"
+cp "$eep_map_data/heightmap.heightmap" \
+   "$eep_map_data/packed_heightmap.png" \
+   "$eep_map_data/indirection_heightmap.png" \
+   "$heightmap_stage/map_data/"
+cp "$heightmap_source" "$heightmap_stage/map_data/heightmap.png"
+chmod u+w "$heightmap_stage"/map_data/*
 ```
 
-Its launcher descriptor uses the relative path
-`mod/agot_heightmap_repack_staging`. Keeping the stage inside the CK3 user-data
-directory ensures that the launcher and game see the same filesystem path.
+The Workshop copies arrive read-only, hence the `chmod`; the editor must be able
+to overwrite them. Record what the editor started from, so the verify step can
+prove it actually produced something:
+
+```sh
+for image in heightmap packed_heightmap indirection_heightmap; do
+  printf '%s %s\n' \
+    "$(magick "$heightmap_stage/map_data/$image.png" -depth 16 gray:- | sha256sum | cut -d' ' -f1)" \
+    "$image"
+done | tee "$heightmap_stage/pre-repack.pixels"
+```
+
+Register the stage with the launcher:
+
+```sh
+cat > "$heightmap_descriptor" <<'EOF'
+version="0.1.0"
+tags={
+	"Map"
+}
+name="AGOT Heightmap Repack Staging"
+supported_version="1.19.*"
+path="mod/agot_heightmap_repack_staging"
+EOF
+```
+
+The descriptor's `path` is relative to the CK3 user-data directory, which is
+what the launcher resolves against.
 
 Start the Paradox Launcher once so it discovers `AGOT Heightmap Repack Staging`,
-then close the launcher completely. Import the minimal playset:
+then close the launcher completely. Build the minimal editor playset from the
+live one and import it:
+
+```sh
+ck3mm playset export AGOT --output "$heightmap_playset"
+```
+
+Edit `$heightmap_playset` down to the smallest set that still loads the map: set
+`"name"` to `AGOT - Heightmap Editor (Minimal)`, and keep only AGOT itself,
+Essos Expanded, the other map parents the compatch merges, and the staging mod
+last. Then:
 
 ```sh
 ck3mm playset import "$heightmap_playset"
@@ -152,37 +146,55 @@ instead writes into the base game's `game/map_data`, manually copy the three new
 packed files into the staging directory and restore or verify the game
 installation before continuing.
 
-## Verify and promote
+## Verify
 
-After closing CK3:
+After closing CK3, check the staged quartet. Dimensions and formats first:
 
 ```sh
-ck3mm map heightmap verify "$heightmap_stage"
+magick identify -format '%f %wx%h %[bit-depth]-bit %[colorspace]\n' \
+  "$heightmap_stage"/map_data/*.png
 ```
 
-Verification requires:
+Expect `heightmap.png` and `packed_heightmap.png` at 16-bit Gray,
+`heightmap.png` at 9216x6144, and `indirection_heightmap.png` at 288x192 —
+9216/32 by 6144/32, the tile grid implied by the 33x33 tile size.
 
-- a 9216 by 6144, 16-bit grayscale merged source whose decoded pixels are
-  unchanged (the editor may harmlessly re-encode the PNG during Save);
-- matching paths and dimensions in `heightmap.heightmap`;
-- a 33 by 33 tile size with horizontal wrapping disabled;
-- a 288 by 192 indirection image;
-- 16-bit grayscale packed data;
-- a packed-data hash and decoded-pixel signature different from the Essos
-  Expanded seed.
-
-If verification passes, promote the four-file set:
+Topology next:
 
 ```sh
-ck3mm map heightmap promote \
-  --stage "$heightmap_stage" \
-  --target-map-data mods/agot_now_lov_ee_map_compatch/map_data \
-  --backup-dir "$heightmap_backup"
-ck3mm map heightmap promote \
-  --stage "$heightmap_stage" \
-  --target-map-data mods/agot_now_lov_ee_map_compatch/map_data \
-  --backup-dir "$heightmap_backup" \
-  --apply
+cat "$heightmap_stage/map_data/heightmap.heightmap"
+```
+
+It must name the three files in the stage, repeat the 9216 by 6144 dimensions,
+and keep `tile_size=33` with `should_wrap_x=no`.
+
+Finally compare decoded pixels against what the editor started from. The editor
+may harmlessly re-encode the source PNG during Save, so compare decoded data
+rather than file hashes:
+
+```sh
+for image in heightmap packed_heightmap indirection_heightmap; do
+  printf '%s %s\n' \
+    "$(magick "$heightmap_stage/map_data/$image.png" -depth 16 gray:- | sha256sum | cut -d' ' -f1)" \
+    "$image"
+done | diff - "$heightmap_stage/pre-repack.pixels"
+```
+
+`heightmap` must be unchanged — the editor must not have altered the merged
+source. `packed_heightmap` and `indirection_heightmap` must both differ; if
+either matches its EEP seed, the repack did not run or did not save, and the set
+must not be promoted.
+
+## Promote
+
+If verification passes, back up the current quartet and install the staged one:
+
+```sh
+mkdir -p "$heightmap_backup"
+cp mods/agot_now_lov_ee_map_compatch/map_data/{heightmap.png,heightmap.heightmap,packed_heightmap.png,indirection_heightmap.png} \
+  "$heightmap_backup/" 2>/dev/null || true
+cp "$heightmap_stage"/map_data/{heightmap.png,heightmap.heightmap,packed_heightmap.png,indirection_heightmap.png} \
+  mods/agot_now_lov_ee_map_compatch/map_data/
 ck3mm mod install agot_now_lov_ee_map_compatch
 ck3mm mod install agot_now_lov_ee_map_compatch --apply
 ck3mm mod validate agot_now_lov_ee_map_compatch
@@ -190,8 +202,8 @@ ck3mm conflicts AGOT \
   --involving mod/agot_now_lov_ee_map_compatch.mod
 ```
 
-Promotion copies `heightmap.png`, `heightmap.heightmap`, `packed_heightmap.png`,
-and `indirection_heightmap.png` together. It does not copy `nodes.dat`; Essos
+The backup copy tolerates a missing quartet because the first promotion has none
+to save. Promote all four files together. Do not copy `nodes.dat`; Essos
 Expanded remains the source for that file.
 
 Test both the map editor and a new normal game before trusting the result. Check
@@ -201,20 +213,15 @@ second load means the generated set should not be used.
 
 ## Unregister the temporary mod
 
-Once testing is complete:
+Once testing is complete, move the launcher descriptor into the staging
+directory rather than deleting it:
 
 ```sh
-ck3mm map heightmap unregister \
-  --stage "$heightmap_stage" \
-  --launcher-descriptor "$heightmap_descriptor" \
-  --destination "$heightmap_stage/agot_heightmap_repack_staging.mod"
-ck3mm map heightmap unregister \
-  --stage "$heightmap_stage" \
-  --launcher-descriptor "$heightmap_descriptor" \
-  --destination "$heightmap_stage/agot_heightmap_repack_staging.mod" \
-  --apply
+mv "$heightmap_descriptor" \
+  "$heightmap_stage/agot_heightmap_repack_staging.mod"
 ```
 
-This moves the launcher descriptor into the staging directory instead of
-deleting it. The staging directory and generated artifacts remain available for
-inspection or recovery.
+The launcher no longer sees the mod, while the staging directory and its
+artifacts remain available for inspection or recovery. Restore the playset you
+were using before the repack, and remove the `-mapeditor -debug_mode` launch
+options.

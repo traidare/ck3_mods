@@ -72,8 +72,8 @@ sources. Its portable source metadata now lives under
 payload.
 
 ```sh
-ck3mm mod check agot_full_playset_compatch
 ck3mm mod generate agot_full_playset_compatch
+ck3mm mod generate agot_full_playset_compatch --apply
 ```
 
 A narrow `can_raid` scripted-rule override also returns false when CK3 evaluates

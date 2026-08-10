@@ -41,8 +41,8 @@ weights.
 The delayed-pulse on-action overrides are generated from current MFA sources by:
 
 ```sh
-ck3mm mod check agot_mfa_039_rebase
 ck3mm mod generate agot_mfa_039_rebase
+ck3mm mod generate agot_mfa_039_rebase --apply
 ```
 
 The `workspace/agot_mfa_039_rebase/mod.toml` manifest selects the MFA source and

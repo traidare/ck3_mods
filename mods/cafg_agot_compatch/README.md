@@ -39,8 +39,8 @@ Confucian-education operations.
 Regenerate these overrides from current CaFG Workshop sources with:
 
 ```sh
-ck3mm mod check cafg_agot_compatch
 ck3mm mod generate cafg_agot_compatch
+ck3mm mod generate cafg_agot_compatch --apply
 ```
 
 The `workspace/cafg_agot_compatch/mod.toml` manifest declares CaFG as a portable

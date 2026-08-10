@@ -31,8 +31,8 @@ decision-field, and opinion-duration failures addressed here.
 Generated files come from the current Workshop sources:
 
 ```bash
-ck3mm mod check bloodlines_legacies_agot_119_rebase
 ck3mm mod generate bloodlines_legacies_agot_119_rebase
+ck3mm mod generate bloodlines_legacies_agot_119_rebase --apply
 ```
 
 The `workspace/bloodlines_legacies_agot_119_rebase/mod.toml` manifest declares

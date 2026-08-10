@@ -50,8 +50,8 @@ Recompare this override after every update to Workshop mods `3717990443` or
 Regenerate the Workshop-derived personality override with:
 
 ```sh
-ck3mm mod check agot_mpd_119_rebase
 ck3mm mod generate agot_mpd_119_rebase
+ck3mm mod generate agot_mpd_119_rebase --apply
 ```
 
 The per-mod manifest declares both Workshop parents, the staged generator, and
