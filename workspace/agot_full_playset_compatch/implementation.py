@@ -3,17 +3,15 @@
 
 from __future__ import annotations
 
-import argparse
 import json
 import re
+from dataclasses import dataclass
 from pathlib import Path
 
+from ck3mm.generation import GenerationContext
 from ck3mm.generators.text import matching_brace, read_source
 from ck3mm.hashing import sha256_file
-from ck3mm.source_manifest import (
-    canonical_source_path,
-    resolve_workshop_root,
-)
+from ck3mm.source_manifest import canonical_source_path
 
 WORKSHOP_IDS = {
     "NOW": "3664900993",
@@ -36,25 +34,6 @@ OBSOLETE_OUTPUTS = (
     Path("map_data/geographical_regions/replace/north_sans_neck.txt"),
     SOURCE_RELATIVES["NOW"],
 )
-
-
-def parse_args() -> argparse.Namespace:
-    parser = argparse.ArgumentParser(
-        description="Regenerate the narrow AGOT playset compatch overrides."
-    )
-    parser.add_argument(
-        "--root", type=Path, default=Path(__file__).resolve().parents[1]
-    )
-    mode = parser.add_mutually_exclusive_group()
-    mode.add_argument(
-        "--check", action="store_true", help="Verify checked-in generated outputs."
-    )
-    mode.add_argument(
-        "--update-source-manifest",
-        action="store_true",
-        help="Accept reviewed current upstream source hashes without changing outputs.",
-    )
-    return parser.parse_args()
 
 
 def read_text(path: Path) -> str:
@@ -365,10 +344,19 @@ def source_manifest(
     }
 
 
-def main() -> int:
-    args = parse_args()
-    root = args.root.resolve()
-    workshop_root = resolve_workshop_root()
+@dataclass(frozen=True, slots=True)
+class Options:
+    """Everything one generation run needs that is not a declared source."""
+
+    root: Path
+    workshop_root: Path
+    check: bool = False
+    update_source_manifest: bool = False
+
+
+def main(options: Options) -> int:
+    root = options.root.resolve()
+    workshop_root = options.workshop_root
     workshop = {
         label: workshop_root / workshop_id
         for label, workshop_id in WORKSHOP_IDS.items()
@@ -384,7 +372,7 @@ def main() -> int:
         root / "workspace/agot_full_playset_compatch/assets/source_manifest.json"
     )
     manifest = source_manifest(root, workshop, workshop_root)
-    if args.update_source_manifest:
+    if options.update_source_manifest:
         manifest_path.parent.mkdir(parents=True, exist_ok=True)
         manifest_path.write_text(
             json.dumps(manifest, indent=2, sort_keys=True) + "\n", encoding="utf-8"
@@ -401,7 +389,7 @@ def main() -> int:
         )
 
     outputs = generate_outputs(workshop)
-    if args.check:
+    if options.check:
         stale = [
             relative.as_posix()
             for relative, data in outputs.items()
@@ -432,5 +420,15 @@ def main() -> int:
     return 0
 
 
-if __name__ == "__main__":
-    raise SystemExit(main())
+def generate(context: GenerationContext) -> None:
+    global MODULE_RELATIVE, SOURCE_MANIFEST_OVERRIDE
+    MODULE_RELATIVE = context.output_root.relative_to(context.workspace.root)
+    SOURCE_MANIFEST_OVERRIDE = context.assets_dir / "source_manifest.json"
+    result = main(
+        Options(
+            root=context.workspace.root,
+            workshop_root=context.workshop_root("agot-now", "seasons-bridge"),
+        )
+    )
+    if result not in (None, 0):
+        raise RuntimeError(f"generator returned unsuccessful status {result}")

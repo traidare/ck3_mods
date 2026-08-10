@@ -8,6 +8,7 @@ import shutil
 import subprocess
 from pathlib import Path
 
+from ck3mm.generation import GenerationContext
 from ck3mm.generators.text import (
     read_source,
     replace_exact,
@@ -948,5 +949,9 @@ def main() -> None:
     generate_dds_reencodes()
 
 
-if __name__ == "__main__":
+def generate(context: GenerationContext) -> None:
+    global BLOODLINES, AGOT, OUTPUT
+    BLOODLINES = context.source("bloodlines-legacies")
+    AGOT = context.source("agot")
+    OUTPUT = context.output_root
     main()

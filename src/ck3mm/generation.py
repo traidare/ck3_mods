@@ -48,21 +48,6 @@ def _load_module(module_path: Path, import_name: str) -> ModuleType:
     return module
 
 
-def load_colocated_module(
-    caller_file: str | Path,
-    module_filename: str = "implementation.py",
-) -> ModuleType:
-    """Load a module next to a generator without importing it globally."""
-    caller_path = Path(caller_file).resolve()
-    module_path = caller_path.with_name(module_filename).resolve()
-    if not module_path.is_relative_to(caller_path.parent):
-        raise GenerationError(
-            f"colocated module escapes generator directory: {module_path}"
-        )
-    import_name = f"_ck3mm_colocated_{module_path.stem}_{hash(module_path)}"
-    return _load_module(module_path, import_name)
-
-
 def _relative_output(value: str | PurePosixPath) -> str:
     text = str(value).replace("\\", "/")
     path = PurePosixPath(text)

@@ -3,7 +3,6 @@
 
 from __future__ import annotations
 
-import argparse
 import csv
 import fnmatch
 import hashlib
@@ -20,11 +19,9 @@ from pathlib import Path
 import numpy as np
 from PIL import Image
 
+from ck3mm.generation import GenerationContext
 from ck3mm.hashing import sha256_file
-from ck3mm.source_manifest import (
-    canonical_source_path,
-    resolve_workshop_root,
-)
+from ck3mm.source_manifest import canonical_source_path
 
 TARGET_FIRST = 10946
 TARGET_LAST = 26420
@@ -112,37 +109,6 @@ class LoreRegion:
     base_terrain: str
     wooded_terrain: str | None
     reason: str
-
-
-def parse_args() -> argparse.Namespace:
-    parser = argparse.ArgumentParser(
-        description="Generate AGOT + NOW + LoV + Essos Expanded world data."
-    )
-    parser.add_argument(
-        "--root", type=Path, default=Path(__file__).resolve().parents[1]
-    )
-    mode = parser.add_mutually_exclusive_group()
-    mode.add_argument(
-        "--audit",
-        action="store_true",
-        help="Write audits even when review-required terrain remains unresolved.",
-    )
-    mode.add_argument(
-        "--check",
-        action="store_true",
-        help="Regenerate in memory and verify that checked-in outputs are current.",
-    )
-    mode.add_argument(
-        "--update-source-manifest",
-        action="store_true",
-        help="Accept the current structurally valid upstream source hashes.",
-    )
-    parser.add_argument(
-        "--no-cache",
-        action="store_true",
-        help="Recompute mask and heightmap features instead of using the ignored cache.",
-    )
-    return parser.parse_args()
 
 
 def normalized_text(path: Path) -> str:
@@ -1251,10 +1217,21 @@ def target_source_manifest(
     }
 
 
-def main() -> int:
-    args = parse_args()
-    root = args.root.resolve()
-    workshop_root = resolve_workshop_root()
+@dataclass(frozen=True, slots=True)
+class Options:
+    """Everything one generation run needs that is not a declared source."""
+
+    root: Path
+    workshop_root: Path
+    check: bool = False
+    update_source_manifest: bool = False
+    audit: bool = False
+    no_cache: bool = False
+
+
+def main(options: Options) -> int:
+    root = options.root.resolve()
+    workshop_root = options.workshop_root
     workshop = {
         label: workshop_root / workshop_id
         for label, workshop_id in WORKSHOP_IDS.items()
@@ -1417,7 +1394,7 @@ def main() -> int:
         workshop_root=workshop_root,
         mask_paths=mask_paths,
     )
-    if args.update_source_manifest:
+    if options.update_source_manifest:
         # The full painted-color assertion is intentionally part of accepting a
         # new source baseline, not merely a hash refresh.
         _, area, _, _ = build_id_raster(
@@ -1475,7 +1452,7 @@ def main() -> int:
     features = load_or_compute_features(
         cache_dir=root / ".ignored/cache/agot_now_lov_ee_world_data",
         cache_key=cache_key,
-        no_cache=args.no_cache,
+        no_cache=options.no_cache,
         heightmap_path=workshop["EEP"] / "map_data/heightmap.png",
         mask_paths=mask_paths,
         terrain_root=terrain_root,
@@ -2060,7 +2037,7 @@ def main() -> int:
         / "map_data/geographical_regions/zzzz_agot_now_lov_ee_world_data.txt": region_output,
     }
 
-    if args.audit:
+    if options.audit:
         for path in (
             source / "terrain_audit.csv",
             source / "graphical_region_audit.csv",
@@ -2095,7 +2072,7 @@ def main() -> int:
         if final_terrain[province_id] not in {"sea", "coastal_sea"}:
             raise AssertionError(f"water province {province_id} has land terrain")
 
-    if args.check:
+    if options.check:
         stale: list[str] = []
         for path, expected in outputs.items():
             if not path.is_file() or path.read_bytes() != expected:
@@ -2119,8 +2096,29 @@ def main() -> int:
     return 0
 
 
-if __name__ == "__main__":
-    try:
-        raise SystemExit(main())
-    except (AssertionError, FileNotFoundError, ValueError) as error:
-        raise RuntimeError(str(error)) from error
+def generate(context: GenerationContext) -> None:
+    global OUTPUT_ROOT_OVERRIDE, ASSETS_DIR_OVERRIDE, MAP_DEFINITION_OVERRIDE
+    global REFERENCE_PATHS_OVERRIDE
+    OUTPUT_ROOT_OVERRIDE = context.output_root
+    ASSETS_DIR_OVERRIDE = context.assets_dir / "world_data"
+    MAP_DEFINITION_OVERRIDE = context.source("map-definition")
+    REFERENCE_PATHS_OVERRIDE = {
+        "detailed": context.source("known-world-detailed"),
+        "google": context.source("known-world-google"),
+    }
+    result = main(
+        Options(
+            root=context.workspace.root,
+            workshop_root=context.workshop_root(
+                "agot",
+                "agot-now",
+                "legacy-of-valyria",
+                "legacy-of-valyria-bridge",
+                "essos-expanded",
+                "essos-expanded-bridge",
+            ),
+            no_cache=bool(context.options.get("no_cache", False)),
+        )
+    )
+    if result not in (None, 0):
+        raise RuntimeError(f"generator returned unsuccessful status {result}")

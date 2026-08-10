@@ -1,5 +1,5 @@
 [generator]
-entrypoint = "generator.py:generate"
+entrypoint = "implementation.py:generate"
 owned_outputs = [
   "common/culture/traditions/zzz_agot_mayham_aow_compatch_traditions.txt",
   "common/culture/traditions/00_agot_unique_traditions.txt",

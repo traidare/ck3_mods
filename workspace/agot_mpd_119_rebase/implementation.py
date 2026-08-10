@@ -6,6 +6,7 @@ from __future__ import annotations
 import re
 from pathlib import Path
 
+from ck3mm.generation import GenerationContext
 from ck3mm.generators.text import matching_brace
 
 ROOT: Path | None = None
@@ -157,5 +158,9 @@ def main() -> None:
     )
 
 
-if __name__ == "__main__":
+def generate(context: GenerationContext) -> None:
+    global SOURCE, AGOT_TRAITS, OUTPUT
+    SOURCE = context.source("more-personality-depth")
+    AGOT_TRAITS = context.source("agot-traits")
+    OUTPUT = context.output_path("common/traits/01_personality_overrides.txt")
     main()

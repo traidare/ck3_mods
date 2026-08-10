@@ -32,6 +32,5 @@ target-version = "py311"
 select = ["E", "F", "I", "UP", "B", "SIM"]
 
 [tool.ruff.lint.per-file-ignores]
-"src/ck3mm/generators/agot_runtime.py" = ["E501"]
-"src/ck3mm/generators/longnight_compat.py" = ["E501"]
 "workspace/**/implementation.py" = ["E501"]
+"workspace/**/map_merge.py" = ["E501"]

@@ -1,5 +1,5 @@
 [generator]
-entrypoint = "generator.py:generate"
+entrypoint = "implementation.py:generate"
 owned_outputs = [
   "common/on_action/gr_on_actions.txt",
   "common/scripted_effects/gr_npc_obituary_data_effect.txt",

@@ -9,6 +9,7 @@ import subprocess
 import tempfile
 from pathlib import Path
 
+from ck3mm.generation import GenerationContext
 from ck3mm.generators.text import matching_brace, read_source
 
 ROOT: Path | None = None
@@ -231,7 +232,7 @@ def merge_definition(base: str, ours: str, theirs: str, tradition: str) -> str:
     return merged.rstrip("\n")
 
 
-def generate() -> str:
+def generate_traditions() -> str:
     generated: list[str] = []
     definition_count = 0
     delta_count = 0
@@ -332,7 +333,7 @@ def generate_aow_unique_syntax_repair() -> str:
 
 def main() -> None:
     OUT.parent.mkdir(parents=True, exist_ok=True)
-    OUT.write_text(generate(), encoding="utf-8-sig")
+    OUT.write_text(generate_traditions(), encoding="utf-8-sig")
     AOW_UNIQUE_OUT.parent.mkdir(parents=True, exist_ok=True)
     AOW_UNIQUE_OUT.write_text(generate_aow_unique_syntax_repair(), encoding="utf-8-sig")
     print(
@@ -341,5 +342,16 @@ def main() -> None:
     )
 
 
-if __name__ == "__main__":
+def generate(context: GenerationContext) -> None:
+    global ROOT, AGOT, MAYHAM, AOW, OUT, AOW_UNIQUE_OUT
+    ROOT = context.workspace.root
+    AGOT = context.source("agot")
+    MAYHAM = context.source("mayham")
+    AOW = context.source("armies-of-westeros")
+    OUT = context.output_path(
+        "common/culture/traditions/zzz_agot_mayham_aow_compatch_traditions.txt"
+    )
+    AOW_UNIQUE_OUT = context.output_path(
+        "common/culture/traditions/00_agot_unique_traditions.txt"
+    )
     main()

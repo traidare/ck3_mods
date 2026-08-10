@@ -6,6 +6,7 @@ from __future__ import annotations
 import re
 from pathlib import Path
 
+from ck3mm.generation import GenerationContext
 from ck3mm.generators.text import read_source
 
 ROOT: Path | None = None
@@ -505,5 +506,9 @@ def main() -> None:
     print(f"Replaced {background_count} event-background selectors")
 
 
-if __name__ == "__main__":
+def generate(context: GenerationContext) -> None:
+    global SOURCE, OUTPUT, DISABLED_EVENTS_FILE
+    SOURCE = context.source("viet")
+    OUTPUT = context.output_root
+    DISABLED_EVENTS_FILE = context.assets_dir / "disabled-events.txt"
     main()

@@ -3,7 +3,6 @@
 
 from __future__ import annotations
 
-import argparse
 import csv
 import io
 import json
@@ -13,11 +12,9 @@ from collections.abc import Iterable
 from dataclasses import dataclass
 from pathlib import Path
 
+from ck3mm.generation import GenerationContext
 from ck3mm.hashing import sha256_file
-from ck3mm.source_manifest import (
-    canonical_source_path,
-    resolve_workshop_root,
-)
+from ck3mm.source_manifest import canonical_source_path
 
 DOOM = (7899, 8, 14)
 DOOM_TEXT = "7899.8.14"
@@ -154,26 +151,6 @@ class HolderEvent:
     government_scalar: Scalar | None
     culture: str
     rule: Rule | None = None
-
-
-def parse_args() -> argparse.Namespace:
-    parser = argparse.ArgumentParser(
-        description="Generate AGOT + NOW + LoV + EE lore governments."
-    )
-    parser.add_argument(
-        "--root", type=Path, default=Path(__file__).resolve().parents[1]
-    )
-    mode = parser.add_mutually_exclusive_group()
-    mode.add_argument("--audit", action="store_true", help="Write audit CSVs only.")
-    mode.add_argument(
-        "--check", action="store_true", help="Verify checked-in generated files."
-    )
-    mode.add_argument(
-        "--update-source-manifest",
-        action="store_true",
-        help="Accept current upstream hashes after reviewing their changes.",
-    )
-    return parser.parse_args()
 
 
 def normalized_text(path: Path) -> str:
@@ -723,10 +700,20 @@ def target_manifest(
     }
 
 
-def main() -> int:
-    args = parse_args()
-    root = args.root.resolve()
-    workshop_root = resolve_workshop_root()
+@dataclass(frozen=True, slots=True)
+class Options:
+    """Everything one generation run needs that is not a declared source."""
+
+    root: Path
+    workshop_root: Path
+    check: bool = False
+    update_source_manifest: bool = False
+    audit: bool = False
+
+
+def main(options: Options) -> int:
+    root = options.root.resolve()
+    workshop_root = options.workshop_root
     workshop = {
         label: workshop_root / workshop_id
         for label, workshop_id in WORKSHOP_IDS.items()
@@ -794,7 +781,7 @@ def main() -> int:
         *[path for _, path in province_winners.values()],
     ]
     current_manifest = target_manifest(root, workshop, workshop_root, input_paths)
-    if args.update_source_manifest:
+    if options.update_source_manifest:
         manifest_path.parent.mkdir(parents=True, exist_ok=True)
         manifest_path.write_text(
             json.dumps(current_manifest, indent=2, sort_keys=True) + "\n",
@@ -1478,8 +1465,8 @@ def main() -> int:
     if not faith_audit or not province_audit:
         raise AssertionError("Ibben faith audit is incomplete")
 
-    selected = audit_outputs if args.audit else generated
-    if args.check:
+    selected = audit_outputs if options.audit else generated
+    if options.check:
         stale: list[str] = []
         for relative, content in generated.items():
             path = module / relative
@@ -1500,7 +1487,7 @@ def main() -> int:
         path = module / relative
         path.parent.mkdir(parents=True, exist_ok=True)
         path.write_bytes(content)
-    action = "Audited" if args.audit else "Generated"
+    action = "Audited" if options.audit else "Generated"
     print(
         f"{action} {len(selected)} files: {len(government_audit)} governments, "
         f"{len(culture_audit)} culture corrections, "
@@ -1510,8 +1497,26 @@ def main() -> int:
     return 0
 
 
-if __name__ == "__main__":
-    try:
-        raise SystemExit(main())
-    except (AssertionError, FileNotFoundError, ValueError) as error:
-        raise RuntimeError(str(error)) from error
+def generate(context: GenerationContext) -> None:
+    global OUTPUT_ROOT_OVERRIDE, ASSETS_DIR_OVERRIDE, LOCAL_SOURCE_OVERRIDES
+    OUTPUT_ROOT_OVERRIDE = context.output_root
+    ASSETS_DIR_OVERRIDE = context.assets_dir / "lore_governments"
+    LOCAL_SOURCE_OVERRIDES = {
+        "LOV_REBASE": context.source("legacy-of-valyria-rebase"),
+        "EE_REBASE": context.source("essos-expanded-rebase"),
+    }
+    result = main(
+        Options(
+            root=context.workspace.root,
+            workshop_root=context.workshop_root(
+                "agot",
+                "legacy-of-valyria",
+                "legacy-of-valyria-bridge",
+                "essos-expanded",
+                "essos-expanded-bridge",
+                "lore-bridge",
+            ),
+        )
+    )
+    if result not in (None, 0):
+        raise RuntimeError(f"generator returned unsuccessful status {result}")

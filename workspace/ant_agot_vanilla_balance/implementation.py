@@ -8,6 +8,7 @@ import os
 import re
 from pathlib import Path
 
+from ck3mm.generation import GenerationContext
 from ck3mm.generators.text import matching_brace, read_source
 
 ROOT: Path | None = None
@@ -1152,5 +1153,29 @@ def main() -> None:
     generate_duchy_buildings()
 
 
-if __name__ == "__main__":
+def generate(context: GenerationContext) -> None:
+    global ANT, ANT_AGOT, OUT, COMMON_CHAINS
+    ANT = context.source("any-new-traditions")
+    ANT_AGOT = context.source("any-new-traditions-agot")
+    OUT = context.output_root
+    common = ANT / "common/buildings/ary_common_buildings.txt"
+    common2 = ANT / "common/buildings/ary_common2_buildings.txt"
+    agot = ANT_AGOT / "common/buildings/vv_ary_duchy_and_common_buildings.txt"
+    COMMON_CHAINS = {
+        "ary_mtg": common,
+        "ary_ew": common,
+        "ary_eto": common,
+        "ary_lmc": common,
+        "vv_ary_dim": agot,
+        "ary_swt": common,
+        "ary_tml": common,
+        "ary_dfa": common2,
+        "ary_wetm": common2,
+        "ary_caryf": common2,
+        "ary_swordasa": common2,
+        "ary_cameltg": common2,
+        "ary_hatg": common2,
+        "vv_ary_merchantg": agot,
+        "ary_firearmsf": common2,
+    }
     main()

@@ -12,6 +12,7 @@ import re
 from collections import Counter
 from pathlib import Path
 
+from ck3mm.generation import GenerationContext
 from ck3mm.generators.text import read_source, replace_exact
 
 ROOT: Path | None = None
@@ -404,5 +405,10 @@ def main() -> None:
     )
 
 
-if __name__ == "__main__":
+def generate(context: GenerationContext) -> None:
+    global MOD_SOURCE, SOURCE, MOD_OUTPUT, OUTPUT
+    MOD_SOURCE = context.source("culture-faith-granularity")
+    SOURCE = MOD_SOURCE / "common/scripted_effects"
+    MOD_OUTPUT = context.output_root
+    OUTPUT = MOD_OUTPUT / "common/scripted_effects"
     main()

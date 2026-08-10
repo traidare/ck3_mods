@@ -1,5 +1,5 @@
 [generator]
-entrypoint = "generator.py:generate"
+entrypoint = "implementation.py:generate"
 owned_outputs = ["common/traits/01_personality_overrides.txt"]
 
 [[sources]]

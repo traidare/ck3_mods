@@ -123,6 +123,47 @@ def definition_span(
     return start, end
 
 
+def nested_definition_span(text: str, name: str) -> tuple[int, int]:
+    """Return the span of one definition nested two tabs deep, line end included.
+
+    Portrait-animation files keep their poses inside an outer block, so their
+    definitions never start at column zero.
+    """
+    return definition_span(text, name, indent=r"\t\t", consume_line_end=True)
+
+
+def definition_matches(text: str, name_pattern: str) -> list[re.Match[str]]:
+    """Find every definition nested two tabs deep whose name matches a pattern."""
+    return list(re.finditer(rf"(?m)^\t\t(?P<name>{name_pattern})\s*=\s*\{{", text))
+
+
+def direct_definition_names(text: str, name_pattern: str) -> list[str]:
+    """Return the names of the matching definitions, in source order."""
+    return [match.group("name") for match in definition_matches(text, name_pattern)]
+
+
+def assert_count(text: str, name_pattern: str, expected: int, label: str) -> None:
+    """Fail unless a nested definition appears exactly as often as expected."""
+    count = len(definition_matches(text, name_pattern))
+    if count != expected:
+        raise ValueError(f"{label}: expected {expected}, found {count}")
+
+
+def newline_style(text: str) -> str:
+    """Return the newline the source predominantly uses."""
+    return "\r\n" if "\r\n" in text else "\n"
+
+
+def normalize_newlines(text: str, newline: str) -> str:
+    """Rewrite every line ending to one style."""
+    return text.replace("\r\n", "\n").replace("\r", "\n").replace("\n", newline)
+
+
+def strip_trailing_whitespace(text: str) -> str:
+    """Drop trailing spaces and tabs from every line."""
+    return re.sub(r"[ \t]+(?=\r?$)", "", text, flags=re.MULTILINE)
+
+
 def unique_marker(text: str, marker: str, label: str) -> int:
     """Return the only insertion marker occurrence."""
     count = text.count(marker)
