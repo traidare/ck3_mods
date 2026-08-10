@@ -8,8 +8,8 @@ import os
 import re
 from pathlib import Path
 
-from ck3mm.generation import GenerationContext
-from ck3mm.generators.text import matching_brace, read_source
+from gen import GenerationContext
+from gen.text import matching_brace, read_source
 
 ROOT: Path | None = None
 

@@ -8,12 +8,12 @@ import shutil
 import subprocess
 from pathlib import Path
 
-from ck3mm.generation import GenerationContext
-from ck3mm.generators.text import (
+from gen import GenerationContext
+from gen.text import (
     read_source,
     replace_exact,
 )
-from ck3mm.generators.text import (
+from gen.text import (
     replace_regex as shared_replace_regex,
 )
 

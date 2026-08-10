@@ -10,11 +10,11 @@ from __future__ import annotations
 import re
 from pathlib import Path
 
-from ck3mm.generation import GenerationContext
-from ck3mm.generators.script import read_text, replace_regex
-from ck3mm.generators.script import write_text as write_source
-from ck3mm.generators.sources import WorkshopSources
-from ck3mm.generators.text import replace_exact
+from gen import GenerationContext
+from gen.script import read_text, replace_regex
+from gen.script import write_text as write_source
+from gen.sources import WorkshopSources
+from gen.text import replace_exact
 
 WORKSHOP: WorkshopSources | None = None
 AGOT_PLUS_OUTPUT: Path | None = None

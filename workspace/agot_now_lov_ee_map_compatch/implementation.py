@@ -11,7 +11,7 @@ import subprocess
 import sys
 from pathlib import Path
 
-from ck3mm.generation import GenerationContext
+from gen import GenerationContext
 
 WORKSHOP_SOURCES = (
     "agot",
@@ -34,7 +34,7 @@ def generate(context: GenerationContext) -> None:
         sys.executable,
         str(merge),
         "--root",
-        str(context.workspace.root),
+        str(context.workspace_root),
         "--output",
         str(context.output_root),
     ]

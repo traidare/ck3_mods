@@ -12,8 +12,8 @@ import re
 from collections import Counter
 from pathlib import Path
 
-from ck3mm.generation import GenerationContext
-from ck3mm.generators.text import read_source, replace_exact
+from gen import GenerationContext
+from gen.text import read_source, replace_exact
 
 ROOT: Path | None = None
 MOD_SOURCE: Path | None = None

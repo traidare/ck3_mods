@@ -8,8 +8,8 @@ import hashlib
 import re
 from pathlib import Path
 
-from ck3mm.generation import GenerationContext
-from ck3mm.generators.text import (
+from gen import GenerationContext
+from gen.text import (
     assert_count,
     definition_span,
     direct_definition_names,

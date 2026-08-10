@@ -10,12 +10,12 @@ import subprocess
 import tempfile
 from pathlib import Path
 
-from ck3mm.generators.text import read_source
-from ck3mm.hashing import sha256_file
-from ck3mm.source_manifest import (
+from gen.hashing import sha256_file
+from gen.sources import (
     canonical_source_path,
     resolve_workshop_root,
 )
+from gen.text import read_source
 
 parser = argparse.ArgumentParser(
     description="Regenerate the semantic NOW + LoV + Essos map merge."

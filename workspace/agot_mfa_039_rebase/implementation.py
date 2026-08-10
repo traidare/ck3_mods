@@ -11,10 +11,10 @@ import re
 from decimal import Decimal
 from pathlib import Path
 
-from ck3mm.generation import GenerationContext
-from ck3mm.generators.script import balanced_brace_end, read_text, write_text
-from ck3mm.generators.sources import WorkshopSources
-from ck3mm.generators.text import replace_exact
+from gen import GenerationContext
+from gen.script import balanced_brace_end, read_text, write_text
+from gen.sources import WorkshopSources
+from gen.text import replace_exact
 
 WORKSHOP: WorkshopSources | None = None
 MFA_OUTPUT: Path | None = None

@@ -9,8 +9,8 @@ import subprocess
 import tempfile
 from pathlib import Path
 
-from ck3mm.generation import GenerationContext
-from ck3mm.generators.text import matching_brace, read_source
+from gen import GenerationContext
+from gen.text import matching_brace, read_source
 
 ROOT: Path | None = None
 
@@ -344,7 +344,7 @@ def main() -> None:
 
 def generate(context: GenerationContext) -> None:
     global ROOT, AGOT, MAYHAM, AOW, OUT, AOW_UNIQUE_OUT
-    ROOT = context.workspace.root
+    ROOT = context.workspace_root
     AGOT = context.source("agot")
     MAYHAM = context.source("mayham")
     AOW = context.source("armies-of-westeros")

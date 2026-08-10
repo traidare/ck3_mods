@@ -13,16 +13,16 @@ import re
 import textwrap
 from pathlib import Path
 
-from ck3mm.generation import GenerationContext
-from ck3mm.generators.script import (
+from gen import GenerationContext
+from gen.script import (
     balanced_brace_end,
     normalize_rebased_source,
     read_text,
     replace_regex,
     write_text,
 )
-from ck3mm.generators.sources import WorkshopSources
-from ck3mm.generators.text import matching_brace, replace_exact
+from gen.sources import WorkshopSources
+from gen.text import matching_brace, replace_exact
 
 WORKSHOP: WorkshopSources | None = None
 OUTPUT: Path | None = None

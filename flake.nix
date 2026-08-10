@@ -37,13 +37,20 @@
           ];
         };
         # The Go core owns the workspace infrastructure. Python is retained
-        # only for the generators, which need numpy and Pillow.
+        # only for the generators, which need numpy and Pillow. The core finds
+        # that interpreter through CK3MM_PYTHON and the sidecar itself through
+        # the workspace it is run in, so the two are versioned together.
         ck3mm-go = pkgs.buildGoModule {
           pname = "ck3mm";
           version = "0.2.0";
           src = goSource;
           vendorHash = "sha256-3XSzXRk89c3GSiIO1q5CmK9J3X343S9rdtuRy0Kkx4c=";
           subPackages = ["cmd/ck3mm"];
+          nativeBuildInputs = [pkgs.makeWrapper];
+          postInstall = ''
+            wrapProgram $out/bin/ck3mm \
+              --set-default CK3MM_PYTHON ${pythonEnv}/bin/python
+          '';
           meta.mainProgram = "ck3mm";
         };
         ck3mm = pkgs.python3Packages.buildPythonApplication {

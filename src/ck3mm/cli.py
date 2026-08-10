@@ -20,19 +20,12 @@ from .conflicts import ConflictAnalysisError
 from .cultures import CultureToolError
 from .descriptors import DescriptorError, load_descriptor, validate_native_descriptor
 from .diagnostics import DiagnosticError
-from .generation import (
-    GenerationError,
-    run_generator,
-    source_lock_path,
-    verify_source_locks,
-    write_source_locks,
-)
 from .heightmap import HeightmapError
 from .install import InstallError
 from .launcher import LauncherError
 from .preservation import PreservationError
 from .references import ReferenceSyncError
-from .workspace import Mod, Workspace, WorkspaceError
+from .workspace import Workspace, WorkspaceError
 
 Handler = Callable[[argparse.Namespace, Workspace, Config], int]
 
@@ -104,64 +97,6 @@ def _mod_list(args: argparse.Namespace, workspace: Workspace, _config: Config) -
     return 0
 
 
-def _selected_generator_mods(
-    workspace: Workspace, slugs: Sequence[str]
-) -> tuple[Mod, ...]:
-    if slugs:
-        return tuple(workspace.get_mod(slug) for slug in slugs)
-    return tuple(
-        mod
-        for mod in workspace.iter_mods()
-        if mod.manifest is not None and mod.manifest.generator is not None
-    )
-
-
-def _mod_generation(
-    args: argparse.Namespace, workspace: Workspace, config: Config
-) -> int:
-    check = args.mod_action == "check"
-    stale = False
-    failed = False
-    options = _generator_options(args.option)
-    for mod in _selected_generator_mods(workspace, args.mods):
-        try:
-            result = run_generator(workspace, mod, config, check=check, options=options)
-        except (ConfigError, GenerationError, WorkspaceError) as error:
-            failed = True
-            print(f"{mod.slug}: error: {error}", file=sys.stderr)
-            continue
-        if result.stdout:
-            print(result.stdout, end="")
-        if result.stderr:
-            print(result.stderr, end="", file=sys.stderr)
-        if result.current:
-            print(f"{mod.slug}: current")
-            continue
-        stale = True
-        action = "would update" if check else "updated"
-        paths = sorted((*result.changed_files, *result.stale_files))
-        print(f"{mod.slug}: {action} {len(paths)} file(s)")
-        for path in paths:
-            print(f"  {path}")
-    return int(failed or (check and stale))
-
-
-def _generator_options(values: Sequence[str]) -> dict[str, object]:
-    options: dict[str, object] = {}
-    for raw in values:
-        key, separator, value = raw.partition("=")
-        if not key.isidentifier():
-            raise GenerationError(f"invalid generator option name: {key!r}")
-        if not separator:
-            options[key] = True
-            continue
-        try:
-            options[key] = json.loads(value)
-        except json.JSONDecodeError:
-            options[key] = value
-    return options
-
-
 def _mod_audit(args: argparse.Namespace, workspace: Workspace, _config: Config) -> int:
     selected = (
         tuple(workspace.get_mod(slug) for slug in args.mods)
@@ -182,31 +117,6 @@ def _mod_audit(args: argparse.Namespace, workspace: Workspace, _config: Config) 
         else:
             print(f"{mod.slug}: descriptor valid")
     return int(invalid)
-
-
-def _mod_sources(args: argparse.Namespace, workspace: Workspace, config: Config) -> int:
-    failed = False
-    for mod in _selected_generator_mods(workspace, args.mods):
-        assert mod.manifest is not None
-        try:
-            sources = workspace.resolve_sources(mod.manifest, config)
-            if args.sources_action == "check":
-                if not source_lock_path(mod.manifest).is_file():
-                    print(f"{mod.slug}: no source locks recorded")
-                    continue
-                verify_source_locks(mod.manifest, sources)
-                print(f"{mod.slug}: sources accepted")
-                continue
-            preview = write_source_locks(mod.manifest, sources, apply=args.apply)
-            if args.apply:
-                print(f"{mod.slug}: source locks updated")
-            else:
-                print(f"{mod.slug}: source-lock preview")
-                print(preview, end="")
-        except (ConfigError, GenerationError, WorkspaceError) as error:
-            failed = True
-            print(f"{mod.slug}: error: {error}", file=sys.stderr)
-    return int(failed)
 
 
 def _launcher_database(config: Config) -> Path:
@@ -405,41 +315,6 @@ def _install_command(
     return 0
 
 
-def _validate_command(
-    args: argparse.Namespace, workspace: Workspace, config: Config
-) -> int:
-    from .validation import validate_mods
-
-    selected: Sequence[Mod | str] = args.mods or workspace.mods()
-    results = validate_mods(workspace, selected, config)
-    if args.json:
-        print(
-            json.dumps(
-                [result.to_dict() for result in results],
-                indent=2,
-                sort_keys=True,
-            )
-        )
-    else:
-        for result in results:
-            print(f"{result.mod_slug}: {result.status.value}")
-            for check in result.checks:
-                print(f"  {check.step.value}: {check.status.value} - {check.message}")
-                if check.command:
-                    print("    command: " + " ".join(check.command))
-                for detail in check.details:
-                    print(f"    {detail}")
-                for label, output in (
-                    ("stdout", check.stdout),
-                    ("stderr", check.stderr),
-                ):
-                    if output:
-                        print(f"    {label}:")
-                        for line in output.rstrip().splitlines():
-                            print(f"      {line}")
-    return int(any(not result.ok for result in results))
-
-
 def _references_command(
     args: argparse.Namespace, workspace: Workspace, config: Config
 ) -> int:
@@ -607,44 +482,14 @@ def _build_mod_commands(subcommands: argparse._SubParsersAction) -> None:
     list_parser.add_argument("--json", action="store_true")
     _set_handler(list_parser, _mod_list)
 
-    for action, help_text in (
-        ("generate", "stage and promote generated outputs"),
-        ("check", "check generated outputs without changing them"),
-    ):
-        parser = actions.add_parser(action, help=help_text)
-        parser.add_argument("mods", nargs="*", metavar="MOD")
-        parser.add_argument(
-            "--option",
-            action="append",
-            default=[],
-            metavar="NAME[=VALUE]",
-            help="pass a generator-specific option; repeatable",
-        )
-        _set_handler(parser, _mod_generation)
-
     audit = actions.add_parser("audit", help="audit canonical mod descriptors")
     audit.add_argument("mods", nargs="*", metavar="MOD")
     _set_handler(audit, _mod_audit)
-
-    validate = actions.add_parser("validate", help="run complete mod validation")
-    validate.add_argument("mods", nargs="*", metavar="MOD")
-    validate.add_argument("--json", action="store_true")
-    _set_handler(validate, _validate_command)
 
     install = actions.add_parser("install", help="preview or install local mods")
     install.add_argument("mods", nargs="*", metavar="MOD")
     install.add_argument("--apply", action="store_true")
     _set_handler(install, _install_command)
-
-    sources = actions.add_parser("sources", help="work with generator source locks")
-    source_actions = sources.add_subparsers(dest="sources_action", required=True)
-    source_check = source_actions.add_parser("check", help="verify accepted hashes")
-    source_check.add_argument("mods", nargs="*", metavar="MOD")
-    _set_handler(source_check, _mod_sources)
-    source_accept = source_actions.add_parser("accept", help="accept current hashes")
-    source_accept.add_argument("mods", nargs="*", metavar="MOD")
-    source_accept.add_argument("--apply", action="store_true")
-    _set_handler(source_accept, _mod_sources)
 
 
 def _build_playset_commands(subcommands: argparse._SubParsersAction) -> None:
@@ -814,7 +659,6 @@ def main(argv: Sequence[str] | None = None) -> int:
         CultureToolError,
         DescriptorError,
         DiagnosticError,
-        GenerationError,
         HeightmapError,
         InstallError,
         LauncherError,

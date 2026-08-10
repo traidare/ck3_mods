@@ -19,9 +19,9 @@ from pathlib import Path
 import numpy as np
 from PIL import Image
 
-from ck3mm.generation import GenerationContext
-from ck3mm.hashing import sha256_file
-from ck3mm.source_manifest import canonical_source_path
+from gen import GenerationContext
+from gen.hashing import sha256_file
+from gen.sources import canonical_source_path
 
 TARGET_FIRST = 10946
 TARGET_LAST = 26420
@@ -2108,7 +2108,7 @@ def generate(context: GenerationContext) -> None:
     }
     result = main(
         Options(
-            root=context.workspace.root,
+            root=context.workspace_root,
             workshop_root=context.workshop_root(
                 "agot",
                 "agot-now",

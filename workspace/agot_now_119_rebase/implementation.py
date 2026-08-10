@@ -9,10 +9,10 @@ from __future__ import annotations
 
 from pathlib import Path
 
-from ck3mm.generation import GenerationContext
-from ck3mm.generators.script import normalize_rebased_source, read_text, write_text
-from ck3mm.generators.sources import WorkshopSources
-from ck3mm.generators.text import replace_exact
+from gen import GenerationContext
+from gen.script import normalize_rebased_source, read_text, write_text
+from gen.sources import WorkshopSources
+from gen.text import replace_exact
 
 WORKSHOP: WorkshopSources | None = None
 NOW_OUTPUT: Path | None = None

@@ -8,10 +8,10 @@ import re
 from dataclasses import dataclass
 from pathlib import Path
 
-from ck3mm.generation import GenerationContext
-from ck3mm.generators.text import matching_brace, read_source
-from ck3mm.hashing import sha256_file
-from ck3mm.source_manifest import canonical_source_path
+from gen import GenerationContext
+from gen.hashing import sha256_file
+from gen.sources import canonical_source_path
+from gen.text import matching_brace, read_source
 
 WORKSHOP_IDS = {
     "NOW": "3664900993",
@@ -422,11 +422,11 @@ def main(options: Options) -> int:
 
 def generate(context: GenerationContext) -> None:
     global MODULE_RELATIVE, SOURCE_MANIFEST_OVERRIDE
-    MODULE_RELATIVE = context.output_root.relative_to(context.workspace.root)
+    MODULE_RELATIVE = context.output_root.relative_to(context.workspace_root)
     SOURCE_MANIFEST_OVERRIDE = context.assets_dir / "source_manifest.json"
     result = main(
         Options(
-            root=context.workspace.root,
+            root=context.workspace_root,
             workshop_root=context.workshop_root("agot-now", "seasons-bridge"),
         )
     )

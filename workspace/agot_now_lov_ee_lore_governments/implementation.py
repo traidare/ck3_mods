@@ -12,9 +12,9 @@ from collections.abc import Iterable
 from dataclasses import dataclass
 from pathlib import Path
 
-from ck3mm.generation import GenerationContext
-from ck3mm.hashing import sha256_file
-from ck3mm.source_manifest import canonical_source_path
+from gen import GenerationContext
+from gen.hashing import sha256_file
+from gen.sources import canonical_source_path
 
 DOOM = (7899, 8, 14)
 DOOM_TEXT = "7899.8.14"
@@ -1507,7 +1507,7 @@ def generate(context: GenerationContext) -> None:
     }
     result = main(
         Options(
-            root=context.workspace.root,
+            root=context.workspace_root,
             workshop_root=context.workshop_root(
                 "agot",
                 "legacy-of-valyria",

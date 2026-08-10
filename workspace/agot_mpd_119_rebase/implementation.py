@@ -6,8 +6,8 @@ from __future__ import annotations
 import re
 from pathlib import Path
 
-from ck3mm.generation import GenerationContext
-from ck3mm.generators.text import matching_brace
+from gen import GenerationContext
+from gen.text import matching_brace
 
 ROOT: Path | None = None
 SOURCE: Path | None = None
