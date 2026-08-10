@@ -27,6 +27,12 @@ func playsetCommand() *Command {
 				Run:     runPlaysetExport,
 			},
 			{
+				Name:    "import",
+				Summary: "Preview or write an exported playset into the Launcher",
+				Usage:   "ck3mm playset import FILE [--allow-missing] [--apply]",
+				Run:     runPlaysetImport,
+			},
+			{
 				Name:    "diff",
 				Summary: "Compare two exported playsets",
 				Usage:   "ck3mm playset diff BEFORE AFTER",
@@ -154,4 +160,55 @@ func runPlaysetDiff(env *Env) (int, error) {
 		return 0, nil
 	}
 	return 1, nil
+}
+
+func runPlaysetImport(env *Env) (int, error) {
+	set := flagSet("playset import", env)
+	allowMissing := set.Bool("allow-missing", false, "import without the mods that could not be matched")
+	positional, err := parse(set, env.Args)
+	if err != nil {
+		return 2, nil
+	}
+	if len(positional) != 1 {
+		return 2, fmt.Errorf("expected one exported playset file, got %d", len(positional))
+	}
+	if err := env.Config.Require(config.ParadoxDir); err != nil {
+		return 2, err
+	}
+
+	source, err := playset.LoadFile(positional[0])
+	if err != nil {
+		return 1, err
+	}
+
+	var plan playset.ImportPlan
+	if env.Apply {
+		plan, err = playset.ApplyImport(env.Config.LauncherDB(), source, *allowMissing)
+	} else {
+		plan, err = playset.PlanImport(env.Config.LauncherDB(), source)
+	}
+	if err != nil {
+		return 1, err
+	}
+
+	if env.JSON() {
+		if err := jsonout.Write(env.Stdout, plan.ToMap()); err != nil {
+			return 1, err
+		}
+		return 0, nil
+	}
+	state := "preview"
+	if env.Apply {
+		state = "applied"
+	}
+	env.Printf("Import %s: %s %q\n", state, plan.Action, plan.Name)
+	env.Printf("  Resolved: %d\n", len(plan.Resolved))
+	env.Printf("  Unresolved: %d\n", len(plan.Unresolved))
+	for _, mod := range plan.Unresolved {
+		env.Printf("    %s: %s\n", mod.DisplayName, mod.Reason)
+	}
+	if plan.BackupPath != "" {
+		env.Printf("  Backup: %s\n", plan.BackupPath)
+	}
+	return 0, nil
 }
