@@ -12,12 +12,12 @@ func TestTokenizeSkipsCommentsAndTracksLines(t *testing.T) {
 		t.Fatalf("Tokenize: %v", err)
 	}
 	want := []Token{
-		{TokenValue, "name", 2},
-		{TokenEquals, "=", 2},
-		{TokenValue, "A", 2},
-		{TokenValue, "version", 4},
-		{TokenEquals, "=", 4},
-		{TokenValue, "1.0", 4},
+		{TokenValue, "name", 2, 10, 14},
+		{TokenEquals, "=", 2, 14, 15},
+		{TokenValue, "A", 2, 15, 18},
+		{TokenValue, "version", 4, 30, 37},
+		{TokenEquals, "=", 4, 37, 38},
+		{TokenValue, "1.0", 4, 38, 41},
 	}
 	if !reflect.DeepEqual(tokens, want) {
 		t.Errorf("tokens = %#v, want %#v", tokens, want)

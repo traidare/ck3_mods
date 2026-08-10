@@ -160,6 +160,7 @@ func Root() *Command {
 			playsetCommand(),
 			conflictsCommand(),
 			refsCommand(),
+			culturesCommand(),
 		},
 	}
 }

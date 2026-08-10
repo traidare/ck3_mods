@@ -34,11 +34,15 @@ const (
 	TokenClose
 )
 
-// Token is one lexed unit together with the line it started on.
+// Token is one lexed unit together with the line it started on and its span
+// in the source, as rune indices. The span lets callers quote a definition
+// back exactly as it was written.
 type Token struct {
 	Kind  TokenKind
 	Value string
 	Line  int
+	Start int
+	End   int
 }
 
 const specials = " \t\r\n#={}"
@@ -63,16 +67,17 @@ func Tokenize(text string) ([]Token, error) {
 				index++
 			}
 		case character == '=':
-			tokens = append(tokens, Token{TokenEquals, "=", line})
+			tokens = append(tokens, Token{TokenEquals, "=", line, index, index + 1})
 			index++
 		case character == '{':
-			tokens = append(tokens, Token{TokenOpen, "{", line})
+			tokens = append(tokens, Token{TokenOpen, "{", line, index, index + 1})
 			index++
 		case character == '}':
-			tokens = append(tokens, Token{TokenClose, "}", line})
+			tokens = append(tokens, Token{TokenClose, "}", line, index, index + 1})
 			index++
 		case character == '"':
 			startLine := line
+			start := index
 			index++
 			var value strings.Builder
 			terminated := false
@@ -109,13 +114,13 @@ func Tokenize(text string) ([]Token, error) {
 			if !terminated {
 				return nil, errorf("unterminated string on line %d", startLine)
 			}
-			tokens = append(tokens, Token{TokenValue, value.String(), startLine})
+			tokens = append(tokens, Token{TokenValue, value.String(), startLine, start, index})
 		default:
 			start := index
 			for index < len(runes) && !strings.ContainsRune(specials, runes[index]) {
 				index++
 			}
-			tokens = append(tokens, Token{TokenValue, string(runes[start:index]), line})
+			tokens = append(tokens, Token{TokenValue, string(runes[start:index]), line, start, index})
 		}
 	}
 	return tokens, nil
