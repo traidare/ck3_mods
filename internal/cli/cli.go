@@ -159,6 +159,7 @@ func Root() *Command {
 			modCommand(),
 			playsetCommand(),
 			conflictsCommand(),
+			refsCommand(),
 		},
 	}
 }

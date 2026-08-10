@@ -11,12 +11,20 @@ func modCommand() *Command {
 	return &Command{
 		Name:    "mod",
 		Summary: "Work with the mods in this workspace",
-		Children: []*Command{{
-			Name:    "list",
-			Summary: "List local mods and their tooling",
-			Usage:   "ck3mm mod list",
-			Run:     runModList,
-		}},
+		Children: []*Command{
+			{
+				Name:    "list",
+				Summary: "List local mods and their tooling",
+				Usage:   "ck3mm mod list",
+				Run:     runModList,
+			},
+			{
+				Name:    "install",
+				Summary: "Preview or install local mods into the Launcher",
+				Usage:   "ck3mm mod install [MOD...] [--apply]",
+				Run:     runModInstall,
+			},
+		},
 	}
 }
 
