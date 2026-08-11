@@ -424,9 +424,60 @@ def title_and_province_scope(
     return title_empire, province_empire
 
 
+def merge_character_override(
+    texts: dict[Path, str],
+    override_relative: Path,
+    *,
+    base_relatives: set[Path] | None = None,
+    label: str,
+) -> set[Path]:
+    """Fold a late whole-character override into its generated base files."""
+    if override_relative not in texts:
+        return set()
+
+    base_blocks: dict[str, list[tuple[Path, Block]]] = defaultdict(list)
+    for relative, text in texts.items():
+        if relative == override_relative:
+            continue
+        if base_relatives is not None and relative not in base_relatives:
+            continue
+        document = parse_document(text)
+        for block in document.children(None):
+            if re.fullmatch(r"[A-Za-z0-9_]+", block.key):
+                base_blocks[block.key].append((relative, block))
+
+    override_text = texts[override_relative]
+    override_document = parse_document(override_text)
+    edits_by_relative: dict[Path, list[tuple[int, int, str]]] = defaultdict(list)
+    for override in override_document.children(None):
+        if not re.fullmatch(r"[A-Za-z0-9_]+", override.key):
+            continue
+        matches = base_blocks.get(override.key, [])
+        if len(matches) != 1:
+            raise AssertionError(
+                f"{label} override {override.key}: expected one base character, "
+                f"found {len(matches)}"
+            )
+        relative, base = matches[0]
+        edits_by_relative[relative].append(
+            (
+                base.start,
+                base.close + 1,
+                override_text[override.start : override.close + 1],
+            )
+        )
+
+    if not edits_by_relative:
+        raise AssertionError(f"{label} override contains no character definitions")
+    for relative, edits in edits_by_relative.items():
+        texts[relative] = apply_edits(texts[relative], edits)
+    del texts[override_relative]
+    return set(edits_by_relative)
+
+
 def parse_character_sources(
     winners: dict[Path, tuple[str, Path]],
-) -> tuple[dict[Path, str], dict[Path, Document], dict[str, Character]]:
+) -> tuple[dict[Path, str], dict[Path, Document], dict[str, Character], set[Path]]:
     texts: dict[Path, str] = {}
     documents: dict[Path, Document] = {}
     characters: dict[str, Character] = {}
@@ -450,31 +501,19 @@ def parse_character_sources(
             text = text.replace(broken, fixed)
         texts[relative] = text
 
-    base_relative = Path("history/characters/essos_7898_chars.txt")
-    override_relative = Path("history/characters/zz_eetlv_bookmark_char_overrides.txt")
-    if override_relative in texts:
-        if base_relative not in texts:
-            raise AssertionError("EEP bookmark overrides have no EE character base")
-        base_document = parse_document(texts[base_relative])
-        override_document = parse_document(texts[override_relative])
-        base_blocks = {
-            block.key: block
-            for block in base_document.children(None)
-            if re.fullmatch(r"[A-Za-z0-9_]+", block.key)
-        }
-        edits: list[tuple[int, int, str]] = []
-        for override in override_document.children(None):
-            if not re.fullmatch(r"[A-Za-z0-9_]+", override.key):
-                continue
-            if override.key not in base_blocks:
-                raise AssertionError(
-                    f"EEP bookmark override {override.key} is no longer in EE base"
-                )
-            replacement = texts[override_relative][override.start : override.close + 1]
-            base = base_blocks[override.key]
-            edits.append((base.start, base.close + 1, replacement))
-        texts[base_relative] = apply_edits(texts[base_relative], edits)
-        del texts[override_relative]
+    merged_relatives = merge_character_override(
+        texts,
+        Path("history/characters/zz_eetlv_bookmark_char_overrides.txt"),
+        base_relatives={Path("history/characters/essos_7898_chars.txt")},
+        label="EEP bookmark",
+    )
+    merged_relatives.update(
+        merge_character_override(
+            texts,
+            Path("history/characters/zz_eetlv_khal_name_fixes.txt"),
+            label="EEP khal-name",
+        )
+    )
 
     for relative, text in sorted(texts.items(), key=lambda item: str(item[0])):
         document = parse_document(text)
@@ -536,7 +575,7 @@ def parse_character_sources(
                     f"duplicate character ID {block.key} in {relative}"
                 )
             characters[block.key] = character
-    return texts, documents, characters
+    return texts, documents, characters, merged_relatives
 
 
 def rule_priority(rule: Rule) -> int:
@@ -643,9 +682,12 @@ def transform_effect(text: str) -> str:
             "\t\t\t}\n"
         )
     text = text.replace(fallback_needle, fallback_add + fallback_needle)
-    if text.count("culture = culture:jhalai") != 2:
+    legacy_jhalai = "culture = culture:jhalai"
+    corrected_jogos = "culture = culture:jogos_nhai"
+    if text.count(legacy_jhalai) == 2:
+        text = text.replace(legacy_jhalai, corrected_jogos)
+    elif text.count(corrected_jogos) != 2:
         raise AssertionError("Jogos/Jhalai flavor branch changed")
-    text = text.replace("culture = culture:jhalai", "culture = culture:jogos_nhai")
     dothraki_branch = (
         "\t\t\t\t\t\t\tculture = culture:dothraki\n"
         "\t\t\t\t\t\t\tOR = {\n"
@@ -653,8 +695,8 @@ def transform_effect(text: str) -> str:
         "\t\t\t\t\t\t\t\thas_government = nomad_government\n"
         "\t\t\t\t\t\t\t}\n"
     )
-    if text.count(dothraki_branch) != 2:
-        raise AssertionError("Dothraki flavor government checks changed")
+    if text.count(dothraki_branch) != 5:
+        raise AssertionError("Dothraki flavor government ladder changed")
     ibben_needle = "\t\t\t\t\t\t\tculture = culture:ibbatese\n"
     if text.count(ibben_needle) != 1:
         raise AssertionError("Ibben flavor branch changed")
@@ -800,9 +842,12 @@ def main(options: Options) -> int:
 
     rules = load_rules(rules_path)
     title_empire, province_empire = title_and_province_scope(landed_titles)
-    character_texts, character_documents, characters = parse_character_sources(
-        character_winners
-    )
+    (
+        character_texts,
+        character_documents,
+        characters,
+        merged_character_relatives,
+    ) = parse_character_sources(character_winners)
 
     title_texts: dict[Path, str] = {}
     title_documents: dict[Path, Document] = {}
@@ -1298,7 +1343,8 @@ def main(options: Options) -> int:
                 start, end = removal_span(character_texts[character.relative], scalar)
                 character_edits[character.relative].append((start, end, ""))
 
-    for relative, edits in character_edits.items():
+    for relative in sorted(set(character_edits) | merged_character_relatives, key=str):
+        edits = character_edits[relative]
         generated[relative] = apply_edits(character_texts[relative], edits).encode(
             "utf-8-sig"
         )
@@ -1312,6 +1358,9 @@ def main(options: Options) -> int:
     )
     if eep_bookmark_override in character_winners:
         generated[eep_bookmark_override] = b"\xef\xbb\xbf\n"
+    eep_khal_name_override = Path("history/characters/zz_eetlv_khal_name_fixes.txt")
+    if eep_khal_name_override in character_winners:
+        generated[eep_khal_name_override] = b"\xef\xbb\xbf\n"
 
     province_relative = Path("history/provinces/k_generated.txt")
     province_text = normalized_text(province_winners[province_relative][1])

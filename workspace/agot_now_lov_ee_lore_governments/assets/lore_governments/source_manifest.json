@@ -270,8 +270,8 @@
       "size": 324
     },
     "3768149491/common/landed_titles/01_landed_titles.txt": {
-      "sha256": "081a9e33b0405962e8cb229f639ae33d5e886a2673afc4182e9401dbd19c88d9",
-      "size": 1447245
+      "sha256": "103db47f46aa4d5f4919f42fd795827c7a9c652f5e9a8400da7a8ce95b8c4858",
+      "size": 1493062
     },
     "3768149491/history/characters/zz_eetlv_bookmark_char_overrides.txt": {
       "sha256": "1b04140debcf094f23c0f921584b19bca3eaed36cc5f79568a82b56b1feab4f6",
@@ -285,13 +285,17 @@
       "sha256": "0701c16d45c22133f5e0d7ec868b5c0435f611e843aeeb400381d69f949a99c2",
       "size": 935
     },
+    "3768149491/history/characters/zz_eetlv_khal_name_fixes.txt": {
+      "sha256": "6d898c66e4142dbef60999dce1da01ff656a084bb0ec5d7af12f38ce53d40895",
+      "size": 3644
+    },
     "3768149491/history/titles/vassal_titles_e_cannibal_sands.txt": {
       "sha256": "3e63239d9083c57676289efa640423bac4034f863d17b8fa4cfc89a7590ad6e6",
       "size": 52642
     },
     "3773608127/common/scripted_effects/replace/00_agot_character_data_effects.txt": {
-      "sha256": "b20666f5e69f6287b789d2e006bc1a242d4fc16216ab02d3c7e47147b1d96423",
-      "size": 146761
+      "sha256": "2958312007a73da3db15babb3a0f4dedf92fa5681742d0849f291c3d93ab36c8",
+      "size": 149577
     },
     "mods/essos_expanded_119_rebase/history/provinces/k_generated.txt": {
       "sha256": "05484c8eeb4771d9ef85ab2d753e923987683d593a57aa1391f34f1b1c0ca8dd",
@@ -325,9 +329,9 @@
   "schema_version": 1,
   "versions": {
     "AGOT": "0.4.40",
-    "BRIDGE": "1.0.5",
+    "BRIDGE": "1.0.6",
     "EE": "1.0",
-    "EEP": "3.2.1",
+    "EEP": "3.3.0",
     "LOV": "1.5.2.13",
     "RC": "0.4.39-rebased-rc71-tiger-hard-error-repair"
   },

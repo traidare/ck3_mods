@@ -515,6 +515,16 @@ apply_character_title_data = {
 					### EE TEMPLOV COMPATCH: FAR EAST LORE TITLES ###
 					# Culture-gated overrides for Essos Expanded realms, checked before the government chain.
 					# Only fires at realm-ruler tiers; vassals fall through to normal naming.
+					# Carcosa first: its Yellow Emperor is a duchy-tier ruler, so he would otherwise
+					# fall through to celestial government's plain "Governor" styling.
+					else_if = {
+						limit = {
+							has_title = title:d_R44G38B62
+							$SCOPED_TITLE$.holder ?= $SCOPE$
+						}
+						set_title_localization_effect = { SCOPE = $SCOPE$ KEY = "ee_yellow_emperor" GENDER = male }
+						set_title_localization_effect = { SCOPE = $SCOPE$ KEY = "ee_yellow_empress" GENDER = female }
+					}
 					else_if = {
 						limit = {
 							OR = {
@@ -568,6 +578,9 @@ apply_character_title_data = {
 						limit = {
 							OR = {
 								AND = {
+									# jhalai is a SUMMER ISLANDER culture, not a Jogos Nhai one.
+									# Jhattar belongs to the zorse-riders; the Summer Isles keep
+									# their own styling.
 									culture = culture:jogos_nhai
 									primary_title ?= { tier >= tier_kingdom }
 								}
@@ -594,10 +607,23 @@ apply_character_title_data = {
 								has_government = tribal_government
 								has_government = nomad_government
 							}
-							primary_title ?= { tier >= tier_kingdom }
+							primary_title ?= { tier >= tier_hegemony }
 							$SCOPED_TITLE$.holder ?= $SCOPE$
 						}
-						# Matches LoV RC61's Great Khal flavor for kingdom+ khalasars
+						# v3.3.0 khal ladder: Ko, Khalko, Khal, Great Khal, Khal of Khals by tier
+						set_title_localization_effect = { SCOPE = $SCOPE$ KEY = "ee_khal_of_khals_male" GENDER = male }
+						set_title_localization_effect = { SCOPE = $SCOPE$ KEY = "ee_khal_of_khals_female" GENDER = female }
+					}
+					else_if = {
+						limit = {
+							culture = culture:dothraki
+							OR = {
+								has_government = tribal_government
+								has_government = nomad_government
+							}
+							primary_title ?= { tier >= tier_empire }
+							$SCOPED_TITLE$.holder ?= $SCOPE$
+						}
 						set_title_localization_effect = { SCOPE = $SCOPE$ KEY = "ee_great_khal_male" GENDER = male }
 						set_title_localization_effect = { SCOPE = $SCOPE$ KEY = "ee_great_khal_female" GENDER = female }
 					}
@@ -608,11 +634,37 @@ apply_character_title_data = {
 								has_government = tribal_government
 								has_government = nomad_government
 							}
-							primary_title ?= { tier <= tier_duchy }
+							primary_title ?= { tier >= tier_kingdom }
 							$SCOPED_TITLE$.holder ?= $SCOPE$
 						}
 						set_title_localization_effect = { SCOPE = $SCOPE$ KEY = "ee_khal_male" GENDER = male }
 						set_title_localization_effect = { SCOPE = $SCOPE$ KEY = "ee_khal_female" GENDER = female }
+					}
+					else_if = {
+						limit = {
+							culture = culture:dothraki
+							OR = {
+								has_government = tribal_government
+								has_government = nomad_government
+							}
+							primary_title ?= { tier = tier_duchy }
+							$SCOPED_TITLE$.holder ?= $SCOPE$
+						}
+						set_title_localization_effect = { SCOPE = $SCOPE$ KEY = "ee_khalko_male" GENDER = male }
+						set_title_localization_effect = { SCOPE = $SCOPE$ KEY = "ee_khalko_female" GENDER = female }
+					}
+					else_if = {
+						limit = {
+							culture = culture:dothraki
+							OR = {
+								has_government = tribal_government
+								has_government = nomad_government
+							}
+							primary_title ?= { tier <= tier_county }
+							$SCOPED_TITLE$.holder ?= $SCOPE$
+						}
+						set_title_localization_effect = { SCOPE = $SCOPE$ KEY = "ee_ko_male" GENDER = male }
+						set_title_localization_effect = { SCOPE = $SCOPE$ KEY = "ee_ko_female" GENDER = female }
 					}
 					else_if = {
 						limit = {
@@ -1545,9 +1597,20 @@ apply_character_title_data = {
 						limit = {
 							OR = {
 								agot_localization_government_trigger = { GOV = feudal SPOUSE_SCOPE = scope:spouse_scope }
-								# EE TempLoV Compatch: celestial rulers (Yi-Ti/Leng under All Under Heaven DLC) reuse feudal naming as fallback
+								# EE TempLoV Compatch: the All Under Heaven governments we give the east
+								# (celestial, meritocratic, steppe admin, mandala) have no naming branch of
+								# their own in AGOT's chain, so without this their rulers show
+								# "Missing Title Loc". They reuse feudal naming as the fallback.
 								has_government = celestial_government
 								scope:spouse_scope ?= { has_government = celestial_government }
+								has_government = meritocratic_government
+								scope:spouse_scope ?= { has_government = meritocratic_government }
+								has_government = steppe_admin_government
+								scope:spouse_scope ?= { has_government = steppe_admin_government }
+								has_government = mandala_government
+								scope:spouse_scope ?= { has_government = mandala_government }
+								has_government = clan_government
+								scope:spouse_scope ?= { has_government = clan_government }
 							}
 						}
 

@@ -123,8 +123,8 @@
       "size": 12244
     },
     "3768149491/common/landed_titles/01_landed_titles.txt": {
-      "sha256": "081a9e33b0405962e8cb229f639ae33d5e886a2673afc4182e9401dbd19c88d9",
-      "size": 1447245
+      "sha256": "103db47f46aa4d5f4919f42fd795827c7a9c652f5e9a8400da7a8ce95b8c4858",
+      "size": 1493062
     },
     "3768149491/common/province_terrain/ee_province_terrain.txt": {
       "sha256": "48477d9771eccaff9ea9f4e0fa284c99caacf89ead543d5c2c9c26af5a0602a2",
@@ -933,7 +933,7 @@
   "versions": {
     "AGOT": "0.4.40",
     "EE": "1.0",
-    "EEP": "3.2.1",
+    "EEP": "3.3.0",
     "LOV": "1.5.2.13",
     "NOW": "1.2.5",
     "RC": "0.4.39-rebased-rc71-tiger-hard-error-repair"

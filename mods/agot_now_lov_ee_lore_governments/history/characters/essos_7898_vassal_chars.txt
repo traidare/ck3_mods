@@ -225,7 +225,7 @@ gen_2528 = {
 	7929.2.28 = { death = yes }
 }
 gen_2529 = {
-	name = "Khal"
+	name = "Moro"
 	culture = dothraki
 	religion = dothraki_faith
 	7853.2.1 = { birth = yes }
@@ -481,7 +481,7 @@ gen_2560 = {
 	7920.3.4 = { death = yes }
 }
 gen_2561 = {
-	name = "Khal"
+	name = "Zekko"
 	culture = dothraki
 	religion = dothraki_faith
 	7844.3.5 = { birth = yes }
@@ -1857,7 +1857,7 @@ gen_2732 = {
 	7932.11.8 = { death = yes }
 }
 gen_2733 = {
-	name = "Khal"
+	name = "Motho"
 	culture = dothraki
 	religion = dothraki_faith
 	7856.11.9 = { birth = yes }
@@ -3582,7 +3582,7 @@ gen_2946 = {
 	7925.8.26 = { death = yes }
 }
 gen_2947 = {
-	name = "Khal"
+	name = "Dhako"
 	culture = dothraki
 	religion = dothraki_faith
 	7849.8.27 = { birth = yes }
@@ -3838,7 +3838,7 @@ gen_2978 = {
 	7916.9.2 = { death = yes }
 }
 gen_2979 = {
-	name = "Khal"
+	name = "Rhogoro"
 	culture = dothraki
 	religion = dothraki_faith
 	7840.9.3 = { birth = yes }
@@ -5180,7 +5180,7 @@ gen_3157 = {
 	7921.5.13 = { death = yes }
 }
 gen_3158 = {
-	name = "Khal"
+	name = "Iggo"
 	culture = dothraki
 	religion = dothraki_faith
 	7845.5.14 = { birth = yes }
@@ -5436,7 +5436,7 @@ gen_3189 = {
 	7912.6.17 = { death = yes }
 }
 gen_3190 = {
-	name = "Khal"
+	name = "Kovarro"
 	culture = dothraki
 	religion = dothraki_faith
 	7836.6.18 = { birth = yes }

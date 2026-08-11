@@ -12,7 +12,7 @@
     },
     "SEASONS_BRIDGE_DESCRIPTOR": {
       "path": "3766038754/descriptor.mod",
-      "sha256": "1a52f27f228345a3ef7bba9d1c89df3c3027607ddf5390e98c7419cec6c650c4",
+      "sha256": "9d8a2f543d549ec10053ae335d95a154260503cf62fb0d305babe47f1fa45933",
       "size": 429
     },
     "SEASON_EVENTS": {
@@ -40,7 +40,7 @@
   "schema_version": 1,
   "versions": {
     "NOW": "1.2.5",
-    "SEASONS_BRIDGE": "1.0.14"
+    "SEASONS_BRIDGE": "1.0.15"
   },
   "workshop_ids": {
     "NOW": "3664900993",

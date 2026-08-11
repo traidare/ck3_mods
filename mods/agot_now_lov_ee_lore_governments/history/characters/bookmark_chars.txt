@@ -8409,7 +8409,7 @@ gen_1774 = {
 }
 
 gen_1775 = {
-	name = "Khal"
+	name = "Rakkaro"
 	culture = dothraki
 	religion = dothraki_faith
 	8165.6.18 = { birth = yes }
@@ -8721,7 +8721,7 @@ gen_1813 = {
 }
 
 gen_1814 = {
-	name = "Khal"
+	name = "Haggo"
 	father = gen_1811
 	culture = dothraki
 	religion = dothraki_faith
@@ -9025,7 +9025,7 @@ gen_1851 = {
 }
 
 gen_1852 = {
-	name = "Khal"
+	name = "Qotho"
 	father = gen_1848
 	culture = dothraki
 	religion = dothraki_faith
@@ -9337,7 +9337,7 @@ gen_1890 = {
 }
 
 gen_1891 = {
-	name = "Khal"
+	name = "Aggo"
 	father = gen_1889
 	culture = dothraki
 	religion = dothraki_faith
@@ -9641,7 +9641,7 @@ gen_1928 = {
 }
 
 gen_1929 = {
-	name = "Khal"
+	name = "Jhogo"
 	father = gen_1926
 	culture = dothraki
 	religion = dothraki_faith
@@ -9945,7 +9945,7 @@ gen_1966 = {
 }
 
 gen_1967 = {
-	name = "Khal"
+	name = "Mago"
 	culture = dothraki
 	religion = dothraki_faith
 	8189.5.25 = { birth = yes }
