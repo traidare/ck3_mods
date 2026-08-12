@@ -71,7 +71,10 @@ the effective last writer in this playset.
   field.
 - **AGOT: House Founders:** uses optional `top_liege` and `primary_title` scopes
   when checking whether a reveal-bastard story can start. This prevents unlanded
-  interaction recipients from repeatedly failing the context switch.
+  interaction recipients from repeatedly failing the context switch. Its dynasty
+  on-actions are also rebased onto current AGOT while preserving the human
+  dynasty-name event. The generated last writer makes `on_became_dynasty_head`
+  inert instead of synchronously removing `denounced` and `disinherited`.
 - **Additional Models decision illustrations:** replaces three references to the
   parent's nonexistent `agot_court/throne.dds` with AGOT's existing Iron Throne
   room illustration.
@@ -163,9 +166,7 @@ the effective last writer in this playset.
   reuse the newly created `inheritor_char` for the liege change, compare each
   county's `holder` with the new ruler, and fail closed when the parent title
   has no previous holder. Workshop `2962333032` is the effective parent and no
-  later enabled mod owns those scripts. The pinned crash-event block and exact
-  replacement count are checked on generation; re-audit after AGOT or CK3
-  changes either nomadic effect.
+  later enabled mod owns those scripts.
 - **Better AI Education & Ward Limit BOL:** rebases its stale whole-file vanilla
   copies on the effective AGOT interactions, nickname effect, and travel event.
   The intended ward limit, education AI, and language-tutor changes remain, but

@@ -1695,6 +1695,119 @@ def generate_house_founders() -> None:
     write_text(OUTPUT, relative, text)
 
 
+def generate_house_founders_dynasty_on_action_rebase() -> None:
+    """Preserve House Founders naming without mutating a new dynasty head.
+
+    The faulting worker stack in 23 of 35 retained crash dumps, including all four
+    2026-08-12 crashes, was executing ``on_became_dynasty_head`` from House
+    Founders' effective same-path override.  Its two synchronous trait removals
+    mutate character and succession state while CK3 is still changing the
+    dynasty head.  Keep House Founders' human dynasty-name event, but make that
+    small vanilla/AGOT cleanup callback inert.
+    """
+    relative = "common/on_action/dynasty_on_actions.txt"
+    agot_source = read_text(WORKSHOP / "2962333032" / relative)
+    house_founders_source = read_text(WORKSHOP / "2967263410" / relative)
+
+    agot_created = assert_source_block_hash(
+        agot_source,
+        "on_dynasty_created",
+        "292660b2f69b32a436ac717fa415d9be1cee4ec2ecac01e9db8338bc84218981",
+        label="AGOT dynasty-created on-action",
+    )
+    house_founders_created = assert_source_block_hash(
+        house_founders_source,
+        "on_dynasty_created",
+        "ca580ac534acc0bed07107b92b4f937b2f592274afbee213d503b5da1c8052a0",
+        label="House Founders dynasty-created on-action",
+    )
+    expected_house_founders_source = replace_exact(
+        agot_source,
+        agot_created,
+        house_founders_created,
+        expected=1,
+        label="House Founders sole dynasty on-action delta",
+    )
+    if expected_house_founders_source != house_founders_source:
+        raise RuntimeError(
+            "House Founders dynasty_on_actions.txt now differs from AGOT "
+            "outside on_dynasty_created"
+        )
+
+    agot_naming_branch = """\t\telse_if = {
+\t\t\tlimit = {
+\t\t\t\tdynast = {
+\t\t\t\t\tculture = {
+\t\t\t\t\t\tOR = {
+\t\t\t\t\t\t\thas_cultural_pillar = heritage_andal
+\t\t\t\t\t\t\thas_cultural_pillar = heritage_first_man
+\t\t\t\t\t\t\thas_cultural_pillar = heritage_ironman
+\t\t\t\t\t\t\thas_cultural_pillar = heritage_rhoynar
+\t\t\t\t\t\t}
+\t\t\t\t\t\tagot_is_wildling_culture = no
+\t\t\t\t\t}
+\t\t\t\t\ttrigger_if = {
+\t\t\t\t\t\tlimit = { is_landed = yes }
+\t\t\t\t\t\tcapital_province ?= { geographical_region = world_westeros_seven_kingdoms }
+\t\t\t\t\t}
+\t\t\t\t\ttrigger_else_if = {
+\t\t\t\t\t\tlimit = {
+\t\t\t\t\t\t\texists = liege_or_court_owner
+\t\t\t\t\t\t\tliege_or_court_owner.capital_province ?= { geographical_region = world_westeros_seven_kingdoms }
+\t\t\t\t\t\t}
+\t\t\t\t\t}
+\t\t\t\t\ttrigger_else = {
+\t\t\t\t\t\tlimit = {
+\t\t\t\t\t\t\tlocation ?= { geographical_region = world_westeros_seven_kingdoms }
+\t\t\t\t\t\t}
+\t\t\t\t\t}
+\t\t\t\t}
+\t\t\t}
+\t\t\tdynast = { agot_generate_westerosi_dynasty_name_effect = yes }
+\t\t}
+"""
+    house_founders_naming_branch = """\t\telse_if = {
+\t\t\tlimit = {
+\t\t\t\tdynast = {
+\t\t\t\t\tis_human = yes
+\t\t\t\t}
+\t\t\t}
+\t\t\tdynast = { trigger_event = agot_hf_new_house_name_generation_events.0002 }
+\t\t}
+"""
+    rebased = replace_exact(
+        agot_source,
+        agot_naming_branch,
+        house_founders_naming_branch,
+        expected=1,
+        label="House Founders human dynasty-name event",
+    )
+
+    dynasty_head = assert_source_block_hash(
+        rebased,
+        "on_became_dynasty_head",
+        "b61538aa1cb1d1bf7f8ec3a8ed19913fbcbd0f485e9f40cb70e24b7d3c50ce04",
+        label="AGOT dynasty-head on-action",
+    )
+    guarded_dynasty_head = """on_became_dynasty_head = {
+\t# Runtime guard: do not remove traits while CK3 is changing dynasty heads.
+\teffect = { }
+}"""
+    rebased = replace_exact(
+        rebased,
+        dynasty_head,
+        guarded_dynasty_head,
+        expected=1,
+        label="dynasty-head synchronous trait cleanup",
+    )
+    write_text(
+        OUTPUT,
+        relative,
+        "# Runtime rebase: preserve House Founders naming and avoid dynasty-head "
+        "re-entrancy.\n\n" + rebased,
+    )
+
+
 def generate_artifact_manager_distribution_event() -> None:
     relative = "events/distribute_artifacts.txt"
     text = read_text(WORKSHOP / "2886417277" / relative)
@@ -3812,6 +3925,7 @@ def generate(context: GenerationContext) -> None:
     generate_automated_squire_training_events()
     generate_knighting_ceremony_event()
     generate_house_founders()
+    generate_house_founders_dynasty_on_action_rebase()
     generate_artifact_manager_distribution_event()
     generate_additional_models_decision_illustrations()
     generate_succession_crisis()
