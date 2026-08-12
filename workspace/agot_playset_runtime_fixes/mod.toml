@@ -8,6 +8,11 @@ kind = "game"
 path = "game"
 
 [[sources]]
+name = "workshop-2519175282"
+kind = "workshop"
+item_id = "2519175282"
+
+[[sources]]
 name = "workshop-2712590542"
 kind = "workshop"
 item_id = "2712590542"
@@ -146,6 +151,11 @@ item_id = "3713902872"
 name = "workshop-3719888822"
 kind = "workshop"
 item_id = "3719888822"
+
+[[sources]]
+name = "workshop-3732116186"
+kind = "workshop"
+item_id = "3732116186"
 
 [[sources]]
 name = "workshop-3761342990"

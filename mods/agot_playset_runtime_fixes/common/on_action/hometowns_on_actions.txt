@@ -1,0 +1,121 @@
+﻿on_game_start = {
+	on_actions = {
+		on_hometowns_start
+	}
+}
+
+on_game_start_after_lobby = {
+	on_actions = {
+		hometowns_county_modifier_init
+	}
+}
+
+on_birth_child = {
+	on_actions = {
+		hometowns_save_location
+	}
+}
+
+on_title_gain = {
+	on_actions = {
+		hometowns_county_modifier
+	}
+}
+
+############################
+### Hometowns on_actions ###
+############################
+
+on_hometowns_start = {
+	effect = {
+		# Mod Compatibility: Create global variable to check if this mod exists.
+		set_global_variable = {
+			name = hometowns_is_loaded
+			value = yes
+		}
+	}
+	events = {
+		# Assign birthplaces to historical characters.
+		hometowns.01
+	}
+}
+
+hometowns_save_location = {
+	effect = {
+		# Some generated children have no maternal location during setup.
+		if = {
+			limit = { exists = scope:mother.location }
+			scope:child = {
+				set_variable = {
+					name = hometowns_birthplace
+					value = scope:mother.location
+				}
+			}
+		}
+	}
+}
+
+hometowns_county_modifier_init = {
+	effect = {
+		if = {
+			limit = { has_game_rule = hometowns_features }
+			every_ruler = {
+				limit = {
+					has_variable = hometowns_birthplace
+					exists = var:hometowns_birthplace.county
+					var:hometowns_birthplace.county.holder = this
+				}
+				var:hometowns_birthplace.county = {
+					add_county_modifier = hometowns_county_modifier
+				}
+			}
+		}
+	}
+}
+
+hometowns_county_modifier = {
+	effect = {
+		if = {
+			limit = { has_game_rule = hometowns_features }
+			every_held_title = {
+				limit = {
+					tier = tier_county
+					has_county_modifier = hometowns_county_modifier
+				}
+				save_temporary_scope_as = hometowns_held_county
+				if = {
+					limit = {
+						county.holder = { has_variable = hometowns_birthplace }
+					}
+					county.holder = {
+						if = {
+							limit = {
+								NOT = {
+									var:hometowns_birthplace.county = scope:hometowns_held_county
+								}
+							}
+							scope:hometowns_held_county = {
+								county = {
+									remove_county_modifier = hometowns_county_modifier
+								}
+							}
+						}
+					}
+				}
+				else = {
+					county = { remove_county_modifier = hometowns_county_modifier }
+				}
+			}
+			if = {
+				limit = {
+					has_variable = hometowns_birthplace
+					exists = var:hometowns_birthplace.county
+					var:hometowns_birthplace.county.holder = this
+				}
+				var:hometowns_birthplace.county = {
+					add_county_modifier = hometowns_county_modifier
+				}
+			}
+		}
+	}
+}

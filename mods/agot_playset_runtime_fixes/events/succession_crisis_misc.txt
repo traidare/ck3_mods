@@ -1,0 +1,1192 @@
+﻿namespace = succession_crisis_misc
+# Hidden make landless event
+succession_crisis_misc.0001 = {
+	type = character_event
+	hidden = yes
+
+	trigger = {
+		is_landed = no
+		is_alive = yes
+	}
+
+	immediate = {
+		save_scope_as = host
+		sc_create_landless_adventurer_title_effect = {
+			REASON = flag:voluntary
+			FLAVOR_CHAR = scope:host
+		}
+	}
+}
+
+# Hidden cleanup event: Returns ROOT to their saved scope location
+succession_crisis_misc.0002 = {
+	type = character_event
+	hidden = yes
+
+	immediate = {
+		# Verify the scope exists before attempting the move
+		if = {
+			limit = {
+				exists = scope:heir_original_location
+			}
+
+			# Moves ROOT to the province or location saved in the scope
+			set_location = scope:heir_original_location
+		}
+		else = {
+			# Debug fallback: Move to capital if the scope is missing
+			set_location = capital_province
+		}
+	}
+}
+
+# Hidden event to process the 4-day delayed join
+succession_crisis_misc.0003 = {
+	type = character_event
+	hidden = yes
+
+	immediate = {
+		# Immediately save the primary sides
+		scope:warleader = { save_scope_as = side_attacker }
+		scope:current_ruler = { save_scope_as = side_defender }
+
+		if = {
+			limit = { exists = scope:crisis_war }
+
+			scope:crisis_title.holder = {
+				every_vassal_or_below = {
+					agot_succession_prewar_maintenance = yes
+					if = {
+						limit = {
+							has_character_flag = pledged_to_ruler_flag
+							scope:crisis_war = {
+								is_attacker = prev
+							}
+						}
+						scope:crisis_war = {
+							remove_participant = prev
+						}
+					}
+					if = {
+						limit = {
+							has_character_flag = pledged_to_warleader_flag
+							scope:crisis_war = {
+								is_defender = prev
+							}
+						}
+						scope:crisis_war = {
+							remove_participant = prev
+						}
+					}
+
+					trigger_event = {
+						id = succession_crisis_misc.0012
+						days = 1
+					}
+				}
+			}
+		}
+	}
+}
+# Rival withdraw claim
+succession_crisis_misc.0005 = {
+	type = character_event
+	title = succession_crisis_misc.0005.t
+	desc = succession_crisis_misc.0005.desc
+	theme = realm
+	window = big_event_window
+
+	left_portrait = {
+		character = root
+		animation = schadenfreude
+		camera = camera_body
+	}
+
+	right_portrait = {
+		character = scope:claimant
+		animation = dismissal
+		camera = camera_body
+	}
+
+	option = {
+		name = succession_crisis_misc.0005.a
+		custom_tooltip = succession_crisis_misc.0005.a.tt
+	}
+}
+# Hidden yearly heir crisis point calculation
+succession_crisis_misc.0006 = {
+	type = character_event
+	hidden = yes
+
+	immediate = {
+		primary_title = {
+			save_scope_as = crisis_title
+		}
+
+		if = {
+			limit = {
+				is_eligible_for_succession_crisis = yes
+				exists = primary_heir
+				primary_heir = { is_alive = yes }
+			}
+
+			primary_heir = {
+				save_scope_as = crisis_heir
+			}
+
+			calculate_succession_instability_points = yes
+
+			if = {
+				limit = {
+					scope:crisis_heir = {
+						var:reasons_for_crisis >= 4
+					}
+				}
+				trigger_event = succession_crisis_ruler_event.0001
+			}
+			else = {
+				trigger_event = succession_crisis_ruler_event.0002
+			}
+		}
+	}
+}
+# Ruler notified of pledges
+succession_crisis_misc.0007 = {
+	type = character_event
+	title = succession_crisis_misc.0007.t
+	desc = succession_crisis_misc.0007.desc
+	theme = diplomacy
+	window = big_event_window
+	override_background = corridor_day
+
+	center_portrait = {
+		character = scope:pledger
+		animation = marshal_shield
+		camera = camera_scheme_widget_microscopic
+	}
+	option = {
+		name = succession_crisis_misc.0007.a
+	}
+}
+
+# Debate begins
+succession_crisis_misc.0008 = {
+	type = activity_event
+	title = succession_crisis_misc.0008.t
+	desc = succession_crisis_misc.0008.desc
+	theme = diplomacy
+	window = big_event_window
+	override_background = fp2_fullscreen_compromise
+
+	immediate = {
+		if = {
+			limit = {
+				NOT = { exists = scope:crisis_heir }
+				root = { has_character_flag = crisis_heir_flag }
+			}
+			root = { save_scope_as = crisis_heir }
+		}
+
+		if = {
+			limit = {
+				NOT = { exists = scope:current_ruler }
+				exists = involved_activity
+			}
+			involved_activity = {
+				activity_host = { save_scope_as = current_ruler }
+			}
+		}
+
+		if = {
+			limit = {
+				NOT = { exists = scope:claimant }
+				exists = involved_activity
+			}
+			scope:activity.special_guest:the_pretender = {
+				save_scope_as = claimant
+			}
+		}
+	}
+
+	left_portrait = {
+		character = scope:current_ruler
+		animation = disapproval
+		camera = camera_body_right
+	}
+
+	right_portrait = {
+		character = scope:claimant
+		animation = dismissal
+		camera = camera_body_left
+	}
+
+	option = {
+		name = succession_crisis_misc.0008.a
+	}
+}
+# Success debates
+succession_crisis_misc.0009 = {
+	type = activity_event
+	title = succession_crisis_misc.0009.t
+	desc = succession_crisis_misc.0009.desc
+	theme = diplomacy
+	window = big_event_window
+	override_background = ep3_hagia_sophia
+
+	immediate = {
+		# Set center actor (Root or Diarch)
+		if = {
+			limit = { is_adult = no has_active_diarchy = yes }
+			diarch = { save_scope_as = left_portrait_char }
+		}
+		else = {
+			root = { save_scope_as = left_portrait_char }
+		}
+
+		# Set opponent actor (Claimant or Ruler)
+		if = {
+			limit = { this = scope:current_ruler }
+			scope:claimant = {
+				if = {
+					limit = { is_adult = no has_active_diarchy = yes }
+					diarch = { save_scope_as = right_portrait_char }
+				}
+				else = { save_scope_as = right_portrait_char }
+			}
+		}
+		else = {
+			scope:current_ruler = {
+				if = {
+					limit = { is_adult = no has_active_diarchy = yes }
+					diarch = { save_scope_as = right_portrait_char }
+				}
+				else = { save_scope_as = right_portrait_char }
+			}
+		}
+
+		# Handle witness selection
+		remove_variable = potential_witnesses
+		scope:activity = {
+			every_attending_character = {
+				limit = {
+					NOT = { this = scope:left_portrait_char }
+					NOT = { this = scope:right_portrait_char }
+				}
+				add_to_list = potential_witnesses
+			}
+		}
+
+		random_in_list = { list = potential_witnesses save_scope_as = witness_left }
+		random_in_list = { list = potential_witnesses limit = { NOT = { this = scope:witness_left } } save_scope_as = witness_right }
+		random_in_list = { list = potential_witnesses limit = { NOT = { this = scope:witness_left } NOT = { this = scope:witness_right } } save_scope_as = witness_center }
+		random_in_list = { list = potential_witnesses limit = { NOT = { this = scope:witness_left } NOT = { this = scope:witness_right } NOT = { this = scope:witness_center } } save_scope_as = witness_lower_left }
+	}
+
+	left_portrait = {
+		character = scope:witness_left
+		camera = camera_event_left_pointing_back_fov20
+		animation = throne_room_applaud_1
+	}
+
+	center_portrait = {
+		character = scope:left_portrait_char
+		animation = personality_bold
+		camera = camera_activity_horse
+	}
+
+	right_portrait = {
+		character = scope:witness_right
+		camera = camera_event_center_away_pointing_left_fov25
+		animation = throne_room_cheer_1
+	}
+
+	lower_left_portrait = {
+		character = scope:witness_lower_left
+		animation = frontend_right_idle
+	}
+
+	lower_center_portrait = {
+		character = scope:witness_center
+		animation = eavesdrop
+	}
+
+	lower_right_portrait = {
+		character = scope:right_portrait_char
+		animation = throne_room_conversation_3
+	}
+
+	option = {
+		name = succession_crisis_misc.0009.a
+		involved_activity = {
+			if = {
+				limit = { scope:left_portrait_char = activity_host }
+				activity_special_type_progression_medium = yes
+			}
+			if = {
+				limit = { scope:left_portrait_char = special_guest:the_pretender }
+				activity_special_type_progression_negative_major = yes
+			}
+		}
+	}
+}
+
+# Fail debates
+succession_crisis_misc.0010 = {
+	type = activity_event
+	title = succession_crisis_misc.0010.t
+	desc = succession_crisis_misc.0010.desc
+	theme = diplomacy
+	window = big_event_window
+	override_background = ep3_hagia_sophia
+
+	immediate = {
+		# Set center actor (Root or Diarch)
+		if = {
+			limit = { is_adult = no has_active_diarchy = yes }
+			diarch = { save_scope_as = left_portrait_char }
+		}
+		else = {
+			root = { save_scope_as = left_portrait_char }
+		}
+
+		# Set opponent actor (Claimant or Ruler)
+		if = {
+			limit = { this = scope:current_ruler }
+			scope:claimant = {
+				if = {
+					limit = { is_adult = no has_active_diarchy = yes }
+					diarch = { save_scope_as = right_portrait_char }
+				}
+				else = { save_scope_as = right_portrait_char }
+			}
+		}
+		else = {
+			scope:current_ruler = {
+				if = {
+					limit = { is_adult = no has_active_diarchy = yes }
+					diarch = { save_scope_as = right_portrait_char }
+				}
+				else = { save_scope_as = right_portrait_char }
+			}
+		}
+
+		# Handle witness selection
+		remove_variable = potential_witnesses
+		scope:activity = {
+			every_attending_character = {
+				limit = {
+					NOT = { this = scope:left_portrait_char }
+					NOT = { this = scope:right_portrait_char }
+				}
+				add_to_list = potential_witnesses
+			}
+		}
+
+		random_in_list = { list = potential_witnesses save_scope_as = witness_left }
+		random_in_list = { list = potential_witnesses limit = { NOT = { this = scope:witness_left } } save_scope_as = witness_right }
+		random_in_list = { list = potential_witnesses limit = { NOT = { this = scope:witness_left } NOT = { this = scope:witness_right } } save_scope_as = witness_center }
+		random_in_list = { list = potential_witnesses limit = { NOT = { this = scope:witness_left } NOT = { this = scope:witness_right } NOT = { this = scope:witness_center } } save_scope_as = witness_lower_left }
+	}
+
+	left_portrait = {
+		character = scope:witness_left
+		camera = camera_event_left_pointing_back_fov20
+		animation = eyeroll
+	}
+
+	center_portrait = {
+		character = scope:left_portrait_char
+		animation = disapproval
+		camera = camera_activity_horse
+	}
+
+	right_portrait = {
+		character = scope:witness_right
+		camera = camera_event_center_away_pointing_left_fov25
+		animation = dismissal
+	}
+
+	lower_left_portrait = {
+		character = scope:witness_lower_left
+		animation = disbelief
+	}
+
+	lower_center_portrait = {
+		character = scope:witness_center
+		animation = eavesdrop
+	}
+
+	lower_right_portrait = {
+		character = scope:right_portrait_char
+		animation = frontend_right_idle
+	}
+
+	option = {
+		name = succession_crisis_misc.0010.a
+		involved_activity = {
+			if = {
+				limit = { scope:left_portrait_char = activity_host }
+				activity_special_type_progression_negative_major = yes
+			}
+			if = {
+				limit = { scope:left_portrait_char = special_guest:the_pretender }
+				activity_special_type_progression_medium = yes
+			}
+		}
+	}
+}
+succession_crisis_misc.0011 = {
+	hidden = yes
+
+	immediate = {
+		if = {
+			limit = { NOT = { exists = scope:crisis_destination } }
+			root = {
+				location = { save_scope_as = crisis_destination }
+			}
+		}
+		if = {
+			limit = {
+				NOT = { exists = scope:current_ruler }
+				exists = involved_activity
+			}
+			involved_activity = {
+				activity_host = { save_scope_as = current_ruler }
+			}
+		}
+		if = {
+			limit = {
+				scope:current_ruler = {
+					has_character_flag = crisis_heir_flag
+				}
+			}
+			scope:current_ruler = {
+				save_scope_as = crisis_heir
+			}
+		}
+		if = {
+			limit = { NOT = { exists = scope:claimant } }
+			if = {
+				limit = {
+					exists = involved_activity
+					involved_activity = {
+						exists = special_guest:the_pretender
+					}
+				}
+				involved_activity = {
+					special_guest:the_pretender = {
+						save_scope_as = claimant
+					}
+				}
+
+			}
+		}
+		if = {
+			limit = { NOT = { exists = scope:crisis_title } }
+			scope:current_ruler = {
+				primary_title = {
+					save_scope_as = crisis_title
+				}
+			}
+		}
+
+		# Scoring system: >66 win, 33-66 deadlock, <33 lose
+		if = {
+			limit = {
+				scope:activity.var:activity_special_type_progression > 66
+			}
+			trigger_event = succession_crisis_diplomacy_event.0004
+			scope:current_ruler = {
+				trigger_event = succession_crisis_diplomacy_ruler.0004
+			}
+		}
+		else_if = {
+			limit = {
+				scope:activity.var:activity_special_type_progression >= 33
+			}
+			trigger_event = succession_crisis_diplomacy_event.0006
+			scope:current_ruler = {
+				trigger_event = succession_crisis_diplomacy_ruler.0008
+			}
+		}
+		else = {
+			trigger_event = succession_crisis_diplomacy_event.0005
+			scope:current_ruler = {
+				trigger_event = succession_crisis_diplomacy_ruler.0005
+			}
+		}
+	}
+}
+# WAR FIXER
+succession_crisis_misc.0012 = {
+	type = character_event
+	hidden = yes
+
+	immediate = {
+		if = {
+			limit = {
+				exists = scope:crisis_war
+			}
+
+			scope:crisis_title.holder = {
+				every_vassal_or_below = {
+					save_temporary_scope_as = succession_crisis_candidate
+					if = {
+						limit = {
+							has_character_flag = pledged_to_ruler_flag
+							NOT = {
+								scope:crisis_war = {
+									is_defender = scope:succession_crisis_candidate
+								}
+							}
+						}
+						if = {
+							limit = {
+								scope:crisis_war = {
+									is_attacker = scope:succession_crisis_candidate
+								}
+							}
+							scope:crisis_war = {
+								remove_participant = scope:succession_crisis_candidate
+							}
+						}
+						if = {
+							limit = {
+								scope:crisis_war = {
+									NOT = {
+										any_war_participant = {
+											this = scope:succession_crisis_candidate
+										}
+									}
+									NOT = {
+										any_war_participant = {
+											is_at_war_with = scope:succession_crisis_candidate
+										}
+									}
+								}
+							}
+							scope:crisis_war = {
+								add_defender = scope:succession_crisis_candidate
+							}
+						}
+					}
+					if = {
+						limit = {
+							has_character_flag = pledged_to_warleader_flag
+							NOT = {
+								scope:crisis_war = {
+									is_attacker = scope:succession_crisis_candidate
+								}
+							}
+						}
+						if = {
+							limit = {
+								scope:crisis_war = {
+									is_defender = scope:succession_crisis_candidate
+								}
+							}
+							scope:crisis_war = {
+								remove_participant = scope:succession_crisis_candidate
+							}
+						}
+						if = {
+							limit = {
+								scope:crisis_war = {
+									NOT = {
+										any_war_participant = {
+											this = scope:succession_crisis_candidate
+										}
+									}
+									NOT = {
+										any_war_participant = {
+											is_at_war_with = scope:succession_crisis_candidate
+										}
+									}
+								}
+							}
+							scope:crisis_war = {
+								add_attacker = scope:succession_crisis_candidate
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+}
+
+# ============================================================
+# EVENT 0013: RETURN TO PRE-WAR LIEGE DECISION
+# ============================================================
+succession_crisis_misc.0013 = {
+	type = character_event
+	title = succession_crisis_misc.0013.t
+	desc = succession_crisis_misc.0013.desc
+	theme = realm
+
+	left_portrait = root
+	right_portrait = var:agot_prewar_liege
+
+	trigger = {
+		has_variable = agot_prewar_liege
+	}
+
+	immediate = {
+		var:agot_prewar_liege = {
+			save_scope_as = recipient
+		}
+	}
+
+	option = { # Swear Fealty
+		name = succession_crisis_misc.0013.a
+
+		trigger = {
+			exists = scope:recipient
+			is_alive = yes
+			NOT = { this = scope:recipient }
+		}
+
+		create_title_and_vassal_change = {
+			type = swear_fealty
+			save_scope_as = change
+			add_claim_on_loss = no
+		}
+		change_liege = {
+			liege = scope:recipient
+			change = scope:change
+		}
+		resolve_title_and_vassal_change = scope:change
+
+		remove_variable = agot_prewar_liege
+	}
+
+	option = { # Stay Independent
+		name = succession_crisis_misc.0013.b
+
+		scope:recipient = {
+			add_opinion = {
+				target = root
+				modifier = refusal_of_fealty_opinion
+				opinion = -50
+			}
+		}
+
+		remove_variable = agot_prewar_liege
+	}
+}
+
+# ============================================================
+# EVENT 0014: THE SEAT OF POWER
+# ============================================================
+
+succession_crisis_misc.0014 = {
+	type = character_event
+	theme = realm
+	title = succession_crisis_misc.0014.t
+	desc = succession_crisis_misc.0014.desc
+	window = big_event_window
+
+	immediate = {
+		add_character_flag = crisis_race_winner
+
+		if = {
+			limit = {
+				exists = scope:crisis_title
+				scope:crisis_title = { exists = previous_holder }
+			}
+			scope:crisis_title = {
+				previous_holder = { save_scope_as = dead_predecessor }
+			}
+		}
+	}
+
+	left_portrait = {
+		character = root
+		animation = thinking
+		camera = camera_body_right
+	}
+
+	option = {
+		name = succession_crisis_misc.0014.a
+		custom_tooltip = succession_crisis_misc.0014.a.tt
+
+		ai_chance = {
+			base = 50
+			modifier = {
+				add = 50
+				has_trait = ambitious
+			}
+			modifier = {
+				add = 25
+				has_trait = greedy
+			}
+			modifier = {
+				add = 25
+				has_trait = arrogant
+			}
+			modifier = {
+				add = -50
+				has_trait = content
+			}
+		}
+
+		if = {
+			limit = {
+				NOT = { scope:crisis_destination.county.holder = root }
+			}
+			create_title_and_vassal_change = {
+				type = conquest
+				save_scope_as = change
+				add_claim_on_loss = no
+			}
+			scope:crisis_destination.county = {
+				change_title_holder = {
+					holder = root
+					change = scope:change
+				}
+			}
+			resolve_title_and_vassal_change = scope:change
+		}
+
+		set_realm_capital = scope:crisis_destination.county
+		trigger_event = succession_crisis_travel.0002
+	}
+
+	option = {
+		name = succession_crisis_misc.0014.b
+		custom_tooltip = succession_crisis_misc.0014.b.tt
+
+		ai_chance = {
+			base = 50
+			modifier = {
+				add = 50
+				has_trait = content
+			}
+			modifier = {
+				add = 25
+				has_trait = lazy
+			}
+			modifier = {
+				add = 25
+				has_trait = stubborn
+			}
+			modifier = {
+				add = -50
+				has_trait = ambitious
+			}
+		}
+
+		trigger_event = succession_crisis_travel.0002
+	}
+}
+
+succession_crisis_misc.0015 = {
+	type = character_event
+	title = succession_crisis_misc.0015.t
+	desc = succession_crisis_misc.0015.desc
+	theme = war
+
+	option = {
+		name = succession_crisis_misc.0015.a
+	}
+}
+
+succession_crisis_misc.0016 = {
+	type = character_event
+	theme = realm
+	title = succession_crisis_misc.0016.t
+	desc = succession_crisis_misc.0016.desc
+
+	immediate = {
+		hidden_effect = {
+			root = {
+				primary_title = { save_scope_as = crisis_title }
+				save_scope_as = current_ruler
+				location = { save_scope_as = crisis_destination }
+				add_character_flag = council_host_flag
+
+				scope:crisis_title = {
+					random_claimant = {
+						limit = {
+							is_eligible_for_succession_crisis = yes
+							is_ruler = yes
+							age >= 16
+							has_character_flag = debate_target
+						}
+						save_scope_as = claimant
+						save_scope_as = warleader
+
+					}
+				}
+
+				if = {
+					limit = {
+						any_vassal = {
+							is_travelling = no
+							is_available = yes
+							highest_held_title_tier >= tier_county
+							location = root.location
+						}
+					}
+					random_vassal = {
+						limit = {
+							is_travelling = no
+							is_available = yes
+							highest_held_title_tier >= tier_county
+							location = root.location
+						}
+						save_scope_as = target_vassal
+					}
+				}
+				else = {
+					random_vassal = {
+						limit = {
+							is_travelling = no
+							is_available = yes
+							highest_held_title_tier >= tier_county
+						}
+						set_location = root.location
+						save_scope_as = target_vassal
+					}
+				}
+
+				if = {
+					limit = { exists = scope:target_vassal }
+					scope:target_vassal = {
+						add_character_flag = council_host_flag
+					}
+				}
+			}
+		}
+	}
+
+	left_portrait = {
+		character = scope:target_vassal
+		animation = debating
+	}
+
+	right_portrait = {
+		character = scope:claimant
+		animation = personality_bold
+	}
+
+	option = {
+		name = succession_crisis_misc.0016.a
+		trigger = {
+			exists = scope:target_vassal
+		}
+
+		ai_chance = {
+			base = 100
+		}
+
+		add_piety = 100
+
+		hidden_effect = {
+			root = {
+				start_grand_council_councillor_effect = yes
+			}
+		}
+	}
+
+	option = {
+		name = succession_crisis_misc.0016.b
+		trigger = {
+			exists = scope:target_vassal
+		}
+
+		ai_chance = {
+			base = 0
+		}
+
+		add_prestige = 100
+
+		hidden_effect = {
+			root = {
+				start_grand_council_councillor_effect = yes
+			}
+		}
+	}
+}
+
+succession_crisis_misc.0017 = {
+	type = character_event
+	theme = realm
+	title = succession_crisis_misc.0017.t
+	desc = succession_crisis_misc.0017.desc
+	override_background = ep3_byzantium_throneroom
+
+	immediate = {
+		if = {
+			limit = {
+				NOT = { exists = scope:current_ruler }
+			}
+			# Check for crisis_title holder first
+			if = {
+				limit = { exists = scope:crisis_title }
+				scope:crisis_title = {
+					holder = { save_scope_as = current_ruler }
+				}
+			}
+			# Fallback to root (activity) host
+			else = {
+				scope:activity = {
+					scope:host.liege = { save_scope_as = current_ruler }
+				}
+			}
+		}
+
+		if = {
+			limit = {
+				NOT = { exists = scope:crisis_destination }
+			}
+			scope:current_ruler = {
+				capital_province = {
+					save_scope_as = crisis_destination
+				}
+			}
+		}
+
+		if = {
+			limit = {
+				is_ai = yes
+			}
+			set_location = scope:crisis_destination
+		}
+
+		scope:current_ruler.primary_title = {
+			every_claimant = {
+				limit = {
+					has_character_flag = active_crisis_rebel
+				}
+				add_to_list = active_crisis_rebels
+			}
+		}
+	}
+
+	right_portrait = {
+		character = scope:current_ruler
+		animation = war_attacker
+		camera = camera_event_center_very_large
+	}
+
+	option = {
+		name = succession_crisis_misc.0017.a
+
+		ai_chance = {
+			base = 0
+			modifier = {
+				factor = 0
+				is_ai = yes
+			}
+		}
+
+		custom_tooltip = succession_crisis_misc.0017.a.tt
+
+		hidden_effect = {
+			if = {
+				limit = {
+					exists = scope:current_ruler.involved_activity
+				}
+				scope:current_ruler.involved_activity = {
+					save_scope_as = activity
+				}
+				add_to_activity = scope:activity
+			}
+		}
+	}
+
+	option = {
+		name = succession_crisis_misc.0017.b
+
+		ai_chance = {
+			base = 0
+		}
+
+		custom_tooltip = succession_crisis_misc.0017.b.tt
+	}
+
+	option = {
+		name = succession_crisis_misc.0017.c
+		trigger = {
+			is_ai = yes
+		}
+
+		ai_chance = {
+			base = 1000
+		}
+
+		hidden_effect = {
+			set_location = capital_province
+			trigger_event = {
+				id = succession_crisis_misc.0024
+				days = 3
+			}
+		}
+	}
+}
+succession_crisis_misc.0018 = {
+	type = character_event
+	title = succession_crisis_misc.0018.t
+	desc = succession_crisis_misc.0018.desc
+	theme = diplomacy
+
+	left_portrait = {
+		character = root
+		animation = love
+	}
+
+	right_portrait = {
+		character = scope:new_spouse
+		animation = flirtation
+	}
+
+	option = {
+		name = succession_crisis_misc.0018.a
+	}
+}
+
+succession_crisis_misc.0019 = {
+	type = character_event
+	hidden = yes
+
+	immediate = {
+		create_title_and_vassal_change = {
+			type = swear_fealty
+			save_scope_as = victory_fealty_change
+			add_claim_on_loss = no
+		}
+		change_liege = {
+			liege = scope:restored_liege
+			change = scope:victory_fealty_change
+		}
+		resolve_title_and_vassal_change = scope:victory_fealty_change
+	}
+}
+
+# ============================================================
+# EVENT 0020: DIPLOMACY ACCEPTED NOTIFICATION
+# ============================================================
+
+succession_crisis_misc.0020 = {
+	type = character_event
+	theme = realm
+	title = succession_crisis_misc.0020.t
+	desc = succession_crisis_misc.0020.desc
+
+	left_portrait = {
+		character = root
+		animation = acknowledging
+	}
+
+	right_portrait = {
+		character = scope:current_ruler
+		animation = personality_rational
+	}
+
+	option = {
+		name = succession_crisis_misc.0020.a
+	}
+}
+
+succession_crisis_misc.0021 = {
+	type = character_event
+	hidden = yes
+
+	immediate = {
+		if = {
+			limit = {
+				exists = scope:crisis_destination
+				NOT = { location = scope:crisis_destination }
+			}
+			set_location = scope:crisis_destination
+		}
+	}
+}
+
+succession_crisis_misc.0022 = {
+	type = character_event
+	hidden = yes
+
+	immediate = {
+		# Remove from current activity
+		if = {
+			limit = { exists = involved_activity }
+			involved_activity = { save_scope_as = activity_to_remove }
+		}
+		if = {
+			limit = { exists = scope:activity_to_remove }
+			remove_from_activity = scope:activity_to_remove
+		}
+	}
+}
+
+succession_crisis_misc.0023 = {
+	type = character_event
+	theme = diplomacy
+	title = succession_crisis_misc.0023.t
+	desc = succession_crisis_misc.0023.desc
+	override_background = ep3_byzantium_throneroom
+
+	immediate = {
+		scope:host = {
+			liege = {
+				save_scope_as = host
+			}
+		}
+
+		scope:activity.special_guest:the_pretender = {
+			save_scope_as = the_pretender
+		}
+	}
+
+	left_portrait = {
+		character = scope:the_pretender
+		animation = personality_bold
+	}
+
+	right_portrait = {
+		character = scope:host
+		animation = war_attacker
+	}
+
+	option = {
+		name = succession_crisis_misc.0023.a
+
+		trigger = {
+			can_join_activity = scope:activity
+			can_arrive_in_time_to_activity_minimum = scope:activity
+		}
+
+		ai_chance = {
+			base = 100
+		}
+
+		add_to_activity = scope:activity
+	}
+
+	option = {
+		name = succession_crisis_misc.0023.b
+
+		ai_chance = {
+			base = 0
+		}
+	}
+}
+
+succession_crisis_misc.0024 = {
+	type = character_event
+	hidden = yes
+
+	immediate = {
+		if = {
+			limit = {
+				exists = scope:current_ruler.involved_activity
+			}
+			scope:current_ruler.involved_activity = {
+				save_scope_as = activity
+			}
+			add_to_activity = scope:activity
+		}
+	}
+}

@@ -16,6 +16,9 @@ run, VIET consequently generated the largest group in the 28 MB error log:
 - four event-background selectors evaluated hundreds of absent vanilla regions;
 - three customizable-localization selectors evaluated absent regions, cultures,
   and religions; and
+- 17 top-level scripted triggers directly evaluated absent vanilla cultures,
+  faiths, religions, titles, or geographical regions;
+- three decisions directly evaluated absent vanilla religions; and
 - twelve vanilla heritage helpers, `is_christian_trigger`, and the optional
   `ek_character_setup_effect` were absent.
 
@@ -27,10 +30,15 @@ The generated overrides:
 - retain the four affected backgrounds using their original generic fallback
   artwork;
 - retain safe generic cactus, dumpling, and fruit localization; and
+- rebase the 17 source-pinned database trigger definitions onto AGOT cultural
+  analogues or inert false conditions, rather than only shadowing them later in
+  load order;
+- hide the three source-pinned religion-specific decisions before CK3 can
+  evaluate their vanilla religion IDs; and
 - supply AGOT-aware analogues for VIET's broad heritage-category helpers;
 - repair four artifact events that called AGOT's feature-reference effect
   without its required `scope:owner`; and
-- correct five invalid or misspelled portrait-animation names;
+- correct six invalid or misspelled portrait-animation names;
 - restore character scope to four delayed/on-death ping events;
 - remove two duplicate event-window widget declarations;
 - correct six fallback branches written as `else_if` without a `limit`; and
@@ -42,8 +50,8 @@ allowing an incompatible event body to load or execute.
 
 ## Regeneration
 
-The event and selector files are generated directly from the current Workshop
-source:
+The event, selector, trigger, and decision files are generated directly from the
+current Workshop source:
 
 ```bash
 ck3mm mod generate viet_agot_119_runtime_rebase
@@ -53,5 +61,7 @@ ck3mm mod generate viet_agot_119_runtime_rebase --apply
 The `workspace/viet_agot_119_runtime_rebase/mod.toml` manifest declares VIET as
 a portable source, the staged generator, and its owned outputs. The
 evidence-derived disabled-event manifest is a generator asset below
-`workspace/viet_agot_119_runtime_rebase/`. Re-run a full playtest and re-audit
-that asset whenever VIET updates.
+`workspace/viet_agot_119_runtime_rebase/`. The trigger and decision replacements
+pin the exact source blocks, so generation stops for review if VIET changes
+them. Re-run a full playtest and re-audit that asset and the pinned database
+blocks whenever VIET updates.

@@ -1,0 +1,7 @@
+﻿namespace = hometowns
+
+hometowns.01 = {
+	hidden = yes
+	scope = none
+	immediate = { }
+}

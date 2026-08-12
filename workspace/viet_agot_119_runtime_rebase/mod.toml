@@ -3,6 +3,9 @@ entrypoint = "implementation.py:generate"
 owned_outputs = [
   "events",
   "common/on_action",
+  "common/decisions",
+  "common/scripted_effects",
+  "common/scripted_triggers",
   "common/customizable_localization/VIET_customizable_localization_misc.txt",
   "common/event_backgrounds/VIET_event_backgrounds.txt",
 ]

@@ -94,6 +94,37 @@ def remove_if_block_for_artifact_modifier(
     return text[: block_match.start()] + text[end_index + 1 :]
 
 
+def remove_enclosing_block(
+    text: str,
+    *,
+    marker: str,
+    block_name: str,
+    label: str,
+) -> str:
+    """Remove the one named script block that contains ``marker``."""
+    if text.count(marker) != 1:
+        raise RuntimeError(
+            f"{label}: expected one marker {marker!r}, found {text.count(marker)}"
+        )
+    marker_index = text.index(marker)
+    candidates = list(
+        re.finditer(
+            rf"(?m)^[ \t]*{re.escape(block_name)}\s*=\s*\{{",
+            text[:marker_index],
+        )
+    )
+    if not candidates:
+        raise RuntimeError(f"{label}: no enclosing {block_name} block")
+    block_match = candidates[-1]
+    opening = text.index("{", block_match.start())
+    end = balanced_brace_end(text, opening)
+    if marker_index > end:
+        raise RuntimeError(f"{label}: nearest {block_name} does not contain marker")
+    if end + 1 < len(text) and text[end + 1] == "\n":
+        end += 1
+    return text[: block_match.start()] + text[end + 1 :]
+
+
 def unwrap_unconditional_random_pool_ifs(
     text: str, *, expected: int, label: str
 ) -> str:
@@ -560,6 +591,63 @@ def generate_kurultai_succession_scope_repairs() -> None:
             f"{cleanup}\n\n{realm_split}\n"
         ),
     )
+
+
+def generate_chaotic_kurultai_event_guard() -> None:
+    """Avoid resolving the optional prior holder of a new nomadic title."""
+    relative = "events/mpo_chaotic_kurultai_succession.txt"
+    source = read_text(WORKSHOP / "2962333032" / relative)
+    if source.count("namespace = mpo_chaotic_kurultai_succession") != 1:
+        raise RuntimeError("AGOT chaotic Kurultai event namespace changed")
+    assert_source_block_hash(
+        source,
+        "mpo_chaotic_kurultai_succession.0005",
+        "a3c0e7f8f88cdd38164dfe3d919803b6001bd5b84a963c81fc7f9d1fa4d51615",
+        label="AGOT chaotic Kurultai introduction event",
+    )
+    prior_holder_pattern = re.compile(
+        r"(?m)^(?P<indent>\t+)primary_title\.previous_holder = \{\n"
+        r"(?P=indent)\tif = \{\n"
+        r"(?P=indent)\t\tlimit = \{\n"
+        r"(?P=indent)\t\t\tis_alive = no\n"
+        r"(?P=indent)\t\t\}\n"
+        r"(?P=indent)\t\tsave_scope_as = dead_parent\n"
+        r"(?P=indent)\t\}\n"
+        r"(?P=indent)\}",
+    )
+
+    def guard_prior_holder(match: re.Match[str]) -> str:
+        indent = match.group("indent")
+        return (
+            f"{indent}primary_title = {{\n"
+            f"{indent}\tif = {{\n"
+            f"{indent}\t\tlimit = {{ exists = previous_holder }}\n"
+            f"{indent}\t\tprevious_holder = {{\n"
+            f"{indent}\t\t\tif = {{\n"
+            f"{indent}\t\t\t\tlimit = {{\n"
+            f"{indent}\t\t\t\t\tis_alive = no\n"
+            f"{indent}\t\t\t\t}}\n"
+            f"{indent}\t\t\t\tsave_scope_as = dead_parent\n"
+            f"{indent}\t\t\t}}\n"
+            f"{indent}\t\t}}\n"
+            f"{indent}\t}}\n"
+            f"{indent}}}"
+        )
+
+    source, guards = prior_holder_pattern.subn(guard_prior_holder, source)
+    if guards != 17:
+        raise RuntimeError(
+            "chaotic Kurultai prior-holder guard: expected 17 unsafe accesses, "
+            f"repaired {guards}"
+        )
+    if "primary_title.previous_holder = {" in source:
+        raise RuntimeError("chaotic Kurultai source retained an unguarded prior holder")
+    repaired_event = extract_top_level_block(
+        source, "mpo_chaotic_kurultai_succession.0005"
+    )
+    if "limit = { exists = previous_holder }" not in repaired_event:
+        raise RuntimeError("chaotic Kurultai introduction event was not guarded")
+    write_text(OUTPUT, relative, normalize_rebased_source(source))
 
 
 def generate_essos_disabled_realm_cleanup() -> None:
@@ -1686,6 +1774,562 @@ def generate_succession_crisis() -> None:
         label="Succession Crisis optional war scopes",
     )
     write_text(OUTPUT, relative, normalize_rebased_source(text))
+
+    relative = "events/succession_crisis_misc.txt"
+    source = read_text(WORKSHOP / "3713902872" / relative)
+    event = assert_source_block_hash(
+        source,
+        "succession_crisis_misc.0012",
+        "ee9e75518be8a4e8f2504f6fa100a6739cce1b02ae5f0957cfc77889cf18173c",
+        label="Succession Crisis participant fixer",
+    )
+    repaired_event = replace_exact(
+        event,
+        "\t\t\t\tevery_vassal_or_below = {\n\t\t\t\t\tif = {",
+        "\t\t\t\tevery_vassal_or_below = {\n"
+        "\t\t\t\t\tsave_temporary_scope_as = succession_crisis_candidate\n"
+        "\t\t\t\t\tif = {",
+        expected=1,
+        label="Succession Crisis participant candidate scope",
+    )
+    for side, opposite, add_effect in (
+        ("defender", "attacker", "add_defender"),
+        ("attacker", "defender", "add_attacker"),
+    ):
+        old = (
+            "\t\t\t\t\t\t\tNOT = {\n"
+            "\t\t\t\t\t\t\t\tscope:crisis_war = {\n"
+            f"\t\t\t\t\t\t\t\t\tis_{side} = prev\n"
+            "\t\t\t\t\t\t\t\t}\n"
+            "\t\t\t\t\t\t\t}\n"
+            "\t\t\t\t\t\t}\n"
+            "\t\t\t\t\t\tif = {\n"
+            "\t\t\t\t\t\t\tlimit = {\n"
+            "\t\t\t\t\t\t\t\tscope:crisis_war = {\n"
+            f"\t\t\t\t\t\t\t\t\tis_{opposite} = prev\n"
+            "\t\t\t\t\t\t\t\t}\n"
+            "\t\t\t\t\t\t\t}\n"
+            "\t\t\t\t\t\t\tscope:crisis_war = {\n"
+            "\t\t\t\t\t\t\t\tremove_participant = prev\n"
+            "\t\t\t\t\t\t\t}\n"
+            "\t\t\t\t\t\t}\n"
+            "\t\t\t\t\t\tscope:crisis_war = {\n"
+            f"\t\t\t\t\t\t\t{add_effect} = prev\n"
+            "\t\t\t\t\t\t}\n"
+        )
+        replacement = (
+            "\t\t\t\t\t\t\tNOT = {\n"
+            "\t\t\t\t\t\t\t\tscope:crisis_war = {\n"
+            f"\t\t\t\t\t\t\t\t\tis_{side} = scope:succession_crisis_candidate\n"
+            "\t\t\t\t\t\t\t\t}\n"
+            "\t\t\t\t\t\t\t}\n"
+            "\t\t\t\t\t\t}\n"
+            "\t\t\t\t\t\tif = {\n"
+            "\t\t\t\t\t\t\tlimit = {\n"
+            "\t\t\t\t\t\t\t\tscope:crisis_war = {\n"
+            f"\t\t\t\t\t\t\t\t\tis_{opposite} = scope:succession_crisis_candidate\n"
+            "\t\t\t\t\t\t\t\t}\n"
+            "\t\t\t\t\t\t\t}\n"
+            "\t\t\t\t\t\t\tscope:crisis_war = {\n"
+            "\t\t\t\t\t\t\t\tremove_participant = scope:succession_crisis_candidate\n"
+            "\t\t\t\t\t\t\t}\n"
+            "\t\t\t\t\t\t}\n"
+            "\t\t\t\t\t\tif = {\n"
+            "\t\t\t\t\t\t\tlimit = {\n"
+            "\t\t\t\t\t\t\t\tscope:crisis_war = {\n"
+            "\t\t\t\t\t\t\t\t\tNOT = {\n"
+            "\t\t\t\t\t\t\t\t\t\tany_war_participant = {\n"
+            "\t\t\t\t\t\t\t\t\t\t\tthis = scope:succession_crisis_candidate\n"
+            "\t\t\t\t\t\t\t\t\t\t}\n"
+            "\t\t\t\t\t\t\t\t\t}\n"
+            "\t\t\t\t\t\t\t\t\tNOT = {\n"
+            "\t\t\t\t\t\t\t\t\t\tany_war_participant = {\n"
+            "\t\t\t\t\t\t\t\t\t\t\tis_at_war_with = scope:succession_crisis_candidate\n"
+            "\t\t\t\t\t\t\t\t\t\t}\n"
+            "\t\t\t\t\t\t\t\t\t}\n"
+            "\t\t\t\t\t\t\t\t}\n"
+            "\t\t\t\t\t\t\t}\n"
+            "\t\t\t\t\t\t\tscope:crisis_war = {\n"
+            f"\t\t\t\t\t\t\t\t{add_effect} = scope:succession_crisis_candidate\n"
+            "\t\t\t\t\t\t\t}\n"
+            "\t\t\t\t\t\t}\n"
+        )
+        repaired_event = replace_exact(
+            repaired_event,
+            old,
+            replacement,
+            expected=1,
+            label=f"Succession Crisis {add_effect} participant guard",
+        )
+    if (
+        "add_defender = prev" in repaired_event
+        or "add_attacker = prev" in repaired_event
+    ):
+        raise RuntimeError("Succession Crisis retained an unguarded participant join")
+    source = replace_exact(
+        source,
+        event,
+        repaired_event,
+        expected=1,
+        label="Succession Crisis participant event rebase",
+    )
+    write_text(OUTPUT, relative, normalize_rebased_source(source))
+
+
+def generate_baie_rebases() -> None:
+    """Replay BAIE's compatible deltas on AGOT's current parent definitions."""
+    baie = WORKSHOP / "3732116186"
+
+    nickname_relative = "common/scripted_effects/00_nickname_effects.txt"
+    vanilla_nickname = read_text(game_root() / nickname_relative)
+    agot_nickname = read_text(WORKSHOP / "2962333032" / nickname_relative)
+    baie_nickname = read_text(
+        baie / "common/scripted_effects/baie_wl_nickname_effects.txt"
+    )
+    assert_source_block_hash(
+        vanilla_nickname,
+        "assign_random_nickname_effect",
+        "44ef022098a7a965cfe73d33758d8ae0f2d03ea9c6fb0e0f4871a80c4d26e41c",
+        label="CK3 nickname effect used by BAIE",
+    )
+    assert_source_block_hash(
+        baie_nickname,
+        "assign_random_nickname_effect",
+        "d13ce7361dc64a4d662e4f2d1ba1f5c99959e78a3bbcc82b6c9f86810bc3de90",
+        label="BAIE nickname effect",
+    )
+    nickname = assert_source_block_hash(
+        agot_nickname,
+        "assign_random_nickname_effect",
+        "bc1777d7a3ded27d6adac2e700013f03db447b29f47e8b7ee9cefefd4c03f3da",
+        label="AGOT nickname effect",
+    )
+    nickname = replace_exact(
+        nickname,
+        """\t\t\t\t\thas_personality_submissive_trigger = yes
+\t\t\t\t\tlearning >= 16
+\t\t\t\t\tnum_of_relation_ward >= 2
+""",
+        """\t\t\t\t\thas_personality_submissive_trigger = yes
+\t\t\t\t\tlearning >= 14
+\t\t\t\t\tnum_of_relation_ward >= wlbol_ward_limit
+""",
+        expected=1,
+        label="BAIE sage nickname threshold",
+    )
+    write_text(
+        OUTPUT,
+        "common/scripted_effects/baie_wl_nickname_effects.txt",
+        f"# Generated BAIE rebase onto AGOT's current nickname effect.\n\n{nickname}\n",
+    )
+
+    travel_relative = "events/travel_events/travel_events_james.txt"
+    vanilla_travel = read_text(game_root() / travel_relative)
+    agot_travel = read_text(WORKSHOP / "2962333032" / travel_relative)
+    baie_travel = read_text(baie / travel_relative)
+    assert_source_block_hash(
+        vanilla_travel,
+        "travel_events.4012",
+        "21d34fbc1cb00105d46ac03c9cb4d337dfb464e5a73dce6a555840fd89267f41",
+        label="CK3 feral-child travel event used by BAIE",
+    )
+    assert_source_block_hash(
+        baie_travel,
+        "travel_events.4012",
+        "c3b463691047d7f48161e4b3417cbce3b7a425ed59b8c0835efe16c8e4121d6b",
+        label="BAIE feral-child travel event",
+    )
+    travel_event = assert_source_block_hash(
+        agot_travel,
+        "travel_events.4012",
+        "a8eeeac8ca3cfabda219e03bbd0c74b3d7818f3a296f876f483905b8b7d327ae",
+        label="AGOT feral-child travel event",
+    )
+    repaired_travel_event = replace_exact(
+        travel_event,
+        "\t\t\tnum_of_relation_ward < 2\n",
+        "\t\t\tnum_of_relation_ward < wlbol_ward_limit\n",
+        expected=1,
+        label="BAIE feral-child ward limit",
+    )
+    agot_travel = replace_exact(
+        agot_travel,
+        travel_event,
+        repaired_travel_event,
+        expected=1,
+        label="BAIE feral-child travel-event rebase",
+    )
+    write_text(OUTPUT, travel_relative, normalize_rebased_source(agot_travel))
+
+    interaction_relative = "common/character_interactions/00_education_interactions.txt"
+    vanilla_interactions = read_text(game_root() / interaction_relative)
+    agot_interactions = read_text(WORKSHOP / "2962333032" / interaction_relative)
+    baie_interactions = read_text(
+        baie / "common/character_interactions/xx_baie_wl_education_interactions.txt"
+    )
+    interaction_hashes = {
+        "educate_child_interaction": (
+            "13907affc8938f6365637de4672ef829fc1951addc4273b341a0ceebb23f8300",
+            "feb514ee6188b44402958eae8b20aad6e7f22896f1f0ff40234ba3f5e2d648c6",
+            "0e15b7bcba08d4c06b27d855c8fc8d57814b529c8c454d6e41add6f1db58d235",
+        ),
+        "offer_ward_interaction": (
+            "d3e2f59e15b1194198585aa08a29de62e67ead0577c2b71986e3d9279cad90b9",
+            "e99b12c9935c7f4dbf7c7cd66975d89e12c174bc90b34b2532d601568afc80bc",
+            "a4bb5fff16940ade73455a216225c927922a2c563b840d1daafdcb2a474f62ae",
+        ),
+        "offer_guardianship_interaction": (
+            "f17869255ecc24861fd9f2b88d918377162e3da53d0944f7fc72df9d1a59d340",
+            "0bef17a73deb873196857f99bd96029b2cbd0266c174e98461427ef8f4bc7b61",
+            "bd53e3282efe7ead1ed64a7d65fa4820c7f3a1f16fe4bf6bd63eae793befe366",
+        ),
+        "make_child_learn_language_interaction": (
+            "7def391af3c492589f7fba8a2d2622ee9999609a425a8a0a020d2b6e09345040",
+            "9eec35d37535a7a7e35e9d9adf3fe3ccbb75578bb8323de721ff480e417c19aa",
+            "124132cf55fba87278600f6140365b7585582f7299fde0bff32f82018f9ae2e5",
+        ),
+    }
+    rebased: dict[str, str] = {}
+    for interaction, (vanilla_hash, baie_hash, agot_hash) in interaction_hashes.items():
+        assert_source_block_hash(
+            vanilla_interactions,
+            interaction,
+            vanilla_hash,
+            label=f"CK3 {interaction} used by BAIE",
+        )
+        assert_source_block_hash(
+            baie_interactions,
+            interaction,
+            baie_hash,
+            label=f"BAIE {interaction}",
+        )
+        rebased[interaction] = assert_source_block_hash(
+            agot_interactions,
+            interaction,
+            agot_hash,
+            label=f"AGOT {interaction}",
+        )
+
+    educate = rebased["educate_child_interaction"]
+    educate = replace_exact(
+        educate,
+        """\t\t\tevery_courtier = {
+\t\t\t\tlimit = {
+\t\t\t\t\tis_physically_able_adult = yes
+\t\t\t\t\tnum_of_relation_ward < 2
+\t\t\t\t}
+\t\t\t\tadd_to_list = characters
+\t\t\t}
+""",
+        """\t\t\tevery_courtier = {
+\t\t\t\tlimit = {
+\t\t\t\t\tis_physically_able_adult = yes
+\t\t\t\t\tnum_of_relation_ward < 2
+\t\t\t\t}
+\t\t\t\tadd_to_list = characters
+\t\t\t}
+\t\t\tevery_vassal = {
+\t\t\t\tlimit = {
+\t\t\t\t\tis_physically_able_adult = yes
+\t\t\t\t\tnum_of_relation_ward < wlbol_ward_limit
+\t\t\t\t}
+\t\t\t\tadd_to_list = characters
+\t\t\t}
+""",
+        expected=1,
+        label="BAIE vassal guardian candidates",
+    )
+    for old, new, expected in (
+        ("num_of_relation_ward < 2", "num_of_relation_ward < wlbol_ward_limit", 8),
+        ("num_of_relation_ward <= 2", "num_of_relation_ward <= wlbol_ward_limit", 1),
+        ("num_of_relation_ward <= 1", "num_of_relation_ward <= wlbol_ward_limit", 1),
+        (
+            "scope:secondary_actor.num_of_relation_ward >= 1",
+            "scope:secondary_actor.num_of_relation_ward >= wlbol_ward_limit",
+            1,
+        ),
+    ):
+        educate = replace_exact(
+            educate,
+            old,
+            new,
+            expected=expected,
+            label=f"BAIE {old} in educate-child interaction",
+        )
+    older_heir_modifier = """\t\tmodifier = { # Slight preference for older heirs
+\t\t\tadd = scope:secondary_recipient.age
+\t\t}
+"""
+    education_ai_modifiers = """
+\t\t# Better AI Education: favour skilled, intellectually gifted guardians.
+\t\tmodifier = {
+\t\t\tadd = 2000
+\t\t\tscope:secondary_actor = { has_trait = intellect_good_3 }
+\t\t}
+\t\tmodifier = {
+\t\t\tadd = 1000
+\t\t\tscope:secondary_actor = { has_trait = intellect_good_2 }
+\t\t}
+\t\tmodifier = {
+\t\t\tadd = 500
+\t\t\tscope:secondary_actor = {
+\t\t\t\tOR = {
+\t\t\t\t\thas_trait = intellect_good_1
+\t\t\t\t\thas_trait = shrewd
+\t\t\t\t}
+\t\t\t}
+\t\t}
+\t\tmodifier = {
+\t\t\tscope:secondary_recipient = {
+\t\t\t\tNOT = { has_focus = education_learning }
+\t\t\t}
+\t\t\tadd = {
+\t\t\t\tvalue = scope:secondary_actor.learning
+\t\t\t\tmultiply = 5
+\t\t\t}
+\t\t}
+\t\tmodifier = {
+\t\t\tscope:secondary_recipient = { has_focus = education_diplomacy }
+\t\t\tadd = { value = scope:secondary_actor.diplomacy multiply = 30 }
+\t\t}
+\t\tmodifier = {
+\t\t\tscope:secondary_recipient = { has_focus = education_martial }
+\t\t\tadd = { value = scope:secondary_actor.martial multiply = 30 }
+\t\t}
+\t\tmodifier = {
+\t\t\tscope:secondary_recipient = { has_focus = education_stewardship }
+\t\t\tadd = { value = scope:secondary_actor.stewardship multiply = 30 }
+\t\t}
+\t\tmodifier = {
+\t\t\tscope:secondary_recipient = { has_focus = education_intrigue }
+\t\t\tadd = { value = scope:secondary_actor.intrigue multiply = 30 }
+\t\t}
+\t\tmodifier = {
+\t\t\tscope:secondary_recipient = { has_focus = education_learning }
+\t\t\tadd = { value = scope:secondary_actor.learning multiply = 30 }
+\t\t}
+"""
+    educate = replace_exact(
+        educate,
+        older_heir_modifier,
+        older_heir_modifier + education_ai_modifiers,
+        expected=1,
+        label="BAIE education AI weights",
+    )
+    educate = replace_exact(
+        educate,
+        "\t\tmodifier = { # Prefer to educate your own heirs\n\t\t\tadd = 900\n",
+        "\t\tmodifier = { # Prefer to educate your own heirs\n\t\t\tadd = 50\n",
+        expected=1,
+        label="BAIE own-heir guardian weighting",
+    )
+    educate = replace_exact(
+        educate,
+        """\t\tmodifier = { # Otherwise, find a good educator for them
+\t\t\tadd = 200
+\t\t\tscope:secondary_actor = {
+\t\t\t\tOR = {
+\t\t\t\t\thas_education_rank_4_trigger = yes
+\t\t\t\t\thas_education_rank_3_trigger = yes
+\t\t\t\t}
+""",
+        """\t\tmodifier = { # Otherwise, find a good educator for them
+\t\t\tadd = 200
+\t\t\tscope:secondary_actor = {
+\t\t\t\tOR = {
+\t\t\t\t\thas_education_rank_4_trigger = yes
+\t\t\t\t\thas_education_rank_3_trigger = yes
+\t\t\t\t\thas_education_rank_2_trigger = yes
+\t\t\t\t}
+""",
+        expected=1,
+        label="BAIE rank-two guardian preference",
+    )
+    educate = remove_enclosing_block(
+        educate,
+        marker="Random peasants can only dream about educating noble children!",
+        block_name="modifier",
+        label="BAIE lowborn guardian restriction",
+    )
+    educate = remove_enclosing_block(
+        educate,
+        marker="Don't care about random children",
+        block_name="modifier",
+        label="BAIE unrelated-child restriction",
+    )
+    if "has_focus != education_learning" in educate:
+        raise RuntimeError("BAIE rebase retained invalid has_focus comparison syntax")
+    rebased["educate_child_interaction"] = educate
+
+    for interaction, expected in (
+        ("offer_ward_interaction", 6),
+        ("offer_guardianship_interaction", 5),
+    ):
+        rebased[interaction] = replace_exact(
+            rebased[interaction],
+            "num_of_relation_ward < 2",
+            "num_of_relation_ward < wlbol_ward_limit",
+            expected=expected,
+            label=f"BAIE ward limit in {interaction}",
+        )
+
+    language = rebased["make_child_learn_language_interaction"]
+    for aptitude in range(4, -1, -1):
+        for position in (
+            "court_tutor_court_position",
+            "court_guru_court_position",
+        ):
+            language = replace_exact(
+                language,
+                f"aptitude:{position} = {aptitude}",
+                f"aptitude:{position} = {aptitude + 1}",
+                expected=1,
+                label=f"BAIE {position} aptitude tier {aptitude}",
+            )
+    rebased["make_child_learn_language_interaction"] = language
+
+    write_text(
+        OUTPUT,
+        "common/character_interactions/xx_baie_wl_education_interactions.txt",
+        "# Generated BAIE rebase onto AGOT's current education interactions.\n\n"
+        + "\n\n".join(rebased.values())
+        + "\n",
+    )
+
+
+def generate_character_ui_overhaul_hometowns() -> None:
+    """Retain CUIO hometowns while removing its unsafe vanilla assumptions."""
+    cuio = WORKSHOP / "2519175282"
+    relative = "common/on_action/hometowns_on_actions.txt"
+    source = read_text(cuio / relative)
+    save_location = assert_source_block_hash(
+        source,
+        "hometowns_save_location",
+        "41f21d3258bb9287b8e3fa3c82df37a81e1569608898215f38f6ee5e1ab48a5f",
+        label="CUIO hometown birth-location action",
+    )
+    init = assert_source_block_hash(
+        source,
+        "hometowns_county_modifier_init",
+        "961972bdfa5c6ecee1c4eda090322adcc6c27480b0c629fd511e99ab3f644aa5",
+        label="CUIO hometown startup action",
+    )
+    modifier = assert_source_block_hash(
+        source,
+        "hometowns_county_modifier",
+        "b12e7581f6bc9a176d6edbba76869489d4289d9be662f134d392a2e28a92a94c",
+        label="CUIO hometown title-gain action",
+    )
+    repaired_save_location = """hometowns_save_location = {
+\teffect = {
+\t\t# Some generated children have no maternal location during setup.
+\t\tif = {
+\t\t\tlimit = { exists = scope:mother.location }
+\t\t\tscope:child = {
+\t\t\t\tset_variable = {
+\t\t\t\t\tname = hometowns_birthplace
+\t\t\t\t\tvalue = scope:mother.location
+\t\t\t\t}
+\t\t\t}
+\t\t}
+\t}
+}"""
+    repaired_init = """hometowns_county_modifier_init = {
+\teffect = {
+\t\tif = {
+\t\t\tlimit = { has_game_rule = hometowns_features }
+\t\t\tevery_ruler = {
+\t\t\t\tlimit = {
+\t\t\t\t\thas_variable = hometowns_birthplace
+\t\t\t\t\texists = var:hometowns_birthplace.county
+\t\t\t\t\tvar:hometowns_birthplace.county.holder = this
+\t\t\t\t}
+\t\t\t\tvar:hometowns_birthplace.county = {
+\t\t\t\t\tadd_county_modifier = hometowns_county_modifier
+\t\t\t\t}
+\t\t\t}
+\t\t}
+\t}
+}"""
+    repaired_modifier = """hometowns_county_modifier = {
+\teffect = {
+\t\tif = {
+\t\t\tlimit = { has_game_rule = hometowns_features }
+\t\t\tevery_held_title = {
+\t\t\t\tlimit = {
+\t\t\t\t\ttier = tier_county
+\t\t\t\t\thas_county_modifier = hometowns_county_modifier
+\t\t\t\t}
+\t\t\t\tsave_temporary_scope_as = hometowns_held_county
+\t\t\t\tif = {
+\t\t\t\t\tlimit = {
+\t\t\t\t\t\tcounty.holder = { has_variable = hometowns_birthplace }
+\t\t\t\t\t}
+\t\t\t\t\tcounty.holder = {
+\t\t\t\t\t\tif = {
+\t\t\t\t\t\t\tlimit = {
+\t\t\t\t\t\t\t\tNOT = {
+\t\t\t\t\t\t\t\t\tvar:hometowns_birthplace.county = scope:hometowns_held_county
+\t\t\t\t\t\t\t\t}
+\t\t\t\t\t\t\t}
+\t\t\t\t\t\t\tscope:hometowns_held_county = {
+\t\t\t\t\t\t\t\tcounty = {
+\t\t\t\t\t\t\t\t\tremove_county_modifier = hometowns_county_modifier
+\t\t\t\t\t\t\t\t}
+\t\t\t\t\t\t\t}
+\t\t\t\t\t\t}
+\t\t\t\t\t}
+\t\t\t\t}
+\t\t\t\telse = {
+\t\t\t\t\tcounty = { remove_county_modifier = hometowns_county_modifier }
+\t\t\t\t}
+\t\t\t}
+\t\t\tif = {
+\t\t\t\tlimit = {
+\t\t\t\t\thas_variable = hometowns_birthplace
+\t\t\t\t\texists = var:hometowns_birthplace.county
+\t\t\t\t\tvar:hometowns_birthplace.county.holder = this
+\t\t\t\t}
+\t\t\t\tvar:hometowns_birthplace.county = {
+\t\t\t\t\tadd_county_modifier = hometowns_county_modifier
+\t\t\t\t}
+\t\t\t}
+\t\t}
+\t}
+}"""
+    for original, repaired, label in (
+        (save_location, repaired_save_location, "CUIO hometown birth-location rebase"),
+        (init, repaired_init, "CUIO hometown startup rebase"),
+        (modifier, repaired_modifier, "CUIO hometown title-gain rebase"),
+    ):
+        source = replace_exact(source, original, repaired, expected=1, label=label)
+    if "county.holder.var:hometowns_birthplace" in source:
+        raise RuntimeError("CUIO hometown action retained an unguarded variable read")
+    write_text(OUTPUT, relative, normalize_rebased_source(source))
+
+    relative = "events/hometowns_events.txt"
+    source = read_text(cuio / relative)
+    if source.count("namespace = hometowns") != 1:
+        raise RuntimeError("CUIO hometown historical-event namespace changed")
+    historical_event = assert_source_block_hash(
+        source,
+        "hometowns.01",
+        "1dc0baf98dc96f5b20760258584af0c5c60555e6a62c04d8e59e76094eb9ccd6",
+        label="CUIO historical hometown assignments",
+    )
+    inert_event = """hometowns.01 = {
+\thidden = yes
+\tscope = none
+\timmediate = { }
+}"""
+    source = replace_exact(
+        source,
+        historical_event,
+        inert_event,
+        expected=1,
+        label="CUIO historical hometown event rebase",
+    )
+    write_text(OUTPUT, relative, normalize_rebased_source(source))
 
 
 def generate_more_interactive_vassals_war_join_guards() -> None:
@@ -3150,6 +3794,7 @@ def generate(context: GenerationContext) -> None:
     generate_faster_transitions_gui()
     generate_additional_models_on_action_deduplication()
     generate_kurultai_succession_scope_repairs()
+    generate_chaotic_kurultai_event_guard()
     generate_essos_disabled_realm_cleanup()
     generate_nomad_yurt_guards()
     generate_pirate_succession_guards()
@@ -3170,6 +3815,8 @@ def generate(context: GenerationContext) -> None:
     generate_artifact_manager_distribution_event()
     generate_additional_models_decision_illustrations()
     generate_succession_crisis()
+    generate_baie_rebases()
+    generate_character_ui_overhaul_hometowns()
     generate_more_interactive_vassals_war_join_guards()
     generate_agot_war_value_guards()
     generate_artifact_manager_scripted_guis()

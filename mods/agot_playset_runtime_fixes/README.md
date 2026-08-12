@@ -13,14 +13,15 @@ Training - AGOT Micro Mod**, **AGOT: The Knighting Ceremony**, **AGOT: House
 Founders**, **Succession Crisis**, **Any New Traditions**, **More Interactive
 Vassals**, **AGOT Great Councils**, **AGOT - Suggest Dragon Bonding**,
 **Adventurer's Beneficiary**, **AGOT: All Men Must Serve**, and **Deadly ck3
-AGOT**. Keep it after **Any New Traditions Compatibility AGOT** and **TEMPORARY
-AGOT Additional Models / AGOT+ / LoV Compatch (1.19 Fixed)** as well. It must
-also load after **Artifact Manager**, **Advanced Character Search**, and
-**Upgrade House Banners 3**, and before the final **AGOT Personal Playset
-Compatch**. For the Essos Expanded repair, it must also load after **Essos
-Expanded** and **Essos Expanded - TempLoV Compatch**. The wilderness conversion
-also requires **Legacy of Valyria - AGOT 0.4.39 Temporary Compatch RC71**, whose
-colonization effect is the effective last writer in this playset.
+AGOT**, **Better AI Education & Ward Limit BOL**, and **Character UI Overhaul**.
+Keep it after **Any New Traditions Compatibility AGOT** and **TEMPORARY AGOT
+Additional Models / AGOT+ / LoV Compatch (1.19 Fixed)** as well. It must also
+load after **Artifact Manager**, **Advanced Character Search**, and **Upgrade
+House Banners 3**, and before the final **AGOT Personal Playset Compatch**. For
+the Essos Expanded repair, it must also load after **Essos Expanded** and
+**Essos Expanded - TempLoV Compatch**. The wilderness conversion also requires
+**Legacy of Valyria - AGOT Temporary Compatch**, whose colonization effect is
+the effective last writer in this playset.
 
 ## Repairs
 
@@ -80,7 +81,11 @@ colonization effect is the effective last writer in this playset.
   naming table also follows AGOT by removing the nonexistent Kurdish-culture
   gate. Its terminal handlers now use optional `scope:war` switches, so CK3 can
   build victory, defeat, white-peace, and invalidation tooltips without an
-  unavailable war event target.
+  unavailable war event target. Its `succession_crisis_misc.0012` handler now
+  captures a candidate before removing their old war side, then joins only if
+  they are still absent from the crisis war and not at war with a current
+  participant; this removes the repeated invalid `add_attacker` and
+  `add_defender` loop.
 - **More Interactive Vassals:** rechecks all participants immediately before
   each direct or indirect civil-war join. A vassal already in that war, or at
   war with any current participant, is skipped rather than passed to
@@ -152,12 +157,25 @@ colonization effect is the effective last writer in this playset.
   maester seeding and rulers without capital provinces from the Westerosi
   starting-legitimacy branch.
 - **Chaotic Kurultai succession:** repairs two invalid scopes in AGOT's copy of
-  CK3's `09_dlc_mpo_scripted_effects.txt`. The generated override reuses the
-  newly created `inheritor_char` for the liege change and compares each county's
-  `holder` with the new ruler. Workshop `2962333032` is the effective parent and
-  no later enabled mod owns either effect. Only those two top-level effects are
-  redefined; their parent-block hashes and both exact replacements are checked.
-  Re-audit after AGOT or CK3 changes either nomadic effect.
+  CK3's `09_dlc_mpo_scripted_effects.txt`, and guards all 17 direct
+  `primary_title.previous_holder` accesses in the chaotic-Kurultai event file
+  (including `mpo_chaotic_kurultai_succession.0005`). The generated overrides
+  reuse the newly created `inheritor_char` for the liege change, compare each
+  county's `holder` with the new ruler, and fail closed when the parent title
+  has no previous holder. Workshop `2962333032` is the effective parent and no
+  later enabled mod owns those scripts. The pinned crash-event block and exact
+  replacement count are checked on generation; re-audit after AGOT or CK3
+  changes either nomadic effect.
+- **Better AI Education & Ward Limit BOL:** rebases its stale whole-file vanilla
+  copies on the effective AGOT interactions, nickname effect, and travel event.
+  The intended ward limit, education AI, and language-tutor changes remain, but
+  invalid vanilla culture/religion branches are never loaded; AGOT's
+  deliberately disabled university paths remain disabled.
+- **Character UI Overhaul / Hometowns:** guards birth-location and birthplace
+  access before dereferencing those scopes, removes a county modifier only when
+  the saved birthplace is known, and replaces its vanilla historical-title
+  mapping event with an inert same-id event. New AGOT births retain the safe
+  Hometowns setup without evaluating absent historical title IDs.
 - **Essos Expanded:** replaces each of its 27 disabled-realm calls to
   `agot_remove_realm_effect` with a direct wilderness initializer. It preserves
   AGOT's noble-title, court, province-pool, landless-company, and title cleanup,
@@ -232,9 +250,10 @@ Re-run it and review the resulting diff after any update to Workshop IDs
 `3676293022`, `3305687550`, `3662281614`, `3674548216`, `3673468355`,
 `2886417277`, `3084203091`, `3225355262`, `3235061780`, `3377641022`,
 `3462342647`, `3437814875`, `3709868073`, `3541596590`, `3719888822`, or
-`2971198450`, and after CK3 updates that change `04_dlc_ep2_tour_effects.txt`.
-Re-run it after updates to `3682802751` because the Essos cleanup validates that
-parent's game rules and startup actions, and after updates to `3719888822`
-because the same repair is pinned to LoV's effective wilderness-conversion
-effect. Re-run it after updates to `3762892081` because the generated
-court-scene selector follows that compatch's current room-routing rules.
+`2971198450`, `3732116186`, or `2519175282`, and after CK3 updates that change
+`04_dlc_ep2_tour_effects.txt`. Re-run it after updates to `3682802751` because
+the Essos cleanup validates that parent's game rules and startup actions, and
+after updates to `3719888822` because the same repair is pinned to LoV's
+effective wilderness-conversion effect. Re-run it after updates to `3762892081`
+because the generated court-scene selector follows that compatch's current
+room-routing rules.

@@ -1,5 +1,4 @@
-﻿# VIET expects vanilla's broad cultural-heritage helper triggers. AGOT replaces
-# the vanilla heritage database, so these use lore-analogous AGOT heritages.
+﻿# Generated AGOT compatibility helpers for VIET's broad culture categories.
 
 culture_has_asian_heritage_pillar_trigger = {
 	OR = {
@@ -122,8 +121,7 @@ culture_has_north_european_heritage_pillar_trigger = {
 	}
 }
 
-# Christianity does not exist in AGOT. Events that require it are separately
-# stubbed, while this definition lets optional VIET script parse safely.
+# Christianity does not exist in AGOT. Incompatible VIET events are stubbed.
 is_christian_trigger = {
 	always = no
 }
