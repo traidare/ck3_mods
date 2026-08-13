@@ -6,10 +6,8 @@ import (
 	"sort"
 	"strings"
 
-	"codeberg.org/traidare/ck3_mods/internal/fsutil"
 	"codeberg.org/traidare/ck3_mods/internal/generate"
 	"codeberg.org/traidare/ck3_mods/internal/jsonout"
-	"codeberg.org/traidare/ck3_mods/internal/pdx"
 	"codeberg.org/traidare/ck3_mods/internal/validate"
 	"codeberg.org/traidare/ck3_mods/internal/workspace"
 )
@@ -166,132 +164,6 @@ func runModGenerate(env *Env) (int, error) {
 		}
 	}
 	if failed || (!env.Apply && stale) {
-		return 1, nil
-	}
-	return 0, nil
-}
-
-func runModSources(env *Env) (int, error) {
-	set := flagSet("mod sources", env)
-	slugs, err := parse(set, env.Args)
-	if err != nil {
-		return 2, nil
-	}
-	mods, err := generatorMods(env, slugs)
-	if err != nil {
-		return 1, err
-	}
-
-	failed := false
-	reports := make([]any, 0, len(mods))
-	for _, mod := range mods {
-		sources, err := env.Workspace.ResolveSources(mod.Manifest, env.Config, true)
-		var content string
-		if err == nil {
-			if env.Apply {
-				content, err = generate.WriteSourceLocks(mod, sources)
-			} else {
-				content, err = generate.RenderSourceLocks(sources)
-			}
-		}
-		if err != nil {
-			failed = true
-			if env.JSON() {
-				reports = append(reports, map[string]any{
-					"slug": mod.Slug, "status": "error", "error": err.Error(),
-				})
-				continue
-			}
-			fmt.Fprintf(env.Stderr, "%s: error: %v\n", mod.Slug, err)
-			continue
-		}
-
-		if env.JSON() {
-			var lock any
-			if err := json.Unmarshal([]byte(content), &lock); err != nil {
-				return 1, err
-			}
-			status := "preview"
-			if env.Apply {
-				status = "updated"
-			}
-			reports = append(reports, map[string]any{
-				"slug": mod.Slug, "status": status, "lock": lock,
-			})
-			continue
-		}
-		if env.Apply {
-			env.Printf("%s: source locks updated\n", mod.Slug)
-			continue
-		}
-		env.Printf("%s: source-lock preview\n", mod.Slug)
-		fmt.Fprint(env.Stdout, content)
-	}
-
-	if env.JSON() {
-		if err := jsonout.Write(env.Stdout, reports); err != nil {
-			return 1, err
-		}
-	}
-	if failed {
-		return 1, nil
-	}
-	return 0, nil
-}
-
-func runModAudit(env *Env) (int, error) {
-	set := flagSet("mod audit", env)
-	slugs, err := parse(set, env.Args)
-	if err != nil {
-		return 2, nil
-	}
-
-	var mods []*workspace.Mod
-	if len(slugs) > 0 {
-		for _, slug := range slugs {
-			mod, err := env.Workspace.Mod(slug)
-			if err != nil {
-				return 1, err
-			}
-			mods = append(mods, mod)
-		}
-	} else if mods, err = env.Workspace.Mods(); err != nil {
-		return 1, err
-	}
-
-	invalid := false
-	reports := make([]any, 0, len(mods))
-	for _, mod := range mods {
-		message := "descriptor valid"
-		valid := true
-		if !fsutil.IsFile(mod.DescriptorPath) {
-			valid = false
-			message = "missing " + env.Workspace.Settings.Descriptor
-		} else if descriptor, err := pdx.Load(mod.DescriptorPath); err != nil {
-			valid = false
-			message = err.Error()
-		} else if err := pdx.ValidateNative(descriptor); err != nil {
-			valid = false
-			message = err.Error()
-		}
-		if !valid {
-			invalid = true
-		}
-		if env.JSON() {
-			reports = append(reports, map[string]any{
-				"slug": mod.Slug, "valid": valid, "message": message,
-			})
-			continue
-		}
-		env.Printf("%s: %s\n", mod.Slug, message)
-	}
-
-	if env.JSON() {
-		if err := jsonout.Write(env.Stdout, reports); err != nil {
-			return 1, err
-		}
-	}
-	if invalid {
 		return 1, nil
 	}
 	return 0, nil

@@ -7,7 +7,6 @@ owned_outputs = [
   "map_data/geographical_regions/north_sans_neck.txt",
   "common/landed_titles/01_agot_landed_titles.txt",
 ]
-assets = ["assets/source_manifest.json"]
 
 [[sources]]
 name = "agot-now"

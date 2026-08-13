@@ -140,10 +140,10 @@ ck3mm conflicts AGOT --involving <id>
 Every command previews by default and writes only with `--apply`. This is the
 whole mutation rule: `mod generate` without `--apply` regenerates into a staging
 directory, reports what differs, and exits 1 when an owned output is stale;
-`--apply` promotes it. The same holds for `mod sources`, `mod install`,
-`playset import`, `playset preserve`, and `refs sync`. Let the user run any
-apply that writes to Launcher state or another external root.
+`--apply` promotes it. The same holds for `mod install`, `playset import`,
+`playset preserve`, and `refs sync`. Let the user run any apply that writes to
+Launcher state or another external root.
 
-Do not accept a source lock for a broad Workshop-tree source. Review the
-generator's granular source evidence and update it deliberately after an
-intentional parent change.
+Keep upstream-change checks granular to the files and definitions a generator
+actually consumes. Review that source evidence and update it deliberately after
+an intentional parent change.

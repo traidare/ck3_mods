@@ -8,6 +8,7 @@ silently generating a stale whole-file override.
 from __future__ import annotations
 
 import re
+from dataclasses import dataclass
 from decimal import Decimal
 from pathlib import Path
 
@@ -16,8 +17,11 @@ from gen.script import balanced_brace_end, read_text, write_text
 from gen.sources import WorkshopSources
 from gen.text import replace_exact
 
-WORKSHOP: WorkshopSources | None = None
-MFA_OUTPUT: Path | None = None
+
+@dataclass(frozen=True, slots=True)
+class RunInputs:
+    WORKSHOP: WorkshopSources
+    MFA_OUTPUT: Path
 
 
 def script_brace_delta(line: str) -> int:
@@ -27,11 +31,7 @@ def script_brace_delta(line: str) -> int:
 
 
 def scale_fractional_random_list_weights(
-    text: str,
-    *,
-    expected_lists: int,
-    expected_fractional_weights: int,
-    label: str,
+    text: str, *, expected_lists: int, expected_fractional_weights: int, label: str
 ) -> str:
     """Scale affected random-list weights by ten so every weight is integral."""
     replacements: list[tuple[int, int, str]] = []
@@ -94,7 +94,7 @@ def scale_fractional_random_list_weights(
     return text
 
 
-def generate_mfa_delayed_pulse_scopes() -> None:
+def generate_mfa_delayed_pulse_scopes(inputs: RunInputs) -> None:
     prefix = "common/on_action/activities"
     fractional_random_lists = {
         "MFA_agot_coronation_on_actions.txt": (1, 1),
@@ -135,7 +135,7 @@ def generate_mfa_delayed_pulse_scopes() -> None:
     }
     for filename, expected in province_scope_counts.items():
         relative = f"{prefix}/{filename}"
-        text = read_text(WORKSHOP / "3723597729" / relative)
+        text = read_text(inputs.WORKSHOP / "3723597729" / relative)
         if filename == "MFA_playdate_on_actions.txt":
             text = replace_exact(
                 text,
@@ -191,11 +191,12 @@ def generate_mfa_delayed_pulse_scopes() -> None:
                 expected_fractional_weights=expected_weights,
                 label=f"MFA random-list weights in {filename}",
             )
-        write_text(MFA_OUTPUT, relative, text)
+        write_text(inputs.MFA_OUTPUT, relative, text)
 
 
 def generate(context: GenerationContext) -> None:
-    global WORKSHOP, MFA_OUTPUT
+
     WORKSHOP = WorkshopSources(context)
     MFA_OUTPUT = context.output_root
-    generate_mfa_delayed_pulse_scopes()
+    inputs = RunInputs(WORKSHOP=WORKSHOP, MFA_OUTPUT=MFA_OUTPUT)
+    generate_mfa_delayed_pulse_scopes(inputs)

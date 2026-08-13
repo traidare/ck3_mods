@@ -1,67 +1,18 @@
 #!/usr/bin/env python3
 from __future__ import annotations
 
-import argparse
 import json
-import os
 import re
-import shutil
 import subprocess
 import tempfile
+from dataclasses import dataclass
 from pathlib import Path
 
+from gen import GenerationContext
 from gen.hashing import sha256_file
-from gen.sources import (
-    canonical_source_path,
-    resolve_workshop_root,
-)
+from gen.sources import canonical_source_path
 from gen.text import read_source
 
-parser = argparse.ArgumentParser(
-    description="Regenerate the semantic NOW + LoV + Essos map merge."
-)
-parser.add_argument("--root", type=Path, default=Path(__file__).resolve().parents[1])
-parser.add_argument(
-    "--output",
-    type=Path,
-    default=None,
-    help="Destination module or scratch directory (defaults to the tracked map module).",
-)
-mode = parser.add_mutually_exclusive_group()
-mode.add_argument(
-    "--check", action="store_true", help="Verify tracked textual outputs."
-)
-mode.add_argument(
-    "--update-source-manifest",
-    action="store_true",
-    help="Accept reviewed upstream input hashes.",
-)
-parser.add_argument(
-    "--text-only",
-    action="store_true",
-    help="Skip raster composites; useful when only script/map-object inputs changed.",
-)
-args = parser.parse_args()
-
-ROOT = args.root.resolve()
-WS = resolve_workshop_root()
-AGOT = WS / "2962333032"
-NOW = WS / "3664900993"
-LOV = WS / "3403938445"
-RC = WS / "3719888822"
-EE = WS / "3682802751"
-EEP = WS / "3768149491"
-TRACKED_OUTPUT = ROOT / "mods/agot_now_lov_ee_map_compatch"
-DESTINATION = (args.output or TRACKED_OUTPUT).resolve()
-# Build only in a disposable stage. A failed ImageMagick process must never
-# leave a tracked module half-deleted.
-OUT = Path(tempfile.mkdtemp(prefix="agot_now_lov_ee_map_compatch."))
-MANIFEST_PATH = Path(
-    os.environ.get(
-        "CK3MM_SOURCE_MANIFEST",
-        ROOT / "workspace/agot_now_lov_ee_map_compatch/assets/source_manifest.json",
-    )
-)
 RECT = (
     575.0,
     2060.0,
@@ -69,7 +20,7 @@ RECT = (
     3560.0,
 )  # x min/max, z min/max; inverse of image y 2584..4212
 
-map_paths = [
+MAP_PATHS = [
     "gfx/map/map_object_data/activities.txt",
     "gfx/map/map_object_data/building_locators.txt",
     "gfx/map/map_object_data/combat_locators.txt",
@@ -90,40 +41,87 @@ map_paths = [
 ]
 
 
-def winner(rel):
-    for p in (EEP, EE, RC, LOV, AGOT):
-        if (p / rel).is_file():
-            return p / rel
-    raise FileNotFoundError(rel)
+@dataclass(frozen=True, slots=True)
+class MapInputs:
+    context: GenerationContext
+    workshop_root: Path
+    agot: Path
+    now: Path
+    lov: Path
+    rc: Path
+    ee: Path
+    eep: Path
+    manifest_path: Path
+
+    @classmethod
+    def from_context(cls, context: GenerationContext) -> MapInputs:
+        source_names = (
+            "agot",
+            "now",
+            "lov",
+            "lov-bridge",
+            "essos-expanded",
+            "essos-bridge",
+        )
+        return cls(
+            context=context,
+            workshop_root=context.workshop_root(*source_names),
+            agot=context.source("agot"),
+            now=context.source("now"),
+            lov=context.source("lov"),
+            rc=context.source("lov-bridge"),
+            ee=context.source("essos-expanded"),
+            eep=context.source("essos-bridge"),
+            manifest_path=context.assets_dir / "source_manifest.json",
+        )
+
+    def winner(self, relative: str) -> Path:
+        for root in (self.eep, self.ee, self.rc, self.lov, self.agot):
+            path = root / relative
+            if path.is_file():
+                return path
+        raise FileNotFoundError(relative)
+
+    def write(self, relative: str, text: str, encoding: str = "utf-8-sig") -> None:
+        path = self.context.output_path(relative)
+        path.write_text(text, encoding=encoding, newline="\n")
 
 
-def source_manifest() -> dict[str, object]:
-    inputs = (
-        {AGOT / rel for rel in map_paths}
-        | {NOW / rel for rel in map_paths}
-        | {winner(rel) for rel in map_paths}
+def source_manifest(inputs: MapInputs) -> dict[str, object]:
+    source_paths = (
+        {inputs.agot / relative for relative in MAP_PATHS}
+        | {inputs.now / relative for relative in MAP_PATHS}
+        | {inputs.winner(relative) for relative in MAP_PATHS}
         | {
-            AGOT / "map_data/definition.csv",
-            NOW / "map_data/definition.csv",
-            winner("map_data/definition.csv"),
-            AGOT / "map_data/heightmap.png",
-            NOW / "map_data/heightmap.png",
-            EE / "map_data/heightmap.png",
-            AGOT / "content_source/map_objects/masks/tree_leaf_01_single_mask.png",
-            NOW / "content_source/map_objects/masks/tree_leaf_01_single_mask.png",
-            EE / "content_source/map_objects/masks/tree_leaf_01_single_mask.png",
-            AGOT / "content_source/map_objects/masks/tree_pine_01_a_mask.png",
-            NOW / "content_source/map_objects/masks/tree_pine_01_a_mask.png",
-            EE / "content_source/map_objects/masks/tree_pine_01_a_mask.png",
+            inputs.agot / "map_data/definition.csv",
+            inputs.now / "map_data/definition.csv",
+            inputs.winner("map_data/definition.csv"),
+            inputs.agot / "map_data/heightmap.png",
+            inputs.now / "map_data/heightmap.png",
+            inputs.ee / "map_data/heightmap.png",
+            inputs.agot
+            / "content_source/map_objects/masks/tree_leaf_01_single_mask.png",
+            inputs.now
+            / "content_source/map_objects/masks/tree_leaf_01_single_mask.png",
+            inputs.ee / "content_source/map_objects/masks/tree_leaf_01_single_mask.png",
+            inputs.agot / "content_source/map_objects/masks/tree_pine_01_a_mask.png",
+            inputs.now / "content_source/map_objects/masks/tree_pine_01_a_mask.png",
+            inputs.ee / "content_source/map_objects/masks/tree_pine_01_a_mask.png",
         }
     )
-    modules = {"AGOT": AGOT, "NOW": NOW, "LOV": LOV, "RC": RC, "EE": EE, "EEP": EEP}
+    modules = {
+        "AGOT": inputs.agot,
+        "NOW": inputs.now,
+        "LOV": inputs.lov,
+        "RC": inputs.rc,
+        "EE": inputs.ee,
+        "EEP": inputs.eep,
+    }
     versions = {}
     for label, module in modules.items():
         descriptor = module / "descriptor.mod"
         match = re.search(
-            r'(?m)^version="([^"]+)"',
-            descriptor.read_text(encoding="utf-8-sig"),
+            r'(?m)^version="([^"]+)"', descriptor.read_text(encoding="utf-8-sig")
         )
         versions[label] = match.group(1) if match else "unversioned"
     return {
@@ -131,36 +129,18 @@ def source_manifest() -> dict[str, object]:
         "workshop_ids": {label: module.name for label, module in modules.items()},
         "versions": versions,
         "files": {
-            canonical_source_path(path, root=ROOT, workshop_root=WS): {
-                "sha256": sha256_file(path),
-                "size": path.stat().st_size,
-            }
-            for path in sorted(inputs)
+            canonical_source_path(
+                path,
+                root=inputs.context.workspace_root,
+                workshop_root=inputs.workshop_root,
+            ): {"sha256": sha256_file(path), "size": path.stat().st_size}
+            for path in sorted(source_paths)
         },
     }
 
 
-CURRENT_MANIFEST = source_manifest()
-if args.update_source_manifest:
-    pass
-elif not MANIFEST_PATH.is_file():
-    raise FileNotFoundError(
-        f"{MANIFEST_PATH} missing; review inputs and run --update-source-manifest"
-    )
-elif json.loads(MANIFEST_PATH.read_text(encoding="utf-8")) != CURRENT_MANIFEST:
-    raise AssertionError(
-        "map-compatch upstream source manifest drifted; review and run --update-source-manifest"
-    )
-
-
 def read(p):
     return read_source(p, normalize_newlines=True)
-
-
-def write(rel, text, encoding="utf-8-sig"):
-    p = OUT / rel
-    p.parent.mkdir(parents=True, exist_ok=True)
-    p.write_text(text, encoding=encoding, newline="\n")
 
 
 def pos_from_record(s):
@@ -180,10 +160,7 @@ def parse_instances(text):
     # brace but indent id/position/closing lines more deeply. Clausewitz ignores
     # that whitespace; the merger must not mistake those records for deletions.
     matches = list(
-        re.finditer(
-            r"(?ms)^\t\t\{\n[ \t]+id\s*=\s*(\d+)\s*\n.*?^[ \t]+\}",
-            text,
-        )
+        re.finditer(r"(?ms)^\t\t\{\n[ \t]+id\s*=\s*(\d+)\s*\n.*?^[ \t]+\}", text)
     )
     raw_ids = [int(x) for x in re.findall(r"(?m)^[ \t]*id\s*=\s*(\d+)\s*$", text)]
     parsed_ids = [int(m.group(1)) for m in matches]
@@ -306,26 +283,28 @@ def merge_objects(ours, now):
     return "".join(parts)
 
 
-for rel in map_paths:
-    b = read(AGOT / rel)
-    o = read(winner(rel))
-    n = read(NOW / rel)
-    result = (
-        merge_locator(b, o, n)
-        if rel.endswith(
-            (
-                "activities.txt",
-                "building_locators.txt",
-                "combat_locators.txt",
-                "player_stack_locators.txt",
-                "siege_locators.txt",
-                "special_building_locators.txt",
-            )
+LOCATOR_SUFFIXES = (
+    "activities.txt",
+    "building_locators.txt",
+    "combat_locators.txt",
+    "player_stack_locators.txt",
+    "siege_locators.txt",
+    "special_building_locators.txt",
+)
+
+
+def merge_map_objects(inputs: MapInputs) -> None:
+    for relative in MAP_PATHS:
+        base = read(inputs.agot / relative)
+        ours = read(inputs.winner(relative))
+        now = read(inputs.now / relative)
+        result = (
+            merge_locator(base, ours, now)
+            if relative.endswith(LOCATOR_SUFFIXES)
+            else merge_objects(ours, now)
         )
-        else merge_objects(o, n)
-    )
-    assert "<<<<<<<" not in result
-    write(rel, result)
+        assert "<<<<<<<" not in result
+        inputs.write(relative, result)
 
 
 # Definition: use current EE/LoV winner, replacing only rows NOW changed from AGOT.
@@ -335,30 +314,33 @@ def rows(p):
     return lines, d
 
 
-bl, bd = rows(AGOT / "map_data/definition.csv")
-nl, nd = rows(NOW / "map_data/definition.csv")
-ol, od = rows(winner("map_data/definition.csv"))
-changed = {k for k in bd.keys() & nd.keys() if bd[k] != nd[k]}
-assert changed == {
-    "3967",
-    "3969",
-    "4124",
-    "4125",
-    "4126",
-    "4136",
-    "4138",
-    "4419",
-    "4420",
-    "4422",
-    "4426",
-}, changed
-out = [
-    nd.get(line.split(";", 1)[0], line) if line.split(";", 1)[0] in changed else line
-    for line in ol
-]
-# definition.csv is deliberately BOM-free; Clausewitz treats the BOM as part
-# of the first province id on some startup paths.
-write("map_data/definition.csv", "\n".join(out) + "\n", encoding="utf-8")
+def merge_definition(inputs: MapInputs) -> None:
+    _, base = rows(inputs.agot / "map_data/definition.csv")
+    _, now = rows(inputs.now / "map_data/definition.csv")
+    ours, _ = rows(inputs.winner("map_data/definition.csv"))
+    changed = {key for key in base.keys() & now.keys() if base[key] != now[key]}
+    assert changed == {
+        "3967",
+        "3969",
+        "4124",
+        "4125",
+        "4126",
+        "4136",
+        "4138",
+        "4419",
+        "4420",
+        "4422",
+        "4426",
+    }, changed
+    output = [
+        now.get(line.split(";", 1)[0], line)
+        if line.split(";", 1)[0] in changed
+        else line
+        for line in ours
+    ]
+    # definition.csv is deliberately BOM-free; Clausewitz treats the BOM as
+    # part of the first province id on some startup paths.
+    inputs.write("map_data/definition.csv", "\n".join(output) + "\n", "utf-8")
 
 
 # Exact-pixel delta composites for source heightmap and the two NOW-changed generator masks.
@@ -386,90 +368,79 @@ def composite_delta(base, now, ours, out):
         )
 
 
-if not args.text_only:
+def merge_rasters(inputs: MapInputs) -> None:
     composite_delta(
-        AGOT / "map_data/heightmap.png",
-        NOW / "map_data/heightmap.png",
-        EE / "map_data/heightmap.png",
-        OUT / "artifacts/heightmap/heightmap_now_delta_unpacked.png",
+        inputs.agot / "map_data/heightmap.png",
+        inputs.now / "map_data/heightmap.png",
+        inputs.ee / "map_data/heightmap.png",
+        inputs.context.artifact_path("heightmap/heightmap_now_delta_unpacked.png"),
     )
-    for f in ("tree_leaf_01_single_mask.png", "tree_pine_01_a_mask.png"):
+    for name in ("tree_leaf_01_single_mask.png", "tree_pine_01_a_mask.png"):
         composite_delta(
-            AGOT / "content_source/map_objects/masks" / f,
-            NOW / "content_source/map_objects/masks" / f,
-            EE / "content_source/map_objects/masks" / f,
-            OUT / "artifacts/map_objects/masks" / f,
+            inputs.agot / "content_source/map_objects/masks" / name,
+            inputs.now / "content_source/map_objects/masks" / name,
+            inputs.ee / "content_source/map_objects/masks" / name,
+            inputs.context.artifact_path("map_objects/masks/" + name),
         )
 
-# Fail generation rather than emitting structurally inconsistent map objects.
-locator_paths = {
-    p
-    for p in map_paths
-    if p.endswith(
-        (
-            "activities.txt",
-            "building_locators.txt",
-            "combat_locators.txt",
-            "player_stack_locators.txt",
-            "siege_locators.txt",
-            "special_building_locators.txt",
+
+def verify_source_manifest(inputs: MapInputs) -> None:
+    asset = inputs.manifest_path.relative_to(inputs.context.workspace_root)
+    if not inputs.manifest_path.is_file():
+        raise FileNotFoundError(
+            f"{asset} is missing; review the upstream inputs and replace the "
+            "reviewed asset deliberately"
         )
-    )
-}
-for rel in map_paths:
-    text = read(OUT / rel)
-    if rel in locator_paths:
-        ids = [int(x) for x in re.findall(r"(?m)^[ \t]*id\s*=\s*(\d+)\s*$", text)]
-        _, _, parsed = parse_instances(text)
-        assert ids == list(parsed), f"locator parser mismatch in {rel}"
-        assert len(ids) == len(set(ids)), f"duplicate locator id in {rel}"
-    else:
+    recorded = json.loads(inputs.manifest_path.read_text(encoding="utf-8"))
+    if recorded != source_manifest(inputs):
+        raise AssertionError(
+            f"map-compatch upstream source manifest drifted; review the "
+            f"differences and replace {asset} deliberately"
+        )
+
+
+def validate_outputs(inputs: MapInputs) -> None:
+    """Fail rather than emitting structurally inconsistent map objects."""
+    locator_paths = {path for path in MAP_PATHS if path.endswith(LOCATOR_SUFFIXES)}
+    for relative in MAP_PATHS:
+        text = read(inputs.context.output_root / relative)
+        if relative in locator_paths:
+            ids = [
+                int(value)
+                for value in re.findall(r"(?m)^[ \t]*id\s*=\s*(\d+)\s*$", text)
+            ]
+            _, _, parsed = parse_instances(text)
+            assert ids == list(parsed), f"locator parser mismatch in {relative}"
+            assert len(ids) == len(set(ids)), f"duplicate locator id in {relative}"
+            continue
         for name, block, _, _ in object_blocks(text):
             parsed = transforms(block)
             if parsed:
                 declared = re.search(r"(?m)^\tcount=(\d+)$", block)
                 assert declared and int(declared.group(1)) == len(parsed[1]), (
-                    f"bad count for {name} in {rel}"
+                    f"bad count for {name} in {relative}"
                 )
 
-definition_lines = [
-    line for line in read(OUT / "map_data/definition.csv").splitlines() if ";" in line
-]
-definition_ids = [line.split(";", 1)[0] for line in definition_lines]
-assert len(definition_ids) == len(set(definition_ids)), (
-    "duplicate province id in definition.csv"
-)
-
-text_outputs = [*map_paths, "map_data/definition.csv"]
-if args.check:
-    stale = [
-        relative
-        for relative in text_outputs
-        if not (TRACKED_OUTPUT / relative).is_file()
-        or (TRACKED_OUTPUT / relative).read_bytes() != (OUT / relative).read_bytes()
+    definition = read(inputs.context.output_root / "map_data/definition.csv")
+    definition_ids = [
+        line.split(";", 1)[0] for line in definition.splitlines() if ";" in line
     ]
-    if stale:
-        raise AssertionError(
-            "tracked map-compatch textual outputs are stale: " + ", ".join(stale)
-        )
-    print("map-compatch textual outputs are current")
-elif args.update_source_manifest:
-    MANIFEST_PATH.parent.mkdir(parents=True, exist_ok=True)
-    MANIFEST_PATH.write_text(
-        json.dumps(CURRENT_MANIFEST, indent=2, sort_keys=True) + "\n",
-        encoding="utf-8",
+    assert len(definition_ids) == len(set(definition_ids)), (
+        "duplicate province id in definition.csv"
     )
-    print(f"updated {MANIFEST_PATH.relative_to(ROOT)}")
-else:
-    if DESTINATION in {ROOT, ROOT / "mods"}:
-        raise ValueError(f"refusing broad map-compatch destination: {DESTINATION}")
-    for source in sorted(path for path in OUT.rglob("*") if path.is_file()):
-        relative = source.relative_to(OUT)
-        target = DESTINATION / relative
-        target.parent.mkdir(parents=True, exist_ok=True)
-        shutil.copy2(source, target)
-    print("generated", DESTINATION)
-    for source in sorted(path for path in OUT.rglob("*") if path.is_file()):
-        print(source.relative_to(OUT), source.stat().st_size)
 
-shutil.rmtree(OUT)
+
+def generate(context: GenerationContext) -> None:
+    inputs = MapInputs.from_context(context)
+    verify_source_manifest(inputs)
+    merge_map_objects(inputs)
+    merge_definition(inputs)
+    if not context.options.get("text_only", False):
+        merge_rasters(inputs)
+    validate_outputs(inputs)
+
+    print("generated", context.output_root)
+    for source in sorted(
+        path for path in context.output_root.rglob("*") if path.is_file()
+    ):
+        print(source.relative_to(context.output_root), source.stat().st_size)

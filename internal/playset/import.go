@@ -2,6 +2,7 @@ package playset
 
 import (
 	"database/sql"
+	"fmt"
 	"sort"
 	"strings"
 
@@ -236,7 +237,7 @@ func PlanImport(databasePath string, playset Playset) (ImportPlan, error) {
 
 func planImport(db *launcher.DB, playset Playset) (ImportPlan, error) {
 	if len([]rune(playset.Name)) > 255 {
-		return ImportPlan{}, errorf("playset name exceeds the launcher's 255-character limit")
+		return ImportPlan{}, fmt.Errorf("playset name exceeds the launcher's 255-character limit")
 	}
 	resolved, unresolved, err := resolveMods(db, playset)
 	if err != nil {
@@ -249,7 +250,7 @@ func planImport(db *launcher.DB, playset Playset) (ImportPlan, error) {
 		return ImportPlan{}, err
 	}
 	if len(existing) > 1 {
-		return ImportPlan{}, errorf("more than one non-removed playset is named %q", playset.Name)
+		return ImportPlan{}, fmt.Errorf("more than one non-removed playset is named %q", playset.Name)
 	}
 
 	plan := ImportPlan{
@@ -273,7 +274,7 @@ func ApplyImport(databasePath string, playset Playset, allowMissing bool) (Impor
 		return ImportPlan{}, err
 	}
 	if len(plan.Unresolved) > 0 && !allowMissing {
-		return ImportPlan{}, errorf("import has %d unresolved mod(s); pass --allow-missing to omit them",
+		return ImportPlan{}, fmt.Errorf("import has %d unresolved mod(s); pass --allow-missing to omit them",
 			len(plan.Unresolved))
 	}
 
@@ -289,7 +290,7 @@ func ApplyImport(databasePath string, playset Playset, allowMissing bool) (Impor
 	defer db.Close()
 
 	if err := writeImport(db, plan); err != nil {
-		return ImportPlan{}, errorf("playset import failed; database backup is %s: %v", backupPath, err)
+		return ImportPlan{}, fmt.Errorf("playset import failed; database backup is %s: %w", backupPath, err)
 	}
 	plan.BackupPath = backupPath
 	return plan, nil

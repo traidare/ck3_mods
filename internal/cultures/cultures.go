@@ -26,15 +26,6 @@ const (
 	TraditionsPath = "common/culture/traditions"
 )
 
-// Error reports a query that cannot be answered.
-type Error struct{ Message string }
-
-func (e *Error) Error() string { return e.Message }
-
-func errorf(format string, arguments ...any) error {
-	return &Error{Message: fmt.Sprintf(format, arguments...)}
-}
-
 // Layer is one provider of culture data, vanilla included.
 type Layer struct {
 	Kind         string
@@ -95,7 +86,7 @@ func gameRoot(gameDir string) (string, error) {
 			return fsutil.MustAbs(candidate), nil
 		}
 	}
-	return "", errorf("CK3 data directories were not found below %s; expected %s and %s, optionally below game/",
+	return "", fmt.Errorf("CK3 data directories were not found below %s; expected %s and %s, optionally below game/",
 		gameDir, CulturesPath, TraditionsPath)
 }
 
@@ -108,7 +99,7 @@ func immediateTextFiles(root, relativeDir string) ([]string, error) {
 		if os.IsNotExist(err) {
 			return nil, nil
 		}
-		return nil, errorf("could not list %s: %v", directory, err)
+		return nil, fmt.Errorf("could not list %s: %w", directory, err)
 	}
 	var names []string
 	for _, entry := range entries {
@@ -184,7 +175,7 @@ func virtualFiles(root string, ordered []Layer, relativeDir string) ([]virtualFi
 func readSource(path string) (string, error) {
 	text, err := fsutil.ReadTextBOM(path)
 	if err != nil {
-		return "", errorf("could not read %s: %v", path, err)
+		return "", fmt.Errorf("could not read %s: %w", path, err)
 	}
 	text = strings.ReplaceAll(text, "\r\n", "\n")
 	return strings.ReplaceAll(text, "\r", "\n"), nil
@@ -230,7 +221,7 @@ func parseFiles(files []virtualFile, withTraditions bool) (map[string]Definition
 		}
 		tokens, err := pdx.Tokenize(text)
 		if err != nil {
-			return nil, errorf("%s: %v", file.AbsolutePath, err)
+			return nil, fmt.Errorf("%s: %w", file.AbsolutePath, err)
 		}
 		matches, err := pdx.MatchBraces(tokens, file.AbsolutePath)
 		if err != nil {
@@ -275,7 +266,7 @@ func Load(gameDir, workshopDir, paradoxDir, databasePath, playsetName, configure
 		return Database{}, err
 	}
 	if strings.TrimSpace(source.Name) == "" {
-		return Database{}, errorf("the selected playset has no name")
+		return Database{}, fmt.Errorf("the selected playset has no name")
 	}
 
 	discovery := layers.Discover(source, workshopDir, paradoxDir)
@@ -332,7 +323,7 @@ func (d Database) SelectCultures(requested []string, matchAll bool) ([]Definitio
 	}
 	if len(unknown) > 0 {
 		sort.Strings(unknown)
-		return nil, errorf("unknown tradition(s): %s", strings.Join(unknown, ", "))
+		return nil, fmt.Errorf("unknown tradition(s): %s", strings.Join(unknown, ", "))
 	}
 
 	identifiers := make([]string, 0, len(d.Cultures))
@@ -389,7 +380,7 @@ func (d Database) SelectTraditions() []Definition {
 func (d Database) Tradition(identifier string) (Definition, error) {
 	definition, found := d.Traditions[identifier]
 	if !found {
-		return Definition{}, errorf("unknown tradition: %s", identifier)
+		return Definition{}, fmt.Errorf("unknown tradition: %s", identifier)
 	}
 	return definition, nil
 }

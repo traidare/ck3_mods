@@ -2,7 +2,6 @@
 
 from __future__ import annotations
 
-import os
 from pathlib import Path, PurePosixPath
 
 from . import GenerationContext
@@ -40,19 +39,3 @@ def canonical_source_path(path: Path, *, root: Path, workshop_root: Path) -> str
             raise ValueError(
                 f"source path is outside both repository and Workshop roots: {path}"
             ) from error
-
-
-WORKSHOP_DIRECTORY_ENV = "CK3_WORKSHOP_DIR"
-
-
-def resolve_workshop_root() -> Path:
-    """Resolve the Workshop root a generator subprocess was handed."""
-    configured = os.environ.get(WORKSHOP_DIRECTORY_ENV)
-    if not configured:
-        raise SystemExit(f"{WORKSHOP_DIRECTORY_ENV} is not set")
-    path = Path(configured).expanduser().resolve()
-    if not path.is_dir():
-        raise SystemExit(
-            f"{WORKSHOP_DIRECTORY_ENV} does not point to a directory: {path}"
-        )
-    return path

@@ -5,11 +5,6 @@ owned_outputs = [
   "history",
 ]
 owned_artifacts = ["lore_governments/*_audit.csv"]
-assets = [
-  "assets/lore_governments/government_lore_rules.csv",
-  "assets/lore_governments/source_manifest.json",
-]
-
 [[sources]]
 name = "agot"
 kind = "workshop"

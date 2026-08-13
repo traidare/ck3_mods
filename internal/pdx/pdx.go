@@ -4,21 +4,11 @@ package pdx
 
 import (
 	"fmt"
-	"os"
 	"path"
 	"strings"
 
 	"codeberg.org/traidare/ck3_mods/internal/fsutil"
 )
-
-// Error reports a descriptor that cannot be parsed or safely derived.
-type Error struct{ Message string }
-
-func (e *Error) Error() string { return e.Message }
-
-func errorf(format string, arguments ...any) error {
-	return &Error{Message: fmt.Sprintf(format, arguments...)}
-}
 
 // TokenKind distinguishes the four things Paradox Script is made of.
 type TokenKind int
@@ -91,7 +81,7 @@ func Tokenize(text string) ([]Token, error) {
 				if character == '\\' {
 					index++
 					if index >= len(runes) {
-						return nil, errorf("unterminated escape on line %d", startLine)
+						return nil, fmt.Errorf("unterminated escape on line %d", startLine)
 					}
 					switch runes[index] {
 					case 'n':
@@ -112,7 +102,7 @@ func Tokenize(text string) ([]Token, error) {
 				index++
 			}
 			if !terminated {
-				return nil, errorf("unterminated string on line %d", startLine)
+				return nil, fmt.Errorf("unterminated string on line %d", startLine)
 			}
 			tokens = append(tokens, Token{TokenValue, value.String(), startLine, start, index})
 		default:
@@ -158,7 +148,7 @@ func (d Descriptor) Value(key, fallback string) (string, error) {
 		return fallback, nil
 	}
 	if len(values) > 1 {
-		return "", errorf("descriptor field %q occurs more than once", key)
+		return "", fmt.Errorf("descriptor field %q occurs more than once", key)
 	}
 	return values[0], nil
 }
@@ -170,7 +160,7 @@ func (d Descriptor) Name() (string, error) {
 		return "", err
 	}
 	if name == "" {
-		return "", errorf("descriptor is missing a non-empty name")
+		return "", fmt.Errorf("descriptor is missing a non-empty name")
 	}
 	return name, nil
 }
@@ -193,21 +183,21 @@ func Parse(text string) (Descriptor, error) {
 	for index < len(tokens) {
 		key := tokens[index]
 		if key.Kind != TokenValue {
-			return Descriptor{}, errorf("expected a descriptor field on line %d, got %q", key.Line, key.Value)
+			return Descriptor{}, fmt.Errorf("expected a descriptor field on line %d, got %q", key.Line, key.Value)
 		}
 		index++
 		if index >= len(tokens) || tokens[index].Kind != TokenEquals {
-			return Descriptor{}, errorf("expected '=' after %q on line %d", key.Value, key.Line)
+			return Descriptor{}, fmt.Errorf("expected '=' after %q on line %d", key.Value, key.Line)
 		}
 		index++
 		if index >= len(tokens) {
-			return Descriptor{}, errorf("missing value for %q on line %d", key.Value, key.Line)
+			return Descriptor{}, fmt.Errorf("missing value for %q on line %d", key.Value, key.Line)
 		}
 
 		if tokens[index].Kind != TokenOpen {
 			value := tokens[index]
 			if value.Kind != TokenValue {
-				return Descriptor{}, errorf("invalid value for %q on line %d", key.Value, value.Line)
+				return Descriptor{}, fmt.Errorf("invalid value for %q on line %d", key.Value, value.Line)
 			}
 			fields = append(fields, Field{Key: key.Value, Values: []string{value.Value}})
 			index++
@@ -228,11 +218,11 @@ func Parse(text string) (Descriptor, error) {
 			case token.Kind == TokenValue && depth == 1:
 				values = append(values, token.Value)
 			case token.Kind == TokenEquals && depth == 1:
-				return Descriptor{}, errorf("nested assignments are not supported in %q", key.Value)
+				return Descriptor{}, fmt.Errorf("nested assignments are not supported in %q", key.Value)
 			}
 		}
 		if depth > 0 {
-			return Descriptor{}, errorf("unterminated block for %q on line %d", key.Value, key.Line)
+			return Descriptor{}, fmt.Errorf("unterminated block for %q on line %d", key.Value, key.Line)
 		}
 		fields = append(fields, Field{Key: key.Value, Values: values, Block: true})
 	}
@@ -268,7 +258,7 @@ func ValidateNative(descriptor Descriptor) error {
 		return err
 	}
 	if descriptor.Has("path") {
-		return errorf("native descriptor.mod must not contain a Launcher-only path field")
+		return fmt.Errorf("native descriptor.mod must not contain a Launcher-only path field")
 	}
 	return nil
 }
@@ -310,7 +300,7 @@ func LauncherDescriptorText(nativeText, modSlug, launcherModPath string) (string
 	}
 	if modSlug == "" || modSlug == "." || modSlug == ".." ||
 		strings.ContainsAny(modSlug, `/\`) {
-		return "", errorf("invalid mod slug: %q", modSlug)
+		return "", fmt.Errorf("invalid mod slug: %q", modSlug)
 	}
 
 	modPath := launcherModPath
@@ -320,7 +310,7 @@ func LauncherDescriptorText(nativeText, modSlug, launcherModPath string) (string
 	cleaned := path.Clean(strings.ReplaceAll(modPath, `\`, "/"))
 	if strings.HasPrefix(cleaned, "/") || cleaned == "." || cleaned == ".." ||
 		strings.HasPrefix(cleaned, "../") {
-		return "", errorf("invalid Launcher mod path: %q", launcherModPath)
+		return "", fmt.Errorf("invalid Launcher mod path: %q", launcherModPath)
 	}
 	return strings.TrimRight(nativeText, "\n") + "\npath=" + quoted(cleaned) + "\n", nil
 }
@@ -333,25 +323,4 @@ func DeriveLauncherDescriptor(nativePath, modSlug, launcherModPath string) (stri
 		return "", &ReadError{Path: nativePath, Err: err}
 	}
 	return LauncherDescriptorText(nativeText, modSlug, launcherModPath)
-}
-
-// WriteLauncherDescriptor derives the Launcher descriptor and, when apply is
-// set, replaces the destination atomically. It always returns the content, so
-// a preview and an apply render exactly the same text.
-func WriteLauncherDescriptor(nativePath, destination, modSlug, launcherModPath string, apply bool) (string, error) {
-	content, err := DeriveLauncherDescriptor(nativePath, modSlug, launcherModPath)
-	if err != nil {
-		return "", err
-	}
-	if !apply {
-		return content, nil
-	}
-	info, err := os.Stat(nativePath)
-	if err != nil {
-		return "", err
-	}
-	if err := fsutil.WriteFileAtomic(destination, []byte(content), info.Mode().Perm()); err != nil {
-		return "", err
-	}
-	return content, nil
 }

@@ -7,8 +7,6 @@ package report
 import (
 	"strconv"
 	"strings"
-
-	"codeberg.org/traidare/ck3_mods/internal/jsonout"
 )
 
 // SchemaVersion is the report format this package emits.
@@ -255,11 +253,6 @@ func (r Report) ToMap() map[string]any {
 		"mods":          mods,
 		"files":         files,
 	}
-}
-
-// JSON serializes the report without timestamps or host-specific paths.
-func (r Report) JSON() (string, error) {
-	return jsonout.String(r.ToMap())
 }
 
 // missingWarningCodes are the warnings that mean a mod could not be analyzed

@@ -25,15 +25,6 @@ import (
 // diffable.
 var conflictKindOrder = []string{"same_path", "replace_path_shadow"}
 
-// Error reports a provider tree that cannot be analyzed safely.
-type Error struct{ Message string }
-
-func (e *Error) Error() string { return e.Message }
-
-func errorf(format string, arguments ...any) error {
-	return &Error{Message: fmt.Sprintf(format, arguments...)}
-}
-
 // Provider is a resolved mod root at one position in effective load order.
 type Provider struct {
 	StableID     string
@@ -47,13 +38,13 @@ type Provider struct {
 // NewProvider validates and normalizes a provider's declared replace paths.
 func NewProvider(stableID, name, root string, position int, source string, replacePaths []string) (Provider, error) {
 	if strings.TrimSpace(stableID) == "" {
-		return Provider{}, errorf("stable_id must not be empty")
+		return Provider{}, fmt.Errorf("stable_id must not be empty")
 	}
 	if strings.TrimSpace(name) == "" {
-		return Provider{}, errorf("provider name must not be empty")
+		return Provider{}, fmt.Errorf("provider name must not be empty")
 	}
 	if position < 0 {
-		return Provider{}, errorf("provider position must not be negative")
+		return Provider{}, fmt.Errorf("provider position must not be negative")
 	}
 
 	unique := map[string]bool{}
@@ -63,7 +54,7 @@ func NewProvider(stableID, name, root string, position int, source string, repla
 			return Provider{}, err
 		}
 		if normalized == "" {
-			return Provider{}, errorf("replace_path must not refer to the mod root")
+			return Provider{}, fmt.Errorf("replace_path must not refer to the mod root")
 		}
 		unique[normalized] = true
 	}
@@ -94,26 +85,6 @@ func (p Provider) ToRecord() report.ModRecord {
 	}
 }
 
-// MakeStableModID builds the portable identity hierarchy playset records use.
-func MakeStableModID(gameRegistryID, steamID, pdxID, name string) (string, error) {
-	if gameRegistryID != "" {
-		registryID, err := NormalizeRelativePath(gameRegistryID)
-		if err == nil && registryID != "" {
-			return "local:" + registryID, nil
-		}
-	}
-	if trimmed := strings.TrimSpace(steamID); trimmed != "" {
-		return "steam:" + trimmed, nil
-	}
-	if trimmed := strings.TrimSpace(pdxID); trimmed != "" {
-		return "pdx:" + trimmed, nil
-	}
-	if trimmed := strings.Join(strings.Fields(name), " "); trimmed != "" {
-		return "name:" + trimmed, nil
-	}
-	return "", errorf("at least one mod identifier is required")
-}
-
 // NormalizeRelativePath validates a repository-independent relative path.
 func NormalizeRelativePath(value string) (string, error) {
 	candidate := strings.ReplaceAll(strings.TrimSpace(value), `\`, "/")
@@ -124,7 +95,7 @@ func NormalizeRelativePath(value string) (string, error) {
 	if strings.HasPrefix(normalized, "/") ||
 		(len(normalized) >= 3 && normalized[1:3] == ":/") ||
 		normalized == ".." || strings.HasPrefix(normalized, "../") {
-		return "", errorf("expected a repository-independent relative path: %q", value)
+		return "", fmt.Errorf("expected a repository-independent relative path: %q", value)
 	}
 	if normalized == "." {
 		return "", nil
@@ -135,7 +106,6 @@ func NormalizeRelativePath(value string) (string, error) {
 // scanResult carries one provider's file list back from the worker pool.
 type scanResult struct {
 	index int
-	files []string
 	err   error
 }
 
@@ -176,7 +146,7 @@ func scanProviders(providers []Provider) (map[string]map[string]string, int, err
 	close(failures)
 
 	for failure := range failures {
-		return nil, 0, errorf("could not enumerate provider %s: %v",
+		return nil, 0, fmt.Errorf("could not enumerate provider %s: %w",
 			providers[failure.index].StableID, failure.err)
 	}
 
@@ -470,11 +440,11 @@ func validateProviders(providers []Provider) error {
 	seen := map[string]bool{}
 	for _, provider := range providers {
 		if seen[provider.StableID] {
-			return errorf("duplicate stable mod identity: %s", provider.StableID)
+			return fmt.Errorf("duplicate stable mod identity: %s", provider.StableID)
 		}
 		seen[provider.StableID] = true
 		if info, err := os.Stat(provider.Root); err != nil || !info.IsDir() {
-			return errorf("provider root is not a readable directory: %s", provider.StableID)
+			return fmt.Errorf("provider root is not a readable directory: %s", provider.StableID)
 		}
 	}
 	return nil

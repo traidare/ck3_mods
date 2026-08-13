@@ -1,0 +1,92 @@
+from __future__ import annotations
+
+import re
+import unittest
+from pathlib import Path
+
+from gen.__main__ import load_entrypoint
+from gen.data import csv_bytes
+from gen.text import direct_child_block_start, line_block_end
+
+ROOT = Path(__file__).resolve().parents[1]
+
+
+def generator_function(relative: str, name: str):
+    return load_entrypoint(ROOT / relative, name)
+
+
+class SharedGeneratorHelperTest(unittest.TestCase):
+    def test_csv_bytes_has_stable_field_and_line_order(self) -> None:
+        self.assertEqual(
+            csv_bytes(["id", "name"], [{"name": "Essos", "id": 7}]),
+            b"id,name\n7,Essos\n",
+        )
+
+    def test_line_blocks_ignore_nested_and_commented_braces(self) -> None:
+        lines = (
+            "outer = {\n"
+            '\tnested = { value = "} not structural" } # {\n'
+            "\trandom_list = {\n"
+            "\t\t1 = yes\n"
+            "\t}\n"
+            "}\n"
+        ).splitlines(keepends=True)
+        pattern = re.compile(r"^\s*random_list\s*=\s*\{")
+        self.assertEqual(line_block_end(lines, 0), len(lines))
+        self.assertEqual(direct_child_block_start(lines, 0, pattern), 2)
+
+    def test_map_locator_parser_keeps_prefix_suffix_and_ids(self) -> None:
+        text = (
+            "locator = {\n"
+            "\tinstances = {\n"
+            "\t\t{\n\t\t\tid = 3\n\t\t\tposition={ 1 0 2 }\n\t\t}\n"
+            "\t\t{\n\t\t\tid = 8\n\t\t\tposition={ 4 0 5 }\n\t\t}\n"
+            "\t}\n}\n"
+        )
+        with generator_function(
+            "workspace/agot_now_lov_ee_map_compatch/map_merge.py",
+            "parse_instances",
+        ) as parse_instances:
+            prefix, suffix, records = parse_instances(text)
+        self.assertTrue(prefix.endswith("\tinstances = {\n"))
+        self.assertEqual(suffix, "\n\t}\n}\n")
+        self.assertEqual(list(records), [3, 8])
+
+    def test_lore_parser_and_edit_overlap_guard(self) -> None:
+        source = (
+            'c_test = {\n\tculture = "essosi"\n\t1.2.3 = { government = clan }\n}\n'
+        )
+        with generator_function(
+            "workspace/agot_now_lov_ee_lore_governments/implementation.py",
+            "parse_document",
+        ) as parse_document:
+            document = parse_document(source)
+        title = document.children(None)[0]
+        self.assertEqual(title.key, "c_test")
+        self.assertEqual(
+            document.direct_scalars(title.ident, "culture")[0].value, "essosi"
+        )
+
+        with (
+            generator_function(
+                "workspace/agot_now_lov_ee_lore_governments/implementation.py",
+                "apply_edits",
+            ) as apply_edits,
+            self.assertRaisesRegex(AssertionError, "overlapping"),
+        ):
+            apply_edits("abcdef", [(1, 4, "x"), (3, 5, "y")])
+
+    def test_world_region_parser_ignores_braces_in_strings_and_comments(self) -> None:
+        source = (
+            'first = { name = "}" # }\n nested = { value = yes }\n}\nsecond = { }\n'
+        )
+        with generator_function(
+            "workspace/agot_now_lov_ee_world_data/implementation.py",
+            "parse_top_level_blocks",
+        ) as parse_blocks:
+            blocks = parse_blocks(source)
+        self.assertEqual(list(blocks), ["first", "second"])
+
+
+if __name__ == "__main__":
+    unittest.main()

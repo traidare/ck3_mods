@@ -51,10 +51,10 @@ func BackupTo(databasePath, backupPath string) error {
 
 	if _, err := source.Handle().Exec("VACUUM INTO ?", backupPath); err != nil {
 		os.Remove(backupPath)
-		return errorf("cannot back up the launcher database: %v", err)
+		return fmt.Errorf("cannot back up the launcher database: %w", err)
 	}
 	if !fsutil.IsFile(backupPath) {
-		return errorf("launcher database backup was not created: %s", backupPath)
+		return fmt.Errorf("launcher database backup was not created: %s", backupPath)
 	}
 	return nil
 }

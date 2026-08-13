@@ -6,6 +6,7 @@ from __future__ import annotations
 import codecs
 import hashlib
 import re
+from dataclasses import dataclass
 from pathlib import Path
 
 from gen import GenerationContext
@@ -24,15 +25,15 @@ from gen.text import (
     unique_marker,
 )
 
-ROOT: Path | None = None
-OUTPUT: Path | None = None
-WORKSHOP: Path | None = None
-AGOT: Path | None = None
-CORE: Path | None = None
-SEASONS: Path | None = None
-LONG_NIGHT: Path | None = None
 
-PINNED_HASHES: dict[Path, str] = {}
+@dataclass(frozen=True, slots=True)
+class RunInputs:
+    AGOT: Path
+    CORE: Path
+    SEASONS: Path
+    LONG_NIGHT: Path
+    PINNED_HASHES: dict[Path, str]
+
 
 RELATIVE_ANIMATIONS = Path("gfx/portraits/portrait_animations/animations.txt")
 
@@ -77,13 +78,14 @@ def replace_braced_block_after(
 
 
 def wrap_special_genes(
+    inputs: RunInputs,
     relative: str,
     category: str,
     *,
     remove_morph_metadata: int = 0,
     remove_draugr_attributes: bool = False,
 ) -> str:
-    text = read_source(LONG_NIGHT / relative)
+    text = read_source(inputs.LONG_NIGHT / relative)
     text = replace_exact(
         text,
         f"{category} = {{",
@@ -112,9 +114,9 @@ def wrap_special_genes(
     return stripped[:-1] + "\t}\n}\n"
 
 
-def compat_dna() -> str:
+def compat_dna(inputs: RunInputs) -> str:
     relative = "common/dna_data/agot_dna_a_long_night.txt"
-    text = read_source(LONG_NIGHT / relative)
+    text = read_source(inputs.LONG_NIGHT / relative)
     indent = " \t\t"
     dragon_lines = [
         (
@@ -216,9 +218,9 @@ def compat_dna() -> str:
     return text
 
 
-def compat_maa() -> str:
+def compat_maa(inputs: RunInputs) -> str:
     relative = "common/men_at_arms_types/long_night_maa_types.txt"
-    text = read_source(LONG_NIGHT / relative)
+    text = read_source(inputs.LONG_NIGHT / relative)
     text = replace_exact(
         text,
         "type = Other_infantry",
@@ -251,17 +253,14 @@ def compat_maa() -> str:
     for old, new in replacements.items():
         text = replace_exact(text, old, new, f"{relative}: {old}")
     text = replace_regex(
-        text,
-        r"\r?\n\}\s*$",
-        "\n",
-        f"{relative}: obsolete extra closing brace",
+        text, r"\r?\n\}\s*$", "\n", f"{relative}: obsolete extra closing brace"
     )
     return text
 
 
-def compat_cb() -> str:
+def compat_cb(inputs: RunInputs) -> str:
     relative = "common/casus_belli_types/00_long_night_cbs.txt"
-    text = read_source(LONG_NIGHT / relative)
+    text = read_source(inputs.LONG_NIGHT / relative)
     for field in (
         "attacker_score_from_battle_scale",
         "defender_score_from_battle_scale",
@@ -319,9 +318,9 @@ def literal_regiment(type_name: str, size: int, indent: str) -> str:
     )
 
 
-def compat_scripted_effects() -> str:
+def compat_scripted_effects(inputs: RunInputs) -> str:
     relative = "common/scripted_effects/agot_long_night_scripted_effects.txt"
-    text = read_source(LONG_NIGHT / relative)
+    text = read_source(inputs.LONG_NIGHT / relative)
     replacements = {
         "title:c_the_frigid_rise.province": "title:c_the_frigid_rise.title_province",
         "faith = faith:old_gods_south": "faith = faith:old_gods_wnw",
@@ -412,9 +411,9 @@ def compat_scripted_effects() -> str:
     return text
 
 
-def compat_decisions() -> str:
+def compat_decisions(inputs: RunInputs) -> str:
     relative = "common/decisions/00_agot_long_night_decisions.txt"
-    text = read_source(LONG_NIGHT / relative)
+    text = read_source(inputs.LONG_NIGHT / relative)
     text = replace_exact(
         text,
         "has_faith = faith:old_gods",
@@ -467,9 +466,9 @@ def compat_decisions() -> str:
     return text
 
 
-def compat_story() -> str:
+def compat_story(inputs: RunInputs) -> str:
     relative = "common/story_cycles/the_long_night.txt"
-    text = read_source(LONG_NIGHT / relative)
+    text = read_source(inputs.LONG_NIGHT / relative)
     text = replace_exact(
         text,
         "add_culture_tradition = agot_tradition_wildling",
@@ -522,9 +521,9 @@ def compat_story() -> str:
     return text
 
 
-def compat_maintenance_events() -> str:
+def compat_maintenance_events(inputs: RunInputs) -> str:
     relative = "events/others_events/others_maintenance_events.txt"
-    text = read_source(LONG_NIGHT / relative)
+    text = read_source(inputs.LONG_NIGHT / relative)
     text = replace_regex(
         text,
         r"(?m)^\s*type\s*=\s*empty\s*\r?\n",
@@ -548,9 +547,9 @@ def compat_maintenance_events() -> str:
     return text
 
 
-def compat_occupation_events() -> str:
+def compat_occupation_events(inputs: RunInputs) -> str:
     relative = "events/others_events/others_occupation_events.txt"
-    text = read_source(LONG_NIGHT / relative)
+    text = read_source(inputs.LONG_NIGHT / relative)
     text = replace_exact(
         text,
         "agot_tradition_wildling",
@@ -569,9 +568,9 @@ def compat_occupation_events() -> str:
     return text
 
 
-def compat_aftermath_event() -> str:
+def compat_aftermath_event(inputs: RunInputs) -> str:
     relative = "events/ln_aftermath_events.txt"
-    text = read_source(LONG_NIGHT / relative)
+    text = read_source(inputs.LONG_NIGHT / relative)
     old = """create_maa_regiment = {
 					type = laamp_settler_maa
 					size = ln_refugee_settler_size_value
@@ -584,9 +583,9 @@ def compat_aftermath_event() -> str:
     return replace_exact(text, old, new, f"{relative}: literal settler regiment size")
 
 
-def compat_traits() -> str:
+def compat_traits(inputs: RunInputs) -> str:
     relative = "common/traits/invasions_traits.txt"
-    text = read_source(LONG_NIGHT / relative)
+    text = read_source(inputs.LONG_NIGHT / relative)
     text = replace_regex(
         text,
         r"(?m)^\s*(?:birth|random_creation)\s*=\s*0\s*\r?\n",
@@ -648,9 +647,9 @@ def compat_traits() -> str:
     return text
 
 
-def compat_government() -> str:
+def compat_government(inputs: RunInputs) -> str:
     relative = "common/governments/zz_wight_government.txt"
-    text = read_source(LONG_NIGHT / relative)
+    text = read_source(inputs.LONG_NIGHT / relative)
     return replace_exact(
         text,
         "flags = {\n\t\tgovernment_is_tribal",
@@ -659,10 +658,10 @@ def compat_government() -> str:
     )
 
 
-def compat_rules() -> str:
+def compat_rules(inputs: RunInputs) -> str:
     relative = "common/scripted_rules/00_rules.txt"
-    text = read_source(AGOT / relative)
-    long_night = read_source(LONG_NIGHT / relative)
+    text = read_source(inputs.AGOT / relative)
+    long_night = read_source(inputs.LONG_NIGHT / relative)
     block_start = unique_marker(
         long_night, "\t\t#The Long Night+ Added", f"{relative}: Long Night player block"
     )
@@ -688,17 +687,17 @@ def compat_rules() -> str:
     return text
 
 
-def compat_culture() -> str:
+def compat_culture(inputs: RunInputs) -> str:
     relative = "common/culture/cultures/00_other_culture.txt"
-    text = read_source(LONG_NIGHT / relative)
+    text = read_source(inputs.LONG_NIGHT / relative)
     return replace_exact(
         text, "0.79500034", "0.79500", f"{relative}: supported decimal precision", 2
     )
 
 
-def compat_history() -> str:
+def compat_history(inputs: RunInputs) -> str:
     relative = "history/characters/othersinvasion_characters.txt"
-    text = read_source(LONG_NIGHT / relative)
+    text = read_source(inputs.LONG_NIGHT / relative)
     text = replace_exact(
         text, "name = Other", "name = other_name", f"{relative}: localized name"
     )
@@ -719,11 +718,11 @@ def compat_history() -> str:
     return text
 
 
-def compat_armor_asset() -> str:
+def compat_armor_asset(inputs: RunInputs) -> str:
     relative = (
         "gfx/models/portraits/m_clothes/other_armor/male_clothes_others_armor.asset"
     )
-    text = read_source(LONG_NIGHT / relative)
+    text = read_source(inputs.LONG_NIGHT / relative)
     first = 'name = "male_clothes_secular_other_war_02Shape"'
     positions = [match.start() for match in re.finditer(re.escape(first), text)]
     if len(positions) != 2:
@@ -744,9 +743,9 @@ def compat_armor_asset() -> str:
     return text
 
 
-def compat_gui() -> str:
+def compat_gui(inputs: RunInputs) -> str:
     relative = "gui/event_windows/ln_topleft_wall_event.gui"
-    text = read_source(LONG_NIGHT / relative)
+    text = read_source(inputs.LONG_NIGHT / relative)
     text = replace_exact(
         text,
         "Select_CFixedPoint",
@@ -765,9 +764,9 @@ def compat_gui() -> str:
     return text[:types_at].rstrip() + "\n"
 
 
-def compat_theothers_localization() -> str:
+def compat_theothers_localization(inputs: RunInputs) -> str:
     relative = "localization/english/theothers_l_english.yml"
-    text = read_source(LONG_NIGHT / relative)
+    text = read_source(inputs.LONG_NIGHT / relative)
     for key in ("dynn_others", "dynn_Others", "dynn_others_motto"):
         text = replace_regex(
             text, rf"(?m)^\s*{key}:.*\r?\n", "", f"{relative}: canonical {key}"
@@ -831,68 +830,72 @@ def compat_localization() -> str:
 """
 
 
-def compat_simple_files() -> dict[str, str]:
+def compat_simple_files(inputs: RunInputs) -> dict[str, str]:
     files: dict[str, str] = {}
     files["common/genes/zz_long_night_genes.txt"] = wrap_special_genes(
+        inputs,
         "common/genes/zz_long_night_genes.txt",
         "morph_genes",
         remove_morph_metadata=18,
     )
     files["common/genes/zz_wight_genes.txt"] = wrap_special_genes(
+        inputs,
         "common/genes/zz_wight_genes.txt",
         "morph_genes",
         remove_draugr_attributes=True,
     )
     files["common/genes/zz_wight_gore_genes.txt"] = wrap_special_genes(
-        "common/genes/zz_wight_gore_genes.txt", "morph_genes"
+        inputs, "common/genes/zz_wight_gore_genes.txt", "morph_genes"
     )
     for name in (
         "zz_others_genes_special_accessories_clothes.txt",
         "zz_others_genes_special_accessories_eyes.txt",
     ):
         relative = f"common/genes/{name}"
-        files[relative] = wrap_special_genes(relative, "accessory_genes")
-    files["common/dna_data/agot_dna_a_long_night.txt"] = compat_dna()
-    files["common/men_at_arms_types/long_night_maa_types.txt"] = compat_maa()
-    files["common/casus_belli_types/00_long_night_cbs.txt"] = compat_cb()
+        files[relative] = wrap_special_genes(inputs, relative, "accessory_genes")
+    files["common/dna_data/agot_dna_a_long_night.txt"] = compat_dna(inputs)
+    files["common/men_at_arms_types/long_night_maa_types.txt"] = compat_maa(inputs)
+    files["common/casus_belli_types/00_long_night_cbs.txt"] = compat_cb(inputs)
     files["common/scripted_effects/agot_long_night_scripted_effects.txt"] = (
-        compat_scripted_effects()
+        compat_scripted_effects(inputs)
     )
-    files["common/decisions/00_agot_long_night_decisions.txt"] = compat_decisions()
-    files["common/story_cycles/the_long_night.txt"] = compat_story()
+    files["common/decisions/00_agot_long_night_decisions.txt"] = compat_decisions(
+        inputs
+    )
+    files["common/story_cycles/the_long_night.txt"] = compat_story(inputs)
     files["events/others_events/others_maintenance_events.txt"] = (
-        compat_maintenance_events()
+        compat_maintenance_events(inputs)
     )
     files["events/others_events/others_occupation_events.txt"] = (
-        compat_occupation_events()
+        compat_occupation_events(inputs)
     )
-    files["events/ln_aftermath_events.txt"] = compat_aftermath_event()
+    files["events/ln_aftermath_events.txt"] = compat_aftermath_event(inputs)
     other_events = "events/others_events/others_events.txt"
     files[other_events] = replace_regex(
-        read_source(LONG_NIGHT / other_events),
+        read_source(inputs.LONG_NIGHT / other_events),
         r"(?m)^\s*type\s*=\s*empty\s*\r?\n",
         "",
         f"{other_events}: empty event type",
     )
     modifier = "common/modifiers/zz_long_night_plus_modifiers.txt"
     files[modifier] = replace_exact(
-        read_source(LONG_NIGHT / modifier),
+        read_source(inputs.LONG_NIGHT / modifier),
         "travel_speed = 0.25",
         "character_travel_speed_mult = 0.25",
         f"{modifier}: character travel speed",
     )
-    files["common/traits/invasions_traits.txt"] = compat_traits()
-    files["common/governments/zz_wight_government.txt"] = compat_government()
-    files["common/scripted_rules/00_rules.txt"] = compat_rules()
-    files["common/culture/cultures/00_other_culture.txt"] = compat_culture()
-    files["history/characters/othersinvasion_characters.txt"] = compat_history()
+    files["common/traits/invasions_traits.txt"] = compat_traits(inputs)
+    files["common/governments/zz_wight_government.txt"] = compat_government(inputs)
+    files["common/scripted_rules/00_rules.txt"] = compat_rules(inputs)
+    files["common/culture/cultures/00_other_culture.txt"] = compat_culture(inputs)
+    files["history/characters/othersinvasion_characters.txt"] = compat_history(inputs)
     files[
         "gfx/models/portraits/m_clothes/other_armor/male_clothes_others_armor.asset"
-    ] = compat_armor_asset()
+    ] = compat_armor_asset(inputs)
     portrait_modifiers = (
         "gfx/portraits/portrait_modifiers/ln_others_portrait_modifiers.txt"
     )
-    files[portrait_modifiers] = read_source(LONG_NIGHT / portrait_modifiers)
+    files[portrait_modifiers] = read_source(inputs.LONG_NIGHT / portrait_modifiers)
     background_event = "events/others_events/others_events.txt"
     files[background_event] = replace_exact(
         files[background_event],
@@ -900,38 +903,38 @@ def compat_simple_files() -> dict[str, str]:
         "reference = wilderness_forest",
         f"{background_event}: current event background",
     )
-    files["gui/event_windows/ln_topleft_wall_event.gui"] = compat_gui()
+    files["gui/event_windows/ln_topleft_wall_event.gui"] = compat_gui(inputs)
     coa = "common/coat_of_arms/coat_of_arms/ek2sauron_coa.txt"
     files[coa] = replace_regex(
-        read_source(LONG_NIGHT / coa),
+        read_source(inputs.LONG_NIGHT / coa),
         r"(?m)^\s*custom\s*=\s*yes\s*\r?\n",
         "",
         f"{coa}: removed custom field",
     )
     names = "common/culture/name_lists/00_othernames.txt"
     files[names] = replace_regex(
-        read_source(LONG_NIGHT / names),
+        read_source(inputs.LONG_NIGHT / names),
         r"(?m)^(\s*)Other\s*$",
         r"\1other_name",
         f"{names}: localized Other names",
         2,
     )
     files["localization/english/theothers_l_english.yml"] = (
-        compat_theothers_localization()
+        compat_theothers_localization(inputs)
     )
     dynasty_loc = "localization/english/dynasties/otherdynasty_names_l_english.yml"
-    files[dynasty_loc] = read_source(LONG_NIGHT / dynasty_loc)
+    files[dynasty_loc] = read_source(inputs.LONG_NIGHT / dynasty_loc)
     wall_loc = "localization/english/long_night_plus_wall_events_l_english.yml"
-    files[wall_loc] = read_source(LONG_NIGHT / wall_loc)
+    files[wall_loc] = read_source(inputs.LONG_NIGHT / wall_loc)
     files["localization/english/agot_long_night_compatch_l_english.yml"] = (
         compat_localization()
     )
     return files
 
 
-def core_animation() -> str:
-    core = text(CORE / RELATIVE_ANIMATIONS)
-    source = text(LONG_NIGHT / RELATIVE_ANIMATIONS)
+def core_animation(inputs: RunInputs) -> str:
+    core = text(inputs.CORE / RELATIVE_ANIMATIONS)
+    source = text(inputs.LONG_NIGHT / RELATIVE_ANIMATIONS)
     newline = newline_style(core)
     names = direct_definition_names(source, r"wight_pose_[A-Za-z0-9_]+")
     if len(names) != 5:
@@ -949,8 +952,8 @@ def core_animation() -> str:
     return strip_trailing_whitespace(normalize_newlines(merged, "\n"))
 
 
-def patch_seasons() -> str:
-    value = text(SEASONS / "events/season_events.txt")
+def patch_seasons(inputs: RunInputs) -> str:
+    value = text(inputs.SEASONS / "events/season_events.txt")
     start, end = definition_span(value, "season_events.002")
     block = value[start:end]
     immediate = re.search(r"(?m)^\s*immediate\s*=\s*\{", block)
@@ -1032,8 +1035,8 @@ agot_others_cb_tier = {
 """
 
 
-def patch_maintenance() -> str:
-    value = compat_maintenance_events()
+def patch_maintenance(inputs: RunInputs) -> str:
+    value = compat_maintenance_events(inputs)
     event = """others_maintenance.1 = {
 \tscope = none
 \thidden = yes
@@ -1084,8 +1087,8 @@ def army_block(stacks: int) -> str:
 \t\t}}"""
 
 
-def patch_effects() -> str:
-    value = compat_scripted_effects()
+def patch_effects(inputs: RunInputs) -> str:
+    value = compat_scripted_effects(inputs)
     first = value.find("spawn_army = {")
     if first < 0:
         raise ValueError("initial horde army not found")
@@ -1134,8 +1137,8 @@ def patch_effects() -> str:
     return value
 
 
-def patch_maa() -> str:
-    value = compat_maa()
+def patch_maa(inputs: RunInputs) -> str:
+    value = compat_maa(inputs)
     for old, new in {
         "damage = 38": "damage = 40",
         "toughness = 120": "toughness = 40",
@@ -1155,8 +1158,8 @@ def patch_maa() -> str:
     return value
 
 
-def patch_story() -> str:
-    value = compat_story()
+def patch_story(inputs: RunInputs) -> str:
+    value = compat_story(inputs)
     value = replace_exact(
         value,
         "on_end = {",
@@ -1191,8 +1194,8 @@ def patch_story() -> str:
     return value
 
 
-def patch_decisions() -> str:
-    value = compat_decisions()
+def patch_decisions(inputs: RunInputs) -> str:
+    value = compat_decisions(inputs)
     start, end = definition_span(value, "others_trigger_invasion")
     block = value[start:end]
     block = replace_regex(
@@ -1204,9 +1207,9 @@ def patch_decisions() -> str:
     return value[:start] + block + value[end:]
 
 
-def patch_other_events() -> str:
+def patch_other_events(inputs: RunInputs) -> str:
     relative = "events/others_events/others_events.txt"
-    value = compat_simple_files()[relative]
+    value = compat_simple_files(inputs)[relative]
     marker = "\t\tthe_long_night_setup_effect = yes"
     addition = (
         marker
@@ -1215,8 +1218,8 @@ def patch_other_events() -> str:
     return replace_exact(value, marker, addition, "activate crisis state")
 
 
-def patch_cb() -> str:
-    value = compat_cb()
+def patch_cb(inputs: RunInputs) -> str:
+    value = compat_cb(inputs)
     return replace_regex(
         value,
         r"(war_for_the_dawn_cb\s*=\s*\{.*?on_victory\s*=\s*\{)",
@@ -1431,19 +1434,19 @@ def localization() -> str:
 """
 
 
-def expected_files() -> dict[str, bytes]:
-    for path, digest in PINNED_HASHES.items():
+def expected_files(inputs: RunInputs) -> dict[str, bytes]:
+    for path, digest in inputs.PINNED_HASHES.items():
         actual = hashlib.sha256(path.read_bytes()).hexdigest()
         if actual != digest:
             raise ValueError(f"pinned dependency changed: {path} ({actual})")
 
     files: dict[str, bytes] = {}
-    for source in sorted(p for p in LONG_NIGHT.rglob("*") if p.is_file()):
-        relative = source.relative_to(LONG_NIGHT).as_posix()
+    for source in sorted(p for p in inputs.LONG_NIGHT.rglob("*") if p.is_file()):
+        relative = source.relative_to(inputs.LONG_NIGHT).as_posix()
         if relative not in SKIP:
             files[relative] = source.read_bytes()
 
-    patched = compat_simple_files()
+    patched = compat_simple_files(inputs)
     patched.pop("common/scripted_rules/00_rules.txt", None)
     fixed_loc = patched["localization/english/agot_long_night_compatch_l_english.yml"]
     fixed_loc = re.sub(r"(?m)^\s*GAME_OVER_CANNOT_PLAY_WIGHT:.*\n", "", fixed_loc)
@@ -1461,17 +1464,21 @@ def expected_files() -> dict[str, bytes]:
     )
     patched["localization/english/theothers_l_english.yml"] = trait_loc
     patched["common/game_rules/long_night_game_rules.txt"] = game_rules()
-    patched["common/men_at_arms_types/long_night_maa_types.txt"] = patch_maa()
+    patched["common/men_at_arms_types/long_night_maa_types.txt"] = patch_maa(inputs)
     patched["common/scripted_effects/agot_long_night_scripted_effects.txt"] = (
-        patch_effects()
+        patch_effects(inputs)
     )
-    patched["common/casus_belli_types/00_long_night_cbs.txt"] = patch_cb()
-    patched["common/decisions/00_agot_long_night_decisions.txt"] = patch_decisions()
-    patched["common/story_cycles/the_long_night.txt"] = patch_story()
-    patched["events/others_events/others_maintenance_events.txt"] = patch_maintenance()
-    patched["events/others_events/others_events.txt"] = patch_other_events()
-    patched[str(RELATIVE_ANIMATIONS)] = core_animation()
-    patched["events/season_events.txt"] = patch_seasons()
+    patched["common/casus_belli_types/00_long_night_cbs.txt"] = patch_cb(inputs)
+    patched["common/decisions/00_agot_long_night_decisions.txt"] = patch_decisions(
+        inputs
+    )
+    patched["common/story_cycles/the_long_night.txt"] = patch_story(inputs)
+    patched["events/others_events/others_maintenance_events.txt"] = patch_maintenance(
+        inputs
+    )
+    patched["events/others_events/others_events.txt"] = patch_other_events(inputs)
+    patched[str(RELATIVE_ANIMATIONS)] = core_animation(inputs)
+    patched["events/season_events.txt"] = patch_seasons(inputs)
     patched["common/scripted_triggers/agot_long_night_public_triggers.txt"] = (
         api_triggers()
     )
@@ -1485,7 +1492,9 @@ def expected_files() -> dict[str, bytes]:
         localization()
     )
 
-    siege_events = text(LONG_NIGHT / "events/others_events/others_siege_events.txt")
+    siege_events = text(
+        inputs.LONG_NIGHT / "events/others_events/others_siege_events.txt"
+    )
     siege_events = replace_exact(
         siege_events,
         "\t\tsave_scope_as = occupant",
@@ -1495,7 +1504,8 @@ def expected_files() -> dict[str, bytes]:
     patched["events/others_events/others_siege_events.txt"] = siege_events
 
     aftermath_effects = text(
-        LONG_NIGHT / "common/scripted_effects/zz_long_night_plus_aftermath_effects.txt"
+        inputs.LONG_NIGHT
+        / "common/scripted_effects/zz_long_night_plus_aftermath_effects.txt"
     )
     aftermath_effects = replace_regex(
         aftermath_effects,
@@ -1511,10 +1521,10 @@ def expected_files() -> dict[str, bytes]:
         "common/on_action/00_others_on_actions.txt",
         "gfx/portraits/trait_portrait_modifiers/whitewalker_trait_modifiers.txt",
     ):
-        patched[relative] = text(LONG_NIGHT / relative)
+        patched[relative] = text(inputs.LONG_NIGHT / relative)
 
     siege_path = "common/on_action/AGOT Invasions/invasions_siege.txt"
-    siege = text(LONG_NIGHT / siege_path)
+    siege = text(inputs.LONG_NIGHT / siege_path)
     siege = replace_exact(
         siege,
         "others_siege.0001",
@@ -1530,7 +1540,7 @@ def expected_files() -> dict[str, bytes]:
 
 
 def generate(context: GenerationContext) -> None:
-    global AGOT, CORE, SEASONS, LONG_NIGHT, PINNED_HASHES
+
     AGOT = context.source("agot")
     CORE = context.source("submod-core")
     SEASONS = context.source("seasons")
@@ -1546,5 +1556,12 @@ def generate(context: GenerationContext) -> None:
             "2d8de11f686ba6772c4607f0d1a8b7938153b589a1c081d5d194dd45c06142bd"
         ),
     }
-    for relative, content in sorted(expected_files().items()):
+    inputs = RunInputs(
+        AGOT=AGOT,
+        CORE=CORE,
+        SEASONS=SEASONS,
+        LONG_NIGHT=LONG_NIGHT,
+        PINNED_HASHES=PINNED_HASHES,
+    )
+    for relative, content in sorted(expected_files(inputs).items()):
         context.write_bytes(relative, content)

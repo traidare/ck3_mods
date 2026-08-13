@@ -9,7 +9,6 @@ owned_outputs = [
   "common/customizable_localization/VIET_customizable_localization_misc.txt",
   "common/event_backgrounds/VIET_event_backgrounds.txt",
 ]
-assets = ["assets/disabled-events.txt"]
 
 [[sources]]
 name = "viet"

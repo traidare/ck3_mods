@@ -18,15 +18,6 @@ import (
 	"codeberg.org/traidare/ck3_mods/internal/workspace"
 )
 
-// Error reports an installation that cannot be planned or applied safely.
-type Error struct{ Message string }
-
-func (e *Error) Error() string { return e.Message }
-
-func errorf(format string, arguments ...any) error {
-	return &Error{Message: fmt.Sprintf(format, arguments...)}
-}
-
 // Plan is the derived, non-mutating result of inspecting the workspace.
 type Plan struct {
 	LauncherModDir string
@@ -45,13 +36,13 @@ func Build(space *workspace.Workspace, launcherModDir string, modSlugs []string)
 	destinationRoot := fsutil.MustAbs(launcherModDir)
 	sourceRoot, err := filepath.EvalSymlinks(space.ModsDir())
 	if err != nil {
-		return nil, errorf("cannot resolve workspace mods directory: %v", err)
+		return nil, fmt.Errorf("cannot resolve workspace mods directory: %w", err)
 	}
 	if _, inside := fsutil.RelativeWithin(sourceRoot, destinationRoot); inside {
-		return nil, errorf("launcher mod directory must not be inside workspace mods")
+		return nil, fmt.Errorf("launcher mod directory must not be inside workspace mods")
 	}
 	if _, inside := fsutil.RelativeWithin(destinationRoot, sourceRoot); inside {
-		return nil, errorf("workspace mods must not be inside launcher mod directory")
+		return nil, fmt.Errorf("workspace mods must not be inside launcher mod directory")
 	}
 
 	mods, err := selectMods(space, modSlugs)
@@ -59,7 +50,7 @@ func Build(space *workspace.Workspace, launcherModDir string, modSlugs []string)
 		return nil, err
 	}
 	if len(mods) == 0 {
-		return nil, errorf("no local mods found below %s", space.ModsDir())
+		return nil, fmt.Errorf("no local mods found below %s", space.ModsDir())
 	}
 
 	patterns := space.Settings.InstallExclude
@@ -73,7 +64,7 @@ func Build(space *workspace.Workspace, launcherModDir string, modSlugs []string)
 
 	for _, mod := range mods {
 		if !fsutil.IsFile(mod.DescriptorPath) {
-			return nil, errorf("native descriptor is missing: %s", mod.DescriptorPath)
+			return nil, fmt.Errorf("native descriptor is missing: %s", mod.DescriptorPath)
 		}
 		destination := filepath.Join(destinationRoot, mod.Slug)
 
@@ -107,7 +98,7 @@ func Build(space *workspace.Workspace, launcherModDir string, modSlugs []string)
 		}
 		info, err := os.Stat(mod.DescriptorPath)
 		if err != nil {
-			return nil, errorf("cannot stat %s: %v", mod.DescriptorPath, err)
+			return nil, fmt.Errorf("cannot stat %s: %w", mod.DescriptorPath, err)
 		}
 		result.Ops.Add(plan.Op{
 			Kind:  plan.Write,
@@ -136,7 +127,7 @@ func Build(space *workspace.Workspace, launcherModDir string, modSlugs []string)
 // Apply writes the plan, creating the Launcher mod directory first.
 func (p *Plan) Apply() error {
 	if err := os.MkdirAll(p.LauncherModDir, 0o755); err != nil {
-		return errorf("cannot create %s: %v", p.LauncherModDir, err)
+		return fmt.Errorf("cannot create %s: %w", p.LauncherModDir, err)
 	}
 	return p.Ops.Apply()
 }
@@ -186,7 +177,7 @@ func sourceFiles(modRoot string, patterns []string) (map[string]string, error) {
 			return followSymlink(path, relative, patterns, result)
 		}
 		if !entry.Type().IsRegular() {
-			return errorf("refusing to install non-regular file: %s", path)
+			return fmt.Errorf("refusing to install non-regular file: %s", path)
 		}
 		result[relative] = path
 		return nil
@@ -200,18 +191,18 @@ func sourceFiles(modRoot string, patterns []string) (map[string]string, error) {
 func followSymlink(path, relative string, patterns []string, result map[string]string) error {
 	target, err := filepath.EvalSymlinks(path)
 	if err != nil {
-		return errorf("cannot resolve symlink: %s", path)
+		return fmt.Errorf("cannot resolve symlink: %s", path)
 	}
 	info, err := os.Stat(target)
 	if err != nil {
-		return errorf("cannot resolve symlink: %s", path)
+		return fmt.Errorf("cannot resolve symlink: %s", path)
 	}
 	if info.Mode().IsRegular() {
 		result[relative] = target
 		return nil
 	}
 	if !info.IsDir() {
-		return errorf("refusing to install non-regular file: %s", path)
+		return fmt.Errorf("refusing to install non-regular file: %s", path)
 	}
 	nested, err := fsutil.WalkFiles(target)
 	if err != nil {
@@ -234,10 +225,10 @@ func installedFiles(root string, patterns []string) (map[string]string, error) {
 		if os.IsNotExist(err) {
 			return map[string]string{}, nil
 		}
-		return nil, errorf("cannot inspect %s: %v", root, err)
+		return nil, fmt.Errorf("cannot inspect %s: %w", root, err)
 	}
 	if info.Mode()&os.ModeSymlink != 0 || !info.IsDir() {
-		return nil, errorf("installed mod destination is not a directory: %s", root)
+		return nil, fmt.Errorf("installed mod destination is not a directory: %s", root)
 	}
 	files, err := fsutil.WalkFiles(root)
 	if err != nil {

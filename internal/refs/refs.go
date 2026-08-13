@@ -27,15 +27,6 @@ var ScriptDocLogs = []string{
 	"triggers.log",
 }
 
-// Error reports a reference cache that cannot be synchronized safely.
-type Error struct{ Message string }
-
-func (e *Error) Error() string { return e.Message }
-
-func errorf(format string, arguments ...any) error {
-	return &Error{Message: fmt.Sprintf(format, arguments...)}
-}
-
 // Copy is one cached file and the source it mirrors.
 type Copy struct {
 	Source       string
@@ -74,10 +65,10 @@ func (c Check) Current() bool {
 func infoRelative(path, gameDir string) (string, error) {
 	relative, inside := fsutil.RelativeWithin(gameDir, path)
 	if !inside || relative == "." {
-		return "", errorf("invalid .info source path: %s", path)
+		return "", fmt.Errorf("invalid .info source path: %s", path)
 	}
 	if relative == "game" {
-		return "", errorf("invalid .info source path: %s", path)
+		return "", fmt.Errorf("invalid .info source path: %s", path)
 	}
 	return strings.TrimPrefix(relative, "game/"), nil
 }
@@ -85,15 +76,15 @@ func infoRelative(path, gameDir string) (string, error) {
 // expectedFiles maps each cache-relative path to the source providing it.
 func expectedFiles(gameDir, paradoxDir string) (map[string]string, int, int, error) {
 	if !fsutil.IsDir(gameDir) {
-		return nil, 0, 0, errorf("CK3 game directory is missing: %s", gameDir)
+		return nil, 0, 0, fmt.Errorf("CK3 game directory is missing: %s", gameDir)
 	}
 	if !fsutil.IsDir(paradoxDir) {
-		return nil, 0, 0, errorf("CK3 user-data directory is missing: %s", paradoxDir)
+		return nil, 0, 0, fmt.Errorf("CK3 user-data directory is missing: %s", paradoxDir)
 	}
 
 	files, err := fsutil.WalkFiles(gameDir)
 	if err != nil {
-		return nil, 0, 0, errorf("cannot scan %s: %v", gameDir, err)
+		return nil, 0, 0, fmt.Errorf("cannot scan %s: %w", gameDir, err)
 	}
 	expected := map[string]string{}
 	infoCount := 0
@@ -108,13 +99,13 @@ func expectedFiles(gameDir, paradoxDir string) (map[string]string, int, int, err
 		}
 		key := "info/" + trimmed
 		if _, clash := expected[key]; clash {
-			return nil, 0, 0, errorf("multiple .info sources map to %s", key)
+			return nil, 0, 0, fmt.Errorf("multiple .info sources map to %s", key)
 		}
 		expected[key] = source
 		infoCount++
 	}
 	if infoCount == 0 {
-		return nil, 0, 0, errorf("no .info files found below game directory: %s", gameDir)
+		return nil, 0, 0, fmt.Errorf("no .info files found below game directory: %s", gameDir)
 	}
 
 	docs := 0
@@ -134,10 +125,10 @@ func Build(gameDir, paradoxDir, cacheRoot string) (*Plan, error) {
 	paradox := fsutil.MustAbs(paradoxDir)
 	cache := fsutil.MustAbs(cacheRoot)
 	if _, inside := fsutil.RelativeWithin(game, cache); inside {
-		return nil, errorf("reference cache must not be inside the game directory")
+		return nil, fmt.Errorf("reference cache must not be inside the game directory")
 	}
 	if _, inside := fsutil.RelativeWithin(paradox, cache); inside {
-		return nil, errorf("reference cache must not be inside CK3 user data")
+		return nil, fmt.Errorf("reference cache must not be inside CK3 user data")
 	}
 
 	expected, infoCount, docsCount, err := expectedFiles(game, paradox)
@@ -167,7 +158,7 @@ func Build(gameDir, paradoxDir, cacheRoot string) (*Plan, error) {
 		}
 		present, err := fsutil.WalkFiles(root)
 		if err != nil {
-			return nil, errorf("cannot scan %s: %v", root, err)
+			return nil, fmt.Errorf("cannot scan %s: %w", root, err)
 		}
 		for _, relative := range present {
 			key := name + "/" + relative
@@ -209,7 +200,7 @@ func (p *Plan) Check() (Check, error) {
 		}
 		same, err := fsutil.SameContent(item.Source, item.Destination)
 		if err != nil {
-			return Check{}, errorf("cannot compare %s: %v", item.RelativePath, err)
+			return Check{}, fmt.Errorf("cannot compare %s: %w", item.RelativePath, err)
 		}
 		if !same {
 			result.Stale = append(result.Stale, item.RelativePath)
@@ -275,7 +266,7 @@ func (p *Plan) Apply(generatedAt time.Time) (Check, error) {
 	}
 	path := filepath.Join(p.CacheRoot, "manifest.json")
 	if err := fsutil.WriteFileAtomic(path, manifest, 0o644); err != nil {
-		return Check{}, errorf("cannot write %s: %v", path, err)
+		return Check{}, fmt.Errorf("cannot write %s: %w", path, err)
 	}
 	// Re-derive the plan: the removals this one carries have just been done,
 	// and reusing them would report them as still outstanding.

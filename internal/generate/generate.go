@@ -29,15 +29,6 @@ const RequestSchemaVersion = 1
 // The Nix wrapper sets it; a plain checkout falls back to python3 on PATH.
 const PythonEnv = "CK3MM_PYTHON"
 
-// Error reports a generator that failed, or that broke its manifest.
-type Error struct{ Message string }
-
-func (e *Error) Error() string { return e.Message }
-
-func errorf(format string, arguments ...any) error {
-	return &Error{Message: fmt.Sprintf(format, arguments...)}
-}
-
 // Result is one generator run, compared against what is checked in.
 type Result struct {
 	Slug         string
@@ -85,10 +76,24 @@ type response struct {
 	Stderr        string `json:"stderr"`
 }
 
+type outputGroup struct {
+	root     string
+	files    map[string]string
+	patterns []string
+	artifact bool
+}
+
+func (g outputGroup) label(relative string) string {
+	if g.artifact {
+		return workspace.ArtifactPrefix + "/" + relative
+	}
+	return relative
+}
+
 // Run stages one mod's generator and compares the result with the tree.
 func Run(space *workspace.Workspace, mod *workspace.Mod, settings config.Config, options Options) (Result, error) {
 	if !mod.HasGenerator() {
-		return Result{}, errorf("mod %s has no configured generator", mod.Slug)
+		return Result{}, fmt.Errorf("mod %s has no configured generator", mod.Slug)
 	}
 	manifest := mod.Manifest
 	generator := manifest.Generator
@@ -97,10 +102,6 @@ func Run(space *workspace.Workspace, mod *workspace.Mod, settings config.Config,
 	if err != nil {
 		return Result{}, err
 	}
-	if err := VerifySourceLocks(mod, sources); err != nil {
-		return Result{}, err
-	}
-
 	stateDir := space.StateDir()
 	if err := os.MkdirAll(stateDir, 0o755); err != nil {
 		return Result{}, err
@@ -121,105 +122,107 @@ func Run(space *workspace.Workspace, mod *workspace.Mod, settings config.Config,
 		if message == "" {
 			message = "generator reported no reason"
 		}
-		return result, errorf("generator for %s failed: %s", mod.Slug, message)
+		return result, fmt.Errorf("generator for %s failed: %s", mod.Slug, message)
 	}
 
 	staged, err := regularFiles(stageDir)
 	if err != nil {
 		return result, err
 	}
-	var unexpected []string
-	for relative := range staged {
-		if !stagedIsOwned(relative, generator) {
-			unexpected = append(unexpected, relative)
-		}
-	}
-	if len(unexpected) > 0 {
-		sort.Strings(unexpected)
-		return result, errorf("generator for %s wrote undeclared outputs: %s",
+	if unexpected := undeclaredOutputs(staged, generator); len(unexpected) > 0 {
+		return result, fmt.Errorf("generator for %s wrote undeclared outputs: %s",
 			mod.Slug, strings.Join(unexpected, ", "))
 	}
 	result.StagedFiles = sortedKeys(staged)
 
-	// Payload promotes into mods/<slug>; artifacts promote into the mod's
-	// tooling tree and never reach the Launcher.
-	payload := map[string]string{}
-	artifacts := map[string]string{}
-	for relative, staged := range staged {
-		if IsArtifact(relative) {
-			artifacts[artifactRelative(relative)] = staged
-			continue
-		}
-		payload[relative] = staged
-	}
-
-	groups := []struct {
-		root  string
-		files map[string]string
-		owned func(string) bool
-		label func(string) string
-	}{
-		{
-			mod.Root, payload,
-			func(relative string) bool { return matchesDeclaration(relative, generator.OwnedOutputs) },
-			func(relative string) string { return relative },
-		},
-		{
-			mod.ArtifactsRoot, artifacts,
-			func(relative string) bool { return matchesDeclaration(relative, generator.OwnedArtifacts) },
-			func(relative string) string { return workspace.ArtifactPrefix + "/" + relative },
-		},
-	}
-
-	for _, group := range groups {
-		present, err := regularFiles(group.root)
-		if err != nil {
+	for _, group := range outputGroups(mod, generator, staged) {
+		if err := updateGroup(&result, group, options.Apply); err != nil {
 			return result, err
-		}
-		var changed, stale []string
-		for relative, stagedPath := range group.files {
-			same, err := sameFile(stagedPath, filepath.Join(group.root, filepath.FromSlash(relative)))
-			if err != nil {
-				return result, err
-			}
-			if !same {
-				changed = append(changed, relative)
-			}
-		}
-		for relative := range present {
-			if _, staged := group.files[relative]; !staged && group.owned(relative) {
-				stale = append(stale, relative)
-			}
-		}
-		sort.Strings(changed)
-		sort.Strings(stale)
-		for _, relative := range changed {
-			result.ChangedFiles = append(result.ChangedFiles, group.label(relative))
-		}
-		for _, relative := range stale {
-			result.StaleFiles = append(result.StaleFiles, group.label(relative))
-		}
-
-		if !options.Apply {
-			continue
-		}
-		for _, relative := range changed {
-			if err := promote(group.files[relative], filepath.Join(group.root, filepath.FromSlash(relative))); err != nil {
-				return result, err
-			}
-		}
-		for _, relative := range stale {
-			destination := filepath.Join(group.root, filepath.FromSlash(relative))
-			if err := os.Remove(destination); err != nil {
-				return result, err
-			}
-			removeEmptyParents(destination, group.root)
 		}
 	}
 
 	sort.Strings(result.ChangedFiles)
 	sort.Strings(result.StaleFiles)
 	return result, nil
+}
+
+func undeclaredOutputs(staged map[string]string, generator *workspace.GeneratorSpec) []string {
+	var unexpected []string
+	for relative := range staged {
+		if !stagedIsOwned(relative, generator) {
+			unexpected = append(unexpected, relative)
+		}
+	}
+	sort.Strings(unexpected)
+	return unexpected
+}
+
+// outputGroups separates installable payload from non-shipping artifacts.
+func outputGroups(mod *workspace.Mod, generator *workspace.GeneratorSpec, staged map[string]string) []outputGroup {
+	payload := map[string]string{}
+	artifacts := map[string]string{}
+	for relative, stagedPath := range staged {
+		if IsArtifact(relative) {
+			artifacts[artifactRelative(relative)] = stagedPath
+			continue
+		}
+		payload[relative] = stagedPath
+	}
+	return []outputGroup{
+		{root: mod.Root, files: payload, patterns: generator.OwnedOutputs},
+		{
+			root: mod.ArtifactsRoot, files: artifacts,
+			patterns: generator.OwnedArtifacts, artifact: true,
+		},
+	}
+}
+
+func updateGroup(result *Result, group outputGroup, apply bool) error {
+	present, err := regularFiles(group.root)
+	if err != nil {
+		return err
+	}
+	var changed, stale []string
+	for relative, stagedPath := range group.files {
+		destination := filepath.Join(group.root, filepath.FromSlash(relative))
+		same, err := sameFile(stagedPath, destination)
+		if err != nil {
+			return err
+		}
+		if !same {
+			changed = append(changed, relative)
+		}
+	}
+	for relative := range present {
+		if _, staged := group.files[relative]; !staged && matchesDeclaration(relative, group.patterns) {
+			stale = append(stale, relative)
+		}
+	}
+	sort.Strings(changed)
+	sort.Strings(stale)
+	for _, relative := range changed {
+		result.ChangedFiles = append(result.ChangedFiles, group.label(relative))
+	}
+	for _, relative := range stale {
+		result.StaleFiles = append(result.StaleFiles, group.label(relative))
+	}
+	if !apply {
+		return nil
+	}
+	for _, relative := range changed {
+		destination := filepath.Join(group.root, filepath.FromSlash(relative))
+		if err := promote(group.files[relative], destination); err != nil {
+			return err
+		}
+	}
+	for _, relative := range stale {
+		destination := filepath.Join(group.root, filepath.FromSlash(relative))
+		if err := os.Remove(destination); err != nil {
+			return err
+		}
+		removeEmptyParents(destination, group.root)
+	}
+	return nil
 }
 
 // invoke runs the Python sidecar for one staged generator.
@@ -266,16 +269,16 @@ func invoke(space *workspace.Workspace, mod *workspace.Mod, stageDir string, sou
 	var answer response
 	if report != "" {
 		if err := json.Unmarshal([]byte(report), &answer); err != nil {
-			return response{}, errorf("generator sidecar for %s produced no usable result: %v\n%s",
+			return response{}, fmt.Errorf("generator sidecar for %s produced no usable result: %w\n%s",
 				mod.Slug, err, stderr.String())
 		}
 	}
 	if runError != nil && answer.Status == "" {
-		return response{}, errorf("generator sidecar for %s did not run: %v\n%s",
+		return response{}, fmt.Errorf("generator sidecar for %s did not run: %w\n%s",
 			mod.Slug, runError, stderr.String())
 	}
 	if answer.SchemaVersion != RequestSchemaVersion {
-		return response{}, errorf("generator sidecar for %s answered with schema version %d",
+		return response{}, fmt.Errorf("generator sidecar for %s answered with schema version %d",
 			mod.Slug, answer.SchemaVersion)
 	}
 	answer.Stdout = passthrough + answer.Stdout
@@ -362,7 +365,7 @@ func regularFiles(root string) (map[string]string, error) {
 			return err
 		}
 		if entry.Type()&fs.ModeSymlink != 0 {
-			return errorf("generated outputs must not be symlinks: %s", current)
+			return fmt.Errorf("generated outputs must not be symlinks: %s", current)
 		}
 		if !entry.Type().IsRegular() {
 			return nil

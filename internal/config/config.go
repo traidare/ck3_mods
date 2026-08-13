@@ -37,15 +37,6 @@ const LauncherDatabaseName = "launcher-v2.sqlite"
 
 var dotenvKey = regexp.MustCompile(`^[A-Za-z_][A-Za-z0-9_]*$`)
 
-// Error reports missing or invalid local configuration.
-type Error struct{ Message string }
-
-func (e *Error) Error() string { return e.Message }
-
-func errorf(format string, arguments ...any) error {
-	return &Error{Message: fmt.Sprintf(format, arguments...)}
-}
-
 // Config holds the resolved settings for one invocation.
 type Config struct {
 	RepoRoot    string
@@ -114,7 +105,7 @@ func (c Config) Require(variables ...string) error {
 		}
 	}
 	if len(problems) > 0 {
-		return errorf("invalid CK3 configuration:\n- %s", strings.Join(problems, "\n- "))
+		return fmt.Errorf("invalid CK3 configuration:\n- %s", strings.Join(problems, "\n- "))
 	}
 	return nil
 }
@@ -155,11 +146,11 @@ func parseDotenvValue(value string, lineNumber int, path string) (string, error)
 		escaped = false
 	}
 	if closing < 0 {
-		return "", errorf("%s:%d: unterminated quoted value", path, lineNumber)
+		return "", fmt.Errorf("%s:%d: unterminated quoted value", path, lineNumber)
 	}
 	remainder := strings.TrimSpace(string(runes[closing+1:]))
 	if remainder != "" && !strings.HasPrefix(remainder, "#") {
-		return "", errorf("%s:%d: unexpected text after quoted value", path, lineNumber)
+		return "", fmt.Errorf("%s:%d: unexpected text after quoted value", path, lineNumber)
 	}
 
 	parsed := string(runes[1:closing])
@@ -184,7 +175,7 @@ func ReadDotenv(path string) (map[string]string, error) {
 		if os.IsNotExist(err) {
 			return map[string]string{}, nil
 		}
-		return nil, errorf("cannot read %s: %v", path, err)
+		return nil, fmt.Errorf("cannot read %s: %w", path, err)
 	}
 
 	values := map[string]string{}
@@ -198,11 +189,11 @@ func ReadDotenv(path string) (map[string]string, error) {
 		line = strings.TrimLeft(line, " \t")
 		key, rawValue, found := strings.Cut(line, "=")
 		if !found {
-			return nil, errorf("%s:%d: expected KEY=VALUE", path, lineNumber)
+			return nil, fmt.Errorf("%s:%d: expected KEY=VALUE", path, lineNumber)
 		}
 		key = strings.TrimSpace(key)
 		if !dotenvKey.MatchString(key) {
-			return nil, errorf("%s:%d: invalid variable name %q", path, lineNumber, key)
+			return nil, fmt.Errorf("%s:%d: invalid variable name %q", path, lineNumber, key)
 		}
 		value, err := parseDotenvValue(rawValue, lineNumber, path)
 		if err != nil {
@@ -222,7 +213,7 @@ func configuredPath(variable, raw string) (string, error) {
 		return "", err
 	}
 	if !filepath.IsAbs(path) {
-		return "", errorf("%s must be an absolute path: %s", variable, raw)
+		return "", fmt.Errorf("%s must be an absolute path: %s", variable, raw)
 	}
 	if resolved, err := filepath.EvalSymlinks(path); err == nil {
 		return resolved, nil
@@ -240,7 +231,7 @@ func expandUser(path string) (string, error) {
 	}
 	home, err := os.UserHomeDir()
 	if err != nil {
-		return "", errorf("cannot expand %q: %v", path, err)
+		return "", fmt.Errorf("cannot expand %q: %w", path, err)
 	}
 	return filepath.Join(home, strings.TrimPrefix(strings.TrimPrefix(path, "~"), "/")), nil
 }
@@ -258,7 +249,7 @@ type Options struct {
 func Load(repoRoot string, options Options) (Config, error) {
 	root, err := filepath.Abs(repoRoot)
 	if err != nil {
-		return Config{}, errorf("cannot resolve repository root: %v", err)
+		return Config{}, fmt.Errorf("cannot resolve repository root: %w", err)
 	}
 
 	dotenvPath := options.DotenvPath
@@ -276,7 +267,7 @@ func Load(repoRoot string, options Options) (Config, error) {
 	}
 	for name := range options.Overrides {
 		if !known(name) {
-			return Config{}, errorf("unknown configuration override: %s", name)
+			return Config{}, fmt.Errorf("unknown configuration override: %s", name)
 		}
 	}
 

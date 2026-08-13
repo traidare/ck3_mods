@@ -5,7 +5,6 @@ from __future__ import annotations
 
 import json
 import re
-from dataclasses import dataclass
 from pathlib import Path
 
 from gen import GenerationContext
@@ -13,12 +12,7 @@ from gen.hashing import sha256_file
 from gen.sources import canonical_source_path
 from gen.text import matching_brace, read_source
 
-WORKSHOP_IDS = {
-    "NOW": "3664900993",
-    "SEASONS_BRIDGE": "3766038754",
-}
-MODULE_RELATIVE = Path("mods/agot_full_playset_compatch")
-SOURCE_MANIFEST_OVERRIDE: Path | None = None
+WORKSHOP_IDS = {"NOW": "3664900993", "SEASONS_BRIDGE": "3766038754"}
 SOURCE_RELATIVES = {
     "NOW": Path("common/landed_titles/01_agot_landed_titles.txt"),
     "SEASON_EVENTS": Path("events/lov_season_events.txt"),
@@ -30,10 +24,6 @@ OUTPUT_RELATIVES = {
     "SEASON_FX": SOURCE_RELATIVES["SEASON_FX"],
     "SEASON_REGIONS": SOURCE_RELATIVES["SEASON_REGIONS"],
 }
-OBSOLETE_OUTPUTS = (
-    Path("map_data/geographical_regions/replace/north_sans_neck.txt"),
-    SOURCE_RELATIVES["NOW"],
-)
 
 
 def read_text(path: Path) -> str:
@@ -183,10 +173,7 @@ def replace_block_member(text: str, block_name: str, old: str, new: str) -> str:
 
 def generate_regions(source: str) -> str:
     text = replace_block_member(
-        source,
-        "world_westeros_rest_of_dorne",
-        "\t\td_yronwood\n",
-        "\t\td_greenbelt\n",
+        source, "world_westeros_rest_of_dorne", "\t\td_yronwood\n", "\t\td_greenbelt\n"
     )
     if "d_yronwood" in text:
         raise AssertionError("NOW d_greenbelt seasonal-region membership changed")
@@ -217,10 +204,7 @@ def generate_regions(source: str) -> str:
     if "\t\tc_ironwater\n" not in crossing or "d_ironwater" in crossing:
         raise AssertionError("Ironwater flood membership changed upstream")
     text = replace_block_member(
-        text,
-        "world_riverrun_flood",
-        "\t\t#c_sally_dance\n",
-        "\t\tc_sallydance\n",
+        text, "world_riverrun_flood", "\t\t#c_sally_dance\n", "\t\tc_sallydance\n"
     )
     rest_start, rest_end = named_block(text, "world_rest_of_essos_valyria_LOV")
     rest = text[rest_start : rest_end + 1]
@@ -253,10 +237,7 @@ def generate_regions(source: str) -> str:
             "world_lov_marahai",
             "world_lov_asshai",
         ),
-        "world_group_ten": (
-            "world_lov_volantene_coast",
-            "world_lov_north_ghiscar",
-        ),
+        "world_group_ten": ("world_lov_volantene_coast", "world_lov_north_ghiscar"),
     }.items():
         text = add_group_regions(text, group, regions)
 
@@ -300,9 +281,7 @@ def generate_outputs(workshop: dict[str, Path]) -> dict[Path, bytes]:
 
 
 def source_manifest(
-    root: Path,
-    workshop: dict[str, Path],
-    workshop_root: Path,
+    root: Path, workshop: dict[str, Path], workshop_root: Path
 ) -> dict[str, object]:
     sources = {
         "NOW": workshop["NOW"] / SOURCE_RELATIVES["NOW"],
@@ -344,22 +323,12 @@ def source_manifest(
     }
 
 
-@dataclass(frozen=True, slots=True)
-class Options:
-    """Everything one generation run needs that is not a declared source."""
-
-    root: Path
-    workshop_root: Path
-    check: bool = False
-    update_source_manifest: bool = False
-
-
-def main(options: Options) -> int:
-    root = options.root.resolve()
-    workshop_root = options.workshop_root
+def generate(context: GenerationContext) -> None:
+    root = context.workspace_root
+    workshop_root = context.workshop_root("agot-now", "seasons-bridge")
     workshop = {
-        label: workshop_root / workshop_id
-        for label, workshop_id in WORKSHOP_IDS.items()
+        "NOW": context.source("agot-now"),
+        "SEASONS_BRIDGE": context.source("seasons-bridge"),
     }
     missing = [
         f"{label}:{path}" for label, path in workshop.items() if not path.is_dir()
@@ -367,68 +336,20 @@ def main(options: Options) -> int:
     if missing:
         raise FileNotFoundError(f"missing Workshop modules: {missing}")
 
-    module = root / MODULE_RELATIVE
-    manifest_path = SOURCE_MANIFEST_OVERRIDE or (
-        root / "workspace/agot_full_playset_compatch/assets/source_manifest.json"
-    )
+    manifest_path = context.assets_dir / "source_manifest.json"
     manifest = source_manifest(root, workshop, workshop_root)
-    if options.update_source_manifest:
-        manifest_path.parent.mkdir(parents=True, exist_ok=True)
-        manifest_path.write_text(
-            json.dumps(manifest, indent=2, sort_keys=True) + "\n", encoding="utf-8"
-        )
-        print(f"Updated {manifest_path.relative_to(root)}")
-        return 0
     if not manifest_path.is_file():
         raise FileNotFoundError(
-            f"{manifest_path} missing; review inputs and run --update-source-manifest"
+            f"{manifest_path.relative_to(root)} is missing; review the upstream "
+            "inputs and replace the reviewed asset deliberately"
         )
     if json.loads(manifest_path.read_text(encoding="utf-8")) != manifest:
         raise AssertionError(
-            "upstream source manifest drifted; review and run --update-source-manifest"
+            "upstream source manifest drifted; review the differences and replace "
+            f"{manifest_path.relative_to(root)} deliberately"
         )
 
     outputs = generate_outputs(workshop)
-    if options.check:
-        stale = [
-            relative.as_posix()
-            for relative, data in outputs.items()
-            if not (module / relative).is_file()
-            or (module / relative).read_bytes() != data
-        ]
-        stale.extend(
-            relative.as_posix()
-            for relative in OBSOLETE_OUTPUTS
-            if (module / relative).exists()
-        )
-        if stale:
-            raise AssertionError(f"generated full-compatch outputs are stale: {stale}")
-        print(f"Full-compatch generated outputs are current: {len(outputs)} files")
-        return 0
-
     for relative, data in outputs.items():
-        target = module / relative
-        target.parent.mkdir(parents=True, exist_ok=True)
-        target.write_bytes(data)
-    for relative in OBSOLETE_OUTPUTS:
-        target = module / relative
-        if target.is_file():
-            target.unlink()
-        elif target.exists():
-            raise AssertionError(f"obsolete generated output is not a file: {target}")
+        context.write_bytes(relative, data)
     print(f"Generated full-compatch overrides: {len(outputs)} files")
-    return 0
-
-
-def generate(context: GenerationContext) -> None:
-    global MODULE_RELATIVE, SOURCE_MANIFEST_OVERRIDE
-    MODULE_RELATIVE = context.output_root.relative_to(context.workspace_root)
-    SOURCE_MANIFEST_OVERRIDE = context.assets_dir / "source_manifest.json"
-    result = main(
-        Options(
-            root=context.workspace_root,
-            workshop_root=context.workshop_root("agot-now", "seasons-bridge"),
-        )
-    )
-    if result not in (None, 0):
-        raise RuntimeError(f"generator returned unsuccessful status {result}")

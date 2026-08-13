@@ -10,16 +10,20 @@ from __future__ import annotations
 
 import re
 from collections import Counter
+from dataclasses import dataclass
 from pathlib import Path
 
 from gen import GenerationContext
 from gen.text import read_source, replace_exact
 
-ROOT: Path | None = None
-MOD_SOURCE: Path | None = None
-SOURCE: Path | None = None
-MOD_OUTPUT: Path | None = None
-OUTPUT: Path | None = None
+
+@dataclass(frozen=True, slots=True)
+class RunInputs:
+    MOD_SOURCE: Path
+    SOURCE: Path
+    MOD_OUTPUT: Path
+    OUTPUT: Path
+
 
 INVALID_MAA_TYPES = frozenset(
     [
@@ -90,8 +94,10 @@ def read_text(path: Path) -> str:
     return read_source(path, normalize_newlines=True)
 
 
-def write_text(relative: str, text: str, *, root: Path | None = None) -> None:
-    path = (OUTPUT if root is None else root) / relative
+def write_text(
+    inputs: RunInputs, relative: str, text: str, *, root: Path | None = None
+) -> None:
+    path = (inputs.OUTPUT if root is None else root) / relative
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(text, encoding="utf-8-sig", newline="\n")
 
@@ -133,9 +139,9 @@ def weighted_branch(lines: list[str], marker: int) -> tuple[int, int]:
     raise RuntimeError(f"CaFG weighted branch at source line {start + 1} is unbalanced")
 
 
-def generate_boons() -> None:
+def generate_boons(inputs: RunInputs) -> None:
     relative = "kei_cafg_cultural_boons_effects.txt"
-    lines = read_text(SOURCE / relative).splitlines(keepends=True)
+    lines = read_text(inputs.SOURCE / relative).splitlines(keepends=True)
     removed = Counter()
     output: list[str] = []
 
@@ -222,12 +228,12 @@ def generate_boons() -> None:
             "CaFG cultural-boon helpers still reference invalid MAA types: "
             f"{sorted(remaining_invalid)}"
         )
-    write_text(relative, text)
+    write_text(inputs, relative, text)
 
 
-def generate_benefits() -> None:
+def generate_benefits(inputs: RunInputs) -> None:
     relative = "kei_cafg_cultural_benefits_effects.txt"
-    lines = read_text(SOURCE / relative).splitlines(keepends=True)
+    lines = read_text(inputs.SOURCE / relative).splitlines(keepends=True)
     invalid_calls = Counter()
     markers: list[int] = []
 
@@ -307,16 +313,13 @@ def generate_benefits() -> None:
             f"MAA={sorted(remaining_invalid)}, "
             f"traditions={sorted(remaining_traditions)}"
         )
-    write_text(relative, text)
+    write_text(inputs, relative, text)
 
 
-def generate_benefit_values() -> None:
+def generate_benefit_values(inputs: RunInputs) -> None:
     relative = "common/script_values/kei_cafg_cultural_benefits_values.txt"
-    text = read_text(MOD_SOURCE / relative)
-    for tradition in (
-        "tradition_cultural_primacy",
-        "tradition_tgp_inward_perfection",
-    ):
+    text = read_text(inputs.MOD_SOURCE / relative)
+    for tradition in ("tradition_cultural_primacy", "tradition_tgp_inward_perfection"):
         text = replace_exact(
             text,
             f"                has_cultural_tradition = {tradition}\n",
@@ -349,10 +352,10 @@ def generate_benefit_values() -> None:
         raise RuntimeError(
             f"CaFG cultural-benefit values retain AGOT-invalid identifiers: {remaining}"
         )
-    write_text(relative, text, root=MOD_OUTPUT)
+    write_text(inputs, relative, text, root=inputs.MOD_OUTPUT)
 
 
-def generate_disabled_vanilla_overrides() -> None:
+def generate_disabled_vanilla_overrides(inputs: RunInputs) -> None:
     vanilla_definitions = {
         "common/casus_belli_types/99_kei_cafg_replaced_fp3_wars.txt": (
             "fp3_zanj_rebellion_war",
@@ -375,7 +378,7 @@ def generate_disabled_vanilla_overrides() -> None:
         ),
     }
     for relative, definitions in vanilla_definitions.items():
-        source = read_text(MOD_SOURCE / relative)
+        source = read_text(inputs.MOD_SOURCE / relative)
         for definition in definitions:
             found = source.count(f"{definition} = {{")
             if found != 1:
@@ -384,20 +387,21 @@ def generate_disabled_vanilla_overrides() -> None:
                     f"{definition} definition, found {found}"
                 )
         write_text(
+            inputs,
             relative,
             (
                 "# Intentionally empty for AGOT. CaFG copies vanilla-only "
                 "definitions that AGOT disables.\n"
             ),
-            root=MOD_OUTPUT,
+            root=inputs.MOD_OUTPUT,
         )
 
 
-def main() -> None:
-    generate_boons()
-    generate_benefits()
-    generate_benefit_values()
-    generate_disabled_vanilla_overrides()
+def main(inputs: RunInputs) -> None:
+    generate_boons(inputs)
+    generate_benefits(inputs)
+    generate_benefit_values(inputs)
+    generate_disabled_vanilla_overrides(inputs)
     print(
         "Generated CaFG/AGOT cultural-boon rebase "
         "(35 removed MAA types, 11 removed traditions, 4 runtime identifiers, "
@@ -406,9 +410,12 @@ def main() -> None:
 
 
 def generate(context: GenerationContext) -> None:
-    global MOD_SOURCE, SOURCE, MOD_OUTPUT, OUTPUT
+
     MOD_SOURCE = context.source("culture-faith-granularity")
     SOURCE = MOD_SOURCE / "common/scripted_effects"
     MOD_OUTPUT = context.output_root
     OUTPUT = MOD_OUTPUT / "common/scripted_effects"
-    main()
+    inputs = RunInputs(
+        MOD_SOURCE=MOD_SOURCE, SOURCE=SOURCE, MOD_OUTPUT=MOD_OUTPUT, OUTPUT=OUTPUT
+    )
+    main(inputs)

@@ -79,7 +79,9 @@
             workingTreeCk3mm
             pythonEnv
             go
+            go-tools
             gopls
+            gotools
             just
             # Manual heightmap inspection, see docs/agot-heightmap-repack.md.
             imagemagick

@@ -8,10 +8,7 @@ from pathlib import Path
 
 
 def read_source(
-    path: Path,
-    *,
-    require_bom: bool = False,
-    normalize_newlines: bool = False,
+    path: Path, *, require_bom: bool = False, normalize_newlines: bool = False
 ) -> str:
     """Read a UTF-8 source file with optional BOM and newline requirements."""
     if not path.is_file():
@@ -25,13 +22,7 @@ def read_source(
     return text
 
 
-def replace_exact(
-    text: str,
-    old: str,
-    new: str,
-    label: str,
-    expected: int = 1,
-) -> str:
+def replace_exact(text: str, old: str, new: str, label: str, expected: int = 1) -> str:
     """Replace an exact source fragment only when its count is deliberate."""
     count = text.count(old)
     if count != expected:
@@ -93,20 +84,62 @@ def matching_brace(text: str, opening: int) -> int:
     raise ValueError(f"unterminated block starting at offset {opening}")
 
 
+def line_block_end(lines: list[str], start: int) -> int:
+    """Return the line after a Paradox block that begins on ``start``."""
+    text = "".join(lines)
+    offset = sum(map(len, lines[:start]))
+    opening = text.find("{", offset)
+    if opening < 0:
+        raise ValueError(f"block beginning at line {start + 1} has no opening brace")
+    end = matching_brace(text, opening) + 1
+    return len(text[:end].splitlines())
+
+
+def direct_child_block_start(
+    lines: list[str], start: int, pattern: re.Pattern[str]
+) -> int | None:
+    """Find a direct child block line inside the block beginning at ``start``."""
+    text = "".join(lines)
+    offset = sum(map(len, lines[:start]))
+    opening = text.find("{", offset)
+    end = matching_brace(text, opening)
+    depth = 1
+    quoted = escaped = comment = False
+    line = start
+    for index in range(opening + 1, end):
+        char = text[index]
+        if char == "\n":
+            line += 1
+            comment = False
+            if line < len(lines) and depth == 1 and pattern.match(lines[line]):
+                return line
+            continue
+        if comment:
+            continue
+        if quoted:
+            if escaped:
+                escaped = False
+            elif char == "\\":
+                escaped = True
+            elif char == '"':
+                quoted = False
+            continue
+        if char == "#":
+            comment = True
+        elif char == '"':
+            quoted = True
+        elif char == "{":
+            depth += 1
+        elif char == "}":
+            depth -= 1
+    return None
+
+
 def definition_span(
-    text: str,
-    name: str,
-    *,
-    indent: str = r"[ \t]*",
-    consume_line_end: bool = False,
+    text: str, name: str, *, indent: str = r"[ \t]*", consume_line_end: bool = False
 ) -> tuple[int, int]:
     """Return the source span of one named top-level-style definition."""
-    matches = list(
-        re.finditer(
-            rf"(?m)^{indent}{re.escape(name)}\s*=\s*\{{",
-            text,
-        )
-    )
+    matches = list(re.finditer(rf"(?m)^{indent}{re.escape(name)}\s*=\s*\{{", text))
     if len(matches) != 1:
         raise ValueError(f"{name}: expected one definition, found {len(matches)}")
 

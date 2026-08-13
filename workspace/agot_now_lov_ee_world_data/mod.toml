@@ -8,14 +8,6 @@ owned_artifacts = [
   "world_data/terrain_audit.csv",
   "world_data/graphical_region_audit.csv",
 ]
-assets = [
-  "assets/world_data/terrain_mask_groups.toml",
-  "assets/world_data/terrain_lore_regions.csv",
-  "assets/world_data/terrain_decisions.csv",
-  "assets/world_data/graphical_style_map.csv",
-  "assets/world_data/source_manifest.json",
-]
-
 [[sources]]
 name = "agot"
 kind = "workshop"

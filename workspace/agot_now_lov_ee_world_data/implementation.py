@@ -6,10 +6,8 @@ from __future__ import annotations
 import csv
 import fnmatch
 import hashlib
-import io
 import json
 import re
-import sys
 import tomllib
 from collections import Counter, defaultdict
 from collections.abc import Iterable
@@ -20,7 +18,9 @@ import numpy as np
 from PIL import Image
 
 from gen import GenerationContext
+from gen.data import csv_bytes
 from gen.hashing import sha256_file
+from gen.script import read_text
 from gen.sources import canonical_source_path
 
 TARGET_FIRST = 10946
@@ -30,10 +30,7 @@ EXPECTED_TITLE_COUNT = 13270
 EXPECTED_MASK_COUNT = 188
 EXPECTED_SIZE = (9216, 6144)
 REFERENCE_ANALYSIS_SIZE = (2304, 1536)
-REFERENCE_EXPECTED_SIZES = {
-    "detailed": (7400, 4932),
-    "google": (3400, 2267),
-}
+REFERENCE_EXPECTED_SIZES = {"detailed": (7400, 4932), "google": (3400, 2267)}
 RUTTING_IDS = tuple(range(1697, 1702))
 FEATURE_CACHE_SCHEMA = 3
 
@@ -45,10 +42,17 @@ WORKSHOP_IDS = {
     "EE": "3682802751",
     "EEP": "3768149491",
 }
-OUTPUT_ROOT_OVERRIDE: Path | None = None
-ASSETS_DIR_OVERRIDE: Path | None = None
-MAP_DEFINITION_OVERRIDE: Path | None = None
-REFERENCE_PATHS_OVERRIDE: dict[str, Path] | None = None
+
+
+@dataclass(frozen=True, slots=True)
+class RunInputs:
+    root: Path
+    workshop_root: Path
+    output_root: Path
+    assets_dir: Path
+    map_definition: Path
+    reference_paths: dict[str, Path]
+    no_cache: bool
 
 
 @dataclass(frozen=True)
@@ -111,10 +115,6 @@ class LoreRegion:
     reason: str
 
 
-def normalized_text(path: Path) -> str:
-    return path.read_text(encoding="utf-8-sig").replace("\r\n", "\n")
-
-
 def sha256_bytes(data: bytes) -> str:
     return hashlib.sha256(data).hexdigest()
 
@@ -130,7 +130,7 @@ def bool_value(value: str, *, field: str) -> bool:
 
 def parse_definitions(path: Path) -> list[Definition]:
     rows: list[Definition] = []
-    for line_number, line in enumerate(normalized_text(path).splitlines(), 1):
+    for line_number, line in enumerate(read_text(path).splitlines(), 1):
         if not line.strip():
             continue
         fields = line.split(";")
@@ -161,7 +161,7 @@ def parse_definitions(path: Path) -> list[Definition]:
 def parse_scalar_terrain(path: Path) -> dict[int, str]:
     result: dict[int, str] = {}
     pattern = re.compile(r"^\s*(\d+)\s*=\s*([a-z][a-z0-9_]*)\s*(?:#.*)?$")
-    for line in normalized_text(path).splitlines():
+    for line in read_text(path).splitlines():
         match = pattern.match(line)
         if match:
             result[int(match.group(1))] = match.group(2)
@@ -187,7 +187,7 @@ def terrain_type_keys(module_roots: Iterable[Path]) -> set[str]:
         if not terrain_root.is_dir():
             continue
         for path in sorted(terrain_root.rglob("*.txt")):
-            for line in normalized_text(path).splitlines():
+            for line in read_text(path).splitlines():
                 if match := pattern.match(line):
                     keys.add(match.group(1))
     return keys
@@ -198,7 +198,7 @@ def parse_default_map(path: Path) -> tuple[set[int], set[int], set[int]]:
     pattern = re.compile(
         r"^\s*(sea_zones|river_provinces|lakes)\s*=\s*" r"(LIST|RANGE)\s*\{([^}]*)\}"
     )
-    for line in normalized_text(path).splitlines():
+    for line in read_text(path).splitlines():
         line = line.split("#", 1)[0]
         match = pattern.match(line)
         if not match:
@@ -210,11 +210,7 @@ def parse_default_map(path: Path) -> tuple[set[int], set[int], set[int]]:
                 raise ValueError(f"{path}: malformed {name} RANGE")
             values = list(range(values[0], values[1] + 1))
         categories[name].update(values)
-    return (
-        categories["sea_zones"],
-        categories["river_provinces"],
-        categories["lakes"],
-    )
+    return (categories["sea_zones"], categories["river_provinces"], categories["lakes"])
 
 
 def parse_titles(
@@ -226,7 +222,7 @@ def parse_titles(
     depth = 0
     rows: list[TitleRow] = []
 
-    for raw_line in normalized_text(path).splitlines():
+    for raw_line in read_text(path).splitlines():
         line = raw_line.split("#", 1)[0]
         while stack and depth < stack[-1][1]:
             stack.pop()
@@ -266,7 +262,7 @@ def parse_titles(
 def load_mask_groups(
     path: Path, mask_paths: list[Path], terrain_root: Path
 ) -> tuple[list[MaskGroup], dict[str, MaskGroup]]:
-    data = tomllib.loads(normalized_text(path))
+    data = tomllib.loads(read_text(path))
     if data.get("version") != 1:
         raise ValueError(f"{path}: unsupported mask configuration version")
     groups: list[MaskGroup] = []
@@ -332,13 +328,7 @@ def load_graphical_mappings(path: Path) -> list[GraphicalMapping]:
     seen: set[tuple[str, str]] = set()
     with path.open(encoding="utf-8", newline="") as handle:
         reader = csv.DictReader(handle)
-        expected = {
-            "scope",
-            "key",
-            "graphical_region",
-            "allow_disconnected",
-            "reason",
-        }
+        expected = {"scope", "key", "graphical_region", "allow_disconnected", "reason"}
         if set(reader.fieldnames or []) != expected:
             raise ValueError(f"{path}: expected columns {sorted(expected)}")
         for line_number, raw in enumerate(reader, 2):
@@ -458,9 +448,7 @@ def build_id_raster(
         rows = chunk.shape[0]
         chunk_flat = chunk.ravel()
         sum_x += np.bincount(
-            chunk_flat,
-            weights=np.tile(x_values, rows),
-            minlength=TARGET_LAST + 1,
+            chunk_flat, weights=np.tile(x_values, rows), minlength=TARGET_LAST + 1
         )
         sum_y += np.bincount(
             chunk_flat,
@@ -536,7 +524,6 @@ def compute_features(
     mask_to_group: dict[str, MaskGroup],
     id_raster: np.ndarray,
     area: np.ndarray,
-    target_ids: np.ndarray,
     reference_paths: dict[str, Path],
 ) -> dict[str, np.ndarray]:
     with Image.open(heightmap_path) as image:
@@ -550,16 +537,13 @@ def compute_features(
     safe_area = np.maximum(area, 1)
     elevation = (
         np.bincount(
-            flat_ids,
-            weights=elevation_pixels.ravel(),
-            minlength=TARGET_LAST + 1,
+            flat_ids, weights=elevation_pixels.ravel(), minlength=TARGET_LAST + 1
         )
         / safe_area
     ).astype(np.float32)
     high_elevation = (
         np.bincount(
-            flat_ids[elevation_pixels.ravel() >= 0.55],
-            minlength=TARGET_LAST + 1,
+            flat_ids[elevation_pixels.ravel() >= 0.55], minlength=TARGET_LAST + 1
         )
         / safe_area
     ).astype(np.float32)
@@ -575,18 +559,11 @@ def compute_features(
     del vertical, elevation_pixels
     slope_pixels *= 0.25
     slope = (
-        np.bincount(
-            flat_ids,
-            weights=slope_pixels.ravel(),
-            minlength=TARGET_LAST + 1,
-        )
+        np.bincount(flat_ids, weights=slope_pixels.ravel(), minlength=TARGET_LAST + 1)
         / safe_area
     ).astype(np.float32)
     high_slope = (
-        np.bincount(
-            flat_ids[slope_pixels.ravel() >= 0.015],
-            minlength=TARGET_LAST + 1,
-        )
+        np.bincount(flat_ids[slope_pixels.ravel() >= 0.015], minlength=TARGET_LAST + 1)
         / safe_area
     ).astype(np.float32)
     del slope_pixels
@@ -741,11 +718,7 @@ def compute_features(
 
 
 def load_or_compute_features(
-    *,
-    cache_dir: Path,
-    cache_key: str,
-    no_cache: bool,
-    **kwargs: object,
+    *, cache_dir: Path, cache_key: str, no_cache: bool, **kwargs: object
 ) -> dict[str, np.ndarray]:
     cache_path = cache_dir / f"features-{cache_key}.npz"
     if cache_path.is_file() and not no_cache:
@@ -823,9 +796,7 @@ def class_precision_thresholds(
     return thresholds
 
 
-def build_model_features(
-    features: dict[str, np.ndarray], gameplay_groups: list[MaskGroup]
-) -> np.ndarray:
+def build_model_features(features: dict[str, np.ndarray]) -> np.ndarray:
     weights = features["mask_weights"][:, None]
     blocks = [
         (features["mask_intensity"] * weights).T,
@@ -932,10 +903,7 @@ def train_terrain_model(
             training = folds != fold
             validation = folds == fold
             weights = ridge_weights(
-                standardized[training],
-                labels[training],
-                len(classes),
-                penalty,
+                standardized[training], labels[training], len(classes), penalty
             )
             out_of_fold[validation] = predict_scores(standardized[validation], weights)
         score = macro_f1(labels, np.argmax(out_of_fold, axis=1), len(classes))
@@ -952,11 +920,7 @@ def train_terrain_model(
         loss = float(
             -np.mean(
                 np.log(
-                    np.clip(
-                        probabilities[np.arange(len(labels)), labels],
-                        1e-12,
-                        1.0,
-                    )
+                    np.clip(probabilities[np.arange(len(labels)), labels], 1e-12, 1.0)
                 )
             )
         )
@@ -1023,7 +987,7 @@ def effective_region_blocks(module_roots: Iterable[Path]) -> dict[str, str]:
         if not region_root.is_dir():
             continue
         for path in sorted(region_root.rglob("*.txt")):
-            result.update(parse_top_level_blocks(normalized_text(path)))
+            result.update(parse_top_level_blocks(read_text(path)))
     return result
 
 
@@ -1121,25 +1085,8 @@ def connected_components(
     return component_by_id
 
 
-def csv_bytes(fieldnames: list[str], rows: Iterable[dict[str, object]]) -> bytes:
-    output = io.StringIO(newline="")
-    writer = csv.DictWriter(output, fieldnames=fieldnames, lineterminator="\n")
-    writer.writeheader()
-    writer.writerows(rows)
-    return output.getvalue().encode("utf-8")
-
-
-def reference_map_paths(root: Path) -> dict[str, Path]:
-    if REFERENCE_PATHS_OVERRIDE is not None:
-        return REFERENCE_PATHS_OVERRIDE
-    reference_root = root / "references/agot/map_images"
-    return {
-        "detailed": reference_root / "KnownWorldDetailed.jpg",
-        "google": reference_root / "KnownWorldGoogleMaps.jpg",
-    }
-
-
 def target_source_manifest(
+    inputs: RunInputs,
     *,
     root: Path,
     workshop: dict[str, Path],
@@ -1162,10 +1109,9 @@ def target_source_manifest(
         workshop["EE"] / "common/province_terrain/ee_province_terrain.txt",
         workshop["EEP"] / "common/province_terrain/ee_province_terrain.txt",
         workshop["NOW"] / "common/landed_titles/01_agot_landed_titles.txt",
-        MAP_DEFINITION_OVERRIDE
-        or root / "mods/agot_now_lov_ee_map_compatch/map_data/definition.csv",
+        inputs.map_definition,
     }
-    source_files.update(reference_map_paths(root).values())
+    source_files.update(inputs.reference_paths.values())
     for module_root in workshop.values():
         for relative_root in (
             "common/province_terrain",
@@ -1194,9 +1140,7 @@ def target_source_manifest(
     for label, module_root in workshop.items():
         descriptor = module_root / "descriptor.mod"
         if descriptor.is_file():
-            match = re.search(
-                r'(?m)^\s*version\s*=\s*"([^"]+)"', normalized_text(descriptor)
-            )
+            match = re.search(r'(?m)^\s*version\s*=\s*"([^"]+)"', read_text(descriptor))
             versions[label] = match.group(1) if match else "unversioned"
     return {
         "schema_version": 2,
@@ -1217,897 +1161,901 @@ def target_source_manifest(
     }
 
 
-@dataclass(frozen=True, slots=True)
-class Options:
-    """Everything one generation run needs that is not a declared source."""
+@dataclass
+class WorldDataPipeline:
+    """Run the ordered generation phases without module-global state."""
 
-    root: Path
-    workshop_root: Path
-    check: bool = False
-    update_source_manifest: bool = False
-    audit: bool = False
-    no_cache: bool = False
+    inputs: RunInputs
 
+    def run(self) -> None:
+        self.load_sources()
+        self.build_features()
+        self.propose_model_terrain()
+        self.apply_lore_terrain()
+        self.finalize_terrain()
+        self.build_graphical_regions()
+        self.write_outputs()
 
-def main(options: Options) -> int:
-    root = options.root.resolve()
-    workshop_root = options.workshop_root
-    workshop = {
-        label: workshop_root / workshop_id
-        for label, workshop_id in WORKSHOP_IDS.items()
-    }
-    missing_modules = [
-        f"{label}:{path}" for label, path in workshop.items() if not path.is_dir()
-    ]
-    if missing_modules:
-        raise FileNotFoundError(f"missing Workshop modules: {missing_modules}")
+    def load_sources(self) -> None:
+        self.root = self.inputs.root
+        workshop_root = self.inputs.workshop_root
+        self.workshop = {
+            label: workshop_root / workshop_id
+            for label, workshop_id in WORKSHOP_IDS.items()
+        }
+        missing_modules = [
+            f"{label}:{path}"
+            for label, path in self.workshop.items()
+            if not path.is_dir()
+        ]
+        if missing_modules:
+            raise FileNotFoundError(f"missing Workshop modules: {missing_modules}")
 
-    module = OUTPUT_ROOT_OVERRIDE or root / "mods/agot_now_lov_ee_world_data"
-    tooling = root / "workspace/agot_now_lov_ee_world_data"
-    # Audits are development artifacts: staged under the reserved artifacts/
-    # prefix, promoted into the tooling tree, never installed into CK3.
-    artifacts = (module if OUTPUT_ROOT_OVERRIDE else tooling) / "artifacts"
-    source = artifacts / "world_data"
-    assets = ASSETS_DIR_OVERRIDE or tooling / "assets/world_data"
-    mask_config_path = assets / "terrain_mask_groups.toml"
-    decisions_path = assets / "terrain_decisions.csv"
-    lore_regions_path = assets / "terrain_lore_regions.csv"
-    graphical_config_path = assets / "graphical_style_map.csv"
-    manifest_path = assets / "source_manifest.json"
-    reference_paths = reference_map_paths(root)
-    missing_reference_maps = [
-        path.relative_to(root).as_posix()
-        for path in reference_paths.values()
-        if not path.is_file()
-    ]
-    if missing_reference_maps:
-        raise FileNotFoundError(
-            f"missing lore reference maps: {missing_reference_maps}"
-        )
-    terrain_root = workshop["EE"] / "gfx/map/terrain"
-    mask_paths = sorted(terrain_root.rglob("*_mask.png"))
-    if len(mask_paths) != EXPECTED_MASK_COUNT:
-        raise AssertionError(
-            f"terrain mask count changed: {len(mask_paths)} != {EXPECTED_MASK_COUNT}"
-        )
-    groups, mask_to_group = load_mask_groups(mask_config_path, mask_paths, terrain_root)
-    gameplay_groups = [group for group in groups if group.role == "gameplay"]
-
-    ee_definitions = parse_definitions(workshop["EE"] / "map_data/definition.csv")
-    merged_definitions = parse_definitions(
-        MAP_DEFINITION_OVERRIDE
-        or root / "mods/agot_now_lov_ee_map_compatch/map_data/definition.csv"
-    )
-    eep_definitions = parse_definitions(workshop["EEP"] / "map_data/definition.csv")
-    for province_id in range(TARGET_FIRST, TARGET_LAST + 1):
-        if eep_definitions[province_id] != merged_definitions[province_id]:
-            raise AssertionError(
-                f"map compatch changed TempLoV target definition row {province_id}"
+        self.module = self.inputs.output_root
+        # Audits are development artifacts: staged under the reserved artifacts/
+        # prefix, promoted into the tooling tree, never installed into CK3.
+        artifacts = self.module / "artifacts"
+        self.source = artifacts / "world_data"
+        assets = self.inputs.assets_dir
+        self.mask_config_path = assets / "terrain_mask_groups.toml"
+        self.decisions_path = assets / "terrain_decisions.csv"
+        lore_regions_path = assets / "terrain_lore_regions.csv"
+        self.graphical_config_path = assets / "graphical_style_map.csv"
+        manifest_path = assets / "source_manifest.json"
+        self.reference_paths = self.inputs.reference_paths
+        missing_reference_maps = [
+            path.relative_to(self.root).as_posix()
+            for path in self.reference_paths.values()
+            if not path.is_file()
+        ]
+        if missing_reference_maps:
+            raise FileNotFoundError(
+                f"missing lore reference maps: {missing_reference_maps}"
             )
-        if (
-            ee_definitions[province_id].packed_rgb
-            == eep_definitions[province_id].packed_rgb
-        ):
-            continue
-        if ee_definitions[province_id].name == eep_definitions[province_id].name:
-            continue
-        if (
-            province_id != 26357
-            or ee_definitions[province_id].name != "LAKE"
-            or eep_definitions[province_id].name != "IMPASSABLE_RIDGE"
-        ):
+        self.terrain_root = self.workshop["EE"] / "gfx/map/terrain"
+        self.mask_paths = sorted(self.terrain_root.rglob("*_mask.png"))
+        if len(self.mask_paths) != EXPECTED_MASK_COUNT:
             raise AssertionError(
-                f"TempLoV recoloured target row {province_id} beyond its colour"
+                f"terrain mask count changed: {len(self.mask_paths)} != {EXPECTED_MASK_COUNT}"
             )
+        self.groups, self.mask_to_group = load_mask_groups(
+            self.mask_config_path, self.mask_paths, self.terrain_root
+        )
+        self.gameplay_groups = [
+            group for group in self.groups if group.role == "gameplay"
+        ]
 
-    ee_terrain = parse_scalar_terrain(
-        workshop["EE"] / "common/province_terrain/ee_province_terrain.txt"
-    )
-    eep_terrain = parse_scalar_terrain(
-        workshop["EEP"] / "common/province_terrain/ee_province_terrain.txt"
-    )
-    expected_ids = set(range(TARGET_FIRST, TARGET_LAST + 1))
-    ee_defaults = {
-        province_id
-        for province_id, terrain in ee_terrain.items()
-        if terrain == "default" and province_id in expected_ids
-    }
-    if ee_defaults != expected_ids:
-        raise AssertionError(
-            f"EE unfinished terrain set changed: {len(ee_defaults)} target defaults"
+        ee_definitions = parse_definitions(
+            self.workshop["EE"] / "map_data/definition.csv"
         )
-    # TempLoV compatch 2.5.0 replaced its blanket `plains` placeholder with real
-    # authored terrain for the east.  Those authored assignments are the
-    # effective upstream decision and win over this module's lore-map proposal;
-    # provinces the compatch still leaves at `plains` are the remaining
-    # placeholder and keep the generated terrain.
-    eep_authored = {
-        province_id: terrain
-        for province_id, terrain in eep_terrain.items()
-        if province_id in expected_ids and terrain != "plains"
-    }
-    eep_placeholder = {
-        province_id
-        for province_id, terrain in eep_terrain.items()
-        if province_id in expected_ids and terrain == "plains"
-    }
-    if not eep_authored:
-        raise AssertionError(
-            "TempLoV compatch no longer authors any non-plains target terrain"
+        merged_definitions = parse_definitions(self.inputs.map_definition)
+        self.eep_definitions = parse_definitions(
+            self.workshop["EEP"] / "map_data/definition.csv"
         )
-    if eep_authored.keys() & eep_placeholder:
-        raise AssertionError("TempLoV target terrain is both authored and placeholder")
+        for province_id in range(TARGET_FIRST, TARGET_LAST + 1):
+            if self.eep_definitions[province_id] != merged_definitions[province_id]:
+                raise AssertionError(
+                    f"map compatch changed TempLoV target definition row {province_id}"
+                )
+            if (
+                ee_definitions[province_id].packed_rgb
+                == self.eep_definitions[province_id].packed_rgb
+            ):
+                continue
+            if (
+                ee_definitions[province_id].name
+                == self.eep_definitions[province_id].name
+            ):
+                continue
+            if (
+                province_id != 26357
+                or ee_definitions[province_id].name != "LAKE"
+                or self.eep_definitions[province_id].name != "IMPASSABLE_RIDGE"
+            ):
+                raise AssertionError(
+                    f"TempLoV recoloured target row {province_id} beyond its colour"
+                )
 
-    ee_titles = [
-        row
-        for row in parse_titles(
-            workshop["EEP"] / "common/landed_titles/01_landed_titles.txt"
+        ee_terrain = parse_scalar_terrain(
+            self.workshop["EE"] / "common/province_terrain/ee_province_terrain.txt"
         )
-        if TARGET_FIRST <= row.province_id <= TARGET_LAST
-    ]
-    if len(ee_titles) != EXPECTED_TITLE_COUNT:
-        raise AssertionError(
-            f"EE titled province count changed: {len(ee_titles)} "
-            f"!= {EXPECTED_TITLE_COUNT}"
+        self.eep_terrain = parse_scalar_terrain(
+            self.workshop["EEP"] / "common/province_terrain/ee_province_terrain.txt"
         )
-    if any(row.province_id not in expected_ids for row in ee_titles):
-        raise AssertionError("EE landed titles reference an out-of-range province")
-    empire_keys = {row.empire for row in ee_titles}
-    if len(empire_keys) != 27:
-        raise AssertionError(f"EE empire scope count changed: {len(empire_keys)}")
-    lore_regions = load_lore_regions(lore_regions_path)
-    if set(lore_regions) != empire_keys:
-        raise AssertionError(
-            "lore-region empire mappings changed: "
-            f"missing={sorted(empire_keys - set(lore_regions))}, "
-            f"extra={sorted(set(lore_regions) - empire_keys)}"
-        )
-
-    now_titles = parse_titles(
-        workshop["NOW"] / "common/landed_titles/01_agot_landed_titles.txt",
-        require_unique_provinces=False,
-    )
-    rutting_titles = [row for row in now_titles if row.county == "c_rutting"]
-    if {row.province_id for row in rutting_titles} != set(RUTTING_IDS):
-        raise AssertionError(
-            f"c_rutting province set changed: "
-            f"{sorted(row.province_id for row in rutting_titles)}"
-        )
-    graphical_titles = sorted(
-        [*ee_titles, *rutting_titles], key=lambda row: row.province_id
-    )
-
-    with Image.open(workshop["EEP"] / "map_data/provinces.png") as image:
-        if image.size != EXPECTED_SIZE or image.mode != "RGB":
+        self.expected_ids = set(range(TARGET_FIRST, TARGET_LAST + 1))
+        ee_defaults = {
+            province_id
+            for province_id, terrain in ee_terrain.items()
+            if terrain == "default" and province_id in self.expected_ids
+        }
+        if ee_defaults != self.expected_ids:
             raise AssertionError(
-                f"unexpected provinces image: size={image.size}, mode={image.mode}"
+                f"EE unfinished terrain set changed: {len(ee_defaults)} target defaults"
             )
-    with Image.open(workshop["EEP"] / "map_data/heightmap.png") as image:
-        if image.size != EXPECTED_SIZE or image.mode not in {"I;16", "I;16L", "I"}:
+        # TempLoV compatch 2.5.0 replaced its blanket `plains` placeholder with real
+        # authored terrain for the east.  Those authored assignments are the
+        # effective upstream decision and win over this module's lore-map proposal;
+        # provinces the compatch still leaves at `plains` are the remaining
+        # placeholder and keep the generated terrain.
+        self.eep_authored = {
+            province_id: terrain
+            for province_id, terrain in self.eep_terrain.items()
+            if province_id in self.expected_ids and terrain != "plains"
+        }
+        eep_placeholder = {
+            province_id
+            for province_id, terrain in self.eep_terrain.items()
+            if province_id in self.expected_ids and terrain == "plains"
+        }
+        if not self.eep_authored:
             raise AssertionError(
-                f"unexpected heightmap image: size={image.size}, mode={image.mode}"
+                "TempLoV compatch no longer authors any non-plains target terrain"
+            )
+        if self.eep_authored.keys() & eep_placeholder:
+            raise AssertionError(
+                "TempLoV target terrain is both authored and placeholder"
             )
 
-    current_manifest = target_source_manifest(
-        root=root,
-        workshop=workshop,
-        workshop_root=workshop_root,
-        mask_paths=mask_paths,
-    )
-    if options.update_source_manifest:
-        # The full painted-color assertion is intentionally part of accepting a
-        # new source baseline, not merely a hash refresh.
-        _, area, _, _ = build_id_raster(
-            eep_definitions, workshop["EEP"] / "map_data/provinces.png"
+        self.ee_titles = [
+            row
+            for row in parse_titles(
+                self.workshop["EEP"] / "common/landed_titles/01_landed_titles.txt"
+            )
+            if TARGET_FIRST <= row.province_id <= TARGET_LAST
+        ]
+        if len(self.ee_titles) != EXPECTED_TITLE_COUNT:
+            raise AssertionError(
+                f"EE titled province count changed: {len(self.ee_titles)} "
+                f"!= {EXPECTED_TITLE_COUNT}"
+            )
+        if any(row.province_id not in self.expected_ids for row in self.ee_titles):
+            raise AssertionError("EE landed titles reference an out-of-range province")
+        self.empire_keys = {row.empire for row in self.ee_titles}
+        if len(self.empire_keys) != 27:
+            raise AssertionError(
+                f"EE empire scope count changed: {len(self.empire_keys)}"
+            )
+        self.lore_regions = load_lore_regions(lore_regions_path)
+        if set(self.lore_regions) != self.empire_keys:
+            raise AssertionError(
+                "lore-region empire mappings changed: "
+                f"missing={sorted(self.empire_keys - set(self.lore_regions))}, "
+                f"extra={sorted(set(self.lore_regions) - self.empire_keys)}"
+            )
+
+        now_titles = parse_titles(
+            self.workshop["NOW"] / "common/landed_titles/01_agot_landed_titles.txt",
+            require_unique_provinces=False,
+        )
+        rutting_titles = [row for row in now_titles if row.county == "c_rutting"]
+        if {row.province_id for row in rutting_titles} != set(RUTTING_IDS):
+            raise AssertionError(
+                f"c_rutting province set changed: "
+                f"{sorted(row.province_id for row in rutting_titles)}"
+            )
+        self.graphical_titles = sorted(
+            [*self.ee_titles, *rutting_titles], key=lambda row: row.province_id
+        )
+
+        with Image.open(self.workshop["EEP"] / "map_data/provinces.png") as image:
+            if image.size != EXPECTED_SIZE or image.mode != "RGB":
+                raise AssertionError(
+                    f"unexpected provinces image: size={image.size}, mode={image.mode}"
+                )
+        with Image.open(self.workshop["EEP"] / "map_data/heightmap.png") as image:
+            if image.size != EXPECTED_SIZE or image.mode not in {"I;16", "I;16L", "I"}:
+                raise AssertionError(
+                    f"unexpected heightmap image: size={image.size}, mode={image.mode}"
+                )
+
+        self.current_manifest = target_source_manifest(
+            self.inputs,
+            root=self.root,
+            workshop=self.workshop,
+            workshop_root=workshop_root,
+            mask_paths=self.mask_paths,
+        )
+        if not manifest_path.is_file():
+            raise FileNotFoundError(
+                f"{manifest_path.relative_to(self.root)} does not exist; review the current "
+                "inputs and replace the reviewed asset deliberately"
+            )
+        recorded_manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+        if recorded_manifest != self.current_manifest:
+            raise AssertionError(
+                "upstream source manifest drifted; review the source changes and replace "
+                f"{manifest_path.relative_to(self.root)} deliberately"
+            )
+
+    def build_features(self) -> None:
+        id_raster, area, centroid_x, centroid_y = build_id_raster(
+            self.eep_definitions, self.workshop["EEP"] / "map_data/provinces.png"
         )
         unpainted_titles = [
-            row.province_id for row in ee_titles if area[row.province_id] == 0
+            row.province_id
+            for row in self.graphical_titles
+            if area[row.province_id] == 0
         ]
         if unpainted_titles:
             raise AssertionError(
-                f"EE titled provinces have no painted pixels: {unpainted_titles[:10]}"
+                f"graphical target provinces have no painted pixels: "
+                f"{unpainted_titles[:10]}"
             )
-        manifest_path.write_text(
-            json.dumps(current_manifest, indent=2, sort_keys=True) + "\n",
-            encoding="utf-8",
-        )
-        print(f"Updated {manifest_path.relative_to(root)}")
-        return 0
+        pairs = adjacency_pairs(id_raster)
+        self.adjacency: dict[int, set[int]] = defaultdict(set)
+        for first, second in pairs:
+            self.adjacency[first].add(second)
+            self.adjacency[second].add(first)
 
-    if not manifest_path.is_file():
-        raise FileNotFoundError(
-            f"{manifest_path} does not exist; run --update-source-manifest "
-            "after reviewing the current inputs"
+        self.sea_zones, self.river_provinces, self.lakes = parse_default_map(
+            self.workshop["EEP"] / "map_data/default.map"
         )
-    recorded_manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
-    if recorded_manifest != current_manifest:
-        raise AssertionError(
-            "upstream source manifest drifted; review the source changes and run "
-            "--update-source-manifest"
+        self.water_ids = self.sea_zones | self.river_provinces | self.lakes
+        self.target_ids = np.arange(TARGET_FIRST, TARGET_LAST + 1, dtype=np.int32)
+        cache_key = feature_cache_key(self.current_manifest, self.mask_config_path)
+        self.features = load_or_compute_features(
+            cache_dir=self.root / ".ignored/cache/agot_now_lov_ee_world_data",
+            cache_key=cache_key,
+            no_cache=self.inputs.no_cache,
+            heightmap_path=self.workshop["EEP"] / "map_data/heightmap.png",
+            mask_paths=self.mask_paths,
+            terrain_root=self.terrain_root,
+            groups=self.groups,
+            mask_to_group=self.mask_to_group,
+            id_raster=id_raster,
+            area=area,
+            reference_paths=self.reference_paths,
         )
+        if list(self.features["group_names"]) != [
+            group.name for group in self.gameplay_groups
+        ]:
+            raise AssertionError("feature cache mask-group order mismatch")
 
-    id_raster, area, centroid_x, centroid_y = build_id_raster(
-        eep_definitions, workshop["EEP"] / "map_data/provinces.png"
-    )
-    unpainted_titles = [
-        row.province_id for row in graphical_titles if area[row.province_id] == 0
-    ]
-    if unpainted_titles:
-        raise AssertionError(
-            f"graphical target provinces have no painted pixels: "
-            f"{unpainted_titles[:10]}"
-        )
-    pairs = adjacency_pairs(id_raster)
-    adjacency: dict[int, set[int]] = defaultdict(set)
-    for first, second in pairs:
-        adjacency[first].add(second)
-        adjacency[second].add(first)
-
-    sea_zones, river_provinces, lakes = parse_default_map(
-        workshop["EEP"] / "map_data/default.map"
-    )
-    water_ids = sea_zones | river_provinces | lakes
-    target_ids = np.arange(TARGET_FIRST, TARGET_LAST + 1, dtype=np.int32)
-    cache_key = feature_cache_key(current_manifest, mask_config_path)
-    features = load_or_compute_features(
-        cache_dir=root / ".ignored/cache/agot_now_lov_ee_world_data",
-        cache_key=cache_key,
-        no_cache=options.no_cache,
-        heightmap_path=workshop["EEP"] / "map_data/heightmap.png",
-        mask_paths=mask_paths,
-        terrain_root=terrain_root,
-        groups=groups,
-        mask_to_group=mask_to_group,
-        id_raster=id_raster,
-        area=area,
-        target_ids=target_ids,
-        reference_paths=reference_paths,
-    )
-    if list(features["group_names"]) != [group.name for group in gameplay_groups]:
-        raise AssertionError("feature cache mask-group order mismatch")
-
-    terrain_modules = [
-        workshop["AGOT"],
-        workshop["NOW"],
-        workshop["LOV"],
-        workshop["RC"],
-        workshop["EE"],
-        workshop["EEP"],
-    ]
-    terrain_by_province = terrain_winners(terrain_modules)
-    valid_terrains = terrain_type_keys(terrain_modules)
-    gameplay_terrains = {
-        group.terrain for group in gameplay_groups if group.terrain is not None
-    }
-    missing_terrain_types = gameplay_terrains - valid_terrains
-    if missing_terrain_types:
-        raise AssertionError(
-            f"configured terrain types are not loaded: {sorted(missing_terrain_types)}"
-        )
-    lore_terrains = {region.base_terrain for region in lore_regions.values()} | {
-        region.wooded_terrain
-        for region in lore_regions.values()
-        if region.wooded_terrain
-    }
-    missing_lore_terrains = lore_terrains - valid_terrains
-    if missing_lore_terrains:
-        raise AssertionError(
-            f"configured lore terrain types are not loaded: "
-            f"{sorted(missing_lore_terrains)}"
-        )
-    model_features = build_model_features(features, gameplay_groups)
-    (
-        classes,
-        feature_mean,
-        feature_scale,
-        model_weights,
-        label_counts,
-        validation_f1,
-        confidence_thresholds,
-        logit_scale,
-    ) = train_terrain_model(
-        model_features=model_features,
-        terrain_by_province=terrain_by_province,
-        water_ids=water_ids,
-        centroid_x=centroid_x,
-        centroid_y=centroid_y,
-        valid_terrains=valid_terrains,
-        gameplay_terrains=gameplay_terrains,
-    )
-    standardized_targets = (model_features[target_ids] - feature_mean) / feature_scale
-    probabilities = softmax(
-        predict_scores(standardized_targets, model_weights) * logit_scale
-    )
-    best_indices = np.argmax(probabilities, axis=1)
-    sorted_probabilities = np.sort(probabilities, axis=1)
-    confidences = sorted_probabilities[:, -1]
-    margins = sorted_probabilities[:, -1] - sorted_probabilities[:, -2]
-
-    group_index = {group.name: index for index, group in enumerate(gameplay_groups)}
-    proposed: dict[int, str] = {}
-    review_reasons: dict[int, list[str]] = defaultdict(list)
-    runner_up: dict[int, str] = {}
-    confidence_by_id: dict[int, float] = {}
-    margin_by_id: dict[int, float] = {}
-    priority_group_by_id: dict[int, str] = {}
-    water_class_by_id: dict[int, str] = {}
-
-    for offset, province_id_raw in enumerate(target_ids):
-        province_id = int(province_id_raw)
-        if province_id in lakes or province_id in river_provinces:
-            proposed[province_id] = "sea"
-            water_class_by_id[province_id] = "lake" if province_id in lakes else "river"
-            runner_up[province_id] = ""
-            confidence_by_id[province_id] = 1.0
-            margin_by_id[province_id] = 1.0
-            continue
-        if province_id in sea_zones:
-            touches_land = any(
-                neighbor not in water_ids for neighbor in adjacency.get(province_id, ())
+        terrain_modules = [
+            self.workshop["AGOT"],
+            self.workshop["NOW"],
+            self.workshop["LOV"],
+            self.workshop["RC"],
+            self.workshop["EE"],
+            self.workshop["EEP"],
+        ]
+        terrain_by_province = terrain_winners(terrain_modules)
+        self.valid_terrains = terrain_type_keys(terrain_modules)
+        gameplay_terrains = {
+            group.terrain for group in self.gameplay_groups if group.terrain is not None
+        }
+        missing_terrain_types = gameplay_terrains - self.valid_terrains
+        if missing_terrain_types:
+            raise AssertionError(
+                f"configured terrain types are not loaded: {sorted(missing_terrain_types)}"
             )
-            proposed[province_id] = "coastal_sea" if touches_land else "sea"
-            water_class_by_id[province_id] = "coastal_sea" if touches_land else "sea"
-            runner_up[province_id] = ""
-            confidence_by_id[province_id] = 1.0
-            margin_by_id[province_id] = 1.0
-            continue
+        lore_terrains = {
+            region.base_terrain for region in self.lore_regions.values()
+        } | {
+            region.wooded_terrain
+            for region in self.lore_regions.values()
+            if region.wooded_terrain
+        }
+        missing_lore_terrains = lore_terrains - self.valid_terrains
+        if missing_lore_terrains:
+            raise AssertionError(
+                f"configured lore terrain types are not loaded: "
+                f"{sorted(missing_lore_terrains)}"
+            )
+        model_features = build_model_features(self.features)
+        (
+            self.classes,
+            feature_mean,
+            feature_scale,
+            model_weights,
+            self.label_counts,
+            self.validation_f1,
+            self.confidence_thresholds,
+            logit_scale,
+        ) = train_terrain_model(
+            model_features=model_features,
+            terrain_by_province=terrain_by_province,
+            water_ids=self.water_ids,
+            centroid_x=centroid_x,
+            centroid_y=centroid_y,
+            valid_terrains=self.valid_terrains,
+            gameplay_terrains=gameplay_terrains,
+        )
+        standardized_targets = (
+            model_features[self.target_ids] - feature_mean
+        ) / feature_scale
+        self.probabilities = softmax(
+            predict_scores(standardized_targets, model_weights) * logit_scale
+        )
+        self.best_indices = np.argmax(self.probabilities, axis=1)
+        sorted_probabilities = np.sort(self.probabilities, axis=1)
+        self.confidences = sorted_probabilities[:, -1]
+        self.margins = sorted_probabilities[:, -1] - sorted_probabilities[:, -2]
 
-        class_index = int(best_indices[offset])
-        model_terrain = classes[class_index]
-        selected = model_terrain
-        priority_candidates: list[tuple[float, MaskGroup]] = []
-        for group in gameplay_groups:
-            if group.priority_threshold is None:
+    def propose_model_terrain(self) -> None:
+        self.group_index = {
+            group.name: index for index, group in enumerate(self.gameplay_groups)
+        }
+        self.proposed: dict[int, str] = {}
+        self.review_reasons: dict[int, list[str]] = defaultdict(list)
+        self.runner_up: dict[int, str] = {}
+        self.confidence_by_id: dict[int, float] = {}
+        self.margin_by_id: dict[int, float] = {}
+        self.priority_group_by_id: dict[int, str] = {}
+        self.water_class_by_id: dict[int, str] = {}
+
+        for offset, province_id_raw in enumerate(self.target_ids):
+            province_id = int(province_id_raw)
+            if province_id in self.lakes or province_id in self.river_provinces:
+                self.proposed[province_id] = "sea"
+                self.water_class_by_id[province_id] = (
+                    "lake" if province_id in self.lakes else "river"
+                )
+                self.runner_up[province_id] = ""
+                self.confidence_by_id[province_id] = 1.0
+                self.margin_by_id[province_id] = 1.0
                 continue
-            intensity = float(
-                features["group_intensity"][group_index[group.name], province_id]
-            )
-            if intensity >= group.priority_threshold:
-                priority_candidates.append((intensity * group.weight, group))
-        if priority_candidates:
-            _, priority_group = max(
-                priority_candidates, key=lambda value: (value[0], value[1].name)
-            )
-            priority_group_by_id[province_id] = priority_group.name
-            if priority_group.terrain != model_terrain:
-                selected = str(priority_group.terrain)
-                review_reasons[province_id].append(
-                    f"priority:{priority_group.name}_over_{model_terrain}"
+            if province_id in self.sea_zones:
+                touches_land = any(
+                    neighbor not in self.water_ids
+                    for neighbor in self.adjacency.get(province_id, ())
                 )
+                self.proposed[province_id] = "coastal_sea" if touches_land else "sea"
+                self.water_class_by_id[province_id] = (
+                    "coastal_sea" if touches_land else "sea"
+                )
+                self.runner_up[province_id] = ""
+                self.confidence_by_id[province_id] = 1.0
+                self.margin_by_id[province_id] = 1.0
+                continue
 
-        proposed[province_id] = selected
-        order = np.argsort(probabilities[offset])
-        runner_up[province_id] = classes[int(order[-2])]
-        confidence_by_id[province_id] = float(confidences[offset])
-        margin_by_id[province_id] = float(margins[offset])
-        if confidences[offset] < confidence_thresholds[class_index]:
-            review_reasons[province_id].append("below_95pct_precision_threshold")
-        if margins[offset] < 0.10:
-            review_reasons[province_id].append("top_two_margin_below_0.10")
+            class_index = int(self.best_indices[offset])
+            model_terrain = self.classes[class_index]
+            selected = model_terrain
+            priority_candidates: list[tuple[float, MaskGroup]] = []
+            for group in self.gameplay_groups:
+                if group.priority_threshold is None:
+                    continue
+                intensity = float(
+                    self.features["group_intensity"][
+                        self.group_index[group.name], province_id
+                    ]
+                )
+                if intensity >= group.priority_threshold:
+                    priority_candidates.append((intensity * group.weight, group))
+            if priority_candidates:
+                _, priority_group = max(
+                    priority_candidates, key=lambda value: (value[0], value[1].name)
+                )
+                self.priority_group_by_id[province_id] = priority_group.name
+                if priority_group.terrain != model_terrain:
+                    selected = str(priority_group.terrain)
+                    self.review_reasons[province_id].append(
+                        f"priority:{priority_group.name}_over_{model_terrain}"
+                    )
 
-    model_proposed = dict(proposed)
-    model_review_reasons = review_reasons
-    title_by_id = {row.province_id: row for row in ee_titles}
-    proposed = {}
-    review_reasons = defaultdict(list)
-    lore_base_by_id: dict[int, str] = {}
-    lore_reason_by_id: dict[int, str] = {}
-    group_intensity = features["group_intensity"]
+            self.proposed[province_id] = selected
+            order = np.argsort(self.probabilities[offset])
+            self.runner_up[province_id] = self.classes[int(order[-2])]
+            self.confidence_by_id[province_id] = float(self.confidences[offset])
+            self.margin_by_id[province_id] = float(self.margins[offset])
+            if self.confidences[offset] < self.confidence_thresholds[class_index]:
+                self.review_reasons[province_id].append(
+                    "below_95pct_precision_threshold"
+                )
+            if self.margins[offset] < 0.10:
+                self.review_reasons[province_id].append("top_two_margin_below_0.10")
 
-    for province_id in sorted(expected_ids):
-        if province_id in water_ids:
-            proposed[province_id] = model_proposed[province_id]
-            lore_base_by_id[province_id] = model_proposed[province_id]
-            lore_reason_by_id[province_id] = "Water class from EE default.map."
-            continue
+        self.model_proposed = dict(self.proposed)
+        self.model_review_reasons = self.review_reasons
 
-        title = title_by_id.get(province_id)
-        region = lore_regions.get(title.empire) if title else None
-        forest_signal = float(features["lore_forest"][province_id])
-        deep_forest_signal = float(features["lore_deep_forest"][province_id])
-        google_green_signal = float(features["lore_google_green"][province_id])
-        arid_signal = float(features["lore_arid"][province_id])
-        red_desert_signal = float(features["lore_red_desert"][province_id])
-        dark_signal = float(features["lore_dark"][province_id])
-        snow_signal = float(features["lore_snow"][province_id])
-        google_mountain_signal = float(features["lore_google_mountain"][province_id])
-        slope = float(features["slope"][province_id])
-        evidence: list[str] = []
+    def apply_lore_terrain(self) -> None:
+        self.title_by_id = {row.province_id: row for row in self.ee_titles}
+        self.proposed = {}
+        self.review_reasons = defaultdict(list)
+        self.lore_base_by_id: dict[int, str] = {}
+        self.lore_reason_by_id: dict[int, str] = {}
+        group_intensity = self.features["group_intensity"]
 
-        if region:
-            base = region.base_terrain
-            evidence.append(f"region:{region.empire}={base}")
-            wooded_threshold = (
-                0.06
-                if region.wooded_terrain == "jungle"
-                else 0.08
-                if region.wooded_terrain == "taiga"
-                else 0.12
+        for province_id in sorted(self.expected_ids):
+            if province_id in self.water_ids:
+                self.proposed[province_id] = self.model_proposed[province_id]
+                self.lore_base_by_id[province_id] = self.model_proposed[province_id]
+                self.lore_reason_by_id[province_id] = "Water class from EE default.map."
+                continue
+
+            title = self.title_by_id.get(province_id)
+            region = self.lore_regions.get(title.empire) if title else None
+            forest_signal = float(self.features["lore_forest"][province_id])
+            deep_forest_signal = float(self.features["lore_deep_forest"][province_id])
+            google_green_signal = float(self.features["lore_google_green"][province_id])
+            arid_signal = float(self.features["lore_arid"][province_id])
+            red_desert_signal = float(self.features["lore_red_desert"][province_id])
+            dark_signal = float(self.features["lore_dark"][province_id])
+            snow_signal = float(self.features["lore_snow"][province_id])
+            google_mountain_signal = float(
+                self.features["lore_google_mountain"][province_id]
             )
-            wooded = (
-                forest_signal >= wooded_threshold
-                or deep_forest_signal >= 0.05
-                or google_green_signal >= 0.10
-                or (region.wooded_terrain == "jungle" and dark_signal >= 0.35)
-            )
-            if region.wooded_terrain and wooded:
-                base = region.wooded_terrain
-                evidence.append(f"lore_wooded={base}")
-        elif arid_signal >= 0.16 or red_desert_signal >= 0.18:
-            base = "desert" if red_desert_signal >= 0.18 else "drylands"
-            evidence.append(f"untitled_lore_arid={base}")
-        elif (
-            forest_signal >= 0.22
-            or deep_forest_signal >= 0.12
-            or google_green_signal >= 0.25
-        ):
-            base = "forest"
-            evidence.append("untitled_lore_wooded=forest")
-        else:
-            base = "plains"
-            evidence.append("untitled_lore_default=plains")
+            slope = float(self.features["slope"][province_id])
+            evidence: list[str] = []
 
-        desert_intensity = float(group_intensity[group_index["desert"], province_id])
-        desert_mountain_intensity = float(
-            group_intensity[group_index["desert_mountains"], province_id]
-        )
-        if base == "drylands" and (
-            red_desert_signal >= 0.28 or desert_intensity >= 0.50
-        ):
-            base = "desert"
-            evidence.append("strong_desert_evidence")
-
-        special: str | None = None
-        if float(group_intensity[group_index["oasis"], province_id]) >= 0.08:
-            special = "oasis"
-        elif (
-            float(group_intensity[group_index["floodplains"], province_id]) >= 0.16
-            and slope < 0.003
-        ):
-            special = "floodplains"
-        elif (
-            float(group_intensity[group_index["wetlands"], province_id]) >= 0.24
-            and slope < 0.003
-        ):
-            special = "wetlands"
-        elif float(group_intensity[group_index["jungle"], province_id]) >= 0.18:
-            special = "jungle"
-        elif float(group_intensity[group_index["frozen"], province_id]) >= 0.30 or (
-            title and title.empire == "e_ibben" and snow_signal >= 0.45
-        ):
-            special = "frozen_flats"
-        elif float(group_intensity[group_index["farmlands"], province_id]) >= 0.45 and (
-            not title or title.empire != "e_ibben"
-        ):
-            special = "farmlands"
-        if special:
-            base = special
-            evidence.append(f"strong_mask={special}")
-
-        wooded_strength = max(
-            forest_signal,
-            deep_forest_signal,
-            google_green_signal,
-        )
-        volcanic_intensity = float(
-            group_intensity[group_index["volcanic"], province_id]
-        )
-        mountain = (
-            slope >= 0.006
-            or (google_mountain_signal >= 0.30 and slope >= 0.0025)
-            or volcanic_intensity >= 0.16
-        )
-        hill = slope >= 0.003
-        relief_exempt = {
-            "farmlands",
-            "floodplains",
-            "frozen_flats",
-            "oasis",
-            "wetlands",
-        }
-        if mountain and base not in relief_exempt:
-            if base in {"desert", "drylands"} or desert_mountain_intensity >= 0.34:
-                selected = "desert_mountains"
+            if region:
+                base = region.base_terrain
+                evidence.append(f"region:{region.empire}={base}")
+                wooded_threshold = (
+                    0.06
+                    if region.wooded_terrain == "jungle"
+                    else 0.08
+                    if region.wooded_terrain == "taiga"
+                    else 0.12
+                )
+                wooded = (
+                    forest_signal >= wooded_threshold
+                    or deep_forest_signal >= 0.05
+                    or google_green_signal >= 0.10
+                    or (region.wooded_terrain == "jungle" and dark_signal >= 0.35)
+                )
+                if region.wooded_terrain and wooded:
+                    base = region.wooded_terrain
+                    evidence.append(f"lore_wooded={base}")
+            elif arid_signal >= 0.16 or red_desert_signal >= 0.18:
+                base = "desert" if red_desert_signal >= 0.18 else "drylands"
+                evidence.append(f"untitled_lore_arid={base}")
+            elif (
+                forest_signal >= 0.22
+                or deep_forest_signal >= 0.12
+                or google_green_signal >= 0.25
+            ):
+                base = "forest"
+                evidence.append("untitled_lore_wooded=forest")
             else:
-                selected = "mountains"
-            evidence.append(f"mountain_relief={selected}")
-        elif hill and base not in relief_exempt and wooded_strength < 0.22:
-            if base in {"desert", "drylands"} and desert_mountain_intensity >= 0.18:
-                selected = "desert_mountains"
+                base = "plains"
+                evidence.append("untitled_lore_default=plains")
+
+            desert_intensity = float(
+                group_intensity[self.group_index["desert"], province_id]
+            )
+            desert_mountain_intensity = float(
+                group_intensity[self.group_index["desert_mountains"], province_id]
+            )
+            if base == "drylands" and (
+                red_desert_signal >= 0.28 or desert_intensity >= 0.50
+            ):
+                base = "desert"
+                evidence.append("strong_desert_evidence")
+
+            special: str | None = None
+            if float(group_intensity[self.group_index["oasis"], province_id]) >= 0.08:
+                special = "oasis"
+            elif (
+                float(group_intensity[self.group_index["floodplains"], province_id])
+                >= 0.16
+                and slope < 0.003
+            ):
+                special = "floodplains"
+            elif (
+                float(group_intensity[self.group_index["wetlands"], province_id])
+                >= 0.24
+                and slope < 0.003
+            ):
+                special = "wetlands"
+            elif (
+                float(group_intensity[self.group_index["jungle"], province_id]) >= 0.18
+            ):
+                special = "jungle"
+            elif float(
+                group_intensity[self.group_index["frozen"], province_id]
+            ) >= 0.30 or (title and title.empire == "e_ibben" and snow_signal >= 0.45):
+                special = "frozen_flats"
+            elif float(
+                group_intensity[self.group_index["farmlands"], province_id]
+            ) >= 0.45 and (not title or title.empire != "e_ibben"):
+                special = "farmlands"
+            if special:
+                base = special
+                evidence.append(f"strong_mask={special}")
+
+            wooded_strength = max(
+                forest_signal, deep_forest_signal, google_green_signal
+            )
+            volcanic_intensity = float(
+                group_intensity[self.group_index["volcanic"], province_id]
+            )
+            mountain = (
+                slope >= 0.006
+                or (google_mountain_signal >= 0.30 and slope >= 0.0025)
+                or volcanic_intensity >= 0.16
+            )
+            hill = slope >= 0.003
+            relief_exempt = {
+                "farmlands",
+                "floodplains",
+                "frozen_flats",
+                "oasis",
+                "wetlands",
+            }
+            if mountain and base not in relief_exempt:
+                if base in {"desert", "drylands"} or desert_mountain_intensity >= 0.34:
+                    selected = "desert_mountains"
+                else:
+                    selected = "mountains"
+                evidence.append(f"mountain_relief={selected}")
+            elif hill and base not in relief_exempt and wooded_strength < 0.22:
+                if base in {"desert", "drylands"} and desert_mountain_intensity >= 0.18:
+                    selected = "desert_mountains"
+                else:
+                    selected = "hills"
+                evidence.append(f"hill_relief={selected}")
             else:
-                selected = "hills"
-            evidence.append(f"hill_relief={selected}")
-        else:
-            selected = base
+                selected = base
 
-        proposed[province_id] = selected
-        lore_base_by_id[province_id] = base
-        lore_reason_by_id[province_id] = "|".join(evidence)
+            self.proposed[province_id] = selected
+            self.lore_base_by_id[province_id] = base
+            self.lore_reason_by_id[province_id] = "|".join(evidence)
 
-    decisions = load_terrain_decisions(decisions_path)
-    unknown_decision_ids = set(decisions) - expected_ids
-    if unknown_decision_ids:
-        raise AssertionError(
-            f"terrain decisions reference non-target IDs: "
-            f"{sorted(unknown_decision_ids)[:10]}"
-        )
-    final_terrain = dict(proposed)
-    # Defer to the TempLoV compatch's authored terrain before applying local
-    # exceptions, but never override this module's water classes: the compatch
-    # lists only land provinces, while `proposed` also carries EE's sea and
-    # coastal-sea assignments from `default.map`.
-    eep_applied = 0
-    for province_id, terrain in eep_authored.items():
-        if final_terrain.get(province_id) in {"sea", "coastal_sea"}:
-            continue
-        if terrain not in valid_terrains:
+    def finalize_terrain(self) -> None:
+        decisions = load_terrain_decisions(self.decisions_path)
+        unknown_decision_ids = set(decisions) - self.expected_ids
+        if unknown_decision_ids:
             raise AssertionError(
-                f"TempLoV terrain {terrain} for {province_id} is not loaded"
+                f"terrain decisions reference non-target IDs: "
+                f"{sorted(unknown_decision_ids)[:10]}"
             )
-        if final_terrain[province_id] != terrain:
-            eep_applied += 1
-        final_terrain[province_id] = terrain
-
-    pending: list[int] = []
-    for province_id in sorted(expected_ids):
-        decision = decisions.get(province_id)
-        if decision is None:
-            continue
-        action, terrain, _ = decision
-        if terrain not in valid_terrains:
-            raise AssertionError(
-                f"terrain decision {province_id} uses unloaded terrain {terrain}"
-            )
-        if action == "accept":
-            if terrain != proposed[province_id]:
+        self.final_terrain = dict(self.proposed)
+        # Defer to the TempLoV compatch's authored terrain before applying local
+        # exceptions, but never override this module's water classes: the compatch
+        # lists only land provinces, while `proposed` also carries EE's sea and
+        # coastal-sea assignments from `default.map`.
+        eep_applied = 0
+        for province_id, terrain in self.eep_authored.items():
+            if self.final_terrain.get(province_id) in {"sea", "coastal_sea"}:
+                continue
+            if terrain not in self.valid_terrains:
                 raise AssertionError(
-                    f"accept decision for {province_id} must use proposed terrain "
-                    f"{proposed[province_id]}, got {terrain}"
+                    f"TempLoV terrain {terrain} for {province_id} is not loaded"
                 )
-        else:
-            final_terrain[province_id] = terrain
+            if self.final_terrain[province_id] != terrain:
+                eep_applied += 1
+            self.final_terrain[province_id] = terrain
 
-    mask_names = [str(value) for value in features["mask_names"]]
-    mask_intensity = features["mask_intensity"][:, target_ids]
-    terrain_audit_rows: list[dict[str, object]] = []
-    for offset, province_id_raw in enumerate(target_ids):
-        province_id = int(province_id_raw)
-        title = title_by_id.get(province_id)
-        top_masks = np.argsort(mask_intensity[:, offset])[-3:][::-1]
-        contributions = [
-            f"{mask_names[index]}:{float(mask_intensity[index, offset]):.4f}"
-            for index in top_masks
-            if mask_intensity[index, offset] > 0
-        ]
-        decision = decisions.get(province_id)
-        terrain_audit_rows.append(
-            {
-                "province_id": province_id,
-                "rgb": eep_definitions[province_id].rgb_text,
-                "barony": title.barony if title else "",
-                "county": title.county if title else "",
-                "duchy": title.duchy if title else "",
-                "kingdom": title.kingdom if title else "",
-                "empire": title.empire if title else "",
-                "model_terrain": model_proposed[province_id],
-                "proposed_terrain": proposed[province_id],
-                "eep_terrain": eep_terrain.get(province_id, ""),
-                "final_terrain": final_terrain[province_id],
-                "model_confidence": f"{confidence_by_id[province_id]:.6f}",
-                "model_runner_up": runner_up[province_id],
-                "model_margin": f"{margin_by_id[province_id]:.6f}",
-                "model_priority_group": priority_group_by_id.get(province_id, ""),
-                "model_warning": "|".join(model_review_reasons.get(province_id, [])),
-                "lore_base": lore_base_by_id[province_id],
-                "lore_forest": f"{float(features['lore_forest'][province_id]):.6f}",
-                "lore_google_green": (
-                    f"{float(features['lore_google_green'][province_id]):.6f}"
-                ),
-                "lore_arid": f"{float(features['lore_arid'][province_id]):.6f}",
-                "lore_google_mountain": (
-                    f"{float(features['lore_google_mountain'][province_id]):.6f}"
-                ),
-                "slope": f"{float(features['slope'][province_id]):.6f}",
-                "lore_reason": lore_reason_by_id[province_id],
-                "leading_masks": "|".join(contributions),
-                "water_class": water_class_by_id.get(province_id, "land"),
-                "review_reason": "|".join(review_reasons.get(province_id, [])),
-                "decision": decision[0] if decision else "",
-                "decision_reason": decision[2] if decision else "",
-                "review_status": (
-                    "pending"
-                    if province_id in pending
-                    else "reviewed"
-                    if decision
-                    else "automatic"
-                ),
-            }
-        )
+        self.pending: list[int] = []
+        for province_id in sorted(self.expected_ids):
+            decision = decisions.get(province_id)
+            if decision is None:
+                continue
+            action, terrain, _ = decision
+            if terrain not in self.valid_terrains:
+                raise AssertionError(
+                    f"terrain decision {province_id} uses unloaded terrain {terrain}"
+                )
+            if action == "accept":
+                if terrain != self.proposed[province_id]:
+                    raise AssertionError(
+                        f"accept decision for {province_id} must use proposed terrain "
+                        f"{self.proposed[province_id]}, got {terrain}"
+                    )
+            else:
+                self.final_terrain[province_id] = terrain
 
-    mappings = load_graphical_mappings(graphical_config_path)
-    mapping_by_scope_key = {
-        (mapping.scope, mapping.key): mapping for mapping in mappings
-    }
-    config_empire_keys = {
-        mapping.key for mapping in mappings if mapping.scope == "empire"
-    }
-    if config_empire_keys != empire_keys:
-        raise AssertionError(
-            "graphical empire mappings changed: "
-            f"missing={sorted(empire_keys - config_empire_keys)}, "
-            f"extra={sorted(config_empire_keys - empire_keys)}"
-        )
-    region_blocks = effective_region_blocks(
-        [
-            workshop["AGOT"],
-            workshop["NOW"],
-            workshop["LOV"],
-            workshop["RC"],
-            workshop["EE"],
-            workshop["EEP"],
-        ]
-    )
-    graphical_blocks = {
-        key: block
-        for key, block in region_blocks.items()
-        if direct_graphical_flag(block)
-    }
-    missing_styles = {mapping.graphical_region for mapping in mappings} - set(
-        graphical_blocks
-    )
-    if missing_styles:
-        raise AssertionError(
-            f"mapped graphical styles are not loaded: {sorted(missing_styles)}"
-        )
-
-    scope_order = ("province", "county", "duchy", "kingdom", "empire")
-    assigned_mapping: dict[int, GraphicalMapping] = {}
-    used_mappings: Counter[tuple[str, str]] = Counter()
-    for title in graphical_titles:
-        match: GraphicalMapping | None = None
-        for scope in scope_order:
-            key = title.value_for_scope(scope)
-            if candidate := mapping_by_scope_key.get((scope, key)):
-                match = candidate
-                break
-        if match is None:
-            raise AssertionError(
-                f"no graphical mapping for province {title.province_id} "
-                f"({title.barony})"
+        mask_names = [str(value) for value in self.features["mask_names"]]
+        mask_intensity = self.features["mask_intensity"][:, self.target_ids]
+        self.terrain_audit_rows: list[dict[str, object]] = []
+        for offset, province_id_raw in enumerate(self.target_ids):
+            province_id = int(province_id_raw)
+            title = self.title_by_id.get(province_id)
+            top_masks = np.argsort(mask_intensity[:, offset])[-3:][::-1]
+            contributions = [
+                f"{mask_names[index]}:{float(mask_intensity[index, offset]):.4f}"
+                for index in top_masks
+                if mask_intensity[index, offset] > 0
+            ]
+            decision = decisions.get(province_id)
+            self.terrain_audit_rows.append(
+                {
+                    "province_id": province_id,
+                    "rgb": self.eep_definitions[province_id].rgb_text,
+                    "barony": title.barony if title else "",
+                    "county": title.county if title else "",
+                    "duchy": title.duchy if title else "",
+                    "kingdom": title.kingdom if title else "",
+                    "empire": title.empire if title else "",
+                    "model_terrain": self.model_proposed[province_id],
+                    "proposed_terrain": self.proposed[province_id],
+                    "eep_terrain": self.eep_terrain.get(province_id, ""),
+                    "final_terrain": self.final_terrain[province_id],
+                    "model_confidence": f"{self.confidence_by_id[province_id]:.6f}",
+                    "model_runner_up": self.runner_up[province_id],
+                    "model_margin": f"{self.margin_by_id[province_id]:.6f}",
+                    "model_priority_group": self.priority_group_by_id.get(
+                        province_id, ""
+                    ),
+                    "model_warning": "|".join(
+                        self.model_review_reasons.get(province_id, [])
+                    ),
+                    "lore_base": self.lore_base_by_id[province_id],
+                    "lore_forest": f"{float(self.features['lore_forest'][province_id]):.6f}",
+                    "lore_google_green": (
+                        f"{float(self.features['lore_google_green'][province_id]):.6f}"
+                    ),
+                    "lore_arid": f"{float(self.features['lore_arid'][province_id]):.6f}",
+                    "lore_google_mountain": (
+                        f"{float(self.features['lore_google_mountain'][province_id]):.6f}"
+                    ),
+                    "slope": f"{float(self.features['slope'][province_id]):.6f}",
+                    "lore_reason": self.lore_reason_by_id[province_id],
+                    "leading_masks": "|".join(contributions),
+                    "water_class": self.water_class_by_id.get(province_id, "land"),
+                    "review_reason": "|".join(self.review_reasons.get(province_id, [])),
+                    "decision": decision[0] if decision else "",
+                    "decision_reason": decision[2] if decision else "",
+                    "review_status": (
+                        "pending"
+                        if province_id in self.pending
+                        else "reviewed"
+                        if decision
+                        else "automatic"
+                    ),
+                }
             )
-        assigned_mapping[title.province_id] = match
-        used_mappings[(match.scope, match.key)] += 1
-    unused_mappings = set(mapping_by_scope_key) - set(used_mappings)
-    if unused_mappings:
-        raise AssertionError(f"unused graphical mappings: {sorted(unused_mappings)}")
 
-    graphical_pending: list[str] = []
-    mapping_components: dict[tuple[str, str], dict[int, int]] = {}
-    for mapping in mappings:
-        mapped_ids = {
-            province_id
-            for province_id, assigned in assigned_mapping.items()
-            if assigned == mapping
+    def build_graphical_regions(self) -> None:
+        mappings = load_graphical_mappings(self.graphical_config_path)
+        mapping_by_scope_key = {
+            (mapping.scope, mapping.key): mapping for mapping in mappings
         }
-        components = connected_components(mapped_ids, adjacency)
-        mapping_components[(mapping.scope, mapping.key)] = components
-        component_count = max(components.values(), default=0)
-        if component_count > 1 and not mapping.allow_disconnected:
-            graphical_pending.append(
-                f"{mapping.scope}:{mapping.key} has {component_count} components"
+        config_empire_keys = {
+            mapping.key for mapping in mappings if mapping.scope == "empire"
+        }
+        if config_empire_keys != self.empire_keys:
+            raise AssertionError(
+                "graphical empire mappings changed: "
+                f"missing={sorted(self.empire_keys - config_empire_keys)}, "
+                f"extra={sorted(config_empire_keys - self.empire_keys)}"
+            )
+        region_blocks = effective_region_blocks(
+            [
+                self.workshop["AGOT"],
+                self.workshop["NOW"],
+                self.workshop["LOV"],
+                self.workshop["RC"],
+                self.workshop["EE"],
+                self.workshop["EEP"],
+            ]
+        )
+        self.graphical_blocks = {
+            key: block
+            for key, block in region_blocks.items()
+            if direct_graphical_flag(block)
+        }
+        missing_styles = {mapping.graphical_region for mapping in mappings} - set(
+            self.graphical_blocks
+        )
+        if missing_styles:
+            raise AssertionError(
+                f"mapped graphical styles are not loaded: {sorted(missing_styles)}"
             )
 
-    style_to_ids: dict[str, set[int]] = defaultdict(set)
-    for province_id, mapping in assigned_mapping.items():
-        style_to_ids[mapping.graphical_region].add(province_id)
-    if set().union(*style_to_ids.values()) != {
-        row.province_id for row in graphical_titles
-    }:
-        raise AssertionError("graphical target coverage is incomplete")
-    if sum(len(values) for values in style_to_ids.values()) != len(graphical_titles):
-        raise AssertionError("a graphical target was assigned more than once")
-
-    style_components = {
-        style: connected_components(province_ids, adjacency)
-        for style, province_ids in style_to_ids.items()
-    }
-    graphical_audit_rows: list[dict[str, object]] = []
-    for title in graphical_titles:
-        mapping = assigned_mapping[title.province_id]
-        components = mapping_components[(mapping.scope, mapping.key)]
-        component_count = max(components.values(), default=0)
-        warning = ""
-        review_status = "reviewed"
-        if component_count > 1:
-            warning = f"mapping_has_{component_count}_components"
-            review_status = (
-                "approved_disconnected" if mapping.allow_disconnected else "pending"
+        scope_order = ("province", "county", "duchy", "kingdom", "empire")
+        assigned_mapping: dict[int, GraphicalMapping] = {}
+        used_mappings: Counter[tuple[str, str]] = Counter()
+        for title in self.graphical_titles:
+            match: GraphicalMapping | None = None
+            for scope in scope_order:
+                key = title.value_for_scope(scope)
+                if candidate := mapping_by_scope_key.get((scope, key)):
+                    match = candidate
+                    break
+            if match is None:
+                raise AssertionError(
+                    f"no graphical mapping for province {title.province_id} "
+                    f"({title.barony})"
+                )
+            assigned_mapping[title.province_id] = match
+            used_mappings[(match.scope, match.key)] += 1
+        unused_mappings = set(mapping_by_scope_key) - set(used_mappings)
+        if unused_mappings:
+            raise AssertionError(
+                f"unused graphical mappings: {sorted(unused_mappings)}"
             )
-        graphical_audit_rows.append(
-            {
-                "province_id": title.province_id,
-                "rgb": eep_definitions[title.province_id].rgb_text,
-                "barony": title.barony,
-                "county": title.county,
-                "duchy": title.duchy,
-                "kingdom": title.kingdom,
-                "empire": title.empire,
-                "graphical_region": mapping.graphical_region,
-                "mapping_scope": mapping.scope,
-                "mapping_key": mapping.key,
-                "component_id": components[title.province_id],
-                "style_component_id": style_components[mapping.graphical_region][
-                    title.province_id
-                ],
-                "adjacency_warning": warning,
-                "review_status": review_status,
-                "reason": mapping.reason,
+
+        self.graphical_pending: list[str] = []
+        mapping_components: dict[tuple[str, str], dict[int, int]] = {}
+        for mapping in mappings:
+            mapped_ids = {
+                province_id
+                for province_id, assigned in assigned_mapping.items()
+                if assigned == mapping
             }
-        )
+            components = connected_components(mapped_ids, self.adjacency)
+            mapping_components[(mapping.scope, mapping.key)] = components
+            component_count = max(components.values(), default=0)
+            if component_count > 1 and not mapping.allow_disconnected:
+                self.graphical_pending.append(
+                    f"{mapping.scope}:{mapping.key} has {component_count} components"
+                )
 
-    terrain_audit = csv_bytes(
-        [
-            "province_id",
-            "rgb",
-            "barony",
-            "county",
-            "duchy",
-            "kingdom",
-            "empire",
-            "model_terrain",
-            "proposed_terrain",
-            "eep_terrain",
-            "final_terrain",
-            "model_confidence",
-            "model_runner_up",
-            "model_margin",
-            "model_priority_group",
-            "model_warning",
-            "lore_base",
-            "lore_forest",
-            "lore_google_green",
-            "lore_arid",
-            "lore_google_mountain",
-            "slope",
-            "lore_reason",
-            "leading_masks",
-            "water_class",
-            "review_reason",
-            "decision",
-            "decision_reason",
-            "review_status",
-        ],
-        terrain_audit_rows,
-    )
-    graphical_audit = csv_bytes(
-        [
-            "province_id",
-            "rgb",
-            "barony",
-            "county",
-            "duchy",
-            "kingdom",
-            "empire",
-            "graphical_region",
-            "mapping_scope",
-            "mapping_key",
-            "component_id",
-            "style_component_id",
-            "adjacency_warning",
-            "review_status",
-            "reason",
-        ],
-        graphical_audit_rows,
-    )
-
-    terrain_lines = [
-        "\ufeff# Generated by ck3mm from the mod's workspace implementation.",
-        "# Final terrain uses aligned lore-map biomes, slope relief, and "
-        "strong semantic masks.",
-        f"# Audit-only mask-model spatial five-fold macro-F1: {validation_f1:.6f}",
-        "# Training labels: "
-        + ", ".join(f"{name}={label_counts[name]}" for name in classes),
-        f"# Target IDs: {TARGET_FIRST}..{TARGET_LAST} ({TARGET_COUNT})",
-        "",
-    ]
-    terrain_lines.extend(
-        f"{province_id} = {final_terrain[province_id]}"
-        for province_id in range(TARGET_FIRST, TARGET_LAST + 1)
-    )
-    terrain_output = ("\n".join(terrain_lines) + "\n").encode("utf-8")
-
-    region_lines = [
-        "\ufeff# Generated by ck3mm from the mod's workspace implementation.",
-        "# Complete replacements for touched graphical-region keys.",
-        "",
-    ]
-    for style in sorted(style_to_ids):
-        source_block = repair_inherited_graphical_block(style, graphical_blocks[style])
-        region_lines.append(
-            append_provinces_to_block(source_block, style_to_ids[style])
-        )
-        region_lines.append("")
-    region_output = ("\n".join(region_lines)).encode("utf-8")
-
-    outputs = {
-        source / "terrain_audit.csv": terrain_audit,
-        source / "graphical_region_audit.csv": graphical_audit,
-        module / "common/province_terrain/ee_province_terrain.txt": terrain_output,
-        module
-        / "map_data/geographical_regions/zzzz_agot_now_lov_ee_world_data.txt": region_output,
-    }
-
-    if options.audit:
-        for path in (
-            source / "terrain_audit.csv",
-            source / "graphical_region_audit.csv",
+        self.style_to_ids: dict[str, set[int]] = defaultdict(set)
+        for province_id, mapping in assigned_mapping.items():
+            self.style_to_ids[mapping.graphical_region].add(province_id)
+        if set().union(*self.style_to_ids.values()) != {
+            row.province_id for row in self.graphical_titles
+        }:
+            raise AssertionError("graphical target coverage is incomplete")
+        if sum(len(values) for values in self.style_to_ids.values()) != len(
+            self.graphical_titles
         ):
+            raise AssertionError("a graphical target was assigned more than once")
+
+        style_components = {
+            style: connected_components(province_ids, self.adjacency)
+            for style, province_ids in self.style_to_ids.items()
+        }
+        self.graphical_audit_rows: list[dict[str, object]] = []
+        for title in self.graphical_titles:
+            mapping = assigned_mapping[title.province_id]
+            components = mapping_components[(mapping.scope, mapping.key)]
+            component_count = max(components.values(), default=0)
+            warning = ""
+            review_status = "reviewed"
+            if component_count > 1:
+                warning = f"mapping_has_{component_count}_components"
+                review_status = (
+                    "approved_disconnected" if mapping.allow_disconnected else "pending"
+                )
+            self.graphical_audit_rows.append(
+                {
+                    "province_id": title.province_id,
+                    "rgb": self.eep_definitions[title.province_id].rgb_text,
+                    "barony": title.barony,
+                    "county": title.county,
+                    "duchy": title.duchy,
+                    "kingdom": title.kingdom,
+                    "empire": title.empire,
+                    "graphical_region": mapping.graphical_region,
+                    "mapping_scope": mapping.scope,
+                    "mapping_key": mapping.key,
+                    "component_id": components[title.province_id],
+                    "style_component_id": style_components[mapping.graphical_region][
+                        title.province_id
+                    ],
+                    "adjacency_warning": warning,
+                    "review_status": review_status,
+                    "reason": mapping.reason,
+                }
+            )
+
+    def write_outputs(self) -> None:
+        terrain_audit = csv_bytes(
+            [
+                "province_id",
+                "rgb",
+                "barony",
+                "county",
+                "duchy",
+                "kingdom",
+                "empire",
+                "model_terrain",
+                "proposed_terrain",
+                "eep_terrain",
+                "final_terrain",
+                "model_confidence",
+                "model_runner_up",
+                "model_margin",
+                "model_priority_group",
+                "model_warning",
+                "lore_base",
+                "lore_forest",
+                "lore_google_green",
+                "lore_arid",
+                "lore_google_mountain",
+                "slope",
+                "lore_reason",
+                "leading_masks",
+                "water_class",
+                "review_reason",
+                "decision",
+                "decision_reason",
+                "review_status",
+            ],
+            self.terrain_audit_rows,
+        )
+        graphical_audit = csv_bytes(
+            [
+                "province_id",
+                "rgb",
+                "barony",
+                "county",
+                "duchy",
+                "kingdom",
+                "empire",
+                "graphical_region",
+                "mapping_scope",
+                "mapping_key",
+                "component_id",
+                "style_component_id",
+                "adjacency_warning",
+                "review_status",
+                "reason",
+            ],
+            self.graphical_audit_rows,
+        )
+
+        terrain_lines = [
+            "\ufeff# Generated by ck3mm from the mod's workspace implementation.",
+            "# Final terrain uses aligned lore-map biomes, slope relief, and "
+            "strong semantic masks.",
+            f"# Audit-only mask-model spatial five-fold macro-F1: {self.validation_f1:.6f}",
+            "# Training labels: "
+            + ", ".join(f"{name}={self.label_counts[name]}" for name in self.classes),
+            f"# Target IDs: {TARGET_FIRST}..{TARGET_LAST} ({TARGET_COUNT})",
+            "",
+        ]
+        terrain_lines.extend(
+            f"{province_id} = {self.final_terrain[province_id]}"
+            for province_id in range(TARGET_FIRST, TARGET_LAST + 1)
+        )
+        terrain_output = ("\n".join(terrain_lines) + "\n").encode("utf-8")
+
+        region_lines = [
+            "\ufeff# Generated by ck3mm from the mod's workspace implementation.",
+            "# Complete replacements for touched graphical-region keys.",
+            "",
+        ]
+        for style in sorted(self.style_to_ids):
+            source_block = repair_inherited_graphical_block(
+                style, self.graphical_blocks[style]
+            )
+            region_lines.append(
+                append_provinces_to_block(source_block, self.style_to_ids[style])
+            )
+            region_lines.append("")
+        region_output = ("\n".join(region_lines)).encode("utf-8")
+
+        outputs = {
+            self.source / "terrain_audit.csv": terrain_audit,
+            self.source / "graphical_region_audit.csv": graphical_audit,
+            self.module
+            / "common/province_terrain/ee_province_terrain.txt": terrain_output,
+            self.module
+            / "map_data/geographical_regions/zzzz_agot_now_lov_ee_world_data.txt": region_output,
+        }
+
+        if self.pending:
+            raise AssertionError(
+                f"{len(self.pending)} terrain provinces require decisions; "
+                "review and update terrain_decisions.csv"
+            )
+        if self.graphical_pending:
+            raise AssertionError(
+                "graphical mappings require disconnected-component review: "
+                + "; ".join(self.graphical_pending)
+            )
+        if set(self.final_terrain) != self.expected_ids:
+            raise AssertionError("terrain output does not cover the full target range")
+        if any(terrain == "default" for terrain in self.final_terrain.values()):
+            raise AssertionError("terrain output still contains default")
+        for province_id in self.expected_ids & self.water_ids:
+            if self.final_terrain[province_id] not in {"sea", "coastal_sea"}:
+                raise AssertionError(f"water province {province_id} has land terrain")
+
+        for path, data in outputs.items():
             path.parent.mkdir(parents=True, exist_ok=True)
-            path.write_bytes(outputs[path])
-            print(f"Wrote {path.relative_to(root)}")
+            path.write_bytes(data)
+            print(f"Wrote {path.relative_to(self.root)}")
         print(
-            f"Audit summary: pending terrain={len(pending)}, "
-            f"pending graphical mappings={len(graphical_pending)}, "
-            f"validation macro-F1={validation_f1:.4f}"
+            f"Generated terrain={TARGET_COUNT}, graphical={len(self.graphical_titles)}, "
+            f"macro-F1={self.validation_f1:.4f}"
         )
-        for warning in graphical_pending:
-            print(f"graphical review required: {warning}", file=sys.stderr)
-        return 0
+        return None
 
-    if pending:
-        raise AssertionError(
-            f"{len(pending)} terrain provinces require decisions; "
-            "run --audit and update terrain_decisions.csv"
-        )
-    if graphical_pending:
-        raise AssertionError(
-            "graphical mappings require disconnected-component review: "
-            + "; ".join(graphical_pending)
-        )
-    if set(final_terrain) != expected_ids:
-        raise AssertionError("terrain output does not cover the full target range")
-    if any(terrain == "default" for terrain in final_terrain.values()):
-        raise AssertionError("terrain output still contains default")
-    for province_id in expected_ids & water_ids:
-        if final_terrain[province_id] not in {"sea", "coastal_sea"}:
-            raise AssertionError(f"water province {province_id} has land terrain")
 
-    if options.check:
-        stale: list[str] = []
-        for path, expected in outputs.items():
-            if not path.is_file() or path.read_bytes() != expected:
-                stale.append(path.relative_to(root).as_posix())
-        if stale:
-            raise AssertionError(f"generated outputs are stale: {stale}")
-        print(
-            f"World-data outputs are current: terrain={TARGET_COUNT}, "
-            f"graphical={len(graphical_titles)}, macro-F1={validation_f1:.4f}"
-        )
-        return 0
-
-    for path, data in outputs.items():
-        path.parent.mkdir(parents=True, exist_ok=True)
-        path.write_bytes(data)
-        print(f"Wrote {path.relative_to(root)}")
-    print(
-        f"Generated terrain={TARGET_COUNT}, graphical={len(graphical_titles)}, "
-        f"macro-F1={validation_f1:.4f}"
-    )
-    return 0
+def main(inputs: RunInputs) -> None:
+    WorldDataPipeline(inputs).run()
 
 
 def generate(context: GenerationContext) -> None:
-    global OUTPUT_ROOT_OVERRIDE, ASSETS_DIR_OVERRIDE, MAP_DEFINITION_OVERRIDE
-    global REFERENCE_PATHS_OVERRIDE
-    OUTPUT_ROOT_OVERRIDE = context.output_root
-    ASSETS_DIR_OVERRIDE = context.assets_dir / "world_data"
-    MAP_DEFINITION_OVERRIDE = context.source("map-definition")
-    REFERENCE_PATHS_OVERRIDE = {
-        "detailed": context.source("known-world-detailed"),
-        "google": context.source("known-world-google"),
-    }
-    result = main(
-        Options(
+    main(
+        RunInputs(
             root=context.workspace_root,
             workshop_root=context.workshop_root(
                 "agot",
@@ -2117,8 +2065,13 @@ def generate(context: GenerationContext) -> None:
                 "essos-expanded",
                 "essos-expanded-bridge",
             ),
+            output_root=context.output_root,
+            assets_dir=context.assets_dir / "world_data",
+            map_definition=context.source("map-definition"),
+            reference_paths={
+                "detailed": context.source("known-world-detailed"),
+                "google": context.source("known-world-google"),
+            },
             no_cache=bool(context.options.get("no_cache", False)),
         )
     )
-    if result not in (None, 0):
-        raise RuntimeError(f"generator returned unsuccessful status {result}")

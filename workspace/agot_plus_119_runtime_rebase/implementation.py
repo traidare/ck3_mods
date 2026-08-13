@@ -8,6 +8,7 @@ silently generating a stale whole-file override.
 from __future__ import annotations
 
 import re
+from dataclasses import dataclass
 from pathlib import Path
 
 from gen import GenerationContext
@@ -16,8 +17,11 @@ from gen.script import write_text as write_source
 from gen.sources import WorkshopSources
 from gen.text import replace_exact
 
-WORKSHOP: WorkshopSources | None = None
-AGOT_PLUS_OUTPUT: Path | None = None
+
+@dataclass(frozen=True, slots=True)
+class RunInputs:
+    WORKSHOP: WorkshopSources
+    AGOT_PLUS_OUTPUT: Path
 
 
 def write_text(root: Path, relative: str, text: str) -> None:
@@ -29,11 +33,11 @@ def write_text(root: Path, relative: str, text: str) -> None:
     write_source(root, relative, text, force_newline="\r\n")
 
 
-def history_character_ids(*workshop_ids: str) -> set[str]:
+def history_character_ids(inputs: RunInputs, *workshop_ids: str) -> set[str]:
     ids: set[str] = set()
     pattern = re.compile(r"^([A-Za-z0-9_]+)\s*=\s*\{", re.MULTILINE)
     for workshop_id in workshop_ids:
-        history = WORKSHOP / workshop_id / "history/characters"
+        history = inputs.WORKSHOP / workshop_id / "history/characters"
         if not history.is_dir():
             continue
         for path in history.rglob("*.txt"):
@@ -41,9 +45,9 @@ def history_character_ids(*workshop_ids: str) -> set[str]:
     return ids
 
 
-def generate_agot_plus() -> None:
+def generate_agot_plus(inputs: RunInputs) -> None:
     relative = "common/scripted_effects/asoiaf_canon_children_effects.txt"
-    text = read_text(WORKSHOP / "2950245430" / relative)
+    text = read_text(inputs.WORKSHOP / "2950245430" / relative)
     text = replace_regex(
         text,
         r"(?m)^\s*location = scope:mother\.location\r?\n",
@@ -59,7 +63,7 @@ def generate_agot_plus() -> None:
         label="AGOT+ Hugh Hammer daughter appearance source",
     )
 
-    character_ids = history_character_ids("2962333032", "2950245430")
+    character_ids = history_character_ids(inputs, "2962333032", "2950245430")
     appearance_pattern = re.compile(
         r"(copy_inheritable_appearance_from\s*=\s*character:)"
         r"([A-Za-z0-9]+)_asoiaf_([A-Za-z0-9_]+)"
@@ -139,10 +143,10 @@ def generate_agot_plus() -> None:
         expected=2,
         label="AGOT+ Aemond-death trigger iterators",
     )
-    write_text(AGOT_PLUS_OUTPUT, relative, text)
+    write_text(inputs.AGOT_PLUS_OUTPUT, relative, text)
 
     relative = "common/scripted_effects/asoiaf_setup_effects.txt"
-    text = read_text(WORKSHOP / "2950245430" / relative)
+    text = read_text(inputs.WORKSHOP / "2950245430" / relative)
     text = replace_regex(
         text,
         (
@@ -410,10 +414,10 @@ def generate_agot_plus() -> None:
         expected=1,
         label="AGOT+ obsolete More Bookmarks Stannis faith bridge",
     )
-    write_text(AGOT_PLUS_OUTPUT, relative, text)
+    write_text(inputs.AGOT_PLUS_OUTPUT, relative, text)
 
     relative = "common/scripted_effects/asoiaf_scripted_effects_strong_seed.txt"
-    text = read_text(WORKSHOP / "2950245430" / relative)
+    text = read_text(inputs.WORKSHOP / "2950245430" / relative)
     text = replace_exact(
         text,
         "limit = { dynasty ?= dynasty:dynn_Redbeard }",
@@ -421,10 +425,10 @@ def generate_agot_plus() -> None:
         expected=1,
         label="AGOT+ Redbeard house comparison",
     )
-    write_text(AGOT_PLUS_OUTPUT, relative, text)
+    write_text(inputs.AGOT_PLUS_OUTPUT, relative, text)
 
     relative = "common/modifiers/asoiaf_canon_children_modifiers.txt"
-    text = read_text(WORKSHOP / "2950245430" / relative)
+    text = read_text(inputs.WORKSHOP / "2950245430" / relative)
     modifier_pattern = re.compile(
         r"(?m)^asoiaf_Greyjoy_13_modifier = \{\n"
         r"(?:\t[^\n]*\n)+"
@@ -444,7 +448,7 @@ def generate_agot_plus() -> None:
         label="AGOT+ Asha canon-child modifier definition",
     )
     write_text(
-        AGOT_PLUS_OUTPUT,
+        inputs.AGOT_PLUS_OUTPUT,
         "common/modifiers/zz_asoiaf_runtime_missing_modifiers.txt",
         (
             "# AGOT+ localizes and applies this Asha variant but does not "
@@ -456,11 +460,11 @@ def generate_agot_plus() -> None:
 
     incomplete_children = tuple(range(98, 105))
     trigger_source = read_text(
-        WORKSHOP
+        inputs.WORKSHOP
         / "2950245430/common/scripted_triggers/asoiaf_canon_children_triggers.txt"
     )
     effect_source = read_text(
-        WORKSHOP
+        inputs.WORKSHOP
         / "2950245430/common/scripted_effects/asoiaf_canon_children_effects.txt"
     )
     trigger_counts = {
@@ -472,15 +476,7 @@ def generate_agot_plus() -> None:
         )
         for child in incomplete_children
     }
-    expected_trigger_counts = {
-        98: 1,
-        99: 2,
-        100: 1,
-        101: 0,
-        102: 0,
-        103: 0,
-        104: 0,
-    }
+    expected_trigger_counts = {98: 1, 99: 2, 100: 1, 101: 0, 102: 0, 103: 0, 104: 0}
     if trigger_counts != expected_trigger_counts:
         raise RuntimeError(
             "AGOT+ incomplete Aegon IV child triggers changed: "
@@ -493,7 +489,7 @@ def generate_agot_plus() -> None:
                 f"AGOT+ now defines {effect_name}; rebase the disabled branch"
             )
     write_text(
-        AGOT_PLUS_OUTPUT,
+        inputs.AGOT_PLUS_OUTPUT,
         "common/scripted_triggers/zz_asoiaf_runtime_disabled_incomplete_children.txt",
         (
             "# AGOT+ references these incomplete branches without defining all "
@@ -506,7 +502,7 @@ def generate_agot_plus() -> None:
         ),
     )
     write_text(
-        AGOT_PLUS_OUTPUT,
+        inputs.AGOT_PLUS_OUTPUT,
         "common/scripted_effects/zz_asoiaf_runtime_disabled_incomplete_children.txt",
         (
             "# Compile-safe no-ops for the disabled incomplete event branches.\n"
@@ -520,7 +516,8 @@ def generate_agot_plus() -> None:
 
 
 def generate(context: GenerationContext) -> None:
-    global WORKSHOP, AGOT_PLUS_OUTPUT
+
     WORKSHOP = WorkshopSources(context)
     AGOT_PLUS_OUTPUT = context.output_root
-    generate_agot_plus()
+    inputs = RunInputs(WORKSHOP=WORKSHOP, AGOT_PLUS_OUTPUT=AGOT_PLUS_OUTPUT)
+    generate_agot_plus(inputs)

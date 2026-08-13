@@ -50,13 +50,7 @@ def replace_regex(
     flags: int = 0,
 ) -> str:
     return shared_replace_regex(
-        text,
-        pattern,
-        replacement,
-        label,
-        expected,
-        flags,
-        error_type=RuntimeError,
+        text, pattern, replacement, label, expected, flags, error_type=RuntimeError
     )
 
 

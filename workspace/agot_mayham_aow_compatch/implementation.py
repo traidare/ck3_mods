@@ -3,34 +3,28 @@
 
 from __future__ import annotations
 
-import os
 import re
 import subprocess
 import tempfile
+from dataclasses import dataclass
 from pathlib import Path
 
 from gen import GenerationContext
 from gen.text import matching_brace, read_source
 
-ROOT: Path | None = None
+
+@dataclass(frozen=True, slots=True)
+class RunInputs:
+    ROOT: Path
+    AGOT: Path
+    MAYHAM: Path
+    AOW: Path
+    OUT: Path
+    AOW_UNIQUE_OUT: Path
 
 
-def required_environment_path(name: str) -> Path:
-    value = os.environ.get(name)
-    if not value:
-        raise SystemExit(
-            f"{name} is not set; load .env through direnv or run inside the dev shell"
-        )
-    return Path(value).expanduser().resolve()
-
-
-WORKSHOP: Path | None = None
-AGOT: Path | None = None
-MAYHAM: Path | None = None
-AOW: Path | None = None
-OUT: Path | None = None
 AOW_UNIQUE_RELATIVE = Path("common/culture/traditions/00_agot_unique_traditions.txt")
-AOW_UNIQUE_OUT: Path | None = None
+
 
 # Each entry is (field, AGOT value, Mayham value). The generator verifies that
 # this manifest describes every difference between AGOT and Mayham in the three
@@ -40,7 +34,7 @@ DELTAS: dict[str, dict[str, list[tuple[str, str, str]]]] = {
         "tradition_agot_insular_marriage": [
             ("same_culture_opinion", "10", "20"),
             ("spouse_opinion", "10", "20"),
-        ],
+        ]
     },
     "00_agot_regional_traditions.txt": {
         "tradition_agot_rushlander": [
@@ -116,13 +110,9 @@ UPSTREAM_REBASES: dict[str, tuple[str, ...]] = {
 # rebase. Apply them after the current AGOT blocks are selected.
 UPSTREAM_REBASE_DELTAS: dict[str, dict[str, list[tuple[str, str, str]]]] = {
     "00_agot_unique_traditions.txt": {
-        "tradition_agot_wolfswood_clansmen": [
-            ("liege_opinion", "10", "20"),
-        ],
-        "tradition_agot_stoneborn": [
-            ("different_culture_opinion", "-10", "-30"),
-        ],
-    },
+        "tradition_agot_wolfswood_clansmen": [("liege_opinion", "10", "20")],
+        "tradition_agot_stoneborn": [("different_culture_opinion", "-10", "-30")],
+    }
 }
 
 
@@ -232,16 +222,16 @@ def merge_definition(base: str, ours: str, theirs: str, tradition: str) -> str:
     return merged.rstrip("\n")
 
 
-def generate_traditions() -> str:
+def generate_traditions(inputs: RunInputs) -> str:
     generated: list[str] = []
     definition_count = 0
     delta_count = 0
 
     for filename, expected in DELTAS.items():
         relative = Path("common/culture/traditions") / filename
-        agot = definitions(read(AGOT / relative))
-        mayham = definitions(read(MAYHAM / relative))
-        aow = definitions(read(AOW / relative))
+        agot = definitions(read(inputs.AGOT / relative))
+        mayham = definitions(read(inputs.MAYHAM / relative))
+        aow = definitions(read(inputs.AOW / relative))
 
         if agot.keys() != mayham.keys():
             raise ValueError(f"{filename}: AGOT and Mayham definition sets differ")
@@ -280,11 +270,7 @@ def generate_traditions() -> str:
             if tradition not in aow:
                 raise ValueError(f"{filename}: AoW is missing {tradition}")
             aow_deltas = [
-                (
-                    field,
-                    agot_value,
-                    mayham_value,
-                )
+                (field, agot_value, mayham_value)
                 for field, agot_value, mayham_value in deltas
             ]
             reverse_deltas = [
@@ -297,10 +283,7 @@ def generate_traditions() -> str:
                 mayham[tradition], tradition, reverse_deltas
             )
             merged = merge_definition(
-                reconstructed_base,
-                aow[tradition],
-                agot[tradition],
-                tradition,
+                reconstructed_base, aow[tradition], agot[tradition], tradition
             )
             generated.append(apply_deltas(merged, tradition, deltas))
             definition_count += 1
@@ -319,8 +302,8 @@ def generate_traditions() -> str:
     return header + "\n\n".join(generated) + "\n"
 
 
-def generate_aow_unique_syntax_repair() -> str:
-    text = read(AOW / AOW_UNIQUE_RELATIVE)
+def generate_aow_unique_syntax_repair(inputs: RunInputs) -> str:
+    text = read(inputs.AOW / AOW_UNIQUE_RELATIVE)
     old = "\t\treveler_traits_more_valued \n"
     found = text.count(old)
     if found != 1:
@@ -331,19 +314,21 @@ def generate_aow_unique_syntax_repair() -> str:
     return text.replace(old, "\t\treveler_traits_more_valued = yes\n")
 
 
-def main() -> None:
-    OUT.parent.mkdir(parents=True, exist_ok=True)
-    OUT.write_text(generate_traditions(), encoding="utf-8-sig")
-    AOW_UNIQUE_OUT.parent.mkdir(parents=True, exist_ok=True)
-    AOW_UNIQUE_OUT.write_text(generate_aow_unique_syntax_repair(), encoding="utf-8-sig")
+def main(inputs: RunInputs) -> None:
+    inputs.OUT.parent.mkdir(parents=True, exist_ok=True)
+    inputs.OUT.write_text(generate_traditions(inputs), encoding="utf-8-sig")
+    inputs.AOW_UNIQUE_OUT.parent.mkdir(parents=True, exist_ok=True)
+    inputs.AOW_UNIQUE_OUT.write_text(
+        generate_aow_unique_syntax_repair(inputs), encoding="utf-8-sig"
+    )
     print(
-        f"Generated {OUT.relative_to(ROOT)} "
+        f"Generated {inputs.OUT.relative_to(inputs.ROOT)} "
         "(47 definitions, 48 deltas, 5 upstream rebases)"
     )
 
 
 def generate(context: GenerationContext) -> None:
-    global ROOT, AGOT, MAYHAM, AOW, OUT, AOW_UNIQUE_OUT
+
     ROOT = context.workspace_root
     AGOT = context.source("agot")
     MAYHAM = context.source("mayham")
@@ -354,4 +339,12 @@ def generate(context: GenerationContext) -> None:
     AOW_UNIQUE_OUT = context.output_path(
         "common/culture/traditions/00_agot_unique_traditions.txt"
     )
-    main()
+    inputs = RunInputs(
+        ROOT=ROOT,
+        AGOT=AGOT,
+        MAYHAM=MAYHAM,
+        AOW=AOW,
+        OUT=OUT,
+        AOW_UNIQUE_OUT=AOW_UNIQUE_OUT,
+    )
+    main(inputs)

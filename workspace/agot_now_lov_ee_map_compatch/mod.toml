@@ -1,5 +1,5 @@
 [generator]
-entrypoint = "implementation.py:generate"
+entrypoint = "map_merge.py:generate"
 owned_outputs = [
   "gfx/map",
   "map_data/definition.csv",
@@ -8,7 +8,6 @@ owned_artifacts = [
   "heightmap",
   "map_objects",
 ]
-assets = ["assets/source_manifest.json"]
 
 [[sources]]
 name = "agot"

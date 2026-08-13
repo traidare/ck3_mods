@@ -19,22 +19,10 @@ func modCommand() *Command {
 				Run:     runModList,
 			},
 			{
-				Name:    "audit",
-				Summary: "Check that every mod's descriptor.mod is valid",
-				Usage:   "ck3mm mod audit [MOD...]",
-				Run:     runModAudit,
-			},
-			{
 				Name:    "generate",
 				Summary: "Preview or promote generated outputs",
 				Usage:   "ck3mm mod generate [MOD...] [--option NAME[=JSON]] [--apply]",
 				Run:     runModGenerate,
-			},
-			{
-				Name:    "sources",
-				Summary: "Preview or record reviewed generator source hashes",
-				Usage:   "ck3mm mod sources [MOD...] [--apply]",
-				Run:     runModSources,
 			},
 			{
 				Name:    "validate",

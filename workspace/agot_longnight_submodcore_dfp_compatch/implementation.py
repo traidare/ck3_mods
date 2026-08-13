@@ -10,6 +10,7 @@ from __future__ import annotations
 import codecs
 import hashlib
 import re
+from dataclasses import dataclass
 from pathlib import Path
 
 from gen import GenerationContext
@@ -24,8 +25,12 @@ from gen.text import (
     unique_marker,
 )
 
-DFP_AGOT: Path | None = None
-STANDALONE_LONG_NIGHT: Path | None = None
+
+@dataclass(frozen=True, slots=True)
+class RunInputs:
+    DFP_AGOT: Path
+    STANDALONE_LONG_NIGHT: Path
+
 
 RELATIVE_ANIMATIONS = Path("gfx/portraits/portrait_animations/animations.txt")
 
@@ -86,9 +91,9 @@ def extract_dfp_poses(dfp: str, newline: str) -> tuple[str, set[str]]:
     return normalize_newlines(poses, newline), expected_names
 
 
-def merged_animations() -> str:
-    long_night = read(STANDALONE_LONG_NIGHT / RELATIVE_ANIMATIONS)
-    dfp_path = DFP_AGOT / RELATIVE_ANIMATIONS
+def merged_animations(inputs: RunInputs) -> str:
+    long_night = read(inputs.STANDALONE_LONG_NIGHT / RELATIVE_ANIMATIONS)
+    dfp_path = inputs.DFP_AGOT / RELATIVE_ANIMATIONS
     if not dfp_path.is_file():
         raise ValueError(f"missing required DFP AGOT source: {dfp_path}")
     dfp_bytes = dfp_path.read_bytes()
@@ -122,25 +127,14 @@ def merged_animations() -> str:
     if merged_pose_names != expected_pose_names:
         raise ValueError("merged file does not contain the expected DFP pose set")
     assert_count(
-        merged,
-        r"CIP_[A-Za-z0-9_]+",
-        EXPECTED_MERGED_POSES,
-        "merged DFP poses",
+        merged, r"CIP_[A-Za-z0-9_]+", EXPECTED_MERGED_POSES, "merged DFP poses"
     )
     assert_count(
-        merged,
-        r"wight_pose_[A-Za-z0-9_]+",
-        EXPECTED_WIGHT_POSES,
-        "merged wight poses",
+        merged, r"wight_pose_[A-Za-z0-9_]+", EXPECTED_WIGHT_POSES, "merged wight poses"
     )
     assert_count(merged, "hold_bow_idle", 1, "merged bow pose")
     assert_count(merged, "hold_long_axe_idle", 1, "merged long-axe pose")
-    assert_count(
-        merged,
-        "CIP_agressive_longsword",
-        0,
-        "obsolete DFP longsword pose",
-    )
+    assert_count(merged, "CIP_agressive_longsword", 0, "obsolete DFP longsword pose")
     active_removed_trigger = re.findall(
         r"(?m)^[ \t]*use_longsword_default_trigger\s*=", merged
     )
@@ -150,8 +144,9 @@ def merged_animations() -> str:
 
 
 def generate(context: GenerationContext) -> None:
-    global DFP_AGOT, STANDALONE_LONG_NIGHT
+
     DFP_AGOT = context.source("dynamic-family-portrait")
     STANDALONE_LONG_NIGHT = context.source("standalone-long-night")
-    payload = codecs.BOM_UTF8 + merged_animations().encode("utf-8")
+    inputs = RunInputs(DFP_AGOT=DFP_AGOT, STANDALONE_LONG_NIGHT=STANDALONE_LONG_NIGHT)
+    payload = codecs.BOM_UTF8 + merged_animations(inputs).encode("utf-8")
     context.write_bytes(RELATIVE_ANIMATIONS, payload)

@@ -12,8 +12,9 @@ import io
 import json
 import sys
 import traceback
+import types
 from collections.abc import Mapping
-from contextlib import redirect_stderr, redirect_stdout
+from contextlib import contextmanager, redirect_stderr, redirect_stdout
 from pathlib import Path, PurePosixPath
 
 from . import GenerationContext, GenerationError
@@ -21,26 +22,35 @@ from . import GenerationContext, GenerationError
 SCHEMA_VERSION = 1
 
 
+@contextmanager
 def load_entrypoint(module_path: Path, function_name: str):
-    """Import a generator by path without leaving it in ``sys.modules``."""
+    """Load a generator inside an isolated package rooted at its tooling dir."""
     if not module_path.is_file():
         raise GenerationError(f"generator entrypoint not found: {module_path}")
-    import_name = f"_ck3mm_generator_{module_path.stem}_{abs(hash(module_path))}"
+    package_name = f"_ck3mm_generator_{abs(hash(module_path.parent))}"
+    import_name = f"{package_name}.{module_path.stem}"
+    package = types.ModuleType(package_name)
+    package.__package__ = package_name
+    package.__path__ = [str(module_path.parent)]
     specification = importlib.util.spec_from_file_location(import_name, module_path)
     if specification is None or specification.loader is None:
         raise GenerationError(f"cannot load generator: {module_path}")
     module = importlib.util.module_from_spec(specification)
+    sys.modules[package_name] = package
     sys.modules[import_name] = module
     try:
         specification.loader.exec_module(module)
+        function = getattr(module, function_name, None)
+        if not callable(function):
+            raise GenerationError(
+                f"generator entrypoint is not callable: "
+                f"{module_path.name}:{function_name}"
+            )
+        yield function
     finally:
-        sys.modules.pop(import_name, None)
-    function = getattr(module, function_name, None)
-    if not callable(function):
-        raise GenerationError(
-            f"generator entrypoint is not callable: {module_path.name}:{function_name}"
-        )
-    return function
+        for name in tuple(sys.modules):
+            if name == package_name or name.startswith(package_name + "."):
+                sys.modules.pop(name, None)
 
 
 def materialize(context: GenerationContext, value: object) -> None:
@@ -96,8 +106,11 @@ def main() -> int:
     try:
         request = json.load(sys.stdin)
         context, module_path, function_name = build_context(request)
-        with redirect_stdout(captured_output), redirect_stderr(captured_errors):
-            generate = load_entrypoint(module_path, function_name)
+        with (
+            redirect_stdout(captured_output),
+            redirect_stderr(captured_errors),
+            load_entrypoint(module_path, function_name) as generate,
+        ):
             materialize(context, generate(context))
     except GenerationError as error:
         result["status"] = "error"

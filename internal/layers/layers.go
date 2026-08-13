@@ -5,6 +5,7 @@
 package layers
 
 import (
+	"errors"
 	"fmt"
 	"os"
 	"path"
@@ -26,32 +27,20 @@ type Discovery struct {
 	Playset   report.PlaysetRecord
 }
 
-func errorf(format string, arguments ...any) error {
-	return &pdx.Error{Message: fmt.Sprintf(format, arguments...)}
-}
-
 // readDescriptor reads a descriptor, keeping host paths out of the message.
 func readDescriptor(descriptorPath, label string) (pdx.Descriptor, error) {
 	if !fsutil.IsFile(descriptorPath) {
-		return pdx.Descriptor{}, errorf("%s is missing", label)
+		return pdx.Descriptor{}, fmt.Errorf("%s is missing", label)
 	}
 	descriptor, err := pdx.Load(descriptorPath)
 	if err != nil {
 		var readError *pdx.ReadError
-		if asReadError(err, &readError) {
-			return pdx.Descriptor{}, errorf("%s is unreadable", label)
+		if errors.As(err, &readError) {
+			return pdx.Descriptor{}, fmt.Errorf("%s is unreadable", label)
 		}
-		return pdx.Descriptor{}, errorf("%s is invalid: %v", label, err)
+		return pdx.Descriptor{}, fmt.Errorf("%s is invalid: %w", label, err)
 	}
 	return descriptor, nil
-}
-
-func asReadError(err error, target **pdx.ReadError) bool {
-	readError, ok := err.(*pdx.ReadError)
-	if ok {
-		*target = readError
-	}
-	return ok
 }
 
 // SafeRegistryPath resolves a Launcher registry ID inside CK3_PARADOX_DIR and
@@ -59,18 +48,18 @@ func asReadError(err error, target **pdx.ReadError) bool {
 func SafeRegistryPath(paradoxDir, registryID string) (string, error) {
 	relative := strings.ReplaceAll(registryID, `\`, "/")
 	if relative == "" || strings.HasPrefix(relative, "/") {
-		return "", errorf("unsafe local registry ID: %q", registryID)
+		return "", fmt.Errorf("unsafe local registry ID: %q", registryID)
 	}
 	for _, part := range strings.Split(relative, "/") {
 		if part == ".." {
-			return "", errorf("unsafe local registry ID: %q", registryID)
+			return "", fmt.Errorf("unsafe local registry ID: %q", registryID)
 		}
 	}
 
 	root := fsutil.MustAbs(paradoxDir)
 	resolved := fsutil.MustAbs(filepath.Join(root, filepath.FromSlash(path.Clean(relative))))
 	if _, inside := fsutil.RelativeWithin(root, resolved); !inside {
-		return "", errorf("local registry ID escapes CK3_PARADOX_DIR: %q", registryID)
+		return "", fmt.Errorf("local registry ID escapes CK3_PARADOX_DIR: %q", registryID)
 	}
 	return resolved, nil
 }
@@ -83,7 +72,7 @@ func payloadPath(descriptor pdx.Descriptor, paradoxDir string) (string, error) {
 		return "", err
 	}
 	if rawPath == "" {
-		return "", errorf("local Launcher descriptor has no path field")
+		return "", fmt.Errorf("local Launcher descriptor has no path field")
 	}
 
 	candidate := rawPath
@@ -98,7 +87,7 @@ func payloadPath(descriptor pdx.Descriptor, paradoxDir string) (string, error) {
 	if fsutil.IsDir(fallback) {
 		return fallback, nil
 	}
-	return "", errorf("configured local mod payload is missing")
+	return "", fmt.Errorf("configured local mod payload is missing")
 }
 
 // mergeReplacePaths collects the replace_path declarations of every descriptor
@@ -123,7 +112,7 @@ func mergeReplacePaths(descriptors ...pdx.Descriptor) []string {
 
 func workshopProvider(mod playset.Mod, workshopDir string) (conflicts.Provider, error) {
 	if mod.SteamID == "" {
-		return conflicts.Provider{}, errorf("Workshop playset entry has no Steam ID")
+		return conflicts.Provider{}, fmt.Errorf("workshop playset entry has no Steam ID")
 	}
 	root := fsutil.MustAbs(filepath.Join(workshopDir, mod.SteamID))
 	descriptor, err := readDescriptor(filepath.Join(root, "descriptor.mod"), "Workshop descriptor.mod")
@@ -145,7 +134,7 @@ func workshopProvider(mod playset.Mod, workshopDir string) (conflicts.Provider, 
 
 func localProvider(mod playset.Mod, paradoxDir string) (conflicts.Provider, error) {
 	if mod.GameRegistryID == "" {
-		return conflicts.Provider{}, errorf("local playset entry has no gameRegistryId")
+		return conflicts.Provider{}, fmt.Errorf("local playset entry has no gameRegistryId")
 	}
 	registryPath, err := SafeRegistryPath(paradoxDir, mod.GameRegistryID)
 	if err != nil {
@@ -197,7 +186,7 @@ func Discover(source playset.Playset, workshopDir, paradoxDir string) Discovery 
 		case mod.SteamID != "":
 			provider, err = workshopProvider(mod, workshopDir)
 		default:
-			err = errorf("entry has neither a local registry ID nor a Steam ID")
+			err = fmt.Errorf("entry has neither a local registry ID nor a Steam ID")
 		}
 		if err != nil {
 			detail := err.Error()

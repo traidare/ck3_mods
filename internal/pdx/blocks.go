@@ -1,5 +1,7 @@
 package pdx
 
+import "fmt"
+
 // Structural helpers over a token stream. Descriptors only need root-level
 // assignments, but game data is nested, so these expose blocks and their
 // immediate contents without building a full tree.
@@ -23,14 +25,14 @@ func MatchBraces(tokens []Token, label string) (map[int]int, error) {
 			stack = append(stack, index)
 		case TokenClose:
 			if len(stack) == 0 {
-				return nil, errorf("%s:%d: unexpected closing brace", label, token.Line)
+				return nil, fmt.Errorf("%s:%d: unexpected closing brace", label, token.Line)
 			}
 			matches[stack[len(stack)-1]] = index
 			stack = stack[:len(stack)-1]
 		}
 	}
 	if len(stack) > 0 {
-		return nil, errorf("%s:%d: unclosed block", label, tokens[stack[len(stack)-1]].Line)
+		return nil, fmt.Errorf("%s:%d: unclosed block", label, tokens[stack[len(stack)-1]].Line)
 	}
 	return matches, nil
 }

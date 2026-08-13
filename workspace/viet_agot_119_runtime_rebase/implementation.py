@@ -5,15 +5,21 @@ from __future__ import annotations
 
 import hashlib
 import re
+from dataclasses import dataclass
 from pathlib import Path
 
 from gen import GenerationContext
-from gen.text import read_source
+from gen.script import read_text
+from gen.script import write_text as write_source
+from gen.text import direct_child_block_start, line_block_end
 
-ROOT: Path | None = None
-SOURCE: Path | None = None
-OUTPUT: Path | None = None
-DISABLED_EVENTS_FILE: Path | None = None
+
+@dataclass(frozen=True, slots=True)
+class RunInputs:
+    SOURCE: Path
+    OUTPUT: Path
+    DISABLED_EVENTS_FILE: Path
+
 
 EVENT_KEY_RE = re.compile(r"^(VIET[A-Za-z]*\.\d+)\s*=\s*\{")
 EVENT_TYPE_RE = re.compile(r"^\s*type\s*=\s*([a-z0-9_]+)\s*(?:#.*)?$", re.MULTILINE)
@@ -33,15 +39,9 @@ CHARACTER_PING_EVENTS = {
     "VIETmonogatari.0004",
 }
 
-DUPLICATE_WIDGET_EVENTS = {
-    "VIETmisc.2080",
-    "VIETmisc.2081",
-}
+DUPLICATE_WIDGET_EVENTS = {"VIETmisc.2080", "VIETmisc.2081"}
 
-TOAST_RANDOM_LIST_EVENTS = {
-    "VIETmisc.0033",
-    "VIETmisc.0088",
-}
+TOAST_RANDOM_LIST_EVENTS = {"VIETmisc.0033", "VIETmisc.0088"}
 
 ANIMATION_REPLACEMENTS = {
     "worried": "worry",
@@ -412,60 +412,19 @@ ek_character_setup_effect = {
 """
 
 
-def read_text(path: Path) -> str:
-    return read_source(path, normalize_newlines=True)
+def write_text(inputs: RunInputs, relative: str, text: str) -> None:
+    write_source(inputs.OUTPUT, relative, text, preserve_trailing_whitespace=True)
 
 
-def write_text(relative: str, text: str) -> None:
-    target = OUTPUT / relative
-    target.parent.mkdir(parents=True, exist_ok=True)
-    target.write_text(text, encoding="utf-8-sig", newline="")
-
-
-def disabled_events() -> set[str]:
+def disabled_events(inputs: RunInputs) -> set[str]:
     events = {
         line.strip()
-        for line in read_text(DISABLED_EVENTS_FILE).splitlines()
+        for line in read_text(inputs.DISABLED_EVENTS_FILE).splitlines()
         if line.strip() and not line.lstrip().startswith("#")
     }
     if len(events) != 151:
         raise RuntimeError(f"expected 151 disabled VIET events, found {len(events)}")
     return events
-
-
-def brace_delta(line: str) -> int:
-    """Count structural braces, ignoring comments and quoted strings."""
-    delta = 0
-    quoted = False
-    escaped = False
-    for char in line:
-        if escaped:
-            escaped = False
-            continue
-        if char == "\\" and quoted:
-            escaped = True
-            continue
-        if char == '"':
-            quoted = not quoted
-            continue
-        if char == "#" and not quoted:
-            break
-        if quoted:
-            continue
-        if char == "{":
-            delta += 1
-        elif char == "}":
-            delta -= 1
-    return delta
-
-
-def block_end(lines: list[str], start: int) -> int:
-    depth = 0
-    for index in range(start, len(lines)):
-        depth += brace_delta(lines[index])
-        if depth == 0:
-            return index + 1
-    raise RuntimeError(f"unterminated block beginning at line {start + 1}")
 
 
 def event_stub(event_id: str, block: str) -> str:
@@ -540,20 +499,14 @@ def move_random_lists_out_of_toasts(event_id: str, block: str) -> tuple[str, int
             output.append(lines[index])
             index += 1
             continue
-        end = block_end(lines, index)
+        end = line_block_end(lines, index)
         toast = lines[index:end]
-        depth = brace_delta(toast[0])
-        random_start = None
-        for toast_index in range(1, len(toast)):
-            if depth == 1 and random_pattern.match(toast[toast_index]):
-                random_start = toast_index
-                break
-            depth += brace_delta(toast[toast_index])
+        random_start = direct_child_block_start(toast, 0, random_pattern)
         if random_start is None:
             output.extend(toast)
             index = end
             continue
-        random_end = block_end(toast, random_start)
+        random_end = line_block_end(toast, random_start)
         random_block = toast[random_start:random_end]
         output.extend(toast[:random_start])
         output.extend(toast[random_end:])
@@ -596,9 +549,9 @@ def repair_animation_names(text: str) -> tuple[str, int]:
 
 
 def replace_disabled_events(
-    relative: str, disabled: set[str], found: set[str]
+    inputs: RunInputs, relative: str, disabled: set[str], found: set[str]
 ) -> tuple[int, int, int, int, int, int, int]:
-    lines = read_text(SOURCE / relative).splitlines(keepends=True)
+    lines = read_text(inputs.SOURCE / relative).splitlines(keepends=True)
     output: list[str] = []
     index = 0
     replaced = 0
@@ -623,7 +576,7 @@ def replace_disabled_events(
             output.append(lines[index])
             index += 1
             continue
-        end = block_end(lines, index)
+        end = line_block_end(lines, index)
         block = "".join(lines[index:end])
         if event_id in disabled:
             output.append(event_stub(event_id, block))
@@ -655,7 +608,7 @@ def replace_disabled_events(
         or else_patches
         or animation_patches
     ):
-        write_text(relative, output_text)
+        write_text(inputs, relative, output_text)
     return (
         replaced,
         owner_patches,
@@ -667,8 +620,10 @@ def replace_disabled_events(
     )
 
 
-def remove_disabled_on_action_entries(relative: str, disabled: set[str]) -> int:
-    text = read_text(SOURCE / relative)
+def remove_disabled_on_action_entries(
+    inputs: RunInputs, relative: str, disabled: set[str]
+) -> int:
+    text = read_text(inputs.SOURCE / relative)
     lines = text.splitlines(keepends=True)
     event_pattern = re.compile(r"^\s*\d+\s*=\s*(VIET[A-Za-z]*\.\d+)\s*(?:#.*)?$")
     output: list[str] = []
@@ -680,12 +635,14 @@ def remove_disabled_on_action_entries(relative: str, disabled: set[str]) -> int:
             continue
         output.append(line)
     if removed:
-        write_text(relative, "".join(output))
+        write_text(inputs, relative, "".join(output))
     return removed
 
 
-def replace_named_blocks(source_relative: str, replacements: dict[str, str]) -> int:
-    lines = read_text(SOURCE / source_relative).splitlines(keepends=True)
+def replace_named_blocks(
+    inputs: RunInputs, source_relative: str, replacements: dict[str, str]
+) -> int:
+    lines = read_text(inputs.SOURCE / source_relative).splitlines(keepends=True)
     key_pattern = re.compile(
         rf"^({'|'.join(re.escape(key) for key in replacements)})\s*=\s*\{{"
     )
@@ -699,7 +656,7 @@ def replace_named_blocks(source_relative: str, replacements: dict[str, str]) -> 
             index += 1
             continue
         key = match.group(1)
-        end = block_end(lines, index)
+        end = line_block_end(lines, index)
         output.append(replacements[key])
         found.add(key)
         index = end
@@ -708,11 +665,12 @@ def replace_named_blocks(source_relative: str, replacements: dict[str, str]) -> 
         raise RuntimeError(
             f"{source_relative}: missing replacement blocks: {sorted(missing)}"
         )
-    write_text(source_relative, "".join(output))
+    write_text(inputs, source_relative, "".join(output))
     return len(found)
 
 
 def replace_pinned_named_blocks(
+    inputs: RunInputs,
     source_relative: str,
     replacements: dict[str, str],
     expected_hashes: dict[str, str],
@@ -723,7 +681,7 @@ def replace_pinned_named_blocks(
             f"{source_relative}: replacement and source-hash keys do not match"
         )
 
-    lines = read_text(SOURCE / source_relative).splitlines(keepends=True)
+    lines = read_text(inputs.SOURCE / source_relative).splitlines(keepends=True)
     key_pattern = re.compile(
         rf"^({'|'.join(re.escape(key) for key in replacements)})\s*=\s*\{{"
     )
@@ -740,7 +698,7 @@ def replace_pinned_named_blocks(
         key = match.group(1)
         if key in found:
             raise RuntimeError(f"{source_relative}: duplicate block for {key}")
-        end = block_end(lines, index)
+        end = line_block_end(lines, index)
         source_block = "".join(lines[index:end]).rstrip("\r\n")
         actual_hash = hashlib.sha256(source_block.encode("utf-8")).hexdigest()
         expected_hash = expected_hashes[key]
@@ -758,18 +716,20 @@ def replace_pinned_named_blocks(
         raise RuntimeError(
             f"{source_relative}: missing replacement blocks: {sorted(missing)}"
         )
-    write_text(source_relative, "".join(output))
+    write_text(inputs, source_relative, "".join(output))
     return len(found)
 
 
-def generate_database_compatibility() -> tuple[int, int]:
+def generate_database_compatibility(inputs: RunInputs) -> tuple[int, int]:
     trigger_count = replace_pinned_named_blocks(
+        inputs,
         "common/scripted_triggers/VIET_scripted_triggers.txt",
         DATABASE_TRIGGER_REPLACEMENTS,
         DATABASE_TRIGGER_HASHES,
     )
     county_decision_key = "VIET_decision_venerate_a_mummified_hermit"
     county_decision_count = replace_pinned_named_blocks(
+        inputs,
         "common/decisions/VIET_county_decisions.txt",
         {county_decision_key: DATABASE_DECISION_REPLACEMENTS[county_decision_key]},
         {county_decision_key: DATABASE_DECISION_HASHES[county_decision_key]},
@@ -779,15 +739,18 @@ def generate_database_compatibility() -> tuple[int, int]:
         "VIET_decision_destroy_shadowbanish_wine",
     )
     misc_decision_count = replace_pinned_named_blocks(
+        inputs,
         "common/decisions/VIET_misc_decisions.txt",
         {key: DATABASE_DECISION_REPLACEMENTS[key] for key in misc_decision_keys},
         {key: DATABASE_DECISION_HASHES[key] for key in misc_decision_keys},
     )
     write_text(
+        inputs,
         "common/scripted_triggers/zzz_viet_agot_heritage_triggers.txt",
         AGOT_HERITAGE_TRIGGERS,
     )
     write_text(
+        inputs,
         "common/scripted_effects/zzz_viet_agot_optional_effects.txt",
         OPTIONAL_ETHNICITIES_EFFECT,
     )
@@ -810,7 +773,7 @@ def generate_database_compatibility() -> tuple[int, int]:
         "common/decisions/VIET_county_decisions.txt",
         "common/decisions/VIET_misc_decisions.txt",
     ):
-        text = read_text(OUTPUT / relative)
+        text = read_text(inputs.OUTPUT / relative)
         stale = [token for token in stale_database_tokens if token in text]
         if stale:
             raise RuntimeError(
@@ -820,14 +783,14 @@ def generate_database_compatibility() -> tuple[int, int]:
     return trigger_count, county_decision_count + misc_decision_count
 
 
-def main() -> None:
-    if not SOURCE.is_dir():
-        raise RuntimeError(f"VIET Workshop source is unavailable: {SOURCE}")
+def main(inputs: RunInputs) -> None:
+    if not inputs.SOURCE.is_dir():
+        raise RuntimeError(f"VIET Workshop source is unavailable: {inputs.SOURCE}")
 
-    disabled = disabled_events()
+    disabled = disabled_events(inputs)
     found: set[str] = set()
     event_results = {
-        relative: replace_disabled_events(relative, disabled, found)
+        relative: replace_disabled_events(inputs, relative, disabled, found)
         for relative in EVENT_FILES
     }
     missing = disabled - found
@@ -835,18 +798,20 @@ def main() -> None:
         raise RuntimeError(f"disabled event definitions not found: {sorted(missing)}")
 
     on_action_counts = {
-        relative: remove_disabled_on_action_entries(relative, disabled)
+        relative: remove_disabled_on_action_entries(inputs, relative, disabled)
         for relative in ON_ACTION_FILES
     }
     custom_count = replace_named_blocks(
+        inputs,
         "common/customizable_localization/VIET_customizable_localization_misc.txt",
         CUSTOM_LOC_REPLACEMENTS,
     )
     background_count = replace_named_blocks(
+        inputs,
         "common/event_backgrounds/VIET_event_backgrounds.txt",
         BACKGROUND_REPLACEMENTS,
     )
-    trigger_count, decision_count = generate_database_compatibility()
+    trigger_count, decision_count = generate_database_compatibility(inputs)
 
     print(
         f"Stubbed {sum(result[0] for result in event_results.values())} "
@@ -893,8 +858,11 @@ def main() -> None:
 
 
 def generate(context: GenerationContext) -> None:
-    global SOURCE, OUTPUT, DISABLED_EVENTS_FILE
+
     SOURCE = context.source("viet")
     OUTPUT = context.output_root
     DISABLED_EVENTS_FILE = context.assets_dir / "disabled-events.txt"
-    main()
+    inputs = RunInputs(
+        SOURCE=SOURCE, OUTPUT=OUTPUT, DISABLED_EVENTS_FILE=DISABLED_EVENTS_FILE
+    )
+    main(inputs)

@@ -5,7 +5,6 @@ package playset
 import (
 	"encoding/json"
 	"fmt"
-	"os"
 	"path"
 	"path/filepath"
 	"sort"
@@ -15,10 +14,6 @@ import (
 	"codeberg.org/traidare/ck3_mods/internal/jsonout"
 	"codeberg.org/traidare/ck3_mods/internal/launcher"
 )
-
-func errorf(format string, arguments ...any) error {
-	return &launcher.Error{Message: fmt.Sprintf(format, arguments...)}
-}
 
 // Mod is one playset entry, identified portably rather than by database key.
 type Mod struct {
@@ -212,14 +207,14 @@ func stringValue(raw map[string]any, names ...string) string {
 func LoadFile(filePath string) (Playset, error) {
 	text, err := fsutil.ReadTextBOM(filePath)
 	if err != nil {
-		return Playset{}, errorf("could not read playset JSON: %v", err)
+		return Playset{}, fmt.Errorf("could not read playset JSON: %w", err)
 	}
 	var file playsetFile
 	if err := json.Unmarshal([]byte(text), &file); err != nil {
-		return Playset{}, errorf("could not read playset JSON: %v", err)
+		return Playset{}, fmt.Errorf("could not read playset JSON: %w", err)
 	}
 	if file.Mods == nil {
-		return Playset{}, errorf(`expected a JSON object containing a "mods" array`)
+		return Playset{}, fmt.Errorf(`expected a JSON object containing a "mods" array`)
 	}
 
 	name := strings.TrimSpace(file.Name)
@@ -228,7 +223,7 @@ func LoadFile(filePath string) (Playset, error) {
 		name = strings.TrimSuffix(base, filepath.Ext(base))
 	}
 	if name == "" {
-		return Playset{}, errorf("playset name is empty")
+		return Playset{}, fmt.Errorf("playset name is empty")
 	}
 	game := strings.ToLower(strings.TrimSpace(file.Game))
 	if game == "" {
@@ -351,7 +346,7 @@ func indexed(playset Playset) (map[string]Mod, error) {
 	for _, mod := range playset.Mods {
 		stableID := mod.StableID()
 		if _, duplicate := result[stableID]; duplicate {
-			return nil, errorf("playset %q has duplicate mod ID %q", playset.Name, stableID)
+			return nil, fmt.Errorf("playset %q has duplicate mod ID %q", playset.Name, stableID)
 		}
 		result[stableID] = mod
 	}
@@ -406,9 +401,4 @@ func sortedKeys(values map[string]Mod) []string {
 	}
 	sort.Strings(keys)
 	return keys
-}
-
-// WriteFile writes an exported playset snapshot.
-func WriteFile(filePath string, text string) error {
-	return os.WriteFile(filePath, []byte(text), 0o644)
 }

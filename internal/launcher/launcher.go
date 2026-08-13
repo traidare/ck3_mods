@@ -21,15 +21,6 @@ import (
 // DatabaseName is the Launcher's SQLite file.
 const DatabaseName = "launcher-v2.sqlite"
 
-// Error reports a Launcher database that is missing, unexpected, or unusable.
-type Error struct{ Message string }
-
-func (e *Error) Error() string { return e.Message }
-
-func errorf(format string, arguments ...any) error {
-	return &Error{Message: fmt.Sprintf(format, arguments...)}
-}
-
 // QuoteIdentifier escapes a SQLite identifier for interpolation.
 func QuoteIdentifier(identifier string) string {
 	return `"` + strings.ReplaceAll(identifier, `"`, `""`) + `"`
@@ -61,21 +52,11 @@ func (c ColumnSet) Has(name string) bool {
 	return ok
 }
 
-// Names returns the column names in sorted order.
-func (c ColumnSet) Names() []string {
-	names := make([]string, 0, len(c))
-	for name := range c {
-		names = append(names, name)
-	}
-	sort.Strings(names)
-	return names
-}
-
 // Open connects to the Launcher database and validates its schema.
 func Open(path string, readonly bool) (*DB, error) {
 	resolved := fsutil.MustAbs(path)
 	if !fsutil.IsFile(resolved) {
-		return nil, errorf("launcher database not found: %s", resolved)
+		return nil, fmt.Errorf("launcher database not found: %s", resolved)
 	}
 
 	// modernc.org/sqlite takes its options through the DSN query string.
@@ -87,7 +68,7 @@ func Open(path string, readonly bool) (*DB, error) {
 	}
 	handle, err := sql.Open("sqlite", dsn)
 	if err != nil {
-		return nil, errorf("cannot open launcher database: %v", err)
+		return nil, fmt.Errorf("cannot open launcher database: %w", err)
 	}
 	// One connection keeps transactions and PRAGMA state coherent.
 	handle.SetMaxOpenConns(1)
@@ -110,7 +91,7 @@ func (d *DB) Handle() *sql.DB { return d.handle }
 func (d *DB) tableInfo(table string) (ColumnSet, error) {
 	rows, err := d.handle.Query("PRAGMA table_info(" + QuoteIdentifier(table) + ")")
 	if err != nil {
-		return nil, errorf("cannot inspect %s: %v", table, err)
+		return nil, fmt.Errorf("cannot inspect %s: %w", table, err)
 	}
 	defer rows.Close()
 
@@ -125,7 +106,7 @@ func (d *DB) tableInfo(table string) (ColumnSet, error) {
 			primaryKey int
 		)
 		if err := rows.Scan(&index, &name, &columnType, &notNull, &dflt, &primaryKey); err != nil {
-			return nil, errorf("cannot inspect %s: %v", table, err)
+			return nil, fmt.Errorf("cannot inspect %s: %w", table, err)
 		}
 		columns[name] = Column{Name: name, NotNull: notNull != 0, HasDefault: dflt.Valid}
 	}
@@ -135,20 +116,20 @@ func (d *DB) tableInfo(table string) (ColumnSet, error) {
 func (d *DB) inspectSchema() error {
 	rows, err := d.handle.Query("SELECT name FROM sqlite_master WHERE type = 'table'")
 	if err != nil {
-		return errorf("cannot read the launcher schema: %v", err)
+		return fmt.Errorf("cannot read the launcher schema: %w", err)
 	}
 	present := map[string]bool{}
 	for rows.Next() {
 		var name string
 		if err := rows.Scan(&name); err != nil {
 			rows.Close()
-			return errorf("cannot read the launcher schema: %v", err)
+			return fmt.Errorf("cannot read the launcher schema: %w", err)
 		}
 		present[name] = true
 	}
 	rows.Close()
 	if err := rows.Err(); err != nil {
-		return errorf("cannot read the launcher schema: %v", err)
+		return fmt.Errorf("cannot read the launcher schema: %w", err)
 	}
 
 	var missingTables []string
@@ -159,7 +140,7 @@ func (d *DB) inspectSchema() error {
 	}
 	if len(missingTables) > 0 {
 		sort.Strings(missingTables)
-		return errorf("unexpected launcher database; missing tables: %s", strings.Join(missingTables, ", "))
+		return fmt.Errorf("unexpected launcher database; missing tables: %s", strings.Join(missingTables, ", "))
 	}
 
 	tables := []struct {
@@ -184,7 +165,7 @@ func (d *DB) inspectSchema() error {
 		}
 		if len(missing) > 0 {
 			sort.Strings(missing)
-			return errorf("unexpected %s table schema; missing columns: %s",
+			return fmt.Errorf("unexpected %s table schema; missing columns: %s",
 				table.name, strings.Join(missing, ", "))
 		}
 		*table.into = columns
@@ -288,13 +269,13 @@ func ParsePosition(value any, fallback int) int {
 func (d *DB) queryRows(query string, arguments ...any) ([]Row, error) {
 	rows, err := d.handle.Query(query, arguments...)
 	if err != nil {
-		return nil, errorf("launcher query failed: %v", err)
+		return nil, fmt.Errorf("launcher query failed: %w", err)
 	}
 	defer rows.Close()
 
 	columns, err := rows.Columns()
 	if err != nil {
-		return nil, errorf("launcher query failed: %v", err)
+		return nil, fmt.Errorf("launcher query failed: %w", err)
 	}
 	var result []Row
 	for rows.Next() {
@@ -304,7 +285,7 @@ func (d *DB) queryRows(query string, arguments ...any) ([]Row, error) {
 			pointers[index] = &cells[index]
 		}
 		if err := rows.Scan(pointers...); err != nil {
-			return nil, errorf("launcher query failed: %v", err)
+			return nil, fmt.Errorf("launcher query failed: %w", err)
 		}
 		row := Row{}
 		for index, name := range columns {
@@ -340,7 +321,7 @@ func (d *DB) SelectPlayset(name string) (Row, error) {
 		label = fmt.Sprintf("playset named %q", name)
 	} else {
 		if !d.PlaysetColumns.Has("isActive") {
-			return nil, errorf("the launcher schema cannot identify an active playset")
+			return nil, fmt.Errorf("the launcher schema cannot identify an active playset")
 		}
 		where += " AND COALESCE(isActive, 0) = 1"
 	}
@@ -350,10 +331,10 @@ func (d *DB) SelectPlayset(name string) (Row, error) {
 		return nil, err
 	}
 	if len(rows) == 0 {
-		return nil, errorf("no %s was found", label)
+		return nil, fmt.Errorf("no %s was found", label)
 	}
 	if len(rows) > 1 {
-		return nil, errorf("more than one %s was found", label)
+		return nil, fmt.Errorf("more than one %s was found", label)
 	}
 	return rows[0], nil
 }
@@ -444,7 +425,7 @@ func (d *DB) CreatePlayset(execer interface {
 	}
 	if len(unsupported) > 0 {
 		sort.Strings(unsupported)
-		return "", errorf("this launcher version has unsupported required playset columns: %s",
+		return "", fmt.Errorf("this launcher version has unsupported required playset columns: %s",
 			strings.Join(unsupported, ", "))
 	}
 
@@ -467,7 +448,7 @@ func (d *DB) CreatePlayset(execer interface {
 	statement := "INSERT INTO playsets (" + strings.Join(quoted, ", ") +
 		") VALUES (" + strings.Join(placeholders, ", ") + ")"
 	if _, err := execer.Exec(statement, values...); err != nil {
-		return "", errorf("cannot create playset: %v", err)
+		return "", fmt.Errorf("cannot create playset: %w", err)
 	}
 	return playsetID, nil
 }
@@ -496,7 +477,7 @@ func (d *DB) UpdateReplacedPlayset(execer interface {
 	values = append(values, playsetID)
 	_, err := execer.Exec("UPDATE playsets SET "+strings.Join(assignments, ", ")+" WHERE id = ?", values...)
 	if err != nil {
-		return errorf("cannot update playset: %v", err)
+		return fmt.Errorf("cannot update playset: %w", err)
 	}
 	return nil
 }

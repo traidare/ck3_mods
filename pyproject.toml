@@ -30,7 +30,10 @@ line-length = 88
 target-version = "py311"
 
 [tool.ruff.lint]
-select = ["E", "F", "I", "UP", "B", "SIM"]
+select = ["E", "F", "I", "UP", "B", "SIM", "ARG", "C901"]
+
+[tool.ruff.lint.mccabe]
+max-complexity = 25
 
 [tool.ruff.lint.isort]
 known-first-party = ["gen"]
@@ -38,3 +41,4 @@ known-first-party = ["gen"]
 [tool.ruff.lint.per-file-ignores]
 "workspace/**/implementation.py" = ["E501"]
 "workspace/**/map_merge.py" = ["E501"]
+"workspace/**/runtime_fixes/*.py" = ["E501"]

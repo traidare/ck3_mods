@@ -6,21 +6,21 @@ from __future__ import annotations
 import re
 import shutil
 import subprocess
+from dataclasses import dataclass
 from pathlib import Path
 
 from gen import GenerationContext
-from gen.text import (
-    read_source,
-    replace_exact,
-)
-from gen.text import (
-    replace_regex as shared_replace_regex,
-)
+from gen.script import read_text, replace_regex
+from gen.script import write_text as write_source
+from gen.text import line_block_end, matching_brace, replace_exact
 
-ROOT: Path | None = None
-BLOODLINES: Path | None = None
-AGOT: Path | None = None
-OUTPUT: Path | None = None
+
+@dataclass(frozen=True, slots=True)
+class RunInputs:
+    BLOODLINES: Path
+    AGOT: Path
+    OUTPUT: Path
+
 
 MONTHLY_OPINION_MODIFIERS = {
     "disappointed_opinion",
@@ -62,69 +62,8 @@ DDS_REENCODES = (
 )
 
 
-def read_text(path: Path) -> str:
-    return read_source(path, normalize_newlines=True)
-
-
-def write_text(relative: str, text: str) -> None:
-    target = OUTPUT / relative
-    target.parent.mkdir(parents=True, exist_ok=True)
-    target.write_text(text, encoding="utf-8-sig", newline="")
-
-
-def replace_regex(
-    text: str,
-    pattern: str,
-    replacement: str,
-    *,
-    expected: int,
-    label: str,
-    flags: int = 0,
-) -> str:
-    return shared_replace_regex(
-        text,
-        pattern,
-        replacement,
-        label,
-        expected,
-        flags,
-        error_type=RuntimeError,
-    )
-
-
-def brace_delta(line: str) -> int:
-    """Count structural braces while ignoring comments and quoted strings."""
-    depth = 0
-    quoted = False
-    escaped = False
-    for char in line:
-        if escaped:
-            escaped = False
-            continue
-        if char == "\\" and quoted:
-            escaped = True
-            continue
-        if char == '"':
-            quoted = not quoted
-            continue
-        if char == "#" and not quoted:
-            break
-        if quoted:
-            continue
-        if char == "{":
-            depth += 1
-        elif char == "}":
-            depth -= 1
-    return depth
-
-
-def block_end(lines: list[str], start: int) -> int:
-    depth = 0
-    for index in range(start, len(lines)):
-        depth += brace_delta(lines[index])
-        if depth == 0:
-            return index + 1
-    raise RuntimeError(f"unterminated block beginning at line {start + 1}")
+def write_text(inputs: RunInputs, relative: str, text: str) -> None:
+    write_source(inputs.OUTPUT, relative, text, preserve_trailing_whitespace=True)
 
 
 def extract_named_block(text: str, name: str) -> str:
@@ -134,12 +73,17 @@ def extract_named_block(text: str, name: str) -> str:
     if len(starts) != 1:
         raise RuntimeError(f"expected one {name} definition, found {len(starts)}")
     start = starts[0]
-    return "".join(lines[start : block_end(lines, start)])
+    offset = sum(map(len, lines[:start]))
+    opening = text.index("{", offset)
+    end = matching_brace(text, opening) + 1
+    if end < len(text) and text[end] == "\n":
+        end += 1
+    return text[offset:end]
 
 
-def generate_prison_interaction() -> None:
+def generate_prison_interaction(inputs: RunInputs) -> None:
     source = read_text(
-        AGOT / "common/character_interactions/00_prison_interactions.txt"
+        inputs.AGOT / "common/character_interactions/00_prison_interactions.txt"
     )
     block = extract_named_block(source, "execute_prisoner_interaction")
     block = replace_exact(
@@ -157,14 +101,13 @@ def generate_prison_interaction() -> None:
         label="Bolton flaying option",
     )
     write_text(
-        "common/character_interactions/00_prison_interactions_BLA.txt",
-        block,
+        inputs, "common/character_interactions/00_prison_interactions_BLA.txt", block
     )
 
 
-def generate_guarded_special_buildings() -> None:
+def generate_guarded_special_buildings(inputs: RunInputs) -> None:
     relative = "common/on_action/agot_on_actions/agot_game_start_BLA.txt"
-    text = read_text(BLOODLINES / relative)
+    text = read_text(inputs.BLOODLINES / relative)
     pattern = re.compile(
         r"^(?P<indent>[ \t]*)province:(?P<province>\d+) = "
         r"\{ add_special_building = (?P<building>[A-Za-z0-9_]+) \}$",
@@ -187,12 +130,12 @@ def generate_guarded_special_buildings() -> None:
         raise RuntimeError(
             f"special-building guards: expected 73 additions, guarded {count}"
         )
-    write_text(relative, text)
+    write_text(inputs, relative, text)
 
 
-def repair_child_birth_on_action() -> None:
+def repair_child_birth_on_action(inputs: RunInputs) -> None:
     relative = "common/on_action/child_birth_on_actions_cultures_BLA.txt"
-    text = read_text(BLOODLINES / relative)
+    text = read_text(inputs.BLOODLINES / relative)
     old = (
         "\t\t\t\t\t  random_list = {\n"
         "        \t\t\t\t\t1 = { add_trait = beauty_good_1 }\n"
@@ -212,21 +155,15 @@ def repair_child_birth_on_action() -> None:
         "\t\t\t}\n"
         "\t\t\tif = {\n"
     )
-    text = replace_exact(
-        text,
-        old,
-        new,
-        expected=1,
-        label="Lyseni child-beauty brace",
-    )
-    write_text(relative, text)
+    text = replace_exact(text, old, new, expected=1, label="Lyseni child-beauty brace")
+    write_text(inputs, relative, text)
 
 
-def repair_common_files() -> None:
+def repair_common_files(inputs: RunInputs) -> None:
     relative = (
         "common/decisions/agot_decisions/00_agot_formable_kingdoms_decisions_BLA.txt"
     )
-    text = read_text(BLOODLINES / relative)
+    text = read_text(inputs.BLOODLINES / relative)
     text = replace_exact(
         text,
         "title:e_the_iron_throne",
@@ -241,10 +178,10 @@ def repair_common_files() -> None:
         expected=2,
         label="Dusklands kingdom title",
     )
-    write_text(relative, text)
+    write_text(inputs, relative, text)
 
     relative = "common/decisions/agot_decisions/00_agot_major_decisions_BLA.txt"
-    text = read_text(BLOODLINES / relative)
+    text = read_text(inputs.BLOODLINES / relative)
     text = replace_exact(
         text,
         "world_westeros_riverlands",
@@ -266,10 +203,10 @@ def repair_common_files() -> None:
         expected=1,
         label="decision confirm_text field",
     )
-    write_text(relative, text)
+    write_text(inputs, relative, text)
 
     relative = "common/dynasty_legacies/99_agot_cultures_BLA_legacies.txt"
-    text = read_text(BLOODLINES / relative)
+    text = read_text(inputs.BLOODLINES / relative)
     text = replace_exact(
         text,
         "has_dynasty_perk = northman_legacy_1",
@@ -291,10 +228,10 @@ def repair_common_files() -> None:
         expected=1,
         label="Yunkai culture id",
     )
-    write_text(relative, text)
+    write_text(inputs, relative, text)
 
     relative = "common/dynasty_perks/00_agot_BLA_perks.txt"
-    text = read_text(BLOODLINES / relative)
+    text = read_text(inputs.BLOODLINES / relative)
     text = replace_regex(
         text,
         r"^(\s*)build_gold_cost\s+(-0\.(?:10|05))\s*$",
@@ -303,10 +240,10 @@ def repair_common_files() -> None:
         label="build_gold_cost equals signs",
         flags=re.MULTILINE,
     )
-    write_text(relative, text)
+    write_text(inputs, relative, text)
 
     relative = "common/great_projects/types/zz_agot_great_projects_BLA.txt"
-    text = read_text(BLOODLINES / relative)
+    text = read_text(inputs.BLOODLINES / relative)
     if text.count("@msg_completion_effect_generic") != 3:
         raise RuntimeError("expected three generic completion sound references")
     text = (
@@ -314,10 +251,10 @@ def repair_common_files() -> None:
         '"event:/DLC/EP4/SFX/Stingers/China/'
         'tgp_mx_sting_finishing_great_project_generic"\n\n' + text
     )
-    write_text(relative, text)
+    write_text(inputs, relative, text)
 
     relative = "common/modifiers/00_agot_riverlands_modifiers_BLA.txt"
-    text = read_text(BLOODLINES / relative)
+    text = read_text(inputs.BLOODLINES / relative)
     text = replace_exact(
         text,
         "\tmonthly_piety = 0.20\n"
@@ -334,7 +271,7 @@ def repair_common_files() -> None:
         expected=1,
         label="Vance piety modifier icon",
     )
-    write_text(relative, text)
+    write_text(inputs, relative, text)
 
 
 def remove_monthly_opinion_durations(text: str) -> tuple[str, int]:
@@ -350,7 +287,7 @@ def remove_monthly_opinion_durations(text: str) -> tuple[str, int]:
             output.append(lines[index])
             index += 1
             continue
-        end = block_end(lines, index)
+        end = line_block_end(lines, index)
         block = lines[index:end]
         modifier = None
         for line in block:
@@ -763,18 +700,18 @@ def repair_event(relative: str, text: str) -> tuple[str, dict[str, int]]:
     return text, stats
 
 
-def generate_events() -> None:
+def generate_events(inputs: RunInputs) -> None:
     opinion_durations = 0
     trait_replacements = 0
     changed_files = 0
-    for source in sorted((BLOODLINES / "events").rglob("*.txt")):
-        relative = source.relative_to(BLOODLINES).as_posix()
+    for source in sorted((inputs.BLOODLINES / "events").rglob("*.txt")):
+        relative = source.relative_to(inputs.BLOODLINES).as_posix()
         original = read_text(source)
         patched, stats = repair_event(relative, original)
         opinion_durations += stats["opinion_durations"]
         trait_replacements += stats["traits"]
         if patched != original:
-            write_text(relative, patched)
+            write_text(inputs, relative, patched)
             changed_files += 1
     if opinion_durations != 69:
         raise RuntimeError(
@@ -791,8 +728,9 @@ def generate_events() -> None:
     )
 
 
-def generate_opinion_compatibility() -> None:
+def generate_opinion_compatibility(inputs: RunInputs) -> None:
     write_text(
+        inputs,
         "common/opinion_modifiers/zz_bla_119_opinion_compat.txt",
         """# Bloodlines used opinion ids removed from current CK3.
 attended_trident_council_bla = {
@@ -838,9 +776,9 @@ offended_opinion = {
     )
 
 
-def generate_localization() -> None:
+def generate_localization(inputs: RunInputs) -> None:
     relative = "localization/replace/english/agot_BLA_l_english.yml"
-    text = read_text(BLOODLINES / relative)
+    text = read_text(inputs.BLOODLINES / relative)
     text = replace_exact(
         text,
         "kingdom_of_duskendale_decision",
@@ -885,9 +823,10 @@ def generate_localization() -> None:
         expected=1,
         label="Jordayne unit localization quote",
     )
-    write_text(relative, text)
+    write_text(inputs, relative, text)
 
     write_text(
+        inputs,
         "localization/english/bla_119_runtime_rebase_l_english.yml",
         """l_english:
  intimidated_opinion:0 "Intimidated"
@@ -908,50 +847,45 @@ def generate_localization() -> None:
     )
 
 
-def generate_dds_reencodes() -> None:
+def generate_dds_reencodes(inputs: RunInputs) -> None:
     """Re-encode malformed BC7 assets losslessly at their original dimensions."""
     for relative in DDS_REENCODES:
-        source = BLOODLINES / relative
-        target = OUTPUT / relative
+        source = inputs.BLOODLINES / relative
+        target = inputs.OUTPUT / relative
         if not source.is_file():
             raise RuntimeError(f"DDS source not found: {source}")
         target.parent.mkdir(parents=True, exist_ok=True)
         subprocess.run(
-            [
-                "magick",
-                str(source),
-                "-define",
-                "dds:compression=none",
-                str(target),
-            ],
+            ["magick", str(source), "-define", "dds:compression=none", str(target)],
             check=True,
         )
 
 
-def main() -> None:
-    if not BLOODLINES.is_dir():
-        raise RuntimeError(f"Bloodlines Workshop source not found: {BLOODLINES}")
-    if not AGOT.is_dir():
-        raise RuntimeError(f"AGOT Workshop source not found: {AGOT}")
-    OUTPUT.mkdir(parents=True, exist_ok=True)
+def main(inputs: RunInputs) -> None:
+    if not inputs.BLOODLINES.is_dir():
+        raise RuntimeError(f"Bloodlines Workshop source not found: {inputs.BLOODLINES}")
+    if not inputs.AGOT.is_dir():
+        raise RuntimeError(f"AGOT Workshop source not found: {inputs.AGOT}")
+    inputs.OUTPUT.mkdir(parents=True, exist_ok=True)
     for generated_directory in ("common", "events", "gfx", "localization"):
-        target = OUTPUT / generated_directory
+        target = inputs.OUTPUT / generated_directory
         if target.exists():
             shutil.rmtree(target)
 
-    generate_prison_interaction()
-    generate_guarded_special_buildings()
-    repair_child_birth_on_action()
-    repair_common_files()
-    generate_events()
-    generate_opinion_compatibility()
-    generate_localization()
-    generate_dds_reencodes()
+    generate_prison_interaction(inputs)
+    generate_guarded_special_buildings(inputs)
+    repair_child_birth_on_action(inputs)
+    repair_common_files(inputs)
+    generate_events(inputs)
+    generate_opinion_compatibility(inputs)
+    generate_localization(inputs)
+    generate_dds_reencodes(inputs)
 
 
 def generate(context: GenerationContext) -> None:
-    global BLOODLINES, AGOT, OUTPUT
+
     BLOODLINES = context.source("bloodlines-legacies")
     AGOT = context.source("agot")
     OUTPUT = context.output_root
-    main()
+    inputs = RunInputs(BLOODLINES=BLOODLINES, AGOT=AGOT, OUTPUT=OUTPUT)
+    main(inputs)

@@ -43,15 +43,6 @@ var skippedDirectories = map[string]bool{".git": true}
 // descriptorPathKeys are the host-specific fields a snapshot descriptor drops.
 var descriptorPathKeys = []string{"archive", "path", "remote_file_id"}
 
-// Error reports an expected validation or preservation failure.
-type Error struct{ Message string }
-
-func (e *Error) Error() string { return e.Message }
-
-func errorf(format string, arguments ...any) error {
-	return &Error{Message: fmt.Sprintf(format, arguments...)}
-}
-
 // FileEntry is one regular file found under a mod's source directory. Size and
 // ModTimeNanos are recorded during planning and re-checked while copying, so a
 // mod updated mid-run cannot be preserved half old and half new.
@@ -259,11 +250,11 @@ func resolveDescriptor(row launcher.Row, paradoxDirectory, sourceDirectory strin
 		}
 		text, err := fsutil.ReadTextBOM(candidate)
 		if err != nil {
-			return "", "", errorf("could not read descriptor %s: %v", candidate, err)
+			return "", "", fmt.Errorf("could not read descriptor %s: %w", candidate, err)
 		}
 		return candidate, text, nil
 	}
-	return "", "", errorf("no readable descriptor was found for %q", row.String("displayName", "name"))
+	return "", "", fmt.Errorf("no readable descriptor was found for %q", row.String("displayName", "name"))
 }
 
 // pathFromDescriptor resolves a host path a descriptor declares, relative to
@@ -332,13 +323,13 @@ func resolveSource(row launcher.Row, paradoxDirectory, workshopDirectory string)
 	if fsutil.IsFile(archive) {
 		reader, zipErr := zip.OpenReader(archive)
 		if zipErr != nil {
-			return "", "", "", "", errorf("unsupported non-ZIP mod archive: %s", archive)
+			return "", "", "", "", fmt.Errorf("unsupported non-ZIP mod archive: %s", archive)
 		}
 		reader.Close()
 		return "zip", resolvePath(archive), descriptorPath, descriptorText, nil
 	}
 
-	return "", "", "", "", errorf("could not resolve installed content for %q", row.String("displayName", "name"))
+	return "", "", "", "", fmt.Errorf("could not resolve installed content for %q", row.String("displayName", "name"))
 }
 
 // treeEntry is one file discovered while walking a mod directory.
@@ -371,17 +362,17 @@ func walkTree(root string) ([]treeEntry, error) {
 	visit = func(physical, logical string, ancestors map[inode]bool) error {
 		info, err := os.Stat(physical)
 		if err != nil {
-			return errorf("could not inspect %s: %v", physical, err)
+			return fmt.Errorf("could not inspect %s: %w", physical, err)
 		}
 		current, hasInode := inodeOf(info)
 
 		if info.IsDir() {
 			if hasInode && ancestors[current] {
-				return errorf("cyclic directory link found at %s", physical)
+				return fmt.Errorf("cyclic directory link found at %s", physical)
 			}
 			children, err := os.ReadDir(physical)
 			if err != nil {
-				return errorf("could not list %s: %v", physical, err)
+				return fmt.Errorf("could not list %s: %w", physical, err)
 			}
 			nested := make(map[inode]bool, len(ancestors)+1)
 			for key := range ancestors {
@@ -413,7 +404,7 @@ func walkTree(root string) ([]treeEntry, error) {
 			})
 			return nil
 		}
-		return errorf("unsupported special file in mod content: %s", physical)
+		return fmt.Errorf("unsupported special file in mod content: %s", physical)
 	}
 
 	if err := visit(root, "", map[inode]bool{}); err != nil {
@@ -428,19 +419,19 @@ var drivePrefix = regexp.MustCompile(`^[A-Za-z]:`)
 func safeZipPath(name string) (string, error) {
 	normalized := strings.ReplaceAll(name, `\`, "/")
 	if strings.HasPrefix(normalized, "/") || drivePrefix.MatchString(normalized) {
-		return "", errorf("unsafe path in ZIP archive: %s", name)
+		return "", fmt.Errorf("unsafe path in ZIP archive: %s", name)
 	}
 	var parts []string
 	for _, part := range strings.Split(normalized, "/") {
 		if part == ".." {
-			return "", errorf("unsafe path in ZIP archive: %s", name)
+			return "", fmt.Errorf("unsafe path in ZIP archive: %s", name)
 		}
 		if part != "" && part != "." {
 			parts = append(parts, part)
 		}
 	}
 	if len(parts) == 0 {
-		return "", errorf("unsafe path in ZIP archive: %s", name)
+		return "", fmt.Errorf("unsafe path in ZIP archive: %s", name)
 	}
 	return strings.Join(parts, "/"), nil
 }
@@ -473,7 +464,7 @@ func scanSource(mod *SourceMod) error {
 
 	reader, err := zip.OpenReader(mod.SourcePath)
 	if err != nil {
-		return errorf("could not inspect ZIP archive %s: %v", mod.SourcePath, err)
+		return fmt.Errorf("could not inspect ZIP archive %s: %w", mod.SourcePath, err)
 	}
 	defer reader.Close()
 
@@ -496,10 +487,10 @@ func scanSource(mod *SourceMod) error {
 			continue
 		}
 		if member.Mode()&os.ModeSymlink != 0 {
-			return errorf("symbolic links in ZIP archives are unsupported: %s", member.Name)
+			return fmt.Errorf("symbolic links in ZIP archives are unsupported: %s", member.Name)
 		}
 		if seen[relative] {
-			return errorf("duplicate destination path in ZIP archive: %s", relative)
+			return fmt.Errorf("duplicate destination path in ZIP archive: %s", relative)
 		}
 		seen[relative] = true
 		mod.ZipEntries = append(mod.ZipEntries, ZipEntry{
@@ -557,7 +548,7 @@ func validateModInsertSchema(columns launcher.ColumnSet) error {
 	}
 	if len(unsupported) > 0 {
 		sort.Strings(unsupported)
-		return errorf("this launcher version has unsupported required mod columns: %s",
+		return fmt.Errorf("this launcher version has unsupported required mod columns: %s",
 			strings.Join(unsupported, ", "))
 	}
 	return nil
@@ -580,7 +571,7 @@ func Build(options Options) (*Plan, error) {
 	paradoxDirectory := filepath.Dir(databasePath)
 	modDirectory := resolvePath(expandUser(options.ModDirectory))
 	if !fsutil.IsDir(modDirectory) {
-		return nil, errorf("launcher mod directory not found: %s", modDirectory)
+		return nil, fmt.Errorf("launcher mod directory not found: %s", modDirectory)
 	}
 	workshopDirectory := ""
 	if options.WorkshopDirectory != "" {
@@ -614,10 +605,10 @@ func Build(options Options) (*Plan, error) {
 		snapshotName = fmt.Sprintf("%s (preserved %s)", sourceName, createdAt)
 	}
 	if snapshotName == "" {
-		return nil, errorf("snapshot name cannot be empty")
+		return nil, fmt.Errorf("snapshot name cannot be empty")
 	}
 	if len([]rune(snapshotName)) > 255 {
-		return nil, errorf("snapshot name exceeds the launcher's 255-character limit")
+		return nil, fmt.Errorf("snapshot name exceeds the launcher's 255-character limit")
 	}
 
 	existing, err := db.Query("SELECT 1 FROM playsets WHERE "+db.LivePlaysetClause()+" AND name = ? LIMIT 1", snapshotName)
@@ -625,7 +616,7 @@ func Build(options Options) (*Plan, error) {
 		return nil, err
 	}
 	if len(existing) > 0 {
-		return nil, errorf("a live playset named %q already exists", snapshotName)
+		return nil, fmt.Errorf("a live playset named %q already exists", snapshotName)
 	}
 
 	rows, err := db.PlaysetModRows(launcher.AsString(source["id"]))
@@ -639,7 +630,7 @@ func Build(options Options) (*Plan, error) {
 		}
 	}
 	if len(enabledRows) == 0 {
-		return nil, errorf("playset %q has no enabled mods", sourceName)
+		return nil, fmt.Errorf("playset %q has no enabled mods", sourceName)
 	}
 
 	slugSource := options.SnapshotName
@@ -649,7 +640,7 @@ func Build(options Options) (*Plan, error) {
 	snapshotSlug := slugify(slugSource, "snapshot", 80)
 	finalRoot := filepath.Join(modDirectory, snapshotSlug)
 	if _, err := os.Lstat(finalRoot); err == nil {
-		return nil, errorf("snapshot directory already exists: %s", finalRoot)
+		return nil, fmt.Errorf("snapshot directory already exists: %s", finalRoot)
 	}
 
 	width := len(fmt.Sprint(len(enabledRows) - 1))
@@ -678,7 +669,7 @@ func Build(options Options) (*Plan, error) {
 		}
 		status := row.String("status")
 		if !goodStatuses[status] {
-			return nil, errorf("mod %q has unusable Launcher status %q", displayName, status)
+			return nil, fmt.Errorf("mod %q has unusable Launcher status %q", displayName, status)
 		}
 		kind, sourcePath, descriptorPath, descriptorText, err := resolveSource(row, paradoxDirectory, workshopDirectory)
 		if err != nil {
@@ -689,7 +680,7 @@ func Build(options Options) (*Plan, error) {
 			slugify(sourceIdentifier(row, displayName), "mod", 64))
 		registryFilename := fmt.Sprintf("%s__%0*d.mod", snapshotSlug, width, index)
 		if _, err := os.Lstat(filepath.Join(modDirectory, registryFilename)); err == nil {
-			return nil, errorf("launcher descriptor already exists: %s",
+			return nil, fmt.Errorf("launcher descriptor already exists: %s",
 				filepath.Join(modDirectory, registryFilename))
 		}
 
@@ -729,7 +720,7 @@ func Build(options Options) (*Plan, error) {
 	}
 	plan.FreeBytes = available
 	if available < plan.RequiredBytes {
-		return nil, errorf("not enough free space under %s: need %d bytes, have %d bytes",
+		return nil, fmt.Errorf("not enough free space under %s: need %d bytes, have %d bytes",
 			modDirectory, plan.RequiredBytes, available)
 	}
 	return plan, nil

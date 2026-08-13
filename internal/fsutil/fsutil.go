@@ -5,7 +5,6 @@ package fsutil
 import (
 	"crypto/sha256"
 	"encoding/hex"
-	"fmt"
 	"io"
 	"io/fs"
 	"os"
@@ -241,9 +240,4 @@ func MustAbs(path string) string {
 		return path
 	}
 	return absolute
-}
-
-// ErrNotDirectory reports a path that was expected to be a directory.
-func ErrNotDirectory(path string) error {
-	return fmt.Errorf("not a directory: %s", path)
 }

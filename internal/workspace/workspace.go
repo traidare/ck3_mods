@@ -26,22 +26,13 @@ const ArtifactPrefix = "artifacts"
 // SourceKinds are the logical source roots a manifest may declare.
 var SourceKinds = []string{"game", "mod", "repository", "workshop"}
 
-// Error reports invalid repository or mod workspace metadata.
-type Error struct{ Message string }
-
-func (e *Error) Error() string { return e.Message }
-
-func errorf(format string, arguments ...any) error {
-	return &Error{Message: fmt.Sprintf(format, arguments...)}
-}
-
 // DiscoverRoot walks up from start to the nearest directory holding ck3mm.toml.
 func DiscoverRoot(start string) (string, error) {
 	candidate := start
 	if candidate == "" {
 		working, err := os.Getwd()
 		if err != nil {
-			return "", errorf("cannot determine the working directory: %v", err)
+			return "", fmt.Errorf("cannot determine the working directory: %w", err)
 		}
 		candidate = working
 	}
@@ -56,7 +47,7 @@ func DiscoverRoot(start string) (string, error) {
 		}
 		parent := filepath.Dir(candidate)
 		if parent == candidate {
-			return "", errorf("no %s found from %s", RootMarker, fsutil.MustAbs(start))
+			return "", fmt.Errorf("no %s found from %s", RootMarker, fsutil.MustAbs(start))
 		}
 		candidate = parent
 	}
@@ -103,7 +94,7 @@ func LoadSettings(root string) (Settings, error) {
 	markerPath := filepath.Join(root, RootMarker)
 	var file settingsFile
 	if _, err := toml.DecodeFile(markerPath, &file); err != nil {
-		return Settings{}, errorf("invalid TOML in %s: %v", markerPath, err)
+		return Settings{}, fmt.Errorf("invalid TOML in %s: %w", markerPath, err)
 	}
 
 	settings := DefaultSettings()
@@ -125,7 +116,7 @@ func LoadSettings(root string) (Settings, error) {
 		}
 		trimmed := strings.TrimSpace(*field.value)
 		if trimmed == "" {
-			return Settings{}, errorf("%s: workspace.%s must be a non-empty string", RootMarker, field.name)
+			return Settings{}, fmt.Errorf("%s: workspace.%s must be a non-empty string", RootMarker, field.name)
 		}
 		*field.into = trimmed
 	}
@@ -153,7 +144,6 @@ type GeneratorSpec struct {
 	Entrypoint     string
 	OwnedOutputs   []string
 	OwnedArtifacts []string
-	Assets         []string
 }
 
 // Manifest is one workspace/<slug>/mod.toml.
@@ -184,23 +174,23 @@ func (m Mod) HasGenerator() bool {
 func relativePath(value, fieldName string, allowGlob bool) (string, error) {
 	trimmed := strings.TrimSpace(value)
 	if trimmed == "" {
-		return "", errorf("%s must be a non-empty POSIX path", fieldName)
+		return "", fmt.Errorf("%s must be a non-empty POSIX path", fieldName)
 	}
 	text := strings.ReplaceAll(trimmed, `\`, "/")
 	if strings.HasPrefix(text, "/") {
-		return "", errorf("%s must stay within its declared root: %s", fieldName, value)
+		return "", fmt.Errorf("%s must stay within its declared root: %s", fieldName, value)
 	}
 	for _, part := range strings.Split(text, "/") {
 		if part == ".." {
-			return "", errorf("%s must stay within its declared root: %s", fieldName, value)
+			return "", fmt.Errorf("%s must stay within its declared root: %s", fieldName, value)
 		}
 	}
 	if !allowGlob && strings.ContainsAny(text, "*?[") {
-		return "", errorf("%s must not contain a glob: %s", fieldName, value)
+		return "", fmt.Errorf("%s must not contain a glob: %s", fieldName, value)
 	}
 	normalized := path.Clean(text)
 	if normalized == "" || normalized == "." {
-		return "", errorf("%s must not be empty", fieldName)
+		return "", fmt.Errorf("%s must not be empty", fieldName)
 	}
 	return normalized, nil
 }
@@ -210,7 +200,6 @@ type manifestFile struct {
 		Entrypoint     string   `toml:"entrypoint"`
 		OwnedOutputs   []string `toml:"owned_outputs"`
 		OwnedArtifacts []string `toml:"owned_artifacts"`
-		Assets         []string `toml:"assets"`
 	} `toml:"generator"`
 	Sources []struct {
 		Name   string `toml:"name"`
@@ -227,18 +216,18 @@ func parseGenerator(raw manifestFile, manifestPath string) (*GeneratorSpec, erro
 	}
 	entrypoint := strings.TrimSpace(raw.Generator.Entrypoint)
 	if entrypoint == "" {
-		return nil, errorf("%s: generator.entrypoint is required", manifestPath)
+		return nil, fmt.Errorf("%s: generator.entrypoint is required", manifestPath)
 	}
 	modulePath, function, found := strings.Cut(entrypoint, ":")
 	if !found || !isIdentifier(function) {
-		return nil, errorf("%s: generator.entrypoint must be FILE.py:function", manifestPath)
+		return nil, fmt.Errorf("%s: generator.entrypoint must be FILE.py:function", manifestPath)
 	}
 	modulePath, err := relativePath(modulePath, "generator.entrypoint module", false)
 	if err != nil {
 		return nil, err
 	}
 	if !strings.HasSuffix(modulePath, ".py") {
-		return nil, errorf("%s: generator entrypoint must use a .py file", manifestPath)
+		return nil, fmt.Errorf("%s: generator entrypoint must use a .py file", manifestPath)
 	}
 
 	outputs, err := normalizeList(raw.Generator.OwnedOutputs, "generator.owned_outputs")
@@ -246,11 +235,11 @@ func parseGenerator(raw manifestFile, manifestPath string) (*GeneratorSpec, erro
 		return nil, err
 	}
 	if len(outputs) == 0 {
-		return nil, errorf("%s: generator.owned_outputs must not be empty", manifestPath)
+		return nil, fmt.Errorf("%s: generator.owned_outputs must not be empty", manifestPath)
 	}
 	for _, output := range outputs {
 		if strings.Split(output, "/")[0] == ArtifactPrefix {
-			return nil, errorf("%s: %s/ is reserved for generator.owned_artifacts: %s",
+			return nil, fmt.Errorf("%s: %s/ is reserved for generator.owned_artifacts: %s",
 				manifestPath, ArtifactPrefix, output)
 		}
 	}
@@ -258,15 +247,10 @@ func parseGenerator(raw manifestFile, manifestPath string) (*GeneratorSpec, erro
 	if err != nil {
 		return nil, err
 	}
-	assets, err := normalizeList(raw.Generator.Assets, "generator.assets")
-	if err != nil {
-		return nil, err
-	}
 	return &GeneratorSpec{
 		Entrypoint:     modulePath + ":" + function,
 		OwnedOutputs:   outputs,
 		OwnedArtifacts: artifacts,
-		Assets:         assets,
 	}, nil
 }
 
@@ -288,10 +272,10 @@ func parseSources(raw manifestFile, manifestPath string) ([]SourceSpec, error) {
 	for _, entry := range raw.Sources {
 		name := strings.TrimSpace(entry.Name)
 		if name == "" {
-			return nil, errorf("%s: each source requires a non-empty name", manifestPath)
+			return nil, fmt.Errorf("%s: each source requires a non-empty name", manifestPath)
 		}
 		if !validKind(entry.Kind) {
-			return nil, errorf("%s: source %q has invalid kind %q; expected one of %s",
+			return nil, fmt.Errorf("%s: source %q has invalid kind %q; expected one of %s",
 				manifestPath, name, entry.Kind, strings.Join(SourceKinds, ", "))
 		}
 
@@ -316,20 +300,20 @@ func parseSources(raw manifestFile, manifestPath string) ([]SourceSpec, error) {
 		switch entry.Kind {
 		case "workshop":
 			if source.ItemID == "" {
-				return nil, errorf("%s: workshop source %q requires item_id", manifestPath, name)
+				return nil, fmt.Errorf("%s: workshop source %q requires item_id", manifestPath, name)
 			}
 		case "game", "repository":
 			if source.Path == "" {
-				return nil, errorf("%s: %s source %q requires path", manifestPath, entry.Kind, name)
+				return nil, fmt.Errorf("%s: %s source %q requires path", manifestPath, entry.Kind, name)
 			}
 		case "mod":
 			if source.Mod == "" {
-				return nil, errorf("%s: mod source %q requires mod", manifestPath, name)
+				return nil, fmt.Errorf("%s: mod source %q requires mod", manifestPath, name)
 			}
 		}
 
 		if seen[name] {
-			return nil, errorf("%s: source names must be unique", manifestPath)
+			return nil, fmt.Errorf("%s: source names must be unique", manifestPath)
 		}
 		seen[name] = true
 		sources = append(sources, source)
@@ -365,15 +349,24 @@ func isIdentifier(value string) bool {
 // LoadManifest reads one workspace/<slug>/mod.toml.
 func LoadManifest(manifestPath, defaultSlug string) (*Manifest, error) {
 	var raw manifestFile
-	if _, err := toml.DecodeFile(manifestPath, &raw); err != nil {
+	metadata, err := toml.DecodeFile(manifestPath, &raw)
+	if err != nil {
 		if os.IsNotExist(err) {
-			return nil, errorf("workspace metadata not found: %s", manifestPath)
+			return nil, fmt.Errorf("workspace metadata not found: %s", manifestPath)
 		}
-		return nil, errorf("invalid TOML in %s: %v", manifestPath, err)
+		return nil, fmt.Errorf("invalid TOML in %s: %w", manifestPath, err)
+	}
+	if undecoded := metadata.Undecoded(); len(undecoded) > 0 {
+		keys := make([]string, len(undecoded))
+		for index, key := range undecoded {
+			keys[index] = key.String()
+		}
+		sort.Strings(keys)
+		return nil, fmt.Errorf("unknown field(s) in %s: %s", manifestPath, strings.Join(keys, ", "))
 	}
 	slug := strings.TrimSpace(defaultSlug)
 	if slug == "." || slug == ".." || strings.ContainsAny(slug, `/\`) {
-		return nil, errorf("invalid mod directory name %q", slug)
+		return nil, fmt.Errorf("invalid mod directory name %q", slug)
 	}
 
 	generator, err := parseGenerator(raw, manifestPath)
@@ -492,7 +485,7 @@ func (w *Workspace) Mod(slug string) (*Mod, error) {
 			return mod, nil
 		}
 	}
-	return nil, errorf("unknown local mod: %s", slug)
+	return nil, fmt.Errorf("unknown local mod: %s", slug)
 }
 
 // ResolveSource turns a portable logical source into a local read-only path.
@@ -501,12 +494,12 @@ func (w *Workspace) ResolveSource(source SourceSpec, settings config.Config, mus
 	switch source.Kind {
 	case "workshop":
 		if settings.WorkshopDir == "" {
-			return "", errorf("CK3_WORKSHOP_DIR is required for Workshop sources")
+			return "", fmt.Errorf("CK3_WORKSHOP_DIR is required for Workshop sources")
 		}
 		base = filepath.Join(settings.WorkshopDir, source.ItemID)
 	case "game":
 		if settings.GameDir == "" {
-			return "", errorf("CK3_GAME_DIR is required for game sources")
+			return "", fmt.Errorf("CK3_GAME_DIR is required for game sources")
 		}
 		base = settings.GameDir
 	case "repository":
@@ -518,7 +511,7 @@ func (w *Workspace) ResolveSource(source SourceSpec, settings config.Config, mus
 		}
 		base = mod.Root
 	default:
-		return "", errorf("unsupported source kind: %s", source.Kind)
+		return "", fmt.Errorf("unsupported source kind: %s", source.Kind)
 	}
 
 	resolvedBase := fsutil.MustAbs(base)
@@ -528,11 +521,11 @@ func (w *Workspace) ResolveSource(source SourceSpec, settings config.Config, mus
 	}
 	resolved := fsutil.MustAbs(filepath.Join(resolvedBase, filepath.FromSlash(relative)))
 	if _, inside := fsutil.RelativeWithin(resolvedBase, resolved); !inside {
-		return "", errorf("source escapes its declared root: %s", source.Name)
+		return "", fmt.Errorf("source escapes its declared root: %s", source.Name)
 	}
 	if mustExist {
 		if _, err := os.Stat(resolved); err != nil {
-			return "", errorf("source %q does not exist: %s", source.Name, resolved)
+			return "", fmt.Errorf("source %q does not exist: %s", source.Name, resolved)
 		}
 	}
 	return resolved, nil

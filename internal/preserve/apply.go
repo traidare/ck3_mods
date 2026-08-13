@@ -6,6 +6,7 @@ import (
 	"crypto/sha256"
 	"database/sql"
 	"encoding/hex"
+	"fmt"
 	"io"
 	"os"
 	"path/filepath"
@@ -25,46 +26,46 @@ import (
 func copyFile(entry FileEntry, destination string) (string, error) {
 	before, err := os.Stat(entry.SourcePath)
 	if err != nil {
-		return "", errorf("could not copy %s: %v", entry.SourcePath, err)
+		return "", fmt.Errorf("could not copy %s: %w", entry.SourcePath, err)
 	}
 	if before.Size() != entry.Size || before.ModTime().UnixNano() != entry.ModTimeNanos {
-		return "", errorf("source changed after preflight: %s", entry.SourcePath)
+		return "", fmt.Errorf("source changed after preflight: %s", entry.SourcePath)
 	}
 	if err := os.MkdirAll(filepath.Dir(destination), 0o755); err != nil {
-		return "", errorf("could not copy %s: %v", entry.SourcePath, err)
+		return "", fmt.Errorf("could not copy %s: %w", entry.SourcePath, err)
 	}
 
 	digest := sha256.New()
 	source, err := os.Open(entry.SourcePath)
 	if err != nil {
-		return "", errorf("could not copy %s: %v", entry.SourcePath, err)
+		return "", fmt.Errorf("could not copy %s: %w", entry.SourcePath, err)
 	}
 	defer source.Close()
 	target, err := os.OpenFile(destination, os.O_WRONLY|os.O_CREATE|os.O_EXCL, 0o644)
 	if err != nil {
-		return "", errorf("could not copy %s: %v", entry.SourcePath, err)
+		return "", fmt.Errorf("could not copy %s: %w", entry.SourcePath, err)
 	}
 	if _, err := io.Copy(io.MultiWriter(target, digest), source); err != nil {
 		target.Close()
-		return "", errorf("could not copy %s: %v", entry.SourcePath, err)
+		return "", fmt.Errorf("could not copy %s: %w", entry.SourcePath, err)
 	}
 	if err := target.Close(); err != nil {
-		return "", errorf("could not copy %s: %v", entry.SourcePath, err)
+		return "", fmt.Errorf("could not copy %s: %w", entry.SourcePath, err)
 	}
 
 	if err := os.Chmod(destination, before.Mode().Perm()); err != nil {
-		return "", errorf("could not copy %s: %v", entry.SourcePath, err)
+		return "", fmt.Errorf("could not copy %s: %w", entry.SourcePath, err)
 	}
 	if err := os.Chtimes(destination, before.ModTime(), before.ModTime()); err != nil {
-		return "", errorf("could not copy %s: %v", entry.SourcePath, err)
+		return "", fmt.Errorf("could not copy %s: %w", entry.SourcePath, err)
 	}
 
 	after, err := os.Stat(entry.SourcePath)
 	if err != nil {
-		return "", errorf("could not copy %s: %v", entry.SourcePath, err)
+		return "", fmt.Errorf("could not copy %s: %w", entry.SourcePath, err)
 	}
 	if after.Size() != entry.Size || after.ModTime().UnixNano() != entry.ModTimeNanos {
-		return "", errorf("source changed while being copied: %s", entry.SourcePath)
+		return "", fmt.Errorf("source changed while being copied: %s", entry.SourcePath)
 	}
 	return hex.EncodeToString(digest.Sum(nil)), nil
 }
@@ -73,7 +74,7 @@ func copyFile(entry FileEntry, destination string) (string, error) {
 func extractArchive(mod *SourceMod, destination string, hashes map[string]string) error {
 	reader, err := zip.OpenReader(mod.SourcePath)
 	if err != nil {
-		return errorf("could not extract %s: %v", mod.SourcePath, err)
+		return fmt.Errorf("could not extract %s: %w", mod.SourcePath, err)
 	}
 	defer reader.Close()
 
@@ -84,37 +85,37 @@ func extractArchive(mod *SourceMod, destination string, hashes map[string]string
 	for _, entry := range mod.ZipEntries {
 		member, found := members[entry.MemberName]
 		if !found {
-			return errorf("could not extract %s: missing member %s", mod.SourcePath, entry.MemberName)
+			return fmt.Errorf("could not extract %s: missing member %s", mod.SourcePath, entry.MemberName)
 		}
 		target := filepath.Join(destination, filepath.FromSlash(entry.RelativePath))
 		if err := os.MkdirAll(filepath.Dir(target), 0o755); err != nil {
-			return errorf("could not extract %s: %v", mod.SourcePath, err)
+			return fmt.Errorf("could not extract %s: %w", mod.SourcePath, err)
 		}
 		source, err := member.Open()
 		if err != nil {
-			return errorf("could not extract %s: %v", mod.SourcePath, err)
+			return fmt.Errorf("could not extract %s: %w", mod.SourcePath, err)
 		}
 		output, err := os.OpenFile(target, os.O_WRONLY|os.O_CREATE|os.O_EXCL, 0o644)
 		if err != nil {
 			source.Close()
-			return errorf("could not extract %s: %v", mod.SourcePath, err)
+			return fmt.Errorf("could not extract %s: %w", mod.SourcePath, err)
 		}
 		digest := sha256.New()
 		_, copyErr := io.Copy(io.MultiWriter(output, digest), source)
 		source.Close()
 		closeErr := output.Close()
 		if copyErr != nil {
-			return errorf("could not extract %s: %v", mod.SourcePath, copyErr)
+			return fmt.Errorf("could not extract %s: %w", mod.SourcePath, copyErr)
 		}
 		if closeErr != nil {
-			return errorf("could not extract %s: %v", mod.SourcePath, closeErr)
+			return fmt.Errorf("could not extract %s: %w", mod.SourcePath, closeErr)
 		}
 		info, err := os.Stat(target)
 		if err != nil {
-			return errorf("could not extract %s: %v", mod.SourcePath, err)
+			return fmt.Errorf("could not extract %s: %w", mod.SourcePath, err)
 		}
 		if info.Size() != entry.Size {
-			return errorf("ZIP member changed size while extracting: %s", entry.MemberName)
+			return fmt.Errorf("ZIP member changed size while extracting: %s", entry.MemberName)
 		}
 		hashes[entry.RelativePath] = hex.EncodeToString(digest.Sum(nil))
 	}
@@ -125,7 +126,7 @@ func extractArchive(mod *SourceMod, destination string, hashes map[string]string
 // registry descriptor that will point at its final location.
 func copyMod(mod *SourceMod, destination, finalRelativePath string) (string, error) {
 	if err := os.MkdirAll(destination, 0o755); err != nil {
-		return "", errorf("could not create %s: %v", destination, err)
+		return "", fmt.Errorf("could not create %s: %w", destination, err)
 	}
 
 	hashes := map[string]string{}
@@ -144,7 +145,7 @@ func copyMod(mod *SourceMod, destination, finalRelativePath string) (string, err
 	descriptor := transformDescriptor(mod.DescriptorText, "")
 	descriptorPath := filepath.Join(destination, "descriptor.mod")
 	if err := os.WriteFile(descriptorPath, []byte(descriptor), 0o644); err != nil {
-		return "", errorf("could not write %s: %v", descriptorPath, err)
+		return "", fmt.Errorf("could not write %s: %w", descriptorPath, err)
 	}
 	hashes["descriptor.mod"] = fsutil.Sha256Bytes([]byte(descriptor))
 
@@ -191,11 +192,11 @@ func writeJSONAtomic(path string, value any) error {
 	temporary := filepath.Join(filepath.Dir(path), temporaryName("."+filepath.Base(path)+"."))
 	if err := os.WriteFile(temporary, data, 0o644); err != nil {
 		os.Remove(temporary)
-		return errorf("could not write %s: %v", path, err)
+		return fmt.Errorf("could not write %s: %w", path, err)
 	}
 	if err := os.Rename(temporary, path); err != nil {
 		os.Remove(temporary)
-		return errorf("could not write %s: %v", path, err)
+		return fmt.Errorf("could not write %s: %w", path, err)
 	}
 	return nil
 }
@@ -204,16 +205,16 @@ func writeJSONAtomic(path string, value any) error {
 func writeTextExclusive(path, content string) error {
 	file, err := os.OpenFile(path, os.O_WRONLY|os.O_CREATE|os.O_EXCL, 0o644)
 	if err != nil {
-		return errorf("could not create %s: %v", path, err)
+		return fmt.Errorf("could not create %s: %w", path, err)
 	}
 	if _, err := file.WriteString(content); err != nil {
 		file.Close()
 		os.Remove(path)
-		return errorf("could not create %s: %v", path, err)
+		return fmt.Errorf("could not create %s: %w", path, err)
 	}
 	if err := file.Close(); err != nil {
 		os.Remove(path)
-		return errorf("could not create %s: %v", path, err)
+		return fmt.Errorf("could not create %s: %w", path, err)
 	}
 	return nil
 }
@@ -223,7 +224,7 @@ func writeTextExclusive(path, content string) error {
 func (p *Plan) stage() (string, []registryDescriptorFile, error) {
 	staging := filepath.Join(p.ModDirectory, temporaryName("."+p.SnapshotSlug+"."))
 	if err := os.Mkdir(staging, 0o755); err != nil {
-		return "", nil, errorf("could not create %s: %v", staging, err)
+		return "", nil, fmt.Errorf("could not create %s: %w", staging, err)
 	}
 
 	var registries []registryDescriptorFile
@@ -251,7 +252,7 @@ func (p *Plan) stage() (string, []registryDescriptorFile, error) {
 func (p *Plan) publish(staging string, registries []registryDescriptorFile) error {
 	if err := os.Rename(staging, p.FinalRoot); err != nil {
 		os.RemoveAll(staging)
-		return errorf("could not publish snapshot under %s: %v", p.ModDirectory, err)
+		return fmt.Errorf("could not publish snapshot under %s: %w", p.ModDirectory, err)
 	}
 	var created []string
 	for _, descriptor := range registries {
@@ -273,7 +274,7 @@ func (p *Plan) publish(staging string, registries []registryDescriptorFile) erro
 func (p *Plan) backupDatabase(timestamp string) (string, error) {
 	backupPath := p.DatabasePath + ".preserve-" + timestamp + ".bak"
 	if _, err := os.Lstat(backupPath); err == nil {
-		return "", errorf("database backup already exists: %s", backupPath)
+		return "", fmt.Errorf("database backup already exists: %s", backupPath)
 	}
 	if err := launcher.BackupTo(p.DatabasePath, backupPath); err != nil {
 		return "", err
@@ -353,7 +354,7 @@ func insertLocalMod(execer transactionExecer, columns launcher.ColumnSet, plan *
 	statement := "INSERT INTO mods (" + strings.Join(quoted, ", ") + ") VALUES (" +
 		strings.Join(placeholders, ", ") + ")"
 	if _, err := execer.Exec(statement, values...); err != nil {
-		return "", errorf("cannot register snapshot mod %q: %v", mod.DisplayName, err)
+		return "", fmt.Errorf("cannot register snapshot mod %q: %w", mod.DisplayName, err)
 	}
 	mod.NewModID = modID
 	return modID, nil
@@ -365,7 +366,7 @@ func currentFingerprint(transaction *sql.Tx, db *launcher.DB, plan *Plan) ([]fin
 		"SELECT id FROM playsets WHERE id = ? AND "+db.LivePlaysetClause(), plan.SourcePlaysetID)
 	var identifier any
 	if err := row.Scan(&identifier); err != nil {
-		return nil, errorf("source playset disappeared or was removed during the copy")
+		return nil, fmt.Errorf("source playset disappeared or was removed during the copy")
 	}
 
 	rows, err := transaction.Query(`
@@ -459,14 +460,14 @@ func (p *Plan) register() (string, string, error) {
 		return "", backupPath, err
 	}
 	if !sameFingerprint(fingerprint, p.SourceFingerprint) {
-		return "", backupPath, errorf("source playset changed during the copy; database registration aborted")
+		return "", backupPath, fmt.Errorf("source playset changed during the copy; database registration aborted")
 	}
 
 	conflict := transaction.QueryRow(
 		"SELECT 1 FROM playsets WHERE "+db.LivePlaysetClause()+" AND name = ? LIMIT 1", p.SnapshotName)
 	var present any
 	if err := conflict.Scan(&present); err == nil {
-		return "", backupPath, errorf("a live playset named %q now exists", p.SnapshotName)
+		return "", backupPath, fmt.Errorf("a live playset named %q now exists", p.SnapshotName)
 	} else if err != sql.ErrNoRows {
 		return "", backupPath, err
 	}
@@ -504,12 +505,12 @@ func (p *Plan) register() (string, string, error) {
 // Apply copies the planned content and registers it with the Launcher.
 func (p *Plan) Apply() (Result, error) {
 	if _, err := os.Lstat(p.FinalRoot); err == nil {
-		return Result{}, errorf("snapshot directory already exists: %s", p.FinalRoot)
+		return Result{}, fmt.Errorf("snapshot directory already exists: %s", p.FinalRoot)
 	}
 	for _, mod := range p.Mods {
 		descriptor := filepath.Join(p.ModDirectory, mod.RegistryFilename)
 		if _, err := os.Lstat(descriptor); err == nil {
-			return Result{}, errorf("launcher descriptor already exists: %s", descriptor)
+			return Result{}, fmt.Errorf("launcher descriptor already exists: %s", descriptor)
 		}
 	}
 

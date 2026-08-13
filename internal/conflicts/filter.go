@@ -1,6 +1,7 @@
 package conflicts
 
 import (
+	"fmt"
 	"path"
 	"sort"
 	"strings"
@@ -78,7 +79,7 @@ func ShouldFail(source report.Report, policy string) (bool, error) {
 	for index, choice := range FailOnChoices {
 		choices[index] = string(choice)
 	}
-	return false, errorf("unknown fail-on policy %q; choose %s", policy, strings.Join(choices, ", "))
+	return false, fmt.Errorf("unknown fail-on policy %q; choose %s", policy, strings.Join(choices, ", "))
 }
 
 func normalizePrefixes(prefixes []string) ([]string, error) {

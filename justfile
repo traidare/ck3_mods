@@ -5,11 +5,14 @@ default:
 lint:
     unformatted="$(gofmt -l cmd internal)"; test -z "$unformatted" || { echo "gofmt: $unformatted" >&2; exit 1; }
     go vet ./...
+    staticcheck ./...
+    deadcode -test ./...
     ruff check .
 
 # Run the Go tests
 test:
     go test ./...
+    PYTHONPATH=tools python -m unittest discover -s tests
 
 # Format Go, Python, and repository prose/data files
 format:

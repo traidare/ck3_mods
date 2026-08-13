@@ -48,32 +48,6 @@ type Plan struct {
 // Add appends one operation.
 func (p *Plan) Add(op Op) { p.Ops = append(p.Ops, op) }
 
-// Count returns how many operations of one kind the plan holds.
-func (p *Plan) Count(kind Kind) int {
-	total := 0
-	for _, op := range p.Ops {
-		if op.Kind == kind {
-			total++
-		}
-	}
-	return total
-}
-
-// Paths returns the sorted destination paths of one kind.
-func (p *Plan) Paths(kind Kind) []string {
-	var paths []string
-	for _, op := range p.Ops {
-		if op.Kind == kind {
-			paths = append(paths, op.Path)
-		}
-	}
-	sort.Strings(paths)
-	return paths
-}
-
-// Empty reports whether the plan would change nothing.
-func (p *Plan) Empty() bool { return len(p.Ops) == 0 }
-
 // Apply performs every operation in order. It stops at the first failure, so a
 // partially applied plan names the operation that broke.
 func (p *Plan) Apply() error {

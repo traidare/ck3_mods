@@ -7,6 +7,7 @@ silently generating a stale whole-file override.
 
 from __future__ import annotations
 
+from dataclasses import dataclass
 from pathlib import Path
 
 from gen import GenerationContext
@@ -14,13 +15,16 @@ from gen.script import read_text, write_text
 from gen.sources import WorkshopSources
 from gen.text import replace_exact
 
-WORKSHOP: WorkshopSources | None = None
-GR_OUTPUT: Path | None = None
+
+@dataclass(frozen=True, slots=True)
+class RunInputs:
+    WORKSHOP: WorkshopSources
+    GR_OUTPUT: Path
 
 
-def generate_grand_remembrance_agot_obituary() -> None:
+def generate_grand_remembrance_agot_obituary(inputs: RunInputs) -> None:
     relative = "common/on_action/gr_on_actions.txt"
-    text = read_text(WORKSHOP / "3678529052" / relative)
+    text = read_text(inputs.WORKSHOP / "3678529052" / relative)
     rice_revalidation = "# RICE COMPATIBILITY REVALIDATION"
     npc_obituary = "# NPC Obituary Processing"
     section_k = "\t\t\t\t# SECTION K: FAME / EVENT TRAITS"
@@ -91,10 +95,10 @@ def generate_grand_remembrance_agot_obituary() -> None:
         expected=1,
         label="Grand Remembrance AGOT born-in-the-purple classifier",
     )
-    write_text(GR_OUTPUT, relative, text)
+    write_text(inputs.GR_OUTPUT, relative, text)
 
     relative = "common/scripted_effects/gr_npc_obituary_data_effect.txt"
-    text = read_text(WORKSHOP / "3678529052" / relative)
+    text = read_text(inputs.WORKSHOP / "3678529052" / relative)
     text = replace_exact(
         text,
         """		# Player's opinion of the dead NPC. opinion:X targets a saved event
@@ -176,11 +180,12 @@ def generate_grand_remembrance_agot_obituary() -> None:
         )
         + text[scope_end:]
     )
-    write_text(GR_OUTPUT, relative, text)
+    write_text(inputs.GR_OUTPUT, relative, text)
 
 
 def generate(context: GenerationContext) -> None:
-    global WORKSHOP, GR_OUTPUT
+
     WORKSHOP = WorkshopSources(context)
     GR_OUTPUT = context.output_root
-    generate_grand_remembrance_agot_obituary()
+    inputs = RunInputs(WORKSHOP=WORKSHOP, GR_OUTPUT=GR_OUTPUT)
+    generate_grand_remembrance_agot_obituary(inputs)

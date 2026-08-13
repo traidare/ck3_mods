@@ -4,20 +4,21 @@
 from __future__ import annotations
 
 import re
+from dataclasses import dataclass
 from pathlib import Path
 
 from gen import GenerationContext
 from gen.text import matching_brace
 
-ROOT: Path | None = None
-SOURCE: Path | None = None
-AGOT_TRAITS: Path | None = None
-OUTPUT: Path | None = None
-OPINION_KEYS = (
-    "same_opinion",
-    "same_opinion_if_same_faith",
-    "opposite_opinion",
-)
+
+@dataclass(frozen=True, slots=True)
+class RunInputs:
+    SOURCE: Path
+    AGOT_TRAITS: Path
+    OUTPUT: Path
+
+
+OPINION_KEYS = ("same_opinion", "same_opinion_if_same_faith", "opposite_opinion")
 EXPECTED_TRACK_FIELDS = {
     "same_opinion": 51,
     "same_opinion_if_same_faith": 3,
@@ -26,19 +27,15 @@ EXPECTED_TRACK_FIELDS = {
 
 
 def direct_property(block: str, key: str, indent: str) -> str | None:
-    match = re.search(
-        rf"(?m)^{re.escape(indent)}{key}\s*=\s*([^#\r\n]+?)\s*$",
-        block,
-    )
+    match = re.search(rf"(?m)^{re.escape(indent)}{key}\s*=\s*([^#\r\n]+?)\s*$", block)
     return match.group(1).strip() if match else None
 
 
-def main() -> None:
-    text = SOURCE.read_text(encoding="utf-8-sig")
-    agot_traits = AGOT_TRAITS.read_text(encoding="utf-8-sig")
+def main(inputs: RunInputs) -> None:
+    text = inputs.SOURCE.read_text(encoding="utf-8-sig")
+    agot_traits = inputs.AGOT_TRAITS.read_text(encoding="utf-8-sig")
     compatibility_variables = re.findall(
-        r"(?m)^@(pos|neg)_compat_(high|medium|low)\s*=\s*-?\d+\s*$",
-        agot_traits,
+        r"(?m)^@(pos|neg)_compat_(high|medium|low)\s*=\s*-?\d+\s*$", agot_traits
     )
     if len(compatibility_variables) != 6:
         raise RuntimeError(
@@ -48,8 +45,7 @@ def main() -> None:
     compatibility_header = "\n".join(
         match.group(0)
         for match in re.finditer(
-            r"(?m)^@(pos|neg)_compat_(high|medium|low)\s*=\s*-?\d+\s*$",
-            agot_traits,
+            r"(?m)^@(pos|neg)_compat_(high|medium|low)\s*=\s*-?\d+\s*$", agot_traits
         )
     )
     traits = list(re.finditer(r"(?m)^([A-Za-z_][A-Za-z0-9_]*)\s*=\s*\{", text))
@@ -71,10 +67,7 @@ def main() -> None:
 
         present = {
             key: len(
-                re.findall(
-                    rf"(?m)^[ \t]+{key}\s*=\s*[^#\r\n]+(?:\r?\n|$)",
-                    track_block,
-                )
+                re.findall(rf"(?m)^[ \t]+{key}\s*=\s*[^#\r\n]+(?:\r?\n|$)", track_block)
             )
             for key in OPINION_KEYS
         }
@@ -107,9 +100,7 @@ def main() -> None:
         repaired_track = track_block
         for key, _value in migrated:
             repaired_track, removed = re.subn(
-                rf"(?m)^[ \t]+{key}\s*=\s*[^#\r\n]+(?:\r?\n|$)",
-                "",
-                repaired_track,
+                rf"(?m)^[ \t]+{key}\s*=\s*[^#\r\n]+(?:\r?\n|$)", "", repaired_track
             )
             if removed != present[key]:
                 raise RuntimeError(
@@ -148,9 +139,9 @@ def main() -> None:
         + "\n\n# Compatibility values copied from current AGOT by the "
         "runtime-rebase generator.\n" + text
     )
-    OUTPUT.parent.mkdir(parents=True, exist_ok=True)
+    inputs.OUTPUT.parent.mkdir(parents=True, exist_ok=True)
     text = re.sub(r"[ \t]+(?=\r?$)", "", text, flags=re.MULTILINE)
-    OUTPUT.write_text(text, encoding="utf-8-sig")
+    inputs.OUTPUT.write_text(text, encoding="utf-8-sig")
     print(
         "Generated MPD trait rebase: "
         f"{sum(counts.values())} invalid track fields migrated across "
@@ -159,8 +150,9 @@ def main() -> None:
 
 
 def generate(context: GenerationContext) -> None:
-    global SOURCE, AGOT_TRAITS, OUTPUT
+
     SOURCE = context.source("more-personality-depth")
     AGOT_TRAITS = context.source("agot-traits")
     OUTPUT = context.output_path("common/traits/01_personality_overrides.txt")
-    main()
+    inputs = RunInputs(SOURCE=SOURCE, AGOT_TRAITS=AGOT_TRAITS, OUTPUT=OUTPUT)
+    main(inputs)

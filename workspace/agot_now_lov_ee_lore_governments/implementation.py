@@ -4,7 +4,6 @@
 from __future__ import annotations
 
 import csv
-import io
 import json
 import re
 from collections import defaultdict, deque
@@ -13,7 +12,9 @@ from dataclasses import dataclass
 from pathlib import Path
 
 from gen import GenerationContext
+from gen.data import csv_bytes
 from gen.hashing import sha256_file
+from gen.script import read_text
 from gen.sources import canonical_source_path
 
 DOOM = (7899, 8, 14)
@@ -48,12 +49,7 @@ PRESERVED_SPECIAL_GOVERNMENTS = {
     "unknown_government",
     "wilderness_government",
 }
-PLACEHOLDER_HOLDERS = {
-    "0",
-    "Ruin_Empress",
-    "Unknown_Emperor",
-    "Wilderness_Empress",
-}
+PLACEHOLDER_HOLDERS = {"0", "Ruin_Empress", "Unknown_Emperor", "Wilderness_Empress"}
 WORKSHOP_IDS = {
     "AGOT": "2962333032",
     "LOV": "3403938445",
@@ -62,9 +58,15 @@ WORKSHOP_IDS = {
     "EEP": "3768149491",
     "BRIDGE": "3773608127",
 }
-OUTPUT_ROOT_OVERRIDE: Path | None = None
-ASSETS_DIR_OVERRIDE: Path | None = None
-LOCAL_SOURCE_OVERRIDES: dict[str, Path] | None = None
+
+
+@dataclass(frozen=True, slots=True)
+class RunInputs:
+    root: Path
+    workshop_root: Path
+    output_root: Path
+    assets_dir: Path
+    local_sources: dict[str, Path]
 
 
 @dataclass
@@ -151,10 +153,6 @@ class HolderEvent:
     government_scalar: Scalar | None
     culture: str
     rule: Rule | None = None
-
-
-def normalized_text(path: Path) -> str:
-    return path.read_text(encoding="utf-8-sig").replace("\r\n", "\n")
 
 
 def parse_date(value: str) -> tuple[int, int, int] | None:
@@ -245,11 +243,7 @@ def parse_document(text: str) -> Document:
         value = text[value_start:look].strip().strip('"')
         scalars.append(
             Scalar(
-                key=key,
-                value=value,
-                start=token_start,
-                end=look,
-                parent=parent_block(),
+                key=key, value=value, start=token_start, end=look, parent=parent_block()
             )
         )
         index = look
@@ -343,14 +337,6 @@ def insert_before_block(text: str, block: Block, body: str) -> tuple[int, int, s
     return line_start, line_start, f"{rendered}\n"
 
 
-def csv_bytes(fieldnames: list[str], rows: Iterable[dict[str, object]]) -> bytes:
-    output = io.StringIO(newline="")
-    writer = csv.DictWriter(output, fieldnames=fieldnames, lineterminator="\n")
-    writer.writeheader()
-    writer.writerows(rows)
-    return output.getvalue().encode("utf-8")
-
-
 def load_rules(path: Path) -> list[Rule]:
     priority = {"history_file", "empire", "culture", "title"}
     rules: list[Rule] = []
@@ -402,7 +388,7 @@ def source_winners(
 def title_and_province_scope(
     landed_titles_path: Path,
 ) -> tuple[dict[str, str], dict[int, str]]:
-    document = parse_document(normalized_text(landed_titles_path))
+    document = parse_document(read_text(landed_titles_path))
     by_id = {block.ident: block for block in document.blocks}
     title_empire: dict[str, str] = {}
     province_empire: dict[int, str] = {}
@@ -489,7 +475,7 @@ def parse_character_sources(
         "mother",
     }
     for relative, (_, path) in sorted(winners.items(), key=lambda item: str(item[0])):
-        text = normalized_text(path)
+        text = read_text(path)
         if relative.name == "bookmark_chars.txt":
             broken = "# Each ruler has: father, 2 siblings (share father), 2 childrengen_719 = {"
             fixed = (
@@ -701,8 +687,7 @@ def transform_effect(text: str) -> str:
     if text.count(ibben_needle) != 1:
         raise AssertionError("Ibben flavor branch changed")
     text = text.replace(
-        ibben_needle,
-        ibben_needle + "\t\t\t\t\t\t\tfaith = faith:ib_ven_god_king\n",
+        ibben_needle, ibben_needle + "\t\t\t\t\t\t\tfaith = faith:ib_ven_god_king\n"
     )
     if text.count("ee_yiti_governor_male") != 1:
         raise AssertionError("Yi Ti governor title branch changed")
@@ -713,10 +698,7 @@ def transform_effect(text: str) -> str:
 
 
 def target_manifest(
-    root: Path,
-    workshop: dict[str, Path],
-    workshop_root: Path,
-    inputs: Iterable[Path],
+    root: Path, workshop: dict[str, Path], workshop_root: Path, inputs: Iterable[Path]
 ) -> dict[str, object]:
     files = {
         canonical_source_path(path, root=root, workshop_root=workshop_root): {
@@ -729,9 +711,7 @@ def target_manifest(
     for label, module_root in workshop.items():
         descriptor = module_root / "descriptor.mod"
         if descriptor.is_file():
-            match = re.search(
-                r'(?m)^\s*version\s*=\s*"([^"]+)"', normalized_text(descriptor)
-            )
+            match = re.search(r'(?m)^\s*version\s*=\s*"([^"]+)"', read_text(descriptor))
             versions[label] = match.group(1) if match else "unversioned"
     return {
         "schema_version": 1,
@@ -742,820 +722,835 @@ def target_manifest(
     }
 
 
-@dataclass(frozen=True, slots=True)
-class Options:
-    """Everything one generation run needs that is not a declared source."""
+@dataclass
+class LoreGovernmentPipeline:
+    """Run the ordered generation phases without module-global state."""
 
-    root: Path
-    workshop_root: Path
-    check: bool = False
-    update_source_manifest: bool = False
-    audit: bool = False
+    inputs: RunInputs
 
+    def run(self) -> None:
+        self.load_sources()
+        self.plan_government_edits()
+        self.add_transition_edits()
+        self.render_title_edits()
+        self.build_character_outputs()
+        self.build_province_outputs()
+        self.write_outputs()
 
-def main(options: Options) -> int:
-    root = options.root.resolve()
-    workshop_root = options.workshop_root
-    workshop = {
-        label: workshop_root / workshop_id
-        for label, workshop_id in WORKSHOP_IDS.items()
-    }
-    missing = [
-        f"{label}:{path}" for label, path in workshop.items() if not path.is_dir()
-    ]
-    if missing:
-        raise FileNotFoundError(f"missing Workshop modules: {missing}")
-
-    module = OUTPUT_ROOT_OVERRIDE or (root / "mods/agot_now_lov_ee_lore_governments")
-    tooling = root / "workspace/agot_now_lov_ee_lore_governments"
-    assets = ASSETS_DIR_OVERRIDE or tooling / "assets/lore_governments"
-    rules_path = assets / "government_lore_rules.csv"
-    manifest_path = assets / "source_manifest.json"
-    effect_source = (
-        workshop["BRIDGE"]
-        / "common/scripted_effects/replace/00_agot_character_data_effects.txt"
-    )
-    local_sources = LOCAL_SOURCE_OVERRIDES or {}
-    roots = [
-        ("LOV", workshop["LOV"]),
-        ("RC", workshop["RC"]),
-        (
-            "LOV_REBASE",
-            local_sources.get(
-                "LOV_REBASE", root / "mods/legacy_of_valyria_039_runtime_rebase"
-            ),
-        ),
-        ("EE", workshop["EE"]),
-        (
-            "EE_REBASE",
-            local_sources.get("EE_REBASE", root / "mods/essos_expanded_119_rebase"),
-        ),
-        ("EEP", workshop["EEP"]),
-    ]
-    title_winners = source_winners(
-        roots,
-        Path("history/titles"),
-        lambda name: (
-            name == "hist_titles.txt"
-            or name.startswith("vassal_titles_e_")
-            or name.startswith("lv_")
-            or name == "agot_sothori_history_titles.txt"
-        ),
-    )
-    character_winners = source_winners(
-        roots, Path("history/characters"), lambda name: True
-    )
-    province_winners = source_winners(
-        roots, Path("history/provinces"), lambda name: name == "k_generated.txt"
-    )
-    if Path("history/provinces/k_generated.txt") not in province_winners:
-        raise FileNotFoundError("effective EE k_generated province history not found")
-
-    landed_titles = workshop["EEP"] / "common/landed_titles/01_landed_titles.txt"
-    input_paths = [
-        rules_path,
-        effect_source,
-        landed_titles,
-        workshop["AGOT"] / "common/governments/00_government_types.txt",
-        workshop["AGOT"] / "common/religion/religion_types/00_agot_the_venerations.txt",
-        *[path for _, path in title_winners.values()],
-        *[path for _, path in character_winners.values()],
-        *[path for _, path in province_winners.values()],
-    ]
-    current_manifest = target_manifest(root, workshop, workshop_root, input_paths)
-    if options.update_source_manifest:
-        manifest_path.parent.mkdir(parents=True, exist_ok=True)
-        manifest_path.write_text(
-            json.dumps(current_manifest, indent=2, sort_keys=True) + "\n",
-            encoding="utf-8",
-        )
-        print(f"Updated {manifest_path.relative_to(root)}")
-        return 0
-    if not manifest_path.is_file():
-        raise FileNotFoundError(
-            f"{manifest_path} missing; review inputs and run --update-source-manifest"
-        )
-    if json.loads(manifest_path.read_text(encoding="utf-8")) != current_manifest:
-        raise AssertionError(
-            "upstream source manifest drifted; review and run --update-source-manifest"
-        )
-
-    rules = load_rules(rules_path)
-    title_empire, province_empire = title_and_province_scope(landed_titles)
-    (
-        character_texts,
-        character_documents,
-        characters,
-        merged_character_relatives,
-    ) = parse_character_sources(character_winners)
-
-    title_texts: dict[Path, str] = {}
-    title_documents: dict[Path, Document] = {}
-    events: list[HolderEvent] = []
-    holder_empires: dict[str, set[str]] = defaultdict(set)
-    for relative, (_, path) in sorted(
-        title_winners.items(), key=lambda item: str(item[0])
-    ):
-        text = normalized_text(path)
-        document = parse_document(text)
-        title_texts[relative] = text
-        title_documents[relative] = document
-        for title_block in document.children(None):
-            if not re.fullmatch(r"[ekdc]_[A-Za-z0-9_]+", title_block.key):
-                continue
-            tier = TIER[title_block.key[0]]
-            empire = title_empire.get(title_block.key, "")
-            for date_block in document.children(title_block.ident):
-                date = parse_date(date_block.key)
-                if not date:
-                    continue
-                holders = document.direct_scalars(date_block.ident, "holder")
-                if not holders:
-                    continue
-                holder_scalar = holders[-1]
-                holder = holder_scalar.value
-                if holder in PLACEHOLDER_HOLDERS or any(
-                    word in holder.lower() for word in ("ruin", "wilderness", "unknown")
-                ):
-                    continue
-                governments = document.direct_scalars(date_block.ident, "government")
-                culture = characters.get(holder).culture if holder in characters else ""
-                event = HolderEvent(
-                    relative=relative,
-                    filename=relative.name,
-                    title=title_block.key,
-                    empire=empire,
-                    tier=tier,
-                    date=date,
-                    date_text=date_block.key,
-                    holder=holder,
-                    block=date_block,
-                    holder_scalar=holder_scalar,
-                    government_scalar=governments[-1] if governments else None,
-                    culture=culture,
-                )
-                events.append(event)
-                if empire:
-                    holder_empires[holder].add(empire)
-
-    jogos_seeds = {event.holder for event in events if event.empire == "e_jogos_nhai"}
-    ibben_seeds = {event.holder for event in events if event.empire == "e_ibben"}
-    jogos_characters = family_closure(
-        jogos_seeds, characters, holder_empires, "e_jogos_nhai"
-    )
-    ibben_characters = family_closure(
-        ibben_seeds, characters, holder_empires, "e_ibben"
-    )
-    corrected_culture = {
-        key: (
-            "jogos_nhai"
-            if key in jogos_characters and char.culture == "nefer"
-            else char.culture
-        )
-        for key, char in characters.items()
-    }
-    for event in events:
-        event.culture = corrected_culture.get(event.holder, event.culture)
-        event.rule = matching_rule(event, rules)
-
-    event_groups: dict[tuple[str, tuple[int, int, int]], list[HolderEvent]] = (
-        defaultdict(list)
-    )
-    for event in events:
-        event_groups[(event.holder, event.date)].append(event)
-
-    title_edits: dict[Path, list[tuple[int, int, str]]] = defaultdict(list)
-    government_at_date: dict[tuple[str, tuple[int, int, int]], str] = {}
-    government_audit: list[dict[str, object]] = []
-    for (holder, date), group in sorted(event_groups.items()):
-        candidates = [event for event in group if event.rule is not None]
-        if not candidates:
-            continue
-        specials = [
-            event
-            for event in group
-            if event.government_scalar
-            and event.government_scalar.value in PRESERVED_SPECIAL_GOVERNMENTS
-        ]
-        if specials:
-            special_values = {event.government_scalar.value for event in specials}
-            if len(special_values) != 1:
-                raise AssertionError(
-                    f"conflicting preserved governments for {holder}/{date}: {special_values}"
-                )
-            target_government = next(iter(special_values))
-            target_rule = max(candidates, key=lambda event: rule_priority(event.rule))
-        else:
-            max_tier = max(event.tier for event in candidates)
-            ranked = [event for event in candidates if event.tier == max_tier]
-            max_priority = max(rule_priority(event.rule) for event in ranked)
-            ranked = [
-                event for event in ranked if rule_priority(event.rule) == max_priority
-            ]
-            target_values = {event.rule.government for event in ranked}
-            if len(target_values) != 1:
-                raise AssertionError(
-                    f"ambiguous government for {holder}/{date}: "
-                    f"{[(event.title, event.rule.government) for event in ranked]}"
-                )
-            target_government = next(iter(target_values))
-            target_rule = sorted(ranked, key=lambda event: event.title)[0]
-        insertion_candidates = [
-            event for event in group if event.tier == max(item.tier for item in group)
-        ]
-        insertion = sorted(insertion_candidates, key=lambda event: event.title)[0]
-        old_values = {
-            event.government_scalar.value for event in group if event.government_scalar
+    def load_sources(self) -> None:
+        root = self.inputs.root
+        workshop_root = self.inputs.workshop_root
+        workshop = {
+            label: workshop_root / workshop_id
+            for label, workshop_id in WORKSHOP_IDS.items()
         }
-        for event in group:
-            scalar = event.government_scalar
-            if event is insertion:
-                if scalar:
-                    title_edits[event.relative].append(
-                        (scalar.start, scalar.end, f"government = {target_government}")
-                    )
-                else:
-                    title_edits[event.relative].append(
-                        insert_direct_scalar(
-                            title_texts[event.relative],
-                            event.block,
-                            event.holder_scalar,
-                            "government",
-                            target_government,
-                        )
-                    )
-            elif scalar:
-                start, end = removal_span(title_texts[event.relative], scalar)
-                title_edits[event.relative].append((start, end, ""))
-        government_at_date[(holder, date)] = target_government
-        government_audit.append(
-            {
-                "date": target_rule.date_text,
-                "holder": holder,
-                "culture": target_rule.culture,
-                "title": insertion.title,
-                "tier": insertion.tier,
-                "empire": insertion.empire,
-                "source_file": insertion.relative.as_posix(),
-                "old_government": "|".join(sorted(old_values)),
-                "new_government": target_government,
-                "rule_type": target_rule.rule.scope_type,
-                "rule_scope": target_rule.rule.scope,
-                "confidence": target_rule.rule.confidence,
-            }
-        )
+        missing = [
+            f"{label}:{path}" for label, path in workshop.items() if not path.is_dir()
+        ]
+        if missing:
+            raise FileNotFoundError(f"missing Workshop modules: {missing}")
 
-    transition_dates = sorted(
-        {rule.start_date for rule in rules if rule.start_date is not None}
-    )
-    for transition_date in transition_dates:
-        if transition_date[2] <= 1:
-            raise AssertionError(
-                f"transition date needs calendar-aware predecessor: {transition_date}"
-            )
-        prior_date = (
-            transition_date[0],
-            transition_date[1],
-            transition_date[2] - 1,
+        self.module = self.inputs.output_root
+        assets = self.inputs.assets_dir
+        rules_path = assets / "government_lore_rules.csv"
+        manifest_path = assets / "source_manifest.json"
+        self.effect_source = (
+            workshop["BRIDGE"]
+            / "common/scripted_effects/replace/00_agot_character_data_effects.txt"
         )
-        transition_text = ".".join(map(str, transition_date))
-        transition_holders: dict[
-            str, list[tuple[HolderEvent, Rule, Rule, Block, str | None]]
-        ] = defaultdict(list)
-        for relative, document in title_documents.items():
+        local_sources = self.inputs.local_sources
+        roots = [
+            ("LOV", workshop["LOV"]),
+            ("RC", workshop["RC"]),
+            (
+                "LOV_REBASE",
+                local_sources.get(
+                    "LOV_REBASE", root / "mods/legacy_of_valyria_039_runtime_rebase"
+                ),
+            ),
+            ("EE", workshop["EE"]),
+            (
+                "EE_REBASE",
+                local_sources.get("EE_REBASE", root / "mods/essos_expanded_119_rebase"),
+            ),
+            ("EEP", workshop["EEP"]),
+        ]
+        self.title_winners = source_winners(
+            roots,
+            Path("history/titles"),
+            lambda name: (
+                name == "hist_titles.txt"
+                or name.startswith("vassal_titles_e_")
+                or name.startswith("lv_")
+                or name == "agot_sothori_history_titles.txt"
+            ),
+        )
+        self.character_winners = source_winners(
+            roots, Path("history/characters"), lambda _name: True
+        )
+        self.province_winners = source_winners(
+            roots, Path("history/provinces"), lambda name: name == "k_generated.txt"
+        )
+        if Path("history/provinces/k_generated.txt") not in self.province_winners:
+            raise FileNotFoundError(
+                "effective EE k_generated province history not found"
+            )
+
+        landed_titles = workshop["EEP"] / "common/landed_titles/01_landed_titles.txt"
+        input_paths = [
+            rules_path,
+            self.effect_source,
+            landed_titles,
+            workshop["AGOT"] / "common/governments/00_government_types.txt",
+            workshop["AGOT"]
+            / "common/religion/religion_types/00_agot_the_venerations.txt",
+            *[path for _, path in self.title_winners.values()],
+            *[path for _, path in self.character_winners.values()],
+            *[path for _, path in self.province_winners.values()],
+        ]
+        current_manifest = target_manifest(root, workshop, workshop_root, input_paths)
+        if not manifest_path.is_file():
+            raise FileNotFoundError(
+                f"{manifest_path.relative_to(root)} is missing; review the upstream "
+                "inputs and replace the reviewed asset deliberately"
+            )
+        if json.loads(manifest_path.read_text(encoding="utf-8")) != current_manifest:
+            raise AssertionError(
+                "upstream source manifest drifted; review the differences and replace "
+                f"{manifest_path.relative_to(root)} deliberately"
+            )
+
+        self.rules = load_rules(rules_path)
+        self.title_empire, self.province_empire = title_and_province_scope(
+            landed_titles
+        )
+        (
+            self.character_texts,
+            self.character_documents,
+            self.characters,
+            self.merged_character_relatives,
+        ) = parse_character_sources(self.character_winners)
+
+    def plan_government_edits(self) -> None:
+        self.title_texts: dict[Path, str] = {}
+        self.title_documents: dict[Path, Document] = {}
+        events: list[HolderEvent] = []
+        holder_empires: dict[str, set[str]] = defaultdict(set)
+        for relative, (_, path) in sorted(
+            self.title_winners.items(), key=lambda item: str(item[0])
+        ):
+            text = read_text(path)
+            document = parse_document(text)
+            self.title_texts[relative] = text
+            self.title_documents[relative] = document
             for title_block in document.children(None):
                 if not re.fullmatch(r"[ekdc]_[A-Za-z0-9_]+", title_block.key):
                     continue
-                dated_holders: list[tuple[tuple[int, int, int], Block, Scalar]] = []
-                dated_governments: list[tuple[tuple[int, int, int], str]] = []
+                tier = TIER[title_block.key[0]]
+                empire = self.title_empire.get(title_block.key, "")
                 for date_block in document.children(title_block.ident):
-                    event_date = parse_date(date_block.key)
-                    if not event_date or event_date > transition_date:
+                    date = parse_date(date_block.key)
+                    if not date:
                         continue
-                    holder_scalars = document.direct_scalars(date_block.ident, "holder")
-                    if holder_scalars:
-                        dated_holders.append(
-                            (event_date, date_block, holder_scalars[-1])
-                        )
-                    government_scalars = document.direct_scalars(
+                    holders = document.direct_scalars(date_block.ident, "holder")
+                    if not holders:
+                        continue
+                    holder_scalar = holders[-1]
+                    holder = holder_scalar.value
+                    if holder in PLACEHOLDER_HOLDERS or any(
+                        word in holder.lower()
+                        for word in ("ruin", "wilderness", "unknown")
+                    ):
+                        continue
+                    governments = document.direct_scalars(
                         date_block.ident, "government"
                     )
-                    if government_scalars:
-                        dated_governments.append(
-                            (event_date, government_scalars[-1].value)
-                        )
-                if not dated_holders:
-                    continue
-                _, holder_block, holder_scalar = max(
-                    dated_holders, key=lambda item: item[0]
-                )
-                active_government = (
-                    max(dated_governments, key=lambda item: item[0])[1]
-                    if dated_governments
-                    else None
-                )
-                active_special = (
-                    active_government
-                    if active_government in PRESERVED_SPECIAL_GOVERNMENTS
-                    else None
-                )
-                holder = holder_scalar.value
-                if holder in PLACEHOLDER_HOLDERS or any(
-                    word in holder.lower() for word in ("ruin", "wilderness", "unknown")
-                ):
-                    continue
-                culture = corrected_culture.get(
-                    holder,
-                    characters.get(holder).culture if holder in characters else "",
-                )
-                empire = title_empire.get(title_block.key, "")
-                current = HolderEvent(
-                    relative=relative,
-                    filename=relative.name,
-                    title=title_block.key,
-                    empire=empire,
-                    tier=TIER[title_block.key[0]],
-                    date=transition_date,
-                    date_text=transition_text,
-                    holder=holder,
-                    block=holder_block,
-                    holder_scalar=holder_scalar,
-                    government_scalar=None,
-                    culture=culture,
-                )
-                previous = HolderEvent(
-                    relative=relative,
-                    filename=relative.name,
-                    title=title_block.key,
-                    empire=empire,
-                    tier=current.tier,
-                    date=prior_date,
-                    date_text=".".join(map(str, prior_date)),
-                    holder=holder,
-                    block=holder_block,
-                    holder_scalar=holder_scalar,
-                    government_scalar=None,
-                    culture=culture,
-                )
-                current_rule = matching_rule(current, rules)
-                previous_rule = matching_rule(previous, rules)
-                if (
-                    current_rule is None
-                    or previous_rule is None
-                    or current_rule.government == previous_rule.government
-                ):
-                    continue
-                transition_holders[holder].append(
-                    (
-                        current,
-                        current_rule,
-                        previous_rule,
-                        title_block,
-                        active_special,
+                    culture = (
+                        self.characters.get(holder).culture
+                        if holder in self.characters
+                        else ""
                     )
-                )
+                    event = HolderEvent(
+                        relative=relative,
+                        filename=relative.name,
+                        title=title_block.key,
+                        empire=empire,
+                        tier=tier,
+                        date=date,
+                        date_text=date_block.key,
+                        holder=holder,
+                        block=date_block,
+                        holder_scalar=holder_scalar,
+                        government_scalar=governments[-1] if governments else None,
+                        culture=culture,
+                    )
+                    events.append(event)
+                    if empire:
+                        holder_empires[holder].add(empire)
 
-        for holder, candidates in sorted(transition_holders.items()):
-            target_values = {candidate[1].government for candidate in candidates}
-            if len(target_values) != 1:
-                raise AssertionError(
-                    f"ambiguous transition government for {holder}/{transition_text}: "
-                    f"{target_values}"
-                )
-            special_values = {
-                candidate[4] for candidate in candidates if candidate[4] is not None
-            }
-            if len(special_values) > 1:
-                raise AssertionError(
-                    f"conflicting transition special governments for "
-                    f"{holder}/{transition_text}: {special_values}"
-                )
-            target_government = (
-                next(iter(special_values))
-                if special_values
-                else next(iter(target_values))
+        jogos_seeds = {
+            event.holder for event in events if event.empire == "e_jogos_nhai"
+        }
+        ibben_seeds = {event.holder for event in events if event.empire == "e_ibben"}
+        self.jogos_characters = family_closure(
+            jogos_seeds, self.characters, holder_empires, "e_jogos_nhai"
+        )
+        self.ibben_characters = family_closure(
+            ibben_seeds, self.characters, holder_empires, "e_ibben"
+        )
+        self.corrected_culture = {
+            key: (
+                "jogos_nhai"
+                if key in self.jogos_characters and char.culture == "nefer"
+                else char.culture
             )
-            existing = government_at_date.get((holder, transition_date))
-            if existing is not None:
-                if existing != target_government:
-                    raise AssertionError(
-                        f"transition mismatch for {holder}/{transition_text}: "
-                        f"{existing} != {target_government}"
-                    )
+            for key, char in self.characters.items()
+        }
+        for event in events:
+            event.culture = self.corrected_culture.get(event.holder, event.culture)
+            event.rule = matching_rule(event, self.rules)
+
+        event_groups: dict[tuple[str, tuple[int, int, int]], list[HolderEvent]] = (
+            defaultdict(list)
+        )
+        for event in events:
+            event_groups[(event.holder, event.date)].append(event)
+
+        self.title_edits: dict[Path, list[tuple[int, int, str]]] = defaultdict(list)
+        self.government_at_date: dict[tuple[str, tuple[int, int, int]], str] = {}
+        self.government_audit: list[dict[str, object]] = []
+        for (holder, date), group in sorted(event_groups.items()):
+            candidates = [event for event in group if event.rule is not None]
+            if not candidates:
                 continue
-            current, current_rule, previous_rule, title_block, _ = sorted(
-                candidates,
-                key=lambda candidate: (-candidate[0].tier, candidate[0].title),
-            )[0]
-            document = title_documents[current.relative]
-            transition_blocks = [
-                block
-                for block in document.children(title_block.ident)
-                if parse_date(block.key) == transition_date
+            specials = [
+                event
+                for event in group
+                if event.government_scalar
+                and event.government_scalar.value in PRESERVED_SPECIAL_GOVERNMENTS
             ]
-            if transition_blocks:
-                government_scalars = document.direct_scalars(
-                    transition_blocks[0].ident, "government"
+            if specials:
+                special_values = {event.government_scalar.value for event in specials}
+                if len(special_values) != 1:
+                    raise AssertionError(
+                        f"conflicting preserved governments for {holder}/{date}: {special_values}"
+                    )
+                target_government = next(iter(special_values))
+                target_rule = max(
+                    candidates, key=lambda event: rule_priority(event.rule)
                 )
-                if government_scalars:
-                    scalar = government_scalars[-1]
-                    title_edits[current.relative].append(
-                        (
-                            scalar.start,
-                            scalar.end,
-                            f"government = {target_government}",
-                        )
-                    )
-                else:
-                    title_edits[current.relative].append(
-                        insert_child_block(
-                            title_texts[current.relative],
-                            transition_blocks[0],
-                            f"government = {target_government}",
-                        )
-                    )
             else:
-                later_blocks = sorted(
-                    (
-                        block
-                        for block in document.children(title_block.ident)
-                        if (date := parse_date(block.key)) and date > transition_date
-                    ),
-                    key=lambda block: parse_date(block.key),
-                )
-                if later_blocks:
-                    title_edits[current.relative].append(
-                        insert_before_block(
-                            title_texts[current.relative],
-                            later_blocks[0],
-                            f"{transition_text} = "
-                            f"{{ government = {target_government} }}",
-                        )
+                max_tier = max(event.tier for event in candidates)
+                ranked = [event for event in candidates if event.tier == max_tier]
+                max_priority = max(rule_priority(event.rule) for event in ranked)
+                ranked = [
+                    event
+                    for event in ranked
+                    if rule_priority(event.rule) == max_priority
+                ]
+                target_values = {event.rule.government for event in ranked}
+                if len(target_values) != 1:
+                    raise AssertionError(
+                        f"ambiguous government for {holder}/{date}: "
+                        f"{[(event.title, event.rule.government) for event in ranked]}"
                     )
-                else:
-                    title_edits[current.relative].append(
-                        insert_child_block(
-                            title_texts[current.relative],
-                            title_block,
-                            f"{transition_text} = "
-                            f"{{ government = {target_government} }}",
+                target_government = next(iter(target_values))
+                target_rule = sorted(ranked, key=lambda event: event.title)[0]
+            insertion_candidates = [
+                event
+                for event in group
+                if event.tier == max(item.tier for item in group)
+            ]
+            insertion = sorted(insertion_candidates, key=lambda event: event.title)[0]
+            old_values = {
+                event.government_scalar.value
+                for event in group
+                if event.government_scalar
+            }
+            for event in group:
+                scalar = event.government_scalar
+                if event is insertion:
+                    if scalar:
+                        self.title_edits[event.relative].append(
+                            (
+                                scalar.start,
+                                scalar.end,
+                                f"government = {target_government}",
+                            )
                         )
-                    )
-            government_at_date[(holder, transition_date)] = target_government
-            government_audit.append(
+                    else:
+                        self.title_edits[event.relative].append(
+                            insert_direct_scalar(
+                                self.title_texts[event.relative],
+                                event.block,
+                                event.holder_scalar,
+                                "government",
+                                target_government,
+                            )
+                        )
+                elif scalar:
+                    start, end = removal_span(self.title_texts[event.relative], scalar)
+                    self.title_edits[event.relative].append((start, end, ""))
+            self.government_at_date[(holder, date)] = target_government
+            self.government_audit.append(
                 {
-                    "date": transition_text,
+                    "date": target_rule.date_text,
                     "holder": holder,
-                    "culture": current.culture,
-                    "title": current.title,
-                    "tier": current.tier,
-                    "empire": current.empire,
-                    "source_file": current.relative.as_posix(),
-                    "old_government": previous_rule.government,
+                    "culture": target_rule.culture,
+                    "title": insertion.title,
+                    "tier": insertion.tier,
+                    "empire": insertion.empire,
+                    "source_file": insertion.relative.as_posix(),
+                    "old_government": "|".join(sorted(old_values)),
                     "new_government": target_government,
-                    "rule_type": current_rule.scope_type,
-                    "rule_scope": current_rule.scope,
-                    "confidence": current_rule.confidence,
+                    "rule_type": target_rule.rule.scope_type,
+                    "rule_scope": target_rule.rule.scope,
+                    "confidence": target_rule.rule.confidence,
                 }
             )
 
-    generated: dict[Path, bytes] = {}
-    for relative, edits in title_edits.items():
-        generated[relative] = apply_edits(title_texts[relative], edits).encode(
-            "utf-8-sig"
+    def add_transition_edits(self) -> None:
+        transition_dates = sorted(
+            {rule.start_date for rule in self.rules if rule.start_date is not None}
         )
-
-    character_edits: dict[Path, list[tuple[int, int, str]]] = defaultdict(list)
-    culture_audit: list[dict[str, object]] = []
-    faith_audit: list[dict[str, object]] = []
-    for key in sorted(jogos_characters):
-        character = characters.get(key)
-        if not character or character.culture != "nefer":
-            continue
-        document = character_documents[character.relative]
-        culture_scalars = document.direct_scalars(character.block.ident, "culture")
-        if len(culture_scalars) != 1:
-            raise AssertionError(f"{key}: expected one direct culture")
-        scalar = culture_scalars[0]
-        character_edits[character.relative].append(
-            (scalar.start, scalar.end, "culture = jogos_nhai")
-        )
-        culture_audit.append(
-            {
-                "character": key,
-                "source_file": character.relative.as_posix(),
-                "old_culture": "nefer",
-                "new_culture": "jogos_nhai",
-                "reason": "Jogos title or in-scope family closure",
-            }
-        )
-
-    for key in sorted(ibben_characters):
-        character = characters.get(key)
-        if not character or character.religion != "ib_ven_god_king":
-            continue
-        if character.death and character.death < DOOM:
-            continue
-        document = character_documents[character.relative]
-        religion_scalars = document.direct_scalars(character.block.ident, "religion")
-        if len(religion_scalars) != 1:
-            raise AssertionError(f"{key}: expected one direct religion")
-        if character.birth and character.birth >= DOOM:
-            scalar = religion_scalars[0]
-            character_edits[character.relative].append(
-                (scalar.start, scalar.end, "religion = ib_ven_sound")
+        for transition_date in transition_dates:
+            if transition_date[2] <= 1:
+                raise AssertionError(
+                    f"transition date needs calendar-aware predecessor: {transition_date}"
+                )
+            prior_date = (
+                transition_date[0],
+                transition_date[1],
+                transition_date[2] - 1,
             )
-            mode = "post_doom_initial"
-        else:
+            transition_text = ".".join(map(str, transition_date))
+            transition_holders: dict[
+                str, list[tuple[HolderEvent, Rule, Rule, Block, str | None]]
+            ] = defaultdict(list)
+            for relative, document in self.title_documents.items():
+                for title_block in document.children(None):
+                    if not re.fullmatch(r"[ekdc]_[A-Za-z0-9_]+", title_block.key):
+                        continue
+                    dated_holders: list[tuple[tuple[int, int, int], Block, Scalar]] = []
+                    dated_governments: list[tuple[tuple[int, int, int], str]] = []
+                    for date_block in document.children(title_block.ident):
+                        event_date = parse_date(date_block.key)
+                        if not event_date or event_date > transition_date:
+                            continue
+                        holder_scalars = document.direct_scalars(
+                            date_block.ident, "holder"
+                        )
+                        if holder_scalars:
+                            dated_holders.append(
+                                (event_date, date_block, holder_scalars[-1])
+                            )
+                        government_scalars = document.direct_scalars(
+                            date_block.ident, "government"
+                        )
+                        if government_scalars:
+                            dated_governments.append(
+                                (event_date, government_scalars[-1].value)
+                            )
+                    if not dated_holders:
+                        continue
+                    _, holder_block, holder_scalar = max(
+                        dated_holders, key=lambda item: item[0]
+                    )
+                    active_government = (
+                        max(dated_governments, key=lambda item: item[0])[1]
+                        if dated_governments
+                        else None
+                    )
+                    active_special = (
+                        active_government
+                        if active_government in PRESERVED_SPECIAL_GOVERNMENTS
+                        else None
+                    )
+                    holder = holder_scalar.value
+                    if holder in PLACEHOLDER_HOLDERS or any(
+                        word in holder.lower()
+                        for word in ("ruin", "wilderness", "unknown")
+                    ):
+                        continue
+                    culture = self.corrected_culture.get(
+                        holder,
+                        self.characters.get(holder).culture
+                        if holder in self.characters
+                        else "",
+                    )
+                    empire = self.title_empire.get(title_block.key, "")
+                    current = HolderEvent(
+                        relative=relative,
+                        filename=relative.name,
+                        title=title_block.key,
+                        empire=empire,
+                        tier=TIER[title_block.key[0]],
+                        date=transition_date,
+                        date_text=transition_text,
+                        holder=holder,
+                        block=holder_block,
+                        holder_scalar=holder_scalar,
+                        government_scalar=None,
+                        culture=culture,
+                    )
+                    previous = HolderEvent(
+                        relative=relative,
+                        filename=relative.name,
+                        title=title_block.key,
+                        empire=empire,
+                        tier=current.tier,
+                        date=prior_date,
+                        date_text=".".join(map(str, prior_date)),
+                        holder=holder,
+                        block=holder_block,
+                        holder_scalar=holder_scalar,
+                        government_scalar=None,
+                        culture=culture,
+                    )
+                    current_rule = matching_rule(current, self.rules)
+                    previous_rule = matching_rule(previous, self.rules)
+                    if (
+                        current_rule is None
+                        or previous_rule is None
+                        or current_rule.government == previous_rule.government
+                    ):
+                        continue
+                    transition_holders[holder].append(
+                        (
+                            current,
+                            current_rule,
+                            previous_rule,
+                            title_block,
+                            active_special,
+                        )
+                    )
+
+            for holder, candidates in sorted(transition_holders.items()):
+                target_values = {candidate[1].government for candidate in candidates}
+                if len(target_values) != 1:
+                    raise AssertionError(
+                        f"ambiguous transition government for {holder}/{transition_text}: "
+                        f"{target_values}"
+                    )
+                special_values = {
+                    candidate[4] for candidate in candidates if candidate[4] is not None
+                }
+                if len(special_values) > 1:
+                    raise AssertionError(
+                        f"conflicting transition special governments for "
+                        f"{holder}/{transition_text}: {special_values}"
+                    )
+                target_government = (
+                    next(iter(special_values))
+                    if special_values
+                    else next(iter(target_values))
+                )
+                existing = self.government_at_date.get((holder, transition_date))
+                if existing is not None:
+                    if existing != target_government:
+                        raise AssertionError(
+                            f"transition mismatch for {holder}/{transition_text}: "
+                            f"{existing} != {target_government}"
+                        )
+                    continue
+                current, current_rule, previous_rule, title_block, _ = sorted(
+                    candidates,
+                    key=lambda candidate: (-candidate[0].tier, candidate[0].title),
+                )[0]
+                document = self.title_documents[current.relative]
+                transition_blocks = [
+                    block
+                    for block in document.children(title_block.ident)
+                    if parse_date(block.key) == transition_date
+                ]
+                if transition_blocks:
+                    government_scalars = document.direct_scalars(
+                        transition_blocks[0].ident, "government"
+                    )
+                    if government_scalars:
+                        scalar = government_scalars[-1]
+                        self.title_edits[current.relative].append(
+                            (
+                                scalar.start,
+                                scalar.end,
+                                f"government = {target_government}",
+                            )
+                        )
+                    else:
+                        self.title_edits[current.relative].append(
+                            insert_child_block(
+                                self.title_texts[current.relative],
+                                transition_blocks[0],
+                                f"government = {target_government}",
+                            )
+                        )
+                else:
+                    later_blocks = sorted(
+                        (
+                            block
+                            for block in document.children(title_block.ident)
+                            if (date := parse_date(block.key))
+                            and date > transition_date
+                        ),
+                        key=lambda block: parse_date(block.key),
+                    )
+                    if later_blocks:
+                        self.title_edits[current.relative].append(
+                            insert_before_block(
+                                self.title_texts[current.relative],
+                                later_blocks[0],
+                                f"{transition_text} = "
+                                f"{{ government = {target_government} }}",
+                            )
+                        )
+                    else:
+                        self.title_edits[current.relative].append(
+                            insert_child_block(
+                                self.title_texts[current.relative],
+                                title_block,
+                                f"{transition_text} = "
+                                f"{{ government = {target_government} }}",
+                            )
+                        )
+                self.government_at_date[(holder, transition_date)] = target_government
+                self.government_audit.append(
+                    {
+                        "date": transition_text,
+                        "holder": holder,
+                        "culture": current.culture,
+                        "title": current.title,
+                        "tier": current.tier,
+                        "empire": current.empire,
+                        "source_file": current.relative.as_posix(),
+                        "old_government": previous_rule.government,
+                        "new_government": target_government,
+                        "rule_type": current_rule.scope_type,
+                        "rule_scope": current_rule.scope,
+                        "confidence": current_rule.confidence,
+                    }
+                )
+
+    def render_title_edits(self) -> None:
+        self.generated: dict[Path, bytes] = {}
+        for relative, edits in self.title_edits.items():
+            self.generated[relative] = apply_edits(
+                self.title_texts[relative], edits
+            ).encode("utf-8-sig")
+
+    def build_character_outputs(self) -> None:
+        character_edits: dict[Path, list[tuple[int, int, str]]] = defaultdict(list)
+        self.culture_audit: list[dict[str, object]] = []
+        self.faith_audit: list[dict[str, object]] = []
+        for key in sorted(self.jogos_characters):
+            character = self.characters.get(key)
+            if not character or character.culture != "nefer":
+                continue
+            document = self.character_documents[character.relative]
+            culture_scalars = document.direct_scalars(character.block.ident, "culture")
+            if len(culture_scalars) != 1:
+                raise AssertionError(f"{key}: expected one direct culture")
+            scalar = culture_scalars[0]
+            character_edits[character.relative].append(
+                (scalar.start, scalar.end, "culture = jogos_nhai")
+            )
+            self.culture_audit.append(
+                {
+                    "character": key,
+                    "source_file": character.relative.as_posix(),
+                    "old_culture": "nefer",
+                    "new_culture": "jogos_nhai",
+                    "reason": "Jogos title or in-scope family closure",
+                }
+            )
+
+        for key in sorted(self.ibben_characters):
+            character = self.characters.get(key)
+            if not character or character.religion != "ib_ven_god_king":
+                continue
+            if character.death and character.death < DOOM:
+                continue
+            document = self.character_documents[character.relative]
+            religion_scalars = document.direct_scalars(
+                character.block.ident, "religion"
+            )
+            if len(religion_scalars) != 1:
+                raise AssertionError(f"{key}: expected one direct religion")
+            if character.birth and character.birth >= DOOM:
+                scalar = religion_scalars[0]
+                character_edits[character.relative].append(
+                    (scalar.start, scalar.end, "religion = ib_ven_sound")
+                )
+                mode = "post_doom_initial"
+            else:
+                doom_blocks = [
+                    block
+                    for block in document.children(character.block.ident)
+                    if block.key == DOOM_TEXT
+                ]
+                if doom_blocks:
+                    character_edits[character.relative].append(
+                        insert_child_block(
+                            self.character_texts[character.relative],
+                            doom_blocks[0],
+                            "religion = ib_ven_sound",
+                        )
+                    )
+                else:
+                    later_blocks = sorted(
+                        (
+                            block
+                            for block in document.children(character.block.ident)
+                            if (date := parse_date(block.key)) and date > DOOM
+                        ),
+                        key=lambda block: parse_date(block.key),
+                    )
+                    if later_blocks:
+                        character_edits[character.relative].append(
+                            insert_before_block(
+                                self.character_texts[character.relative],
+                                later_blocks[0],
+                                f"{DOOM_TEXT} = {{ religion = ib_ven_sound }}",
+                            )
+                        )
+                    else:
+                        character_edits[character.relative].append(
+                            insert_child_block(
+                                self.character_texts[character.relative],
+                                character.block,
+                                f"{DOOM_TEXT} = {{ religion = ib_ven_sound }}",
+                            )
+                        )
+                mode = "dated_transition"
+            self.faith_audit.append(
+                {
+                    "character": key,
+                    "source_file": character.relative.as_posix(),
+                    "old_faith": "ib_ven_god_king",
+                    "new_faith": "ib_ven_sound",
+                    "transition": DOOM_TEXT,
+                    "mode": mode,
+                }
+            )
+
+        for (holder, date), government in self.government_at_date.items():
+            if government not in NO_LEGITIMACY or holder not in self.characters:
+                continue
+            character = self.characters[holder]
+            document = self.character_documents[character.relative]
+            for date_block in document.children(character.block.ident):
+                if parse_date(date_block.key) != date:
+                    continue
+                legitimacy_scalars = document.direct_scalars(
+                    date_block.ident, "add_legitimacy"
+                )
+                if (
+                    legitimacy_scalars
+                    and len(legitimacy_scalars)
+                    == len(document.direct_scalars(date_block.ident))
+                    and not document.children(date_block.ident)
+                ):
+                    start, end = block_removal_span(
+                        self.character_texts[character.relative], date_block
+                    )
+                    character_edits[character.relative].append((start, end, ""))
+                    continue
+                for scalar in legitimacy_scalars:
+                    start, end = removal_span(
+                        self.character_texts[character.relative], scalar
+                    )
+                    character_edits[character.relative].append((start, end, ""))
+
+        for relative in sorted(
+            set(character_edits) | self.merged_character_relatives, key=str
+        ):
+            edits = character_edits[relative]
+            self.generated[relative] = apply_edits(
+                self.character_texts[relative], edits
+            ).encode("utf-8-sig")
+        bookmark_relative = Path("history/characters/bookmark_chars.txt")
+        if bookmark_relative not in self.generated:
+            self.generated[bookmark_relative] = self.character_texts[
+                bookmark_relative
+            ].encode("utf-8-sig")
+        eep_bookmark_override = Path(
+            "history/characters/zz_eetlv_bookmark_char_overrides.txt"
+        )
+        if eep_bookmark_override in self.character_winners:
+            self.generated[eep_bookmark_override] = b"\xef\xbb\xbf\n"
+        eep_khal_name_override = Path("history/characters/zz_eetlv_khal_name_fixes.txt")
+        if eep_khal_name_override in self.character_winners:
+            self.generated[eep_khal_name_override] = b"\xef\xbb\xbf\n"
+
+    def build_province_outputs(self) -> None:
+        province_relative = Path("history/provinces/k_generated.txt")
+        province_text = read_text(self.province_winners[province_relative][1])
+        province_document = parse_document(province_text)
+        ibben_provinces = {
+            province
+            for province, empire in self.province_empire.items()
+            if empire == "e_ibben"
+        }
+        province_edits: list[tuple[int, int, str]] = []
+        self.province_audit: list[dict[str, object]] = []
+        found_provinces: set[int] = set()
+        for block in province_document.children(None):
+            if not block.key.isdigit() or int(block.key) not in ibben_provinces:
+                continue
+            province = int(block.key)
+            found_provinces.add(province)
+            religions = province_document.direct_scalars(block.ident, "religion")
+            if len(religions) != 1 or religions[0].value != "ib_ven_god_king":
+                raise AssertionError(
+                    f"Ibben province {province} expected static ib_ven_god_king"
+                )
             doom_blocks = [
-                block
-                for block in document.children(character.block.ident)
-                if block.key == DOOM_TEXT
+                child
+                for child in province_document.children(block.ident)
+                if child.key == DOOM_TEXT
             ]
             if doom_blocks:
-                character_edits[character.relative].append(
-                    insert_child_block(
-                        character_texts[character.relative],
-                        doom_blocks[0],
-                        "religion = ib_ven_sound",
-                    )
+                existing = province_document.direct_scalars(
+                    doom_blocks[0].ident, "religion"
                 )
+                if existing:
+                    province_edits.append(
+                        (
+                            existing[-1].start,
+                            existing[-1].end,
+                            "religion = ib_ven_sound",
+                        )
+                    )
+                else:
+                    province_edits.append(
+                        insert_child_block(
+                            province_text, doom_blocks[0], "religion = ib_ven_sound"
+                        )
+                    )
             else:
                 later_blocks = sorted(
                     (
-                        block
-                        for block in document.children(character.block.ident)
-                        if (date := parse_date(block.key)) and date > DOOM
+                        child
+                        for child in province_document.children(block.ident)
+                        if (date := parse_date(child.key)) and date > DOOM
                     ),
-                    key=lambda block: parse_date(block.key),
+                    key=lambda child: parse_date(child.key),
                 )
                 if later_blocks:
-                    character_edits[character.relative].append(
+                    province_edits.append(
                         insert_before_block(
-                            character_texts[character.relative],
+                            province_text,
                             later_blocks[0],
                             f"{DOOM_TEXT} = {{ religion = ib_ven_sound }}",
                         )
                     )
                 else:
-                    character_edits[character.relative].append(
+                    province_edits.append(
                         insert_child_block(
-                            character_texts[character.relative],
-                            character.block,
+                            province_text,
+                            block,
                             f"{DOOM_TEXT} = {{ religion = ib_ven_sound }}",
                         )
                     )
-            mode = "dated_transition"
-        faith_audit.append(
-            {
-                "character": key,
-                "source_file": character.relative.as_posix(),
-                "old_faith": "ib_ven_god_king",
-                "new_faith": "ib_ven_sound",
-                "transition": DOOM_TEXT,
-                "mode": mode,
-            }
-        )
-
-    for (holder, date), government in government_at_date.items():
-        if government not in NO_LEGITIMACY or holder not in characters:
-            continue
-        character = characters[holder]
-        document = character_documents[character.relative]
-        for date_block in document.children(character.block.ident):
-            if parse_date(date_block.key) != date:
-                continue
-            legitimacy_scalars = document.direct_scalars(
-                date_block.ident, "add_legitimacy"
+            self.province_audit.append(
+                {
+                    "province": province,
+                    "empire": "e_ibben",
+                    "old_faith": "ib_ven_god_king",
+                    "new_faith": "ib_ven_sound",
+                    "transition": DOOM_TEXT,
+                }
             )
-            if (
-                legitimacy_scalars
-                and len(legitimacy_scalars)
-                == len(document.direct_scalars(date_block.ident))
-                and not document.children(date_block.ident)
-            ):
-                start, end = block_removal_span(
-                    character_texts[character.relative], date_block
-                )
-                character_edits[character.relative].append((start, end, ""))
-                continue
-            for scalar in legitimacy_scalars:
-                start, end = removal_span(character_texts[character.relative], scalar)
-                character_edits[character.relative].append((start, end, ""))
-
-    for relative in sorted(set(character_edits) | merged_character_relatives, key=str):
-        edits = character_edits[relative]
-        generated[relative] = apply_edits(character_texts[relative], edits).encode(
-            "utf-8-sig"
-        )
-    bookmark_relative = Path("history/characters/bookmark_chars.txt")
-    if bookmark_relative not in generated:
-        generated[bookmark_relative] = character_texts[bookmark_relative].encode(
-            "utf-8-sig"
-        )
-    eep_bookmark_override = Path(
-        "history/characters/zz_eetlv_bookmark_char_overrides.txt"
-    )
-    if eep_bookmark_override in character_winners:
-        generated[eep_bookmark_override] = b"\xef\xbb\xbf\n"
-    eep_khal_name_override = Path("history/characters/zz_eetlv_khal_name_fixes.txt")
-    if eep_khal_name_override in character_winners:
-        generated[eep_khal_name_override] = b"\xef\xbb\xbf\n"
-
-    province_relative = Path("history/provinces/k_generated.txt")
-    province_text = normalized_text(province_winners[province_relative][1])
-    province_document = parse_document(province_text)
-    ibben_provinces = {
-        province for province, empire in province_empire.items() if empire == "e_ibben"
-    }
-    province_edits: list[tuple[int, int, str]] = []
-    province_audit: list[dict[str, object]] = []
-    found_provinces: set[int] = set()
-    for block in province_document.children(None):
-        if not block.key.isdigit() or int(block.key) not in ibben_provinces:
-            continue
-        province = int(block.key)
-        found_provinces.add(province)
-        religions = province_document.direct_scalars(block.ident, "religion")
-        if len(religions) != 1 or religions[0].value != "ib_ven_god_king":
+        if found_provinces != ibben_provinces:
             raise AssertionError(
-                f"Ibben province {province} expected static ib_ven_god_king"
+                "Ibben province history coverage changed: "
+                f"missing={sorted(ibben_provinces - found_provinces)[:10]}"
             )
-        doom_blocks = [
-            child
-            for child in province_document.children(block.ident)
-            if child.key == DOOM_TEXT
-        ]
-        if doom_blocks:
-            existing = province_document.direct_scalars(
-                doom_blocks[0].ident, "religion"
+        self.generated[province_relative] = apply_edits(
+            province_text, province_edits
+        ).encode("utf-8-sig")
+
+        effect_relative = Path(
+            "common/scripted_effects/replace/00_agot_character_data_effects.txt"
+        )
+        self.generated[effect_relative] = transform_effect(
+            read_text(self.effect_source)
+        ).encode("utf-8-sig")
+
+    def write_outputs(self) -> None:
+        self.government_audit.sort(
+            key=lambda row: (
+                parse_date(str(row["date"])) or (0, 0, 0),
+                str(row["holder"]),
+                str(row["title"]),
             )
-            if existing:
-                province_edits.append(
-                    (
-                        existing[-1].start,
-                        existing[-1].end,
-                        "religion = ib_ven_sound",
-                    )
-                )
-            else:
-                province_edits.append(
-                    insert_child_block(
-                        province_text, doom_blocks[0], "religion = ib_ven_sound"
-                    )
-                )
-        else:
-            later_blocks = sorted(
-                (
-                    child
-                    for child in province_document.children(block.ident)
-                    if (date := parse_date(child.key)) and date > DOOM
-                ),
-                key=lambda child: parse_date(child.key),
-            )
-            if later_blocks:
-                province_edits.append(
-                    insert_before_block(
-                        province_text,
-                        later_blocks[0],
-                        f"{DOOM_TEXT} = {{ religion = ib_ven_sound }}",
-                    )
-                )
-            else:
-                province_edits.append(
-                    insert_child_block(
-                        province_text,
-                        block,
-                        f"{DOOM_TEXT} = {{ religion = ib_ven_sound }}",
-                    )
-                )
-        province_audit.append(
-            {
-                "province": province,
-                "empire": "e_ibben",
-                "old_faith": "ib_ven_god_king",
-                "new_faith": "ib_ven_sound",
-                "transition": DOOM_TEXT,
-            }
         )
-    if found_provinces != ibben_provinces:
-        raise AssertionError(
-            "Ibben province history coverage changed: "
-            f"missing={sorted(ibben_provinces - found_provinces)[:10]}"
-        )
-    generated[province_relative] = apply_edits(province_text, province_edits).encode(
-        "utf-8-sig"
-    )
+        audit_outputs = {
+            Path("artifacts/lore_governments/government_audit.csv"): csv_bytes(
+                [
+                    "date",
+                    "holder",
+                    "culture",
+                    "title",
+                    "tier",
+                    "empire",
+                    "source_file",
+                    "old_government",
+                    "new_government",
+                    "rule_type",
+                    "rule_scope",
+                    "confidence",
+                ],
+                self.government_audit,
+            ),
+            Path("artifacts/lore_governments/culture_correction_audit.csv"): csv_bytes(
+                ["character", "source_file", "old_culture", "new_culture", "reason"],
+                self.culture_audit,
+            ),
+            Path("artifacts/lore_governments/ibben_faith_audit.csv"): csv_bytes(
+                [
+                    "character",
+                    "source_file",
+                    "old_faith",
+                    "new_faith",
+                    "transition",
+                    "mode",
+                ],
+                self.faith_audit,
+            ),
+            Path("artifacts/lore_governments/ibben_province_audit.csv"): csv_bytes(
+                ["province", "empire", "old_faith", "new_faith", "transition"],
+                self.province_audit,
+            ),
+        }
+        self.generated.update(audit_outputs)
 
-    effect_relative = Path(
-        "common/scripted_effects/replace/00_agot_character_data_effects.txt"
-    )
-    generated[effect_relative] = transform_effect(
-        normalized_text(effect_source)
-    ).encode("utf-8-sig")
+        if not self.government_audit:
+            raise AssertionError("government audit is empty")
+        if not self.culture_audit:
+            raise AssertionError("Jogos culture correction audit is empty")
+        if not self.faith_audit or not self.province_audit:
+            raise AssertionError("Ibben faith audit is incomplete")
 
-    government_audit.sort(
-        key=lambda row: (
-            parse_date(str(row["date"])) or (0, 0, 0),
-            str(row["holder"]),
-            str(row["title"]),
-        )
-    )
-    audit_outputs = {
-        Path("artifacts/lore_governments/government_audit.csv"): csv_bytes(
-            [
-                "date",
-                "holder",
-                "culture",
-                "title",
-                "tier",
-                "empire",
-                "source_file",
-                "old_government",
-                "new_government",
-                "rule_type",
-                "rule_scope",
-                "confidence",
-            ],
-            government_audit,
-        ),
-        Path("artifacts/lore_governments/culture_correction_audit.csv"): csv_bytes(
-            [
-                "character",
-                "source_file",
-                "old_culture",
-                "new_culture",
-                "reason",
-            ],
-            culture_audit,
-        ),
-        Path("artifacts/lore_governments/ibben_faith_audit.csv"): csv_bytes(
-            [
-                "character",
-                "source_file",
-                "old_faith",
-                "new_faith",
-                "transition",
-                "mode",
-            ],
-            faith_audit,
-        ),
-        Path("artifacts/lore_governments/ibben_province_audit.csv"): csv_bytes(
-            ["province", "empire", "old_faith", "new_faith", "transition"],
-            province_audit,
-        ),
-    }
-    generated.update(audit_outputs)
-
-    if not government_audit:
-        raise AssertionError("government audit is empty")
-    if not culture_audit:
-        raise AssertionError("Jogos culture correction audit is empty")
-    if not faith_audit or not province_audit:
-        raise AssertionError("Ibben faith audit is incomplete")
-
-    selected = audit_outputs if options.audit else generated
-    if options.check:
-        stale: list[str] = []
-        for relative, content in generated.items():
-            path = module / relative
-            if not path.is_file() or path.read_bytes() != content:
-                stale.append(relative.as_posix())
-        if stale:
-            raise AssertionError(f"generated lore-government files are stale: {stale}")
+        for relative, content in self.generated.items():
+            path = self.module / relative
+            path.parent.mkdir(parents=True, exist_ok=True)
+            path.write_bytes(content)
         print(
-            f"Checked {len(generated)} generated files: "
-            f"{len(government_audit)} governments, "
-            f"{len(culture_audit)} culture corrections, "
-            f"{len(faith_audit)} Ibben characters, "
-            f"{len(province_audit)} Ibben provinces"
+            f"Generated {len(self.generated)} files: {len(self.government_audit)} governments, "
+            f"{len(self.culture_audit)} culture corrections, "
+            f"{len(self.faith_audit)} Ibben characters, "
+            f"{len(self.province_audit)} Ibben provinces"
         )
-        return 0
+        return None
 
-    for relative, content in selected.items():
-        path = module / relative
-        path.parent.mkdir(parents=True, exist_ok=True)
-        path.write_bytes(content)
-    action = "Audited" if options.audit else "Generated"
-    print(
-        f"{action} {len(selected)} files: {len(government_audit)} governments, "
-        f"{len(culture_audit)} culture corrections, "
-        f"{len(faith_audit)} Ibben characters, "
-        f"{len(province_audit)} Ibben provinces"
-    )
-    return 0
+
+def main(inputs: RunInputs) -> None:
+    LoreGovernmentPipeline(inputs).run()
 
 
 def generate(context: GenerationContext) -> None:
-    global OUTPUT_ROOT_OVERRIDE, ASSETS_DIR_OVERRIDE, LOCAL_SOURCE_OVERRIDES
-    OUTPUT_ROOT_OVERRIDE = context.output_root
-    ASSETS_DIR_OVERRIDE = context.assets_dir / "lore_governments"
-    LOCAL_SOURCE_OVERRIDES = {
-        "LOV_REBASE": context.source("legacy-of-valyria-rebase"),
-        "EE_REBASE": context.source("essos-expanded-rebase"),
-    }
-    result = main(
-        Options(
+    main(
+        RunInputs(
             root=context.workspace_root,
             workshop_root=context.workshop_root(
                 "agot",
@@ -1565,7 +1560,11 @@ def generate(context: GenerationContext) -> None:
                 "essos-expanded-bridge",
                 "lore-bridge",
             ),
+            output_root=context.output_root,
+            assets_dir=context.assets_dir / "lore_governments",
+            local_sources={
+                "LOV_REBASE": context.source("legacy-of-valyria-rebase"),
+                "EE_REBASE": context.source("essos-expanded-rebase"),
+            },
         )
     )
-    if result not in (None, 0):
-        raise RuntimeError(f"generator returned unsuccessful status {result}")
