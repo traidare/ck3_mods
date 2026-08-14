@@ -87,13 +87,20 @@ Choose the smallest appropriate layer:
 Keep the first three categories separate when practical. Record ownership and
 the re-audit trigger in the affected module README.
 
+A module README documents that module's current state: what it owns, what it
+patches, and when to re-audit. It never narrates a parent's release history or
+what an upstream update changed. Name parent versions only where the module's
+own behavior is pinned to them.
+
 For rebases, identify the common base, compare each parent's delta, and inspect
 every merge conflict. Whole-file speed or automation overrides can accidentally
 restore vanilla logic AGOT disabled; validate unrelated behavior as well as the
 intended change.
 
 For a runtime repair, retain the exact log signature, source location, effective
-last writer, and reason the narrower repair is safe in the module README.
+last writer, and reason the narrower repair is safe in the module README. Quote
+the signature itself; never cite a specific log file, dated run, or playtest
+session.
 
 For map-data merges:
 

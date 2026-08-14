@@ -49,9 +49,9 @@ The generated terrain combines:
   frozen, and farmland exceptions; and
 - water classes from EE's `default.map`.
 
-The older mask classifier remains in the audit as an independent comparison, but
-its low spatial holdout score no longer determines final terrain.
-Graphical-style generation is unchanged.
+The mask classifier remains in the audit as an independent comparison only; its
+spatial holdout score is too low to determine final terrain. Graphical-style
+generation does not use it.
 
 ```sh
 ck3mm mod generate agot_now_lov_ee_world_data

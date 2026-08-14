@@ -10,15 +10,14 @@ Compatibility patch for:
 
 The compatch uses Armies of Westeros' culture-tradition definitions as its
 baseline and reapplies Mayham's 48 balance changes across the 44 affected
-traditions. It also carries forward current AGOT's updated Stormlands, Frozen
-Shoremen, Harbormen, Stoneborn, and Wolfswood Clansmen traditions, which Armies
-of Westeros still defines using older AGOT values. Mayham now matches current
-AGOT on the first three and applies separate Stoneborn and Wolfswood balance
-deltas. This preserves Armies of Westeros' MAA unlocks, parameters, costs, and
-AI behavior while retaining Mayham's intended opinion values and AGOT's current
-cultural-tradition bonuses.
+traditions. It also carries current AGOT's Stormlands, Frozen Shoremen,
+Harbormen, Stoneborn, and Wolfswood Clansmen traditions, which Armies of
+Westeros defines with divergent values; Mayham's own Stoneborn and Wolfswood
+deltas apply on top of them. This preserves Armies of Westeros' MAA unlocks,
+parameters, costs, and AI behavior while retaining Mayham's intended opinion
+values and AGOT's current cultural-tradition bonuses.
 
-Armies of Westeros also ships one bare `reveler_traits_more_valued` token in the
+Armies of Westeros ships one bare `reveler_traits_more_valued` token in the
 Arbor tradition. CK3 treats it as malformed parameter syntax during load. The
 generated same-path rebase preserves the complete AoW file and adds only the
 missing `= yes`; the later merged definitions still own the intentional

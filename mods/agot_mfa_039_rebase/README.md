@@ -7,14 +7,13 @@ Pinned compatibility layer for:
 3. This rebase
 
 The Workshop mod has 27 whole-file overrides of AGOT activity, event, and GUI
-files. The generated rebase was revalidated unchanged against AGOT 0.4.40, so
-the verified MFA 1.1.1 timing, pulse relay, cooldown, wait-time, and
-activity-window behavior is retained. One unrelated generated override was
-corrected: MFA had restored vanilla's `tradition_land_of_the_bow` tournament
-block even though AGOT removes that tradition; the rebase keeps AGOT's block
-disabled. Its delayed playdate relay now also verifies that the activity scope
-still exists before checking its phase, because a playdate can end before the
-delayed relay executes.
+files. The rebase is validated against AGOT 0.4.40 and retains MFA 1.1.1's
+verified timing, pulse relay, cooldown, wait-time, and activity-window behavior.
+MFA restores vanilla's `tradition_land_of_the_bow` tournament block even though
+AGOT removes that tradition; the rebase keeps AGOT's block disabled. Its delayed
+playdate relay also verifies that the activity scope still exists before
+checking its phase, because a playdate can end before the delayed relay
+executes.
 
 MFA's delayed relays retain `scope:activity`, but do not inherit the
 engine-supplied `scope:province` from the pulses they replace. Across 28
@@ -26,11 +25,11 @@ playdates, tours, tournaments, weddings, and witch rituals.
 
 The hunt relay also ran from a character root while six event-selection checks
 dereferenced `root.activity_host`, which requires an activity. Its success
-weight likewise read an activity script value from that character root. Both now
-use the relay's preserved `scope:activity`; its province-owner check also
-compares participation against that activity instead of the character root. This
-removes the repeated `activity_host` type mismatch and the null
-relationship/opinion targets that followed it in the 2026-07-31 crash logs.
+weight likewise read an activity script value from that character root. Both use
+the relay's preserved `scope:activity`; its province-owner check also compares
+participation against that activity instead of the character root. This removes
+the repeated `activity_host` type mismatch and the null relationship/opinion
+targets that follow it.
 
 Five of those event-selection lists used 19 fractional top-level weights. CK3
 1.19 treats fractional random-list weights as zero, silently disabling the

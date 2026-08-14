@@ -7,10 +7,10 @@ Load this mod immediately after the Grand Remembrance AGOT compatibility submod.
 
 ## Repair
 
-The chronicle window exists before a playable character does. Its original
-`visible` expression always constructed `GetPlayer.MakeScope`, so the `is_shown`
-trigger was sometimes invoked with an invalid character root and emitted an
-untyped `(no character)` error on every GUI refresh. Wrapping the call in
+The chronicle window exists before a playable character does. The parent's
+`visible` expression always constructs `GetPlayer.MakeScope`, so the `is_shown`
+trigger can be invoked with an invalid character root and emit an untyped
+`(no character)` error on every GUI refresh. Wrapping the call in
 `And(GetPlayer.IsValid, ...)` did not help because GUI data-function arguments
 are evaluated eagerly.
 

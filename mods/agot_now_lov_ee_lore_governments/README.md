@@ -23,7 +23,7 @@ The effective character-title dispatcher starts with
 `Essos Expanded - TempLoV/NOW Compatch`, the final Workshop compatch in the
 required chain. This module transforms that dispatcher in place: it preserves
 its AGOT mapping semantics, adds the two lore government fallbacks through
-AGOT's feudal path, and does not recreate the old map-compatch government lists.
+AGOT's feudal path, and carries no government lists of its own.
 
 This module does not own landed-title structure, map data, terrain, holdings,
 holder succession, names, dynasties, or unrelated faith history.
@@ -51,8 +51,8 @@ gameplay interpretations. In summary:
 Ibben deliberately changes at the Doom on `7899.8.14`. Earlier rulers and
 provinces retain `ib_ven_god_king`, with the island represented as a feudal
 God-King realm. From the Doom onward, rulers and provinces use `ib_ven_sound`,
-while the realm uses oligarchic government to represent the Shadow Council. This
-is why a later-bookmark God-King configuration was not retained: the God-Kings
+while the realm uses oligarchic government to represent the Shadow Council. A
+later-bookmark God-King configuration is deliberately not used: the God-Kings
 ended with the Doom, whereas the Sound/Shadow Council branch describes post-Doom
 Ibben.
 

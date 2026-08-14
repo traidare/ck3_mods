@@ -8,8 +8,8 @@ Load immediately after VIET.
 ## What it repairs
 
 VIET targets the vanilla CK3 culture, faith, religion, title, and geographical
-region databases. AGOT replaces those databases. In the 258 A.C. full-playset
-run, VIET consequently generated the largest group in the 28 MB error log:
+region databases. AGOT replaces those databases, so the following VIET content
+is invalid under AGOT:
 
 - 151 event definitions contained references that are invalid under AGOT;
 - 43 of those events were repeatedly evaluated by VIET pulse on-actions;

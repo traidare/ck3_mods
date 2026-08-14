@@ -21,10 +21,10 @@ Load immediately after Bloodlines.
 - re-encodes ten invalid block-compressed DDS files without resizing their
   artwork.
 
-The current full-playset log directly reproduced the malformed Riverlands event:
-events `.0009` through `.0015` did not load, while the yearly pulse continued to
-call them. It also reproduced the stale title, hook, trait, template, modifier,
-decision-field, and opinion-duration failures addressed here.
+In the malformed Riverlands event, events `.0009` through `.0015` do not load
+while the yearly pulse continues to call them. The stale title, hook, trait,
+template, modifier, decision-field, and opinion-duration failures are addressed
+above.
 
 ## Regeneration
 

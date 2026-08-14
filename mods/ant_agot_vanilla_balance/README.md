@@ -17,7 +17,7 @@ buildings adopt the patched values after loading the save.
 
 The fantasy traditions are not rebalanced. Shared common buildings used by the
 Vanilla ruleset are rebalanced globally, and AI construction is enabled for both
-variants of ANT's previously player-only duchy buildings.
+variants of ANT's player-only duchy buildings.
 
 ## Regeneration
 

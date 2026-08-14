@@ -21,8 +21,8 @@ selected for rulers.
 AGOT and later playset mods replace several vanilla men-at-arms files by
 filename. CaFG's cultural-boon tables still instantiated its generic regiment
 refill effect for 35 unit types removed from the resulting database. CK3
-post-validated each parameterized instance three times, producing the 105
-`is_maa_type` database failures in the 258 A.C. playtest.
+post-validates each parameterized instance three times, producing 105
+`is_maa_type` database failures.
 
 The two generated scripted-effect overrides remove only weighted branches whose
 unit type does not exist. Eighteen valid AGOT/playset unit gifts remain
@@ -55,8 +55,8 @@ pillar that do not exist in AGOT's replaced culture database. The generated
 script-value override removes those four invalid alternatives while preserving
 the remaining isolationist, fierce-independence, ruling-caste,
 cultivated-sophistication, communal, tolerant-law, and xenophilic modifiers.
-This repairs the null `has_cultural_tradition` targets recorded at lines 78, 80,
-and 110 of the parent file in the 2026-07-31 crash logs.
+This repairs the null `has_cultural_tradition` targets at lines 78, 80, and 110
+of the parent file.
 
 ## Disabled vanilla-only decisions
 
@@ -69,10 +69,9 @@ valid counterpart in AGOT:
   cultures, titles, and Middle Eastern geographical regions.
 
 Because decision `is_shown` blocks are evaluated repeatedly, these otherwise
-unreachable definitions generated roughly 13,500 invalid database-scope script
-locations during the 258 A.C. playtest. Exact-path, intentionally empty
-overrides prevent CaFG's two definitions from loading without changing any
-AGOT-native decision.
+unreachable definitions generate roughly 13,500 invalid database-scope script
+locations. Exact-path, intentionally empty overrides prevent CaFG's two
+definitions from loading without changing any AGOT-native decision.
 
 CaFG also reintroduces three files of vanilla-only definitions that AGOT
 explicitly disables: the Zanj rebellion casus belli, seven vanilla regional

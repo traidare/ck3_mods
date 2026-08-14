@@ -35,7 +35,7 @@ appearance, traits, travel-plan handling, and all other behavior.
 
 AGOT+ also assigns perks to historical characters without first checking whether
 they are alive at the selected bookmark. CK3 1.19 rejects `add_perk` on dead
-characters; the 258 A.C. test emitted 422 such runtime errors.
+characters, so every such assignment is a runtime error at game start.
 
 This rebase gates each AGOT+ perk assignment with `is_alive = yes`. Living
 characters receive exactly the same perks, while dead or not-yet-alive

@@ -40,18 +40,18 @@ the effective last writer in this playset.
   deletes a stray backtick that made the rest of Aegon V's DNA block fail to
   parse. Removed crown, clothing, and jewelry templates are mapped to current
   AGOT categories, and a malformed Mace Tyrell height value is repaired. The
-  effective Viserys bookmark was among the broken portrait files in the retry
-  that displayed clothing and hair without a proper character body.
+  effective Viserys bookmark is among the broken portrait files, which display
+  clothing and hair without a proper character body.
 - **Faster Transitions:** rebases its event-transition types onto CK3 1.19 by
   restoring the current fullscreen and compact pivotal-event effect layers and
   the event-transition widget's input-handling property. The Workshop copy is
-  still based on the pre-1.19 widget definitions; the 2026-07-31 19:40 retry
-  ended in a GUI-thread SIGSEGV while an empty window was visible.
+  based on the pre-1.19 widget definitions, which end in a GUI-thread SIGSEGV
+  while an empty window is visible.
 - **Upgrade House Banners 3:** restores the already-localized close option to
   its visible house-banner rarity event. CK3 reported the event as having no
   options, allowing it to open as an empty blocking popup.
-- **Additional Models / AGOT+ / LoV:** the rebuilt compatch owns its LoV-aware
-  artifact setup.
+- **Additional Models / AGOT+ / LoV:** the Workshop compatch owns its LoV-aware
+  artifact setup; this module does not repair it.
 - **A Landed Knights Mod:** replaces the nonexistent `is_army_owner` trigger and
   makes the father comparison safe for fatherless knights.
 - **Expanded Court Position:** replaces obsolete `grumpy`, `depressed`, and
@@ -67,7 +67,7 @@ the effective last writer in this playset.
   copied AGOT downtime event also displays the knight scope it actually saves,
   rather than an unavailable `second_squire`.
 - **AGOT: The Knighting Ceremony:** removes the obsolete `is_triggered_only`
-  field from its hidden relay event; CK3 1.19 event files no longer accept that
+  field from its hidden relay event; CK3 1.19 event files do not accept that
   field.
 - **AGOT: House Founders:** uses optional `top_liege` and `primary_title` scopes
   when checking whether a reveal-bastard story can start. This prevents unlanded
@@ -140,8 +140,8 @@ the effective last writer in this playset.
   created title has no previous holder.
 - **Artifact feature patterns:** evaluates the owner-faith restrictions on 12
   AGOT decorative-pattern triggers only after an artifact owner exists. Artifact
-  generation can query these before assigning an owner; the prior unconditional
-  scope switch emitted repeated failures.
+  generation can query these before assigning an owner, where an unconditional
+  scope switch fails repeatedly.
 - **Startup banners:** falls back to AGOT's existing location-less
   created-banner path when a royal-court owner has no capital province, while
   still creating and granting the house or dynasty banner.

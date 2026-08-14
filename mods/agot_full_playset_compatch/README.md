@@ -67,9 +67,8 @@ Seasons fork uses: `replace/` is a plain subfolder there with no engine meaning,
 so a copy inside it would load _alongside_ the fork's file and define every
 shared region twice. The per-mod `workspace/agot_full_playset_compatch/mod.toml`
 generator regenerates those outputs from the declared NOW and Seasons-fork
-sources. Its portable source metadata now lives under
-`workspace/agot_full_playset_compatch/` instead of the installed runtime
-payload.
+sources. Its portable source metadata lives under
+`workspace/agot_full_playset_compatch/`, outside the installed runtime payload.
 
 ```sh
 ck3mm mod generate agot_full_playset_compatch

@@ -31,10 +31,10 @@ local MPD + Dragon Wives GUI compatch.
   normal (level-50) opinion values at trait scope. Other valid modifiers keep
   MPD's intended track scaling. The generated whole-file override also copies
   AGOT's six compatibility reader variables so it is self-contained.
-- Keeps the threshold-safe cumulative counter helpers previously housed in the
-  Dragon Wives compatch. These are MPD-only runtime repairs: missed thresholds
-  catch up on the next qualifying action, the highest earned level is applied
-  first, and all XP operations select the trait's shorthand track.
+- Owns the threshold-safe cumulative counter helpers. These are MPD-only runtime
+  repairs: missed thresholds catch up on the next qualifying action, the highest
+  earned level is applied first, and all XP operations select the trait's
+  shorthand track.
 - Replaces **Immersive Personalities**' same-path `paranoid` override
   (`3596393244`) with an empty compatibility file. This leaves MPD's earlier
   definition as the sole source of the shorthand `paranoid` track. Re-declaring
