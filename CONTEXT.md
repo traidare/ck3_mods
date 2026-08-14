@@ -61,6 +61,10 @@ ck3mm conflicts AGOT --involving 3206891770
 ck3mm conflicts AGOT --involving mod/cafg_agot_compatch.mod
 ```
 
+`--involving` also accepts an installed mod the playset does not enable. It is
+analyzed as if added last in load order, so a candidate addition can be checked
+before it joins the playset.
+
 Use `--include-prefix`, `--exclude-prefix`, and `--format json` to reduce a
 report. Schema-v2 JSON is deterministic and excludes host filesystem paths; it
 records same-path and `replace_path` conflicts, content status, and the

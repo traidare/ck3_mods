@@ -145,6 +145,11 @@ func modAliases(mod report.ModRecord) map[string]bool {
 	return aliases
 }
 
+// Selects reports whether a mod answers to a public --involving selector.
+func Selects(mod report.ModRecord, selector string) bool {
+	return selector != "" && modAliases(mod)[selector]
+}
+
 // resolveInvolvingIDs maps a selector onto the stable IDs it names. An
 // unresolvable selector is an error: reporting zero conflicts would be
 // indistinguishable from a genuinely clean playset.

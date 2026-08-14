@@ -170,6 +170,76 @@ func localProvider(mod playset.Mod, paradoxDir string) (conflicts.Provider, erro
 		mergeReplacePaths(launcherDescriptor, payloadDescriptor))
 }
 
+// NextPosition is the load position after every resolved provider, which is
+// where the Launcher appends a newly enabled mod.
+func NextPosition(providers []conflicts.Provider) int {
+	next := 0
+	for _, provider := range providers {
+		if provider.Position >= next {
+			next = provider.Position + 1
+		}
+	}
+	return next
+}
+
+// digitsOnly reports whether a selector is a bare Workshop ID.
+func digitsOnly(value string) bool {
+	if value == "" {
+		return false
+	}
+	return strings.IndexFunc(value, func(char rune) bool { return char < '0' || char > '9' }) < 0
+}
+
+// externalMod builds a playset entry from any selector --involving accepts, so
+// a mod the playset never listed can be resolved the same way an enabled one is.
+func externalMod(selector string, position int) playset.Mod {
+	registry := strings.TrimPrefix(selector, "local:")
+	if steamID := strings.TrimPrefix(selector, "steam:"); digitsOnly(steamID) {
+		registry = "mod/ugc_" + steamID + ".mod"
+	}
+	if !strings.Contains(registry, "/") {
+		registry = "mod/" + registry
+	}
+	if !strings.HasSuffix(registry, ".mod") {
+		registry += ".mod"
+	}
+	return playset.Mod{
+		DisplayName:    selector,
+		Enabled:        true,
+		Position:       position,
+		GameRegistryID: registry,
+		// The Launcher names subscribed registry entries after the Workshop ID,
+		// so the mod stays addressable by that ID in the report.
+		SteamID: strings.TrimPrefix(strings.TrimSuffix(path.Base(registry), ".mod"), "ugc_"),
+	}
+}
+
+// ErrNotInstalled reports that nothing on disk matches a selector, as opposed
+// to a mod that is installed but cannot be read.
+var ErrNotInstalled = errors.New("no installed mod matches this selector")
+
+// ResolveExternal resolves an installed mod the playset does not enable, so a
+// report can answer what adding it would conflict with. It is placed last,
+// where the Launcher appends newly enabled content.
+func ResolveExternal(selector, workshopDir, paradoxDir string, position int) (conflicts.Provider, error) {
+	mod := externalMod(selector, position)
+	if !digitsOnly(mod.SteamID) {
+		mod.SteamID = ""
+	}
+	registryPath, err := SafeRegistryPath(paradoxDir, mod.GameRegistryID)
+	if err != nil {
+		return conflicts.Provider{}, err
+	}
+	if fsutil.IsFile(registryPath) {
+		return localProvider(mod, paradoxDir)
+	}
+	// A subscribed mod the Launcher never registered still has a payload.
+	if mod.SteamID != "" && fsutil.IsDir(filepath.Join(fsutil.MustAbs(workshopDir), mod.SteamID)) {
+		return workshopProvider(mod, workshopDir)
+	}
+	return conflicts.Provider{}, ErrNotInstalled
+}
+
 // Discover resolves a playset's enabled entries into ordered provider roots.
 func Discover(source playset.Playset, workshopDir, paradoxDir string) Discovery {
 	var providers []conflicts.Provider

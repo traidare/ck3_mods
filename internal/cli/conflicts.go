@@ -1,6 +1,7 @@
 package cli
 
 import (
+	"errors"
 	"fmt"
 	"sort"
 
@@ -19,6 +20,28 @@ func conflictsCommand() *Command {
 		Usage:   "ck3mm conflicts [playset] [--involving ID] [--summary-only]",
 		Run:     runConflicts,
 	}
+}
+
+// withExternalMod appends the mod a selector names when the playset does not
+// enable it, so `--involving` can preview a candidate addition. A selector that
+// resolves to nothing is left to the filter, which reports it with suggestions;
+// its resolution failure is returned for that message.
+func withExternalMod(discovery layers.Discovery, involving, workshopDir, paradoxDir string) ([]conflicts.Provider, []report.Warning, error) {
+	if involving == "" {
+		return discovery.Providers, discovery.Warnings, nil
+	}
+	for _, provider := range discovery.Providers {
+		if conflicts.Selects(provider.ToRecord(), involving) {
+			return discovery.Providers, discovery.Warnings, nil
+		}
+	}
+
+	external, err := layers.ResolveExternal(involving, workshopDir, paradoxDir,
+		layers.NextPosition(discovery.Providers))
+	if err != nil {
+		return discovery.Providers, discovery.Warnings, err
+	}
+	return append(append([]conflicts.Provider{}, discovery.Providers...), external), discovery.Warnings, nil
 }
 
 func runConflicts(env *Env) (int, error) {
@@ -62,7 +85,10 @@ func runConflicts(env *Env) (int, error) {
 	}
 
 	discovery := layers.Discover(source, env.Config.WorkshopDir, env.Config.ParadoxDir)
-	analysis, err := conflicts.Analyze(discovery.Providers, &discovery.Playset, discovery.Warnings, *allFiles)
+	providers, warnings, externalErr := withExternalMod(discovery, *involving,
+		env.Config.WorkshopDir, env.Config.ParadoxDir)
+
+	analysis, err := conflicts.Analyze(providers, &discovery.Playset, warnings, *allFiles)
 	if err != nil {
 		return 1, err
 	}
@@ -75,12 +101,16 @@ func runConflicts(env *Env) (int, error) {
 	})
 	if err != nil {
 		// Every filter error is bad input: an unknown selector or an
-		// unusable prefix.
+		// unusable prefix. A selector naming a mod that is installed but
+		// unusable needs the reason; one that matches nothing does not.
+		if externalErr != nil && !errors.Is(externalErr, layers.ErrNotInstalled) {
+			return 2, fmt.Errorf("%w; its installed copy could not be read: %v", err, externalErr)
+		}
 		return 2, err
 	}
 
 	resolvedRoots := map[string]string{}
-	for _, provider := range discovery.Providers {
+	for _, provider := range providers {
 		resolvedRoots[provider.StableID] = provider.Root
 	}
 
