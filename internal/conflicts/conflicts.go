@@ -28,6 +28,7 @@ var conflictKindOrder = []string{"same_path", "replace_path_shadow"}
 // Provider is a resolved mod root at one position in effective load order.
 type Provider struct {
 	StableID     string
+	SteamID      string
 	Name         string
 	Root         string
 	Position     int
@@ -36,7 +37,8 @@ type Provider struct {
 }
 
 // NewProvider validates and normalizes a provider's declared replace paths.
-func NewProvider(stableID, name, root string, position int, source string, replacePaths []string) (Provider, error) {
+// steamID is optional: it is the Workshop ID the playset recorded, if any.
+func NewProvider(stableID, steamID, name, root string, position int, source string, replacePaths []string) (Provider, error) {
 	if strings.TrimSpace(stableID) == "" {
 		return Provider{}, fmt.Errorf("stable_id must not be empty")
 	}
@@ -66,6 +68,7 @@ func NewProvider(stableID, name, root string, position int, source string, repla
 
 	return Provider{
 		StableID:     stableID,
+		SteamID:      steamID,
 		Name:         name,
 		Root:         root,
 		Position:     position,
@@ -78,6 +81,7 @@ func NewProvider(stableID, name, root string, position int, source string, repla
 func (p Provider) ToRecord() report.ModRecord {
 	return report.ModRecord{
 		StableID:     p.StableID,
+		SteamID:      p.SteamID,
 		Name:         p.Name,
 		Position:     p.Position,
 		Source:       p.Source,

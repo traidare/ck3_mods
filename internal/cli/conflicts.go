@@ -74,7 +74,9 @@ func runConflicts(env *Env) (int, error) {
 		SummaryOnly:     *summaryOnly,
 	})
 	if err != nil {
-		return 1, err
+		// Every filter error is bad input: an unknown selector or an
+		// unusable prefix.
+		return 2, err
 	}
 
 	resolvedRoots := map[string]string{}

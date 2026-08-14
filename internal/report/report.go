@@ -1,7 +1,5 @@
 // Package report holds the deterministic, portable conflict report model.
-//
-// Nothing here records a timestamp or a host filesystem path, so a report is
-// comparable across machines and reviewable in a diff.
+
 package report
 
 import (
@@ -43,6 +41,7 @@ func (p PlaysetRecord) ToMap() map[string]any {
 // ModRecord is public mod metadata; it deliberately excludes the mod's root.
 type ModRecord struct {
 	StableID     string
+	SteamID      string
 	Name         string
 	Position     int
 	Source       string
@@ -55,6 +54,9 @@ func (m ModRecord) ToMap() map[string]any {
 		"id":       m.StableID,
 		"name":     m.Name,
 		"position": m.Position,
+	}
+	if m.SteamID != "" {
+		result["steamId"] = m.SteamID
 	}
 	if m.Source != "" {
 		result["source"] = m.Source

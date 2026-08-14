@@ -128,7 +128,7 @@ func workshopProvider(mod playset.Mod, workshopDir string) (conflicts.Provider, 
 		}
 		name = declared
 	}
-	return conflicts.NewProvider(mod.StableID(), name, root, mod.Position, "steam",
+	return conflicts.NewProvider(mod.StableID(), mod.SteamID, name, root, mod.Position, "steam",
 		mergeReplacePaths(descriptor))
 }
 
@@ -166,7 +166,7 @@ func localProvider(mod playset.Mod, paradoxDir string) (conflicts.Provider, erro
 		}
 		name = declared
 	}
-	return conflicts.NewProvider(mod.StableID(), name, root, mod.Position, "local",
+	return conflicts.NewProvider(mod.StableID(), mod.SteamID, name, root, mod.Position, "local",
 		mergeReplacePaths(launcherDescriptor, payloadDescriptor))
 }
 

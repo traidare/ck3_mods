@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"path"
 	"sort"
+	"strconv"
 	"strings"
 
 	"codeberg.org/traidare/ck3_mods/internal/report"
@@ -44,7 +45,10 @@ func Apply(source report.Report, filter Filter) (report.Report, error) {
 	if err != nil {
 		return report.Report{}, err
 	}
-	involvingIDs := resolveInvolvingIDs(source, filter.Involving)
+	involvingIDs, err := resolveInvolvingIDs(source, filter.Involving)
+	if err != nil {
+		return report.Report{}, err
+	}
 
 	var entries []report.FileEntry
 	for _, entry := range source.Files {
@@ -118,35 +122,81 @@ func matchesPrefixes(candidate string, included, excluded []string) bool {
 	return false
 }
 
-// resolveInvolvingIDs accepts any of a mod's public aliases: its stable ID, its
-// display name, the bare identity value, and for local mods the registry file
-// name with or without its .mod suffix.
-func resolveInvolvingIDs(source report.Report, involving string) map[string]bool {
+// modAliases lists the public selectors a mod answers to: its stable ID, its
+// display name, the bare identity value, its Workshop ID, and for local mods
+// the registry file name with or without its .mod suffix.
+func modAliases(mod report.ModRecord) map[string]bool {
+	identityType, identityValue, hasSeparator := strings.Cut(mod.StableID, ":")
+	aliases := map[string]bool{mod.StableID: true, mod.Name: true}
+	if hasSeparator {
+		aliases[identityValue] = true
+	}
+	if identityType == "local" {
+		registryName := path.Base(identityValue)
+		aliases[registryName] = true
+		aliases[strings.TrimSuffix(registryName, ".mod")] = true
+	}
+	if mod.SteamID != "" {
+		// Subscribed mods are identified by their local registry entry, so the
+		// Workshop ID is not derivable from the stable ID.
+		aliases[mod.SteamID] = true
+		aliases["steam:"+mod.SteamID] = true
+	}
+	return aliases
+}
+
+// resolveInvolvingIDs maps a selector onto the stable IDs it names. An
+// unresolvable selector is an error: reporting zero conflicts would be
+// indistinguishable from a genuinely clean playset.
+func resolveInvolvingIDs(source report.Report, involving string) (map[string]bool, error) {
 	if involving == "" {
-		return nil
+		return nil, nil
 	}
 	matches := map[string]bool{}
 	for _, mod := range source.Mods {
-		identityType, identityValue, hasSeparator := strings.Cut(mod.StableID, ":")
-		aliases := map[string]bool{mod.StableID: true, mod.Name: true}
-		if hasSeparator {
-			aliases[identityValue] = true
-		}
-		if identityType == "local" {
-			registryName := path.Base(identityValue)
-			aliases[registryName] = true
-			aliases[strings.TrimSuffix(registryName, ".mod")] = true
-		}
-		if aliases[involving] {
+		if modAliases(mod)[involving] {
 			matches[mod.StableID] = true
 		}
 	}
 	if len(matches) == 0 {
-		// An unknown selector filters everything out rather than silently
-		// reporting the whole playset.
-		return map[string]bool{involving: true}
+		return nil, unknownSelectorError(source, involving)
 	}
-	return matches
+	return matches, nil
+}
+
+// suggestionLimit caps how many near matches an unknown selector reports.
+const suggestionLimit = 5
+
+func unknownSelectorError(source report.Report, involving string) error {
+	message := fmt.Sprintf("unknown mod selector %q; expected a stable ID, Workshop ID, or display name from the playset", involving)
+	suggestions := nearMatches(source, involving)
+	if len(suggestions) == 0 {
+		return fmt.Errorf("%s", message)
+	}
+	return fmt.Errorf("%s; did you mean %s?", message, strings.Join(suggestions, ", "))
+}
+
+// nearMatches collects the aliases that contain the selector, so a typo or a
+// partial name points at the mods it was probably meant to name.
+func nearMatches(source report.Report, involving string) []string {
+	needle := strings.ToLower(involving)
+	unique := map[string]bool{}
+	for _, mod := range source.Mods {
+		for alias := range modAliases(mod) {
+			if alias != "" && strings.Contains(strings.ToLower(alias), needle) {
+				unique[alias] = true
+			}
+		}
+	}
+	suggestions := make([]string, 0, len(unique))
+	for alias := range unique {
+		suggestions = append(suggestions, strconv.Quote(alias))
+	}
+	sort.Strings(suggestions)
+	if len(suggestions) > suggestionLimit {
+		suggestions = suggestions[:suggestionLimit]
+	}
+	return suggestions
 }
 
 func entryInvolves(entry report.FileEntry, involvingIDs map[string]bool) bool {
