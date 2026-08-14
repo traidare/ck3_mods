@@ -3,6 +3,7 @@
 package report
 
 import (
+	"path"
 	"strconv"
 	"strings"
 )
@@ -343,6 +344,8 @@ func RenderText(source Report) string {
 		}
 	}
 	if len(source.Files) > 0 {
+		labels := modLabels(source.Mods)
+		width := positionWidth(source.Mods)
 		lines = append(lines, "", "Files")
 		for _, entry := range source.Files {
 			kinds := strings.Join(entry.ConflictKinds, ", ")
@@ -351,11 +354,58 @@ func RenderText(source Report) string {
 			}
 			lines = append(lines, "  "+entry.Path+" ["+kinds+"] -> "+entry.EffectiveState)
 			for _, provider := range entry.Providers {
-				lines = append(lines, "    "+provider.ModID+" ["+itoa(provider.Position)+"]")
+				label := labels[provider.ModID]
+				if label == "" {
+					label = provider.ModID
+				}
+				lines = append(lines, "    ["+pad(provider.Position, width)+"] "+label)
 			}
 		}
 	}
 	return strings.Join(lines, "\n") + "\n"
+}
+
+// modLabels renders each mod as "name (selector)". The selector is the shortest
+// string --involving accepts for that mod: its Workshop ID, or for local-only
+// mods its registry name.
+func modLabels(mods []ModRecord) map[string]string {
+	labels := make(map[string]string, len(mods))
+	for _, mod := range mods {
+		selector := mod.SteamID
+		if selector == "" {
+			_, identity, _ := strings.Cut(mod.StableID, ":")
+			selector = strings.TrimSuffix(path.Base(identity), ".mod")
+		}
+		switch {
+		case mod.Name == "":
+			labels[mod.StableID] = selector
+		case selector == "":
+			labels[mod.StableID] = mod.Name
+		default:
+			labels[mod.StableID] = mod.Name + " (" + selector + ")"
+		}
+	}
+	return labels
+}
+
+// positionWidth measures the widest load position so the column stays aligned.
+func positionWidth(mods []ModRecord) int {
+	width := 1
+	for _, mod := range mods {
+		if digits := len(itoa(mod.Position)); digits > width {
+			width = digits
+		}
+	}
+	return width
+}
+
+// pad right-aligns a load position within the measured column.
+func pad(value, width int) string {
+	text := itoa(value)
+	if len(text) >= width {
+		return text
+	}
+	return strings.Repeat(" ", width-len(text)) + text
 }
 
 func toAny(values []string) []any {
