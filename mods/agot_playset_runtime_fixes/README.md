@@ -3,26 +3,6 @@
 Narrow generated repairs for executable-script failures observed in the current
 AGOT `0.4.40` playset on CK3 `1.19`.
 
-Load this module after **A Game of Thrones**, **AGOT More Dragon Eggs**,
-**Immersive Personalities**, **Battle Graphics AGOT Compatibility Patch**,
-**AGOT : Seasons of Ice and Fire**, **Mari's AGOT Makeovers**, **Faster
-Transitions**, **AGOT Additional Models and Special Buildings**, **A Landed
-Knights Mod**, **Expanded Court Position - Search and Recruit**, **[LOT]
-Legitimacy Over Time**, **The Red Keep (Hegemony Updates)**, **Automated Squire
-Training - AGOT Micro Mod**, **AGOT: The Knighting Ceremony**, **AGOT: House
-Founders**, **Succession Crisis**, **Any New Traditions**, **More Interactive
-Vassals**, **AGOT Great Councils**, **AGOT - Suggest Dragon Bonding**,
-**Adventurer's Beneficiary**, **AGOT: All Men Must Serve**, and **Deadly ck3
-AGOT**, **Better AI Education & Ward Limit BOL**, and **Character UI Overhaul**.
-Keep it after **Any New Traditions Compatibility AGOT** and **TEMPORARY AGOT
-Additional Models / AGOT+ / LoV Compatch (1.19 Fixed)** as well. It must also
-load after **Artifact Manager**, **Advanced Character Search**, and **Upgrade
-House Banners 3**, and before the final **AGOT Personal Playset Compatch**. For
-the Essos Expanded repair, it must also load after **Essos Expanded** and
-**Essos Expanded - TempLoV Compatch**. The wilderness conversion also requires
-**Legacy of Valyria - AGOT Temporary Compatch**, whose colonization effect is
-the effective last writer in this playset.
-
 ## Repairs
 
 - **Voluntary become-adventurer decision:** AGOT owns the decision and More

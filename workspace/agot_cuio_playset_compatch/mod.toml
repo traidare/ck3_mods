@@ -1,0 +1,48 @@
+[generator]
+entrypoint = "implementation.py:generate"
+owned_outputs = ["gfx", "gui"]
+
+[[sources]]
+name = "game"
+kind = "game"
+path = "game"
+
+[[sources]]
+name = "cuio"
+kind = "workshop"
+item_id = "2519175282"
+
+[[sources]]
+name = "agot"
+kind = "workshop"
+item_id = "2962333032"
+
+[[sources]]
+name = "better-barbershop"
+kind = "workshop"
+item_id = "2220326926"
+
+[[sources]]
+name = "more-interactive-vassals"
+kind = "workshop"
+item_id = "2712590542"
+
+[[sources]]
+name = "artifact-manager"
+kind = "workshop"
+item_id = "2886417277"
+
+[[sources]]
+name = "dragon-wives"
+kind = "workshop"
+item_id = "3541596590"
+
+[[sources]]
+name = "more-personality-depth"
+kind = "workshop"
+item_id = "3717990443"
+
+[[sources]]
+name = "mpd-dragon-wives-compatch"
+kind = "mod"
+mod = "agot_mpd_dragon_wives_compatch"

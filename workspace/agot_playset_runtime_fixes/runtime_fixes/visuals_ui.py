@@ -551,7 +551,7 @@ def generate_character_ui_overhaul_hometowns(inputs: RunInputs) -> None:
     historical_event = assert_source_block_hash(
         source,
         "hometowns.01",
-        "1dc0baf98dc96f5b20760258584af0c5c60555e6a62c04d8e59e76094eb9ccd6",
+        "b07a269826a56db66be54930868da4290d6e186b74546650325527cfe769ade0",
         label="CUIO historical hometown assignments",
     )
     inert_event = """hometowns.01 = {
