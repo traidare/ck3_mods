@@ -602,7 +602,7 @@ agot_on_title_gain = {
 				is_alive = yes
 				government_has_flag = government_is_pirate_trigger_check
 				scope:title = {
-					tier >= tier_duchy
+					tier >= tier_county
 					can_title_have_law_general_trigger = yes
 					NOT = { has_title_law = pirate_succession_law }
 				}

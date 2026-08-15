@@ -1,38 +1,32 @@
 # Legacy of Valyria RC71 - CK3 1.19 Runtime Rebase
 
-Narrow runtime repair for **Legacy of Valyria - AGOT 0.4.39 Temporary Compatch
-RC71** (`3719888822`) against the current AGOT 0.4.40 source.
+Generated startup-script rebase for **Legacy of Valyria - AGOT Temporary
+Compatch RC71** (`3719888822`) on the current AGOT source. Load it immediately
+after that compatch and before Essos Expanded.
 
-Load immediately after the RC71 compatch and before Essos Expanded.
+## Ownership
 
-## Pirate succession repair
+This module owns only `common/on_action/agot_on_actions/agot_game_start.txt`.
+Pirate succession laws and title history remain owned by the LoV compatch and
+later playset integration layers.
 
-RC71 changes AGOT's `pirate_succession_law` eligibility from duchy-or-higher to
-county-or-higher and assigns the elective law to 34 LoV county titles. A
-county-only pirate can have no eligible election candidate, which makes CK3
-repeatedly report:
+The generated file starts from AGOT's complete startup script and reapplies the
+LoV dummy-ruler rehome hook, Mantaryan traits, estate innovation and slot
+guards, and the 39 LoV estate dynasties. It retains AGOT's Narrow Sea gate,
+Lorath setup, confederations, scenarios, sailing setup, and other unrelated
+startup behavior.
 
-```text
-Failed build succession ... due to unhandled succession order [invalid]
+The supersiren distributor selects each county capital, requires a valid culture
+and faith, and kills the source ruler only after all counties transfer. The
+generator pins the AGOT and RC71 startup inputs and the AGOT pirate-domicile
+block with source hashes and counted replacements.
+
+## Re-audit
+
+Re-audit when Workshop `2962333032` or `3719888822` changes the pinned startup
+file or when the intended LoV hooks change. Regenerate with:
+
+```sh
+ck3mm mod generate legacy_of_valyria_039_runtime_rebase
+ck3mm mod generate legacy_of_valyria_039_runtime_rebase --apply
 ```
-
-This rebase:
-
-- restores current AGOT's duchy-or-higher eligibility for pirate elective;
-- removes the elective law from the 34 LoV counties; and
-- preserves the law on `d_the_three_snakes`, `d_eastern_isles`, and
-  `d_the_western_isles`.
-
-The affected counties retain their LoV holder, government, liege, and holding
-history. Without a special title law they use ordinary realm succession, while
-the three pirate duchies continue to use AGOT's pirate elective.
-
-The four title-history overrides are intentionally copied from RC71 rather than
-base LoV, so RC71's other CK3 1.19 compatibility changes remain intact.
-
-They also discard six inert invalid liege assignments inherited from RC71: four
-counties pointed at the deliberately unhistoried `d_fields_of_hunger`, and two
-unheld Rhoynar counties tried to become vassals of an also-unheld `k_volantis`
-in 7300. Tiger confirms that those assignments have no effect; removing them
-therefore preserves the runtime state while eliminating the malformed history
-operations.

@@ -136,6 +136,10 @@
       "sha256": "ee8983917ec407a9840e8e19c4e7d2ba08b35decae51e47c75aacddee6ab77d7",
       "size": 20417
     },
+    "3403938445/common/landed_titles/lv_sothoryos_titles.txt": {
+      "sha256": "73d3ef4b0d374ad0339494823f0b21326a7d500b1cf86e31d8d42a55312baaf2",
+      "size": 80418
+    },
     "3403938445/common/landed_titles/lv_volantis_titles.txt": {
       "sha256": "9702e34dd987b286bd7415c4922647e119cef8bfa7b0b47cbc04710214eec8e3",
       "size": 30944
@@ -283,6 +287,10 @@
     "3682802751/map_data/heightmap.png": {
       "sha256": "e1ff605b7b0e2b1f80a2d9362bba1f6e157549a6f214961b469b85d06aa79f56",
       "size": 24008512
+    },
+    "3719888822/history/provinces/lv_k_volantis.txt": {
+      "sha256": "4a45960fb2993c808b4ed49ff50212da37bb35cbd1b2f11c370debef75c6d284",
+      "size": 26961
     },
     "3719888822/history/titles/lv_development_levels.txt": {
       "sha256": "ff19414167a3e9572a73665fbec31e8aae077a75b855e5342ffc5fb19047fa56",

@@ -13,3 +13,5 @@ class RunInputs:
     WORKSHOP: WorkshopSources
     OUTPUT: Path
     GAME_ROOT: Path
+    LORE_GOVERNMENTS: Path
+    LOV_REBASE: Path

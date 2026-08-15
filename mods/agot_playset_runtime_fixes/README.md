@@ -1,7 +1,7 @@
 # AGOT Playset Runtime Fixes
 
-Narrow generated repairs for executable-script failures observed in the current
-AGOT `0.4.40` playset on CK3 `1.19`.
+Narrow generated repairs for executable-script failures in the current AGOT
+playset on CK3 `1.19`.
 
 ## Repairs
 
@@ -40,7 +40,28 @@ AGOT `0.4.40` playset on CK3 `1.19`.
 - **[LOT] Legitimacy Over Time:** prevents its AI sway event from starting a
   scheme when the scripted recipient is missing or has died.
 - **The Red Keep (Hegemony Updates):** saves the Hand event scope only when the
-  castellan council position has a holder.
+  castellan council position has a holder. Its stale whole-file government
+  override is rebased onto current AGOT while retaining the Red Keep estate on
+  `lp_feudal_government`. The parent override was the effective last writer and
+  omitted AGOT's `lorathi_principality_government`, producing
+  `change_government effect [ target government type was null ]` during Lorath's
+  three-princes game-start setup. The generated last writer is safe because it
+  starts from AGOT's complete current government database and adds only the Red
+  Keep domicile delta. Re-audit after Workshop `2962333032` or `3662281614`
+  changes.
+- **Essos Expanded: The Further East:** rebases its sole
+  `zz_eetlv_gov_dev_on_actions.txt` startup owner while omitting only
+  `zz_eetlv_gov_dev_effect` and `zz_eetlv_cannibal_confederation_effect`. The
+  exact repeated signature is
+  `change_government effect [ Trying to set illegal government ]`: all Leng,
+  Moraq, Norvos, and Cannibal Sands assignments are rejected. Workshop
+  `3768149491` is the only provider of the source on-action; this generated
+  module is its effective last writer. The quarantine is narrow because
+  development, innovations, buildings, roads, culture conversions, claims,
+  armies, and all unrelated setup calls remain intact. The Cannibal Sands
+  confederation cannot form when its prerequisite nomad conversions are all
+  rejected. Re-audit after Workshop `3768149491` changes or when those
+  governments are moved to valid static holding/title history.
 - **Automated Squire Training:** repairs five malformed interface-message
   tooltips and removes an `ai_chance` block nested inside a random-list result;
   both forms prevented parts of the automated training event from parsing. Its
@@ -54,7 +75,10 @@ AGOT `0.4.40` playset on CK3 `1.19`.
   interaction recipients from repeatedly failing the context switch. Its dynasty
   on-actions are also rebased onto current AGOT while preserving the human
   dynasty-name event. The generated last writer makes `on_became_dynasty_head`
-  inert instead of synchronously removing `denounced` and `disinherited`.
+  inert instead of synchronously removing `denounced` and `disinherited`. Its
+  title-gain house-head effect also makes all nine new-ruler `capital_province`
+  switches nullable, preventing landless pirate creation from returning an unset
+  scope through global `on_title_gain`.
 - **Additional Models decision illustrations:** replaces three references to the
   parent's nonexistent `agot_court/throne.dds` with AGOT's existing Iron Throne
   room illustration.
@@ -180,11 +204,21 @@ AGOT `0.4.40` playset on CK3 `1.19`.
   `Domicile owner failed to meet triggered requirements` and
   `Cannot construct an upgrade when previous building has not been built`
   errors. The 900/1100 branches also avoid duplicate main-building additions.
-- **LoV pirate succession (Workshop 3719888822):** rebases both the title-gain
-  handler and RC70 reconciliation effect from a county floor to the duchy floor
-  required by the owned `pirate_succession_law` definition. This preserves the
-  earlier LoV law/history repair while preventing invalid county-level
-  `add_title_law` calls.
+- **LoV low-tier pirate succession (Workshop 3719888822):** the exact repeated
+  signature is
+  `Failed build succession ... due to unhandled succession order [invalid]`.
+  This module is the effective last writer for LoV's
+  `01_title_succession_laws.txt`, title-gain handler, reconciliation effect, and
+  the two affected title-history files. LoV's law grants county-or-higher
+  eligibility but also requires the title's holder to keep a pirate government,
+  so the module only restores the law to pirate-government blocks that lack it:
+  18 Basilisk blocks and 11 Sothoryos blocks. It does not alter those holders'
+  governments, because forcing them away from pirate would make the same titles
+  fail `can_title_have` and reproduce the invalid-succession signature. Holders,
+  game-start behavior, and unrelated lore history are unchanged; the
+  lore-governments module remains the owner of Sothoryos government intent.
+  Re-audit after Workshop `3719888822` or the lore-governments module changes
+  those definitions.
 - **Dragon Wives marriage modifiers (Workshop 3541596590):** replaces two
   unguarded `var:legitimate_house` comparisons with AGOT's
   `title_is_not_held_by_legitimate_house` trigger, which verifies both variables

@@ -7,7 +7,7 @@ import re
 import textwrap
 
 from gen.script import normalize_rebased_source, read_text, replace_regex, write_text
-from gen.text import replace_exact
+from gen.text import definition_span, replace_exact
 
 from .common import assert_source_block_hash, extract_top_level_block, game_root
 from .context import RunInputs
@@ -610,17 +610,21 @@ def generate_nomad_yurt_guards(inputs: RunInputs) -> None:
 
 
 def generate_pirate_succession_guards(inputs: RunInputs) -> None:
-    """Keep pirate elective law on titles that satisfy its duchy floor."""
+    """Give LoV county pirates the title law their government requires."""
+    law_relative = "common/laws/01_title_succession_laws.txt"
+    law_source = read_text(inputs.WORKSHOP / "3719888822" / law_relative)
+    law_start, law_end = definition_span(law_source, "pirate_succession_law")
+    law_block = law_source[law_start:law_end]
+    if law_block.count("\t\thighest_held_title_tier >= tier_county\n") != 1:
+        raise RuntimeError("LoV county-pirate law eligibility changed")
+    write_text(inputs.OUTPUT, law_relative, law_source)
+
     on_action_relative = "common/on_action/agot_on_actions/agot_title_on_actions.txt"
     on_action = read_text(inputs.WORKSHOP / "3719888822" / on_action_relative)
     block = extract_top_level_block(on_action, "agot_on_title_gain")
-    repaired_block = replace_exact(
-        block,
-        "\t\t\t\t\ttier >= tier_county\n",
-        "\t\t\t\t\ttier >= tier_duchy\n",
-        expected=1,
-        label="LoV pirate title-gain law floor",
-    )
+    if block.count("\t\t\t\t\ttier >= tier_county\n") != 1:
+        raise RuntimeError("LoV pirate title-gain county floor changed")
+    repaired_block = block
     repaired_block = replace_exact(
         repaired_block,
         "\t\t\t\t\tscope:title = {\n"
@@ -651,14 +655,42 @@ def generate_pirate_succession_guards(inputs: RunInputs) -> None:
         "common/scripted_effects/zz_lv_agot_pirate_succession_reconciliation_rc69.txt"
     )
     effect = read_text(inputs.WORKSHOP / "3719888822" / effect_relative)
-    effect = replace_exact(
-        effect,
-        "\t\t\ttier >= tier_county\n",
-        "\t\t\ttier >= tier_duchy\n",
-        expected=1,
-        label="LoV pirate reconciliation law floor",
-    )
+    if effect.count("\t\t\ttier >= tier_county\n") != 1:
+        raise RuntimeError("LoV pirate reconciliation county floor changed")
     write_text(inputs.OUTPUT, effect_relative, effect)
+
+    history_pattern = re.compile(
+        r"(?m)^(?P<indent>[ \t]*)government = "
+        r"pirate_(?:no_dlc_)?government\n"
+        r"(?![ \t]*succession_laws = \{ pirate_succession_law \}\n)"
+    )
+    history_repairs = {
+        "history/titles/agot_sothori_history_titles.txt": 11,
+        "history/titles/lv_k_the_basilisk_isles.txt": 18,
+    }
+    for relative, expected in history_repairs.items():
+        source = read_text(inputs.LORE_GOVERNMENTS / relative)
+        repaired, count = history_pattern.subn(
+            lambda match: (
+                match.group(0)
+                + match.group("indent")
+                + "succession_laws = { pirate_succession_law }\n"
+            ),
+            source,
+        )
+        if count != expected:
+            raise RuntimeError(
+                f"LoV county-pirate history changed for {relative}: "
+                f"expected {expected} missing laws, found {count}"
+            )
+        if relative == "history/titles/agot_sothori_history_titles.txt":
+            repaired, indentation_repairs = re.subn(r"(?m)^ \t", "\t", repaired)
+            if indentation_repairs != 112:
+                raise RuntimeError(
+                    "LoV Sothoryos indentation changed: "
+                    f"expected 112 repairs, found {indentation_repairs}"
+                )
+        write_text(inputs.OUTPUT, relative, repaired)
 
 
 def generate_faction_legitimate_house_guards(inputs: RunInputs) -> None:

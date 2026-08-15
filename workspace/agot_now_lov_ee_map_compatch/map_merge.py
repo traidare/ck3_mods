@@ -72,6 +72,9 @@ STRIPPED_TITLE_FILES = (
     "common/landed_titles/lv_volantis_titles.txt",
     "common/landed_titles/01_landed_titles.txt",
 )
+LOV_SOTHORYOS_TITLES = "common/landed_titles/lv_sothoryos_titles.txt"
+EXPECTED_RELOCATED_SOTHORYOS_TITLES = 692
+EXPECTED_RELOCATED_SOTHORYOS_KINGDOMS = 2
 EXPECTED_STRIPPED_BARONIES = 980
 EXPECTED_SOURCE_STRIPPED_TITLES = 1208
 EXPECTED_STRIPPED_TITLES = 1197
@@ -100,6 +103,19 @@ AGOT_PROVINCE_HISTORY = (
 )
 PROVINCE_HISTORY_OUTPUT = "history/provinces/zz_agot_new_region_prov.txt"
 EXPECTED_REMAPPED_HISTORY = 1109
+
+# AGOT 0.5's pasted footprint consumes these LoV county capitals while leaving
+# other baronies in each county alive.  CK3 treats the first surviving barony
+# as the new implicit capital, so move the complete province history with it.
+# Keep this explicit and fail closed: a changed set means the map overlap needs
+# a fresh lore/history decision, not an automatic guess.
+CONSUMED_CAPITAL_MIGRATIONS = {
+    "c_ar_mynar": ("b_ar_mynar", 10919, "b_harasan", 10924),
+    "c_arosenyr": ("b_death_swamps18", 10630, "b_death_swamps21", 10633),
+    "c_noksarys": ("b_death_swamps12", 10663, "b_death_swamps13", 10664),
+}
+LOV_VOLANTIS_TITLES = "common/landed_titles/lv_volantis_titles.txt"
+LOV_VOLANTIS_PROVINCE_HISTORY = "history/provinces/lv_k_volantis.txt"
 
 MAP_PATHS = [
     "gfx/map/map_object_data/activities.txt",
@@ -182,7 +198,9 @@ def source_manifest(inputs: MapInputs) -> dict[str, object]:
             inputs.agot / TITLE_PATH,
             inputs.now / TITLE_PATH,
             *(inputs.winner(relative) for relative in STRIPPED_TITLE_FILES),
+            inputs.lov / LOV_SOTHORYOS_TITLES,
             *(inputs.winner(relative) for relative in STRIPPED_HISTORY_FILES),
+            inputs.winner(LOV_VOLANTIS_PROVINCE_HISTORY),
             *(inputs.agot / relative for relative in AGOT_PROVINCE_HISTORY),
             inputs.agot / "map_data/provinces.png",
             inputs.winner("map_data/provinces.png"),
@@ -914,6 +932,51 @@ def strip_landless_titles(
     return removed, stripped_baronies
 
 
+def merge_sothoryos_titles(inputs: MapInputs) -> None:
+    """Give the two disjoint Sothoryos trees one top-level empire owner."""
+    generic_relative = "common/landed_titles/01_landed_titles.txt"
+    generic_path = inputs.context.output_root / generic_relative
+    generic_lines, generic_nodes = title_blocks(read(generic_path))
+    generic_parent, generic_children = title_tree(generic_nodes)
+    root = "e_sothoryos"
+    if generic_parent.get(root) is not None:
+        raise AssertionError("Further East e_sothoryos is no longer top-level")
+    moved = descendants(generic_children, root)
+    kingdoms = generic_children[root]
+    if len(moved) != EXPECTED_RELOCATED_SOTHORYOS_TITLES:
+        raise AssertionError(
+            f"relocated Sothoryos title count changed: {len(moved)} != "
+            f"{EXPECTED_RELOCATED_SOTHORYOS_TITLES}"
+        )
+    if len(kingdoms) != EXPECTED_RELOCATED_SOTHORYOS_KINGDOMS or not all(
+        title.startswith("k_") for title in kingdoms
+    ):
+        raise AssertionError("Further East Sothoryos kingdom roots changed")
+
+    lov_lines, lov_nodes = title_blocks(read(inputs.lov / LOV_SOTHORYOS_TITLES))
+    lov_parent, _ = title_tree(lov_nodes)
+    if lov_parent.get(root) is not None:
+        raise AssertionError("LoV e_sothoryos is no longer top-level")
+    overlap = sorted(set(moved) & set(lov_nodes))
+    if overlap:
+        raise AssertionError(f"Sothoryos title trees now overlap: {overlap[:10]}")
+
+    moved_lines: list[str] = []
+    for kingdom in kingdoms:
+        start, end, _ = generic_nodes[kingdom]
+        moved_lines.extend(generic_lines[start:end])
+
+    generic_start, generic_end, _ = generic_nodes[root]
+    remaining = generic_lines[:generic_start] + generic_lines[generic_end:]
+    inputs.write(generic_relative, "\n".join(remaining).rstrip("\n") + "\n")
+
+    _, lov_end, _ = lov_nodes[root]
+    merged_lov = (
+        lov_lines[: lov_end - 1] + [""] + moved_lines + lov_lines[lov_end - 1 :]
+    )
+    inputs.write(LOV_SOTHORYOS_TITLES, "\n".join(merged_lov).rstrip("\n") + "\n")
+
+
 HISTORY_BLOCK = re.compile(r"^(\S+)\s*=\s*\{")
 
 
@@ -991,6 +1054,100 @@ def merge_province_history(inputs: MapInputs, remap: Remap) -> None:
         output.extend(emitted[new])
         output.append("")
     inputs.write(PROVINCE_HISTORY_OUTPUT, "\n".join(output).rstrip("\n") + "\n")
+
+
+def migrate_consumed_county_capitals(inputs: MapInputs) -> None:
+    """Move authored LoV capital history onto each first surviving barony."""
+    source_lines, source_nodes = title_blocks(read(inputs.winner(LOV_VOLANTIS_TITLES)))
+    _, source_children = title_tree(source_nodes)
+    source_provinces = title_provinces(source_lines, source_nodes)
+
+    output_lines, output_nodes = title_blocks(
+        read(inputs.context.output_root / LOV_VOLANTIS_TITLES)
+    )
+    _, output_children = title_tree(output_nodes)
+    output_provinces = title_provinces(output_lines, output_nodes)
+
+    for county, (
+        old_barony,
+        old_province,
+        new_barony,
+        new_province,
+    ) in CONSUMED_CAPITAL_MIGRATIONS.items():
+        source_baronies = [
+            title for title in source_children[county] if title.startswith("b_")
+        ]
+        output_baronies = [
+            title for title in output_children[county] if title.startswith("b_")
+        ]
+        actual = (
+            source_baronies[0],
+            source_provinces[source_baronies[0]],
+            output_baronies[0],
+            output_provinces[output_baronies[0]],
+        )
+        expected = (old_barony, old_province, new_barony, new_province)
+        if actual != expected:
+            raise AssertionError(
+                f"{county} capital migration changed: {actual} != {expected}"
+            )
+
+    text = read(inputs.winner(LOV_VOLANTIS_PROVINCE_HISTORY))
+    lines, blocks = history_blocks(text)
+    spans = {int(key): (start, end) for key, start, end in blocks if key.isdigit()}
+    replacements: dict[int, list[str]] = {}
+    for county, (
+        _,
+        old_province,
+        _,
+        new_province,
+    ) in CONSUMED_CAPITAL_MIGRATIONS.items():
+        old_start, old_end = spans[old_province]
+        new_start, new_end = spans[new_province]
+        old_block = lines[old_start:old_end]
+        new_block = lines[new_start:new_end]
+        old_text = "\n".join(old_block)
+        new_text = "\n".join(new_block)
+        for required in ("culture =", "religion =", "holding ="):
+            if required not in old_text:
+                raise AssertionError(
+                    f"{county} source capital {old_province} lacks {required}"
+                )
+        if re.sub(r"\s+", " ", new_text).strip() != (
+            f"{new_province} = {{ holding = none }}"
+        ):
+            raise AssertionError(
+                f"{county} destination {new_province} is no longer empty"
+            )
+        moved = list(old_block)
+        moved[0] = re.sub(
+            rf"^(\s*){old_province}",
+            rf"\g<1>{new_province}",
+            moved[0],
+            count=1,
+        )
+        replacements[old_start] = [f"{old_province} = {{ holding = none }}"]
+        replacements[new_start] = moved
+
+    for start in sorted(replacements, reverse=True):
+        _, end = spans[int(HISTORY_BLOCK.match(lines[start]).group(1))]
+        lines[start:end] = replacements[start]
+
+    migrated = "\n".join(lines).rstrip("\n") + "\n"
+    for county, (_, _, _, new_province) in CONSUMED_CAPITAL_MIGRATIONS.items():
+        _, migrated_blocks = history_blocks(migrated)
+        block_span = next(
+            (start, end)
+            for key, start, end in migrated_blocks
+            if key == str(new_province)
+        )
+        block_text = "\n".join(migrated.splitlines()[slice(*block_span)])
+        if not all(
+            required in block_text
+            for required in ("culture =", "religion =", "holding =")
+        ):
+            raise AssertionError(f"{county} migrated capital history is incomplete")
+    inputs.write(LOV_VOLANTIS_PROVINCE_HISTORY, migrated)
 
 
 DEFAULT_MAP_CATEGORIES = (
@@ -1273,10 +1430,18 @@ def validate_outputs(inputs: MapInputs, remap: Remap, pixel_free: set[int]) -> N
     unknown = sorted(value for value in locator_ids if value not in merged)
     assert not unknown, f"locator ids with no definition row: {unknown[:10]}"
 
-    title_outputs = (TITLE_PATH, *STRIPPED_TITLE_FILES)
+    title_outputs = (TITLE_PATH, *STRIPPED_TITLE_FILES, LOV_SOTHORYOS_TITLES)
+    title_owners: dict[str, str] = {}
     landless: dict[str, int] = {}
     for relative in title_outputs:
         lines, nodes = title_blocks(read(inputs.context.output_root / relative))
+        for title in nodes:
+            previous = title_owners.get(title)
+            if previous is not None:
+                raise AssertionError(
+                    f"landed title {title} is defined by both {previous} and {relative}"
+                )
+            title_owners[title] = relative
         for title, province in title_provinces(lines, nodes).items():
             if province in pixel_free:
                 landless[title] = province
@@ -1325,6 +1490,7 @@ def generate(context: GenerationContext) -> None:
     merge_default_map(inputs, remap)
     supplied = merge_landed_titles(inputs, remap)
     removed, _ = strip_landless_titles(inputs, pixel_free)
+    merge_sothoryos_titles(inputs)
     genuinely_removed = removed - supplied
     if len(genuinely_removed) != EXPECTED_STRIPPED_TITLES:
         raise AssertionError(
@@ -1338,6 +1504,7 @@ def generate(context: GenerationContext) -> None:
     )
     strip_title_history(inputs, genuinely_removed)
     merge_province_history(inputs, remap)
+    migrate_consumed_county_capitals(inputs)
     if not context.options.get("text_only", False):
         merge_provinces(inputs, mask, absorb)
         merge_rasters(inputs, mask)

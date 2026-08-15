@@ -26,12 +26,15 @@ from .runtime_fixes.court_character import (
     generate_court_events_3020_role_guard,
     generate_cow_province_setup_rebase,
     generate_expanded_court_position_hire_events,
+    generate_further_east_startup_government_quarantine,
     generate_house_founders,
     generate_house_founders_dynasty_on_action_rebase,
+    generate_house_founders_title_gain_capital_guards,
     generate_knighting_ceremony_event,
     generate_landed_knights,
     generate_legitimacy_over_time_ai,
     generate_red_keep_castellan_guard,
+    generate_red_keep_government_rebase,
     generate_suggest_dragon_bonding,
     generate_vanilla_tour_pulse,
 )
@@ -89,9 +92,12 @@ REPAIRS = (
     generate_expanded_court_position_hire_events,
     generate_legitimacy_over_time_ai,
     generate_red_keep_castellan_guard,
+    generate_red_keep_government_rebase,
+    generate_further_east_startup_government_quarantine,
     generate_automated_squire_training_events,
     generate_knighting_ceremony_event,
     generate_house_founders,
+    generate_house_founders_title_gain_capital_guards,
     generate_house_founders_dynasty_on_action_rebase,
     generate_artifact_manager_distribution_event,
     generate_additional_models_decision_illustrations,
@@ -127,6 +133,8 @@ def generate(context: GenerationContext) -> None:
         WORKSHOP=WorkshopSources(context),
         OUTPUT=context.output_root,
         GAME_ROOT=context.source("game"),
+        LORE_GOVERNMENTS=context.source("lore-governments"),
+        LOV_REBASE=context.source("lov-rebase"),
     )
     for repair in REPAIRS:
         repair(inputs)

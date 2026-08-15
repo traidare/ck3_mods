@@ -1,6 +1,6 @@
 [generator]
 entrypoint = "implementation.py:generate"
-owned_outputs = ["common", "events", "gfx", "gui"]
+owned_outputs = ["common", "events", "gfx", "gui", "history"]
 
 [[sources]]
 name = "game"
@@ -166,3 +166,18 @@ item_id = "3761342990"
 name = "workshop-3762892081"
 kind = "workshop"
 item_id = "3762892081"
+
+[[sources]]
+name = "workshop-3768149491"
+kind = "workshop"
+item_id = "3768149491"
+
+[[sources]]
+name = "lore-governments"
+kind = "mod"
+mod = "agot_now_lov_ee_lore_governments"
+
+[[sources]]
+name = "lov-rebase"
+kind = "mod"
+mod = "legacy_of_valyria_039_runtime_rebase"

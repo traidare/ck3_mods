@@ -3,7 +3,7 @@ lv_agot_reconcile_pirate_succession_effect = {
 	every_ruler = {
 		every_held_title = {
 			limit = {
-				tier >= tier_duchy
+				tier >= tier_county
 				can_title_have_law_general_trigger = yes
 			}
 			if = {

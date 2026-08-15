@@ -7,6 +7,7 @@ from gen.text import replace_exact
 
 from .common import (
     assert_source_block_hash,
+    assert_source_file_hash,
     extract_top_level_block,
     game_root,
     unwrap_unconditional_random_pool_ifs,
@@ -255,6 +256,100 @@ def generate_red_keep_castellan_guard(inputs: RunInputs) -> None:
     write_text(inputs.OUTPUT, relative, text)
 
 
+def generate_red_keep_government_rebase(inputs: RunInputs) -> None:
+    """Restore current AGOT governments while retaining the Red Keep estate."""
+    relative = "common/governments/00_agot_government_types.txt"
+    agot_source = inputs.WORKSHOP / "2962333032" / relative
+    red_keep_source = inputs.WORKSHOP / "3662281614" / relative
+    assert_source_file_hash(
+        agot_source,
+        "3cfc4bded04fae1819f9d8231c7edd868b89b069b239066cadb4eb8f2c01e9f1",
+        label="AGOT government definitions",
+    )
+    assert_source_file_hash(
+        red_keep_source,
+        "ba6eee95e0d6e45046f5df2a5a31479f426473ef834e4b7bb56067088190e127",
+        label="The Red Keep government override",
+    )
+
+    red_keep_text = read_text(red_keep_source)
+    if red_keep_text.count("domicile_type = red_keep_estate") != 1:
+        raise RuntimeError("The Red Keep estate government delta changed")
+
+    text = read_text(agot_source)
+    government = extract_top_level_block(text, "lp_feudal_government")
+    repaired_government = replace_exact(
+        government,
+        "\tcourt_generate_commanders = no\n\n\tprimary_holding = castle_holding",
+        "\tcourt_generate_commanders = no\n\tdomicile_type = red_keep_estate\n\n"
+        "\tprimary_holding = castle_holding",
+        expected=1,
+        label="AGOT feudal government Red Keep domicile",
+    )
+    text = replace_exact(
+        text,
+        government,
+        repaired_government,
+        expected=1,
+        label="AGOT feudal government rebase",
+    )
+    for required_government in (
+        "lorathi_principality_government = {",
+        "norvos_government = {",
+    ):
+        if text.count(required_government) != 1:
+            raise RuntimeError(
+                f"rebased AGOT government file lost {required_government}"
+            )
+    if text.count("domicile_type = red_keep_estate") != 1:
+        raise RuntimeError(
+            "rebased AGOT government file has an invalid Red Keep domicile"
+        )
+    write_text(
+        inputs.OUTPUT,
+        relative,
+        "# Runtime rebase: retain current AGOT governments and the Red Keep estate.\n\n"
+        + normalize_rebased_source(text),
+    )
+
+
+def generate_further_east_startup_government_quarantine(inputs: RunInputs) -> None:
+    """Keep Further East setup while suppressing its unsafe government rewrites."""
+    relative = "common/on_action/zz_eetlv_gov_dev_on_actions.txt"
+    source_path = inputs.WORKSHOP / "3768149491" / relative
+    assert_source_file_hash(
+        source_path,
+        "d06910081e8fb886d40fcc059e80192cbe7d1daaec8b823076db0d24ec26e333",
+        label="The Further East startup setup",
+    )
+    text = read_text(source_path)
+    text = replace_exact(
+        text,
+        "\t\tzz_eetlv_gov_dev_effect = yes\n",
+        (
+            "\t\t# Runtime quarantine: bulk government changes enter CK3's\n"
+            "\t\t# theocratic-lease title rewrite with invalid target realms.\n"
+        ),
+        expected=1,
+        label="The Further East bulk government setup",
+    )
+    text = replace_exact(
+        text,
+        "\t\tzz_eetlv_cannibal_confederation_effect = yes\n",
+        (
+            "\t\t# Runtime quarantine: every prerequisite nomad government\n"
+            "\t\t# assignment is illegal, so no confederation can be formed.\n"
+        ),
+        expected=1,
+        label="The Further East cannibal government setup",
+    )
+    if "zz_eetlv_dev_gradient_effect = yes" not in text:
+        raise RuntimeError("The Further East rebase lost development setup")
+    if "zz_eetlv_buildings_effect = yes" not in text:
+        raise RuntimeError("The Further East rebase lost building setup")
+    write_text(inputs.OUTPUT, relative, normalize_rebased_source(text))
+
+
 def generate_automated_squire_training_events(inputs: RunInputs) -> None:
     relative = "events/agot_events/agot_squirehood_ongoing_events.txt"
     text = read_text(inputs.WORKSHOP / "3674548216" / relative)
@@ -324,6 +419,33 @@ def generate_house_founders(inputs: RunInputs) -> None:
         label="House Founders optional top-liege guards",
     )
     write_text(inputs.OUTPUT, relative, text)
+
+
+def generate_house_founders_title_gain_capital_guards(inputs: RunInputs) -> None:
+    """Keep title-gain house-head checks safe for landless new rulers."""
+    relative = "common/scripted_effects/00_agot_hf_effects.txt"
+    source = read_text(inputs.WORKSHOP / "2967263410" / relative)
+    effect = assert_source_block_hash(
+        source,
+        "agot_hf_force_house_head",
+        "45044132166b6b31262e2b5be243501067e122d48304ca19a02adc4a20fbe35e",
+        label="House Founders force-house-head effect",
+    )
+    guarded = replace_exact(
+        effect,
+        "scope:new_ruler.capital_province = {",
+        "scope:new_ruler.capital_province ?= {",
+        expected=9,
+        label="House Founders optional new-ruler capital switches",
+    )
+    source = replace_exact(
+        source,
+        effect,
+        guarded,
+        expected=1,
+        label="House Founders force-house-head in-place rebase",
+    )
+    write_text(inputs.OUTPUT, relative, source)
 
 
 def generate_house_founders_dynasty_on_action_rebase(inputs: RunInputs) -> None:

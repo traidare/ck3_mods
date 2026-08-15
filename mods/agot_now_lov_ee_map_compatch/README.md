@@ -30,15 +30,15 @@ This is a semantic merge rather than a last-writer copy:
   NOW's warden/master rules, while failing generation for any other merge
   conflict.
 
-## AGOT 0.5.0's new region
+## AGOT 0.5.0 region integration
 
-AGOT 0.5.0 added 1,168 provinces at ids 8233-9400 — Ibben, the Axe, Norvos,
-Qohor, Lorath and the Rhoyne. The effective map already spends those ids on
-Essos Expanded's authored baronies, and no map parent has rebased onto 0.5.0.
-This module renumbers AGOT's region onto **26421-27588**, above the Essos
-Expanded ceiling, and leaves every parent id untouched. `map_merge.py` builds
-the table; `artifacts/map_data/agot_new_province_remap.json` records it. Only
-one colour collided, `b_punulea_sar`, which is recoloured to `255 255 254`.
+This module is pinned to AGOT 0.5.0's 1,168-province region at ids 8233-9400 —
+Ibben, the Axe, Norvos, Qohor, Lorath and the Rhoyne. The effective map spends
+those ids on Essos Expanded's authored baronies. This module renumbers AGOT's
+region onto **26421-27588**, above the Essos Expanded ceiling, and leaves every
+parent id untouched. `map_merge.py` builds the table;
+`artifacts/map_data/agot_new_province_remap.json` records it. The sole colour
+collision is `b_punulea_sar`, recoloured to `255 255 254`.
 
 Taking AGOT's region wholesale is a deliberate choice, made with the trade-off
 measured. AGOT's new land overlaps Essos Expanded's authored content on 35.7% of
@@ -65,6 +65,13 @@ load semantics:
   provinces, so this module removes that subtree from `01_landed_titles.txt`
   before AGOT's authored Lorath loads later.
 
+The effective parents also define `e_sothoryos` twice. This module owns
+`lv_sothoryos_titles.txt`, keeps LoV's named Sothoryos tree as the empire base,
+and moves Further East's two non-overlapping kingdoms and 690 descendants under
+that same empire. It removes the duplicate wrapper from `01_landed_titles.txt`
+and validates title uniqueness across all landed-title outputs. Re-audit when
+either parent's `e_sothoryos` tree changes or begins sharing descendant keys.
+
 Fourteen old provinces retained only 578 edge pixels after the paste. Because
 their parent trees are replaced, the generator absorbs those slivers into the
 surrounding AGOT region. It then re-emits the three affected landed-title files
@@ -80,9 +87,16 @@ restoring them. AGOT's 1,109 land-province history blocks are replayed at
 26421-27588 in `history/provinces/zz_agot_new_region_prov.txt`; the 59 remaining
 ids are AGOT's lakes, mountains, and sea zones.
 
-Expect the renumbering to unwind once NOW, LoV and Essos Expanded publish their
-own 0.5.0 rebases, which will most likely adopt AGOT's native 8233-9400. The
-remap table is the only place that encodes it, so unwinding is a deletion.
+The footprint also consumes the original capital baronies of `c_ar_mynar`,
+`c_arosenyr`, and `c_noksarys` while leaving those counties on the map. The
+generator pins that exact boundary and moves each complete capital history onto
+the first surviving barony (`10924`, `10633`, and `10664` respectively). This
+keeps the retained counties landed with valid culture, faith, holdings, and
+dated building/history changes instead of leaving an empty implicit capital.
+
+Re-audit the renumbering when NOW, LoV, or Essos Expanded adopts AGOT's native
+8233-9400 range. The remap table is the only module state that encodes the
+temporary range translation.
 
 It deliberately does not own `00_agot_character_data_effects.txt`: the third
 Workshop compatch owns its upstream dispatcher and the later Lore Governments

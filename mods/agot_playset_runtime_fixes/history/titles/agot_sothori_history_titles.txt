@@ -1,7 +1,7 @@
 ﻿# Ruins
 
 	#Basilisk Reach
-	
+
 c_basilisk_point = { 7300.1.1 = { holder = Wilderness_Empress } }
 c_bile_point = { 7300.1.1 = { holder = Wilderness_Empress } }
 c_sickly_shore = { 7300.1.1 = { holder = Wilderness_Empress } }
@@ -11,8 +11,8 @@ c_wasting_cove = { 7300.1.1 = { holder = Wilderness_Empress } }
 
 c_spike_of_wishes = { 7300.1.1 = { holder = Wilderness_Empress } }
 c_laanas_lance = {
- 100.1.1 = { holder = Local_Rulers_Sothoryos } 
- 7300.1.1 = { government = feudal_government } 
+ 100.1.1 = { holder = Local_Rulers_Sothoryos }
+ 7300.1.1 = { government = feudal_government }
 }
 c_isku = { 7300.1.1 = { holder = Wilderness_Empress } }
 
@@ -22,7 +22,7 @@ c_ahulom = { 7300.1.1 = { holder = Wilderness_Empress } }
 c_huracan = { 7300.1.1 = { holder = Wilderness_Empress } }
 
 	#Yeen
-	
+
 c_chen = { 7300.1.1 = { holder = Wilderness_Empress } }
 c_patli = { 7300.1.1 = { holder = Wilderness_Empress } }
 
@@ -30,12 +30,12 @@ c_yeen = { 7300.1.1 = { holder = Ruin_Empress } }
 c_tenoch = { 7300.1.1 = { holder = Wilderness_Empress } }
 c_yaotl = { 7300.1.1 = { holder = Wilderness_Empress } }
 
-c_dim_grove = { 7300.1.1 = { holder = Wilderness_Empress } } 
+c_dim_grove = { 7300.1.1 = { holder = Wilderness_Empress } }
 c_neewater = { 7300.1.1 = { holder = Wilderness_Empress } }
 c_ah_mun = { 7300.1.1 = { holder = Wilderness_Empress } }
 
 	#Zamettar
-	
+
 c_zamettar = { 7300.1.1 = { holder = Ruin_Empress } }
 c_amelttar = { 7300.1.1 = { holder = Wilderness_Empress } }
 c_zhoki = { 7300.1.1 = { holder = Wilderness_Empress } }
@@ -55,9 +55,11 @@ c_gorosh = { 7300.1.1 = { holder = Ruin_Empress } }
 c_aft_gorosh = {
 	100.1.1 = {
 		holder = Local_Rulers_Sothoryos
+		government = tribal_government
 	}
 	7300.1.1 = {
 		government = pirate_no_dlc_government
+		succession_laws = { pirate_succession_law }
 		effect = {
 			if = {
 				limit = {
@@ -78,24 +80,25 @@ c_arl_gorosh = { 7300.1.1 = { holder = Wilderness_Empress } }
 c_sor_gorosh = { 7300.1.1 = { holder = Wilderness_Empress } }
 
 c_shore_of_thralls = {
- 100.1.1 = { holder = Local_Rulers_Sothoryos } 
+ 100.1.1 = { holder = Local_Rulers_Sothoryos }
  7300.1.1 = {
- 	government = pirate_no_dlc_government
- 	effect = {
- 		if = {
- 			limit = {
- 				exists = holder
- 				holder = { highest_held_title_tier >= tier_duchy }
- 				agot_dlc_check_for_landless_pirates = yes
- 			}
- 			holder = { change_government = pirate_government }
- 		}
- 		else_if = {
- 			limit = { exists = holder }
- 			holder = { change_government = pirate_no_dlc_government }
- 		}
- 	}
-	} 
+	government = pirate_no_dlc_government
+	succession_laws = { pirate_succession_law }
+	effect = {
+		if = {
+			limit = {
+				exists = holder
+				holder = { highest_held_title_tier >= tier_duchy }
+				agot_dlc_check_for_landless_pirates = yes
+			}
+			holder = { change_government = pirate_government }
+		}
+		else_if = {
+			limit = { exists = holder }
+			holder = { change_government = pirate_no_dlc_government }
+		}
+	}
+	}
 }
 c_shore_of_tyrants = {
 	100.1.1 = {
@@ -103,6 +106,7 @@ c_shore_of_tyrants = {
 	}
 	7300.1.1 = {
 		government = pirate_no_dlc_government
+		succession_laws = { pirate_succession_law }
 		effect = {
 			if = {
 				limit = {
@@ -122,153 +126,159 @@ c_shore_of_tyrants = {
 c_tuteiara = { 7300.1.1 = { holder = Wilderness_Empress } }
 
 c_urutapu = {
- 100.1.1 = { holder = Local_Rulers_Sothoryos } 
- 7300.1.1 = { government = tribal_government } 
+ 100.1.1 = { holder = Local_Rulers_Sothoryos }
+ 7300.1.1 = { government = tribal_government }
 }
 c_puheke = {
- 100.1.1 = { holder = Local_Rulers_Sothoryos } 
- 7300.1.1 = { government = tribal_government } 
+ 100.1.1 = { holder = Local_Rulers_Sothoryos }
+ 7300.1.1 = { government = tribal_government }
 }
 c_maringi = { 7300.1.1 = { holder = Wilderness_Empress } }
 c_mutunga_kore = { 7300.1.1 = { holder = Wilderness_Empress } }
 
 c_flogg = { 7300.1.1 = { holder = Wilderness_Empress } }
 c_kelpest = {
- 100.1.1 = { holder = Local_Rulers_Sothoryos } 
+ 100.1.1 = { holder = Local_Rulers_Sothoryos }
  7300.1.1 = {
- 	government = pirate_no_dlc_government
- 	effect = {
- 		if = {
- 			limit = {
- 				exists = holder
- 				holder = { highest_held_title_tier >= tier_duchy }
- 				agot_dlc_check_for_landless_pirates = yes
- 			}
- 			holder = { change_government = pirate_government }
- 		}
- 		else_if = {
- 			limit = { exists = holder }
- 			holder = { change_government = pirate_no_dlc_government }
- 		}
- 	}
-	} 
+	government = pirate_no_dlc_government
+	succession_laws = { pirate_succession_law }
+	effect = {
+		if = {
+			limit = {
+				exists = holder
+				holder = { highest_held_title_tier >= tier_duchy }
+				agot_dlc_check_for_landless_pirates = yes
+			}
+			holder = { change_government = pirate_government }
+		}
+		else_if = {
+			limit = { exists = holder }
+			holder = { change_government = pirate_no_dlc_government }
+		}
+	}
+	}
 }
 c_mohito = { 7300.1.1 = { holder = Wilderness_Empress } }
 
 c_kaupekapeka = { 7300.1.1 = { holder = Wilderness_Empress } }
 c_monoku = { 7300.1.1 = { holder = Wilderness_Empress } }
 c_kahiwi = {
- 100.1.1 = { holder = Local_Rulers_Sothoryos } 
- 7300.1.1 = { government = tribal_government } 
+ 100.1.1 = { holder = Local_Rulers_Sothoryos }
+ 7300.1.1 = { government = tribal_government }
 }
 
 c_wormwater = {
- 100.1.1 = { holder = Local_Rulers_Sothoryos } 
+ 100.1.1 = { holder = Local_Rulers_Sothoryos }
  7300.1.1 = {
- 	government = pirate_no_dlc_government
- 	effect = {
- 		if = {
- 			limit = {
- 				exists = holder
- 				holder = { highest_held_title_tier >= tier_duchy }
- 				agot_dlc_check_for_landless_pirates = yes
- 			}
- 			holder = { change_government = pirate_government }
- 		}
- 		else_if = {
- 			limit = { exists = holder }
- 			holder = { change_government = pirate_no_dlc_government }
- 		}
- 	}
-	} 
+	government = pirate_no_dlc_government
+	succession_laws = { pirate_succession_law }
+	effect = {
+		if = {
+			limit = {
+				exists = holder
+				holder = { highest_held_title_tier >= tier_duchy }
+				agot_dlc_check_for_landless_pirates = yes
+			}
+			holder = { change_government = pirate_government }
+		}
+		else_if = {
+			limit = { exists = holder }
+			holder = { change_government = pirate_no_dlc_government }
+		}
+	}
+	}
 }
 c_leechbrook = {
- 100.1.1 = { holder = Local_Rulers_Sothoryos } 
+ 100.1.1 = { holder = Local_Rulers_Sothoryos }
  7300.1.1 = {
- 	government = pirate_no_dlc_government
- 	effect = {
- 		if = {
- 			limit = {
- 				exists = holder
- 				holder = { highest_held_title_tier >= tier_duchy }
- 				agot_dlc_check_for_landless_pirates = yes
- 			}
- 			holder = { change_government = pirate_government }
- 		}
- 		else_if = {
- 			limit = { exists = holder }
- 			holder = { change_government = pirate_no_dlc_government }
- 		}
- 	}
-	} 
+	government = pirate_no_dlc_government
+	succession_laws = { pirate_succession_law }
+	effect = {
+		if = {
+			limit = {
+				exists = holder
+				holder = { highest_held_title_tier >= tier_duchy }
+				agot_dlc_check_for_landless_pirates = yes
+			}
+			holder = { change_government = pirate_government }
+		}
+		else_if = {
+			limit = { exists = holder }
+			holder = { change_government = pirate_no_dlc_government }
+		}
+	}
+	}
 }
 c_pekanga = { 7300.1.1 = { holder = Wilderness_Empress } }
-	
+
 	#Shores of Wrath
-	
+
 c_ilsha = { 7300.1.1 = { holder = Wilderness_Empress } }
 c_hobnil = { 7300.1.1 = { holder = Wilderness_Empress } }
 c_fleshcarvers_wreck = {
- 100.1.1 = { holder = Local_Rulers_Sothoryos } 
+ 100.1.1 = { holder = Local_Rulers_Sothoryos }
  7300.1.1 = {
- 	government = pirate_no_dlc_government
- 	effect = {
- 		if = {
- 			limit = {
- 				exists = holder
- 				holder = { highest_held_title_tier >= tier_duchy }
- 				agot_dlc_check_for_landless_pirates = yes
- 			}
- 			holder = { change_government = pirate_government }
- 		}
- 		else_if = {
- 			limit = { exists = holder }
- 			holder = { change_government = pirate_no_dlc_government }
- 		}
- 	}
-	} 
+	government = pirate_no_dlc_government
+	succession_laws = { pirate_succession_law }
+	effect = {
+		if = {
+			limit = {
+				exists = holder
+				holder = { highest_held_title_tier >= tier_duchy }
+				agot_dlc_check_for_landless_pirates = yes
+			}
+			holder = { change_government = pirate_government }
+		}
+		else_if = {
+			limit = { exists = holder }
+			holder = { change_government = pirate_no_dlc_government }
+		}
+	}
+	}
 }
 c_hunaphu = { 7300.1.1 = { holder = Wilderness_Empress } }
 
 c_monkey_perch = {
- 100.1.1 = { holder = Local_Rulers_Sothoryos } 
+ 100.1.1 = { holder = Local_Rulers_Sothoryos }
  7300.1.1 = {
- 	government = pirate_no_dlc_government
- 	effect = {
- 		if = {
- 			limit = {
- 				exists = holder
- 				holder = { highest_held_title_tier >= tier_duchy }
- 				agot_dlc_check_for_landless_pirates = yes
- 			}
- 			holder = { change_government = pirate_government }
- 		}
- 		else_if = {
- 			limit = { exists = holder }
- 			holder = { change_government = pirate_no_dlc_government }
- 		}
- 	}
-	} 
+	government = pirate_no_dlc_government
+	succession_laws = { pirate_succession_law }
+	effect = {
+		if = {
+			limit = {
+				exists = holder
+				holder = { highest_held_title_tier >= tier_duchy }
+				agot_dlc_check_for_landless_pirates = yes
+			}
+			holder = { change_government = pirate_government }
+		}
+		else_if = {
+			limit = { exists = holder }
+			holder = { change_government = pirate_no_dlc_government }
+		}
+	}
+	}
 }
 c_last_stop = {
- 100.1.1 = { holder = Local_Rulers_Sothoryos } 
+ 100.1.1 = { holder = Local_Rulers_Sothoryos }
  7300.1.1 = {
- 	government = pirate_no_dlc_government
- 	effect = {
- 		if = {
- 			limit = {
- 				exists = holder
- 				holder = { highest_held_title_tier >= tier_duchy }
- 				agot_dlc_check_for_landless_pirates = yes
- 			}
- 			holder = { change_government = pirate_government }
- 		}
- 		else_if = {
- 			limit = { exists = holder }
- 			holder = { change_government = pirate_no_dlc_government }
- 		}
- 	}
-	} 
+	government = pirate_no_dlc_government
+	succession_laws = { pirate_succession_law }
+	effect = {
+		if = {
+			limit = {
+				exists = holder
+				holder = { highest_held_title_tier >= tier_duchy }
+				agot_dlc_check_for_landless_pirates = yes
+			}
+			holder = { change_government = pirate_government }
+		}
+		else_if = {
+			limit = { exists = holder }
+			holder = { change_government = pirate_no_dlc_government }
+		}
+	}
+	}
 }
 c_bloody_folly = { 7300.1.1 = { holder = Wilderness_Empress } }
 c_camazotz = { 7300.1.1 = { holder = Wilderness_Empress } }
@@ -296,6 +306,7 @@ c_wyverns_claw = {
 	}
 	7300.1.1 = {
 		government = pirate_no_dlc_government
+		succession_laws = { pirate_succession_law }
 		effect = {
 			if = {
 				limit = {
@@ -319,6 +330,7 @@ c_lesser_claw = {
 	}
 	7300.1.1 = {
 		government = pirate_no_dlc_government
+		succession_laws = { pirate_succession_law }
 		effect = {
 			if = {
 				limit = {
@@ -339,35 +351,35 @@ c_lesser_claw = {
 c_putanga = { 7300.1.1 = { holder = Wilderness_Empress } }
 c_gimlet = { 7300.1.1 = { holder = Wilderness_Empress } }
 c_pukepuke = {
- 100.1.1 = { holder = Local_Rulers_Sothoryos } 
- 7300.1.1 = { government = tribal_government } 
+ 100.1.1 = { holder = Local_Rulers_Sothoryos }
+ 7300.1.1 = { government = tribal_government }
 }
 c_haemanga = { 7300.1.1 = { holder = Wilderness_Empress } }
 
 c_beach_betrayal = {
- 100.1.1 = { holder = Local_Rulers_Sothoryos } 
- 7300.1.1 = { government = tribal_government } 
+ 100.1.1 = { holder = Local_Rulers_Sothoryos }
+ 7300.1.1 = { government = tribal_government }
 }
 c_koakawa = { 7300.1.1 = { holder = Wilderness_Empress } }
 c_makini = {
- 100.1.1 = { holder = Local_Rulers_Sothoryos } 
- 7300.1.1 = { government = tribal_government } 
+ 100.1.1 = { holder = Local_Rulers_Sothoryos }
+ 7300.1.1 = { government = tribal_government }
 }
 c_serpents_rift = {
- 100.1.1 = { holder = Local_Rulers_Sothoryos } 
- 7300.1.1 = { government = tribal_government } 
+ 100.1.1 = { holder = Local_Rulers_Sothoryos }
+ 7300.1.1 = { government = tribal_government }
 }
 
 c_atete = { 7300.1.1 = { holder = Wilderness_Empress } }
 c_karapoti = { 7300.1.1 = { holder = Wilderness_Empress } }
 c_horopaki = { 7300.1.1 = { holder = Wilderness_Empress } }
 c_maunga = {
- 100.1.1 = { holder = Local_Rulers_Sothoryos } 
- 7300.1.1 = { government = tribal_government } 
+ 100.1.1 = { holder = Local_Rulers_Sothoryos }
+ 7300.1.1 = { government = tribal_government }
 }
 
 	#North Central Plains
-	
+
 c_hun_cane = { 7300.1.1 = { holder = Wilderness_Empress } }
 c_nelli = { 7300.1.1 = { holder = Wilderness_Empress } }
 c_zac_kuk = { 7300.1.1 = { holder = Wilderness_Empress } }
@@ -399,70 +411,70 @@ c_yaluka = { 7300.1.1 = { holder = Wilderness_Empress } }
 c_the_splinters = {
 	2.1.1 = { succession_laws = { confederate_partition_succession_law } }
 	7300.1.1 = { government = tribal_government }
- 100.1.1 = { holder = Local_Rulers_Sothoryos } 
+ 100.1.1 = { holder = Local_Rulers_Sothoryos }
 }
 
 c_basilisk_deeps = {
- 100.1.1 = { holder = Local_Rulers_Sothoryos } 
- 7300.1.1 = { government = tribal_government } 
+ 100.1.1 = { holder = Local_Rulers_Sothoryos }
+ 7300.1.1 = { government = tribal_government }
 }
 c_wasting_deeps = {
- 100.1.1 = { holder = Local_Rulers_Sothoryos } 
- 7300.1.1 = { government = tribal_government } 
+ 100.1.1 = { holder = Local_Rulers_Sothoryos }
+ 7300.1.1 = { government = tribal_government }
 }
 c_yun_cimil = {
- 100.1.1 = { holder = Local_Rulers_Sothoryos } 
- 7300.1.1 = { government = tribal_government } 
+ 100.1.1 = { holder = Local_Rulers_Sothoryos }
+ 7300.1.1 = { government = tribal_government }
 }
 c_sacnite = {
- 100.1.1 = { holder = Local_Rulers_Sothoryos } 
- 7300.1.1 = { government = tribal_government } 
+ 100.1.1 = { holder = Local_Rulers_Sothoryos }
+ 7300.1.1 = { government = tribal_government }
 }
 c_usakan = {
- 100.1.1 = { holder = Local_Rulers_Sothoryos } 
- 7300.1.1 = { government = tribal_government } 
+ 100.1.1 = { holder = Local_Rulers_Sothoryos }
+ 7300.1.1 = { government = tribal_government }
 }
 
 c_backlum = {
- 100.1.1 = { holder = Local_Rulers_Sothoryos } 
- 7300.1.1 = { government = tribal_government } 
+ 100.1.1 = { holder = Local_Rulers_Sothoryos }
+ 7300.1.1 = { government = tribal_government }
 }
 
 c_lesser_valley = {
- 100.1.1 = { holder = Local_Rulers_Sothoryos } 
- 7300.1.1 = { government = tribal_government } 
+ 100.1.1 = { holder = Local_Rulers_Sothoryos }
+ 7300.1.1 = { government = tribal_government }
 }
 
 c_nacon = {
- 100.1.1 = { holder = Local_Rulers_Sothoryos } 
- 7300.1.1 = { government = tribal_government } 
+ 100.1.1 = { holder = Local_Rulers_Sothoryos }
+ 7300.1.1 = { government = tribal_government }
 }
 c_tlalli = {
- 100.1.1 = { holder = Local_Rulers_Sothoryos } 
- 7300.1.1 = { government = tribal_government } 
+ 100.1.1 = { holder = Local_Rulers_Sothoryos }
+ 7300.1.1 = { government = tribal_government }
 }
 
 c_atsi = {
- 100.1.1 = { holder = Local_Rulers_Sothoryos } 
- 7300.1.1 = { government = tribal_government } 
+ 100.1.1 = { holder = Local_Rulers_Sothoryos }
+ 7300.1.1 = { government = tribal_government }
 }
 
 c_balam = {
- 100.1.1 = { holder = Local_Rulers_Sothoryos } 
- 7300.1.1 = { government = tribal_government } 
+ 100.1.1 = { holder = Local_Rulers_Sothoryos }
+ 7300.1.1 = { government = tribal_government }
 }
 c_hozanek = {
- 100.1.1 = { holder = Local_Rulers_Sothoryos } 
- 7300.1.1 = { government = tribal_government } 
+ 100.1.1 = { holder = Local_Rulers_Sothoryos }
+ 7300.1.1 = { government = tribal_government }
 }
 
 #d_fields_of_hunger = {
-#	7890.1.1 = {  
+#	7890.1.1 = {
 #		liege = k_yeen
 #		government = tribal_government
 #		holder = Acalan_0
 #		change_development_level = 2
-#	}	
+#	}
 #	8022.1.1 = {
 #		government = tribal_government
 #		holder = Acalan_1
@@ -496,14 +508,14 @@ c_hozanek = {
 #	}
 #}
 c_the_maw = {
- 100.1.1 = { holder = Local_Rulers_Sothoryos } 
- 7300.1.1 = { government = tribal_government } 
+ 100.1.1 = { holder = Local_Rulers_Sothoryos }
+ 7300.1.1 = { government = tribal_government }
 }
-	#7890.1.1 = {  
-	#	liege = d_fields_of_hunger	
+	#7890.1.1 = {
+	#	liege = d_fields_of_hunger
 	#	holder = Acalan_0
 	#	change_development_level = 2
-	#}	
+	#}
 	#8022.1.1 = {
 	#	government = tribal_government
 	#	holder = Acalan_1
@@ -539,20 +551,20 @@ c_the_maw = {
 
 #c_the_maw = { 7300.1.1 = { holder = Acalan_1 } }
 c_nephrite_plains = {
- 100.1.1 = { holder = Local_Rulers_Sothoryos } 
- 7300.1.1 = { government = tribal_government } 
+ 100.1.1 = { holder = Local_Rulers_Sothoryos }
+ 7300.1.1 = { government = tribal_government }
 }
 c_rain_garden = {
- 100.1.1 = { holder = Local_Rulers_Sothoryos } 
- 7300.1.1 = { government = tribal_government } 
+ 100.1.1 = { holder = Local_Rulers_Sothoryos }
+ 7300.1.1 = { government = tribal_government }
 }
 c_light_falls = {
- 100.1.1 = { holder = Local_Rulers_Sothoryos } 
- 7300.1.1 = { government = tribal_government } 
+ 100.1.1 = { holder = Local_Rulers_Sothoryos }
+ 7300.1.1 = { government = tribal_government }
 }
 c_graowl = {
- 100.1.1 = { holder = Local_Rulers_Sothoryos } 
- 7300.1.1 = { government = tribal_government } 
+ 100.1.1 = { holder = Local_Rulers_Sothoryos }
+ 7300.1.1 = { government = tribal_government }
 }
 
 # Yeen

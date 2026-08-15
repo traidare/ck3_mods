@@ -152,6 +152,15 @@ def assert_source_block_hash(
     return block
 
 
+def assert_source_file_hash(path: Path, expected_hash: str, *, label: str) -> None:
+    """Fail closed when a whole-file rebase parent changes."""
+    actual_hash = hashlib.sha256(path.read_bytes()).hexdigest()
+    if actual_hash != expected_hash:
+        raise RuntimeError(
+            f"{label} changed: expected {expected_hash}, found {actual_hash}"
+        )
+
+
 def extract_top_level_block(text: str, key: str) -> str:
     match = re.search(rf"(?m)^{re.escape(key)}\s*=\s*\{{", text)
     if not match:
