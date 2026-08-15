@@ -2335,6 +2335,12 @@ travel_events.4012 = {
 		}
 		hidden_effect = {
 			scope:feral_child_scope = {
+				#AGOT Added, Ibb Culture Conversion Handling
+				if = {
+					limit = { culture != root.culture }
+					agot_hairyman_flag_handling = { NEW_CULTURE = root.culture ACTOR = this }
+				}
+
 				# They are feral, they learned very basic language from your party
 				if = {
 					limit = {

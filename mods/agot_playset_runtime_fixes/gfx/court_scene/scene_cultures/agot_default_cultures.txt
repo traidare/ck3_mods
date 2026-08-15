@@ -239,3 +239,28 @@ braavos_court = {
 		trigger_else = { always = no }
 	}
 }
+
+lorath_court = {
+	trigger = {
+		# Scene selection is briefly queried without a valid court owner during cleanup.
+		trigger_if = {
+			limit = { exists = root }
+			capital_county = title:c_makers_maze
+		}
+		trigger_else = { always = no }
+	}
+}
+
+norvos_court = {
+	trigger = {
+		# Scene selection is briefly queried without a valid court owner during cleanup.
+		trigger_if = {
+			limit = { exists = root }
+			OR = {
+				capital_county = title:c_garaktiy
+				capital_county = title:c_the_high_city
+			}
+		}
+		trigger_else = { always = no }
+	}
+}

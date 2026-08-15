@@ -80,7 +80,7 @@ def generate_baie_rebases(inputs: RunInputs) -> None:
     travel_event = assert_source_block_hash(
         agot_travel,
         "travel_events.4012",
-        "a8eeeac8ca3cfabda219e03bbd0c74b3d7818f3a296f876f483905b8b7d327ae",
+        "cb587d9c45944726f1c0d01c54476dd158489335986b21674de264f77b0c80c9",
         label="AGOT feral-child travel event",
     )
     repaired_travel_event = replace_exact(

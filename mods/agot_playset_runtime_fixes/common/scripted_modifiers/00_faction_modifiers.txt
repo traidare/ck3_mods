@@ -3859,11 +3859,21 @@ ceremonial_claimant_faction_modifiers = {
 			is_powerful_vassal = yes
 			OR = {
 				is_close_family_of = $FACTION_CLAIMANT$
-				is_close_family_of = $FACTION_CLAIMANT$.primary_spouse
+				#AGOT Modified
+				#is_close_family_of = $FACTION_CLAIMANT$.primary_spouse
+				AND = {
+					exists = $FACTION_CLAIMANT$.primary_spouse
+					is_close_family_of = $FACTION_CLAIMANT$.primary_spouse
+				}
 			}
 			NOR = {
 				is_close_family_of = $FACTION_TARGET$
-				is_close_family_of = $FACTION_TARGET$.primary_spouse
+				#AGOT Modified
+				#is_close_family_of = $FACTION_TARGET$.primary_spouse
+				AND = {
+					exists = $FACTION_TARGET$.primary_spouse
+					is_close_family_of = $FACTION_TARGET$.primary_spouse
+				}
 			}
 		}
 		who = root

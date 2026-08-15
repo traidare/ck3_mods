@@ -6,8 +6,8 @@
       "size": 36107
     },
     "2962333032/common/religion/religion_types/00_agot_the_venerations.txt": {
-      "sha256": "643f3f1844f7b41bf87a7b94934806e53fa73208804f02f8a5529fff1c2a2cc5",
-      "size": 17987
+      "sha256": "352b94b0da4cf4cb978561b7fd94e8d81ec61e5b817839affae2244acdfc8f35",
+      "size": 18039
     },
     "3403938445/history/characters/Elyria.txt": {
       "sha256": "e25f8394e4ba05c568fe089255e9c4c94c227949d0eaf59735c6389e1e093f3e",
@@ -328,7 +328,7 @@
   },
   "schema_version": 1,
   "versions": {
-    "AGOT": "0.4.40",
+    "AGOT": "0.5.0",
     "BRIDGE": "1.0.6",
     "EE": "1.0",
     "EEP": "3.3.0",

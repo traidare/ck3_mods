@@ -115,6 +115,32 @@ UPSTREAM_REBASE_DELTAS: dict[str, dict[str, list[tuple[str, str, str]]]] = {
     }
 }
 
+# Definitions the balance manifest deliberately ignores. AGOT's debug tradition
+# is dev tooling that no ruler can hold; this compatch never emits it, and AoW
+# loads after both parents, so parameter drift between AGOT and Mayham there
+# cannot reach the game. The guard below re-trips if it ever becomes pickable.
+DEV_ONLY_DEFINITIONS: dict[str, tuple[str, ...]] = {
+    "00_agot_realm_traditions.txt": ("tradition_agot_debug",),
+}
+
+DEV_ONLY_MARKERS = (
+    ("is_shown", r"(?m)^\s*is_shown\s*=\s*\{\s*always\s*=\s*no\s*\}\s*$"),
+    ("can_pick", r"(?m)^\s*can_pick\s*=\s*\{\s*always\s*=\s*no\s*\}\s*$"),
+)
+
+# Traditions current AGOT carries that Mayham's older base does not. They have no
+# Mayham balance delta to preserve, and AoW's whole-file override of the same
+# path drops them, so the compatch has nothing to merge. Listed explicitly so a
+# further AGOT addition trips instead of passing unnoticed.
+AGOT_ONLY_ADDITIONS: dict[str, tuple[str, ...]] = {
+    "00_agot_regional_traditions.txt": ("tradition_agot_ib",),
+    "00_agot_unique_traditions.txt": (
+        "tradition_agot_ibbatese",
+        "tradition_agot_ibbenese",
+        "tradition_agot_sarese",
+    ),
+}
+
 
 def read(path: Path) -> str:
     return read_source(path, normalize_newlines=True)
@@ -159,6 +185,28 @@ def replace_modifier_field(
         )
     modifier = pattern.sub(rf"\g<1>{new}\g<3>", modifier, count=1)
     return block[:start] + modifier + block[end:]
+
+
+def dev_only_exclusions(filename: str, agot: dict[str, str]) -> set[str]:
+    """Return the dev-only definitions this file's delta manifest ignores."""
+    excluded: set[str] = set()
+    for tradition in DEV_ONLY_DEFINITIONS.get(filename, ()):
+        if tradition not in agot:
+            raise ValueError(
+                f"{filename}: dev-only {tradition} is gone; drop the exclusion"
+            )
+        absent = [
+            field
+            for field, pattern in DEV_ONLY_MARKERS
+            if not re.search(pattern, agot[tradition])
+        ]
+        if absent:
+            raise ValueError(
+                f"{filename}: {tradition} is no longer dev-only "
+                f"({', '.join(absent)} no longer blocked); review it as a real tradition"
+            )
+        excluded.add(tradition)
+    return excluded
 
 
 def apply_deltas(block: str, tradition: str, deltas: list[tuple[str, str, str]]) -> str:
@@ -233,14 +281,25 @@ def generate_traditions(inputs: RunInputs) -> str:
         mayham = definitions(read(inputs.MAYHAM / relative))
         aow = definitions(read(inputs.AOW / relative))
 
-        if agot.keys() != mayham.keys():
-            raise ValueError(f"{filename}: AGOT and Mayham definition sets differ")
+        agot_only = agot.keys() - mayham.keys()
+        listed_agot_only = set(AGOT_ONLY_ADDITIONS.get(filename, ()))
+        mayham_only = mayham.keys() - agot.keys()
+        if agot_only != listed_agot_only or mayham_only:
+            raise ValueError(
+                f"{filename}: AGOT and Mayham definition sets differ; "
+                f"unlisted AGOT-only={sorted(agot_only - listed_agot_only)}, "
+                f"stale AGOT-only={sorted(listed_agot_only - agot_only)}, "
+                f"Mayham-only={sorted(mayham_only)}"
+            )
         upstream_rebases = UPSTREAM_REBASES.get(filename, ())
         upstream_rebase_set = set(upstream_rebases)
+        ignored = dev_only_exclusions(filename, agot) | agot_only
         changed = {
             name
             for name in agot
-            if agot[name] != mayham[name] and name not in upstream_rebase_set
+            if name not in upstream_rebase_set
+            and name not in ignored
+            and agot[name] != mayham[name]
         }
         if changed != set(expected):
             missing = sorted(changed - set(expected))

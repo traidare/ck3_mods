@@ -391,7 +391,7 @@ def generate_scene_culture_owner_guards(inputs: RunInputs) -> None:
         (
             "2962333032",
             "gfx/court_scene/scene_cultures/agot_default_cultures.txt",
-            19,
+            21,
             "AGOT named court scenes",
         ),
     )
