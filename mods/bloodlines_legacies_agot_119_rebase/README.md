@@ -1,7 +1,7 @@
 # Bloodlines: Legacies of AGOT - CK3 1.19 Runtime Rebase
 
 Compatibility rebase for **Bloodlines: Legacies of AGOT** (`3522779004`) and
-current **A Game of Thrones 0.4.40** (`2962333032`) on CK3 1.19.
+current **A Game of Thrones 0.5.0** (`2962333032`) on CK3 1.19.
 
 Load immediately after Bloodlines.
 
@@ -9,8 +9,12 @@ Load immediately after Bloodlines.
 
 - rebases Bloodlines' stale `execute_prisoner_interaction` override onto current
   AGOT while retaining both AGOT's and Bloodlines' Bolton flaying perks;
-- prevents 73 game-start special-building additions from trying to overwrite
-  special buildings already supplied by the expanded map stack;
+- guards all 73 game-start special-building additions so each one skips a barony
+  that already carries a special building from the expanded map stack and a
+  barony that has no holding at all. Under the module's default game rules this
+  is the only Bloodlines work that runs at game start, and two targets (`1935`
+  Harrenton and `7265` Misty Isle) currently resolve to holdingless baronies, so
+  the unguarded effect reached a holding that does not exist;
 - repairs the malformed Riverlands and child-birth script blocks;
 - migrates removed titles, traits, hook types, character templates, decision
   fields, effects, backgrounds, and geographical-region ids;

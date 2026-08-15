@@ -17,6 +17,14 @@ deltas apply on top of them. This preserves Armies of Westeros' MAA unlocks,
 parameters, costs, and AI behavior while retaining Mayham's intended opinion
 values and AGOT's current cultural-tradition bonuses.
 
+Armies of Westeros' whole-file tradition overrides omit `tradition_agot_ib`,
+`tradition_agot_ibbenese`, `tradition_agot_ibbatese`, and
+`tradition_agot_sarese`, and it loads after both parents, so nothing else can
+supply them. AGOT's Ibbenese, Sarese, and Ibbatese cultures each reference two
+of the four, which fails their key references at load and leaves each culture
+two traditions short. The compatch restores all four from current AGOT with
+Mayham's balance deltas applied.
+
 Armies of Westeros ships one bare `reveler_traits_more_valued` token in the
 Arbor tradition. CK3 treats it as malformed parameter syntax during load. The
 generated same-path rebase preserves the complete AoW file and adds only the
@@ -40,4 +48,5 @@ ck3mm mod generate agot_mayham_aow_compatch --apply
 
 The generator verifies the complete AGOT-to-Mayham delta manifest and fails on
 missing definitions, unexpected upstream changes, the malformed Arbor token
-changing, or ambiguous fields rather than silently emitting an incomplete merge.
+changing, a change to the set of definitions Armies of Westeros omits, or
+ambiguous fields rather than silently emitting an incomplete merge.

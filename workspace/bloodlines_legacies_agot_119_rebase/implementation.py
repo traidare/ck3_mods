@@ -119,7 +119,7 @@ def generate_guarded_special_buildings(inputs: RunInputs) -> None:
         return (
             f"{indent}province:{match.group('province')} = {{\n"
             f"{indent}\tif = {{\n"
-            f"{indent}\t\tlimit = {{ has_special_building = no }}\n"
+            f"{indent}\t\tlimit = {{ has_holding = yes has_special_building = no }}\n"
             f"{indent}\t\tadd_special_building = {match.group('building')}\n"
             f"{indent}\t}}\n"
             f"{indent}}}"
