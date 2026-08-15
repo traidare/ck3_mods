@@ -66,5 +66,4 @@ asset before regenerating.
 
 Re-run the audit after every update to Workshop mods `2962333032`, `3664900993`,
 `3403938445`, `3719888822`, `3682802751`, or `3768149491`, or after regenerating
-`agot_now_lov_ee_map_compatch`. The current reviewed baselines are NOW 1.2.5,
-Essos Expanded 1.0, and its TempLoV compatch 2.5.0.
+`agot_now_lov_ee_map_compatch`.

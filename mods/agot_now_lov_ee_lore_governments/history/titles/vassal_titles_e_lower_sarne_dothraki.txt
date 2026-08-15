@@ -75,158 +75,10 @@ d_R86G188B236 = {
 		holder = gen_1854
 	}
 }
-c_R65G122B241 = {
-		7898.1.1 = {
-		holder = gen_2448
-	}
-	7985.1.1 = {
-		holder = gen_19
-	}
-	8082.1.1 = {
-		holder = gen_1800
-	}
-	8106.4.18 = {
-		holder = gen_1806
-	}
-	8170.12.11 = {
-		holder = gen_1812
-	}
-	8209.2.1 = {
-		holder = gen_1818
-	}
-	8211.3.1 = {
-		holder = gen_1824
-	}
-	8233.2.8 = {
-		holder = gen_1830
-	}
-	8236.2.13 = {
-		holder = gen_1836
-	}
-	8239.1.11 = {
-		holder = gen_1842
-	}
-	8258.12.21 = {
-		holder = gen_1848
-	}
-	8277.1.1 = {
-		holder = gen_1854
-	}
-}
-c_R41G112B254 = {
-		7898.1.1 = {
-		holder = gen_2448
-	}
-	7985.1.1 = {
-		holder = gen_19
-	}
-	8082.1.1 = {
-		holder = gen_1800
-	}
-	8106.4.18 = {
-		holder = gen_1806
-	}
-	8170.12.11 = {
-		holder = gen_1812
-	}
-	8209.2.1 = {
-		holder = gen_1818
-	}
-	8211.3.1 = {
-		holder = gen_1824
-	}
-	8233.2.8 = {
-		holder = gen_1830
-	}
-	8236.2.13 = {
-		holder = gen_1836
-	}
-	8239.1.11 = {
-		holder = gen_1842
-	}
-	8258.12.21 = {
-		holder = gen_1848
-	}
-	8277.1.1 = {
-		holder = gen_1854
-	}
-}
-c_R180G188B102 = {
-		7898.1.1 = {
-		holder = gen_2448
-	}
-	7985.1.1 = {
-		holder = gen_19
-	}
-	8082.1.1 = {
-		holder = gen_1800
-	}
-	8106.4.18 = {
-		holder = gen_1806
-	}
-	8170.12.11 = {
-		holder = gen_1812
-	}
-	8209.2.1 = {
-		holder = gen_1818
-	}
-	8211.3.1 = {
-		holder = gen_1824
-	}
-	8233.2.8 = {
-		holder = gen_1830
-	}
-	8236.2.13 = {
-		holder = gen_1836
-	}
-	8239.1.11 = {
-		holder = gen_1842
-	}
-	8258.12.21 = {
-		holder = gen_1848
-	}
-	8277.1.1 = {
-		holder = gen_1854
-	}
-}
-c_R48G84B12 = {
-		7898.1.1 = {
-		holder = gen_2448
-	}
-	7985.1.1 = {
-		holder = gen_19
-	}
-	8082.1.1 = {
-		holder = gen_1800
-	}
-	8106.4.18 = {
-		holder = gen_1806
-	}
-	8170.12.11 = {
-		holder = gen_1812
-	}
-	8209.2.1 = {
-		holder = gen_1818
-	}
-	8211.3.1 = {
-		holder = gen_1824
-	}
-	8233.2.8 = {
-		holder = gen_1830
-	}
-	8236.2.13 = {
-		holder = gen_1836
-	}
-	8239.1.11 = {
-		holder = gen_1842
-	}
-	8258.12.21 = {
-		holder = gen_1848
-	}
-	8277.1.1 = {
-		holder = gen_1854
-	}
-}
+
+
+
+
 c_R23G46B49 = {
 		7898.1.1 = {
 		holder = gen_2448
@@ -421,16 +273,7 @@ c_R192G218B233 = {
 		liege = d_R120G15B219
 	}
 }
-c_R171G46B206 = {
-		7898.1.1 = {
-		holder = gen_2942
-		liege = d_R120G15B219
-	}
-	7985.1.1 = {
-		holder = gen_469
-		liege = d_R120G15B219
-	}
-}
+
 c_R100G180B243 = {
 		7898.1.1 = {
 		holder = gen_2942
@@ -503,16 +346,7 @@ d_R237G219B170 = {
 			holder = gen_1831
 		}
 }
-c_R218G39B45 = {
-		7898.1.1 = {
-		holder = gen_2943
-		liege = d_R237G219B170
-	}
-	7985.1.1 = {
-		holder = gen_470
-		liege = d_R237G219B170
-	}
-}
+
 c_R147G185B88 = {
 		7898.1.1 = {
 		holder = gen_2943
@@ -523,282 +357,24 @@ c_R147G185B88 = {
 		liege = d_R237G219B170
 	}
 }
-c_R45G125B188 = {
-		7898.1.1 = {
-		holder = gen_2943
-		liege = d_R237G219B170
-	}
-	7985.1.1 = {
-		holder = gen_470
-		liege = d_R237G219B170
-	}
-}
-c_R153G26B94 = {
-		7898.1.1 = {
-		holder = gen_2943
-		liege = d_R237G219B170
-	}
-	7985.1.1 = {
-		holder = gen_470
-		liege = d_R237G219B170
-	}
-}
-d_R86G172B140 = {
-		7898.1.1 = {
-		holder = gen_2944
-		government = nomad_government
-		liege = k_R205G146B11
-	}
-	7985.1.1 = {
-		holder = gen_471
-		government = nomad_government
-		liege = k_R205G146B11
-	}
-		8082.1.1 = {
-			holder = gen_1801
-		}
-		8106.4.18 = {
-			holder = gen_1801
-		}
-		8170.12.11 = {
-			holder = gen_1809
-		}
-		8209.2.1 = {
-			holder = gen_1813
-		}
-		8211.3.1 = {
-			holder = gen_1813
-		}
-		8233.2.8 = {
-			holder = gen_1815
-		}
-		8236.2.13 = {
-			holder = gen_1815
-		}
-		8239.1.11 = {
-			holder = gen_1816
-		}
-		8258.12.21 = {
-			holder = gen_1821
-		}
-		8277.1.1 = {
-			holder = gen_1828
-		}
-}
-c_R175G228B188 = {
-		7898.1.1 = {
-		holder = gen_2944
-		liege = d_R86G172B140
-	}
-	7985.1.1 = {
-		holder = gen_471
-		liege = d_R86G172B140
-	}
-}
-c_R5G196B173 = {
-		7898.1.1 = {
-		holder = gen_2944
-		liege = d_R86G172B140
-	}
-	7985.1.1 = {
-		holder = gen_471
-		liege = d_R86G172B140
-	}
-}
-c_R93G186B21 = {
-		7898.1.1 = {
-		holder = gen_2944
-		liege = d_R86G172B140
-	}
-	7985.1.1 = {
-		holder = gen_471
-		liege = d_R86G172B140
-	}
-}
-c_R139G90B10 = {
-		7898.1.1 = {
-		holder = gen_2944
-		liege = d_R86G172B140
-	}
-	7985.1.1 = {
-		holder = gen_471
-		liege = d_R86G172B140
-	}
-}
-c_R3G1B20 = {
-		7898.1.1 = {
-		holder = gen_2944
-		liege = d_R86G172B140
-	}
-	7985.1.1 = {
-		holder = gen_471
-		liege = d_R86G172B140
-	}
-}
-d_R227G152B121 = {
-		7898.1.1 = {
-		holder = gen_2945
-		government = nomad_government
-		liege = k_R205G146B11
-	}
-	7985.1.1 = {
-		holder = gen_472
-		government = nomad_government
-		liege = k_R205G146B11
-	}
-		8082.1.1 = {
-			holder = gen_1802
-		}
-		8106.4.18 = {
-			holder = gen_1802
-		}
-		8170.12.11 = {
-			holder = gen_1810
-		}
-		8209.2.1 = {
-			holder = gen_1814
-		}
-		8211.3.1 = {
-			holder = gen_1814
-		}
-		8233.2.8 = {
-			holder = gen_1816
-		}
-		8236.2.13 = {
-			holder = gen_1816
-		}
-		8239.1.11 = {
-			holder = gen_1819
-		}
-		8258.12.21 = {
-			holder = gen_1822
-		}
-		8277.1.1 = {
-			holder = gen_1831
-		}
-}
-c_R86G107B164 = {
-		7898.1.1 = {
-		holder = gen_2945
-		liege = d_R227G152B121
-	}
-	7985.1.1 = {
-		holder = gen_472
-		liege = d_R227G152B121
-	}
-}
-c_R35G159B48 = {
-		7898.1.1 = {
-		holder = gen_2945
-		liege = d_R227G152B121
-	}
-	7985.1.1 = {
-		holder = gen_472
-		liege = d_R227G152B121
-	}
-}
-c_R101G122B149 = {
-		7898.1.1 = {
-		holder = gen_2945
-		liege = d_R227G152B121
-	}
-	7985.1.1 = {
-		holder = gen_472
-		liege = d_R227G152B121
-	}
-}
-c_R25G221B121 = {
-		7898.1.1 = {
-		holder = gen_2945
-		liege = d_R227G152B121
-	}
-	7985.1.1 = {
-		holder = gen_472
-		liege = d_R227G152B121
-	}
-}
-d_R71G199B57 = {
-		7898.1.1 = {
-		holder = gen_2946
-		government = nomad_government
-		liege = k_R205G146B11
-	}
-	7985.1.1 = {
-		holder = gen_473
-		government = nomad_government
-		liege = k_R205G146B11
-	}
-		8082.1.1 = {
-			holder = gen_1801
-		}
-		8106.4.18 = {
-			holder = gen_1801
-		}
-		8170.12.11 = {
-			holder = gen_1809
-		}
-		8209.2.1 = {
-			holder = gen_1813
-		}
-		8211.3.1 = {
-			holder = gen_1813
-		}
-		8233.2.8 = {
-			holder = gen_1815
-		}
-		8236.2.13 = {
-			holder = gen_1815
-		}
-		8239.1.11 = {
-			holder = gen_1816
-		}
-		8258.12.21 = {
-			holder = gen_1821
-		}
-		8277.1.1 = {
-			holder = gen_1828
-		}
-}
-c_R51G10B204 = {
-		7898.1.1 = {
-		holder = gen_2946
-		liege = d_R71G199B57
-	}
-	7985.1.1 = {
-		holder = gen_473
-		liege = d_R71G199B57
-	}
-}
-c_R156G107B38 = {
-		7898.1.1 = {
-		holder = gen_2946
-		liege = d_R71G199B57
-	}
-	7985.1.1 = {
-		holder = gen_473
-		liege = d_R71G199B57
-	}
-}
-c_R56G100B194 = {
-		7898.1.1 = {
-		holder = gen_2946
-		liege = d_R71G199B57
-	}
-	7985.1.1 = {
-		holder = gen_473
-		liege = d_R71G199B57
-	}
-}
-c_R13G241B126 = {
-		7898.1.1 = {
-		holder = gen_2946
-		liege = d_R71G199B57
-	}
-	7985.1.1 = {
-		holder = gen_473
-		liege = d_R71G199B57
-	}
-}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 k_R38G162B191 = {
 		7898.1.1 = {
 		holder = gen_2947
@@ -1231,88 +807,11 @@ c_R155G109B217 = {
 		liege = d_R36G224B233
 	}
 }
-d_R248G179B1 = {
-		7898.1.1 = {
-		holder = gen_2953
-		government = nomad_government
-		liege = k_R38G162B191
-	}
-	7985.1.1 = {
-		holder = gen_480
-		government = nomad_government
-		liege = k_R38G162B191
-	}
-		8082.1.1 = {
-			holder = gen_1801
-		}
-		8106.4.18 = {
-			holder = gen_1801
-		}
-		8170.12.11 = {
-			holder = gen_1809
-		}
-		8209.2.1 = {
-			holder = gen_1813
-		}
-		8211.3.1 = {
-			holder = gen_1813
-		}
-		8233.2.8 = {
-			holder = gen_1815
-		}
-		8236.2.13 = {
-			holder = gen_1815
-		}
-		8239.1.11 = {
-			holder = gen_1816
-		}
-		8258.12.21 = {
-			holder = gen_1821
-		}
-		8277.1.1 = {
-			holder = gen_1828
-		}
-}
-c_R42G51B162 = {
-		7898.1.1 = {
-		holder = gen_2953
-		liege = d_R248G179B1
-	}
-	7985.1.1 = {
-		holder = gen_480
-		liege = d_R248G179B1
-	}
-}
-c_R113G88B228 = {
-		7898.1.1 = {
-		holder = gen_2953
-		liege = d_R248G179B1
-	}
-	7985.1.1 = {
-		holder = gen_480
-		liege = d_R248G179B1
-	}
-}
-c_R48G218B192 = {
-		7898.1.1 = {
-		holder = gen_2953
-		liege = d_R248G179B1
-	}
-	7985.1.1 = {
-		holder = gen_480
-		liege = d_R248G179B1
-	}
-}
-c_R39G136B150 = {
-		7898.1.1 = {
-		holder = gen_2953
-		liege = d_R248G179B1
-	}
-	7985.1.1 = {
-		holder = gen_480
-		liege = d_R248G179B1
-	}
-}
+
+
+
+
+
 d_R254G224B205 = {
 		7898.1.1 = {
 		holder = gen_2954

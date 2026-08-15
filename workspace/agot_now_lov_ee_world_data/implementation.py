@@ -27,6 +27,24 @@ TARGET_FIRST = 10946
 TARGET_LAST = 26420
 TARGET_COUNT = TARGET_LAST - TARGET_FIRST + 1
 EXPECTED_TITLE_COUNT = 13270
+# This module's ee_province_terrain.txt same-path overrides the TempLoV
+# compatch's file of the same name, so every id that file assigns outside the
+# target range has to be carried forward or it silently falls back to whichever
+# earlier module last wrote it. AGOT 0.5.0 made that visible: it now assigns
+# terrain across 8233-9400, ids the effective map gives to Essos Expanded's
+# authored baronies.
+EXPECTED_CARRY_FORWARD = 1114
+# AGOT 0.5.0 assigns terrain across 8233-9400 for its own new region. The
+# effective map keeps Essos Expanded's provinces at those ids, so AGOT's values
+# describe different land than the pixels this pipeline measures there. They are
+# dropped from the training labels; the EE-lineage assignments for the same ids
+# stay, because those do describe the mapped provinces.
+AGOT_NEW_BAND = range(8233, 9401)
+EXPECTED_AGOT_NEW_BAND = 1108
+# ...and the map compatch renumbers that region onto these ids. Its terrain is
+# AGOT's own, replayed at the merged ids; this module does not classify it.
+REMAP_FIRST = 26421
+REMAP_LAST = REMAP_FIRST + len(AGOT_NEW_BAND) - 1
 EXPECTED_MASK_COUNT = 188
 EXPECTED_SIZE = (9216, 6144)
 REFERENCE_ANALYSIS_SIZE = (2304, 1536)
@@ -128,7 +146,9 @@ def bool_value(value: str, *, field: str) -> bool:
     raise ValueError(f"{field}: expected true or false, got {value!r}")
 
 
-def parse_definitions(path: Path) -> list[Definition]:
+def parse_definitions(
+    path: Path, *, expected_rows: int | None = None
+) -> list[Definition]:
     rows: list[Definition] = []
     for line_number, line in enumerate(read_text(path).splitlines(), 1):
         if not line.strip():
@@ -144,13 +164,16 @@ def parse_definitions(path: Path) -> list[Definition]:
             ) from error
         rows.append(Definition(province_id, red, green, blue, fields[4]))
 
-    if len(rows) != TARGET_LAST + 1:
+    expected = TARGET_LAST + 1 if expected_rows is None else expected_rows
+    if len(rows) != expected:
         raise AssertionError(
-            f"definition row count changed: {len(rows)} != {TARGET_LAST + 1}"
+            f"{path.name} definition row count changed: {len(rows)} != {expected}"
         )
     ids = [row.province_id for row in rows]
-    if ids != list(range(TARGET_LAST + 1)):
-        raise AssertionError("definition IDs are no longer contiguous 0..26420")
+    if ids != list(range(expected)):
+        raise AssertionError(
+            f"{path.name} definition IDs are no longer contiguous 0..{expected - 1}"
+        )
     packed = [row.packed_rgb for row in rows]
     if len(packed) != len(set(packed)):
         duplicates = [rgb for rgb, count in Counter(packed).items() if count > 1]
@@ -1151,6 +1174,10 @@ def target_source_manifest(
             "target_first": TARGET_FIRST,
             "target_last": TARGET_LAST,
             "target_count": TARGET_COUNT,
+            "carry_forward_count": EXPECTED_CARRY_FORWARD,
+            "remap_first": REMAP_FIRST,
+            "remap_last": REMAP_LAST,
+            "remap_terrain_count": EXPECTED_AGOT_NEW_BAND,
             "title_count": EXPECTED_TITLE_COUNT,
             "mask_count": EXPECTED_MASK_COUNT,
             "image_width": EXPECTED_SIZE[0],
@@ -1228,7 +1255,9 @@ class WorldDataPipeline:
         ee_definitions = parse_definitions(
             self.workshop["EE"] / "map_data/definition.csv"
         )
-        merged_definitions = parse_definitions(self.inputs.map_definition)
+        merged_definitions = parse_definitions(
+            self.inputs.map_definition, expected_rows=REMAP_LAST + 1
+        )
         self.eep_definitions = parse_definitions(
             self.workshop["EEP"] / "map_data/definition.csv"
         )
@@ -1295,6 +1324,36 @@ class WorldDataPipeline:
             raise AssertionError(
                 "TempLoV target terrain is both authored and placeholder"
             )
+
+        self.eep_carry_forward = {
+            province_id: terrain
+            for province_id, terrain in self.eep_terrain.items()
+            if province_id not in self.expected_ids
+        }
+        if len(self.eep_carry_forward) != EXPECTED_CARRY_FORWARD:
+            raise AssertionError(
+                f"TempLoV out-of-range terrain count changed: "
+                f"{len(self.eep_carry_forward)} != {EXPECTED_CARRY_FORWARD}"
+            )
+
+        # AGOT's own terrain for the region the map compatch renumbered, replayed
+        # at the merged ids. Nothing upstream covers them, and this module's
+        # classifier is scoped to the Essos Expanded target range.
+        agot_terrain = parse_scalar_terrain(
+            self.workshop["AGOT"] / "common/province_terrain/00_province_terrain.txt"
+        )
+        self.remapped_terrain = {
+            REMAP_FIRST + (province_id - AGOT_NEW_BAND.start): terrain
+            for province_id, terrain in sorted(agot_terrain.items())
+            if province_id in AGOT_NEW_BAND
+        }
+        if len(self.remapped_terrain) != EXPECTED_AGOT_NEW_BAND:
+            raise AssertionError(
+                f"AGOT new-region terrain count changed: "
+                f"{len(self.remapped_terrain)} != {EXPECTED_AGOT_NEW_BAND}"
+            )
+        if max(self.remapped_terrain) > REMAP_LAST:
+            raise AssertionError("a remapped terrain id exceeds the merged ceiling")
 
         self.ee_titles = [
             row
@@ -1420,6 +1479,27 @@ class WorldDataPipeline:
             self.workshop["EEP"],
         ]
         terrain_by_province = terrain_winners(terrain_modules)
+        agot_band = {
+            province_id
+            for province_id in parse_scalar_terrain(
+                self.workshop["AGOT"]
+                / "common/province_terrain/00_province_terrain.txt"
+            )
+            if province_id in AGOT_NEW_BAND
+        }
+        if len(agot_band) != EXPECTED_AGOT_NEW_BAND:
+            raise AssertionError(
+                f"AGOT terrain coverage of {AGOT_NEW_BAND.start}-"
+                f"{AGOT_NEW_BAND.stop - 1} changed: "
+                f"{len(agot_band)} != {EXPECTED_AGOT_NEW_BAND}"
+            )
+        ee_lineage_terrain = terrain_winners(terrain_modules[1:])
+        for province_id in agot_band:
+            replacement = ee_lineage_terrain.get(province_id)
+            if replacement is None:
+                terrain_by_province.pop(province_id, None)
+            else:
+                terrain_by_province[province_id] = replacement
         self.valid_terrains = terrain_type_keys(terrain_modules)
         gameplay_terrains = {
             group.terrain for group in self.gameplay_groups if group.terrain is not None
@@ -1989,10 +2069,30 @@ class WorldDataPipeline:
             + ", ".join(f"{name}={self.label_counts[name]}" for name in self.classes),
             f"# Target IDs: {TARGET_FIRST}..{TARGET_LAST} ({TARGET_COUNT})",
             "",
+            "# Carried forward verbatim from the TempLoV compatch file this one "
+            "same-path overrides.",
+            f"# Out-of-target IDs: {len(self.eep_carry_forward)}",
+            "",
         ]
+        terrain_lines.extend(
+            f"{province_id} = {self.eep_carry_forward[province_id]}"
+            for province_id in sorted(self.eep_carry_forward)
+        )
+        terrain_lines.append("")
         terrain_lines.extend(
             f"{province_id} = {self.final_terrain[province_id]}"
             for province_id in range(TARGET_FIRST, TARGET_LAST + 1)
+        )
+        terrain_lines.append("")
+        terrain_lines.append(
+            f"# AGOT {AGOT_NEW_BAND.start}-{AGOT_NEW_BAND.stop - 1} terrain, replayed "
+            f"at the ids the map compatch renumbered them to."
+        )
+        terrain_lines.append(f"# Renumbered IDs: {REMAP_FIRST}..{REMAP_LAST}")
+        terrain_lines.append("")
+        terrain_lines.extend(
+            f"{province_id} = {self.remapped_terrain[province_id]}"
+            for province_id in sorted(self.remapped_terrain)
         )
         terrain_output = ("\n".join(terrain_lines) + "\n").encode("utf-8")
 

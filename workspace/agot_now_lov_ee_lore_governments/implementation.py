@@ -58,6 +58,8 @@ WORKSHOP_IDS = {
     "EEP": "3768149491",
     "BRIDGE": "3773608127",
 }
+EXPECTED_REMOVED_TITLES = 1197
+EXPECTED_FILTERED_TITLE_HISTORIES = 215
 
 
 @dataclass(frozen=True, slots=True)
@@ -67,6 +69,7 @@ class RunInputs:
     output_root: Path
     assets_dir: Path
     local_sources: dict[str, Path]
+    removed_titles_path: Path
 
 
 @dataclass
@@ -774,6 +777,12 @@ class LoreGovernmentPipeline:
                 local_sources.get("EE_REBASE", root / "mods/essos_expanded_119_rebase"),
             ),
             ("EEP", workshop["EEP"]),
+            (
+                "MAP_COMPATCH",
+                local_sources.get(
+                    "MAP_COMPATCH", root / "mods/agot_now_lov_ee_map_compatch"
+                ),
+            ),
         ]
         self.title_winners = source_winners(
             roots,
@@ -796,7 +805,20 @@ class LoreGovernmentPipeline:
                 "effective EE k_generated province history not found"
             )
 
-        landed_titles = workshop["EEP"] / "common/landed_titles/01_landed_titles.txt"
+        landed_titles = (
+            local_sources.get(
+                "MAP_COMPATCH", root / "mods/agot_now_lov_ee_map_compatch"
+            )
+            / "common/landed_titles/01_landed_titles.txt"
+        )
+        self.removed_titles = set(
+            json.loads(self.inputs.removed_titles_path.read_text(encoding="utf-8"))
+        )
+        if len(self.removed_titles) != EXPECTED_REMOVED_TITLES:
+            raise AssertionError(
+                f"removed-title count changed: {len(self.removed_titles)} != "
+                f"{EXPECTED_REMOVED_TITLES}"
+            )
         input_paths = [
             rules_path,
             self.effect_source,
@@ -804,6 +826,7 @@ class LoreGovernmentPipeline:
             workshop["AGOT"] / "common/governments/00_government_types.txt",
             workshop["AGOT"]
             / "common/religion/religion_types/00_agot_the_venerations.txt",
+            self.inputs.removed_titles_path,
             *[path for _, path in self.title_winners.values()],
             *[path for _, path in self.character_winners.values()],
             *[path for _, path in self.province_winners.values()],
@@ -845,6 +868,8 @@ class LoreGovernmentPipeline:
             self.title_documents[relative] = document
             for title_block in document.children(None):
                 if not re.fullmatch(r"[ekdc]_[A-Za-z0-9_]+", title_block.key):
+                    continue
+                if title_block.key in self.removed_titles:
                     continue
                 tier = TIER[title_block.key[0]]
                 empire = self.title_empire.get(title_block.key, "")
@@ -1232,10 +1257,41 @@ class LoreGovernmentPipeline:
 
     def render_title_edits(self) -> None:
         self.generated: dict[Path, bytes] = {}
-        for relative, edits in self.title_edits.items():
-            self.generated[relative] = apply_edits(
-                self.title_texts[relative], edits
-            ).encode("utf-8-sig")
+        filtered = 0
+        for relative, text in self.title_texts.items():
+            document = self.title_documents[relative]
+            removals = [
+                (block.start, block.close + 1, "")
+                for block in document.children(None)
+                if block.key in self.removed_titles
+            ]
+            filtered += len(removals)
+            edits = []
+            for edit in self.title_edits.get(relative, []):
+                containing = [
+                    removal
+                    for removal in removals
+                    if removal[0] <= edit[0] and edit[1] <= removal[1]
+                ]
+                if containing:
+                    continue
+                if any(
+                    edit[0] < removal[1] and removal[0] < edit[1]
+                    for removal in removals
+                ):
+                    raise AssertionError(
+                        f"partial overlap between title removal and edit in {relative}"
+                    )
+                edits.append(edit)
+            edits.extend(removals)
+            if edits:
+                rendered = apply_edits(text, edits).rstrip() + "\n"
+                self.generated[relative] = rendered.encode("utf-8-sig")
+        if filtered != EXPECTED_FILTERED_TITLE_HISTORIES:
+            raise AssertionError(
+                f"filtered title-history count changed: {filtered} != "
+                f"{EXPECTED_FILTERED_TITLE_HISTORIES}"
+            )
 
     def build_character_outputs(self) -> None:
         character_edits: dict[Path, list[tuple[int, int, str]]] = defaultdict(list)
@@ -1565,6 +1621,8 @@ def generate(context: GenerationContext) -> None:
             local_sources={
                 "LOV_REBASE": context.source("legacy-of-valyria-rebase"),
                 "EE_REBASE": context.source("essos-expanded-rebase"),
+                "MAP_COMPATCH": context.source("map-compatch"),
             },
+            removed_titles_path=context.source("removed-titles"),
         )
     )

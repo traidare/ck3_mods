@@ -1,0 +1,615 @@
+﻿# EE TempLoV Compatch v2.4 Stage 1: Century of Blood de jure map (cpcm00rfish's layout).
+# Affects only the After the Doom starts (7899-7901, More Bookmarks). All entries revert
+# by 7960 so every later bookmark keeps the standard layout. Each block embeds Essos
+# Expanded's original history entries for the same title so nothing is lost regardless
+# of how the engine merges duplicate title history definitions.
+#
+# 7898: the Kingdom of Sarnor stands whole, six Sarne and grass-sea kingdoms plus
+# Qohor's eastern lands under e_sarnor, Omber's kingdom under Sarnori sway.
+# All dates: Qohor holds its western forest bank (from e_norvos), and New Ghis keeps
+# six duchies taken from Qarth's western kingdom.
+
+k_R94G218B71 = {
+
+		7898.1.1 = {
+		holder = gen_2442
+	}
+	7985.1.1 = {
+		holder = gen_18
+	}
+	8082.1.1 = {
+		holder = gen_1740
+	}
+	8106.4.18 = {
+		holder = gen_1746
+	}
+	8170.12.11 = {
+		holder = gen_1752
+	}
+	8209.2.1 = {
+		holder = gen_1758
+	}
+	8211.3.1 = {
+		holder = gen_1764
+	}
+	8233.2.8 = {
+		holder = gen_1770
+	}
+	8236.2.13 = {
+		holder = gen_1776
+	}
+	8239.1.11 = {
+		holder = gen_1782
+	}
+	8258.12.21 = {
+		holder = gen_1788
+	}
+	8277.1.1 = {
+		holder = gen_1794
+	}
+	7898.6.1 = { de_jure_liege = e_sarnor }
+	7960.1.1 = { de_jure_liege = e_upper_sarne_dothraki }
+}
+
+k_R168G94B91 = {
+
+		7898.1.1 = {
+		holder = gen_3160
+		liege = e_upper_sarne_dothraki
+	}
+	7985.1.1 = {
+		holder = gen_687
+		liege = e_upper_sarne_dothraki
+	}
+		8082.1.1 = {
+			holder = gen_1742
+		}
+		8106.4.18 = {
+			holder = gen_1742
+		}
+		8170.12.11 = {
+			holder = gen_1750
+		}
+		8209.2.1 = {
+			holder = gen_1754
+		}
+		8211.3.1 = {
+			holder = gen_1754
+		}
+		8233.2.8 = {
+			holder = gen_1756
+		}
+		8236.2.13 = {
+			holder = gen_1756
+		}
+		8239.1.11 = {
+			holder = gen_1756
+		}
+		8258.12.21 = {
+			holder = gen_1762
+		}
+		8277.1.1 = {
+			holder = gen_1771
+		}
+	7898.6.1 = { de_jure_liege = e_sarnor }
+	7960.1.1 = { de_jure_liege = e_upper_sarne_dothraki }
+}
+
+k_R58G101B215 = {
+
+		7898.1.1 = {
+		holder = gen_3185
+		liege = e_upper_sarne_dothraki
+	}
+	7985.1.1 = {
+		holder = gen_712
+		liege = e_upper_sarne_dothraki
+	}
+		8082.1.1 = {
+			holder = gen_1742
+		}
+		8106.4.18 = {
+			holder = gen_1742
+		}
+		8170.12.11 = {
+			holder = gen_1750
+		}
+		8209.2.1 = {
+			holder = gen_1754
+		}
+		8211.3.1 = {
+			holder = gen_1754
+		}
+		8233.2.8 = {
+			holder = gen_1756
+		}
+		8236.2.13 = {
+			holder = gen_1756
+		}
+		8239.1.11 = {
+			holder = gen_1756
+		}
+		8258.12.21 = {
+			holder = gen_1762
+		}
+		8277.1.1 = {
+			holder = gen_1771
+		}
+	7898.6.1 = { de_jure_liege = e_sarnor }
+	7960.1.1 = { de_jure_liege = e_upper_sarne_dothraki }
+}
+
+k_R139G90B4 = {
+
+		7898.1.1 = {
+		holder = gen_2979
+		liege = e_lower_sarne_dothraki
+	}
+	7985.1.1 = {
+		holder = gen_506
+		liege = e_lower_sarne_dothraki
+	}
+		8082.1.1 = {
+			holder = gen_1801
+		}
+		8106.4.18 = {
+			holder = gen_1801
+		}
+		8170.12.11 = {
+			holder = gen_1809
+		}
+		8209.2.1 = {
+			holder = gen_1813
+		}
+		8211.3.1 = {
+			holder = gen_1813
+		}
+		8233.2.8 = {
+			holder = gen_1815
+		}
+		8236.2.13 = {
+			holder = gen_1815
+		}
+		8239.1.11 = {
+			holder = gen_1816
+		}
+		8258.12.21 = {
+			holder = gen_1821
+		}
+		8277.1.1 = {
+			holder = gen_1828
+		}
+	7898.6.1 = { de_jure_liege = e_sarnor }
+	7960.1.1 = { de_jure_liege = e_lower_sarne_dothraki }
+}
+
+k_R38G162B191 = {
+
+		7898.1.1 = {
+		holder = gen_2947
+		liege = e_lower_sarne_dothraki
+	}
+	7985.1.1 = {
+		holder = gen_474
+		liege = e_lower_sarne_dothraki
+	}
+		8082.1.1 = {
+			holder = gen_1801
+		}
+		8106.4.18 = {
+			holder = gen_1801
+		}
+		8170.12.11 = {
+			holder = gen_1809
+		}
+		8209.2.1 = {
+			holder = gen_1813
+		}
+		8211.3.1 = {
+			holder = gen_1813
+		}
+		8233.2.8 = {
+			holder = gen_1815
+		}
+		8236.2.13 = {
+			holder = gen_1815
+		}
+		8239.1.11 = {
+			holder = gen_1816
+		}
+		8258.12.21 = {
+			holder = gen_1821
+		}
+		8277.1.1 = {
+			holder = gen_1828
+		}
+	7898.6.1 = { de_jure_liege = e_sarnor }
+	7960.1.1 = { de_jure_liege = e_lower_sarne_dothraki }
+}
+
+k_R234G164B143 = {
+
+		7898.1.1 = {
+		holder = gen_2747
+		liege = e_great_grass_sea_dothraki
+	}
+	7985.1.1 = {
+		holder = gen_274
+		liege = e_great_grass_sea_dothraki
+	}
+		8082.1.1 = {
+			holder = gen_1861
+		}
+		8106.4.18 = {
+			holder = gen_1861
+		}
+		8170.12.11 = {
+			holder = gen_1869
+		}
+		8209.2.1 = {
+			holder = gen_1873
+		}
+		8211.3.1 = {
+			holder = gen_1873
+		}
+		8233.2.8 = {
+			holder = gen_1875
+		}
+		8236.2.13 = {
+			holder = gen_1875
+		}
+		8239.1.11 = {
+			holder = gen_1876
+		}
+		8258.12.21 = {
+			holder = gen_1880
+		}
+		8277.1.1 = {
+			holder = gen_1881
+		}
+	7898.6.1 = { de_jure_liege = e_sarnor }
+	7960.1.1 = { de_jure_liege = e_great_grass_sea_dothraki }
+}
+
+k_R43G49B154 = {
+
+		7898.1.1 = {
+		holder = gen_2406
+	}
+	7985.1.1 = {
+		holder = gen_12
+	}
+	8082.1.1 = {
+		holder = gen_1380
+	}
+	8106.4.18 = {
+		holder = gen_1386
+	}
+	8170.12.11 = {
+		holder = gen_1392
+	}
+	8209.2.1 = {
+		holder = gen_1398
+	}
+	8211.3.1 = {
+		holder = gen_1404
+	}
+	8233.2.8 = {
+		holder = gen_1410
+	}
+	8236.2.13 = {
+		holder = gen_1416
+	}
+	8239.1.11 = {
+		holder = gen_1422
+	}
+	8258.12.21 = {
+		holder = gen_1428
+	}
+	8277.1.1 = {
+		holder = gen_1434
+	}
+	7898.6.1 = { de_jure_liege = e_sarnor }
+	7960.1.1 = { de_jure_liege = e_lower_sarne_dothraki }
+}
+
+k_R25G90B130 = {
+
+		7898.1.1 = {
+		holder = gen_2400
+	}
+	7985.1.1 = {
+		holder = gen_11
+	}
+	8082.1.1 = {
+		holder = gen_1320
+	}
+	8106.4.18 = {
+		holder = gen_1326
+	}
+	8170.12.11 = {
+		holder = gen_1332
+	}
+	8209.2.1 = {
+		holder = gen_1338
+	}
+	8211.3.1 = {
+		holder = gen_1344
+	}
+	8233.2.8 = {
+		holder = gen_1350
+	}
+	8236.2.13 = {
+		holder = gen_1356
+	}
+	8239.1.11 = {
+		holder = gen_1362
+	}
+	8258.12.21 = {
+		holder = gen_1368
+	}
+	8277.1.1 = {
+		holder = gen_1374
+	}
+	7898.6.1 = { de_jure_liege = e_sarnor }
+	7960.1.1 = { de_jure_liege = e_omber }
+}
+
+
+d_R162G253B150 = {
+
+		7898.1.1 = {
+		holder = gen_3052
+		liege = k_R8G180B35
+	}
+	7985.1.1 = {
+		holder = gen_579
+		liege = k_R8G180B35
+	}
+		8082.1.1 = {
+			holder = gen_2042
+		}
+		8106.4.18 = {
+			holder = gen_2042
+		}
+		8170.12.11 = {
+			holder = gen_2051
+		}
+		8209.2.1 = {
+			holder = gen_2054
+		}
+		8211.3.1 = {
+			holder = gen_2054
+		}
+		8233.2.8 = {
+			holder = gen_2056
+		}
+		8236.2.13 = {
+			holder = gen_2059
+		}
+		8239.1.11 = {
+			holder = gen_2060
+		}
+		8258.12.21 = {
+			holder = gen_2062
+		}
+		8277.1.1 = {
+			holder = gen_2067
+		}
+	2.1.1 = { de_jure_liege = k_new_ghis }
+}
+
+d_R154G226B97 = {
+
+		7898.1.1 = {
+		holder = gen_3054
+		liege = k_R8G180B35
+	}
+	7985.1.1 = {
+		holder = gen_581
+		liege = k_R8G180B35
+	}
+		8082.1.1 = {
+			holder = gen_2042
+		}
+		8106.4.18 = {
+			holder = gen_2042
+		}
+		8170.12.11 = {
+			holder = gen_2051
+		}
+		8209.2.1 = {
+			holder = gen_2054
+		}
+		8211.3.1 = {
+			holder = gen_2054
+		}
+		8233.2.8 = {
+			holder = gen_2056
+		}
+		8236.2.13 = {
+			holder = gen_2059
+		}
+		8239.1.11 = {
+			holder = gen_2060
+		}
+		8258.12.21 = {
+			holder = gen_2062
+		}
+		8277.1.1 = {
+			holder = gen_2067
+		}
+	2.1.1 = { de_jure_liege = k_new_ghis }
+}
+
+d_R15G243B61 = {
+
+		7898.1.1 = {
+		holder = gen_3046
+		liege = k_R8G180B35
+	}
+	7985.1.1 = {
+		holder = gen_573
+		liege = k_R8G180B35
+	}
+		8082.1.1 = {
+			holder = gen_2042
+		}
+		8106.4.18 = {
+			holder = gen_2042
+		}
+		8170.12.11 = {
+			holder = gen_2051
+		}
+		8209.2.1 = {
+			holder = gen_2054
+		}
+		8211.3.1 = {
+			holder = gen_2054
+		}
+		8233.2.8 = {
+			holder = gen_2056
+		}
+		8236.2.13 = {
+			holder = gen_2059
+		}
+		8239.1.11 = {
+			holder = gen_2060
+		}
+		8258.12.21 = {
+			holder = gen_2062
+		}
+		8277.1.1 = {
+			holder = gen_2067
+		}
+	2.1.1 = { de_jure_liege = k_new_ghis }
+}
+
+d_R48G116B227 = {
+
+		7898.1.1 = {
+		holder = gen_3049
+		liege = k_R8G180B35
+	}
+	7985.1.1 = {
+		holder = gen_576
+		liege = k_R8G180B35
+	}
+		8082.1.1 = {
+			holder = gen_2042
+		}
+		8106.4.18 = {
+			holder = gen_2042
+		}
+		8170.12.11 = {
+			holder = gen_2051
+		}
+		8209.2.1 = {
+			holder = gen_2054
+		}
+		8211.3.1 = {
+			holder = gen_2054
+		}
+		8233.2.8 = {
+			holder = gen_2056
+		}
+		8236.2.13 = {
+			holder = gen_2059
+		}
+		8239.1.11 = {
+			holder = gen_2060
+		}
+		8258.12.21 = {
+			holder = gen_2062
+		}
+		8277.1.1 = {
+			holder = gen_2067
+		}
+	2.1.1 = { de_jure_liege = k_new_ghis }
+}
+
+d_R152G107B185 = {
+
+		7898.1.1 = {
+		holder = gen_3048
+		liege = k_R8G180B35
+	}
+	7985.1.1 = {
+		holder = gen_575
+		liege = k_R8G180B35
+	}
+		8082.1.1 = {
+			holder = gen_2042
+		}
+		8106.4.18 = {
+			holder = gen_2042
+		}
+		8170.12.11 = {
+			holder = gen_2051
+		}
+		8209.2.1 = {
+			holder = gen_2054
+		}
+		8211.3.1 = {
+			holder = gen_2054
+		}
+		8233.2.8 = {
+			holder = gen_2056
+		}
+		8236.2.13 = {
+			holder = gen_2059
+		}
+		8239.1.11 = {
+			holder = gen_2060
+		}
+		8258.12.21 = {
+			holder = gen_2062
+		}
+		8277.1.1 = {
+			holder = gen_2067
+		}
+	2.1.1 = { de_jure_liege = k_new_ghis }
+}
+
+d_R168G53B18 = {
+
+		7898.1.1 = {
+		holder = gen_3044
+		liege = k_R8G180B35
+	}
+	7985.1.1 = {
+		holder = gen_571
+		liege = k_R8G180B35
+	}
+		8082.1.1 = {
+			holder = gen_2041
+		}
+		8106.4.18 = {
+			holder = gen_2041
+		}
+		8170.12.11 = {
+			holder = gen_2050
+		}
+		8209.2.1 = {
+			holder = gen_2053
+		}
+		8211.3.1 = {
+			holder = gen_2053
+		}
+		8233.2.8 = {
+			holder = gen_2055
+		}
+		8236.2.13 = {
+			holder = gen_2056
+		}
+		8239.1.11 = {
+			holder = gen_2059
+		}
+		8258.12.21 = {
+			holder = gen_2061
+		}
+		8277.1.1 = {
+			holder = gen_2062
+		}
+	2.1.1 = { de_jure_liege = k_new_ghis }
+}

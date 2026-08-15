@@ -52,6 +52,7 @@ gen_7 = {
 	culture = lorathi
 	religion = fc_pan_lorath
 	7950.1.1 = { birth = yes }
+	7985.1.1 = { add_legitimacy = 3000 }
 }
 
 gen_8 = {

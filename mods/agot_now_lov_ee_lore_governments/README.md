@@ -16,8 +16,12 @@ The full-file history overrides are generated because CK3 merges history by
 filename and title/character/province key; small fragments cannot safely amend
 every dated holder without risking duplicate keys or losing later parent
 history. The generator first reconstructs the effective LoV/EE source layer,
-then makes only the audited government, culture, faith, legitimacy, and
-flavor-effect changes.
+including the map compatch's cleaned history winners, then makes only the
+audited government, culture, faith, legitimacy, and flavor-effect changes.
+
+The map compatch also publishes `artifacts/map_data/removed_titles.json`. This
+generator excludes those titles from government planning and removes all 215
+matching effective title-history blocks from its later full-file overrides.
 
 The effective character-title dispatcher starts with
 `Essos Expanded - TempLoV/NOW Compatch`, the final Workshop compatch in the
@@ -26,7 +30,7 @@ its AGOT mapping semantics, adds the two lore government fallbacks through
 AGOT's feudal path, and carries no government lists of its own.
 
 This module does not own landed-title structure, map data, terrain, holdings,
-holder succession, names, dynasties, or unrelated faith history.
+names, dynasties, or unrelated faith history.
 
 ## Lore policy
 

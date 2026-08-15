@@ -1,60 +1,64 @@
 {
   "files": {
+    "2962333032/common/landed_titles/01_agot_landed_titles.txt": {
+      "sha256": "158c83ebac4536ab1ed4a0cca261208b5aad47ef094956819c22a14e301e849e",
+      "size": 859085
+    },
     "2962333032/content_source/map_objects/masks/tree_leaf_01_single_mask.png": {
-      "sha256": "7bc8b539e6a9e289a6be4efde3aec4214d4c9d2d779a378987a075e6b2e20e94",
-      "size": 405818
+      "sha256": "8985de4857b17acd9c6cc0206d60b228caba0db2b1ba394408d7fff6f3525de5",
+      "size": 495286
     },
     "2962333032/content_source/map_objects/masks/tree_pine_01_a_mask.png": {
-      "sha256": "8bc2857606a9879bdcfb98e61d5c91d2343082aef77a5b94fc413b72b2867058",
-      "size": 497375
+      "sha256": "bb81cad8ca3b141361a996bd3ef428c6e1020f496c07751a0a6159d0230241d5",
+      "size": 612217
     },
     "2962333032/gfx/map/map_object_data/activities.txt": {
-      "sha256": "71e63fbf22a98cb22c0d10283e4a9219f866cd62427f2eec3400ab9f7950e619",
-      "size": 1183895
+      "sha256": "3c864d067ad379357f0b45c17f47f68a9abec54fba76f41dd82f72a344e0a47f",
+      "size": 1371307
     },
     "2962333032/gfx/map/map_object_data/building_locators.txt": {
-      "sha256": "4c8ddb82b26c0469b06d06a88ead9aba0e89679a27931c9b1cc96363957f6a75",
-      "size": 1183470
+      "sha256": "c2575501f1bc94ddc327ac669fb8942b3c400f9c3069fe12b25830f056bc8627",
+      "size": 1371278
     },
     "2962333032/gfx/map/map_object_data/combat_locators.txt": {
-      "sha256": "a492eb36c549f6c9e97461c1ee649fdfd3bd9f0977ca8212dec2a2c1960f9e14",
-      "size": 1259376
+      "sha256": "18056b8600589b1a40c009bde621e432023d348bb2b028280f7463e28308b999",
+      "size": 1462060
     },
     "2962333032/gfx/map/map_object_data/generated/cactus_cholla_01_generator_1.txt": {
       "sha256": "329d3c05d74a0d1f243e81b3aa3f556c74594abad5e4df74f6ccd93e82dbb97a",
       "size": 587
     },
     "2962333032/gfx/map/map_object_data/generated/tree_leaf_01_single_generator_1.txt": {
-      "sha256": "301472fa4019bc68a806773f8289df3e7cb27ca0e8df84716111bff17ec9880c",
-      "size": 43021112
+      "sha256": "9e3ad4050dd478d4418a1f1e34ac3253e16f8ae247bdbac73262ad2eaa70d59d",
+      "size": 52977726
     },
     "2962333032/gfx/map/map_object_data/generated/tree_leaf_2_high_generator_1.txt": {
       "sha256": "4566544a0c67f3a7d733fadc1261760c63e21bce32a246b34eea1d8464de07c9",
       "size": 945801
     },
     "2962333032/gfx/map/map_object_data/generated/tree_mangrove_generator_1.txt": {
-      "sha256": "a0a02d16a5e832cddad89ae722adbff77a30253e20c6191aca7390d04b6d16e1",
-      "size": 280441
+      "sha256": "a61a51168ee8037e2688002684256cc6fe97fc69e4ff5b75da4075cb3feb3ec9",
+      "size": 487300
     },
     "2962333032/gfx/map/map_object_data/generated/tree_mangrove_generator_2.txt": {
-      "sha256": "6d18d8d845aece0b743278291b9a537644bdf630a0d7db4edee9490298778f28",
-      "size": 55100
+      "sha256": "d88fb6b2c9143cfe4bae0927cae798a82837fe0815451941b8ac0fa50a946576",
+      "size": 82410
     },
     "2962333032/gfx/map/map_object_data/generated/tree_mangrove_generator_3.txt": {
-      "sha256": "2e8ae21ddae7a66233d8a66640882830e1615984fad2d490a18e40c62298716c",
-      "size": 119257
+      "sha256": "8f113e1757e67fe71fb6db89b80c324dd9def2bac80625474f60077532eb73ee",
+      "size": 183814
     },
     "2962333032/gfx/map/map_object_data/generated/tree_pine_01_a_generator_1.txt": {
-      "sha256": "3296e729234d7bdb0a7833a354466047c6dee6a267ed68b90f5acb15fc44c228",
-      "size": 58557524
+      "sha256": "67b1ce384be09c182b1cb741585478256f274e608b2c8bfa075e8d7413d8698e",
+      "size": 72057281
     },
     "2962333032/gfx/map/map_object_data/new_mapobject_1.txt": {
-      "sha256": "374dada19d658166a86a91564ec682aad7cb6dee4f893f10e698c453c757f845",
-      "size": 968695
+      "sha256": "bba11789598585bc53a683d9b0c30fde2cad23faa13929a0819c98c33339a499",
+      "size": 1250433
     },
     "2962333032/gfx/map/map_object_data/new_mapobject_2.txt": {
-      "sha256": "562a1dcda8bc04aaeeafcf7aeb6997924dbb3d1e07a805dee703c585e6045d4a",
-      "size": 48364
+      "sha256": "bfbed78006ea42d6d70373cfad80ef3ac05889b3033592976117a644e8877627",
+      "size": 49455
     },
     "2962333032/gfx/map/map_object_data/new_mapobject_3.txt": {
       "sha256": "79e0ca9aecd1e3134800a9ddca1e3693e64b802795e5d20cc84ac50a5b2f6a78",
@@ -65,24 +69,80 @@
       "size": 10267
     },
     "2962333032/gfx/map/map_object_data/player_stack_locators.txt": {
-      "sha256": "c10a93bfb63f7f4d5497e9afa3acb4224940236f672f381e23c1e669c7499643",
-      "size": 1261090
+      "sha256": "28111271f915e6c3842e3a0f8ef3979e804ac4da021457fa3bb18cd8e753a876",
+      "size": 1463844
     },
     "2962333032/gfx/map/map_object_data/siege_locators.txt": {
-      "sha256": "3e704a70283366c43f89d21635158eba9509e91232ef0e5b695d35b10c1b97f5",
-      "size": 1179752
+      "sha256": "8deb18f46edcb41a1572db717cea041cbcbf259bb21e5bddf677ca1c235046c6",
+      "size": 1366994
     },
     "2962333032/gfx/map/map_object_data/special_building_locators.txt": {
-      "sha256": "df47136da988aa2521cedc21bd758dd9bfc1edae076139b83496809ac65cfb17",
-      "size": 1184771
+      "sha256": "f3af968249377485bc25dde5bd0b069771cf422167c6d97c9bf7f2a9d640e838",
+      "size": 1372704
+    },
+    "2962333032/history/provinces/00_k_ar_noy_prov.txt": {
+      "sha256": "0aac4fa631dd67f9e4efeb96ea67a1915b5daa36d91ec6ff8b0974dd02699c6f",
+      "size": 13157
+    },
+    "2962333032/history/provinces/00_k_chroyane_prov.txt": {
+      "sha256": "a068a24419731422822d517aeed4783f26f5a97e268d10127f9a25f9647f211d",
+      "size": 18937
+    },
+    "2962333032/history/provinces/00_k_ghoyan_drohe_prov.txt": {
+      "sha256": "9f491a5f3b9e06b6174cde8a828d8503ac416a3a8c2148fe55f685ef1662ba6b",
+      "size": 11356
+    },
+    "2962333032/history/provinces/00_k_lorath_prov.txt": {
+      "sha256": "21e571e3d208343f1f69fd2a5c4e16f52bc62dee3bc8ba78c15e8cf333c50eb5",
+      "size": 16440
+    },
+    "2962333032/history/provinces/00_k_norvos_prov.txt": {
+      "sha256": "0f04b9958d312d1134a69d524f6ba42729f19a302ed0aa833286b91ac0729dc2",
+      "size": 42086
+    },
+    "2962333032/history/provinces/00_k_ny_sar_prov.txt": {
+      "sha256": "e4d34b22fb556aca533aa80fb6b489588b84c8adb389e98e658f2062b5c23b51",
+      "size": 16749
+    },
+    "2962333032/history/provinces/00_k_pentos_prov.txt": {
+      "sha256": "f739cee6824d2fcf497b544eac5be9c1ef3ebda74b80539a6616949df1f095e1",
+      "size": 36311
+    },
+    "2962333032/history/provinces/00_k_qohor_prov.txt": {
+      "sha256": "38fdf98b357b3cb4de82c3c57fa030c337b9535cf2feac6cd19586fa9486e11f",
+      "size": 53414
+    },
+    "2962333032/history/provinces/00_k_the_axe_prov.txt": {
+      "sha256": "ec594ae224b897a9bbb54a61b16d5567ea36d4ceab065526969c3aa65837ddc2",
+      "size": 14114
+    },
+    "2962333032/map_data/default.map": {
+      "sha256": "6d4443dd141a565710e34fc02a59313f2a909ba9727174484f82173b08c3eb91",
+      "size": 1476
     },
     "2962333032/map_data/definition.csv": {
-      "sha256": "d14fd2b0af6365f5dde70ab02cf760ed0b8ed4f51e69a9c66fd5a1b1f667e38c",
-      "size": 262100
+      "sha256": "a8722ba54ccefdea0382dc3384f8df57c5f77992f82a28280ad7f0c9d672f6dc",
+      "size": 296740
     },
     "2962333032/map_data/heightmap.png": {
-      "sha256": "fafb692f6bc29b2b866eee4e6f934952db86cc007a45cd0e16230a9e74aa6c5c",
-      "size": 21577617
+      "sha256": "b9e06f743a779e002e0cb31d6382fa5f82f048ce2537ce5075726ae5294b6442",
+      "size": 23769602
+    },
+    "2962333032/map_data/provinces.png": {
+      "sha256": "3c1cc7ceebe786a90ce45ac2c696aa4b69c829af3bfe39c5359971d01923c9df",
+      "size": 2042254
+    },
+    "3403938445/common/landed_titles/lv_rhoyne_titles.txt": {
+      "sha256": "ee8983917ec407a9840e8e19c4e7d2ba08b35decae51e47c75aacddee6ab77d7",
+      "size": 20417
+    },
+    "3403938445/common/landed_titles/lv_volantis_titles.txt": {
+      "sha256": "9702e34dd987b286bd7415c4922647e119cef8bfa7b0b47cbc04710214eec8e3",
+      "size": 30944
+    },
+    "3664900993/common/landed_titles/01_agot_landed_titles.txt": {
+      "sha256": "316dcc7283ae6243a20d0135f1135adda87504ff47be4e6f4bc3a15c32c9ec73",
+      "size": 802106
     },
     "3664900993/content_source/map_objects/masks/tree_leaf_01_single_mask.png": {
       "sha256": "f2cc8cf175c7460465355a73442cea2f580f24f6540231adcb5c07d324830ff3",
@@ -224,6 +284,14 @@
       "sha256": "e1ff605b7b0e2b1f80a2d9362bba1f6e157549a6f214961b469b85d06aa79f56",
       "size": 24008512
     },
+    "3719888822/history/titles/lv_development_levels.txt": {
+      "sha256": "ff19414167a3e9572a73665fbec31e8aae077a75b855e5342ffc5fb19047fa56",
+      "size": 16890
+    },
+    "3768149491/common/landed_titles/01_landed_titles.txt": {
+      "sha256": "103db47f46aa4d5f4919f42fd795827c7a9c652f5e9a8400da7a8ce95b8c4858",
+      "size": 1493062
+    },
     "3768149491/gfx/map/map_object_data/activities.txt": {
       "sha256": "8692416d84960cd7a3511c92eeca060b2b9dce98a17c0d0b938d7f22801512dc",
       "size": 3756670
@@ -248,14 +316,26 @@
       "sha256": "b5ad30659f49a417e311e52cc276f6c1149b5d53ea7bc08cbd1b8518f54c07f4",
       "size": 3763602
     },
+    "3768149491/history/titles/zz_eetlv_cob_dejure.txt": {
+      "sha256": "a88bb4b5084c358b42fe21b113f456a50cffe3d6d2c78afbffe1c907a10d77e5",
+      "size": 10491
+    },
+    "3768149491/map_data/default.map": {
+      "sha256": "5e7c4a6b5feac69b0e341276687af37e2b1c9ff0107474c1ef05b3911c9ae0cf",
+      "size": 19846
+    },
     "3768149491/map_data/definition.csv": {
       "sha256": "ed5d86ae073b32dcc13d101a16697432810c66bd4c7b7262f98c0abdbb6a7ddb",
       "size": 816076
+    },
+    "3768149491/map_data/provinces.png": {
+      "sha256": "ef916c787b3f541c6265065364b6371afcbcb2e3c13bd29d4fc0b0a5eb469faa",
+      "size": 5070538
     }
   },
   "schema_version": 1,
   "versions": {
-    "AGOT": "0.4.40",
+    "AGOT": "0.5.0",
     "EE": "1.0",
     "EEP": "3.3.0",
     "LOV": "1.5.2.13",

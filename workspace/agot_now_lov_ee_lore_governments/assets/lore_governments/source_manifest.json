@@ -249,10 +249,6 @@
       "sha256": "f6aaae1fc94d0d9a779b01ba5bb2414ca9da7ff13000633451b5f6c5e6960612",
       "size": 3957
     },
-    "3719888822/history/titles/lv_development_levels.txt": {
-      "sha256": "ff19414167a3e9572a73665fbec31e8aae077a75b855e5342ffc5fb19047fa56",
-      "size": 16890
-    },
     "3719888822/history/titles/lv_k_astapor.txt": {
       "sha256": "144561b8fa9d5107de257fcf73940d73269dae6db9ee2f71f1b029454684285d",
       "size": 14650
@@ -268,10 +264,6 @@
     "3719888822/history/titles/lv_z_development_levels.txt": {
       "sha256": "ccb5e2907bfa62188239489d22676b6ea038bf3b3fa84a8e46f01040b40e47c6",
       "size": 324
-    },
-    "3768149491/common/landed_titles/01_landed_titles.txt": {
-      "sha256": "103db47f46aa4d5f4919f42fd795827c7a9c652f5e9a8400da7a8ce95b8c4858",
-      "size": 1493062
     },
     "3768149491/history/characters/zz_eetlv_bookmark_char_overrides.txt": {
       "sha256": "1b04140debcf094f23c0f921584b19bca3eaed36cc5f79568a82b56b1feab4f6",
@@ -296,6 +288,14 @@
     "3773608127/common/scripted_effects/replace/00_agot_character_data_effects.txt": {
       "sha256": "2958312007a73da3db15babb3a0f4dedf92fa5681742d0849f291c3d93ab36c8",
       "size": 149577
+    },
+    "mods/agot_now_lov_ee_map_compatch/common/landed_titles/01_landed_titles.txt": {
+      "sha256": "c5405b6555ed31007dd9cef9d7687f4f099145595e0167ba4cc6e078074e02ec",
+      "size": 1343636
+    },
+    "mods/agot_now_lov_ee_map_compatch/history/titles/lv_development_levels.txt": {
+      "sha256": "6ee2f5520d295df1803a247dfbaf0d72a27b8c944e919bd640bf915f0583354b",
+      "size": 15895
     },
     "mods/essos_expanded_119_rebase/history/provinces/k_generated.txt": {
       "sha256": "05484c8eeb4771d9ef85ab2d753e923987683d593a57aa1391f34f1b1c0ca8dd",
@@ -324,6 +324,10 @@
     "workspace/agot_now_lov_ee_lore_governments/assets/lore_governments/government_lore_rules.csv": {
       "sha256": "782d548776e0609ed7695875b1c644ab18621d77342f305847410e5d2597bcb6",
       "size": 8011
+    },
+    "workspace/agot_now_lov_ee_map_compatch/artifacts/map_data/removed_titles.json": {
+      "sha256": "fcae18cae02240fb9df84bb5c96a03590ec97dc09b9885a357afb5736d2f1e30",
+      "size": 21265
     }
   },
   "schema_version": 1,

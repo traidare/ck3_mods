@@ -299,56 +299,7 @@ e_lesser_moraq = {
 		government = feudal_government
 	}
 }
-e_lorath = {
-		7898.1.1 = {
-		holder = gen_2376
-		government = administrative_government
-	}
-	7985.1.1 = {
-		holder = gen_7
-		government = administrative_government
-	}
-	8082.1.1 = {
-		holder = gen_1080
-		government = administrative_government
-	}
-	8106.4.18 = {
-		holder = gen_1086
-		government = administrative_government
-	}
-	8170.12.11 = {
-		holder = gen_1092
-		government = administrative_government
-	}
-	8209.2.1 = {
-		holder = gen_1098
-		government = administrative_government
-	}
-	8211.3.1 = {
-		holder = gen_1104
-		government = administrative_government
-	}
-	8233.2.8 = {
-		holder = gen_1110
-		government = administrative_government
-	}
-	8236.2.13 = {
-		holder = gen_1116
-		government = administrative_government
-	}
-	8239.1.11 = {
-		holder = gen_1122
-		government = administrative_government
-	}
-	8258.12.21 = {
-		holder = gen_1128
-		government = administrative_government
-	}
-	8277.1.1 = {
-		holder = gen_1134
-		government = administrative_government
-	}
-}
+
 e_mossovy = {
 		7898.1.1 = {
 		holder = gen_2382

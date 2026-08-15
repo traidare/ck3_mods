@@ -1,9 +1,13 @@
 {
   "expected": {
+    "carry_forward_count": 1114,
     "definition_rows": 26421,
     "image_height": 6144,
     "image_width": 9216,
     "mask_count": 188,
+    "remap_first": 26421,
+    "remap_last": 27588,
+    "remap_terrain_count": 1108,
     "target_count": 15475,
     "target_first": 10946,
     "target_last": 26420,
@@ -11,8 +15,8 @@
   },
   "files": {
     "2962333032/common/province_terrain/00_province_terrain.txt": {
-      "sha256": "90003a46b6e5b260e82f25d8e503cc1233954bddf76736a5feb152dfbff4c43f",
-      "size": 118510
+      "sha256": "0bc41559ff8075060687bc7b2072a7d96c68a24e4de8f1531d78993e4570b3e4",
+      "size": 135604
     },
     "2962333032/common/province_terrain/01_province_properties.txt": {
       "sha256": "e555ce58121b213ef2cd9b059a6440380dc00f22cb0df41a26c10750fa401d92",
@@ -27,8 +31,8 @@
       "size": 42777
     },
     "2962333032/map_data/geographical_regions/00_agot_geographical_region.txt": {
-      "sha256": "59e4c72482e0c0103ef6963290cd89f4a61b4fdc66d7312d6a12051e266dcc3d",
-      "size": 63615
+      "sha256": "73331b93f56857c14ed52e869bbcd76cd1a82ffb49d446ea2a0b9f46e9bc068d",
+      "size": 66502
     },
     "2962333032/map_data/geographical_regions/10_natural_disaster_regions.txt": {
       "sha256": "37a4b4d17e657dbb5979a86cd6149198cf5ac37e485a493d4ce65f5f7b91f969",
@@ -163,8 +167,8 @@
       "size": 5070538
     },
     "mods/agot_now_lov_ee_map_compatch/map_data/definition.csv": {
-      "sha256": "1a4b3c84963594356ea99c3b2201fe321d136e0271c968706d3390767f9307ad",
-      "size": 816076
+      "sha256": "81873deb3f45afbb0e78458a34a0464d34db05c43756fa5547b772ba0fe2e021",
+      "size": 850712
     },
     "references/agot/map_images/KnownWorldDetailed.jpg": {
       "sha256": "901241c1693667896d867dcadab81f3945d928ba490a47f07062ff6e321acc29",
@@ -931,7 +935,7 @@
     }
   },
   "versions": {
-    "AGOT": "0.4.40",
+    "AGOT": "0.5.0",
     "EE": "1.0",
     "EEP": "3.3.0",
     "LOV": "1.5.2.13",

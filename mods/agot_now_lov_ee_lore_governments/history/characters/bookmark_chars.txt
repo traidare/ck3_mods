@@ -2883,6 +2883,7 @@ gen_1080 = {
 	culture = lorathi
 	religion = fc_pan_lorath
 	8046.7.19 = { birth = yes }
+	8082.1.1 = { add_legitimacy = 3000 }
 }
 
 gen_1081 = {
@@ -2930,6 +2931,7 @@ gen_1086 = {
 	culture = lorathi
 	religion = fc_pan_lorath
 	8073.8.4 = { birth = yes }
+	8106.4.18 = { add_legitimacy = 3000 }
 }
 
 gen_1087 = {
@@ -2977,6 +2979,7 @@ gen_1092 = {
 	culture = lorathi
 	religion = fc_pan_lorath
 	8140.9.17 = { birth = yes }
+	8170.12.11 = { add_legitimacy = 3000 }
 }
 
 gen_1093 = {
@@ -3024,6 +3027,7 @@ gen_1098 = {
 	culture = lorathi
 	religion = fc_pan_lorath
 	8172.10.2 = { birth = yes }
+	8209.2.1 = { add_legitimacy = 3000 }
 }
 
 gen_1099 = {
@@ -3071,6 +3075,7 @@ gen_1104 = {
 	culture = lorathi
 	religion = fc_pan_lorath
 	8177.11.15 = { birth = yes }
+	8211.3.1 = { add_legitimacy = 3000 }
 }
 
 gen_1105 = {
@@ -3118,6 +3123,7 @@ gen_1110 = {
 	culture = lorathi
 	religion = fc_pan_lorath
 	8202.12.28 = { birth = yes }
+	8233.2.8 = { add_legitimacy = 3000 }
 }
 
 gen_1111 = {
@@ -3165,6 +3171,7 @@ gen_1116 = {
 	culture = lorathi
 	religion = fc_pan_lorath
 	8198.1.13 = { birth = yes }
+	8236.2.13 = { add_legitimacy = 3000 }
 }
 
 gen_1117 = {
@@ -3212,6 +3219,7 @@ gen_1122 = {
 	culture = lorathi
 	religion = fc_pan_lorath
 	8204.2.26 = { birth = yes }
+	8239.1.11 = { add_legitimacy = 3000 }
 }
 
 gen_1123 = {
@@ -3259,6 +3267,7 @@ gen_1128 = {
 	culture = lorathi
 	religion = fc_pan_lorath
 	8226.3.11 = { birth = yes }
+	8258.12.21 = { add_legitimacy = 3000 }
 }
 
 gen_1129 = {
@@ -3306,6 +3315,7 @@ gen_1134 = {
 	culture = lorathi
 	religion = fc_pan_lorath
 	8238.4.24 = { birth = yes }
+	8277.1.1 = { add_legitimacy = 3000 }
 }
 
 gen_1135 = {

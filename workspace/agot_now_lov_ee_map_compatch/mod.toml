@@ -3,10 +3,20 @@ entrypoint = "map_merge.py:generate"
 owned_outputs = [
   "gfx/map",
   "map_data/definition.csv",
+  "map_data/default.map",
+  "map_data/provinces.png",
+  "common/landed_titles/01_agot_landed_titles.txt",
+  "common/landed_titles/lv_rhoyne_titles.txt",
+  "common/landed_titles/lv_volantis_titles.txt",
+  "common/landed_titles/01_landed_titles.txt",
+  "history/titles/lv_development_levels.txt",
+  "history/titles/zz_eetlv_cob_dejure.txt",
+  "history/provinces/zz_agot_new_region_prov.txt",
 ]
 owned_artifacts = [
   "heightmap",
   "map_objects",
+  "map_data",
 ]
 
 [[sources]]
