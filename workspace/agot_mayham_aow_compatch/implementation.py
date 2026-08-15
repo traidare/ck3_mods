@@ -128,11 +128,12 @@ DEV_ONLY_MARKERS = (
     ("can_pick", r"(?m)^\s*can_pick\s*=\s*\{\s*always\s*=\s*no\s*\}\s*$"),
 )
 
-# Traditions current AGOT carries that Mayham's older base does not. They have no
-# Mayham balance delta to preserve, and AoW's whole-file override of the same
-# path drops them, so the compatch has nothing to merge. Listed explicitly so a
-# further AGOT addition trips instead of passing unnoticed.
-AGOT_ONLY_ADDITIONS: dict[str, tuple[str, ...]] = {
+# AoW's whole-file tradition overrides omit these definitions. The compatch's
+# same-path AoW syntax repair therefore remains their effective provider, so
+# neither the parent definitions nor Mayham's balance deltas can reach the game.
+# Keep the omission explicit: an AoW update must trigger a re-audit instead of
+# silently changing which parent owns the affected traditions.
+AOW_DROPPED_DEFINITIONS: dict[str, tuple[str, ...]] = {
     "00_agot_regional_traditions.txt": ("tradition_agot_ib",),
     "00_agot_unique_traditions.txt": (
         "tradition_agot_ibbatese",
@@ -282,18 +283,24 @@ def generate_traditions(inputs: RunInputs) -> str:
         aow = definitions(read(inputs.AOW / relative))
 
         agot_only = agot.keys() - mayham.keys()
-        listed_agot_only = set(AGOT_ONLY_ADDITIONS.get(filename, ()))
         mayham_only = mayham.keys() - agot.keys()
-        if agot_only != listed_agot_only or mayham_only:
+        if agot_only or mayham_only:
             raise ValueError(
                 f"{filename}: AGOT and Mayham definition sets differ; "
-                f"unlisted AGOT-only={sorted(agot_only - listed_agot_only)}, "
-                f"stale AGOT-only={sorted(listed_agot_only - agot_only)}, "
+                f"AGOT-only={sorted(agot_only)}, "
                 f"Mayham-only={sorted(mayham_only)}"
+            )
+        aow_dropped = set(AOW_DROPPED_DEFINITIONS.get(filename, ()))
+        actual_aow_dropped = agot.keys() - aow.keys()
+        if actual_aow_dropped != aow_dropped:
+            raise ValueError(
+                f"{filename}: AoW dropped-definition set changed; "
+                f"unlisted={sorted(actual_aow_dropped - aow_dropped)}, "
+                f"stale={sorted(aow_dropped - actual_aow_dropped)}"
             )
         upstream_rebases = UPSTREAM_REBASES.get(filename, ())
         upstream_rebase_set = set(upstream_rebases)
-        ignored = dev_only_exclusions(filename, agot) | agot_only
+        ignored = dev_only_exclusions(filename, agot) | aow_dropped
         changed = {
             name
             for name in agot

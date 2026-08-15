@@ -34,7 +34,12 @@ lustful = {
 	opposites = {
 		chaste
 	}
+	same_opinion = 10
+	opposite_opinion = -15
 	ruler_designer_cost = 25
+	# rd-markers: hidden, replaced by the three
+	# mpd_rd_lustful_X level entries
+	shown_in_ruler_designer = no
 	compatibility = {
 		lustful = @pos_compat_high
 		gregarious = @pos_compat_low
@@ -44,11 +49,8 @@ lustful = {
 		celibate = @neg_compat_high
 		shy = @neg_compat_low
 	}
-	# Trait opinion fields are invalid inside CK3 1.19 track modifier blocks.
-	same_opinion = 5
-	opposite_opinion = -5
 	track = {
-		1 = {
+		0 = {
 			fertility = 0.15
 			intrigue = 1
 			seduce_scheme_phase_duration_add = -5
@@ -110,7 +112,12 @@ chaste = {
 	opposites = {
 		lustful
 	}
+	same_opinion = 10
+	opposite_opinion = -15
 	ruler_designer_cost = 20
+	# rd-markers: hidden, replaced by the three
+	# mpd_rd_chaste_X level entries
+	shown_in_ruler_designer = no
 	compatibility = {
 		chaste = @pos_compat_medium
 		celibate = @pos_compat_medium
@@ -124,11 +131,8 @@ chaste = {
 		lifestyle_reveler = @neg_compat_low
 		seducer = @neg_compat_low
 	}
-	# Trait opinion fields are invalid inside CK3 1.19 track modifier blocks.
-	same_opinion = 5
-	opposite_opinion = -5
 	track = {
-		1 = {
+		0 = {
 			fertility = -0.15
 			seduce_scheme_phase_duration_add = 15
 			learning = 1
@@ -199,7 +203,12 @@ gluttonous = {
 	opposites = {
 		temperate
 	}
+	same_opinion = 10
+	opposite_opinion = -15
 	ruler_designer_cost = 20
+	# rd-markers: hidden, replaced by the three
+	# mpd_rd_gluttonous_X level entries
+	shown_in_ruler_designer = no
 	compatibility = {
 		gluttonous = @pos_compat_medium
 		drunkard = @pos_compat_low
@@ -208,11 +217,8 @@ gluttonous = {
 		lifestyle_reveler = @pos_compat_medium
 		temperate = @neg_compat_medium
 	}
-	# Trait opinion fields are invalid inside CK3 1.19 track modifier blocks.
-	same_opinion = 5
-	opposite_opinion = -5
 	track = {
-		1 = {
+		0 = {
 			stewardship = -1
 			stress_loss_mult = 0.05
 			attraction_opinion = -5
@@ -289,7 +295,13 @@ temperate = {
 	opposites = {
 		gluttonous
 	}
+	same_opinion = 10
+	opposite_opinion = -15
+	courtly_opinion = -15
 	ruler_designer_cost = 40
+	# rd-markers: hidden, replaced by the three
+	# mpd_rd_temperate_X level entries
+	shown_in_ruler_designer = no
 	compatibility = {
 		temperate = @pos_compat_medium
 		calm = @pos_compat_low
@@ -301,14 +313,10 @@ temperate = {
 		lustful = @neg_compat_low
 		lifestyle_reveler = @neg_compat_medium
 	}
-	# Trait opinion fields are invalid inside CK3 1.19 track modifier blocks.
-	same_opinion = 5
-	opposite_opinion = -5
 	track = {
-		1 = {
+		0 = {
 			stewardship = 1
 			health = 0.15
-			courtly_opinion = -10
 			culture_modifier = {
 				parameter = stress_loss_bonus_from_harmonious_traits
 				stress_loss_mult = 0.1
@@ -331,7 +339,6 @@ temperate = {
 		50 = {
 			stewardship = 1
 			health = 0.15
-			courtly_opinion = -5
 			culture_modifier = {
 				parameter = introverted_trait_bonuses
 				same_culture_opinion = 5
@@ -354,7 +361,6 @@ temperate = {
 		100 = {
 			stewardship = 2
 			health = 0.35
-			courtly_opinion = -15
 			culture_modifier = {
 				parameter = introverted_trait_bonuses
 				same_culture_opinion = 5
@@ -400,7 +406,11 @@ greedy = {
 	opposites = {
 		generous
 	}
+	courtly_opinion = -20
 	ruler_designer_cost = 30
+	# rd-markers: hidden, replaced by the three
+	# mpd_rd_greedy_X level entries
+	shown_in_ruler_designer = no
 	compatibility = {
 		greedy = @pos_compat_low
 		ambitious = @pos_compat_low
@@ -409,8 +419,7 @@ greedy = {
 		compassionate = @neg_compat_medium
 	}
 	track = {
-		1 = {
-			courtly_opinion = -10
+		0 = {
 			diplomacy = -1
 			monthly_income_mult = 0
 			monthly_income_per_stress_level_mult = 0.05
@@ -422,7 +431,6 @@ greedy = {
 			ai_compassion = -10
 		}
 		50 = {
-			courtly_opinion = -10
 			diplomacy = -1
 			monthly_income_mult = 0.05
 			monthly_income_per_stress_level_mult = 0.05
@@ -434,7 +442,6 @@ greedy = {
 			ai_compassion = -5
 		}
 		100 = {
-			courtly_opinion = -25
 			diplomacy = -2
 			monthly_income_mult = 0.05
 			monthly_income_per_stress_level_mult = 0.1
@@ -471,7 +478,12 @@ generous = {
 	opposites = {
 		greedy
 	}
+	opposite_opinion = -20
+	courtly_opinion = 15
 	ruler_designer_cost = 20
+	# rd-markers: hidden, replaced by the three
+	# mpd_rd_generous_X level entries
+	shown_in_ruler_designer = no
 	compatibility = {
 		generous = @pos_compat_high
 		compassionate = @pos_compat_medium
@@ -480,11 +492,8 @@ generous = {
 		greedy = @neg_compat_high
 		ambitious = @neg_compat_low
 	}
-	# Trait opinion fields are invalid inside CK3 1.19 track modifier blocks.
-	opposite_opinion = -10
 	track = {
-		1 = {
-			courtly_opinion = 10
+		0 = {
 			diplomacy = 2
 			monthly_income_mult = -0.05
 			ai_honor = 10
@@ -494,7 +503,6 @@ generous = {
 			ai_amenity_spending = 0.1
 		}
 		50 = {
-			courtly_opinion = 5
 			diplomacy = 1
 			monthly_income_mult = -0.05
 			ai_honor = 5
@@ -504,7 +512,6 @@ generous = {
 			ai_amenity_spending = 0.1
 		}
 		100 = {
-			courtly_opinion = 15
 			diplomacy = 3
 			monthly_income_mult = -0.1
 			ai_honor = 15
@@ -540,6 +547,9 @@ lazy = {
 		diligent
 	}
 	ruler_designer_cost = -10
+	# rd-markers: hidden, replaced by the three
+	# mpd_rd_lazy_X level entries
+	shown_in_ruler_designer = no
 	compatibility = {
 		lazy = @pos_compat_medium
 		content = @pos_compat_low
@@ -550,7 +560,7 @@ lazy = {
 		eccentric = @neg_compat_low
 	}
 	track = {
-		1 = {
+		0 = {
 			diplomacy = -1
 			intrigue = 0
 			stewardship = -1
@@ -633,8 +643,14 @@ diligent = {
 	opposites = {
 		lazy
 	}
+	same_opinion = 10
+	opposite_opinion = -15
+	parochial_opinion = 5
 	flag = can_improve_capital_decision
 	ruler_designer_cost = 40
+	# rd-markers: hidden, replaced by the three
+	# mpd_rd_diligent_X level entries
+	shown_in_ruler_designer = no
 	compatibility = {
 		diligent = @pos_compat_medium
 		ambitious = @pos_compat_low
@@ -649,16 +665,12 @@ diligent = {
 		lazy = @neg_compat_medium
 		content = @neg_compat_low
 	}
-	# Trait opinion fields are invalid inside CK3 1.19 track modifier blocks.
-	same_opinion = 5
-	opposite_opinion = -5
 	track = {
-		1 = {
+		0 = {
 			diplomacy = 1
 			stewardship = 2
 			learning = 2
 			stress_loss_mult = -0.24
-			parochial_opinion = 0
 			culture_modifier = {
 				parameter = hard_working_traits_more_valued
 				farmlands_tax_mult = 0.1
@@ -713,7 +725,6 @@ diligent = {
 			stewardship = 1
 			learning = 1
 			stress_loss_mult = -0.16
-			parochial_opinion = 5
 			culture_modifier = {
 				parameter = hard_working_traits_more_valued
 				farmlands_tax_mult = 0.1
@@ -768,7 +779,6 @@ diligent = {
 			stewardship = 3
 			learning = 3
 			stress_loss_mult = -0.25
-			parochial_opinion = 5
 			culture_modifier = {
 				parameter = hard_working_traits_more_valued
 				farmlands_tax_mult = 0.2
@@ -844,8 +854,14 @@ wrathful = {
 	opposites = {
 		calm
 	}
+	courtly_opinion = -15
+	parochial_opinion = -15
+	glory_hound_opinion = 5
 	flag = can_duel_criminals_interaction
 	ruler_designer_cost = 30
+	# rd-markers: hidden, replaced by the three
+	# mpd_rd_wrathful_X level entries
+	shown_in_ruler_designer = no
 	compatibility = {
 		wrathful = @pos_compat_low
 		stubborn = @pos_compat_low
@@ -858,15 +874,12 @@ wrathful = {
 		eccentric = @neg_compat_low
 	}
 	track = {
-		1 = {
+		0 = {
 			diplomacy = -1
 			martial = 2
 			intrigue = -1
 			dread_baseline_add = 10
 			ai_war_chance = 0.1
-			parochial_opinion = -10
-			glory_hound_opinion = 0
-			courtly_opinion = -10
 			culture_modifier = {
 				parameter = forest_trait_bonuses
 				forest_max_combat_roll = 1
@@ -934,9 +947,6 @@ wrathful = {
 			intrigue = -1
 			dread_baseline_add = 10
 			ai_war_chance = 0.15
-			parochial_opinion = -5
-			glory_hound_opinion = 5
-			courtly_opinion = -5
 			culture_modifier = {
 				parameter = forest_trait_bonuses
 				forest_max_combat_roll = 1
@@ -1004,9 +1014,6 @@ wrathful = {
 			intrigue = -1
 			dread_baseline_add = 20
 			ai_war_chance = 0.25
-			parochial_opinion = -15
-			glory_hound_opinion = 5
-			courtly_opinion = -15
 			culture_modifier = {
 				parameter = forest_trait_bonuses
 				forest_max_combat_roll = 2
@@ -1094,7 +1101,12 @@ calm = {
 	opposites = {
 		wrathful
 	}
+	same_opinion = 10
+	opposite_opinion = -15
 	ruler_designer_cost = 25
+	# rd-markers: hidden, replaced by the three
+	# mpd_rd_calm_X level entries
+	shown_in_ruler_designer = no
 	compatibility = {
 		calm = @pos_compat_medium
 		patient = @pos_compat_medium
@@ -1104,11 +1116,8 @@ calm = {
 		wrathful = @neg_compat_high
 		impatient = @neg_compat_medium
 	}
-	# Trait opinion fields are invalid inside CK3 1.19 track modifier blocks.
-	same_opinion = 5
-	opposite_opinion = -5
 	track = {
-		1 = {
+		0 = {
 			diplomacy = 1
 			intrigue = 1
 			enemy_scheme_secrecy_add = -5
@@ -1365,8 +1374,13 @@ patient = {
 	opposites = {
 		impatient
 	}
+	opposite_opinion = -20
+	parochial_opinion = 10
 	ai_war_cooldown = 0.5
 	ruler_designer_cost = 30
+	# rd-markers: hidden, replaced by the three
+	# mpd_rd_patient_X level entries
+	shown_in_ruler_designer = no
 	compatibility = {
 		patient = @pos_compat_medium
 		calm = @pos_compat_medium
@@ -1377,13 +1391,10 @@ patient = {
 		wrathful = @neg_compat_low
 		fickle = @neg_compat_low
 	}
-	# Trait opinion fields are invalid inside CK3 1.19 track modifier blocks.
-	opposite_opinion = -10
 	track = {
-		1 = {
+		0 = {
 			learning = 1
 			enemy_hostile_scheme_phase_duration_add = 5
-			parochial_opinion = 5
 			liege_opinion = 0
 			culture_modifier = {
 				parameter = winter_trait_bonuses
@@ -1462,7 +1473,6 @@ patient = {
 		50 = {
 			learning = 1
 			enemy_hostile_scheme_phase_duration_add = 5
-			parochial_opinion = 5
 			liege_opinion = 5
 			culture_modifier = {
 				parameter = winter_trait_bonuses
@@ -1541,7 +1551,6 @@ patient = {
 		100 = {
 			learning = 2
 			enemy_hostile_scheme_phase_duration_add = 10
-			parochial_opinion = 10
 			liege_opinion = 5
 			culture_modifier = {
 				parameter = winter_trait_bonuses
@@ -1643,8 +1652,14 @@ impatient = {
 	opposites = {
 		patient
 	}
+	opposite_opinion = -20
+	courtly_opinion = -15
+	parochial_opinion = -15
 	flag = can_accelerate_schemes_decision
 	ruler_designer_cost = 25
+	# rd-markers: hidden, replaced by the three
+	# mpd_rd_impatient_X level entries
+	shown_in_ruler_designer = no
 	compatibility = {
 		impatient = @pos_compat_low
 		wrathful = @pos_compat_low
@@ -1654,10 +1669,8 @@ impatient = {
 		temperate = @neg_compat_low
 		eccentric = @neg_compat_high
 	}
-	# Trait opinion fields are invalid inside CK3 1.19 track modifier blocks.
-	opposite_opinion = -10
 	track = {
-		1 = {
+		0 = {
 			learning = -1
 			monthly_prestige_gain_mult = 0.1
 			hostile_scheme_phase_duration_add = -5
@@ -1665,8 +1678,6 @@ impatient = {
 			character_travel_safety = -5
 			opinion_of_liege = -5
 			ai_war_cooldown = -0.25
-			courtly_opinion = -10
-			parochial_opinion = -10
 			culture_modifier = {
 				parameter = forest_trait_bonuses
 				forest_max_combat_roll = 0
@@ -1703,8 +1714,6 @@ impatient = {
 			character_travel_safety = -5
 			opinion_of_liege = -5
 			ai_war_cooldown = -0.25
-			courtly_opinion = -5
-			parochial_opinion = -5
 			culture_modifier = {
 				parameter = forest_trait_bonuses
 				forest_max_combat_roll = 1
@@ -1741,8 +1750,6 @@ impatient = {
 			character_travel_safety = -10
 			opinion_of_liege = -5
 			ai_war_cooldown = -0.5
-			courtly_opinion = -15
-			parochial_opinion = -15
 			culture_modifier = {
 				parameter = forest_trait_bonuses
 				forest_max_combat_roll = 1
@@ -1797,7 +1804,11 @@ arrogant = {
 	opposites = {
 		humble
 	}
+	opposite_opinion = -20
 	ruler_designer_cost = 20
+	# rd-markers: hidden, replaced by the three
+	# mpd_rd_arrogant_X level entries
+	shown_in_ruler_designer = no
 	compatibility = {
 		arrogant = @pos_compat_low
 		greedy = @pos_compat_medium
@@ -1813,10 +1824,8 @@ arrogant = {
 		beauty_bad_3 = @neg_compat_low
 		inquisitive = @neg_compat_medium
 	}
-	# Trait opinion fields are invalid inside CK3 1.19 track modifier blocks.
-	opposite_opinion = -10
 	track = {
-		1 = {
+		0 = {
 			monthly_prestige = 0
 			owned_scheme_secrecy_add = -5
 			opinion_of_liege = -10
@@ -2001,7 +2010,12 @@ humble = {
 	opposites = {
 		arrogant
 	}
+	opposite_opinion = -20
+	zealot_opinion = 10
 	ruler_designer_cost = 20
+	# rd-markers: hidden, replaced by the three
+	# mpd_rd_humble_X level entries
+	shown_in_ruler_designer = no
 	compatibility = {
 		humble = @pos_compat_high
 		content = @pos_compat_low
@@ -2012,16 +2026,13 @@ humble = {
 		greedy = @neg_compat_medium
 		ambitious = @neg_compat_medium
 	}
-	# Trait opinion fields are invalid inside CK3 1.19 track modifier blocks.
-	opposite_opinion = -10
 	track = {
-		1 = {
+		0 = {
 			monthly_piety = 0.25
 			diplomacy = 1
 			opinion_of_liege = 5
 			opinion_of_vassal = 5
 			clergy_opinion = 5
-			zealot_opinion = 5
 			culture_modifier = {
 				parameter = mountain_trait_bonuses
 				mountains_attrition_mult = -0.1
@@ -2083,7 +2094,6 @@ humble = {
 			opinion_of_liege = 5
 			opinion_of_vassal = 5
 			clergy_opinion = 5
-			zealot_opinion = 5
 			culture_modifier = {
 				parameter = mountain_trait_bonuses
 				mountains_attrition_mult = -0.15
@@ -2145,7 +2155,6 @@ humble = {
 			opinion_of_liege = 10
 			opinion_of_vassal = 10
 			clergy_opinion = 10
-			zealot_opinion = 10
 			culture_modifier = {
 				parameter = mountain_trait_bonuses
 				mountains_attrition_mult = -0.25
@@ -2227,8 +2236,12 @@ deceitful = {
 	opposites = {
 		honest
 	}
+	opposite_opinion = -15
 	flag = can_improve_hostile_schemes_decision
 	ruler_designer_cost = 30
+	# rd-markers: hidden, replaced by the three
+	# mpd_rd_deceitful_X level entries
+	shown_in_ruler_designer = no
 	compatibility = {
 		deceitful = @pos_compat_medium
 		charming = @pos_compat_medium
@@ -2240,10 +2253,8 @@ deceitful = {
 		compassionate = @neg_compat_low
 		eccentric = @neg_compat_low
 	}
-	# Trait opinion fields are invalid inside CK3 1.19 track modifier blocks.
-	opposite_opinion = -5
 	track = {
-		1 = {
+		0 = {
 			diplomacy = -1
 			intrigue = 2
 			culture_modifier = {
@@ -2407,7 +2418,13 @@ honest = {
 	opposites = {
 		deceitful
 	}
+	same_opinion = 10
+	opposite_opinion = -15
+	courtly_opinion = 5
 	ruler_designer_cost = 20
+	# rd-markers: hidden, replaced by the three
+	# mpd_rd_honest_X level entries
+	shown_in_ruler_designer = no
 	compatibility = {
 		honest = @pos_compat_high
 		just = @pos_compat_medium
@@ -2417,14 +2434,10 @@ honest = {
 		charming = @neg_compat_medium
 		paranoid = @neg_compat_medium
 	}
-	# Trait opinion fields are invalid inside CK3 1.19 track modifier blocks.
-	same_opinion = 5
-	opposite_opinion = -5
 	track = {
-		1 = {
+		0 = {
 			diplomacy = 1
 			intrigue = -2
-			courtly_opinion = 0
 			culture_modifier = {
 				parameter = dry_trait_bonuses
 				drylands_attrition_mult = -0.1
@@ -2442,7 +2455,6 @@ honest = {
 		50 = {
 			diplomacy = 1
 			intrigue = -1
-			courtly_opinion = 5
 			culture_modifier = {
 				parameter = dry_trait_bonuses
 				drylands_attrition_mult = -0.05
@@ -2460,7 +2472,6 @@ honest = {
 		100 = {
 			diplomacy = 2
 			intrigue = -3
-			courtly_opinion = 5
 			culture_modifier = {
 				parameter = dry_trait_bonuses
 				drylands_attrition_mult = -0.15
@@ -2501,8 +2512,14 @@ craven = {
 	opposites = {
 		brave
 	}
+	same_opinion = 20
+	courtly_opinion = -10
+	glory_hound_opinion = -20
 	flag = lower_chance_of_dying_in_combat
 	ruler_designer_cost = -10
+	# rd-markers: hidden, replaced by the three
+	# mpd_rd_craven_X level entries
+	shown_in_ruler_designer = no
 	compatibility = {
 		craven = @pos_compat_low
 		patient = @pos_compat_low
@@ -2516,10 +2533,8 @@ craven = {
 		ambitious = @neg_compat_low
 		deceitful = @neg_compat_low
 	}
-	# Trait opinion fields are invalid inside CK3 1.19 track modifier blocks.
-	same_opinion = 10
 	track = {
-		1 = {
+		0 = {
 			martial = -1
 			prowess = -2
 			intrigue = 1
@@ -2527,8 +2542,6 @@ craven = {
 			enemy_hostile_scheme_phase_duration_add = 5
 			character_travel_safety_mult = 0.1
 			attraction_opinion = -10
-			glory_hound_opinion = -10
-			courtly_opinion = -5
 			culture_modifier = {
 				parameter = craven_trait_costs_prestige
 				monthly_prestige = -0.25
@@ -2555,8 +2568,6 @@ craven = {
 			enemy_hostile_scheme_phase_duration_add = 5
 			character_travel_safety_mult = 0.15
 			attraction_opinion = -5
-			glory_hound_opinion = -10
-			courtly_opinion = -5
 			culture_modifier = {
 				parameter = craven_and_content_traits_looked_down_upon
 				same_culture_opinion = -10
@@ -2583,8 +2594,6 @@ craven = {
 			enemy_hostile_scheme_phase_duration_add = 10
 			character_travel_safety_mult = 0.25
 			attraction_opinion = -15
-			glory_hound_opinion = -25
-			courtly_opinion = -5
 			culture_modifier = {
 				parameter = craven_and_content_traits_looked_down_upon
 				same_culture_opinion = -25
@@ -2629,8 +2638,14 @@ brave = {
 	opposites = {
 		craven
 	}
+	same_opinion = 10
+	opposite_opinion = -15
+	glory_hound_opinion = 10
 	flag = higher_chance_of_dying_in_battle
 	ruler_designer_cost = 40
+	# rd-markers: hidden, replaced by the three
+	# mpd_rd_brave_X level entries
+	shown_in_ruler_designer = no
 	compatibility = {
 		brave = @pos_compat_high
 		ambitious = @pos_compat_medium
@@ -2645,15 +2660,11 @@ brave = {
 		content = @neg_compat_low
 		inquisitive = @neg_compat_low
 	}
-	# Trait opinion fields are invalid inside CK3 1.19 track modifier blocks.
-	same_opinion = 5
-	opposite_opinion = -5
 	track = {
-		1 = {
+		0 = {
 			martial = 1
 			prowess = 2
 			attraction_opinion = 5
-			glory_hound_opinion = 5
 			culture_modifier = {
 				parameter = mountain_trait_bonuses
 				mountains_max_combat_roll = 2
@@ -2727,7 +2738,6 @@ brave = {
 			martial = 1
 			prowess = 1
 			attraction_opinion = 5
-			glory_hound_opinion = 5
 			culture_modifier = {
 				parameter = mountain_trait_bonuses
 				mountains_max_combat_roll = 1
@@ -2801,7 +2811,6 @@ brave = {
 			martial = 2
 			prowess = 3
 			attraction_opinion = 10
-			glory_hound_opinion = 10
 			culture_modifier = {
 				parameter = mountain_trait_bonuses
 				mountains_max_combat_roll = 3
@@ -2897,8 +2906,13 @@ shy = {
 	opposites = {
 		gregarious
 	}
+	same_opinion = 10
+	parochial_opinion = 10
 	flag = trait_unlocks_t4_withdraw_from_view
 	ruler_designer_cost = -10
+	# rd-markers: hidden, replaced by the three
+	# mpd_rd_shy_X level entries
+	shown_in_ruler_designer = no
 	compatibility = {
 		shy = @pos_compat_medium
 		content = @pos_compat_low
@@ -2914,10 +2928,8 @@ shy = {
 		lustful = @neg_compat_low
 		inquisitive = @neg_compat_high
 	}
-	# Trait opinion fields are invalid inside CK3 1.19 track modifier blocks.
-	same_opinion = 5
 	track = {
-		1 = {
+		0 = {
 			diplomacy = -1
 			learning = 0
 			enemy_hostile_scheme_phase_duration_add = 10
@@ -2926,7 +2938,6 @@ shy = {
 			character_travel_safety_mult = 0.1
 			epidemic_resistance = 2.5
 			attraction_opinion = -5
-			parochial_opinion = 5
 			culture_modifier = {
 				parameter = palace_politics_trait_maluses
 				monthly_influence = -0.1
@@ -2956,7 +2967,6 @@ shy = {
 			character_travel_safety_mult = 0.15
 			epidemic_resistance = 2.5
 			attraction_opinion = -5
-			parochial_opinion = 5
 			culture_modifier = {
 				parameter = introverted_trait_bonuses
 				same_culture_opinion = 5
@@ -2986,7 +2996,6 @@ shy = {
 			character_travel_safety_mult = 0.25
 			epidemic_resistance = 5
 			attraction_opinion = -5
-			parochial_opinion = 10
 			culture_modifier = {
 				parameter = introverted_trait_bonuses
 				same_culture_opinion = 5
@@ -3033,7 +3042,12 @@ gregarious = {
 	opposites = {
 		shy
 	}
+	same_opinion = 10
+	courtly_opinion = 5
 	ruler_designer_cost = 30
+	# rd-markers: hidden, replaced by the three
+	# mpd_rd_gregarious_X level entries
+	shown_in_ruler_designer = no
 	compatibility = {
 		gregarious = @pos_compat_high
 		curious = @pos_compat_medium
@@ -3056,15 +3070,12 @@ gregarious = {
 		craven = @neg_compat_low
 		inquisitive = @pos_compat_low
 	}
-	# Trait opinion fields are invalid inside CK3 1.19 track modifier blocks.
-	same_opinion = 5
 	track = {
-		1 = {
+		0 = {
 			diplomacy = 1
 			personal_scheme_phase_duration_add = -5
 			monthly_influence = 0.05
 			attraction_opinion = 0
-			courtly_opinion = 0
 			culture_modifier = {
 				parameter = gregarious_trait_gives_bonuses
 				monthly_diplomacy_lifestyle_xp_gain_mult = 0.05
@@ -3083,7 +3094,6 @@ gregarious = {
 			personal_scheme_phase_duration_add = -5
 			monthly_influence = 0.05
 			attraction_opinion = 5
-			courtly_opinion = 5
 			culture_modifier = {
 				parameter = gregarious_trait_gives_bonuses
 				monthly_diplomacy_lifestyle_xp_gain_mult = 0.05
@@ -3102,7 +3112,6 @@ gregarious = {
 			personal_scheme_phase_duration_add = -10
 			monthly_influence = 0.1
 			attraction_opinion = 5
-			courtly_opinion = 5
 			culture_modifier = {
 				parameter = gregarious_trait_gives_bonuses
 				monthly_diplomacy_lifestyle_xp_gain_mult = 0.1
@@ -3142,7 +3151,12 @@ ambitious = {
 	opposites = {
 		content
 	}
+	same_opinion = -20
+	glory_hound_opinion = 15
 	ruler_designer_cost = 40
+	# rd-markers: hidden, replaced by the three
+	# mpd_rd_ambitious_X level entries
+	shown_in_ruler_designer = no
 	compatibility = {
 		ambitious = @pos_compat_low
 		diligent = @pos_compat_low
@@ -3155,10 +3169,8 @@ ambitious = {
 		generous = @neg_compat_low
 		trusting = @neg_compat_low
 	}
-	# Trait opinion fields are invalid inside CK3 1.19 track modifier blocks.
-	same_opinion = -10
 	track = {
-		1 = {
+		0 = {
 			intrigue = 1
 			stewardship = 1
 			diplomacy = 0
@@ -3166,7 +3178,6 @@ ambitious = {
 			learning = 0
 			prowess = 0
 			opinion_of_liege = -10
-			glory_hound_opinion = 10
 			stress_gain_mult = 0.1
 			ai_war_cooldown = -0.1
 			ai_war_chance = 0.5
@@ -3226,7 +3237,6 @@ ambitious = {
 			learning = 1
 			prowess = 1
 			opinion_of_liege = -10
-			glory_hound_opinion = 5
 			stress_gain_mult = 0.15
 			ai_war_cooldown = -0.15
 			ai_war_chance = 0.5
@@ -3286,7 +3296,6 @@ ambitious = {
 			learning = 1
 			prowess = 1
 			opinion_of_liege = -25
-			glory_hound_opinion = 5
 			stress_gain_mult = 0.25
 			ai_war_cooldown = -0.25
 			ai_war_chance = 1
@@ -3364,7 +3373,12 @@ content = {
 	opposites = {
 		ambitious
 	}
+	same_opinion = 20
+	parochial_opinion = 10
 	ruler_designer_cost = 20
+	# rd-markers: hidden, replaced by the three
+	# mpd_rd_content_X level entries
+	shown_in_ruler_designer = no
 	compatibility = {
 		content = @pos_compat_medium
 		lazy = @pos_compat_low
@@ -3377,17 +3391,14 @@ content = {
 		brave = @neg_compat_low
 		vengeful = @neg_compat_low
 	}
-	# Trait opinion fields are invalid inside CK3 1.19 track modifier blocks.
-	same_opinion = 10
 	track = {
-		1 = {
+		0 = {
 			intrigue = 0
 			learning = 1
 			opinion_of_liege = 10
 			opinion_of_vassal = 5
 			stress_loss_mult = 0.05
 			ai_war_chance = -0.1
-			parochial_opinion = 5
 			culture_modifier = {
 				parameter = hill_trait_bonuses
 				hills_advantage = 1
@@ -3430,7 +3441,6 @@ content = {
 			opinion_of_vassal = 5
 			stress_loss_mult = 0.05
 			ai_war_chance = -0.15
-			parochial_opinion = 5
 			culture_modifier = {
 				parameter = craven_and_content_traits_looked_down_upon
 				same_culture_opinion = -10
@@ -3473,7 +3483,6 @@ content = {
 			opinion_of_vassal = 10
 			stress_loss_mult = 0.1
 			ai_war_chance = -0.25
-			parochial_opinion = 10
 			culture_modifier = {
 				parameter = craven_and_content_traits_looked_down_upon
 				same_culture_opinion = -25
@@ -3538,6 +3547,9 @@ arbitrary = {
 	flag = can_dismiss_hooks_interaction
 	flag = trait_unlocks_t2_arbitrary_arrests
 	ruler_designer_cost = 30
+	# rd-markers: hidden, replaced by the three
+	# mpd_rd_arbitrary_X level entries
+	shown_in_ruler_designer = no
 	compatibility = {
 		eccentric = @pos_compat_medium
 		arbitrary = @pos_compat_low
@@ -3548,7 +3560,7 @@ arbitrary = {
 		honest = @neg_compat_low
 	}
 	track = {
-		1 = {
+		0 = {
 			stewardship = -1
 			learning = 0
 			intrigue = 2
@@ -3640,8 +3652,15 @@ just = {
 	opposites = {
 		arbitrary
 	}
+	same_opinion = 10
+	opposite_opinion = -15
+	parochial_opinion = 15
+	minority_opinion = 15
 	flag = initial_legitimacy_boost
 	ruler_designer_cost = 40
+	# rd-markers: hidden, replaced by the three
+	# mpd_rd_just_X level entries
+	shown_in_ruler_designer = no
 	compatibility = {
 		just = @pos_compat_high
 		zealous = @pos_compat_medium
@@ -3658,16 +3677,11 @@ just = {
 		greedy = @neg_compat_low
 		eccentric = @neg_compat_low
 	}
-	# Trait opinion fields are invalid inside CK3 1.19 track modifier blocks.
-	same_opinion = 5
-	opposite_opinion = -5
 	track = {
-		1 = {
+		0 = {
 			stewardship = 1
 			learning = 0
 			intrigue = -2
-			parochial_opinion = 10
-			minority_opinion = 10
 			culture_modifier = {
 				parameter = just_trait_gives_bonuses
 				monthly_prestige_gain_mult = 0
@@ -3693,8 +3707,6 @@ just = {
 			stewardship = 1
 			learning = 1
 			intrigue = -1
-			parochial_opinion = 5
-			minority_opinion = 5
 			culture_modifier = {
 				parameter = just_trait_gives_bonuses
 				monthly_prestige_gain_mult = 0.05
@@ -3720,8 +3732,6 @@ just = {
 			stewardship = 2
 			learning = 1
 			intrigue = -3
-			parochial_opinion = 15
-			minority_opinion = 15
 			culture_modifier = {
 				parameter = just_trait_gives_bonuses
 				monthly_prestige_gain_mult = 0.05
@@ -3769,7 +3779,13 @@ cynical = {
 	opposites = {
 		zealous
 	}
+	same_opinion = 10
+	opposite_opinion = -15
+	zealot_opinion = -20
 	ruler_designer_cost = 30
+	# rd-markers: hidden, replaced by the three
+	# mpd_rd_cynical_X level entries
+	shown_in_ruler_designer = no
 	compatibility = {
 		cynical = @pos_compat_high
 		whole_of_body = @pos_compat_medium
@@ -3787,16 +3803,12 @@ cynical = {
 		trusting = @neg_compat_low
 		inquisitive = @pos_compat_low
 	}
-	# Trait opinion fields are invalid inside CK3 1.19 track modifier blocks.
-	same_opinion = 5
-	opposite_opinion = -5
 	track = {
-		1 = {
+		0 = {
 			intrigue = 1
 			learning = 1
 			monthly_piety_gain_mult = -0.1
 			faith_conversion_piety_cost_mult = -0.1
-			zealot_opinion = -10
 			culture_modifier = {
 				parameter = build_bonuses_on_religious_traits
 				church_holding_build_gold_cost = 0.1
@@ -3820,7 +3832,6 @@ cynical = {
 			learning = 1
 			monthly_piety_gain_mult = -0.1
 			faith_conversion_piety_cost_mult = -0.1
-			zealot_opinion = -10
 			culture_modifier = {
 				parameter = build_bonuses_on_religious_traits
 				church_holding_build_gold_cost = 0.1
@@ -3844,7 +3855,6 @@ cynical = {
 			learning = 2
 			monthly_piety_gain_mult = -0.2
 			faith_conversion_piety_cost_mult = -0.2
-			zealot_opinion = -25
 			culture_modifier = {
 				parameter = build_bonuses_on_religious_traits
 				church_holding_build_gold_cost = 0.2
@@ -3890,7 +3900,13 @@ zealous = {
 		cynical
 		inquisitive
 	}
+	same_opinion_if_same_faith = 15
+	opposite_opinion = -15
+	zealot_opinion = 15
 	ruler_designer_cost = 30
+	# rd-markers: hidden, replaced by the three
+	# mpd_rd_zealous_X level entries
+	shown_in_ruler_designer = no
 	compatibility = {
 		zealous = @pos_compat_high
 		just = @pos_compat_medium
@@ -3910,16 +3926,12 @@ zealous = {
 		eccentric = @neg_compat_low
 		inquisitive = @neg_compat_medium
 	}
-	# Trait opinion fields are invalid inside CK3 1.19 track modifier blocks.
-	same_opinion_if_same_faith = 5
-	opposite_opinion = -5
 	track = {
-		1 = {
+		0 = {
 			martial = 1
 			monthly_piety_gain_mult = 0.1
 			faith_conversion_piety_cost_mult = 0.1
 			opinion_of_different_faith = -25
-			zealot_opinion = 10
 			culture_modifier = {
 				parameter = dry_trait_bonuses
 				drylands_advantage = 1
@@ -3947,7 +3959,6 @@ zealous = {
 			monthly_piety_gain_mult = 0.1
 			faith_conversion_piety_cost_mult = 0.1
 			opinion_of_different_faith = -25
-			zealot_opinion = 5
 			culture_modifier = {
 				parameter = dry_trait_bonuses
 				drylands_advantage = 1
@@ -3975,7 +3986,6 @@ zealous = {
 			monthly_piety_gain_mult = 0.2
 			faith_conversion_piety_cost_mult = 0.2
 			opinion_of_different_faith = -55
-			zealot_opinion = 15
 			culture_modifier = {
 				parameter = dry_trait_bonuses
 				drylands_advantage = 2
@@ -4026,6 +4036,9 @@ paranoid = {
 	}
 	flag = trait_unlocks_t2_countermeasures
 	ruler_designer_cost = -10
+	# rd-markers: hidden, replaced by the three
+	# mpd_rd_paranoid_X level entries
+	shown_in_ruler_designer = no
 	compatibility = {
 		paranoid = @pos_compat_low
 		cynical = @pos_compat_low
@@ -4044,7 +4057,7 @@ paranoid = {
 		inquisitive = @neg_compat_high
 	}
 	track = {
-		1 = {
+		0 = {
 			diplomacy = 0
 			intrigue = 2
 			stress_gain_mult = 0.5
@@ -4234,6 +4247,9 @@ trusting = {
 	}
 	flag = can_offer_strong_hook_to_agents
 	ruler_designer_cost = 10
+	# rd-markers: hidden, replaced by the three
+	# mpd_rd_trusting_X level entries
+	shown_in_ruler_designer = no
 	compatibility = {
 		trusting = @pos_compat_medium
 		honest = @pos_compat_medium
@@ -4245,7 +4261,7 @@ trusting = {
 		vengeful = @neg_compat_low
 	}
 	track = {
-		1 = {
+		0 = {
 			diplomacy = 1
 			intrigue = -1
 			enemy_hostile_scheme_success_chance_add = 8
@@ -4326,7 +4342,13 @@ compassionate = {
 		callous
 		sadistic
 	}
+	opposite_opinion = -20
+	courtly_opinion = 10
+	minority_opinion = 15
 	ruler_designer_cost = 10
+	# rd-markers: hidden, replaced by the three
+	# mpd_rd_compassionate_X level entries
+	shown_in_ruler_designer = no
 	compatibility = {
 		compassionate = @pos_compat_high
 		generous = @pos_compat_high
@@ -4349,16 +4371,12 @@ compassionate = {
 		wrathful = @neg_compat_low
 		torturer = @neg_compat_low
 	}
-	# Trait opinion fields are invalid inside CK3 1.19 track modifier blocks.
-	opposite_opinion = -10
 	track = {
-		1 = {
+		0 = {
 			diplomacy = 1
 			intrigue = -1
 			dread_decay_mult = 0.5
 			dread_baseline_add = -8
-			minority_opinion = 10
-			courtly_opinion = 5
 			attraction_opinion = 0
 			culture_modifier = {
 				parameter = stress_loss_bonus_from_harmonious_traits
@@ -4376,8 +4394,6 @@ compassionate = {
 			intrigue = -1
 			dread_decay_mult = 0.5
 			dread_baseline_add = -7
-			minority_opinion = 5
-			courtly_opinion = 5
 			attraction_opinion = 5
 			culture_modifier = {
 				parameter = stress_loss_bonus_from_harmonious_traits
@@ -4395,8 +4411,6 @@ compassionate = {
 			intrigue = -2
 			dread_decay_mult = 0.5
 			dread_baseline_add = -15
-			minority_opinion = 15
-			courtly_opinion = 10
 			attraction_opinion = 5
 			culture_modifier = {
 				parameter = stress_loss_bonus_from_harmonious_traits
@@ -4436,7 +4450,11 @@ callous = {
 		compassionate
 		sadistic
 	}
+	courtly_opinion = -15
 	ruler_designer_cost = 40
+	# rd-markers: hidden, replaced by the three
+	# mpd_rd_callous_X level entries
+	shown_in_ruler_designer = no
 	compatibility = {
 		callous = @pos_compat_low
 		arbitrary = @pos_compat_low
@@ -4448,13 +4466,12 @@ callous = {
 		trusting = @neg_compat_low
 	}
 	track = {
-		1 = {
+		0 = {
 			diplomacy = -1
 			intrigue = 1
 			tyranny_gain_mult = -0.1
 			dread_gain_mult = 0.1
 			dread_decay_mult = -0.1
-			courtly_opinion = -10
 			attraction_opinion = -5
 			close_relative_opinion = -5
 			culture_modifier = {
@@ -4472,7 +4489,6 @@ callous = {
 			tyranny_gain_mult = -0.1
 			dread_gain_mult = 0.15
 			dread_decay_mult = -0.15
-			courtly_opinion = -5
 			attraction_opinion = -5
 			close_relative_opinion = -5
 			culture_modifier = {
@@ -4490,7 +4506,6 @@ callous = {
 			tyranny_gain_mult = -0.2
 			dread_gain_mult = 0.25
 			dread_decay_mult = -0.25
-			courtly_opinion = -15
 			attraction_opinion = -5
 			close_relative_opinion = -5
 			culture_modifier = {
@@ -4529,8 +4544,12 @@ sadistic = {
 		compassionate
 		callous
 	}
+	courtly_opinion = -15
 	flag = can_murder_own_children
 	ruler_designer_cost = 40
+	# rd-markers: hidden, replaced by the three
+	# mpd_rd_sadistic_X level entries
+	shown_in_ruler_designer = no
 	compatibility = {
 		sadistic = @pos_compat_medium
 		torturer = @pos_compat_low
@@ -4544,12 +4563,11 @@ sadistic = {
 		curious = @neg_compat_low
 	}
 	track = {
-		1 = {
+		0 = {
 			intrigue = 1
 			prowess = 2
 			dread_baseline_add = 20
 			general_opinion = -15
-			courtly_opinion = -10
 			ai_honor = -40
 			ai_compassion = -50
 		}
@@ -4558,7 +4576,6 @@ sadistic = {
 			prowess = 1
 			dread_baseline_add = 20
 			general_opinion = -5
-			courtly_opinion = -5
 			ai_honor = -35
 			ai_compassion = -50
 		}
@@ -4567,7 +4584,6 @@ sadistic = {
 			prowess = 3
 			dread_baseline_add = 30
 			general_opinion = -10
-			courtly_opinion = -15
 			ai_honor = -75
 			ai_compassion = -100
 		}
@@ -4598,14 +4614,20 @@ stubborn = {
 		fickle
 		eccentric
 	}
+	courtly_opinion = -15
+	parochial_opinion = -15
+	minority_opinion = -10
 	ruler_designer_cost = 30
+	# rd-markers: hidden, replaced by the three
+	# mpd_rd_stubborn_X level entries
+	shown_in_ruler_designer = no
 	compatibility = {
 		patient = @pos_compat_low
 		forgiving = @neg_compat_low
 		fickle = @neg_compat_low
 	}
 	track = {
-		1 = {
+		0 = {
 			stewardship = 2
 			negate_health_penalty_add = 0.1
 			culture_modifier = {
@@ -4647,10 +4669,7 @@ stubborn = {
 			ai_vengefulness = 10
 			ai_amenity_target_baseline = 0.05
 			ai_amenity_spending = 0
-			courtly_opinion = -10
 			liege_opinion = -5
-			minority_opinion = -5
-			parochial_opinion = -10
 		}
 		50 = {
 			stewardship = 1
@@ -4694,10 +4713,7 @@ stubborn = {
 			ai_vengefulness = 15
 			ai_amenity_target_baseline = 0.05
 			ai_amenity_spending = 0.05
-			courtly_opinion = -5
 			liege_opinion = -5
-			minority_opinion = -5
-			parochial_opinion = -5
 		}
 		100 = {
 			stewardship = 3
@@ -4741,10 +4757,7 @@ stubborn = {
 			ai_vengefulness = 25
 			ai_amenity_target_baseline = 0.1
 			ai_amenity_spending = 0.05
-			courtly_opinion = -15
 			liege_opinion = -5
-			minority_opinion = -5
-			parochial_opinion = -15
 		}
 	}
 
@@ -4774,13 +4787,16 @@ fickle = {
 		eccentric
 	}
 	ruler_designer_cost = 25
+	# rd-markers: hidden, replaced by the three
+	# mpd_rd_fickle_X level entries
+	shown_in_ruler_designer = no
 	compatibility = {
 		fickle = @pos_compat_low
 		forgiving = @pos_compat_low
 		stubborn = @neg_compat_medium
 	}
 	track = {
-		1 = {
+		0 = {
 			intrigue = 0
 			diplomacy = 1
 			stewardship = -1
@@ -4912,8 +4928,12 @@ eccentric = {
 		fickle
 		stubborn
 	}
+	same_opinion = 10
 	flag = trait_unlocks_t2_withdraw_from_view
 	ruler_designer_cost = 15
+	# rd-markers: hidden, replaced by the three
+	# mpd_rd_eccentric_X level entries
+	shown_in_ruler_designer = no
 	random_creation_weight = 0.05
 	compatibility = {
 		patient = @pos_compat_high
@@ -4930,10 +4950,8 @@ eccentric = {
 		deceitful = @neg_compat_medium
 		paranoid = @neg_compat_medium
 	}
-	# Trait opinion fields are invalid inside CK3 1.19 track modifier blocks.
-	same_opinion = 5
 	track = {
-		1 = {
+		0 = {
 			learning = 1
 			diplomacy = -1
 			stress_gain_mult = 0.25
@@ -5007,13 +5025,16 @@ vengeful = {
 	flag = extra_scheme_success_chance_vs_rivals
 	flag = can_fabricate_hooks_on_rivals
 	ruler_designer_cost = 30
+	# rd-markers: hidden, replaced by the three
+	# mpd_rd_vengeful_X level entries
+	shown_in_ruler_designer = no
 	compatibility = {
 		forgiving = @neg_compat_high
 		content = @neg_compat_medium
 		compassionate = @neg_compat_low
 	}
 	track = {
-		1 = {
+		0 = {
 			diplomacy = -1
 			intrigue = 1
 			prowess = 1
@@ -5195,8 +5216,14 @@ forgiving = {
 	opposites = {
 		vengeful
 	}
+	same_opinion = 10
+	opposite_opinion = -15
+	minority_opinion = 15
 	flag = can_abandon_hooks_interaction
 	ruler_designer_cost = 25
+	# rd-markers: hidden, replaced by the three
+	# mpd_rd_forgiving_X level entries
+	shown_in_ruler_designer = no
 	compatibility = {
 		forgiving = @pos_compat_high
 		compassionate = @pos_compat_medium
@@ -5215,15 +5242,11 @@ forgiving = {
 		paranoid = @neg_compat_low
 		wrathful = @neg_compat_low
 	}
-	# Trait opinion fields are invalid inside CK3 1.19 track modifier blocks.
-	same_opinion = 5
-	opposite_opinion = -5
 	track = {
-		1 = {
+		0 = {
 			diplomacy = 1
 			intrigue = -1
 			learning = 0
-			minority_opinion = 10
 			prisoner_opinion = 10
 			ai_honor = 10
 			ai_rationality = 5
@@ -5239,7 +5262,6 @@ forgiving = {
 			diplomacy = 1
 			intrigue = -1
 			learning = 1
-			minority_opinion = 5
 			prisoner_opinion = 5
 			culture_modifier = {
 				parameter = vengeful_positive_forgiving_negative
@@ -5255,7 +5277,6 @@ forgiving = {
 			diplomacy = 2
 			intrigue = -2
 			learning = 1
-			minority_opinion = 15
 			prisoner_opinion = 15
 			culture_modifier = {
 				parameter = vengeful_positive_forgiving_negative

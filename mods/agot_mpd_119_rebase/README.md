@@ -1,7 +1,7 @@
-# AGOT MPD 0.3.0 - CK3 1.19 Runtime Rebase
+# AGOT MPD 0.4.0 - CK3 1.19 Runtime Rebase
 
 Narrow runtime repair for Workshop mod **AGOT - More Personality Depth**
-(`3717990443`, version `0.3.0-rebalance`) on AGOT `0.4.40` / CK3 `1.19`.
+(`3717990443`, version `0.4.0`) on AGOT `0.4.40` / CK3 `1.19`.
 
 Load this mod immediately after **AGOT - More Personality Depth** and before the
 local MPD + Dragon Wives GUI compatch.
@@ -25,12 +25,10 @@ local MPD + Dragon Wives GUI compatch.
 - Uses the trait key as the explicit track key in `has_trait_xp` and
   `add_trait_xp`. CK3's `track = { ... }` shorthand creates one track named
   after the trait.
-- Moves 111 invalid `same_opinion`, `same_opinion_if_same_faith`, and
-  `opposite_opinion` fields out of 25 trait-track modifier blocks. CK3 1.19
-  accepts these only as trait properties, so the rebase preserves each trait's
-  normal (level-50) opinion values at trait scope. Other valid modifiers keep
-  MPD's intended track scaling. The generated whole-file override also copies
-  AGOT's six compatibility reader variables so it is self-contained.
+- Verifies the 37 `same_opinion`, `same_opinion_if_same_faith`, and
+  `opposite_opinion` fields are defined at trait scope, not inside trait-track
+  modifier blocks. The generated whole-file override copies AGOT's six
+  compatibility reader variables so it is self-contained.
 - Owns the threshold-safe cumulative counter helpers. These are MPD-only runtime
   repairs: missed thresholds catch up on the next qualifying action, the highest
   earned level is applied first, and all XP operations select the trait's
