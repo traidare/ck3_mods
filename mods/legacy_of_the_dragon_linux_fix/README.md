@@ -1,19 +1,18 @@
 # Legacy Of The Dragon - Linux Texture Fix
 
-Case-sensitive filesystem repair for **Legacy Of The Dragon** (`3101422928`).
+Case-sensitive filesystem repair for **Legacy Of The Dragon**.
 
-Load this mod immediately after **Legacy Of The Dragon**.
+## Requirements and load order
 
-The parent mod references:
+Load immediately after **Legacy Of The Dragon**.
 
-`gfx/portraits/accessory_variations/textures/color_palette_valyrian_generic_nobility_high_metal01.dds`
+## What it repairs
 
-but ships that asset as uppercase `.DDS`. Windows resolves that mismatch; Linux
-does not. This mod supplies an exact byte-for-byte copy at the lowercase path
-expected by the two references in the parent's `valyrian.txt`.
+Legacy Of The Dragon references one Valyrian nobility colour-palette texture in
+lowercase but ships the file with an uppercase extension. Windows resolves that
+mismatch; Linux and other case-sensitive filesystems do not, so the texture
+fails to load. This mod supplies a byte-for-byte copy of the same asset at the
+lowercase path the parent actually asks for.
 
-Source asset SHA-256:
-
-`7b638f8a363c6a2decb1cf01ecf816a252eb44cdfad3075e0ee279bd9e1e9915`
-
-Remove this fix if the Workshop parent starts shipping the lowercase filename.
+Windows players do not need it. It becomes unnecessary once Legacy Of The Dragon
+ships the lowercase filename itself.

@@ -1,82 +1,48 @@
 # Culture and Faith Granularity + AGOT Compatch
 
-Compatibility patch for `[Kei] Culture and Faith Granularity` and
-`A Game of Thrones`.
+Makes **[Kei] Culture and Faith Granularity** work in **A Game of Thrones**.
 
-Load order:
+## Requirements and load order
 
 1. `[Kei] Culture and Faith Granularity`
 2. `A Game of Thrones`
 3. This compatch
 
-In addition to the county culture/faith integrations, this layer rebases CaFG's
-startup tolerance-law triggers for AGOT's culture database. AGOT does not define
-the vanilla `tradition_steppe_tolerance`; the four invalid checks are omitted
-while all surviving CaFG criteria are preserved. This prevents the repeated
-`has_cultural_tradition` null-target failures seen while initial laws are
-selected for rulers.
+## What it does
 
-## Cultural men-at-arms boons
+Culture and Faith Granularity is written for vanilla CK3. AGOT replaces the
+culture, faith, men-at-arms, and decision databases it relies on, so a large
+part of it points at content that no longer exists. This compatch keeps
+everything that still works and repairs the rest.
 
-AGOT and later playset mods replace several vanilla men-at-arms files by
-filename. CaFG's cultural-boon tables still instantiated its generic regiment
-refill effect for 35 unit types removed from the resulting database. CK3
-post-validates each parameterized instance three times, producing 105
-`is_maa_type` database failures.
+**County culture and faith conversion** is integrated with AGOT's own conversion
+events, so granular per-province conversion applies to AGOT's cultures and
+faiths.
 
-The two generated scripted-effect overrides remove only weighted branches whose
-unit type does not exist. Eighteen valid AGOT/playset unit gifts remain
-unchanged. When all outcomes of a nested random list are invalid, its enclosing
-weighted branch is removed so the boon selection cannot choose an empty outcome.
+**Startup tolerance laws.** AGOT does not have the steppe-tolerance tradition
+Culture and Faith Granularity checks. Those four checks are dropped and every
+other criterion is kept, which stops the repeated errors while initial laws are
+picked for rulers.
 
-The same rebase removes eleven other weighted branches whose vanilla/TGP
-traditions do not exist in AGOT. It retains the pastoralist boon using its
-plains/steppe conditions without the removed `world_steppe` region, gives the
-ordinary `pilgrim` trait instead of querying vanilla Islam for `hajjaj`, and
-keeps the scholar-official character reward without vanilla Han-language and
-Confucian-education operations.
+**Cultural men-at-arms boons.** AGOT and later playset mods remove 35 of the
+unit types Culture and Faith Granularity can gift, which produced 105 failures
+every time a boon was evaluated. Only the gifts whose unit no longer exists are
+removed; the 18 valid ones are untouched. Where every outcome of a nested roll
+was invalid, the whole branch is removed so the boon cannot pick an empty
+result. Eleven further branches whose traditions AGOT does not have are removed
+too — the pastoralist boon keeps its plains and steppe conditions, the pilgrim
+boon grants the ordinary pilgrim trait instead of querying vanilla Islam, and
+the scholar-official reward keeps its character bonus without the vanilla Han
+language and Confucian education steps.
 
-Regenerate these overrides from current CaFG Workshop sources with:
+**The five-year cultural-benefit pulse** queried three traditions and one
+heritage pillar that AGOT does not define. Those four alternatives are removed;
+the isolationist, fiercely independent, ruling-caste, cultivated-sophistication,
+communal, tolerant-law, and xenophilic modifiers all still apply.
 
-```sh
-ck3mm mod generate cafg_agot_compatch
-ck3mm mod generate cafg_agot_compatch --apply
-```
-
-The `workspace/cafg_agot_compatch/mod.toml` manifest declares CaFG as a portable
-source and limits the staged generator to this compatch's owned outputs. The
-generator verifies the exact missing type and branch counts and stops if a CaFG
-update changes the source assumptions.
-
-## Cultural-benefit trigger chance
-
-CaFG's five-year benefit pulse queried three traditions and the Chinese heritage
-pillar that do not exist in AGOT's replaced culture database. The generated
-script-value override removes those four invalid alternatives while preserving
-the remaining isolationist, fierce-independence, ruling-caste,
-cultivated-sophistication, communal, tolerant-law, and xenophilic modifiers.
-This repairs the null `has_cultural_tradition` targets at lines 78, 80, and 110
-of the parent file.
-
-## Disabled vanilla-only decisions
-
-CaFG also ships whole-file replacements for two vanilla decisions that have no
-valid counterpart in AGOT:
-
-- `adopt_a_new_faith_for_persia_decision`, which requires the Persian Struggle,
-  Islam, its vanilla faiths, and vanilla head-of-faith titles; and
-- `embrace_outremer_culture_decision`, which requires vanilla Catholic/Arabic
-  cultures, titles, and Middle Eastern geographical regions.
-
-Because decision `is_shown` blocks are evaluated repeatedly, these otherwise
-unreachable definitions generate roughly 13,500 invalid database-scope script
-locations. Exact-path, intentionally empty overrides prevent CaFG's two
-definitions from loading without changing any AGOT-native decision.
-
-CaFG also reintroduces three files of vanilla-only definitions that AGOT
-explicitly disables: the Zanj rebellion casus belli, seven vanilla regional
-decision effects, and five Persian-Struggle effects. Those definitions cannot
-execute in AGOT and fail load-time validation against removed wars, doctrines,
-faiths, effects, and script values. Generated empty exact-path overrides now
-keep them disabled, matching AGOT's source rather than compiling unreachable
-vanilla content into the total conversion.
+**Vanilla-only decisions and definitions are disabled.** Culture and Faith
+Granularity re-adds a Persian faith-adoption decision, an Outremer culture
+decision, and three files of vanilla-only definitions that AGOT deliberately
+removes. None of them can be used in AGOT, and their repeatedly evaluated
+conditions produced roughly 13,500 invalid lookups. They are prevented from
+loading, without changing any AGOT decision.

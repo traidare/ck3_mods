@@ -98,12 +98,23 @@ Choose the smallest appropriate layer:
    CK3/AGOT-invalid syntax, scope, or database references.
 
 Keep the first three categories separate when practical. Record ownership and
-the re-audit trigger in the affected module README.
+the re-audit trigger in the affected module's `workspace/<slug>/README.md`.
 
-A module README documents that module's current state: what it owns, what it
-patches, and when to re-audit. It never narrates a parent's release history or
-what an upstream update changed. Name parent versions only where the module's
-own behavior is pinned to them.
+Every module carries two documents, and each fact belongs to exactly one:
+
+`workspace/<slug>/README.md` documents that module's CURRENT state: what it
+owns, what it patches, why that compatch layer was chosen, how to regenerate it,
+what its source assertions detect, and when to re-audit. It never narrates a
+parent's release history or what an upstream update changed. Name parent
+versions only where the module's own behavior is pinned to them.
+
+`mods/<slug>/README.md` is the compact, player-facing description — exactly what
+would be published as the mod's Workshop description. It states what the mod
+CURRENTLY does, which parent mods it requires, the required load order by
+display name, the user-visible behavior, and any incompatibility a player must
+act on. It carries no `ck3mm` commands, no repository paths, no bare Workshop
+IDs used as identifiers, no pinned parent versions, and no re-audit
+instructions. Prefer at most 40 lines.
 
 For rebases, identify the common base, compare each parent's delta, and inspect
 every merge conflict. Whole-file speed or automation overrides can accidentally
@@ -111,9 +122,9 @@ restore vanilla logic AGOT disabled; validate unrelated behavior as well as the
 intended change.
 
 For a runtime repair, retain the exact log signature, source location, effective
-last writer, and reason the narrower repair is safe in the module README. Quote
-the signature itself; never cite a specific log file, dated run, or playtest
-session.
+last writer, and reason the narrower repair is safe in
+`workspace/<slug>/README.md`. Quote the signature itself; never cite a specific
+log file, dated run, or playtest session.
 
 For map-data merges:
 
@@ -134,7 +145,9 @@ validate, or audit that mod lives in `workspace/<slug>/` and never ships:
 | path                                  | contents                                    |
 | ------------------------------------- | ------------------------------------------- |
 | `mods/<slug>/descriptor.mod`          | game-facing metadata only                   |
+| `mods/<slug>/README.md`               | Workshop-facing description;                |
 | `mods/<slug>/common/`, `map_data/`, … | payload CK3 loads                           |
+| `workspace/<slug>/README.md`          | module state, ownership, re-audit trigger   |
 | `workspace/<slug>/mod.toml`           | generator manifest, declared sources        |
 | `workspace/<slug>/implementation.py`  | the mod's generator                         |
 | `workspace/<slug>/assets/`            | generator inputs and source manifests       |

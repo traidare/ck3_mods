@@ -1,6 +1,9 @@
 # AGOT - Mayham + Armies of Westeros Compatch
 
-Compatibility patch for:
+Makes aGoT: Mayham's tradition balance and AGOT - Armies of Westeros'
+men-at-arms overhaul work together instead of overwriting each other.
+
+## Requirements and load order
 
 1. A Game of Thrones
 2. aGoT: Mayham
@@ -8,45 +11,24 @@ Compatibility patch for:
 4. Armies of Westeros REMASTERED (optional)
 5. This compatch
 
-The compatch uses Armies of Westeros' culture-tradition definitions as its
-baseline and reapplies Mayham's 48 balance changes across the 44 affected
-traditions. It also carries current AGOT's Stormlands, Frozen Shoremen,
-Harbormen, Stoneborn, and Wolfswood Clansmen traditions, which Armies of
-Westeros defines with divergent values; Mayham's own Stoneborn and Wolfswood
-deltas apply on top of them. This preserves Armies of Westeros' MAA unlocks,
-parameters, costs, and AI behavior while retaining Mayham's intended opinion
-values and AGOT's current cultural-tradition bonuses.
+## What it does
 
-Armies of Westeros' whole-file tradition overrides omit `tradition_agot_ib`,
-`tradition_agot_ibbenese`, `tradition_agot_ibbatese`, and
-`tradition_agot_sarese`, and it loads after both parents, so nothing else can
-supply them. AGOT's Ibbenese, Sarese, and Ibbatese cultures each reference two
-of the four, which fails their key references at load and leaves each culture
-two traditions short. The compatch restores all four from current AGOT with
-Mayham's balance deltas applied.
+Armies of Westeros' culture-tradition definitions are the baseline, and Mayham's
+48 balance changes are reapplied across the 44 affected traditions. Current
+AGOT's Stormlands, Frozen Shoremen, Harbormen, Stoneborn, and Wolfswood Clansmen
+traditions are carried through as well, since Armies of Westeros defines them
+with divergent values; Mayham's own Stoneborn and Wolfswood deltas apply on top.
+You keep Armies of Westeros' men-at-arms unlocks, parameters, costs, and AI
+behaviour together with Mayham's intended opinion values and AGOT's current
+cultural-tradition bonuses.
 
-Armies of Westeros ships one bare `reveler_traits_more_valued` token in the
-Arbor tradition. CK3 treats it as malformed parameter syntax during load. The
-generated same-path rebase preserves the complete AoW file and adds only the
-missing `= yes`; the later merged definitions still own the intentional
-Mayham/AoW/AGOT semantics.
+It also restores four Ibbenese, Sarese, and Ibbatese traditions that Armies of
+Westeros drops from its tradition overrides, which otherwise leaves each of
+those three cultures two traditions short, and repairs one malformed token in
+Armies of Westeros' Arbor tradition that CK3 rejects during load.
 
-It uses same-key overrides in one uniquely named tradition file and does not use
-`replace_path`. It is compatible with existing saves; the merged tradition
-definitions take effect after loading the save with the compatch enabled.
+## Compatibility
 
-## Regeneration
-
-The `workspace/agot_mayham_aow_compatch/mod.toml` manifest declares the AGOT,
-Mayham, and Armies of Westeros sources and the generator's owned outputs.
-Regenerate from the repository root:
-
-```sh
-ck3mm mod generate agot_mayham_aow_compatch
-ck3mm mod generate agot_mayham_aow_compatch --apply
-```
-
-The generator verifies the complete AGOT-to-Mayham delta manifest and fails on
-missing definitions, unexpected upstream changes, the malformed Arbor token
-changing, a change to the set of definitions Armies of Westeros omits, or
-ambiguous fields rather than silently emitting an incomplete merge.
+The compatch uses same-key overrides in one uniquely named tradition file and
+does not use `replace_path`. It is save-compatible: the merged tradition
+definitions take effect after loading a save with the compatch enabled.

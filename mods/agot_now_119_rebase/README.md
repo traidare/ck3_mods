@@ -1,40 +1,27 @@
 # AGOT NOW - CK3 1.19 Rebase
 
-Narrow executable-script repair for:
+Narrow script repair for **AGOT Nobility of Westeros** on current A Game of
+Thrones and CK3 1.19.
 
-1. A Game of Thrones 0.4.40
-2. AGOT Nobility of Westeros 1.2.5
+## Requirements and load order
+
+1. A Game of Thrones
+2. AGOT Nobility of Westeros
 3. This rebase
 
-Load immediately after NOW and before the local NOW + LoV + Essos Expanded map
-compatch.
+Load immediately after Nobility of Westeros and before any map compatch that
+merges it with Legacy of Valyria or Essos Expanded.
 
-This whole-file rebase preserves the parent logic while:
+## What it repairs
 
-- using the existing `blackwater_change` title-change scope for Great Fork
-  instead of the nonexistent `great_fork_change`;
-- making Summerhall candidate comparisons optional while the events search for a
-  second or third eligible family member, rather than dereferencing an unset
-  saved scope; and
-- redeclaring `namespace = agot_coa_events` in NOW's separate personal-COA event
-  file, without which CK3 rejects `agot_coa_events.0003` and leaves its three
-  calling decisions with a missing event.
+The rebase preserves Nobility of Westeros' logic while fixing three errors that
+CK3 1.19 rejects:
 
-The generated overrides are built from the current NOW source by:
-
-```sh
-ck3mm mod generate agot_now_119_rebase
-ck3mm mod generate agot_now_119_rebase --apply
-```
-
-The `workspace/agot_now_119_rebase/mod.toml` manifest selects NOW and this
-module's destination-specific generator. It checks all 39 candidate comparisons
-and stops when a NOW update invalidates the source assumptions.
-
-Recompare this file with NOW after every Workshop update.
-
-Validated inputs:
-
-- AGOT Workshop ID `2962333032`, version `0.4.40`
-- NOW Workshop ID `3664900993`, version `1.2.5`
-- CK3 `1.19.0.6`
+- Great Fork's title-change events used a scope that does not exist, so they
+  failed instead of firing.
+- The Summerhall events read an unset saved scope while searching for a second
+  or third eligible family member; those comparisons are now optional, so the
+  search completes.
+- Nobility of Westeros' personal coat-of-arms event file was missing its
+  namespace declaration, which made CK3 reject the event entirely and left its
+  three calling decisions pointing at a missing event.

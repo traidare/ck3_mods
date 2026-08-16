@@ -7,6 +7,35 @@
 - Localization keys merge by key (last loaded wins)
 - `common/` files merge by top-level block key
 
+Override granularity differs by content type, and only some of it depends on
+playset position:
+
+| content                   | granularity                                           | depends on playset position? |
+| ------------------------- | ----------------------------------------------------- | ---------------------------- |
+| `common/*` databases      | single object, last wins by **ASCIIbetical filename** | **no**                       |
+| `events/*`                | whole file, same path only                            | yes                          |
+| `gui/window_*.gui`        | whole file, same path only                            | yes                          |
+| `gui` types and templates | single object, **first** asciibetical wins            | no                           |
+| `localization/*`          | single key, last wins                                 | yes                          |
+
+The `common/` rule is the one most often gotten wrong. CK3 concatenates every
+`common/<database>/` file from vanilla and all enabled mods, sorts them by
+filename, and lets the last definition of an object win — so a mod at playset
+position 0 shipping `kei_foo.txt` still overrides a mod at position 1 shipping
+`00_foo.txt`. Prefix ordering follows ASCII, digits before letters: `00_` <
+`05_` < `99_` < `kei_` < `zz_` < `zzz_`. This is why a `common/` compatch should
+redefine only the objects it changes in a late-sorting uniquely named file,
+instead of copying the whole parent file to the same path.
+
+Two consequences worth remembering:
+
+- A single-object override can only **change** an object, never remove it. The
+  only way to stop a file's definitions from loading at all is a same-path,
+  intentionally empty override.
+- Events cannot be overridden by ID. Two files defining the same event ID is an
+  engine error (`Duplicated event ID '<id>' found.`), not a last-writer win, so
+  event compatches must stay whole-file.
+
 ## Types of Conflicts
 
 ### 1. File-level override

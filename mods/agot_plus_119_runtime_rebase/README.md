@@ -1,104 +1,43 @@
 # AGOT+ 1.0.0 - CK3 1.19 Runtime Rebase
 
-Narrow executable-script repair for **AGOT+** (`2950245430`, version `1.0.0`) on
-CK3 `1.19`.
+Narrow script repair for **AGOT+** on CK3 1.19.
 
-Load this mod immediately after **AGOT: Canon Children EZ Mode**. The EZ-mode
-mod does not override the repaired AGOT+ file, but loading after both parents
-makes the intended winner unambiguous.
+## Requirements and load order
 
-## Override
+Load immediately after **AGOT: Canon Children EZ Mode**. That mod does not
+override the repaired AGOT+ files, but loading after both parents makes the
+intended winner unambiguous.
 
-- `common/scripted_effects/asoiaf_canon_children_effects.txt`
-- `common/scripted_effects/asoiaf_setup_effects.txt`
-- `common/scripted_effects/asoiaf_scripted_effects_strong_seed.txt`
-- `common/scripted_effects/zz_asoiaf_runtime_disabled_incomplete_children.txt`
-- `common/scripted_triggers/zz_asoiaf_runtime_disabled_incomplete_children.txt`
-- `common/modifiers/zz_asoiaf_runtime_missing_modifiers.txt`
+## What it repairs
 
-## Canon-child creation
-
-AGOT+ supplies 202 canon-child `create_character` effects with both:
-
-```text
-location = scope:mother.location
-employer = scope:mother.employer
-```
-
-CK3 1.19 rejects specifying `location` and `employer` together, invalidating all
-202 effects during post-validation. Current vanilla and AGOT newborn creation
-use the mother's employer without a separate location. This rebase therefore
-removes only the redundant `location` line and preserves employer, parentage,
-appearance, traits, travel-plan handling, and all other behavior.
-
-## Historical-character perks
-
-AGOT+ also assigns perks to historical characters without first checking whether
-they are alive at the selected bookmark. CK3 1.19 rejects `add_perk` on dead
-characters, so every such assignment is a runtime error at game start.
-
-This rebase gates each AGOT+ perk assignment with `is_alive = yes`. Living
-characters receive exactly the same perks, while dead or not-yet-alive
-characters skip an effect CK3 would reject.
-
-## Redbeard strong seed
-
-AGOT+ checked `dynasty:dynn_Redbeard`, but current AGOT defines Redbeard as
-`house:house_Redbeard` under the Forester dynasty. The invalid dynasty lookup is
-replaced with the corresponding house comparison.
-
-## Current trigger and iterator syntax
-
-The setup file now uses CK3 1.19's `has_claim_on` and `is_alive = no` triggers.
-Six dynasty searches used effect iterators inside trigger limits; these now use
-the corresponding `any_dynasty_member` trigger iterator.
-
-The canon-child effects also use the current `target_character` field for 24
-dragon-bond schemes, repair one mistyped `add_trait` effect and one invalid
-spouse iterator. Alternative-age cleanup now checks the typed saved scope and
-confirms it still refers to the current character, preventing a saved scope from
-an earlier character from leaking into a later cleanup check.
-
-The setup rebase also repairs four removed or misspelled trait identifiers. Nine
-standalone `exists` triggers were being executed as effects; the affected
-historical-character changes now use optional scopes or explicit `if` guards, so
-missing bookmark characters safely skip only the dependent effect.
-
-Eighty obsolete canon-child appearance references now resolve to the current
-AGOT historical-character IDs. Two stillborn children whose dedicated appearance
-templates do not exist fall back to normal parental inheritance. The
-runtime-created Aerion check uses AGOT+'s stored global character variable, and
-two renamed historical characters (Artys Dormand and Morrec Broome's spouse) now
-resolve to their current AGOT IDs.
-
-The remaining stale setup identifiers are rebased to their current forms: a
-saved house is read through `scope:`, the hunter XP uses AGOT's `hunter` track,
-the stewardship focus typo is corrected, and the `bossy` childhood trait is
-applied as a trait rather than as an education focus. The two explicit
-compatibility blocks for the disabled More Bookmarks mod are removed because
-they query its absent `rhllor` faith; current AGOT's corresponding faith is
-already `rhllor_fots`.
-
-AGOT+ localizes and applies a separate Asha variant of its Greyjoy canon-child
-modifier but omits the modifier definition. The additive modifier file defines
-that variant with the same gameplay values as AGOT+'s Yara variant while
-preserving the separate Asha localization.
-
-Two Aegon IV event branches reference seven child birth effects that AGOT+ does
-not define, and four of their triggers are missing as well. The generated late
-definitions force only those incomplete triggers false and provide compile-safe
-no-op effects. This prevents the branches from terminating a pregnancy before
-calling a nonexistent birth effect while leaving every complete canon-child
-branch enabled.
-
-Refresh this generated override with:
-
-```sh
-ck3mm mod generate agot_plus_119_runtime_rebase
-ck3mm mod generate agot_plus_119_runtime_rebase --apply
-```
-
-The per-mod manifest selects AGOT+ and this rebase's destination-specific staged
-generator.
-
-Recompare this override after every update to Workshop mod `2950245430`.
+- **All 202 canon-child creations.** AGOT+ specifies both a location and an
+  employer, which CK3 1.19 rejects, so every canon child failed to be created.
+  The redundant location is removed; employer, parentage, appearance, traits,
+  and travel-plan handling are unchanged.
+- **Historical-character perks.** AGOT+ assigned perks without checking whether
+  the character is alive at the selected bookmark, which CK3 1.19 rejects. Perk
+  assignments are now gated on the character being alive; living characters get
+  exactly the same perks.
+- **Redbeard strong seed.** AGOT+ looked up a Redbeard dynasty; current AGOT
+  defines Redbeard as a house under the Forester dynasty. The lookup is
+  corrected.
+- **Outdated trigger and iterator syntax** throughout the setup and canon-child
+  files, including 24 dragon-bond schemes, one mistyped trait effect, one
+  invalid spouse iterator, four removed or misspelled traits, and nine triggers
+  that were being run as effects — so a missing bookmark character now skips
+  only the dependent effect instead of erroring.
+- **Eighty obsolete canon-child appearance references**, now resolved to current
+  AGOT historical characters. Two stillborn children without appearance
+  templates fall back to normal parental inheritance, and two renamed historical
+  characters resolve to their current AGOT identities.
+- **Remaining stale setup values**: the hunter XP track, a stewardship focus
+  typo, and the `bossy` childhood trait applied as a trait rather than an
+  education focus. Two compatibility blocks for the disabled More Bookmarks mod
+  are removed, since current AGOT already supplies the faith they queried.
+- **A missing modifier.** AGOT+ applies and localizes a separate Asha variant of
+  its Greyjoy canon-child modifier but never defines it. It is defined here with
+  the same values as the Yara variant, keeping the separate Asha text.
+- **Two incomplete Aegon IV event branches** that reference seven child-birth
+  effects AGOT+ does not define. Those branches are disabled so they can no
+  longer terminate a pregnancy and then call a nonexistent effect. Every
+  complete canon-child branch stays enabled.
