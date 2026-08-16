@@ -1,0 +1,45 @@
+﻿zz_debug_set_house_effect = {
+	set_house = $HOUSE$
+	if = {
+		limit = {
+			scope:zz_debug_house_update_coa = yes
+			exists = $HOUSE$.house_founder.dynasty
+		}
+		every_held_title = {
+			set_coa = $HOUSE$.house_founder.dynasty
+		}
+	}
+}
+
+# Paradox Script has no recursion; AGOT's own house conversion nests four
+# generations of every_child, and this mirrors that depth.
+zz_debug_move_descendants_to_house_effect = {
+	every_child = {
+		limit = {
+			exists = house
+			house = scope:zz_debug_old_house
+		}
+		zz_debug_set_house_effect = { HOUSE = $HOUSE$ }
+		every_child = {
+			limit = {
+				exists = house
+				house = scope:zz_debug_old_house
+			}
+			zz_debug_set_house_effect = { HOUSE = $HOUSE$ }
+			every_child = {
+				limit = {
+					exists = house
+					house = scope:zz_debug_old_house
+				}
+				zz_debug_set_house_effect = { HOUSE = $HOUSE$ }
+				every_child = {
+					limit = {
+						exists = house
+						house = scope:zz_debug_old_house
+					}
+					zz_debug_set_house_effect = { HOUSE = $HOUSE$ }
+				}
+			}
+		}
+	}
+}

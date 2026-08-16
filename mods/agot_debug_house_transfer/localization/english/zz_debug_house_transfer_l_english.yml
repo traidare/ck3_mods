@@ -1,0 +1,5 @@
+﻿l_english:
+ zz_debug_join_my_house_interaction:0 "Move to My House"
+ zz_debug_join_my_house_interaction_desc:0 "Move [recipient.GetShortUINameNoTooltip] into [house|E] [actor.GetHouse.GetName]. This is a debug tool, applied without consent, cost, or opinion consequences."
+ zz_debug_house_move_descendants:0 "Also move their descendants who share their current house"
+ zz_debug_house_update_coa:0 "Also reset the coat of arms of every title they hold"

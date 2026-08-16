@@ -1,0 +1,56 @@
+﻿zz_debug_join_my_house_interaction = {
+	category = interaction_category_agot_debug
+	icon = icon_adopt_house_member
+	common_interaction = yes
+	use_diplomatic_range = no
+	desc = zz_debug_join_my_house_interaction_desc
+
+	is_shown = {
+		scope:actor = {
+			is_ai = no
+			exists = house
+		}
+		scope:recipient = {
+			is_alive = yes
+			NOT = { this = scope:actor }
+			OR = {
+				NOT = { exists = house }
+				NOT = { house = scope:actor.house }
+			}
+		}
+	}
+
+	auto_accept = yes
+
+	send_option = {
+		flag = zz_debug_house_move_descendants
+		localization = zz_debug_house_move_descendants
+	}
+
+	send_option = {
+		flag = zz_debug_house_update_coa
+		localization = zz_debug_house_update_coa
+	}
+
+	on_accept = {
+		scope:actor.house = { save_scope_as = zz_debug_new_house }
+		scope:recipient = {
+			if = {
+				limit = { exists = house }
+				house = { save_scope_as = zz_debug_old_house }
+			}
+			zz_debug_set_house_effect = { HOUSE = scope:zz_debug_new_house }
+			if = {
+				limit = {
+					scope:zz_debug_house_move_descendants = yes
+					exists = scope:zz_debug_old_house
+				}
+				zz_debug_move_descendants_to_house_effect = { HOUSE = scope:zz_debug_new_house }
+			}
+		}
+	}
+
+	ai_will_do = {
+		base = 0
+	}
+}
