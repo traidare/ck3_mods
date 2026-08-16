@@ -300,9 +300,7 @@ culture_emergence_events.0001 = {
 					tier = tier_county
 					culture = scope:hybridizer_old_culture
 				}
-				E_kCAFG_replace_county_culture = {
-					CULTURE = scope:hybridizer.culture
-				}
+				set_county_culture = scope:hybridizer.culture
 			}
 		}
 	}
@@ -506,9 +504,7 @@ culture_emergence_events.0002 = {
 					tier = tier_county
 					culture = scope:diverger_old_culture
 				}
-				E_kCAFG_replace_county_culture = {
-					CULTURE = scope:diverger.culture
-				}
+				set_county_culture = scope:diverger.culture
 			}
 		}
 	}
@@ -972,6 +968,9 @@ culture_emergence_events.0003 = { # Emergent Divergences, based on adjacency to 
 							valid_county_to_usurp = yes
 						}
 						holder = {
+							#AGOT Added, Ibb Culture Conversion Handling
+							agot_hairyman_flag_handling = { NEW_CULTURE = scope:culture_check_2 ACTOR = this }
+
 							set_culture = scope:culture_check_2
 							save_scope_as = diverge_dummy
 						}
@@ -1155,12 +1154,19 @@ scripted_effect try_to_expand_one_more_duchy_effect = {
 							}
 						}
 						holder = {
+							#AGOT Added, Ibb Culture Conversion Handling
+							agot_hairyman_flag_handling = { NEW_CULTURE = scope:diverge_dummy.culture ACTOR = this }
+
 							set_culture = scope:diverge_dummy.culture
 							every_courtier_or_guest = {
 								limit = {
 									culture = scope:culture_check_2
 									is_ai = yes
 								}
+
+								#AGOT Added, Ibb Culture Conversion Handling
+								agot_hairyman_flag_handling = { NEW_CULTURE = scope:diverge_dummy.culture ACTOR = this }
+
 								set_culture = scope:diverge_dummy.culture
 								hidden_effect = {
 									add_character_flag = converted_culture_this_lifetime
@@ -1176,6 +1182,10 @@ scripted_effect try_to_expand_one_more_duchy_effect = {
 										culture = scope:culture_check_2
 										is_ai = yes
 									}
+
+									#AGOT Added, Ibb Culture Conversion Handling
+									agot_hairyman_flag_handling = { NEW_CULTURE = scope:diverge_dummy.culture ACTOR = this }
+
 									set_culture = scope:diverge_dummy.culture
 									hidden_effect = {
 										add_character_flag = converted_culture_this_lifetime
@@ -1209,12 +1219,19 @@ scripted_effect try_to_expand_one_more_duchy_effect = {
 							}
 						}
 						holder = {
+							#AGOT Added, Ibb Culture Conversion Handling
+							agot_hairyman_flag_handling = { NEW_CULTURE = scope:diverge_dummy.culture ACTOR = this }
+							
 							set_culture = scope:diverge_dummy.culture
 							every_courtier_or_guest = {
 								limit = {
 									culture = scope:culture_check_2
 									is_ai = yes
 								}
+
+								#AGOT Added, Ibb Culture Conversion Handling
+								agot_hairyman_flag_handling = { NEW_CULTURE = scope:diverge_dummy.culture ACTOR = this }
+
 								set_culture = scope:diverge_dummy.culture
 								hidden_effect = {
 									add_character_flag = converted_culture_this_lifetime
@@ -1230,6 +1247,10 @@ scripted_effect try_to_expand_one_more_duchy_effect = {
 										culture = scope:culture_check_2
 										is_ai = yes
 									}
+
+									#AGOT Added, Ibb Culture Conversion Handling
+									agot_hairyman_flag_handling = { NEW_CULTURE = scope:diverge_dummy.culture ACTOR = this }
+
 									set_culture = scope:diverge_dummy.culture
 									hidden_effect = {
 										add_character_flag = converted_culture_this_lifetime
@@ -1274,12 +1295,19 @@ culture_emergence_events.0004 = {
 						}
 					}
 					holder = {
+						#AGOT Added, Ibb Culture Conversion Handling
+						agot_hairyman_flag_handling = { NEW_CULTURE = scope:culture_check_2 ACTOR = this }
+
 						set_culture = scope:diverge_dummy.culture
 						every_courtier_or_guest = {
 							limit = {
 								culture = scope:culture_check_2
 								is_ai = yes
 							}
+
+							#AGOT Added, Ibb Culture Conversion Handling
+							agot_hairyman_flag_handling = { NEW_CULTURE = scope:culture_check_2 ACTOR = this }
+
 							set_culture = scope:diverge_dummy.culture
 							hidden_effect = {
 								add_character_flag = converted_culture_this_lifetime
@@ -1295,6 +1323,10 @@ culture_emergence_events.0004 = {
 									culture = scope:culture_check_2
 									is_ai = yes
 								}
+
+								#AGOT Added, Ibb Culture Conversion Handling
+								agot_hairyman_flag_handling = { NEW_CULTURE = scope:culture_check_2 ACTOR = this }
+
 								set_culture = scope:diverge_dummy.culture
 								hidden_effect = {
 									add_character_flag = converted_culture_this_lifetime
@@ -1323,12 +1355,19 @@ culture_emergence_events.0004 = {
 						}
 					}
 					holder = { # Set the holder, their courtiers and pool characters to the new culture
+						#AGOT Added, Ibb Culture Conversion Handling
+						agot_hairyman_flag_handling = { NEW_CULTURE = scope:culture_check_2 ACTOR = this }
+
 						set_culture = scope:diverge_dummy.culture
 						every_courtier_or_guest = {
 							limit = {
 								culture = scope:culture_check_2
 								is_ai = yes
 							}
+
+							#AGOT Added, Ibb Culture Conversion Handling
+							agot_hairyman_flag_handling = { NEW_CULTURE = scope:culture_check_2 ACTOR = this }
+
 							set_culture = scope:diverge_dummy.culture
 							hidden_effect = {
 								add_character_flag = converted_culture_this_lifetime
@@ -1344,6 +1383,10 @@ culture_emergence_events.0004 = {
 									culture = scope:culture_check_2
 									is_ai = yes
 								}
+
+								#AGOT Added, Ibb Culture Conversion Handling
+								agot_hairyman_flag_handling = { NEW_CULTURE = scope:culture_check_2 ACTOR = this }
+
 								set_culture = scope:diverge_dummy.culture
 								hidden_effect = {
 									add_character_flag = converted_culture_this_lifetime

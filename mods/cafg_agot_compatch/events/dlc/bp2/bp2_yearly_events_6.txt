@@ -7471,8 +7471,11 @@ bp2_yearly.6205 = {
 		trigger = {
 			root.location = {
 				OR = {
-					terrain = forest
-					terrain = taiga
+					#AGOT Modified
+					# terrain = forest
+					# terrain = taiga
+					agot_is_forest_terrain = yes
+					agot_is_taiga_terrain = yes
 				}
 				#AGOT Disabled
 				#AGOT Needs Flavor
@@ -7490,8 +7493,11 @@ bp2_yearly.6205 = {
 		trigger = {
 			root.location = {
 				OR = {
-					terrain = forest
-					terrain = taiga
+					#AGOT Modified
+					# terrain = forest
+					# terrain = taiga
+					agot_is_forest_terrain = yes
+					agot_is_taiga_terrain = yes
 				}
 				#AGOT Disabled
 				#AGOT Needs Flavor
@@ -7540,9 +7546,13 @@ bp2_yearly.6205 = {
 		trigger = {
 			root.location = {
 				OR = {
-					terrain = farmlands
-					terrain = plains
-					terrain = floodplains
+					#AGOT Modified
+					# terrain = farmlands
+					# terrain = plains
+					# terrain = floodplains
+					agot_is_farmlands_terrain = yes
+					agot_is_plains_terrain = yes
+					agot_is_floodplains_terrain = yes
 				}
 			}
 		}

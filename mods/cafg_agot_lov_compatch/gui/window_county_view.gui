@@ -18,6 +18,9 @@ window = {
 		on_start = "[GetVariableSystem.Set( 'county_view_open', 'true' )]"
 		on_start = "[GetVariableSystem.Set( 'hide_bottom_left_HUD', 'true' )]"
 
+		# LEGACY OF VALYRIA ADDED / AGOT 0.4.37 rebase
+		on_finish = "[GetScriptedGui('lv_restore_ruins_tooltip_show').Execute( GuiScope.SetRoot( HoldingView.GetProvince.MakeScope ).AddScope('actor', GetPlayer.MakeScope ).End)]"
+
 		using = Animation_FadeIn_Standard
 		using = Sound_WindowShow_Standard
 		using = Animation_FadeIn_BottomLeft
@@ -33,6 +36,13 @@ window = {
 		using = Animation_FadeOut_Standard
 		using = Sound_WindowHide_Standard
 		using = Animation_FadeOut_BottomLeft
+	}
+
+	# LEGACY OF VALYRIA ADDED / AGOT 0.4.37 rebase
+	# Failsafe for when you switch counties without closing the window.
+	state = {
+		name = _mouse_hierarchy_enter
+		on_finish = "[GetScriptedGui('lv_restore_ruins_tooltip_show').Execute( GuiScope.SetRoot( HoldingView.GetProvince.MakeScope ).AddScope('actor', GetPlayer.MakeScope ).End)]"
 	}
 
 	alwaystransparent = yes
@@ -121,7 +131,9 @@ window = {
 						expand = {}
 					}
 
+					# LEGACY OF VALYRIA MODIFIED
 					vbox = {
+						visible = "[Not(HoldingView.GetCountyTitle.GetHolder.HasTrait(GetTrait('ruin').Self))]"
 						datacontext = "[HoldingView.GetCountyTitle.GetHolder]"
 						layoutpolicy_horizontal = expanding
 
@@ -263,7 +275,6 @@ window = {
 							visible = "[IsLandlessAdventurer( GetPlayer )]"
 							widgetid = "move_domcicle_button"
 							#AGOT Modified
-							# size = { 50 50 }
 							size = { 40 40 }
 
 							enabled = "[Domicile.CanMoveTo( Province.Self )]"
@@ -276,8 +287,6 @@ window = {
 							button_icon = {
 								alwaystransparent = yes
 								parentanchor = center
-								#AGOT Modified
-								# size = { 30 30 }
 								size = { 25 25 }
 								texture = "gfx/interface/icons/flat_icons/move_camp.dds"
 							}
@@ -962,6 +971,8 @@ window = {
 							down = "[GUICountyHolding.IsSelected]"
 							alwaystransparent = "[GUICountyHolding.IsSelected]"
 							onclick = "[GUICountyHolding.OnClick]"
+							# LEGACY OF VALYRIA ADDED / AGOT 0.4.37 rebase
+							onclick = "[GetScriptedGui('lv_restore_ruins_tooltip_show').Execute( GuiScope.SetRoot( HoldingView.GetProvince.MakeScope ).AddScope('actor', GetPlayer.MakeScope ).End)]"
 							onclick = "[PdxGuiTriggerAllAnimations('holding_view_refresh')]"
 
 							using = tooltip_ne
@@ -1041,7 +1052,6 @@ window = {
 				layoutpolicy_vertical = expanding
 				minimumsize = { 0 320 }
 				margin = { 5 5 }
-
 				state = {
 					name = "holding_view_refresh"
 					next = a
@@ -1061,10 +1071,17 @@ window = {
 					margin_top = 3
 				}
 
+				# LEGACY OF VALYRIA ADDED
+				background = {
+					visible = "[And(HoldingView.HasHolding, GetScriptedGui('lv_ruin_is_unique').IsValid(GuiScope.SetRoot(HoldingView.GetProvince.MakeScope).End))]"
+					using = Background_Ruin_Valyria
+				}
+
+				# LEGACY OF VALYRIA MODIFIED
 				background = {
 					#AGOT Modified
 					# visible = "[HoldingView.HasHolding]"
-					visible = "[And(HoldingView.HasHolding, ProvinceIsNotWilderness)]"
+					visible = "[And(And(HoldingView.HasHolding, ProvinceIsNotWilderness), Not(GetScriptedGui('lv_ruin_is_unique').IsValid(GuiScope.SetRoot(HoldingView.GetProvince.MakeScope).End)))]"
 					texture = "[HoldingView.GetHolding.GetIllustration]"
 					alpha = 0.8
 
@@ -1093,8 +1110,36 @@ window = {
 					}
 				}
 
+				# LEGACY OF VALYRIA ADDED
+				hbox = {
+					visible = "[GetScriptedGui('lv_ruin_valyria_restoration_blocked').IsValid(GuiScope.SetRoot(HoldingView.GetProvince.MakeScope).AddScope('actor', GetPlayer.MakeScope).End)]"
+					layoutpolicy_horizontal = expanding
+					layoutpolicy_vertical = expanding
+					margin = { 30 0 }
+
+					text_multi = {
+						layoutpolicy_horizontal = expanding
+						layoutpolicy_vertical = expanding
+						text = "lv_valyria_province_expedition_required"
+						align = center
+						default_format = "#high;glow_color:{0,0,0,1}"
+						using = Font_Type_Flavor
+						using = Font_Size_Big
+
+						background = {
+							using = Background_Area_Dark
+							margin = { 40 6 }
+							alpha = 0.8
+							modify_texture = {
+								texture = "gfx/interface/component_masks/mask_fade_circle.dds"
+							}
+						}
+					}
+				}
+
 				### TOP LEFT
 				hbox = {
+					visible = "[Not(GetScriptedGui('lv_ruin_valyria_restoration_blocked').IsValid(GuiScope.SetRoot(HoldingView.GetProvince.MakeScope).AddScope('actor', GetPlayer.MakeScope).End))]"
 					layoutpolicy_horizontal = expanding
 					layoutpolicy_vertical = expanding
 
@@ -1203,6 +1248,7 @@ window = {
 
 									widget = {
 										size = { 30 30 }
+										visible = "[Or(HoldingView.PotentialSetRealmCapital, HoldingView.CanSetCountyCapital)]" # LEGACY OF VALYRIA ADDED
 
 										button_move_capital = {
 											name = "set_realm_capital_button"
@@ -1246,12 +1292,21 @@ window = {
 									margin_left = 5
 								}
 
+								# LEGACY OF VALYRIA MODIFIED
 								flowcontainer = {
 									datacontext = "[HoldingView.GetGUIHoldingBuilding]"
 									ignoreinvisible = yes
 
 									text_label_left = {
+										visible = "[Not(HoldingView.GetTitle.GetHolder.HasTrait(GetTrait('ruin').Self))]"
 										text = "[HoldingView.GetHoldingDesc]"
+										max_width = 210
+										multiline = yes
+										margin_left = 5
+									}
+									text_label_left = {
+										visible = "[HoldingView.GetTitle.GetHolder.HasTrait(GetTrait('ruin').Self)]"
+										text = "[ruin|E]"
 										max_width = 210
 										multiline = yes
 										margin_left = 5
@@ -1633,8 +1688,9 @@ window = {
 
 				### CONSTRUCT NEW HOLDING & CONSTRUCTING PROGRESS
 				vbox = {
+					# LEGACY OF VALYRIA MODIFIED
 					hbox = {
-						visible = "[And(Not(HoldingView.HasHolding), Not(HoldingView.IsBeingConstructed))]"
+						visible = "[And(And(Not(HoldingView.HasHolding), Not(HoldingView.IsBeingConstructed)), Not(HoldingView.GetCountyTitle.GetHolder.HasTrait(GetTrait('ruin').Self)))]"
 						margin_bottom = 30
 
 						button_standard_big = {
@@ -1694,7 +1750,9 @@ window = {
 				#AGOT Added
 				agot_county_view_colonize_button = {}
 
+				# LEGACY OF VALYRIA MODIFIED
 				hbox = {
+					visible = "[Not(And(HoldingView.HasHolding, GetScriptedGui('lv_ruin_valyria_restoration_blocked').IsValid(GuiScope.SetRoot(HoldingView.GetProvince.MakeScope).AddScope('actor', GetPlayer.MakeScope).End)))]"
 					layoutpolicy_horizontal = expanding
 					allow_outside = yes
 
@@ -1923,6 +1981,31 @@ window = {
 							direction = vertical
 							ignoreinvisible = yes
 							spacing = 3
+
+							button_standard = {
+								visible = "[HoldingView.GetProvince.MakeScope.Var('lv_firewyrm').IsSet]"
+								datacontext = "[HoldingView.GetProvince.MakeScope.Var('lv_firewyrm').Char]"
+								size = { 85 85 }
+								vbox = {
+									layoutpolicy_vertical = expanding
+									layoutpolicy_horizontal = expanding
+
+									portrait_head_small = {
+										size = { 85 60 }
+										blockoverride "opinion_box" {}
+									}
+
+									text_single = {
+										layoutpolicy_vertical = expanding
+										layoutpolicy_horizontal = expanding
+										margin_bottom = 10
+										text = "HOLDING_VIEW_FIREWYRM"
+										align = center|nobaseline
+									}
+								}
+								background = { using = Background_Area_ExtraDark }
+							}
+
 
 							button_standard = {
 								datacontext = "[HoldingView.GetGUIHoldingBuilding]"
@@ -3214,7 +3297,7 @@ window = {
 												name = "replace_button"
 												onclick = "[GUITrackItem.Replace]"
 												tooltip = "[GUITrackItem.GetReplaceTooltip]"
-												visible = "[And(GUITrackItem.IsCurrentBuildingSelected, GUITrackItem.CanReplace)]"
+												visible = "[And(GUITrackItem.IsCurrentBuildingSelected, And(GUITrackItem.CanReplace, Not(GetScriptedGui('lv_ruin_has_blockers').IsValid(GuiScope.SetRoot(HoldingView.GetProvince.MakeScope).End))))]"
 
 												button_change = {
 													alwaystransparent = yes
@@ -3815,4 +3898,23 @@ template Special_Building_Texture
 	spriteborder = { 18 18 }
 
 	framesize = { 252 80 }
+}
+
+types LVInfoTypes {
+    type lv_info_incompatibility_colonisation_check = widget { visible = no }
+}
+
+# Ruin Background Templates
+template Background_Ruin_Valyria
+{
+	texture = "gfx/interface/illustrations/activities/valyria_ruin.dds"
+	alpha = 0.8
+
+	fittype = centercrop
+
+	modify_texture = {
+		texture = "gfx/interface/window_county/mask_holding_illustration.dds"
+		blend_mode = alphamultiply
+		alpha = 0.95
+	}
 }

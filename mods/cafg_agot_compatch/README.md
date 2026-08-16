@@ -8,6 +8,11 @@ Makes **[Kei] Culture and Faith Granularity** work in **A Game of Thrones**.
 2. `A Game of Thrones`
 3. This compatch
 
+If you also run **Legacy of Valyria**, add the companion item
+`Culture and Faith Granularity + AGOT Compatch - Legacy of Valyria` after Legacy
+of Valyria and after this one. Without it, whichever of the two loads last wins
+the county view and the tournament events outright.
+
 ## What it does
 
 Culture and Faith Granularity is written for vanilla CK3. AGOT replaces the
@@ -46,3 +51,10 @@ decision, and three files of vanilla-only definitions that AGOT deliberately
 removes. None of them can be used in AGOT, and their repeatedly evaluated
 conditions produced roughly 13,500 invalid lookups. They are prevented from
 loading, without changing any AGOT decision.
+
+## Known incompatibility
+
+**Better AI Education & Ward Limit BOL.** This compatch has to ship a complete
+copy of the hold-court event file, because CK3 replaces event files as a whole
+and rejects duplicate event IDs. Loading this compatch after that mod therefore
+reverts its hold-court changes. There is no way to keep both.

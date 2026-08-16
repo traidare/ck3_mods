@@ -788,14 +788,12 @@ ce1_decision_events.1020 = {
 			limit = {
 				faith = root.faith
 			}
-			random = {
-				chance = 25
-				E_kCAFG_convert_faith_in_all_county_provinces = {
-					FACTOR = 0.25
-					VARIANCE = 0.4
-					FAITH = scope:leg_faith
-					MAX = 0.9
-				}
+			
+			E_kCAFG_convert_faith_in_all_county_provinces = {
+				FACTOR = 0.25
+				VARIANCE = 0.4
+				FAITH = scope:leg_faith
+				MAX = 0.9
 			}
 		}
 		scope:legendary_character = {

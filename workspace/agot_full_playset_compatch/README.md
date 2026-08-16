@@ -10,7 +10,9 @@ Whole-file merges of paths that several parents genuinely contest:
 - MFA timing with LoV's coronation, tournament, and dragon-hatching changes;
 - the temporary More Dragon Eggs + LoV hatching activity;
 - LoV tournament guards, MFA's cooldown, and CaFG's granular county-faith
-  conversion in `contest_events.txt`;
+  conversion in `contest_events.txt` — a superset of the two-file
+  [cafg_agot_lov_compatch](../cafg_agot_lov_compatch/README.md) variant, which
+  carries the LoV + CaFG merge for playsets without MFA;
 - CaFG county/province controls with LoV ruin restoration in the county view;
 - AGOT, Additional Models, and COW special-building model detection with the
   NOW-COW 1.0.2 Dunstonbury/Sisterton province remaps, while retaining LoV's

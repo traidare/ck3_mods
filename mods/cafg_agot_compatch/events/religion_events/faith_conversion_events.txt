@@ -16,12 +16,19 @@ faith_conversion.0001 = {
 	}
 
 	immediate = {
-		capital_county = {
-			E_kCAFG_convert_faith_in_all_county_provinces = {
-				FACTOR = 0.65
-				VARIANCE = 0.3
-				FAITH = root.faith
-				MAX = 0.9
+		if = {
+			limit = {
+				primary_title.tier > tier_barony
+				exists = capital_county
+				capital_county.faith = scope:old_faith
+			}
+			capital_county = {
+				E_kCAFG_convert_faith_in_all_county_provinces = {
+					FACTOR = 0.65
+					VARIANCE = 0.3
+					FAITH = root.faith
+					MAX = 0.9
+				}
 			}
 		}
 	}

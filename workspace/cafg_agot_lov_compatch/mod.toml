@@ -1,0 +1,21 @@
+[generator]
+entrypoint = "implementation.py:generate"
+owned_outputs = [
+  "events/activities/tournaments/contest_events.txt",
+  "gui/window_county_view.gui",
+]
+
+[[sources]]
+name = "vanilla"
+kind = "game"
+path = "game"
+
+[[sources]]
+name = "culture-faith-granularity"
+kind = "workshop"
+item_id = "3206891770"
+
+[[sources]]
+name = "legacy-of-valyria-rc71"
+kind = "workshop"
+item_id = "3719888822"

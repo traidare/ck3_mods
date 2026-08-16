@@ -124,13 +124,13 @@ false_conversion.0020 = {
 					var:false_convert = root.faith
 					faith != root.faith	#Discount them if they've already been switched by the conversion action.
 				}
-				save_temporary_scope_as = kCAFG_converted_county # Kei: save to get the variable from the right scope
+				save_temporary_scope_as = kCAFG_converted_county # Kei : save to get the variable from the right scope
 				E_kCAFG_convert_faith_in_all_county_provinces = {
 					FACTOR = 0.6
 					VARIANCE = 0.4
 					FAITH = scope:kCAFG_converted_county.var:false_convert
 					MAX = 0.85
-				}
+				}	#Everyone likes practicing their faith in the open!
 				remove_county_modifier = false_convert_modifier
 				add_county_modifier = {
 					modifier = relieved_cryptos_modifier
@@ -504,7 +504,7 @@ false_conversion.0030 = {
 					var:false_convert = root.faith
 					faith != root.faith	#Discount them if they've already been switched by the conversion action.
 				}
-				save_temporary_scope_as = kCAFG_converted_county # Kei: save to get the variable from the right scope
+				save_temporary_scope_as = kCAFG_converted_county # Kei : save to get the variable from the right scope
 				E_kCAFG_convert_faith_in_all_county_provinces = {
 					FACTOR = 0.6
 					VARIANCE = 0.4
@@ -562,7 +562,7 @@ false_conversion.0030 = {
 				limit = { top_liege = this }
 				every_in_list = {
 					list = converting_counties_list
-					save_temporary_scope_as = kCAFG_converted_county # Kei: save to get the variable from the right scope
+					save_temporary_scope_as = kCAFG_converted_county # Kei : save to get the variable from the right scope
 					E_kCAFG_convert_faith_in_all_county_provinces = {
 						FACTOR = 0.6
 						VARIANCE = 0.4

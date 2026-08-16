@@ -923,6 +923,7 @@ global_religion.1000 = {
 					is_landless_type_title = no
 					faith = root.faith
 				}
+
 				E_kCAFG_welcome_religious_exiles = {
 					FAITH = scope:target_faith
 					MIN_FACTOR = 0.3
@@ -935,12 +936,14 @@ global_religion.1000 = {
 			every_in_list = {
 				list = counties_to_move_in_to
 				change_development_level = var:county_development_to_get
+				
 				E_kCAFG_welcome_religious_exiles = {
 					FAITH = scope:target_faith
 					MIN_FACTOR = 0.6
 					MAX_FACTOR = 0.95
 					ADDED_TENSION_FACTOR = 0.1
 				}
+
 				change_county_control = {
 					value = var:county_development_to_get
 					multiply = -5
@@ -1102,6 +1105,12 @@ global_religion.1000 = {
 				every_in_list = {
 					list = counties_to_move_in_to
 					change_development_level = var:county_development_to_get
+					E_kCAFG_welcome_religious_exiles = {
+						FAITH = scope:target_faith
+						MIN_FACTOR = 0.2
+						MAX_FACTOR = 0.4
+						ADDED_TENSION_FACTOR = 0.25
+					}
 					change_county_control = {
 						value = var:county_development_to_get
 						multiply = -5

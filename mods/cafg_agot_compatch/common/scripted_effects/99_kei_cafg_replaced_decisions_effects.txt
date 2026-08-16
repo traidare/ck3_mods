@@ -1,1 +1,4 @@
-﻿# Intentionally empty for AGOT. CaFG copies vanilla-only definitions that AGOT disables.
+﻿# AGOT compatibility: intentionally empty.
+#
+# CaFG's replacement defines seven vanilla regional decision effects.
+# AGOT removes the decisions, titles, and cultures they operate on.

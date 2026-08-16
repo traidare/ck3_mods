@@ -1,15 +1,31 @@
 [generator]
 entrypoint = "implementation.py:generate"
 owned_outputs = [
-  "common/scripted_effects/kei_cafg_cultural_boons_effects.txt",
-  "common/scripted_effects/kei_cafg_cultural_benefits_effects.txt",
-  "common/script_values/kei_cafg_cultural_benefits_values.txt",
+  "common/scripted_effects/zzz_cafg_agot_cultural_boons_effects.txt",
+  "common/scripted_effects/zzz_cafg_agot_cultural_benefits_effects.txt",
+  "common/script_values/zzz_cafg_agot_cultural_benefits_values.txt",
+  "common/scripted_triggers/zzz_cafg_agot_culture_laws_triggers.txt",
+  "common/scripted_triggers/zzz_cafg_agot_faith_laws_triggers.txt",
   "common/casus_belli_types/99_kei_cafg_replaced_fp3_wars.txt",
+  "common/decisions/99_kei_cafg_replaced_major_decisions_middle_east.txt",
+  "common/decisions/dlc_decisions/fp_3/99_kei_cafg_replaced_fp3_decisions.txt",
   "common/scripted_effects/99_kei_cafg_replaced_decisions_effects.txt",
   "common/scripted_effects/99_kei_cafg_replaced_dlc_fp3_scripted_effects.txt",
+  "events",
+  "gui/window_county_view.gui",
 ]
+
+[[sources]]
+name = "vanilla"
+kind = "game"
+path = "game"
 
 [[sources]]
 name = "culture-faith-granularity"
 kind = "workshop"
 item_id = "3206891770"
+
+[[sources]]
+name = "a-game-of-thrones"
+kind = "workshop"
+item_id = "2962333032"

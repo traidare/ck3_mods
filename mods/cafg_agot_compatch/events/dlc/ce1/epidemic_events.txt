@@ -731,12 +731,7 @@ epidemic_events.1000 = {
 					}
 				}
 			}
-			E_kCAFG_convert_faith_in_all_county_provinces = {
-				FACTOR = 0.6
-				VARIANCE = 0.4
-				FAITH = scope:heretical_faith
-				MAX = 0.9
-			}
+			set_county_faith = scope:heretical_faith
 			add_county_modifier = {
 				modifier = plague_cult_embraced
 				years = 10
@@ -3316,9 +3311,7 @@ epidemic_events.1066 = {
 				}
 				random = {
 					chance = 35
-					E_kCAFG_replace_county_faith = {
-						FAITH = root.faith
-					}
+					set_county_faith = root.faith 
 				}
 			}
 		}
