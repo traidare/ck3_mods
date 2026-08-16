@@ -161,6 +161,8 @@ func Root() *Command {
 			conflictsCommand(),
 			refsCommand(),
 			culturesCommand(),
+			traditionsCommand(),
+			faithsCommand(),
 		},
 	}
 }

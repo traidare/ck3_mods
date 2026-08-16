@@ -23,8 +23,12 @@ type Plan struct {
 	LauncherModDir string
 	ModSlugs       []string
 	// Files counts payload copies, Descriptors the derived .mod files, and
-	// Removals installed files the workspace no longer provides.
+	// Removals installed files the workspace no longer provides. Added,
+	// Changed, and Unchanged split Files by what the destination already holds.
 	Files       int
+	Added       int
+	Changed     int
+	Unchanged   int
 	Descriptors int
 	Removals    int
 	Excluded    []string
@@ -77,14 +81,21 @@ func Build(space *workspace.Workspace, launcherModDir string, modSlugs []string)
 			return nil, err
 		}
 
-		for _, relative := range sortedKeys(sourceFiles) {
+		relatives := sortedKeys(sourceFiles)
+		statuses, err := classify(relatives, sourceFiles, installedFiles)
+		if err != nil {
+			return nil, err
+		}
+		for index, relative := range relatives {
 			result.Ops.Add(plan.Op{
 				Kind:   plan.Copy,
 				Owner:  mod.Slug,
 				Source: sourceFiles[relative],
 				Path:   filepath.Join(destination, filepath.FromSlash(relative)),
+				Status: statuses[index],
 			})
 			result.Files++
+			result.count(statuses[index])
 		}
 		for _, relative := range sortedKeys(installedFiles) {
 			if _, kept := sourceFiles[relative]; !kept {
@@ -100,12 +111,14 @@ func Build(space *workspace.Workspace, launcherModDir string, modSlugs []string)
 		if err != nil {
 			return nil, fmt.Errorf("cannot stat %s: %w", mod.DescriptorPath, err)
 		}
+		descriptorPath := filepath.Join(destinationRoot, mod.Slug+".mod")
 		result.Ops.Add(plan.Op{
-			Kind:  plan.Write,
-			Owner: mod.Slug,
-			Path:  filepath.Join(destinationRoot, mod.Slug+".mod"),
-			Data:  []byte(content),
-			Mode:  info.Mode().Perm(),
+			Kind:   plan.Write,
+			Owner:  mod.Slug,
+			Path:   descriptorPath,
+			Data:   []byte(content),
+			Mode:   info.Mode().Perm(),
+			Status: classifyBytes(descriptorPath, []byte(content)),
 		})
 		result.Descriptors++
 		result.ModSlugs = append(result.ModSlugs, mod.Slug)
@@ -130,6 +143,96 @@ func (p *Plan) Apply() error {
 		return fmt.Errorf("cannot create %s: %w", p.LauncherModDir, err)
 	}
 	return p.Ops.Apply()
+}
+
+// count folds one classified file into the plan's counters.
+func (p *Plan) count(status plan.Status) {
+	switch status {
+	case plan.Added:
+		p.Added++
+	case plan.Changed:
+		p.Changed++
+	case plan.Unchanged:
+		p.Unchanged++
+	}
+}
+
+// classify decides, for each source file, whether installing it would add a
+// file, change one, or do nothing.
+//
+// Files of differing size are settled without reading them. The rest are hashed
+// through fsutil.HashFiles, which digests in parallel, so a large payload does
+// not serialize on one goroutine.
+func classify(relatives []string, sourceFiles, installedFiles map[string]string) ([]plan.Status, error) {
+	statuses := make([]plan.Status, len(relatives))
+
+	var pending []int
+	var digestPaths []string
+	for index, relative := range relatives {
+		destination, installed := installedFiles[relative]
+		if !installed {
+			statuses[index] = plan.Added
+			continue
+		}
+		same, err := sameSize(sourceFiles[relative], destination)
+		if err != nil {
+			return nil, err
+		}
+		if !same {
+			statuses[index] = plan.Changed
+			continue
+		}
+		pending = append(pending, index)
+		digestPaths = append(digestPaths, sourceFiles[relative], destination)
+	}
+	if len(pending) == 0 {
+		return statuses, nil
+	}
+
+	results := fsutil.HashFiles(digestPaths)
+	for offset, index := range pending {
+		source, destination := results[offset*2], results[offset*2+1]
+		if source.Err != nil {
+			return nil, fmt.Errorf("cannot digest %s: %w", source.Path, source.Err)
+		}
+		if destination.Err != nil {
+			return nil, fmt.Errorf("cannot digest %s: %w", destination.Path, destination.Err)
+		}
+		statuses[index] = plan.Changed
+		if source.Sha256 == destination.Sha256 {
+			statuses[index] = plan.Unchanged
+		}
+	}
+	return statuses, nil
+}
+
+func sameSize(left, right string) (bool, error) {
+	leftInfo, err := os.Stat(left)
+	if err != nil {
+		return false, fmt.Errorf("cannot stat %s: %w", left, err)
+	}
+	rightInfo, err := os.Stat(right)
+	if err != nil {
+		return false, fmt.Errorf("cannot stat %s: %w", right, err)
+	}
+	return leftInfo.Size() == rightInfo.Size(), nil
+}
+
+// classifyBytes compares an in-memory payload against what is already at path.
+func classifyBytes(path string, data []byte) plan.Status {
+	existing, err := os.ReadFile(path)
+	if err != nil {
+		// An unreadable destination is not classifiable, so plan the write and
+		// let Apply report the real failure.
+		if os.IsNotExist(err) {
+			return plan.Added
+		}
+		return plan.Changed
+	}
+	if fsutil.Sha256Bytes(existing) == fsutil.Sha256Bytes(data) {
+		return plan.Unchanged
+	}
+	return plan.Changed
 }
 
 func selectMods(space *workspace.Workspace, slugs []string) ([]*workspace.Mod, error) {
@@ -266,7 +369,8 @@ func uniqueSorted(values []string) []string {
 	return result
 }
 
-// Summary renders the same four counters the Python command printed.
+// Summary renders the plan's counters, splitting payload files by what the
+// Launcher directory already holds.
 func (p *Plan) Summary(applied bool) string {
 	state := "preview"
 	if applied {
@@ -275,7 +379,8 @@ func (p *Plan) Summary(applied bool) string {
 	var builder strings.Builder
 	fmt.Fprintf(&builder, "Install %s\n", state)
 	fmt.Fprintf(&builder, "  Mods: %d\n", len(p.ModSlugs))
-	fmt.Fprintf(&builder, "  Payload files: %d\n", p.Files)
+	fmt.Fprintf(&builder, "  Payload files: %d (added %d, changed %d, unchanged %d)\n",
+		p.Files, p.Added, p.Changed, p.Unchanged)
 	fmt.Fprintf(&builder, "  Launcher descriptors: %d\n", p.Descriptors)
 	fmt.Fprintf(&builder, "  Removals: %d\n", p.Removals)
 	return builder.String()
@@ -296,12 +401,14 @@ func (p *Plan) JSON(applied bool) map[string]any {
 			descriptors = append(descriptors, map[string]any{
 				"modSlug":     op.Owner,
 				"destination": op.Path,
+				"status":      string(op.Status),
 			})
 		case plan.Copy:
 			files = append(files, map[string]any{
 				"modSlug":     op.Owner,
 				"source":      op.Source,
 				"destination": op.Path,
+				"status":      string(op.Status),
 			})
 		case plan.Remove:
 			removals = append(removals, op.Path)
@@ -319,5 +426,13 @@ func (p *Plan) JSON(applied bool) map[string]any {
 		"files":          files,
 		"removals":       removals,
 		"excluded":       excluded,
+		"counts": map[string]any{
+			"files":       p.Files,
+			"added":       p.Added,
+			"changed":     p.Changed,
+			"unchanged":   p.Unchanged,
+			"descriptors": p.Descriptors,
+			"removals":    p.Removals,
+		},
 	}
 }

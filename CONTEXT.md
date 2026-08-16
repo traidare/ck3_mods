@@ -7,7 +7,7 @@ the context required by the task, but do not write Paradox Script from memory.
 
 1. Check `git status --short` and identify the requested local mod or parent.
 2. For playset work, run `ck3mm playset summary [playset]`. The live Launcher
-   database is authoritative; exported JSON is a snapshot only.
+   database is authoritative.
 3. Classify the task and read the relevant section below before changing files.
 4. State the parent mod(s), their effective load order, and the intended owner
    of each changed file.
@@ -25,9 +25,21 @@ Use sources in this order when authoring or diagnosing Paradox Script:
 6. `references/patterns/`, `references/structure/`, and `references/compat/` —
    generic CK3 patterns and workflow guides.
 
-Check the local cache with `ck3mm refs sync` and write it with
-`ck3mm refs sync --apply`; absent script-doc logs are not an error, but they
-must not be assumed to exist.
+### Effective game data
+
+`ck3mm cultures`, `ck3mm traditions`, and `ck3mm faiths` answer what the playset
+actually defines, resolved through the same load order and `replace_path`
+shadowing `conflicts` uses. Prefer them over hand-walking layer directories.
+
+```sh
+ck3mm cultures list --heritage heritage_andal --with-traditions
+ck3mm cultures show andal
+ck3mm traditions list --culture andal
+ck3mm traditions show tradition_chivalry
+ck3mm faiths list --religion the_seven_religion --doctrine tenet_knighthood
+ck3mm faiths show fots_seven
+ck3mm faiths holy-sites fots_seven
+```
 
 ## Evidence rules
 
@@ -57,6 +69,7 @@ registry ID:
 
 ```sh
 ck3mm conflicts AGOT --summary-only
+ck3mm conflicts AGOT --mods-only
 ck3mm conflicts AGOT --involving 3206891770
 ck3mm conflicts AGOT --involving mod/cafg_agot_compatch.mod
 ```
@@ -148,12 +161,11 @@ ck3mm mod validate <mod>
 ck3mm conflicts AGOT --involving <id>
 ```
 
-Every command previews by default and writes only with `--apply`. This is the
-whole mutation rule: `mod generate` without `--apply` regenerates into a staging
-directory, reports what differs, and exits 1 when an owned output is stale;
-`--apply` promotes it. The same holds for `mod install`, `playset import`,
-`playset preserve`, and `refs sync`. Let the user run any apply that writes to
-Launcher state or another external root.
+Every command previews by default and writes only with `--apply`. `mod generate`
+without `--apply` reports what differs, and exits 1 when an owned output is
+stale. `--apply` promotes it. The same holds for `mod install`,
+`playset import`, `playset preserve`, and `refs sync`. Let the user run any
+apply that writes to Launcher state or another external root.
 
 Keep upstream-change checks granular to the files and definitions a generator
 actually consumes. Review that source evidence and update it deliberately after

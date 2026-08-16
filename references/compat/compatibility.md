@@ -120,7 +120,8 @@ on_birth_child = { events = { mod_b_events.0001 } }
 
 ```bash
 ck3mm conflicts AGOT --summary-only
-ck3mm conflicts AGOT --involving <workshop-id>
+ck3mm conflicts AGOT --mods-only
+ck3mm conflicts AGOT --involving <workshop-id> --mods-only
 ck3mm conflicts AGOT --include-prefix common/ --format json
 ```
 
@@ -136,7 +137,8 @@ physical providers and applicable `replace_path` owners, classifies content as
 identical, divergent, or unreadable, and identifies whether the effective file
 is present or removed after load-order processing. `--fail-on divergent`,
 `--fail-on any`, and `--fail-on missing` make those conditions usable as
-automation gates.
+automation gates. `--mods-only` adds a `modPairs` array holding the same
+mod-level tallies the text table shows.
 
 The effective winner describes observed CK3 load behavior. It is not a claim
 that the winning file is semantically compatible; inspect the parent deltas

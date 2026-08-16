@@ -4,6 +4,7 @@ package report
 
 import (
 	"path"
+	"sort"
 	"strconv"
 	"strings"
 )
@@ -323,10 +324,193 @@ func WithFiles(source Report, files []FileEntry, summaryOnly bool) Report {
 	return result
 }
 
+// ModPair counts the conflicting files two mods share. The two sides are
+// ordered by stable ID so one unordered pair is reported once.
+type ModPair struct {
+	AID       string
+	BID       string
+	Files     int
+	Divergent int
+	AWins     int
+	BWins     int
+}
+
+// ToMap renders the pair.
+func (m ModPair) ToMap() map[string]any {
+	return map[string]any{
+		"a":         m.AID,
+		"b":         m.BID,
+		"files":     m.Files,
+		"divergent": m.Divergent,
+		"aWins":     m.AWins,
+		"bWins":     m.BWins,
+	}
+}
+
+// PairConflicts tallies the mods that meet on the same conflicting file. Both
+// the mods physically providing a path and the mods whose replace_path buries
+// it count as participants, so replace_path shadowing is reported as the
+// overlap it is. A file won by a third mod credits neither side of the pair.
+func PairConflicts(files []FileEntry) []ModPair {
+	pairs := map[[2]string]*ModPair{}
+	for _, entry := range files {
+		if !entry.IsConflict() {
+			continue
+		}
+		participants := entryParticipants(entry)
+		for indexA, idA := range participants {
+			for _, idB := range participants[indexA+1:] {
+				key := [2]string{idA, idB}
+				pair := pairs[key]
+				if pair == nil {
+					pair = &ModPair{AID: idA, BID: idB}
+					pairs[key] = pair
+				}
+				pair.Files++
+				if entry.ContentStatus == "divergent" {
+					pair.Divergent++
+				}
+				switch entry.EffectiveWinner.ModID {
+				case idA:
+					pair.AWins++
+				case idB:
+					pair.BWins++
+				}
+			}
+		}
+	}
+
+	result := make([]ModPair, 0, len(pairs))
+	for _, pair := range pairs {
+		result = append(result, *pair)
+	}
+	sort.Slice(result, func(first, second int) bool {
+		left, right := result[first], result[second]
+		switch {
+		case left.Divergent != right.Divergent:
+			return left.Divergent > right.Divergent
+		case left.Files != right.Files:
+			return left.Files > right.Files
+		case left.AID != right.AID:
+			return left.AID < right.AID
+		default:
+			return left.BID < right.BID
+		}
+	})
+	return result
+}
+
+// PairsInvolving keeps the pairs with a named mod on one side. Filtering a
+// report to one mod still leaves pairs between the other mods sharing its
+// files; those answer a different question than the one that was asked.
+func PairsInvolving(pairs []ModPair, modIDs map[string]bool) []ModPair {
+	if len(modIDs) == 0 {
+		return pairs
+	}
+	var result []ModPair
+	for _, pair := range pairs {
+		if modIDs[pair.AID] || modIDs[pair.BID] {
+			result = append(result, pair)
+		}
+	}
+	return result
+}
+
+// entryParticipants lists the distinct mods meeting on one path, sorted so the
+// pairs built from them are stable.
+func entryParticipants(entry FileEntry) []string {
+	seen := map[string]bool{}
+	for _, provider := range entry.Providers {
+		seen[provider.ModID] = true
+	}
+	for _, owner := range entry.ReplacePathOwners {
+		seen[owner.ModID] = true
+	}
+	participants := make([]string, 0, len(seen))
+	for modID := range seen {
+		participants = append(participants, modID)
+	}
+	sort.Strings(participants)
+	return participants
+}
+
+// RenderPairs renders the mod-level overlap table: one line per pair of mods
+// sharing conflicting files, pointing at the side that wins more of them.
+func RenderPairs(source Report, pairs []ModPair) string {
+	return joinSections(warningLines(source), pairLines(source, pairs))
+}
+
+func pairLines(source Report, pairs []ModPair) []string {
+	lines := []string{"Mod conflicts"}
+	if len(pairs) == 0 {
+		return append(lines, "  none")
+	}
+
+	labels := modLabels(source.Mods)
+	label := func(modID string) string {
+		if text := labels[modID]; text != "" {
+			return text
+		}
+		return modID
+	}
+	width := columnWidth(pairs)
+	lines = append(lines, "  "+padText("files", width)+"  "+padText("divergent", width)+"  mods")
+	for _, pair := range pairs {
+		arrow := " <-> "
+		left, right := pair.AID, pair.BID
+		if pair.AWins != pair.BWins {
+			arrow = " -> "
+			if pair.AWins > pair.BWins {
+				left, right = pair.BID, pair.AID
+			}
+		}
+		// Files neither side wins are settled by a third mod loading over both,
+		// which the arrow alone cannot show.
+		elsewhere := ""
+		if settled := pair.Files - pair.AWins - pair.BWins; settled > 0 {
+			elsewhere = "  [" + itoa(settled) + " won elsewhere]"
+		}
+		lines = append(lines, "  "+pad(pair.Files, width)+"  "+pad(pair.Divergent, width)+"  "+
+			label(left)+arrow+label(right)+elsewhere)
+	}
+	return lines
+}
+
+// columnWidth measures the count columns against their headings.
+func columnWidth(pairs []ModPair) int {
+	width := len("divergent")
+	for _, pair := range pairs {
+		if digits := len(itoa(pair.Files)); digits > width {
+			width = digits
+		}
+	}
+	return width
+}
+
 // RenderText renders the same model as a compact, deterministic text report.
+// The summary closes the report so the counts stay on screen after a long file
+// section has scrolled past.
 func RenderText(source Report) string {
+	return joinSections(warningLines(source), fileLines(source), summaryLines(source))
+}
+
+// joinSections separates the non-empty sections of a report with a blank line.
+func joinSections(sections ...[]string) string {
+	var blocks []string
+	for _, section := range sections {
+		if len(section) > 0 {
+			blocks = append(blocks, strings.Join(section, "\n"))
+		}
+	}
+	if len(blocks) == 0 {
+		return ""
+	}
+	return strings.Join(blocks, "\n\n") + "\n"
+}
+
+func summaryLines(source Report) []string {
 	summary := source.Summary
-	lines := []string{
+	return []string{
 		"Summary",
 		"  Mods analyzed: " + itoa(summary.ModsAnalyzed),
 		"  Mods missing: " + itoa(summary.ModsMissing),
@@ -337,32 +521,43 @@ func RenderText(source Report) string {
 		"  Replace path shadow: " + itoa(summary.ReplacePathShadow),
 		"  Divergent: " + itoa(summary.Divergent),
 	}
-	if len(source.Warnings) > 0 {
-		lines = append(lines, "", "Warnings")
-		for _, warning := range source.Warnings {
-			lines = append(lines, "  ["+warning.Code+"] "+warning.Message)
+}
+
+// warningLines leads every view: a mod that could not be analyzed understates
+// every count and every pair below it.
+func warningLines(source Report) []string {
+	if len(source.Warnings) == 0 {
+		return nil
+	}
+	lines := []string{"Warnings"}
+	for _, warning := range source.Warnings {
+		lines = append(lines, "  ["+warning.Code+"] "+warning.Message)
+	}
+	return lines
+}
+
+func fileLines(source Report) []string {
+	if len(source.Files) == 0 {
+		return nil
+	}
+	labels := modLabels(source.Mods)
+	width := positionWidth(source.Mods)
+	lines := []string{"Files"}
+	for _, entry := range source.Files {
+		kinds := strings.Join(entry.ConflictKinds, ", ")
+		if kinds == "" {
+			kinds = "none"
+		}
+		lines = append(lines, "  "+entry.Path+" ["+kinds+"] -> "+entry.EffectiveState)
+		for _, provider := range entry.Providers {
+			label := labels[provider.ModID]
+			if label == "" {
+				label = provider.ModID
+			}
+			lines = append(lines, "    ["+pad(provider.Position, width)+"] "+label)
 		}
 	}
-	if len(source.Files) > 0 {
-		labels := modLabels(source.Mods)
-		width := positionWidth(source.Mods)
-		lines = append(lines, "", "Files")
-		for _, entry := range source.Files {
-			kinds := strings.Join(entry.ConflictKinds, ", ")
-			if kinds == "" {
-				kinds = "none"
-			}
-			lines = append(lines, "  "+entry.Path+" ["+kinds+"] -> "+entry.EffectiveState)
-			for _, provider := range entry.Providers {
-				label := labels[provider.ModID]
-				if label == "" {
-					label = provider.ModID
-				}
-				lines = append(lines, "    ["+pad(provider.Position, width)+"] "+label)
-			}
-		}
-	}
-	return strings.Join(lines, "\n") + "\n"
+	return lines
 }
 
 // modLabels renders each mod as "name (selector)". The selector is the shortest
@@ -399,9 +594,11 @@ func positionWidth(mods []ModRecord) int {
 	return width
 }
 
-// pad right-aligns a load position within the measured column.
-func pad(value, width int) string {
-	text := itoa(value)
+// pad right-aligns a count within the measured column.
+func pad(value, width int) string { return padText(itoa(value), width) }
+
+// padText right-aligns arbitrary text within the measured column.
+func padText(text string, width int) string {
 	if len(text) >= width {
 		return text
 	}

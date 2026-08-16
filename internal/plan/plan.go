@@ -29,6 +29,23 @@ const (
 	PruneDirs Kind = "prune_dirs"
 )
 
+// Status records how a planned write compares to what is already at Path. It
+// is reporting metadata that also lets Apply skip work it knows is a no-op.
+//
+// A status is decided when the plan is built. Apply runs microseconds later in
+// the same process, so a file changing in between would be skipped; that gap is
+// accepted rather than re-checked.
+type Status string
+
+const (
+	// Added means Path does not exist yet.
+	Added Status = "added"
+	// Changed means Path exists with different content.
+	Changed Status = "changed"
+	// Unchanged means Path already holds exactly this content.
+	Unchanged Status = "unchanged"
+)
+
 // Op is one planned mutation. Only the fields its Kind uses are set.
 type Op struct {
 	Kind   Kind
@@ -38,11 +55,16 @@ type Op struct {
 	Mode   os.FileMode
 	// Owner names the mod or subject the operation belongs to, for reporting.
 	Owner string
+	// Status is optional. When it is Unchanged, Apply skips the operation.
+	Status Status
 }
 
 // Plan is an ordered, inspectable list of mutations.
 type Plan struct {
 	Ops []Op
+	// Observer, when set, is called with each operation that actually ran, in
+	// order, so a caller can report progress as the work happens.
+	Observer func(Op)
 }
 
 // Add appends one operation.
@@ -52,8 +74,14 @@ func (p *Plan) Add(op Op) { p.Ops = append(p.Ops, op) }
 // partially applied plan names the operation that broke.
 func (p *Plan) Apply() error {
 	for _, op := range p.Ops {
+		if op.Status == Unchanged {
+			continue
+		}
 		if err := apply(op); err != nil {
 			return fmt.Errorf("%s %s: %w", op.Kind, op.Path, err)
+		}
+		if p.Observer != nil {
+			p.Observer(op)
 		}
 	}
 	return nil

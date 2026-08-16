@@ -17,7 +17,7 @@ func conflictsCommand() *Command {
 	return &Command{
 		Name:    "conflicts",
 		Summary: "Analyze load-order conflicts across a playset",
-		Usage:   "ck3mm conflicts [playset] [--involving ID] [--summary-only]",
+		Usage:   "ck3mm conflicts [playset] [--involving ID] [--mods-only] [--summary-only]",
 		Run:     runConflicts,
 	}
 }
@@ -48,7 +48,8 @@ func runConflicts(env *Env) (int, error) {
 	set := flagSet("conflicts", env)
 	playsetFile := set.String("playset-file", "", "analyze an exported playset instead of the live one")
 	involving := set.String("involving", "", "only report files touching this mod")
-	summaryOnly := set.Bool("summary-only", false, "omit the per-file section")
+	summaryOnly := set.Bool("summary-only", false, "report only the summary")
+	modsOnly := set.Bool("mods-only", false, "report only the mod pairs that share conflicting files")
 	allFiles := set.Bool("all-files", false, "report every scanned file, not only conflicts")
 	debugPaths := set.Bool("debug-paths", false, "append the resolved provider roots")
 	failOn := set.String("fail-on", "", "exit non-zero on divergent, any, or missing")
@@ -68,6 +69,10 @@ func runConflicts(env *Env) (int, error) {
 	}
 	if *playsetFile != "" && name != "" {
 		return 2, fmt.Errorf("choose either a playset name or --playset-file, not both")
+	}
+	// Each --*-only flag selects one section, so asking for two is contradictory.
+	if *summaryOnly && *modsOnly {
+		return 2, fmt.Errorf("choose either --summary-only or --mods-only, not both")
 	}
 
 	if err := env.Config.Require(config.ParadoxDir, config.WorkshopDir); err != nil {
@@ -109,6 +114,21 @@ func runConflicts(env *Env) (int, error) {
 		return 2, err
 	}
 
+	// The pair table is derived from the filtered entries, so --mods-only keeps
+	// them through the filter and drops the file section after pairing. The
+	// rebuilt summary stays available for --fail-on even when no view shows it.
+	var pairs []report.ModPair
+	if *modsOnly {
+		anchors := map[string]bool{}
+		for _, mod := range analysis.Mods {
+			if conflicts.Selects(mod, *involving) {
+				anchors[mod.StableID] = true
+			}
+		}
+		pairs = report.PairsInvolving(report.PairConflicts(analysis.Files), anchors)
+		analysis = report.WithFiles(analysis, analysis.Files, true)
+	}
+
 	resolvedRoots := map[string]string{}
 	for _, provider := range providers {
 		resolvedRoots[provider.StableID] = provider.Root
@@ -116,6 +136,21 @@ func runConflicts(env *Env) (int, error) {
 
 	if env.JSON() {
 		payload := analysis.ToMap()
+		// A view selects the same sections in both formats: a key a view
+		// leaves out is absent, not an empty list a consumer has to interpret.
+		switch {
+		case *modsOnly:
+			delete(payload, "summary")
+			delete(payload, "files")
+			rendered := make([]any, len(pairs))
+			for index, pair := range pairs {
+				rendered[index] = pair.ToMap()
+			}
+			payload["modPairs"] = rendered
+		case *summaryOnly:
+			delete(payload, "files")
+			delete(payload, "mods")
+		}
 		if *debugPaths {
 			paths := map[string]any{}
 			for stableID, root := range resolvedRoots {
@@ -127,7 +162,11 @@ func runConflicts(env *Env) (int, error) {
 			return 1, err
 		}
 	} else {
-		env.Printf("%s", report.RenderText(analysis))
+		if *modsOnly {
+			env.Printf("%s", report.RenderPairs(analysis, pairs))
+		} else {
+			env.Printf("%s", report.RenderText(analysis))
+		}
 		if *debugPaths {
 			env.Printf("\nDebug paths\n")
 			stableIDs := make([]string, 0, len(resolvedRoots))
