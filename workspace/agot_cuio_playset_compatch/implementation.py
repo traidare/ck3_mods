@@ -50,7 +50,7 @@ PINS = {
         "gui/shared/cooltip.gui": "d032dc285b878764045538bd0161e36ba545b1935a05de46126003c24f10b9c4",
         "gui/shared/lists.gui": "8aedbaa05219e191f6749edaca91e2f4037d6f55025edd31b9d5e443ba305e06",
         "gui/window_accolade.gui": "0a238e513e9d0b53ec48118c713c32af416c491c7621e514a8900a91b6145711",
-        "gui/window_character.gui": "1558fc89001d17964d6569f05c03c1598235330ff16478145f2fcd4093c145a5",
+        "gui/window_character.gui": "c13b75739a0dfb6b474d0a2d2cc94e40b3ff79c816b1c06ecba7e944dfc74e79",
         "gui/window_factions.gui": "4efbb89e9c0c9df4c0897922695d6aeb0374be1f9a4db71ba54a0770ca6aa04e",
     },
     "agot": {
@@ -70,10 +70,10 @@ PINS = {
         "gui/interaction_declare_war.gui": "64aae257ca6f06bbc18e3eaf7d58adcb8e2f7c7fc1a381b3835648f8fe321ac7",
     },
     "more-personality-depth": {
-        "gui/shared/cooltip.gui": "bf14daef43896cd45366e84ec6e4ada5ab74082023b772d1e3363e92734548c5",
+        "gui/shared/cooltip.gui": "6cf36d66274fc31375d35b370d6ef24705bc04adc837daaa3b9ba75612193d8f",
     },
     "mpd-dragon-wives-compatch": {
-        "gui/window_character.gui": "64d96d5b670fddc163dddf6905494c40a2d5e88e46af793182242a5a909a5993",
+        "gui/window_character.gui": "e08e355d7bf3bd2ee7383d831fac6b978cf35079b1f12d20993d499d40b620b8",
     },
     "artifact-manager": {
         "gfx/interface/icons/artifact/artifact_bg.dds": "5cf39c75f0551be3b93635a7477e3eda16a5b24ba255637ae775968839669b90",
@@ -744,16 +744,24 @@ def restore_agot_character_widgets(text: str) -> str:
         parent_depth=2,
         label="AGOT personal coat of arms",
     )
+    # CUIO added a plain sex icon beside each sexuality icon, so the bare
+    # vanilla gender condition now appears twice per gender and cannot be
+    # matched on its own.  Anchor on each icon's texture instead.  Both pairs
+    # get AGOT's scripted gate: it excludes dragons, which are characters in
+    # AGOT and would otherwise draw a human sex icon in their character window.
     for gender in ("male", "female"):
         vanilla = (
             "Not(Character.IsFemale)" if gender == "male" else "Character.IsFemale"
         )
-        text = replace_once(
-            text,
-            f'visible = "[{vanilla}]"',
-            agot_gender_shown(gender),
-            label=f"AGOT {gender} sexuality icon",
-        )
+        for icon in (f"sex_icon_{gender}", f"sexuality_icons_{gender}"):
+            text = replace_within_block(
+                text,
+                f'texture = "gfx/interface/icons/character_status/{icon}.dds"',
+                f'visible = "[{vanilla}]"',
+                agot_gender_shown(gender),
+                parent_depth=0,
+                label=f"AGOT {icon} gate",
+            )
     # Title list: AGOT reuses the nomad frame for pirate domiciles.
     text = append_to_block(
         text,
@@ -818,6 +826,18 @@ def generate_character(context: GenerationContext) -> str:
         'visible = "[Not( Character.IsPlayer )]"',
         "visible = yes",
         label="MPD AI personality visibility",
+    )
+    # MPD's XP roller hangs off an invisible 1x1 widget in the character window.
+    # CUIO rebuilds that region, so the three-way merge resolves the insertion
+    # away and the roller never fires for characters this playset only ever
+    # views.  Re-attach it to the window itself, where CUIO's layout cannot
+    # move it; placement is irrelevant for a zero-size hook.
+    text = append_to_block(
+        text,
+        'name = "character_window"',
+        extract_named_widget(parent, "mpd_view_hook", label="MPD view hook"),
+        parent_depth=0,
+        label="MPD view hook target",
     )
     text = replace_once(
         text,
@@ -933,12 +953,26 @@ def generate(context: GenerationContext) -> None:
         "StrugglePhaseEffectFaith = {}",
         label="CUIO faith struggle widget",
     )
+    # AGOT keeps the culture cooltip body in its own additive
+    # gui/shared/agot_cooltip.gui and wires it from cooltip.gui by type
+    # reference, so assert the two call sites survive the CUIO merge rather
+    # than the AGOT_CULTURE_COOLTIP_CLICK text that file no longer holds.
     for expected in (
         "Trait.IsPersonality",
-        "AGOT_CULTURE_COOLTIP_CLICK",
-        "Culture.HasFascination",
+        "agot_culture_tooltip_insert = {}",
+        "agot_culture_tooltip_click = {}",
     ):
         require_count(tooltip, expected, 1, label="AGOT/MPD culture and trait tooltip")
+    # Two guards, not one: AGOT gates the fascination row *and* the divider
+    # above it ("fascinations not always active"), where vanilla and CUIO gate
+    # only the row. Dropping to 1 means the CUIO side won the divider and an
+    # empty separator draws for cultures without a fascination.
+    require_count(
+        tooltip,
+        "Culture.HasFascination",
+        2,
+        label="AGOT/MPD culture and trait tooltip",
+    )
     outputs["gui/shared/cooltip.gui"] = tooltip
     outputs["gui/shared/lists.gui"] = generate_lists(context)
     outputs["gui/window_character.gui"] = generate_character(context)

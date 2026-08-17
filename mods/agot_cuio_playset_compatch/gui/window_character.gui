@@ -1,7 +1,7 @@
 ﻿######################################################
 ################# CHARACTER WINDOW ###################
 ######################################################
-# Compatch baseline: AGOT 0.4.40 + Dragon Wives 14.2 + MPD 0.3.0-rebalance
+# Compatch baseline: AGOT 0.5.0 + Dragon Wives 14.2 + MPD 0.4.0
 
 # everything is in a scrollbox
 # you can hide character info to go to the lists below quickly
@@ -2887,6 +2887,16 @@ window = {
 			}
 		}
 	}
+	widget = {
+		name = "mpd_view_hook"
+		size = { 1 1 }
+		visible = "[GetScriptedGui('mpd_gui_roll_xp').IsShown( GuiScope.SetRoot( CharacterWindow.GetCharacter.MakeScope ).End )]"
+
+		state = {
+			name = _show
+			on_start = "[GetScriptedGui('mpd_gui_roll_xp').Execute( GuiScope.SetRoot( CharacterWindow.GetCharacter.MakeScope ).End )]"
+		}
+	}
 }
 
 
@@ -3202,6 +3212,20 @@ types CharacterWindow
 			}
 		}
 		
+		icon = {
+			visible = "[GetScriptedGui('agot_male_gender_shown').IsShown(GuiScope.SetRoot(CharacterWindow.GetCharacter.MakeScope).End)]"
+			size = { 20 20 }
+			texture = "gfx/interface/icons/character_status/sex_icon_male.dds"
+			tooltip = "SEX_TT"
+		}
+
+		icon = {
+			visible = "[GetScriptedGui('agot_female_gender_shown').IsShown(GuiScope.SetRoot(CharacterWindow.GetCharacter.MakeScope).End)]"
+			size = { 20 20 }
+			texture = "gfx/interface/icons/character_status/sex_icon_female.dds"
+			tooltip = "SEX_TT"
+		}
+
 		icon = {
 			visible = "[GetScriptedGui('agot_male_gender_shown').IsShown(GuiScope.SetRoot(CharacterWindow.GetCharacter.MakeScope).End)]"
 			size = { 20 20 }

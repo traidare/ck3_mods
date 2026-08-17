@@ -2,7 +2,6 @@
 entrypoint = "implementation.py:generate"
 owned_outputs = [
   "common/on_action/agot_now_on_actions.txt",
-  "events/agot_events/replace/agot_coa_events.txt",
   "events/agot_events/agot_summerhall_events.txt",
 ]
 

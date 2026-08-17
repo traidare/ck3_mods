@@ -16,6 +16,14 @@ icons.
 Hometowns is intentionally **not** owned here; the later
 `agot_playset_runtime_fixes` module remains its effective repaired writer.
 
+AGOT keeps its culture cooltip body in the additive
+`gui/shared/agot_cooltip.gui` and calls it from `cooltip.gui` by type reference,
+so the merged `cooltip.gui` must keep the `agot_culture_tooltip_insert` and
+`agot_culture_tooltip_click` call sites rather than any inlined copy of that
+body. The generator asserts both, and asserts `Culture.HasFascination` twice:
+AGOT gates the fascination row _and_ the divider above it, where vanilla and
+CUIO gate only the row.
+
 ### Character and relationship views
 
 CUIO owns the normal character sheet; AGOT owns the alternate dragon,
@@ -31,6 +39,18 @@ The relationship tab keeps AGOT's bodyguard and dragon rows together with its
 four reduced-width Friends variants. The ordinary CUIO Friends rows are shown
 only when no bodyguard or dragon row consumes their space, preserving one
 bounded row rather than allowing both layouts to expand horizontally.
+
+Both icon pairs in the status row — CUIO's plain sex icons and the sexuality
+icons — are gated on AGOT's `agot_<gender>_gender_shown` scripted GUI rather
+than the bare `Character.IsFemale` check. That gate also excludes dragons, which
+are characters in AGOT and would otherwise draw a human sex icon. The gating is
+anchored on each icon's texture, because the bare condition is no longer unique.
+
+More Personality Depth contributes two behaviours the CUIO-first merge would
+otherwise resolve away: the AI personality row shown for player characters, and
+the zero-size `mpd_view_hook` widget that runs its XP roller. The hook is
+re-attached to the `character_window` block itself, so CUIO layout changes
+cannot displace it.
 
 **Re-audit** this ownership whenever CUIO changes the character-window width or
 relationship row structure, or AGOT changes its alternate sheets and

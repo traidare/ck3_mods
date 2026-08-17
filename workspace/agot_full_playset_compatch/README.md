@@ -22,12 +22,37 @@ Whole-file merges of paths that several parents genuinely contest:
   definitions, repaint actions, map modes, seasonal effects, GUI, situations,
   and localization.
 
-Beyond those merges the generated layer owns only three cross-parent whole-file
+Beyond those merges the generated layer owns four cross-parent whole-file
 overrides: the three historical Dance-of-the-Dragons season starts (autumn
 rather than a summer-to-autumn delay), the shared Seasons shader skip threshold,
-and the Seasons regional cleanup memberships. The last rebases `c_sallydance`
-and `d_greenbelt` onto NOW's tokens; it also keeps the Iron Isles specific and
-covers LoV regions without applying seasons to wilderness ruins.
+the Seasons regional cleanup memberships, and NOW's English and Spanish title
+names. The regional cleanup rebases `c_sallydance` and `d_greenbelt` onto NOW's
+tokens; it also keeps the Iron Isles specific and covers LoV regions without
+applying seasons to wilderness ruins.
+
+The title-name overrides are NOW's files verbatim plus the three barony names
+the NOW-COW province remap needs — `b_breakwater_castle`, `b_breakwater_watch`,
+and `b_dordon` — which NOW does not name, so AGOT's originals would otherwise
+stand against `zzz_agot_cow_building_model_trigger.txt`'s remapped models. The
+generator asserts NOW still leaves those three unnamed, so it fails rather than
+shadowing an upstream name. It also repairs the Spanish `d_crackclaw_point`
+value, which NOW ships without its closing quote; that repair is keyed to the
+exact upstream line and fails once NOW fixes it.
+
+Both files are generated rather than hand-maintained precisely because NOW
+rewrites them: a stale hand copy silently drops every title NOW has renamed or
+added since the copy was taken, falling those titles back to AGOT's names.
+
+`grandeur_levels.txt` is a single whole-file path that AGOT, Additional Models,
+the AGOT+ compatch, LoV, and the temporary Additional Models/AGOT+/LoV compatch
+all claim, so the last of them silently drops every court scene the others
+registered. The temporary compatch carries the AGOT+, LoV, and Essos entries
+that Additional Models lacks, so it stays the base and only Additional Models'
+extra court scenes are added: `lorath_court` and `norvos_court`, which are
+AGOT's, plus its own `amsb_lokiria_court`. Without them those courts never
+progress a visual culture level, even though `agot_playset_runtime_fixes`
+already routes the Lorath and Norvos scene-culture selectors. The generator
+asserts that set exactly, so it fails rather than quietly absorbing a new court.
 
 That cleanup is written to `map_data/geographical_regions/north_sans_neck.txt`,
 the same path the Seasons fork uses: `replace/` is a plain subfolder there with
@@ -45,8 +70,8 @@ layers repair:
 
 - AGOT+'s CK3 1.19-invalid canon-child creation and dead-character perk
   assignments;
-- NOW 1.2.5's unsaved Great Fork title-change scope and optional Summerhall
-  candidate comparisons;
+- NOW's unsaved Great Fork title-change scope and optional Summerhall candidate
+  comparisons;
 - AGOT MPD's startup calculator parameter, variable, and XP-track failures;
 - Grand Remembrance's no-character chronicle visibility loop;
 - Grand Remembrance's vanilla/RICE-only obituary classification against AGOT's

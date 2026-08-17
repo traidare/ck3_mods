@@ -1,14 +1,44 @@
 {
   "files": {
+    "AMSB_DESCRIPTOR": {
+      "path": "3319354609/descriptor.mod",
+      "sha256": "436a66509f9d964234f456b3cb25afd7e5228dfbfa32be9c9bbe030e629ee960",
+      "size": 155
+    },
+    "AMSB_GRANDEUR": {
+      "path": "3319354609/gfx/court_scene/scene_settings/grandeur_levels/grandeur_levels.txt",
+      "sha256": "7fb8cfcea8f58184ab8de26189add11ff0c9c76a6ca05f9ea6090d5f28ad16b3",
+      "size": 13889
+    },
+    "AMSB_LOV_DESCRIPTOR": {
+      "path": "3762892081/descriptor.mod",
+      "sha256": "3f356e428a904ec1ba6f2772da852292c4b8dc5e67861b52ac68e6d621db1ba9",
+      "size": 404
+    },
+    "AMSB_LOV_GRANDEUR": {
+      "path": "3762892081/gfx/court_scene/scene_settings/grandeur_levels/grandeur_levels.txt",
+      "sha256": "566d45a6115a02cbbec136af08d389d437b5fa40acf20709f8b6ea303287da28",
+      "size": 14091
+    },
     "NOW": {
       "path": "3664900993/common/landed_titles/01_agot_landed_titles.txt",
-      "sha256": "316dcc7283ae6243a20d0135f1135adda87504ff47be4e6f4bc3a15c32c9ec73",
-      "size": 802106
+      "sha256": "07888a6e113a7f7b1da1194dc5564054829a2d1b4c47fdc4b5f045d02e20f2c2",
+      "size": 905466
     },
     "NOW_DESCRIPTOR": {
       "path": "3664900993/descriptor.mod",
-      "sha256": "6b781abfe818e6bb230a109cf056e21a336b92c65ed8660a58ac8f50b8f2e822",
+      "sha256": "530b7bf67ee20facce5026e5838e6549944684d9cc91e85eaedd71776e5a1311",
       "size": 157
+    },
+    "NOW_TITLES_ENGLISH": {
+      "path": "3664900993/localization/replace/english/agot/replace/00_agot_titles_l_english.yml",
+      "sha256": "cb9b08d2393e950707cf798f0f639b4762d22e018f5cc9420993a7c1e1104e61",
+      "size": 9395
+    },
+    "NOW_TITLES_SPANISH": {
+      "path": "3664900993/localization/replace/spanish/agot/replace/00_agot_titles_l_spanish.yml",
+      "sha256": "d73187ce48526c539f270d3828af3937cf20f7fa3d7c9eae6d1b44e03fcc1ac7",
+      "size": 7070
     },
     "SEASONS_BRIDGE_DESCRIPTOR": {
       "path": "3766038754/descriptor.mod",
@@ -33,16 +63,22 @@
   },
   "intent": {
     "events": "start DoD historical starts in autumn",
+    "grandeur": "add AMSB's court scenes to the AGOT+/LoV compatch that wins grandeur_levels.txt",
     "regions": "rebase NOW tokens and cover LoV cleanup regions without ruins",
     "shader": "share the AGOT skip threshold with vertex shaders",
-    "title": "repair NOW's removed d_medway reference"
+    "title": "repair NOW's removed d_medway reference",
+    "title_localization": "rebase NOW's title names and re-add the COW Sisterton/Dunstonbury barony names"
   },
   "schema_version": 1,
   "versions": {
-    "NOW": "1.2.5",
+    "AMSB": "0.4.40",
+    "AMSB_LOV": "1.4.5",
+    "NOW": "1.2.6",
     "SEASONS_BRIDGE": "1.0.15"
   },
   "workshop_ids": {
+    "AMSB": "3319354609",
+    "AMSB_LOV": "3762892081",
     "NOW": "3664900993",
     "SEASONS_BRIDGE": "3766038754"
   }

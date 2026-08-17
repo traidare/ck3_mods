@@ -13,10 +13,13 @@ the parent logic while:
   instead of the nonexistent `great_fork_change`;
 - making Summerhall candidate comparisons optional while the events search for a
   second or third eligible family member, rather than dereferencing an unset
-  saved scope; and
-- redeclaring `namespace = agot_coa_events` in NOW's separate personal-COA event
-  file, without which CK3 rejects `agot_coa_events.0003` and leaves its three
-  calling decisions with a missing event.
+  saved scope.
+
+NOW's separate personal-COA event file is no longer overridden: it declares
+`namespace = agot_coa_events` upstream, and re-adding the declaration would emit
+it twice. The generator asserts the upstream declaration still exists, so a
+regression fails the build instead of silently restoring the missing-event bug
+that left `agot_coa_events.0003` unresolvable for its three calling decisions.
 
 ## Generation
 
@@ -36,6 +39,6 @@ every Workshop update.
 
 Pinned inputs:
 
-- AGOT Workshop ID `2962333032`, version `0.4.40`
-- NOW Workshop ID `3664900993`, version `1.2.5`
+- AGOT Workshop ID `2962333032`, version `0.5.0`
+- NOW Workshop ID `3664900993`, version `1.2.6`
 - CK3 `1.19.0.6`

@@ -1,0 +1,674 @@
+﻿cultures={
+	{
+        culture="steppe"
+        max_visual_culture_level = 3
+        levels={ 
+            {
+                grandeur_level = 20
+                visual_culture_level = 1
+            }
+            {
+                grandeur_level = 50
+                visual_culture_level = 2
+            }
+        }
+    }
+	{
+        culture="byzantine"
+        max_visual_culture_level = 3
+        levels={ 
+            {
+                grandeur_level = 20
+                visual_culture_level = 1
+            }
+            {
+                grandeur_level = 50
+                visual_culture_level = 2
+            }
+        }
+    }
+	{
+		culture="mediterranean"
+		max_visual_culture_level = 3
+		levels={ 
+            {
+                grandeur_level = 20
+                visual_culture_level = 1
+            }
+            {
+                grandeur_level = 50
+                visual_culture_level = 2
+            }
+        }
+	}
+	{
+		culture="mena"
+		max_visual_culture_level = 3
+		levels={ 
+            {
+                grandeur_level = 20
+                visual_culture_level = 1
+            }
+            {
+                grandeur_level = 50
+                visual_culture_level = 2
+            }
+        }
+	}
+	{
+		culture="indian"
+		max_visual_culture_level = 3
+		levels={ 
+            {
+                grandeur_level = 20
+                visual_culture_level = 1
+            }
+            {
+                grandeur_level = 50
+                visual_culture_level = 2
+            }
+         }
+	}
+	{
+		culture="western"
+		max_visual_culture_level = 3
+		levels={ 
+            {
+                grandeur_level = 20
+                visual_culture_level = 1
+            }
+            {
+                grandeur_level = 50
+                visual_culture_level = 2
+            }
+         }
+	}
+	{
+        culture="chinese"
+        max_visual_culture_level = 3
+        levels={ 
+            {
+                grandeur_level = 20
+                visual_culture_level = 1
+            }
+            {
+                grandeur_level = 50
+                visual_culture_level = 2
+            }
+         }
+    }
+	{
+        culture="japanese"
+        max_visual_culture_level = 3
+        levels={ 
+            {
+                grandeur_level = 20
+                visual_culture_level = 1
+            }
+            {
+                grandeur_level = 50
+                visual_culture_level = 2
+            }
+         }
+    }
+	{
+        culture="southeast_asia"
+        max_visual_culture_level = 3
+        levels={ 
+            {
+                grandeur_level = 20
+                visual_culture_level = 1
+            }
+            {
+                grandeur_level = 50
+                visual_culture_level = 2
+            }
+         }
+    }
+	{
+        culture="eetlv_jogos"
+        max_visual_culture_level = 3
+        levels={ 
+            {
+                grandeur_level = 20
+                visual_culture_level = 1
+            }
+            {
+                grandeur_level = 50
+                visual_culture_level = 2
+            }
+         }
+    }
+	{
+        culture="chinese_alt"
+        max_visual_culture_level = 3
+        levels={ 
+            {
+                grandeur_level = 20
+                visual_culture_level = 1
+            }
+            {
+                grandeur_level = 50
+                visual_culture_level = 2
+            }
+         }
+    }
+	{
+		culture="pyke"
+		max_visual_culture_level = 3
+		levels={ 
+            {
+                grandeur_level = 20
+                visual_culture_level = 1
+            }
+            {
+                grandeur_level = 50
+                visual_culture_level = 2
+            }
+         }
+	}
+	{
+		culture="ironthrone"
+		max_visual_culture_level = 1
+		# levels={ 
+        #     {
+        #         grandeur_level = 20
+        #         visual_culture_level = 1
+        #     }
+        #     {
+        #         grandeur_level = 50
+        #         visual_culture_level = 2
+        #     }
+        #  }
+	}
+	{
+		culture="casterlyrock"
+		max_visual_culture_level = 1
+		# levels={ 
+        #     {
+        #         grandeur_level = 20
+        #         visual_culture_level = 1
+        #     }
+        #     {
+        #         grandeur_level = 50
+        #         visual_culture_level = 2
+        #     }
+        #  }
+	}
+	{
+		culture="highgarden"
+		max_visual_culture_level = 1
+		# levels={ 
+        #     {
+        #         grandeur_level = 20
+        #         visual_culture_level = 1
+        #     }
+        #     {
+        #         grandeur_level = 50
+        #         visual_culture_level = 2
+        #     }
+        #  }
+	}
+	{
+        culture="highgarden_new"
+        max_visual_culture_level = 1
+        # levels={ 
+        #     {
+        #         grandeur_level = 20
+        #         visual_culture_level = 1
+        #     }
+        #     {
+        #         grandeur_level = 50
+        #         visual_culture_level = 2
+        #     }
+        #  }
+    }
+	{
+        culture="reach_1"
+        max_visual_culture_level = 1
+        # levels={ 
+        #     {
+        #         grandeur_level = 20
+        #         visual_culture_level = 1
+        #     }
+        #     {
+        #         grandeur_level = 50
+        #         visual_culture_level = 2
+        #     }
+        #  }
+    }
+	{
+		culture="dragonstone"
+		max_visual_culture_level = 1
+		# levels={ 
+        #     {
+        #         grandeur_level = 20
+        #         visual_culture_level = 1
+        #     }
+        #     {
+        #         grandeur_level = 50
+        #         visual_culture_level = 2
+        #     }
+        #  }
+	}
+	{
+		culture="dragonstone_no_table"
+		max_visual_culture_level = 1
+		# levels={ 
+        #     {
+        #         grandeur_level = 20
+        #         visual_culture_level = 1
+        #     }
+        #     {
+        #         grandeur_level = 50
+        #         visual_culture_level = 2
+        #     }
+        #  }
+	}
+	{
+        culture="winterfell_1"
+        max_visual_culture_level = 1
+        # levels={ 
+        #     {
+        #         grandeur_level = 20
+        #         visual_culture_level = 1
+        #     }
+        #     {
+        #         grandeur_level = 50
+        #         visual_culture_level = 2
+        #     }
+        #  }
+    }
+	{
+        culture="winterfell_2"
+        max_visual_culture_level = 1
+        # levels={ 
+        #     {
+        #         grandeur_level = 20
+        #         visual_culture_level = 1
+        #     }
+        #     {
+        #         grandeur_level = 50
+        #         visual_culture_level = 2
+        #     }
+        #  }
+    }
+	{
+        culture="winterfell_3"
+		max_visual_culture_level = 1
+		# levels={ 
+        #     {
+        #         grandeur_level = 20
+        #         visual_culture_level = 1
+        #     }
+        #     {
+        #         grandeur_level = 50
+        #         visual_culture_level = 2
+        #     }
+        #  }
+	}
+	{
+		culture="the_eyrie"
+		max_visual_culture_level = 1
+		#levels={ 
+        #    {
+        #        grandeur_level = 20
+        #        visual_culture_level = 1
+        #    }
+        #    {
+        #        grandeur_level = 50
+        #        visual_culture_level = 2
+        #    }
+        # }
+	}
+	{
+		culture="riverrun"
+		max_visual_culture_level = 3
+		levels={ 
+            {
+                grandeur_level = 20
+                visual_culture_level = 1
+            }
+            {
+                grandeur_level = 50
+                visual_culture_level = 2
+            }
+        }
+	}
+	{
+		culture="storms_end"
+		max_visual_culture_level = 3
+		levels={ 
+            {
+                grandeur_level = 20
+                visual_culture_level = 1
+            }
+            {
+                grandeur_level = 50
+                visual_culture_level = 2
+            }
+        }
+    }
+	{
+        culture="pentos_court"
+        max_visual_culture_level = 3
+        levels={ 
+            {
+                grandeur_level = 20
+                visual_culture_level = 1
+            }
+            {
+                grandeur_level = 50
+                visual_culture_level = 2
+            }
+         }
+    }
+	{
+        culture="lys_court"
+        max_visual_culture_level = 3
+        levels={ 
+            {
+                grandeur_level = 20
+                visual_culture_level = 1
+            }
+            {
+                grandeur_level = 50
+                visual_culture_level = 2
+            }
+         }
+    }
+	{
+        culture="myr_court"
+        max_visual_culture_level = 3
+        levels={ 
+            {
+                grandeur_level = 20
+                visual_culture_level = 1
+            }
+            {
+                grandeur_level = 50
+                visual_culture_level = 2
+            }
+         }
+    }
+	{
+        culture="tyrosh_court"
+        max_visual_culture_level = 3
+        levels={ 
+            {
+                grandeur_level = 20
+                visual_culture_level = 1
+            }
+            {
+                grandeur_level = 50
+                visual_culture_level = 2
+            }
+         }
+    }
+	{
+        culture="braavos_court"
+        max_visual_culture_level = 3
+        levels={ 
+            {
+                grandeur_level = 20
+                visual_culture_level = 1
+            }
+            {
+                grandeur_level = 50
+                visual_culture_level = 2
+            }
+         }
+    }
+	{
+        culture="amsb_the_dark_tower"
+		max_visual_culture_level = 1
+		#levels={ 
+        #    {
+        #        grandeur_level = 20
+        #        visual_culture_level = 1
+        #    }
+        #    {
+        #        grandeur_level = 50
+        #        visual_culture_level = 2
+        #    }
+        # }
+	}
+	{
+        culture="amsb_harrenhal_restored_court"
+		max_visual_culture_level = 1
+		#levels={ 
+        #    {
+        #        grandeur_level = 20
+        #        visual_culture_level = 1
+        #    }
+        #    {
+        #        grandeur_level = 50
+        #        visual_culture_level = 2
+        #    }
+        # }
+	}
+	{
+        culture="amsb_marble_court"
+		max_visual_culture_level = 1
+		#levels={ 
+        #    {
+        #        grandeur_level = 20
+        #        visual_culture_level = 1
+        #    }
+        #    {
+        #        grandeur_level = 50
+        #        visual_culture_level = 2
+        #    }
+        # }
+	}
+	{
+        culture="amsb_dragonkeep_court"
+		max_visual_culture_level = 1
+		#levels={ 
+        #    {
+        #        grandeur_level = 20
+        #        visual_culture_level = 1
+        #    }
+        #    {
+        #        grandeur_level = 50
+        #        visual_culture_level = 2
+        #    }
+        # }
+	}
+	{
+		culture="amsb_lv_dragonkeep"
+		max_visual_culture_level = 1
+		# levels={
+        #     {
+        #         grandeur_level = 20
+        #         visual_culture_level = 1
+        #     }
+        #     {
+        #         grandeur_level = 50
+        #         visual_culture_level = 2
+        #     }
+        #  }
+	}
+	{
+		culture="amsb_lv_lokiria"
+		max_visual_culture_level = 1
+		# levels={
+        #     {
+        #         grandeur_level = 20
+        #         visual_culture_level = 1
+        #     }
+        #     {
+        #         grandeur_level = 50
+        #         visual_culture_level = 2
+        #     }
+        #  }
+	}
+	{
+		culture="amsb_lv_lokiria_no_dragon"
+		max_visual_culture_level = 1
+		# levels={
+        #     {
+        #         grandeur_level = 20
+        #         visual_culture_level = 1
+        #     }
+        #     {
+        #         grandeur_level = 50
+        #         visual_culture_level = 2
+        #     }
+        #  }
+	}
+	{
+		culture="amsb_lv_lyria"
+		max_visual_culture_level = 1
+		# levels={
+        #     {
+        #         grandeur_level = 20
+        #         visual_culture_level = 1
+        #     }
+        #     {
+        #         grandeur_level = 50
+        #         visual_culture_level = 2
+        #     }
+        #  }
+	}
+	{
+		culture="asoiaf_storms_end_culture" #AGOT+ added
+		max_visual_culture_level = 1
+		#levels={
+        #    {
+        #        grandeur_level = 20
+        #        visual_culture_level = 1
+        #    }
+        #    {
+        #        grandeur_level = 50
+        #        visual_culture_level = 2
+        #    }
+        #}
+	}
+	{
+		culture="asoiaf_red_keep_culture" #AGOT+ added
+		max_visual_culture_level = 1
+		#levels={
+        #    {
+        #        grandeur_level = 20
+        #        visual_culture_level = 1
+        #    }
+        #    {
+        #        grandeur_level = 50
+        #        visual_culture_level = 2
+        #    }
+        #}
+	}
+	{
+		culture="asoiaf_winterfell_culture" #AGOT+ added
+		max_visual_culture_level = 1
+		#levels={
+        #    {
+        #        grandeur_level = 20
+        #        visual_culture_level = 1
+        #    }
+        #    {
+        #        grandeur_level = 50
+        #        visual_culture_level = 2
+        #    }
+        #}
+	}
+	# AMSB 0.4.40 added courts (July 31st 2026)
+    {
+        culture="amsb_harrenhal_basic"
+		max_visual_culture_level = 1
+		#levels={ 
+        #    {
+        #        grandeur_level = 20
+        #        visual_culture_level = 1
+        #    }
+        #    {
+        #        grandeur_level = 50
+        #        visual_culture_level = 2
+        #    }
+        # }
+	}
+    {
+        culture="amsb_oros_court"
+		max_visual_culture_level = 1
+		#levels={ 
+        #    {
+        #        grandeur_level = 20
+        #        visual_culture_level = 1
+        #    }
+        #    {
+        #        grandeur_level = 50
+        #        visual_culture_level = 2
+        #    }
+        # }
+	}
+	{
+		culture="dragonkeep" #LEGACY OF VALYRIA ADDED
+		max_visual_culture_level = 1
+	}
+	{
+		culture="lokiria" #LEGACY OF VALYRIA ADDED
+		max_visual_culture_level = 1
+	}
+	{
+		culture="lyria" #LEGACY OF VALYRIA ADDED
+		max_visual_culture_level = 1
+	}
+	{
+		culture="lokiria_no_dragon" #LEGACY OF VALYRIA ADDED
+		max_visual_culture_level = 1
+	}
+	{
+		culture="martivia" #LEGACY OF VALYRIA ADDED
+		max_visual_culture_level = 1
+	}
+	{
+		culture="meereen" #LEGACY OF VALYRIA ADDED
+		max_visual_culture_level = 1
+	}
+	# lorath_court: registered by AMSB, absent from the AGOT+/LoV compatch
+	{
+		culture="lorath_court"
+		max_visual_culture_level = 3
+		levels={
+			{
+				grandeur_level = 20
+				visual_culture_level = 1
+			}
+			{
+				grandeur_level = 50
+				visual_culture_level = 2
+			}
+		}
+	}
+	# norvos_court: registered by AMSB, absent from the AGOT+/LoV compatch
+	{
+		culture="norvos_court"
+		max_visual_culture_level = 3
+		levels={
+			{
+				grandeur_level = 20
+				visual_culture_level = 1
+			}
+			{
+				grandeur_level = 50
+				visual_culture_level = 2
+			}
+		}
+	}
+	# amsb_lokiria_court: registered by AMSB, absent from the AGOT+/LoV compatch
+	{
+		culture="amsb_lokiria_court"
+		max_visual_culture_level = 1
+		#levels={
+		#    {
+		#        grandeur_level = 20
+		#        visual_culture_level = 1
+		#    }
+		#    {
+		#        grandeur_level = 50
+		#        visual_culture_level = 2
+		#    }
+		# }
+	}
+}

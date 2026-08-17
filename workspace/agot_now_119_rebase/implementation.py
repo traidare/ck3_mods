@@ -36,6 +36,23 @@ def generate_now_summerhall_candidate_guards(inputs: RunInputs) -> None:
     write_text(inputs.NOW_OUTPUT, relative, text)
 
 
+def require_upstream_namespace(inputs: RunInputs, relative: str) -> None:
+    """Assert a repair NOW has adopted upstream is still in place.
+
+    The module used to override this file purely to declare its namespace.
+    Without a check, a regression upstream would silently reintroduce the
+    missing-event bug this module was written to fix.
+    """
+    namespace = Path(relative).stem
+    text = read_text(inputs.WORKSHOP / "3664900993" / relative)
+    count = text.count(f"namespace = {namespace}")
+    if count != 1:
+        raise RuntimeError(
+            f"NOW {relative}: expected 1 'namespace = {namespace}', found {count}; "
+            "restore the whole-file override that declared it"
+        )
+
+
 def generate_now_core_rebase(inputs: RunInputs) -> None:
     """Regenerate NOW's non-event whole-file runtime repairs."""
     # NOW 1.2.5 fixed the dummy Great Fork title's `capital = c_great_for`
@@ -58,16 +75,10 @@ def generate_now_core_rebase(inputs: RunInputs) -> None:
     )
     write_text(inputs.NOW_OUTPUT, relative, normalize_rebased_source(text))
 
-    relative = "events/agot_events/replace/agot_coa_events.txt"
-    text = read_text(inputs.WORKSHOP / "3664900993" / relative)
-    text = replace_exact(
-        text,
-        "agot_coa_events.0003 = {",
-        "namespace = agot_coa_events\n\nagot_coa_events.0003 = {",
-        expected=1,
-        label="NOW personal-COA event namespace",
-    )
-    write_text(inputs.NOW_OUTPUT, relative, text)
+    # NOW declares `namespace = agot_coa_events` in its separate personal-COA
+    # event file upstream, so that override is no longer written. Re-adding it
+    # would declare the namespace twice.
+    require_upstream_namespace(inputs, "events/agot_events/replace/agot_coa_events.txt")
 
 
 def generate(context: GenerationContext) -> None:

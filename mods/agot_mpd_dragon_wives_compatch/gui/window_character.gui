@@ -1,7 +1,7 @@
 ######################################################
 ################# CHARACTER WINDOW ###################
 ######################################################
-# Compatch baseline: AGOT 0.4.40 + Dragon Wives 14.2 + MPD 0.3.0-rebalance
+# Compatch baseline: AGOT 0.5.0 + Dragon Wives 14.2 + MPD 0.4.0
 
 window = {
 	name = "character_window"
@@ -33,6 +33,22 @@ window = {
 		position_x = -60
 
 		on_start = "[GetVariableSystem.Clear( 'hide_bottom_left_HUD' )]"
+	}
+
+	# More Personality Depth — view-hook (see common/scripted_guis/mpd_view_hook.txt)
+	# Only visible while the displayed character has an un-rolled personality
+	# trait; the _show transition then executes the XP roller. Rolling flips
+	# IsShown back to false, so switching to another un-rolled character
+	# re-triggers the transition without closing the window.
+	widget = {
+		name = "mpd_view_hook"
+		size = { 1 1 }
+		visible = "[GetScriptedGui('mpd_gui_roll_xp').IsShown( GuiScope.SetRoot( CharacterWindow.GetCharacter.MakeScope ).End )]"
+
+		state = {
+			name = _show
+			on_start = "[GetScriptedGui('mpd_gui_roll_xp').Execute( GuiScope.SetRoot( CharacterWindow.GetCharacter.MakeScope ).End )]"
+		}
 	}
 
 	vbox = {

@@ -12,17 +12,79 @@ from gen.hashing import sha256_file
 from gen.sources import canonical_source_path
 from gen.text import matching_brace, read_source
 
-WORKSHOP_IDS = {"NOW": "3664900993", "SEASONS_BRIDGE": "3766038754"}
+WORKSHOP_IDS = {
+    "NOW": "3664900993",
+    "SEASONS_BRIDGE": "3766038754",
+    "AMSB": "3319354609",
+    "AMSB_LOV": "3762892081",
+}
+GRANDEUR_RELATIVE = Path(
+    "gfx/court_scene/scene_settings/grandeur_levels/grandeur_levels.txt"
+)
+# Court scenes AMSB registers that the temporary AGOT+/LoV compatch does not.
+# `lorath_court` and `norvos_court` are AGOT 0.5.0's; `amsb_lokiria_court` is
+# AMSB's own.  Everything else the compatch carries is a superset of AMSB.
+EXPECTED_GRANDEUR_ADDITIONS = ("lorath_court", "norvos_court", "amsb_lokiria_court")
+TITLE_LANGUAGES = ("english", "spanish")
+
+
+def title_localization_relative(language: str) -> Path:
+    return Path(
+        f"localization/replace/{language}/agot/replace/00_agot_titles_l_{language}.yml"
+    )
+
+
 SOURCE_RELATIVES = {
     "NOW": Path("common/landed_titles/01_agot_landed_titles.txt"),
     "SEASON_EVENTS": Path("events/lov_season_events.txt"),
     "SEASON_FX": Path("gfx/FX/province_effects.fxh"),
     "SEASON_REGIONS": Path("map_data/geographical_regions/north_sans_neck.txt"),
+    **{
+        f"NOW_TITLES_{language.upper()}": title_localization_relative(language)
+        for language in TITLE_LANGUAGES
+    },
 }
 OUTPUT_RELATIVES = {
     "SEASON_EVENTS": SOURCE_RELATIVES["SEASON_EVENTS"],
     "SEASON_FX": SOURCE_RELATIVES["SEASON_FX"],
     "SEASON_REGIONS": SOURCE_RELATIVES["SEASON_REGIONS"],
+    **{
+        f"NOW_TITLES_{language.upper()}": title_localization_relative(language)
+        for language in TITLE_LANGUAGES
+    },
+}
+
+# The NOW-COW compatch remaps Sisterton's and Dunstonbury's provinces, and
+# `zzz_agot_cow_building_model_trigger.txt` keys its models to that remap.  NOW
+# names none of these baronies, so its title file would leave AGOT's originals.
+COW_TITLE_NAMES = {
+    "english": (
+        ("b_breakwater_castle", "Breakwater Castle"),
+        ("b_breakwater_watch", "Breakwaterwatch"),
+        ("b_dordon", "Castle Sunderland"),
+    ),
+    "spanish": (
+        ("b_breakwater_castle", "Castillo Rompeolas"),
+        ("b_breakwater_watch", "Atalaya del Este"),
+        ("b_dordon", "Castillo Sunderland"),
+    ),
+}
+COW_TITLE_HEADER = (
+    "# COW Sisterton/Dunstonbury barony names "
+    "(see zzz_agot_cow_building_model_trigger.txt)"
+)
+
+# Localization defects NOW ships that this module repairs because it is the
+# file's effective last writer.  Each is keyed to the exact upstream line, so a
+# fix upstream fails the build instead of being applied twice.
+NOW_TITLE_REPAIRS = {
+    "spanish": (
+        (
+            ' d_crackclaw_point: "$c_dyre_den$\n',
+            ' d_crackclaw_point: "$c_dyre_den$"\n',
+            "NOW Spanish d_crackclaw_point closing quote",
+        ),
+    ),
 }
 
 
@@ -40,6 +102,102 @@ def replace_once(text: str, old: str, new: str, *, label: str) -> str:
     if count != 1:
         raise AssertionError(f"{label}: expected one match, found {count}")
     return text.replace(old, new)
+
+
+def require_balanced_quotes(text: str, *, label: str) -> None:
+    """Reject an unterminated localization value.
+
+    CK3 swallows the rest of the entry when a value loses its closing quote, so
+    this is worth catching before the file reaches the Launcher.
+    """
+    for number, line in enumerate(text.split("\n"), start=1):
+        stripped = line.strip()
+        if not stripped or stripped.startswith("#"):
+            continue
+        if line.count('"') % 2:
+            raise AssertionError(f"{label}: unterminated value on line {number}")
+
+
+def generate_title_localization(text: str, language: str) -> str:
+    """Rebase NOW's title names, keeping only this module's COW barony delta."""
+    label = f"NOW {language} title localization"
+    for old, new, repair in NOW_TITLE_REPAIRS.get(language, ()):
+        text = replace_once(text, old, new, label=repair)
+    require_balanced_quotes(text, label=label)
+
+    lines = [text.rstrip("\n"), "", COW_TITLE_HEADER]
+    for key, value in COW_TITLE_NAMES[language]:
+        if re.search(rf"(?m)^\s*{re.escape(key)}\s*:", text):
+            raise AssertionError(f"{label}: NOW now names {key} itself")
+        lines.append(f' {key}: "{value}"')
+    return "\n".join(lines) + "\n"
+
+
+def grandeur_entries(text: str) -> dict[str, str]:
+    """Map each court-scene culture name to its whole `{ ... }` entry."""
+    opening = text.index("{", text.index("cultures"))
+    end = matching_brace(text, opening)
+    entries: dict[str, str] = {}
+    cursor = opening + 1
+    while True:
+        start = text.find("{", cursor)
+        if start == -1 or start >= end:
+            break
+        stop = matching_brace(text, start)
+        entry = text[start : stop + 1]
+        match = re.search(r'culture\s*=\s*"([^"]+)"', entry)
+        if not match:
+            raise AssertionError(f"grandeur entry without a culture: {entry[:60]}")
+        entries[match.group(1)] = entry
+        cursor = stop + 1
+    return entries
+
+
+def generate_grandeur_levels(base: str, amsb: str) -> str:
+    """Add AMSB's court scenes to the compatch that otherwise wins this file.
+
+    Both parents own the whole file, so the later one silently drops whatever
+    the earlier one registered.  The compatch carries the AGOT+, LoV, and Essos
+    entries AMSB lacks, so it stays the base and only AMSB's extras are added.
+    """
+    base_entries = grandeur_entries(base)
+    missing = [name for name in grandeur_entries(amsb) if name not in base_entries]
+    if tuple(missing) != EXPECTED_GRANDEUR_ADDITIONS:
+        raise AssertionError(
+            "AMSB court-scene additions changed: expected "
+            f"{list(EXPECTED_GRANDEUR_ADDITIONS)}, found {missing}"
+        )
+
+    amsb_entries = grandeur_entries(amsb)
+    closing = base.rindex("}")
+    additions = "".join(
+        f"\t# {name}: registered by AMSB, absent from the AGOT+/LoV compatch\n"
+        f"{reindent_with_tabs(amsb_entries[name], depth=1)}\n"
+        for name in missing
+    )
+    return base[:closing].rstrip("\n") + "\n" + additions + "}\n"
+
+
+def reindent_with_tabs(entry: str, *, depth: int) -> str:
+    """Re-emit a copied block with tab indentation.
+
+    AMSB mixes tabs and four-space runs within a single entry, so pasting one
+    verbatim leaves the merged file unreadable at review time.
+    """
+    lines: list[str] = []
+    level = depth
+    for raw in entry.strip().split("\n"):
+        line = raw.strip()
+        if not line:
+            lines.append("")
+            continue
+        # Braces inside a comment are decoration, not structure: AMSB keeps its
+        # disabled `levels` blocks commented out line by line.
+        code = line.split("#", 1)[0]
+        indent = level - 1 if code.strip().startswith("}") else level
+        lines.append("\t" * max(indent, 0) + line)
+        level += code.count("{") - code.count("}")
+    return "\n".join(lines)
 
 
 def named_block(text: str, name: str) -> tuple[int, int]:
@@ -267,7 +425,7 @@ def generate_outputs(workshop: dict[str, Path]) -> dict[Path, bytes]:
         raise AssertionError("NOW d_lychester creation requirement changed")
 
     bridge = workshop["SEASONS_BRIDGE"]
-    return {
+    outputs = {
         OUTPUT_RELATIVES["SEASON_EVENTS"]: normalize_output(
             generate_events(read_text(bridge / SOURCE_RELATIVES["SEASON_EVENTS"]))
         ).encode("utf-8-sig"),
@@ -278,6 +436,16 @@ def generate_outputs(workshop: dict[str, Path]) -> dict[Path, bytes]:
             generate_regions(read_text(bridge / SOURCE_RELATIVES["SEASON_REGIONS"]))
         ).encode("utf-8-sig"),
     }
+    for language in TITLE_LANGUAGES:
+        key = f"NOW_TITLES_{language.upper()}"
+        outputs[OUTPUT_RELATIVES[key]] = generate_title_localization(
+            read_text(workshop["NOW"] / SOURCE_RELATIVES[key]), language
+        ).encode("utf-8-sig")
+    outputs[GRANDEUR_RELATIVE] = generate_grandeur_levels(
+        read_text(workshop["AMSB_LOV"] / GRANDEUR_RELATIVE),
+        read_text(workshop["AMSB"] / GRANDEUR_RELATIVE),
+    ).encode("utf-8-sig")
+    return outputs
 
 
 def source_manifest(
@@ -291,6 +459,15 @@ def source_manifest(
         / SOURCE_RELATIVES["SEASON_REGIONS"],
         "NOW_DESCRIPTOR": workshop["NOW"] / "descriptor.mod",
         "SEASONS_BRIDGE_DESCRIPTOR": workshop["SEASONS_BRIDGE"] / "descriptor.mod",
+        **{
+            f"NOW_TITLES_{language.upper()}": workshop["NOW"]
+            / SOURCE_RELATIVES[f"NOW_TITLES_{language.upper()}"]
+            for language in TITLE_LANGUAGES
+        },
+        "AMSB_GRANDEUR": workshop["AMSB"] / GRANDEUR_RELATIVE,
+        "AMSB_LOV_GRANDEUR": workshop["AMSB_LOV"] / GRANDEUR_RELATIVE,
+        "AMSB_DESCRIPTOR": workshop["AMSB"] / "descriptor.mod",
+        "AMSB_LOV_DESCRIPTOR": workshop["AMSB_LOV"] / "descriptor.mod",
     }
     versions: dict[str, str] = {}
     for label, module_root in workshop.items():
@@ -316,19 +493,31 @@ def source_manifest(
         },
         "intent": {
             "title": "repair NOW's removed d_medway reference",
+            "title_localization": (
+                "rebase NOW's title names and re-add the COW Sisterton/"
+                "Dunstonbury barony names"
+            ),
             "events": "start DoD historical starts in autumn",
             "shader": "share the AGOT skip threshold with vertex shaders",
             "regions": "rebase NOW tokens and cover LoV cleanup regions without ruins",
+            "grandeur": (
+                "add AMSB's court scenes to the AGOT+/LoV compatch that wins "
+                "grandeur_levels.txt"
+            ),
         },
     }
 
 
 def generate(context: GenerationContext) -> None:
     root = context.workspace_root
-    workshop_root = context.workshop_root("agot-now", "seasons-bridge")
+    workshop_root = context.workshop_root(
+        "agot-now", "seasons-bridge", "amsb", "amsb-lov-compatch"
+    )
     workshop = {
         "NOW": context.source("agot-now"),
         "SEASONS_BRIDGE": context.source("seasons-bridge"),
+        "AMSB": context.source("amsb"),
+        "AMSB_LOV": context.source("amsb-lov-compatch"),
     }
     missing = [
         f"{label}:{path}" for label, path in workshop.items() if not path.is_dir()

@@ -3663,7 +3663,7 @@ types LawTooltipTypes
 			modify_texture = {
 				#AGOT Modified
 				# visible = "[Not( Or( EqualTo_string( LawGroup.GetKey, 'camp_purpose'), EqualTo_string( LawGroup.GetKey, 'nomadic_authority') ) )]"
-				visible = "[Not( Or(EqualTo_string( LawGroup.GetKey, 'pirate_haven_port_laws'),Or( EqualTo_string( LawGroup.GetKey, 'camp_purpose'), EqualTo_string( LawGroup.GetKey, 'nomadic_authority') ) ))]"
+				visible = "[Not(Or(EqualTo_string(LawGroup.GetKey, 'pirate_haven_port_laws'), Or(EqualTo_string(LawGroup.GetKey, 'camp_purpose'), EqualTo_string(LawGroup.GetKey, 'nomadic_authority'))))]"
 				texture = "gfx/interface/colors/colors_textured.dds"
 				blend_mode = add
 				framesize = { 96 96 }
@@ -4683,6 +4683,8 @@ types CultureTooltips
 
 				divider_light = {
 					layoutpolicy_horizontal = growing
+					#AGOT Added; fascinations not always active
+					visible = "[Culture.HasFascination]"
 				}
 
 				hbox = {
@@ -4794,24 +4796,7 @@ types CultureTooltips
 				#AGOT Modified
 				# block "extra_info"
 				# {}
-				block "extra_info" {
-					text_single = {
-						layoutpolicy_horizontal = growing
-						layoutpolicy_vertical = growing
-						text = "CLICK_TO_VIEW"
-						align = top
-						using = DefaultTooltipText
-						visible = "[Not(Culture.MakeScope.Var('agot_culture_tt_desc').IsSet)]"
-					}
-					text_multi = {
-						layoutpolicy_horizontal = growing
-						text = "AGOT_CULTURE_COOLTIP_CLICK"
-						margin = { 10 0 }
-						visible = "[Culture.MakeScope.Var('agot_culture_tt_desc').IsSet]"
-						autoresize = yes
-						max_width = 380
-					}
-				}
+				block "extra_info" { agot_culture_tooltip_insert = {} }
 			}
 		}
 	}

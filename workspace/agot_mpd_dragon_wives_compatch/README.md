@@ -7,8 +7,15 @@ AGOT - More Personality Depth, and the local `agot_mpd_119_rebase`.
 
 The module owns exactly one file: the shared `window_character.gui` merge. It
 combines Dragon Wives' special family rows with AGOT's current character window
-and preserves More Personality Depth's personality display for player
-characters.
+and carries More Personality Depth's two deltas: the personality display
+unhidden for player characters, and the `mpd_view_hook` widget that drives the
+`mpd_gui_roll_xp` scripted GUI.
+
+More Personality Depth's own `window_character.gui` lags AGOT — it still carries
+superseded portrait offsets and omits AGOT's newer preparation-lobby guards and
+`agot_pre_war_liege_portrait_vbox`. Take MPD's named deltas into the merge,
+never its file wholesale. The merge otherwise tracks AGOT verbatim; deviations
+from it should be only Dragon Wives' family rows and the two MPD deltas above.
 
 It deliberately owns nothing else. MPD's calculator and cumulative-counter
 runtime repairs live in the preceding `agot_mpd_119_rebase`, so they remain

@@ -6,6 +6,9 @@ owned_outputs = [
   "map_data/geographical_regions/replace/north_sans_neck.txt",
   "map_data/geographical_regions/north_sans_neck.txt",
   "common/landed_titles/01_agot_landed_titles.txt",
+  "localization/replace/english/agot/replace/00_agot_titles_l_english.yml",
+  "localization/replace/spanish/agot/replace/00_agot_titles_l_spanish.yml",
+  "gfx/court_scene/scene_settings/grandeur_levels/grandeur_levels.txt",
 ]
 
 [[sources]]
@@ -17,3 +20,13 @@ item_id = "3664900993"
 name = "seasons-bridge"
 kind = "workshop"
 item_id = "3766038754"
+
+[[sources]]
+name = "amsb"
+kind = "workshop"
+item_id = "3319354609"
+
+[[sources]]
+name = "amsb-lov-compatch"
+kind = "workshop"
+item_id = "3762892081"

@@ -19,6 +19,11 @@ genuine cross-mod overlaps that need a single deliberate winner.
 - Crowns of Westeros' Dunstonbury and Sisterton province history and text, while
   the Seasons of Valyria fork supplies its maintained regional definitions,
   repaint actions, map modes, seasonal effects, interface, situations, and text.
+- Nobility of Westeros' title names, so its renamed and newly added titles are
+  not lost behind the Dunstonbury and Sisterton barony names.
+- The court grandeur levels claimed by AGOT, Additional Models, AGOT+, Legacy of
+  Valyria, and the temporary Additional Models compatch, so the Lorath, Norvos,
+  and Lokiria courts still gain visual culture levels.
 
 It also owns three cross-parent overrides of its own: the three historical Dance
 of the Dragons starts begin in autumn rather than waiting through summer, the
