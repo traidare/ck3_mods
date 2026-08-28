@@ -21,9 +21,9 @@ genuine cross-mod overlaps that need a single deliberate winner.
   repaint actions, map modes, seasonal effects, interface, situations, and text.
 - Nobility of Westeros' title names, so its renamed and newly added titles are
   not lost behind the Dunstonbury and Sisterton barony names.
-- The court grandeur levels claimed by AGOT, Additional Models, AGOT+, Legacy of
-  Valyria, and the temporary Additional Models compatch, so the Lorath, Norvos,
-  and Lokiria courts still gain visual culture levels.
+- The dragon on-action file shipped by both More Dragon Eggs and More Dragon
+  Events, so the canon egg-clutch pulse and the extra owned-dragon events both
+  keep working instead of one mod's file replacing the other's.
 
 It also owns three cross-parent overrides of its own: the three historical Dance
 of the Dragons starts begin in autumn rather than waiting through summer, the
@@ -41,14 +41,14 @@ erroring when it evaluates raiding without a raider.
    Dragon
 4. `AGOT NOW - CK3 1.19 Rebase`, immediately after NOW
 5. `AGOT 0.4.40 - Much Faster Activities Rebase`, immediately after MFA
-6. `Grand Remembrance 1.8.2 - CK3 1.19 Runtime Fix`, immediately after the Grand
+6. `Grand Remembrance 1.9.0 - CK3 1.19 Runtime Fix`, immediately after the Grand
    Remembrance AGOT compatibility submod
 7. `AGOT MPD 0.4.0 - CK3 1.19 Runtime Rebase`, immediately after AGOT MPD and
    before the MPD + Dragon Wives compatch
-8. `Legacy of Valyria RC71 - CK3 1.19 Runtime Rebase`, immediately after the LoV
-   RC71 compatch
-9. `Essos Expanded + LoV - CK3 1.19 History Rebase`, immediately after Essos
-   Expanded and before its TempLoV compatch
+8. `Legacy of Valyria - AGOT 0.5.1 Bridge - CK3 1.19 Runtime Rebase`,
+   immediately after `Legacy of Valyria - AGOT 0.5.1`
+9. `Essos Expanded: The Further East - CK3 1.19 History Rebase`, immediately
+   after `Essos Expanded: The Further East` and before its TempLoV compatch
 10. `AGOT NOW-Season of Ice and Fire Compatch`, after the Essos Expanded LoV
     compatch
 11. `Seasons of Valyria - TempLoV/NOW/Seasons Compatch`
@@ -61,5 +61,6 @@ erroring when it evaluates raiding without a raider.
 
 Disable these superseded compatch mods:
 
-- AGOT NOW-COW Compatch
-- Temporary Seasons of Valyria compatch
+- `COW-AGOT: Nobility of Westeros Compatch`
+- `TEMPORARY Seasons of Valyria - LoV & Seasons REBASED Compatch`
+- `Legacy of Valyria - AGOT 0.5.1 Compatch (Beta)`

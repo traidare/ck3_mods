@@ -1,23 +1,17 @@
 ﻿# EE TempLoV/NOW Compatch: this file replaces AGOT's common/scripted_effects/00_agot_character_data_effects.txt
-# and wins over BOTH the EE TempLoV Compatch's copy and Nobility of Westeros's July 23rd 2026 replace/ copy.
+# and wins over BOTH the EE TempLoV Compatch's copy and Nobility of Westeros's replace/ copy.
 #
-# Built July 28th 2026 as a three-way merge, re-merged August 7th 2026 onto NOW 1.2.5
-# (which added the Minor Lords system and the petty-king title flavor):
-#   BASE:  Nobility of Westeros 1.2.5 (August 7th 2026) apply_character_title_data (King/Queen Consort titles,
-#          Prince/Princess of Summerhall, Royal Prince/Princess, Lord/Lady Reaper of Pyke, City Watch
-#          commander, landed gentry/knights/captains in Westeros, the full NOW naming rework)
-#   PLUS:  the EE TempLoV Compatch's title layers, re-inserted on top: LoV RC60-derived New Valyria
+# Re-merged August 24th 2026 onto NOW 1.2.7 (which reworked the independent-ruler king branches):
+#   BASE:  Nobility of Westeros 1.2.7 apply_character_title_data
+#   PLUS:  the EE TempLoV Compatch's title layers re-inserted on top: LoV RC60-derived New Valyria
 #          Emperor/Empress and Painted Mountains Khal/Khaleesi overrides, the temple-barony
 #          MISSING_TITLE_LOC fixes (x2), the oligarchic branch fix with Qartheen Merchant King/Queen,
 #          and the FAR EAST LORE TITLES culture-gated block (Yi-Ti/Leng, Asshai, Hidden Sea,
 #          Jogos Nhai, Dothraki, Ibben, Sarnor)
-#   PLUS:  the EE TempLoV Compatch's four government data effects, carried verbatim (this file
-#          replaces the EE compatch's whole copy, so they must ride along)
+#   PLUS:  the EE TempLoV Compatch's four government data effects, carried verbatim
 #
-# NOW's five Westeros naming triggers (prince_summerhall, royal_prince, landed_gentry, landed_knight,
-# captain in Westeros) are defined by NOW itself; agot_flavour_is_vassal_lord_in_westeros_trigger is
-# restored by the EE TempLoV Compatch's shim. Both mods are REQUIRED. Rebuild whenever NOW, LoV or
-# the EE TempLoV Compatch update this file.
+# Both NOW and the EE TempLoV Compatch are REQUIRED. Rebuild whenever NOW, LoV or the EE TempLoV
+# Compatch update this file.
 
 assign_government_data_effect = {
 	### REMOVE FROM OLD LISTS ###
@@ -333,6 +327,7 @@ agot_assign_fallback_government_data_effect = {
 		}
 	}
 }
+
 apply_character_title_data = {
 	if = {
 		limit = {
@@ -343,29 +338,8 @@ apply_character_title_data = {
 			if = {
 				limit = { is_titled_character = yes }
 
-				### TEMPLE BARONY HOLDERS ###
-				# AM/AGOT+/LoV Compatch delta, carried here too since this replace file wins the
-				# effect game-wide: rare AGOT lay-clergy faiths can skip the normal theocracy
-				# branch and fall into MISSING_TITLE_LOC.
-				if = {
-					limit = {
-						$SCOPED_TITLE$ ?= {
-							tier = tier_barony
-							title_province = { has_holding_type = church_holding }
-						}
-					}
-					if = {
-						limit = { religion = religion:the_seven_religion }
-						set_title_localization_effect = { SCOPE = $SCOPE$ KEY = "baron_theocracy_male_the_seven_religion" GENDER = male }
-						set_title_localization_effect = { SCOPE = $SCOPE$ KEY = "baron_theocracy_female_the_seven_religion" GENDER = female }
-					}
-					else = {
-						set_title_localization_effect = { SCOPE = $SCOPE$ KEY = "baron_theocracy_male" GENDER = male }
-						set_title_localization_effect = { SCOPE = $SCOPE$ KEY = "baron_theocracy_female" GENDER = female }
-					}
-				}
 				### RULERS & SPOUSES ###
-				else_if = {
+				if = {
 					limit = { is_titled_ruler_or_spouse = yes }
 
 					### CLAIMANT OVERRIDE ###
@@ -1122,11 +1096,11 @@ apply_character_title_data = {
 								set_title_localization_effect = { SCOPE = $SCOPE$ KEY = "lord_non_paramount" GENDER = male }
 								set_title_localization_effect = { SCOPE = $SCOPE$ KEY = "lady_non_paramount" GENDER = female }
 							}
-							else_if = { # King Fallback
+							else_if = { # Lord/Lady Fallback
 								limit = { always = yes }
 
-								set_title_localization_effect = { SCOPE = $SCOPE$ KEY = "king_feudal_male_fallback" GENDER = male }
-								set_title_localization_effect = { SCOPE = $SCOPE$ KEY = "king_feudal_female_fallback" GENDER = female }
+								set_title_localization_effect = { SCOPE = $SCOPE$ KEY = "lord_non_paramount" GENDER = male }
+								set_title_localization_effect = { SCOPE = $SCOPE$ KEY = "lady_non_paramount" GENDER = female }
 							}
 						}
 
@@ -1670,66 +1644,7 @@ apply_character_title_data = {
 						### EMPIRE ###
 						else_if = {
 							limit = { $SCOPED_TITLE$ ?= { tier = tier_empire } }
-							if = { # Prince/Princess Dornish/Rhoynish
-								limit = {
-									OR = {
-										agot_flavour_is_prince_rhoynish_trigger = { CHAR = this }
-										any_spouse = {
-											even_if_dead = yes
-											agot_flavour_is_prince_rhoynish_trigger = { CHAR = this }
-										}
-									}
-								}
-
-								set_title_localization_effect = { SCOPE = $SCOPE$ KEY = "king_rhoynish" GENDER = male }
-								set_title_localization_effect = { SCOPE = $SCOPE$ KEY = "princess" GENDER = female }
-							}
-							else_if = { # Royal Prince/Princess
-								limit = {
-									agot_flavour_is_royal_prince_trigger = { CHAR = this }
-								}
-											
-								set_title_localization_effect = { SCOPE = $SCOPE$ KEY = "prince" GENDER = male }
-								set_title_localization_effect = { SCOPE = $SCOPE$ KEY = "princess" GENDER = female }
-							}
-							else_if = { # Historical Lord/Lady
-								limit = {
-									trigger_if = {
-										limit = {
-											agot_flavour_is_lord_in_westeros_trigger = { CHAR = this }
-											NOT = { agot_flavour_is_historic_lord_trigger = { CHAR = this } }
-										}
-										scope:regent_status ?= yes
-									}
-									trigger_else = {
-										agot_flavour_is_lord_in_westeros_trigger = { CHAR = this }
-										agot_flavour_is_historic_lord_trigger = { CHAR = this }
-									}
-								}
-
-								set_title_localization_effect = { SCOPE = $SCOPE$ KEY = "lord_non_paramount" GENDER = male }
-								set_title_localization_effect = { SCOPE = $SCOPE$ KEY = "lady_non_paramount" GENDER = female }
-							}
-							else_if = { # Lord Paramount/Lady Paramount
-								limit = {
-									agot_flavour_is_lord_in_westeros_trigger = { CHAR = this }
-								}
-
-								set_title_localization_effect = { SCOPE = $SCOPE$ KEY = "lord_paramount" GENDER = male }
-								set_title_localization_effect = { SCOPE = $SCOPE$ KEY = "lady_paramount" GENDER = female }
-							}
-							else_if = { # Lord/Lady Spouse
-								limit = {
-									any_spouse = {
-										even_if_dead = yes
-										agot_flavour_is_lord_in_westeros_trigger = { CHAR = this }
-									}
-								}
-
-								set_title_localization_effect = { SCOPE = $SCOPE$ KEY = "lord_non_paramount" GENDER = male }
-								set_title_localization_effect = { SCOPE = $SCOPE$ KEY = "lady_non_paramount" GENDER = female }
-							}
-							else_if = { # Storm King/Storm Queen
+							if = { # Storm King/Storm Queen
 								limit = {
 									OR = {
 										agot_flavour_char_special_title_trigger = { CHAR = this TITLE = title:e_the_stormlands }
@@ -1777,6 +1692,69 @@ apply_character_title_data = {
 								set_title_localization_effect = { SCOPE = $SCOPE$ KEY = "emperor_male_beyond_the_wall" GENDER = male }
 								set_title_localization_effect = { SCOPE = $SCOPE$ KEY = "emperor_female_beyond_the_wall" GENDER = female }
 							}
+							else_if = { # Prince/Princess Dornish/Rhoynish
+								limit = {
+									OR = {
+										agot_flavour_is_prince_rhoynish_trigger = { CHAR = this }
+										any_spouse = {
+											even_if_dead = yes
+											agot_flavour_is_prince_rhoynish_trigger = { CHAR = this }
+										}
+									}
+								}
+
+								set_title_localization_effect = { SCOPE = $SCOPE$ KEY = "king_rhoynish" GENDER = male }
+								set_title_localization_effect = { SCOPE = $SCOPE$ KEY = "princess" GENDER = female }
+							}
+							else_if = { # Royal Prince/Princess
+								limit = {
+									agot_flavour_is_royal_prince_trigger = { CHAR = this }
+								}
+											
+								set_title_localization_effect = { SCOPE = $SCOPE$ KEY = "prince" GENDER = male }
+								set_title_localization_effect = { SCOPE = $SCOPE$ KEY = "princess" GENDER = female }
+							}
+							else_if = { # Historical Lord/Lady
+								limit = {
+									trigger_if = {
+										limit = {
+											agot_flavour_is_lord_in_westeros_trigger = { CHAR = this }
+											NOT = { agot_flavour_is_historic_lord_trigger = { CHAR = this } }
+											NOT = { has_primary_title = title:e_the_iron_islands }
+										}
+										scope:regent_status ?= yes
+									}
+									trigger_else = {
+										agot_flavour_is_lord_in_westeros_trigger = { CHAR = this }
+										OR = {
+											agot_flavour_is_historic_lord_trigger = { CHAR = this }
+											has_primary_title = title:e_the_iron_islands
+										}
+									}
+								}
+
+								set_title_localization_effect = { SCOPE = $SCOPE$ KEY = "lord_non_paramount" GENDER = male }
+								set_title_localization_effect = { SCOPE = $SCOPE$ KEY = "lady_non_paramount" GENDER = female }
+							}
+							else_if = { # Lord Paramount/Lady Paramount
+								limit = {
+									agot_flavour_is_lord_in_westeros_trigger = { CHAR = this }
+								}
+
+								set_title_localization_effect = { SCOPE = $SCOPE$ KEY = "lord_paramount" GENDER = male }
+								set_title_localization_effect = { SCOPE = $SCOPE$ KEY = "lady_paramount" GENDER = female }
+							}
+							else_if = { # Lord/Lady Spouse
+								limit = {
+									any_spouse = {
+										even_if_dead = yes
+										agot_flavour_is_lord_in_westeros_trigger = { CHAR = this }
+									}
+								}
+
+								set_title_localization_effect = { SCOPE = $SCOPE$ KEY = "lord_non_paramount" GENDER = male }
+								set_title_localization_effect = { SCOPE = $SCOPE$ KEY = "lady_non_paramount" GENDER = female }
+							}
 							else_if = { # Default King/Queen
 								limit = { always = yes }
 
@@ -1793,10 +1771,14 @@ apply_character_title_data = {
 								limit = {
 									$SCOPED_TITLE$ ?= title:k_red_lands
 									OR = {
-										historical_independent_ruler = yes
+										AND = {
+											historical_independent_ruler = yes
+											NOT = { agot_flavour_is_lord_in_westeros_trigger = { CHAR = this } }
+										}
 										any_spouse = {
 											even_if_dead = yes
 											historical_independent_ruler = yes
+											NOT = { agot_flavour_is_lord_in_westeros_trigger = { CHAR = this } }
 										}
 									}
 								}
@@ -1808,10 +1790,14 @@ apply_character_title_data = {
 								limit = {
 									$SCOPED_TITLE$ ?= title:k_barrows_and_rills
 									OR = {
-										historical_independent_ruler = yes
+										AND = {
+											historical_independent_ruler = yes
+											NOT = { agot_flavour_is_lord_in_westeros_trigger = { CHAR = this } }
+										}
 										any_spouse = {
 											even_if_dead = yes
 											historical_independent_ruler = yes
+											NOT = { agot_flavour_is_lord_in_westeros_trigger = { CHAR = this } }
 										}
 									}
 								}
@@ -1823,10 +1809,14 @@ apply_character_title_data = {
 								limit = {
 									$SCOPED_TITLE$ ?= title:k_the_neck
 									OR = {
-										historical_independent_ruler = yes
+										AND = {
+											historical_independent_ruler = yes
+											NOT = { agot_flavour_is_lord_in_westeros_trigger = { CHAR = this } }
+										}
 										any_spouse = {
 											even_if_dead = yes
 											historical_independent_ruler = yes
+											NOT = { agot_flavour_is_lord_in_westeros_trigger = { CHAR = this } }
 										}
 									}
 								}
@@ -1838,10 +1828,14 @@ apply_character_title_data = {
 								limit = {
 									$SCOPED_TITLE$ ?= title:k_fishers_haft
 									OR = {
-										historical_independent_ruler = yes
+										AND = {
+											historical_independent_ruler = yes
+											NOT = { agot_flavour_is_lord_in_westeros_trigger = { CHAR = this } }
+										}
 										any_spouse = {
 											even_if_dead = yes
 											historical_independent_ruler = yes
+											NOT = { agot_flavour_is_lord_in_westeros_trigger = { CHAR = this } }
 										}
 									}
 								}
@@ -1853,10 +1847,14 @@ apply_character_title_data = {
 								limit = {
 									$SCOPED_TITLE$ ?= title:k_the_bay_of_crabs
 									OR = {
-										historical_independent_ruler = yes
+										AND = {
+											historical_independent_ruler = yes
+											NOT = { agot_flavour_is_lord_in_westeros_trigger = { CHAR = this } }
+										}
 										any_spouse = {
 											even_if_dead = yes
 											historical_independent_ruler = yes
+											NOT = { agot_flavour_is_lord_in_westeros_trigger = { CHAR = this } }
 										}
 									}
 								}
@@ -1868,10 +1866,14 @@ apply_character_title_data = {
 								limit = {
 									$SCOPED_TITLE$ ?= title:k_runestone
 									OR = {
-										historical_independent_ruler = yes
+										AND = {
+											historical_independent_ruler = yes
+											NOT = { agot_flavour_is_lord_in_westeros_trigger = { CHAR = this } }
+										}
 										any_spouse = {
 											even_if_dead = yes
 											historical_independent_ruler = yes
+											NOT = { agot_flavour_is_lord_in_westeros_trigger = { CHAR = this } }
 										}
 									}
 								}
@@ -1883,10 +1885,14 @@ apply_character_title_data = {
 								limit = {
 									$SCOPED_TITLE$ ?= title:k_the_red_mountains
 									OR = {
-										historical_independent_ruler = yes
+										AND = {
+											historical_independent_ruler = yes
+											NOT = { agot_flavour_is_lord_in_westeros_trigger = { CHAR = this } }
+										}
 										any_spouse = {
 											even_if_dead = yes
 											historical_independent_ruler = yes
+											NOT = { agot_flavour_is_lord_in_westeros_trigger = { CHAR = this } }
 										}
 									}
 								}
@@ -1898,10 +1904,14 @@ apply_character_title_data = {
 								limit = {
 									$SCOPED_TITLE$ ?= title:k_hooded_coves
 									OR = {
-										historical_independent_ruler = yes
+										AND = {
+											historical_independent_ruler = yes
+											NOT = { agot_flavour_is_lord_in_westeros_trigger = { CHAR = this } }
+										}
 										any_spouse = {
 											even_if_dead = yes
 											historical_independent_ruler = yes
+											NOT = { agot_flavour_is_lord_in_westeros_trigger = { CHAR = this } }
 										}
 									}
 								}
@@ -1913,16 +1923,38 @@ apply_character_title_data = {
 								limit = {
 									$SCOPED_TITLE$ ?= title:k_yronwood
 									OR = {
-										historical_independent_ruler = yes
+										AND = {
+											historical_independent_ruler = yes
+											NOT = { agot_flavour_is_lord_in_westeros_trigger = { CHAR = this } }
+										}
 										any_spouse = {
 											even_if_dead = yes
 											historical_independent_ruler = yes
+											NOT = { agot_flavour_is_lord_in_westeros_trigger = { CHAR = this } }
 										}
 									}
 								}
 
 								set_title_localization_effect = { SCOPE = $SCOPE$ KEY = "king_yronwood" GENDER = male }
 								set_title_localization_effect = { SCOPE = $SCOPE$ KEY = "queen_yronwood" GENDER = female }
+							}
+							else_if = { # King/Queen
+								limit = {
+									OR = {
+										AND = {
+											historical_independent_ruler = yes
+											NOT = { agot_flavour_is_lord_in_westeros_trigger = { CHAR = this } }
+										}
+										any_spouse = {
+											even_if_dead = yes
+											historical_independent_ruler = yes
+											NOT = { agot_flavour_is_lord_in_westeros_trigger = { CHAR = this } }
+										}
+									}
+								}
+
+								set_title_localization_effect = { SCOPE = $SCOPE$ KEY = "king" GENDER = male }
+								set_title_localization_effect = { SCOPE = $SCOPE$ KEY = "queen" GENDER = female }
 							}
 							else_if = { # Royal Prince/Princess
 								limit = {
@@ -1941,13 +1973,7 @@ apply_character_title_data = {
 							else_if = { # Lord/Lady Reaper
 								limit = {
 									$SCOPED_TITLE$ ?= title:k_under_islands
-									NOR = {
-										historical_independent_ruler = yes
-										any_spouse = {
-											even_if_dead = yes
-											historical_independent_ruler = yes
-										}
-									}
+									agot_flavour_is_lord_in_westeros_trigger = { CHAR = this }
 								}
 
 								set_title_localization_effect = { SCOPE = $SCOPE$ KEY = "lord_reaper" GENDER = male }
@@ -1955,23 +1981,28 @@ apply_character_title_data = {
 							}
 							else_if = { # Lord/Lady
 								limit = {
-									NOR = {
-										historical_independent_ruler = yes
-										any_spouse = {
-											even_if_dead = yes
-											historical_independent_ruler = yes
-										}
+									agot_flavour_is_lord_in_westeros_trigger = { CHAR = this }
+								}
+
+								set_title_localization_effect = { SCOPE = $SCOPE$ KEY = "lord_non_paramount" GENDER = male }
+								set_title_localization_effect = { SCOPE = $SCOPE$ KEY = "lady_non_paramount" GENDER = female }
+							}
+							else_if = { # Lord/Lady Spouse
+								limit = {
+									any_spouse = {
+										even_if_dead = yes
+										agot_flavour_is_lord_in_westeros_trigger = { CHAR = this }
 									}
 								}
 
 								set_title_localization_effect = { SCOPE = $SCOPE$ KEY = "lord_non_paramount" GENDER = male }
 								set_title_localization_effect = { SCOPE = $SCOPE$ KEY = "lady_non_paramount" GENDER = female }
 							}
-							else_if = { # King/Queen Fallback
+							else_if = { # King Fallback
 								limit = { always = yes }
 
-								set_title_localization_effect = { SCOPE = $SCOPE$ KEY = "king" GENDER = male }
-								set_title_localization_effect = { SCOPE = $SCOPE$ KEY = "queen" GENDER = female }
+								set_title_localization_effect = { SCOPE = $SCOPE$ KEY = "king_feudal_male_fallback" GENDER = male }
+								set_title_localization_effect = { SCOPE = $SCOPE$ KEY = "king_feudal_female_fallback" GENDER = female }
 							}
 						}
 
@@ -2300,6 +2331,7 @@ apply_character_title_data = {
 							OR = {
 								agot_localization_government_trigger = { GOV = administrative SPOUSE_SCOPE = scope:spouse_scope }
 								agot_localization_government_trigger = { GOV = republic SPOUSE_SCOPE = scope:spouse_scope }
+								agot_localization_government_trigger = { GOV = norvos SPOUSE_SCOPE = scope:spouse_scope }
 							}
 						}
 
@@ -2560,6 +2592,24 @@ apply_character_title_data = {
 								limit = { $SCOPED_TITLE$ ?= title:d_kingsguard }
 
 								set_title_localization_effect = { SCOPE = $SCOPE$ KEY = "kingsguard_lord_commander_male" GENDER = male }
+							}
+						}
+					}
+
+					### LORATHI PRINCIPALITY ###
+					else_if = {
+						limit = {
+							agot_localization_government_trigger = { GOV = lorathi_principality SPOUSE_SCOPE = scope:spouse_scope }
+						}
+
+						### DUCHY ###
+						if = {
+							limit = { $SCOPED_TITLE$ ?= { tier = tier_duchy } }
+							if = {
+								limit = { always = yes }
+
+								set_title_localization_effect = { SCOPE = $SCOPE$ KEY = "prince" GENDER = male }
+								set_title_localization_effect = { SCOPE = $SCOPE$ KEY = "prince" GENDER = female }
 							}
 						}
 					}
@@ -2875,6 +2925,14 @@ apply_character_title_data = {
 								set_title_localization_effect = { SCOPE = $SCOPE$ KEY = "councillor_court_chaplain_agot_fallback_f_county" GENDER = female }
 							}
 							else_if = {
+								limit = {
+									$SCOPED_TITLE$ ?= title:d_norvos_high_priesthood
+									$SCOPE$ ?= { is_female = no }
+								}
+
+								set_title_localization_effect = { SCOPE = $SCOPE$ KEY = "norvos_high_priestship_diarch_title" GENDER = male }
+							}
+							else_if = {
 								limit = { always = yes }
 
 								set_title_localization_effect = { SCOPE = $SCOPE$ KEY = "duke_theocracy_male" GENDER = male }
@@ -3042,13 +3100,13 @@ apply_character_title_data = {
 
 						### BARONY ###
 						if = {
+							limit = { $SCOPED_TITLE$ ?= { tier = tier_barony } }
+							if = {
 								limit = { $SCOPED_TITLE$ ?= title:b_oldtown }
 
 								set_title_localization_effect = { SCOPE = $SCOPE$ KEY = "lord_commander_of_the_city_watch" GENDER = ALL }
-							}
-						else_if = {
-							limit = { $SCOPED_TITLE$ ?= { tier = tier_barony } }
-							if = {
+							}	
+							else_if = {
 								limit = { always = yes }
 
 								set_title_localization_effect = { SCOPE = $SCOPE$ KEY = "commander_post" GENDER = ALL }
@@ -3791,18 +3849,6 @@ apply_character_title_data = {
 
 			set_title_localization_effect = { SCOPE = $SCOPE$ KEY = "LORD_SCION" GENDER = male }
 			set_title_localization_effect = { SCOPE = $SCOPE$ KEY = "LADY_SCION" GENDER = female }
-		}
-
-		else_if = { # Temple barony holders without cached AGOT ruler data (AM/AGOT+/LoV Compatch delta)
-			limit = {
-				exists = primary_title
-				primary_title = {
-					tier = tier_barony
-					title_province = { has_holding_type = church_holding }
-				}
-			}
-			set_title_localization_effect = { SCOPE = $SCOPE$ KEY = "baron_theocracy_male" GENDER = male }
-			set_title_localization_effect = { SCOPE = $SCOPE$ KEY = "baron_theocracy_female" GENDER = female }
 		}
 
 		### FALLBACK WARNING ###

@@ -1,40 +1,52 @@
-﻿# Auto-generated vassal titles for e_qohor
+﻿# Auto-generated vassal titles for the former e_qohor region (empire retired in 4.0.0, AGOT's k_qohor is canon)
 k_R43G49B154 = {
 		7898.1.1 = {
 		holder = gen_2406
+		government = administrative_government
 	}
 	7985.1.1 = {
 		holder = gen_12
+		government = administrative_government
 	}
 	8082.1.1 = {
 		holder = gen_1380
+		government = administrative_government
 	}
 	8106.4.18 = {
 		holder = gen_1386
+		government = administrative_government
 	}
 	8170.12.11 = {
 		holder = gen_1392
+		government = administrative_government
 	}
 	8209.2.1 = {
 		holder = gen_1398
+		government = administrative_government
 	}
 	8211.3.1 = {
 		holder = gen_1404
+		government = administrative_government
 	}
 	8233.2.8 = {
 		holder = gen_1410
+		government = administrative_government
 	}
 	8236.2.13 = {
 		holder = gen_1416
+		government = administrative_government
 	}
 	8239.1.11 = {
 		holder = gen_1422
+		government = administrative_government
 	}
 	8258.12.21 = {
 		holder = gen_1428
+		government = administrative_government
 	}
 	8277.1.1 = {
 		holder = gen_1434
+		government = administrative_government
 	}
 }
 d_R66G149B233 = {
@@ -465,17 +477,6 @@ d_R20G36B149 = {
 			holder = gen_1401
 		}
 }
-
-c_R200G222B8 = {
-		7898.1.1 = {
-		holder = gen_3087
-		liege = d_R20G36B149
-	}
-	7985.1.1 = {
-		holder = gen_614
-		liege = d_R20G36B149
-	}
-}
 c_R166G19B37 = {
 		7898.1.1 = {
 		holder = gen_3087
@@ -537,16 +538,6 @@ d_R169G204B217 = {
 		8277.1.1 = {
 			holder = gen_1401
 		}
-}
-c_R0G184B164 = {
-		7898.1.1 = {
-		holder = gen_3088
-		liege = d_R169G204B217
-	}
-	7985.1.1 = {
-		holder = gen_615
-		liege = d_R169G204B217
-	}
 }
 c_R12G120B152 = {
 		7898.1.1 = {
@@ -660,9 +651,6 @@ c_R48G124B177 = {
 		liege = d_R30G189B191
 	}
 }
-
-
-
 d_R11G122B152 = {
 		7898.1.1 = {
 		holder = gen_3091
@@ -971,58 +959,5 @@ c_R45G177B160 = {
 	7985.1.1 = {
 		holder = gen_622
 		liege = d_R255G6B232
-	}
-}
-d_R236G62B218 = {
-		7898.1.1 = {
-		holder = gen_3096
-		government = administrative_government
-		liege = k_R43G49B154
-	}
-	7985.1.1 = {
-		holder = gen_623
-		government = administrative_government
-		liege = k_R43G49B154
-	}
-		8082.1.1 = {
-			holder = gen_1381
-		}
-		8106.4.18 = {
-			holder = gen_1381
-		}
-		8170.12.11 = {
-			holder = gen_1390
-		}
-		8209.2.1 = {
-			holder = gen_1393
-		}
-		8211.3.1 = {
-			holder = gen_1393
-		}
-		8233.2.8 = {
-			holder = gen_1395
-		}
-		8236.2.13 = {
-			holder = gen_1396
-		}
-		8239.1.11 = {
-			holder = gen_1396
-		}
-		8258.12.21 = {
-			holder = gen_1400
-		}
-		8277.1.1 = {
-			holder = gen_1401
-		}
-}
-
-c_R225G149B183 = {
-		7898.1.1 = {
-		holder = gen_3096
-		liege = d_R236G62B218
-	}
-	7985.1.1 = {
-		holder = gen_623
-		liege = d_R236G62B218
 	}
 }

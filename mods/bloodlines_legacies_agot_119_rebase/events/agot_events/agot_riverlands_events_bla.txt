@@ -111,8 +111,8 @@ agot_riverlands_bla.0001 = {
 		}
 
 		OR = {
-			any_realm_county = { county_control < 80 }
-			any_realm_county = { has_county_modifier = occupation_modifier }
+			any_realm_county = { county_control < 75 }
+			is_at_war = yes
 		}
 
 		NOT = { has_character_flag = riverlands_recent_broken_men_bla }
@@ -603,6 +603,7 @@ agot_riverlands_bla.0003 = {
 			20 = {
 				scope:riverlands_hedge_knight_bla = {
 					add_trait = deceitful
+					add_trait = drunkard
 					add_character_flag = riverlands_fraud_knight_bla
 				}
 			}
@@ -1663,7 +1664,7 @@ agot_riverlands_bla.0008 = {
 			}
 
 			any_held_county = {
-				any_neighboring_county = {
+				any_title_to_title_neighboring_and_across_water_county = {
 					this = title:b_quiet_isle.county
 				}
 			}
@@ -2609,8 +2610,7 @@ agot_riverlands_bla.0013 = {
 		}
 
 		create_character = {
-			template = agot_hedgeknight_character
-			location = root.location
+			location = root.capital_province
 			culture = root.culture
 			faith = root.faith
 			gender_female_chance = 0
@@ -2645,7 +2645,7 @@ agot_riverlands_bla.0013 = {
 				}
 				scope:crossroads_hedge_knight = {
 					set_employer = root
-					set_knight_status = force
+					add_knight = yes
 				}
 
 				add_prestige = 75

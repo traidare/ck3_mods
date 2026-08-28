@@ -28,11 +28,15 @@ Roughly fifty parent mods are touched. The failures fall into a few classes:
   files they also override, which silently revert AGOT's own content. These are
   rebased so the mod's intended change survives without the reversion.
 - **Broken succession and war joins** — participants added to a war they are
-  already in, and pirate titles left without a valid succession law, both of
-  which loop on every evaluation.
+  already in, and successions evaluated against titles or holders that no longer
+  exist, both of which loop on every evaluation.
 - **Portrait and interface breakage** — obsolete DNA and gene entries, missing
   illustrations, a crash-prone pre-1.19 GUI widget, and an event that opened as
   an empty blocking popup.
+- **Art and trigger lookups that fail every frame** — holding art referenced
+  through constants a merged file never declares, and interface triggers testing
+  a culture that does not exist. Both are retried on each redraw, so they cost
+  framerate for as long as the affected view is open.
 
 Gameplay intent from every repaired mod is preserved; only the code CK3 rejects
 is changed.

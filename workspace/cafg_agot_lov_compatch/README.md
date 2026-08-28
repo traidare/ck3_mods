@@ -25,19 +25,18 @@ ck3mm mod generate cafg_agot_lov_compatch --apply
 ```
 
 `implementation.py` imports the base module's `merge_event_file`,
-`generate_county_view`, and `EVENT_MERGES` table directly, substituting LoV RC71
-for AGOT as the parent source. The merge strategy, conflict resolutions,
-county-view anchors, and post-merge assertions are therefore defined once and
-cannot drift between the two published items. The contest-events merge is
-conflict-free and asserts the same 1 `E_kCAFG_` call / 24 `#AGOT` markers as the
-base.
+`generate_county_view`, and `EVENT_MERGES` table directly, substituting the LoV
+AGOT bridge for AGOT as the parent source. The merge strategy, conflict
+resolutions, county-view anchors, and post-merge assertions are therefore
+defined once and cannot drift between the two published items. The
+contest-events merge is conflict-free and asserts the same 1 `E_kCAFG_` call /
+24 `#AGOT` markers as the base.
 
 ## Pinned parent
 
-The LoV source is Workshop item `3719888822`,
-`Legacy of Valyria - AGOT 0.4.39 Temporary Compatch RC71` — **not** LoV base
-`3403938445`. Both files must be built on RC71's versions, because RC71 is what
-actually loads in an AGOT playset.
+The LoV source is Workshop item `3719888822`, `Legacy of Valyria - AGOT 0.5.1` —
+**not** LoV base `3403938445`. Both files must be built on the bridge's
+versions, because the bridge is what actually loads in an AGOT playset.
 
 `mods/agot_full_playset_compatch` keeps its own three-way LoV + MFA + CaFG
 `contest_events.txt` as the local final-integration writer. That file is a
@@ -45,8 +44,8 @@ superset of this one and is not replaced by it.
 
 ## Re-audit
 
-**Two triggers.** Regenerate on any LoV RC71 or CaFG update — the anchors and
+**Two triggers.** Regenerate on any LoV bridge or CaFG update — the anchors and
 marker counts will fail generation if either restructures. Separately, the pin
-is to an item upstream itself labels _temporary_: when LoV ships a permanent
-AGOT compatibility patch, repoint the source and regenerate rather than assuming
-RC71 stays current.
+is to a bridge item that tracks one AGOT release: when LoV ships a bridge for a
+newer AGOT version, repoint the source and regenerate rather than assuming this
+item stays current.

@@ -10,12 +10,10 @@ empire,e_ibben,,7899.8.13,,,feudal_government,ib_ven_god_king,high,Ib was ruled 
 empire,e_ibben,7899.8.14,,,,oligarchic_government,ib_ven_sound,high,The Shadow Council rules Ibben after the last God-King.,https://awoiaf.westeros.org/index.php/Shadow_Council
 empire,e_ifequevron,,,,,tribal_government,,low,The vanished wood walkers have no described feudal state.,https://awoiaf.westeros.org/index.php/Kingdom_of_the_Ifequevron
 empire,e_lesser_moraq,,,,,feudal_government,,low,Lesser Moraq is a settled island with no described special constitutional form.,https://awoiaf.westeros.org/index.php/Lesser_Moraq
-empire,e_lorath,,,,,administrative_government,,high,Lorath is governed by princes and a council of magisters.,https://awoiaf.westeros.org/index.php/Lorath
 empire,e_mossovy,,,,,tribal_government,,low,Mossovy has almost no described political organization.,https://awoiaf.westeros.org/index.php/Mossovy
 empire,e_naath,,,,,tribal_government,,medium,Conservative representation of the decentralized and pacifist Naathi communities.,https://awoiaf.westeros.org/index.php/Naathi
-empire,e_norvos,,,,,theocracy_government,,high,The Bearded Priests hold the true authority in Norvos.,https://awoiaf.westeros.org/index.php/Norvos
 empire,e_omber,,,,,feudal_government,,medium,Omber is described as a kingdom ruled by kings and princes.,https://awoiaf.westeros.org/index.php/Kingdom_of_Omber
-empire,e_qohor,,,,,administrative_government,,medium,Qohor is a Free City governed through its civic elite.,https://awoiaf.westeros.org/index.php/Qohor
+history_file,vassal_titles_e_qohor.txt,,,,,administrative_government,,medium,AGOT owns the canon k_qohor; this Further East file holds only a Qohorik-culture rump kingdom with no empire parent, kept on the Free City's civic-elite form.,https://awoiaf.westeros.org/index.php/Qohor
 empire,e_sarnor,,,,,feudal_government,,high,Sarnori cities were hereditary kingdoms under a High King.,https://awoiaf.westeros.org/index.php/Sarnor
 empire,e_sothoryos,,,,,tribal_government,,medium,Native Sothoryi use tribal government while explicit corsair history remains pirate.,https://awoiaf.westeros.org/index.php/Sothoryos
 empire,e_summer_isles,,,,,feudal_government,,medium,Conservative representation of the islands' hereditary princes.,https://awoiaf.westeros.org/index.php/Summer_Isles
@@ -41,7 +39,6 @@ history_file,lv_k_north_valyria.txt,,,,,oligarchic_government,,medium,The surviv
 history_file,lv_k_valyria.txt,,,,,oligarchic_government,,high,The Valyrian Freehold was governed by competing dragonlord freeholders.,https://awoiaf.westeros.org/index.php/Valyrian_Freehold
 history_file,lv_k_volantis.txt,,,,,administrative_government,,high,Volantis is a Free City governed by elected triarchs.,https://awoiaf.westeros.org/index.php/Volantis
 history_file,lv_k_the_red_priesthood.txt,,,,,theocracy_government,,high,The Red Priesthood is a religious institution.,https://awoiaf.westeros.org/index.php/Red_priest
-history_file,lv_k_rhoyne.txt,,,,,feudal_government,,medium,Rhoynar city princes use the nearest hereditary princely form; explicit pirates remain pirate.,https://awoiaf.westeros.org/index.php/Rhoynar
 history_file,lv_k_the_basilisk_isles.txt,,7899.8.13,,,oligarchic_government,,medium,Pre-Doom Gorgai and Gogossos belong to Ghiscari or Valyrian colonial elites.,https://awoiaf.westeros.org/index.php/Basilisk_Isles
 history_file,lv_k_the_basilisk_isles.txt,7899.8.14,,,,pirate_no_dlc_government,,high,The post-Doom Basilisk Isles are dominated by corsairs; game start upgrades the DLC form.,https://awoiaf.westeros.org/index.php/Basilisk_Isles
 history_file,agot_sothori_history_titles.txt,,,,,tribal_government,,medium,Native Sothoryi remain tribal while explicit corsairs remain pirate.,https://awoiaf.westeros.org/index.php/Sothoryos

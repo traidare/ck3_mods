@@ -1,7 +1,7 @@
 [generator]
 entrypoint = "implementation.py:generate"
 owned_outputs = [
-  "common/province_terrain/ee_province_terrain.txt",
+  "common/province_terrain/zzzz_agot_now_lov_ee_world_data.txt",
   "map_data/geographical_regions/zzzz_agot_now_lov_ee_world_data.txt",
 ]
 owned_artifacts = [

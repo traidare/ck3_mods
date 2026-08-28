@@ -295,7 +295,6 @@ convene_lords_of_the_trident_bla = {
 			add_opinion = {
 				target = root
 				modifier = attended_trident_council_bla
-				opinion = 15
 			}
 		}
 
@@ -312,8 +311,8 @@ convene_lords_of_the_trident_bla = {
 
 			add_opinion = {
 				target = root
-				modifier = insulted_opinion
-				opinion = -20
+				modifier = insulted_by_trident_lord_bla
+				years = 5
 			}
 		}
 
@@ -482,26 +481,6 @@ fashion_blackwood_weirwood_bow_decision = {
 		is_landed = yes
 		is_available_adult = yes
 	}
-
-	ai_will_do = {
-		base = 10
-		modifier = {
-			add = 25
-			has_trait = zealous
-		}
-		modifier = {
-			add = 25
-			has_trait = brave
-		}
-		modifier = {
-			add = 25
-			has_trait = lifestyle_hunter
-		}
-		modifier = {
-			add = -50
-			has_trait = cynical
-		}
-	}
 }
 
 recover_robb_rivers_bow_decision = {
@@ -511,7 +490,6 @@ recover_robb_rivers_bow_decision = {
 
 	desc = recover_robb_rivers_bow_decision_desc
 	selection_tooltip = recover_robb_rivers_bow_decision_tooltip
-	confirm_text = fashion_blackwood_weirwood_bow_decision_confirm
 
 	decision_group_type = artifact
 
@@ -567,21 +545,6 @@ recover_robb_rivers_bow_decision = {
 		is_available_adult = yes
 	}
 
-	ai_will_do = {
-		base = 10
-		modifier = {
-			add = 25
-			has_trait = ambitious
-		}
-		modifier = {
-			add = 25
-			has_trait = zealous
-		}
-		modifier = {
-			add = 25
-			has_trait = stubborn
-		}
-	}
 }
 
 explore_oldstones_ruins_decision = {

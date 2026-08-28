@@ -1,6 +1,6 @@
 # grand_remembrance_119_runtime_fix — module state
 
-Narrow runtime repair for **Grand Remembrance** (`3678529052`, version `1.8.2`)
+Narrow runtime repair for **Grand Remembrance** (`3678529052`, version `1.9.0`)
 with its AGOT compatibility submod (`3683507542`). Load position: immediately
 after the Grand Remembrance AGOT compatibility submod.
 

@@ -126,9 +126,11 @@ def generate_guarded_special_buildings(inputs: RunInputs) -> None:
         )
 
     text, count = pattern.subn(guard, text)
-    if count != 73:
+    # The upstream file retains sixteen historical assignments as comments.
+    # Only its 57 active add_special_building effects must be guarded.
+    if count != 57:
         raise RuntimeError(
-            f"special-building guards: expected 73 additions, guarded {count}"
+            f"special-building guards: expected 57 active additions, guarded {count}"
         )
     write_text(inputs, relative, text)
 
@@ -160,35 +162,11 @@ def repair_child_birth_on_action(inputs: RunInputs) -> None:
 
 
 def repair_common_files(inputs: RunInputs) -> None:
-    relative = (
-        "common/decisions/agot_decisions/00_agot_formable_kingdoms_decisions_BLA.txt"
-    )
-    text = read_text(inputs.BLOODLINES / relative)
-    text = replace_exact(
-        text,
-        "title:e_the_iron_throne",
-        "title:h_the_iron_throne",
-        expected=6,
-        label="Iron Throne title rank",
-    )
-    text = replace_exact(
-        text,
-        "title:k_duskendale",
-        "title:k_dusklands_bla",
-        expected=2,
-        label="Dusklands kingdom title",
-    )
-    write_text(inputs, relative, text)
-
+    # Only files with a defect Bloodlines has not fixed itself are overridden.
+    # The formable-kingdoms decisions file is correct upstream and is deliberately
+    # left to load unmodified, so the repairs below are the whole common/ scope.
     relative = "common/decisions/agot_decisions/00_agot_major_decisions_BLA.txt"
     text = read_text(inputs.BLOODLINES / relative)
-    text = replace_exact(
-        text,
-        "world_westeros_riverlands",
-        "world_westeros_the_riverlands",
-        expected=2,
-        label="Riverlands geographical region",
-    )
     text = replace_exact(
         text,
         "\t\t\t\topinion < 0\n",
@@ -196,37 +174,16 @@ def repair_common_files(inputs: RunInputs) -> None:
         expected=1,
         label="opinion trigger syntax",
     )
-    text = replace_exact(
-        text,
-        "\tconfirm = fashion_blackwood_weirwood_bow_decision_confirm\n",
-        "\tconfirm_text = fashion_blackwood_weirwood_bow_decision_confirm\n",
-        expected=1,
-        label="decision confirm_text field",
-    )
     write_text(inputs, relative, text)
 
     relative = "common/dynasty_legacies/99_agot_cultures_BLA_legacies.txt"
     text = read_text(inputs.BLOODLINES / relative)
     text = replace_exact(
         text,
-        "has_dynasty_perk = northman_legacy_1",
-        "has_dynasty_perk = north_legacy_1",
-        expected=1,
-        label="North legacy perk id",
-    )
-    text = replace_exact(
-        text,
         "culture:gogossosi",
         "culture:gogossite",
         expected=1,
         label="Gogossos culture id",
-    )
-    text = replace_exact(
-        text,
-        "culture:yunkish",
-        "culture:yunkaii",
-        expected=1,
-        label="Yunkai culture id",
     )
     write_text(inputs, relative, text)
 
@@ -343,43 +300,8 @@ def repair_event(relative: str, text: str) -> tuple[str, dict[str, int]]:
     )
 
     if relative == "events/agot_events/agot_riverlands_events_bla.txt":
-        text = replace_exact(
-            text,
-            "any_realm_county = { has_county_modifier = county_recently_conquered }\n"
-            "\t\t\tany_realm_county = { has_county_modifier = county_occupied }",
-            "any_realm_county = { has_county_modifier = occupation_modifier }",
-            expected=1,
-            label="obsolete county occupation modifiers",
-        )
-        text = replace_exact(
-            text,
-            "this = title:c_quiet_isle",
-            "this = title:b_quiet_isle.county",
-            expected=1,
-            label="Quiet Isle held county",
-        )
-        text = replace_exact(
-            text,
-            "\t\t\t\t\ttitle:c_quiet_isle\n",
-            "\t\t\t\t\tthis = title:b_quiet_isle.county\n",
-            expected=1,
-            label="Quiet Isle neighboring county",
-        )
-        text = replace_exact(
-            text,
-            "\t\t\ttemplate = knight_template\n",
-            "\t\t\ttemplate = agot_hedgeknight_character\n"
-            "\t\t\tlocation = root.location\n",
-            expected=1,
-            label="Crossroads hedge-knight template",
-        )
-        text = replace_exact(
-            text,
-            "\t\t\t\t\tset_employer = root\n\t\t\t\t\tis_knight = yes\n",
-            "\t\t\t\t\tset_employer = root\n\t\t\t\t\tset_knight_status = force\n",
-            expected=1,
-            label="Crossroads knight-status effect",
-        )
+        # The occupation-modifier triggers, both Quiet Isle county scopes, and
+        # the Crossroads knight creation are correct upstream and untouched here.
         text = replace_exact(
             text,
             "\t\ttitle:c_harrenhal = {\n"
@@ -396,16 +318,6 @@ def repair_event(relative: str, text: str) -> tuple[str, dict[str, int]]:
             label="searched Black Towers modifier scope",
         )
 
-    if relative == "events/agot_events/agot_riverlands_bracken_events_bla.txt":
-        text = replace_exact(
-            text,
-            "\t\t\ttemplate = knight_template\n",
-            "\t\t\ttemplate = agot_hedgeknight_character\n"
-            "\t\t\tlocation = root.location\n",
-            expected=1,
-            label="Bracken hedge-knight template",
-        )
-
     if relative == (
         "events/agot_decision_events/"
         "agot_riverlands_trident_council_decision_events.txt"
@@ -417,32 +329,12 @@ def repair_event(relative: str, text: str) -> tuple[str, dict[str, int]]:
             expected=2,
             label="Trident Council thoughtful animation",
         )
-        text = replace_exact(
-            text,
-            "change_control = -10",
-            "change_county_control = -10",
-            expected=3,
-            label="Trident Council county control",
-        )
-        text = replace_exact(
-            text,
-            "change_county_opinion = -10",
-            "change_county_control = -10",
-            expected=1,
-            label="Trident Council obsolete county-opinion effect",
-        )
-        text = replace_regex(
-            text,
-            r"capital_province = \{\n(?P<indent>\s*)change_county_control = -10",
-            r"capital_county = {\n\g<indent>change_county_control = -10",
-            expected=4,
-            label="Trident Council control effect scope",
-        )
-        for modifier, opinion, expected in (
-            ("intimidated_opinion", "-15", 1),
-            ("attended_trident_council_bla", "10", 2),
-            ("disappointed_opinion", "-10", 4),
-        ):
+        # The county-control effect name and its capital_county scope are both
+        # correct upstream now.
+        # Upstream dropped its intimidated_opinion and disappointed_opinion
+        # uses; only the mod's own opinion modifier still needs an explicit
+        # opinion value.
+        for modifier, opinion, expected in (("attended_trident_council_bla", "10", 2),):
             pattern = (
                 rf"(?P<indent>^[ \t]*)modifier = {modifier}\s*$"
                 rf"(?!\n(?P=indent)opinion\s*=)"
@@ -462,36 +354,14 @@ def repair_event(relative: str, text: str) -> tuple[str, dict[str, int]]:
     ):
         text = replace_exact(
             text,
-            "\t\tadd prestige = -50\n",
-            "\t\tadd_prestige = -50\n",
-            expected=1,
-            label="Blackwood-Bracken prestige effect",
-        )
-        text = replace_exact(
-            text,
             "animation = listening",
             "animation = personality_rational",
             expected=1,
             label="Blackwood-Bracken listening animation",
         )
 
-    if relative == "events/agot_events/agot_riverlands_piper_events_bla.txt":
-        text = replace_exact(
-            text,
-            "\t\tat_war = yes\n",
-            "\t\tis_at_war = yes\n",
-            expected=1,
-            label="Piper war trigger",
-        )
-
-    if relative == "events/agot_events/agot_lothston_returns_events.txt":
-        text = replace_regex(
-            text,
-            r"\bdynasty = (dynn_(?:Lothston|Strong|Mudd))\b",
-            r"dynasty = dynasty:\1",
-            expected=3,
-            label="Lothston dynasty scopes",
-        )
+    # The Piper is_at_war trigger and the Lothston dynasty scopes are both
+    # correct upstream now.
 
     if relative == "events/agot_events/agot_john_mudd_claim_hammerford_events.txt":
         text = replace_exact(
@@ -520,15 +390,6 @@ def repair_event(relative: str, text: str) -> tuple[str, dict[str, int]]:
         )
         text = replace_exact(
             text,
-            "        else = {\n"
-            "            hidden_effect = { end_event_chain = yes }\n"
-            "        }\n\n",
-            "",
-            expected=1,
-            label="obsolete end_event_chain effect",
-        )
-        text = replace_exact(
-            text,
             "        scope:john_mudd = {\n            agot_house_revival_effect = {\n",
             "        scope:john_mudd = {\n"
             "            dynasty:dynn_Mudd.dynasty_founder.house = {\n"
@@ -539,21 +400,14 @@ def repair_event(relative: str, text: str) -> tuple[str, dict[str, int]]:
             label="John Mudd house-revival scope",
         )
 
-    if relative == "events/bla_custom_house_legacy_events.txt":
-        text = replace_regex(
-            text,
-            r"^\s*is_triggered_only\s*=\s*yes\s*$\n?",
-            "",
-            expected=7,
-            label="obsolete is_triggered_only fields",
-            flags=re.MULTILINE,
-        )
-
     if relative == "events/agot_decision_events/agot_oldstones_bla_events.txt":
+        # Upstream names the real barony rather than the undefined
+        # title:c_oldstones, but add_county_modifier still needs the county
+        # holding it, which the barony scope does not supply.
         text = replace_exact(
             text,
-            "title:c_oldstones",
-            "title:b_oldstones.county",
+            "\t\ttitle:b_oldstones = {\n\t\t\tadd_county_modifier = {",
+            "\t\ttitle:b_oldstones.county = {\n\t\t\tadd_county_modifier = {",
             expected=1,
             label="Oldstones county title",
         )
@@ -717,9 +571,10 @@ def generate_events(inputs: RunInputs) -> None:
         raise RuntimeError(
             f"monthly opinion durations: expected 69 removals, made {opinion_durations}"
         )
-    if trait_replacements != 32:
+    # Upstream migrated every retired trait id except one melancholic use.
+    if trait_replacements != 1:
         raise RuntimeError(
-            f"retired trait ids: expected 32 replacements, made {trait_replacements}"
+            f"retired trait ids: expected 1 replacement, made {trait_replacements}"
         )
     print(
         f"generated {changed_files} patched event files; "

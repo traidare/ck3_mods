@@ -188,8 +188,8 @@ agot_riverlands_trident_council_decision.0110 = {
 
 			add_opinion = {
 				target = root
-				modifier = intimidated_opinion
-				opinion = -15
+				modifier = intimidated_by_trident_lord_bla
+				years = 5
 			}
 		}
 	}
@@ -204,8 +204,8 @@ agot_riverlands_trident_council_decision.0110 = {
 
 			add_opinion = {
 				target = root
-				modifier = disappointed_opinion
-				opinion = -10
+				modifier = disappointed_by_trident_lord_bla
+				years = 5
 			}
 		}
 	}
@@ -269,8 +269,8 @@ agot_riverlands_trident_council_decision.0111 = {
 
 			add_opinion = {
 				target = root
-				modifier = disappointed_opinion
-				opinion = -10
+				modifier = disappointed_by_trident_lord_bla
+				years = 5
 			}
 		}
 	}
@@ -454,8 +454,8 @@ agot_riverlands_trident_council_decision.0121 = {
 
 			add_opinion = {
 				target = root
-				modifier = disappointed_opinion
-				opinion = -10
+				modifier = disappointed_by_trident_lord_bla
+				years = 5
 			}
 		}
 	}
@@ -751,8 +751,7 @@ agot_riverlands_trident_council_decision.0140 = {
 
 			add_opinion = {
 				target = root
-				modifier = disappointed_opinion
-				opinion = -10
+				modifier = disappointed_by_trident_lord_bla
 			}
 		}
 	}
@@ -867,8 +866,5 @@ agot_riverlands_trident_council_decision.0142 = {
 		name = agot_riverlands_trident_council_decision.0142.c
 
 		add_short_term_gold = 50
-		capital_county = {
-			change_county_control = -10
-		}
 	}
 }

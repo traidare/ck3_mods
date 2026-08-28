@@ -140,12 +140,12 @@ agot_has_special_building_model_trigger = {
 			this = province:3320
 			has_building_or_higher = agot_starpike_01
 		}
-		# AGOT NOW-COW Compatch 1.0.2 remaps Dunstonbury from 3823.
+		# AGOT NOW-COW Compatch 1.0.7.1 remaps Dunstonbury from 3823.
 		AND = {
 			this = province:3274
 			has_building_or_higher = agot_dunstonbury_01
 		}
-		# AGOT NOW-COW Compatch 1.0.2 adds Sisterton's Breakwater model.
+		# AGOT NOW-COW Compatch 1.0.7.1 adds Sisterton's Breakwater model.
 		AND = {
 			this = province:2715
 			has_building_or_higher = agot_breakwater_01

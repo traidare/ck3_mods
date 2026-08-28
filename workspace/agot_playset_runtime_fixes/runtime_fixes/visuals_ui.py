@@ -385,7 +385,7 @@ def generate_scene_culture_owner_guards(inputs: RunInputs) -> None:
         (
             "3762892081",
             "gfx/court_scene/scene_cultures/00_default_cultures.txt",
-            11,
+            12,
             "Additional Models/AGOT+/LoV generic court scenes",
         ),
         (
@@ -432,6 +432,127 @@ def generate_additional_models_decision_illustrations(inputs: RunInputs) -> None
             label=f"Additional Models decision illustration in {relative}",
         )
         write_text(inputs.OUTPUT, relative, text)
+
+
+def _holding_illustration_defines(
+    inputs: RunInputs, relative: str, label: str
+) -> dict[str, str]:
+    """Return AGOT's illustration constants for one holding type."""
+    agot = inputs.WORKSHOP / "2962333032"
+    defines = dict(
+        re.findall(
+            r'(?m)^@(holding_illustration_[a-z_]+)\s*=\s*"([^"]+)"',
+            read_text(agot / relative),
+        )
+    )
+    if not defines:
+        raise RuntimeError(f"AGOT declares no {label} holding illustrations")
+    for name, target in sorted(defines.items()):
+        if not (agot / target).is_file() and not (game_root(inputs) / target).is_file():
+            raise RuntimeError(f"AGOT {label} illustration @{name} targets {target}")
+    return defines
+
+
+def generate_additional_models_holding_art_constants(inputs: RunInputs) -> None:
+    """Resolve the merged holding-art file's unset illustration constants."""
+    relative = "common/buildings/zz_am_lov_nv_holding_art.txt"
+    text = read_text(inputs.WORKSHOP / "3762892081" / relative)
+    # `@` constants are file-scoped. This file merges castle, city, and temple
+    # keys that AGOT keeps in separate files, each of which binds the same
+    # constant names to its own art, so the merge cannot carry one define block
+    # and declares none at all. Every reference then reaches the VFS as the
+    # literal string `@holding_illustration_*`, and the lookup fails on every
+    # frame that draws the holding. Bind each reference to the art AGOT gives
+    # that constant in the file the block came from.
+    if re.search(r"(?m)^@", text):
+        raise RuntimeError(
+            "Additional Models/AGOT+/LoV holding art now declares constants of "
+            "its own; re-audit before resolving them here"
+        )
+    defines = {
+        "castle": _holding_illustration_defines(
+            inputs, "common/buildings/00_agot_castle_buildings.txt", "castle"
+        ),
+        "city": _holding_illustration_defines(
+            inputs, "common/buildings/00_agot_city_buildings.txt", "city"
+        ),
+    }
+    expected = {"castle": 292, "city": 273}
+    resolved: dict[str, int] = {holding: 0 for holding in defines}
+    pieces: list[str] = []
+    cursor = 0
+    for match in re.finditer(r"(?m)^([a-z_0-9]+) = \{", text):
+        end = balanced_brace_end(text, text.index("{", match.start())) + 1
+        key = match.group(1)
+        holding = key.rsplit("_", 1)[0]
+        block = text[match.start() : end]
+        used = set(re.findall(r"@(holding_illustration_[a-z_]+)", block))
+        if used:
+            if holding not in defines:
+                raise RuntimeError(
+                    f"holding art block {key} references illustration constants "
+                    f"that no AGOT holding type defines"
+                )
+            missing = sorted(used - defines[holding].keys())
+            if missing:
+                raise RuntimeError(
+                    f"AGOT leaves {', '.join(missing)} undefined for {holding} "
+                    f"holdings, reached from block {key}"
+                )
+            block, count = re.subn(
+                r"@(holding_illustration_[a-z_]+)",
+                lambda found, holding=holding: f'"{defines[holding][found.group(1)]}"',
+                block,
+            )
+            resolved[holding] += count
+        pieces.append(text[cursor : match.start()])
+        pieces.append(block)
+        cursor = end
+    pieces.append(text[cursor:])
+    text = "".join(pieces)
+    if resolved != expected:
+        raise RuntimeError(
+            f"Additional Models/AGOT+/LoV holding art illustration counts "
+            f"changed: {resolved} is not {expected}"
+        )
+    if "@holding_illustration" in text:
+        raise RuntimeError("holding art retains an unresolved illustration constant")
+    write_text(inputs.OUTPUT, relative, text, preserve_trailing_whitespace=True)
+
+
+def generate_additional_models_scripted_illustration_cultures(
+    inputs: RunInputs,
+) -> None:
+    """Drop a misspelled culture from a per-frame illustration trigger."""
+    shadowlanders = read_text(
+        inputs.WORKSHOP
+        / "2962333032/common/culture/cultures/00_agot_cul_shadowlanders.txt"
+    )
+    if not re.search(r"(?m)^shadowman\s*=\s*\{", shadowlanders):
+        raise RuntimeError("AGOT no longer defines the shadowman culture")
+    if re.search(r"(?m)^shadowmen\s*=\s*\{", shadowlanders):
+        raise RuntimeError(
+            "AGOT now defines a shadowmen culture; keep the reference instead"
+        )
+    relative = "gfx/interface/illustrations/scripted_illustrations/ingame.txt"
+    text = read_text(inputs.WORKSHOP / "3762892081" / relative)
+    # `character_view_bg` re-evaluates whenever the portrait redraws, so each
+    # unresolvable culture costs a failed lookup per frame. Every `shadowmen`
+    # line sits in an OR beside the `shadowman` line it misspells, so dropping
+    # it leaves the intended coverage intact.
+    live = r"(?m)^([ \t]*)culture = culture:shadowman[ \t]*$"
+    if len(re.findall(live, text)) != 6:
+        raise RuntimeError(
+            "Additional Models/AGOT+/LoV illustration shadowman references changed"
+        )
+    text = replace_regex(
+        text,
+        r"(?m)^[ \t]*culture = culture:shadowmen[ \t]*\r?\n",
+        "",
+        expected=6,
+        label="Additional Models/AGOT+/LoV illustration shadowmen references",
+    )
+    write_text(inputs.OUTPUT, relative, text, preserve_trailing_whitespace=True)
 
 
 def generate_character_ui_overhaul_hometowns(inputs: RunInputs) -> None:

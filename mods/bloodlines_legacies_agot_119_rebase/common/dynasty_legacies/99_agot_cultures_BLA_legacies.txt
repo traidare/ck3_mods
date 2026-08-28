@@ -47,6 +47,7 @@ high_valyrian_legacy_track = {
 		}
 		NOT = { 
 			OR = {
+				culture = culture:valyrian_original
 				culture = culture:westerosi_valyrian
 				culture = culture:essosi_valyrian
 				culture = culture:lyseni
@@ -65,6 +66,7 @@ high_valyrian_legacy_track = {
 				culture = culture:astapori
 				culture = culture:meereenese
 				culture = culture:yunkaii
+				culture = culture:painted_clansman
 			}
 		}
  	}
@@ -78,7 +80,7 @@ wildling_legacy_track = {
 					NOT = {
 						OR = {
 							this = culture:thenn
-							any_parent_culture_or_above = {
+							any_parent_culture = {
 								this = culture:thenn
 							}
 						}
@@ -277,21 +279,19 @@ rhoynish_legacy_track = {
 		OR = { 
 			dynasty = { has_dynasty_perk = rhoynish_legacy_1 }
 			culture = {
-				OR = {
-					this = culture:rhoynar_original
+				this = culture:rhoynar_original
 					any_parent_culture = {
-						OR = {
-							this = culture:rhoynar_original
-						}
+						this = culture:rhoynar_original
+						#has_cultural_pillar = heritage_rhoynar
 					}
-				}
+
 			}
 		}
 		NOT = { 
 			OR = {
-				culture = culture:salt_dornish
-				culture = culture:sand_dornish
-				culture = culture:stone_dornish
+				#culture = culture:salt_dornish
+				#culture = culture:sand_dornish
+				#culture = culture:stone_dornish
 			}
 		}
 
@@ -390,7 +390,7 @@ riverlander_legacy_track = {
 			culture = {
 				OR = {
 					this = culture:riverman_main
-					any_parent_culture_or_above = {
+					any_parent_culture = {
 						this = culture:riverman_main
 					}
 				}
@@ -409,7 +409,7 @@ stormlander_legacy_track = {
 			culture = {
 				OR = {
 					this = culture:stormlander_main
-					any_parent_culture_or_above = {
+					any_parent_culture = {
 						this = culture:stormlander_main
 					}
 				}
@@ -432,7 +432,7 @@ reachman_legacy_track = {
 			culture = {
 				OR = {
 					this = culture:reachman
-					any_parent_culture_or_above = {
+					any_parent_culture = {
 						this = culture:reachman
 					}
 				}
@@ -456,8 +456,9 @@ ironborn_legacy_track = {
 			culture = {
 				OR = {
 					this = culture:ironborn
-					any_parent_culture_or_above = {
+					any_parent_culture = {
 						this = culture:ironborn
+						has_cultural_pillar = heritage_ironman
 					}
 				}
 			}
@@ -526,7 +527,7 @@ stone_dornish_legacy_track = {
 			culture = {
 				OR = {
 					this = culture:stone_dornish
-					any_parent_culture_or_above = {
+					any_parent_culture = {
 						this = culture:stone_dornish
 					}
 				}
@@ -564,7 +565,7 @@ dornish_legacy_track = {
 			culture = {
 				OR = {
 					this = culture:sand_dornish
-					any_parent_culture_or_above = {
+					any_parent_culture = {
 						this = culture:sand_dornish
 					}
 				}
@@ -617,7 +618,7 @@ valeman_legacy_track = {
 			culture = {
 				OR = {
 					this = culture:valeman_main
-					any_parent_culture_or_above = {
+					any_parent_culture = {
 						this = culture:valeman_main
 					}
 				}
@@ -639,7 +640,7 @@ north_legacy_track = {
 			culture = {
 				OR = {
 					this = culture:northman
-					any_parent_culture_or_above = {
+					any_parent_culture = {
 						this = culture:northman
 					}
 				}
@@ -774,7 +775,7 @@ thenn_legacy_track = {
 			culture = {
 				OR = {
 					this = culture:thenn
-					any_parent_culture_or_above = {
+					any_parent_culture = {
 						this = culture:thenn
 					}
 				}

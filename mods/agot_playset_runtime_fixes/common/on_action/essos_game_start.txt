@@ -22,12 +22,9 @@ essos_remove_realms = {
 		essos_remove_realm_ibben
 		essos_remove_realm_ifequevron
 		essos_remove_realm_lesser_moraq
-		essos_remove_realm_lorath
 		essos_remove_realm_mossovy
 		essos_remove_realm_naath
-		essos_remove_realm_norvos
 		essos_remove_realm_omber
-		essos_remove_realm_qohor
 		essos_remove_realm_sarnor
 		essos_remove_realm_sothoryos
 		essos_remove_realm_summer_isles
@@ -88,13 +85,6 @@ essos_remove_realm_lesser_moraq = {
 	}
 }
 
-essos_remove_realm_lorath = {
-	trigger = { essos_realm_lorath_disabled = yes }
-	effect = {
-		agot_playset_make_disabled_essos_realm_wilderness = { REALM = title:e_lorath }
-	}
-}
-
 essos_remove_realm_mossovy = {
 	trigger = { essos_realm_mossovy_disabled = yes }
 	effect = {
@@ -109,24 +99,10 @@ essos_remove_realm_naath = {
 	}
 }
 
-essos_remove_realm_norvos = {
-	trigger = { essos_realm_norvos_disabled = yes }
-	effect = {
-		agot_playset_make_disabled_essos_realm_wilderness = { REALM = title:e_norvos }
-	}
-}
-
 essos_remove_realm_omber = {
 	trigger = { essos_realm_omber_disabled = yes }
 	effect = {
 		agot_playset_make_disabled_essos_realm_wilderness = { REALM = title:e_omber }
-	}
-}
-
-essos_remove_realm_qohor = {
-	trigger = { essos_realm_qohor_disabled = yes }
-	effect = {
-		agot_playset_make_disabled_essos_realm_wilderness = { REALM = title:e_qohor }
 	}
 }
 
@@ -267,12 +243,9 @@ essos_generate_families = {
 						primary_title = title:e_ibben
 						primary_title = title:e_ifequevron
 						primary_title = title:e_lesser_moraq
-						primary_title = title:e_lorath
 						primary_title = title:e_mossovy
 						primary_title = title:e_naath
-						primary_title = title:e_norvos
 						primary_title = title:e_omber
-						primary_title = title:e_qohor
 						primary_title = title:e_sarnor
 						primary_title = title:e_sothoryos
 						primary_title = title:e_summer_isles

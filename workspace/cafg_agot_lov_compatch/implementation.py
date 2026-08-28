@@ -44,7 +44,7 @@ def generate(context: GenerationContext) -> None:
     base = load_base(context.tooling_root)
 
     MOD_SOURCE = context.source("culture-faith-granularity")
-    LOV_SOURCE = context.source("legacy-of-valyria-rc71")
+    LOV_SOURCE = context.source("legacy-of-valyria-agot-bridge")
     MOD_OUTPUT = context.output_root
     inputs = base.RunInputs(
         MOD_SOURCE=MOD_SOURCE,
@@ -60,10 +60,10 @@ def generate(context: GenerationContext) -> None:
         for merge in base.EVENT_MERGES
         if merge.relative == "events/activities/tournaments/contest_events.txt"
     )
-    base.merge_event_file(inputs, contest, label="LoV RC71")
-    base.generate_county_view(inputs, LOV_SOURCE, "LoV RC71")
+    base.merge_event_file(inputs, contest, label="LoV AGOT bridge")
+    base.generate_county_view(inputs, LOV_SOURCE, "LoV AGOT bridge")
 
     print(
         "Generated CaFG/LoV variant: 1 event file merged and 1 county view "
-        "rebuilt on Legacy of Valyria RC71."
+        "rebuilt on the Legacy of Valyria AGOT bridge."
     )

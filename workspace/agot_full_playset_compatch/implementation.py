@@ -13,18 +13,31 @@ from gen.sources import canonical_source_path
 from gen.text import matching_brace, read_source
 
 WORKSHOP_IDS = {
+    "AGOT": "2962333032",
     "NOW": "3664900993",
     "SEASONS_BRIDGE": "3766038754",
     "AMSB": "3319354609",
     "AMSB_LOV": "3762892081",
+    "MDE_EGGS": "3388366564",
+    "MDE_EVENTS": "3466228580",
+    "COW_NOW": "3742055253",
 }
 GRANDEUR_RELATIVE = Path(
     "gfx/court_scene/scene_settings/grandeur_levels/grandeur_levels.txt"
 )
-# Court scenes AMSB registers that the temporary AGOT+/LoV compatch does not.
-# `lorath_court` and `norvos_court` are AGOT 0.5.0's; `amsb_lokiria_court` is
-# AMSB's own.  Everything else the compatch carries is a superset of AMSB.
-EXPECTED_GRANDEUR_ADDITIONS = ("lorath_court", "norvos_court", "amsb_lokiria_court")
+COW_MODEL_TRIGGER_RELATIVE = Path(
+    "common/scripted_triggers/zzz_agot_cow_building_model_trigger.txt"
+)
+COW_NOW_GRAPHICS_RELATIVE = Path(
+    "common/buildings/replace/99_background_graphics_buildings.txt"
+)
+# The model trigger is hand-merged rather than generated, so it is read from the
+# installed payload; the generator's staging root only holds owned outputs.
+PAYLOAD_ROOT = Path("mods/agot_full_playset_compatch")
+MDE_RELATIVE = Path("common/on_action/agot_on_actions/mde_yearly_on_actions.txt")
+AGOT_YEARLY_RELATIVE = Path(
+    "common/on_action/agot_on_actions/agot_yearly_on_actions.txt"
+)
 TITLE_LANGUAGES = ("english", "spanish")
 
 
@@ -133,71 +146,126 @@ def generate_title_localization(text: str, language: str) -> str:
     return "\n".join(lines) + "\n"
 
 
-def grandeur_entries(text: str) -> dict[str, str]:
-    """Map each court-scene culture name to its whole `{ ... }` entry."""
-    opening = text.index("{", text.index("cultures"))
-    end = matching_brace(text, opening)
-    entries: dict[str, str] = {}
-    cursor = opening + 1
-    while True:
-        start = text.find("{", cursor)
-        if start == -1 or start >= end:
-            break
-        stop = matching_brace(text, start)
-        entry = text[start : stop + 1]
-        match = re.search(r'culture\s*=\s*"([^"]+)"', entry)
-        if not match:
-            raise AssertionError(f"grandeur entry without a culture: {entry[:60]}")
-        entries[match.group(1)] = entry
-        cursor = stop + 1
-    return entries
+def grandeur_cultures(text: str) -> list[str]:
+    """List the court-scene cultures a `grandeur_levels.txt` registers."""
+    return re.findall(r'culture\s*=\s*"([^"]+)"', text)
 
 
-def generate_grandeur_levels(base: str, amsb: str) -> str:
-    """Add AMSB's court scenes to the compatch that otherwise wins this file.
+def check_grandeur_coverage(amsb: str, amsb_lov: str) -> None:
+    """Confirm no override of this file is needed.
 
-    Both parents own the whole file, so the later one silently drops whatever
-    the earlier one registered.  The compatch carries the AGOT+, LoV, and Essos
-    entries AMSB lacks, so it stays the base and only AMSB's extras are added.
+    Every playset parent owns `grandeur_levels.txt` whole, so the last of them
+    silently drops the court scenes the others registered.  The temporary
+    AMSB/AGOT+/LoV compatch loads last and currently registers a superset of
+    AMSB's scenes, which is the only reason this module does not have to merge
+    the file itself.  Fail if that stops holding: a court scene with no entry
+    never progresses a visual culture level, and nothing reports it at runtime.
     """
-    base_entries = grandeur_entries(base)
-    missing = [name for name in grandeur_entries(amsb) if name not in base_entries]
-    if tuple(missing) != EXPECTED_GRANDEUR_ADDITIONS:
+    covered = set(grandeur_cultures(amsb_lov))
+    missing = [name for name in grandeur_cultures(amsb) if name not in covered]
+    if missing:
         raise AssertionError(
-            "AMSB court-scene additions changed: expected "
-            f"{list(EXPECTED_GRANDEUR_ADDITIONS)}, found {missing}"
+            "the AMSB/AGOT+/LoV compatch no longer covers every AMSB court "
+            f"scene ({missing}); this module must merge {GRANDEUR_RELATIVE} again"
         )
 
-    amsb_entries = grandeur_entries(amsb)
-    closing = base.rindex("}")
-    additions = "".join(
-        f"\t# {name}: registered by AMSB, absent from the AGOT+/LoV compatch\n"
-        f"{reindent_with_tabs(amsb_entries[name], depth=1)}\n"
-        for name in missing
+
+def province_building_pairs(text: str) -> set[tuple[str, str]]:
+    return set(
+        re.findall(
+            r"this\s*=\s*province:(\d+)\s*\n\s*has_building_or_higher\s*=\s*(\w+)",
+            text,
+        )
     )
-    return base[:closing].rstrip("\n") + "\n" + additions + "}\n"
 
 
-def reindent_with_tabs(entry: str, *, depth: int) -> str:
-    """Re-emit a copied block with tab indentation.
+def check_cow_model_remaps(cow_now: str, owned_trigger: str) -> None:
+    """Confirm the hand-merged model trigger still matches the NOW-COW compatch.
 
-    AMSB mixes tabs and four-space runs within a single entry, so pasting one
-    verbatim leaves the merged file unreadable at review time.
+    That compatch is not enabled — its `map_object_data` would shadow the map
+    compatch — so its province remaps are carried by hand in
+    `zzz_agot_cow_building_model_trigger.txt`.  Pinning it as a source turns a
+    silent remap into a generation failure.
     """
-    lines: list[str] = []
-    level = depth
-    for raw in entry.strip().split("\n"):
-        line = raw.strip()
-        if not line:
-            lines.append("")
-            continue
-        # Braces inside a comment are decoration, not structure: AMSB keeps its
-        # disabled `levels` blocks commented out line by line.
-        code = line.split("#", 1)[0]
-        indent = level - 1 if code.strip().startswith("}") else level
-        lines.append("\t" * max(indent, 0) + line)
-        level += code.count("{") - code.count("}")
-    return "\n".join(lines)
+    missing = province_building_pairs(cow_now) - province_building_pairs(owned_trigger)
+    if missing:
+        raise AssertionError(
+            "NOW-COW special-building model pairs are absent from "
+            f"{COW_MODEL_TRIGGER_RELATIVE}: {sorted(missing)}"
+        )
+
+
+MDE_PULSE = "agot_yearly_owned_dragon_pulse"
+MDE_EGGS_DEFINITIONS = (
+    "yearly_global_pulse",
+    "on_dragon_lay_canon_clutch_on_action",
+    "on_game_start_iterate_next_clutch",
+)
+EXPECTED_MDE_FILLER_EVENTS = 14
+MDE_HEADER = """# Final integration owner of mde_yearly_on_actions.txt.
+#
+# AGOT More Dragon Eggs and AGOT - More Dragon Events both ship this path, so
+# the later of them drops the other's file entirely.  Their definitions are
+# disjoint, and CK3 merges on_action declarations across files, so More Dragon
+# Events' pulse is re-emitted below as its delta over AGOT's own declaration
+# rather than as its full copy -- re-emitting the copy would merge AGOT's 38
+# entries a second time and halve the chance of no event firing.
+"""
+
+
+def top_level_definitions(text: str) -> list[str]:
+    return re.findall(r"(?m)^([a-z_0-9]+)\s*=\s*\{", text)
+
+
+def block_of(text: str, name: str) -> str:
+    start, end = named_block(text, name)
+    return text[start : end + 1]
+
+
+def weighted_events(block: str, prefix: str) -> list[str]:
+    return re.findall(rf"(?m)^\s*(\d+\s*=\s*{prefix}\.\d+.*?)\s*$", block)
+
+
+def generate_mde_on_actions(eggs: str, events: str, agot: str) -> str:
+    """Union the two contested dragon on_action files.
+
+    More Dragon Events' pulse is a copy of AGOT's plus its own entries, so only
+    the additions are emitted; the copied part is asserted identical to AGOT's
+    so an upstream rebalance fails here instead of being silently discarded.
+    """
+    if tuple(top_level_definitions(eggs)) != MDE_EGGS_DEFINITIONS:
+        raise AssertionError(
+            f"More Dragon Eggs definitions changed: {top_level_definitions(eggs)}"
+        )
+    if top_level_definitions(events) != [MDE_PULSE]:
+        raise AssertionError(
+            f"More Dragon Events definitions changed: {top_level_definitions(events)}"
+        )
+
+    events_block = block_of(events, MDE_PULSE)
+    agot_block = block_of(agot, MDE_PULSE)
+    if weighted_events(events_block, "agot_filler_dragon") != weighted_events(
+        agot_block, "agot_filler_dragon"
+    ):
+        raise AssertionError(
+            "More Dragon Events no longer copies AGOT's dragon pulse verbatim; "
+            "re-derive the delta before re-emitting it"
+        )
+    additions = weighted_events(events_block, "mde_filler_dragon")
+    if len(additions) != EXPECTED_MDE_FILLER_EVENTS:
+        raise AssertionError(
+            f"More Dragon Events pulse additions changed: {len(additions)} entries"
+        )
+
+    trigger = block_of(agot_block, "trigger")
+    body = "\n".join(f"\t\t{entry}" for entry in additions)
+    return (
+        f"{MDE_HEADER}{eggs.rstrip()}\n\n"
+        f"{MDE_PULSE} = {{\n"
+        f"{trigger}\n"
+        f"\trandom_events = {{\n{body}\n\t}}\n"
+        "}\n"
+    )
 
 
 def named_block(text: str, name: str) -> tuple[int, int]:
@@ -441,9 +509,12 @@ def generate_outputs(workshop: dict[str, Path]) -> dict[Path, bytes]:
         outputs[OUTPUT_RELATIVES[key]] = generate_title_localization(
             read_text(workshop["NOW"] / SOURCE_RELATIVES[key]), language
         ).encode("utf-8-sig")
-    outputs[GRANDEUR_RELATIVE] = generate_grandeur_levels(
-        read_text(workshop["AMSB_LOV"] / GRANDEUR_RELATIVE),
-        read_text(workshop["AMSB"] / GRANDEUR_RELATIVE),
+    outputs[MDE_RELATIVE] = normalize_output(
+        generate_mde_on_actions(
+            read_text(workshop["MDE_EGGS"] / MDE_RELATIVE),
+            read_text(workshop["MDE_EVENTS"] / MDE_RELATIVE),
+            read_text(workshop["AGOT"] / AGOT_YEARLY_RELATIVE),
+        )
     ).encode("utf-8-sig")
     return outputs
 
@@ -468,6 +539,13 @@ def source_manifest(
         "AMSB_LOV_GRANDEUR": workshop["AMSB_LOV"] / GRANDEUR_RELATIVE,
         "AMSB_DESCRIPTOR": workshop["AMSB"] / "descriptor.mod",
         "AMSB_LOV_DESCRIPTOR": workshop["AMSB_LOV"] / "descriptor.mod",
+        "AGOT_YEARLY": workshop["AGOT"] / AGOT_YEARLY_RELATIVE,
+        "MDE_EGGS": workshop["MDE_EGGS"] / MDE_RELATIVE,
+        "MDE_EVENTS": workshop["MDE_EVENTS"] / MDE_RELATIVE,
+        "MDE_EGGS_DESCRIPTOR": workshop["MDE_EGGS"] / "descriptor.mod",
+        "MDE_EVENTS_DESCRIPTOR": workshop["MDE_EVENTS"] / "descriptor.mod",
+        "COW_NOW_GRAPHICS": workshop["COW_NOW"] / COW_NOW_GRAPHICS_RELATIVE,
+        "COW_NOW_DESCRIPTOR": workshop["COW_NOW"] / "descriptor.mod",
     }
     versions: dict[str, str] = {}
     for label, module_root in workshop.items():
@@ -501,8 +579,15 @@ def source_manifest(
             "shader": "share the AGOT skip threshold with vertex shaders",
             "regions": "rebase NOW tokens and cover LoV cleanup regions without ruins",
             "grandeur": (
-                "add AMSB's court scenes to the AGOT+/LoV compatch that wins "
-                "grandeur_levels.txt"
+                "assert the AGOT+/LoV compatch still covers every AMSB court "
+                "scene, so this module needs no grandeur_levels.txt override"
+            ),
+            "dragon_on_actions": (
+                "union the two mods that contest mde_yearly_on_actions.txt"
+            ),
+            "cow_models": (
+                "assert the unenabled NOW-COW compatch's special-building model "
+                "remaps are still carried by the hand-merged trigger"
             ),
         },
     }
@@ -511,13 +596,24 @@ def source_manifest(
 def generate(context: GenerationContext) -> None:
     root = context.workspace_root
     workshop_root = context.workshop_root(
-        "agot-now", "seasons-bridge", "amsb", "amsb-lov-compatch"
+        "agot",
+        "agot-now",
+        "seasons-bridge",
+        "amsb",
+        "amsb-lov-compatch",
+        "mde-eggs",
+        "mde-events",
+        "cow-now-compatch",
     )
     workshop = {
+        "AGOT": context.source("agot"),
         "NOW": context.source("agot-now"),
         "SEASONS_BRIDGE": context.source("seasons-bridge"),
         "AMSB": context.source("amsb"),
         "AMSB_LOV": context.source("amsb-lov-compatch"),
+        "MDE_EGGS": context.source("mde-eggs"),
+        "MDE_EVENTS": context.source("mde-events"),
+        "COW_NOW": context.source("cow-now-compatch"),
     }
     missing = [
         f"{label}:{path}" for label, path in workshop.items() if not path.is_dir()
@@ -537,6 +633,15 @@ def generate(context: GenerationContext) -> None:
             "upstream source manifest drifted; review the differences and replace "
             f"{manifest_path.relative_to(root)} deliberately"
         )
+
+    check_grandeur_coverage(
+        read_text(workshop["AMSB"] / GRANDEUR_RELATIVE),
+        read_text(workshop["AMSB_LOV"] / GRANDEUR_RELATIVE),
+    )
+    check_cow_model_remaps(
+        read_text(workshop["COW_NOW"] / COW_NOW_GRAPHICS_RELATIVE),
+        read_text(root / PAYLOAD_ROOT / COW_MODEL_TRIGGER_RELATIVE),
+    )
 
     outputs = generate_outputs(workshop)
     for relative, data in outputs.items():

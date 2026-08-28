@@ -1,49 +1,30 @@
 {
+  "schema_version": 1,
+  "workshop_ids": {
+    "AGOT": "2962333032",
+    "NOW": "3664900993",
+    "SEASONS_BRIDGE": "3766038754",
+    "AMSB": "3319354609",
+    "AMSB_LOV": "3762892081",
+    "MDE_EGGS": "3388366564",
+    "MDE_EVENTS": "3466228580",
+    "COW_NOW": "3742055253"
+  },
+  "versions": {
+    "AGOT": "0.5.1",
+    "NOW": "1.2.8.1",
+    "SEASONS_BRIDGE": "1.0.22",
+    "AMSB": "0.5.1",
+    "AMSB_LOV": "1.5.0",
+    "MDE_EGGS": "55.4",
+    "MDE_EVENTS": "1.19.*",
+    "COW_NOW": "1.0.7.1"
+  },
   "files": {
-    "AMSB_DESCRIPTOR": {
-      "path": "3319354609/descriptor.mod",
-      "sha256": "436a66509f9d964234f456b3cb25afd7e5228dfbfa32be9c9bbe030e629ee960",
-      "size": 155
-    },
-    "AMSB_GRANDEUR": {
-      "path": "3319354609/gfx/court_scene/scene_settings/grandeur_levels/grandeur_levels.txt",
-      "sha256": "7fb8cfcea8f58184ab8de26189add11ff0c9c76a6ca05f9ea6090d5f28ad16b3",
-      "size": 13889
-    },
-    "AMSB_LOV_DESCRIPTOR": {
-      "path": "3762892081/descriptor.mod",
-      "sha256": "3f356e428a904ec1ba6f2772da852292c4b8dc5e67861b52ac68e6d621db1ba9",
-      "size": 404
-    },
-    "AMSB_LOV_GRANDEUR": {
-      "path": "3762892081/gfx/court_scene/scene_settings/grandeur_levels/grandeur_levels.txt",
-      "sha256": "566d45a6115a02cbbec136af08d389d437b5fa40acf20709f8b6ea303287da28",
-      "size": 14091
-    },
     "NOW": {
       "path": "3664900993/common/landed_titles/01_agot_landed_titles.txt",
-      "sha256": "07888a6e113a7f7b1da1194dc5564054829a2d1b4c47fdc4b5f045d02e20f2c2",
-      "size": 905466
-    },
-    "NOW_DESCRIPTOR": {
-      "path": "3664900993/descriptor.mod",
-      "sha256": "530b7bf67ee20facce5026e5838e6549944684d9cc91e85eaedd71776e5a1311",
-      "size": 157
-    },
-    "NOW_TITLES_ENGLISH": {
-      "path": "3664900993/localization/replace/english/agot/replace/00_agot_titles_l_english.yml",
-      "sha256": "cb9b08d2393e950707cf798f0f639b4762d22e018f5cc9420993a7c1e1104e61",
-      "size": 9395
-    },
-    "NOW_TITLES_SPANISH": {
-      "path": "3664900993/localization/replace/spanish/agot/replace/00_agot_titles_l_spanish.yml",
-      "sha256": "d73187ce48526c539f270d3828af3937cf20f7fa3d7c9eae6d1b44e03fcc1ac7",
-      "size": 7070
-    },
-    "SEASONS_BRIDGE_DESCRIPTOR": {
-      "path": "3766038754/descriptor.mod",
-      "sha256": "9d8a2f543d549ec10053ae335d95a154260503cf62fb0d305babe47f1fa45933",
-      "size": 429
+      "sha256": "f498d7bd351f525a219c731aa318ec4c3ea035d5d3c606ed3bd9ee7f0c888ea1",
+      "size": 905756
     },
     "SEASON_EVENTS": {
       "path": "3766038754/events/lov_season_events.txt",
@@ -57,29 +38,93 @@
     },
     "SEASON_REGIONS": {
       "path": "3766038754/map_data/geographical_regions/north_sans_neck.txt",
-      "sha256": "c921889879c34ee4d49b2bf76149dbf5578f54eed66296ea60c91e5e053a91b1",
-      "size": 21910
+      "sha256": "42cfc42517fb98ecfcd192e7e2c2b7aef913efb9a0c108ac0d1ca4e1c25b4092",
+      "size": 21190
+    },
+    "NOW_DESCRIPTOR": {
+      "path": "3664900993/descriptor.mod",
+      "sha256": "54e471e606274d8460a57bd95cbaea1a0f77dff73c9c87faa29eb581a9060a96",
+      "size": 159
+    },
+    "SEASONS_BRIDGE_DESCRIPTOR": {
+      "path": "3766038754/descriptor.mod",
+      "sha256": "b99ae601ce415eb8dba896abb3959a68f8ba19995b69006aee373263be68c14a",
+      "size": 404
+    },
+    "NOW_TITLES_ENGLISH": {
+      "path": "3664900993/localization/replace/english/agot/replace/00_agot_titles_l_english.yml",
+      "sha256": "e50b4eecb97f808e1a6d3fd3703ee9dc918013bccd5127bec04e610ecc225873",
+      "size": 9454
+    },
+    "NOW_TITLES_SPANISH": {
+      "path": "3664900993/localization/replace/spanish/agot/replace/00_agot_titles_l_spanish.yml",
+      "sha256": "cf43c9cfb0a1737ac7950f4819e8747ac5d14c35c00e24ae533c76a3c05b3c1e",
+      "size": 6858
+    },
+    "AMSB_GRANDEUR": {
+      "path": "3319354609/gfx/court_scene/scene_settings/grandeur_levels/grandeur_levels.txt",
+      "sha256": "7fb8cfcea8f58184ab8de26189add11ff0c9c76a6ca05f9ea6090d5f28ad16b3",
+      "size": 13889
+    },
+    "AMSB_LOV_GRANDEUR": {
+      "path": "3762892081/gfx/court_scene/scene_settings/grandeur_levels/grandeur_levels.txt",
+      "sha256": "5a4a0affa13d220b77cff6ff97fbcd611e3477030d23bfaec3c0ae4722e6d0a1",
+      "size": 15366
+    },
+    "AMSB_DESCRIPTOR": {
+      "path": "3319354609/descriptor.mod",
+      "sha256": "eceebcded422f245fb29e2f243162d969b1f34beac32397c68142570497183f7",
+      "size": 154
+    },
+    "AMSB_LOV_DESCRIPTOR": {
+      "path": "3762892081/descriptor.mod",
+      "sha256": "57952fde746bca74a1fc074f37ff87cb1145090b8254063178f5934fa9d9f3c1",
+      "size": 379
+    },
+    "AGOT_YEARLY": {
+      "path": "2962333032/common/on_action/agot_on_actions/agot_yearly_on_actions.txt",
+      "sha256": "50352c133536c8cea25abbe44cbca78404cba303626577e6bbd2ccf95e020668",
+      "size": 29085
+    },
+    "MDE_EGGS": {
+      "path": "3388366564/common/on_action/agot_on_actions/mde_yearly_on_actions.txt",
+      "sha256": "6be6b2ab0f6a7c6e6d88424a38ae1b737c2ec24ca0a503544e83a5cd3482ed83",
+      "size": 525
+    },
+    "MDE_EVENTS": {
+      "path": "3466228580/common/on_action/agot_on_actions/mde_yearly_on_actions.txt",
+      "sha256": "e759525cb4a5d129415f4757d95499bb538464cfc9d4c9224eed290afd19423e",
+      "size": 5159
+    },
+    "MDE_EGGS_DESCRIPTOR": {
+      "path": "3388366564/descriptor.mod",
+      "sha256": "dbc867ab83a4757b1fc6cce954ead8f53cbc619a294b3d4d5400cf27b40daf46",
+      "size": 132
+    },
+    "MDE_EVENTS_DESCRIPTOR": {
+      "path": "3466228580/descriptor.mod",
+      "sha256": "0af5ed1a3378e634af2136e5990a43438ae4bcd62d5d5aadfd86258b8c1169f5",
+      "size": 217
+    },
+    "COW_NOW_GRAPHICS": {
+      "path": "3742055253/common/buildings/replace/99_background_graphics_buildings.txt",
+      "sha256": "8635d5000b8c6f63c5aa204b7a529d84d7d7aa6cd8b28b1c997a2ef764abeede",
+      "size": 240563
+    },
+    "COW_NOW_DESCRIPTOR": {
+      "path": "3742055253/descriptor.mod",
+      "sha256": "5d756506cbf6f9e241fde1fe102eadd2ec2d6729c7c63e4bfd23d910e006076c",
+      "size": 191
     }
   },
   "intent": {
-    "events": "start DoD historical starts in autumn",
-    "grandeur": "add AMSB's court scenes to the AGOT+/LoV compatch that wins grandeur_levels.txt",
-    "regions": "rebase NOW tokens and cover LoV cleanup regions without ruins",
-    "shader": "share the AGOT skip threshold with vertex shaders",
     "title": "repair NOW's removed d_medway reference",
-    "title_localization": "rebase NOW's title names and re-add the COW Sisterton/Dunstonbury barony names"
-  },
-  "schema_version": 1,
-  "versions": {
-    "AMSB": "0.4.40",
-    "AMSB_LOV": "1.4.5",
-    "NOW": "1.2.6",
-    "SEASONS_BRIDGE": "1.0.15"
-  },
-  "workshop_ids": {
-    "AMSB": "3319354609",
-    "AMSB_LOV": "3762892081",
-    "NOW": "3664900993",
-    "SEASONS_BRIDGE": "3766038754"
+    "title_localization": "rebase NOW's title names and re-add the COW Sisterton/Dunstonbury barony names",
+    "events": "start DoD historical starts in autumn",
+    "shader": "share the AGOT skip threshold with vertex shaders",
+    "regions": "rebase NOW tokens and cover LoV cleanup regions without ruins",
+    "grandeur": "assert the AGOT+/LoV compatch still covers every AMSB court scene, so this module needs no grandeur_levels.txt override",
+    "dragon_on_actions": "union the two mods that contest mde_yearly_on_actions.txt",
+    "cow_models": "assert the unenabled NOW-COW compatch's special-building model remaps are still carried by the hand-merged trigger"
   }
 }

@@ -207,7 +207,20 @@ agot_riverlands_bla.0301 = {
 
 		every_vassal = {
 			limit = {
-				culture = { has_cultural_pillar = heritage_first_man }
+				culture = {
+					any_parent_culture_or_above = {
+						OR = {
+							this = culture:northman
+							this = culture:barrowman
+							this = culture:bearman
+							this = culture:wolfswood_clansman
+							this = culture:northern_clan
+							this = culture:krakenman
+							this = culture:skagosi
+							this = culture:crannogman
+						}
+					}
+				}
 			}
 			add_opinion = {
 				target = root
@@ -478,8 +491,20 @@ agot_riverlands_bla.0304 = {
 		every_vassal = {
 			limit = {
 				culture = {
-					has_cultural_pillar = heritage_first_man
+					any_parent_culture_or_above = {
+						OR = {
+							this = culture:northman
+							this = culture:barrowman
+							this = culture:bearman
+							this = culture:wolfswood_clansman
+							this = culture:northern_clan
+							this = culture:krakenman
+							this = culture:skagosi
+							this = culture:crannogman
+						}
+					}
 				}
+
 			}
 
 			add_opinion = {
@@ -845,8 +870,20 @@ agot_riverlands_bla.0307 = {
 		every_vassal = {
 			limit = {
 				culture = {
-					has_cultural_pillar = heritage_first_man
+					any_parent_culture_or_above = {
+						OR = {
+							this = culture:northman
+							this = culture:barrowman
+							this = culture:bearman
+							this = culture:wolfswood_clansman
+							this = culture:northern_clan
+							this = culture:krakenman
+							this = culture:skagosi
+							this = culture:crannogman
+						}
+					}
 				}
+
 			}
 
 			add_opinion = {

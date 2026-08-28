@@ -299,7 +299,6 @@ e_lesser_moraq = {
 		government = feudal_government
 	}
 }
-
 e_mossovy = {
 		7898.1.1 = {
 		holder = gen_2382
@@ -400,56 +399,6 @@ e_naath = {
 		government = tribal_government
 	}
 }
-e_norvos = {
-		7898.1.1 = {
-		holder = gen_2394
-		government = theocracy_government
-	}
-	7985.1.1 = {
-		holder = gen_10
-		government = theocracy_government
-	}
-	8082.1.1 = {
-		holder = gen_1260
-		government = theocracy_government
-	}
-	8106.4.18 = {
-		holder = gen_1266
-		government = theocracy_government
-	}
-	8170.12.11 = {
-		holder = gen_1272
-		government = theocracy_government
-	}
-	8209.2.1 = {
-		holder = gen_1278
-		government = theocracy_government
-	}
-	8211.3.1 = {
-		holder = gen_1284
-		government = theocracy_government
-	}
-	8233.2.8 = {
-		holder = gen_1290
-		government = theocracy_government
-	}
-	8236.2.13 = {
-		holder = gen_1296
-		government = theocracy_government
-	}
-	8239.1.11 = {
-		holder = gen_1302
-		government = theocracy_government
-	}
-	8258.12.21 = {
-		holder = gen_1308
-		government = theocracy_government
-	}
-	8277.1.1 = {
-		holder = gen_1314
-		government = theocracy_government
-	}
-}
 e_omber = {
 		7898.1.1 = {
 		holder = gen_2400
@@ -498,56 +447,6 @@ e_omber = {
 	8277.1.1 = {
 		holder = gen_1374
 		government = feudal_government
-	}
-}
-e_qohor = {
-		7898.1.1 = {
-		holder = gen_2406
-		government = administrative_government
-	}
-	7985.1.1 = {
-		holder = gen_12
-		government = administrative_government
-	}
-	8082.1.1 = {
-		holder = gen_1380
-		government = administrative_government
-	}
-	8106.4.18 = {
-		holder = gen_1386
-		government = administrative_government
-	}
-	8170.12.11 = {
-		holder = gen_1392
-		government = administrative_government
-	}
-	8209.2.1 = {
-		holder = gen_1398
-		government = administrative_government
-	}
-	8211.3.1 = {
-		holder = gen_1404
-		government = administrative_government
-	}
-	8233.2.8 = {
-		holder = gen_1410
-		government = administrative_government
-	}
-	8236.2.13 = {
-		holder = gen_1416
-		government = administrative_government
-	}
-	8239.1.11 = {
-		holder = gen_1422
-		government = administrative_government
-	}
-	8258.12.21 = {
-		holder = gen_1428
-		government = administrative_government
-	}
-	8277.1.1 = {
-		holder = gen_1434
-		government = administrative_government
 	}
 }
 e_sarnor = {

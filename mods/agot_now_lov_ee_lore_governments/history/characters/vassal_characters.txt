@@ -4056,6 +4056,7 @@ gen_537 = {
 	culture = norvoshi
 	religion = fc_pan_bearded
 	7933.10.6 = { birth = yes }
+	7985.1.1 = { add_legitimacy = 3000 }
 	8008.1.1 = { death = yes }
 }
 gen_538 = {
@@ -4063,6 +4064,7 @@ gen_538 = {
 	culture = norvoshi
 	religion = fc_pan_bearded
 	7932.11.7 = { birth = yes }
+	7985.1.1 = { add_legitimacy = 3000 }
 	8007.1.1 = { death = yes }
 }
 gen_539 = {
@@ -4070,6 +4072,7 @@ gen_539 = {
 	culture = norvoshi
 	religion = fc_pan_bearded
 	7931.12.8 = { birth = yes }
+	7985.1.1 = { add_legitimacy = 3000 }
 	8006.1.1 = { death = yes }
 }
 gen_540 = {
@@ -4681,6 +4684,7 @@ gen_623 = {
 	culture = qohorik
 	religion = fc_pan_blackgoat
 	7947.12.8 = { birth = yes }
+	7985.1.1 = { add_legitimacy = 3000 }
 	8022.1.1 = { death = yes }
 }
 gen_624 = {

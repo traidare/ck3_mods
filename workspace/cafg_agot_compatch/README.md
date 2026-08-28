@@ -101,7 +101,7 @@ Post-merge counts are asserted per file so a parent update fails loudly:
 
 | file                            | `E_kCAFG_` calls | `#AGOT` markers |
 | ------------------------------- | ---------------- | --------------- |
-| `hold_court_events_general.txt` | 1                | 62              |
+| `hold_court_events_general.txt` | 1                | 63              |
 | `contest_events.txt`            | 1                | 24              |
 | `culture_emergence_events.txt`  | 2                | 29              |
 | `ce1_decision_events.txt`       | 1                | 2               |
@@ -128,7 +128,7 @@ CaFG's entire county-view delta is two `using` lines; the widgets themselves
 live in CaFG's own `gui/kei_cafg_county_view_additions.gui`, which loads
 normally. The generator inserts them into AGOT's window with `replace_exact`
 anchors, so a source restructure fails rather than silently producing a no-op.
-The same code path builds the LoV variant's copy from LoV RC71.
+The same code path builds the LoV variant's copy from the LoV AGOT bridge.
 
 ## Known incompatibility
 
@@ -150,12 +150,33 @@ module imports this generator directly so the merge strategy, conflict
 resolutions, and county-view anchors are defined once — see
 [cafg_agot_lov_compatch](../cafg_agot_lov_compatch/README.md).
 
-## Known upstream issue
+## Known upstream findings
 
-`kCAFG_cultures_pool` produces a tiger `unknown-list` error in
-`fp3_misc_decision_events.txt`. It is pre-existing in CaFG upstream (same code,
-same list, at CaFG line 2604), not introduced by the merge. Report to CaFG
-rather than patching here.
+Twelve ck3-tiger errors are attributed to this module because it is the last
+writer of the paths they sit in. All twelve are verbatim parent code that the
+merge carries through, so they are not patched here — editing them would fork
+vanilla-derived logic into a compatch that does not own it, and every one would
+have to be re-resolved on each parent update.
+
+| finding                                                | file                            | present in                |
+| ------------------------------------------------------ | ------------------------------- | ------------------------- |
+| `temporary-scope` on `scope:rumor_person` (×2)         | `hold_court_events_general.txt` | AGOT and CaFG, same lines |
+| `strict-scopes` on `scope:warden` (×2)                 | `bp2_yearly_events_6.txt`       | AGOT and CaFG             |
+| `strict-scopes` on `scope:peasant_1`, `scope:location` | `epidemic_events.txt`           | AGOT and CaFG             |
+| `strict-scopes` on `scope:county` (×4)                 | `global_religion_events.txt`    | AGOT and CaFG             |
+| `unknown-list` `kCAFG_cultures_pool`                   | `fp3_misc_decision_events.txt`  | CaFG                      |
+| `unknown-list` `excluded_counties`                     | `stewardship_domain_events.txt` | AGOT and CaFG             |
+
+The `strict-scopes` and `unknown-list` classes are ck3-tiger being conservative
+across on-action dispatch and list construction it cannot order; the
+`rumor_person` reads are already `?=`-guarded. None of the twelve appears in the
+campaign `error.log`, which is the evidence that they do not fire. Report
+`kCAFG_cultures_pool` to CaFG — it is the one finding a parent could fix without
+diverging from vanilla.
+
+Genuine playset-wide script errors belong in
+[agot_playset_runtime_fixes](../agot_playset_runtime_fixes/README.md), not here;
+this module's scope is the CaFG/AGOT merge itself.
 
 ## Re-audit
 

@@ -256,61 +256,35 @@ def generate_red_keep_castellan_guard(inputs: RunInputs) -> None:
     write_text(inputs.OUTPUT, relative, text)
 
 
-def generate_red_keep_government_rebase(inputs: RunInputs) -> None:
-    """Restore current AGOT governments while retaining the Red Keep estate."""
-    relative = "common/governments/00_agot_government_types.txt"
-    agot_source = inputs.WORKSHOP / "2962333032" / relative
-    red_keep_source = inputs.WORKSHOP / "3662281614" / relative
-    assert_source_file_hash(
-        agot_source,
-        "3cfc4bded04fae1819f9d8231c7edd868b89b069b239066cadb4eb8f2c01e9f1",
-        label="AGOT government definitions",
-    )
-    assert_source_file_hash(
-        red_keep_source,
-        "ba6eee95e0d6e45046f5df2a5a31479f426473ef834e4b7bb56067088190e127",
-        label="The Red Keep government override",
-    )
+def assert_red_keep_government_override_is_current(inputs: RunInputs) -> None:
+    """Fail when The Red Keep's government override drifts from AGOT again.
 
-    red_keep_text = read_text(red_keep_source)
+    The Red Keep replaces AGOT's whole government database to add one estate
+    domicile. When that copy lags behind AGOT it silently drops whichever
+    governments AGOT added since, which is how Lorath's three-princes setup lost
+    `lorathi_principality_government`. This module ships no file of its own while
+    the override stays complete; the check is what makes that safe to rely on.
+    """
+    relative = "common/governments/00_agot_government_types.txt"
+    agot_text = normalize_rebased_source(
+        read_text(inputs.WORKSHOP / "2962333032" / relative)
+    )
+    red_keep_text = normalize_rebased_source(
+        read_text(inputs.WORKSHOP / "3662281614" / relative)
+    )
+    domicile = "\tcourt_generate_commanders = no\n\tdomicile_type = red_keep_estate\n"
     if red_keep_text.count("domicile_type = red_keep_estate") != 1:
         raise RuntimeError("The Red Keep estate government delta changed")
-
-    text = read_text(agot_source)
-    government = extract_top_level_block(text, "lp_feudal_government")
-    repaired_government = replace_exact(
-        government,
-        "\tcourt_generate_commanders = no\n\n\tprimary_holding = castle_holding",
-        "\tcourt_generate_commanders = no\n\tdomicile_type = red_keep_estate\n\n"
-        "\tprimary_holding = castle_holding",
-        expected=1,
-        label="AGOT feudal government Red Keep domicile",
-    )
-    text = replace_exact(
-        text,
-        government,
-        repaired_government,
-        expected=1,
-        label="AGOT feudal government rebase",
-    )
-    for required_government in (
-        "lorathi_principality_government = {",
-        "norvos_government = {",
+    if (
+        red_keep_text.replace(domicile, "\tcourt_generate_commanders = no\n")
+        != agot_text
     ):
-        if text.count(required_government) != 1:
-            raise RuntimeError(
-                f"rebased AGOT government file lost {required_government}"
-            )
-    if text.count("domicile_type = red_keep_estate") != 1:
         raise RuntimeError(
-            "rebased AGOT government file has an invalid Red Keep domicile"
+            "The Red Keep government override no longer matches current AGOT "
+            "plus the estate domicile; re-audit whether this playset needs a "
+            "generated last writer for "
+            f"{relative}"
         )
-    write_text(
-        inputs.OUTPUT,
-        relative,
-        "# Runtime rebase: retain current AGOT governments and the Red Keep estate.\n\n"
-        + normalize_rebased_source(text),
-    )
 
 
 def generate_further_east_startup_government_quarantine(inputs: RunInputs) -> None:
@@ -319,7 +293,7 @@ def generate_further_east_startup_government_quarantine(inputs: RunInputs) -> No
     source_path = inputs.WORKSHOP / "3768149491" / relative
     assert_source_file_hash(
         source_path,
-        "d06910081e8fb886d40fcc059e80192cbe7d1daaec8b823076db0d24ec26e333",
+        "d33d2f8dd115bd585bb38be87655b708f8f27fe95c1b333f416450a8bc1145e3",
         label="The Further East startup setup",
     )
     text = read_text(source_path)

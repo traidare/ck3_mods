@@ -1,18 +1,18 @@
 # AGOT NOW + Legacy of Valyria + Essos Expanded Map Compatch
 
-Merges the map edits of Nobility of Westeros, Legacy of Valyria, and Essos
-Expanded into one coherent world, and grafts AGOT 0.5.0's new Ibben, the Axe,
-Norvos, Qohor, Lorath, and Rhoyne region onto it.
+Carries the Westeros map edits of Nobility of Westeros onto the world map that
+Essos Expanded: The Further East now supplies, so no mod in the stack silently
+overwrites another's work.
 
 ## Requirements and load order
 
 Load after A Game of Thrones, AGOT Nobility of Westeros, Legacy of Valyria, the
-AGOT LoV temporary compatch, Essos Expanded, and its LoV compatch.
+AGOT LoV bridge, Essos Expanded, and Essos Expanded: The Further East.
 
 - **AGOT NOW - CK3 1.19 Rebase** must load immediately after Nobility of
   Westeros and before this map layer.
-- **Essos Expanded + LoV - CK3 1.19 History Rebase** must load immediately after
-  Essos Expanded and before its TempLoV compatch.
+- **Essos Expanded: The Further East - CK3 1.19 History Rebase** must load
+  **after** Essos Expanded: The Further East.
 - These three Workshop compatches must follow that history rebase, in order,
   before this module:
   1. AGOT NOW-Season of Ice and Fire Compatch
@@ -21,21 +21,19 @@ AGOT LoV temporary compatch, Essos Expanded, and its LoV compatch.
 
 ## What it does
 
-This is a semantic merge, not a last-writer copy. It keeps Essos Expanded's
-province table with Nobility of Westeros' eleven changed rows, preserves
-Nobility of Westeros' Westeros heightmap edit on top of AGOT's heights, keeps
-Legacy of Valyria and Essos Expanded map objects outside the Westeros edit area
-and Nobility of Westeros' objects inside it, and resolves the two title-name
-conflicts to Nobility of Westeros' warden and master rules.
+The Further East now ships the complete, canonical world map, including AGOT's
+Ibben, the Axe, Norvos, Qohor, Lorath, and Rhoyne. This compatch no longer
+renumbers provinces or ships its own terrain, heightmaps, or titles. It carries
+only the Westeros details that would otherwise be lost:
 
-AGOT 0.5.0's new 1,168-province region is added in full. Because Essos Expanded
-already occupies the province numbers AGOT uses, the new region is renumbered
-above Essos Expanded's range, leaving every existing province untouched. AGOT's
-Rhoyne, Lorath, Norvos, Qohor, and the Axe replace the Legacy of Valyria and
-Essos Expanded versions of the same land — those two mods detail the same
-valley, and the overlap costs 345 authored Essos Expanded baronies. Westeros de
-jure structure stays with Nobility of Westeros.
+- the eleven provinces Nobility of Westeros retunes;
+- building and special-building placements, merged one record at a time;
+- roads, bridges, and other map decorations, merged placement by placement;
+- Nobility of Westeros' island regions.
 
-Three counties whose original capital fell under the new region keep their land:
-each capital's full history moves to the county's first surviving barony rather
-than leaving it empty.
+This is a semantic merge, not a last-writer copy. Where two mods changed the
+same thing, the merge keeps both intentions where they can coexist — a road mesh
+keeps the Further East's removed segment alongside Nobility of Westeros' five
+new ones, and the special building at Cuy keeps the Further East's new placement
+at Nobility of Westeros' chosen size. Anything genuinely ambiguous stops the
+build rather than picking a silent winner.

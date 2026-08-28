@@ -14,13 +14,14 @@ effective `00_agot_character_data_effects.txt` scripted-effect file.
 The full-file history overrides are generated because CK3 merges history by
 filename and title/character/province key; small fragments cannot safely amend
 every dated holder without risking duplicate keys or losing later parent
-history. The generator first reconstructs the effective LoV/EE source layer,
-including the map compatch's cleaned history winners, then makes only the
-audited government, culture, faith, legitimacy, and flavor-effect changes.
+history. The generator reconstructs the effective LoV/EE source layer in playset
+order, then makes only the audited government, culture, faith, legitimacy, and
+flavor-effect changes.
 
-The map compatch publishes `artifacts/map_data/removed_titles.json`. This
-generator excludes those titles from government planning and removes all 215
-matching effective title-history blocks from its later full-file overrides.
+Further East ships the last `common/landed_titles/01_landed_titles.txt` in the
+playset, so it defines the whole eastern title tree and the generator reads the
+effective title set straight from it. Every effective title history resolves
+against that tree, so no title filtering is needed.
 
 The effective character-title dispatcher starts with
 `Essos Expanded - TempLoV/NOW Compatch`, the final Workshop compatch in the
@@ -38,7 +39,12 @@ confidence and source columns distinguish direct lore from conservative gameplay
 interpretations. In summary:
 
 - Dothraki and Jogos Nhai rulers are nomadic; the Dosh Khaleen are theocratic.
-- Norvos and the Red Priesthood are theocratic.
+- the Red Priesthood is theocratic. Norvos, Lorath, and Qohor have no rules
+  here: AGOT owns those cities natively, and Further East ships their history
+  files empty. Its `vassal_titles_e_qohor.txt` does hold a Qohorik-culture rump
+  kingdom (`k_R43G49B154`, no empire parent), so a file-scoped rule keeps those
+  54 holders on the Free City's administrative form rather than letting them
+  fall to the engine default.
 - the Free Cities use administrative or oligarchic forms according to their
   described ruling institutions;
 - the Ghiscari slave cities, Valyrian Freehold, and Qarth use oligarchic
@@ -73,10 +79,36 @@ The audit CSVs record every government assignment, Jogos Nhai culture
 correction, Ibben character faith transition, and Ibben province faith
 transition.
 
+The Jogos Nhai work splits in two. The scripted-effect side is handled upstream:
+the Workshop bridge names `culture:jogos_nhai` in its own flavor branch, so the
+generator only asserts that state instead of rewriting it. The character side is
+not handled upstream: 277 Jogos rulers and relatives are authored as `nefer`,
+and this module corrects them.
+
+## Known upstream defects carried forward
+
+Validation reports 79 errors. Every one of them is inherited verbatim from an
+upstream file this module re-emits, not introduced here; the emitted holder,
+liege, and succession lines are byte-identical to their sources.
+
+- 16 `duplicate-character`. Further East 4.0.9 renamed the Leng rulers into
+  named Tengvar empresses in a new `zz_eetlv_leng_empresses.txt` instead of
+  overriding the generated `bookmark_chars.txt`, so both definitions load and
+  each id becomes two characters. Folding the file in the way this module folds
+  the khal-name and bookmark overrides does not work: the renamed rulers are
+  female, while Further East's own generated genealogy still references them
+  through `father`, which trades 16 duplicates for 20 gender errors. Repairing
+  it needs Further East's parentage reconciled, which is out of this module's
+  scope.
+- 60 `history` no-holder and 1 `missing-item`. Dated `liege` entries in the LoV
+  bridge's `lv_*` files point at titles with no holder at that date.
+- 2 `wrong-gender`. Further East's `gen_2495` (Lengoreth) is used as a `mother`
+  but carries no `female = yes`.
+
 ## Re-audit
 
 Re-run the audit after updates to Workshop mods `2962333032`, `3664900993`,
 `3403938445`, `3719888822`, `3682802751`, `3768149491`, or `3773608127`, or
-after changing the LoV/EE rebases or the map compatch. After an intentional
-upstream change, review the source diff and update the granular source-manifest
-asset before regenerating.
+after changing the LoV/EE rebases. After an intentional upstream change, review
+the source diff and update the granular source-manifest asset before
+regenerating.

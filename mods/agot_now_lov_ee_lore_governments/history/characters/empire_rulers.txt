@@ -76,6 +76,7 @@ gen_10 = {
 	culture = norvoshi
 	religion = fc_pan_bearded
 	7950.1.1 = { birth = yes }
+	7985.1.1 = { add_legitimacy = 3000 }
 }
 
 gen_11 = {

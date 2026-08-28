@@ -15,17 +15,16 @@ Load immediately after Bloodlines.
 
 - Rebases Bloodlines' stale execute-prisoner interaction onto current AGOT,
   keeping both AGOT's and Bloodlines' Bolton flaying perks.
-- Guards all 73 game-start special-building additions, so each one skips a
+- Guards each of the 57 game-start special-building additions, so it skips a
   barony that already carries a special building from an expanded map and a
-  barony that has no holding at all. Two Bloodlines targets — Harrenton and
-  Misty Isle — currently have no holding, and the unguarded effect reached a
-  holding that does not exist.
-- Repairs the malformed Riverlands and child-birth script blocks. In the
-  Riverlands event, seven events failed to load while the yearly pulse kept
-  calling them.
-- Migrates removed titles, traits, hook types, character templates, decision
-  fields, effects, backgrounds, and geographical regions to their current
-  equivalents.
+  barony that has no holding at all. On the expanded map some Bloodlines targets
+  have no holding, and the unguarded effect reached a holding that does not
+  exist.
+- Repairs the malformed Riverlands and child-birth script blocks, where brace
+  and indentation errors stopped later events in the same file from loading
+  while the yearly pulse kept calling them.
+- Migrates removed traits, title ids, event backgrounds, portrait scopes, and
+  animation names to their current equivalents.
 - Removes explicit durations from opinion modifiers that decay on their own in
   CK3 1.19.
 - Restores missing Bloodlines opinion-modifier definitions and values.

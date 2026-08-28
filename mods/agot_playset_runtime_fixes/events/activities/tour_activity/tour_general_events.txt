@@ -762,8 +762,9 @@ tour_general.0510 = {
 	}
 
 	trigger = { # Prevent this from firing a bunch of times
-		exists = scope:stop_host_scope
-		NOT = { exists = var:having_end_event }
+		NOT = {
+			exists = var:having_end_event
+		}
 	}
 
 	immediate = {

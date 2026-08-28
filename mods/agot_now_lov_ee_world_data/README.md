@@ -1,8 +1,7 @@
 # AGOT NOW + LoV + Essos Expanded World Data
 
-Gives Essos Expanded's provinces real terrain and graphical regions instead of
-placeholder plains, across the combined AGOT, Nobility of Westeros, Legacy of
-Valyria, and Essos Expanded map.
+Fills in the last provinces of the eastern map that no mod gives terrain to, and
+sets graphical regions so those lands use the right visual style.
 
 ## Requirements and load order
 
@@ -11,9 +10,12 @@ Compatch**.
 
 ## What it changes
 
-- Terrain for Essos Expanded provinces that still carry the temporary Legacy of
-  Valyria compatch's `plains` placeholder. Wherever that compatch authors real
-  terrain, its terrain is kept. The generated terrain is derived from the
+Essos Expanded: The Further East now authors terrain for almost all of the east,
+and its terrain is always kept. This mod only covers what is left over:
+
+- Terrain for the 1,435 eastern provinces no mod assigns any terrain to. It
+  never overrides another mod's choice — if anything upstream has an opinion
+  about a province, that opinion wins. The generated terrain is derived from the
   region's macro-biome, forest/jungle/arid/snow/mountain evidence from two
   known-world reference maps, slope from the heightmap, and the map's water
   classes.

@@ -1591,49 +1591,6 @@ c_laboros = {
 }
 
 
-c_ar_mynar = {
-	7862.1.1 = {
-		government = administrative_government
-		effect = {
-			if = {
-				limit = {
-					exists = holder
-					NOT = { has_dlc_feature = roads_to_power }
-				}
-				holder = {
-					change_government = republic_government
-				}
-			}
-		}
-
-		liege = d_valon_sar
-		holder = Isnardo_1
-		effect = {
-			add_county_modifier = slave_pop_2
-		}
-	}
-	7879.1.1 = { holder = Isnardo_2 government = administrative_government }
-	7919.1.1 = { holder = Isnardo_3 government = administrative_government }
-	7944.1.1 = { holder = Isnardo_4 government = administrative_government }
-	7971.1.1 = { holder = Isnardo_5 government = administrative_government }
-	7995.1.1 = { holder = Isnardo_6 government = administrative_government }
-	8032.1.1 = { holder = Isnardo_7 government = administrative_government }
-	8047.1.1 = { holder = Isnardo_8 government = administrative_government }
-	8066.1.1 = { holder = Isnardo_9 government = administrative_government }
-	8109.1.1 = { holder = Isnardo_10 government = administrative_government }
-	8117.1.1 = { holder = Isnardo_11 government = administrative_government }
-	8134.1.1 = { holder = Isnardo_12 government = administrative_government }
-	8168.1.1 = { holder = Isnardo_13 government = administrative_government }
-	8190.1.1 = { holder = Isnardo_14 government = administrative_government }
-	8246.1.1 = { holder = Isnardo_15 government = administrative_government }
-	8263.1.1 = { holder = Isnardo_17 government = administrative_government }
-	8277.1.1 = { holder = Isnardo_19 government = administrative_government }
-	8297.1.1 = { holder = Isnardo_21 government = administrative_government }
-}
-
-
-
-
 d_orange_shore = {
 	7860.1.1 = {
 		liege = k_volantis

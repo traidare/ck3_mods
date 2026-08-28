@@ -64,12 +64,7 @@ agot_bla_add_special_buildings = {
 					add_special_building = agot_blackwood_ravendeep_hollow_01
 				}
 			}
-			province:2058 = {
-				if = {
-					limit = { has_holding = yes has_special_building = no }
-					add_special_building = agot_bracken_horse_quarters_01
-				}
-			}
+			#province:2058 = { add_special_building = agot_bracken_horse_quarters_01 }
 			province:3688 = {
 				if = {
 					limit = { has_holding = yes has_special_building = no }
@@ -112,24 +107,14 @@ agot_bla_add_special_buildings = {
 					add_special_building = agot_reyne_mineral_market_01
 				}
 			}
-			province:5135 = {
-				if = {
-					limit = { has_holding = yes has_special_building = no }
-					add_special_building = agot_uller_the_hellholt_01
-				}
-			}
+			#province:5135 = { add_special_building = agot_uller_the_hellholt_01 }
 			province:1122 = {
 				if = {
 					limit = { has_holding = yes has_special_building = no }
 					add_special_building = agot_dustin_barrowton_01
 				}
 			}
-			province:136 = {
-				if = {
-					limit = { has_holding = yes has_special_building = no }
-					add_special_building = agot_umber_last_hearth_01
-				}
-			}
+			#province:136 = { add_special_building = agot_umber_last_hearth_01 }
 			province:4242 = {
 				if = {
 					limit = { has_holding = yes has_special_building = no }
@@ -160,12 +145,7 @@ agot_bla_add_special_buildings = {
 					add_special_building = agot_stokeworth_stonebridge_inn_01
 				}
 			}
-			province:1636 = {
-				if = {
-					limit = { has_holding = yes has_special_building = no }
-					add_special_building = agot_mormont_russet_den_01
-				}
-			}
+			#province:1636 = { add_special_building = agot_mormont_russet_den_01 }
 			province:4631 = {
 				if = {
 					limit = { has_holding = yes has_special_building = no }
@@ -190,12 +170,7 @@ agot_bla_add_special_buildings = {
 					add_special_building = agot_mertyns_tower_of_owls_01
 				}
 			}
-			province:1730 = {
-				if = {
-					limit = { has_holding = yes has_special_building = no }
-					add_special_building = agot_mallister_hall_of_the_cape_lords_01
-				}
-			}
+			#province:1730 = { add_special_building = agot_mallister_hall_of_the_cape_lords_01 }
 			province:3161 = {
 				if = {
 					limit = { has_holding = yes has_special_building = no }
@@ -208,12 +183,7 @@ agot_bla_add_special_buildings = {
 					add_special_building = agot_fossoway_the_apple_gate_01
 				}
 			}
-			province:3422 = {
-				if = {
-					limit = { has_holding = yes has_special_building = no }
-					add_special_building = agot_roxton_the_ring_01
-				}
-			}
+			#province:3422 = { add_special_building = agot_roxton_the_ring_01 }
 			province:5441 = {
 				if = {
 					limit = { has_holding = yes has_special_building = no }
@@ -262,12 +232,7 @@ agot_bla_add_special_buildings = {
 					add_special_building = agot_piper_pinkmaiden_01
 				}
 			}
-			province:940 = {
-				if = {
-					limit = { has_holding = yes has_special_building = no }
-					add_special_building = agot_glover_deepwood_motte_01
-				}
-			}
+			#province:940 = { add_special_building = agot_glover_deepwood_motte_01 }
 			province:1935 = {
 				if = {
 					limit = { has_holding = yes has_special_building = no }
@@ -316,48 +281,23 @@ agot_bla_add_special_buildings = {
 					add_special_building = agot_stokeworth_ledger_hall_01
 				}
 			}
-			province:3601 = {
-				if = {
-					limit = { has_holding = yes has_special_building = no }
-					add_special_building = agot_beesbury_honeyholt_01
-				}
-			}
-			province:3730 = {
-				if = {
-					limit = { has_holding = yes has_special_building = no }
-					add_special_building = agot_oakheart_old_oak_01
-				}
-			}
-			province:4102 = {
-				if = {
-					limit = { has_holding = yes has_special_building = no }
-					add_special_building = agot_hewitt_oakenshield_castle_01
-				}
-			}
+			#province:3601 = { add_special_building = agot_beesbury_honeyholt_01 }
+			#province:3730 = { add_special_building = agot_oakheart_old_oak_01 }
+			#province:4102 = { add_special_building = agot_hewitt_oakenshield_castle_01 }
 			province:4103 = {
 				if = {
 					limit = { has_holding = yes has_special_building = no }
 					add_special_building = agot_hewett_lord_hewetts_town_01
 				}
 			}
-			province:4072 = {
-				if = {
-					limit = { has_holding = yes has_special_building = no }
-					add_special_building = agot_merryweather_longtable_court_01
-				}
-			}
+			#province:4072 = { add_special_building = agot_merryweather_longtable_court_01 }
 			province:3792 = {
 				if = {
 					limit = { has_holding = yes has_special_building = no }
 					add_special_building = agot_vyrwel_wyverns_rest_01
 				}
 			}
-			province:2922 = {
-				if = {
-					limit = { has_holding = yes has_special_building = no }
-					add_special_building = agot_greenfield_the_bower_01
-				}
-			}
+			#province:2922 = { add_special_building = agot_greenfield_the_bower_01 }
 			province:4896 = {
 				if = {
 					limit = { has_holding = yes has_special_building = no }
@@ -400,30 +340,15 @@ agot_bla_add_special_buildings = {
 					add_special_building = agot_vaith_red_dunes_01
 				}
 			}
-			province:579 = {
-				if = {
-					limit = { has_holding = yes has_special_building = no }
-					add_special_building = agot_hornwood_forest_01
-				}
-			}
+			#province:579 = { add_special_building = agot_hornwood_forest_01 }
 			province:1236 = {
 				if = {
 					limit = { has_holding = yes has_special_building = no }
 					add_special_building = agot_breakstone_cave_01
 				}
 			}
-			province:490 = {
-				if = {
-					limit = { has_holding = yes has_special_building = no }
-					add_special_building = agot_locke_oldcastle_01
-				}
-			}
-			province:886 = {
-				if = {
-					limit = { has_holding = yes has_special_building = no }
-					add_special_building = agot_tallhart_torrhens_square_01
-				}
-			}
+			#province:490 = { add_special_building = agot_locke_oldcastle_01 }
+			#province:886 = { add_special_building = agot_tallhart_torrhens_square_01 }
 			province:1586 = {
 				if = {
 					limit = { has_holding = yes has_special_building = no }
@@ -436,12 +361,7 @@ agot_bla_add_special_buildings = {
 					add_special_building = agot_longbow_hall_trophy_room_01
 				}
 			}
-			province:2308 = {
-				if = {
-					limit = { has_holding = yes has_special_building = no }
-					add_special_building = agot_wickenden_waxworks_01
-				}
-			}
+			#province:2308 = { add_special_building = agot_wickenden_waxworks_01 }
 			province:2619 = {
 				if = {
 					limit = { has_holding = yes has_special_building = no }

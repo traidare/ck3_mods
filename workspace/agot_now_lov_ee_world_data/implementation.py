@@ -26,25 +26,20 @@ from gen.sources import canonical_source_path
 TARGET_FIRST = 10946
 TARGET_LAST = 26420
 TARGET_COUNT = TARGET_LAST - TARGET_FIRST + 1
-EXPECTED_TITLE_COUNT = 13270
-# This module's ee_province_terrain.txt same-path overrides the TempLoV
-# compatch's file of the same name, so every id that file assigns outside the
-# target range has to be carried forward or it silently falls back to whichever
-# earlier module last wrote it. AGOT 0.5.0 made that visible: it now assigns
-# terrain across 8233-9400, ids the effective map gives to Essos Expanded's
-# authored baronies.
-EXPECTED_CARRY_FORWARD = 1114
-# AGOT 0.5.0 assigns terrain across 8233-9400 for its own new region. The
-# effective map keeps Essos Expanded's provinces at those ids, so AGOT's values
-# describe different land than the pixels this pipeline measures there. They are
-# dropped from the training labels; the EE-lineage assignments for the same ids
-# stay, because those do describe the mapped provinces.
-AGOT_NEW_BAND = range(8233, 9401)
-EXPECTED_AGOT_NEW_BAND = 1108
-# ...and the map compatch renumbers that region onto these ids. Its terrain is
-# AGOT's own, replayed at the merged ids; this module does not classify it.
-REMAP_FIRST = 26421
-REMAP_LAST = REMAP_FIRST + len(AGOT_NEW_BAND) - 1
+# Target provinces Further East gives a landed title. Its v4 restructuring moved
+# a further 3,423 of them out of `01_landed_titles.txt` into its own files.
+EXPECTED_TITLE_COUNT = 12052
+# This module fills gaps; it never same-path overrides an upstream terrain file.
+# Further East now authors terrain across most of the east, so the output below
+# carries only the provinces no effective module assigns a real terrain to. Every
+# other id is upstream's decision and is left alone.
+TERRAIN_OUTPUT = "common/province_terrain/zzzz_agot_now_lov_ee_world_data.txt"
+EXPECTED_GAP_COUNT = 1435
+DEFINITION_ROWS = 27589
+# Target rows Further East has promoted from generated filler to named baronies.
+EXPECTED_NAMED_TARGETS = 1168
+# Empire-tier scopes covering the target range.
+EXPECTED_EMPIRE_KEYS = 24
 EXPECTED_MASK_COUNT = 188
 EXPECTED_SIZE = (9216, 6144)
 REFERENCE_ANALYSIS_SIZE = (2304, 1536)
@@ -255,8 +250,11 @@ def parse_titles(
             ancestry: dict[str, str] = {}
             for title, _ in stack:
                 ancestry[title[0]] = title
-            required = set("ekdcb")
-            if set(ancestry) != required:
+            # The empire tier is optional: Further East leaves 146 provinces under
+            # a top-level kingdom. Empire-scoped graphical mappings simply do not
+            # match those, which is the correct outcome. The lower four tiers are
+            # what the mappings and audits key on, so those stay required.
+            if not set("kdcb") <= set(ancestry):
                 raise AssertionError(
                     f"incomplete title ancestry for province {province_match.group(1)}: "
                     f"{ancestry}"
@@ -264,7 +262,7 @@ def parse_titles(
             rows.append(
                 TitleRow(
                     int(province_match.group(1)),
-                    ancestry["e"],
+                    ancestry.get("e", ""),
                     ancestry["k"],
                     ancestry["d"],
                     ancestry["c"],
@@ -461,9 +459,9 @@ def build_id_raster(
         )
 
     flat = id_raster.ravel()
-    count = np.bincount(flat, minlength=TARGET_LAST + 1).astype(np.int64)
-    sum_x = np.zeros(TARGET_LAST + 1, dtype=np.float64)
-    sum_y = np.zeros(TARGET_LAST + 1, dtype=np.float64)
+    count = np.bincount(flat, minlength=DEFINITION_ROWS).astype(np.int64)
+    sum_x = np.zeros(DEFINITION_ROWS, dtype=np.float64)
+    sum_y = np.zeros(DEFINITION_ROWS, dtype=np.float64)
     width, height = EXPECTED_SIZE
     x_values = np.arange(width, dtype=np.float64)
     for y0 in range(0, height, 256):
@@ -471,15 +469,15 @@ def build_id_raster(
         rows = chunk.shape[0]
         chunk_flat = chunk.ravel()
         sum_x += np.bincount(
-            chunk_flat, weights=np.tile(x_values, rows), minlength=TARGET_LAST + 1
+            chunk_flat, weights=np.tile(x_values, rows), minlength=DEFINITION_ROWS
         )
         sum_y += np.bincount(
             chunk_flat,
             weights=np.repeat(np.arange(y0, y0 + rows, dtype=np.float64), width),
-            minlength=TARGET_LAST + 1,
+            minlength=DEFINITION_ROWS,
         )
-    centroid_x = np.full(TARGET_LAST + 1, -1.0, dtype=np.float64)
-    centroid_y = np.full(TARGET_LAST + 1, -1.0, dtype=np.float64)
+    centroid_x = np.full(DEFINITION_ROWS, -1.0, dtype=np.float64)
+    centroid_y = np.full(DEFINITION_ROWS, -1.0, dtype=np.float64)
     painted = count > 0
     centroid_x[painted] = sum_x[painted] / count[painted]
     centroid_y[painted] = sum_y[painted] / count[painted]
@@ -516,11 +514,11 @@ def aggregate_image(
     flat_values = values.ravel()
     nonzero = flat_values > 0
     strong = flat_values >= 128
-    intensity = np.bincount(flat_ids, weights=flat_values, minlength=TARGET_LAST + 1)
-    coverage = np.bincount(flat_ids[nonzero], minlength=TARGET_LAST + 1).astype(
+    intensity = np.bincount(flat_ids, weights=flat_values, minlength=DEFINITION_ROWS)
+    coverage = np.bincount(flat_ids[nonzero], minlength=DEFINITION_ROWS).astype(
         np.float64
     )
-    strong_coverage = np.bincount(flat_ids[strong], minlength=TARGET_LAST + 1).astype(
+    strong_coverage = np.bincount(flat_ids[strong], minlength=DEFINITION_ROWS).astype(
         np.float64
     )
     safe_area = np.maximum(area, 1)
@@ -560,13 +558,13 @@ def compute_features(
     safe_area = np.maximum(area, 1)
     elevation = (
         np.bincount(
-            flat_ids, weights=elevation_pixels.ravel(), minlength=TARGET_LAST + 1
+            flat_ids, weights=elevation_pixels.ravel(), minlength=DEFINITION_ROWS
         )
         / safe_area
     ).astype(np.float32)
     high_elevation = (
         np.bincount(
-            flat_ids[elevation_pixels.ravel() >= 0.55], minlength=TARGET_LAST + 1
+            flat_ids[elevation_pixels.ravel() >= 0.55], minlength=DEFINITION_ROWS
         )
         / safe_area
     ).astype(np.float32)
@@ -582,18 +580,18 @@ def compute_features(
     del vertical, elevation_pixels
     slope_pixels *= 0.25
     slope = (
-        np.bincount(flat_ids, weights=slope_pixels.ravel(), minlength=TARGET_LAST + 1)
+        np.bincount(flat_ids, weights=slope_pixels.ravel(), minlength=DEFINITION_ROWS)
         / safe_area
     ).astype(np.float32)
     high_slope = (
-        np.bincount(flat_ids[slope_pixels.ravel() >= 0.015], minlength=TARGET_LAST + 1)
+        np.bincount(flat_ids[slope_pixels.ravel() >= 0.015], minlength=DEFINITION_ROWS)
         / safe_area
     ).astype(np.float32)
     del slope_pixels
 
     gameplay_groups = [group for group in groups if group.role == "gameplay"]
     group_index = {group.name: index for index, group in enumerate(gameplay_groups)}
-    shape = (len(gameplay_groups), TARGET_LAST + 1)
+    shape = (len(gameplay_groups), DEFINITION_ROWS)
     group_intensity = np.zeros(shape, dtype=np.float32)
     group_coverage = np.zeros(shape, dtype=np.float32)
     group_strong = np.zeros(shape, dtype=np.float32)
@@ -602,7 +600,7 @@ def compute_features(
         for path in mask_paths
         if mask_to_group[path.relative_to(terrain_root).as_posix()].role == "gameplay"
     ]
-    mask_shape = (len(gameplay_masks), TARGET_LAST + 1)
+    mask_shape = (len(gameplay_masks), DEFINITION_ROWS)
     mask_intensity = np.zeros(mask_shape, dtype=np.float32)
     mask_coverage = np.zeros(mask_shape, dtype=np.float32)
     mask_strong = np.zeros(mask_shape, dtype=np.float32)
@@ -639,7 +637,7 @@ def compute_features(
         dtype=np.int32,
     )
     reference_flat_ids = reference_ids.ravel()
-    reference_area = np.bincount(reference_flat_ids, minlength=TARGET_LAST + 1).astype(
+    reference_area = np.bincount(reference_flat_ids, minlength=DEFINITION_ROWS).astype(
         np.float64
     )
     reference_safe_area = np.maximum(reference_area, 1)
@@ -649,7 +647,7 @@ def compute_features(
             np.bincount(
                 reference_flat_ids,
                 weights=values.astype(np.float32, copy=False).ravel(),
-                minlength=TARGET_LAST + 1,
+                minlength=DEFINITION_ROWS,
             )
             / reference_safe_area
         ).astype(np.float32)
@@ -1170,14 +1168,11 @@ def target_source_manifest(
         "workshop_ids": WORKSHOP_IDS,
         "versions": versions,
         "expected": {
-            "definition_rows": TARGET_LAST + 1,
+            "definition_rows": DEFINITION_ROWS,
             "target_first": TARGET_FIRST,
             "target_last": TARGET_LAST,
             "target_count": TARGET_COUNT,
-            "carry_forward_count": EXPECTED_CARRY_FORWARD,
-            "remap_first": REMAP_FIRST,
-            "remap_last": REMAP_LAST,
-            "remap_terrain_count": EXPECTED_AGOT_NEW_BAND,
+            "gap_count": EXPECTED_GAP_COUNT,
             "title_count": EXPECTED_TITLE_COUNT,
             "mask_count": EXPECTED_MASK_COUNT,
             "image_width": EXPECTED_SIZE[0],
@@ -1252,55 +1247,38 @@ class WorldDataPipeline:
             group for group in self.groups if group.role == "gameplay"
         ]
 
-        ee_definitions = parse_definitions(
-            self.workshop["EE"] / "map_data/definition.csv"
-        )
         merged_definitions = parse_definitions(
-            self.inputs.map_definition, expected_rows=REMAP_LAST + 1
+            self.inputs.map_definition, expected_rows=DEFINITION_ROWS
         )
         self.eep_definitions = parse_definitions(
-            self.workshop["EEP"] / "map_data/definition.csv"
+            self.workshop["EEP"] / "map_data/definition.csv",
+            expected_rows=DEFINITION_ROWS,
         )
         for province_id in range(TARGET_FIRST, TARGET_LAST + 1):
             if self.eep_definitions[province_id] != merged_definitions[province_id]:
                 raise AssertionError(
                     f"map compatch changed TempLoV target definition row {province_id}"
                 )
-            if (
-                ee_definitions[province_id].packed_rgb
-                == self.eep_definitions[province_id].packed_rgb
-            ):
-                continue
-            if (
-                ee_definitions[province_id].name
-                == self.eep_definitions[province_id].name
-            ):
-                continue
-            if (
-                province_id != 26357
-                or ee_definitions[province_id].name != "LAKE"
-                or self.eep_definitions[province_id].name != "IMPASSABLE_RIDGE"
-            ):
-                raise AssertionError(
-                    f"TempLoV recoloured target row {province_id} beyond its colour"
-                )
-
-        ee_terrain = parse_scalar_terrain(
-            self.workshop["EE"] / "common/province_terrain/ee_province_terrain.txt"
+        # Further East owns the target range outright: it colours every row and
+        # names most of what would otherwise be a generated `R<r>G<g>B<b>`
+        # placeholder.  The pipeline reads its raster alongside its definitions,
+        # so the ids classified here describe the land actually sampled.  Pin how
+        # much it has named, so a re-authoring pass re-opens that assumption.
+        named = sum(
+            1
+            for province_id in range(TARGET_FIRST, TARGET_LAST + 1)
+            if not self.eep_definitions[province_id].name.startswith("R")
         )
+        if named != EXPECTED_NAMED_TARGETS:
+            raise AssertionError(
+                "Further East's authored share of the target range changed: "
+                f"{named} != {EXPECTED_NAMED_TARGETS}"
+            )
+
         self.eep_terrain = parse_scalar_terrain(
             self.workshop["EEP"] / "common/province_terrain/ee_province_terrain.txt"
         )
         self.expected_ids = set(range(TARGET_FIRST, TARGET_LAST + 1))
-        ee_defaults = {
-            province_id
-            for province_id, terrain in ee_terrain.items()
-            if terrain == "default" and province_id in self.expected_ids
-        }
-        if ee_defaults != self.expected_ids:
-            raise AssertionError(
-                f"EE unfinished terrain set changed: {len(ee_defaults)} target defaults"
-            )
         # TempLoV compatch 2.5.0 replaced its blanket `plains` placeholder with real
         # authored terrain for the east.  Those authored assignments are the
         # effective upstream decision and win over this module's lore-map proposal;
@@ -1325,36 +1303,6 @@ class WorldDataPipeline:
                 "TempLoV target terrain is both authored and placeholder"
             )
 
-        self.eep_carry_forward = {
-            province_id: terrain
-            for province_id, terrain in self.eep_terrain.items()
-            if province_id not in self.expected_ids
-        }
-        if len(self.eep_carry_forward) != EXPECTED_CARRY_FORWARD:
-            raise AssertionError(
-                f"TempLoV out-of-range terrain count changed: "
-                f"{len(self.eep_carry_forward)} != {EXPECTED_CARRY_FORWARD}"
-            )
-
-        # AGOT's own terrain for the region the map compatch renumbered, replayed
-        # at the merged ids. Nothing upstream covers them, and this module's
-        # classifier is scoped to the Essos Expanded target range.
-        agot_terrain = parse_scalar_terrain(
-            self.workshop["AGOT"] / "common/province_terrain/00_province_terrain.txt"
-        )
-        self.remapped_terrain = {
-            REMAP_FIRST + (province_id - AGOT_NEW_BAND.start): terrain
-            for province_id, terrain in sorted(agot_terrain.items())
-            if province_id in AGOT_NEW_BAND
-        }
-        if len(self.remapped_terrain) != EXPECTED_AGOT_NEW_BAND:
-            raise AssertionError(
-                f"AGOT new-region terrain count changed: "
-                f"{len(self.remapped_terrain)} != {EXPECTED_AGOT_NEW_BAND}"
-            )
-        if max(self.remapped_terrain) > REMAP_LAST:
-            raise AssertionError("a remapped terrain id exceeds the merged ceiling")
-
         self.ee_titles = [
             row
             for row in parse_titles(
@@ -1369,8 +1317,8 @@ class WorldDataPipeline:
             )
         if any(row.province_id not in self.expected_ids for row in self.ee_titles):
             raise AssertionError("EE landed titles reference an out-of-range province")
-        self.empire_keys = {row.empire for row in self.ee_titles}
-        if len(self.empire_keys) != 27:
+        self.empire_keys = {row.empire for row in self.ee_titles if row.empire}
+        if len(self.empire_keys) != EXPECTED_EMPIRE_KEYS:
             raise AssertionError(
                 f"EE empire scope count changed: {len(self.empire_keys)}"
             )
@@ -1478,28 +1426,16 @@ class WorldDataPipeline:
             self.workshop["EE"],
             self.workshop["EEP"],
         ]
+        # Every module here shares one province numbering: Further East adopted
+        # AGOT's 8233-9400 band natively, so an AGOT terrain label and the pixels
+        # measured at that id describe the same land.  No range is excluded from
+        # the training labels.
         terrain_by_province = terrain_winners(terrain_modules)
-        agot_band = {
-            province_id
-            for province_id in parse_scalar_terrain(
-                self.workshop["AGOT"]
-                / "common/province_terrain/00_province_terrain.txt"
-            )
-            if province_id in AGOT_NEW_BAND
+        self.upstream_terrain = {
+            province_id: terrain
+            for province_id, terrain in terrain_by_province.items()
+            if terrain != "default"
         }
-        if len(agot_band) != EXPECTED_AGOT_NEW_BAND:
-            raise AssertionError(
-                f"AGOT terrain coverage of {AGOT_NEW_BAND.start}-"
-                f"{AGOT_NEW_BAND.stop - 1} changed: "
-                f"{len(agot_band)} != {EXPECTED_AGOT_NEW_BAND}"
-            )
-        ee_lineage_terrain = terrain_winners(terrain_modules[1:])
-        for province_id in agot_band:
-            replacement = ee_lineage_terrain.get(province_id)
-            if replacement is None:
-                terrain_by_province.pop(province_id, None)
-            else:
-                terrain_by_province[province_id] = replacement
         self.valid_terrains = terrain_type_keys(terrain_modules)
         gameplay_terrains = {
             group.terrain for group in self.gameplay_groups if group.terrain is not None
@@ -2060,6 +1996,15 @@ class WorldDataPipeline:
             self.graphical_audit_rows,
         )
 
+        gap_ids = sorted(set(self.final_terrain) - set(self.upstream_terrain))
+        if len(gap_ids) != EXPECTED_GAP_COUNT:
+            raise AssertionError(
+                "upstream terrain coverage changed: this module would fill "
+                f"{len(gap_ids)} provinces, not {EXPECTED_GAP_COUNT}"
+            )
+        if set(gap_ids) & set(self.upstream_terrain):
+            raise AssertionError("gap output would override an upstream terrain")
+
         terrain_lines = [
             "\ufeff# Generated by ck3mm from the mod's workspace implementation.",
             "# Final terrain uses aligned lore-map biomes, slope relief, and "
@@ -2067,32 +2012,17 @@ class WorldDataPipeline:
             f"# Audit-only mask-model spatial five-fold macro-F1: {self.validation_f1:.6f}",
             "# Training labels: "
             + ", ".join(f"{name}={self.label_counts[name]}" for name in self.classes),
-            f"# Target IDs: {TARGET_FIRST}..{TARGET_LAST} ({TARGET_COUNT})",
+            f"# Classified IDs: {TARGET_FIRST}..{TARGET_LAST} ({TARGET_COUNT})",
             "",
-            "# Carried forward verbatim from the TempLoV compatch file this one "
-            "same-path overrides.",
-            f"# Out-of-target IDs: {len(self.eep_carry_forward)}",
+            "# This file does not override any upstream terrain file. It emits only",
+            "# the provinces no effective module assigns a real terrain to; every",
+            "# other id keeps the value its own author chose.",
+            f"# Gap-filled IDs: {len(gap_ids)}",
             "",
         ]
         terrain_lines.extend(
-            f"{province_id} = {self.eep_carry_forward[province_id]}"
-            for province_id in sorted(self.eep_carry_forward)
-        )
-        terrain_lines.append("")
-        terrain_lines.extend(
             f"{province_id} = {self.final_terrain[province_id]}"
-            for province_id in range(TARGET_FIRST, TARGET_LAST + 1)
-        )
-        terrain_lines.append("")
-        terrain_lines.append(
-            f"# AGOT {AGOT_NEW_BAND.start}-{AGOT_NEW_BAND.stop - 1} terrain, replayed "
-            f"at the ids the map compatch renumbered them to."
-        )
-        terrain_lines.append(f"# Renumbered IDs: {REMAP_FIRST}..{REMAP_LAST}")
-        terrain_lines.append("")
-        terrain_lines.extend(
-            f"{province_id} = {self.remapped_terrain[province_id]}"
-            for province_id in sorted(self.remapped_terrain)
+            for province_id in gap_ids
         )
         terrain_output = ("\n".join(terrain_lines) + "\n").encode("utf-8")
 
@@ -2114,8 +2044,7 @@ class WorldDataPipeline:
         outputs = {
             self.source / "terrain_audit.csv": terrain_audit,
             self.source / "graphical_region_audit.csv": graphical_audit,
-            self.module
-            / "common/province_terrain/ee_province_terrain.txt": terrain_output,
+            self.module / TERRAIN_OUTPUT: terrain_output,
             self.module
             / "map_data/geographical_regions/zzzz_agot_now_lov_ee_world_data.txt": region_output,
         }

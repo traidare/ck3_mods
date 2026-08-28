@@ -33,7 +33,6 @@
  c_darkwoods_mull: "Dargood's Mull"
  c_horncrest: "Horncrest"
  c_silverbell: "Silverbell"
- c_silverhorse: "Silverhorse"
  c_middleton: "Middlefort"
  c_chancedoor: "Goldenhorn"
  b_rellhalt: "Hartefield"
@@ -101,7 +100,8 @@
  c_rillwater_crossing: "Rillwater"
  c_the_flint_cliffs: "Cliffstower"
  c_beastyrn: "Fiendhold"
- b_moorwood_docks: "Harclay Docks"
+ b_whitebend_basin: "Harclay Docks"
+ b_scar_river: "The Scar"
  b_slatepool: "Twinlake Crossing"
  
 # THE VALE
@@ -196,17 +196,17 @@
  c_ironwater: "Charlton's Wood"
  c_mistlewood: "Ironwater"
  c_honeymaiden: "Oldhonor"
- c_burnout: "Sherrer"
  c_oldhonor: "Honeymaiden"
  c_martlet_bend: "Redfeather"
  c_rippledown_rill: "Pemford's Marsh"
  c_flockshade: "Wallain's Valley"
  b_flockshade: "Wallain's Castle"
- b_burnout: "Sherrer's Holdfast"
- b_sherrer: "Sherrer Town"
- b_nestingwood: "Martin House"
+ b_burnout: "Martlet's Stand"
+ b_sherrer: "Martin House"
  b_martinhouse: "Trout's Wood"
- b_martlets_stand: "Martlet's Nest"
+ b_double_down: "Martlet's Nest"
+ b_nestingwood: "Double Down"
+ b_martlets_stand: "Burnout Tower"
  b_worthriver: "Four Eagles Tower"
  b_ironwater: "Castle Charlton"
  b_mistlewood: "Kytley Keep"
@@ -238,6 +238,7 @@
  c_midvale: "Hetherfield"
  c_hetherfield: "Wrexdale"
  c_cleganes_keep: "Clegane's Keep"
+ b_lannisport: "Lann's Sept"
  b_pridemane: "Hetherfield Hall"
  b_hetherfield_hall: "Wrexdale"
  b_wrexdale: "Pridemane"
@@ -277,13 +278,11 @@
  c_estryck: "Averdyre Hall"
  c_bendtilling: "Thunderhold"
  c_woodbine: "Sunnyvale"
- c_aldenley: "Whitehands"
  b_averdyre_hall: "Ambrose Hall"
  b_averdyres_town: "Antwork"
  b_leygood_keep: "Averdyre Hall"
  b_sunnypoint: "Thunderhold"
  b_woodbine: "Sunnyvale"
- b_mallock_heights: "Goldenrose Castle"
 
 # THE STORMLANDS
  k_morne: "Tarth"
@@ -322,6 +321,10 @@
  d_the_stoneway: "The Boneway"
  d_greenbelt: "Yronwood"
  d_scourgehead: "The Scourge"
+
+# TITLE TEMP FIXES
+ d_nf_diluzis: "The Diluzis Family"
+ d_nf_erygon: "The Erygon Family"
 
 # COW Sisterton/Dunstonbury barony names (see zzz_agot_cow_building_model_trigger.txt)
  b_breakwater_castle: "Breakwater Castle"

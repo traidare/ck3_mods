@@ -33,7 +33,7 @@ agot_john_mudd.0001 = {
             }
             character:Mudd_54 = { save_scope_as = john_mudd }
         }
-        else_if = {
+        else = {
             limit = { exists = character:Mudd_2 }
             character:Mudd_2 = { save_scope_as = john_mudd }
         }

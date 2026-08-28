@@ -1,23 +1,6 @@
-﻿# EE TempLoV Compatch v3.0: the Cannibal Sands as a confederation of tribes.
-#
-# This file REPLACES Essos Expanded's own vassal_titles_e_cannibal_sands.txt, which handed
-# all 85 counties of the region to the hidden Wilderness Empress at 100.1.1 and left the
-# emperor an empty title over land he did not own.
-#
-# The fourteen tribes are INDEPENDENT of each other, not vassals. A CK3 confederation binds
-# independent nomad rulers, so making them vassals of a Great Chieftain would have made the
-# confederation meaningless: they would already be one realm. The Great Chieftain carries
-# e_cannibal_sands and leads the confederation, but rules nobody's tents but his own.
-#
-# There is no canon for how the Cannibal Sands are governed. TWOIAF says one thing about
-# them, that the inhabitants allegedly consume human flesh. A scatter of bands bound loosely
-# together suits a pair of small deserts better than an empire does.
-#
-# Governments are nomad here and every county seat carries a nomad holding to match.
-# The confederation itself still needs Khans of the Steppe and is DLC-gated in its own
-# effect; without the DLC the tribes simply stay independent.
+﻿# EE TempLoV Compatch v3.0:
 
-### Vezkar  (9 counties)
+# Vezkar (9 counties)
 d_R122G121B140 = {
 	7898.1.1 = {
 		holder = eetlv_cs_1_1
@@ -161,7 +144,7 @@ c_R145G40B226 = {
 	8277.1.1 = { holder = eetlv_cs_1_12 }
 }
 
-### Qal'sar  (6 counties)
+# Qal'sar (6 counties)
 d_R111G75B187 = {
 	7898.1.1 = {
 		holder = eetlv_cs_2_1
@@ -264,7 +247,7 @@ c_R102G82B41 = {
 	8277.1.1 = { holder = eetlv_cs_2_12 }
 }
 
-### Dead Qaath  (6 counties)
+# Dead Qaath (6 counties)
 d_R240G127B159 = {
 	7898.1.1 = {
 		holder = eetlv_cs_3_1
@@ -367,7 +350,7 @@ c_R128G149B122 = {
 	8277.1.1 = { holder = eetlv_cs_3_12 }
 }
 
-### Ruined Vezak  (5 counties)
+# Ruined Vezak (5 counties)
 d_R41G226B41 = {
 	7898.1.1 = {
 		holder = eetlv_cs_4_1
@@ -456,7 +439,7 @@ c_R181G222B169 = {
 	8277.1.1 = { holder = eetlv_cs_4_12 }
 }
 
-### Saleen  (5 counties)
+# Saleen (5 counties)
 d_R193G60B253 = {
 	7898.1.1 = {
 		holder = eetlv_cs_5_1
@@ -545,7 +528,7 @@ c_R244G105B106 = {
 	8277.1.1 = { holder = eetlv_cs_5_12 }
 }
 
-### Nalaal  (6 counties)
+# Nalaal (6 counties)
 d_R222G151B16 = {
 	7898.1.1 = {
 		holder = eetlv_cs_6_1
@@ -648,7 +631,7 @@ c_R233G252B222 = {
 	8277.1.1 = { holder = eetlv_cs_6_12 }
 }
 
-### Varaal  (7 counties)
+# Varaal (7 counties)
 d_R45G162B231 = {
 	7898.1.1 = {
 		holder = eetlv_cs_7_1
@@ -765,7 +748,7 @@ c_R9G112B12 = {
 	8277.1.1 = { holder = eetlv_cs_7_12 }
 }
 
-### Galaen  (4 counties)
+# Galaen (4 counties)
 d_R70G73B87 = {
 	7898.1.1 = {
 		holder = eetlv_cs_8_1
@@ -840,7 +823,7 @@ c_R237G144B187 = {
 	8277.1.1 = { holder = eetlv_cs_8_12 }
 }
 
-### Kyth  (5 counties)
+# Kyth (5 counties)
 d_R232G202B38 = {
 	7898.1.1 = {
 		holder = eetlv_cs_9_1
@@ -929,7 +912,7 @@ c_R84G12B53 = {
 	8277.1.1 = { holder = eetlv_cs_9_12 }
 }
 
-### Vaes Tolorro  (7 counties)
+# Vaes Tolorro (7 counties)
 d_R220G226B155 = {
 	7898.1.1 = {
 		holder = eetlv_cs_10_1
@@ -1046,7 +1029,7 @@ c_R28G205B17 = {
 	8277.1.1 = { holder = eetlv_cs_10_12 }
 }
 
-### Yaleen  (5 counties)
+# Yaleen (5 counties)
 d_R28G169B63 = {
 	7898.1.1 = {
 		holder = eetlv_cs_11_1
@@ -1135,7 +1118,7 @@ c_R228G67B251 = {
 	8277.1.1 = { holder = eetlv_cs_11_12 }
 }
 
-### Xalaen  (6 counties)
+# Xalaen (6 counties)
 d_R81G64B118 = {
 	7898.1.1 = {
 		holder = eetlv_cs_12_1
@@ -1238,7 +1221,7 @@ c_R179G99B246 = {
 	8277.1.1 = { holder = eetlv_cs_12_12 }
 }
 
-### Qarem  (7 counties)
+# Qarem (7 counties)
 d_R238G6B173 = {
 	7898.1.1 = {
 		holder = eetlv_cs_13_1
@@ -1355,7 +1338,7 @@ c_R117G33B12 = {
 	8277.1.1 = { holder = eetlv_cs_13_12 }
 }
 
-### Naraen  (7 counties)
+# Naraen (7 counties)
 d_R42G145B84 = {
 	7898.1.1 = {
 		holder = eetlv_cs_14_1
@@ -1472,7 +1455,7 @@ c_R110G141B33 = {
 	8277.1.1 = { holder = eetlv_cs_14_12 }
 }
 
-### The Great Chieftain: leads the confederation, rules only his own tribe
+# The Great Chieftain:
 e_cannibal_sands = {
 	7898.1.1 = {
 		holder = eetlv_cs_1_1

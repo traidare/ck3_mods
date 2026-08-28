@@ -6,14 +6,26 @@ Legacy of Valyria, and Essos Expanded playset. Load position: immediately after
 
 ## Ownership
 
-This module intentionally owns:
+This module is a **gap filler**. It same-path overrides no upstream terrain
+file: its single output is
+`common/province_terrain/zzzz_agot_now_lov_ee_world_data.txt`, whose `zzzz_`
+prefix places it last in ASCIIbetical order so it loads alongside Further East's
+own files rather than instead of them. Every province Further East, AGOT, NOW,
+or LoV assigns therefore keeps its own author's terrain.
 
-- `common/province_terrain/ee_province_terrain.txt` for Essos Expanded provinces
-  10946 through 26420, deferring to the TempLoV compatch wherever it authors a
-  real terrain and supplying generated terrain only where it still leaves its
-  `plains` placeholder; and
+It intentionally owns:
+
+- generated terrain for the 1,435 provinces in the 10946-26420 range that **no**
+  effective module assigns a real terrain to. Generation fails if that output
+  would collide with any upstream assignment, so every province Further East,
+  AGOT, NOW, or LoV has an opinion about keeps its own author's value; and
 - the graphical geographical-region keys emitted in
   `map_data/geographical_regions/zzzz_agot_now_lov_ee_world_data.txt`.
+
+Further East v4 sets this module's scope. It authors terrain for 14,040 of the
+15,475 provinces in the classified range, leaving the 1,435 gaps above. The
+classifier measures Further East's own raster and definition table, so the ids
+it classifies describe the land it samples.
 
 It does not own map definitions, map images, landed titles, province/title
 history, governments, or holders. In particular, it does not change Maegon
@@ -67,3 +79,20 @@ Re-run the audit after every update to Workshop mods `2962333032`, `3664900993`,
 `agot_now_lov_ee_map_compatch`. When an upstream input or reference image
 changes, review the source diff and structural assertions, then update the
 granular source-manifest asset before regenerating.
+
+Specific triggers carried over from the Further East v4 rebase:
+
+- `EXPECTED_GAP_COUNT` shrinking is the signal that this module is approaching
+  retirement. When Further East covers the range completely, delete it.
+- `EXPECTED_NAMED_TARGETS` and `EXPECTED_TITLE_COUNT` pin how much of the range
+  Further East has authored; either moving means re-reading its structure before
+  trusting the classifier's scope.
+- The empire tier is optional. Further East leaves 146 provinces under top-level
+  `k_R43G49B154`, mapped to `graphical_western` because Further East already
+  assigns them that region upstream. Re-check that mapping if it gains a parent.
+- `e_lorath`, `e_norvos`, and `e_qohor` were dropped from both asset configs:
+  AGOT owns them natively now and Further East adopted its province band, so
+  they left the classified range.
+- `e_lhazar` and `e_lower_sarne_dothraki` are each two landmasses under Further
+  East v4. Both components take the same style, so the disconnection is accepted
+  rather than reviewed province by province.

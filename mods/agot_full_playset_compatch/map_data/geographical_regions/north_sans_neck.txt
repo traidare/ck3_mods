@@ -79,6 +79,7 @@ world_westeros_the_arbor_seasons = {
 		d_southshield
 	}
 }
+
 world_westeros_the_stormlands_sans_marches = {
 	duchies = {
 		d_shipbreaker_bay
@@ -120,6 +121,7 @@ world_westeros_rest_of_dorne = {
 world_lonely_light = {
 
 }
+#WINTER GROUPS SEASONS
 world_group_one = {
 	regions = {
 		world_barrowlands_seasons
@@ -148,6 +150,7 @@ world_group_two = {
 		world_kraken_bay
 		world_iron_isles
 		world_the_fingers_seasons
+		world_norvos_seasons
 	}
 }
 world_group_three = {
@@ -178,6 +181,7 @@ world_group_four = {
 		world_lov_middle_rhoyne
 	}
 }
+
 world_group_five = {
 	regions = {
 		world_rainwood
@@ -248,6 +252,9 @@ world_group_ten = {
 		world_lov_north_ghiscar
 	}
 }
+#NEW REGIONS FOR SEASONS
+
+
 world_tarth_and_estermont = {
 	duchies = {
 		d_estermont_isles
@@ -359,6 +366,7 @@ world_upper_crown = {
 		d_maidenpool
 		d_deerfield
 		d_rooks_rest
+		d_crackclaw_point
 		#d_claw_isle #maybe change
 		d_hayford
 		d_riverline
@@ -366,6 +374,8 @@ world_upper_crown = {
 		d_coinbridge
 	}
 	counties = {
+		c_darry
+		c_riverline
 		c_bramsfort
 		#c_shrinebridge
 		c_shinebridge
@@ -416,6 +426,7 @@ world_upper_reach = {
 
 	}
 }
+
 world_andalosi_coast = {
 	counties = {
 		c_horost
@@ -483,10 +494,31 @@ world_pentoshi_inland_lowlands = {
 	duchies = {
 		d_the_flatlands
 		d_little_rhoyne
+		d_ghoyan_drohe
+		d_gamia_noias
+		d_ny_sar
 	}
 	counties = {
 		c_hareqeblon
 		c_phasios_hills
+	}
+}
+world_norvos_seasons = {
+	kingdoms = {
+		k_the_axe
+		k_lorath
+		k_norvos
+		k_qohor
+	}
+	duchies = {
+		d_fair_spine
+		d_the_grommet
+		d_roseate_bank
+		d_ar_noy
+		d_soqhoyn_eon
+		d_norvos_rib
+		d_vardyghagyu
+		#d_
 	}
 }
 world_pentoshi_highlands = {
@@ -511,6 +543,19 @@ world_myr_north_lands = {
 		d_qehes
 		d_greenlace
 		d_brenassar
+		d_azure_valley
+		d_gar_sagon
+		d_chroyane
+		d_suru_mal
+		d_sen_malhoy
+		d_rhillupea
+		d_golden_fields
+		d_rel_gydhal
+		d_ferrous_basin
+		d_storskupsqoa
+		d_nazejan
+		d_ziruspakto
+		d_mal_dareas
 	}
 	counties = {
 		c_jaeren
@@ -559,6 +604,7 @@ world_lys_and_mangroves = {
 	}
 
 }
+
 world_broken_arm_woods = {
 	duchies = {
 		d_broken_arm
@@ -668,6 +714,7 @@ world_star_fall = {
 	#	world_rest_of_dreadsands
 	#}
 }
+
 world_honey_lands = {
 	duchies = {
 	 d_honeylands
@@ -688,6 +735,8 @@ world_honey_lands = {
 		c_lavenderne
 	}
 }
+
+
 world_dornish_marches_seasons = {
 	regions = {
 		world_rest_of_prince_pass #incase  I want to remove to another one later
@@ -780,6 +829,7 @@ world_westerlands_low = {
 		c_longbolt
 		c_redbramble
 		c_lansdale
+		c_rutland
 		c_lonmont
 
 	}
@@ -1148,8 +1198,10 @@ world_sheepshead_hills = {
 		c_the_gap
 		c_woodward
 		c_hornwood
+		c_the_cinders
 		c_velvet_grove
 		c_wraithfeld
+		c_matchwood
 		c_the_weep
 		c_overton
 		c_tawney_bay
@@ -1210,6 +1262,8 @@ world_frozen_shore_seasons = {
 		d_great_ice_river
 	}
 }
+
+
 world_the_arbor = {
 	duchies = {
 		d_the_arbor
@@ -1225,11 +1279,20 @@ world_the_shield_islands = {
 	}
 
 }
+#ESSOS :
+
+
+#extra extra read all about it!
 world_rest_of_essos_valyria_LOV = {
 	# LoV & Seasons compatch: was duchies = { d_ruins }, which is EVERY wasteland on the map.
 	# AGOT 0.4.40 stubbed the real Essos regions, so upstream's essos_dothraki rolls were
 	# carpet-painting all ruins provinces with one season. Emptied on purpose.
 }
+
+
+#WEATHER REGIONS
+
+
 world_trident = {
 	counties = {
 		c_gaines
@@ -1242,6 +1305,7 @@ world_trident = {
 		c_fairmarket
 	}
 }
+
 world_crossing_flood = {
 	counties = {
 		c_erenford

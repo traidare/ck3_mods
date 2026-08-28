@@ -22,13 +22,24 @@ Whole-file merges of paths that several parents genuinely contest:
   definitions, repaint actions, map modes, seasonal effects, GUI, situations,
   and localization.
 
-Beyond those merges the generated layer owns four cross-parent whole-file
+Beyond those merges the generated layer owns five cross-parent whole-file
 overrides: the three historical Dance-of-the-Dragons season starts (autumn
 rather than a summer-to-autumn delay), the shared Seasons shader skip threshold,
-the Seasons regional cleanup memberships, and NOW's English and Spanish title
-names. The regional cleanup rebases `c_sallydance` and `d_greenbelt` onto NOW's
-tokens; it also keeps the Iron Isles specific and covers LoV regions without
-applying seasons to wilderness ruins.
+the Seasons regional cleanup memberships, NOW's English and Spanish title names,
+and the contested dragon on-action file. The regional cleanup rebases
+`c_sallydance` and `d_greenbelt` onto NOW's tokens; it also keeps the Iron Isles
+specific and covers LoV regions without applying seasons to wilderness ruins.
+
+`mde_yearly_on_actions.txt` is shipped by both AGOT More Dragon Eggs and AGOT -
+More Dragon Events, so the later of them drops the other's file whole. Their
+definitions are disjoint — the canon egg-clutch pulse and its game-start
+variable on one side, an `agot_yearly_owned_dragon_pulse` extension on the other
+— so the override is their union. CK3 merges on_action declarations across
+files, and More Dragon Events' pulse is a copy of AGOT's 38 entries plus its own
+14, so only the 14 additions are emitted: re-emitting the copy would merge
+AGOT's entries a second time and halve the chance of no event firing. The
+generator asserts the copied part still matches AGOT's declaration exactly, so
+an upstream rebalance fails generation instead of being silently discarded.
 
 The title-name overrides are NOW's files verbatim plus the three barony names
 the NOW-COW province remap needs — `b_breakwater_castle`, `b_breakwater_watch`,
@@ -44,20 +55,27 @@ rewrites them: a stale hand copy silently drops every title NOW has renamed or
 added since the copy was taken, falling those titles back to AGOT's names.
 
 `grandeur_levels.txt` is a single whole-file path that AGOT, Additional Models,
-the AGOT+ compatch, LoV, and the temporary Additional Models/AGOT+/LoV compatch
-all claim, so the last of them silently drops every court scene the others
-registered. The temporary compatch carries the AGOT+, LoV, and Essos entries
-that Additional Models lacks, so it stays the base and only Additional Models'
-extra court scenes are added: `lorath_court` and `norvos_court`, which are
-AGOT's, plus its own `amsb_lokiria_court`. Without them those courts never
-progress a visual culture level, even though `agot_playset_runtime_fixes`
-already routes the Lorath and Norvos scene-culture selectors. The generator
-asserts that set exactly, so it fails rather than quietly absorbing a new court.
+the AGOT+ compatch, LoV, Further East, and the temporary Additional
+Models/AGOT+/LoV compatch all claim, so the last of them silently drops every
+court scene the others registered. The temporary compatch loads last and
+registers a superset of every other claimant's scenes, so no override is needed
+here. A scene with no entry never progresses a visual culture level and nothing
+reports it at runtime, so the generator asserts that coverage still holds and
+fails if the file has to be merged again.
 
-That cleanup is written to `map_data/geographical_regions/north_sans_neck.txt`,
-the same path the Seasons fork uses: `replace/` is a plain subfolder there with
-no engine meaning, so a copy inside it would load _alongside_ the fork's file
-and define every shared region twice.
+The regional cleanup is written to
+`map_data/geographical_regions/north_sans_neck.txt`, the same path the Seasons
+fork uses: `replace/` is a plain subfolder there with no engine meaning, so a
+copy inside it would load _alongside_ the fork's file and define every shared
+region twice.
+
+`zzz_agot_cow_building_model_trigger.txt` is hand-merged rather than generated,
+and the COW-AGOT/NOW compatch it takes its province remaps from is not enabled —
+that mod's `map_object_data` would shadow the map compatch. It is declared as a
+source anyway, hash-pinned like every other, and the generator asserts each
+province/building model pair it defines is still carried by the merged trigger.
+A remap upstream therefore fails generation rather than leaving the wrong model
+on Dunstonbury or Sisterton.
 
 A narrow `can_raid` scripted-rule override also returns false when CK3 evaluates
 the rule without a potential-raider character, while delegating unchanged to
@@ -101,7 +119,7 @@ layers repair:
 - AGOT and the temporary Additional Models/AGOT+/LoV compatch evaluating
   court-scene culture triggers without a valid royal-court owner;
 - VIET's vanilla-only events, region selectors, and missing heritage helpers;
-- LoV RC71's invalid county-tier pirate elective assignments;
+- the LoV AGOT bridge's invalid county-tier pirate elective assignments;
 - Essos Expanded's 54 CK3 1.19-invalid title-history capital tokens; and
 - CaFG's four references to AGOT-absent `tradition_steppe_tolerance`, handled
   directly by the CaFG AGOT compatch, plus its 35 cultural-boon MAA types
@@ -114,9 +132,10 @@ ck3mm mod generate agot_full_playset_compatch
 ck3mm mod generate agot_full_playset_compatch --apply
 ```
 
-The `mod.toml` manifest regenerates the owned outputs from the declared NOW and
-Seasons-fork sources. Its portable source metadata lives here, outside the
-installed runtime payload.
+The `mod.toml` manifest regenerates the owned outputs from the declared AGOT,
+NOW, Seasons-fork, and dragon-mod sources, and declares the Additional Models,
+AGOT+/LoV compatch, and COW-AGOT/NOW sources that back the two assertions above.
+Its portable source metadata lives here, outside the installed runtime payload.
 
 ## Re-audit
 

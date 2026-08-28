@@ -1,23 +1,10 @@
 [generator]
 entrypoint = "map_merge.py:generate"
 owned_outputs = [
-  "gfx/map",
-  "map_data/definition.csv",
-  "map_data/default.map",
-  "map_data/provinces.png",
-  "common/landed_titles/01_agot_landed_titles.txt",
-  "common/landed_titles/lv_rhoyne_titles.txt",
-  "common/landed_titles/lv_volantis_titles.txt",
-  "common/landed_titles/lv_sothoryos_titles.txt",
-  "common/landed_titles/01_landed_titles.txt",
-  "history/titles/lv_development_levels.txt",
-  "history/titles/zz_eetlv_cob_dejure.txt",
-  "history/provinces/zz_agot_new_region_prov.txt",
-  "history/provinces/lv_k_volantis.txt",
+  "gfx/map/map_object_data",
+  "map_data",
 ]
 owned_artifacts = [
-  "heightmap",
-  "map_objects",
   "map_data",
 ]
 
@@ -32,16 +19,6 @@ kind = "workshop"
 item_id = "3664900993"
 
 [[sources]]
-name = "lov"
-kind = "workshop"
-item_id = "3403938445"
-
-[[sources]]
-name = "lov-bridge"
-kind = "workshop"
-item_id = "3719888822"
-
-[[sources]]
 name = "essos-expanded"
 kind = "workshop"
 item_id = "3682802751"
@@ -50,3 +27,8 @@ item_id = "3682802751"
 name = "essos-bridge"
 kind = "workshop"
 item_id = "3768149491"
+
+[[sources]]
+name = "cow-now-compatch"
+kind = "workshop"
+item_id = "3742055253"

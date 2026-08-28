@@ -14,7 +14,8 @@ Data**, and before the generic runtime-fix and full-playset compatches.
 Governments follow the described ruling institutions of each people:
 
 - Dothraki and Jogos Nhai rulers are nomadic; the Dosh Khaleen are theocratic.
-- Norvos and the Red Priesthood are theocratic.
+- The Red Priesthood is theocratic. Norvos, Lorath, and Qohor are left to A Game
+  of Thrones, which covers those cities itself.
 - The Free Cities use administrative or oligarchic forms.
 - The Ghiscari slave cities, the Valyrian Freehold, and Qarth are oligarchic.
 - Yi Ti uses celestial government for the God-Emperor and meritocratic

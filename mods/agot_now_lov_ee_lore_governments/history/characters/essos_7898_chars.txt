@@ -1,5 +1,4 @@
-﻿# Auto-generated characters for the 7898 bookmark
-
+﻿# EE TempLoV Compatch v3.4.0:
 
 gen_2339 = {
 	name = "N'vroth"
@@ -50,7 +49,6 @@ gen_2344 = {
 	7888.4.5 = { birth = yes }
 }
 
-
 gen_2345 = {
 	name = "Qahroth"
 	culture = qaleen
@@ -99,7 +97,6 @@ gen_2350 = {
 	7888.4.5 = { birth = yes }
 }
 
-
 gen_2351 = {
 	name = "Yenathal"
 	culture = kayakayanayan
@@ -147,7 +144,6 @@ gen_2356 = {
 	religion = rhllor_hyrkoon
 	7888.4.5 = { birth = yes }
 }
-
 
 gen_2357 = {
 	name = "Habrath"
@@ -203,7 +199,6 @@ gen_2362 = {
 	7899.8.14 = { religion = ib_ven_sound }
 }
 
-
 gen_2363 = {
 	name = "Elaevoth"
 	culture = ifequevron
@@ -251,7 +246,6 @@ gen_2368 = {
 	religion = fg_pan_elenei
 	7888.4.5 = { birth = yes }
 }
-
 
 gen_2369 = {
 	name = "Sahrond"
@@ -301,7 +295,6 @@ gen_2374 = {
 	7888.4.5 = { birth = yes }
 }
 
-
 gen_2375 = {
 	name = "Lhorath"
 	culture = lorathi
@@ -349,7 +342,6 @@ gen_2380 = {
 	religion = fc_pan_lorath
 	7888.4.5 = { birth = yes }
 }
-
 
 gen_2381 = {
 	name = "Korghel"
@@ -399,7 +391,6 @@ gen_2386 = {
 	7888.4.5 = { birth = yes }
 }
 
-
 gen_2387 = {
 	name = "Naevarn"
 	culture = naathi
@@ -448,7 +439,6 @@ gen_2392 = {
 	7888.4.5 = { birth = yes }
 }
 
-
 gen_2393 = {
 	name = "Norvath"
 	culture = norvoshi
@@ -462,6 +452,7 @@ gen_2394 = {
 	culture = norvoshi
 	religion = fc_pan_bearded
 	7863.1.1 = { birth = yes }
+	7898.1.1 = { add_legitimacy = 3000 }
 }
 
 gen_2395 = {
@@ -495,7 +486,6 @@ gen_2398 = {
 	religion = fc_pan_bearded
 	7888.4.5 = { birth = yes }
 }
-
 
 gen_2399 = {
 	name = "Ombryn"
@@ -545,7 +535,6 @@ gen_2404 = {
 	7888.4.5 = { birth = yes }
 }
 
-
 gen_2405 = {
 	name = "Qhovrath"
 	culture = qohorik
@@ -592,7 +581,6 @@ gen_2410 = {
 	religion = fc_pan_blackgoat
 	7888.4.5 = { birth = yes }
 }
-
 
 gen_2411 = {
 	name = "Alzavar"
@@ -642,7 +630,6 @@ gen_2416 = {
 	7888.4.5 = { birth = yes }
 }
 
-
 gen_2417 = {
 	name = "Gograth"
 	culture = gogossite
@@ -691,7 +678,6 @@ gen_2422 = {
 	7888.4.5 = { birth = yes }
 }
 
-
 gen_2423 = {
 	name = "Jalavar Ko"
 	culture = jhalai
@@ -739,7 +725,6 @@ gen_2428 = {
 	religion = summer_gods_pan
 	7888.4.5 = { birth = yes }
 }
-
 
 gen_2429 = {
 	name = "Vorrath"
@@ -790,7 +775,6 @@ gen_2434 = {
 	7888.4.5 = { birth = yes }
 }
 
-
 gen_2435 = {
 	name = "Azraveth"
 	culture = shadowman
@@ -838,7 +822,6 @@ gen_2440 = {
 	religion = eldritch_bloodgod
 	7888.4.5 = { birth = yes }
 }
-
 
 gen_2441 = {
 	name = "Marrho"
@@ -889,7 +872,6 @@ gen_2446 = {
 	7888.4.5 = { birth = yes }
 }
 
-
 gen_2447 = {
 	name = "Jhorgath"
 	culture = dothraki
@@ -938,7 +920,6 @@ gen_2452 = {
 	religion = dothraki_faith
 	7888.4.5 = { birth = yes }
 }
-
 
 gen_2453 = {
 	name = "Orrago"
@@ -989,7 +970,6 @@ gen_2458 = {
 	7888.4.5 = { birth = yes }
 }
 
-
 gen_2459 = {
 	name = "Forzakh"
 	culture = dothraki
@@ -1039,7 +1019,6 @@ gen_2464 = {
 	7888.4.5 = { birth = yes }
 }
 
-
 gen_2465 = {
 	name = "Darro Fen"
 	culture = lhazareen
@@ -1088,7 +1067,6 @@ gen_2470 = {
 	7888.4.5 = { birth = yes }
 }
 
-
 gen_2471 = {
 	name = "Pyreth Ko"
 	culture = qartheen
@@ -1136,7 +1114,6 @@ gen_2476 = {
 	religion = qh_pureborn
 	7888.4.5 = { birth = yes }
 }
-
 
 gen_2477 = {
 	name = "Lo Ven"
@@ -1187,7 +1164,6 @@ gen_2482 = {
 	7888.4.5 = { birth = yes }
 }
 
-
 gen_2483 = {
 	name = "Jong Fen"
 	culture = jogos_nhai
@@ -1237,11 +1213,10 @@ gen_2488 = {
 	7888.4.5 = { birth = yes }
 }
 
-
 gen_2489 = {
 	name = "Varom Fen"
 	culture = vahari
-	religion = eldritch_bloodgod
+	religion = eetlv_old_accounts
 	7838.1.1 = { birth = yes }
 }
 
@@ -1250,7 +1225,7 @@ gen_2490 = {
 	dynasty = eetlv_dynn_varom
 	father = gen_2489
 	culture = vahari
-	religion = eldritch_bloodgod
+	religion = eetlv_old_accounts
 	7863.1.1 = { birth = yes }
 	7898.1.1 = { add_legitimacy = 3000 }
 }
@@ -1259,7 +1234,7 @@ gen_2491 = {
 	name = "Varom Ko"
 	father = gen_2489
 	culture = vahari
-	religion = eldritch_bloodgod
+	religion = eetlv_old_accounts
 	7861.5.15 = { birth = yes }
 }
 
@@ -1267,7 +1242,7 @@ gen_2492 = {
 	name = "Varom Vin"
 	father = gen_2489
 	culture = vahari
-	religion = eldritch_bloodgod
+	religion = eetlv_old_accounts
 	7865.3.10 = { birth = yes }
 }
 
@@ -1275,7 +1250,7 @@ gen_2493 = {
 	name = "Varom Zin"
 	father = gen_2490
 	culture = vahari
-	religion = eldritch_bloodgod
+	religion = eetlv_old_accounts
 	7884.8.1 = { birth = yes }
 }
 
@@ -1283,10 +1258,9 @@ gen_2494 = {
 	name = "Varom Ral"
 	father = gen_2490
 	culture = vahari
-	religion = eldritch_bloodgod
+	religion = eetlv_old_accounts
 	7888.4.5 = { birth = yes }
 }
-
 
 gen_2495 = {
 	name = "Lengoreth"
@@ -1296,9 +1270,10 @@ gen_2495 = {
 }
 
 gen_2496 = {
-	name = "Yal Tengvar"
+	name = "Yal Tengvara"
+	female = yes   # v3.4.0: Leng is ruled by god-empresses
 	dynasty = eetlv_dynn_tengvar
-	father = gen_2495
+	father = eetlv_leng_consort_1
 	culture = lengii
 	religion = eldritch_leng
 	7863.1.1 = { birth = yes }
@@ -1307,7 +1282,7 @@ gen_2496 = {
 
 gen_2497 = {
 	name = "Yaltovar"
-	father = gen_2495
+	mother = gen_2495
 	culture = lengii
 	religion = eldritch_leng
 	7861.5.15 = { birth = yes }
@@ -1315,7 +1290,7 @@ gen_2497 = {
 
 gen_2498 = {
 	name = "Lengorn"
-	father = gen_2495
+	mother = gen_2495
 	culture = lengii
 	religion = eldritch_leng
 	7865.3.10 = { birth = yes }
@@ -1323,7 +1298,7 @@ gen_2498 = {
 
 gen_2499 = {
 	name = "Yalton"
-	father = gen_2496
+	mother = gen_2496
 	culture = lengii
 	religion = eldritch_leng
 	7884.8.1 = { birth = yes }
@@ -1331,7 +1306,7 @@ gen_2499 = {
 
 gen_2500 = {
 	name = "Lengovar"
-	father = gen_2496
+	mother = gen_2496
 	culture = lengii
 	religion = eldritch_leng
 	7888.4.5 = { birth = yes }

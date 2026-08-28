@@ -7,7 +7,7 @@ import re
 import textwrap
 
 from gen.script import normalize_rebased_source, read_text, replace_regex, write_text
-from gen.text import definition_span, replace_exact
+from gen.text import replace_exact
 
 from .common import assert_source_block_hash, extract_top_level_block, game_root
 from .context import RunInputs
@@ -223,7 +223,47 @@ def generate_essos_disabled_realm_cleanup(inputs: RunInputs) -> None:
     if on_action.count("essos_remove_realms = {") != 1:
         raise RuntimeError("Essos Expanded startup dispatcher changed")
 
-    for realm in realms:
+    # Further East ships the last landed-titles file, so it defines which Essos
+    # Expanded empires still exist. AGOT covers Lorath, Norvos, and Qohor
+    # natively, and Further East drops their empires accordingly; keeping their
+    # removal actions would dispatch game-start effects at undefined titles.
+    landed_titles = read_text(
+        inputs.WORKSHOP / "3768149491/common/landed_titles/01_landed_titles.txt"
+    )
+    retired = [
+        realm
+        for realm in realms
+        if not re.search(rf"(?m)^\s*e_{re.escape(realm)}\s*=\s*{{", landed_titles)
+    ]
+    if len(retired) > len(realms) // 2:
+        raise RuntimeError(
+            "Further East defines almost no Essos Expanded empire; re-audit "
+            "whether it still ships the effective landed titles"
+        )
+    for realm in retired:
+        on_action = replace_exact(
+            on_action,
+            f"\t\tessos_remove_realm_{realm}\n",
+            "",
+            expected=1,
+            label=f"retired Essos empire dispatch for {realm}",
+        )
+        on_action = replace_exact(
+            on_action,
+            extract_top_level_block(on_action, f"essos_remove_realm_{realm}") + "\n\n",
+            "",
+            expected=1,
+            label=f"retired Essos empire removal action for {realm}",
+        )
+        on_action = replace_exact(
+            on_action,
+            f"\t\t\t\t\t\tprimary_title = title:e_{realm}\n",
+            "",
+            expected=1,
+            label=f"retired Essos empire family filter for {realm}",
+        )
+
+    for realm in (realm for realm in realms if realm not in retired):
         rule = f"essos_empire_{realm}_disabled"
         root_title = f"title:e_{realm}"
         old_removal = f"agot_remove_realm_effect = {{ REALM = {root_title} }}"
@@ -607,90 +647,6 @@ def generate_nomad_yurt_guards(inputs: RunInputs) -> None:
         source, old_900, new_900, expected=1, label="LoV nomad 900 yurt setup"
     )
     write_text(inputs.OUTPUT, relative, source)
-
-
-def generate_pirate_succession_guards(inputs: RunInputs) -> None:
-    """Give LoV county pirates the title law their government requires."""
-    law_relative = "common/laws/01_title_succession_laws.txt"
-    law_source = read_text(inputs.WORKSHOP / "3719888822" / law_relative)
-    law_start, law_end = definition_span(law_source, "pirate_succession_law")
-    law_block = law_source[law_start:law_end]
-    if law_block.count("\t\thighest_held_title_tier >= tier_county\n") != 1:
-        raise RuntimeError("LoV county-pirate law eligibility changed")
-    write_text(inputs.OUTPUT, law_relative, law_source)
-
-    on_action_relative = "common/on_action/agot_on_actions/agot_title_on_actions.txt"
-    on_action = read_text(inputs.WORKSHOP / "3719888822" / on_action_relative)
-    block = extract_top_level_block(on_action, "agot_on_title_gain")
-    if block.count("\t\t\t\t\ttier >= tier_county\n") != 1:
-        raise RuntimeError("LoV pirate title-gain county floor changed")
-    repaired_block = block
-    repaired_block = replace_exact(
-        repaired_block,
-        "\t\t\t\t\tscope:title = {\n"
-        "\t\t\t\t\t\tNOT = { var:current_house = root.house }\n"
-        "\t\t\t\t\t\tNOT = { var:legitimate_house = root.house }\n"
-        "\t\t\t\t\t}",
-        "\t\t\t\t\tscope:title = {\n"
-        "\t\t\t\t\t\texists = var:current_house\n"
-        "\t\t\t\t\t\texists = var:legitimate_house\n"
-        "\t\t\t\t\t\tNOT = { var:current_house = root.house }\n"
-        "\t\t\t\t\t\tNOT = { var:legitimate_house = root.house }\n"
-        "\t\t\t\t\t}",
-        expected=1,
-        label="AGOT title-gain legitimate-house guard",
-    )
-    repaired_block = replace_exact(
-        repaired_block,
-        "\t\t\t\t\t\tvar:current_house = root.house\n",
-        "\t\t\t\t\t\texists = var:current_house\n"
-        "\t\t\t\t\t\tvar:current_house = root.house\n",
-        expected=1,
-        label="AGOT title-gain current-house guard",
-    )
-    on_action = on_action.replace(block, repaired_block, 1)
-    write_text(inputs.OUTPUT, on_action_relative, on_action)
-
-    effect_relative = (
-        "common/scripted_effects/zz_lv_agot_pirate_succession_reconciliation_rc69.txt"
-    )
-    effect = read_text(inputs.WORKSHOP / "3719888822" / effect_relative)
-    if effect.count("\t\t\ttier >= tier_county\n") != 1:
-        raise RuntimeError("LoV pirate reconciliation county floor changed")
-    write_text(inputs.OUTPUT, effect_relative, effect)
-
-    history_pattern = re.compile(
-        r"(?m)^(?P<indent>[ \t]*)government = "
-        r"pirate_(?:no_dlc_)?government\n"
-        r"(?![ \t]*succession_laws = \{ pirate_succession_law \}\n)"
-    )
-    history_repairs = {
-        "history/titles/agot_sothori_history_titles.txt": 11,
-        "history/titles/lv_k_the_basilisk_isles.txt": 18,
-    }
-    for relative, expected in history_repairs.items():
-        source = read_text(inputs.LORE_GOVERNMENTS / relative)
-        repaired, count = history_pattern.subn(
-            lambda match: (
-                match.group(0)
-                + match.group("indent")
-                + "succession_laws = { pirate_succession_law }\n"
-            ),
-            source,
-        )
-        if count != expected:
-            raise RuntimeError(
-                f"LoV county-pirate history changed for {relative}: "
-                f"expected {expected} missing laws, found {count}"
-            )
-        if relative == "history/titles/agot_sothori_history_titles.txt":
-            repaired, indentation_repairs = re.subn(r"(?m)^ \t", "\t", repaired)
-            if indentation_repairs != 112:
-                raise RuntimeError(
-                    "LoV Sothoryos indentation changed: "
-                    f"expected 112 repairs, found {indentation_repairs}"
-                )
-        write_text(inputs.OUTPUT, relative, repaired)
 
 
 def generate_faction_legitimate_house_guards(inputs: RunInputs) -> None:

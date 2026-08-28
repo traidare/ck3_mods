@@ -1,8 +1,4 @@
-﻿# EE TempLoV Compatch: governments, development and economy all at game start.
-# Both effects are runtime seeding, the mechanism verified working live in game.
-# v3.0.4: this mod declares exactly ONE on_game_start block, here. Do not add a second one
-# anywhere: only one survives the collision. Everything hangs off zz_eetlv_gov_dev_setup below,
-# which is the chain verified to execute live in game.
+﻿# EE TempLoV Compatch:
 on_game_start = {
 	on_actions = {
 		zz_eetlv_gov_dev_setup
@@ -18,30 +14,20 @@ zz_eetlv_gov_dev_setup = {
 		zz_eetlv_innovations_effect = yes
 		zz_eetlv_buildings_effect = yes
 		zz_eetlv_roads_effect = yes
-		# v2.4: Carcosa and its Yellow Emperor, rival claimant to Yi-Ti
+# v2.4:
 		zz_eetlv_carcosa_effect = yes
-		# v3.0: the Cannibal Sands. Essos Expanded left all 308 provinces empty and
-		# gave every county to the hidden Wilderness Empress, and dressed the region
-		# in qaleen, a Qaathi culture from beside Qarth, on Carcosa's Yellow Sign.
-		# Convert the rulers Essos Expanded generated. The chieftains and their land are
-		# plain title history now (history/titles/vassal_titles_e_cannibal_sands.txt);
-		# two runtime attempts at the land failed and the second left the region unclaimed.
+# v3.0:
 		every_living_character = {
 			limit = { culture = culture:qaleen }
 			set_culture = culture:eetlv_sand_ghoul
 			set_character_faith = faith:eetlv_red_feast
 		}
-		# v3.0: the Jogos Nhai stop being N'ghai. Essos Expanded generated every ruler on
-		# the plains as nefer, the culture of the small kingdom those riders raided down to
-		# one city. AGOT's own jogos_nhai culture had never been used by anything.
+# v3.0:
 		every_living_character = {
 			limit = { culture = culture:nefer }
 			set_culture = culture:jogos_nhai
 		}
-		# The faith half of this used "religion = faith:song_nefer" the first time, which
-		# compares religions rather than faiths and left the Jhattar on the Beneath. Done
-		# as its own pass on faith now, so anyone who came out Jogos Nhai but kept N'ghai's
-		# faith is caught, whatever route they took to get there.
+# The faith half of this used "religion = faith:song_nefer" the first time,
 		every_living_character = {
 			limit = {
 				culture = culture:jogos_nhai
@@ -49,7 +35,7 @@ zz_eetlv_gov_dev_setup = {
 			}
 			set_character_faith = faith:song_moon
 		}
-		# and Nefer itself stays N'ghai: its lord and his court keep the old culture
+# and Nefer itself stays N'ghai:
 		title:d_R133G181B31.holder ?= {
 			set_culture = culture:nefer
 			set_character_faith = faith:song_nefer
@@ -60,37 +46,31 @@ zz_eetlv_gov_dev_setup = {
 				every_courtier = { set_culture = culture:nefer set_character_faith = faith:song_nefer }
 			}
 		}
-		# v2.3: LoV Temporary Compatch RC71 stripped Meereen/Astapor's vassal liege lines,
-		# both cities started with zero vassals. Re-swear the exact counties at game start.
+# v2.3:
 		zz_eetlv_ghiscar_vassal_effect = yes
-		# v2.3: every Bloodless Man carries the Bloodless genetic trait, albino look
-		# plus the vampire rumors, inherits in their line from here on
+# v2.3:
 		every_living_character = {
 			limit = { culture = culture:bloodless_man }
 			add_trait = eetlv_bloodless
-			# v3.0: and off the Thousand Isles' fish gods, onto the Church of the Bloodless,
-			# whose devotees AGOT literally names "Bloodless man"
+# v3.0:
 			if = {
 				limit = { faith = faith:eldritch_fishgod }
 				set_character_faith = faith:eldritch_bloodgod
 			}
 		}
-		# v3.0: the Thousand Islands become Thousand Islanders. Essos Expanded generated
-		# them as manticorian, the people of the Manticore Isles.
+# v3.0:
 		every_living_character = {
 			limit = { culture = culture:manticorian }
 			set_culture = culture:fish_man
 		}
-		# and they eat what washes up on their shore
+# and they eat what washes up on their shore
 		every_living_character = {
 			limit = { culture = culture:fish_man }
 			add_trait = cannibal
 		}
-		# v2.3: Leng is ruled by god-empresses per TWOIAF, female preference succession
+# v2.3:
 		title:e_leng ?= { add_title_law = female_preference_law }
-		# v2.4: change_government wipes the coronation laws AGOT grants at game start,
-		# which left the whole east bare-headed forever (the uncrowned law blocks all
-		# royal headgear). Re-crown every eligible king and emperor after our setup.
+# v2.4:
 		every_independent_ruler = {
 			limit = {
 				highest_held_title_tier >= tier_kingdom
@@ -108,20 +88,16 @@ zz_eetlv_gov_dev_setup = {
 				add_realm_law_skip_effects = crowned_emperor
 			}
 		}
-		# v3.0: give our culture the dummy AGOT's description tooltip looks for
+# v3.0:
 		zz_eetlv_culture_desc_effect = yes
-		# v3.0: the Cannibal Sands ride as a nomad confederation. Called LAST and DLC-gated
-		# in its own file, so if any of it fails nothing above it is affected.
+# v3.0:
 		# Runtime quarantine: every prerequisite nomad government
 		# assignment is illegal, so no confederation can be formed.
-		# v2.1: our wilderness counties can hijack the Wilderness holder's default capital,
-		# which paints the hidden Lordship of Wilderness realm pin in the middle of Essos.
-		# Pin the capital back to AGOT's hidden corner county.
+# v2.1:
 		title:c_wilderness.holder ?= {
 			set_realm_capital = title:c_wilderness
 		}
-		# v3.0.4: the Yingzao Fashi monuments. Run from inside this chain because as its own
-		# on_action it never resolved, placing nothing and logging nothing.
+# v3.0.4:
 		zz_eetlv_yingzao_placement_effect = yes
 	}
 }

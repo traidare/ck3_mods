@@ -1024,6 +1024,14 @@ vance_signal_fires_modifier = {
 	build_speed = 0.05
 }
 
+vance_vanguard_readiness_bla = {
+	icon = martial_positive
+	knight_effectiveness_mult = 0.05
+	army_damage_mult = 0.05
+	army_toughness_mult = 0.05
+}
+
+
 # =========================================================
 # Generic Harrenhal Modifiers
 # =========================================================
@@ -1645,6 +1653,20 @@ trident_forced_obedience_bla = {
 	general_opinion = -5
 }
 
+intimidated_by_trident_lord_bla = {
+	icon = dread_positive
+	vassal_opinion = 10
+}
+
+disappointed_by_trident_lord_bla = {
+	icon = diplomacy_negative
+	vassal_opinion = -10
+}
+
+insulted_by_trident_lord_bla = {
+	icon = diplomacy_negative
+	vassal_opinion = -10
+}
 # =========================================================
 # Crossroads Inn Modifiers
 # =========================================================

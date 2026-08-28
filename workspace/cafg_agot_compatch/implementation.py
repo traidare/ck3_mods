@@ -606,7 +606,7 @@ EVENT_MERGES: tuple[EventMerge, ...] = (
     EventMerge(
         "events/activities/hold_court_activity/hold_court_events_general.txt",
         cafg_calls=1,
-        agot_markers=62,
+        agot_markers=63,
         resolutions=("agot_disabled",),
     ),
     EventMerge(
@@ -672,8 +672,8 @@ RESOLVERS = {
 def merge_event_file(inputs: RunInputs, merge: EventMerge, label: str = "AGOT") -> None:
     """Merge one CaFG event file onto the parent named by ``AGOT_SOURCE``.
 
-    The LoV variant reuses this with LoV RC71 as the parent, so the merge
-    strategy and conflict resolutions cannot drift between the two items.
+    The LoV variant reuses this with the LoV AGOT bridge as the parent, so the
+    merge strategy and conflict resolutions cannot drift between the two items.
     """
     base = read_text(inputs.VANILLA_SOURCE / merge.relative)
     ours = read_text(inputs.MOD_SOURCE / merge.relative)

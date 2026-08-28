@@ -5,25 +5,23 @@ empire,e_hidden_sea,graphical_east_asia,false,Eastern Essos architectural family
 empire,e_ibben,graphical_siberia,true,Northern island realm
 empire,e_ifequevron,graphical_siberia,false,Northern forest realm
 empire,e_lesser_moraq,graphical_india,true,Southern Essos island architecture
-empire,e_lorath,graphical_mediterranean,true,Free City architectural family
 empire,e_mossovy,graphical_siberia,false,Far northeastern forest realm
 empire,e_naath,graphical_india,true,Southern island architecture
-empire,e_norvos,graphical_mediterranean,false,Free City architectural family
 empire,e_omber,graphical_steppe,false,Grassland and horse-culture architecture
-empire,e_qohor,graphical_mediterranean,false,Free City architectural family
 empire,e_sarnor,graphical_mediterranean,true,Sarnori remnants are split by nested Dothraki title scopes
 empire,e_sothoryos,graphical_sothoryos,true,Preserve LoV Sothoryos visual policy
 empire,e_summer_isles,graphical_india,true,Southern island architecture
 empire,e_thousand_islands,graphical_east_asia,true,Eastern island architecture
 empire,e_ulthos,graphical_india,true,Ulthos includes a separately painted coastal component
 empire,e_upper_sarne_dothraki,graphical_steppe,false,Dothraki grasslands
-empire,e_lower_sarne_dothraki,graphical_steppe,false,Dothraki grasslands
+empire,e_lower_sarne_dothraki,graphical_steppe,true,"Further East v4 split this empire into two landmasses; both are its own provinces and both take the same steppe style, so the disconnection changes nothing."
 empire,e_great_grass_sea_dothraki,graphical_steppe,false,Dothraki grasslands
 empire,e_bone_mountain_dothraki,graphical_steppe,false,Dothraki and Jogos frontier
-empire,e_lhazar,graphical_mena,false,Lhazarene and eastern dryland architecture
+empire,e_lhazar,graphical_mena,true,"Further East v4 split this empire into two landmasses; both are its own provinces and both take the same Lhazarene style, so the disconnection changes nothing."
 empire,e_qarth,graphical_mena,false,Qartheen architectural family
 empire,e_golden_yi_ti,graphical_east_asia,true,Yi Ti includes coastal and island components
 empire,e_jogos_nhai,graphical_steppe,true,Jogos Nhai includes disconnected frontier components
 empire,e_great_moraq,graphical_india,true,Southern Essos island architecture
 empire,e_leng,graphical_east_asia,true,Leng and Yi Ti architectural family
 county,c_rutting,graphical_western,false,Restore NOW-displaced northern Riverlands coverage
+kingdom,k_R43G49B154,graphical_western,true,"Further East leaves this generated kingdom without an empire parent and already assigns all 146 of its provinces to graphical_western upstream; this mapping agrees rather than restyling them."

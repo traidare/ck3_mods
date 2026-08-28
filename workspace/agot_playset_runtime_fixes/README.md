@@ -39,7 +39,8 @@ integration stays in `agot_full_playset_compatch`.
   its visible house-banner rarity event. CK3 reported the event as having no
   options, allowing it to open as an empty blocking popup.
 - **Additional Models / AGOT+ / LoV:** the Workshop compatch owns its LoV-aware
-  artifact setup; this module does not repair it.
+  artifact setup, which this module leaves alone; its holding art and
+  illustration triggers are repaired separately below.
 - **A Landed Knights Mod:** replaces the nonexistent `is_army_owner` trigger and
   makes the father comparison safe for fatherless knights.
 - **Expanded Court Position:** replaces obsolete `grumpy`, `depressed`, and
@@ -48,15 +49,15 @@ integration stays in `agot_full_playset_compatch`.
 - **[LOT] Legitimacy Over Time:** prevents its AI sway event from starting a
   scheme when the scripted recipient is missing or has died.
 - **The Red Keep (Hegemony Updates):** saves the Hand event scope only when the
-  castellan council position has a holder. Its stale whole-file government
-  override is rebased onto current AGOT while retaining the Red Keep estate on
-  `lp_feudal_government`. The parent override was the effective last writer and
-  omitted AGOT's `lorathi_principality_government`, producing
+  castellan council position has a holder. Its government override replaces
+  AGOT's whole government database to add one estate domicile, so whenever that
+  copy lags behind AGOT it drops the governments AGOT has added since — a
+  missing `lorathi_principality_government` produces
   `change_government effect [ target government type was null ]` during Lorath's
-  three-princes game-start setup. The generated last writer is safe because it
-  starts from AGOT's complete current government database and adds only the Red
-  Keep domicile delta. Re-audit after Workshop `2962333032` or `3662281614`
-  changes.
+  three-princes game-start setup. This module ships no government file while the
+  override stays complete, and asserts that it equals current AGOT plus the
+  `lp_feudal_government` domicile line. That check failing is the signal to
+  generate a last writer again.
 - **Essos Expanded: The Further East:** rebases its sole
   `zz_eetlv_gov_dev_on_actions.txt` startup owner while omitting only
   `zz_eetlv_gov_dev_effect` and `zz_eetlv_cannibal_confederation_effect`. The
@@ -90,6 +91,22 @@ integration stays in `agot_full_playset_compatch`.
 - **Additional Models decision illustrations:** replaces three references to the
   parent's nonexistent `agot_court/throne.dds` with AGOT's existing Iron Throne
   room illustration.
+- **Additional Models holding art:** binds the 565 `@holding_illustration_*`
+  references in the compatch's merged `zz_am_lov_nv_holding_art.txt` to literal
+  art paths. `@` constants are file-scoped, and the merge folds castle, city,
+  and temple keys into one file that declares none, so every reference reached
+  the VFS as its own literal name and failed on each frame that drew a holding.
+  AGOT binds the same constant names to different art per holding type, so each
+  reference resolves against the AGOT file its block came from: 292 castle and
+  273 city, with temple blocks using none. The generator asserts those counts,
+  that every target file exists, and that no constant survives in the output.
+- **Additional Models illustration cultures:** removes six `culture:shadowmen`
+  references from `scripted_illustrations/ingame.txt`. The culture does not
+  exist under any spelling the playset resolves, and `character_view_bg`
+  re-evaluates on every portrait redraw, so each one cost a failed lookup per
+  frame. Every line sits in an `OR` beside the `shadowman` line it misspells,
+  which the generator asserts before dropping it, so the intended coverage is
+  unchanged.
 - **Succession Crisis:** makes comparisons with the optional
   `crisis_special_character` scope safe and removes its copied vanilla call to
   `misc.0001`, which AGOT intentionally disables; its copied landless-title
@@ -166,8 +183,12 @@ integration stays in `agot_full_playset_compatch`.
   temporary Additional Models/AGOT+/LoV compatch's generic room routing, but
   returns false instead of evaluating character triggers when CK3 transiently
   supplies no royal-court owner. It also carries Additional Models' current
-  throne-room exclusions into the compatch's Indian, Japanese, and Southeast
-  Asian fallbacks so those generic scenes cannot preempt a dedicated AMSB room.
+  throne-room exclusions into the compatch's own copies of those scenes, so no
+  generic room can preempt a dedicated AMSB one. The compatch replaces
+  Additional Models' whole scene-culture file, so the guarded set is read back
+  out of Workshop `3319354609` per scene name rather than listed here; a scene
+  gaining or losing its exclusion upstream follows automatically, and a guarded
+  scene the compatch does not define fails generation.
 - **AGOT startup maintenance:** excludes rulers without capital counties from
   maester seeding and rulers without capital provinces from the Westerosi
   starting-legitimacy branch.
@@ -183,13 +204,15 @@ integration stays in `agot_full_playset_compatch`.
   copies on the effective AGOT interactions, nickname effect, and travel event.
   The intended ward limit, education AI, and language-tutor changes remain, but
   invalid vanilla culture/religion branches are never loaded; AGOT's
-  deliberately disabled university paths remain disabled.
+  deliberately disabled university paths remain disabled. BAIE's
+  `medium_gold_value` retunes are the one delta not replayed: they retarget gold
+  gates AGOT has already commented out, so they have no parent line to apply to.
 - **Character UI Overhaul / Hometowns:** guards birth-location and birthplace
   access before dereferencing those scopes, removes a county modifier only when
   the saved birthplace is known, and replaces its vanilla historical-title
   mapping event with an inert same-id event. New AGOT births retain the safe
   Hometowns setup without evaluating absent historical title IDs.
-- **Essos Expanded:** replaces each of its 27 disabled-realm calls to
+- **Essos Expanded:** replaces its disabled-realm calls to
   `agot_remove_realm_effect` with a direct wilderness initializer. It preserves
   AGOT's noble-title, court, province-pool, landless-company, and title cleanup,
   but converts every county straight through the effective LoV
@@ -199,9 +222,15 @@ integration stays in `agot_full_playset_compatch`.
   capital-valid rulers in enabled Essos realms; every recursive generation uses
   that valid ruler as its court location. Former county holders now lose their
   court regardless of how many counties they held, matching AGOT's removal
-  semantics. The generator pins the Essos startup and family blocks, AGOT
-  removal semantics, and LoV's wilderness effect. Re-audit when Workshops
-  `3682802751`, `2962333032`, or `3719888822` change those blocks.
+  semantics. Empires Essos Expanded still lists but Further East's landed titles
+  no longer define — Lorath, Norvos, and Qohor, which AGOT covers natively — are
+  dropped from the dispatcher, the removal actions, and the family filter, so no
+  game-start effect dispatches at an undefined title. The surviving set is read
+  from Workshop `3768149491`'s landed titles rather than listed, and generation
+  fails if it stops defining most Essos empires. The generator pins the Essos
+  startup and family blocks, AGOT removal semantics, and LoV's wilderness
+  effect. Re-audit when Workshops `3682802751`, `2962333032`, or `3719888822`
+  change those blocks.
 - **Tour pulse:** makes the vanilla monthly pulse a no-op when MFA relays it
   before the activity has a `stop_host` variable, rather than dereferencing the
   missing itinerary stop.
@@ -212,21 +241,6 @@ integration stays in `agot_full_playset_compatch`.
   `Domicile owner failed to meet triggered requirements` and
   `Cannot construct an upgrade when previous building has not been built`
   errors. The 900/1100 branches also avoid duplicate main-building additions.
-- **LoV low-tier pirate succession (Workshop 3719888822):** the exact repeated
-  signature is
-  `Failed build succession ... due to unhandled succession order [invalid]`.
-  This module is the effective last writer for LoV's
-  `01_title_succession_laws.txt`, title-gain handler, reconciliation effect, and
-  the two affected title-history files. LoV's law grants county-or-higher
-  eligibility but also requires the title's holder to keep a pirate government,
-  so the module only restores the law to pirate-government blocks that lack it:
-  18 Basilisk blocks and 11 Sothoryos blocks. It does not alter those holders'
-  governments, because forcing them away from pirate would make the same titles
-  fail `can_title_have` and reproduce the invalid-succession signature. Holders,
-  game-start behavior, and unrelated lore history are unchanged; the
-  lore-governments module remains the owner of Sothoryos government intent.
-  Re-audit after Workshop `3719888822` or the lore-governments module changes
-  those definitions.
 - **Dragon Wives marriage modifiers (Workshop 3541596590):** replaces two
   unguarded `var:legitimate_house` comparisons with AGOT's
   `title_is_not_held_by_legitimate_house` trigger, which verifies both variables

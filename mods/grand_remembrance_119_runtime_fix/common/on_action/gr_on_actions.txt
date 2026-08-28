@@ -502,6 +502,9 @@ gr_internal_obituary_processing = {
 				if = { limit = { has_variable = gr_temple_count } remove_variable = gr_temple_count }
 				if = { limit = { has_variable = gr_university_built } remove_variable = gr_university_built }
 				if = { limit = { has_variable = gr_alliance_count } remove_variable = gr_alliance_count }
+				# gr_ally_1 must go with the count. Left behind, the heir's own ally
+				# was paired with the dead ruler's alliance count on the page.
+				if = { limit = { has_variable = gr_ally_1 } remove_variable = gr_ally_1 }
 				if = { limit = { has_variable = gr_friend_count } remove_variable = gr_friend_count }
 				if = { limit = { has_variable = gr_feast_count } remove_variable = gr_feast_count }
 				if = { limit = { has_variable = gr_tournament_count } remove_variable = gr_tournament_count }
@@ -550,6 +553,13 @@ gr_internal_obituary_processing = {
 				if = { limit = { has_variable = gr_memory_created_empire } remove_variable = gr_memory_created_empire }
 				if = { limit = { has_variable = gr_empire_title } remove_variable = gr_empire_title }
 				if = { limit = { has_variable = gr_empire_type } remove_variable = gr_empire_type }
+				# Second-creation slots (v1.7.0): added to the tracking system but
+				# never to this list, so slot 1 reset at succession and slot 2 did not.
+				if = { limit = { has_variable = gr_memory_created_kingdom_2 } remove_variable = gr_memory_created_kingdom_2 }
+				if = { limit = { has_variable = gr_created_kingdom_2 } remove_variable = gr_created_kingdom_2 }
+				if = { limit = { has_variable = gr_memory_created_empire_2 } remove_variable = gr_memory_created_empire_2 }
+				if = { limit = { has_variable = gr_empire_2_title } remove_variable = gr_empire_2_title }
+				if = { limit = { has_variable = gr_empire_2_type } remove_variable = gr_empire_2_type }
 				if = { limit = { has_variable = gr_memory_claimed_hegemony } remove_variable = gr_memory_claimed_hegemony }
 				if = { limit = { has_variable = gr_hegemony_title } remove_variable = gr_hegemony_title }
 				if = { limit = { has_variable = gr_memory_usurped_empire } remove_variable = gr_memory_usurped_empire }
@@ -1558,6 +1568,21 @@ gr_internal_obituary_processing = {
 					limit = { root = { has_variable = gr_ally_1 } }
 					set_variable = { name = gr_ally_1 value = root.var:gr_ally_1 }
 				}
+				# Backfill: the alliance sentence names gr_ally_1, so a page holding
+				# the count without the ref renders a dead character link. Rulers
+				# whose alliances were tracked before gr_ally_1 existed still have
+				# living allies at death worth naming.
+				if = {
+					limit = {
+						NOT = { has_variable = gr_ally_1 }
+						root = {
+							has_variable = gr_alliance_count
+							any_ally = { count >= 1 }
+						}
+					}
+					root = { random_ally = { save_temporary_scope_as = gr_death_ally } }
+					set_variable = { name = gr_ally_1 value = scope:gr_death_ally }
+				}
 				if = {
 					limit = { root = { has_variable = gr_friend_count } }
 					set_variable = { name = gr_friend_count value = root.var:gr_friend_count }
@@ -1732,6 +1757,41 @@ gr_internal_obituary_processing = {
 					if = {
 						limit = { root = { has_variable = gr_culture_parent } }
 						set_variable = { name = gr_culture_parent value = root.var:gr_culture_parent }
+					}
+					# Backfill for rulers whose culture was created before the parent
+					# refs were captured correctly: a hybrid/divergent culture still
+					# knows its own parents, so read them off the ruler's culture.
+					if = {
+						limit = {
+							NOT = { root = { has_variable = gr_culture_old } }
+							root.culture = {
+								OR = {
+									is_hybrid_culture = yes
+									is_divergent_culture = yes
+								}
+							}
+						}
+						root.culture = { random_parent_culture = { save_temporary_scope_as = gr_death_parent_a } }
+						if = {
+							limit = { root.culture = { any_parent_culture = { count >= 2 } } }
+							root.culture = {
+								random_parent_culture = {
+									limit = { this != scope:gr_death_parent_a }
+									save_temporary_scope_as = gr_death_parent_b
+								}
+							}
+						}
+						if = {
+							limit = { exists = scope:gr_death_parent_a }
+							set_variable = { name = gr_culture_old value = scope:gr_death_parent_a }
+						}
+						if = {
+							limit = {
+								exists = scope:gr_death_parent_b
+								NOT = { has_variable = gr_culture_parent }
+							}
+							set_variable = { name = gr_culture_parent value = scope:gr_death_parent_b }
+						}
 					}
 				}
 

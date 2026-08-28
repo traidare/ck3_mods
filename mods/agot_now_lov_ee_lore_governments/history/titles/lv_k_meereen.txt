@@ -1,4 +1,7 @@
-﻿# MEEREEN
+﻿#
+#
+#
+# MEEREEN
 # City of Meereen
 k_meereen = {
 	7849.1.1 = {
@@ -93,6 +96,7 @@ d_meereen = {
 					add_realm_law_skip_effects = free_city_election_succession_law
 				}
 			}
+			add_title_law = magisterial_attached_titles_law
 			if = {
 				limit = {
 					exists = holder
@@ -144,6 +148,7 @@ c_meereen = {
 					add_realm_law_skip_effects = free_city_election_succession_law
 				}
 			}
+			add_title_law = magisterial_attached_titles_law
 			if = {
 				limit = {
 					exists = holder
@@ -186,6 +191,7 @@ c_meereen = {
 # Pahl Domains
 c_demon_road = {
   	7850.1.1 = {
+		liege = d_meereen
 		government = oligarchic_government
 		holder = Pahl_1
 		effect = {
@@ -221,6 +227,7 @@ c_demon_road = {
 }
 c_pahl_pyramid = {
 	7850.1.1 = {
+		liege = d_meereen
 		holder = Pahl_1
 		effect = {
 			# Significant slave city
@@ -258,6 +265,7 @@ c_pahl_pyramid = {
 # Rhazdar Domains
 c_rhazdar_pyramid = {
 	7855.1.1 = {
+		liege = d_meereen
 		holder = Rhazdar_1
 		effect = {
 			# Significant slave city
@@ -320,6 +328,7 @@ c_rhazdar_pyramid = {
 # Yherizan Domains
 c_green_gate = {
 	7860.1.1 = {
+		liege = d_meereen
 		government = oligarchic_government
 		holder = Yherizan_1
 		effect = {
@@ -355,6 +364,7 @@ c_green_gate = {
 }
 c_yherizan_pyramid = {
 	7860.1.1 = {
+		liege = d_meereen
 		holder = Yherizan_1
 		effect = {
 			# Significant slave city
@@ -392,6 +402,7 @@ c_yherizan_pyramid = {
 # Kandaq Domains
 c_kandaq_pyramid = {
 	7860.1.1 = { # Grazhar (nc)
+		liege = d_meereen
 		government = oligarchic_government
 		holder = Kandaq_1
 		effect = {
@@ -449,6 +460,7 @@ c_kandaq_pyramid = {
 # Ghazeen Domains
 c_rhazhen = {
 	7820.1.1 = {
+		liege = d_meereen
 		holder = Ghazeen_1
 		effect = {
 			# Significant slave city
@@ -486,6 +498,7 @@ c_rhazhen = {
 }
 c_ghazeen_pyramid = {
 	7820.1.1 = {
+		liege = d_meereen
 		government = oligarchic_government
 		holder = Ghazeen_1
 		effect = {
@@ -526,6 +539,7 @@ c_ghazeen_pyramid = {
 # Quazzar Domains
 c_quazzar_pyramid = {
 	7849.1.1 = {
+		liege = d_meereen
 		holder = Quazzar_1
 		effect = {
 			# Significant slave city
@@ -565,6 +579,7 @@ c_quazzar_pyramid = {
 # Hazkar Domains
 c_khyzal = {
   	7855.1.1 = {
+		liege = d_meereen
 		holder = Hazkar_1
 		effect = {
 			add_county_modifier = slave_pop_2
@@ -598,6 +613,7 @@ c_khyzal = {
 }
 c_hazkar_pyramid = {
 	7855.1.1 = {
+		liege = d_meereen
 		government = oligarchic_government
 		holder = Hazkar_1
 		effect = {
@@ -635,6 +651,7 @@ c_hazkar_pyramid = {
 # Merreq Domains
 c_merreq_pyramid = {
 	7864.1.1 = { # Reznak (nc)
+		liege = d_meereen
 		government = oligarchic_government
 		holder = LV_Merreq_1
 		effect = {
@@ -676,6 +693,7 @@ c_merreq_pyramid = {
 # Naqqan Domains
 c_naqqan_pyramid = {
 	7857.1.1 = {
+		liege = d_meereen
 		government = oligarchic_government
 		holder = Naqqan_1
 		effect = {
@@ -715,6 +733,7 @@ c_naqqan_pyramid = {
 # Galare Domains
 c_meereen_no_mans_land = {
   	7867.1.1 = {
+		liege = d_meereen
 		holder = Galare_1
 		effect = {
 			add_county_modifier = slave_pop_2
@@ -748,6 +767,7 @@ c_meereen_no_mans_land = {
 }
 c_galare_pyramid = {
 	7867.1.1 = {
+		liege = d_meereen
 		government = oligarchic_government
 		holder = Galare_1
 		effect = {
@@ -785,6 +805,7 @@ c_galare_pyramid = {
 # Reznak Domains
 c_khyzai_pass = {
 	7839.1.1 = {
+		liege = d_meereen
 		government = oligarchic_government
 		holder = Reznak_1
 		effect = {
@@ -819,6 +840,7 @@ c_khyzai_pass = {
 }
 c_reznak_pyramid = {
 	7839.1.1 = {
+		liege = d_meereen
 		holder = Reznak_1
 		effect = {
 			# Significant slave city
@@ -855,6 +877,7 @@ c_reznak_pyramid = {
 # Loraq Domains
 c_malkai = {
 	7858.1.1 = {
+		liege = d_meereen
 		holder = Loraq_1
 		effect = {
 			add_county_modifier = slave_pop_3
@@ -889,6 +912,7 @@ c_malkai = {
 }
 c_loraq_pyramid = {
 	7858.1.1 = {
+		liege = d_meereen
 		government = oligarchic_government
 		holder = Loraq_1
 		effect = {
@@ -949,6 +973,7 @@ b_emalkeh = {
 # Dhazak Domains
 c_galzari = {
   	7852.1.1 = {
+		liege = d_meereen
 		holder = Dhazak_1
 		effect = {
 			add_county_modifier = slave_pop_1
@@ -984,6 +1009,7 @@ c_galzari = {
 }
 c_dhazak_pyramid = {
 	7852.1.1 = {
+		liege = d_meereen
 		government = oligarchic_government
 		holder = Dhazak_1
 		effect = {

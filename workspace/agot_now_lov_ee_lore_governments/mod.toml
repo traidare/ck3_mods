@@ -38,19 +38,9 @@ item_id = "3773608127"
 [[sources]]
 name = "legacy-of-valyria-rebase"
 kind = "mod"
-mod = "legacy_of_valyria_039_runtime_rebase"
+mod = "legacy_of_valyria_bridge_runtime_rebase"
 
 [[sources]]
 name = "essos-expanded-rebase"
 kind = "mod"
-mod = "essos_expanded_119_rebase"
-
-[[sources]]
-name = "map-compatch"
-kind = "mod"
-mod = "agot_now_lov_ee_map_compatch"
-
-[[sources]]
-name = "removed-titles"
-kind = "repository"
-path = "workspace/agot_now_lov_ee_map_compatch/artifacts/map_data/removed_titles.json"
+mod = "essos_expanded_further_east_rebase"

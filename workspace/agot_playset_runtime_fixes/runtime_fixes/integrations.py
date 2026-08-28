@@ -108,12 +108,12 @@ def generate_baie_rebases(inputs: RunInputs) -> None:
     interaction_hashes = {
         "educate_child_interaction": (
             "13907affc8938f6365637de4672ef829fc1951addc4273b341a0ceebb23f8300",
-            "feb514ee6188b44402958eae8b20aad6e7f22896f1f0ff40234ba3f5e2d648c6",
+            "99eb76caec96d18f35e75efb8e75be81f247a72ed09d3bb03edb5298c81e9215",
             "0e15b7bcba08d4c06b27d855c8fc8d57814b529c8c454d6e41add6f1db58d235",
         ),
         "offer_ward_interaction": (
             "d3e2f59e15b1194198585aa08a29de62e67ead0577c2b71986e3d9279cad90b9",
-            "e99b12c9935c7f4dbf7c7cd66975d89e12c174bc90b34b2532d601568afc80bc",
+            "dab8a522bf995a3a6f83c80769aed93f0bae37f7d03107afabd935c2ec7843a4",
             "a4bb5fff16940ade73455a216225c927922a2c563b840d1daafdcb2a474f62ae",
         ),
         "offer_guardianship_interaction": (

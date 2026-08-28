@@ -713,8 +713,7 @@ agot_riverlands_bla.0405 = {
 			years = 8
 		}
 		create_character = {
-			template = agot_hedgeknight_character
-			location = root.location
+			location = root.capital_province
 			culture = root.culture
 			faith = root.faith
 			gender_female_chance = 0
@@ -766,7 +765,9 @@ agot_riverlands_bla.0405 = {
 		add_prestige = 100
 		remove_short_term_gold = 125
 
-		add_courtier = scope:bracken_river_knight_bla
+		scope:bracken_river_knight_bla = {
+			set_employer = root
+		}
 
 		scope:bracken_river_knight_bla = {
 			add_opinion = {

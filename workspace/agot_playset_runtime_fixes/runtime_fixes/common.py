@@ -191,39 +191,61 @@ def replace_numbered_branch_with_constant(
     return text[: match.start()] + replacement + text[end_index + 1 :]
 
 
+def top_level_block_keys(text: str) -> list[str]:
+    return [
+        match.group(1) for match in re.finditer(r"(?m)^([A-Za-z_]\w*)\s*=\s*\{", text)
+    ]
+
+
 def rebase_additional_models_scene_guards(inputs: RunInputs, text: str) -> str:
-    """Carry current Additional Models exclusions into the later LoV compatch."""
+    """Carry current Additional Models exclusions into the later LoV compatch.
+
+    The compatch replaces Additional Models' whole scene-culture file, so every
+    generic scene Additional Models keeps out of its own throne rooms has to be
+    kept out again here. The guarded set is read from Additional Models rather
+    than listed, so an upstream scene gaining or losing its exclusion follows
+    automatically.
+    """
     relative = "gfx/court_scene/scene_cultures/00_default_cultures.txt"
     additional_models = read_text(inputs.WORKSHOP / "3319354609" / relative)
-    for key in ("indian", "japanese", "southeast_asia"):
-        current_block = extract_top_level_block(additional_models, key)
-        compatch_block = extract_top_level_block(text, key)
-        if current_block.count("amsb_has_throne_room = no") != 1:
+    guarded = [
+        key
+        for key in top_level_block_keys(additional_models)
+        if "amsb_has_throne_room = no"
+        in extract_top_level_block(additional_models, key)
+    ]
+    if not guarded:
+        raise RuntimeError(
+            "Additional Models no longer excludes any generic scene; re-audit "
+            "whether this rebase is still needed"
+        )
+    for key in guarded:
+        if key not in top_level_block_keys(text):
             raise RuntimeError(
-                f"Additional Models current scene guard changed for {key}"
+                f"Additional Models/AGOT+/LoV compatch drops guarded scene {key}"
             )
+        compatch_block = extract_top_level_block(text, key)
         amsb_guard_count = compatch_block.count("amsb_has_throne_room = no")
         if amsb_guard_count > 1:
             raise RuntimeError(
                 f"Additional Models/AGOT+/LoV compatch duplicates its AMSB "
                 f"guard for {key}"
             )
-        if amsb_guard_count == 0:
-            guarded_block = replace_exact(
-                compatch_block,
-                "\t\tagot_has_throne_room = no\n",
-                ("\t\tagot_has_throne_room = no\n\t\tamsb_has_throne_room = no\n"),
-                expected=1,
-                label=f"Additional Models 0.4.40 scene exclusion for {key}",
-            )
-        else:
-            # Newer upstream compatches can carry this exclusion themselves.
-            # Preserve that authoritative guard instead of duplicating it.
-            guarded_block = compatch_block
-        text = text.replace(compatch_block, guarded_block, 1)
-    if text.count("amsb_has_throne_room = no") != 10:
-        raise RuntimeError(
-            "Additional Models/AGOT+/LoV generic scenes: expected ten "
-            "active AMSB exclusions after rebase"
+        if amsb_guard_count == 1:
+            # The compatch can carry the exclusion itself; keep its version.
+            continue
+        guarded_block = replace_exact(
+            compatch_block,
+            "\t\tagot_has_throne_room = no\n",
+            "\t\tagot_has_throne_room = no\n\t\tamsb_has_throne_room = no\n",
+            expected=1,
+            label=f"Additional Models scene exclusion for {key}",
         )
+        text = text.replace(compatch_block, guarded_block, 1)
+    for key in guarded:
+        if extract_top_level_block(text, key).count("amsb_has_throne_room = no") != 1:
+            raise RuntimeError(
+                f"Additional Models/AGOT+/LoV scene {key}: AMSB exclusion not "
+                "active after rebase"
+            )
     return text

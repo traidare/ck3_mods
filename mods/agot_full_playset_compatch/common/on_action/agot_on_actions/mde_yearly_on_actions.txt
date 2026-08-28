@@ -1,0 +1,57 @@
+﻿# Final integration owner of mde_yearly_on_actions.txt.
+#
+# AGOT More Dragon Eggs and AGOT - More Dragon Events both ship this path, so
+# the later of them drops the other's file entirely.  Their definitions are
+# disjoint, and CK3 merges on_action declarations across files, so More Dragon
+# Events' pulse is re-emitted below as its delta over AGOT's own declaration
+# rather than as its full copy -- re-emitting the copy would merge AGOT's 38
+# entries a second time and halve the chance of no event firing.
+
+yearly_global_pulse = {
+	on_actions = {
+		on_dragon_lay_canon_clutch_on_action
+	}
+}
+on_dragon_lay_canon_clutch_on_action = {
+	effect = {
+		if = {
+			limit = {
+				agot_canon_dragons_enabled = yes
+				agot_dragon_population_extinct = no
+				NOT = { has_game_rule = canon_dragon_egg_clutch_spawns_no }
+			}
+			spawn_canon_dragon_egg_clutches_effect = yes
+		}
+	}
+}
+
+on_game_start_iterate_next_clutch = {
+	effect =  {
+		set_global_variable = {
+			name = mde_iterate_next_clutch
+			value = 0
+		}
+	}
+}
+
+agot_yearly_owned_dragon_pulse = {
+	trigger = {
+		has_character_flag = owned_dragon # We only want owned dragons
+	}
+	random_events = {
+		10 = mde_filler_dragon.0001 # Older child pranks younger child
+		10 = mde_filler_dragon.0003 # Child wants need egg
+		10 = mde_filler_dragon.0005 # Child first test
+		10 = mde_filler_dragon.0007 # child sleep with dragons
+		1 = mde_filler_dragon.0009 # Storming of Dragonpit during WAR
+		10 = mde_filler_dragon.0013 # Child wants to fly together and relax
+		5 = mde_filler_dragon.0015 # Child crushes dragon
+		10 = mde_filler_dragon.0017 # Dragon menagerie
+		1 = mde_filler_dragon.0019 # Wasting dragon
+		1 = mde_filler_dragon.0021 # Storming of Dragonpit during plague
+		5 = mde_filler_dragon.0023 # nice dragon eats well
+		5 = mde_filler_dragon.0025 # Picky eater
+		10 = mde_filler_dragon.0027 # A wild Beast
+		5 = mde_filler_dragon.0029 # An old beast
+	}
+}

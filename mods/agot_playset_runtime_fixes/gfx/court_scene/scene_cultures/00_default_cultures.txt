@@ -98,6 +98,7 @@ mediterranean = {
 			#AGOT Added
 			agot_has_throne_room = no
 			amsb_has_throne_room = no
+			# amsb_has_throne_room removed by AMSB's 0.5.1 update; condition dropped (August 25th 2026)
 			# Legacy of Valyria: reserve dedicated LoV court scenes
 			lv_has_throne_room = no
 		}
@@ -170,6 +171,7 @@ steppe = {
 			#AGOT Added
 			agot_has_throne_room = no
 			amsb_has_throne_room = no
+			# amsb_has_throne_room removed by AMSB's 0.5.1 update; condition dropped (August 25th 2026)
 			# Legacy of Valyria: reserve dedicated LoV court scenes
 			lv_has_throne_room = no
 		}
@@ -182,6 +184,22 @@ mena = {
 		# Scene selection is briefly queried without a valid court owner during cleanup.
 		trigger_if = {
 			limit = { exists = root }
+			# COMPATCH August 25th 2026: Asshai'i and the plain far-east tribals hold court in the
+			# generic hall, not the regional palace rooms
+			NOR = {
+				culture = culture:shadowman
+				culture = culture:asshaii
+				culture = culture:bloodless_man
+				culture = culture:fish_man
+				capital_county ?= {
+					OR = {
+						culture = culture:shadowman
+						culture = culture:asshaii
+						culture = culture:bloodless_man
+						culture = culture:fish_man
+					}
+				}
+			}
 			# COMPATCH: re-enabled for DORNE ONLY (AGOT uses this room as the Dornish court).
 			# Still disabled everywhere else (Essos, Asshai...).
 			capital_province ?= { geographical_region = world_westeros_dorne }
@@ -277,6 +295,7 @@ mena = {
 			#AGOT Added
 			agot_has_throne_room = no
 			amsb_has_throne_room = no
+			# amsb_has_throne_room removed by AMSB's 0.5.1 update; condition dropped (August 25th 2026)
 			# Legacy of Valyria: reserve dedicated LoV court scenes
 			lv_has_throne_room = no
 		}
@@ -289,34 +308,70 @@ indian = {
 		# Scene selection is briefly queried without a valid court owner during cleanup.
 		trigger_if = {
 			limit = { exists = root }
-			NOT = {
-				government_has_flag = government_is_nomadic
-			}
-			exists = capital_county
-			capital_county = {
+			# COMPATCH August 25th 2026: explicit routing for far-east realms
+			OR = {
 				OR = {
-					culture = { has_building_gfx = indian_building_gfx }
-					culture = { has_building_gfx = tibetan_building_gfx }
-					title_province = { steppe_building_gfx_use_indian_trigger = yes }
-					title_province = { steppe_building_gfx_use_southeast_asian_trigger = yes }
+					culture = culture:asshaii
+					culture = culture:shadowman
+					capital_county ?= {
+						OR = {
+							culture = culture:asshaii
+							culture = culture:shadowman
+						}
+					}
+				}
+				AND = {
+					# COMPATCH August 25th 2026: Asshai'i and the plain far-east tribals hold court in the
+					# generic hall, not the regional palace rooms
+					NOR = {
+						culture = culture:shadowman
+						culture = culture:asshaii
+						culture = culture:bloodless_man
+						culture = culture:fish_man
+						culture = culture:lengii
+						culture = culture:vahari
+						capital_county ?= {
+							OR = {
+								culture = culture:shadowman
+								culture = culture:asshaii
+								culture = culture:bloodless_man
+								culture = culture:fish_man
+								culture = culture:lengii
+								culture = culture:vahari
+							}
+						}
+					}
+					NOT = {
+						government_has_flag = government_is_nomadic
+					}
+					exists = capital_county
+					capital_county = {
+						OR = {
+							culture = { has_building_gfx = indian_building_gfx }
+							culture = { has_building_gfx = tibetan_building_gfx }
+							title_province = { steppe_building_gfx_use_indian_trigger = yes }
+							title_province = { steppe_building_gfx_use_southeast_asian_trigger = yes }
+						}
+					}
+					#AGOT Disabled
+					# trigger_if = {
+					# 	limit = {
+					# 		has_tgp_dlc_trigger = yes
+					# 		NOT = {
+					# 			government_has_flag = government_is_nomadic
+					# 		}
+					# 		tgp_is_ceremonial_regent_trigger = no
+					# 	}
+					# 	NOT = { primary_title ?= title:h_china }
+					# }
+					#AGOT Added
+					agot_has_throne_room = no
+			amsb_has_throne_room = no
+					# amsb_has_throne_room removed by AMSB's 0.5.1 update; condition dropped (August 25th 2026)
+					# Legacy of Valyria: reserve dedicated LoV court scenes
+					lv_has_throne_room = no
 				}
 			}
-			#AGOT Disabled
-			# trigger_if = {
-			# 	limit = {
-			# 		has_tgp_dlc_trigger = yes
-			# 		NOT = {
-			# 			government_has_flag = government_is_nomadic
-			# 		}
-			# 		tgp_is_ceremonial_regent_trigger = no
-			# 	}
-			# 	NOT = { primary_title ?= title:h_china }
-			# }
-			#AGOT Added
-			agot_has_throne_room = no
-			amsb_has_throne_room = no
-			# Legacy of Valyria: reserve dedicated LoV court scenes
-			lv_has_throne_room = no
 		}
 		trigger_else = { always = no }
 	}
@@ -349,6 +404,12 @@ western = {
 						culture = { has_graphical_japanese_culture_group_trigger = yes }
 						culture = culture:jhalai
 						culture = culture:jogos_nhai
+						culture = culture:asshaii
+						culture = culture:shadowman
+						culture = culture:bloodless_man
+						culture = culture:fish_man
+						culture = culture:lengii
+						culture = culture:vahari
 						# nefer displays as N'ghai and carries placeholder WESTERN building gfx, so it must
 						# be excluded by name or this fallback steals the Jhattar from the Dragon's Mandate
 						culture = culture:nefer
@@ -358,10 +419,17 @@ western = {
 				culture = culture:jhalai
 				culture = culture:jogos_nhai
 				culture = culture:nefer
+				culture = culture:asshaii
+				culture = culture:shadowman
+				culture = culture:bloodless_man
+				culture = culture:fish_man
+				culture = culture:lengii
+				culture = culture:vahari
 			}
 			#AGOT Added
 			agot_has_throne_room = no
 			amsb_has_throne_room = no
+			# amsb_has_throne_room removed by AMSB's 0.5.1 update; condition dropped (August 25th 2026)
 			#LEGACY OF VALYRIA ADDED
 			lv_has_throne_room = no
 		}
@@ -385,11 +453,26 @@ chinese = {
 				culture = culture:jhalai
 				culture = culture:jogos_nhai
 				culture = culture:nefer
+				culture = culture:bloodless_man
+				culture = culture:fish_man
+				culture = culture:lengii
+				culture = culture:vahari
+				culture = culture:shadowman
+				culture = culture:asshaii
+				# feicui_ren (the Golden Emperor's own culture) uses AMSB's Marble & Gold court
+				culture = culture:feicui_ren
 				capital_county ?= {
 					OR = {
 						culture = culture:jhalai
 						culture = culture:jogos_nhai
 						culture = culture:nefer
+						culture = culture:bloodless_man
+						culture = culture:fish_man
+						culture = culture:lengii
+						culture = culture:vahari
+						culture = culture:shadowman
+						culture = culture:asshaii
+						culture = culture:feicui_ren
 					}
 				}
 			}
@@ -424,6 +507,7 @@ chinese = {
 			#AGOT Added
 			agot_has_throne_room = no
 			amsb_has_throne_room = no
+			# amsb_has_throne_room removed by AMSB's 0.5.1 update; condition dropped (August 25th 2026)
 			#LEGACY OF VALYRIA ADDED
 			lv_has_throne_room = no
 		}
@@ -436,34 +520,64 @@ japanese = {
 		# Scene selection is briefly queried without a valid court owner during cleanup.
 		trigger_if = {
 			limit = { exists = root }
-			NOT = {
-				government_has_flag = government_is_nomadic
-			}
-			capital_county ?= {
+			# COMPATCH August 25th 2026: explicit routing for far-east realms
+			OR = {
 				OR = {
-					culture = { has_graphical_japanese_culture_group_trigger = yes }
-					title_province = { steppe_building_gfx_use_japanese_trigger = yes }
+					culture = culture:fish_man
+					capital_county ?= {
+						OR = {
+							culture = culture:fish_man
+						}
+					}
 				}
-			}
-			# Is not Ceremonial Liege
-			tgp_realm_has_ceremonial_liege_trigger = yes
-			tgp_has_ceremonial_liege_title_trigger = no
-			trigger_if = {
-				limit = {
-					has_tgp_dlc_trigger = yes
+				AND = {
+					# COMPATCH August 25th 2026: Asshai'i and the plain far-east tribals hold court in the
+					# generic hall, not the regional palace rooms
+					NOR = {
+						culture = culture:shadowman
+						culture = culture:asshaii
+						culture = culture:bloodless_man
+						culture = culture:fish_man
+						capital_county ?= {
+							OR = {
+								culture = culture:shadowman
+								culture = culture:asshaii
+								culture = culture:bloodless_man
+								culture = culture:fish_man
+							}
+						}
+					}
 					NOT = {
 						government_has_flag = government_is_nomadic
 					}
-					tgp_is_ceremonial_regent_trigger = no
-				}
-				#AGOT Disabled
-				# NOT = { primary_title ?= title:h_china }
-			}
-			#AGOT Added
-			agot_has_throne_room = no
+					capital_county ?= {
+						OR = {
+							culture = { has_graphical_japanese_culture_group_trigger = yes }
+							title_province = { steppe_building_gfx_use_japanese_trigger = yes }
+						}
+					}
+					# Is not Ceremonial Liege
+					tgp_realm_has_ceremonial_liege_trigger = yes
+					tgp_has_ceremonial_liege_title_trigger = no
+					trigger_if = {
+						limit = {
+							has_tgp_dlc_trigger = yes
+							NOT = {
+								government_has_flag = government_is_nomadic
+							}
+							tgp_is_ceremonial_regent_trigger = no
+						}
+						#AGOT Disabled
+						# NOT = { primary_title ?= title:h_china }
+					}
+					#AGOT Added
+					agot_has_throne_room = no
 			amsb_has_throne_room = no
-			# Legacy of Valyria: reserve dedicated LoV court scenes
-			lv_has_throne_room = no
+					# amsb_has_throne_room removed by AMSB's 0.5.1 update; condition dropped (August 25th 2026)
+					# Legacy of Valyria: reserve dedicated LoV court scenes
+					lv_has_throne_room = no
+				}
+			}
 		}
 		trigger_else = { always = no }
 	}
@@ -474,34 +588,68 @@ southeast_asia = {
 		# Scene selection is briefly queried without a valid court owner during cleanup.
 		trigger_if = {
 			limit = { exists = root }
-			NOT = {
-				government_has_flag = government_is_nomadic
-			}
-			capital_county ?= {
+			# COMPATCH August 25th 2026: explicit routing for far-east realms
+			OR = {
 				OR = {
-					title_province = { steppe_building_gfx_use_southeast_asian_trigger = yes }
-					culture = { has_building_gfx = southeast_asian_building_gfx }
+					culture = culture:bloodless_man
+					capital_county ?= {
+						OR = {
+							culture = culture:bloodless_man
+						}
+					}
 				}
-			}
-			# COMPATCH August 2nd 2026: Jogos Nhai counties carry placeholder southeast asian graphics,
-			# which let this scene steal the Jhattar from the Dragon's Mandate room. Keep them out.
-			NOR = {
-				culture = culture:jhalai
-				culture = culture:jogos_nhai
-				culture = culture:nefer
-				capital_county ?= {
-					OR = {
+				AND = {
+					# COMPATCH August 25th 2026: Asshai'i and the plain far-east tribals hold court in the
+					# generic hall, not the regional palace rooms
+					NOR = {
+						culture = culture:shadowman
+						culture = culture:asshaii
+						culture = culture:bloodless_man
+						culture = culture:fish_man
+						culture = culture:lengii
+						culture = culture:vahari
+						capital_county ?= {
+							OR = {
+								culture = culture:shadowman
+								culture = culture:asshaii
+								culture = culture:bloodless_man
+								culture = culture:fish_man
+								culture = culture:lengii
+								culture = culture:vahari
+							}
+						}
+					}
+					NOT = {
+						government_has_flag = government_is_nomadic
+					}
+					capital_county ?= {
+						OR = {
+							title_province = { steppe_building_gfx_use_southeast_asian_trigger = yes }
+							culture = { has_building_gfx = southeast_asian_building_gfx }
+						}
+					}
+					# COMPATCH August 2nd 2026: Jogos Nhai counties carry placeholder southeast asian graphics,
+					# which let this scene steal the Jhattar from the Dragon's Mandate room. Keep them out.
+					NOR = {
 						culture = culture:jhalai
 						culture = culture:jogos_nhai
 						culture = culture:nefer
+						capital_county ?= {
+							OR = {
+								culture = culture:jhalai
+								culture = culture:jogos_nhai
+								culture = culture:nefer
+							}
+						}
 					}
+					#AGOT Added
+					agot_has_throne_room = no
+			amsb_has_throne_room = no
+					# amsb_has_throne_room removed by AMSB's 0.5.1 update; condition dropped (August 25th 2026)
+					# Legacy of Valyria: reserve dedicated LoV court scenes
+					lv_has_throne_room = no
 				}
 			}
-			#AGOT Added
-			agot_has_throne_room = no
-			amsb_has_throne_room = no
-			# Legacy of Valyria: reserve dedicated LoV court scenes
-			lv_has_throne_room = no
 		}
 		trigger_else = { always = no }
 	}
@@ -512,6 +660,22 @@ chinese_alt = {
 		# Scene selection is briefly queried without a valid court owner during cleanup.
 		trigger_if = {
 			limit = { exists = root }
+			# COMPATCH August 25th 2026: Asshai'i and the plain far-east tribals hold court in the
+			# generic hall, not the regional palace rooms
+			NOR = {
+				culture = culture:shadowman
+				culture = culture:asshaii
+				culture = culture:bloodless_man
+				culture = culture:fish_man
+				capital_county ?= {
+					OR = {
+						culture = culture:shadowman
+						culture = culture:asshaii
+						culture = culture:bloodless_man
+						culture = culture:fish_man
+					}
+				}
+			}
 			# COMPATCH August 2nd 2026: Dragon's Mandate court room for the Jogos Nhai sphere
 			# (jhalai culture or N'ghai heritage, ruler or capital county). Requires All Under Heaven.
 			has_tgp_dlc_trigger = yes
@@ -532,7 +696,7 @@ chinese_alt = {
 			}
 			#AGOT Added
 			agot_has_throne_room = no
-			amsb_has_throne_room = no
+			# amsb_has_throne_room removed by AMSB's 0.5.1 update; condition dropped (August 25th 2026)
 			#LEGACY OF VALYRIA ADDED
 			lv_has_throne_room = no
 		}
@@ -566,7 +730,38 @@ eetlv_jogos = {
 			}
 			#AGOT Added
 			agot_has_throne_room = no
-			amsb_has_throne_room = no
+			# amsb_has_throne_room removed by AMSB's 0.5.1 update; condition dropped (August 25th 2026)
+			#LEGACY OF VALYRIA ADDED
+			lv_has_throne_room = no
+		}
+		trigger_else = { always = no }
+	}
+}
+
+# EETLV COMPATCH August 25th 2026: dedicated scene key for the mandala realms of the far east.
+# Leng and Great Moraq hold court in the Peacock Court room (vanilla MENA_2) through our own
+# scene_settings (scene_settings_eetlv_mandala_g1-g3) so it auto-picks like any other room.
+eetlv_mandala = {
+	trigger = {
+		# Scene selection is briefly queried without a valid court owner during cleanup.
+		trigger_if = {
+			limit = { exists = root }
+			NOT = {
+				government_has_flag = government_is_nomadic
+			}
+			OR = {
+				culture = culture:lengii
+				culture = culture:vahari
+				capital_county ?= {
+					OR = {
+						culture = culture:lengii
+						culture = culture:vahari
+					}
+				}
+			}
+			#AGOT Added
+			agot_has_throne_room = no
+			# amsb_has_throne_room removed by AMSB's 0.5.1 update; condition dropped (August 25th 2026)
 			#LEGACY OF VALYRIA ADDED
 			lv_has_throne_room = no
 		}

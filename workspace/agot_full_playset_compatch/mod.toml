@@ -6,10 +6,16 @@ owned_outputs = [
   "map_data/geographical_regions/replace/north_sans_neck.txt",
   "map_data/geographical_regions/north_sans_neck.txt",
   "common/landed_titles/01_agot_landed_titles.txt",
+  "common/on_action/agot_on_actions/mde_yearly_on_actions.txt",
   "localization/replace/english/agot/replace/00_agot_titles_l_english.yml",
   "localization/replace/spanish/agot/replace/00_agot_titles_l_spanish.yml",
   "gfx/court_scene/scene_settings/grandeur_levels/grandeur_levels.txt",
 ]
+
+[[sources]]
+name = "agot"
+kind = "workshop"
+item_id = "2962333032"
 
 [[sources]]
 name = "agot-now"
@@ -30,3 +36,20 @@ item_id = "3319354609"
 name = "amsb-lov-compatch"
 kind = "workshop"
 item_id = "3762892081"
+
+[[sources]]
+name = "mde-eggs"
+kind = "workshop"
+item_id = "3388366564"
+
+[[sources]]
+name = "mde-events"
+kind = "workshop"
+item_id = "3466228580"
+
+# Not enabled in the playset: its map_object_data would shadow the map compatch.
+# Consumed only so its model remaps stay pinned and asserted.
+[[sources]]
+name = "cow-now-compatch"
+kind = "workshop"
+item_id = "3742055253"

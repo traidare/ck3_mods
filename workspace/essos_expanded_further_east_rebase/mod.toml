@@ -1,0 +1,8 @@
+[generator]
+entrypoint = "implementation.py:generate"
+owned_outputs = ["history"]
+
+[[sources]]
+name = "further-east-eep"
+kind = "workshop"
+item_id = "3768149491"
