@@ -1,0 +1,18 @@
+[generator]
+entrypoint = "implementation.py:generate"
+owned_outputs = [
+  "common/decisions/agot_decisions/zz_agot_adventurer_bastard_decisions.txt",
+  "common/character_interactions/zz_agot_adventurer_evict_interaction.txt",
+]
+
+[[sources]]
+name = "agot-bastard-decisions"
+kind = "workshop"
+item_id = "2962333032"
+path = "common/decisions/agot_decisions/00_agot_bastard_decisions.txt"
+
+[[sources]]
+name = "agot-laamp-interactions"
+kind = "workshop"
+item_id = "2962333032"
+path = "common/character_interactions/06_ep3_laamp_interactions.txt"
