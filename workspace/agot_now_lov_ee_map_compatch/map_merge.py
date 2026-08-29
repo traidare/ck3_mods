@@ -350,7 +350,12 @@ def three_way_block(base: str, current: str, incoming: str, label: str) -> str:
 
 def locator_records(text: str) -> tuple[str, str, list[int], dict[int, str]]:
     """Parse locator records by numeric id while preserving EEP's file frame."""
-    starts = list(re.finditer(r"(?m)^[ \t]*\{\s*$", text))
+    starts = list(
+        re.finditer(
+            r"(?m)^[ \t]*\{(?:[ \t]+id[ \t]*=[ \t]*\d+|[ \t]*$)",
+            text,
+        )
+    )
     records: dict[int, str] = {}
     order: list[int] = []
     first: int | None = None
@@ -359,7 +364,7 @@ def locator_records(text: str) -> tuple[str, str, list[int], dict[int, str]]:
         opening = text.index("{", start.start())
         end = matching_brace(text, opening) + 1
         block = text[start.start() : end]
-        found = re.search(r"(?m)^[ \t]*id\s*=\s*(\d+)\s*$", block)
+        found = re.search(r"\bid\s*=\s*(\d+)", block)
         if not found:
             continue
         key = int(found.group(1))

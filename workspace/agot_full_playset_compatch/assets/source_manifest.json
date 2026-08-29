@@ -13,9 +13,9 @@
   "versions": {
     "AGOT": "0.5.1",
     "NOW": "1.2.8.1",
-    "SEASONS_BRIDGE": "1.0.22",
+    "SEASONS_BRIDGE": "1.0.31",
     "AMSB": "0.5.1",
-    "AMSB_LOV": "1.5.0",
+    "AMSB_LOV": "1.5.3",
     "MDE_EGGS": "55.4",
     "MDE_EVENTS": "1.19.*",
     "COW_NOW": "1.0.7.1"
@@ -48,7 +48,7 @@
     },
     "SEASONS_BRIDGE_DESCRIPTOR": {
       "path": "3766038754/descriptor.mod",
-      "sha256": "b99ae601ce415eb8dba896abb3959a68f8ba19995b69006aee373263be68c14a",
+      "sha256": "6c6d79068a705334e1a8e4864a261ff1f73f6a502b3f6e8bb83370d328f15665",
       "size": 404
     },
     "NOW_TITLES_ENGLISH": {
@@ -63,8 +63,8 @@
     },
     "AMSB_GRANDEUR": {
       "path": "3319354609/gfx/court_scene/scene_settings/grandeur_levels/grandeur_levels.txt",
-      "sha256": "7fb8cfcea8f58184ab8de26189add11ff0c9c76a6ca05f9ea6090d5f28ad16b3",
-      "size": 13889
+      "sha256": "170eaef8c16f72faa29334086d625e0a169d24084ed5fbdf5d2249c55183eb69",
+      "size": 11068
     },
     "AMSB_LOV_GRANDEUR": {
       "path": "3762892081/gfx/court_scene/scene_settings/grandeur_levels/grandeur_levels.txt",
@@ -78,8 +78,8 @@
     },
     "AMSB_LOV_DESCRIPTOR": {
       "path": "3762892081/descriptor.mod",
-      "sha256": "57952fde746bca74a1fc074f37ff87cb1145090b8254063178f5934fa9d9f3c1",
-      "size": 379
+      "sha256": "5b8a3dd9c137cdda208f5b201778bb840704456cd79e3f85677179d55a92e6c6",
+      "size": 376
     },
     "AGOT_YEARLY": {
       "path": "2962333032/common/on_action/agot_on_actions/agot_yearly_on_actions.txt",

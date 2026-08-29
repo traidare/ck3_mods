@@ -45,12 +45,41 @@ class SharedGeneratorHelperTest(unittest.TestCase):
         )
         with generator_function(
             "workspace/agot_now_lov_ee_map_compatch/map_merge.py",
-            "parse_instances",
-        ) as parse_instances:
-            prefix, suffix, records = parse_instances(text)
+            "locator_records",
+        ) as locator_records:
+            prefix, suffix, order, records = locator_records(text)
         self.assertTrue(prefix.endswith("\tinstances = {\n"))
         self.assertEqual(suffix, "\n\t}\n}\n")
+        self.assertEqual(order, [3, 8])
         self.assertEqual(list(records), [3, 8])
+
+    def test_map_locator_parser_accepts_inline_records(self) -> None:
+        text = (
+            "locator = {\n"
+            "\tinstances = {\n"
+            "\t\t{ id = 3 position = { 1 0 2 } }\n"
+            "\t\t{\n\t\t\tid = 8\n\t\t\tposition={ 4 0 5 }\n\t\t}\n"
+            "\t}\n}\n"
+        )
+        with generator_function(
+            "workspace/agot_now_lov_ee_map_compatch/map_merge.py",
+            "locator_records",
+        ) as locator_records:
+            prefix, suffix, order, records = locator_records(text)
+        self.assertTrue(prefix.endswith("\tinstances = {\n"))
+        self.assertEqual(suffix, "\n\t}\n}\n")
+        self.assertEqual(order, [3, 8])
+        self.assertEqual(list(records), [3, 8])
+
+        duplicate = text.replace("{ id = 3", "{ id = 8")
+        with (
+            generator_function(
+                "workspace/agot_now_lov_ee_map_compatch/map_merge.py",
+                "locator_records",
+            ) as locator_records,
+            self.assertRaisesRegex(RuntimeError, "duplicate locator id 8"),
+        ):
+            locator_records(duplicate)
 
     def test_lore_parser_and_edit_overlap_guard(self) -> None:
         source = (

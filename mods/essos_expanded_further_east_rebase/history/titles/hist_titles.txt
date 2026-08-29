@@ -958,3 +958,18 @@ e_leng = {
 		holder = gen_2334
 	}
 }
+
+# COMPATCH: give the emperors of Lesser Moraq and Ulthos their own capital counties.
+c_R33G115B80 = {
+	7898.1.1 = {
+		holder = gen_2370   # capital of e_lesser_moraq; Essos Expanded leaves it on the Wilderness_Empress placeholder,
+		              # which left the emperor with no capital and no land
+	}
+}
+
+c_R61G255B68 = {
+	7898.1.1 = {
+		holder = gen_2436   # capital of e_ulthos; Essos Expanded leaves it on the Wilderness_Empress placeholder,
+		              # which left the emperor with no capital and no land
+	}
+}

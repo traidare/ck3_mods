@@ -164,16 +164,16 @@
       "size": 11066
     },
     "3768149491/map_data/default.map": {
-      "sha256": "40caa222dca6fd227a3b1450c481c976b0ba319f3e43285fa6f050284086337d",
-      "size": 15904
+      "sha256": "084bdefbd0d21d7a71509ebef875ab014c03c3ec56763c580da14a2ecc046af6",
+      "size": 16042
     },
     "3768149491/map_data/definition.csv": {
       "sha256": "448e58d6ded3aade8d5f8e85cefb919891408900c343a820d093f33676ed234e",
       "size": 850708
     },
     "3768149491/map_data/geographical_regions/00_agot_geographical_region.txt": {
-      "sha256": "a9a78ba627b7f3ff1c68d1d1e866a85f7c6591d015013a27a0998db52d6086e8",
-      "size": 148616
+      "sha256": "5c89310531983c0a7f5031a74a369423e94cdf2a661552dbc94ab4d714678d10",
+      "size": 99372
     },
     "3768149491/map_data/geographical_regions/zz_eetlv_dothraki_region.txt": {
       "sha256": "766833d85cc4ce6af6d6983f92fa665c404d298d442d1e6173ade545015a65f8",
@@ -962,7 +962,7 @@
   "versions": {
     "AGOT": "0.5.1",
     "EE": "1.0",
-    "EEP": "4.0.9",
+    "EEP": "4.0.36",
     "LOV": "1.5.2.13",
     "NOW": "1.2.8.1",
     "RC": "0.5.1-stage09d-postrelease-runtime-repair-rc7-2026-08-25"

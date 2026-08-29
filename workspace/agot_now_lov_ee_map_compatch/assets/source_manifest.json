@@ -48,13 +48,13 @@
       "sha256": "8c954a26d9035c5acb596e0fb5b907d7c1b274a241f500e08b19b2d71542d42b",
       "size": 33952
     },
+    "3682802751/gfx/map/map_object_data/building_locators.txt": {
+      "sha256": "955a7c5087d48c794cbacc485ee0b2b707210efc649c39ccd5d3b5b85aa25291",
+      "size": 3686250
+    },
     "3682802751/gfx/map/map_object_data/new_mapobject_2.txt": {
       "sha256": "69c75450b5c9c72f8aa78f1217cc0a4321856a130c830befb93c79d1f21cb757",
       "size": 47605
-    },
-    "3682802751/gfx/map/map_object_data/new_mapobject_3.txt": {
-      "sha256": "cfae5e4dbf2ac72022065c5865c048e927a1fff36127606a332bd6fea0c3ba8a",
-      "size": 11693
     },
     "3742055253/gfx/map/map_object_data/building_locators.txt": {
       "sha256": "44b29f4c1d814a084ec9be2976d19224722ad094253e0975552f5e4dd31057c5",
@@ -68,21 +68,21 @@
       "sha256": "576b7606b400d52ce6519d6eb951b7f09e23f0f697efa23e9c0e6c8adaf0c81f",
       "size": 1323995
     },
-    "3768149491/gfx/map/map_object_data/building_locators.txt": {
-      "sha256": "34f5ede890d1ac12107862ddb204fee2afeb70bf1e21fdb2bfa8648a90eb3096",
-      "size": 3775549
+    "3768149491/gfx/map/map_object_data/new_mapobject_3.txt": {
+      "sha256": "eaed683ed4da1aac106c9721d1f597358a5db07012fe4d340c3edcfdc166a958",
+      "size": 12227
     },
     "3768149491/gfx/map/map_object_data/special_building_locators.txt": {
-      "sha256": "23b7ad16bbb189a9749b0ac6ff2416fd0954c5258bbbc30e4e1ebb43e9203e5c",
-      "size": 3781358
+      "sha256": "f93a519c469224f60683c24c49a45fc6664c8c4210345968a226b6e088f41223",
+      "size": 3392867
     },
     "3768149491/map_data/definition.csv": {
       "sha256": "448e58d6ded3aade8d5f8e85cefb919891408900c343a820d093f33676ed234e",
       "size": 850708
     },
     "3768149491/map_data/geographical_regions/00_agot_geographical_region.txt": {
-      "sha256": "a9a78ba627b7f3ff1c68d1d1e866a85f7c6591d015013a27a0998db52d6086e8",
-      "size": 148616
+      "sha256": "5c89310531983c0a7f5031a74a369423e94cdf2a661552dbc94ab4d714678d10",
+      "size": 99372
     }
   },
   "intent": "EEP-native map; apply NOW/COW semantic Westeros deltas only",
@@ -90,7 +90,7 @@
   "versions": {
     "AGOT": "0.5.1",
     "COW_NOW": "1.0.7.1",
-    "EEP": "4.0.9",
+    "EEP": "4.0.36",
     "NOW": "1.2.8.1"
   }
 }

@@ -1,4 +1,11 @@
-﻿object={
+﻿# Essos Expanded: The Further East - Legacy of Valyria - AGOT 0.5.1's file, with one change.
+# Essos Expanded ships an older copy of this file and loads below Fesir's patch, so it was reverting
+# his placements. Fesir's version is used here EXCEPT for the Smoke object: he has 404 instances
+# spread across the whole map, as far west as Westeros, where Legacy of Valyria itself has 6 around
+# Valyria. The original 6 are kept because 404 buried the region in smoke.
+# RE-DIFF against Fesir's new_mapobject_3.txt whenever he updates.
+
+object={
 	name="Bridge_India"
 	render_pass=MapUnderTerrain
 	clamp_to_water_level=no

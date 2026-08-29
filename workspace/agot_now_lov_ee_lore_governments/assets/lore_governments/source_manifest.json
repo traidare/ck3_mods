@@ -326,12 +326,12 @@
       "size": 147340
     },
     "mods/essos_expanded_further_east_rebase/history/provinces/k_generated.txt": {
-      "sha256": "5faf3b9c6548629340bf27c2a5e3257a46f55b8fd520a60db722914e93ee585c",
-      "size": 1094065
+      "sha256": "6bf9337f5425ea3aca4f9b7a51d54e26004560c6425e5958c4da392f4b1aee83",
+      "size": 1055382
     },
     "mods/essos_expanded_further_east_rebase/history/titles/hist_titles.txt": {
-      "sha256": "b66d5ec22efab14cf0e4e0bef3fd2c209dc6f1e03f1fe1255a2c39be0af632d1",
-      "size": 12820
+      "sha256": "f7195f1fa0af016c2317047269a106d39d6a8697ed3ef0b47697a8513a98cf8f",
+      "size": 13341
     },
     "workspace/agot_now_lov_ee_lore_governments/assets/lore_governments/government_lore_rules.csv": {
       "sha256": "4d3e5dd13122b5b8f412aa143d19cf4ca2cc344e8cd7d8c66ac941ad236564f4",
@@ -341,9 +341,9 @@
   "schema_version": 1,
   "versions": {
     "AGOT": "0.5.1",
-    "BRIDGE": "1.0.11",
+    "BRIDGE": "1.0.20",
     "EE": "1.0",
-    "EEP": "4.0.9",
+    "EEP": "4.0.36",
     "LOV": "1.5.2.13",
     "RC": "0.5.1-stage09d-postrelease-runtime-repair-rc7-2026-08-25"
   },

@@ -91,15 +91,14 @@ Validation reports 79 errors. Every one of them is inherited verbatim from an
 upstream file this module re-emits, not introduced here; the emitted holder,
 liege, and succession lines are byte-identical to their sources.
 
-- 16 `duplicate-character`. Further East 4.0.9 renamed the Leng rulers into
-  named Tengvar empresses in a new `zz_eetlv_leng_empresses.txt` instead of
-  overriding the generated `bookmark_chars.txt`, so both definitions load and
-  each id becomes two characters. Folding the file in the way this module folds
-  the khal-name and bookmark overrides does not work: the renamed rulers are
-  female, while Further East's own generated genealogy still references them
-  through `father`, which trades 16 duplicates for 20 gender errors. Repairing
-  it needs Further East's parentage reconciled, which is out of this module's
-  scope.
+- 16 `duplicate-character`. Further East renamed the Leng rulers into named
+  Tengvar empresses in a new `zz_eetlv_leng_empresses.txt` instead of overriding
+  the generated `bookmark_chars.txt`, so both definitions load and each id
+  becomes two characters. Folding the file in the way this module folds the
+  khal-name and bookmark overrides does not work: the renamed rulers are female,
+  while Further East's own generated genealogy still references them through
+  `father`, which trades 16 duplicates for 20 gender errors. Repairing it needs
+  Further East's parentage reconciled, which is out of this module's scope.
 - 60 `history` no-holder and 1 `missing-item`. Dated `liege` entries in the LoV
   bridge's `lv_*` files point at titles with no holder at that date.
 - 2 `wrong-gender`. Further East's `gen_2495` (Lengoreth) is used as a `mother`

@@ -39,7 +39,8 @@ transform.
 Every merge is semantic, never a last-writer copy. Records are keyed by their
 stable identity (locator id, map-object `name`, region name) and compared with
 comments and whitespace ignored, so a source that only reformats a record makes
-no delta.
+no delta. Locator parsing accepts both editor-style multiline records and
+single-line records, while retaining the source file's surrounding frame.
 
 Each overlay is diffed against the baseline it was actually authored against:
 NOW against AGOT, and the COW/NOW compatch against NOW, which it extends.
@@ -87,5 +88,7 @@ stays disabled as a standalone mod.
   any of them itself; generation fails rather than overwriting Further East.
 - Re-audit locator `3462` when its digest pin trips, and re-review rather than
   re-pinning the new inputs unchanged.
+- Further East may omit a locator file; the generator then deliberately uses the
+  corresponding Essos Expanded parent file as the native baseline.
 - Re-audit the whole baseline if Further East stops shipping the canonical map
   or diverges from AGOT's province band again.
