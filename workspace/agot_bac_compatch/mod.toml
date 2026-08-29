@@ -1,0 +1,18 @@
+[generator]
+entrypoint = "implementation.py:generate"
+owned_outputs = ["gui"]
+
+[[sources]]
+name = "game"
+kind = "game"
+path = "game"
+
+[[sources]]
+name = "agot"
+kind = "workshop"
+item_id = "2962333032"
+
+[[sources]]
+name = "build-a-courtier"
+kind = "workshop"
+item_id = "3730686405"
