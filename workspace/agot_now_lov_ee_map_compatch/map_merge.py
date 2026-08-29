@@ -26,25 +26,39 @@ GEO_REGIONS = "map_data/geographical_regions/00_agot_geographical_region.txt"
 NOW_GEO_REGIONS = (
     "map_data/geographical_regions/replace/00_agot_geographical_region.txt"
 )
-LOCATOR_FILES = (
-    "gfx/map/map_object_data/building_locators.txt",
-    "gfx/map/map_object_data/special_building_locators.txt",
-)
+BUILDING_LOCATORS = "gfx/map/map_object_data/building_locators.txt"
+SPECIAL_BUILDING_LOCATORS = "gfx/map/map_object_data/special_building_locators.txt"
+LOCATOR_FILES = (BUILDING_LOCATORS, SPECIAL_BUILDING_LOCATORS)
+AGOT_NATIVE_PROVINCE_BAND = range(8233, 9401)
 OBJECT_FILES = (
     "gfx/map/map_object_data/new_mapobject_2.txt",
     "gfx/map/map_object_data/new_mapobject_3.txt",
 )
-# These are the only NOW rows EEP v4 still inherits unchanged from AGOT.  The
-# remaining NOW definition edits either predate AGOT 0.5's canonical map or
-# touch an EEP-authored row and are intentionally left to EEP.
+# These are the NOW colour remaps required by the accepted Westeros locator
+# deltas.  The remaining NOW definition edits either predate AGOT 0.5's
+# canonical map or are unrelated to the map objects carried by this compatch.
 NOW_DEFINITION_ROWS = frozenset(
-    (3967, 3969, 4124, 4125, 4126, 4136, 4138, 4419, 4420, 4422, 4426)
+    (
+        3274,
+        3823,
+        3967,
+        3969,
+        4124,
+        4125,
+        4126,
+        4136,
+        4138,
+        4419,
+        4420,
+        4422,
+        4426,
+    )
 )
 # Records both EEP and NOW edited, where load order cannot decide.  Each entry
 # pins all three inputs, so any upstream change re-raises the conflict instead
 # of silently reusing a stale review.
 LOCATOR_RESOLUTIONS: dict[tuple[str, int], tuple[str, dict[str, str]]] = {
-    ("gfx/map/map_object_data/special_building_locators.txt", 3462): (
+    (SPECIAL_BUILDING_LOCATORS, 3462): (
         # b_cuy.  EEP re-placed the special building and, as it does at every
         # locator it re-places, reset height and scale to the editor defaults.
         # NOW instead deliberately resized the same model from 0.267 to 0.468.
@@ -379,6 +393,35 @@ def locator_records(text: str) -> tuple[str, str, list[int], dict[int, str]]:
     return text[:first], text[last:], order, records
 
 
+def replace_locator_band(
+    current: tuple[str, str, list[int], dict[int, str]],
+    canonical: tuple[str, str, list[int], dict[int, str]],
+    band: range,
+) -> tuple[str, str, list[int], dict[int, str]]:
+    """Replace one province-id band while preserving the current file frame."""
+    prefix, suffix, order, records = current
+    _, _, canonical_order, canonical_records = canonical
+    band_keys = set(band)
+    replacement_order = [key for key in canonical_order if key in band_keys]
+    merged_order: list[int] = []
+    inserted = False
+    for key in order:
+        if key in band_keys:
+            if not inserted:
+                merged_order.extend(replacement_order)
+                inserted = True
+            continue
+        merged_order.append(key)
+    if not inserted:
+        merged_order.extend(replacement_order)
+
+    merged_records = {
+        key: record for key, record in records.items() if key not in band_keys
+    }
+    merged_records.update((key, canonical_records[key]) for key in replacement_order)
+    return prefix, suffix, merged_order, merged_records
+
+
 def stacked_overlays(inputs: Inputs, relative: str, parse) -> tuple[Overlay, ...]:
     """NOW diffs against AGOT; COW/NOW diffs against the NOW it integrates."""
     agot = parse(read(inputs.agot / relative))
@@ -394,6 +437,15 @@ def stacked_overlays(inputs: Inputs, relative: str, parse) -> tuple[Overlay, ...
 
 def merge_locator_file(inputs: Inputs, relative: str) -> str:
     current = locator_records(read(inputs.current_map_source(relative)))
+    if relative == BUILDING_LOCATORS:
+        # Further East v4 restores AGOT's 8233-9400 province identities but
+        # omits this locator file.  Its Essos Expanded parent still uses those
+        # ids for Anogaria, so only the rest of that parent file is reusable.
+        current = replace_locator_band(
+            current,
+            locator_records(read(inputs.agot / relative)),
+            AGOT_NATIVE_PROVINCE_BAND,
+        )
     resolutions = {
         key: value
         for (path, key), value in LOCATOR_RESOLUTIONS.items()
@@ -423,6 +475,26 @@ def definition_rows(path: Path) -> tuple[list[str], dict[int, str]]:
     return lines, rows
 
 
+def locator_definition_dependencies(
+    agot_definition: dict[int, str],
+    now_definition: dict[int, str],
+    agot_locators: dict[int, str],
+    now_locators: dict[int, str],
+) -> set[int]:
+    """Return moved locator ids whose NOW province colour must follow them."""
+    dependencies = set()
+    for key in agot_locators.keys() & now_locators.keys():
+        if key not in agot_definition or key not in now_definition:
+            continue
+        if semantic_script(agot_locators[key]) == semantic_script(now_locators[key]):
+            continue
+        agot_colour = agot_definition[key].split(";", 4)[1:4]
+        now_colour = now_definition[key].split(";", 4)[1:4]
+        if agot_colour != now_colour:
+            dependencies.add(key)
+    return dependencies
+
+
 def merge_definition(inputs: Inputs) -> str:
     lines, agot = definition_rows(inputs.agot / DEFINITION)
     _, now = definition_rows(inputs.now / DEFINITION)
@@ -444,6 +516,18 @@ def merge_definition(inputs: Inputs) -> str:
         raise RuntimeError(
             "NOW's audited definition rows changed or are no longer EEP-safe: "
             f"{invalid}"
+        )
+    required = set()
+    for relative in LOCATOR_FILES:
+        _, _, _, agot_locators = locator_records(read(inputs.agot / relative))
+        _, _, _, now_locators = locator_records(read(inputs.now / relative))
+        required.update(
+            locator_definition_dependencies(agot, now, agot_locators, now_locators)
+        )
+    missing = sorted(required - changed)
+    if missing:
+        raise RuntimeError(
+            f"NOW locator deltas require unaudited definition colour rows: {missing}"
         )
     output = [
         now[int(line.split(";", 1)[0])]

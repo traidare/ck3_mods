@@ -20,8 +20,9 @@ canonical 27,589-province map. This layer therefore starts from that map and
 carries only the Westeros deltas the effective playset would otherwise lose. It
 owns six files under `gfx/map/map_object_data` and `map_data`:
 
-- the province table, keeping Further East's 27,589 rows and applying the eleven
-  rows NOW changes that Further East still inherits unchanged from AGOT;
+- the province table, keeping Further East's 27,589 rows and applying the
+  thirteen rows NOW changes that Further East still inherits unchanged from
+  AGOT;
 - the two locator files and the two map-object files, merged record by record;
 - the geographical regions file, carrying NOW's island deltas.
 
@@ -84,11 +85,14 @@ stays disabled as a standalone mod.
 
 - A pinned-source or pinned-count mismatch fails generation; that failure is the
   general re-audit trigger.
-- Re-audit the eleven NOW province rows whenever Further East begins authoring
+- Re-audit the thirteen NOW province rows whenever Further East begins authoring
   any of them itself; generation fails rather than overwriting Further East.
 - Re-audit locator `3462` when its digest pin trips, and re-review rather than
   re-pinning the new inputs unchanged.
-- Further East may omit a locator file; the generator then deliberately uses the
-  corresponding Essos Expanded parent file as the native baseline.
+- Further East may omit a locator file; the generator then uses the
+  corresponding Essos Expanded parent file as the native baseline. For
+  `building_locators.txt`, AGOT's records replace the parent's stale 8233-9400
+  band because Further East restored AGOT's province identities there while
+  Essos Expanded still assigns those ids to Anogaria.
 - Re-audit the whole baseline if Further East stops shipping the canonical map
   or diverges from AGOT's province band again.

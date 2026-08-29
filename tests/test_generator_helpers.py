@@ -81,6 +81,62 @@ class SharedGeneratorHelperTest(unittest.TestCase):
         ):
             locator_records(duplicate)
 
+    def test_map_locator_definition_dependencies_track_colour_remaps(self) -> None:
+        agot_definition = {
+            3: "3;1;2;3;b_first;x",
+            8: "8;4;5;6;b_second;x",
+            9: "9;7;8;9;b_old_name;x",
+        }
+        now_definition = {
+            3: "3;4;5;6;b_first;x",
+            8: "8;1;2;3;b_second;x",
+            9: "9;7;8;9;b_new_name;x",
+        }
+        agot_locators = {
+            key: f"{{ id={key} position={{ {key} 0 0 }} }}" for key in (3, 8, 9)
+        }
+        now_locators = {
+            key: f"{{ id={key} position={{ {key + 1} 0 0 }} }}" for key in (3, 8, 9)
+        }
+        with generator_function(
+            "workspace/agot_now_lov_ee_map_compatch/map_merge.py",
+            "locator_definition_dependencies",
+        ) as dependencies:
+            self.assertEqual(
+                dependencies(
+                    agot_definition, now_definition, agot_locators, now_locators
+                ),
+                {3, 8},
+            )
+
+    def test_map_locator_band_replacement_removes_stale_parent_ids(self) -> None:
+        current = (
+            "prefix\n",
+            "\nsuffix\n",
+            [1, 3, 4, 5, 7],
+            {key: f"current-{key}" for key in (1, 3, 4, 5, 7)},
+        )
+        canonical = (
+            "ignored-prefix\n",
+            "\nignored-suffix\n",
+            [3, 5],
+            {3: "canonical-3", 5: "canonical-5"},
+        )
+        with generator_function(
+            "workspace/agot_now_lov_ee_map_compatch/map_merge.py",
+            "replace_locator_band",
+        ) as replace_locator_band:
+            prefix, suffix, order, records = replace_locator_band(
+                current, canonical, range(3, 6)
+            )
+        self.assertEqual(prefix, "prefix\n")
+        self.assertEqual(suffix, "\nsuffix\n")
+        self.assertEqual(order, [1, 3, 5, 7])
+        self.assertEqual(
+            records,
+            {1: "current-1", 3: "canonical-3", 5: "canonical-5", 7: "current-7"},
+        )
+
     def test_lore_parser_and_edit_overlap_guard(self) -> None:
         source = (
             'c_test = {\n\tculture = "essosi"\n\t1.2.3 = { government = clan }\n}\n'
