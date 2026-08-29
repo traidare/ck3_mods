@@ -4570,8 +4570,9 @@ on_vassal_change = {
 					}
 				}
 			}
-			create_noble_family_effect = { GOVERNMENT_GIVER = this }
-			domicile ?= { set_up_domicile_estate_effect = yes }
+			agot_playset_request_noble_family_title_effect = {
+				EVENT = agot_playset_noble_family.1
+			}
 		}
 		### If an admin ruler becomes independent...
 		if = {
@@ -4598,8 +4599,9 @@ on_vassal_change = {
 							}
 						}
 					}
-					create_noble_family_effect = { GOVERNMENT_GIVER = this }
-					domicile ?= { set_up_domicile_estate_effect = yes }
+					agot_playset_request_noble_family_title_effect = {
+						EVENT = agot_playset_noble_family.2
+					}
 				}
 			}
 			# Byz admin landless NF should always be direct vassal of top liege

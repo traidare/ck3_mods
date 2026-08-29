@@ -30,6 +30,11 @@ Roughly fifty parent mods are touched. The failures fall into a few classes:
 - **Broken succession and war joins** — participants added to a war they are
   already in, and successions evaluated against titles or holders that no longer
   exist, both of which loop on every evaluation.
+- **Runaway title creation** — administrative noble-family titles created from
+  inside an in-flight title transfer, which an AI appointment cascade can
+  re-trigger dozens of times per tick for one character. Creation is now
+  rate-limited and runs a day later, once the realm has settled, so Essos realms
+  stop accumulating duplicate family titles in the save.
 - **Portrait and interface breakage** — obsolete DNA and gene entries, missing
   illustrations, a crash-prone pre-1.19 GUI widget, and an event that opened as
   an empty blocking popup.

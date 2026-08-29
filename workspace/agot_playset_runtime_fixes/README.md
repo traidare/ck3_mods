@@ -241,6 +241,28 @@ integration stays in `agot_full_playset_compatch`.
   `Domicile owner failed to meet triggered requirements` and
   `Cannot construct an upgrade when previous building has not been built`
   errors. The 900/1100 branches also avoid duplicate main-building additions.
+- **LoV noble-family title churn (Workshop 3719888822):** routes both
+  `on_vassal_change` calls to `create_noble_family_effect` through
+  `agot_playset_request_noble_family_title_effect`, which sets a 30-day
+  `agot_playset_nf_title_requested` flag and defers the creation to
+  `agot_playset_noble_family.1` (top-liege direct vassal) or `.2` (independent
+  administrative ruler) one day later. Each event re-checks the caller's own
+  guard before creating anything. Upstream calls the effect synchronously from
+  inside an in-flight title/vassal change, so an AI appointment cascade
+  re-enters `on_vassal_change` repeatedly within one tick for the same character
+  and nests unbounded `x_nf_*` landed-title creation inside that batch.
+  Signature:
+  `Executing change nested in 1 other change(s), originating from file: CreateNobleFamilyTitle line: 297`
+  interleaved with repeated
+  `(create_noble_family_effect[...]): Create noble family title for <same character>`.
+  Effective last writer for `common/on_action/title_on_actions.txt` is this
+  module, which loads after LoV. The repair is narrow because it changes only
+  when the creation runs and how often it may be requested; the creation itself
+  still calls LoV's unmodified `create_noble_family_effect`, and the deferred
+  triggers reproduce the upstream guards verbatim. Re-audit when LoV changes
+  either `on_vassal_change` call site or the guards around them; a character who
+  legitimately needs a noble-family title but fails the deferred trigger retries
+  once the flag expires.
 - **Dragon Wives marriage modifiers (Workshop 3541596590):** replaces two
   unguarded `var:legitimate_house` comparisons with AGOT's
   `title_is_not_held_by_legitimate_house` trigger, which verifies both variables

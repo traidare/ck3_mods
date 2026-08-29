@@ -474,8 +474,8 @@ def generate_essos_disabled_realm_cleanup(inputs: RunInputs) -> None:
     )
 
 
-def generate_nomad_yurt_guards(inputs: RunInputs) -> None:
-    """Keep title-gain yurt setup within current vanilla building laws."""
+def generate_lov_title_on_action_repairs(inputs: RunInputs) -> None:
+    """Repair LoV title on-actions: yurt setup and noble-family title churn."""
     relative = "common/on_action/title_on_actions.txt"
     source = read_text(inputs.WORKSHOP / "3719888822" / relative)
 
@@ -646,7 +646,143 @@ def generate_nomad_yurt_guards(inputs: RunInputs) -> None:
     source = replace_exact(
         source, old_900, new_900, expected=1, label="LoV nomad 900 yurt setup"
     )
+
+    # on_vassal_change creates noble-family titles synchronously. That call is
+    # reached from inside an in-flight title/vassal change batch, and an AI
+    # appointment cascade re-enters on_vassal_change many times per tick for the
+    # same character, so each cascade nests an unbounded number of x_nf_* title
+    # creations inside the batch that triggered them. Signature:
+    #   "Executing change nested in 1 other change(s), originating from file:
+    #    CreateNobleFamilyTitle line: 297"
+    # Route both call sites through a request effect that rate-limits per
+    # character and performs the creation on its own tick.
+    source = replace_exact(
+        source,
+        "\t\t\tcreate_noble_family_effect = { GOVERNMENT_GIVER = this }\n"
+        "\t\t\tdomicile ?= { set_up_domicile_estate_effect = yes }\n",
+        "\t\t\tagot_playset_request_noble_family_title_effect = {\n"
+        "\t\t\t\tEVENT = agot_playset_noble_family.1\n"
+        "\t\t\t}\n",
+        expected=1,
+        label="LoV noble-family creation deferral (top-liege vassal)",
+    )
+    source = replace_exact(
+        source,
+        "\t\t\t\t\tcreate_noble_family_effect = { GOVERNMENT_GIVER = this }\n"
+        "\t\t\t\t\tdomicile ?= { set_up_domicile_estate_effect = yes }\n",
+        "\t\t\t\t\tagot_playset_request_noble_family_title_effect = {\n"
+        "\t\t\t\t\t\tEVENT = agot_playset_noble_family.2\n"
+        "\t\t\t\t\t}\n",
+        expected=1,
+        label="LoV noble-family creation deferral (independent ruler)",
+    )
     write_text(inputs.OUTPUT, relative, source)
+
+    request_effect = textwrap.dedent(
+        """\
+        # Deferred noble-family title creation.
+        #
+        # on_vassal_change fires inside an in-flight title/vassal change batch,
+        # and an AI appointment cascade re-enters it repeatedly for the same
+        # character within one tick. Creating the x_nf_* title there nests
+        # landed-title creation inside that batch; if the created title does not
+        # satisfy is_noble_family_title the caller's guard also never closes, so
+        # every later vassal change creates another one.
+        #
+        # Record the request instead. The flag rate-limits a character to one
+        # request per month no matter how large the cascade is, and the event
+        # re-checks the caller's own guard on a later tick, outside the batch.
+        agot_playset_request_noble_family_title_effect = {
+        \tif = {
+        \t\tlimit = {
+        \t\t\tNOT = { has_character_flag = agot_playset_nf_title_requested }
+        \t\t}
+        \t\tadd_character_flag = {
+        \t\t\tflag = agot_playset_nf_title_requested
+        \t\t\tdays = 30
+        \t\t}
+        \t\ttrigger_event = {
+        \t\t\tid = $EVENT$
+        \t\t\tdays = 1
+        \t\t}
+        \t}
+        }
+        """
+    )
+    write_text(
+        inputs.OUTPUT,
+        "common/scripted_effects/zz_agot_playset_noble_family_effect.txt",
+        request_effect,
+    )
+
+    events = textwrap.dedent(
+        """\
+        namespace = agot_playset_noble_family
+
+        # Top-liege direct vassal. The trigger mirrors the on_vassal_change guard
+        # this was deferred from, re-checked because a tick has passed.
+        agot_playset_noble_family.1 = {
+        \ttype = character_event
+        \thidden = yes
+
+        \ttrigger = {
+        \t\tis_alive = yes
+        \t\tgovernment_allows = administrative
+        \t\tis_house_head = yes
+        \t\ttrigger_if = {
+        \t\t\tlimit = {
+        \t\t\t\tgovernment_has_flag = government_has_county_tier_noble_families
+        \t\t\t}
+        \t\t\thighest_held_title_tier >= tier_county
+        \t\t}
+        \t\ttrigger_else = { highest_held_title_tier >= tier_duchy }
+        \t\tliege = {
+        \t\t\ttop_liege = this
+        \t\t\tgovernment_allows = administrative
+        \t\t}
+        \t\tNOR = {
+        \t\t\tany_held_title = { is_noble_family_title = yes }
+        \t\t\thouse = {
+        \t\t\t\tany_house_member = {
+        \t\t\t\t\tany_held_title = { is_noble_family_title = yes }
+        \t\t\t\t}
+        \t\t\t}
+        \t\t}
+        \t}
+
+        \timmediate = {
+        \t\tremove_character_flag = agot_playset_nf_title_requested
+        \t\tcreate_noble_family_effect = { GOVERNMENT_GIVER = this }
+        \t\tdomicile ?= { set_up_domicile_estate_effect = yes }
+        \t}
+        }
+
+        # Independent administrative ruler.
+        agot_playset_noble_family.2 = {
+        \ttype = character_event
+        \thidden = yes
+
+        \ttrigger = {
+        \t\tis_alive = yes
+        \t\tgovernment_has_flag = government_is_administrative
+        \t\tliege = this
+        \t\tadministrative_tier_allows_independence = yes
+        \t\tNOT = { any_held_title = { is_noble_family_title = yes } }
+        \t}
+
+        \timmediate = {
+        \t\tremove_character_flag = agot_playset_nf_title_requested
+        \t\tcreate_noble_family_effect = { GOVERNMENT_GIVER = this }
+        \t\tdomicile ?= { set_up_domicile_estate_effect = yes }
+        \t}
+        }
+        """
+    )
+    write_text(
+        inputs.OUTPUT,
+        "events/zz_agot_playset_noble_family_events.txt",
+        events,
+    )
 
 
 def generate_faction_legitimate_house_guards(inputs: RunInputs) -> None:

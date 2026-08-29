@@ -1,0 +1,59 @@
+﻿namespace = agot_playset_noble_family
+
+# Top-liege direct vassal. The trigger mirrors the on_vassal_change guard
+# this was deferred from, re-checked because a tick has passed.
+agot_playset_noble_family.1 = {
+	type = character_event
+	hidden = yes
+
+	trigger = {
+		is_alive = yes
+		government_allows = administrative
+		is_house_head = yes
+		trigger_if = {
+			limit = {
+				government_has_flag = government_has_county_tier_noble_families
+			}
+			highest_held_title_tier >= tier_county
+		}
+		trigger_else = { highest_held_title_tier >= tier_duchy }
+		liege = {
+			top_liege = this
+			government_allows = administrative
+		}
+		NOR = {
+			any_held_title = { is_noble_family_title = yes }
+			house = {
+				any_house_member = {
+					any_held_title = { is_noble_family_title = yes }
+				}
+			}
+		}
+	}
+
+	immediate = {
+		remove_character_flag = agot_playset_nf_title_requested
+		create_noble_family_effect = { GOVERNMENT_GIVER = this }
+		domicile ?= { set_up_domicile_estate_effect = yes }
+	}
+}
+
+# Independent administrative ruler.
+agot_playset_noble_family.2 = {
+	type = character_event
+	hidden = yes
+
+	trigger = {
+		is_alive = yes
+		government_has_flag = government_is_administrative
+		liege = this
+		administrative_tier_allows_independence = yes
+		NOT = { any_held_title = { is_noble_family_title = yes } }
+	}
+
+	immediate = {
+		remove_character_flag = agot_playset_nf_title_requested
+		create_noble_family_effect = { GOVERNMENT_GIVER = this }
+		domicile ?= { set_up_domicile_estate_effect = yes }
+	}
+}

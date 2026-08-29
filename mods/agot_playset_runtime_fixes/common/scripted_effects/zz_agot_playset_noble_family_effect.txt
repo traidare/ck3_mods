@@ -1,0 +1,27 @@
+﻿# Deferred noble-family title creation.
+#
+# on_vassal_change fires inside an in-flight title/vassal change batch,
+# and an AI appointment cascade re-enters it repeatedly for the same
+# character within one tick. Creating the x_nf_* title there nests
+# landed-title creation inside that batch; if the created title does not
+# satisfy is_noble_family_title the caller's guard also never closes, so
+# every later vassal change creates another one.
+#
+# Record the request instead. The flag rate-limits a character to one
+# request per month no matter how large the cascade is, and the event
+# re-checks the caller's own guard on a later tick, outside the batch.
+agot_playset_request_noble_family_title_effect = {
+	if = {
+		limit = {
+			NOT = { has_character_flag = agot_playset_nf_title_requested }
+		}
+		add_character_flag = {
+			flag = agot_playset_nf_title_requested
+			days = 30
+		}
+		trigger_event = {
+			id = $EVENT$
+			days = 1
+		}
+	}
+}
