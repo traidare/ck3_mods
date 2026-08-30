@@ -3,5 +3,39 @@
     3274, 3823, 3967, 3969, 4124, 4125, 4126, 4136, 4138, 4419, 4420, 4422, 4426
   ],
   "baseline": "Further East EEP v4 native map",
-  "raster_outputs": "none"
+  "raster_outputs": "none",
+  "land_provinces": 24083,
+  "provinces_unpainted": 1245,
+  "locator_repair": {
+    "gfx/map/map_object_data/building_locators.txt": {
+      "moved": 12211,
+      "added": 2767,
+      "unplaceable": 191
+    },
+    "gfx/map/map_object_data/special_building_locators.txt": {
+      "moved": 4852,
+      "added": 445,
+      "unplaceable": 1000
+    },
+    "gfx/map/map_object_data/player_stack_locators.txt": {
+      "moved": 1073,
+      "added": 445,
+      "unplaceable": 1000
+    },
+    "gfx/map/map_object_data/combat_locators.txt": {
+      "moved": 698,
+      "added": 445,
+      "unplaceable": 1000
+    },
+    "gfx/map/map_object_data/siege_locators.txt": {
+      "moved": 270,
+      "added": 445,
+      "unplaceable": 1000
+    },
+    "gfx/map/map_object_data/activities.txt": {
+      "moved": 8585,
+      "added": 445,
+      "unplaceable": 1000
+    }
+  }
 }

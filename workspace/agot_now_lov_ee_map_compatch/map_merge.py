@@ -3,8 +3,8 @@
 
 Further East v4 already uses AGOT's 8233-9400 province band.  This layer must
 therefore never paste AGOT raster data or renumber provinces: it starts from
-EEP's canonical map and carries only the small, independently authored NOW and
-COW/NOW map-object deltas that still apply to Westeros.
+EEP's canonical map and carries only the small, independently authored NOW
+map-object deltas that still apply to Westeros.
 """
 
 from __future__ import annotations
@@ -14,6 +14,7 @@ import json
 import re
 import subprocess
 import tempfile
+from bisect import insort
 from dataclasses import dataclass
 from pathlib import Path
 
@@ -22,6 +23,8 @@ from gen.sources import canonical_source_path
 from gen.text import matching_brace, read_source
 
 DEFINITION = "map_data/definition.csv"
+DEFAULT_MAP = "map_data/default.map"
+PROVINCES_RASTER = "map_data/provinces.png"
 GEO_REGIONS = "map_data/geographical_regions/00_agot_geographical_region.txt"
 NOW_GEO_REGIONS = (
     "map_data/geographical_regions/replace/00_agot_geographical_region.txt"
@@ -29,10 +32,21 @@ NOW_GEO_REGIONS = (
 BUILDING_LOCATORS = "gfx/map/map_object_data/building_locators.txt"
 SPECIAL_BUILDING_LOCATORS = "gfx/map/map_object_data/special_building_locators.txt"
 LOCATOR_FILES = (BUILDING_LOCATORS, SPECIAL_BUILDING_LOCATORS)
+# The remaining locator families, carried verbatim from the Essos compatch that
+# is their effective last writer.  This layer adopts them only so the raster
+# repair below can reach them; no delta of its own is applied to their records.
+ADOPTED_LOCATOR_FILES = (
+    "gfx/map/map_object_data/player_stack_locators.txt",
+    "gfx/map/map_object_data/combat_locators.txt",
+    "gfx/map/map_object_data/siege_locators.txt",
+    "gfx/map/map_object_data/activities.txt",
+)
 AGOT_NATIVE_PROVINCE_BAND = range(8233, 9401)
+IDENTITY_ROTATION = "{ -0.000000 -0.000000 -0.000000 1.000000 }"
+NEW_MAPOBJECT_3 = "gfx/map/map_object_data/new_mapobject_3.txt"
 OBJECT_FILES = (
     "gfx/map/map_object_data/new_mapobject_2.txt",
-    "gfx/map/map_object_data/new_mapobject_3.txt",
+    NEW_MAPOBJECT_3,
 )
 # These are the NOW colour remaps required by the accepted Westeros locator
 # deltas.  The remaining NOW definition edits either predate AGOT 0.5's
@@ -67,9 +81,306 @@ LOCATOR_RESOLUTIONS: dict[tuple[str, int], tuple[str, dict[str, str]]] = {
         {"position": "current", "rotation": "current", "scale": "incoming"},
     ),
 }
+# Dunstonbury, Ryamsport and Planky Town render the larger castle meshes from
+# COW-AGOT (2971198450), which no map source in this merge accounts for.  Their
+# locators are pinned to the placement and scale those meshes need.  Each entry
+# also states the merged value it overrides, so a later EEP or NOW re-placement
+# fails generation rather than being silently discarded.
+#
+# building_locators 4945 (Planky Town) pins a 0.017 scale, which suppresses the
+# default barony building in favour of COW's mesh.  Scales far below 1.0 are
+# ordinary in these files, so the value is not self-evidently wrong; it pairs
+# with OBJECT_INSTANCE_SUPPRESSIONS below.
+LOCATOR_PINS: dict[tuple[str, int], tuple[str, dict[str, str], dict[str, str]]] = {
+    (BUILDING_LOCATORS, 3823): (
+        "b_dunstonbury",
+        {
+            "position": "{ 1173.776733 0.000000 2584.794189 }",
+            "scale": "{ 1.000000 1.000000 1.000000 }",
+        },
+        {
+            "position": "{ 1175.936401 0.000000 2585.005859 }",
+            "scale": "{ 0.199512 0.199512 0.199512 }",
+        },
+    ),
+    (BUILDING_LOCATORS, 4945): (
+        "b_plankytown",
+        {
+            "position": "{ 2055.625977 0.000000 1982.029541 }",
+            "rotation": "{ -0.000000 -0.261055 -0.000000 -0.965323 }",
+            "scale": "{ 1.000000 1.000000 1.000000 }",
+        },
+        {
+            "position": "{ 2047.949341 0.000000 1975.962158 }",
+            "rotation": "{ -0.000000 0.848302 -0.000000 -0.529512 }",
+            "scale": "{ 0.017446 0.017446 0.017446 }",
+        },
+    ),
+    (SPECIAL_BUILDING_LOCATORS, 3823): (
+        "b_dunstonbury",
+        {
+            "position": "{ 1183.000000 0.000000 2577.000000 }",
+            "rotation": "{ -0.000000 -0.984608 -0.000000 -0.174778 }",
+        },
+        {
+            "position": "{ 1174.838623 0.000000 2583.583008 }",
+            "rotation": "{ -0.000000 -0.987678 -0.000000 0.156499 }",
+        },
+    ),
+    (SPECIAL_BUILDING_LOCATORS, 4125): (
+        "b_ryamsport",
+        {"scale": "{ 0.412966 0.412966 0.412966 }"},
+        {"scale": "{ 0.114806 0.114806 0.114806 }"},
+    ),
+    (SPECIAL_BUILDING_LOCATORS, 4945): (
+        "b_plankytown",
+        {
+            "position": "{ 2058.529053 0.000000 1979.114258 }",
+            "rotation": "{ 0.000000 0.903833 -0.000000 0.427885 }",
+            "scale": "{ 0.412966 0.412966 0.412966 }",
+        },
+        {
+            "position": "{ 2046.637939 -1.086914 1976.357056 }",
+            "rotation": "{ -0.000000 0.375156 -0.000000 0.926962 }",
+            "scale": "{ 0.492788 0.492788 0.492788 }",
+        },
+    ),
+}
+# NOW places a bridge mesh across the Greenblood at Planky Town.  That barony
+# renders COW's own model instead, so the instance is suppressed here to keep a
+# bridge from crossing that mesh; it pairs with the 4945 locator scale above.
+# `merge_object_block` recomputes `count=` from the surviving rows.
+OBJECT_INSTANCE_SUPPRESSIONS: dict[tuple[str, str], tuple[str, tuple[str, ...]]] = {
+    (NEW_MAPOBJECT_3, "Bridge_India"): (
+        "b_plankytown",
+        (
+            "2046.174194 0.876465 1976.477051 0.000000 0.279843 "
+            "0.000000 0.960045 1.000000 1.000000 1.000000",
+        ),
+    ),
+}
 LOCATOR_FIELD = re.compile(
     r"(?m)^[ \t]*(?P<field>[a-z_]+)\s*=\s*(?:\{[^}]*\}|\S+)[ \t]*$"
 )
+
+
+def locator_field_value(block: str, field: str) -> str | None:
+    """Read one locator field, in either the multi-line or single-line form."""
+    found = re.search(rf"\b{field}\s*=\s*(\{{[^}}]*\}}|\S+)", block)
+    return None if found is None else found.group(1)
+
+
+def set_locator_field(block: str, field: str, value: str, label: str) -> str:
+    """Rewrite one locator field, leaving the record's own layout untouched."""
+    block, count = re.subn(
+        rf"(\b{field}\s*=\s*)(?:\{{[^}}]*\}}|\S+)",
+        lambda match: match.group(1) + value,
+        block,
+        count=1,
+    )
+    if count != 1:
+        raise RuntimeError(f"{label}: no {field} field to write")
+    return block
+
+
+def apply_locator_pins(
+    order: list[int], merged: dict[int, str], relative: str
+) -> tuple[list[int], dict[int, str]]:
+    """Override merged locator records field by field with their pinned values."""
+    pins = {
+        key: value for (path, key), value in LOCATOR_PINS.items() if path == relative
+    }
+    if not pins:
+        return order, merged
+    result = dict(merged)
+    for key, (title, baseline, pinned) in pins.items():
+        label = f"locator pin {relative} {key} ({title})"
+        block = result.get(key)
+        if block is None:
+            raise RuntimeError(f"{label}: the record it pins no longer exists")
+        for field, expected in baseline.items():
+            actual = locator_field_value(block, field)
+            if actual != expected:
+                raise RuntimeError(
+                    f"{label}: {field} changed upstream to {actual}, "
+                    f"pinned baseline is {expected}; re-review the pin"
+                )
+        for field, value in pinned.items():
+            block = set_locator_field(block, field, value, label)
+        result[key] = block
+    return order, result
+
+
+@dataclass(frozen=True, slots=True)
+class ProvinceGeometry:
+    """Where each province actually sits on the effective province raster.
+
+    Further East supplies `provinces.png` while this layer supplies
+    `definition.csv`, so the two must be read as a pair.  That pairing is exact
+    rather than approximate: the thirteen NOW colour edits are a closed
+    permutation within a set of neighbouring ids, so every colour this layer
+    names is present in Further East's raster and refers to the pixels NOW
+    intended.
+    """
+
+    land: frozenset[int]
+    anchor: dict[int, tuple[float, float]]
+    id_raster: object
+    width: int
+    height: int
+    unpainted: tuple[int, ...]
+
+    def holds(self, province: int, x: float, z: float) -> bool:
+        """Report whether a world position falls inside its own province."""
+        column, row = int(x), int(self.height - z)
+        if not (0 <= column < self.width and 0 <= row < self.height):
+            return False
+        return int(self.id_raster[row, column]) == province
+
+
+def land_provinces(text: str, defined: frozenset[int]) -> frozenset[int]:
+    """Province ids `default.map` does not classify as water or impassable.
+
+    Comments are stripped first: the effective `default.map` carries a
+    commented-out `max_provinces`, which a naive scan would read as a real cap
+    and silently discard every province above it.
+    """
+    stripped = "\n".join(line.split("#")[0] for line in text.splitlines())
+    excluded: set[int] = set()
+    for key in (
+        "sea_zones",
+        "river_provinces",
+        "lakes",
+        "impassable_seas",
+        "impassable_mountains",
+    ):
+        for found in re.finditer(
+            rf"\b{key}\s*=\s*(RANGE|LIST)\s*\{{([^}}]*)\}}", stripped
+        ):
+            numbers = [int(value) for value in found.group(2).split()]
+            if found.group(1) == "RANGE" and len(numbers) == 2:
+                excluded.update(range(numbers[0], numbers[1] + 1))
+            else:
+                excluded.update(numbers)
+    return defined - excluded
+
+
+def definition_colours(text: str) -> dict[int, int]:
+    """Map each province id to its packed definition colour."""
+    colours: dict[int, int] = {}
+    for line in text.splitlines():
+        fields = line.split(";")
+        if len(fields) < 4 or not fields[0].strip().isdigit():
+            continue
+        province = int(fields[0])
+        if province == 0:
+            continue
+        try:
+            red, green, blue = (int(fields[index]) for index in (1, 2, 3))
+        except ValueError:
+            continue
+        colours[province] = (red << 16) | (green << 8) | blue
+    return colours
+
+
+def province_geometry(inputs: Inputs, definition_text: str) -> ProvinceGeometry:
+    """Locate every province on the raster, as the map editor itself would.
+
+    A province's anchor is its centroid where that lands inside the province,
+    and otherwise the painted pixel nearest the centroid.  The fallback matters
+    for concave and split provinces, where the centre of mass falls in a
+    neighbour or in the sea.
+    """
+    import numpy as np
+    from PIL import Image
+
+    colours = definition_colours(definition_text)
+    with Image.open(inputs.current_map_source(PROVINCES_RASTER)) as image:
+        if image.mode != "RGB":
+            raise RuntimeError(f"provinces.png is {image.mode}, expected RGB")
+        width, height = image.size
+        rgb = np.asarray(image, dtype=np.uint8)
+
+    packed = (
+        (rgb[:, :, 0].astype(np.uint32) << 16)
+        | (rgb[:, :, 1].astype(np.uint32) << 8)
+        | rgb[:, :, 2].astype(np.uint32)
+    )
+    del rgb
+    lookup = np.full(1 << 24, -1, dtype=np.int32)
+    for province, colour in colours.items():
+        lookup[colour] = province
+    id_raster = lookup[packed]
+    del packed, lookup
+
+    size = max(colours) + 1
+    flat = id_raster.ravel()
+    painted = flat >= 0
+    count = np.bincount(flat[painted], minlength=size).astype(np.int64)
+    columns = np.arange(width, dtype=np.float64)
+    sum_x = np.zeros(size, dtype=np.float64)
+    sum_y = np.zeros(size, dtype=np.float64)
+    for top in range(0, height, 256):
+        chunk = id_raster[top : top + 256]
+        rows = chunk.shape[0]
+        inside = chunk.ravel() >= 0
+        ids = chunk.ravel()[inside]
+        sum_x += np.bincount(
+            ids, weights=np.tile(columns, rows)[inside], minlength=size
+        )
+        sum_y += np.bincount(
+            ids,
+            weights=np.repeat(np.arange(top, top + rows, dtype=np.float64), width)[
+                inside
+            ],
+            minlength=size,
+        )
+
+    anchor: dict[int, tuple[float, float]] = {}
+    stray: list[int] = []
+    for province in colours:
+        if province >= size or count[province] == 0:
+            continue
+        column = sum_x[province] / count[province]
+        row = sum_y[province] / count[province]
+        # Accept the centroid using the same truncation the game applies when it
+        # samples the raster, so a position this pass accepts is a position that
+        # reads back as the same province.
+        if int(id_raster[int(row), int(column)]) == province:
+            anchor[province] = (column, height - row)
+        else:
+            stray.append(province)
+
+    if stray:
+        wanted = np.zeros(size, dtype=bool)
+        wanted[stray] = True
+        candidates = np.flatnonzero(painted & wanted[np.maximum(flat, 0)])
+        grouped = candidates[np.argsort(flat[candidates], kind="stable")]
+        keys = flat[grouped]
+        for province in stray:
+            first = int(np.searchsorted(keys, province, "left"))
+            last = int(np.searchsorted(keys, province, "right"))
+            pixels = grouped[first:last]
+            rows, columns_of = np.divmod(pixels, width)
+            centre_x = sum_x[province] / count[province]
+            centre_y = sum_y[province] / count[province]
+            nearest = int(
+                np.argmin((columns_of - centre_x) ** 2 + (rows - centre_y) ** 2)
+            )
+            anchor[province] = (
+                float(columns_of[nearest]) + 0.5,
+                height - (float(rows[nearest]) + 0.5),
+            )
+
+    defined = frozenset(colours)
+    return ProvinceGeometry(
+        land=land_provinces(read(inputs.current_map_source(DEFAULT_MAP)), defined),
+        anchor=anchor,
+        id_raster=id_raster,
+        width=width,
+        height=height,
+        unpainted=tuple(sorted(defined - set(anchor))),
+    )
 
 
 @dataclass(frozen=True, slots=True)
@@ -80,11 +391,11 @@ class Inputs:
     now: Path
     ee: Path
     eep: Path
-    cow: Path
+    eec: Path
 
     @classmethod
     def from_context(cls, context: GenerationContext) -> Inputs:
-        names = ("agot", "now", "essos-expanded", "essos-bridge", "cow-now-compatch")
+        names = ("agot", "now", "essos-expanded", "essos-bridge", "essos-compatch")
         return cls(
             context=context,
             workshop_root=context.workshop_root(*names),
@@ -92,7 +403,7 @@ class Inputs:
             now=context.source("now"),
             ee=context.source("essos-expanded"),
             eep=context.source("essos-bridge"),
-            cow=context.source("cow-now-compatch"),
+            eec=context.source("essos-compatch"),
         )
 
     def current_map_source(self, relative: str) -> Path:
@@ -176,12 +487,14 @@ def merge_file_blocks(
     overlays: tuple[Overlay, ...],
     resolutions: dict[object, tuple[str, dict[str, str]]] | None = None,
     conflict=None,
+    pins=None,
+    separator: str = "\n\n",
 ) -> str:
     """Apply keyed source deltas onto the EEP baseline.
 
     Every overlay carries the baseline it was authored against, so a source
-    derived from another (COW/NOW extends NOW) is diffed against its own parent
-    rather than against AGOT, where the shared ancestry would read as conflict.
+    derived from another is diffed against its own parent rather than against
+    AGOT, where the shared ancestry would read as conflict.
     """
     prefix, suffix, order, merged = current
     merged = dict(merged)
@@ -219,8 +532,13 @@ def merge_file_blocks(
             merged[key] = conflict(
                 original, existing, incoming, f"{overlay.label} {key}"
             )
+    if pins is not None:
+        order, merged = pins(order, merged)
     return (
-        prefix + "\n\n".join(merged[key] for key in order) + suffix.rstrip("\n") + "\n"
+        prefix
+        + separator.join(merged[key] for key in order)
+        + suffix.rstrip("\n")
+        + "\n"
     )
 
 
@@ -393,6 +711,138 @@ def locator_records(text: str) -> tuple[str, str, list[int], dict[int, str]]:
     return text[:first], text[last:], order, records
 
 
+def record_separator(text: str, order: list[int], records: dict[int, str]) -> str:
+    """Reproduce the spacing a locator file uses between its own records."""
+    if len(order) < 2:
+        return "\n\n"
+    first = text.index(records[order[0]])
+    second = text.index(records[order[1]], first + len(records[order[0]]))
+    return text[first + len(records[order[0]]) : second]
+
+
+def modal_scale(records: dict[int, str]) -> str:
+    """The scale a file gives to ordinary records, used for the ones we add."""
+    seen: dict[str, int] = {}
+    for block in records.values():
+        value = locator_field_value(block, "scale")
+        if value is not None:
+            seen[value] = seen.get(value, 0) + 1
+    if not seen:
+        raise RuntimeError("locator file has no scale field to copy")
+    return max(seen, key=lambda value: seen[value])
+
+
+def new_locator(
+    template: str, province: int, position: str, scale: str, label: str
+) -> str:
+    """Build a missing record from a sibling, so the file's layout carries over."""
+    block = re.sub(
+        r"(\bid\s*=\s*)\d+",
+        lambda match: match.group(1) + str(province),
+        template,
+        count=1,
+    )
+    for field, value in (
+        ("position", position),
+        ("rotation", IDENTITY_ROTATION),
+        ("scale", scale),
+    ):
+        block = set_locator_field(block, field, value, f"{label} {province}")
+    return block
+
+
+def repair_locators(
+    order: list[int],
+    records: dict[int, str],
+    relative: str,
+    geometry: ProvinceGeometry,
+    audit: dict[str, object],
+) -> tuple[list[int], dict[int, str]]:
+    """Place every land province's locator inside its own province.
+
+    Records are rewritten only where the shipped position falls outside the
+    province the record belongs to, and added only where a land province has no
+    record at all.  Rotation and scale are always preserved, so an upstream
+    author's deliberate orientation or sizing survives a position repair.
+
+    Positions pinned in `LOCATOR_PINS` are exempt: those sit slightly outside
+    their province on purpose, to suit a mesh this merge does not otherwise
+    model, and re-centring them would undo the pin.
+    """
+    exempt = {key for path, key in LOCATOR_PINS if path == relative}
+    order = list(order)
+    records = dict(records)
+    template = records[order[0]]
+    scale = modal_scale(records)
+    label = f"locator repair {relative}"
+
+    moved: list[int] = []
+    added: list[int] = []
+    stranded: list[int] = []
+    for province in sorted(geometry.land):
+        if province in exempt:
+            continue
+        anchor = geometry.anchor.get(province)
+        block = records.get(province)
+        if anchor is None:
+            # The province is named by definition.csv but painted nowhere on the
+            # effective raster, so no position exists to give it.
+            if block is None:
+                stranded.append(province)
+            continue
+        if block is not None and geometry.holds(
+            province, *position_of(block, f"{label} {province}")
+        ):
+            continue
+        column, row = anchor
+        placed = f"{{ {column:.6f} 0.000000 {row:.6f} }}"
+        if block is None:
+            block = new_locator(template, province, placed, scale, label)
+            insort(order, province)
+            added.append(province)
+        else:
+            block = set_locator_field(block, "position", placed, f"{label} {province}")
+            moved.append(province)
+        records[province] = block
+
+    audit[relative] = {
+        "moved": len(moved),
+        "added": len(added),
+        "unplaceable": len(stranded),
+    }
+    return order, records
+
+
+def position_of(block: str, label: str) -> tuple[float, float]:
+    """Read a locator's world X and Z, ignoring its height."""
+    value = locator_field_value(block, "position")
+    if value is None:
+        raise RuntimeError(f"{label}: record has no position")
+    numbers = value.strip("{} ").split()
+    if len(numbers) != 3:
+        raise RuntimeError(f"{label}: position is not a 3-vector")
+    return float(numbers[0]), float(numbers[2])
+
+
+def adopt_locator_file(
+    inputs: Inputs,
+    relative: str,
+    geometry: ProvinceGeometry,
+    audit: dict[str, object],
+) -> str:
+    """Carry an Essos-compatch locator family through, repaired but undiffed."""
+    text = read(inputs.eec / relative)
+    prefix, suffix, order, records = locator_records(text)
+    separator = record_separator(text, order, records)
+    order, records = repair_locators(order, records, relative, geometry, audit)
+    return (
+        prefix
+        + separator.join(records[key] for key in order)
+        + suffix.rstrip("\n")
+        + "\n"
+    )
+
+
 def replace_locator_band(
     current: tuple[str, str, list[int], dict[int, str]],
     canonical: tuple[str, str, list[int], dict[int, str]],
@@ -423,20 +873,23 @@ def replace_locator_band(
 
 
 def stacked_overlays(inputs: Inputs, relative: str, parse) -> tuple[Overlay, ...]:
-    """NOW diffs against AGOT; COW/NOW diffs against the NOW it integrates."""
+    """NOW diffs against AGOT."""
     agot = parse(read(inputs.agot / relative))
     now = parse(read(inputs.now / relative))
-    overlays = [Overlay.build(f"NOW {relative}", agot, now)]
-    cow_path = inputs.cow / relative
-    if cow_path.is_file():
-        overlays.append(
-            Overlay.build(f"COW/NOW {relative}", now, parse(read(cow_path)))
-        )
-    return tuple(overlays)
+    return (Overlay.build(f"NOW {relative}", agot, now),)
 
 
-def merge_locator_file(inputs: Inputs, relative: str) -> str:
-    current = locator_records(read(inputs.current_map_source(relative)))
+def merge_locator_file(
+    inputs: Inputs,
+    relative: str,
+    geometry: ProvinceGeometry,
+    audit: dict[str, object],
+) -> str:
+    text = read(inputs.current_map_source(relative))
+    current = locator_records(text)
+    # Read the spacing before any band replacement, while every record still
+    # comes from this file.
+    separator = record_separator(text, current[2], current[3])
     if relative == BUILDING_LOCATORS:
         # Further East v4 restores AGOT's 8233-9400 province identities but
         # omits this locator file.  Its Essos Expanded parent still uses those
@@ -451,9 +904,56 @@ def merge_locator_file(inputs: Inputs, relative: str) -> str:
         for (path, key), value in LOCATOR_RESOLUTIONS.items()
         if path == relative
     }
+
+    def finalize(
+        order: list[int], merged: dict[int, str]
+    ) -> tuple[list[int], dict[int, str]]:
+        order, merged = repair_locators(order, merged, relative, geometry, audit)
+        return apply_locator_pins(order, merged, relative)
+
     return merge_file_blocks(
-        current, stacked_overlays(inputs, relative, locator_records), resolutions
+        current,
+        stacked_overlays(inputs, relative, locator_records),
+        resolutions,
+        pins=finalize,
+        separator=separator,
     )
+
+
+def apply_object_suppressions(
+    order: list[str], merged: dict[str, str], relative: str
+) -> tuple[list[str], dict[str, str]]:
+    """Drop the map-object instances this compatch suppresses."""
+    pins = {
+        key: value
+        for (path, key), value in OBJECT_INSTANCE_SUPPRESSIONS.items()
+        if path == relative
+    }
+    if not pins:
+        return order, merged
+    result = dict(merged)
+    for key, (title, suppressed) in pins.items():
+        label = f"object suppression {relative} {key} ({title})"
+        block = result.get(key)
+        if block is None:
+            raise RuntimeError(f"{label}: the map object it pins no longer exists")
+        header, rows, tail = object_transforms(block, label)
+        absent = [row for row in suppressed if row not in rows]
+        if absent:
+            raise RuntimeError(
+                f"{label}: upstream no longer places {len(absent)} suppressed "
+                "row(s), so this entry is stale; re-review it"
+            )
+        rows = [row for row in rows if row not in set(suppressed)]
+        # Reproduce the sources' own layout, which terminates the last instance
+        # row before the closing quote.  `object_transforms` drops that newline
+        # along with the blank entries it splits away.
+        result[key] = (
+            f"{header}\tcount={len(rows)}\n{TRANSFORM_OPEN}"
+            + "".join(f"{row}\n" for row in rows)
+            + tail
+        )
+    return order, result
 
 
 def merge_object_file(inputs: Inputs, relative: str) -> str:
@@ -462,6 +962,7 @@ def merge_object_file(inputs: Inputs, relative: str) -> str:
         current,
         stacked_overlays(inputs, relative, split_objects),
         conflict=merge_object_block,
+        pins=lambda order, merged: apply_object_suppressions(order, merged, relative),
     )
 
 
@@ -569,19 +1070,22 @@ def source_manifest(inputs: Inputs) -> dict[str, object]:
         }
         | {
             inputs.current_map_source(relative)
-            for relative in (DEFINITION, GEO_REGIONS, *LOCATOR_FILES, *OBJECT_FILES)
+            for relative in (
+                DEFINITION,
+                DEFAULT_MAP,
+                PROVINCES_RASTER,
+                GEO_REGIONS,
+                *LOCATOR_FILES,
+                *OBJECT_FILES,
+            )
         }
-        | {
-            inputs.cow / relative
-            for relative in (*LOCATOR_FILES, *OBJECT_FILES)
-            if (inputs.cow / relative).is_file()
-        }
+        | {inputs.eec / relative for relative in ADOPTED_LOCATOR_FILES}
     )
     modules = {
         "AGOT": inputs.agot,
         "NOW": inputs.now,
         "EEP": inputs.eep,
-        "COW_NOW": inputs.cow,
+        "EEC": inputs.eec,
     }
     return {
         "schema_version": 2,
@@ -602,7 +1106,10 @@ def source_manifest(inputs: Inputs) -> dict[str, object]:
             }
             for path in sorted(paths)
         },
-        "intent": "EEP-native map; apply NOW/COW semantic Westeros deltas only",
+        "intent": (
+            "EEP-native map; apply NOW semantic Westeros deltas, then place every "
+            "land province's locator inside its own province"
+        ),
     }
 
 
@@ -613,18 +1120,28 @@ def generate(context: GenerationContext) -> None:
     if json.loads(manifest_path.read_text(encoding="utf-8")) != manifest:
         raise RuntimeError("map source manifest drifted; review and replace the asset")
 
-    inputs.write(DEFINITION, merge_definition(inputs), encoding="utf-8")
+    definition = merge_definition(inputs)
+    inputs.write(DEFINITION, definition, encoding="utf-8")
     inputs.write(GEO_REGIONS, merge_geographical_regions(inputs))
+
+    geometry = province_geometry(inputs, definition)
+    audit: dict[str, object] = {}
     for relative in LOCATOR_FILES:
-        inputs.write(relative, merge_locator_file(inputs, relative))
+        inputs.write(relative, merge_locator_file(inputs, relative, geometry, audit))
+    for relative in ADOPTED_LOCATOR_FILES:
+        inputs.write(relative, adopt_locator_file(inputs, relative, geometry, audit))
     for relative in OBJECT_FILES:
         inputs.write(relative, merge_object_file(inputs, relative))
+
     inputs.context.artifact_path("map_data/merge_audit.json").write_text(
         json.dumps(
             {
                 "definition_rows": sorted(NOW_DEFINITION_ROWS),
                 "baseline": "Further East EEP v4 native map",
                 "raster_outputs": "none",
+                "land_provinces": len(geometry.land),
+                "provinces_unpainted": len(geometry.unpainted),
+                "locator_repair": audit,
             },
             indent=2,
         )

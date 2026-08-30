@@ -37,3 +37,16 @@ keeps the Further East's removed segment alongside Nobility of Westeros' five
 new ones, and the special building at Cuy keeps the Further East's new placement
 at Nobility of Westeros' chosen size. Anything genuinely ambiguous stops the
 build rather than picking a silent winner.
+
+## Locator placement
+
+Building, special-building, army, combat, siege, and activity markers are
+checked against the world map itself and moved into the province they belong to
+when they sit outside it. Provinces that had no marker at all are given one.
+
+This matters most across Essos and the Further East, where the marker positions
+the stack would otherwise fall back on were drawn for an older map: special
+buildings and travel destinations appeared far from their province, and armies
+and activities could fail to place at all. Deliberate placements are preserved —
+a marker's facing and size are never changed, and hand-placed exceptions are
+left where their author put them.

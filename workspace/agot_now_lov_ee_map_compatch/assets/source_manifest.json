@@ -56,18 +56,6 @@
       "sha256": "69c75450b5c9c72f8aa78f1217cc0a4321856a130c830befb93c79d1f21cb757",
       "size": 47605
     },
-    "3742055253/gfx/map/map_object_data/building_locators.txt": {
-      "sha256": "44b29f4c1d814a084ec9be2976d19224722ad094253e0975552f5e4dd31057c5",
-      "size": 1322567
-    },
-    "3742055253/gfx/map/map_object_data/new_mapobject_3.txt": {
-      "sha256": "9367a537a95297ce781bb81f24d1fe8295bac8c0367607017d181ef94d500f9a",
-      "size": 49527
-    },
-    "3742055253/gfx/map/map_object_data/special_building_locators.txt": {
-      "sha256": "576b7606b400d52ce6519d6eb951b7f09e23f0f697efa23e9c0e6c8adaf0c81f",
-      "size": 1323995
-    },
     "3768149491/gfx/map/map_object_data/new_mapobject_3.txt": {
       "sha256": "eaed683ed4da1aac106c9721d1f597358a5db07012fe4d340c3edcfdc166a958",
       "size": 12227
@@ -76,6 +64,10 @@
       "sha256": "f93a519c469224f60683c24c49a45fc6664c8c4210345968a226b6e088f41223",
       "size": 3392867
     },
+    "3768149491/map_data/default.map": {
+      "sha256": "084bdefbd0d21d7a71509ebef875ab014c03c3ec56763c580da14a2ecc046af6",
+      "size": 16042
+    },
     "3768149491/map_data/definition.csv": {
       "sha256": "448e58d6ded3aade8d5f8e85cefb919891408900c343a820d093f33676ed234e",
       "size": 850708
@@ -83,13 +75,33 @@
     "3768149491/map_data/geographical_regions/00_agot_geographical_region.txt": {
       "sha256": "5c89310531983c0a7f5031a74a369423e94cdf2a661552dbc94ab4d714678d10",
       "size": 99372
+    },
+    "3768149491/map_data/provinces.png": {
+      "sha256": "0d7a26f287bc8d147db65262db51282b3d80cc50800c2434d84ebf189ddc06d6",
+      "size": 5118425
+    },
+    "3773608127/gfx/map/map_object_data/activities.txt": {
+      "sha256": "eb77a799de5b0d544b5a55248c8255e50a88cbdc4778b544a717ac69c3327524",
+      "size": 3385843
+    },
+    "3773608127/gfx/map/map_object_data/combat_locators.txt": {
+      "sha256": "a39fe5259164496df2c5a13ae60d0375bde476b6354018f23c580fb0deaae1e9",
+      "size": 3586953
+    },
+    "3773608127/gfx/map/map_object_data/player_stack_locators.txt": {
+      "sha256": "b09f0bcb9416e4f226d5a2d7ebf0c598205ab7de2fb25820a306dc6639f04034",
+      "size": 3588710
+    },
+    "3773608127/gfx/map/map_object_data/siege_locators.txt": {
+      "sha256": "3ffc4306f4ff100d051d4e3305a27827de58cecf353b5ed4840eaae0081a6116",
+      "size": 3356346
     }
   },
-  "intent": "EEP-native map; apply NOW/COW semantic Westeros deltas only",
+  "intent": "EEP-native map; apply NOW semantic Westeros deltas, then place every land province's locator inside its own province",
   "schema_version": 2,
   "versions": {
     "AGOT": "0.5.1",
-    "COW_NOW": "1.0.7.1",
+    "EEC": "1.0.20",
     "EEP": "4.0.36",
     "NOW": "1.2.8.1"
   }
