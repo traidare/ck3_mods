@@ -1,23 +1,25 @@
-# AGOT: The Long Night + DFP Compatch
+# AGOT: The Long Night & Azor Ahai + DFP Compatch
 
-An animation-only compatibility patch that lets Dynamic Family Portrait coexist
-with AGOT: The Long Night.
+An animation compatibility patch that lets AGOT: The Long Night & Azor Ahai
+coexist with AGOT Submod Core and Dynamic Family Portrait.
 
 ## Requirements
 
 - A Game of Thrones
 - AGOT Submod Core
-- AGOT : Seasons of Ice and Fire
 - Dynamic Family Portrait
 - Dynamyc Family Portrait (AGOT)
-- AGOT: The Long Night
+- AGOT: The Long Night & Azor Ahai
 
 ## Load order
 
-1. A Game of Thrones
-2. AGOT Submod Core
-3. AGOT : Seasons of Ice and Fire
-4. Dynamic Family Portrait
-5. Dynamyc Family Portrait (AGOT)
-6. AGOT: The Long Night
-7. AGOT: The Long Night + DFP Compatch
+Load all requirements first, then any Long Night runtime fix, and load this
+compatch last.
+
+Disable this compatch whenever AGOT: The Long Night & Azor Ahai is disabled.
+
+## What it fixes
+
+The Long Night animation file otherwise removes Submod Core's bow pose and
+Dynamic Family Portrait's character poses. This patch preserves those features
+alongside the Long Night's wight poses.

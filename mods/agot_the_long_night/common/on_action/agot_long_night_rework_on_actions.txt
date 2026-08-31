@@ -1,9 +1,0 @@
-﻿on_combat_end_winner = { on_actions = { agot_ln_combat_growth } }
-
-agot_ln_combat_growth = {
-	trigger = { is_agot_long_night_active_trigger = yes side_primary_participant = { has_trait = other_trait } }
-	effect = {
-		side_primary_participant = { agot_ln_add_threat_effect = { AMOUNT = 2 } }
-		if = { limit = { scope:wipe = yes } side_primary_participant = { agot_ln_add_threat_effect = { AMOUNT = 3 } } }
-	}
-}

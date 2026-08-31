@@ -1,5 +1,0 @@
-﻿others_sword_prop = {
-	entity = {	required_tags = "dragon"        node = "bn_r_prop"		 }
-	entity = {	required_tags = ""        node = "bn_r_prop"		entity = "others_sword_entity" game_entity_override = weapon }	
-}
-

@@ -1,7 +1,0 @@
-﻿# The Long Night+ — aftermath opinion modifiers.
-
-# Northern vassals resent the Crown chartering northern soil to Essosi foreigners (per sale).
-ln_sold_the_north_opinion = {
-	opinion = -15
-	years = 10
-}

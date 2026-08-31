@@ -1,0 +1,520 @@
+﻿# AGOT: The Long Night & Azor Ahai
+# HSV colour-shift genes driving the White Walker recolour. Every one is set with mode = add from
+# gfx/portraits/trait_portrait_modifiers/whitewalker_trait_modifiers.txt -- none is ever inherited.
+# (Was `replace` until 10 Aug -- illegal on a special gene, which is what the special_genes wrapper below
+#  silently made these. See that file's header for the vanilla precedent.)
+#
+# FIX (v0.1.0): these were declared under a TOP-LEVEL morph_genes block. In CK3, genes declared at top level are
+# REQUIRED in every persistent DNA entry. Base game says so itself, in game/common/genes/10_genes_special_misc.txt:
+#     "These special genes will not be part of a character's DNA."
+# AGOT ships 4,863 DNA entries, so this mod's 22 top-level genes produced ~98,000 lines of
+#     [E][portraitcontext.cpp:326]: Persistent portrait info missing gene X!
+# on every load. Wrapping them in special_genes removes the requirement and changes nothing about how they work --
+# portrait modifiers address genes by name regardless of category, and vanilla clothes/headgear/legwear are
+# special_genes driven exactly this way in ln_others_portrait_modifiers.txt and zz_wight_nudity.txt.
+#
+# ALSO REMOVED (v0.1.0):
+#   * the 9 *_mhec genes -- byte-identical clones of these six, referenced only by the DNA of history character
+#     others_thenightking, who dies in 6934 and so never exists at any bookmark. ~40,000 log lines for nothing.
+#   * eye_color_hue/saturation/value_long_night -- referenced by no file in any mod in the load order.
+#
+# 1.0.16 -- THE THREE EYE GENES ARE BACK, AND THE LINE ABOVE IS WHY THEY SHOULD NEVER HAVE GONE.
+# "Referenced by no file in any mod in the load order" enumerated MOD FILES. It did not enumerate SAVED
+# PLAYER DATA, which is where genes actually live. Thomas's own ruler designer file references all three,
+# and his 27 Aug boot threw:
+#     [E][portraitcontext.cpp:184]: No gene with key: eye_color_hue_long_night in group human
+#         at file: rulers/Thom.ck3ruler line: 234   (and :236 saturation, :238 value)
+# Every character saved while these existed carries them. Deleting a gene from a shipped mod is a breaking
+# change for saved data, and the standing rule covers exactly this: a repair keyed on the ABSENCE of a value
+# must first enumerate every legitimate reason that value could be absent. The writers were outside the mod.
+# THEY ARE RESTORED WITH THEIR ORIGINAL CURVES, NOT AS EMPTY STUBS -- and the distinction matters. An empty
+# index 1 would let saved data that holds a non-zero value there render DIFFERENTLY from how it always has,
+# which is the same class of silent appearance change this restore exists to undo. Nothing in the mod applies
+# them (that half of the original finding was correct), so in practice they cost one parse and change nothing
+# for anyone who does not already carry them. DO NOT DELETE THEM AGAIN. Deprecate, never delete.
+#
+# ── AND THE NINE *_mhec GENES ARE BACK TOO, FOR EXACTLY THE SAME REASON. ────────────────────────────────
+# ADVERSARIAL REVIEW FIND, 27 Aug: the eye restore above was one quarter of the job. The line below deletes
+# nine more genes on the grounds that they are "referenced only by the DNA of history character
+# others_thenightking, who dies in 6934 and so never exists at any bookmark" -- and that enumeration has the
+# identical hole: it covered mod files and one history character, not saved player data.
+# Thomas's ruler throws twelve of these errors, not three:
+#     skin_color_{hue,saturation,value}_mhec   rulers/Thom.ck3ruler lines 229 / 231 / 233
+#     eye_color_{hue,saturation,value}_mhec    lines 235 / 237 / 239
+#     hair_color_{hue,saturation,value}_mhec   lines 241 / 243 / 245
+#     eye_color_{hue,saturation,value}_long_night   lines 234 / 236 / 238
+# Upstream 3766462389 still declares all of them. Restored here in the same shape and for the same reason.
+special_genes = {
+	morph_genes = {
+
+			skin_color_hue_long_night = {
+
+				vanilla_skin_color_hue_long_night = {
+					index = 0
+					male = {}
+					female = male
+					boy = male
+					girl = male
+				}
+
+				skin_color_hue_long_night = {
+					index = 1
+					male = {
+						skin_hsv_shift_curve = {
+							curve = {
+								{ 0.0   { 0.0 0.0 0.0 } }
+								{ 1.0   { 1.0 0.0 0.0 } }
+							}
+						}
+					}
+					female = male
+					boy = male
+					girl = male
+				}
+			}
+
+			skin_color_saturation_long_night = {
+
+				vanilla_skin_color_saturation_long_night = {
+					index = 0
+					male = {}
+					female = male
+					boy = male
+					girl = male
+				}
+
+				skin_color_saturation_long_night = {
+					index = 1
+					male = {
+						skin_hsv_shift_curve = {
+							curve = {
+								{ 0.0   { 0.0 -1.0 0.0 } }
+								{ 1.0   { 0.0 1.0 0.0 } }
+							}
+						}
+					}
+					female = male
+					boy = male
+					girl = male
+				}
+			}
+
+			skin_color_value_long_night = {
+
+				vanilla_skin_color_value_long_night = {
+					index = 0
+					male = {}
+					female = male
+					boy = male
+					girl = male
+				}
+
+				skin_color_value_long_night = {
+					index = 1
+					male = {
+						skin_hsv_shift_curve = {
+							curve = {
+								{ 0.0   { 0.0 0.0 -1.0 } }
+								{ 1.0   { 0.0 0.0 1.0 } }
+							}
+						}
+					}
+					female = male
+					boy = male
+					girl = male
+				}
+			}
+
+			hair_color_hue_long_night = {
+
+				vanilla_hair_color_hue_long_night = {
+					index = 0
+					male = {}
+					female = male
+					boy = male
+					girl = male
+				}
+
+				hair_color_hue_long_night = {
+					index = 1
+					male = {
+						hair_hsv_shift_curve = {
+							curve = {
+								{ 0.0   { 0.0 0.0 0.0 } }
+								{ 1.0   { 1.0 0.0 0.0 } }
+							}
+						}
+					}
+					female = male
+					boy = male
+					girl = male
+				}
+			}
+
+			hair_color_saturation_long_night = {
+
+				vanilla_hair_color_saturation_long_night = {
+					index = 0
+					male = {}
+					female = male
+					boy = male
+					girl = male
+				}
+
+				hair_color_saturation_long_night = {
+					index = 1
+					male = {
+						hair_hsv_shift_curve = {
+							curve = {
+								{ 0.0   { 0.0 -1.0 0.0 } }
+								{ 1.0   { 0.0 1.0 0.0 } }
+							}
+						}
+					}
+					female = male
+					boy = male
+					girl = male
+				}
+			}
+
+			hair_color_value_long_night = {
+
+				vanilla_hair_color_value_long_night = {
+					index = 0
+					male = {}
+					female = male
+					boy = male
+					girl = male
+				}
+
+				hair_color_value_long_night = {
+					index = 1
+					male = {
+						hair_hsv_shift_curve = {
+							curve = {
+								{ 0.0   { 0.0 0.0 -1.0 } }
+								{ 1.0   { 0.0 0.0 1.0 } }
+							}
+						}
+					}
+					female = male
+					boy = male
+					girl = male
+				}
+			}
+
+			eye_color_hue_long_night = {
+
+				vanilla_eye_color_hue_long_night = {
+					index = 0
+					male = {}
+					female = male
+					boy = male
+					girl = male
+				}
+
+				eye_color_hue_long_night = {
+					index = 1
+					male = {
+						eye_hsv_shift_curve = {
+							curve = {
+								{ 0.0   { 0.0 0.0 0.0 } }
+								{ 1.0   { 1.0 0.0 0.0 } }
+							}
+						}
+					}
+					female = male
+					boy = male
+					girl = male
+				}
+			}
+
+			eye_color_saturation_long_night = {
+
+				vanilla_eye_color_saturation_long_night = {
+					index = 0
+					male = {}
+					female = male
+					boy = male
+					girl = male
+				}
+
+				eye_color_saturation_long_night = {
+					index = 1
+					male = {
+						eye_hsv_shift_curve = {
+							curve = {
+								{ 0.0   { 0.0 -1.0 0.0 } }
+								{ 1.0   { 0.0 1.0 0.0 } }
+							}
+						}
+					}
+					female = male
+					boy = male
+					girl = male
+				}
+			}
+
+			eye_color_value_long_night = {
+
+				vanilla_eye_color_value_long_night = {
+					index = 0
+					male = {}
+					female = male
+					boy = male
+					girl = male
+				}
+
+				eye_color_value_long_night = {
+					index = 1
+					male = {
+						eye_hsv_shift_curve = {
+							curve = {
+								{ 0.0   { 0.0 0.0 -1.0 } }
+								{ 1.0   { 0.0 0.0 1.0 } }
+							}
+						}
+					}
+					female = male
+					boy = male
+					girl = male
+				}
+			}
+
+
+			skin_color_hue_mhec = {
+
+				vanilla_skin_color_hue_mhec = {
+					index = 0
+					male = {}
+					female = male
+					boy = male
+					girl = male
+				}
+
+				skin_color_hue_mhec = {
+					index = 1
+					male = {
+						skin_hsv_shift_curve = {
+							curve = {
+								{ 0.0   { 0.0 0.0 0.0 } }
+								{ 1.0   { 1.0 0.0 0.0 } }
+							}
+						}
+					}
+					female = male
+					boy = male
+					girl = male
+				}
+			}
+
+			skin_color_saturation_mhec = {
+
+				vanilla_skin_color_saturation_mhec = {
+					index = 0
+					male = {}
+					female = male
+					boy = male
+					girl = male
+				}
+
+				skin_color_saturation_mhec = {
+					index = 1
+					male = {
+						skin_hsv_shift_curve = {
+							curve = {
+								{ 0.0   { 0.0 -1.0 0.0 } }
+								{ 1.0   { 0.0 1.0 0.0 } }
+							}
+						}
+					}
+					female = male
+					boy = male
+					girl = male
+				}
+			}
+
+			skin_color_value_mhec = {
+
+				vanilla_skin_color_value_mhec = {
+					index = 0
+					male = {}
+					female = male
+					boy = male
+					girl = male
+				}
+
+				skin_color_value_mhec = {
+					index = 1
+					male = {
+						skin_hsv_shift_curve = {
+							curve = {
+								{ 0.0   { 0.0 0.0 -1.0 } }
+								{ 1.0   { 0.0 0.0 1.0 } }
+							}
+						}
+					}
+					female = male
+					boy = male
+					girl = male
+				}
+			}
+
+			hair_color_hue_mhec = {
+
+				vanilla_hair_color_hue_mhec = {
+					index = 0
+					male = {}
+					female = male
+					boy = male
+					girl = male
+				}
+
+				hair_color_hue_mhec = {
+					index = 1
+					male = {
+						hair_hsv_shift_curve = {
+							curve = {
+								{ 0.0   { 0.0 0.0 0.0 } }
+								{ 1.0   { 1.0 0.0 0.0 } }
+							}
+						}
+					}
+					female = male
+					boy = male
+					girl = male
+				}
+			}
+
+			hair_color_saturation_mhec = {
+
+				vanilla_hair_color_saturation_mhec = {
+					index = 0
+					male = {}
+					female = male
+					boy = male
+					girl = male
+				}
+
+				hair_color_saturation_mhec = {
+					index = 1
+					male = {
+						hair_hsv_shift_curve = {
+							curve = {
+								{ 0.0   { 0.0 -1.0 0.0 } }
+								{ 1.0   { 0.0 1.0 0.0 } }
+							}
+						}
+					}
+					female = male
+					boy = male
+					girl = male
+				}
+			}
+
+			hair_color_value_mhec = {
+
+				vanilla_hair_color_value_mhec = {
+					index = 0
+					male = {}
+					female = male
+					boy = male
+					girl = male
+				}
+
+				hair_color_value_mhec = {
+					index = 1
+					male = {
+						hair_hsv_shift_curve = {
+							curve = {
+								{ 0.0   { 0.0 0.0 -1.0 } }
+								{ 1.0   { 0.0 0.0 1.0 } }
+							}
+						}
+					}
+					female = male
+					boy = male
+					girl = male
+				}
+			}
+
+			eye_color_hue_mhec = {
+
+				vanilla_eye_color_hue_mhec = {
+					index = 0
+					male = {}
+					female = male
+					boy = male
+					girl = male
+				}
+
+				eye_color_hue_mhec = {
+					index = 1
+					male = {
+						eye_hsv_shift_curve = {
+							curve = {
+								{ 0.0   { 0.0 0.0 0.0 } }
+								{ 1.0   { 1.0 0.0 0.0 } }
+							}
+						}
+					}
+					female = male
+					boy = male
+					girl = male
+				}
+			}
+
+			eye_color_saturation_mhec = {
+
+				vanilla_eye_color_saturation_mhec = {
+					index = 0
+					male = {}
+					female = male
+					boy = male
+					girl = male
+				}
+
+				eye_color_saturation_mhec = {
+					index = 1
+					male = {
+						eye_hsv_shift_curve = {
+							curve = {
+								{ 0.0   { 0.0 -1.0 0.0 } }
+								{ 1.0   { 0.0 1.0 0.0 } }
+							}
+						}
+					}
+					female = male
+					boy = male
+					girl = male
+				}
+			}
+
+			eye_color_value_mhec = {
+
+				vanilla_eye_color_value_mhec = {
+					index = 0
+					male = {}
+					female = male
+					boy = male
+					girl = male
+				}
+
+				eye_color_value_mhec = {
+					index = 1
+					male = {
+						eye_hsv_shift_curve = {
+							curve = {
+								{ 0.0   { 0.0 0.0 -1.0 } }
+								{ 1.0   { 0.0 0.0 1.0 } }
+							}
+						}
+					}
+					female = male
+					boy = male
+					girl = male
+				}
+			}
+
+	}
+}

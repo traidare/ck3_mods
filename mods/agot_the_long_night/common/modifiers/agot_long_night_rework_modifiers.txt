@@ -1,6 +1,0 @@
-﻿agot_ln_leaderless_modifier = {
-	advantage = -10
-	monthly_prestige = -1
-}
-agot_ln_threat_50_modifier = { advantage = 5 siege_phase_time = -0.05 }
-agot_ln_threat_75_modifier = { advantage = 10 siege_phase_time = -0.10 }

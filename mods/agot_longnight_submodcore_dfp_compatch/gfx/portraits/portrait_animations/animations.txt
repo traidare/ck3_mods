@@ -1,4 +1,40 @@
-﻿# DEFAULT PERSONALITY ANIMATIONS
+﻿# ══════════════════════════════════════════════════════════════════════════════════════════════════════════
+# AGOT: The Long Night & Azor Ahai -- THIS FILE IS A FULL SHADOW OF AGOT'S animations.txt. READ THIS FIRST.
+#
+# WHAT IT IS. AGOT's own gfx/portraits/portrait_animations/animations.txt, copied verbatim, PLUS 77 lines:
+# five wight_pose_* entries inside idle -> male (wounded, loss, aggressive, yield, stayback). Verified
+# 27 Aug by diff against AGOT 0.5.1: our copy is a strict SUPERSET -- 77 lines added, ZERO lines of theirs
+# removed or altered. It is not stale today.
+#
+# WHY IT IS A WHOLE-FILE COPY AND NOT A SMALL ADDITIVE FILE. The directory does merge by file -- AGOT itself
+# ships five (animations.txt, b_agot_animations.txt, c_agot_eggs_, d_agot_sword_, e_agot_dragon_) and other
+# playset mods ship standalone ones. So the obvious fix is to lift our five poses into
+# zz_ln_wight_animations.txt and delete this shadow entirely.
+#
+# THAT WAS INVESTIGATED ON 27 AUG AND DELIBERATELY NOT DONE. Our five entries do not define a new animation;
+# they live INSIDE the existing `idle` key. Re-opening an existing key from a second file only works if the
+# engine MERGES that key rather than REPLACING it -- and there is no evidence either way. Every standalone
+# animation file across the entire playset defines NEW top-level keys and not one re-opens an existing one:
+#     AGOT b_agot_animations.txt -> agot_idle        2870506215 wam_animations.txt      -> wam_*
+#     2962713441 99_dragon_horn_animations.txt       3319354609 f_amsvb_dragon_animations.txt -> dragon_court
+#     2220098919 CFP_animations.txt -> cfp_*
+# If `idle` replaces rather than merges, extracting would silently delete AGOT's ENTIRE idle animation set
+# for every character in the game -- a subtle, ugly, hard-to-attribute regression. Not worth the 10,000 lines.
+#
+# ── WHAT THIS COSTS, AND WHAT TO DO ABOUT IT ───────────────────────────────────────────────────────────────
+# The day AGOT edits animations.txt, our copy silently wins and their change is lost with nothing logged.
+# This is the same failure mode documented in common/on_action/zz_ln_shadows/ and the thing shadowcheck.py
+# exists to catch -- but this file lives under gfx/, not common/on_action/zz_ln_shadows/, so CHECK THAT
+# SHADOWCHECK ACTUALLY COVERS IT.
+#
+# ON EVERY AGOT UPDATE: diff AGOT's animations.txt against this file. Expect exactly 77 added lines and zero
+# removals. Anything else means AGOT moved and we are overwriting them -- re-copy theirs and re-apply the
+# five wight_pose_* blocks. If AGOT ever moves the poses' host key out of `idle`, or a future CK3 patch
+# documents merge semantics for portrait animation keys, revisit the extraction above; it is the better
+# answer the moment it can be proven safe.
+# ══════════════════════════════════════════════════════════════════════════════════════════════════════════
+
+# DEFAULT PERSONALITY ANIMATIONS
 # COUNCIL ANIMATIONS
 # EMOTION ANIMATIONS
 # MISC ANIMATIONS
@@ -15,6 +51,8 @@ idle = {
 	default = {
 		default = { head = "idle_entry" torso = "idle_entry" }
 
+		# The Long Night+ — wights use one of five random poses (barbershop set chosen by the user), fixed per
+		# wight by a wight_pose_* character flag set at conversion. Weight 15000 beats AGOT's weapon idles (<=12000).
 		wight_pose_wounded = {
 			animation = { head = "misc_wounded2" torso = "misc_wounded2" }
 			weight = {
@@ -26,6 +64,7 @@ idle = {
 				}
 			}
 		}
+
 		wight_pose_loss = {
 			animation = { head = "emotion_loss1_entry" torso = "emotion_loss1_entry" }
 			weight = {
@@ -41,6 +80,7 @@ idle = {
 				animations = emotion_loss
 			}
 		}
+
 		wight_pose_aggressive = {
 			animation = { head = "oneHandedAggressive1_entry" torso = "oneHandedAggressive1_entry" }
 			weight = {
@@ -57,6 +97,7 @@ idle = {
 				animations = AI_vengeful_decal
 			}
 		}
+
 		wight_pose_yield = {
 			animation = { head = "wrestling_yield_start_entry" torso = "wrestling_yield_start_entry" }
 			weight = {
@@ -74,6 +115,7 @@ idle = {
 				animations = child_additive
 			}
 		}
+
 		wight_pose_stayback = {
 			animation = { head = "stayback" torso = "stayback" }
 			weight = {
@@ -2931,9 +2973,6 @@ idle = {
 			}
 		}
 
-
-
-		##TGC Added
 		hold_bow_idle = {
 			animation = { head = "hunting_bow_aim_entry" torso = "hunting_bow_aim_entry" }
 			weight = {
@@ -2957,9 +2996,8 @@ idle = {
 			portrait_modifier_pack = hunting_longbow_aim_arrow
 		}
 
-
 		#AGOT Added
-        hold_hammer_idle = {
+		hold_hammer_idle = {
 			animation = { head = "council_marshal" torso = "throneRoom_oneHandedPassive1_entry" }
 
 			weight = {
@@ -3088,7 +3126,7 @@ idle = {
 							artifact_slot_type = primary_armament
 						}
 					}
-						}
+				}
 				modifier = {
 					add = 10000
 					agot_should_be_knight_idle_trigger = yes
@@ -3116,8 +3154,8 @@ idle = {
 						any_equipped_character_artifact = {
 							artifact_slot_type = primary_armament
 						}
-							}
-						}
+					}
+				}
 				modifier = {
 					add = 10000
 					agot_should_be_knight_idle_trigger = yes
@@ -3679,7 +3717,7 @@ idle = {
 					is_ruler = yes
 					age >= 10
 					#AGOT Disabled
-					#NOT = { this = character:41702 }
+					# NOT = { this = character:41702 }
 					NOR = {
 						has_trait = blind
 						has_trait = maimed
@@ -3718,11 +3756,11 @@ idle = {
 					NOR = {
 						has_trait = dragonwidowed
 						has_character_modifier = agot_dragon_disinterest
-							any_relation = {
-								type = agot_dragon
-							}
+						any_relation = {
+							type = agot_dragon
 						}
-							any_equipped_character_artifact = {
+					}
+					any_equipped_character_artifact = {
 						has_variable = dragon_egg
 						NOT = { has_variable = dud_egg }
 						has_variable = {
@@ -3738,23 +3776,24 @@ idle = {
 			}
 			portrait_modifier_pack = agot_idle_egg_anims
 		}
+
 		#AGOT Disabled
-		#idle_scepter = {
-		#	animation = { head = "scepter" torso = "scepter" }
-		#	portrait_modifier = {
-		#		animations = fat_additive
-		#		animations_props = ep3_byzantine_scepter_prop
-		#		animations = cloak_additive
-		#	}
-		#	weight = {
-		#		base = 0
-		#		modifier = {
-		#			add = 100
-		#			primary_title = title:e_byzantium
-		#			faith.religion = religion:christianity_religion
-		#		}
-		#	}
-		#}
+		# idle_scepter = {
+		# 	animation = { head = "scepter" torso = "scepter" }
+		# 	portrait_modifier = {
+		# 		animations = fat_additive
+		# 		animations_props = ep3_byzantine_scepter_prop
+		# 		animations = cloak_additive
+		# 	}
+		# 	weight = {
+		# 		base = 0
+		# 		modifier = {
+		# 			add = 100
+		# 			primary_title = title:e_byzantium
+		# 			faith.religion = religion:christianity_religion
+		# 		}
+		# 	}
+		# }
 
 		idle_emperor = {
 			animation = { head = "emperor" torso = "emperor" }
@@ -4508,10 +4547,10 @@ idle = {
 					NOT = { has_trait = pregnant }
 				}
 				#AGOT Disabled
-				#modifier = {
-				#	add = -100
-				#	this = character:7757
-				#}
+				# modifier = {
+				# 	add = -100
+				# 	this = character:7757
+				# }
 			}
 			portrait_modifier = {
 				animations = AI_rational_decal
@@ -4792,13 +4831,13 @@ idle = {
 					NOT = { has_trait = pregnant }
 				}
 				#AGOT Disabled
-				#modifier = {
-				#	add = 5000
-				#	OR = {
-				#		this = character:7757
-				#		this = character:41702
-				#	}
-				#}
+				# modifier = {
+				# 	add = 5000
+				# 	OR = {
+				# 		this = character:7757
+				# 		this = character:41702
+				# 	}
+				# }
 			}
 			portrait_modifier = {
 				animations = AI_zealous_decal
@@ -4960,7 +4999,7 @@ idle = {
 							should_use_fat_pregnant_animation = yes
 							should_use_fat_dwarf_pregnant_animation = yes
 							#AGOT Disabled, Vanilla Fix
-							#portrait_wear_armor_trigger = yes
+							# portrait_wear_armor_trigger = yes
 						}
 						OR = {
 							has_trait = greedy
@@ -5488,6 +5527,7 @@ minister_works = {
 			}
 			portrait_modifier = {
 			}
+
 		}
 
 		minister_works_fat_dwarf = { # Also just fat and just dwarf
@@ -8648,7 +8688,7 @@ page_flipping = {
 					portrait_has_trait_trigger = { TRAIT = maimed }
 				}
 			}
-			}
+		}
 		page_flipping = {
 			animation = { head = "page_flipping" torso = "page_flipping" }
 			portrait_modifier_pack = paged_book
@@ -8668,7 +8708,7 @@ writing = {
 					portrait_has_trait_trigger = { TRAIT = maimed }
 				}
 			}
-			}
+		}
 		writing = {
 			animation = { head = "writing" torso = "writing" }
 			portrait_modifier_pack = open_book_w_writing_tool_left
@@ -8688,7 +8728,7 @@ reading = {
 					portrait_has_trait_trigger = { TRAIT = maimed }
 				}
 			}
-			}
+		}
 		reading = {
 			animation = { head = "reading_loop" torso = "reading_loop" }
 			portrait_modifier_pack = open_book
@@ -8809,7 +8849,6 @@ emotion_thinking_scepter = {
 	girl = male
 	boy = male
 }
-
 
 pondering = {
 	male = {
@@ -9571,7 +9610,7 @@ shepherd_with_sheep = {
 hunting_horn = {
 	default = {
 		default = { head = "hunting_horn_entry" torso = "hunting_horn_entry" }
-			portrait_modifier = {
+		portrait_modifier = {
 			animations_props = ep2_horn_attachment
 			animations = fat_additive
 			animations = dwarf_additive
@@ -9859,7 +9898,7 @@ reception_bride_right = {
 			}
 		}
 	}
-			}
+}
 
 wedding_objection_start = {
 	default = {
@@ -9955,7 +9994,6 @@ aggressive_dagger = { # wields one handed dagger
 			portrait_modifier_pack = one_handed_dagger
 		}
 	}
-
 }
 
 aggressive_spear = { # wields two handed spear
@@ -10174,7 +10212,6 @@ celebrate_spear = { # wields spear
 			portrait_modifier_pack = two_handed_spear
 		}
 	}
-
 }
 
 celebrate_hammer = { # wields hammer
@@ -10186,7 +10223,6 @@ celebrate_hammer = { # wields hammer
 			portrait_modifier_pack = two_handed_hammer
 		}
 	}
-
 }
 
 sword_coup_degrace = {
@@ -10275,13 +10311,13 @@ sword_yield_start = {
 					add = 100
 					#AGOT Disabled
 					# use_longsword_default_trigger = no
-						scope:current_weight < 60
-						portrait_has_trait_trigger = { TRAIT = pregnant }
-						NOT = { portrait_has_trait_trigger = { TRAIT = dwarf } }
-					}
+					scope:current_weight < 60
+					portrait_has_trait_trigger = { TRAIT = pregnant }
+					NOT = { portrait_has_trait_trigger = { TRAIT = dwarf } }
 				}
-			portrait_modifier_pack = one_handed_sword
 			}
+			portrait_modifier_pack = one_handed_sword
+		}
 
 		longsword_yield_pregnant = {
 			animation = { head = "misc_pregnant_entry" torso = "misc_pregnant_entry" }
@@ -10309,13 +10345,13 @@ sword_yield_start = {
 					add = 100
 					#AGOT Disabled
 					# use_longsword_default_trigger = no
-						scope:current_weight < 60
-						portrait_has_trait_trigger = { TRAIT = pregnant }
-						portrait_has_trait_trigger = { TRAIT = dwarf }
-					}
+					scope:current_weight < 60
+					portrait_has_trait_trigger = { TRAIT = pregnant }
+					portrait_has_trait_trigger = { TRAIT = dwarf }
 				}
-			portrait_modifier_pack = one_handed_sword
 			}
+			portrait_modifier_pack = one_handed_sword
+		}
 
 		longsword_yield_pregnant_dwarf = {
 			animation = { head = "misc_pregnant_entry" torso = "misc_pregnantFat_entry" }
@@ -10343,12 +10379,12 @@ sword_yield_start = {
 					# NOT = {
 					# 	culture = { has_cultural_pillar = heritage_japonic }
 					# }
-						scope:current_weight >= 60
-						portrait_has_trait_trigger = { TRAIT = pregnant }
-						portrait_has_trait_trigger = { TRAIT = dwarf }
-					}
+					scope:current_weight >= 60
+					portrait_has_trait_trigger = { TRAIT = pregnant }
+					portrait_has_trait_trigger = { TRAIT = dwarf }
 				}
 			}
+		}
 
 		longsword_yield_pregnant_fat_dwarf = {
 			animation = { head = "misc_pregnant_entry" torso = "misc_pregnantFatDwarf_entry" }
@@ -10432,7 +10468,6 @@ marshal_wooden_sword = {
 			animations_props = bp2_wooden_sword_prop
 		}
 	}
-
 }
 
 wooden_sword_coup_degrace = {
@@ -10708,7 +10743,6 @@ random_weapon_yield = {
 		}
 	}
 }
-
 
 inspect_weapon = {
 	default = {
@@ -11597,7 +11631,6 @@ wu_shu_bao_quan_li = {
 	}
 }
 
-
 #########################################################################################################################################################
 #########################################################################################################################################################
 #																	Horse Animations																	#
@@ -12399,14 +12432,14 @@ instrument_idle = {
 			animation = { head = "lute_idle" torso = "lute_idle" }
 			weight = {
 				base = 0
-					#AGOT Disabled
-					# modifier = {
-					# 	add = 50
-					# 	OR = {
-					# 		location = { geographical_region = world_europe }
-					# 		location = { geographical_region = world_middle_east }
-					# 	}
-					# }
+				#AGOT Disabled
+				# modifier = {
+				# 	add = 50
+				# 	OR = {
+				# 		location = { geographical_region = world_europe }
+				# 		location = { geographical_region = world_middle_east }
+				# 	}
+				# }
 			}
 			portrait_modifier = {
 				animations_props = fp4_lute_prop
