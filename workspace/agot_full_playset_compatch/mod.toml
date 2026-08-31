@@ -10,6 +10,9 @@ owned_outputs = [
   "localization/replace/english/agot/replace/00_agot_titles_l_english.yml",
   "localization/replace/spanish/agot/replace/00_agot_titles_l_spanish.yml",
   "gfx/court_scene/scene_settings/grandeur_levels/grandeur_levels.txt",
+  "gui/hud.gui",
+  "gui/map_icon_layer.gui",
+  "common/scripted_triggers/zzz_agot_playset_is_human.txt",
 ]
 
 [[sources]]
@@ -53,3 +56,23 @@ item_id = "3466228580"
 name = "cow-now-compatch"
 kind = "workshop"
 item_id = "3742055253"
+
+[[sources]]
+name = "iron-and-salt"
+kind = "workshop"
+item_id = "3781577713"
+
+[[sources]]
+name = "dfp-agot"
+kind = "workshop"
+item_id = "3609763696"
+
+[[sources]]
+name = "lov-agot-bridge"
+kind = "workshop"
+item_id = "3719888822"
+
+[[sources]]
+name = "great-councils"
+kind = "workshop"
+item_id = "3621472324"

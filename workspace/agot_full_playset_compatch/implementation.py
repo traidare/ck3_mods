@@ -5,12 +5,14 @@ from __future__ import annotations
 
 import json
 import re
+import subprocess
+import tempfile
 from pathlib import Path
 
 from gen import GenerationContext
 from gen.hashing import sha256_file
 from gen.sources import canonical_source_path
-from gen.text import matching_brace, read_source
+from gen.text import definition_span, matching_brace, read_source
 
 WORKSHOP_IDS = {
     "AGOT": "2962333032",
@@ -21,7 +23,28 @@ WORKSHOP_IDS = {
     "MDE_EGGS": "3388366564",
     "MDE_EVENTS": "3466228580",
     "COW_NOW": "3742055253",
+    "IRON_AND_SALT": "3781577713",
+    "DFP_AGOT": "3609763696",
+    "LOV_BRIDGE": "3719888822",
+    "GREAT_COUNCILS": "3621472324",
 }
+HUD_RELATIVE = Path("gui/hud.gui")
+MAP_ICON_RELATIVE = Path("gui/map_icon_layer.gui")
+IS_HUMAN_RELATIVE = Path("common/scripted_triggers/zzz_agot_playset_is_human.txt")
+AGOT_CHARACTER_TRIGGERS = Path(
+    "common/scripted_triggers/00_agot_character_triggers.txt"
+)
+KRAKEN_TRIGGERS = Path("common/scripted_triggers/zz_kraken_character_triggers.txt")
+GREAT_COUNCILS_TRIGGERS = Path(
+    "common/scripted_triggers/zzz_Great_Councils_replaced_triggers.txt"
+)
+KRAKEN_CLAUSE = "NOT = { has_trait = kraken }"
+GREAT_COUNCILS_CLAUSE = (
+    "NOT = { has_character_flag = zzz_great_councils_disable } #AGC Added"
+)
+FIND_ELDER_DATACONTEXT = (
+    "datacontext = \"[GetDecisionWithKey('find_elder_interaction')]\""
+)
 GRANDEUR_RELATIVE = Path(
     "gfx/court_scene/scene_settings/grandeur_levels/grandeur_levels.txt"
 )
@@ -481,6 +504,138 @@ def generate_regions(source: str) -> str:
     return text if text.endswith("\n") else text + "\n"
 
 
+def script_tokens(block: str) -> str:
+    """Normalise a script block to the tokens CK3 actually parses."""
+    return " ".join(
+        re.sub(r"\s+", " ", line.split("#", 1)[0].strip())
+        for line in block.splitlines()
+        if line.split("#", 1)[0].strip()
+    )
+
+
+def merge_onto_agot(*, ours: str, base: str, theirs: str, label: str) -> str:
+    """Three-way merge two AGOT-derived overrides of one interface file."""
+    with tempfile.TemporaryDirectory(prefix="agot-full-compatch-") as directory:
+        root = Path(directory)
+        paths = []
+        for name, text in (("ours", ours), ("base", base), ("theirs", theirs)):
+            path = root / f"{name}.gui"
+            path.write_text(text, encoding="utf-8", newline="\n")
+            paths.append(str(path))
+        completed = subprocess.run(
+            ["git", "merge-file", "-p", *paths], capture_output=True, check=False
+        )
+    if completed.returncode not in (0, 1):
+        raise AssertionError(
+            f"{label}: git merge-file failed: {completed.stderr.decode().strip()}"
+        )
+    merged = completed.stdout.decode("utf-8")
+    if "<<<<<<<" in merged or ">>>>>>>" in merged:
+        raise AssertionError(f"{label}: unresolved three-way merge")
+    return merged
+
+
+def changed_lines(before: str, after: str) -> list[str]:
+    """Return both sides of a zero-context diff without line-number noise."""
+    import difflib
+
+    return [
+        line[1:]
+        for line in difflib.unified_diff(
+            before.splitlines(), after.splitlines(), n=0, lineterm=""
+        )
+        if line.startswith(("+", "-")) and not line.startswith(("+++", "---"))
+    ]
+
+
+def require_delta_preserved(
+    *, base: str, parent: str, merged: str, ours: str, label: str
+) -> None:
+    """Assert the merge applies exactly the other parent's textual delta."""
+    delta = changed_lines(base, parent)
+    if not delta:
+        raise AssertionError(f"{label}: parent no longer differs from AGOT")
+    if delta != changed_lines(ours, merged):
+        raise AssertionError(f"{label}: merge did not reproduce the parent's delta")
+
+
+def generate_hud(agot: str, iron_and_salt: str, dfp: str) -> str:
+    """Keep the naval and kraken HUD together with the family portrait stack."""
+    label = "hud.gui"
+    merged = merge_onto_agot(ours=iron_and_salt, base=agot, theirs=dfp, label=label)
+    require_delta_preserved(
+        base=agot, parent=dfp, merged=merged, ours=iron_and_salt, label=label
+    )
+    for needle in (
+        "type bottom_left_dragon_portrait = container {",
+        "type bottom_left_portrait = container {",
+        "mde_dragon_portrait_zeroth_size",
+        "mde_dragon_portrait_third_size",
+    ):
+        if needle not in merged:
+            raise AssertionError(f"{label}: merged output lost {needle!r}")
+    if merged.count("naval") < 1000:
+        raise AssertionError(
+            f"{label}: Iron and Salt's naval interface did not survive"
+        )
+    return merged
+
+
+def generate_map_icon_layer(agot: str, iron_and_salt: str, lov: str) -> str:
+    """Keep the kraken map icon without restoring LoV's removed datacontext."""
+    label = "map_icon_layer.gui"
+    merged = merge_onto_agot(ours=iron_and_salt, base=agot, theirs=lov, label=label)
+    require_delta_preserved(
+        base=agot, parent=lov, merged=merged, ours=iron_and_salt, label=label
+    )
+    for needle in ("agot_kraken_portrait_map_icon = {}", "kraken_character_window"):
+        if needle not in merged:
+            raise AssertionError(f"{label}: merged output lost {needle!r}")
+    if FIND_ELDER_DATACONTEXT in merged:
+        raise AssertionError(f"{label}: LoV's removed find_elder datacontext came back")
+    return merged
+
+
+def scripted_trigger(text: str, name: str) -> str:
+    start, end = definition_span(text, name)
+    return text[start:end]
+
+
+def generate_is_human(agot: str, iron_and_salt: str, great_councils: str) -> str:
+    """Combine AGOT, Iron and Salt, and Great Councils under one last writer."""
+    label = "is_human"
+    parent = scripted_trigger(agot, "is_human")
+    for source, clause, owner in (
+        (iron_and_salt, KRAKEN_CLAUSE, "Iron and Salt"),
+        (great_councils, GREAT_COUNCILS_CLAUSE, "Great Councils"),
+    ):
+        derived = scripted_trigger(source, "is_human")
+        if clause not in derived:
+            raise AssertionError(f"{label}: {owner} no longer adds {clause!r}")
+        if script_tokens(derived.replace(clause, "", 1)) != script_tokens(parent):
+            raise AssertionError(
+                f"{label}: {owner}'s definition is no longer AGOT's plus one clause"
+            )
+    body = parent.replace(
+        "NOT = { has_trait = dragon }",
+        f"NOT = {{ has_trait = dragon }}\n\t{KRAKEN_CLAUSE}",
+        1,
+    )
+    closing = body.rfind("}")
+    body = f"{body[:closing]}\t{GREAT_COUNCILS_CLAUSE}\n{body[closing:]}"
+    return (
+        "# The AGOT playset's single last writer for `is_human`.\n"
+        "#\n"
+        "# AGOT excludes dragons and dummy characters, Iron and Salt excludes\n"
+        "# krakens, and Great Councils excludes flagged characters.  CK3 resolves\n"
+        "# scripted triggers by filename across the merged file system, not by mod\n"
+        "# position, so only one of those three files can win and the other two\n"
+        "# clauses are lost.  This name sorts after all of them; re-audit whenever\n"
+        "# a later-sorting writer of `is_human` joins the playset.\n"
+        f"{body}\n"
+    )
+
+
 def generate_outputs(workshop: dict[str, Path]) -> dict[Path, bytes]:
     # NOW 1.2.5 corrected the `d_lychester` creation requirement upstream (it
     # previously required `d_medway`'s capital county), which was this override's
@@ -516,6 +671,27 @@ def generate_outputs(workshop: dict[str, Path]) -> dict[Path, bytes]:
             read_text(workshop["AGOT"] / AGOT_YEARLY_RELATIVE),
         )
     ).encode("utf-8-sig")
+    outputs[HUD_RELATIVE] = normalize_output(
+        generate_hud(
+            read_text(workshop["AGOT"] / HUD_RELATIVE),
+            read_text(workshop["IRON_AND_SALT"] / HUD_RELATIVE),
+            read_text(workshop["DFP_AGOT"] / HUD_RELATIVE),
+        )
+    ).encode("utf-8-sig")
+    outputs[MAP_ICON_RELATIVE] = normalize_output(
+        generate_map_icon_layer(
+            read_text(workshop["AGOT"] / MAP_ICON_RELATIVE),
+            read_text(workshop["IRON_AND_SALT"] / MAP_ICON_RELATIVE),
+            read_text(workshop["LOV_BRIDGE"] / MAP_ICON_RELATIVE),
+        )
+    ).encode("utf-8-sig")
+    outputs[IS_HUMAN_RELATIVE] = normalize_output(
+        generate_is_human(
+            read_text(workshop["AGOT"] / AGOT_CHARACTER_TRIGGERS),
+            read_text(workshop["IRON_AND_SALT"] / KRAKEN_TRIGGERS),
+            read_text(workshop["GREAT_COUNCILS"] / GREAT_COUNCILS_TRIGGERS),
+        )
+    ).encode("utf-8-sig")
     return outputs
 
 
@@ -546,6 +722,19 @@ def source_manifest(
         "MDE_EVENTS_DESCRIPTOR": workshop["MDE_EVENTS"] / "descriptor.mod",
         "COW_NOW_GRAPHICS": workshop["COW_NOW"] / COW_NOW_GRAPHICS_RELATIVE,
         "COW_NOW_DESCRIPTOR": workshop["COW_NOW"] / "descriptor.mod",
+        "AGOT_HUD": workshop["AGOT"] / HUD_RELATIVE,
+        "AGOT_MAP_ICON": workshop["AGOT"] / MAP_ICON_RELATIVE,
+        "AGOT_CHARACTER_TRIGGERS": workshop["AGOT"] / AGOT_CHARACTER_TRIGGERS,
+        "IRON_AND_SALT_HUD": workshop["IRON_AND_SALT"] / HUD_RELATIVE,
+        "IRON_AND_SALT_MAP_ICON": workshop["IRON_AND_SALT"] / MAP_ICON_RELATIVE,
+        "IRON_AND_SALT_TRIGGERS": workshop["IRON_AND_SALT"] / KRAKEN_TRIGGERS,
+        "IRON_AND_SALT_DESCRIPTOR": workshop["IRON_AND_SALT"] / "descriptor.mod",
+        "DFP_AGOT_HUD": workshop["DFP_AGOT"] / HUD_RELATIVE,
+        "DFP_AGOT_DESCRIPTOR": workshop["DFP_AGOT"] / "descriptor.mod",
+        "LOV_BRIDGE_MAP_ICON": workshop["LOV_BRIDGE"] / MAP_ICON_RELATIVE,
+        "LOV_BRIDGE_DESCRIPTOR": workshop["LOV_BRIDGE"] / "descriptor.mod",
+        "GREAT_COUNCILS_TRIGGERS": workshop["GREAT_COUNCILS"] / GREAT_COUNCILS_TRIGGERS,
+        "GREAT_COUNCILS_DESCRIPTOR": workshop["GREAT_COUNCILS"] / "descriptor.mod",
     }
     versions: dict[str, str] = {}
     for label, module_root in workshop.items():
@@ -589,6 +778,18 @@ def source_manifest(
                 "assert the unenabled NOW-COW compatch's special-building model "
                 "remaps are still carried by the hand-merged trigger"
             ),
+            "iron_and_salt_hud": (
+                "merge Iron and Salt's naval and kraken HUD with Dynamic Family "
+                "Portrait's AGOT stack and More Dragon Eggs portrait sizes"
+            ),
+            "iron_and_salt_map_icon": (
+                "keep the kraken map icon without restoring the LoV bridge's "
+                "removed find_elder datacontext"
+            ),
+            "iron_and_salt_is_human": (
+                "combine AGOT's body with the Iron and Salt and Great Councils "
+                "extensions under one later-sorting writer"
+            ),
         },
     }
 
@@ -604,6 +805,10 @@ def generate(context: GenerationContext) -> None:
         "mde-eggs",
         "mde-events",
         "cow-now-compatch",
+        "iron-and-salt",
+        "dfp-agot",
+        "lov-agot-bridge",
+        "great-councils",
     )
     workshop = {
         "AGOT": context.source("agot"),
@@ -614,6 +819,10 @@ def generate(context: GenerationContext) -> None:
         "MDE_EGGS": context.source("mde-eggs"),
         "MDE_EVENTS": context.source("mde-events"),
         "COW_NOW": context.source("cow-now-compatch"),
+        "IRON_AND_SALT": context.source("iron-and-salt"),
+        "DFP_AGOT": context.source("dfp-agot"),
+        "LOV_BRIDGE": context.source("lov-agot-bridge"),
+        "GREAT_COUNCILS": context.source("great-councils"),
     }
     missing = [
         f"{label}:{path}" for label, path in workshop.items() if not path.is_dir()

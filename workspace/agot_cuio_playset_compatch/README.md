@@ -1,7 +1,8 @@
 # agot_cuio_playset_compatch — module state
 
 Generated final-integration layer owning the AGOT playset's eight Character UI
-Overhaul GUI overlaps and Artifact Manager's two artifact-icon atlases.
+Overhaul GUI overlaps, the four files that declare its three contested shared
+portrait types, and Artifact Manager's two artifact-icon atlases.
 
 ## Ownership
 
@@ -76,6 +77,55 @@ owner.
 **Re-audit** this split whenever CUIO or the Dragon Wives compatch changes the
 family tab, and whenever CUIO moves the family tab or AGOT moves its expanded
 relation scrollboxes.
+
+### Iron and Salt's kraken gates
+
+AGOT Iron and Salt rebuilds `cooltip.gui`, `lists.gui`, and
+`window_character.gui` to keep human-only interface off krakens, which are
+ordinary characters that AGOT's own creature views take over. Its copies are
+plain AGOT plus those gates, so they would revert this module's CUIO merge
+wholesale. The generator re-applies the gates to the merged output instead: it
+attaches the kraken tooltip container, creature type row, three list stat rows,
+and character view, and extends every human-only condition — including all eight
+`visible_if_not_dragon` sites in the two list layouts — with Iron and Salt's
+scripted-GUI check. Each call site is asserted against Iron and Salt's own file,
+so a renamed widget fails generation.
+
+The cooltip gender icons are repaired in the same pass. AGOT gates all four on
+`agot_<gender>_gender_shown` so dragons draw no human sex icon, but only the
+female sexuality icon survived the CUIO-first merge; the other three are
+restored from the same texture anchor `window_character.gui` already uses.
+
+Iron and Salt does not gate `lists.gui`'s `relation_to_court_owner` row, and
+this module follows it rather than widening the delta. **Re-audit** that gap
+when Iron and Salt next touches `lists.gui`.
+
+### Shared portrait types
+
+`portrait_opinion`, `portrait_opinion_small`, and `portrait_head_small` are
+declared by four files: AGOT's `gui/shared/portraits.gui`, CUIO's
+`gui/CUIO_portraits.gui`, and Iron and Salt's two `gui/shared/` additions.
+
+CK3 registers a GUI type from the **first** file that declares it in merged path
+order — the opposite of the last-writer rule for same-path payload — so which
+copy wins is decided by filename rather than by load order. The runtime
+signature is a `pdx_gui_factory` `Type 'x' already registered at 'y'` warning in
+`gui_warnings.log`, where `y` is the winner. This module takes over all four
+files so exactly one declaration of each type survives and the ordering rule
+stops mattering; the generator asserts that count.
+
+CUIO's badge is the layout owner and carries the dual opinion display, but its
+copy predates both AGOT and Iron and Salt: it shows a dread icon on dragons, an
+opinion value on faked deaths, and the badge itself on krakens. Iron and Salt's
+own copy restores neither AGOT gate, so all three are applied here. Its small
+badge and small head are faithful reproductions of AGOT's and stay
+authoritative; the generator asserts each is still AGOT's block plus the named
+kraken edit, comparing parsed tokens rather than lines so upstream reformatting
+is not mistaken for a behaviour change.
+
+Owning AGOT's `gui/shared/portraits.gui` also inherits its five references to
+vanilla situation participant groups AGOT removed. Those are AGOT's own and
+predate this module.
 
 ## Generation
 

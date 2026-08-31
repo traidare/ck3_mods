@@ -44,6 +44,7 @@ PINS = {
         "gui/window_factions.gui": "798f177b1db914b34cce177d8cd29f336e182bc6bb24294bd46ece7b27392770",
     },
     "cuio": {
+        "gui/CUIO_portraits.gui": "cf70fe3d2579e24ac2648fcf680d7b3c0bdd01150e8712f10ff7be2e0fc551b6",
         "gui/interaction_declare_war.gui": "4b046c4f7a184eb68d97aefe63d15f4d0211a3a45fa1121f9cee2ca56640f938",
         "gui/interaction_menu_window.gui": "fa535010a80b9c4050c96be2a411a8e2b427efbb0f98f8a5f94f7de5beb16a3a",
         "gui/shared/coa_designer.gui": "fa1a7c55fa58b9caeef4ce23e52d5da51d90c5d171aafbbaa06f2f62cffb6bad",
@@ -59,6 +60,7 @@ PINS = {
         "gui/shared/coa_designer.gui": "e885c419c0b2942659f687c66df2dfa74f894e42393af168708327efbfefd38f",
         "gui/shared/cooltip.gui": "d157749b64d5d6d8e85f300ae9f8548fde1a4a49661ef06032322688adf5acd3",
         "gui/shared/lists.gui": "897cc471c6ec16dbb34327d68a212d076ea59589f716c677a785709ec2903cad",
+        "gui/shared/portraits.gui": "6a80edb6922af28f984749b61ec39534e18eeb12d902d77ea7416db0e9c4f02b",
         "gui/window_accolade.gui": "17cbd7e1f2370659f2230fe323005cfdde220d2c8ea5ef9f39868df71244172b",
         "gui/window_character.gui": "5fc9c380069105dcd88729dd1b20b1db9bf896d0d4f42277e2173dc69ff3ca11",
         "gui/window_factions.gui": "2457335d6725711e5dd96dbd4bc6b663e5b280c970f71d60afa90779bc3de10d",
@@ -74,6 +76,13 @@ PINS = {
     },
     "mpd-dragon-wives-compatch": {
         "gui/window_character.gui": "e08e355d7bf3bd2ee7383d831fac6b978cf35079b1f12d20993d499d40b620b8",
+    },
+    "iron-and-salt": {
+        "gui/shared/00_kraken_portrait_opinion.gui": "98d5a774c48c3daecaf966ec9acdec8d1fb7c8be4b9faec8ca75b43c8de1607f",
+        "gui/shared/cooltip.gui": "48250d0a44271fb37ae7ffc7395dfd232682840207b475e1d2336fbce80f729b",
+        "gui/shared/lists.gui": "7094460a3b465dfd8556e3287709dc2f4d9157a48e2c50365991c45ced579532",
+        "gui/shared/zz_kraken_list_portraits.gui": "2cc2262aac7183061fc67a86e13574fde9bb46a2a2503ab869c368555ebe9cd4",
+        "gui/window_character.gui": "41e95b9f2645d9e6fa2f552bf80525d1daf2a91688d2dbe604e3222469ed51db",
     },
     "artifact-manager": {
         "gfx/interface/icons/artifact/artifact_bg.dds": "5cf39c75f0551be3b93635a7477e3eda16a5b24ba255637ae775968839669b90",
@@ -412,6 +421,92 @@ def extract_template(text: str, name: str, *, label: str) -> str:
     match = matches[0]
     opening = text.index("{", match.start(), match.end())
     return text[match.start() : matching_brace(text, opening) + 1]
+
+
+def replace_every(text: str, old: str, new: str, *, expected: int, label: str) -> str:
+    require_count(text, old, expected, label=label)
+    return text.replace(old, new)
+
+
+def insert_after_line(
+    text: str, anchor: str, addition: str, *, label: str, expected: int = 1
+) -> str:
+    """Add sibling lines after each anchor line, matching its indentation."""
+    pattern = re.compile(rf"(?m)^([ \t]*){re.escape(anchor)}[ \t]*$")
+    matches = list(pattern.finditer(text))
+    if len(matches) != expected:
+        raise RuntimeError(
+            f"{label}: expected {expected} {anchor!r} lines, found {len(matches)}"
+        )
+
+    def expand(match: re.Match[str]) -> str:
+        indent = match.group(1)
+        body = "\n".join(f"{indent}{line}" for line in addition.strip().splitlines())
+        return f"{match.group(0)}\n{body}"
+
+    return pattern.sub(expand, text)
+
+
+def set_visible_in_block(
+    text: str, marker: str, condition: str, *, parent_depth: int, label: str
+) -> str:
+    """Rewrite a block's own visible condition, whatever the merge left there."""
+    start, end = block_containing(text, marker, parent_depth=parent_depth, label=label)
+    block = text[start : end + 1]
+    match = re.search(r'(?m)^[ \t]*visible = "\[.*\]"[ \t]*$', block)
+    if match is None:
+        raise RuntimeError(f"{label}: no visible condition to rewrite")
+    indent = re.match(r"[ \t]*", match.group(0)).group(0)
+    block = f'{block[: match.start()]}{indent}visible = "[{condition}]"{block[match.end() :]}'
+    return f"{text[:start]}{block}{text[end + 1 :]}"
+
+
+def remove_type(text: str, name: str, *, label: str) -> str:
+    """Drop a whole type declaration, with any comment lines introducing it."""
+    pattern = re.compile(rf"(?m)^[ \t]*type\s+{re.escape(name)}\s*=\s*[^\n]*\{{")
+    matches = list(pattern.finditer(text))
+    if len(matches) != 1:
+        raise RuntimeError(f"{label}: expected one type {name}, found {len(matches)}")
+    match = matches[0]
+    end = matching_brace(text, text.index("{", match.start(), match.end()))
+    head = text.rfind("\n", 0, match.start()) + 1
+    while head:
+        previous = text.rfind("\n", 0, head - 1) + 1
+        line = text[previous : head - 1].strip()
+        if line and not line.startswith("#"):
+            break
+        head = previous
+    tail = text.find("\n", end)
+    return text[:head] + (text[tail + 1 :] if tail != -1 else "")
+
+
+def script_tokens(block: str) -> str:
+    """Normalise a GUI block to its functional tokens.
+
+    Iron and Salt reproduces AGOT's shared portrait types with its own
+    formatting and without AGOT's `#AGOT Modified` provenance comments, so a
+    line diff reports reflow as an upstream change.  Collapsing the block to one
+    whitespace-normalised token stream compares only what the engine parses.
+    """
+    return " ".join(
+        re.sub(r"\s+", " ", line.strip())
+        for line in block.splitlines()
+        if line.strip() and not line.strip().startswith("#")
+    )
+
+
+def assert_reproduces(
+    parent: str, derived: str, edits: tuple[tuple[str, str], ...], *, label: str
+) -> None:
+    """Assert a derived type is its parent plus exactly the named edits."""
+    expected = script_tokens(parent)
+    for old, new in edits:
+        normalized_old = script_tokens(old)
+        if normalized_old not in expected:
+            raise RuntimeError(f"{label}: parent no longer contains {old!r}")
+        expected = expected.replace(normalized_old, script_tokens(new), 1)
+    if expected != script_tokens(derived):
+        raise RuntimeError(f"{label}: derived type is no longer the parent plus edits")
 
 
 def merge_gui(
@@ -909,6 +1004,249 @@ def generate_character(context: GenerationContext) -> str:
     return restore_agot_character_widgets(text)
 
 
+# Iron and Salt gates human interface on a scripted GUI rather than a trait,
+# because a kraken is an ordinary character that AGOT's own creature views take
+# over.  The scope is whatever the host widget already provides.
+CHARACTER_SCOPE = "Character.MakeScope"
+CHARACTER_WINDOW_SCOPE = "CharacterWindow.GetCharacter.MakeScope"
+
+
+def kraken_shown(scope: str = CHARACTER_SCOPE) -> str:
+    return f"GetScriptedGui('kraken_character_window').IsShown(GuiScope.SetRoot({scope}).End)"
+
+
+def not_kraken(scope: str = CHARACTER_SCOPE) -> str:
+    return f"Not({kraken_shown(scope)})"
+
+
+def kraken_visible(condition: str, scope: str = CHARACTER_SCOPE) -> str:
+    return f'visible = "[And({condition}, {not_kraken(scope)})]"'
+
+
+NOT_DRAGON_OR_KRAKEN = kraken_visible("Not(IsCharacterDragon)")
+
+
+def require_kraken_widgets(
+    source: str, widgets: tuple[str, ...], *, label: str
+) -> None:
+    """Assert Iron and Salt still calls the widgets we re-attach for it."""
+    for widget in widgets:
+        require_count(source, f"{widget} = {{}}", 1, label=label)
+
+
+def add_kraken_to_cooltip(text: str, iron_and_salt: str) -> str:
+    """Re-apply Iron and Salt's kraken gates to the merged character cooltip."""
+    label = "Iron and Salt cooltip"
+    require_kraken_widgets(
+        iron_and_salt,
+        ("container_kraken_character_tooltip", "kraken_cooltip_type_living"),
+        label=label,
+    )
+    text = insert_after_line(
+        text,
+        "container_dragon_character_tooltip = {}",
+        "container_kraken_character_tooltip = {}",
+        label=f"{label} tooltip container",
+    )
+    text = insert_after_line(
+        text,
+        "agot_dragon_type_dead = {}",
+        "kraken_cooltip_type_living = {}",
+        label=f"{label} creature type row",
+    )
+    # The opinion badge and its spacer share one condition, as do AGOT's two
+    # `visible_if_not_dragon` sites: the relation line and the portrait tooltip.
+    text = replace_every(
+        text,
+        'visible = "[And(And(Character.IsAlive, Not(IsCharacterDragon)), Not(Character.IsPlayer))]"',
+        kraken_visible(
+            "And(And(Character.IsAlive, Not(IsCharacterDragon)), Not(Character.IsPlayer))"
+        ),
+        expected=2,
+        label=f"{label} opinion badge and spacer",
+    )
+    text = replace_every(
+        text,
+        "using = visible_if_not_dragon",
+        NOT_DRAGON_OR_KRAKEN,
+        expected=2,
+        label=f"{label} relation line and portrait tooltip",
+    )
+    for condition, site in (
+        ("And(Not(Character.IsPlayer), Not(IsCharacterDragon))", "AI personality"),
+        ("And(Character.IsAlive, Not(IsCharacterDragon))", "spouse listing"),
+        ("Not(IsCharacterDragon)", "status row"),
+    ):
+        text = replace_every(
+            text,
+            f'visible = "[{condition}]"',
+            kraken_visible(condition),
+            expected=1,
+            label=f"{label} {site}",
+        )
+    # AGOT gates all four gender icons on its scripted GUI so dragons draw no
+    # human sex icon, but only the female sexuality icon survived the CUIO-first
+    # merge.  Restore the other three from the same anchor `window_character.gui`
+    # already uses — each icon's texture — and exclude krakens from all four.
+    for gender in ("male", "female"):
+        for icon in (f"sex_icon_{gender}", f"sexuality_icons_{gender}"):
+            text = set_visible_in_block(
+                text,
+                f'texture = "gfx/interface/icons/character_status/{icon}.dds"',
+                f"And(GetScriptedGui('agot_{gender}_gender_shown')"
+                f".IsShown(GuiScope.SetRoot({CHARACTER_SCOPE}).End), {not_kraken()})",
+                parent_depth=0,
+                label=f"{label} {icon} gate",
+            )
+    return text
+
+
+def add_kraken_to_lists(text: str, iron_and_salt: str) -> str:
+    """Re-apply Iron and Salt's kraken gates to the merged character lists."""
+    label = "Iron and Salt lists"
+    kraken_rows = (
+        "kraken_lists_size_text",
+        "kraken_lists_combat_text",
+        "kraken_lists_terror_text",
+    )
+    for widget in kraken_rows:
+        require_count(iron_and_salt, f"{widget} = {{}}", 2, label=label)
+    text = insert_after_line(
+        text,
+        "agot_lists_dragon_temper_text = {}",
+        "\n".join(f"{widget} = {{}}" for widget in kraken_rows),
+        expected=2,
+        label=f"{label} creature stat rows",
+    )
+    # Both list layouts route every human-only row through AGOT's template, so
+    # one substitution covers the relation line, skills grid, house arms,
+    # faith/culture box, and the two dividers in each.
+    return replace_every(
+        text,
+        "using = visible_if_not_dragon",
+        NOT_DRAGON_OR_KRAKEN,
+        expected=8,
+        label=f"{label} human-only rows",
+    )
+
+
+def add_kraken_to_character(text: str, iron_and_salt: str) -> str:
+    """Hand the character window to AGOT's kraken sheet, as Iron and Salt does."""
+    label = "Iron and Salt character window"
+    require_kraken_widgets(iron_and_salt, ("agot_kraken_character_view",), label=label)
+    text = insert_after_line(
+        text,
+        "agot_dragons_character_view = {}",
+        "agot_kraken_character_view = {}",
+        label=f"{label} creature view",
+    )
+    # Both the AGOT-gated main content and CUIO's control strip; each alternate
+    # sheet supplies its own controls.
+    return replace_every(
+        text,
+        'visible = "[IsCharacterNormal]"',
+        kraken_visible("IsCharacterNormal", CHARACTER_WINDOW_SCOPE),
+        expected=2,
+        label=f"{label} normal-character gate",
+    )
+
+
+def generate_portraits(context: GenerationContext) -> dict[str, str]:
+    """Own every declaration of the three contested shared portrait types.
+
+    CK3 registers a GUI type from the *first* file that declares it in merged
+    path order, the opposite of the last-writer rule for same-path payload, so
+    which copy of `portrait_opinion` wins is decided by filename rather than by
+    load order.  Rather than depend on that, this module takes over all four
+    declaring files so exactly one declaration of each type survives.
+    """
+    cuio = pinned_text(context, "cuio", "gui/CUIO_portraits.gui")
+    agot = pinned_text(context, "agot", "gui/shared/portraits.gui")
+    kraken_opinion = pinned_text(
+        context, "iron-and-salt", "gui/shared/00_kraken_portrait_opinion.gui"
+    )
+    kraken_heads = pinned_text(
+        context, "iron-and-salt", "gui/shared/zz_kraken_list_portraits.gui"
+    )
+    label = "shared portrait types"
+
+    # Iron and Salt reproduces AGOT's small opinion badge and small head, so its
+    # copies stay authoritative; assert they are still AGOT plus the kraken
+    # branch rather than a stale fork.
+    agot_small_opinion = 'visible = "[And(And(Character.IsValid, Not(IsCharacterDragon)), And(Character.IsAlive, Not(Character.IsLocalPlayer)))]"'
+    kraken_small_opinion = "visible = \"[And(And(And(And(Character.IsValid, Character.IsAlive), Not(Character.IsLocalPlayer)), Not(IsCharacterDragon)), Not(Character.HasTrait(GetTrait('kraken'))))]\""
+    assert_reproduces(
+        extract_type(agot, "portrait_opinion_small", label=label),
+        extract_type(kraken_opinion, "portrait_opinion_small", label=label),
+        ((agot_small_opinion, kraken_small_opinion),),
+        label=f"{label}: portrait_opinion_small",
+    )
+    assert_reproduces(
+        extract_type(agot, "portrait_head_small", label=label),
+        extract_type(kraken_heads, "portrait_head_small", label=label),
+        (
+            (
+                "using = visible_if_not_dragon",
+                "visible = \"[And( Not( IsCharacterDragon ), Not( Character.HasTrait( GetTrait('kraken') ) ) )]\"",
+            ),
+            (
+                "agot_dragons_portrait_head_small = {}",
+                "agot_dragons_portrait_head_small = {}\nkraken_portrait_head_small = {}",
+            ),
+        ),
+        label=f"{label}: portrait_head_small",
+    )
+
+    # CUIO's dual opinion badge is the layout owner, but its copy predates AGOT
+    # and Iron and Salt: it shows a dread icon on dragons, an opinion value on
+    # faked deaths, and the badge itself on krakens.  Iron and Salt's own copy
+    # restores neither AGOT gate, so re-apply both here alongside the kraken one.
+    portraits = replace_once(
+        cuio,
+        'visible = "[And(Character.IsValid, And(Character.IsAlive, Not(Character.IsLocalPlayer)))]"',
+        kraken_visible(
+            "And(And(Character.IsValid, Not(IsCharacterDragon)),"
+            " And(Character.IsAlive, Not(Character.IsLocalPlayer)))"
+        ),
+        label=f"{label}: CUIO opinion badge",
+    )
+    portraits = replace_once(
+        portraits,
+        'visible = "[Character.ShouldShowDreadEffectIcon]"',
+        'visible = "[And(Not(IsCharacterDragon), Character.ShouldShowDreadEffectIcon)]"',
+        label=f"{label}: CUIO dread icon",
+    )
+    portraits = replace_every(
+        portraits,
+        'visible = "[Character.IsValid]"',
+        'visible = "[And(Character.IsValid, Not(IsCharacterFakeDead))]"',
+        expected=2,
+        label=f"{label}: CUIO opinion values",
+    )
+
+    outputs = {
+        "gui/CUIO_portraits.gui": portraits,
+        "gui/shared/00_kraken_portrait_opinion.gui": remove_type(
+            kraken_opinion, "portrait_opinion", label=f"{label}: Iron and Salt badge"
+        ),
+        "gui/shared/zz_kraken_list_portraits.gui": kraken_heads,
+        "gui/shared/portraits.gui": agot,
+    }
+    for name in ("portrait_opinion", "portrait_opinion_small", "portrait_head_small"):
+        outputs["gui/shared/portraits.gui"] = remove_type(
+            outputs["gui/shared/portraits.gui"], name, label=f"{label}: AGOT {name}"
+        )
+        declarations = sum(
+            len(re.findall(rf"(?m)^[ \t]*type\s+{name}\s*=", text))
+            for text in outputs.values()
+        )
+        if declarations != 1:
+            raise RuntimeError(
+                f"{label}: {name} is declared {declarations} times, expected 1"
+            )
+    return outputs
+
+
 def generate(context: GenerationContext) -> None:
     outputs: dict[str, str] = {}
     outputs["gui/interaction_declare_war.gui"] = generate_declare_war(context)
@@ -973,9 +1311,18 @@ def generate(context: GenerationContext) -> None:
         2,
         label="AGOT/MPD culture and trait tooltip",
     )
-    outputs["gui/shared/cooltip.gui"] = tooltip
-    outputs["gui/shared/lists.gui"] = generate_lists(context)
-    outputs["gui/window_character.gui"] = generate_character(context)
+    outputs["gui/shared/cooltip.gui"] = add_kraken_to_cooltip(
+        tooltip, pinned_text(context, "iron-and-salt", "gui/shared/cooltip.gui")
+    )
+    outputs["gui/shared/lists.gui"] = add_kraken_to_lists(
+        generate_lists(context),
+        pinned_text(context, "iron-and-salt", "gui/shared/lists.gui"),
+    )
+    outputs["gui/window_character.gui"] = add_kraken_to_character(
+        generate_character(context),
+        pinned_text(context, "iron-and-salt", "gui/window_character.gui"),
+    )
+    outputs.update(generate_portraits(context))
 
     factions = outputs["gui/window_factions.gui"]
     require_count(

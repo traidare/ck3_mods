@@ -1,0 +1,78 @@
+﻿######################################################
+################## PORTRAIT TYPES ####################
+######################################################
+
+types CUIOPortraitTypes
+{
+
+	## Opinion box for portraits - CUIO Enhanced with dual opinion display
+	## Based on game original shared/portraits.gui with layout fixes for dual opinion
+	type portrait_opinion = flowcontainer {
+		name = "tutorial_highlight_portrait_opinion"
+		visible = "[And(And(And(Character.IsValid, Not(IsCharacterDragon)), And(Character.IsAlive, Not(Character.IsLocalPlayer))), Not(GetScriptedGui('kraken_character_window').IsShown(GuiScope.SetRoot(Character.MakeScope).End)))]"
+		ignoreinvisible = yes
+
+		background = {
+			name = "portrait_opinion_bg"
+			texture = "gfx/interface/component_tiles/solid_black_label.dds"
+			spritetype = Corneredtiled
+			spriteborder = { 20 20 }
+			margin = { 3 1 }
+			texture_density = 2
+		}
+
+		icon = {
+			block "dread_logic" {
+				visible = "[And(Not(IsCharacterDragon), Character.ShouldShowDreadEffectIcon)]"
+				frame = "[Character.GetPlayerDreadEffectIconFrame]"
+				tooltip = "[Character.GetPlayerDreadEffectTooltip]"
+			}
+			name = "dread"
+			size = { 20 20 }
+			texture = "gfx/interface/icons/portraits/dread_values.dds"
+			framesize = { 40 40 }
+		}
+
+		icon = {
+			name = "historical_info_widget"
+			visible = "[GreaterThan_CFixedPoint( Character.MakeScope.Var('show_historical_gui').GetValue, '(CFixedPoint)0' )]"
+			size = { 20 20 }
+			texture = "gfx/interface/icons/historical_character.dds"
+			tooltip = "HISTORICAL_CHARACTER_TOOLTIP"
+		}
+
+		# Dual opinion display - character's opinion of player
+		text_single = {
+			name = "tutorial_highlight_character_view_opinion"
+			visible = "[And(Character.IsValid, Not(IsCharacterFakeDead))]"
+			max_width = 55
+			align = nobaseline
+			margin = { 2 0 }
+			tooltipwidget = character_opinion_tooltip
+			using = tooltip_es
+			default_format = "#true_white"
+
+			block "opinion_text" {
+				text = "[Character.GetOpinionOf( GetPlayer )|=]"
+				fonttintcolor = "[Character.GetOpinionOfTint( GetPlayer )]"
+			}
+		}
+
+		# Dual opinion display - player's opinion of character
+		text_single = {
+			name = "tutorial_highlight_character_view_opinion_player"
+			visible = "[And(Character.IsValid, Not(IsCharacterFakeDead))]"
+			max_width = 55
+			align = nobaseline
+			margin = { 2 0 }
+			tooltipwidget = character_opinion_tooltip_player
+			using = tooltip_es
+			default_format = "#true_white"
+
+			block "opinion_text_player" {
+				text = "[GetPlayer.GetOpinionOf( Character.Self )|=]"
+				fonttintcolor = "[GetPlayer.GetOpinionOfTint( Character.Self )]"
+			}
+		}
+	}
+}

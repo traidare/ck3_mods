@@ -1,15 +1,16 @@
 # AGOT Playset – Character UI Overhaul Compatch
 
-Compatibility owner for the eight GUI overlaps between Character UI Overhaul and
-the AGOT playset, plus Artifact Manager's two artifact-icon atlases.
+Compatibility owner for the GUI overlaps between Character UI Overhaul and the
+AGOT playset, plus Artifact Manager's two artifact-icon atlases.
 
 ## Requirements and load order
 
 Load after **A Game of Thrones**, **Better Barbershop**, **AGOT Dragon Wives**,
 **More Interactive Vassals**, **Artifact Manager**, **AGOT More Personality
 Depth**, its runtime rebase, **AGOT - More Personality Depth + Dragon Wives
-Compatch**, and **Character UI Overhaul**. Keep it before **AGOT Playset Runtime
-Fixes** and the final **AGOT Personal Playset Compatch**.
+Compatch**, **AGOT Iron and Salt**, and **Character UI Overhaul**. Keep it
+before **AGOT Playset Runtime Fixes** and the final **AGOT Personal Playset
+Compatch**.
 
 ## What it merges
 
@@ -46,5 +47,22 @@ grandparent and spouse rows are lifted into CUIO's first family row, and the
 expanded spouses view is CUIO's scrollbox carrying AGOT's secondary-spouses
 header.
 
+## Krakens
+
+AGOT Iron and Salt replaces the character sheet, the character lists, and the
+portrait tooltip so that human-only interface stays off krakens. On its own that
+undoes everything above, so its kraken handling is merged in here instead: the
+kraken tooltip, list rows, and character view all work, and the Character UI
+Overhaul layout is kept.
+
+Two long-standing display faults are corrected in the same place. Dragons drew a
+human sex icon in the portrait tooltip, and the opinion badge showed a dread
+icon on dragons and an opinion value on characters who had faked their death.
+
+## Notes
+
 Hometowns is deliberately not owned here — **AGOT Playset Runtime Fixes**
 remains its effective writer.
+
+The HUD, map icon, and creature-check parts of the Iron and Salt integration are
+handled by **AGOT Playset Compatch**.

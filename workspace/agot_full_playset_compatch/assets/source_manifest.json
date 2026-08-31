@@ -8,7 +8,11 @@
     "AMSB_LOV": "3762892081",
     "MDE_EGGS": "3388366564",
     "MDE_EVENTS": "3466228580",
-    "COW_NOW": "3742055253"
+    "COW_NOW": "3742055253",
+    "IRON_AND_SALT": "3781577713",
+    "DFP_AGOT": "3609763696",
+    "LOV_BRIDGE": "3719888822",
+    "GREAT_COUNCILS": "3621472324"
   },
   "versions": {
     "AGOT": "0.5.1",
@@ -18,7 +22,11 @@
     "AMSB_LOV": "1.5.3",
     "MDE_EGGS": "55.4",
     "MDE_EVENTS": "1.19.*",
-    "COW_NOW": "1.0.7.1"
+    "COW_NOW": "1.0.8",
+    "IRON_AND_SALT": "0.6.0",
+    "DFP_AGOT": "0",
+    "LOV_BRIDGE": "0.5.1-stage09d-postrelease-runtime-repair-rc7-2026-08-25",
+    "GREAT_COUNCILS": "1.77"
   },
   "files": {
     "NOW": {
@@ -113,8 +121,73 @@
     },
     "COW_NOW_DESCRIPTOR": {
       "path": "3742055253/descriptor.mod",
-      "sha256": "5d756506cbf6f9e241fde1fe102eadd2ec2d6729c7c63e4bfd23d910e006076c",
-      "size": 191
+      "sha256": "df516080f69117d701b75cff9dd45202b42c55307009a034b92d9c9bc8f072f5",
+      "size": 189
+    },
+    "AGOT_HUD": {
+      "path": "2962333032/gui/hud.gui",
+      "sha256": "aa5f754b763df4fa933109f2e20b4efd7b3f85bd6577f93b4b18efc437936d91",
+      "size": 216653
+    },
+    "AGOT_MAP_ICON": {
+      "path": "2962333032/gui/map_icon_layer.gui",
+      "sha256": "9748f281fb271856b7b4bfd21f50ec73ee4df54622236a5d2cb1ebc1d48c2d60",
+      "size": 147679
+    },
+    "AGOT_CHARACTER_TRIGGERS": {
+      "path": "2962333032/common/scripted_triggers/00_agot_character_triggers.txt",
+      "sha256": "2414f0faa1338a2fa4029a8d465a9581c70724cf5e981325a0a4355bd8cccaee",
+      "size": 4380
+    },
+    "IRON_AND_SALT_HUD": {
+      "path": "3781577713/gui/hud.gui",
+      "sha256": "4521a94ae64db363b5037d7a2acc00ff059a869590d7b1aa20cc266d928dcba8",
+      "size": 533330
+    },
+    "IRON_AND_SALT_MAP_ICON": {
+      "path": "3781577713/gui/map_icon_layer.gui",
+      "sha256": "21a8849258ce07a2672ea5624060685618e7ded6959e698505280074d611b2d9",
+      "size": 147833
+    },
+    "IRON_AND_SALT_TRIGGERS": {
+      "path": "3781577713/common/scripted_triggers/zz_kraken_character_triggers.txt",
+      "sha256": "6843f96713121877cbb0d30106d66af4c0e3f8d399a0c2a3ff9a2a7622e38add",
+      "size": 10082
+    },
+    "IRON_AND_SALT_DESCRIPTOR": {
+      "path": "3781577713/descriptor.mod",
+      "sha256": "08598bdf00a6db3aa650f0f0593b131094201fc3be1cdeaafa33e71d6aeecee7",
+      "size": 244
+    },
+    "DFP_AGOT_HUD": {
+      "path": "3609763696/gui/hud.gui",
+      "sha256": "76df67673317651afd126f257bc91373268614f46135588ddb8e76d9951a9cbd",
+      "size": 221978
+    },
+    "DFP_AGOT_DESCRIPTOR": {
+      "path": "3609763696/descriptor.mod",
+      "sha256": "2935daabfe2a1923ceb8978cb5535b83a36670ab150e9e789fb6322660f22d8b",
+      "size": 163
+    },
+    "LOV_BRIDGE_MAP_ICON": {
+      "path": "3719888822/gui/map_icon_layer.gui",
+      "sha256": "0274676f8fc2fc97575710871630286760623c9df480031cbec8d3cd0b80a2fe",
+      "size": 141553
+    },
+    "LOV_BRIDGE_DESCRIPTOR": {
+      "path": "3719888822/descriptor.mod",
+      "sha256": "d72391046f56759e6f971ac844ac83fefaa1aea825deaf618f8eec90aef9a08f",
+      "size": 287
+    },
+    "GREAT_COUNCILS_TRIGGERS": {
+      "path": "3621472324/common/scripted_triggers/zzz_Great_Councils_replaced_triggers.txt",
+      "sha256": "10eb1975b391d457e213659afaf5166320f44d13669a52a20e33eabbd69d9199",
+      "size": 805
+    },
+    "GREAT_COUNCILS_DESCRIPTOR": {
+      "path": "3621472324/descriptor.mod",
+      "sha256": "68b08ea32e0cadc4ba434af25f5216e6235424a1a1aeba8a45d1c8d3c0a04b83",
+      "size": 149
     }
   },
   "intent": {
@@ -125,6 +198,9 @@
     "regions": "rebase NOW tokens and cover LoV cleanup regions without ruins",
     "grandeur": "assert the AGOT+/LoV compatch still covers every AMSB court scene, so this module needs no grandeur_levels.txt override",
     "dragon_on_actions": "union the two mods that contest mde_yearly_on_actions.txt",
-    "cow_models": "assert the unenabled NOW-COW compatch's special-building model remaps are still carried by the hand-merged trigger"
+    "cow_models": "assert the unenabled NOW-COW compatch's special-building model remaps are still carried by the hand-merged trigger",
+    "iron_and_salt_hud": "merge Iron and Salt's naval and kraken HUD with Dynamic Family Portrait's AGOT stack and More Dragon Eggs portrait sizes",
+    "iron_and_salt_map_icon": "keep the kraken map icon without restoring the LoV bridge's removed find_elder datacontext",
+    "iron_and_salt_is_human": "combine AGOT's body with the Iron and Salt and Great Councils extensions under one later-sorting writer"
   }
 }

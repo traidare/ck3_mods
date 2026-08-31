@@ -24,6 +24,12 @@ genuine cross-mod overlaps that need a single deliberate winner.
 - The dragon on-action file shipped by both More Dragon Eggs and More Dragon
   Events, so the canon egg-clutch pulse and the extra owned-dragon events both
   keep working instead of one mod's file replacing the other's.
+- Iron and Salt's naval and kraken HUD with Dynamyc Family Portrait's AGOT
+  portrait stack and More Dragon Eggs' sized dragon portrait.
+- Iron and Salt's kraken map icon with the Legacy of Valyria AGOT bridge's map
+  icon correction.
+- Iron and Salt's kraken exclusion with AGOT's creature rules and Great
+  Councils' character exclusion.
 
 It also owns three cross-parent overrides of its own: the three historical Dance
 of the Dragons starts begin in autumn rather than waiting through summer, the
@@ -56,8 +62,12 @@ erroring when it evaluates raiding without a raider.
 13. `AGOT NOW + Legacy of Valyria + Essos Expanded Map Compatch`
 14. `AGOT NOW + Legacy of Valyria + Essos Expanded World Data`
 15. `AGOT NOW + Legacy of Valyria + Essos Expanded Lore Governments`
-16. `AGOT Playset Runtime Fixes`
-17. `AGOT Playset Compatch`
+16. `CK3 Naval Combat`
+17. `AGOT Iron and Salt`
+18. `Character UI Overhaul`
+19. `AGOT Playset - Character UI Overhaul Compatch`
+20. `AGOT Playset Runtime Fixes`
+21. `AGOT Playset Compatch`
 
 Disable these superseded compatch mods:
 

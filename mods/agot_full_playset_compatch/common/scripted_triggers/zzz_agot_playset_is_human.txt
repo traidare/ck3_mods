@@ -1,0 +1,30 @@
+﻿# The AGOT playset's single last writer for `is_human`.
+#
+# AGOT excludes dragons and dummy characters, Iron and Salt excludes
+# krakens, and Great Councils excludes flagged characters.  CK3 resolves
+# scripted triggers by filename across the merged file system, not by mod
+# position, so only one of those three files can win and the other two
+# clauses are lost.  This name sorts after all of them; re-audit whenever
+# a later-sorting writer of `is_human` joins the playset.
+is_human = {
+	NOT = { has_trait = dragon }
+	NOT = { has_trait = kraken }
+	NOT = { agot_is_dummy_character = yes }
+	trigger_if = {
+		limit = { exists = top_liege }
+		NOT = { agot_is_dummy_character = yes }
+	}
+	trigger_if = {
+		limit = { exists = employer }
+		NOT = {
+			employer = { agot_is_dummy_character = yes }
+		}
+		trigger_if = {
+			limit = { exists = employer.top_liege }
+			NOT = {
+				employer.top_liege = { agot_is_dummy_character = yes }
+			}
+		}
+	}
+	NOT = { has_character_flag = zzz_great_councils_disable } #AGC Added
+}

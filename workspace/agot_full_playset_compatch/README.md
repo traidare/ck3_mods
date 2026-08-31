@@ -22,13 +22,12 @@ Whole-file merges of paths that several parents genuinely contest:
   definitions, repaint actions, map modes, seasonal effects, GUI, situations,
   and localization.
 
-Beyond those merges the generated layer owns five cross-parent whole-file
-overrides: the three historical Dance-of-the-Dragons season starts (autumn
-rather than a summer-to-autumn delay), the shared Seasons shader skip threshold,
-the Seasons regional cleanup memberships, NOW's English and Spanish title names,
-and the contested dragon on-action file. The regional cleanup rebases
-`c_sallydance` and `d_greenbelt` onto NOW's tokens; it also keeps the Iron Isles
-specific and covers LoV regions without applying seasons to wilderness ruins.
+Beyond those merges the generated layer owns eight cross-parent whole-file
+overrides: the five seasonal, title-name, and dragon-on-action boundaries below,
+plus the three Iron and Salt boundaries described afterward. The regional
+cleanup rebases `c_sallydance` and `d_greenbelt` onto NOW's tokens; it also
+keeps the Iron Isles specific and covers LoV regions without applying seasons to
+wilderness ruins.
 
 `mde_yearly_on_actions.txt` is shipped by both AGOT More Dragon Eggs and AGOT -
 More Dragon Events, so the later of them drops the other's file whole. Their
@@ -40,6 +39,23 @@ files, and More Dragon Events' pulse is a copy of AGOT's 38 entries plus its own
 AGOT's entries a second time and halve the chance of no event firing. The
 generator asserts the copied part still matches AGOT's declaration exactly, so
 an upstream rebalance fails generation instead of being silently discarded.
+
+Iron and Salt adds three final-integration boundaries. Its `hud.gui` is the
+naval and kraken owner, while the Dynamic Family Portrait AGOT bridge owns the
+bottom-left family stack and carries More Dragon Eggs' sized dragon portrait.
+The generator three-way merges both AGOT-derived deltas and asserts the bridge's
+delta is reproduced exactly. Its `map_icon_layer.gui` similarly keeps the kraken
+icon while preserving the LoV AGOT bridge's removal of the stale
+`find_elder_interaction` datacontext.
+
+The generated `zzz_agot_playset_is_human.txt` is the single final writer for
+`is_human`. CK3 resolves scripted-trigger definitions by filename across the
+merged VFS, so Great Councils' `zzz_Great_Councils_replaced_triggers.txt` sorts
+after Iron and Salt's `zz_kraken_character_triggers.txt` and would otherwise
+drop the kraken exclusion. The generator asserts that both parent definitions
+remain AGOT's body plus exactly one clause, then emits AGOT's dragon and dummy
+guards with the kraken and Great Councils exclusions together. Re-audit when a
+later-sorting `is_human` writer joins the playset.
 
 The title-name overrides are NOW's files verbatim plus the three barony names
 the NOW-COW province remap needs — `b_breakwater_castle`, `b_breakwater_watch`,
@@ -133,12 +149,15 @@ ck3mm mod generate agot_full_playset_compatch --apply
 ```
 
 The `mod.toml` manifest regenerates the owned outputs from the declared AGOT,
-NOW, Seasons-fork, and dragon-mod sources, and declares the Additional Models,
-AGOT+/LoV compatch, and COW-AGOT/NOW sources that back the two assertions above.
-Its portable source metadata lives here, outside the installed runtime payload.
+NOW, Seasons-fork, dragon-mod, Iron and Salt, Dynamic Family Portrait, LoV
+bridge, and Great Councils sources. It also declares the Additional Models,
+AGOT+/LoV compatch, and disabled COW-AGOT/NOW source that back the assertions
+above. Its portable source metadata lives here, outside the installed runtime
+payload.
 
 ## Re-audit
 
 Re-audit whenever any merged parent updates — in particular NOW, the
-Seasons-of-Valyria Workshop fork, LoV, MFA, COW, or CaFG — since every owned
-file is a whole-file merge that silently absorbs upstream changes.
+Seasons-of-Valyria Workshop fork, LoV, MFA, COW, CaFG, Iron and Salt, Dynamic
+Family Portrait, or Great Councils — since every owned file is a whole-file
+merge that silently absorbs upstream changes.
