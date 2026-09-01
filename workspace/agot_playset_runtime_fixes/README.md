@@ -83,11 +83,15 @@ integration stays in `agot_full_playset_compatch`.
   when checking whether a reveal-bastard story can start. This prevents unlanded
   interaction recipients from repeatedly failing the context switch. Its dynasty
   on-actions are also rebased onto current AGOT while preserving the human
-  dynasty-name event. The generated last writer makes `on_became_dynasty_head`
-  inert instead of synchronously removing `denounced` and `disinherited`. Its
-  title-gain house-head effect also makes all nine new-ruler `capital_province`
-  switches nullable, preventing landless pirate creation from returning an unset
-  scope through global `on_title_gain`.
+  dynasty-name event. The exact repeated signature is
+  `Caught signal 11 (SIGSEGV)` with the faulting worker at
+  `common/on_action/dynasty_on_actions.txt (on_became_dynasty_head)`. Making its
+  effect empty still registered the same faulting effect chain, so the generated
+  last writer now queues a hidden cleanup event one day later instead of
+  synchronously removing `denounced` and `disinherited`. Its title-gain
+  house-head effect also makes all nine new-ruler `capital_province` switches
+  nullable, preventing landless pirate creation from returning an unset scope
+  through global `on_title_gain`.
 - **Additional Models decision illustrations:** replaces three references to the
   parent's nonexistent `agot_court/throne.dds` with AGOT's existing Iron Throne
   room illustration.

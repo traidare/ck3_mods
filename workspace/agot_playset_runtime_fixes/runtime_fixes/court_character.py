@@ -423,14 +423,17 @@ def generate_house_founders_title_gain_capital_guards(inputs: RunInputs) -> None
 
 
 def generate_house_founders_dynasty_on_action_rebase(inputs: RunInputs) -> None:
-    """Preserve House Founders naming without mutating a new dynasty head.
+    """Preserve House Founders naming and defer dynasty-head trait cleanup.
 
-    The faulting worker stack in 23 of 35 retained crash dumps, including all four
-    2026-08-12 crashes, was executing ``on_became_dynasty_head`` from House
-    Founders' effective same-path override.  Its two synchronous trait removals
-    mutate character and succession state while CK3 is still changing the
-    dynasty head.  Keep House Founders' human dynasty-name event, but make that
-    small vanilla/AGOT cleanup callback inert.
+    Retained crash dumps repeatedly place the faulting worker in
+    ``on_became_dynasty_head`` from House Founders' effective same-path
+    override.  Its two synchronous trait removals mutate character and
+    succession state while CK3 is still changing the dynasty head.  Making the
+    effect block empty was insufficient: three subsequent dumps retained the
+    same instruction-offset stack and pointed directly at that empty effect.
+    Keep House Founders' human dynasty-name event, but move the vanilla/AGOT
+    cleanup into a hidden event delayed by one day so no effect chain runs
+    inside the code-driven callback.
     """
     relative = "common/on_action/dynasty_on_actions.txt"
     agot_source = read_text(inputs.WORKSHOP / "2962333032" / relative)
@@ -516,22 +519,52 @@ def generate_house_founders_dynasty_on_action_rebase(inputs: RunInputs) -> None:
         "b61538aa1cb1d1bf7f8ec3a8ed19913fbcbd0f485e9f40cb70e24b7d3c50ce04",
         label="AGOT dynasty-head on-action",
     )
-    guarded_dynasty_head = """on_became_dynasty_head = {
-\t# Runtime guard: do not remove traits while CK3 is changing dynasty heads.
-\teffect = { }
+    deferred_dynasty_head = """on_became_dynasty_head = {
+\tevents = {
+\t\tdelay = { days = 1 }
+\t\tagot_playset_runtime.0001
+\t}
 }"""
     rebased = replace_exact(
         rebased,
         dynasty_head,
-        guarded_dynasty_head,
+        deferred_dynasty_head,
         expected=1,
-        label="dynasty-head synchronous trait cleanup",
+        label="deferred dynasty-head trait cleanup",
     )
     write_text(
         inputs.OUTPUT,
         relative,
         "# Runtime rebase: preserve House Founders naming and avoid dynasty-head "
         "re-entrancy.\n\n" + rebased,
+    )
+    write_text(
+        inputs.OUTPUT,
+        "events/agot_playset_runtime_events.txt",
+        """namespace = agot_playset_runtime
+
+# Run outside the code-driven dynasty-head transition. The synchronous effect
+# chain, including an empty effect block, produces a repeatable CK3 1.19 SIGSEGV.
+agot_playset_runtime.0001 = {
+\thidden = yes
+\ttrigger = {
+\t\tOR = {
+\t\t\thas_trait = denounced
+\t\t\thas_trait = disinherited
+\t\t}
+\t}
+\timmediate = {
+\t\tif = {
+\t\t\tlimit = { has_trait = denounced }
+\t\t\tremove_trait = denounced
+\t\t}
+\t\tif = {
+\t\t\tlimit = { has_trait = disinherited }
+\t\t\tremove_trait = disinherited
+\t\t}
+\t}
+}
+""",
     )
 
 

@@ -1,0 +1,23 @@
+﻿namespace = agot_playset_runtime
+
+# Run outside the code-driven dynasty-head transition. The synchronous effect
+# chain, including an empty effect block, produces a repeatable CK3 1.19 SIGSEGV.
+agot_playset_runtime.0001 = {
+	hidden = yes
+	trigger = {
+		OR = {
+			has_trait = denounced
+			has_trait = disinherited
+		}
+	}
+	immediate = {
+		if = {
+			limit = { has_trait = denounced }
+			remove_trait = denounced
+		}
+		if = {
+			limit = { has_trait = disinherited }
+			remove_trait = disinherited
+		}
+	}
+}

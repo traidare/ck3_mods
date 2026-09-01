@@ -83,8 +83,10 @@ on_dynasty_created = {
 # scope:dynasty = <dynasty>
 # new dynasty head and dynasty affected
 on_became_dynasty_head = {
-	# Runtime guard: do not remove traits while CK3 is changing dynasty heads.
-	effect = { }
+	events = {
+		delay = { days = 1 }
+		agot_playset_runtime.0001
+	}
 }
 
 # root = <character>
