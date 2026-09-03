@@ -944,9 +944,12 @@ travel_events.4003 = {
 				send_interface_toast = {
 					title = travel_events.4003.defeated_by_vikings
 					left_icon = scope:viking_scope
-					death = {
-						killer = scope:viking_scope
-						death_reason = death_fight
+					if = {
+						limit = { agot_ce_event_death_protected_trigger = no }
+						death = {
+							killer = scope:viking_scope
+							death_reason = death_fight
+						}
 					}
 				}
 			}
@@ -1036,9 +1039,12 @@ travel_events.4003 = {
 					value = scope:duel_value
 					multiplier = -0.5
 				}
-				death = {
-					killer = scope:viking_scope
-					death_reason = death_fight
+				if = {
+					limit = { agot_ce_event_death_protected_trigger = no }
+					death = {
+						killer = scope:viking_scope
+						death_reason = death_fight
+					}
 				}
 			}
 		}
@@ -1112,9 +1118,12 @@ travel_events.4003 = {
 					value = scope:duel_value
 					multiplier = -0.5
 				}
-				death = {
-					killer = scope:viking_scope
-					death_reason = death_fight
+				if = {
+					limit = { agot_ce_event_death_protected_trigger = no }
+					death = {
+						killer = scope:viking_scope
+						death_reason = death_fight
+					}
 				}
 			}
 		}
@@ -1866,8 +1875,11 @@ travel_events.4007 = {
 								left_icon = root
 								random_in_list = {
 									list = drowning_courtiers_list
-									death = {
-										death_reason = death_drowned
+									if = {
+										limit = { agot_ce_event_death_protected_trigger = no }
+										death = {
+											death_reason = death_drowned
+										}
 									}
 								}
 							}
@@ -1888,8 +1900,11 @@ travel_events.4007 = {
 								left_icon = root
 								every_in_list = {
 									list = drowning_courtiers_list
-									death = {
-										death_reason = death_drowned
+									if = {
+										limit = { agot_ce_event_death_protected_trigger = no }
+										death = {
+											death_reason = death_drowned
+										}
 									}
 								}
 							}
@@ -1951,8 +1966,11 @@ travel_events.4007 = {
 						left_icon = root
 						every_in_list = {
 							list = drowning_courtiers_list
-							death = {
-								death_reason = death_drowned
+							if = {
+								limit = { agot_ce_event_death_protected_trigger = no }
+								death = {
+									death_reason = death_drowned
+								}
 							}
 						}
 						add_prestige = medium_prestige_loss
@@ -1969,8 +1987,11 @@ travel_events.4007 = {
 					title = you_drown_tt
 					left_icon = root
 					add_prestige = medium_prestige_loss
-					death = {
-						death_reason = death_drowned
+					if = {
+						limit = { agot_ce_event_death_protected_trigger = no }
+						death = {
+							death_reason = death_drowned
+						}
 					}
 				}
 			}
@@ -5776,8 +5797,11 @@ travel_events.4032 = {
 						left_icon = root
 						increase_wounds_effect = { REASON = wild_animal }
 						scope:cowardly_knight_scope = {
-							death = {
-								death_reason = death_wild_animal
+							if = {
+								limit = { agot_ce_event_death_protected_trigger = no }
+								death = {
+									death_reason = death_wild_animal
+								}
 							}
 						}
 					}
@@ -5859,8 +5883,11 @@ travel_events.4032 = {
 					left_icon = root
 					increase_wounds_effect = { REASON = wild_animal }
 					scope:cowardly_knight_scope = {
-						death = {
-							death_reason = death_wild_animal
+						if = {
+							limit = { agot_ce_event_death_protected_trigger = no }
+							death = {
+								death_reason = death_wild_animal
+							}
 						}
 					}
 				}
@@ -5897,8 +5924,11 @@ travel_events.4032 = {
 	option = {
 		name = travel_events.4032.c
 		scope:cowardly_knight_scope = {
-			death = {
-				death_reason = death_wild_animal
+			if = {
+				limit = { agot_ce_event_death_protected_trigger = no }
+				death = {
+					death_reason = death_wild_animal
+				}
 			}
 		}
 		stress_impact = {

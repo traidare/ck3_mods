@@ -334,8 +334,11 @@ host_dinner_events.1002 = {
 				}
 			}
 			1 = {
-				death = {
-					death_reason = death_drank_to_death
+				if = {
+					limit = { agot_ce_event_death_protected_trigger = no }
+					death = {
+						death_reason = death_drank_to_death
+					}
 				}
 			}
 		}
@@ -8310,8 +8313,11 @@ host_dinner_events.3060 = {
 			}
 			1 = { # You eat so much that you die
 				show_as_tooltip = {
-					death = {
-						death_reason = death_too_much_dessert
+					if = {
+						limit = { agot_ce_event_death_protected_trigger = no }
+						death = {
+							death_reason = death_too_much_dessert
+						}
 					}
 				}
 				hidden_effect = { trigger_event = host_dinner_events.3061 }
@@ -8399,8 +8405,11 @@ host_dinner_events.3061 = {
 	}
 
 	immediate = {
-		death = {
-			death_reason = death_too_much_dessert
+		if = {
+			limit = { agot_ce_event_death_protected_trigger = no }
+			death = {
+				death_reason = death_too_much_dessert
+			}
 		}
 	}
 
@@ -8763,8 +8772,11 @@ host_dinner_events.3080 = {
 					left_icon = root
 					add_prestige = minor_prestige_loss
 					scope:choking_character_scope = {
-						death = {
-							death_reason = death_choked
+						if = {
+							limit = { agot_ce_event_death_protected_trigger = no }
+							death = {
+								death_reason = death_choked
+							}
 						}
 					}
 				}
@@ -8793,8 +8805,11 @@ host_dinner_events.3080 = {
 	option = { # Not my problem nail_care_emoji.jpeg
 		name = host_dinner_events.3080.b
 		scope:choking_character_scope = {
-			death = {
-				death_reason = death_choked
+			if = {
+				limit = { agot_ce_event_death_protected_trigger = no }
+				death = {
+					death_reason = death_choked
+				}
 			}
 		}
 		if = {

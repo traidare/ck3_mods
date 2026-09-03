@@ -10,6 +10,7 @@ from .common import (
     assert_source_file_hash,
     extract_top_level_block,
     game_root,
+    guard_event_deaths,
     unwrap_unconditional_random_pool_ifs,
 )
 from .context import RunInputs
@@ -760,6 +761,16 @@ def generate_agot_tour_events(inputs: RunInputs) -> None:
         expected=1,
         label="AGOT host dinner 3080 saved-scope guard",
     )
+    # Canon-enforcement guards for the dinner's accidents: drinking or eating oneself
+    # to death, and choking. The murder and execution branches in this file are
+    # chosen deaths and stay reachable.
+    for event_key, deaths in (
+        ("host_dinner_events.1002", 1),
+        ("host_dinner_events.3060", 1),
+        ("host_dinner_events.3061", 1),
+        ("host_dinner_events.3080", 2),
+    ):
+        text = guard_event_deaths(text, event_key, expected=deaths)
     write_text(inputs.OUTPUT, relative, text)
 
     relative = "events/activities/tour_activity/tour_general_events.txt"

@@ -1,0 +1,60 @@
+﻿l_english:
+
+ # Game rules
+ game_rule_category_agot_ce:0 "Canon Enforcement"
+
+ rule_agot_ce_protection:0 "Protect Canon Characters"
+ setting_agot_ce_protection_enabled:0 "Enabled"
+ setting_agot_ce_protection_enabled_desc:0 "Canon parents, and anyone marked by hand, are shielded from random deaths for as long as they hold the canon children health boost."
+ setting_agot_ce_protection_disabled:0 "Disabled"
+ setting_agot_ce_protection_disabled_desc:0 "No one is shielded. Every other rule in this category has no effect."
+
+ rule_agot_ce_travel:0 "Canon Protection: Travel"
+ setting_agot_ce_travel_enabled:0 "Enabled"
+ setting_agot_ce_travel_enabled_desc:0 "Protected characters travel with overwhelming safety, so storms at sea, bandits, floods and the other travel dangers are not selected on journeys they lead."
+ setting_agot_ce_travel_disabled:0 "Disabled"
+ setting_agot_ce_travel_disabled_desc:0 "Protected characters face the ordinary risks of the road."
+
+ rule_agot_ce_battle:0 "Canon Protection: Battle"
+ setting_agot_ce_battle_enabled:0 "Enabled"
+ setting_agot_ce_battle_enabled_desc:0 "Protected characters are barred from serving as knights, keeping them out of battlefield casualty rolls, and cannot be killed as commanders."
+ setting_agot_ce_battle_disabled:0 "Disabled"
+ setting_agot_ce_battle_disabled_desc:0 "Protected characters fight and fall like anyone else."
+
+ rule_agot_ce_duels:0 "Canon Protection: Duels"
+ setting_agot_ce_duels_avoid:0 "Avoid Duels"
+ setting_agot_ce_duels_avoid_desc:0 "Protected characters are never offered a duel on the battlefield. They do not become better duellists, they simply are not challenged."
+ setting_agot_ce_duels_plot_armor:0 "Unbeatable"
+ setting_agot_ce_duels_plot_armor_desc:0 "Protected characters cannot lose and cannot die in single combat."
+ setting_agot_ce_duels_disabled:0 "Disabled"
+ setting_agot_ce_duels_disabled_desc:0 "Protected characters duel normally, and can die doing it."
+
+ rule_agot_ce_event_guards:0 "Canon Protection: Accidents"
+ setting_agot_ce_event_guards_enabled:0 "Enabled"
+ setting_agot_ce_event_guards_enabled_desc:0 "Protected characters survive accidental deaths: krakens, drownings, failed treatments, tournament accidents, dragon hatchings, natural disasters and the like. Murder, execution and poisoning are untouched."
+ setting_agot_ce_event_guards_disabled:0 "Disabled"
+ setting_agot_ce_event_guards_disabled_desc:0 "Accidents kill protected characters as usual."
+
+ rule_agot_ce_manual_marking:0 "Canon Protection: Manual Marking"
+ setting_agot_ce_manual_marking_enabled:0 "Enabled"
+ setting_agot_ce_manual_marking_enabled_desc:0 "Adds a decision and an interaction for protecting or exposing a character by hand."
+ setting_agot_ce_manual_marking_disabled:0 "Disabled"
+ setting_agot_ce_manual_marking_disabled_desc:0 "Only canon parents are protected, and only automatically."
+
+ # Modifier
+ agot_ce_protection_modifier:0 "Bound to Canon"
+
+ # Interaction
+ agot_ce_toggle_protection_interaction:0 "Bind to Canon"
+ agot_ce_toggle_protection_interaction_desc:0 "Decide whether [recipient.GetShortUINameNoTooltip] is spared the accidents that carry off lesser folk"
+
+ # Decisions
+ agot_ce_protect_self_decision:0 "Bind Yourself to Canon"
+ agot_ce_protect_self_decision_desc:0 "Some deaths are simply not yours to die. Storms will pass you by, and no melee accident will claim you."
+ agot_ce_protect_self_decision_tooltip:0 "Protect yourself from accidental death"
+ agot_ce_protect_self_decision_confirm:0 "Survive"
+
+ agot_ce_unprotect_self_decision:0 "Release Yourself from Canon"
+ agot_ce_unprotect_self_decision_desc:0 "Face the road, the field and the physician's knife on the same terms as everyone else."
+ agot_ce_unprotect_self_decision_tooltip:0 "Give up your protection from accidental death"
+ agot_ce_unprotect_self_decision_confirm:0 "Take the Risk"

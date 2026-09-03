@@ -1,0 +1,50 @@
+﻿# Additive hooks only. An on_action cannot carry a second trigger or effect
+# block, so this module extends existing on_actions with its own instead of
+# overriding any file.
+
+on_game_start_after_lobby = {
+	on_actions = {
+		delay = { days = 1 }
+		agot_ce_on_game_start
+	}
+}
+
+# The delay lets the canon-children initialization finish first, so the sweep
+# sees the health boost modifier it keys off.
+agot_ce_on_game_start = {
+	effect = {
+		every_living_character = {
+			limit = { agot_ce_is_protected_trigger = yes }
+			agot_ce_apply_protection_effect = yes
+		}
+	}
+}
+
+# Protected characters are frequently unlanded courtiers, so the playable
+# pulses would miss them. The trigger keeps the yearly cost to one modifier or
+# flag check per character.
+random_yearly_everyone_pulse = {
+	on_actions = {
+		agot_ce_maintenance
+	}
+}
+
+agot_ce_maintenance = {
+	trigger = {
+		OR = {
+			agot_ce_is_protected_trigger = yes
+			has_character_modifier = agot_ce_protection_modifier
+			has_character_flag = agot_ce_knight_forbidden
+		}
+	}
+
+	effect = {
+		if = {
+			limit = { agot_ce_is_protected_trigger = yes }
+			agot_ce_apply_protection_effect = yes
+		}
+		else = {
+			agot_ce_clear_protection_effect = yes
+		}
+	}
+}

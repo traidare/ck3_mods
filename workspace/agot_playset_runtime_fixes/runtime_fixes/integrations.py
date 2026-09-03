@@ -9,6 +9,7 @@ from .common import (
     assert_source_block_hash,
     extract_top_level_block,
     game_root,
+    guard_event_deaths,
     remove_enclosing_block,
 )
 from .context import RunInputs
@@ -97,6 +98,14 @@ def generate_baie_rebases(inputs: RunInputs) -> None:
         expected=1,
         label="BAIE feral-child travel-event rebase",
     )
+    # Canon-enforcement guards for the accidental deaths in this file: the viking
+    # fight, drowning in a storm at sea, and the wild-animal attack.
+    for event_key, deaths in (
+        ("travel_events.4003", 3),
+        ("travel_events.4007", 4),
+        ("travel_events.4032", 3),
+    ):
+        agot_travel = guard_event_deaths(agot_travel, event_key, expected=deaths)
     write_text(inputs.OUTPUT, travel_relative, normalize_rebased_source(agot_travel))
 
     interaction_relative = "common/character_interactions/00_education_interactions.txt"
@@ -404,6 +413,20 @@ def generate_deadly_ck3_health_location_guards(inputs: RunInputs) -> None:
         expected=1,
         label="Deadly CK3 AGOT health event in-place replacement",
     )
+    # Canon-enforcement guards for the deaths this file inflicts without the character
+    # choosing them: a treatment that goes wrong, and the mysterious death of
+    # an incapacitated character.
+    for event_key, deaths in (
+        ("health.3107", 1),
+        ("health.3200", 1),
+        ("health.4105", 1),
+        ("health.6200", 2),
+        ("health.6203", 1),
+        ("health.6204", 1),
+        ("health.6207", 1),
+        ("health.6208", 1),
+    ):
+        source = guard_event_deaths(source, event_key, expected=deaths)
     source = normalize_rebased_source(source)
     (inputs.OUTPUT / "events/zz_agot_runtime_health_events.txt").unlink(missing_ok=True)
     write_text(inputs.OUTPUT, relative, source)

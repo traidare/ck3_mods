@@ -11,7 +11,11 @@ import re
 from gen.script import normalize_rebased_source, read_text, write_text
 from gen.text import replace_exact
 
-from .common import assert_source_block_hash, assert_source_file_hash
+from .common import (
+    assert_source_block_hash,
+    assert_source_file_hash,
+    guard_event_deaths,
+)
 from .context import RunInputs
 
 
@@ -362,4 +366,9 @@ def generate_kraken_event_parser_repair(inputs: RunInputs) -> None:
         label="Iron and Salt kraken events",
     )
     source = strip_unsupported_override_environments(read_text(path))
+    # A kraken taking a traveller is an accident, so protected characters are
+    # spared it: the entourage victim in kraken.0100, the travel plan owner
+    # when no entourage member is available, and the challenger in kraken.1105.
+    source = guard_event_deaths(source, "kraken.0100", expected=2)
+    source = guard_event_deaths(source, "kraken.1105", expected=1)
     write_text(inputs.OUTPUT, relative, normalize_rebased_source(source))

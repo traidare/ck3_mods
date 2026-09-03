@@ -173,6 +173,52 @@ def extract_top_level_block(text: str, key: str) -> str:
     return text[match.start() : end + 1]
 
 
+def guard_event_deaths(text: str, event_key: str, *, expected: int) -> str:
+    """Let AGOT: Canon Enforcement spare its protected characters in one event.
+
+    Every `death` effect in the event is wrapped, rather than named branches,
+    so an upstream release that adds or drops a lethal outcome fails the
+    expected count instead of leaving the new one unguarded. Only events whose
+    deaths are accidental belong here; murder, execution and poisoning are
+    chosen deaths and stay reachable.
+
+    The guard trigger is defined by the AGOT: Canon Enforcement module.
+    """
+    block = extract_top_level_block(text, event_key)
+    matches = list(re.finditer(r"(?m)^([ \t]*)death\s*=\s*\{", block))
+    if len(matches) != expected:
+        raise RuntimeError(
+            f"{event_key}: expected {expected} death effect(s) to guard, "
+            f"found {len(matches)}"
+        )
+
+    guarded = block
+    for match in reversed(matches):
+        indent = match.group(1)
+        opening = guarded.index("{", match.start())
+        end = balanced_brace_end(guarded, opening)
+        body = "\n".join(
+            f"\t{line}" if line.strip() else line
+            for line in guarded[match.start() : end + 1].splitlines()
+        )
+        guarded = (
+            guarded[: match.start()]
+            + f"{indent}if = {{\n"
+            + f"{indent}\tlimit = {{ agot_ce_event_death_protected_trigger = no }}\n"
+            + f"{body}\n"
+            + f"{indent}}}"
+            + guarded[end + 1 :]
+        )
+
+    return replace_exact(
+        text,
+        block,
+        guarded,
+        expected=1,
+        label=f"{event_key} canon-enforcement guard",
+    )
+
+
 def replace_numbered_branch_with_constant(
     text: str, number: int, value: bool, *, label: str
 ) -> str:

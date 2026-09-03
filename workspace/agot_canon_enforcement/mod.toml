@@ -1,0 +1,55 @@
+[generator]
+entrypoint = "implementation.py:generate"
+owned_outputs = [
+  "common/combat_phase_events/zzzz_agot_ce_commander_phase_events.txt",
+  "common/scripted_effects/zzzz_agot_ce_natural_disaster_effects.txt",
+  "common/scripted_effects/zzzz_agot_ce_tournament_effects.txt",
+]
+
+# Rebased definitions.
+
+[[sources]]
+name = "agot-commander-phase-events"
+kind = "workshop"
+item_id = "2962333032"
+path = "common/combat_phase_events/00_commander_phase_events.txt"
+
+[[sources]]
+name = "agot-natural-disaster-effects"
+kind = "workshop"
+item_id = "2962333032"
+path = "common/scripted_effects/10_dlc_tgp_natural_disaster_scripted_effects.txt"
+
+[[sources]]
+name = "agot-tournament-effects"
+kind = "workshop"
+item_id = "2962333032"
+path = "common/scripted_effects/04_dlc_ep2_tournament_effects.txt"
+
+# Assertion-only sources. They emit no output; they exist so that an upstream
+# change to the markers this module depends on fails generation instead of
+# silently disabling protection.
+
+[[sources]]
+name = "canon-children-modifiers"
+kind = "workshop"
+item_id = "3664962140"
+path = "common/modifiers/00_agot_canon_children_easy_mode_modifiers.txt"
+
+[[sources]]
+name = "battle-events-phase-events"
+kind = "workshop"
+item_id = "3287741117"
+path = "common/combat_phase_events/mfb_combat_phase_events.txt"
+
+[[sources]]
+name = "battle-events-agot-phase-events"
+kind = "workshop"
+item_id = "3415188429"
+path = "common/combat_phase_events/zz_mfb_combat_phase_events.txt"
+
+[[sources]]
+name = "duels-blademasters-phase-events"
+kind = "workshop"
+item_id = "3720557758"
+path = "common/combat_phase_events/00_db_combat_phase_events.txt"

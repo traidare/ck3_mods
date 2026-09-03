@@ -115,6 +115,16 @@ nineteen of that parent's entries, and a province it stops carrying reverts —
 the Bloodlines game-start guard exists to work around. Re-audit whenever
 Workshop `3664900993` changes that file.
 
+## Canon-enforcement guard
+
+The merged dragon-hatching activity carries one guard. Both
+`activity_dragon_hatching` and `activity_dragon_hatching_no_dlc` kill the host
+in `on_complete` when the hatching went wrong, and that `limit` now also
+requires `agot_ce_event_death_protected_trigger = no`, a trigger the AGOT: Canon
+Enforcement module defines and its own game rule switches off. Guests flagged by
+the same catastrophe die in AGOT's hatching events file, which this module does
+not own, so they are unaffected.
+
 ## Repairs owned elsewhere
 
 This module deliberately does not carry runtime repairs. The accompanying narrow

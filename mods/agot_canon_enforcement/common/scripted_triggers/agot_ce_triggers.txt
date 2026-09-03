@@ -1,0 +1,27 @@
+﻿# Population gate for protection against random, unchosen deaths.
+#
+# The protected set is whoever AGOT: Canon Children EZ Mode is currently
+# keeping alive with its health boost, plus anyone marked by hand. Reading the
+# EZ Mode modifier rather than the canon_parent trait ties this module's window
+# to that mod's own protection window (last canon child's birth year + 5), so
+# protection lapses when the health boost does instead of lasting for life.
+
+agot_ce_is_protected_trigger = {
+	has_game_rule = agot_ce_protection_enabled
+	OR = {
+		has_character_modifier = canon_children_easy_mode_health_boost_modifier
+		has_character_flag = agot_ce_protected
+	}
+}
+
+# The only trigger the guarded death sites in other modules call.
+agot_ce_event_death_protected_trigger = {
+	has_game_rule = agot_ce_event_guards_enabled
+	agot_ce_is_protected_trigger = yes
+}
+
+# Used by the generated commander_killed redefinition.
+agot_ce_battle_protected_trigger = {
+	has_game_rule = agot_ce_battle_enabled
+	agot_ce_is_protected_trigger = yes
+}

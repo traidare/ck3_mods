@@ -10,6 +10,17 @@ The module owns same-path rebases of the MFA whole-file overrides it repairs.
 MFA's additive files remain supplied by the Workshop parent and are not copied
 here.
 
+## Canon-enforcement guards
+
+`tournament_events.txt` carries the guards for the tournament deaths a
+contestant does not choose: the pas d'armes bouts `1110`, `1141` and `1151`, the
+disappearance in `1230`, and the collapsing stands in `1280`. Each wraps its
+`death` in `agot_ce_event_death_protected_trigger = no`, a trigger the AGOT:
+Canon Enforcement module defines and its own game rule switches off. The
+duplicate deaths inside `show_as_tooltip` are display copies of those same
+outcomes and are left alone. The melee accident is not guarded here; it runs
+through `tournament_accidental_death_effect`, which that module redefines.
+
 ## Repairs and evidence
 
 - **`tradition_land_of_the_bow`.** MFA restores vanilla's tournament block for a

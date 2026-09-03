@@ -8727,9 +8727,12 @@ health.3107 = {
 		#Message for close relatives, or punishment event if relative is your liege
 		inform_liege_about_disease_treatment_effect = { TREATMENT = risky OUTCOME = death }
 
-		death = {
-			death_reason = death_treatment
-			killer = scope:physician
+		if = {
+			limit = { agot_ce_event_death_protected_trigger = no }
+			death = {
+				death_reason = death_treatment
+				killer = scope:physician
+			}
 		}
 	}
 
@@ -9329,9 +9332,12 @@ health.3200 = {
 			show_as_tooltip = {
 				play_music_cue = "mx_cue_death"
 				scope:sick_character = {
-					death = {
-						death_reason = death_treatment
-						killer = scope:physician
+					if = {
+						limit = { agot_ce_event_death_protected_trigger = no }
+						death = {
+							death_reason = death_treatment
+							killer = scope:physician
+						}
 					}
 				}
 			}
@@ -10558,9 +10564,12 @@ health.4105 = {
 		#Message for close relatives, or punishment event if relative is your liege
 		inform_liege_about_wound_treatment_effect = { TREATMENT = risky OUTCOME = death }
 
-		death = {
-			death_reason = death_treatment
-			killer = scope:physician
+		if = {
+			limit = { agot_ce_event_death_protected_trigger = no }
+			death = {
+				death_reason = death_treatment
+				killer = scope:physician
+			}
 		}
 	}
 
@@ -11776,8 +11785,11 @@ health.6200 = {
 				50 = {
 					desc = health.6200.a_success
 					show_chance = no
-					death = {
-						death_reason = death_mysterious
+					if = {
+						limit = { agot_ce_event_death_protected_trigger = no }
+						death = {
+							death_reason = death_mysterious
+						}
 					}
 				}
 				50 = {
@@ -11813,8 +11825,11 @@ health.6200 = {
 				50 = {
 					desc = health.6200.b_success
 					show_chance = no
-					death = {
-						death_reason = death_mysterious
+					if = {
+						limit = { agot_ce_event_death_protected_trigger = no }
+						death = {
+							death_reason = death_mysterious
+						}
 					}
 				}
 				50 = {
@@ -11864,8 +11879,11 @@ health.6203 = {
 		name = health.6203.a
 		show_as_tooltip = {
 			scope:incapable_person = {
-				death = {
-					death_reason = death_mysterious
+				if = {
+					limit = { agot_ce_event_death_protected_trigger = no }
+					death = {
+						death_reason = death_mysterious
+					}
 				}
 			}
 		}
@@ -12006,8 +12024,11 @@ health.6204 = {
 	}
 
 	immediate = {
-		death = {
-			death_reason = death_mysterious
+		if = {
+			limit = { agot_ce_event_death_protected_trigger = no }
+			death = {
+				death_reason = death_mysterious
+			}
 		}
 	}
 
@@ -12122,8 +12143,11 @@ health.6207 = {
 				50 = {
 					desc = health.6207.a_success
 					show_chance = no
-					death = {
-						death_reason = death_mysterious
+					if = {
+						limit = { agot_ce_event_death_protected_trigger = no }
+						death = {
+							death_reason = death_mysterious
+						}
 					}
 				}
 				50 = {
@@ -12234,8 +12258,11 @@ health.6208 = {
 		scope:servant = { #To be able to reuse descs
 			save_scope_as = close_person
 		}
-		death = {
-			death_reason = death_mysterious
+		if = {
+			limit = { agot_ce_event_death_protected_trigger = no }
+			death = {
+				death_reason = death_mysterious
+			}
 		}
 	}
 

@@ -1,0 +1,40 @@
+﻿agot_ce_toggle_protection_interaction = {
+	category = interaction_category_friendly
+	icon = icon_scheme_befriend
+
+	desc = agot_ce_toggle_protection_interaction_desc
+
+	interface_priority = 40
+	use_diplomatic_range = no
+	auto_accept = yes
+	ai_frequency = 0
+
+	is_shown = {
+		has_game_rule = agot_ce_manual_marking_enabled
+		scope:actor = { is_ai = no }
+		NOT = { scope:actor = scope:recipient }
+	}
+
+	is_valid_showing_failures_only = {
+		scope:recipient = { is_alive = yes }
+	}
+
+	on_accept = {
+		scope:recipient = {
+			if = {
+				limit = { has_character_flag = agot_ce_protected }
+				remove_character_flag = agot_ce_protected
+				if = {
+					limit = { agot_ce_is_protected_trigger = no }
+					agot_ce_clear_protection_effect = yes
+				}
+			}
+			else = {
+				add_character_flag = agot_ce_protected
+				agot_ce_apply_protection_effect = yes
+			}
+		}
+	}
+
+	ai_will_do = { base = 0 }
+}
