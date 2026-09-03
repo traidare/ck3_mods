@@ -333,5 +333,260 @@ class SharedGeneratorHelperTest(unittest.TestCase):
             generate_bridge(agot_childhood, changed_action, personality_childhood)
 
 
+CANON_ENFORCEMENT = "workspace/agot_canon_enforcement/implementation.py"
+
+# Two dragons, four riders, shaped like AGOT's own files: a rider recorded
+# below age ten, a rider AGOT creates after game start, a rider whose canon
+# flag nothing adds, and an ordinary rider the tenth birthday reaches.
+DRAGON_HISTORY = """dragon_sheepstealer = {
+\tname = Sheepstealer
+\t8080.1.1 = {
+\t\tbirth = yes
+\t}
+\t8129.12.6 = {
+\t\teffect = {
+\t\t\tagot_tame_dragon = {
+\t\t\t\tTAMER = character:Farseed_1 # Nettles
+\t\t\t\tDRAGON = ROOT
+\t\t\t}
+\t\t}
+\t}
+}
+dragon_syrax = {
+\tname = Syrax
+\t8104.1.1 = {
+\t\teffect = {
+\t\t\tagot_tame_dragon = {
+\t\t\t\tTAMER = character:Targaryen_63 # Joffrey
+\t\t\t\tDRAGON = ROOT
+\t\t\t}
+\t\t}
+\t}
+\t8140.1.1 = {
+\t\teffect = {
+\t\t\tagot_tame_dragon = {
+\t\t\t\tTAMER = character:Belaerys_3
+\t\t\t\tDRAGON = ROOT
+\t\t\t}
+\t\t}
+\t}
+\t8150.1.1 = {
+\t\teffect = {
+\t\t\tagot_tame_dragon = {
+\t\t\t\tTAMER = character:Targaryen_70
+\t\t\t\tDRAGON = ROOT
+\t\t\t}
+\t\t}
+\t}
+}
+"""
+
+TRAIT_TRIGGERS = """is_character_dragon_sheepstealer = {
+\tOR = {
+\t\thas_inactive_trait = is_dragon_sheepstealer
+\t\tAND = {
+\t\t\texists = character:dragon_sheepstealer
+\t\t\tthis = character:dragon_sheepstealer
+\t\t}
+\t}
+}
+is_character_dragon_syrax = {
+\tOR = {
+\t\thas_inactive_trait = is_dragon_syrax
+\t\tAND = {
+\t\t\texists = character:dragon_syrax
+\t\t\tthis = character:dragon_syrax
+\t\t}
+\t}
+}
+"""
+
+CANON_TRIGGERS = """agot_is_canon_rider_dragon_pair = {
+\t$RIDER$ = { save_temporary_scope_as = canon_rider }
+\t$DRAGON$ = { save_temporary_scope_as = canon_dragon }
+\ttrigger_if = {
+\t\tlimit = {
+\t\t\tscope:canon_dragon = { is_character_dragon_sheepstealer = yes }
+\t\t}
+\t\tscope:canon_rider = {
+\t\t\tOR = {
+\t\t\t\thas_character_flag = is_Farseed_1
+\t\t\t}
+\t\t}
+\t}
+\ttrigger_else_if = {
+\t\tlimit = {
+\t\t\tscope:canon_dragon = { is_character_dragon_syrax = yes }
+\t\t}
+\t\tscope:canon_rider = {
+\t\t\tOR = {
+\t\t\t\thas_character_flag = is_Targaryen_63
+\t\t\t}
+\t\t}
+\t}
+}
+"""
+
+INIT_EFFECTS = """agot_init_Targaryen_63 = {
+\tadd_character_flag = is_Targaryen_63
+}
+agot_init_Targaryen_70 = {
+\tadd_character_flag = is_Targaryen_70
+}
+"""
+
+SPAWN_EFFECTS = """spawn_historical_characters_effect = {
+\tif = { # Nettles
+\t\tcreate_character = { age = 16 }
+\t\tadd_character_flag = is_Farseed_1
+\t}
+}
+"""
+
+BIRTHS = {
+    "Farseed_1": (8113, 1, 1),
+    "Targaryen_63": (8097, 1, 1),
+    "Targaryen_70": (8116, 1, 1),
+    "Belaerys_3": (8120, 1, 1),
+}
+
+
+def canon_taming_records():
+    with generator_function(CANON_ENFORCEMENT, "build_taming_records") as build:
+        return build(
+            DRAGON_HISTORY,
+            CANON_TRIGGERS,
+            TRAIT_TRIGGERS,
+            INIT_EFFECTS,
+            SPAWN_EFFECTS,
+            expected_flagless=frozenset({"Belaerys_3"}),
+            expected_dynamic=frozenset({"Farseed_1"}),
+        )
+
+
+class CanonDragonTamingTest(unittest.TestCase):
+    def test_records_carry_the_recorded_pairing_and_day(self) -> None:
+        records = canon_taming_records()
+        self.assertEqual(
+            [
+                (record.rider, record.dragon_token, record.date_text)
+                for record in records
+            ],
+            [
+                ("Targaryen_63", "syrax", "8104.1.1"),
+                ("Farseed_1", "sheepstealer", "8129.12.6"),
+                ("Belaerys_3", "syrax", "8140.1.1"),
+                ("Targaryen_70", "syrax", "8150.1.1"),
+            ],
+        )
+
+    def test_rider_without_a_canon_flag_is_identified_by_character(self) -> None:
+        identities = {
+            record.rider: record.identity_lines for record in canon_taming_records()
+        }
+        self.assertEqual(
+            identities["Farseed_1"], ("has_character_flag = is_Farseed_1",)
+        )
+        self.assertEqual(
+            identities["Belaerys_3"],
+            ("exists = character:Belaerys_3", "this = character:Belaerys_3"),
+        )
+
+    def test_event_gates_on_the_recorded_date_and_never_on_age(self) -> None:
+        with generator_function(CANON_ENFORCEMENT, "build_canon_taming_event") as build:
+            event = build(canon_taming_records())
+        # Recorded below age ten, so a minimum-age gate would defer it past the
+        # date the history gives.
+        self.assertIn("current_date >= 8104.1.1", event)
+        self.assertIn(
+            "agot_ce_canon_dragon_bond_effect = { DRAGON = sheepstealer }", event
+        )
+        self.assertNotIn("age >", event)
+        self.assertNotIn("age =", event)
+        self.assertEqual(event.count("current_date >="), 4)
+        self.assertEqual(event.count("\t\tif = {"), 1)
+        self.assertEqual(event.count("\t\telse_if = {"), 3)
+
+    def test_trigger_pairs_every_identity_with_its_recorded_date(self) -> None:
+        with generator_function(
+            CANON_ENFORCEMENT, "build_canon_taming_trigger"
+        ) as build:
+            trigger = build(canon_taming_records())
+        self.assertIn("agot_ce_canon_taming_due_trigger = {", trigger)
+        self.assertEqual(trigger.count("AND = {"), 4)
+        self.assertIn(
+            "\t\t\thas_character_flag = is_Farseed_1\n"
+            "\t\t\tcurrent_date >= 8129.12.6\n",
+            trigger,
+        )
+
+    def test_coverage_names_why_agot_dispatch_misses_a_record(self) -> None:
+        records = {record.rider: record for record in canon_taming_records()}
+        with generator_function(CANON_ENFORCEMENT, "canon_taming_coverage") as coverage:
+            pairs = {("is_farseed_1", "sheepstealer"), ("is_targaryen_63", "syrax")}
+            spawn_flags = {"is_Farseed_1"}
+            verdicts = {
+                rider: coverage(record, BIRTHS, spawn_flags, pairs)[0]
+                for rider, record in records.items()
+            }
+        self.assertEqual(verdicts["Farseed_1"], "created_after_game_start")
+        self.assertEqual(verdicts["Belaerys_3"], "no_canon_flag")
+        self.assertEqual(verdicts["Targaryen_70"], "unpaired")
+        self.assertEqual(verdicts["Targaryen_63"], "before_tenth_birthday")
+
+    def test_generation_fails_when_a_rider_gains_a_second_record(self) -> None:
+        history = DRAGON_HISTORY.replace(
+            "TAMER = character:Belaerys_3", "TAMER = character:Targaryen_63"
+        )
+        with (
+            generator_function(CANON_ENFORCEMENT, "build_taming_records") as build,
+            self.assertRaisesRegex(ValueError, "more than one taming record"),
+        ):
+            build(history, CANON_TRIGGERS, TRAIT_TRIGGERS, INIT_EFFECTS, SPAWN_EFFECTS)
+
+    def test_generation_fails_when_a_recorded_dragon_has_no_identity(self) -> None:
+        with (
+            generator_function(CANON_ENFORCEMENT, "build_taming_records") as build,
+            self.assertRaisesRegex(ValueError, "no is_character_dragon_"),
+        ):
+            build(
+                DRAGON_HISTORY,
+                CANON_TRIGGERS,
+                TRAIT_TRIGGERS.replace("dragon_syrax", "dragon_caraxes"),
+                INIT_EFFECTS,
+                SPAWN_EFFECTS,
+            )
+
+    def test_generation_fails_when_a_new_rider_is_created_after_game_start(
+        self,
+    ) -> None:
+        spawn = SPAWN_EFFECTS.replace(
+            "add_character_flag = is_Farseed_1",
+            "add_character_flag = is_Farseed_1\n"
+            "\t\tadd_character_flag = is_Targaryen_70",
+        )
+        with (
+            generator_function(CANON_ENFORCEMENT, "build_taming_records") as build,
+            self.assertRaisesRegex(ValueError, "creates after game start changed"),
+        ):
+            build(
+                DRAGON_HISTORY,
+                CANON_TRIGGERS,
+                TRAIT_TRIGGERS,
+                INIT_EFFECTS,
+                spawn,
+                expected_flagless=frozenset({"Belaerys_3"}),
+                expected_dynamic=frozenset({"Farseed_1"}),
+            )
+
+    def test_generation_fails_when_a_taming_record_has_no_date(self) -> None:
+        history = "dragon_syrax = {\n\tagot_tame_dragon = { TAMER = character:X }\n}\n"
+        with (
+            generator_function(CANON_ENFORCEMENT, "parse_taming_records") as parse,
+            self.assertRaisesRegex(ValueError, "outside a dated block"),
+        ):
+            parse(history)
+
+
 if __name__ == "__main__":
     unittest.main()

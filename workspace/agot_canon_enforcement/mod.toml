@@ -4,7 +4,10 @@ owned_outputs = [
   "common/combat_phase_events/zzzz_agot_ce_commander_phase_events.txt",
   "common/scripted_effects/zzzz_agot_ce_natural_disaster_effects.txt",
   "common/scripted_effects/zzzz_agot_ce_tournament_effects.txt",
+  "common/scripted_triggers/agot_ce_canon_dragon_triggers.txt",
+  "events/agot_ce_canon_dragon_taming_events.txt",
 ]
+owned_artifacts = ["canon_dragon_tamings/taming_audit.csv"]
 
 # Rebased definitions.
 
@@ -25,6 +28,47 @@ name = "agot-tournament-effects"
 kind = "workshop"
 item_id = "2962333032"
 path = "common/scripted_effects/04_dlc_ep2_tournament_effects.txt"
+
+# Canon dragon taming records. The dated agot_tame_dragon entries in AGOT's
+# dragon history are the only static record of which rider bonded which dragon
+# and when; the remaining files resolve rider identity, dragon identity and the
+# rider birth dates the audit reports.
+
+[[sources]]
+name = "agot-dragon-history"
+kind = "workshop"
+item_id = "2962333032"
+path = "history/characters/00_agot_char_dragons.txt"
+
+[[sources]]
+name = "agot-character-history"
+kind = "workshop"
+item_id = "2962333032"
+path = "history/characters"
+
+[[sources]]
+name = "agot-canon-dragon-triggers"
+kind = "workshop"
+item_id = "2962333032"
+path = "common/scripted_triggers/00_agot_canon_dragons_triggers.txt"
+
+[[sources]]
+name = "agot-canon-dragon-trait-triggers"
+kind = "workshop"
+item_id = "2962333032"
+path = "common/scripted_triggers/00_agot_canon_dragons_trait_triggers.txt"
+
+[[sources]]
+name = "agot-character-init-effects"
+kind = "workshop"
+item_id = "2962333032"
+path = "common/scripted_effects/agot_character_initializiation_effects.txt"
+
+[[sources]]
+name = "agot-historical-character-effects"
+kind = "workshop"
+item_id = "2962333032"
+path = "common/scripted_effects/00_historical_characters_scripted_effects.txt"
 
 # Assertion-only sources. They emit no output; they exist so that an upstream
 # change to the markers this module depends on fails generation instead of
@@ -53,3 +97,33 @@ name = "duels-blademasters-phase-events"
 kind = "workshop"
 item_id = "3720557758"
 path = "common/combat_phase_events/00_db_combat_phase_events.txt"
+
+[[sources]]
+name = "agot-dragon-effects"
+kind = "workshop"
+item_id = "2962333032"
+path = "common/scripted_effects/00_agot_dragon_effects.txt"
+
+[[sources]]
+name = "agot-dragon-triggers"
+kind = "workshop"
+item_id = "2962333032"
+path = "common/scripted_triggers/00_agot_dragon_triggers.txt"
+
+[[sources]]
+name = "agot-dragon-taming-events"
+kind = "workshop"
+item_id = "2962333032"
+path = "events/agot_events/agot_dragon_taming_events.txt"
+
+[[sources]]
+name = "agot-childhood-on-actions"
+kind = "workshop"
+item_id = "2962333032"
+path = "common/on_action/agot_on_actions/agot_childhood_on_actions.txt"
+
+[[sources]]
+name = "agot-game-start-on-actions"
+kind = "workshop"
+item_id = "2962333032"
+path = "common/on_action/agot_on_actions/agot_game_start.txt"

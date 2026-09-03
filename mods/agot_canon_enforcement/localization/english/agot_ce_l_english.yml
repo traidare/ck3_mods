@@ -7,7 +7,7 @@
  setting_agot_ce_protection_enabled:0 "Enabled"
  setting_agot_ce_protection_enabled_desc:0 "Canon parents, and anyone marked by hand, are shielded from random deaths for as long as they hold the canon children health boost."
  setting_agot_ce_protection_disabled:0 "Disabled"
- setting_agot_ce_protection_disabled_desc:0 "No one is shielded. Every other rule in this category has no effect."
+ setting_agot_ce_protection_disabled_desc:0 "No one is shielded. Every other protection rule in this category has no effect. Canon dragon tamings have their own rule and are unaffected."
 
  rule_agot_ce_travel:0 "Canon Protection: Travel"
  setting_agot_ce_travel_enabled:0 "Enabled"
@@ -34,6 +34,12 @@
  setting_agot_ce_event_guards_enabled_desc:0 "Protected characters survive accidental deaths: krakens, drownings, failed treatments, tournament accidents, dragon hatchings, natural disasters and the like. Murder, execution and poisoning are untouched."
  setting_agot_ce_event_guards_disabled:0 "Disabled"
  setting_agot_ce_event_guards_disabled_desc:0 "Accidents kill protected characters as usual."
+
+ rule_agot_ce_canon_dragon_tamings:0 "Canon Dragon Tamings"
+ setting_agot_ce_canon_dragon_tamings_enabled:0 "Enabled"
+ setting_agot_ce_canon_dragon_tamings_enabled_desc:0 "AI canon riders the game never got around to claim their recorded dragon on the day the histories give. No dragon is ever taken from a rider who already has one.\n\nRequires A Game of Thrones' own Canon Dragons rule."
+ setting_agot_ce_canon_dragon_tamings_disabled:0 "Disabled"
+ setting_agot_ce_canon_dragon_tamings_disabled_desc:0 "Canon riders bond only through A Game of Thrones' own tenth-birthday claim."
 
  rule_agot_ce_manual_marking:0 "Canon Protection: Manual Marking"
  setting_agot_ce_manual_marking_enabled:0 "Enabled"

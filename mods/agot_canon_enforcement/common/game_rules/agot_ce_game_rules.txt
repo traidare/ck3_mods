@@ -59,6 +59,18 @@ agot_ce_event_guards = {
 	agot_ce_event_guards_disabled = {}
 }
 
+agot_ce_canon_dragon_tamings = {
+	categories = {
+		agot
+		agot_ce
+	}
+
+	default = agot_ce_canon_dragon_tamings_enabled
+
+	agot_ce_canon_dragon_tamings_enabled = {}
+	agot_ce_canon_dragon_tamings_disabled = {}
+}
+
 agot_ce_manual_marking = {
 	categories = {
 		agot

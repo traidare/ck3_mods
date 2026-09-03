@@ -25,3 +25,33 @@ agot_ce_battle_protected_trigger = {
 	has_game_rule = agot_ce_battle_enabled
 	agot_ce_is_protected_trigger = yes
 }
+
+# Gate for the canon dragon taming fallback. Independent of the protection
+# rules above: it enforces a static history record rather than keeping anyone
+# alive.
+#
+# The cheap constant checks come first, then the relation count, and only then
+# the generated per-record OR, because this runs for every living character on
+# the yearly pulse.
+#
+# AGOT owns the attempt while attempting_canon_bond is held, and a rider who is
+# already scheming for a dragon is left alone; either way the yearly pulse tries
+# again. dragonwidowed excludes a rider whose recorded dragon already died under
+# them, which is the one case where re-establishing the record would be wrong.
+agot_ce_canon_taming_pending_trigger = {
+	has_game_rule = agot_ce_canon_dragon_tamings_enabled
+	agot_canon_dragons_enabled = yes
+	is_ai = yes
+	NOT = { has_trait = dragonwidowed }
+	NOT = { has_character_flag = attempting_canon_bond }
+	any_relation = {
+		type = agot_dragon
+		count = 0
+	}
+	NOT = {
+		any_scheme = {
+			scheme_type = bond_with_dragon_scheme
+		}
+	}
+	agot_ce_canon_taming_due_trigger = yes
+}

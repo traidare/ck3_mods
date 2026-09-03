@@ -6,6 +6,7 @@ on_game_start_after_lobby = {
 	on_actions = {
 		delay = { days = 1 }
 		agot_ce_on_game_start
+		agot_ce_canon_dragon_sweep
 	}
 }
 
@@ -20,12 +21,26 @@ agot_ce_on_game_start = {
 	}
 }
 
+# Shares the one-day delay, which is enough for AGOT's own game start effects to
+# have built the living dragon list this reads. It only fires where history
+# replay left a recorded bond unmade; a record dated before the bookmark has
+# already been replayed, and one dated after it is not yet due.
+agot_ce_canon_dragon_sweep = {
+	effect = {
+		every_living_character = {
+			limit = { agot_ce_canon_taming_pending_trigger = yes }
+			trigger_event = agot_ce_canon_dragon.0001
+		}
+	}
+}
+
 # Protected characters are frequently unlanded courtiers, so the playable
 # pulses would miss them. The trigger keeps the yearly cost to one modifier or
 # flag check per character.
 random_yearly_everyone_pulse = {
 	on_actions = {
 		agot_ce_maintenance
+		agot_ce_canon_dragon_maintenance
 	}
 }
 
@@ -46,5 +61,21 @@ agot_ce_maintenance = {
 		else = {
 			agot_ce_clear_protection_effect = yes
 		}
+	}
+}
+
+# The retry for the canon riders AGOT's dispatch never reached: a rider created
+# above age ten, one whose canon flag AGOT never sets, or one whose recorded
+# dragon was unavailable when the record came due. Reaching unlanded courtiers
+# matters here too, since dragonseeds and canon children are rarely landed.
+# A record therefore takes effect within a year of its recorded date, which is
+# the same granularity as AGOT's own 365-730 day dispatch delay.
+agot_ce_canon_dragon_maintenance = {
+	trigger = {
+		agot_ce_canon_taming_pending_trigger = yes
+	}
+
+	events = {
+		agot_ce_canon_dragon.0001
 	}
 }

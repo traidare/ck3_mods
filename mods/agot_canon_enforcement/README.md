@@ -1,7 +1,8 @@
 # AGOT: Canon Enforcement
 
 Keeps the characters a canon storyline depends on from dying to accidents they
-never chose. **AGOT: Canon Children EZ Mode** already gives canon parents a
+never chose, and sees to it that the riders the histories name actually get
+their dragons. **AGOT: Canon Children EZ Mode** already gives canon parents a
 health boost; this mod extends that same protection window to the deaths the
 health system cannot prevent.
 
@@ -35,6 +36,17 @@ protected character can still be killed on purpose.
 
 Six game rules control this, one per area, so any part can be turned off. All
 protection ends when the health boost does.
+
+## Canon dragon tamings
+
+A Game of Thrones claims a canon rider's dragon on the rider's tenth birthday,
+which leaves out anyone already older when they first appear — Nettles above all
+— and anyone the claim never reached. A seventh rule fills those gaps: AI canon
+riders take the dragon the histories record, on the day the histories give.
+
+No dragon is taken from a rider who has one, no bonding attempt under way is
+interrupted, and a rider whose dragon has died stays riderless. The rule needs A
+Game of Thrones' own Canon Dragons rule enabled.
 
 ## Limits
 
