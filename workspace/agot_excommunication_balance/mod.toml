@@ -1,0 +1,11 @@
+[generator]
+entrypoint = "implementation.py:generate"
+owned_outputs = [
+  "common/character_interactions/zz_agot_excommunication_balance.txt",
+]
+
+[[sources]]
+name = "agot-religious-interactions"
+kind = "workshop"
+item_id = "2962333032"
+path = "common/character_interactions/00_religious_interactions.txt"
