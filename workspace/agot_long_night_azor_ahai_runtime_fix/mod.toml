@@ -1,9 +1,6 @@
 [generator]
 entrypoint = "implementation.py:generate"
-owned_outputs = [
-  "common/genes/zz_long_night_genes.txt",
-  "common/scripted_triggers/zz_ln_service_triggers.txt",
-]
+owned_outputs = ["common/genes/zz_long_night_genes.txt"]
 
 [[sources]]
 name = "long-night-azor-ahai"

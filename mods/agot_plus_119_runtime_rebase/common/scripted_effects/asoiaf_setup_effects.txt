@@ -3039,7 +3039,7 @@ asoiaf_alternative_ages_effect = {
 			asoiaf_alternative_ages_cleanup_effect = yes
 		}
 	}
-	character:Hotah_1 ?= { #Areo Hotah
+	character:Hotah_1_B ?= { #Areo Hotah
 		if = {
 			limit = { age < 16 }
 			save_scope_as = asoiaf_underaged
@@ -5736,7 +5736,7 @@ asoiaf_got_traits_effect = {
 			add_trait = authoritative
 		}
 		if = { #adulthood traits
-			limit = { current_date >= 8114.11.29 } #Jaecerys is born and Rhaenyra becomes a mother, changing her personality
+			limit = { current_date >= 8114.11.29 } #Jacaerys is born and Rhaenyra becomes a mother, changing her personality
 			add_trait = stubborn
 			add_trait = arbitrary
 			add_trait = ambitious
@@ -10416,7 +10416,7 @@ asoiaf_got_traits_effect = {
 			set_focus = education_stewardship
 		}
 	}
-	character:Hotah_1 ?= { #Areo Hotah
+	character:Hotah_1_B ?= { #Areo Hotah
 		asoiaf_clear_personality_traits_effect = yes
 		asoiaf_clear_inherited_traits_effect = yes
 		asoiaf_clear_education_traits_effect = yes
@@ -11615,7 +11615,7 @@ asoiaf_new_dnas_effect = {
 		character:Brotherhood_8 ?= { copy_inheritable_appearance_from = character:Thoros_asoiaf_1 }
 		character:Mopatis_1 ?= { copy_inheritable_appearance_from = character:Mopatis_asoiaf_1 }
 		character:Stormcrows_1 ?= { copy_inheritable_appearance_from = character:Stormcrows_asoiaf_1 }
-		character:Hotah_1 ?= { copy_inheritable_appearance_from = character:Hotah_asoiaf_1 }
+		character:Hotah_1_B ?= { copy_inheritable_appearance_from = character:Hotah_asoiaf_1 }
 		character:Hotah_rs_2 ?= { #Areo Hotah's mother turns Summer Islander
 			copy_inheritable_appearance_from = character:Hotah_asoiaf_1
 			set_character_faith = faith:summer_gods_pan

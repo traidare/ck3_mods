@@ -14,6 +14,7 @@ owned_outputs = [
   "gui/hud.gui",
   "gui/map_icon_layer.gui",
   "common/scripted_triggers/zzz_agot_playset_is_human.txt",
+  "common/scripted_rules/zzz_agot_playset_is_diarch_valid.txt",
 ]
 
 [[sources]]
@@ -82,3 +83,8 @@ item_id = "3719888822"
 name = "great-councils"
 kind = "workshop"
 item_id = "3621472324"
+
+[[sources]]
+name = "long-night-azor-ahai"
+kind = "workshop"
+item_id = "3780269495"

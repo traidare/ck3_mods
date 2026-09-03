@@ -1,0 +1,27 @@
+﻿# The AGOT playset's single last writer for `is_diarch_valid`.
+#
+# The Legacy of Valyria bridge guards AGOT's call against a missing
+# character, and AGOT: The Long Night & Azor Ahai adds the clause that
+# keeps a sworn brother of the Night's Watch from serving as diarch
+# outside the Watch's own chain of command.  Only one definition of a
+# rule key survives, and the winner is the file parsed last: across the
+# merged file system CK3 walks every top-level file in the directory in
+# name order, then its subdirectories, without regard to mod position.
+# The Long Night's `zz_ln_diarch_rules.txt` therefore wins and the
+# bridge's guard is lost.  This name sorts after both, and no mod in the
+# playset puts a rule file in a `common/scripted_rules/` subdirectory,
+# which would parse later still.  Re-audit when either stops holding.
+#
+# `is_diarch_able` needs no entry here: only the bridge and AGOT define
+# it, both in `00_rules.txt`, so load order already keeps the guard.
+is_diarch_valid = {
+	trigger_if = {
+		limit = { exists = this }
+		is_diarch_valid_trigger = yes
+		trigger_if = {
+			limit = { government_has_flag = government_is_nw }
+			liege ?= { government_has_flag = government_is_nw }
+		}
+	}
+	trigger_else = { always = no }
+}

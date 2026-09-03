@@ -5921,7 +5921,7 @@ asoiaf_canon_children_Targaryen_55_birth_effect = { #Gael Targaryen (daughter of
 asoiaf_canon_children_Targaryen_55_1_birth_effect = { #Gael's Stillborn bastard
 	create_character = {
 		age = 0
-		name = "Maegon"
+		name = "Aelor"
 		father = scope:father
 		real_father = scope:real_father
 		mother = scope:mother
@@ -5949,7 +5949,7 @@ asoiaf_canon_children_Targaryen_55_1_birth_effect = { #Gael's Stillborn bastard
 
 			if = {
 				limit = { asoiaf_historical_trigger = yes }
-				death = { death_reason = death_stillborn }
+				death = { death_reason = death_delivery }
 			}
 		}
 	}

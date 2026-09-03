@@ -13,7 +13,8 @@
     "IRON_AND_SALT": "3781577713",
     "DFP_AGOT": "3609763696",
     "LOV_BRIDGE": "3719888822",
-    "GREAT_COUNCILS": "3621472324"
+    "GREAT_COUNCILS": "3621472324",
+    "LONG_NIGHT": "3780269495"
   },
   "versions": {
     "AGOT": "0.5.1",
@@ -28,7 +29,8 @@
     "IRON_AND_SALT": "0.6.0",
     "DFP_AGOT": "0",
     "LOV_BRIDGE": "0.5.1-stage09d-postrelease-runtime-repair-rc7-2026-08-25",
-    "GREAT_COUNCILS": "1.78"
+    "GREAT_COUNCILS": "1.78",
+    "LONG_NIGHT": "1.1.0a"
   },
   "files": {
     "NOW": {
@@ -210,6 +212,26 @@
       "path": "3621472324/descriptor.mod",
       "sha256": "03c72c8d6294d1bd00e4d4a8f9829df8e10c4a26a76eceafeda24a2c20deb88a",
       "size": 149
+    },
+    "AGOT_RULES": {
+      "path": "2962333032/common/scripted_rules/00_rules.txt",
+      "sha256": "2d2f353c05a263251ecf251f8f30cb7d4f6b6f2adca9da79bc205cd9649e4319",
+      "size": 51711
+    },
+    "LOV_BRIDGE_RULES": {
+      "path": "3719888822/common/scripted_rules/00_rules.txt",
+      "sha256": "f8c4d2b99690f1134d6883aaba11fbee045469ce254136406a8e392a81e3e800",
+      "size": 51885
+    },
+    "LONG_NIGHT_DIARCH_RULES": {
+      "path": "3780269495/common/scripted_rules/zz_ln_diarch_rules.txt",
+      "sha256": "5004ff7ffdb30f9cf65868a4a2332f4e1dbe9f1020caf9c3034e583f42201e13",
+      "size": 1038
+    },
+    "LONG_NIGHT_DESCRIPTOR": {
+      "path": "3780269495/descriptor.mod",
+      "sha256": "09f66b9bc0d04c8474ebfbf97ea0e81b8a57119035d59c19ebcb4b8ba470043c",
+      "size": 216
     }
   },
   "intent": {
@@ -224,6 +246,7 @@
     "cow_models": "assert the unenabled NOW-COW compatch's special-building model remaps are still carried by the hand-merged trigger",
     "iron_and_salt_hud": "merge Iron and Salt's naval and kraken HUD with Dynamic Family Portrait's AGOT stack and More Dragon Eggs portrait sizes",
     "iron_and_salt_map_icon": "keep the kraken map icon without restoring the LoV bridge's removed find_elder datacontext",
-    "iron_and_salt_is_human": "combine AGOT's body with the Iron and Salt and Great Councils extensions under one later-sorting writer"
+    "iron_and_salt_is_human": "combine AGOT's body with the Iron and Salt and Great Councils extensions under one later-sorting writer",
+    "is_diarch_valid": "keep the LoV bridge's missing-character guard under the Long Night's later-sorting Night's Watch clause"
   }
 }

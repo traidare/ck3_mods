@@ -9,7 +9,7 @@ import re
 from pathlib import Path
 
 from gen import GenerationContext, GenerationError
-from gen.text import normalize_newlines, replace_exact, strip_trailing_whitespace
+from gen.text import normalize_newlines, strip_trailing_whitespace
 
 SOURCE = "long-night-azor-ahai"
 
@@ -18,9 +18,7 @@ GENES_SHA256 = "f42025226bfca56fddd95279e9411867f3a60bf915b3bec328749e16425d1502
 EXPECTED_GENES = 18
 
 RELATIVE_SERVICE_TRIGGERS = Path("common/scripted_triggers/zz_ln_service_triggers.txt")
-SERVICE_TRIGGERS_SHA256 = (
-    "25eec74b1ac72d8e2f25325d6beb26960d090666c9f4f348c7b2e58d1cd65550"
-)
+SERVICE_GATE = "ln_may_serve_trigger"
 SERVICE_TRIGGER_CALL_SITES = (
     "can_be_knight_trigger",
     "base_court_position_validity_trigger",
@@ -74,69 +72,42 @@ def repaired_genes(source: str) -> str:
     return strip_trailing_whitespace(normalize_newlines(repaired, "\n"))
 
 
-def repaired_service_triggers(source: str) -> str:
-    """Terminate the service gate's trigger_if chain so CK3 1.19 validates it.
+def assert_service_gate_terminated(context: GenerationContext) -> None:
+    """Fail generation if the parent's service gate loses its chain terminator.
 
-    ``ln_may_serve_trigger`` pairs a ``trigger_if`` with a ``trigger_else_if``
-    and no ``trigger_else``, which fails PostValidate and makes the whole gate
-    return false for every caller. The living-under-a-living-lord case is the
-    one the parent documents as silently permitted, so the terminator is
-    ``always = yes``.
+    ``ln_may_serve_trigger`` gates knights, court positions, councillors, and
+    commanders. A ``trigger_if``/``trigger_else_if`` chain with no
+    ``trigger_else`` fails PostValidate on CK3 1.19, which makes the whole gate
+    return false and refuses every candidate rather than only the dead. The
+    parent terminates the chain itself, so this module owns no override of the
+    file; the check exists so a regression is caught here instead of in a log.
     """
-    calls = len(re.findall(r"(?m)^\tln_may_serve_trigger = \{ LORD = ", source))
-    if calls != len(SERVICE_TRIGGER_CALL_SITES):
+    path = context.source(SOURCE) / RELATIVE_SERVICE_TRIGGERS
+    if not path.is_file():
+        raise GenerationError(f"missing required source: {path}")
+    source = path.read_bytes().decode("utf-8-sig").replace("\r\n", "\n")
+
+    gate = re.search(
+        rf"(?ms)^{re.escape(SERVICE_GATE)}\s*=\s*\{{\n(?P<body>.*?)^\}}$", source
+    )
+    if gate is None:
+        raise GenerationError(f"service gate {SERVICE_GATE} is no longer defined")
+    body = gate.group("body")
+
+    if not re.search(r"(?m)^\ttrigger_else_if\s*=", body):
         raise GenerationError(
-            f"service gate: expected {len(SERVICE_TRIGGER_CALL_SITES)} in-file call "
-            f"sites, found {calls}"
+            f"{SERVICE_GATE} no longer branches on trigger_else_if; recheck whether "
+            "the chain still needs a terminator at all"
         )
+    if not re.search(r"(?m)^\ttrigger_else\s*=", body):
+        raise GenerationError(
+            f"{SERVICE_GATE} lost its trigger_else terminator; CK3 1.19 fails "
+            "PostValidate on the chain and the gate refuses every candidate"
+        )
+
     for call_site in SERVICE_TRIGGER_CALL_SITES:
         if not re.search(rf"(?m)^{re.escape(call_site)}\s*=\s*\{{", source):
             raise GenerationError(f"service gate no longer overrides {call_site}")
-
-    if re.search(r"(?m)^\ttrigger_else\s*=", source):
-        raise GenerationError(
-            "service gate already terminates its chain; the repair is obsolete"
-        )
-
-    chain_end = """\ttrigger_else_if = {
-\t\tlimit = { $LORD$ ?= { ln_is_one_of_them_trigger = yes } }
-\t\tcustom_tooltip = {
-\t\t\ttext = ln_may_not_serve_the_dead_tt
-\t\t\tln_is_one_of_them_trigger = yes
-\t\t}
-\t}
-}"""
-    if source.count(chain_end) != 1:
-        raise GenerationError(
-            "service gate no longer ends on the unterminated trigger_else_if chain"
-        )
-
-    repaired = replace_exact(
-        source,
-        """\ttrigger_else_if = {
-\t\tlimit = { $LORD$ ?= { ln_is_one_of_them_trigger = yes } }
-\t\tcustom_tooltip = {
-\t\t\ttext = ln_may_not_serve_the_dead_tt
-\t\t\tln_is_one_of_them_trigger = yes
-\t\t}
-\t}
-}""",
-        """\ttrigger_else_if = {
-\t\tlimit = { $LORD$ ?= { ln_is_one_of_them_trigger = yes } }
-\t\tcustom_tooltip = {
-\t\t\ttext = ln_may_not_serve_the_dead_tt
-\t\t\tln_is_one_of_them_trigger = yes
-\t\t}
-\t}
-\t# CK3 1.19 fails PostValidate on a trigger_else_if with no trigger_else, and
-\t# the whole gate then returns false for all four call sites. Both parties are
-\t# living here, which the gate is meant to permit without a tooltip.
-\ttrigger_else = { always = yes }
-}""",
-        expected=1,
-        label="Long Night service gate trigger_else terminator",
-    )
-    return strip_trailing_whitespace(normalize_newlines(repaired, "\n"))
 
 
 def generate(context: GenerationContext) -> None:
@@ -145,8 +116,4 @@ def generate(context: GenerationContext) -> None:
         RELATIVE_GENES, codecs.BOM_UTF8 + repaired_genes(genes).encode("utf-8")
     )
 
-    triggers = read_pinned(context, RELATIVE_SERVICE_TRIGGERS, SERVICE_TRIGGERS_SHA256)
-    context.write_bytes(
-        RELATIVE_SERVICE_TRIGGERS,
-        codecs.BOM_UTF8 + repaired_service_triggers(triggers).encode("utf-8"),
-    )
+    assert_service_gate_terminated(context)

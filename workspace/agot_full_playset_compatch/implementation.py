@@ -28,6 +28,7 @@ WORKSHOP_IDS = {
     "DFP_AGOT": "3609763696",
     "LOV_BRIDGE": "3719888822",
     "GREAT_COUNCILS": "3621472324",
+    "LONG_NIGHT": "3780269495",
 }
 HUD_RELATIVE = Path("gui/hud.gui")
 MAP_ICON_RELATIVE = Path("gui/map_icon_layer.gui")
@@ -39,6 +40,12 @@ KRAKEN_TRIGGERS = Path("common/scripted_triggers/zz_kraken_character_triggers.tx
 GREAT_COUNCILS_TRIGGERS = Path(
     "common/scripted_triggers/zzz_Great_Councils_replaced_triggers.txt"
 )
+IS_DIARCH_VALID_RELATIVE = Path(
+    "common/scripted_rules/zzz_agot_playset_is_diarch_valid.txt"
+)
+RULES_RELATIVE = Path("common/scripted_rules/00_rules.txt")
+LONG_NIGHT_DIARCH_RULES = Path("common/scripted_rules/zz_ln_diarch_rules.txt")
+LOV_DIARCH_GUARD = "limit = { exists = this }"
 KRAKEN_CLAUSE = "NOT = { has_trait = kraken }"
 GREAT_COUNCILS_CLAUSE = (
     "NOT = { has_character_flag = zzz_great_councils_disable } #AGC Added"
@@ -693,6 +700,84 @@ def generate_is_human(agot: str, iron_and_salt: str, great_councils: str) -> str
     )
 
 
+def indented_block(text: str, name: str, *, label: str) -> str:
+    """Return one nested `name = { ... }` block from inside a definition body."""
+    matches = list(re.finditer(rf"(?m)^\t{re.escape(name)}\s*=\s*\{{", text))
+    if len(matches) != 1:
+        raise AssertionError(
+            f"{label}: expected one nested {name} block, found {len(matches)}"
+        )
+    start = matches[0].start()
+    end = matching_brace(text, text.find("{", start)) + 1
+    return text[start:end]
+
+
+def generate_is_diarch_valid(agot: str, lov: str, long_night: str) -> str:
+    """Combine the Long Night's diarch clause with the LoV bridge's null guard."""
+    label = "is_diarch_valid"
+    parent = scripted_trigger(agot, label)
+    if script_tokens(parent) != f"{label} = {{ {label}_trigger = yes }}":
+        raise AssertionError(
+            f"{label}: AGOT no longer defines the rule as a bare {label}_trigger call"
+        )
+
+    guarded = scripted_trigger(lov, label)
+    if script_tokens(guarded) != (
+        f"{label} = {{ trigger_if = {{ {LOV_DIARCH_GUARD} {label}_trigger = yes }} "
+        "trigger_else = { always = no } }"
+    ):
+        raise AssertionError(
+            f"{label}: the LoV bridge no longer wraps AGOT's call in exactly its "
+            f"{LOV_DIARCH_GUARD!r} guard"
+        )
+
+    extended = scripted_trigger(long_night, label)
+    clause = indented_block(extended, "trigger_if", label=label)
+    if "government_is_nw" not in clause:
+        raise AssertionError(
+            f"{label}: the Long Night's added clause no longer tests the "
+            "Night's Watch government flag"
+        )
+    if script_tokens(extended.replace(clause, "", 1)) != script_tokens(parent):
+        raise AssertionError(
+            f"{label}: the Long Night's definition is no longer AGOT's plus one "
+            "trigger_if clause"
+        )
+
+    nested = "\n".join(f"\t{line}" if line else line for line in clause.splitlines())
+    inner = indented_block(guarded, "trigger_if", label=label)
+    closing = inner.rfind("\n\t}")
+    if closing < 0:
+        raise AssertionError(
+            f"{label}: the LoV bridge's guarded branch lost its indent"
+        )
+    body = replace_once(
+        guarded,
+        inner,
+        f"{inner[:closing]}\n{nested}\n\t}}",
+        label=f"{label} guarded branch",
+    )
+    return (
+        "# The AGOT playset's single last writer for `is_diarch_valid`.\n"
+        "#\n"
+        "# The Legacy of Valyria bridge guards AGOT's call against a missing\n"
+        "# character, and AGOT: The Long Night & Azor Ahai adds the clause that\n"
+        "# keeps a sworn brother of the Night's Watch from serving as diarch\n"
+        "# outside the Watch's own chain of command.  Only one definition of a\n"
+        "# rule key survives, and the winner is the file parsed last: across the\n"
+        "# merged file system CK3 walks every top-level file in the directory in\n"
+        "# name order, then its subdirectories, without regard to mod position.\n"
+        "# The Long Night's `zz_ln_diarch_rules.txt` therefore wins and the\n"
+        "# bridge's guard is lost.  This name sorts after both, and no mod in the\n"
+        "# playset puts a rule file in a `common/scripted_rules/` subdirectory,\n"
+        "# which would parse later still.  Re-audit when either stops holding.\n"
+        "#\n"
+        "# `is_diarch_able` needs no entry here: only the bridge and AGOT define\n"
+        "# it, both in `00_rules.txt`, so load order already keeps the guard.\n"
+        f"{body}\n"
+    )
+
+
 def generate_outputs(workshop: dict[str, Path]) -> dict[Path, bytes]:
     # NOW 1.2.5 corrected the `d_lychester` creation requirement upstream (it
     # previously required `d_medway`'s capital county), which was this override's
@@ -758,6 +843,13 @@ def generate_outputs(workshop: dict[str, Path]) -> dict[Path, bytes]:
             read_text(workshop["GREAT_COUNCILS"] / GREAT_COUNCILS_TRIGGERS),
         )
     ).encode("utf-8-sig")
+    outputs[IS_DIARCH_VALID_RELATIVE] = normalize_output(
+        generate_is_diarch_valid(
+            read_text(workshop["AGOT"] / RULES_RELATIVE),
+            read_text(workshop["LOV_BRIDGE"] / RULES_RELATIVE),
+            read_text(workshop["LONG_NIGHT"] / LONG_NIGHT_DIARCH_RULES),
+        )
+    ).encode("utf-8-sig")
     return outputs
 
 
@@ -807,6 +899,10 @@ def source_manifest(
         "LOV_BRIDGE_DESCRIPTOR": workshop["LOV_BRIDGE"] / "descriptor.mod",
         "GREAT_COUNCILS_TRIGGERS": workshop["GREAT_COUNCILS"] / GREAT_COUNCILS_TRIGGERS,
         "GREAT_COUNCILS_DESCRIPTOR": workshop["GREAT_COUNCILS"] / "descriptor.mod",
+        "AGOT_RULES": workshop["AGOT"] / RULES_RELATIVE,
+        "LOV_BRIDGE_RULES": workshop["LOV_BRIDGE"] / RULES_RELATIVE,
+        "LONG_NIGHT_DIARCH_RULES": workshop["LONG_NIGHT"] / LONG_NIGHT_DIARCH_RULES,
+        "LONG_NIGHT_DESCRIPTOR": workshop["LONG_NIGHT"] / "descriptor.mod",
     }
     versions: dict[str, str] = {}
     for label, module_root in workshop.items():
@@ -866,6 +962,10 @@ def source_manifest(
                 "combine AGOT's body with the Iron and Salt and Great Councils "
                 "extensions under one later-sorting writer"
             ),
+            "is_diarch_valid": (
+                "keep the LoV bridge's missing-character guard under the Long "
+                "Night's later-sorting Night's Watch clause"
+            ),
         },
     }
 
@@ -886,6 +986,7 @@ def generate(context: GenerationContext) -> None:
         "dfp-agot",
         "lov-agot-bridge",
         "great-councils",
+        "long-night-azor-ahai",
     )
     workshop = {
         "AGOT": context.source("agot"),
@@ -901,6 +1002,7 @@ def generate(context: GenerationContext) -> None:
         "DFP_AGOT": context.source("dfp-agot"),
         "LOV_BRIDGE": context.source("lov-agot-bridge"),
         "GREAT_COUNCILS": context.source("great-councils"),
+        "LONG_NIGHT": context.source("long-night-azor-ahai"),
     }
     missing = [
         f"{label}:{path}" for label, path in workshop.items() if not path.is_dir()

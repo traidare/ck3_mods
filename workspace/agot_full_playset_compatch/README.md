@@ -105,6 +105,24 @@ A narrow `can_raid` scripted-rule override also returns false when CK3 evaluates
 the rule without a potential-raider character, while delegating unchanged to
 AGOT's `can_raid_trigger` for every valid character.
 
+The generated `zzz_agot_playset_is_diarch_valid.txt` is the single final writer
+for `is_diarch_valid`. Two parents extend AGOT's one-line rule and only one
+definition of a rule key survives: the LoV AGOT bridge wraps AGOT's call in an
+`exists = this` guard inside its `00_rules.txt`, and AGOT: The Long Night & Azor
+Ahai adds a Night's Watch clause in `zz_ln_diarch_rules.txt`, which parses later
+and drops the guard. The generator asserts AGOT's rule is still a bare
+`is_diarch_valid_trigger` call, that the bridge's is still exactly that call
+wrapped in its guard, and that the Long Night's is still AGOT's plus one
+`trigger_if`; it then nests the Long Night's clause inside the guarded branch.
+The bridge's `is_diarch_able` guard needs no entry, because only the bridge and
+AGOT define that key and both do so in `00_rules.txt`, where load order decides.
+
+Rule keys resolve by parse order, not mod position, which is why this file wins
+from a load position ahead of the Long Night's. Parse order walks every
+top-level file in `common/scripted_rules/` in name order and only then its
+subdirectories, so re-audit if any playset mod starts shipping rules from a
+subdirectory or from a name sorting after `zzz_agot_playset_`.
+
 `history/provinces/replace/00_k_the_vale_prov.txt` takes the same path as AGOT
 Nobility of Westeros' own file, so it shadows that file whole rather than
 merging with it. The Sisterton culture and holding change is this layer's

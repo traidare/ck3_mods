@@ -24,28 +24,27 @@ parent's documented `Persistent portrait info missing gene` flood. The tradeoff
 is that ruler presets saved against older Long Night gene layouts are not
 guaranteed to load without missing-gene messages.
 
-### Service gate
+### Service gate — assertion only
 
-`common/scripted_triggers/zz_ln_service_triggers.txt`. The parent's
-`ln_may_serve_trigger` pairs a `trigger_if` with a `trigger_else_if` and no
-terminator, which CK3 1.19 rejects:
+`common/scripted_triggers/zz_ln_service_triggers.txt` is **not** owned. The
+parent's `ln_may_serve_trigger` terminates its `trigger_if` chain itself, so
+there is nothing to repair and no override is shipped.
+
+The chain still matters here because CK3 1.19 rejects an unterminated one:
 
 > `trigger_else_if trigger [ trigger_else_if with no trigger_else ]`
 >
 > `PostValidate of trigger 'trigger_else_if' returned false`
 
-The failure makes the whole gate return false, so its four call sites —
+That failure makes the whole gate return false, so its four call sites —
 `can_be_knight_trigger`, `base_court_position_validity_trigger`, and
 `can_be_councillor_basics_trigger` in this file, plus
 `can_be_commander_basic_trigger` in the parent's commander override — refuse
-every candidate rather than only the dead. The generated last writer is the
-parent file with `trigger_else = { always = yes }` appended to that chain, which
-is the living-candidate-under-a-living-lord case the parent documents as
-silently permitted. Nothing else in the file changes, so the three AGOT trigger
-bodies the parent copies stay as the parent shipped them.
-
-The file is SHA-256 pinned, and generation asserts all three in-file call sites
-and that the chain still lacks a terminator.
+every candidate rather than only the dead. Generation therefore reads the
+parent's `ln_may_serve_trigger` body and asserts it still branches on
+`trigger_else_if`, still closes on `trigger_else`, and that the three in-file
+call sites are still overridden. Any of those failing means the override has to
+come back.
 
 ## Load order
 
@@ -61,9 +60,9 @@ ck3mm mod generate agot_long_night_azor_ahai_runtime_fix --apply
 
 ## Re-audit
 
-Re-audit when the Workshop parent changes either owned file, when CK3 changes
-special morph-gene handling, or when CK3 accepts an unterminated
-`trigger_else_if` chain again. Each source hash, the exact field/gene counts,
-and the call-site assertions intentionally fail generation instead of silently
-carrying an obsolete repair; generation also fails once the parent adds its own
-`trigger_else`.
+Re-audit when the Workshop parent changes the owned gene file, when CK3 changes
+special morph-gene handling, or when the parent's service gate loses its
+`trigger_else`. The gene source hash and the exact field/gene counts
+intentionally fail generation instead of silently carrying an obsolete repair;
+the service-gate assertion fails if the parent regresses and the override has to
+come back.

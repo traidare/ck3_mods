@@ -32,6 +32,9 @@ genuine cross-mod overlaps that need a single deliberate winner.
   icon correction.
 - Iron and Salt's kraken exclusion with AGOT's creature rules and Great
   Councils' character exclusion.
+- The Long Night & Azor Ahai's rule keeping a sworn brother of the Night's Watch
+  from serving as regent outside the Watch, with the Legacy of Valyria AGOT
+  bridge's guard against the same rule being asked about no one at all.
 
 It also owns three cross-parent overrides of its own: the three historical Dance
 of the Dragons starts begin in autumn rather than waiting through summer, the
@@ -73,6 +76,10 @@ compatch. Keep the integration layers in this order:
 19. `AGOT Playset - Character UI Overhaul Compatch`
 20. `AGOT Playset Runtime Fixes`
 21. `AGOT Playset Compatch`
+
+`AGOT: The Long Night & Azor Ahai` and its own fixes load after this compatch.
+That is intentional and changes nothing: the regent rule above is decided by
+file name rather than by mod order.
 
 Disable these superseded compatch mods:
 
