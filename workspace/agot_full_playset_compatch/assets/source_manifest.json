@@ -2,6 +2,7 @@
   "schema_version": 1,
   "workshop_ids": {
     "AGOT": "2962333032",
+    "NEW_PERSONALITY_EVENTS": "2779836155",
     "NOW": "3664900993",
     "SEASONS_BRIDGE": "3766038754",
     "AMSB": "3319354609",
@@ -16,6 +17,7 @@
   },
   "versions": {
     "AGOT": "0.5.1",
+    "NEW_PERSONALITY_EVENTS": "1",
     "NOW": "1.2.8.1",
     "SEASONS_BRIDGE": "1.0.31",
     "AMSB": "0.5.1",
@@ -26,7 +28,7 @@
     "IRON_AND_SALT": "0.6.0",
     "DFP_AGOT": "0",
     "LOV_BRIDGE": "0.5.1-stage09d-postrelease-runtime-repair-rc7-2026-08-25",
-    "GREAT_COUNCILS": "1.77"
+    "GREAT_COUNCILS": "1.78"
   },
   "files": {
     "NOW": {
@@ -93,6 +95,26 @@
       "path": "2962333032/common/on_action/agot_on_actions/agot_yearly_on_actions.txt",
       "sha256": "50352c133536c8cea25abbe44cbca78404cba303626577e6bbd2ccf95e020668",
       "size": 29085
+    },
+    "AGOT_CHILDHOOD": {
+      "path": "2962333032/common/on_action/childhood_on_actions.txt",
+      "sha256": "0f34dc3dca045a58be35d4f5de061a88ed266244ce2f9b8c23d7f2d292a4a198",
+      "size": 31452
+    },
+    "AGOT_CHILDHOOD_ACTIONS": {
+      "path": "2962333032/common/on_action/agot_on_actions/agot_childhood_on_actions.txt",
+      "sha256": "7c8fb7f65d7978521d456191371b057296e36f96af603b56bed4a383eb347da2",
+      "size": 55267
+    },
+    "NEW_PERSONALITY_CHILDHOOD": {
+      "path": "2779836155/common/on_action/childhood_on_actions.txt",
+      "sha256": "c4d5237c5cd5ee7abe292a9d7f515593a9cf8cbbd56f4ee454eda8b98fbfe0d7",
+      "size": 29773
+    },
+    "NEW_PERSONALITY_DESCRIPTOR": {
+      "path": "2779836155/descriptor.mod",
+      "sha256": "ea21b130c39c24fa4bbd468f7e2812e307cb8ed27afc49935996981509d3075a",
+      "size": 178
     },
     "MDE_EGGS": {
       "path": "3388366564/common/on_action/agot_on_actions/mde_yearly_on_actions.txt",
@@ -186,7 +208,7 @@
     },
     "GREAT_COUNCILS_DESCRIPTOR": {
       "path": "3621472324/descriptor.mod",
-      "sha256": "68b08ea32e0cadc4ba434af25f5216e6235424a1a1aeba8a45d1c8d3c0a04b83",
+      "sha256": "03c72c8d6294d1bd00e4d4a8f9829df8e10c4a26a76eceafeda24a2c20deb88a",
       "size": 149
     }
   },
@@ -198,6 +220,7 @@
     "regions": "rebase NOW tokens and cover LoV cleanup regions without ruins",
     "grandeur": "assert the AGOT+/LoV compatch still covers every AMSB court scene, so this module needs no grandeur_levels.txt override",
     "dragon_on_actions": "union the two mods that contest mde_yearly_on_actions.txt",
+    "canon_dragon_birthday": "restore AGOT's AI canon-rider tenth-birthday dispatch beside New Personality Events for Children",
     "cow_models": "assert the unenabled NOW-COW compatch's special-building model remaps are still carried by the hand-merged trigger",
     "iron_and_salt_hud": "merge Iron and Salt's naval and kraken HUD with Dynamic Family Portrait's AGOT stack and More Dragon Eggs portrait sizes",
     "iron_and_salt_map_icon": "keep the kraken map icon without restoring the LoV bridge's removed find_elder datacontext",

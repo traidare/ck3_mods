@@ -40,6 +40,14 @@ AGOT's entries a second time and halve the chance of no event firing. The
 generator asserts the copied part still matches AGOT's declaration exactly, so
 an upstream rebalance fails generation instead of being silently discarded.
 
+New Personality Events for Children owns the effective
+`childhood_on_actions.txt` and retains its personality event while omitting
+AGOT's `on_10th_birthday_tame_canon_dragon` dispatch. The generated canon-dragon
+birthday file extends `on_10th_birthday` from a unique path, so CK3 merges the
+missing AI canon-rider action without replacing either parent's file. The
+generator asserts AGOT still owns the expected guarded action and that New
+Personality Events has not added the dispatch itself.
+
 Iron and Salt adds three final-integration boundaries. Its `hud.gui` is the
 naval and kraken owner, while the Dynamic Family Portrait AGOT bridge owns the
 bottom-left family stack and carries More Dragon Eggs' sized dragon portrait.
@@ -159,15 +167,16 @@ ck3mm mod generate agot_full_playset_compatch --apply
 ```
 
 The `mod.toml` manifest regenerates the owned outputs from the declared AGOT,
-NOW, Seasons-fork, dragon-mod, Iron and Salt, Dynamic Family Portrait, LoV
-bridge, and Great Councils sources. It also declares the Additional Models,
-AGOT+/LoV compatch, and disabled COW-AGOT/NOW source that back the assertions
-above. Its portable source metadata lives here, outside the installed runtime
-payload.
+New Personality Events, NOW, Seasons-fork, dragon-mod, Iron and Salt, Dynamic
+Family Portrait, LoV bridge, and Great Councils sources. It also declares the
+Additional Models, AGOT+/LoV compatch, and disabled COW-AGOT/NOW source that
+back the assertions above. Its portable source metadata lives here, outside the
+installed runtime payload.
 
 ## Re-audit
 
-Re-audit whenever any merged parent updates — in particular NOW, the
-Seasons-of-Valyria Workshop fork, LoV, MFA, COW, CaFG, Iron and Salt, Dynamic
-Family Portrait, or Great Councils — since every owned file is a whole-file
-merge that silently absorbs upstream changes.
+Re-audit whenever any merged parent updates — in particular AGOT or New
+Personality Events' tenth-birthday on-actions, NOW, the Seasons-of-Valyria
+Workshop fork, LoV, MFA, COW, CaFG, Iron and Salt, Dynamic Family Portrait, or
+Great Councils. Remove the canon-dragon birthday bridge if the effective parent
+restores AGOT's dispatch itself.

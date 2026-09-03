@@ -24,6 +24,8 @@ genuine cross-mod overlaps that need a single deliberate winner.
 - The dragon on-action file shipped by both More Dragon Eggs and More Dragon
   Events, so the canon egg-clutch pulse and the extra owned-dragon events both
   keep working instead of one mod's file replacing the other's.
+- New Personality Events for Children's tenth-birthday events with AGOT's
+  AI-only canon-rider bonding, so both systems fire for eligible children.
 - Iron and Salt's naval and kraken HUD with Dynamyc Family Portrait's AGOT
   portrait stack and More Dragon Eggs' sized dragon portrait.
 - Iron and Salt's kraken map icon with the Legacy of Valyria AGOT bridge's map
@@ -39,6 +41,9 @@ applying seasons to wilderness ruins. A narrow rule change also stops CK3 from
 erroring when it evaluates raiding without a raider.
 
 ## Required load order
+
+`New Personality Events for Children` must be enabled after AGOT and before this
+compatch. Keep the integration layers in this order:
 
 1. `VIET 1.3.0 - AGOT CK3 1.19 Runtime Rebase`, immediately after VIET
 2. `AGOT+ 1.0.0 - CK3 1.19 Runtime Rebase`, immediately after AGOT: Canon

@@ -268,6 +268,70 @@ class SharedGeneratorHelperTest(unittest.TestCase):
             blocks = parse_blocks(source)
         self.assertEqual(list(blocks), ["first", "second"])
 
+    def test_canon_dragon_birthday_bridge_restores_agot_dispatch(self) -> None:
+        agot_childhood = """on_10th_birthday = {
+\ton_actions = { on_10th_birthday_tame_canon_dragon }
+}
+"""
+        personality_childhood = """on_10th_birthday = {
+\tevents = { child_personality.4000 }
+}
+"""
+        agot_actions = """on_10th_birthday_tame_canon_dragon = {
+\ttrigger = {
+\t\tagot_canon_dragons_enabled = yes
+\t\tis_ai = yes
+\t\tagot_is_canon_rider = yes
+\t\tany_relation = { type = agot_dragon count = 0 }
+\t\tNOT = { any_scheme = { scheme_type = bond_with_dragon_scheme } }
+\t}
+\teffect = { add_character_flag = { flag = attempting_canon_bond years = 2 } }
+\tevents = { dragon_taming_events.9000 }
+}
+"""
+        with generator_function(
+            "workspace/agot_full_playset_compatch/implementation.py",
+            "generate_canon_dragon_birthday_on_action",
+        ) as generate_bridge:
+            output = generate_bridge(
+                agot_childhood, agot_actions, personality_childhood
+            )
+        self.assertEqual(output.count("on_10th_birthday_tame_canon_dragon"), 1)
+        self.assertIn("on_10th_birthday = {", output)
+
+    def test_canon_dragon_birthday_bridge_rejects_duplicate_dispatch(self) -> None:
+        childhood = """on_10th_birthday = {
+\ton_actions = { on_10th_birthday_tame_canon_dragon }
+}
+"""
+        with (
+            generator_function(
+                "workspace/agot_full_playset_compatch/implementation.py",
+                "generate_canon_dragon_birthday_on_action",
+            ) as generate_bridge,
+            self.assertRaisesRegex(AssertionError, "already dispatches"),
+        ):
+            generate_bridge(childhood, "", childhood)
+
+    def test_canon_dragon_birthday_bridge_rejects_changed_agot_action(self) -> None:
+        agot_childhood = """on_10th_birthday = {
+\ton_actions = { on_10th_birthday_tame_canon_dragon }
+}
+"""
+        personality_childhood = "on_10th_birthday = { events = { test.1 } }\n"
+        changed_action = """on_10th_birthday_tame_canon_dragon = {
+\ttrigger = { agot_canon_dragons_enabled = yes is_ai = yes }
+}
+"""
+        with (
+            generator_function(
+                "workspace/agot_full_playset_compatch/implementation.py",
+                "generate_canon_dragon_birthday_on_action",
+            ) as generate_bridge,
+            self.assertRaisesRegex(AssertionError, "action changed"),
+        ):
+            generate_bridge(agot_childhood, changed_action, personality_childhood)
+
 
 if __name__ == "__main__":
     unittest.main()

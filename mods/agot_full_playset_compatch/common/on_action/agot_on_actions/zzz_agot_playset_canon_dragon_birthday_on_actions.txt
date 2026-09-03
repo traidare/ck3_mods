@@ -1,0 +1,9 @@
+﻿# Restore AGOT's canon-rider birthday dispatch alongside New Personality Events.
+# The parents contest childhood_on_actions.txt, while on_action declarations in
+# uniquely named files merge. Remove this bridge if the later parent adds the
+# dispatch itself.
+on_10th_birthday = {
+	on_actions = {
+		on_10th_birthday_tame_canon_dragon
+	}
+}

@@ -16,6 +16,7 @@ from gen.text import definition_span, matching_brace, read_source
 
 WORKSHOP_IDS = {
     "AGOT": "2962333032",
+    "NEW_PERSONALITY_EVENTS": "2779836155",
     "NOW": "3664900993",
     "SEASONS_BRIDGE": "3766038754",
     "AMSB": "3319354609",
@@ -61,6 +62,15 @@ MDE_RELATIVE = Path("common/on_action/agot_on_actions/mde_yearly_on_actions.txt"
 AGOT_YEARLY_RELATIVE = Path(
     "common/on_action/agot_on_actions/agot_yearly_on_actions.txt"
 )
+CHILDHOOD_ON_ACTIONS_RELATIVE = Path("common/on_action/childhood_on_actions.txt")
+AGOT_CHILDHOOD_ON_ACTIONS_RELATIVE = Path(
+    "common/on_action/agot_on_actions/agot_childhood_on_actions.txt"
+)
+CANON_DRAGON_BIRTHDAY_RELATIVE = Path(
+    "common/on_action/agot_on_actions/"
+    "zzz_agot_playset_canon_dragon_birthday_on_actions.txt"
+)
+CANON_DRAGON_BIRTHDAY_ACTION = "on_10th_birthday_tame_canon_dragon"
 TITLE_LANGUAGES = ("english", "spanish")
 
 
@@ -289,6 +299,53 @@ def generate_mde_on_actions(eggs: str, events: str, agot: str) -> str:
         f"\trandom_events = {{\n{body}\n\t}}\n"
         "}\n"
     )
+
+
+def generate_canon_dragon_birthday_on_action(
+    agot_childhood: str, agot_childhood_actions: str, personality_childhood: str
+) -> str:
+    """Restore AGOT's canon-dragon birthday dispatch beside the personality mod."""
+    agot_birthday = block_of(agot_childhood, "on_10th_birthday")
+    personality_birthday = block_of(personality_childhood, "on_10th_birthday")
+    if agot_birthday.count(CANON_DRAGON_BIRTHDAY_ACTION) != 1:
+        raise AssertionError(
+            "AGOT on_10th_birthday no longer dispatches "
+            f"{CANON_DRAGON_BIRTHDAY_ACTION} exactly once"
+        )
+    if CANON_DRAGON_BIRTHDAY_ACTION in personality_birthday:
+        raise AssertionError(
+            "New Personality Events already dispatches AGOT's canon-dragon "
+            "birthday action; remove this bridge to avoid firing it twice"
+        )
+
+    action = block_of(agot_childhood_actions, CANON_DRAGON_BIRTHDAY_ACTION)
+    required_fragments = (
+        "agot_canon_dragons_enabled = yes",
+        "is_ai = yes",
+        "agot_is_canon_rider = yes",
+        "type = agot_dragon",
+        "count = 0",
+        "scheme_type = bond_with_dragon_scheme",
+        "flag = attempting_canon_bond",
+        "dragon_taming_events.9000",
+    )
+    missing = [fragment for fragment in required_fragments if fragment not in action]
+    if missing:
+        raise AssertionError(
+            "AGOT canon-dragon birthday action changed; re-audit the bridge "
+            f"before generation (missing {missing})"
+        )
+
+    return f"""# Restore AGOT's canon-rider birthday dispatch alongside New Personality Events.
+# The parents contest childhood_on_actions.txt, while on_action declarations in
+# uniquely named files merge. Remove this bridge if the later parent adds the
+# dispatch itself.
+on_10th_birthday = {{
+\ton_actions = {{
+\t\t{CANON_DRAGON_BIRTHDAY_ACTION}
+\t}}
+}}
+"""
 
 
 def named_block(text: str, name: str) -> tuple[int, int]:
@@ -671,6 +728,15 @@ def generate_outputs(workshop: dict[str, Path]) -> dict[Path, bytes]:
             read_text(workshop["AGOT"] / AGOT_YEARLY_RELATIVE),
         )
     ).encode("utf-8-sig")
+    outputs[CANON_DRAGON_BIRTHDAY_RELATIVE] = normalize_output(
+        generate_canon_dragon_birthday_on_action(
+            read_text(workshop["AGOT"] / CHILDHOOD_ON_ACTIONS_RELATIVE),
+            read_text(workshop["AGOT"] / AGOT_CHILDHOOD_ON_ACTIONS_RELATIVE),
+            read_text(
+                workshop["NEW_PERSONALITY_EVENTS"] / CHILDHOOD_ON_ACTIONS_RELATIVE
+            ),
+        )
+    ).encode("utf-8-sig")
     outputs[HUD_RELATIVE] = normalize_output(
         generate_hud(
             read_text(workshop["AGOT"] / HUD_RELATIVE),
@@ -716,6 +782,12 @@ def source_manifest(
         "AMSB_DESCRIPTOR": workshop["AMSB"] / "descriptor.mod",
         "AMSB_LOV_DESCRIPTOR": workshop["AMSB_LOV"] / "descriptor.mod",
         "AGOT_YEARLY": workshop["AGOT"] / AGOT_YEARLY_RELATIVE,
+        "AGOT_CHILDHOOD": workshop["AGOT"] / CHILDHOOD_ON_ACTIONS_RELATIVE,
+        "AGOT_CHILDHOOD_ACTIONS": workshop["AGOT"] / AGOT_CHILDHOOD_ON_ACTIONS_RELATIVE,
+        "NEW_PERSONALITY_CHILDHOOD": workshop["NEW_PERSONALITY_EVENTS"]
+        / CHILDHOOD_ON_ACTIONS_RELATIVE,
+        "NEW_PERSONALITY_DESCRIPTOR": workshop["NEW_PERSONALITY_EVENTS"]
+        / "descriptor.mod",
         "MDE_EGGS": workshop["MDE_EGGS"] / MDE_RELATIVE,
         "MDE_EVENTS": workshop["MDE_EVENTS"] / MDE_RELATIVE,
         "MDE_EGGS_DESCRIPTOR": workshop["MDE_EGGS"] / "descriptor.mod",
@@ -774,6 +846,10 @@ def source_manifest(
             "dragon_on_actions": (
                 "union the two mods that contest mde_yearly_on_actions.txt"
             ),
+            "canon_dragon_birthday": (
+                "restore AGOT's AI canon-rider tenth-birthday dispatch beside "
+                "New Personality Events for Children"
+            ),
             "cow_models": (
                 "assert the unenabled NOW-COW compatch's special-building model "
                 "remaps are still carried by the hand-merged trigger"
@@ -798,6 +874,7 @@ def generate(context: GenerationContext) -> None:
     root = context.workspace_root
     workshop_root = context.workshop_root(
         "agot",
+        "new-personality-events",
         "agot-now",
         "seasons-bridge",
         "amsb",
@@ -812,6 +889,7 @@ def generate(context: GenerationContext) -> None:
     )
     workshop = {
         "AGOT": context.source("agot"),
+        "NEW_PERSONALITY_EVENTS": context.source("new-personality-events"),
         "NOW": context.source("agot-now"),
         "SEASONS_BRIDGE": context.source("seasons-bridge"),
         "AMSB": context.source("amsb"),
