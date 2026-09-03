@@ -1,0 +1,1274 @@
+﻿namespace = agot_crownlands_bla
+
+agot_crownlands_bla.0599 = {
+	type = character_event
+	hidden = yes
+
+	trigger = {
+		is_ai = no
+		is_ruler = yes
+		is_landed = yes
+		is_available_adult = yes
+		dynasty = dynasty:dynn_Crabb
+
+		NOT = {
+			has_character_flag = crabb_any_event_recently_bla
+		}
+	}
+
+	immediate = {
+		add_character_flag = {
+			flag = crabb_any_event_recently_bla
+			years = 3
+		}
+
+		random_list = {
+			10 = { trigger_event = agot_crownlands_bla.0500 }
+			10 = { trigger_event = agot_crownlands_bla.0501 }
+			8 = { trigger_event = agot_crownlands_bla.0504 }
+			8 = { trigger_event = agot_crownlands_bla.0505 }
+			8 = { trigger_event = agot_crownlands_bla.0506 }
+			8 = { trigger_event = agot_crownlands_bla.0507 }
+			7 = { trigger_event = agot_crownlands_bla.0508 }
+			6 = { trigger_event = agot_crownlands_bla.0509 }
+
+			120 = { }
+		}
+	}
+}
+
+agot_crownlands_bla.0500 = {
+	type = character_event
+	title = agot_crownlands_bla.0500.t
+	desc = agot_crownlands_bla.0500.desc
+	theme = dynasty
+
+	override_background = {
+		reference = wilderness
+	}
+
+	left_portrait = {
+		character = root
+		animation = personality_rational
+	}
+
+	trigger = {
+		is_ruler = yes
+		is_landed = yes
+		is_available_adult = yes
+		dynasty = dynasty:dynn_Crabb
+
+		NOT = {
+			has_character_flag = agot_crabb_heads_clarence_cooldown_bla
+		}
+	}
+
+	immediate = {
+		add_character_flag = {
+			flag = agot_crabb_heads_clarence_cooldown_bla
+			years = 10
+		}
+	}
+
+	option = { # Embrace the legend
+		name = agot_crownlands_bla.0500.a
+
+		add_prestige = 200
+		dynasty ?= { add_dynasty_prestige = 100 }
+
+		add_character_modifier = {
+			modifier = agot_crabb_legacy_of_clarence_bla
+			years = 8
+		}
+
+		add_character_flag = agot_crabb_clarence_legend_bla
+	}
+
+	option = { # Investigate the story
+		name = agot_crownlands_bla.0500.b
+
+		add_learning_lifestyle_xp = 175
+
+		add_character_flag = agot_crabb_clarence_scholar_bla
+	}
+
+	option = { # Encourage the frightening stories
+		name = agot_crownlands_bla.0500.c
+
+		add_dread = 5
+		add_intrigue_lifestyle_xp = 125
+
+		add_character_modifier = {
+			modifier = agot_crabb_whispers_reputation_bla
+			years = 8
+		}
+
+		add_character_flag = agot_crabb_clarence_fear_bla
+	}
+
+	option = { # Dismiss it
+		name = agot_crownlands_bla.0500.d
+
+		add_stewardship_lifestyle_xp = 100
+	}
+}
+
+agot_crownlands_bla.0501 = {
+	type = character_event
+	title = agot_crownlands_bla.0501.t
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = {
+					has_character_flag = agot_crabb_clarence_scholar_bla
+				}
+				desc = agot_crownlands_bla.0501.desc_scholar
+			}
+
+			triggered_desc = {
+				trigger = {
+					has_character_flag = agot_crabb_clarence_fear_bla
+				}
+				desc = agot_crownlands_bla.0501.desc_fear
+			}
+
+			triggered_desc = {
+				trigger = {
+					has_character_flag = agot_crabb_clarence_legend_bla
+				}
+				desc = agot_crownlands_bla.0501.desc_legend
+			}
+
+			desc = agot_crownlands_bla.0501.desc
+		}
+	}
+
+	theme = learning
+
+	override_background = {
+		reference = wilderness
+	}
+
+	left_portrait = {
+		character = root
+		animation = personality_rational
+	}
+
+	trigger = {
+		is_ruler = yes
+		is_landed = yes
+		is_available_adult = yes
+		dynasty = dynasty:dynn_Crabb
+
+		dynasty = {
+			NOT = {
+				has_variable = agot_crabb_whispers_explored_bla
+			}
+		}
+	}
+
+	immediate = {
+		add_character_flag = agot_crabb_whispers_explored_bla
+
+		dynasty = {
+			set_variable = {
+				name = agot_crabb_whispers_explored_bla
+				value = 1
+			}
+		}
+	}
+
+	option = { # Go personally
+		name = agot_crownlands_bla.0501.a
+
+		add_prestige = 100
+
+		hidden_effect = {
+			trigger_event = {
+				id = agot_crownlands_bla.0502
+				days = 3
+			}
+		}
+	}
+
+	option = { # Send men
+		name = agot_crownlands_bla.0501.b
+
+		remove_short_term_gold = 50
+
+		add_character_flag = agot_crabb_whispers_sent_men_bla
+
+		hidden_effect = {
+			trigger_event = {
+				id = agot_crownlands_bla.0502
+				days = 5
+			}
+		}
+	}
+
+	option = { # Ask the locals
+		name = agot_crownlands_bla.0501.c
+
+		add_intrigue_lifestyle_xp = 100
+		add_character_flag = agot_crabb_whispers_local_guides_bla
+
+		hidden_effect = {
+			trigger_event = {
+				id = agot_crownlands_bla.0502
+				days = 3
+			}
+		}
+	}
+
+	option = { # Scholarly examination
+		name = agot_crownlands_bla.0501.d
+
+		trigger = {
+			OR = {
+				learning >= 12
+				has_character_flag = agot_crabb_clarence_scholar_bla
+			}
+		}
+
+		add_learning_lifestyle_xp = 125
+		add_character_flag = agot_crabb_whispers_methodical_bla
+
+		hidden_effect = {
+			trigger_event = {
+				id = agot_crownlands_bla.0502
+					days = 3
+			}
+		}	
+	}
+
+	option = { # Leave it
+		name = agot_crownlands_bla.0501.e
+
+		add_piety = 75
+	}
+}
+
+agot_crownlands_bla.0502 = {
+	type = character_event
+	title = agot_crownlands_bla.0502.t
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = {
+					has_character_flag = agot_crabb_whispers_skulls_bla
+				}
+				desc = agot_crownlands_bla.0502.desc_skulls
+			}
+
+			triggered_desc = {
+				trigger = {
+					has_character_flag = agot_crabb_whispers_large_bones_bla
+				}
+				desc = agot_crownlands_bla.0502.desc_large_bones
+			}
+
+			triggered_desc = {
+				trigger = {
+					has_character_flag = agot_crabb_whispers_dead_bla
+				}
+				desc = agot_crownlands_bla.0502.desc_dead
+			}
+
+			desc = agot_crownlands_bla.0502.desc_common
+		}
+	}
+
+	theme = learning
+
+	override_background = {
+		reference = dungeon
+	}
+
+	left_portrait = {
+		character = root
+		animation = personality_suspicious
+	}
+
+	immediate = {
+		random_list = {
+			50 = {
+				add_character_flag = agot_crabb_whispers_common_bla
+			}
+
+			25 = {
+				add_character_flag = agot_crabb_whispers_dead_bla
+			}
+
+			15 = {
+				add_character_flag = agot_crabb_whispers_large_bones_bla
+			}
+
+			10 = {
+				add_character_flag = agot_crabb_whispers_skulls_bla
+			}
+		}
+	}
+
+	option = { # Common finds
+		name = agot_crownlands_bla.0502.a
+
+		trigger = {
+			has_character_flag = agot_crabb_whispers_common_bla
+		}
+
+		add_gold = 75
+		add_learning_lifestyle_xp = 75
+	}
+
+	option = { # Violent remains
+		name = agot_crownlands_bla.0502.b
+
+		trigger = {
+			has_character_flag = agot_crabb_whispers_dead_bla
+		}
+
+		add_learning_lifestyle_xp = 150
+		add_prestige = 75
+	}
+
+	option = { # Huge skeleton
+		name = agot_crownlands_bla.0502.c
+
+		trigger = {
+			has_character_flag = agot_crabb_whispers_large_bones_bla
+		}
+
+		add_learning_lifestyle_xp = 175
+		dynasty ?= { add_dynasty_prestige = 100 }
+	}
+
+	option = { # Skull chamber
+		name = agot_crownlands_bla.0502.d
+
+		trigger = {
+			has_character_flag = agot_crabb_whispers_skulls_bla
+		}
+
+		add_learning_lifestyle_xp = 150
+
+		hidden_effect = {
+			trigger_event = {
+				id = agot_crownlands_bla.0503
+				days = 5
+			}
+		}
+	}
+}
+
+agot_crownlands_bla.0503 = {
+	type = character_event
+	title = agot_crownlands_bla.0503.t
+	desc = agot_crownlands_bla.0503.desc
+	theme = intrigue
+
+	override_background = {
+		reference = dungeon
+	}
+
+	left_portrait = {
+		character = root
+		animation = personality_suspicious
+	}
+
+	option = { # Examine the skull
+		name = agot_crownlands_bla.0503.a
+
+		add_learning_lifestyle_xp = 175
+		add_character_flag = agot_crabb_whispering_skull_examined_bla
+	}
+
+	option = { # Bring a septon
+		name = agot_crownlands_bla.0503.b
+
+		add_piety = 150
+		add_character_flag = agot_crabb_whispering_skull_blessed_bla
+	}
+
+	option = { # Put it back
+		name = agot_crownlands_bla.0503.c
+
+		add_prestige = 75
+		add_character_flag = agot_crabb_whispering_skull_returned_bla
+	}
+
+	option = { # Ask it
+		name = agot_crownlands_bla.0503.d
+
+		add_intrigue_lifestyle_xp = 125
+
+		random_list = {
+			65 = {
+				custom_tooltip = agot_crownlands_bla.0503.d.nothing
+			}
+
+			25 = {
+				add_prestige = 100
+				custom_tooltip = agot_crownlands_bla.0503.d.wind
+			}
+
+			10 = {
+				add_character_modifier = {
+					modifier = agot_crabb_words_from_the_dark_bla
+					years = 5
+				}
+
+				custom_tooltip = agot_crownlands_bla.0503.d.whisper
+			}
+		}
+
+		add_character_flag = agot_crabb_whispering_skull_questioned_bla
+	}
+}
+
+agot_crownlands_bla.0504 = {
+	type = character_event
+	title = agot_crownlands_bla.0504.t
+	desc = agot_crownlands_bla.0504.desc
+	theme = martial
+
+	override_background = {
+		reference = courtyard
+	}
+
+	left_portrait = {
+		character = root
+		animation = personality_rational
+	}
+
+	right_portrait = {
+		character = scope:crabb_clarence_descendant_bla
+		animation = personality_bold
+	}
+
+	trigger = {
+		is_ruler = yes
+		is_landed = yes
+		is_available_adult = yes
+		dynasty = dynasty:dynn_Crabb
+
+		NOT = {
+			has_character_flag = agot_crabb_blood_clarence_cooldown_bla
+		}
+	}
+
+	immediate = {
+		add_character_flag = {
+			flag = agot_crabb_blood_clarence_cooldown_bla
+			years = 10
+		}
+
+		create_character = {
+			location = root.capital_province
+			age = { 22 32 }
+			dynasty = none
+			gender_female_chance = 0
+
+			culture = root.culture
+			faith = root.faith
+
+			martial = { 10 14 }
+			prowess = { 16 22 }
+
+			trait = strong
+			trait = brave
+
+			save_scope_as = crabb_clarence_descendant_bla
+		}
+	}
+
+	option = { # Bring him into the household
+		name = agot_crownlands_bla.0504.a
+
+		hidden_effect = {
+			add_courtier = scope:crabb_clarence_descendant_bla
+		}
+
+		add_prestige = 100
+		add_martial_lifestyle_xp = 125
+
+		custom_tooltip = agot_crownlands_bla.0504.a.tt
+	}
+
+	option = { # Publicly encourage the story
+		name = agot_crownlands_bla.0504.b
+
+		add_prestige = 175
+		dynasty ?= { add_dynasty_prestige = 75 }
+
+		scope:crabb_clarence_descendant_bla = {
+			add_opinion = {
+				target = root
+				modifier = grateful_opinion
+				opinion = 40
+			}
+		}
+
+		hidden_effect = {
+			add_courtier = scope:crabb_clarence_descendant_bla
+		}
+
+		custom_tooltip = agot_crownlands_bla.0504.b.tt
+	}
+
+	option = { # Test him
+		name = agot_crownlands_bla.0504.c
+
+		trigger = {
+			prowess >= 8
+		}
+
+		skill = prowess
+
+		duel = {
+			skill = prowess
+			value = scope:crabb_clarence_descendant_bla.prowess
+
+			50 = {
+				compare_modifier = {
+					value = scope:duel_value
+					multiplier = 1
+				}
+
+				add_prestige = 250
+				add_martial_lifestyle_xp = 175
+
+				hidden_effect = {
+					add_courtier = scope:crabb_clarence_descendant_bla
+				}
+
+				custom_tooltip = agot_crownlands_bla.0504.c.success
+			}
+
+			50 = {
+				compare_modifier = {
+					value = scope:duel_value
+					multiplier = -1
+				}
+
+				add_martial_lifestyle_xp = 125
+
+				hidden_effect = {
+					add_courtier = scope:crabb_clarence_descendant_bla
+				}
+
+				custom_tooltip = agot_crownlands_bla.0504.c.failure
+			}
+		}
+	}
+
+	option = { # Reject the genealogy
+		name = agot_crownlands_bla.0504.d
+
+		add_learning_lifestyle_xp = 100
+		add_prestige = 75
+	}
+}
+
+agot_crownlands_bla.0505 = {
+	type = character_event
+	title = agot_crownlands_bla.0505.t
+	desc = agot_crownlands_bla.0505.desc
+	theme = intrigue
+
+	override_background = {
+		reference = wilderness
+	}
+
+	left_portrait = {
+		character = root
+		animation = personality_suspicious
+	}
+
+	trigger = {
+		is_ruler = yes
+		is_landed = yes
+		is_available_adult = yes
+		dynasty = dynasty:dynn_Crabb
+
+		NOT = {
+			has_character_flag = agot_crabb_something_water_cooldown_bla
+		}
+	}
+
+	immediate = {
+		add_character_flag = {
+			flag = agot_crabb_something_water_cooldown_bla
+			years = 8
+		}
+	}
+
+	option = { # Hunt it
+		name = agot_crownlands_bla.0505.a
+
+		add_martial_lifestyle_xp = 100
+
+		random_list = {
+			40 = {
+				add_gold = 75
+				add_martial_lifestyle_xp = 75
+
+				custom_tooltip = agot_crownlands_bla.0505.a.smugglers
+			}
+
+			30 = {
+				add_character_flag = agot_crabb_water_hunt_bla
+
+				custom_tooltip = agot_crownlands_bla.0505.a.animal
+
+				hidden_effect = {
+					trigger_event = {
+						id = agot_crownlands_bla.0510
+						days = 2
+					}
+				}
+			}
+
+			20 = {
+				add_prestige = 50
+
+				custom_tooltip = agot_crownlands_bla.0505.a.nothing
+			}
+
+			10 = {
+				add_prestige = 100
+
+				add_character_modifier = {
+					modifier = agot_crabb_tracks_into_the_sea_bla
+					years = 5
+				}
+
+				custom_tooltip = agot_crownlands_bla.0505.a.tracks
+			}
+		}
+	}
+
+	option = { # Study the tracks
+		name = agot_crownlands_bla.0505.b
+
+		add_learning_lifestyle_xp = 125
+
+		random_list = {
+			45 = {
+				add_learning_lifestyle_xp = 75
+
+				custom_tooltip = agot_crownlands_bla.0505.b.mundane
+			}
+
+			35 = {
+				add_character_flag = agot_crabb_water_study_bla
+
+				custom_tooltip = agot_crownlands_bla.0505.b.animal
+
+				hidden_effect = {
+					trigger_event = {
+						id = agot_crownlands_bla.0510
+						days = 2
+					}
+				}
+			}
+
+			20 = {
+				add_intrigue_lifestyle_xp = 75
+
+				add_character_modifier = {
+					modifier = agot_crabb_tracks_into_the_sea_bla
+					years = 5
+				}
+
+				custom_tooltip = agot_crownlands_bla.0505.b.strange
+			}
+		}
+	}
+
+	option = { # Traps
+		name = agot_crownlands_bla.0505.c
+
+		remove_short_term_gold = 50
+		add_intrigue_lifestyle_xp = 100
+
+		random_list = {
+			65 = {
+				hidden_effect = {
+					trigger_event = {
+						id = agot_crownlands_bla.0511
+						days = 3
+					}
+				}
+
+				custom_tooltip = agot_crownlands_bla.0505.c.success
+			}
+
+			35 = {
+				custom_tooltip = agot_crownlands_bla.0505.c.failure
+			}
+		}
+	}
+
+	option = { # Ridicule the tale
+		name = agot_crownlands_bla.0505.d
+
+		add_prestige = 75
+		add_stewardship_lifestyle_xp = 75
+
+		custom_tooltip = agot_crownlands_bla.0505.d.tt
+	}
+}
+
+agot_crownlands_bla.0506 = {
+	type = character_event
+	title = agot_crownlands_bla.0506.t
+	desc = agot_crownlands_bla.0506.desc
+	theme = stewardship
+
+	override_background = {
+		reference = wilderness
+	}
+
+	left_portrait = {
+		character = root
+		animation = personality_rational
+	}
+
+	trigger = {
+		is_ruler = yes
+		is_landed = yes
+		is_available_adult = yes
+		dynasty = dynasty:dynn_Crabb
+
+		exists = liege
+
+		NOT = {
+			has_character_flag = agot_crabb_bog_road_cooldown_bla
+		}
+	}
+
+	immediate = {
+		add_character_flag = {
+			flag = agot_crabb_bog_road_cooldown_bla
+			years = 7
+		}
+	}
+
+	option = { # Rescue them
+		name = agot_crownlands_bla.0506.a
+
+		add_prestige = 100
+		add_diplomacy_lifestyle_xp = 100
+
+		liege = {
+			add_opinion = {
+				target = root
+				modifier = grateful_opinion
+				opinion = 20
+			}
+		}
+	}
+
+	option = { # Guides cost money
+		name = agot_crownlands_bla.0506.b
+
+		add_gold = 75
+		add_stewardship_lifestyle_xp = 100
+	}
+
+	option = { # Leave them for another night
+		name = agot_crownlands_bla.0506.c
+
+		add_intrigue_lifestyle_xp = 100
+		add_dread = 3
+
+		liege = {
+			add_opinion = {
+				target = root
+				modifier = angry_opinion
+				opinion = -20
+			}
+		}
+	}
+
+	option = { # Personally lead them
+		name = agot_crownlands_bla.0506.d
+
+		add_prestige = 150
+		add_martial_lifestyle_xp = 125
+
+		add_character_modifier = {
+			modifier = agot_crabb_knows_the_point_bla
+			years = 5
+		}
+	}
+}
+
+agot_crownlands_bla.0507 = {
+	type = character_event
+	title = agot_crownlands_bla.0507.t
+	desc = agot_crownlands_bla.0507.desc
+	theme = learning
+
+	override_background = {
+		reference = wilderness
+	}
+
+	left_portrait = {
+		character = root
+		animation = personality_rational
+	}
+
+	trigger = {
+		is_ruler = yes
+		is_landed = yes
+		is_available_adult = yes
+		dynasty = dynasty:dynn_Crabb
+
+		NOT = {
+			has_character_flag = agot_crabb_grave_pine_cooldown_bla
+		}
+	}
+
+	immediate = {
+		add_character_flag = {
+			flag = agot_crabb_grave_pine_cooldown_bla
+			years = 10
+		}
+	}
+
+	option = { # Rebury honorably
+		name = agot_crownlands_bla.0507.a
+
+		remove_short_term_gold = 25
+		add_piety = 100
+		add_prestige = 100
+	}
+
+	option = { # Study the burial
+		name = agot_crownlands_bla.0507.b
+
+		add_learning_lifestyle_xp = 150
+
+		skill = learning
+
+		duel = {
+			skill = learning
+			value = medium_skill_rating
+
+			60 = {
+				compare_modifier = {
+					value = scope:duel_value
+					multiplier = 1
+				}
+
+				add_learning_lifestyle_xp = 150
+				dynasty ?= { add_dynasty_prestige = 75 }
+
+				custom_tooltip = agot_crownlands_bla.0507.b.success
+			}
+
+			40 = {
+				compare_modifier = {
+					value = scope:duel_value
+					multiplier = -1
+				}
+
+				add_learning_lifestyle_xp = 75
+
+				custom_tooltip = agot_crownlands_bla.0507.b.failure
+			}
+		}
+	}
+
+	option = { # Declare him Crabb
+		name = agot_crownlands_bla.0507.c
+
+		add_prestige = 175
+		dynasty ?= { add_dynasty_prestige = 100 }
+
+		add_character_modifier = {
+			modifier = agot_crabb_old_blood_of_the_point_bla
+			years = 8
+		}
+	}
+
+	option = { # Take grave goods
+		name = agot_crownlands_bla.0507.d
+
+		add_gold = 100
+		add_intrigue_lifestyle_xp = 75
+	}
+}
+
+agot_crownlands_bla.0508 = {
+	type = character_event
+	title = agot_crownlands_bla.0508.t
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = {
+					has_character_flag = agot_crabb_whispering_skull_questioned_bla
+				}
+				desc = agot_crownlands_bla.0508.desc_questioned
+			}
+
+			triggered_desc = {
+				trigger = {
+					has_character_flag = agot_crabb_whispers_skulls_bla
+				}
+				desc = agot_crownlands_bla.0508.desc_skulls
+			}
+
+			triggered_desc = {
+				trigger = {
+					has_character_flag = agot_crabb_whispers_large_bones_bla
+				}
+				desc = agot_crownlands_bla.0508.desc_bones
+			}
+
+			triggered_desc = {
+				trigger = {
+					has_character_flag = agot_crabb_whispers_dead_bla
+				}
+				desc = agot_crownlands_bla.0508.desc_dead
+			}
+
+			desc = agot_crownlands_bla.0508.desc_common
+		}
+	}
+
+	theme = dynasty
+
+	override_background = {
+		reference = wilderness
+	}
+
+	left_portrait = {
+		character = root
+		animation = personality_rational
+	}
+
+	trigger = {
+		is_ruler = yes
+		is_landed = yes
+		is_available_adult = yes
+		dynasty = dynasty:dynn_Crabb
+
+		has_character_flag = agot_crabb_whispers_explored_bla
+
+		NOT = {
+			has_character_flag = agot_crabb_whispers_remembered_bla
+		}
+	}
+
+	immediate = {
+		add_character_flag = agot_crabb_whispers_remembered_bla
+	}
+
+	option = { # The legend belongs to House Crabb
+		name = agot_crownlands_bla.0508.a
+
+		trigger = {
+			OR = {
+				has_character_flag = agot_crabb_clarence_legend_bla
+				has_character_flag = agot_crabb_whispers_large_bones_bla
+			}
+		}
+
+		add_prestige = 250
+		dynasty ?= { add_dynasty_prestige = 150 }
+
+		add_character_modifier = {
+			modifier = agot_crabb_keeper_of_the_old_tales_bla
+			years = 10
+		}
+	}
+
+	option = { # Preserve what we actually know
+		name = agot_crownlands_bla.0508.b
+
+		trigger = {
+			OR = {
+				has_character_flag = agot_crabb_clarence_scholar_bla
+				learning >= 10
+			}
+		}
+
+		add_learning_lifestyle_xp = 250
+		dynasty ?= { add_dynasty_prestige = 100 }
+
+		add_character_modifier = {
+			modifier = agot_crabb_chronicler_of_the_whispers_bla
+			years = 10
+		}
+	}
+
+	option = { # Let fear grow
+		name = agot_crownlands_bla.0508.c
+
+		trigger = {
+			OR = {
+				has_character_flag = agot_crabb_clarence_fear_bla
+				has_character_flag = agot_crabb_whispers_skulls_bla
+			}
+		}
+
+		add_dread = 8
+		add_intrigue_lifestyle_xp = 175
+
+		add_character_modifier = {
+			modifier = agot_crabb_shadow_of_the_whispers_bla
+			years = 10
+		}
+	}
+
+	option = { # Some questions should remain unanswered
+		name = agot_crownlands_bla.0508.d
+
+		add_prestige = 150
+		add_learning_lifestyle_xp = 100
+	}
+}
+
+agot_crownlands_bla.0509 = {
+	type = character_event
+	title = agot_crownlands_bla.0509.t
+	desc = agot_crownlands_bla.0509.desc
+	theme = dynasty
+
+	override_background = {
+		reference = wilderness
+	}
+
+	left_portrait = {
+		character = root
+		animation = personality_honorable
+	}
+
+	trigger = {
+		is_ruler = yes
+		is_landed = yes
+		is_available_adult = yes
+		dynasty = dynasty:dynn_Crabb
+
+		NOT = {
+			has_character_flag = agot_crabb_of_crackclaw_cooldown_bla
+		}
+	}
+
+	immediate = {
+		add_character_flag = {
+			flag = agot_crabb_of_crackclaw_cooldown_bla
+			years = 15
+		}
+	}
+
+	option = { # Blood of Clarence
+		name = agot_crownlands_bla.0509.a
+
+		add_prestige = 250
+		add_martial_lifestyle_xp = 175
+		dynasty ?= { add_dynasty_prestige = 100 }
+
+		add_character_modifier = {
+			modifier = agot_crabb_blood_of_clarence_bla
+			years = 10
+		}
+	}
+
+	option = { # Point protects its own
+		name = agot_crownlands_bla.0509.b
+
+		add_stewardship_lifestyle_xp = 175
+		add_prestige = 150
+
+		add_character_modifier = {
+			modifier = agot_crabb_the_point_protects_its_own_bla
+			years = 10
+		}
+	}
+
+	option = { # Let outsiders fear us
+		name = agot_crownlands_bla.0509.c
+
+		add_intrigue_lifestyle_xp = 175
+		add_dread = 5
+
+		add_character_modifier = {
+			modifier = agot_crabb_clawman_reputation_bla
+			years = 10
+		}
+	}
+
+	option = { # Build something beyond stories
+		name = agot_crownlands_bla.0509.d
+
+		add_stewardship_lifestyle_xp = 200
+		dynasty ?= { add_dynasty_prestige = 75 }
+
+		add_character_modifier = {
+			modifier = agot_crabb_future_of_the_point_bla
+			years = 10
+		}
+	}
+}
+
+agot_crownlands_bla.0510 = {
+	type = character_event
+	title = agot_crownlands_bla.0510.t
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = {
+					has_character_flag = agot_crabb_water_hunt_bla
+				}
+				desc = agot_crownlands_bla.0510.desc_hunt
+			}
+
+			triggered_desc = {
+				trigger = {
+					has_character_flag = agot_crabb_water_study_bla
+				}
+				desc = agot_crownlands_bla.0510.desc_study
+			}
+
+			desc = agot_crownlands_bla.0510.desc
+		}
+	}
+
+	theme = martial
+
+	override_background = {
+		reference = wilderness
+	}
+
+	left_portrait = {
+		character = root
+		animation = personality_suspicious
+	}
+
+	immediate = {
+		random_list = {
+			60 = {
+				add_character_flag = agot_crabb_water_beast_mundane_bla
+			}
+
+			30 = {
+				add_character_flag = agot_crabb_water_beast_large_bla
+			}
+
+			10 = {
+				add_character_flag = agot_crabb_water_beast_unknown_bla
+			}
+		}
+	}
+
+	option = {
+		name = agot_crownlands_bla.0510.a
+
+		trigger = {
+			has_character_flag = agot_crabb_water_beast_mundane_bla
+		}
+
+		add_learning_lifestyle_xp = 100
+		add_prestige = 75
+
+		custom_tooltip = agot_crownlands_bla.0510.a.tt
+	}
+
+	option = {
+		name = agot_crownlands_bla.0510.b
+
+		trigger = {
+			has_character_flag = agot_crabb_water_beast_large_bla
+		}
+
+		add_martial_lifestyle_xp = 125
+		add_prestige = 125
+
+		add_character_modifier = {
+			modifier = agot_crabb_beast_of_the_shallows_bla
+			years = 5
+		}
+
+		custom_tooltip = agot_crownlands_bla.0510.b.tt
+	}
+
+	option = {
+		name = agot_crownlands_bla.0510.c
+
+		trigger = {
+			has_character_flag = agot_crabb_water_beast_unknown_bla
+		}
+
+		add_learning_lifestyle_xp = 100
+		add_intrigue_lifestyle_xp = 100
+
+		add_character_modifier = {
+			modifier = agot_crabb_tracks_into_the_sea_bla
+			years = 5
+		}
+
+		custom_tooltip = agot_crownlands_bla.0510.c.tt
+	}
+}
+
+agot_crownlands_bla.0511 = {
+	type = character_event
+	title = agot_crownlands_bla.0511.t
+	desc = agot_crownlands_bla.0511.desc
+	theme = intrigue
+
+	override_background = {
+		reference = wilderness
+	}
+
+	left_portrait = {
+		character = root
+		animation = personality_suspicious
+	}
+
+	option = { # Seize the goods
+		name = agot_crownlands_bla.0511.a
+
+		add_gold = 125
+		add_intrigue_lifestyle_xp = 125
+		add_prestige = 75
+
+		custom_tooltip = agot_crownlands_bla.0511.a.tt
+	}
+
+	option = { # Learn the route
+		name = agot_crownlands_bla.0511.b
+
+		add_intrigue_lifestyle_xp = 200
+
+		add_character_modifier = {
+			modifier = agot_crabb_hidden_landings_bla
+			years = 6
+		}
+
+		custom_tooltip = agot_crownlands_bla.0511.b.tt
+	}
+
+	option = { # Make an example
+		name = agot_crownlands_bla.0511.c
+
+		add_dread = 5
+		add_prestige = 100
+		add_martial_lifestyle_xp = 100
+
+		custom_tooltip = agot_crownlands_bla.0511.c.tt
+	}
+
+	option = { # Quiet arrangement
+		name = agot_crownlands_bla.0511.d
+
+		add_gold = 175
+		add_intrigue_lifestyle_xp = 100
+		add_prestige = -50
+
+		custom_tooltip = agot_crownlands_bla.0511.d.tt
+	}
+}

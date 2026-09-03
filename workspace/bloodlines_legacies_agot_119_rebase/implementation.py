@@ -48,6 +48,58 @@ TRAIT_REPLACEMENTS = {
     "wise_man": "lifestyle_mystic",
 }
 
+# CK3 1.19 rejects each of these tokens outright, so the parser drops the line
+# and the surrounding modifier loads without it. The replacements are the current
+# tags that carry the same meaning; where the parent's sign encodes a cost rather
+# than a bonus, the value is inverted to keep the intended direction.
+CROWNLANDS_MODIFIER_TAGS = {
+    # The populace's opinion is county opinion, which the same file already uses
+    # correctly elsewhere. Valid in the character, province, and county areas, so
+    # it suits both the character- and county-applied modifiers.
+    "popular_opinion": ("county_opinion_add", False, 29),
+    # No plain scheme-resistance tag exists for characters. Resistance is
+    # expressed as a reduction of the attacker's success chance.
+    "hostile_scheme_resistance_add": (
+        "enemy_hostile_scheme_success_chance_add",
+        True,
+        16,
+    ),
+    "hostile_scheme_power_add": ("owned_hostile_scheme_success_chance_add", False, 3),
+    # Construction time is expressed as build speed, so less time is more speed.
+    "building_construction_time": ("holding_build_speed", True, 3),
+    "building_construction_cost": ("holding_build_gold_cost", False, 1),
+    "county_tax_mult": ("tax_mult", False, 2),
+    # Marriage acceptance has no tag. Attraction opinion is the desirability of a
+    # match, which is what the "Ambitious Matches" modifier is named for.
+    "marriage_acceptance": ("attraction_opinion", False, 1),
+}
+
+# These modifiers mix character-only monthly gains with province- or county-valid
+# fields, so the whole application is rejected and nothing is applied. Applying
+# them to the ruler keeps every field: development growth, build speed, and
+# county opinion all have character meanings covering the county in question.
+VELARYON_SCOPED_MODIFIERS = (
+    ("title:c_driftmark", "county", "agot_velaryon_preserved_old_driftmark_bla"),
+    ("scope:hightide_province_bla", "province", "agot_velaryon_hightide_old_glory_bla"),
+    (
+        "scope:hightide_province_bla",
+        "province",
+        "agot_velaryon_hightide_legacy_restoration_bla",
+    ),
+    ("scope:hightide_province_bla", "province", "agot_velaryon_sea_snake_charts_bla"),
+)
+
+# create_character blocks that never declare gender data, which CK3 1.19 refuses
+# to validate. The pack's one valid block uses gender_female_chance, so the
+# repair follows that field: 0 where the event text uses no gendered getters, and
+# AGOT's generic 20 where it is written with adaptive pronouns.
+MISSING_GENDER_CHARACTERS = {
+    "celtigar_tax_collector_bla": 0,
+    "velaryon_corrupt_harbormaster_bla": 0,
+    "stepstones_pirate_bla": 20,
+    "stepstones_sellsail_captain_bla": 20,
+}
+
 DDS_REENCODES = (
     "gfx/interface/icons/building_types/icon_amberly_watch.dds",
     "gfx/interface/icons/building_types/icon_butterwell_whitewalls.dds",
@@ -59,6 +111,7 @@ DDS_REENCODES = (
     "gfx/interface/illustrations/men_at_arms_small/fisher_kings_bowmen.dds",
     "gfx/interface/illustrations/men_at_arms_small/payne_silent_guard.dds",
     "gfx/interface/illustrations/men_at_arms_small/tarbeck_starforged_retainers.dds",
+    "gfx/interface/illustrations/legacy_tracks/ironborn_legacy_track.dds",
 )
 
 
@@ -81,6 +134,161 @@ def extract_named_block(text: str, name: str) -> str:
     return text[offset:end]
 
 
+# Wrappers that do not change the scope a nested effect executes in. Anything
+# else opens a new scope, so the innermost of these decides whether an effect
+# runs on a dynasty.
+SCOPE_TRANSPARENT = re.compile(
+    r"^(?:if|else|else_if|limit|trigger|trigger_if|trigger_else|trigger_else_if"
+    r"|random_list|random|hidden_effect|show_as_tooltip|custom_tooltip"
+    r"|custom_description|option|immediate|after|on_trigger_fail|switch"
+    r"|first_valid|while|AND|OR|NOT|NOR|NAND|\d+(?:\.\d+)?)$"
+)
+DYNASTY_SCOPE = re.compile(r"(?:^|\.)dynasty$|^dynasty:\w+$|_dynasty$|dynasty_house$")
+
+
+def enclosing_scopes(text: str) -> list[list[str]]:
+    """Return the open block headers above every line, outermost first."""
+    stack: list[str] = []
+    per_line: list[list[str]] = []
+    for line in text.split("\n"):
+        code = line.split("#", 1)[0]
+        per_line.append(list(stack))
+        position = 0
+        while True:
+            opening = code.find("{", position)
+            closing = code.find("}", position)
+            if opening < 0 and closing < 0:
+                break
+            if opening >= 0 and (closing < 0 or opening < closing):
+                header = re.search(r"([A-Za-z_][\w:.$]*)\s*\??=\s*$", code[:opening])
+                stack.append(header.group(1) if header else "?")
+                position = opening + 1
+            else:
+                if stack:
+                    stack.pop()
+                position = closing + 1
+    return per_line
+
+
+def runs_on_dynasty(scopes: list[str]) -> bool:
+    for header in reversed(scopes):
+        if DYNASTY_SCOPE.search(header):
+            return True
+        if SCOPE_TRANSPARENT.match(header):
+            continue
+        return False
+    return False
+
+
+def scope_dynasty_prestige(text: str) -> tuple[str, int]:
+    """Enter the dynasty before adding dynasty prestige from a character scope.
+
+    ``add_dynasty_prestige`` and ``add_dynasty_prestige_level`` are dynasty
+    effects. Called straight from an event option they raise
+    ``Inconsistent effect scopes (character vs. dynasty)`` and grant nothing.
+    AGOT's own idiom for the same grant is ``dynasty ?= { ... }``, which is also
+    safe for a character without a dynasty.
+    """
+    lines = text.split("\n")
+    scopes = enclosing_scopes(text)
+    repaired = 0
+    for index, line in enumerate(lines):
+        match = re.match(
+            r"^(?P<indent>[ \t]*)(?P<effect>add_dynasty_prestige(?:_level)?)"
+            r"\s*=\s*(?P<value>[^\s#]+)\s*$",
+            line.split("#", 1)[0].rstrip(),
+        )
+        if not match or runs_on_dynasty(scopes[index]):
+            continue
+        lines[index] = (
+            f"{match.group('indent')}dynasty ?= {{ "
+            f"{match.group('effect')} = {match.group('value')} }}"
+        )
+        repaired += 1
+    return "\n".join(lines), repaired
+
+
+def innermost_scope(scopes: list[str]) -> str:
+    for header in reversed(scopes):
+        if not SCOPE_TRANSPARENT.match(header):
+            return header
+    return "<root>"
+
+
+def identify_iterated_titles(text: str, *, iterator: str) -> tuple[str, int]:
+    """Compare an iterated title with itself instead of asking who holds it.
+
+    Inside a title iterator the scope is a landed title, where ``has_title`` is
+    a character trigger and raises
+    ``Inconsistent trigger scopes (landed_title vs. character)``. The same
+    trigger is correct in the character scopes elsewhere in these files, so only
+    the uses under the iterator are rewritten.
+    """
+    lines = text.split("\n")
+    scopes = enclosing_scopes(text)
+    repaired = 0
+    for index, line in enumerate(lines):
+        match = re.match(
+            r"^(?P<indent>[ \t]*)has_title = (?P<title>title:[\w]+)[ \t]*$",
+            line.split("#", 1)[0].rstrip(),
+        )
+        if not match or innermost_scope(scopes[index]) != iterator:
+            continue
+        lines[index] = f"{match.group('indent')}this = {match.group('title')}"
+        repaired += 1
+    return "\n".join(lines), repaired
+
+
+def repair_crownlands_modifiers(inputs: RunInputs) -> None:
+    relative = "common/modifiers/00_agot_crownlands_modifiers_BLA.txt"
+    text = read_text(inputs.BLOODLINES / relative)
+    for token, (replacement, invert, expected) in CROWNLANDS_MODIFIER_TAGS.items():
+        pattern = re.compile(
+            rf"(?m)^(?P<indent>[ \t]*){token}(?P<space>\s*=\s*)(?P<value>-?[\d.]+)[ \t]*$"
+        )
+
+        def rewrite(match: re.Match[str]) -> str:
+            value = match.group("value")
+            if invert:
+                value = value[1:] if value.startswith("-") else f"-{value}"
+            return f"{match.group('indent')}{replacement}{match.group('space')}{value}"
+
+        text, count = pattern.subn(rewrite, text)
+        if count != expected:
+            raise RuntimeError(
+                f"Crownlands modifiers: expected {expected} {token} field(s), "
+                f"rewrote {count}"
+            )
+    for token in CROWNLANDS_MODIFIER_TAGS:
+        if re.search(rf"(?m)^[ \t]*{token}\s*=", text):
+            raise RuntimeError(f"Crownlands modifiers still declare {token}")
+    write_text(inputs, relative, text)
+
+
+def repair_artifact_effects(inputs: RunInputs) -> None:
+    relative = "common/scripted_effects/00_agot_artifact_effects_BLA.txt"
+    text = read_text(inputs.BLOODLINES / relative)
+    # Every sibling creation effect in the same file spells the rarity effect
+    # correctly, so the misspelling is a single typo rather than an old name.
+    text = replace_exact(
+        text,
+        "set_artifact_rairity_illustrious = yes",
+        "set_artifact_rarity_illustrious = yes",
+        expected=1,
+        label="Celtigar artifact rarity effect name",
+    )
+    # The artifact ownership effect is set_owner; AGOT uses the same scalar form
+    # for its own artifact transfers.
+    text = replace_exact(
+        text,
+        "\t\tset_artifact_owner = $OWNER$\n",
+        "\t\tset_owner = $OWNER$\n",
+        expected=1,
+        label="Celtigar artifact owner assignment",
+    )
+    write_text(inputs, relative, text)
+
+
 def generate_prison_interaction(inputs: RunInputs) -> None:
     source = read_text(
         inputs.AGOT / "common/character_interactions/00_prison_interactions.txt"
@@ -90,12 +298,20 @@ def generate_prison_interaction(inputs: RunInputs) -> None:
         block,
         "\t\t\t\tdynasty = { has_dynasty_perk = bolton_legacy_1 }\n",
         (
-            "\t\t\t\tdynasty = {\n"
-            "\t\t\t\t\tOR = {\n"
-            "\t\t\t\t\t\thas_dynasty_perk = bolton_legacy_1\n"
-            "\t\t\t\t\t\thas_dynasty_perk = bolton_legacy_1_BLA\n"
+            # AGOT and Bloodlines both enter the dynasty scope unconditionally,
+            # so the flaying option raises `dynasty trigger [ Failed context
+            # switch ]` for every dynastyless executioner. This override is the
+            # effective last writer for the interaction, so the guard lives here.
+            "\t\t\t\ttrigger_if = {\n"
+            "\t\t\t\t\tlimit = { exists = dynasty }\n"
+            "\t\t\t\t\tdynasty = {\n"
+            "\t\t\t\t\t\tOR = {\n"
+            "\t\t\t\t\t\t\thas_dynasty_perk = bolton_legacy_1\n"
+            "\t\t\t\t\t\t\thas_dynasty_perk = bolton_legacy_1_BLA\n"
+            "\t\t\t\t\t\t}\n"
             "\t\t\t\t\t}\n"
             "\t\t\t\t}\n"
+            "\t\t\t\ttrigger_else = { always = no }\n"
         ),
         expected=1,
         label="Bolton flaying option",
@@ -275,12 +491,39 @@ def replace_script_traits(text: str) -> tuple[str, int]:
     return text, total
 
 
+def add_missing_gender_data(text: str) -> tuple[str, int]:
+    """Declare gender data on the create_character blocks that omit it."""
+    repaired = 0
+    for scope_name, female_chance in MISSING_GENDER_CHARACTERS.items():
+        pattern = re.compile(
+            rf"(?m)(?P<head>^(?P<indent>[ \t]*)create_character = \{{\n)"
+            # Body lines only, so the match cannot span a sibling create_character.
+            rf"(?P<body>(?:(?![ \t]*create_character)[^\n]*\n)*?)"
+            rf"(?P=indent)\tsave_scope_as = {scope_name}\n"
+        )
+        match = pattern.search(text)
+        if not match:
+            continue
+        if re.search(r"(?m)^[ \t]*gender(?:_female_chance)?\s*=", match.group("body")):
+            raise RuntimeError(f"{scope_name} already declares gender data")
+        indent = match.group("indent")
+        text = (
+            text[: match.end("head")]
+            + f"{indent}\tgender_female_chance = {female_chance}\n"
+            + text[match.end("head") :]
+        )
+        repaired += 1
+    return text, repaired
+
+
 def repair_event(relative: str, text: str) -> tuple[str, dict[str, int]]:
     original = text
-    stats = {"opinion_durations": 0, "traits": 0}
+    stats = {"opinion_durations": 0, "traits": 0, "dynasty_prestige": 0, "gender": 0}
 
     text, stats["opinion_durations"] = remove_monthly_opinion_durations(text)
     text, stats["traits"] = replace_script_traits(text)
+    text, stats["dynasty_prestige"] = scope_dynasty_prestige(text)
+    text, stats["gender"] = add_missing_gender_data(text)
 
     text = re.sub(
         r"^[ \t]*(?:has_trait\s*=\s*romantic|add_trait\s*=\s*gambler)\s*$\n?",
@@ -299,9 +542,111 @@ def repair_event(relative: str, text: str) -> tuple[str, dict[str, int]]:
         "has_cultural_pillar = heritage_first_man",
     )
 
+    if relative == (
+        "events/agot_decision_events/agot_crownlands_velaryon_stepstones_bla.txt"
+    ):
+        text, identified = identify_iterated_titles(text, iterator="random_held_title")
+        if identified != 8:
+            raise RuntimeError(
+                "Stepstones reward-title identity triggers: expected 8, "
+                f"rewrote {identified}"
+            )
+
+    if relative == "events/agot_events/agot_crownlands_celtigar_events_bla.txt":
+        # create_character rejects location and employer together. The employer
+        # already places the courtier in root's court.
+        text = replace_exact(
+            text,
+            "\t\t\temployer = root\n\t\t\tlocation = root.capital_province\n",
+            "\t\t\temployer = root\n",
+            expected=1,
+            label="Celtigar tax collector location",
+        )
+
+    if relative == "events/agot_events/agot_crownlands_darklyn_events_bla.txt":
+        # Darke, Darkwood, and Dargood are AGOT cadet houses of dynn_Darklyn,
+        # not dynasties: the `dynn_*` string these lines name is each house's
+        # own name key. Compared as dynasties they resolve to nothing, so every
+        # Darklyn-restoration gate is closed for the houses it exists for.
+        for house in ("Darke", "Darkwood", "Dargood"):
+            text = replace_exact(
+                text,
+                f"dynasty = dynasty:dynn_{house}\n",
+                f"house = house:house_{house}\n",
+                expected=4,
+                label=f"House {house} identity trigger",
+            )
+        text = replace_exact(
+            text,
+            "add_prowess = 1",
+            "add_prowess_skill = 1",
+            expected=2,
+            label="Darklyn white-cloak prowess effect",
+        )
+        # CK3 1.19 has no has_liege trigger; the event wants a character who is
+        # not independent.
+        text = replace_exact(
+            text,
+            "\t\thas_liege = yes\n",
+            "\t\texists = liege\n",
+            expected=1,
+            label="Darklyn Crown's Due liege trigger",
+        )
+        # An option may declare one trigger. The second block was dropped, so
+        # the bought-claim option had no cost requirement at all.
+        text = replace_exact(
+            text,
+            "\t\t\thas_character_flag = agot_darklyn_reclamation_setback_bla\n"
+            "\t\t}\n"
+            "\n"
+            "\t\ttrigger = {\n"
+            "\t\t\tgold >= 200\n"
+            "\t\t\tprestige_level >= 2\n"
+            "\t\t}\n",
+            "\t\t\thas_character_flag = agot_darklyn_reclamation_setback_bla\n"
+            "\n"
+            "\t\t\tgold >= 200\n"
+            "\t\t\tprestige_level >= 2\n"
+            "\t\t}\n",
+            expected=1,
+            label="Darklyn bought-claim duplicate trigger block",
+        )
+
+    if relative == "events/agot_events/agot_crownlands_velaryon_events_bla.txt":
+        for scope, area, modifier in VELARYON_SCOPED_MODIFIERS:
+            text = replace_exact(
+                text,
+                f"\t\t{scope} = {{\n"
+                f"\t\t\tadd_{area}_modifier = {{\n"
+                f"\t\t\t\tmodifier = {modifier}\n"
+                f"\t\t\t\tyears = 10\n"
+                f"\t\t\t}}\n"
+                f"\t\t}}",
+                f"\t\t# Mixed character and {area} fields, so the {area} "
+                f"application is rejected\n"
+                f"\t\t# whole. Applied to the ruler, every field keeps its "
+                f"meaning.\n"
+                f"\t\tadd_character_modifier = {{\n"
+                f"\t\t\tmodifier = {modifier}\n"
+                f"\t\t\tyears = 10\n"
+                f"\t\t}}",
+                expected=1,
+                label=f"{modifier} application scope",
+            )
+
     if relative == "events/agot_events/agot_riverlands_events_bla.txt":
-        # The occupation-modifier triggers, both Quiet Isle county scopes, and
-        # the Crossroads knight creation are correct upstream and untouched here.
+        # CK3 1.19 has no knighthood effect: knights are chosen from eligible
+        # courtiers. set_employer above makes the hedge knight one, and the
+        # created character already carries the knight trait.
+        text = replace_exact(
+            text,
+            "\t\t\t\t\tset_employer = root\n\t\t\t\t\tadd_knight = yes\n",
+            "\t\t\t\t\tset_employer = root\n",
+            expected=1,
+            label="Crossroads hedge-knight unknown effect",
+        )
+        # The occupation-modifier triggers and both Quiet Isle county scopes are
+        # correct upstream and untouched here.
         text = replace_exact(
             text,
             "\t\ttitle:c_harrenhal = {\n"
@@ -331,23 +676,8 @@ def repair_event(relative: str, text: str) -> tuple[str, dict[str, int]]:
         )
         # The county-control effect name and its capital_county scope are both
         # correct upstream now.
-        # Upstream dropped its intimidated_opinion and disappointed_opinion
-        # uses; only the mod's own opinion modifier still needs an explicit
-        # opinion value.
-        for modifier, opinion, expected in (("attended_trident_council_bla", "10", 2),):
-            pattern = (
-                rf"(?P<indent>^[ \t]*)modifier = {modifier}\s*$"
-                rf"(?!\n(?P=indent)opinion\s*=)"
-            )
-            text = replace_regex(
-                text,
-                pattern,
-                rf"\g<indent>modifier = {modifier}\n"
-                rf"\g<indent>opinion = {opinion}",
-                expected=expected,
-                label=f"{modifier} explicit opinion",
-                flags=re.MULTILINE,
-            )
+        # The council's own opinion modifiers carry their opinion values in
+        # this module's opinion_modifiers file, so no call site needs one.
 
     if relative == (
         "events/agot_events/agot_riverlands_blackwood_bracken_events_bla.txt"
@@ -554,32 +884,41 @@ def repair_event(relative: str, text: str) -> tuple[str, dict[str, int]]:
     return text, stats
 
 
+EXPECTED_EVENT_REPAIRS = {
+    "opinion_durations": 69,
+    # Upstream migrated every retired trait id except one melancholic use.
+    "traits": 1,
+    # Every Crownlands event option that grants dynasty prestige from a
+    # character scope. Upstream's on-action and legacy grants already enter the
+    # dynasty and must stay untouched.
+    "dynasty_prestige": 47,
+    "gender": len(MISSING_GENDER_CHARACTERS),
+}
+
+
 def generate_events(inputs: RunInputs) -> None:
-    opinion_durations = 0
-    trait_replacements = 0
+    totals = dict.fromkeys(EXPECTED_EVENT_REPAIRS, 0)
     changed_files = 0
     for source in sorted((inputs.BLOODLINES / "events").rglob("*.txt")):
         relative = source.relative_to(inputs.BLOODLINES).as_posix()
         original = read_text(source)
         patched, stats = repair_event(relative, original)
-        opinion_durations += stats["opinion_durations"]
-        trait_replacements += stats["traits"]
+        for key in totals:
+            totals[key] += stats[key]
         if patched != original:
             write_text(inputs, relative, patched)
             changed_files += 1
-    if opinion_durations != 69:
-        raise RuntimeError(
-            f"monthly opinion durations: expected 69 removals, made {opinion_durations}"
-        )
-    # Upstream migrated every retired trait id except one melancholic use.
-    if trait_replacements != 1:
-        raise RuntimeError(
-            f"retired trait ids: expected 1 replacement, made {trait_replacements}"
-        )
+    for key, expected in EXPECTED_EVENT_REPAIRS.items():
+        if totals[key] != expected:
+            raise RuntimeError(
+                f"{key}: expected {expected} repair(s), made {totals[key]}"
+            )
     print(
         f"generated {changed_files} patched event files; "
-        f"removed {opinion_durations} invalid opinion durations; "
-        f"migrated {trait_replacements} retired trait references"
+        f"removed {totals['opinion_durations']} invalid opinion durations; "
+        f"migrated {totals['traits']} retired trait references; "
+        f"scoped {totals['dynasty_prestige']} dynasty-prestige grants; "
+        f"declared gender data for {totals['gender']} created characters"
     )
 
 
@@ -588,7 +927,40 @@ def generate_opinion_compatibility(inputs: RunInputs) -> None:
         inputs,
         "common/opinion_modifiers/zz_bla_119_opinion_compat.txt",
         """# Bloodlines used opinion ids removed from current CK3.
+#
+# The Trident Council modifiers below are declared upstream in common/modifiers/
+# as static modifiers carrying a vassal_opinion field, but they are only ever
+# applied with add_opinion, which reads this database. Their call sites pass no
+# explicit opinion, so the value has to live here; each one repeats the
+# vassal_opinion the upstream static modifier declares.
 attended_trident_council_bla = {
+\topinion = 10
+\tstacking = yes
+}
+
+intimidated_by_trident_lord_bla = {
+\topinion = 10
+\tstacking = yes
+}
+
+disappointed_by_trident_lord_bla = {
+\topinion = -10
+\tstacking = yes
+}
+
+insulted_by_trident_lord_bla = {
+\topinion = -10
+\tstacking = yes
+}
+
+# Never declared anywhere upstream. Every call site passes an explicit opinion,
+# so these only need to exist as keys.
+betrayed_opinion = {
+\topinion = 0
+\tstacking = yes
+}
+
+claimant_opinion = {
 \topinion = 0
 \tstacking = yes
 }
@@ -684,6 +1056,11 @@ def generate_localization(inputs: RunInputs) -> None:
         inputs,
         "localization/english/bla_119_runtime_rebase_l_english.yml",
         """l_english:
+ betrayed_opinion:0 "Betrayed"
+ claimant_opinion:0 "Rival Claimant"
+ intimidated_by_trident_lord_bla:0 "Intimidated by the Lord of the Trident"
+ disappointed_by_trident_lord_bla:0 "Disappointed by the Lord of the Trident"
+ insulted_by_trident_lord_bla:0 "Insulted by the Lord of the Trident"
  intimidated_opinion:0 "Intimidated"
  fear_opinion:0 "Fear"
  uneasy_court_opinion:0 "Uneasy at Court"
@@ -731,6 +1108,8 @@ def main(inputs: RunInputs) -> None:
     generate_guarded_special_buildings(inputs)
     repair_child_birth_on_action(inputs)
     repair_common_files(inputs)
+    repair_crownlands_modifiers(inputs)
+    repair_artifact_effects(inputs)
     generate_events(inputs)
     generate_opinion_compatibility(inputs)
     generate_localization(inputs)

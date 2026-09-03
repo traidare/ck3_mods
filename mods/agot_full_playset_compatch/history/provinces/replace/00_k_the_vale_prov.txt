@@ -18,6 +18,22 @@
 		buildings = { castle_04 }
 	}
 }
+################### b_tembridge ###################
+############ c_ninestars - d_ninestars ############
+2325 = {
+	holding = castle_holding
+	7824.1.1 = {
+		buildings = { castle_03 }
+	}
+}
+################### b_darkplate ###################
+############ c_ninestars - d_ninestars ############
+2326 = {
+	holding = city_holding
+	7824.1.1 = {
+		buildings = { city_03 }
+	}
+}
 ################## b_craynes_nest #################
 ############ c_sedgemore - d_eastweald ############
 2404 = {

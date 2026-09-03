@@ -1,0 +1,480 @@
+﻿namespace = agot_crownlands_bla
+
+agot_crownlands_bla.0799 = {
+	type = character_event
+	hidden = yes
+
+	trigger = {
+		is_ai = no
+		is_ruler = yes
+		is_landed = yes
+		is_available_adult = yes
+		dynasty = dynasty:dynn_Sunglass
+
+		NOT = {
+			has_character_flag = sunglass_any_event_recently_bla
+		}
+	}
+
+	immediate = {
+		add_character_flag = {
+			flag = sunglass_any_event_recently_bla
+			years = 3
+		}
+
+		random_list = {
+			10 = { trigger_event = agot_crownlands_bla.0700 }
+			10 = { trigger_event = agot_crownlands_bla.0701 }
+			10 = { trigger_event = agot_crownlands_bla.0702 }
+			8 = { trigger_event = agot_crownlands_bla.0703 }
+			8 = { trigger_event = agot_crownlands_bla.0704 }
+
+			100 = { }
+		}
+	}
+}
+
+agot_crownlands_bla.0700 = {
+	type = character_event
+	title = agot_crownlands_bla.0700.t
+	desc = agot_crownlands_bla.0700.desc
+	theme = faith
+
+	override_background = {
+		reference = temple
+	}
+
+	left_portrait = {
+		character = root
+		animation = personality_honorable
+	}
+
+	trigger = {
+		is_ruler = yes
+		is_landed = yes
+		is_available_adult = yes
+
+		dynasty = dynasty:dynn_Sunglass
+
+		NOT = {
+			has_character_flag = agot_sunglass_seven_sound_cooldown_bla
+		}
+	}
+
+	immediate = {
+		add_character_flag = {
+			flag = agot_sunglass_seven_sound_cooldown_bla
+			years = 10
+		}
+	}
+
+	option = {
+		name = agot_crownlands_bla.0700.a
+
+		remove_short_term_gold = 100
+		add_piety = 200
+		add_learning_lifestyle_xp = 125
+
+		add_character_modifier = {
+			modifier = agot_sunglass_patron_of_sweetport_faith_bla
+			years = 10
+		}
+	}
+
+	option = {
+		name = agot_crownlands_bla.0700.b
+
+		remove_short_term_gold = 50
+		add_piety = 100
+		add_stewardship_lifestyle_xp = 125
+
+		add_character_modifier = {
+			modifier = agot_sunglass_humble_sept_bla
+			years = 8
+		}
+	}
+
+	option = {
+		name = agot_crownlands_bla.0700.c
+
+		add_diplomacy_lifestyle_xp = 150
+		add_prestige = 100
+
+		add_character_modifier = {
+			modifier = agot_sunglass_open_sept_bla
+			years = 8
+		}
+	}
+
+	option = {
+		name = agot_crownlands_bla.0700.d
+
+		add_stewardship_lifestyle_xp = 100
+	}
+}
+
+agot_crownlands_bla.0701 = {
+	type = character_event
+	title = agot_crownlands_bla.0701.t
+	desc = agot_crownlands_bla.0701.desc
+	theme = stewardship
+
+	override_background = {
+		reference = bp3_coast
+	}
+
+	left_portrait = {
+		character = root
+		animation = personality_rational
+	}
+
+	trigger = {
+		is_ruler = yes
+		is_landed = yes
+		is_available_adult = yes
+
+		dynasty = dynasty:dynn_Sunglass
+
+		NOT = {
+			has_character_flag = agot_sunglass_beacon_cooldown_bla
+		}
+	}
+
+	immediate = {
+		add_character_flag = {
+			flag = agot_sunglass_beacon_cooldown_bla
+			years = 8
+		}
+	}
+
+	option = {
+		name = agot_crownlands_bla.0701.a
+
+		remove_short_term_gold = 100
+		add_stewardship_lifestyle_xp = 175
+
+		add_character_modifier = {
+			modifier = agot_sunglass_beacon_of_sweetport_bla
+			years = 10
+		}
+	}
+
+	option = {
+		name = agot_crownlands_bla.0701.b
+
+		remove_short_term_gold = 50
+		add_diplomacy_lifestyle_xp = 125
+		add_prestige = 75
+
+		add_character_modifier = {
+			modifier = agot_sunglass_sailors_watch_bla
+			years = 8
+		}
+	}
+
+	option = {
+		name = agot_crownlands_bla.0701.c
+
+		add_stewardship_lifestyle_xp = 125
+		add_gold = 75
+
+		add_character_modifier = {
+			modifier = agot_sunglass_harbor_dues_bla
+			years = 8
+		}
+	}
+
+	option = {
+		name = agot_crownlands_bla.0701.d
+
+		add_prestige = 75
+	}
+}
+
+agot_crownlands_bla.0702 = {
+	type = character_event
+	title = agot_crownlands_bla.0702.t
+	desc = agot_crownlands_bla.0702.desc
+	theme = faith
+
+	override_background = {
+		reference = throne_room
+	}
+
+	left_portrait = {
+		character = root
+		animation = personality_rational
+	}
+
+	trigger = {
+		is_ruler = yes
+		is_landed = yes
+		is_available_adult = yes
+		exists = liege
+
+		dynasty = dynasty:dynn_Sunglass
+
+
+		NOT = {
+			has_character_flag = agot_sunglass_kings_command_cooldown_bla
+		}
+	}
+
+	immediate = {
+		add_character_flag = {
+			flag = agot_sunglass_kings_command_cooldown_bla
+			years = 12
+		}
+	}
+
+	option = {
+		name = agot_crownlands_bla.0702.a
+
+		add_piety = 200
+		add_prestige = 100
+		add_learning_lifestyle_xp = 150
+
+		liege = {
+			add_opinion = {
+				target = root
+				modifier = angry_opinion
+				opinion = -20
+			}
+		}
+
+		add_character_modifier = {
+			modifier = agot_sunglass_conscience_before_command_bla
+			years = 10
+		}
+	}
+
+	option = {
+		name = agot_crownlands_bla.0702.b
+
+		add_prestige = 150
+		add_stewardship_lifestyle_xp = 150
+
+		liege = {
+			add_opinion = {
+				target = root
+				modifier = grateful_opinion
+				opinion = 20
+			}
+		}
+
+		add_character_modifier = {
+			modifier = agot_sunglass_obedient_vassal_bla
+			years = 8
+		}
+	}
+
+	option = {
+		name = agot_crownlands_bla.0702.c
+
+		trigger = {
+			diplomacy >= 12
+		}
+
+		add_diplomacy_lifestyle_xp = 225
+		add_prestige = 125
+		add_piety = 75
+
+		liege = {
+			add_opinion = {
+				target = root
+				modifier = grateful_opinion
+				opinion = 10
+			}
+		}
+
+		add_character_modifier = {
+			modifier = agot_sunglass_tempered_obedience_bla
+			years = 8
+		}
+	}
+
+	option = {
+		name = agot_crownlands_bla.0702.d
+
+		add_intrigue_lifestyle_xp = 175
+		add_piety = 75
+	}
+}
+
+agot_crownlands_bla.0703 = {
+	type = character_event
+	title = agot_crownlands_bla.0703.t
+	desc = agot_crownlands_bla.0703.desc
+	theme = intrigue
+
+	override_background = {
+		reference = bp3_coast
+	}
+
+	left_portrait = {
+		character = root
+		animation = personality_suspicious
+	}
+
+	trigger = {
+		is_ruler = yes
+		is_landed = yes
+		is_available_adult = yes
+
+		dynasty = dynasty:dynn_Sunglass
+
+		NOT = {
+			has_character_flag = agot_sunglass_horizon_cooldown_bla
+		}
+	}
+
+	immediate = {
+		add_character_flag = {
+			flag = agot_sunglass_horizon_cooldown_bla
+			years = 8
+		}
+	}
+
+	option = {
+		name = agot_crownlands_bla.0703.a
+
+		remove_short_term_gold = 50
+		add_martial_lifestyle_xp = 150
+
+		add_character_modifier = {
+			modifier = agot_sunglass_watched_waters_bla
+			years = 6
+		}
+	}
+
+	option = {
+		name = agot_crownlands_bla.0703.b
+
+		add_intrigue_lifestyle_xp = 125
+
+		random_list = {
+			55 = {
+				add_gold = 75
+				add_intrigue_lifestyle_xp = 100
+				custom_tooltip = agot_crownlands_bla.0703.b.smugglers
+			}
+
+			30 = {
+				add_prestige = 100
+				custom_tooltip = agot_crownlands_bla.0703.b.merchant
+			}
+
+			15 = {
+				add_martial_lifestyle_xp = 100
+
+				add_character_modifier = {
+					modifier = agot_sunglass_pirates_mark_the_sound_bla
+					years = 5
+				}
+
+				custom_tooltip = agot_crownlands_bla.0703.b.pirates
+			}
+		}
+	}
+
+	option = {
+		name = agot_crownlands_bla.0703.c
+
+		add_diplomacy_lifestyle_xp = 125
+		add_prestige = 75
+
+		custom_tooltip = agot_crownlands_bla.0703.c.tt
+	}
+
+	option = {
+		name = agot_crownlands_bla.0703.d
+
+		add_stewardship_lifestyle_xp = 100
+	}
+}
+
+agot_crownlands_bla.0704 = {
+	type = character_event
+	title = agot_crownlands_bla.0704.t
+	desc = agot_crownlands_bla.0704.desc
+	theme = dynasty
+
+	override_background = {
+		reference = bp3_coast
+	}
+
+	left_portrait = {
+		character = root
+		animation = personality_honorable
+	}
+
+	trigger = {
+		is_ruler = yes
+		is_landed = yes
+		is_available_adult = yes
+
+		dynasty = dynasty:dynn_Sunglass
+
+		NOT = {
+			has_character_flag = agot_sunglass_seven_pointed_sun_cooldown_bla
+		}
+	}
+
+	immediate = {
+		add_character_flag = {
+			flag = agot_sunglass_seven_pointed_sun_cooldown_bla
+			years = 15
+		}
+	}
+
+	option = {
+		name = agot_crownlands_bla.0704.a
+
+		add_piety = 200
+		dynasty ?= { add_dynasty_prestige = 100 }
+		add_learning_lifestyle_xp = 175
+
+		add_character_modifier = {
+			modifier = agot_sunglass_light_of_the_seven_bla
+			years = 10
+		}
+	}
+
+	option = {
+		name = agot_crownlands_bla.0704.b
+
+		add_prestige = 175
+		dynasty ?= { add_dynasty_prestige = 100 }
+		add_martial_lifestyle_xp = 150
+
+		add_character_modifier = {
+			modifier = agot_sunglass_guardians_of_the_sound_bla
+			years = 10
+		}
+	}
+
+	option = {
+		name = agot_crownlands_bla.0704.c
+
+		add_stewardship_lifestyle_xp = 175
+		dynasty ?= { add_dynasty_prestige = 75 }
+
+		add_character_modifier = {
+			modifier = agot_sunglass_sweetport_prosperity_bla
+			years = 10
+		}
+	}
+
+	option = {
+		name = agot_crownlands_bla.0704.d
+
+		add_diplomacy_lifestyle_xp = 175
+		add_prestige = 125
+		add_piety = 100
+
+		add_character_modifier = {
+			modifier = agot_sunglass_faith_and_fealty_bla
+			years = 10
+		}
+	}
+}

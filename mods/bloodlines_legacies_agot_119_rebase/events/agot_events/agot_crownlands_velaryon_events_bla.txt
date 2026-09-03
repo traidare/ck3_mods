@@ -1,0 +1,3615 @@
+﻿# =========================================================
+# House Velaryon Flavor Event Pack
+# =========================================================
+
+namespace = agot_crownlands_bla
+
+agot_crownlands_bla.0199 = {
+	type = character_event
+	hidden = yes
+
+	trigger = {
+		is_ai = no
+		is_ruler = yes
+		is_landed = yes
+		is_available_adult = yes
+		dynasty = dynasty:dynn_Velaryon
+
+		NOT = {
+			has_character_flag = velaryon_any_event_recently_bla
+		}
+	}
+
+	immediate = {
+		add_character_flag = {
+			flag = velaryon_any_event_recently_bla
+			years = 3
+		}
+
+		random_list = {
+			10 = { trigger_event = agot_crownlands_bla.0100 }
+			10 = { trigger_event = agot_crownlands_bla.0101 }
+			8 = { trigger_event = agot_crownlands_bla.0103 }
+			8 = { trigger_event = agot_crownlands_bla.0104 }
+			8 = { trigger_event = agot_crownlands_bla.0105 }
+			8 = { trigger_event = agot_crownlands_bla.0106 }
+			8 = { trigger_event = agot_crownlands_bla.0109 }
+			8 = { trigger_event = agot_crownlands_bla.0111 }
+			8 = { trigger_event = agot_crownlands_bla.0113 }
+			8 = { trigger_event = agot_crownlands_bla.0114 }
+			6 = { trigger_event = agot_crownlands_bla.0115 }
+
+			140 = { }
+		}
+	}
+}
+
+############################################
+# House Velaryon
+# Driftmark Restoration Progression
+# 0197
+############################################
+
+agot_crownlands_bla.0197 = {
+	type = character_event
+	hidden = yes
+
+	trigger = {
+		is_ai = no
+		is_ruler = yes
+		is_landed = yes
+		is_available_adult = yes
+		dynasty = dynasty:dynn_Velaryon
+
+		title:d_driftmark = {
+			NOT = {
+				has_variable = agot_driftmark_restored_bla
+			}
+		}
+
+		OR = {
+			any_held_county = {
+				any_county_province = {
+					OR = {
+						has_building_or_higher = agot_ruins_hightide_01
+						has_building_or_higher = agot_ruins_hightide_02
+						has_building_or_higher = agot_ruins_spicetown_01
+						has_building_or_higher = agot_ruins_spicetown_02
+					}
+				}
+			}
+
+			title:d_driftmark = {
+				OR = {
+					has_variable = agot_velaryon_hightide_restoration_begun_bla
+					has_variable = agot_velaryon_spicetown_restoration_begun_bla
+				}
+			}
+		}
+	}
+
+	immediate = {
+		random_list = {
+
+			############################################
+			# Begin High Tide
+			############################################
+
+			20 = {
+				trigger = {
+					title:d_driftmark = {
+						NOT = {
+							has_variable = agot_velaryon_hightide_restoration_begun_bla
+						}
+					}
+
+					any_held_county = {
+						any_county_province = {
+							has_building_or_higher = agot_ruins_hightide_01
+						}
+					}
+				}
+
+				trigger_event = agot_crownlands_bla.0170
+			}
+
+			############################################
+			# Sea Snake's Gallery
+			############################################
+
+			20 = {
+				trigger = {
+					title:d_driftmark = {
+						has_variable = agot_velaryon_hightide_restoration_begun_bla
+
+						NOT = {
+							has_variable = agot_velaryon_hightide_gallery_found_bla
+						}
+					}
+
+					any_held_county = {
+						any_county_province = {
+							OR = {
+								has_building_or_higher = agot_ruins_hightide_01
+								has_building_or_higher = agot_ruins_hightide_02
+							}
+						}
+					}
+				}
+
+				trigger_event = agot_crownlands_bla.0171
+			}
+
+			############################################
+			# High Tide Rises Again
+			############################################
+
+			20 = {
+				trigger = {
+					title:d_driftmark = {
+						has_variable = agot_velaryon_hightide_restoration_begun_bla
+
+						NOT = {
+							has_variable = agot_velaryon_hightide_restored_bla
+						}
+					}
+
+					any_held_county = {
+						any_county_province = {
+							has_building_or_higher = agot_ruins_hightide_02
+						}
+					}
+				}
+
+				trigger_event = agot_crownlands_bla.0172
+			}
+
+			############################################
+			# Ashes of Spicetown
+			############################################
+
+			20 = {
+				trigger = {
+					title:d_driftmark = {
+						NOT = {
+							has_variable = agot_velaryon_spicetown_restoration_begun_bla
+						}
+					}
+
+					any_held_county = {
+						any_county_province = {
+							has_building_or_higher = agot_ruins_spicetown_01
+						}
+					}
+				}
+
+				trigger_event = agot_crownlands_bla.0173
+			}
+
+			############################################
+			# Who Shall Fill Its Streets?
+			############################################
+
+			20 = {
+				trigger = {
+					title:d_driftmark = {
+						has_variable = agot_velaryon_spicetown_restoration_begun_bla
+
+						NOT = {
+							has_variable = agot_velaryon_spicetown_settlers_bla
+						}
+					}
+
+					any_held_county = {
+						any_county_province = {
+							OR = {
+								has_building_or_higher = agot_ruins_spicetown_01
+								has_building_or_higher = agot_ruins_spicetown_02
+							}
+						}
+					}
+				}
+
+				trigger_event = agot_crownlands_bla.0174
+			}
+
+			############################################
+			# The Price of Spice
+			############################################
+
+			20 = {
+				trigger = {
+					title:d_driftmark = {
+						has_variable = agot_velaryon_spicetown_settlers_bla
+
+						NOT = {
+							has_variable = agot_velaryon_spicetown_price_paid_bla
+						}
+					}
+
+					any_held_county = {
+						any_county_province = {
+							OR = {
+								has_building_or_higher = agot_ruins_spicetown_01
+								has_building_or_higher = agot_ruins_spicetown_02
+							}
+						}
+					}
+				}
+
+				trigger_event = agot_crownlands_bla.0175
+			}
+
+			############################################
+			# Spicetown Reborn
+			############################################
+
+			20 = {
+				trigger = {
+					title:d_driftmark = {
+						has_variable = agot_velaryon_spicetown_restoration_begun_bla
+
+						NOT = {
+							has_variable = agot_velaryon_spicetown_restored_bla
+						}
+					}
+
+					any_held_county = {
+						any_county_province = {
+							has_building_or_higher = agot_ruins_spicetown_02
+						}
+					}
+				}
+
+				trigger_event = agot_crownlands_bla.0176
+			}
+
+			############################################
+			# The Glory of Driftmark
+			############################################
+
+			30 = {
+				trigger = {
+					title:d_driftmark = {
+						has_variable = agot_velaryon_hightide_restored_bla
+						has_variable = agot_velaryon_spicetown_restored_bla
+
+						NOT = {
+							has_variable = agot_driftmark_restored_bla
+						}
+					}
+
+					any_held_county = {
+						any_county_province = {
+							has_building_or_higher = agot_ruins_hightide_02
+						}
+					}
+
+					any_held_county = {
+						any_county_province = {
+							has_building_or_higher = agot_ruins_spicetown_02
+						}
+					}
+				}
+
+				trigger_event = agot_crownlands_bla.0177
+			}
+
+			60 = { }
+		}
+	}
+}
+
+############################################
+# House Velaryon - A Forest of Masts
+# 0100
+############################################
+
+agot_crownlands_bla.0100 = {
+	type = character_event
+	title = agot_crownlands_bla.0100.t
+	desc = agot_crownlands_bla.0100.desc
+	theme = stewardship
+
+	override_background = {
+		reference = docks
+	}
+
+	left_portrait = {
+		character = root
+		animation = personality_rational
+	}
+
+	trigger = {
+		is_ruler = yes
+		is_landed = yes
+		is_available_adult = yes
+		dynasty = dynasty:dynn_Velaryon
+
+		any_held_county = {
+			any_county_province = {
+				has_building_or_higher = agot_great_fleet_01
+			}
+		}
+
+		NOT = {
+			has_character_flag = agot_velaryon_forest_of_masts_cooldown_bla
+		}
+	}
+
+	immediate = {
+		agot_save_great_fleet_location_bla = yes
+
+		add_character_flag = {
+			flag = agot_velaryon_forest_of_masts_cooldown_bla
+			years = 7
+		}
+	}
+
+	option = { # Expand the harbor
+		name = agot_crownlands_bla.0100.a
+
+		trigger = {
+			gold >= 150
+		}
+
+		remove_short_term_gold = 150
+		add_prestige = 75
+
+		scope:velaryon_great_fleet_county_bla = {
+			add_county_modifier = {
+				modifier = agot_velaryon_expanded_harbor_bla
+				years = 10
+			}
+		}
+	}
+
+	option = { # Impose harbor discipline
+		name = agot_crownlands_bla.0100.b
+
+		add_prestige = 100
+
+		add_character_modifier = {
+			modifier = agot_velaryon_harbor_discipline_bla
+			years = 5
+		}
+	}
+
+	option = { # Sell the best berths
+		name = agot_crownlands_bla.0100.c
+
+		add_gold = 125
+
+		scope:velaryon_great_fleet_county_bla = {
+			add_county_modifier = {
+				modifier = agot_velaryon_crowded_anchorages_bla
+				years = 5
+			}
+		}
+	}
+
+	option = { # Leave matters as they are
+		name = agot_crownlands_bla.0100.d
+
+		add_prestige = 50
+	}
+}
+
+############################################
+# House Velaryon - The Fleet Must Be Fed
+# 0101
+############################################
+
+agot_crownlands_bla.0101 = {
+	type = character_event
+	title = agot_crownlands_bla.0101.t
+	desc = agot_crownlands_bla.0101.desc
+	theme = stewardship
+
+	override_background = {
+		reference = docks
+	}
+
+	left_portrait = {
+		character = root
+		animation = personality_rational
+	}
+
+	trigger = {
+		is_ruler = yes
+		is_landed = yes
+		is_available_adult = yes
+		dynasty = dynasty:dynn_Velaryon
+
+		any_held_county = {
+			any_county_province = {
+				has_building_or_higher = agot_great_fleet_01
+			}
+		}
+
+		NOT = {
+			has_character_flag = agot_velaryon_fleet_must_be_fed_cooldown_bla
+		}
+	}
+
+	immediate = {
+		agot_save_great_fleet_location_bla = yes
+
+		add_character_flag = {
+			flag = agot_velaryon_fleet_must_be_fed_cooldown_bla
+			years = 7
+		}
+	}
+
+	option = { # Open the coffers
+		name = agot_crownlands_bla.0101.a
+
+		trigger = {
+			gold >= 125
+		}
+
+		remove_short_term_gold = 125
+		add_prestige = 100
+
+		add_character_modifier = {
+			modifier = agot_velaryon_fleet_well_provisioned_bla
+			years = 5
+		}
+	}
+
+	option = { # Give the contracts to local merchants
+		name = agot_crownlands_bla.0101.b
+
+		trigger = {
+			gold >= 75
+		}
+
+		remove_short_term_gold = 75
+
+		scope:velaryon_great_fleet_county_bla = {
+			add_county_modifier = {
+				modifier = agot_velaryon_fleet_supply_contracts_bla
+				years = 7
+			}
+		}
+	}
+
+	option = { # Take what the fleet requires
+		name = agot_crownlands_bla.0101.c
+
+		add_dread = 5
+
+		scope:velaryon_great_fleet_county_bla = {
+			add_county_modifier = {
+				modifier = agot_velaryon_fleet_requisitions_bla
+				years = 5
+			}
+		}
+	}
+
+	option = { # Make the stores last
+		name = agot_crownlands_bla.0101.d
+
+		add_gold = 75
+
+		add_character_modifier = {
+			modifier = agot_velaryon_stretched_fleet_stores_bla
+			years = 3
+		}
+	}
+}
+
+############################################
+# House Velaryon - Captains of Driftmark
+# 0102
+############################################
+
+agot_crownlands_bla.0102 = {
+	type = character_event
+	title = agot_crownlands_bla.0102.t
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = {
+					has_character_flag = agot_velaryon_old_salt_bla
+				}
+				desc = agot_crownlands_bla.0102.desc_old_salt
+			}
+			triggered_desc = {
+				trigger = {
+					has_character_flag = agot_velaryon_tide_taker_bla
+				}
+				desc = agot_crownlands_bla.0102.desc_tide_taker
+			}
+			desc = agot_crownlands_bla.0102.desc_merchant
+		}
+	}
+	theme = diplomacy
+
+	override_background = {
+		reference = docks
+	}
+
+	left_portrait = {
+		character = root
+		animation = personality_rational
+	}
+
+	right_portrait = {
+		character = scope:velaryon_captain_bla
+		animation = personality_bold
+	}
+
+	trigger = {
+		is_ruler = yes
+		is_landed = yes
+		is_available_adult = yes
+		dynasty = dynasty:dynn_Velaryon
+
+		any_held_county = {
+			any_county_province = {
+				is_coastal = yes
+			}
+		}
+
+		NOT = {
+			has_character_flag = agot_velaryon_captains_driftmark_cooldown_bla
+		}
+	}
+
+	immediate = {
+		add_character_flag = {
+			flag = agot_velaryon_captains_driftmark_cooldown_bla
+			years = 8
+		}
+
+		random_list = {
+			35 = { # The Old Salt
+				add_character_flag = agot_velaryon_old_salt_bla
+
+				create_character = {
+					location = root.capital_province
+					gender_female_chance = 0
+					culture = root.culture
+					faith = root.faith
+					dynasty = none
+					age = { 40 58 }
+
+					martial = { 12 17 }
+					stewardship = { 7 12 }
+					prowess = { 8 13 }
+
+					trait = patient
+
+					save_scope_as = velaryon_captain_bla
+				}
+			}
+
+			35 = { # The Tide-Taker
+				add_character_flag = agot_velaryon_tide_taker_bla
+
+				create_character = {
+					location = root.capital_province
+					gender_female_chance = 0
+					culture = root.culture
+					faith = root.faith
+					dynasty = none
+					age = { 22 35 }
+
+					martial = { 11 16 }
+					prowess = { 12 18 }
+
+					trait = brave
+
+					save_scope_as = velaryon_captain_bla
+				}
+			}
+
+			30 = { # The Merchant Captain
+				add_character_flag = agot_velaryon_merchant_captain_bla
+
+				create_character = {
+					location = root.capital_province
+					gender_female_chance = 0
+					culture = root.culture
+					faith = root.faith
+					dynasty = none
+					age = { 28 48 }
+
+					diplomacy = { 9 14 }
+					stewardship = { 12 17 }
+					martial = { 7 12 }
+					prowess = { 6 11 }
+
+					trait = diligent
+
+					save_scope_as = velaryon_captain_bla
+				}
+			}
+		}
+	}
+
+	option = { # There is a place for you in my household.
+		name = agot_crownlands_bla.0102.a
+
+		root = {
+			add_courtier = scope:velaryon_captain_bla
+		}
+
+		add_prestige = 75
+	}
+
+	option = { # A captain deserves a proper reward.
+		name = agot_crownlands_bla.0102.b
+
+		trigger = {
+			gold >= 50
+		}
+
+		remove_short_term_gold = 50
+
+		root = {
+			add_courtier = scope:velaryon_captain_bla
+		}
+		scope:velaryon_captain_bla = {
+			add_opinion = {
+				target = root
+				modifier = grateful_opinion
+				opinion = 25
+			}
+		}
+
+		add_prestige = 125
+	}
+
+	option = { # Driftmark has no shortage of sailors.
+		name = agot_crownlands_bla.0102.c
+
+		add_prestige = 25
+
+		hidden_effect = {
+			scope:velaryon_captain_bla = {
+				move_to_pool = yes
+			}
+		}
+	}
+}
+
+############################################
+# House Velaryon - Rot Beneath the Waterline
+# 0103
+############################################
+
+agot_crownlands_bla.0103 = {
+	type = character_event
+	title = agot_crownlands_bla.0103.t
+	desc = agot_crownlands_bla.0103.desc
+	theme = stewardship
+
+	override_background = {
+		reference = docks
+	}
+
+	left_portrait = {
+		character = root
+		animation = personality_rational
+	}
+
+	right_portrait = {
+		character = scope:velaryon_corrupt_harbormaster_bla
+		animation = worry
+	}
+
+	trigger = {
+		is_ruler = yes
+		is_landed = yes
+		is_available_adult = yes
+		dynasty = dynasty:dynn_Velaryon
+
+		any_held_county = {
+			any_county_province = {
+				has_building_or_higher = agot_great_fleet_01
+			}
+		}
+
+		NOT = {
+			has_character_flag = agot_velaryon_rot_waterline_cooldown_bla
+		}
+	}
+
+	immediate = {
+		agot_save_great_fleet_location_bla = yes
+
+		add_character_flag = {
+			flag = agot_velaryon_rot_waterline_cooldown_bla
+			years = 8
+		}
+
+		create_character = {
+			gender_female_chance = 0
+			location = root.capital_province
+			dynasty = none
+			culture = root.culture
+			faith = root.faith
+			age = { 32 55 }
+			stewardship = { 10 16 }
+			intrigue = { 8 14 }
+			trait = greedy
+
+			save_scope_as = velaryon_corrupt_harbormaster_bla
+		}
+
+		add_courtier = scope:velaryon_corrupt_harbormaster_bla
+	}
+
+	option = { # Repair everything properly
+		name = agot_crownlands_bla.0103.a
+
+		trigger = {
+			gold >= 150
+		}
+
+		remove_short_term_gold = 150
+		add_stewardship_lifestyle_xp = 250
+
+		scope:velaryon_corrupt_harbormaster_bla = {
+			move_to_pool = yes
+		}
+	}
+
+	option = { # Make an example of him
+		name = agot_crownlands_bla.0103.b
+
+		add_dread = 10
+		add_stewardship_lifestyle_xp = 150
+
+		scope:velaryon_corrupt_harbormaster_bla = {
+			move_to_pool = yes
+		}
+
+		scope:velaryon_great_fleet_county_bla = {
+			add_county_modifier = {
+				modifier = agot_velaryon_harbor_accounts_scrutinized_bla
+				years = 5
+			}
+		}
+	}
+
+	option = { # He can remain useful
+		name = agot_crownlands_bla.0103.c
+
+		trigger = {
+			intrigue >= 10
+
+			can_add_hook = {
+				target = scope:velaryon_corrupt_harbormaster_bla
+				type = loyalty_hook
+			}
+		}
+
+		add_intrigue_lifestyle_xp = 250
+		add_gold = 75
+
+		add_hook = {
+			target = scope:velaryon_corrupt_harbormaster_bla
+			type = loyalty_hook
+		}
+
+		scope:velaryon_corrupt_harbormaster_bla = {
+			add_opinion = {
+				target = root
+				modifier = suspicious_opinion
+				opinion = -25
+			}
+		}
+	}
+
+	option = { # Blame him, conceal the wider failure
+		name = agot_crownlands_bla.0103.d
+
+		add_intrigue_lifestyle_xp = 150
+		add_prestige = 50
+
+		scope:velaryon_corrupt_harbormaster_bla = {
+			set_relation_potential_rival = {
+				target = root
+				reason = rival_disagreement
+			}
+
+			move_to_pool = yes
+		}
+	}
+}
+
+############################################
+# House Velaryon - The Tides of Driftmark
+# 0104
+############################################
+
+agot_crownlands_bla.0104 = {
+	type = character_event
+	title = agot_crownlands_bla.0104.t
+	desc = agot_crownlands_bla.0104.desc
+	theme = stewardship
+
+	override_background = {
+		reference = docks
+	}
+
+	left_portrait = {
+		character = root
+		animation = worry
+	}
+
+	trigger = {
+		is_ruler = yes
+		is_landed = yes
+		is_available_adult = yes
+		dynasty = dynasty:dynn_Velaryon
+
+		has_title = title:c_driftmark
+
+		title:c_driftmark.title_province = {
+			has_holding = yes
+		}
+
+		NOT = {
+			has_character_flag = agot_velaryon_tides_driftmark_cooldown_bla
+		}
+	}
+
+	immediate = {
+		add_character_flag = {
+			flag = agot_velaryon_tides_driftmark_cooldown_bla
+			years = 8
+		}
+	}
+
+	option = { # Save the people
+		name = agot_crownlands_bla.0104.a
+
+		trigger = {
+			gold >= 75
+		}
+
+		remove_short_term_gold = 75
+		add_diplomacy_lifestyle_xp = 200
+
+		title:c_driftmark = {
+			add_county_modifier = {
+				modifier = agot_velaryon_people_before_coin_bla
+				years = 7
+			}
+		}
+	}
+
+	option = { # Save the warehouses
+		name = agot_crownlands_bla.0104.b
+
+		duel = {
+			skill = stewardship
+			value = medium_skill_rating
+
+			50 = {
+				compare_modifier = {
+					value = scope:duel_value
+					multiplier = 3.5
+					min = -49
+				}
+
+				send_interface_toast = {
+					title = agot_crownlands_bla.0104.b.success
+					add_stewardship_lifestyle_xp = 300
+					add_gold = 100
+				}
+			}
+
+			50 = {
+				compare_modifier = {
+					value = scope:duel_value
+					multiplier = -3.5
+					min = -49
+				}
+
+				send_interface_toast = {
+					title = agot_crownlands_bla.0104.b.failure
+					add_stewardship_lifestyle_xp = 100
+
+					title:c_driftmark = {
+						add_county_modifier = {
+							modifier = agot_velaryon_flooded_storehouses_bla
+							years = 4
+						}
+					}
+				}
+			}
+		}
+	}
+
+	option = { # Save the ships
+		name = agot_crownlands_bla.0104.c
+
+		duel = {
+			skill = martial
+			value = medium_skill_rating
+
+			50 = {
+				compare_modifier = {
+					value = scope:duel_value
+					multiplier = 3.5
+					min = -49
+				}
+
+				send_interface_toast = {
+					title = agot_crownlands_bla.0104.c.success
+					add_martial_lifestyle_xp = 300
+					add_prestige = 125
+				}
+			}
+
+			50 = {
+				compare_modifier = {
+					value = scope:duel_value
+					multiplier = -3.5
+					min = -49
+				}
+
+				send_interface_toast = {
+					title = agot_crownlands_bla.0104.c.failure
+					add_martial_lifestyle_xp = 100
+					add_stress = minor_stress_gain
+				}
+			}
+		}
+	}
+
+	option = { # Refuse emergency expenditure
+		name = agot_crownlands_bla.0104.d
+
+		add_gold = 75
+
+		title:c_driftmark = {
+			add_county_modifier = {
+				modifier = agot_velaryon_storm_neglect_bla
+				years = 5
+			}
+		}
+	}
+}
+
+############################################
+# House Velaryon - Cargo from the East
+# 0105
+############################################
+
+agot_crownlands_bla.0105 = {
+	type = character_event
+	title = agot_crownlands_bla.0105.t
+	desc = agot_crownlands_bla.0105.desc
+	theme = stewardship
+
+	override_background = {
+		reference = docks
+	}
+
+	left_portrait = {
+		character = root
+		animation = personality_rational
+	}
+
+	trigger = {
+		is_ruler = yes
+		is_landed = yes
+		is_available_adult = yes
+		dynasty = dynasty:dynn_Velaryon
+
+		has_title = title:c_driftmark
+
+		title:c_driftmark.title_province = {
+			has_holding = yes
+		}
+
+		NOT = {
+			has_character_flag = agot_velaryon_cargo_east_cooldown_bla
+		}
+	}
+
+	immediate = {
+		add_character_flag = {
+			flag = agot_velaryon_cargo_east_cooldown_bla
+			years = 8
+		}
+	}
+
+	option = { # Let the merchants come.
+		name = agot_crownlands_bla.0105.a
+
+		title:c_driftmark = {
+			add_county_modifier = {
+				modifier = agot_velaryon_eastern_merchants_bla
+				years = 8
+			}
+		}
+	}
+
+	option = { # House Velaryon will take its share.
+		name = agot_crownlands_bla.0105.b
+
+		add_gold = 100
+
+		title:c_driftmark = {
+			add_county_modifier = {
+				modifier = agot_velaryon_harbor_customs_bla
+				years = 6
+			}
+		}
+	}
+
+	option = { # Seek out the craftsmen among them.
+		name = agot_crownlands_bla.0105.c
+
+		trigger = {
+			stewardship >= 10
+		}
+
+		remove_short_term_gold = 50
+
+		title:c_driftmark = {
+			add_county_modifier = {
+				modifier = agot_velaryon_foreign_craftsmen_bla
+				years = 10
+			}
+		}
+	}
+
+	option = { # Driftmark belongs to its own.
+		name = agot_crownlands_bla.0105.d
+
+		add_prestige = 75
+
+		title:c_driftmark = {
+			add_county_modifier = {
+				modifier = agot_velaryon_restricted_foreign_trade_bla
+				years = 5
+			}
+		}
+	}
+}
+
+############################################
+# House Velaryon - Pirates in the Gullet
+# 0106
+############################################
+
+agot_crownlands_bla.0106 = {
+	type = character_event
+	title = agot_crownlands_bla.0106.t
+	desc = agot_crownlands_bla.0106.desc
+	theme = martial
+
+	override_background = {
+		reference = docks
+	}
+
+	left_portrait = {
+		character = root
+		animation = personality_bold
+	}
+
+	trigger = {
+		is_ruler = yes
+		is_landed = yes
+		is_available_adult = yes
+		dynasty = dynasty:dynn_Velaryon
+
+		has_title = title:c_driftmark
+
+		title:c_driftmark.title_province = {
+			has_holding = yes
+		}
+
+		NOT = {
+			has_character_flag = agot_velaryon_pirates_gullet_cooldown_bla
+		}
+	}
+
+	immediate = {
+		add_character_flag = {
+			flag = agot_velaryon_pirates_gullet_cooldown_bla
+			years = 8
+		}
+	}
+
+	option = { # Great Fleet
+		name = agot_crownlands_bla.0106.a
+
+		trigger = {
+			any_held_county = {
+				any_county_province = {
+					has_building_or_higher = agot_great_fleet_01
+				}
+			}
+		}
+
+		add_character_flag = agot_velaryon_pirate_response_great_fleet_bla
+
+		trigger_event = {
+			id = agot_crownlands_bla.0107
+			days = { 30 60 }
+		}
+	}
+
+	option = { # Patrols
+		name = agot_crownlands_bla.0106.b
+
+		trigger = {
+			gold >= 75
+		}
+
+		remove_short_term_gold = 75
+		add_martial_lifestyle_xp = 150
+
+		add_character_flag = agot_velaryon_pirate_response_patrols_bla
+
+		trigger_event = {
+			id = agot_crownlands_bla.0107
+			days = { 60 100 }
+		}
+	}
+
+	option = { # Bounties
+		name = agot_crownlands_bla.0106.c
+
+		trigger = {
+			gold >= 100
+		}
+
+		remove_short_term_gold = 100
+
+		add_character_flag = agot_velaryon_pirate_response_bounties_bla
+
+		trigger_event = {
+			id = agot_crownlands_bla.0107
+			days = { 60 120 }
+		}
+	}
+
+	option = { # Ignore them
+		name = agot_crownlands_bla.0106.d
+
+		add_gold = 75
+
+		add_character_flag = agot_velaryon_pirate_response_ignored_bla
+
+		trigger_event = {
+			id = agot_crownlands_bla.0108
+			days = { 90 180 }
+		}
+	}
+}
+
+############################################
+# House Velaryon - The Gullet Answered
+# 0107
+############################################
+
+agot_crownlands_bla.0107 = {
+	type = character_event
+	title = agot_crownlands_bla.0107.t
+
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = {
+					has_character_flag = agot_velaryon_pirate_result_success_bla
+				}
+				desc = agot_crownlands_bla.0107.desc_success
+			}
+
+			triggered_desc = {
+				trigger = {
+					has_character_flag = agot_velaryon_pirate_result_partial_bla
+				}
+				desc = agot_crownlands_bla.0107.desc_partial
+			}
+
+			desc = agot_crownlands_bla.0107.desc_failure
+		}
+	}
+
+	theme = martial
+
+	override_background = {
+		reference = docks
+	}
+
+	left_portrait = {
+		character = root
+		animation = personality_bold
+	}
+
+	immediate = {
+
+		if = {
+			limit = {
+				has_character_flag = agot_velaryon_pirate_response_great_fleet_bla
+			}
+
+			random_list = {
+				80 = {
+					add_character_flag = agot_velaryon_pirate_result_success_bla
+				}
+
+				15 = {
+					add_character_flag = agot_velaryon_pirate_result_partial_bla
+				}
+
+				5 = {
+					add_character_flag = agot_velaryon_pirate_result_failure_bla
+				}
+			}
+		}
+
+		else_if = {
+			limit = {
+				has_character_flag = agot_velaryon_pirate_response_patrols_bla
+			}
+
+			random_list = {
+				50 = {
+					add_character_flag = agot_velaryon_pirate_result_success_bla
+				}
+
+				35 = {
+					add_character_flag = agot_velaryon_pirate_result_partial_bla
+				}
+
+				15 = {
+					add_character_flag = agot_velaryon_pirate_result_failure_bla
+				}
+			}
+		}
+
+		else_if = {
+			limit = {
+				has_character_flag = agot_velaryon_pirate_response_bounties_bla
+			}
+
+			random_list = {
+				40 = {
+					add_character_flag = agot_velaryon_pirate_result_success_bla
+				}
+
+				40 = {
+					add_character_flag = agot_velaryon_pirate_result_partial_bla
+				}
+
+				20 = {
+					add_character_flag = agot_velaryon_pirate_result_failure_bla
+				}
+			}
+		}
+	}
+
+	option = {
+		name = agot_crownlands_bla.0107.a
+
+		trigger = {
+			has_character_flag = agot_velaryon_pirate_result_success_bla
+		}
+
+		add_prestige = 175
+		add_martial_lifestyle_xp = 250
+
+		title:c_driftmark = {
+			add_county_modifier = {
+				modifier = agot_velaryon_gullet_swept_clean_bla
+				years = 7
+			}
+		}
+	}
+
+	option = {
+		name = agot_crownlands_bla.0107.b
+
+		trigger = {
+			has_character_flag = agot_velaryon_pirate_result_partial_bla
+		}
+
+		add_martial_lifestyle_xp = 150
+
+		random_list = {
+			50 = {
+				add_gold = 75
+			}
+
+			50 = {
+				add_prestige = 75
+			}
+		}
+	}
+
+	option = {
+		name = agot_crownlands_bla.0107.c
+
+		trigger = {
+			has_character_flag = agot_velaryon_pirate_result_failure_bla
+		}
+
+		add_stress = minor_stress_gain
+
+		title:c_driftmark = {
+			add_county_modifier = {
+				modifier = agot_velaryon_emboldened_pirates_bla
+				years = 4
+			}
+		}
+	}
+
+	after = {
+		remove_character_flag = agot_velaryon_pirate_response_great_fleet_bla
+		remove_character_flag = agot_velaryon_pirate_response_patrols_bla
+		remove_character_flag = agot_velaryon_pirate_response_bounties_bla
+
+		remove_character_flag = agot_velaryon_pirate_result_success_bla
+		remove_character_flag = agot_velaryon_pirate_result_partial_bla
+		remove_character_flag = agot_velaryon_pirate_result_failure_bla
+	}
+}
+
+############################################
+# House Velaryon - The Price of Inaction
+# 0108
+############################################
+
+agot_crownlands_bla.0108 = {
+	type = character_event
+	title = agot_crownlands_bla.0108.t
+	desc = agot_crownlands_bla.0108.desc
+	theme = stewardship
+
+	override_background = {
+		reference = docks
+	}
+
+	left_portrait = {
+		character = root
+		animation = worry
+	}
+
+	trigger = {
+		has_character_flag = agot_velaryon_pirate_response_ignored_bla
+	}
+
+	immediate = {
+		remove_character_flag = agot_velaryon_pirate_response_ignored_bla
+	}
+
+	option = { # Finally act
+		name = agot_crownlands_bla.0108.a
+
+		trigger = {
+			gold >= 125
+		}
+
+		remove_short_term_gold = 125
+		add_martial_lifestyle_xp = 100
+
+		title:c_driftmark = {
+			add_county_modifier = {
+				modifier = agot_velaryon_late_pirate_response_bla
+				years = 3
+			}
+		}
+	}
+
+	option = { # Accept the consequences
+		name = agot_crownlands_bla.0108.b
+
+		add_prestige = -100
+
+		title:c_driftmark = {
+			add_county_modifier = {
+				modifier = agot_velaryon_emboldened_pirates_bla
+				years = 5
+			}
+		}
+	}
+}
+
+############################################
+# House Velaryon - Old Driftmark
+# 0109
+############################################
+
+agot_crownlands_bla.0109 = {
+	type = character_event
+	title = agot_crownlands_bla.0109.t
+	desc = agot_crownlands_bla.0109.desc
+	theme = dynasty
+
+	override_background = {
+		reference = corridor_day
+	}
+
+	left_portrait = {
+		character = root
+		animation = personality_content
+	}
+
+	trigger = {
+		is_ruler = yes
+		is_landed = yes
+		is_available_adult = yes
+		dynasty = dynasty:dynn_Velaryon
+
+		has_title = title:c_driftmark
+
+		title:c_driftmark.title_province = {
+			has_holding = yes
+		}
+
+		NOT = {
+			has_character_flag = agot_velaryon_old_driftmark_cooldown_bla
+		}
+	}
+
+	immediate = {
+		add_character_flag = {
+			flag = agot_velaryon_old_driftmark_cooldown_bla
+			years = 10
+		}
+	}
+
+	option = { # Preserve what remains.
+		name = agot_crownlands_bla.0109.a
+
+		trigger = {
+			gold >= 150
+		}
+
+		remove_short_term_gold = 125
+		add_learning_lifestyle_xp = 250
+
+		dynasty = {
+			add_dynasty_prestige = 75
+		}
+
+		# Mixed character and county fields, so the county application is rejected
+		# whole. Applied to the ruler, every field keeps its meaning.
+		add_character_modifier = {
+			modifier = agot_velaryon_preserved_old_driftmark_bla
+			years = 10
+		}
+	}
+
+	option = { # Search the old records.
+		name = agot_crownlands_bla.0109.b
+
+		add_learning_lifestyle_xp = 300
+
+		random_list = {
+			60 = {
+				add_prestige = 75
+			}
+
+			30 = {
+				dynasty = {
+					add_dynasty_prestige = 100
+				}
+			}
+
+			10 = {
+				add_character_flag = agot_velaryon_old_driftmark_discovery_bla
+
+				trigger_event = {
+					id = agot_crownlands_bla.0110
+					days = { 10 30 }
+				}
+			}
+		}
+	}
+
+	option = { # The future matters more.
+		name = agot_crownlands_bla.0109.c
+
+		add_stewardship_lifestyle_xp = 200
+
+		title:c_driftmark = {
+			add_county_modifier = {
+				modifier = agot_velaryon_new_driftmark_bla
+				years = 8
+			}
+		}
+	}
+
+	option = { # We need no relics to know who we are.
+		name = agot_crownlands_bla.0109.d
+
+		add_prestige = 100
+		dynasty = {
+			add_dynasty_prestige = 50
+		}
+	}
+}
+
+############################################
+# House Velaryon - What the Records Remember
+# 0110
+############################################
+
+agot_crownlands_bla.0110 = {
+	type = character_event
+	title = agot_crownlands_bla.0110.t
+
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = {
+					has_character_flag = agot_velaryon_old_roll_found_bla
+				}
+				desc = agot_crownlands_bla.0110.desc_roll
+			}
+
+			triggered_desc = {
+				trigger = {
+					has_character_flag = agot_velaryon_old_charter_found_bla
+				}
+				desc = agot_crownlands_bla.0110.desc_charter
+			}
+
+			desc = agot_crownlands_bla.0110.desc_chart
+		}
+	}
+
+	theme = dynasty
+
+	override_background = {
+		reference = study
+	}
+
+	left_portrait = {
+		character = root
+		animation = personality_content
+	}
+
+	immediate = {
+		remove_character_flag = agot_velaryon_old_driftmark_discovery_bla
+
+		random_list = {
+			40 = {
+				add_character_flag = agot_velaryon_old_roll_found_bla
+			}
+
+			35 = {
+				add_character_flag = agot_velaryon_old_charter_found_bla
+			}
+
+			25 = {
+				add_character_flag = agot_velaryon_old_chart_found_bla
+			}
+		}
+	}
+
+	# An ancestral household roll
+	option = {
+		name = agot_crownlands_bla.0110.a
+
+		trigger = {
+			has_character_flag = agot_velaryon_old_roll_found_bla
+		}
+
+		add_learning_lifestyle_xp = 200
+
+		dynasty = {
+			add_dynasty_prestige = 150
+		}
+	}
+
+	# An ancient harbor charter
+	option = {
+		name = agot_crownlands_bla.0110.b
+
+		trigger = {
+			has_character_flag = agot_velaryon_old_charter_found_bla
+		}
+
+		add_stewardship_lifestyle_xp = 250
+
+		title:c_driftmark = {
+			add_county_modifier = {
+				modifier = agot_velaryon_ancient_harbor_rights_bla
+				years = 10
+			}
+		}
+	}
+
+	# An old sea chart
+	option = {
+		name = agot_crownlands_bla.0110.c
+
+		trigger = {
+			has_character_flag = agot_velaryon_old_chart_found_bla
+		}
+
+		add_learning_lifestyle_xp = 250
+		add_martial_lifestyle_xp = 150
+
+		add_character_modifier = {
+			modifier = agot_velaryon_studied_old_sea_charts_bla
+			years = 5
+		}
+	}
+
+	after = {
+		remove_character_flag = agot_velaryon_old_roll_found_bla
+		remove_character_flag = agot_velaryon_old_charter_found_bla
+		remove_character_flag = agot_velaryon_old_chart_found_bla
+	}
+}
+
+############################################
+# House Velaryon - Blood of the Sea
+# 0111
+############################################
+
+agot_crownlands_bla.0111 = {
+	type = character_event
+	title = agot_crownlands_bla.0111.t
+	desc = agot_crownlands_bla.0111.desc
+	theme = dynasty
+
+	override_background = {
+		reference = docks
+	}
+
+	left_portrait = {
+		character = root
+		animation = personality_content
+	}
+
+	right_portrait = {
+		character = scope:velaryon_sea_child_bla
+		animation = happiness
+	}
+
+	trigger = {
+		is_ruler = yes
+		is_landed = yes
+		is_available_adult = yes
+		dynasty = dynasty:dynn_Velaryon
+
+		any_child = {
+			is_alive = yes
+			age >= 6
+			age <= 15
+			dynasty = dynasty:dynn_Velaryon
+			NOT = {
+				has_character_flag = agot_velaryon_blood_of_sea_child_bla
+			}
+		}
+
+		NOT = {
+			has_character_flag = agot_velaryon_blood_of_sea_cooldown_bla
+		}
+	}
+
+	immediate = {
+		add_character_flag = {
+			flag = agot_velaryon_blood_of_sea_cooldown_bla
+			years = 8
+		}
+
+		random_child = {
+			limit = {
+				is_alive = yes
+				age >= 6
+				age <= 15
+				dynasty = dynasty:dynn_Velaryon
+				NOT = {
+					has_character_flag = agot_velaryon_blood_of_sea_child_bla
+				}
+			}
+
+			save_scope_as = velaryon_sea_child_bla
+
+			add_character_flag = {
+				flag = agot_velaryon_blood_of_sea_child_bla
+				years = 10
+			}
+		}
+	}
+
+	option = { # Teach them command
+		name = agot_crownlands_bla.0111.a
+
+		scope:velaryon_sea_child_bla = {
+			add_character_modifier = {
+				modifier = agot_velaryon_child_sea_command_bla
+				years = 5
+			}
+		}
+	}
+
+	option = { # Teach them trade
+		name = agot_crownlands_bla.0111.b
+
+		scope:velaryon_sea_child_bla = {
+			add_character_modifier = {
+				modifier = agot_velaryon_child_harbor_training_bla
+				years = 5
+			}
+		}
+	}
+
+	option = { # Let them learn from sailors
+		name = agot_crownlands_bla.0111.c
+
+		set_variable = {
+			name = velaryon_sea_child_bla
+			value = scope:velaryon_sea_child_bla
+		}
+
+		scope:velaryon_sea_child_bla = {
+			add_character_modifier = {
+				modifier = agot_velaryon_child_among_sailors_bla
+				years = 5
+			}
+		}
+
+		trigger_event = {
+			id = agot_crownlands_bla.0112
+			years = 3
+		}
+	}
+
+	option = { # Keep them ashore
+		name = agot_crownlands_bla.0111.d
+
+		add_prestige = 50
+
+		scope:velaryon_sea_child_bla = {
+			add_opinion = {
+				target = root
+				modifier = disappointed_opinion
+				opinion = -15
+			}
+		}
+	}
+}
+
+############################################
+# House Velaryon - Lessons of Wind and Water
+# 0112
+############################################
+
+agot_crownlands_bla.0112 = {
+	type = character_event
+	title = agot_crownlands_bla.0112.t
+	desc = agot_crownlands_bla.0112.desc
+	theme = dynasty
+
+	override_background = {
+		reference = docks
+	}
+
+	left_portrait = {
+		character = root
+		animation = personality_rational
+	}
+
+	right_portrait = {
+		character = scope:velaryon_sea_child_bla
+		animation = worry
+	}
+
+	option = { # Praise their courage
+		name = agot_crownlands_bla.0112.a
+
+		scope:velaryon_sea_child_bla = {
+			add_character_modifier = {
+				modifier = agot_velaryon_young_seafarer_bla
+				years = 5
+			}
+
+			add_opinion = {
+				target = root
+				modifier = grateful_opinion
+				opinion = 15
+			}
+		}
+
+		add_prestige = 50
+	}
+
+	option = { # The lesson is preparation, not recklessness
+		name = agot_crownlands_bla.0112.b
+
+		scope:velaryon_sea_child_bla = {
+			add_character_modifier = {
+				modifier = agot_velaryon_cautious_mariner_bla
+				years = 5
+			}
+		}
+	}
+
+	option = { # Send them straight back out
+		name = agot_crownlands_bla.0112.c
+
+		trigger = {
+			OR = {
+				has_trait = brave
+				has_trait = ambitious
+				martial >= 10
+			}
+		}
+
+		scope:velaryon_sea_child_bla = {
+			add_character_modifier = {
+				modifier = agot_velaryon_seasoned_young_sailor_bla
+				years = 7
+			}
+		}
+
+		dynasty = {
+			add_dynasty_prestige = 50
+		}
+	}
+
+	option = { # Enough of this
+		name = agot_crownlands_bla.0112.d
+
+		scope:velaryon_sea_child_bla = {
+			remove_character_modifier = agot_velaryon_child_among_sailors_bla
+
+			add_opinion = {
+				target = root
+				modifier = disappointed_opinion
+				opinion = -15
+			}
+		}
+	}
+}
+
+############################################
+# House Velaryon - The Captain's Share
+# 0113
+############################################
+
+agot_crownlands_bla.0113 = {
+	type = character_event
+	title = agot_crownlands_bla.0113.t
+	desc = agot_crownlands_bla.0113.desc
+	theme = diplomacy
+
+	override_background = {
+		reference = docks
+	}
+
+	left_portrait = {
+		character = root
+		animation = personality_rational
+	}
+
+	right_portrait = {
+		character = scope:velaryon_disputed_captain_bla
+		animation = personality_bold
+	}
+
+	trigger = {
+		is_ruler = yes
+		is_landed = yes
+		is_available_adult = yes
+		dynasty = dynasty:dynn_Velaryon
+
+		any_held_county = {
+			any_county_province = {
+				is_coastal = yes
+			}
+		}
+
+		NOT = {
+			has_character_flag = agot_velaryon_captains_share_cooldown_bla
+		}
+	}
+
+	immediate = {
+		add_character_flag = {
+			flag = agot_velaryon_captains_share_cooldown_bla
+			years = 8
+		}
+
+		create_character = {
+			location = root.capital_province
+			dynasty = none
+			culture = root.culture
+			faith = root.faith
+			gender_female_chance = 0
+			age = { 28 50 }
+
+			martial = { 10 15 }
+			stewardship = { 9 14 }
+			diplomacy = { 8 13 }
+			prowess = { 8 14 }
+
+			save_scope_as = velaryon_disputed_captain_bla
+		}
+
+		add_courtier = scope:velaryon_disputed_captain_bla
+	}
+
+	option = { # Pay the captain generously
+		name = agot_crownlands_bla.0113.a
+
+		trigger = {
+			gold >= 100
+		}
+
+		remove_short_term_gold = 100
+
+		scope:velaryon_disputed_captain_bla = {
+			add_opinion = {
+				target = root
+				modifier = grateful_opinion
+				opinion = 30
+			}
+		}
+
+		add_diplomacy_lifestyle_xp = 150
+	}
+
+	option = { # Negotiate a settlement
+		name = agot_crownlands_bla.0113.b
+
+		duel = {
+			skill = diplomacy
+			value = medium_skill_rating
+
+			50 = {
+				compare_modifier = {
+					value = scope:duel_value
+					multiplier = 3.5
+					min = -49
+				}
+
+				send_interface_toast = {
+					title = agot_crownlands_bla.0113.b.success
+
+					add_diplomacy_lifestyle_xp = 300
+
+					scope:velaryon_disputed_captain_bla = {
+						add_opinion = {
+							target = root
+							modifier = pleased_opinion
+							opinion = 20
+						}
+					}
+				}
+			}
+
+			50 = {
+				compare_modifier = {
+					value = scope:duel_value
+					multiplier = -3.5
+					min = -49
+				}
+
+				send_interface_toast = {
+					title = agot_crownlands_bla.0113.b.failure
+
+					remove_short_term_gold = 75
+					add_diplomacy_lifestyle_xp = 100
+
+					scope:velaryon_disputed_captain_bla = {
+						add_opinion = {
+							target = root
+							modifier = disappointed_opinion
+							opinion = -15
+						}
+					}
+				}
+			}
+		}
+	}
+
+	option = { # Refuse the claim
+		name = agot_crownlands_bla.0113.c
+
+		add_gold = 75
+		add_prestige = 50
+
+		scope:velaryon_disputed_captain_bla = {
+			set_relation_potential_rival = {
+				target = root
+				reason = rival_disagreement
+			}
+		}
+	}
+
+	option = { # Turn the dispute to our advantage
+		name = agot_crownlands_bla.0113.d
+
+		trigger = {
+			intrigue >= 12
+
+			can_add_hook = {
+				target = scope:velaryon_disputed_captain_bla
+				type = loyalty_hook
+			}
+		}
+
+		add_intrigue_lifestyle_xp = 250
+
+		add_hook = {
+			target = scope:velaryon_disputed_captain_bla
+			type = loyalty_hook
+		}
+
+		scope:velaryon_disputed_captain_bla = {
+			add_opinion = {
+				target = root
+				modifier = suspicious_opinion
+				opinion = -20
+			}
+		}
+	}
+}
+
+############################################
+# House Velaryon - Lord of the Tides
+# 0114
+############################################
+
+agot_crownlands_bla.0114 = {
+	type = character_event
+	title = agot_crownlands_bla.0114.t
+	desc = agot_crownlands_bla.0114.desc
+	theme = diplomacy
+
+	override_background = {
+		reference = docks
+	}
+
+	left_portrait = {
+		character = root
+		animation = personality_rational
+	}
+
+	trigger = {
+		is_ruler = yes
+		is_landed = yes
+		is_available_adult = yes
+		dynasty = dynasty:dynn_Velaryon
+
+		has_title = title:c_driftmark
+
+		title:c_driftmark.title_province = {
+			has_holding = yes
+		}
+
+		NOT = {
+			has_character_flag = agot_velaryon_lord_tides_cooldown_bla
+		}
+	}
+
+	immediate = {
+		add_character_flag = {
+			flag = agot_velaryon_lord_tides_cooldown_bla
+			years = 7
+		}
+	}
+
+	option = { # Favor the fishermen
+		name = agot_crownlands_bla.0114.a
+
+		add_diplomacy_lifestyle_xp = 200
+
+		title:c_driftmark = {
+			add_county_modifier = {
+				modifier = agot_velaryon_protected_fishing_waters_bla
+				years = 7
+			}
+		}
+	}
+
+	option = { # Favor the shipmasters
+		name = agot_crownlands_bla.0114.b
+
+		add_gold = 100
+
+		title:c_driftmark = {
+			add_county_modifier = {
+				modifier = agot_velaryon_merchant_anchorages_bla
+				years = 7
+			}
+		}
+	}
+
+	option = { # Divide the waters
+		name = agot_crownlands_bla.0114.c
+
+		duel = {
+			skill = stewardship
+			value = medium_skill_rating
+
+			50 = {
+				compare_modifier = {
+					value = scope:duel_value
+					multiplier = 3.5
+					min = -49
+				}
+
+				send_interface_toast = {
+					title = agot_crownlands_bla.0114.c.success
+
+					add_stewardship_lifestyle_xp = 300
+
+					title:c_driftmark = {
+						add_county_modifier = {
+							modifier = agot_velaryon_ordered_waters_bla
+							years = 8
+						}
+					}
+				}
+			}
+
+			50 = {
+				compare_modifier = {
+					value = scope:duel_value
+					multiplier = -3.5
+					min = -49
+				}
+
+				send_interface_toast = {
+					title = agot_crownlands_bla.0114.c.failure
+
+					add_stewardship_lifestyle_xp = 100
+
+					title:c_driftmark = {
+						add_county_modifier = {
+							modifier = agot_velaryon_disputed_waters_bla
+							years = 4
+						}
+					}
+				}
+			}
+		}
+	}
+
+	option = { # The sea belongs to the Lord of the Tides
+		name = agot_crownlands_bla.0114.d
+
+		add_dread = 5
+		add_prestige = 75
+
+		title:c_driftmark = {
+			add_county_modifier = {
+				modifier = agot_velaryon_lords_waters_bla
+				years = 5
+			}
+		}
+	}
+}
+
+############################################
+# House Velaryon - The Wealth of the Tides
+# 0115
+############################################
+
+agot_crownlands_bla.0115 = {
+	type = character_event
+	title = agot_crownlands_bla.0115.t
+	desc = agot_crownlands_bla.0115.desc
+	theme = dynasty
+
+	override_background = {
+		reference = docks
+	}
+
+	left_portrait = {
+		character = root
+		animation = personality_content
+	}
+
+	trigger = {
+		is_ruler = yes
+		is_landed = yes
+		is_available_adult = yes
+		dynasty = dynasty:dynn_Velaryon
+
+		has_title = title:c_driftmark
+
+		title:c_driftmark.title_province = {
+			has_holding = yes
+		}
+
+		gold >= 500
+		prestige_level >= 3
+
+		NOT = {
+			has_character_flag = agot_velaryon_wealth_tides_cooldown_bla
+		}
+	}
+
+	immediate = {
+		add_character_flag = {
+			flag = agot_velaryon_wealth_tides_cooldown_bla
+			years = 15
+		}
+	}
+
+	option = { # House Velaryon above all
+		name = agot_crownlands_bla.0115.a
+
+		remove_short_term_gold = 200
+
+		dynasty = {
+			add_dynasty_prestige = 300
+		}
+
+		add_prestige = 150
+	}
+
+	option = { # Reinvest in Driftmark
+		name = agot_crownlands_bla.0115.b
+
+		remove_short_term_gold = 250
+		add_stewardship_lifestyle_xp = 300
+
+		title:c_driftmark = {
+			add_county_modifier = {
+				modifier = agot_velaryon_golden_age_driftmark_bla
+				years = 12
+			}
+		}
+	}
+
+	option = { # Strengthen maritime power
+		name = agot_crownlands_bla.0115.c
+
+		trigger = {
+			any_held_county = {
+				any_county_province = {
+					has_building_or_higher = agot_great_fleet_01
+				}
+			}
+		}
+
+		remove_short_term_gold = 200
+		add_martial_lifestyle_xp = 300
+
+		add_character_modifier = {
+			modifier = agot_velaryon_mastery_of_the_gullet_bla
+			years = 8
+		}
+	}
+
+	option = { # Turn wealth into influence
+		name = agot_crownlands_bla.0115.d
+
+		remove_short_term_gold = 200
+		add_diplomacy_lifestyle_xp = 300
+
+		add_character_modifier = {
+			modifier = agot_velaryon_court_of_the_tides_bla
+			years = 8
+		}
+	}
+}
+
+agot_crownlands_bla.0170 = {
+	type = character_event
+	title = agot_crownlands_bla.0170.t
+	desc = agot_crownlands_bla.0170.desc
+	theme = stewardship
+
+	override_background = {
+		reference = wilderness
+	}
+
+	left_portrait = {
+		character = root
+		animation = personality_rational
+	}
+
+	trigger = {
+		is_ruler = yes
+		is_landed = yes
+		is_available_adult = yes
+		dynasty = dynasty:dynn_Velaryon
+
+		any_held_county = {
+			any_county_province = {
+				has_building_or_higher = agot_ruins_hightide_01
+			}
+		}
+
+		title:d_driftmark = {
+			NOT = {
+				has_variable = agot_velaryon_hightide_restoration_begun_bla
+			}
+		}
+	}
+
+	immediate = {
+		title:d_driftmark = {
+			set_variable = {
+				name = agot_velaryon_hightide_restoration_begun_bla
+				value = 1
+			}
+		}
+
+		random_held_county = {
+			limit = {
+				any_county_province = {
+					has_building_or_higher = agot_ruins_hightide_01
+				}
+			}
+
+			random_county_province = {
+				limit = {
+					has_building_or_higher = agot_ruins_hightide_01
+				}
+
+				save_scope_as = hightide_province_bla
+			}
+		}
+	}
+
+	option = { # Restore Corlys's High Tide faithfully
+		name = agot_crownlands_bla.0170.a
+
+		add_prestige = 250
+
+		title:d_driftmark = {
+			set_variable = {
+				name = agot_velaryon_hightide_corlys_bla
+				value = 1
+			}
+		}
+
+		# Mixed character and province fields, so the province application is rejected
+		# whole. Applied to the ruler, every field keeps its meaning.
+		add_character_modifier = {
+			modifier = agot_velaryon_hightide_old_glory_bla
+			years = 10
+		}
+	}
+
+	option = { # Build something harder to destroy
+		name = agot_crownlands_bla.0170.b
+
+		remove_short_term_gold = 150
+		add_martial_lifestyle_xp = 150
+
+		title:d_driftmark = {
+			set_variable = {
+				name = agot_velaryon_hightide_fortified_bla
+				value = 1
+			}
+		}
+
+		scope:hightide_province_bla = {
+			add_province_modifier = {
+				modifier = agot_velaryon_hightide_fortification_works_bla
+				years = 10
+			}
+		}
+	}
+
+	option = { # Practical rebuilding
+		name = agot_crownlands_bla.0170.c
+
+		add_stewardship_lifestyle_xp = 150
+
+		title:d_driftmark = {
+			set_variable = {
+				name = agot_velaryon_hightide_practical_bla
+				value = 1
+			}
+		}
+
+		scope:hightide_province_bla = {
+			add_province_modifier = {
+				modifier = agot_velaryon_hightide_practical_rebuilding_bla
+				years = 10
+			}
+		}
+	}
+
+	option = { # High Tide Authority
+		name = agot_crownlands_bla.0170.d
+
+		trigger = {
+			dynasty = {
+			has_dynasty_perk = velaryon_legacy_3_BLA
+			}
+		}
+
+		remove_short_term_gold = 100
+		add_prestige = 350
+		dynasty ?= { add_dynasty_prestige = 100 }
+
+		title:d_driftmark = {
+			set_variable = {
+				name = agot_velaryon_hightide_legacy_bla
+				value = 1
+			}
+		}
+
+		# Mixed character and province fields, so the province application is rejected
+		# whole. Applied to the ruler, every field keeps its meaning.
+		add_character_modifier = {
+			modifier = agot_velaryon_hightide_legacy_restoration_bla
+			years = 10
+		}	
+	}
+}
+
+agot_crownlands_bla.0171 = {
+	type = character_event
+	title = agot_crownlands_bla.0171.t
+	desc = agot_crownlands_bla.0171.desc
+	theme = stewardship
+
+	override_background = {
+		reference = study
+	}
+
+	left_portrait = {
+		character = root
+		animation = personality_rational
+	}
+
+	trigger = {
+		is_ruler = yes
+		is_landed = yes
+		is_available_adult = yes
+		dynasty = dynasty:dynn_Velaryon
+
+		title:d_driftmark = {
+			has_variable = agot_velaryon_hightide_restoration_begun_bla
+
+			NOT = {
+				has_variable = agot_velaryon_hightide_gallery_found_bla
+			}
+		}
+
+		any_held_county = {
+			any_county_province = {
+				OR = {
+					has_building_or_higher = agot_ruins_hightide_01
+					has_building_or_higher = agot_ruins_hightide_02
+				}
+			}
+		}
+	}
+
+	immediate = {
+		title:d_driftmark = {
+			set_variable = {
+				name = agot_velaryon_hightide_gallery_found_bla
+				value = 1
+			}
+		}
+
+		random_held_county = {
+			limit = {
+				any_county_province = {
+					OR = {
+						has_building_or_higher = agot_ruins_hightide_01
+						has_building_or_higher = agot_ruins_hightide_02
+					}
+				}
+			}
+
+			random_county_province = {
+				limit = {
+					OR = {
+						has_building_or_higher = agot_ruins_hightide_01
+						has_building_or_higher = agot_ruins_hightide_02
+					}
+				}
+
+				save_scope_as = hightide_province_bla
+			}
+		}
+	}
+
+	option = { # Preserve the gallery
+		name = agot_crownlands_bla.0171.a
+
+		remove_short_term_gold = 100
+		add_prestige = 200
+		dynasty ?= { add_dynasty_prestige = 75 }
+
+		title:d_driftmark = {
+			set_variable = {
+				name = agot_velaryon_hightide_gallery_preserved_bla
+				value = 1
+			}
+		}
+	}
+
+	option = { # Sell what remains
+		name = agot_crownlands_bla.0171.b
+
+		add_gold = 175
+
+		title:d_driftmark = {
+			set_variable = {
+				name = agot_velaryon_hightide_gallery_sold_bla
+				value = 1
+			}
+		} 
+
+		dynasty ?= { add_dynasty_prestige = -50 }
+	}
+
+	option = { # Study the charts
+		name = agot_crownlands_bla.0171.c
+
+		add_learning_lifestyle_xp = 200
+
+		title:d_driftmark = {
+			set_variable = {
+				name = agot_velaryon_hightide_charts_studied_bla
+				value = 1
+			}
+		}
+
+		# Mixed character and province fields, so the province application is rejected
+		# whole. Applied to the ruler, every field keeps its meaning.
+		add_character_modifier = {
+			modifier = agot_velaryon_sea_snake_charts_bla
+			years = 10
+		}
+	}
+
+	option = { # Restore the gallery to High Tide
+		name = agot_crownlands_bla.0171.d
+
+		trigger = {
+			OR = {
+				stewardship >= 12
+				title:d_driftmark = {
+					has_variable = agot_velaryon_hightide_legacy_bla
+				}
+			}
+		}
+
+		remove_short_term_gold = 200
+		add_stewardship_lifestyle_xp = 150
+		dynasty ?= { add_dynasty_prestige = 100 }
+
+		title:d_driftmark = {
+			set_variable = {
+				name = agot_velaryon_hightide_gallery_restored_bla
+				value = 1
+			}
+		}
+
+	}
+}
+
+agot_crownlands_bla.0172 = {
+	type = character_event
+	title = agot_crownlands_bla.0172.t
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = {
+					title:d_driftmark = {
+						has_variable = agot_velaryon_hightide_corlys_bla
+					}
+				}
+				desc = agot_crownlands_bla.0172.desc_corlys
+			}
+
+			triggered_desc = {
+				trigger = {
+					title:d_driftmark = {
+						has_variable = agot_velaryon_hightide_fortified_bla
+					}
+				}
+				desc = agot_crownlands_bla.0172.desc_fortified
+			}
+
+			triggered_desc = {
+				trigger = {
+					title:d_driftmark = {
+						has_variable = agot_velaryon_hightide_practical_bla
+					}
+				}
+				desc = agot_crownlands_bla.0172.desc_practical
+			}
+
+			triggered_desc = {
+				trigger = {
+					title:d_driftmark = {
+						has_variable = agot_velaryon_hightide_legacy_bla
+					}
+				}
+				desc = agot_crownlands_bla.0172.desc_legacy
+			}
+
+			desc = agot_crownlands_bla.0172.desc
+		}
+	}
+
+	theme = dynasty
+
+	override_background = {
+		reference = courtyard
+	}
+
+	left_portrait = {
+		character = root
+		animation = personality_honorable
+	}
+
+	trigger = {
+		is_ruler = yes
+		is_landed = yes
+		is_available_adult = yes
+		dynasty = dynasty:dynn_Velaryon
+
+		title:d_driftmark = {
+			has_variable = agot_velaryon_hightide_restoration_begun_bla
+			has_variable = agot_velaryon_hightide_gallery_found_bla
+
+			NOT = {
+				has_variable = agot_velaryon_hightide_restored_bla
+			}
+		}
+
+		any_held_county = {
+			any_county_province = {
+				has_building_or_higher = agot_ruins_hightide_02
+			}
+		}
+	}
+
+	immediate = {
+		title:d_driftmark = {
+			set_variable = {
+				name = agot_velaryon_hightide_restored_bla
+				value = 1
+			}
+		}
+
+		random_held_county = {
+			limit = {
+				any_county_province = {
+					has_building_or_higher = agot_ruins_hightide_02
+				}
+			}
+
+			random_county_province = {
+				limit = {
+					has_building_or_higher = agot_ruins_hightide_02
+				}
+
+				save_scope_as = hightide_province_bla
+			}
+		}
+	}
+
+	option = {
+		name = agot_crownlands_bla.0172.a
+
+		add_prestige = 500
+		dynasty ?= { add_dynasty_prestige = 200 }
+
+		if = {
+			limit = {
+				title:d_driftmark = {
+					has_variable = agot_velaryon_hightide_gallery_preserved_bla
+				}
+			}
+
+			dynasty ?= { add_dynasty_prestige = 100 }
+		}
+
+		if = {
+			limit = {
+				title:d_driftmark = {
+					has_variable = agot_velaryon_hightide_gallery_restored_bla
+				}
+			}
+
+			add_prestige = 250
+			dynasty ?= { add_dynasty_prestige = 150 }
+		}
+
+		if = {
+			limit = {
+				title:d_driftmark = {
+					has_variable = agot_velaryon_hightide_gallery_sold_bla
+				}
+			}
+
+			add_gold = 75
+		}
+
+		if = {
+			limit = {
+				title:d_driftmark = {
+					has_variable = agot_velaryon_hightide_charts_studied_bla
+				}
+			}
+
+			add_learning_lifestyle_xp = 150
+		}
+	}
+}
+
+agot_crownlands_bla.0173 = {
+	type = character_event
+	title = agot_crownlands_bla.0173.t
+	desc = agot_crownlands_bla.0173.desc
+	theme = stewardship
+
+	override_background = {
+		reference = market
+	}
+
+	left_portrait = {
+		character = root
+		animation = personality_rational
+	}
+
+	trigger = {
+		is_ruler = yes
+		is_landed = yes
+		is_available_adult = yes
+		dynasty = dynasty:dynn_Velaryon
+
+		any_held_county = {
+			any_county_province = {
+				has_building_or_higher = agot_ruins_spicetown_01
+			}
+		}
+
+		title:d_driftmark = {
+			NOT = {
+				has_variable = agot_velaryon_spicetown_restoration_begun_bla
+			}
+		}
+	}
+
+	immediate = {
+		title:d_driftmark = {
+			set_variable = {
+				name = agot_velaryon_spicetown_restoration_begun_bla
+				value = 1
+			}
+		}
+
+		random_held_county = {
+			limit = {
+				any_county_province = {
+					has_building_or_higher = agot_ruins_spicetown_01
+				}
+			}
+
+			random_county_province = {
+				limit = {
+					has_building_or_higher = agot_ruins_spicetown_01
+				}
+
+				save_scope_as = spicetown_province_bla
+			}
+		}
+	}
+
+	option = { # Restore the old mercantile town
+		name = agot_crownlands_bla.0173.a
+
+		remove_short_term_gold = 125
+		add_stewardship_lifestyle_xp = 150
+
+		title:d_driftmark = {
+			set_variable = {
+				name = agot_velaryon_spicetown_merchants_bla
+				value = 1
+			}
+		}
+	}
+
+	option = { # Shipyards
+		name = agot_crownlands_bla.0173.b
+
+		remove_short_term_gold = 150
+		add_martial_lifestyle_xp = 100
+
+		title:d_driftmark = {
+			set_variable = {
+				name = agot_velaryon_spicetown_shipyards_bla
+				value = 1
+			}
+		}
+
+	}
+
+	option = { # Open port
+		name = agot_crownlands_bla.0173.c
+
+		add_prestige = 100
+
+		title:d_driftmark = {
+			set_variable = {
+				name = agot_velaryon_spicetown_open_port_bla
+				value = 1
+			}
+		}
+
+	}
+
+	option = {
+		name = agot_crownlands_bla.0173.d
+
+		trigger = {
+			dynasty = {
+				has_dynasty_perk = velaryon_legacy_4_BLA
+			}
+		}
+
+		remove_short_term_gold = 100
+		add_stewardship_lifestyle_xp = 200
+		dynasty ?= { add_dynasty_prestige = 75 }
+
+		title:d_driftmark = {
+			set_variable = {
+				name = agot_velaryon_spicetown_legacy_bla
+				value = 1
+			}
+		}
+
+	}
+}
+
+agot_crownlands_bla.0174 = {
+	type = character_event
+	title = agot_crownlands_bla.0174.t
+	desc = {
+		desc = {
+			first_valid = {
+				triggered_desc = {
+					trigger = {
+						title:d_driftmark = {
+							has_variable = agot_velaryon_spicetown_merchants_bla
+						}
+					}
+					desc = agot_crownlands_bla.0174.desc_merchants
+				}
+
+				triggered_desc = {
+					trigger = {
+						title:d_driftmark = {
+							has_variable = agot_velaryon_spicetown_shipyards_bla
+						}
+					}
+					desc = agot_crownlands_bla.0174.desc_shipyards
+				}
+
+				triggered_desc = {
+					trigger = {
+						title:d_driftmark = {
+							has_variable = agot_velaryon_spicetown_open_port_bla
+						}
+					}
+					desc = agot_crownlands_bla.0174.desc_open
+				}
+
+				triggered_desc = {
+					trigger = {
+						title:d_driftmark = {
+							has_variable = agot_velaryon_spicetown_legacy_bla
+						}
+					}
+					desc = agot_crownlands_bla.0174.desc_legacy
+				}
+
+				desc = agot_crownlands_bla.0174.desc
+			}
+		}
+	}
+
+	theme = stewardship
+
+	override_background = {
+		reference = market
+	}
+
+	left_portrait = {
+		character = root
+		animation = personality_rational
+	}
+
+	trigger = {
+		is_ruler = yes
+		is_landed = yes
+		is_available_adult = yes
+		dynasty = dynasty:dynn_Velaryon
+
+		title:d_driftmark = {
+			has_variable = agot_velaryon_spicetown_restoration_begun_bla
+
+			NOT = {
+				has_variable = agot_velaryon_spicetown_settlers_bla
+			}
+		}
+
+		any_held_county = {
+			any_county_province = {
+				OR = {
+					has_building_or_higher = agot_ruins_spicetown_01
+					has_building_or_higher = agot_ruins_spicetown_02
+				}
+			}
+		}
+	}
+
+	immediate = {
+		title:d_driftmark = {
+			set_variable = {
+				name = agot_velaryon_spicetown_settlers_bla
+				value = 1
+			}
+		}
+	}
+
+	option = { # Old Spicetown families
+		name = agot_crownlands_bla.0174.a
+
+		trigger = {
+			OR = {
+				title:d_driftmark = {
+					has_variable = agot_velaryon_spicetown_merchants_bla
+				}
+
+				title:d_driftmark = {
+					has_variable = agot_velaryon_spicetown_legacy_bla
+				}
+			}
+		}
+
+		remove_short_term_gold = 100
+		add_prestige = 150
+
+		hidden_effect = {
+			create_character = {
+				location = root.capital_province
+				age = 42
+				dynasty = none
+				gender_female_chance = 0
+
+				culture = root.culture
+				faith = root.faith
+
+				stewardship = 16
+				diplomacy = 10
+				intrigue = 7
+				learning = 8
+				martial = 5
+				prowess = 4
+
+				trait = shrewd
+
+				save_scope_as = spicetown_merchant_bla
+			}
+
+			add_courtier = scope:spicetown_merchant_bla
+		}
+
+		custom_tooltip = agot_crownlands_bla.0174.a.tt
+
+		title:d_driftmark = {
+			set_variable = {
+				name = agot_velaryon_spicetown_old_families_bla
+				value = 1
+			}
+		}
+	}
+
+	option = { # Master shipwright
+		name = agot_crownlands_bla.0174.b
+
+			trigger = {
+				OR = {
+					title:d_driftmark = {
+						has_variable = agot_velaryon_spicetown_shipyards_bla
+					}
+
+					title:d_driftmark = {
+						has_variable = agot_velaryon_spicetown_legacy_bla
+					}
+				}
+			}
+
+			remove_short_term_gold = 125
+			add_stewardship_lifestyle_xp = 150
+
+			hidden_effect = {
+				create_character = {
+					location = root.capital_province
+					age = 38
+					dynasty = none
+					gender_female_chance = 0
+
+					culture = root.culture
+					faith = root.faith
+
+					stewardship = 14
+					martial = 12
+					diplomacy = 8
+					learning = 9
+					intrigue = 5
+					prowess = 8
+
+					trait = diligent
+
+					save_scope_as = spicetown_shipwright_bla
+				}
+
+				add_courtier = scope:spicetown_shipwright_bla
+			}
+
+			custom_tooltip = agot_crownlands_bla.0174.b.tt
+
+			title:d_driftmark = {
+				set_variable = {
+					name = agot_velaryon_spicetown_master_shipwright_bla
+					value = 1
+				}
+			}
+		}
+
+		option = { # Essosi merchants
+			name = agot_crownlands_bla.0174.c
+
+			trigger = {
+				OR = {
+					title:d_driftmark = {
+						has_variable = agot_velaryon_spicetown_open_port_bla
+					}
+
+					title:d_driftmark = {
+						has_variable = agot_velaryon_spicetown_legacy_bla
+					}
+				}
+			}
+
+			add_gold = 100
+			add_diplomacy_lifestyle_xp = 125
+
+			hidden_effect = {
+				create_character = {
+					location = root.capital_province
+					age = 35
+					dynasty = none
+					gender_female_chance = 0
+
+					culture = culture:myrish
+					faith = root.faith
+
+					stewardship = 13
+					diplomacy = 15
+					intrigue = 9
+					learning = 9
+					martial = 4
+					prowess = 3
+
+					trait = gregarious
+
+					save_scope_as = spicetown_essosi_merchant_bla
+				}
+
+				add_courtier = scope:spicetown_essosi_merchant_bla
+			}
+
+			custom_tooltip = agot_crownlands_bla.0174.c.tt
+
+			title:d_driftmark = {
+				set_variable = {
+					name = agot_velaryon_spicetown_essosi_bla
+					value = 1
+				}
+			}
+		}
+
+	option = { # Velaryon charter
+		name = agot_crownlands_bla.0174.d
+
+		trigger = {
+			title:d_driftmark = {
+				has_variable = agot_velaryon_spicetown_legacy_bla
+			}
+		}
+
+		remove_short_term_gold = 150
+
+		add_stewardship_lifestyle_xp = 200
+		dynasty ?= { add_dynasty_prestige = 100 }
+
+		title:d_driftmark = {
+			set_variable = {
+				name = agot_velaryon_spicetown_chartered_bla
+				value = 1
+			}
+		}
+	}
+}
+
+agot_crownlands_bla.0175 = {
+	type = character_event
+	title = agot_crownlands_bla.0175.t
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = {
+					title:d_driftmark = {
+						has_variable = agot_velaryon_spicetown_old_families_bla
+					}
+				}
+				desc = agot_crownlands_bla.0175.desc_families
+			}
+
+			triggered_desc = {
+				trigger = {
+					title:d_driftmark = {
+						has_variable = agot_velaryon_spicetown_master_shipwright_bla
+					}
+				}
+				desc = agot_crownlands_bla.0175.desc_shipwright
+			}
+
+			triggered_desc = {
+				trigger = {
+					title:d_driftmark = {
+						has_variable = agot_velaryon_spicetown_essosi_bla
+					}
+				}
+				desc = agot_crownlands_bla.0175.desc_essosi
+			}
+
+			triggered_desc = {
+				trigger = {
+					title:d_driftmark = {
+						has_variable = agot_velaryon_spicetown_chartered_bla
+					}
+				}
+				desc = agot_crownlands_bla.0175.desc_charter
+			}
+
+			desc = agot_crownlands_bla.0175.desc
+		}
+	}
+
+	theme = stewardship
+
+	override_background = {
+		reference = market
+	}
+
+	left_portrait = {
+		character = root
+		animation = personality_rational
+	}
+
+	trigger = {
+		is_ruler = yes
+		is_landed = yes
+		is_available_adult = yes
+		dynasty = dynasty:dynn_Velaryon
+
+		title:d_driftmark = {
+			has_variable = agot_velaryon_spicetown_settlers_bla
+
+			NOT = {
+				has_variable = agot_velaryon_spicetown_price_paid_bla
+			}
+		}
+
+		any_held_county = {
+			any_county_province = {
+				OR = {
+					has_building_or_higher = agot_ruins_spicetown_01
+					has_building_or_higher = agot_ruins_spicetown_02
+				}
+			}
+		}
+	}
+
+	immediate = {
+		title:d_driftmark = {
+			set_variable = {
+				name = agot_velaryon_spicetown_price_paid_bla
+				value = 1
+			}
+		}
+	}
+
+	option = { # Honor the old claims
+		name = agot_crownlands_bla.0175.a
+
+		trigger = {
+			title:d_driftmark = {
+				has_variable = agot_velaryon_spicetown_old_families_bla
+			}
+		}
+
+		remove_short_term_gold = 100
+		add_prestige = 150
+		add_stewardship_lifestyle_xp = 125
+
+		title:d_driftmark = {
+			set_variable = {
+				name = agot_velaryon_spicetown_claims_honored_bla
+				value = 1
+			}
+		}
+	}
+
+	option = { # Sweep the old claims aside
+		name = agot_crownlands_bla.0175.b
+
+		trigger = {
+			title:d_driftmark = {
+				has_variable = agot_velaryon_spicetown_old_families_bla
+			}
+		}
+
+		add_gold = 100
+		add_dread = 5
+
+		title:d_driftmark = {
+			set_variable = {
+				name = agot_velaryon_spicetown_claims_broken_bla
+				value = 1
+			}
+		}
+	}
+
+	option = { # Velaryon contracts for the shipwrights
+		name = agot_crownlands_bla.0175.c
+
+		trigger = {
+			title:d_driftmark = {
+				has_variable = agot_velaryon_spicetown_master_shipwright_bla
+			}
+		}
+
+		remove_short_term_gold = 150
+		add_stewardship_lifestyle_xp = 175
+
+		title:d_driftmark = {
+			set_variable = {
+				name = agot_velaryon_spicetown_shipwright_contract_bla
+				value = 1
+			}
+		}
+	}
+
+	option = { # Keep the yards free
+		name = agot_crownlands_bla.0175.d
+
+		trigger = {
+			title:d_driftmark = {
+				has_variable = agot_velaryon_spicetown_master_shipwright_bla
+			}
+		}
+
+		add_prestige = 150
+		add_martial_lifestyle_xp = 125
+
+		title:d_driftmark = {
+			set_variable = {
+				name = agot_velaryon_spicetown_free_yards_bla
+				value = 1
+			}
+		}
+	}
+
+	option = { # Give the Essosi merchants privileges
+		name = agot_crownlands_bla.0175.e
+
+		trigger = {
+			title:d_driftmark = {
+				has_variable = agot_velaryon_spicetown_essosi_bla
+			}
+		}
+
+		add_gold = 150
+		add_diplomacy_lifestyle_xp = 100
+
+		title:d_driftmark = {
+			set_variable = {
+				name = agot_velaryon_spicetown_foreign_privileges_bla
+				value = 1
+			}
+		}
+	}
+
+	option = { # Enforce the customs laws
+		name = agot_crownlands_bla.0175.f
+
+		trigger = {
+			title:d_driftmark = {
+				has_variable = agot_velaryon_spicetown_essosi_bla
+			}
+		}
+
+		add_intrigue_lifestyle_xp = 175
+		add_prestige = 100
+
+		title:d_driftmark = {
+			set_variable = {
+				name = agot_velaryon_spicetown_customs_enforced_bla
+				value = 1
+			}
+		}
+	}
+
+	option = { # Create the chartered council
+		name = agot_crownlands_bla.0175.g
+
+		trigger = {
+			title:d_driftmark = {
+				has_variable = agot_velaryon_spicetown_chartered_bla
+			}
+		}
+
+		remove_short_term_gold = 100
+		add_stewardship_lifestyle_xp = 200
+		dynasty ?= { add_dynasty_prestige = 100 }
+
+		title:d_driftmark = {
+			set_variable = {
+				name = agot_velaryon_spicetown_council_established_bla
+				value = 1
+			}
+		}
+	}
+}
+
+agot_crownlands_bla.0176 = {
+	type = character_event
+	title = agot_crownlands_bla.0176.t
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = {
+					title:d_driftmark = {
+						has_variable = agot_velaryon_spicetown_old_families_bla
+					}
+				}
+				desc = agot_crownlands_bla.0176.desc_families
+			}
+
+			triggered_desc = {
+				trigger = {
+					title:d_driftmark = {
+						has_variable = agot_velaryon_spicetown_master_shipwright_bla
+					}
+				}
+				desc = agot_crownlands_bla.0176.desc_shipyards
+			}
+
+			triggered_desc = {
+				trigger = {
+					title:d_driftmark = {
+						has_variable = agot_velaryon_spicetown_essosi_bla
+					}
+				}
+				desc = agot_crownlands_bla.0176.desc_essosi
+			}
+
+			triggered_desc = {
+				trigger = {
+					title:d_driftmark = {
+						has_variable = agot_velaryon_spicetown_chartered_bla
+					}
+				}
+				desc = agot_crownlands_bla.0176.desc_charter
+			}
+
+			desc = agot_crownlands_bla.0176.desc
+		}
+	}
+
+	theme = stewardship
+
+	override_background = {
+		reference = market
+	}
+
+	left_portrait = {
+		character = root
+		animation = personality_honorable
+	}
+
+	trigger = {
+		is_ruler = yes
+		is_landed = yes
+		is_available_adult = yes
+		dynasty = dynasty:dynn_Velaryon
+
+		title:d_driftmark = {
+			has_variable = agot_velaryon_spicetown_restoration_begun_bla
+			has_variable = agot_velaryon_spicetown_price_paid_bla
+
+			NOT = {
+				has_variable = agot_velaryon_spicetown_restored_bla
+			}
+		}
+
+		any_held_county = {
+			any_county_province = {
+				has_building_or_higher = agot_ruins_spicetown_02
+			}
+		}
+	}
+
+	immediate = {
+		title:d_driftmark = {
+			set_variable = {
+				name = agot_velaryon_spicetown_restored_bla
+				value = 1
+			}
+		}
+	}
+
+	option = {
+		name = agot_crownlands_bla.0176.a
+
+		add_prestige = 350
+		dynasty ?= { add_dynasty_prestige = 150 }
+
+		if = {
+			limit = {
+				title:d_driftmark = {
+					has_variable = agot_velaryon_spicetown_claims_honored_bla
+				}
+			}
+
+			add_prestige = 150
+			dynasty ?= { add_dynasty_prestige = 50 }
+		}
+
+		if = {
+			limit = {
+				title:d_driftmark = {
+					has_variable = agot_velaryon_spicetown_claims_broken_bla
+				}
+			}
+
+			add_gold = 100
+			add_dread = 5
+		}
+
+		if = {
+			limit = {
+				title:d_driftmark = {
+					has_variable = agot_velaryon_spicetown_shipwright_contract_bla
+				}
+			}
+
+			add_stewardship_lifestyle_xp = 175
+			dynasty ?= { add_dynasty_prestige = 50 }
+		}
+
+		if = {
+			limit = {
+				title:d_driftmark = {
+					has_variable = agot_velaryon_spicetown_free_yards_bla
+				}
+			}
+
+			add_martial_lifestyle_xp = 150
+			add_prestige = 100
+		}
+
+		if = {
+			limit = {
+				title:d_driftmark = {
+					has_variable = agot_velaryon_spicetown_foreign_privileges_bla
+				}
+			}
+
+			add_gold = 150
+			add_diplomacy_lifestyle_xp = 100
+		}
+
+		if = {
+			limit = {
+				title:d_driftmark = {
+					has_variable = agot_velaryon_spicetown_customs_enforced_bla
+				}
+			}
+
+			add_intrigue_lifestyle_xp = 150
+			add_prestige = 100
+		}
+
+		if = {
+			limit = {
+				title:d_driftmark = {
+					has_variable = agot_velaryon_spicetown_council_established_bla
+				}
+			}
+
+			dynasty ?= { add_dynasty_prestige = 150 }
+			add_stewardship_lifestyle_xp = 175
+		}
+	}
+}
+
+agot_crownlands_bla.0177 = {
+	type = character_event
+	title = agot_crownlands_bla.0177.t
+	desc = agot_crownlands_bla.0177.desc
+	theme = dynasty
+
+	override_background = {
+		reference = courtyard
+	}
+
+	left_portrait = {
+		character = root
+		animation = personality_honorable
+	}
+
+	trigger = {
+		is_ruler = yes
+		is_landed = yes
+		is_available_adult = yes
+		dynasty = dynasty:dynn_Velaryon
+
+		title:d_driftmark = {
+			has_variable = agot_velaryon_hightide_restored_bla
+			has_variable = agot_velaryon_spicetown_restored_bla
+
+			NOT = {
+				has_variable = agot_driftmark_restored_bla
+			}
+		}
+
+		any_held_county = {
+			any_county_province = {
+				has_building_or_higher = agot_ruins_hightide_02
+			}
+		}
+
+		any_held_county = {
+			any_county_province = {
+				has_building_or_higher = agot_ruins_spicetown_02
+			}
+		}
+	}
+
+	immediate = {
+		title:d_driftmark = {
+			set_variable = {
+				name = agot_driftmark_restored_bla
+				value = 1
+			}
+		}
+	}
+
+	option = {
+		name = agot_crownlands_bla.0177.a
+
+		add_prestige = 750
+		dynasty ?= { add_dynasty_prestige = 500 }
+		add_legitimacy = 100
+
+		dynasty = {
+			add_dynasty_modifier = {
+				modifier = agot_velaryon_driftmark_reborn_bla
+				years = 20
+			}
+		}
+	}
+}

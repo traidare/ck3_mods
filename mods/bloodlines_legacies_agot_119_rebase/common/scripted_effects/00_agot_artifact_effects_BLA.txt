@@ -1,0 +1,820 @@
+﻿agot_create_artifact_reyne_ring_effect = {
+   $OWNER$ = {
+		save_scope_as = owner
+	}
+
+	set_artifact_rarity_illustrious = yes
+        create_artifact = {
+            name = agot_reyne_ring_name
+            description = agot_reyne_ring_desc
+            type = regalia 
+            visuals = ring
+            wealth = scope:wealth
+            quality = scope:quality
+	    modifier = reyne_ring_modifier
+	    history = {
+		type = created_before_history
+	    }
+	    save_scope_as = newly_created_artifact
+	    decaying = no
+	}
+	scope:newly_created_artifact = {
+        	set_variable = { name = historical_unique_artifact value = 10000 }
+    	}
+
+}
+
+agot_create_artifact_cask_of_summerwine_effect = {
+   $OWNER$ = {
+		save_scope_as = owner
+	}
+
+	set_artifact_rarity_illustrious = yes
+        create_artifact = {
+            name = agot_cask_of_summerwine_name
+            description = agot_cask_of_summerwine_desc
+            type = pedestal 
+            visuals = flask
+            wealth = scope:wealth
+            quality = scope:quality
+	    modifier = cask_of_summerwine_modifier
+	    history = {
+			type = created
+			date = 88.1.1
+			recipient = character:Redwyne_29 # Manfryd
+			location = province:4124 # Wynegarde
+			actor = scope:creator
+		}
+
+	    save_scope_as = newly_created_artifact
+	    decaying = no
+	}
+	scope:newly_created_artifact = {
+        	set_variable = { name = historical_unique_artifact value = 10000 }
+    	}
+}
+
+agot_create_artifact_vance_dragon_parchment_effect = {
+   $OWNER$ = {
+		save_scope_as = owner
+	}
+
+	set_artifact_rarity_illustrious = yes
+        create_artifact = {
+            name = vance_dragon_parchment_name
+            description = vance_dragon_parchment_desc
+            type = book 
+            visuals = scroll
+            wealth = scope:wealth
+            quality = scope:quality
+	    modifier = vance_dragon_parchment_modifier
+	    history = {
+		type = created_before_history
+	    }
+	    save_scope_as = newly_created_artifact
+	    decaying = no
+	}
+	scope:newly_created_artifact = {
+        	set_variable = { name = historical_unique_artifact value = 10000 }
+    	}
+
+}
+
+agot_create_artifact_harrenhal_crown_fragment_effect = {
+
+ $OWNER$ = {
+		save_scope_as = owner
+	}
+
+	set_artifact_rarity_illustrious = yes
+
+	create_artifact = {
+		name = harrenhal_crown_fragment_name
+		description = harrenhal_crown_fragment_desc
+		type = helmet
+		visuals = iron_stag_crown_visuals
+		wealth = scope:wealth
+		quality = scope:quality
+		template = iron_stag_crown_template
+		modifier = harrenhal_crown_fragment_modifier
+		history = {
+			type = created
+			date = 40.1.1
+			recipient = character:Hoare_31 # Harren
+			location = province:1934 # Harrenhal
+			actor = character:Hoare_31
+		}
+		save_scope_as = newly_created_artifact
+		decaying = no
+	}
+
+	scope:newly_created_artifact = {
+		set_variable = {
+			name = historical_unique_artifact
+			value = 10000
+		}
+	}
+}
+
+agot_create_artifact_ravenwood_effect = {
+	$OWNER$ = {
+		save_scope_as = owner
+	}
+
+	set_artifact_rarity_famed = yes
+	create_artifact = {
+		name = artifact_ravenwood_name
+		description = artifact_ravenwood_desc
+		type = longbow
+		visuals = weirwood_longbow_visuals
+		wealth = scope:wealth
+		quality = scope:quality
+		template = weirwood_longbow_template
+		modifier = blackwood_artifact_ravenwood_modifier
+		save_scope_as = newly_created_artifact
+	}
+
+	scope:newly_created_artifact = {
+		set_variable = { 
+			name = historical_unique_artifact 
+			value = 10000 
+		} 
+		set_variable = { 
+			name = blackwood_weirwood_bow 
+			value = 10000 
+		} 
+		set_variable = { 
+			name = ravenwood_bow 
+			value = 10000 
+		} 
+		set_variable = { 
+			name = not_stolen 
+			value = 10000 
+		}
+	}
+
+}
+
+agot_create_artifact_widowleaf_effect = {
+	$OWNER$ = {
+		save_scope_as = owner
+	}
+
+	set_artifact_rarity_illustrious = yes
+
+	create_artifact = {
+		name = artifact_widowleaf_name
+		description = artifact_widowleaf_desc
+		type = longbow
+		visuals = weirwood_longbow_visuals
+		wealth = scope:wealth
+		quality = scope:quality
+		template = weirwood_longbow_template
+
+		history = {
+			type = created
+			date = 8131.1.1 
+			recipient = character:Targaryen_96
+			location = province:1686
+		}
+
+		modifier = blackwood_artifact_widowleaf_modifier
+		save_scope_as = newly_created_artifact
+	}
+
+	scope:newly_created_artifact = {
+		set_variable = { 
+			name = historical_unique_artifact 
+			value = 10000 
+		} 
+		set_variable = { 
+			name = blackwood_weirwood_bow 
+			value = 10000 
+		} 
+		set_variable = { 
+			name = widowleaf_bow 
+			value = 10000 
+		} 
+		set_variable = { 
+			name = not_stolen 
+			value = 10000 
+		}
+
+	}
+
+}
+
+agot_create_artifact_oldstones_torque_fragment_effect = {
+   $OWNER$ = {
+		save_scope_as = owner
+	}
+
+	set_artifact_rarity_masterwork = yes
+        create_artifact = {
+            name = oldstones_torque_fragment_name
+            description = oldstones_torque_fragment_desc
+            type = pedestal 
+            visuals = necklace
+            wealth = scope:wealth
+            quality = scope:quality
+	    modifier = oldstones_torque_fragment_modifier
+	    history = {
+		type = created_before_history
+	    }
+	    save_scope_as = newly_created_artifact
+	    decaying = no
+	}
+	scope:newly_created_artifact = {
+        	set_variable = { name = historical_unique_artifact value = 10000 }
+    	}
+
+}
+
+agot_create_artifact_oldstones_chronicle_pages_effect = {
+   $OWNER$ = {
+		save_scope_as = owner
+	}
+
+	set_artifact_rarity_masterwork = yes
+        create_artifact = {
+            name = oldstones_chronicle_pages_name
+            description = oldstones_chronicle_pages_desc
+            type = book 
+            visuals = book
+            wealth = scope:wealth
+            quality = scope:quality
+	    modifier = oldstones_chronicle_pages_modifier
+	    history = {
+		type = created_before_history
+	    }
+	    save_scope_as = newly_created_artifact
+	    decaying = no
+	}
+	scope:newly_created_artifact = {
+        	set_variable = { name = historical_unique_artifact value = 10000 }
+    	}
+
+}
+
+agot_create_artifact_oldstones_goblet_fragment_effect = {
+   $OWNER$ = {
+		save_scope_as = owner
+	}
+
+	set_artifact_rarity_masterwork = yes
+        create_artifact = {
+            name = oldstones_goblet_fragment_name
+            description = oldstones_goblet_fragment_desc
+            type = goblet 
+            visuals = goblet
+            wealth = scope:wealth
+            quality = scope:quality
+	    modifier = oldstones_goblet_fragment_modifier
+	    history = {
+		type = created_before_history
+	    }
+	    save_scope_as = newly_created_artifact
+	    decaying = no
+	}
+	scope:newly_created_artifact = {
+        	set_variable = { name = historical_unique_artifact value = 10000 }
+    	}
+
+}
+
+agot_create_artifact_oldstones_tapestry_fragment_effect = {
+   $OWNER$ = {
+		save_scope_as = owner
+	}
+
+	set_artifact_rarity_masterwork = yes
+        create_artifact = {
+            name = oldstones_tapestry_fragment_name
+            description = oldstones_tapestry_fragment_desc
+            type = tapestry 
+            visuals = tapestry
+            wealth = scope:wealth
+            quality = scope:quality
+	    modifier = oldstones_tapestry_fragment_modifier
+	    history = {
+		type = created_before_history
+	    }
+	    save_scope_as = newly_created_artifact
+	    decaying = no
+	}
+	scope:newly_created_artifact = {
+        	set_variable = { name = historical_unique_artifact value = 10000 }
+    	}
+
+}
+
+
+agot_create_artifact_oldstones_broken_river_shield_effect = {
+   $OWNER$ = {
+		save_scope_as = owner
+	}
+
+	set_artifact_rarity_masterwork = yes
+        create_artifact = {
+            name = oldstones_broken_river_shield_name
+            description = oldstones_broken_river_shield_desc
+            type = wall_shield 
+            visuals = wall_shield
+            wealth = scope:wealth
+            quality = scope:quality
+	    modifier = oldstones_broken_river_shield_modifier
+	    history = {
+		type = created_before_history
+	    }
+	    save_scope_as = newly_created_artifact
+	    decaying = no
+	}
+	scope:newly_created_artifact = {
+        	set_variable = { name = historical_unique_artifact value = 10000 }
+    	}
+
+}
+
+
+agot_create_artifact_oldstones_signet_ring_effect = {
+   $OWNER$ = {
+		save_scope_as = owner
+	}
+
+	set_artifact_rarity_famed = yes
+        create_artifact = {
+            name = oldstones_signet_ring_name
+            description = oldstones_signet_ring_desc
+            type = ring 
+            visuals = ring
+            wealth = scope:wealth
+            quality = scope:quality
+	    modifier = oldstones_signet_ring_modifier
+	    history = {
+		type = created_before_history
+	    }
+	    save_scope_as = newly_created_artifact
+	    decaying = no
+	}
+	scope:newly_created_artifact = {
+        	set_variable = { name = historical_unique_artifact value = 10000 }
+    	}
+	set_global_variable = {
+		name = oldstones_signet_ring_recovered
+		value = yes
+	}
+
+}
+
+agot_create_artifact_oldstones_scale_armor_effect = {
+   $OWNER$ = {
+		save_scope_as = owner
+	}
+
+	set_artifact_rarity_famed = yes
+        create_artifact = {
+            name = oldstones_scale_armor_name
+            description = oldstones_scale_armor_desc
+            type = pedestal 
+            visuals = pedestal_alexander_armor
+            wealth = scope:wealth
+            quality = scope:quality
+	    modifier = oldstones_scale_armor_modifier
+	    history = {
+		type = created_before_history
+	    }
+	    save_scope_as = newly_created_artifact
+	    decaying = no
+	}
+	scope:newly_created_artifact = {
+        	set_variable = { name = historical_unique_artifact value = 10000 }
+    	}
+	set_global_variable = {
+		name = oldstones_scale_armor_recovered
+		value = yes
+	}
+
+}
+
+agot_create_artifact_shield_of_the_trident_kings_effect = {
+   $OWNER$ = {
+		save_scope_as = owner
+	}
+
+	set_artifact_rarity_famed = yes
+        create_artifact = {
+            name = shield_of_the_trident_kings_name
+            description = shield_of_the_trident_kings_desc
+            type = wall_shield 
+            visuals = wall_shield
+            wealth = scope:wealth
+            quality = scope:quality
+	    modifier = shield_of_the_trident_kings_modifier
+	    history = {
+		type = created_before_history
+	    }
+	    save_scope_as = newly_created_artifact
+	    decaying = no
+	}
+	scope:newly_created_artifact = {
+        	set_variable = { name = historical_unique_artifact value = 10000 }
+    	}
+	set_global_variable = {
+		name = oldstones_trident_shield_recovered
+		value = yes
+	}
+
+}
+
+agot_create_artifact_oldstones_royal_chronicle_effect = {
+   $OWNER$ = {
+		save_scope_as = owner
+	}
+
+	set_artifact_rarity_famed = yes
+        create_artifact = {
+            name = oldstones_royal_chronicle_name
+            description = oldstones_royal_chronicle_desc
+            type = book 
+            visuals = book
+            wealth = scope:wealth
+            quality = scope:quality
+	    modifier = oldstones_royal_chronicle_modifier
+	    history = {
+		type = created_before_history
+	    }
+	    save_scope_as = newly_created_artifact
+	    decaying = no
+	}
+	scope:newly_created_artifact = {
+        	set_variable = { name = historical_unique_artifact value = 10000 }
+    	}
+	set_global_variable = {
+		name = oldstones_royal_chronicle_recovered
+		value = yes
+	}
+
+}
+
+agot_create_artifact_oldstones_throne_fragment_effect = {
+   $OWNER$ = {
+		save_scope_as = owner
+	}
+
+	set_artifact_rarity_illustrious = yes
+        create_artifact = {
+            name = oldstones_throne_fragment_name
+            description = oldstones_throne_fragment_desc
+            type = pedestal 
+            visuals = reliquary
+            wealth = scope:wealth
+            quality = scope:quality
+	    modifier = oldstones_throne_fragment_modifier
+	    history = {
+		type = created_before_history
+	    }
+	    save_scope_as = newly_created_artifact
+	    decaying = no
+	}
+	scope:newly_created_artifact = {
+        	set_variable = { name = historical_unique_artifact value = 10000 }
+    	}
+	set_global_variable = {
+		name = oldstones_throne_fragment_recovered
+		value = yes
+	}
+
+}
+
+
+agot_create_artifact_oldstones_crown_fragment_effect = {
+   $OWNER$ = {
+		save_scope_as = owner
+	}
+
+	set_artifact_rarity_illustrious = yes
+        create_artifact = {
+            name = oldstones_crown_fragment_name
+            description = oldstones_crown_fragment_desc
+            type = pedestal 
+            visuals = reliquary
+            wealth = scope:wealth
+            quality = scope:quality
+	    modifier = oldstones_crown_fragment_modifier
+	    history = {
+		type = created_before_history
+	    }
+	    save_scope_as = newly_created_artifact
+	    decaying = no
+	}
+	scope:newly_created_artifact = {
+        	set_variable = { name = historical_unique_artifact value = 10000 }
+    	}
+	set_global_variable = {
+		name = oldstones_crown_fragment_recovered
+		value = yes
+	}
+}
+
+agot_create_artifact_skull_of_tristifer_effect = {
+   $OWNER$ = {
+		save_scope_as = owner
+	}
+
+	set_artifact_rarity_illustrious = yes
+        create_artifact = {
+            name = skull_of_tristifer_name
+            description = skull_of_tristifer_desc
+            type = pedestal 
+            visuals = human_skull
+            wealth = scope:wealth
+            quality = scope:quality
+	    modifier = skull_of_tristifer_modifier
+	    history = {
+		type = created_before_history
+	    }
+	    save_scope_as = newly_created_artifact
+	    decaying = no
+	}
+	scope:newly_created_artifact = {
+        	set_variable = { name = historical_unique_artifact value = 10000 }
+    	}
+	set_global_variable = {
+		name = oldstones_tristifer_skull_recovered
+		value = yes
+	}
+}
+
+agot_create_artifact_hammer_of_the_trident_kings_effect = {
+   $OWNER$ = {
+		save_scope_as = owner
+	}
+
+	set_artifact_rarity_illustrious = yes
+        create_artifact = {
+            name = hammer_of_the_trident_kings_name
+            description = hammer_of_the_trident_kings_desc
+            type = pedestal 
+            visuals = regalia_court
+            wealth = scope:wealth
+            quality = scope:quality
+	    modifier = hammer_of_the_trident_kings_modifier
+	    history = {
+		type = created_before_history
+	    }
+	    save_scope_as = newly_created_artifact
+	    decaying = no
+	}
+	scope:newly_created_artifact = {
+        	set_variable = { name = historical_unique_artifact value = 10000 }
+    	}
+	set_global_variable = {
+		name = oldstones_hammer_recovered
+		value = yes
+	}
+}
+
+agot_create_artifact_mudd_bronze_spear_effect = {
+   $OWNER$ = {
+		save_scope_as = owner
+	}
+
+	set_artifact_rarity_illustrious = yes
+        create_artifact = {
+            name = mudd_bronze_spear_name
+            description = mudd_bronze_spear_desc
+            type = spear 
+            visuals = spear
+            wealth = scope:wealth
+            quality = scope:quality
+	    modifier = mudd_bronze_spear_modifier
+	    history = {
+		type = created_before_history
+	    }
+	    save_scope_as = newly_created_artifact
+	    decaying = no
+	}
+	scope:newly_created_artifact = {
+        	set_variable = { name = historical_unique_artifact value = 10000 }
+    	}
+}
+
+agot_create_artifact_mudd_bronze_spearhead_effect = {
+   $OWNER$ = {
+		save_scope_as = owner
+	}
+
+	set_artifact_rarity_illustrious = yes
+        create_artifact = {
+            name = mudd_bronze_spearhead_name
+            description = mudd_bronze_spearhead_desc
+            type = pedestal 
+            visuals = spear_court
+            wealth = scope:wealth
+            quality = scope:quality
+	    modifier = mudd_bronze_spearhead_modifier
+	    history = {
+		type = created_before_history
+	    }
+	    save_scope_as = newly_created_artifact
+	    decaying = no
+	}
+	scope:newly_created_artifact = {
+        	set_variable = { name = historical_unique_artifact value = 10000 }
+    	}
+}
+
+
+agot_create_artifact_mudd_river_horn_effect = {
+   $OWNER$ = {
+		save_scope_as = owner
+	}
+
+	set_artifact_rarity_illustrious = yes
+        create_artifact = {
+            name = mudd_river_horn_name
+            description = mudd_river_horn_desc
+            type = pedestal 
+            visuals = reliquary
+            wealth = scope:wealth
+            quality = scope:quality
+	    modifier = mudd_river_horn_modifier
+	    history = {
+		type = created_before_history
+	    }
+	    save_scope_as = newly_created_artifact
+	    decaying = no
+	}
+	scope:newly_created_artifact = {
+        	set_variable = { name = historical_unique_artifact value = 10000 }
+    	}
+}
+
+agot_create_artifact_velaryon_stepstones_crown_bla_effect = {
+	# Get the character the artifact is being made for.
+	$OWNER$ = { save_scope_as = owner }
+
+	set_artifact_rarity_illustrious = yes
+
+	create_artifact = {
+		name = velaryon_stepstones_crown_bla_name
+		description = velaryon_stepstones_crown_bla_description
+		type = helmet
+		visuals = daemon_stepstone_crown_visuals
+		wealth = scope:wealth
+		quality = scope:quality
+		template = velaryon_stepstones_crown_bla_template
+		modifier = velaryon_stepstones_crown_bla_modifier
+		history = {
+			type = created_before_history
+	    	}
+		save_scope_as = newly_created_artifact
+		creator = scope:owner
+		decaying = no
+	}
+
+	scope:newly_created_artifact ?= {
+		set_variable = {
+			name = velaryon_stepstones_crown_bla_artifact
+			value = yes
+		}
+	}
+}
+
+agot_create_artifact_celtigar_old_crab_bla_effect = {
+
+	$OWNER$ = { save_scope_as = owner }
+
+	set_artifact_rarity_illustrious = yes
+
+	create_artifact = {
+		name = celtigar_old_crab_bla_name
+		description = celtigar_old_crab_bla_description
+		type = pedestal 
+            	visuals = reliquary
+		wealth = scope:wealth
+            	quality = scope:quality
+		modifier = celtigar_old_crab_bla_modifier
+		history = {
+			type = created_before_history
+	    	}
+		save_scope_as = newly_created_artifact
+		decaying = no
+	}
+
+	scope:newly_created_artifact = {
+		set_owner = $OWNER$
+	}
+}
+
+agot_create_artifact_last_light_bla_effect = {
+	$OWNER$ = {
+		save_scope_as = owner
+	}
+
+	set_artifact_rarity_illustrious = yes
+
+	create_artifact = {
+		name = last_light_bla_name
+		description = last_light_bla_description
+		type = sword
+		visuals = last_light_bla_visuals
+		wealth = scope:wealth
+		quality = scope:quality
+		modifier = last_light_bla_modifier
+
+		history = {
+			type = created_before_history
+		}
+
+		save_scope_as = newly_created_artifact
+		decaying = no
+	}
+
+	scope:newly_created_artifact = {
+		set_variable = {
+			name = historical_unique_artifact
+			value = 10000
+		}
+
+		set_variable = {
+			name = valyrian_steel
+			value = 1
+		}
+	}
+}
+
+agot_create_artifact_duskfall_bla_effect = {
+	$OWNER$ = {
+		save_scope_as = owner
+	}
+
+	set_artifact_rarity_illustrious = yes
+
+	create_artifact = {
+		name = duskfall_bla_name
+		description = duskfall_bla_description
+		type = sword
+		visuals = duskfall_bla_visuals
+		wealth = scope:wealth
+		quality = scope:quality
+		modifier = duskfall_bla_modifier
+
+		history = {
+			type = created_before_history
+		}
+
+		save_scope_as = newly_created_artifact
+		decaying = no
+	}
+
+	scope:newly_created_artifact = {
+		set_variable = {
+			name = historical_unique_artifact
+			value = 10000
+		}
+
+		set_variable = {
+			name = valyrian_steel
+			value = 1
+		}
+	}
+}
+
+
+agot_create_artifact_duskfall_restored_bla_effect = {
+	$OWNER$ = {
+		save_scope_as = owner
+	}
+
+	set_artifact_rarity_illustrious = yes
+
+	create_artifact = {
+		name = duskfall_bla_name
+		description = duskfall_restored_bla_description
+		type = sword
+		visuals = duskfall_bla_visuals
+		wealth = scope:wealth
+		quality = scope:quality
+		modifier = duskfall_bla_modifier
+
+		history = {
+			type = created_before_history
+		}
+
+		save_scope_as = newly_created_artifact
+		decaying = no
+	}
+
+	scope:newly_created_artifact = {
+		set_variable = {
+			name = historical_unique_artifact
+			value = 10000
+		}
+
+		set_variable = {
+			name = valyrian_steel
+			value = 1
+		}
+	}
+}

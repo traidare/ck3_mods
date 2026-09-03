@@ -1,0 +1,3341 @@
+﻿# =========================================================
+# House Velaryon Stepstones Ambition Event Pack
+# =========================================================
+
+namespace = agot_crownlands_bla
+
+
+############################################
+# House Velaryon - Stepstones Ambition
+# 0198
+############################################
+
+agot_crownlands_bla.0198 = {
+	type = character_event
+	hidden = yes
+
+	trigger = {
+		is_ai = no
+		is_ruler = yes
+		is_landed = yes
+		is_available_adult = yes
+
+		dynasty = dynasty:dynn_Velaryon
+		has_title = title:d_driftmark
+
+		OR = {
+			############################################
+			# Story has never begun
+			############################################
+
+			title:d_driftmark = {
+				NOT = {
+					has_variable = agot_velaryon_stepstones_story_begun_bla
+				}
+			}
+
+			############################################
+			# Campaign active, but ambition needs
+			# to be restored to current ruler
+			############################################
+
+			AND = {
+				title:d_driftmark = {
+					has_variable = agot_velaryon_stepstones_campaign_active_bla
+				}
+
+				NOT = {
+					has_character_flag = agot_velaryon_stepstones_ambition_bla
+				}
+
+				NOT = {
+					has_title = title:k_the_stepstones
+				}
+			}
+
+			############################################
+			# Bloodstone has been taken
+			############################################
+
+			AND = {
+				has_title = title:c_bloodstone
+
+				has_character_flag = agot_velaryon_stepstones_ambition_bla
+
+				title:d_driftmark = {
+					NOT = {
+						has_variable = agot_velaryon_stepstones_bloodstone_taken_bla
+					}
+				}
+			}
+
+			############################################
+			# Kingdom has been formed and Bloodstone
+			# has already been acknowledged
+			############################################
+
+			AND = {
+				has_title = title:k_the_stepstones
+				has_title = title:c_bloodstone
+
+				has_character_flag = agot_velaryon_stepstones_ambition_bla
+
+				title:d_driftmark = {
+					has_variable = agot_velaryon_stepstones_bloodstone_taken_bla
+				}
+
+				title:k_the_stepstones = {
+					NOT = {
+						has_variable = agot_velaryon_stepstones_founded_bla
+					}
+				}
+			}
+
+			############################################
+			# First stability check
+			############################################
+
+			AND = {
+				has_title = title:k_the_stepstones
+
+				title:k_the_stepstones = {
+					has_variable = agot_velaryon_stepstones_founded_bla
+
+					NOT = {
+						has_variable = agot_velaryon_stepstones_stability_checked_bla
+					}
+				}
+			}
+
+			############################################
+			# Long rule underway
+			############################################
+
+			AND = {
+				has_title = title:k_the_stepstones
+
+				title:k_the_stepstones = {
+					has_variable = agot_velaryon_stepstones_long_rule_begun_bla
+
+					NOT = {
+						has_variable = agot_velaryon_stepstones_legacy_completed_bla
+					}
+				}
+			}
+		}
+	}
+
+	immediate = {
+
+		############################################
+		# Begin the Stepstones ambition
+		############################################
+
+		if = {
+			limit = {
+				title:d_driftmark = {
+					NOT = {
+						has_variable = agot_velaryon_stepstones_story_begun_bla
+					}
+				}
+			}
+
+			title:d_driftmark = {
+				set_variable = {
+					name = agot_velaryon_stepstones_story_begun_bla
+					value = 1
+				}
+
+				set_variable = {
+					name = agot_velaryon_stepstones_campaign_active_bla
+					value = 1
+				}
+			}
+
+			add_character_flag = agot_velaryon_stepstones_ambition_bla
+
+			trigger_event = agot_crownlands_bla.0150
+		}
+
+		############################################
+		# Bloodstone has been taken
+		#
+		# IMPORTANT:
+		# This must come BEFORE the kingdom check
+		# so 0155 cannot be skipped.
+		############################################
+
+		else_if = {
+			limit = {
+				has_title = title:c_bloodstone
+				has_character_flag = agot_velaryon_stepstones_ambition_bla
+
+				title:d_driftmark = {
+					NOT = {
+						has_variable = agot_velaryon_stepstones_bloodstone_taken_bla
+					}
+				}
+			}
+
+			trigger_event = agot_crownlands_bla.0155
+		}
+
+		############################################
+		# The Stepstones have been united
+		############################################
+
+		else_if = {
+			limit = {
+				has_title = title:k_the_stepstones
+				has_title = title:c_bloodstone
+
+				has_character_flag = agot_velaryon_stepstones_ambition_bla
+
+				title:d_driftmark = {
+					has_variable = agot_velaryon_stepstones_bloodstone_taken_bla
+				}
+
+				title:k_the_stepstones = {
+					NOT = {
+						has_variable = agot_velaryon_stepstones_founded_bla
+					}
+				}
+			}
+
+			trigger_event = agot_crownlands_bla.0156
+		}
+
+		############################################
+		# Restore the Velaryon ambition to a
+		# successor while the campaign is active
+		############################################
+
+		else_if = {
+			limit = {
+				title:d_driftmark = {
+					has_variable = agot_velaryon_stepstones_campaign_active_bla
+				}
+
+				NOT = {
+					has_character_flag = agot_velaryon_stepstones_ambition_bla
+				}
+
+				NOT = {
+					has_title = title:k_the_stepstones
+				}
+			}
+
+			add_character_flag = agot_velaryon_stepstones_ambition_bla
+		}
+
+		############################################
+		# First year of the new kingdom
+		############################################
+
+		else_if = {
+			limit = {
+				has_title = title:k_the_stepstones
+
+				title:k_the_stepstones = {
+					has_variable = agot_velaryon_stepstones_founded_bla
+
+					NOT = {
+						has_variable = agot_velaryon_stepstones_stability_checked_bla
+					}
+				}
+			}
+
+			title:k_the_stepstones = {
+				set_variable = {
+					name = agot_velaryon_stepstones_stability_checked_bla
+					value = 1
+				}
+			}
+
+			trigger_event = agot_crownlands_bla.0160
+		}
+
+		############################################
+		# Long-rule progression
+		############################################
+
+		else_if = {
+			limit = {
+				has_title = title:k_the_stepstones
+
+				title:k_the_stepstones = {
+					has_variable = agot_velaryon_stepstones_long_rule_begun_bla
+
+					NOT = {
+						has_variable = agot_velaryon_stepstones_legacy_completed_bla
+					}
+				}
+			}
+
+			title:k_the_stepstones = {
+				change_variable = {
+					name = agot_velaryon_stepstones_years_since_founding_bla
+					add = 1
+				}
+			}
+
+			if = {
+				limit = {
+					title:k_the_stepstones = {
+						var:agot_velaryon_stepstones_years_since_founding_bla >= 10
+					}
+				}
+
+				trigger_event = agot_crownlands_bla.0163
+			}
+		}
+	}
+}
+
+############################################
+# House Velaryon
+# A Pirate's Offer - Setup
+# 0148
+############################################
+
+agot_crownlands_bla.0148 = {
+	type = character_event
+	hidden = yes
+
+	immediate = {
+		create_character = {
+			gender_female_chance = 20
+			location = root.capital_province
+			dynasty = none
+			culture = root.culture
+			faith = root.faith
+			age = { 26 48 }
+
+			martial = { 10 15 }
+			intrigue = { 11 16 }
+			prowess = { 9 15 }
+
+			trait = deceitful
+
+			save_scope_as = stepstones_pirate_bla
+		}
+
+		set_variable = {
+			name = stepstones_pirate_bla
+			value = scope:stepstones_pirate_bla
+		}
+
+		add_character_flag = agot_velaryon_stepstones_pirate_offer_bla
+
+		trigger_event = agot_crownlands_bla.0153
+	}
+}
+
+############################################
+# House Velaryon
+# Captains Without Banners - Setup
+# 0149
+############################################
+
+agot_crownlands_bla.0149 = {
+	type = character_event
+	hidden = yes
+
+	immediate = {
+		create_character = {
+			gender_female_chance = 20
+			location = root.capital_province
+			dynasty = none
+			culture = root.culture
+			faith = root.faith
+			age = { 28 48 }
+
+			martial = { 11 16 }
+			intrigue = { 8 13 }
+			prowess = { 10 16 }
+
+			save_scope_as = stepstones_sellsail_captain_bla
+		}
+
+		add_courtier = scope:stepstones_sellsail_captain_bla
+
+		set_variable = {
+			name = stepstones_sellsail_captain_bla
+			value = scope:stepstones_sellsail_captain_bla
+		}
+
+		add_character_flag = agot_velaryon_stepstones_captain_event_bla
+
+		trigger_event = {
+			id = agot_crownlands_bla.0151
+			days = { 7 14 }
+		}
+	}
+}
+
+############################################
+# House Velaryon - A Crown Upon the Waves
+# 0150
+############################################
+
+agot_crownlands_bla.0150 = {
+	type = character_event
+	title = agot_crownlands_bla.0150.t
+	desc = agot_crownlands_bla.0150.desc
+	theme = realm
+
+	override_background = {
+		reference = study
+	}
+
+	left_portrait = {
+		character = root
+		animation = personality_bold
+	}
+
+	option = { # Secure the Narrow Sea
+		name = agot_crownlands_bla.0150.a
+
+		custom_tooltip = agot_crownlands_bla.0150.a.tt
+
+		add_character_flag = agot_velaryon_stepstones_security_bla
+
+		trigger_event = agot_crownlands_bla.0149
+	}
+
+	option = { # Control trade
+		name = agot_crownlands_bla.0150.b
+
+		custom_tooltip = agot_crownlands_bla.0150.b.tt
+
+		add_character_flag = agot_velaryon_stepstones_trade_bla
+
+		trigger_event = agot_crownlands_bla.0149
+	}
+
+	option = { # A crown
+		name = agot_crownlands_bla.0150.c
+
+		custom_tooltip = agot_crownlands_bla.0150.c.tt
+
+		add_character_flag = agot_velaryon_stepstones_crown_bla
+
+		trigger_event = agot_crownlands_bla.0149
+	}
+
+	option = { # Bring order
+		name = agot_crownlands_bla.0150.d
+
+		custom_tooltip = agot_crownlands_bla.0150.d.tt
+
+		add_character_flag = agot_velaryon_stepstones_order_bla
+
+		trigger_event = agot_crownlands_bla.0149
+	}
+}
+
+############################################
+# House Velaryon - Captains Without Banners
+# 0151
+############################################
+
+agot_crownlands_bla.0151 = {
+	type = character_event
+	title = agot_crownlands_bla.0151.t
+	desc = agot_crownlands_bla.0151.desc
+	theme = martial
+
+	override_background = {
+		reference = docks
+	}
+
+	left_portrait = {
+		character = root
+		animation = personality_rational
+	}
+
+	right_portrait = {
+		character = scope:stepstones_sellsail_captain_bla
+		animation = personality_bold
+	}
+
+	option = { # Pay them properly.
+		name = agot_crownlands_bla.0151.a
+
+		trigger = {
+			gold >= 150
+		}
+
+		remove_short_term_gold = 150
+
+		scope:stepstones_sellsail_captain_bla = {
+			add_opinion = {
+				target = root
+				modifier = grateful_opinion
+				opinion = 35
+			}
+
+			add_character_modifier = {
+				modifier = agot_stepstones_well_paid_captain_bla
+				years = 10
+			}
+		}
+
+		add_character_flag = agot_velaryon_stepstones_captain_paid_bla
+
+		trigger_event = {
+			id = agot_crownlands_bla.0152
+			days = { 14 30 }
+		}
+	}
+
+	option = { # Promise land after victory.
+		name = agot_crownlands_bla.0151.b
+
+		scope:stepstones_sellsail_captain_bla = {
+			add_opinion = {
+				target = root
+				modifier = grateful_opinion
+				opinion = 20
+			}
+		}
+
+		add_character_flag = agot_velaryon_stepstones_captain_promised_land_bla
+
+		trigger_event = {
+			id = agot_crownlands_bla.0152
+			days = { 14 30 }
+		}
+
+	}
+
+	option = { # Test their worth first.
+		name = agot_crownlands_bla.0151.c
+
+		duel = {
+			skill = martial
+			value = medium_skill_rating
+
+			50 = {
+				compare_modifier = {
+					value = scope:duel_value
+					multiplier = 3.5
+					min = -49
+				}
+
+				send_interface_toast = {
+					title = agot_crownlands_bla.0151.c.success
+
+					add_martial_lifestyle_xp = 250
+
+					scope:stepstones_sellsail_captain_bla = {
+						add_opinion = {
+							target = root
+							modifier = impressed_opinion
+							opinion = 25
+						}
+
+						add_character_modifier = {
+							modifier = agot_stepstones_proven_captain_bla
+							years = 10
+						}
+					}
+
+					add_character_flag = agot_velaryon_stepstones_captain_proven_bla
+				}
+			}
+
+			50 = {
+				compare_modifier = {
+					value = scope:duel_value
+					multiplier = -3.5
+					min = -49
+				}
+
+				send_interface_toast = {
+					title = agot_crownlands_bla.0151.c.failure
+
+					add_martial_lifestyle_xp = 100
+
+					scope:stepstones_sellsail_captain_bla = {
+						add_opinion = {
+							target = root
+							modifier = disappointed_opinion
+							opinion = -15
+						}
+					}
+
+					add_character_flag = agot_velaryon_stepstones_captain_unproven_bla
+				}
+			}
+		}
+
+		trigger_event = {
+			id = agot_crownlands_bla.0152
+				days = { 14 30 }
+		}
+	}
+
+	option = { # We need no sellsails.
+		name = agot_crownlands_bla.0151.d
+
+		add_prestige = 75
+
+		scope:stepstones_sellsail_captain_bla = {
+			set_relation_potential_rival = {
+				target = root
+				reason = rival_disagreement
+			}
+
+			move_to_pool = yes
+		}
+
+		add_character_flag = agot_velaryon_stepstones_captain_refused_bla
+
+		trigger_event = {
+			id = agot_crownlands_bla.0152
+			days = { 14 30 }
+		}
+
+	}
+}
+
+############################################
+# House Velaryon - The Price of Water
+# 0152
+############################################
+
+agot_crownlands_bla.0152 = {
+	type = character_event
+	title = agot_crownlands_bla.0152.t
+	desc = agot_crownlands_bla.0152.desc
+	theme = martial
+
+	override_background = {
+		reference = docks
+	}
+
+	left_portrait = {
+		character = root
+		animation = personality_rational
+	}
+
+	immediate = {
+		add_character_flag = agot_velaryon_stepstones_water_event_bla
+	}
+
+	############################################
+	# Proper Supply Line
+	############################################
+
+	option = {
+		name = agot_crownlands_bla.0152.a
+
+		trigger = {
+			gold >= 150
+		}
+
+		remove_short_term_gold = 150
+		add_stewardship_lifestyle_xp = 200
+
+		add_character_flag = agot_velaryon_stepstones_supplied_bla
+
+		trigger_event = {
+			id = agot_crownlands_bla.0154
+			months = { 6 10 }
+		}
+	}
+
+	############################################
+	# Great Fleet Supply
+	############################################
+
+	option = {
+		name = agot_crownlands_bla.0152.b
+
+		trigger = {
+			gold >= 75
+
+			any_held_county = {
+				any_county_province = {
+					has_building_or_higher = agot_great_fleet_01
+				}
+			}
+		}
+
+		remove_short_term_gold = 75
+		add_martial_lifestyle_xp = 250
+
+		add_character_flag = agot_velaryon_stepstones_fleet_supply_bla
+
+		trigger_event = {
+			id = agot_crownlands_bla.0154
+			months = { 6 10 }
+		}
+	}
+
+	############################################
+	# Secure Local Water Sources
+	############################################
+
+	option = {
+		name = agot_crownlands_bla.0152.c
+
+		trigger = {
+			has_character_flag = agot_velaryon_stepstones_order_bla
+		}
+
+		add_stewardship_lifestyle_xp = 250
+
+		add_character_flag = agot_velaryon_stepstones_local_supply_bla
+
+		trigger_event = {
+			id = agot_crownlands_bla.0154
+			months = { 6 10 }
+		}
+	}
+
+	############################################
+	# Merchant Contracts
+	############################################
+
+	option = {
+		name = agot_crownlands_bla.0152.d
+
+		trigger = {
+			has_character_flag = agot_velaryon_stepstones_trade_bla
+			gold >= 100
+		}
+
+		remove_short_term_gold = 100
+		add_diplomacy_lifestyle_xp = 200
+
+		add_character_flag = agot_velaryon_stepstones_merchant_supply_bla
+
+		trigger_event = {
+			id = agot_crownlands_bla.0154
+			months = { 6 10 }
+		}
+	}
+
+	############################################
+	# Harsh Requisitions
+	############################################
+
+	option = {
+		name = agot_crownlands_bla.0152.e
+
+		add_dread = 5
+
+		add_character_flag = agot_velaryon_stepstones_requisitioned_supply_bla
+
+		add_character_modifier = {
+			modifier = agot_velaryon_stepstones_harsh_requisitions_bla
+			years = 5
+		}
+
+		trigger_event = {
+			id = agot_crownlands_bla.0154
+			months = { 6 10 }
+		}
+	}
+
+	############################################
+	# Use the Sellsail Captain
+	############################################
+
+	option = {
+		name = agot_crownlands_bla.0152.f
+
+		trigger = {
+			exists = var:stepstones_sellsail_captain_bla
+
+			NOT = {
+				has_character_flag = agot_velaryon_stepstones_captain_refused_bla
+			}
+
+			var:stepstones_sellsail_captain_bla = {
+				is_alive = yes
+			}
+		}
+
+		random_list = {
+			70 = {
+				modifier = {
+					add = 20
+					has_character_flag = agot_velaryon_stepstones_captain_proven_bla
+				}
+
+				add_character_flag = agot_velaryon_stepstones_captain_supply_success_bla
+				add_martial_lifestyle_xp = 150
+
+				var:stepstones_sellsail_captain_bla = {
+					add_opinion = {
+						target = root
+						modifier = grateful_opinion
+						opinion = 10
+					}
+				}
+
+				send_interface_toast = {
+					title = agot_crownlands_bla.0152.f.success
+					left_icon = root
+					right_icon = var:stepstones_sellsail_captain_bla
+				}
+			}
+
+			30 = {
+				modifier = {
+					add = -20
+					has_character_flag = agot_velaryon_stepstones_captain_proven_bla
+				}
+
+				add_character_flag = agot_velaryon_stepstones_captain_supply_failure_bla
+
+				var:stepstones_sellsail_captain_bla = {
+					add_opinion = {
+						target = root
+						modifier = disappointed_opinion
+						opinion = -10
+					}
+				}
+
+				send_interface_toast = {
+					title = agot_crownlands_bla.0152.f.failure
+					left_icon = root
+					right_icon = var:stepstones_sellsail_captain_bla
+				}
+			}
+		}
+
+		trigger_event = {
+			id = agot_crownlands_bla.0154
+			months = { 6 10 }
+		}
+	}
+}
+
+############################################
+# House Velaryon - A Pirate's Offer
+# 0153
+############################################
+
+agot_crownlands_bla.0153 = {
+	type = character_event
+	title = agot_crownlands_bla.0153.t
+	desc = agot_crownlands_bla.0153.desc
+	theme = intrigue
+
+	override_background = {
+		reference = docks
+	}
+
+	left_portrait = {
+		character = root
+		animation = personality_rational
+	}
+
+	right_portrait = {
+		character = scope:stepstones_pirate_bla
+		animation = personality_dishonorable
+	}
+
+	option = { # Accept the pirate into service
+		name = agot_crownlands_bla.0153.a
+
+		add_courtier = scope:stepstones_pirate_bla
+
+		scope:stepstones_pirate_bla = {
+			add_opinion = {
+				target = root
+				modifier = grateful_opinion
+				opinion = 25
+			}
+		}
+
+		add_character_flag = agot_velaryon_stepstones_pirate_recruited_bla
+		add_intrigue_lifestyle_xp = 150
+	}
+
+	option = { # Buy the information, not the pirate
+		name = agot_crownlands_bla.0153.b
+
+		trigger = {
+			gold >= 100
+		}
+
+		remove_short_term_gold = 100
+
+		add_character_flag = agot_velaryon_stepstones_pirate_information_bla
+		add_martial_lifestyle_xp = 150
+
+		scope:stepstones_pirate_bla = {
+			add_opinion = {
+				target = root
+				modifier = pleased_opinion
+				opinion = 15
+			}
+
+			move_to_pool = yes
+		}
+	}
+
+	option = { # Take the information and bind them to you
+		name = agot_crownlands_bla.0153.c
+
+		trigger = {
+			intrigue >= 12
+
+			can_add_hook = {
+				target = scope:stepstones_pirate_bla
+				type = loyalty_hook
+			}
+		}
+
+		add_intrigue_lifestyle_xp = 300
+
+		add_hook = {
+			target = scope:stepstones_pirate_bla
+			type = loyalty_hook
+		}
+
+		add_courtier = scope:stepstones_pirate_bla
+
+		scope:stepstones_pirate_bla = {
+			add_opinion = {
+				target = root
+				modifier = suspicious_opinion
+				opinion = -25
+			}
+		}
+
+		add_character_flag = agot_velaryon_stepstones_pirate_bound_bla
+	}
+
+	option = { # Reject the pirate
+		name = agot_crownlands_bla.0153.d
+
+		add_prestige = 75
+
+		scope:stepstones_pirate_bla = {
+			set_relation_potential_rival = {
+				target = root
+				reason = rival_disagreement
+			}
+
+			move_to_pool = yes
+		}
+
+		add_character_flag = agot_velaryon_stepstones_pirate_rejected_bla
+	}
+}
+
+############################################
+# House Velaryon - The Cost of Conquest
+# 0154
+############################################
+
+agot_crownlands_bla.0154 = {
+	type = character_event
+	title = agot_crownlands_bla.0154.t
+
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = {
+					has_character_flag = agot_velaryon_stepstones_supplied_bla
+				}
+				desc = agot_crownlands_bla.0154.desc_supply_line
+			}
+
+			triggered_desc = {
+				trigger = {
+					has_character_flag = agot_velaryon_stepstones_fleet_supply_bla
+				}
+				desc = agot_crownlands_bla.0154.desc_great_fleet
+			}
+
+			triggered_desc = {
+				trigger = {
+					has_character_flag = agot_velaryon_stepstones_local_supply_bla
+				}
+				desc = agot_crownlands_bla.0154.desc_local
+			}
+
+			triggered_desc = {
+				trigger = {
+					has_character_flag = agot_velaryon_stepstones_merchant_supply_bla
+				}
+				desc = agot_crownlands_bla.0154.desc_merchants
+			}
+
+			triggered_desc = {
+				trigger = {
+					has_character_flag = agot_velaryon_stepstones_requisitioned_supply_bla
+				}
+				desc = agot_crownlands_bla.0154.desc_requisitions
+			}
+
+			triggered_desc = {
+				trigger = {
+					has_character_flag = agot_velaryon_stepstones_captain_supply_success_bla
+				}
+				desc = agot_crownlands_bla.0154.desc_captain_success
+			}
+
+			triggered_desc = {
+				trigger = {
+					has_character_flag = agot_velaryon_stepstones_captain_supply_failure_bla
+				}
+				desc = agot_crownlands_bla.0154.desc_captain_failure
+			}
+
+			desc = agot_crownlands_bla.0154.desc_fallback
+		}
+	}
+
+	theme = realm
+
+	override_background = {
+		reference = army_camp
+	}
+
+	left_portrait = {
+		character = root
+		animation = personality_rational
+	}
+
+	immediate = {
+		add_character_flag = agot_velaryon_stepstones_cost_conquest_bla
+
+		if = {
+			limit = {
+				exists = var:stepstones_sellsail_captain_bla
+			}
+
+			var:stepstones_sellsail_captain_bla = {
+				save_scope_as = stepstones_sellsail_captain_bla
+			}
+		}
+	}
+
+	############################################
+	# Proper Supply Line
+	############################################
+
+	option = {
+		name = agot_crownlands_bla.0154.a
+
+		trigger = {
+			has_character_flag = agot_velaryon_stepstones_supplied_bla
+			gold >= 75
+		}
+
+		remove_short_term_gold = 75
+		add_stewardship_lifestyle_xp = 300
+
+		add_character_flag = agot_velaryon_stepstones_supply_network_bla
+	}
+
+	option = {
+		name = agot_crownlands_bla.0154.b
+
+		trigger = {
+			has_character_flag = agot_velaryon_stepstones_supplied_bla
+		}
+
+		add_stewardship_lifestyle_xp = 150
+	}
+
+	############################################
+	# Great Fleet Supply
+	############################################
+
+	option = {
+		name = agot_crownlands_bla.0154.c
+
+		trigger = {
+			has_character_flag = agot_velaryon_stepstones_fleet_supply_bla
+		}
+
+		add_martial_lifestyle_xp = 250
+		add_prestige = 75
+
+		add_character_flag = agot_velaryon_stepstones_fleet_overworked_bla
+	}
+
+	option = {
+		name = agot_crownlands_bla.0154.d
+
+		trigger = {
+			has_character_flag = agot_velaryon_stepstones_fleet_supply_bla
+			gold >= 100
+		}
+
+		remove_short_term_gold = 100
+		add_stewardship_lifestyle_xp = 200
+
+		add_character_flag = agot_velaryon_stepstones_fleet_relief_bla
+	}
+
+	############################################
+	# Local Wells and Cisterns
+	############################################
+
+	option = {
+		name = agot_crownlands_bla.0154.e
+
+		trigger = {
+			has_character_flag = agot_velaryon_stepstones_local_supply_bla
+		}
+
+		add_diplomacy_lifestyle_xp = 250
+
+		add_character_flag = agot_velaryon_stepstones_local_cooperation_bla
+	}
+
+	option = {
+		name = agot_crownlands_bla.0154.f
+
+		trigger = {
+			has_character_flag = agot_velaryon_stepstones_local_supply_bla
+		}
+
+		add_dread = 5
+		add_martial_lifestyle_xp = 150
+
+		add_character_flag = agot_velaryon_stepstones_local_resentment_bla
+	}
+
+	############################################
+	# Merchant Supply
+	############################################
+
+	option = {
+		name = agot_crownlands_bla.0154.g
+
+		trigger = {
+			has_character_flag = agot_velaryon_stepstones_merchant_supply_bla
+			gold >= 100
+		}
+
+		remove_short_term_gold = 100
+
+		add_character_flag = agot_velaryon_stepstones_merchants_paid_bla
+		add_diplomacy_lifestyle_xp = 150
+	}
+
+	option = {
+		name = agot_crownlands_bla.0154.h
+
+		trigger = {
+			has_character_flag = agot_velaryon_stepstones_merchant_supply_bla
+		}
+
+		duel = {
+			skill = diplomacy
+			value = medium_skill_rating
+
+			50 = {
+				compare_modifier = {
+					value = scope:duel_value
+					multiplier = 3.5
+					min = -49
+				}
+
+				send_interface_toast = {
+					title = agot_crownlands_bla.0154.h.success
+
+					add_diplomacy_lifestyle_xp = 300
+					add_character_flag = agot_velaryon_stepstones_merchants_bargained_bla
+				}
+			}
+
+			50 = {
+				compare_modifier = {
+					value = scope:duel_value
+					multiplier = -3.5
+					min = -49
+				}
+
+				send_interface_toast = {
+					title = agot_crownlands_bla.0154.h.failure
+
+					remove_short_term_gold = 125
+					add_diplomacy_lifestyle_xp = 100
+				}
+			}
+		}
+	}
+
+	############################################
+	# Harsh Requisitions
+	############################################
+
+	option = {
+		name = agot_crownlands_bla.0154.i
+
+		trigger = {
+			has_character_flag = agot_velaryon_stepstones_requisitioned_supply_bla
+		}
+
+		add_dread = 10
+		add_martial_lifestyle_xp = 200
+
+		add_character_flag = agot_velaryon_stepstones_requisition_resistance_bla
+	}
+
+	option = {
+		name = agot_crownlands_bla.0154.j
+
+		trigger = {
+			has_character_flag = agot_velaryon_stepstones_requisitioned_supply_bla
+			gold >= 125
+		}
+
+		remove_short_term_gold = 125
+		add_diplomacy_lifestyle_xp = 200
+
+		remove_character_modifier = agot_velaryon_stepstones_harsh_requisitions_bla
+
+		add_character_flag = agot_velaryon_stepstones_requisitions_compensated_bla
+	}
+
+	############################################
+	# Sellsail Success
+	############################################
+
+	option = {
+		name = agot_crownlands_bla.0154.k
+
+		trigger = {
+			has_character_flag = agot_velaryon_stepstones_captain_supply_success_bla
+		}
+
+		add_martial_lifestyle_xp = 200
+
+		add_character_flag = agot_velaryon_stepstones_captain_routes_bla
+
+		if = {
+			limit = {
+				exists = var:stepstones_sellsail_captain_bla
+				var:stepstones_sellsail_captain_bla = {
+					is_alive = yes
+				}
+			}
+
+			var:stepstones_sellsail_captain_bla = {
+				add_opinion = {
+					target = root
+					modifier = grateful_opinion
+					opinion = 10
+				}
+			}
+		}
+	}
+
+	option = {
+		name = agot_crownlands_bla.0154.l
+
+		trigger = {
+			has_character_flag = agot_velaryon_stepstones_captain_supply_success_bla
+			gold >= 75
+		}
+
+		remove_short_term_gold = 75
+		add_stewardship_lifestyle_xp = 200
+
+		add_character_flag = agot_velaryon_stepstones_captain_routes_expanded_bla
+	}
+
+	############################################
+	# Sellsail Failure
+	############################################
+
+	option = {
+		name = agot_crownlands_bla.0154.m
+
+		trigger = {
+			has_character_flag = agot_velaryon_stepstones_captain_supply_failure_bla
+			gold >= 125
+		}
+
+		remove_short_term_gold = 125
+		add_stewardship_lifestyle_xp = 150
+
+		add_character_flag = agot_velaryon_stepstones_emergency_supply_bla
+	}
+
+	option = {
+		name = agot_crownlands_bla.0154.n
+
+		trigger = {
+			has_character_flag = agot_velaryon_stepstones_captain_supply_failure_bla
+		}
+
+		add_dread = 5
+		add_martial_lifestyle_xp = 150
+
+		add_character_flag = agot_velaryon_stepstones_supply_failure_requisitions_bla
+	}
+
+	after = {
+		remove_character_flag = agot_velaryon_stepstones_supplied_bla
+		remove_character_flag = agot_velaryon_stepstones_fleet_supply_bla
+		remove_character_flag = agot_velaryon_stepstones_local_supply_bla
+		remove_character_flag = agot_velaryon_stepstones_merchant_supply_bla
+		remove_character_flag = agot_velaryon_stepstones_requisitioned_supply_bla
+
+		remove_character_flag = agot_velaryon_stepstones_captain_supply_success_bla
+		remove_character_flag = agot_velaryon_stepstones_captain_supply_failure_bla
+
+		trigger_event = {
+			id = agot_crownlands_bla.0148
+			days = { 14 30 }
+		}
+	}
+}
+
+############################################
+# House Velaryon - Bloodstone
+# 0155
+############################################
+
+agot_crownlands_bla.0155 = {
+	type = character_event
+	title = agot_crownlands_bla.0155.t
+
+	desc = {
+		desc = agot_crownlands_bla.0155.desc
+
+		triggered_desc = {
+			trigger = {
+				has_character_flag = agot_velaryon_stepstones_pirate_information_bla
+			}
+			desc = agot_crownlands_bla.0155.desc_information
+		}
+
+		triggered_desc = {
+			trigger = {
+				has_character_flag = agot_velaryon_stepstones_local_cooperation_bla
+			}
+			desc = agot_crownlands_bla.0155.desc_cooperation
+		}
+
+		triggered_desc = {
+			trigger = {
+				OR = {
+					has_character_flag = agot_velaryon_stepstones_local_resentment_bla
+					has_character_flag = agot_velaryon_stepstones_requisition_resistance_bla
+				}
+			}
+			desc = agot_crownlands_bla.0155.desc_resentment
+		}
+	}
+
+	theme = realm
+
+	override_background = {
+		reference = corridor_day
+	}
+
+	left_portrait = {
+		character = root
+		animation = personality_bold
+	}
+
+	trigger = {
+		is_ruler = yes
+		is_landed = yes
+		dynasty = dynasty:dynn_Velaryon
+
+		has_character_flag = agot_velaryon_stepstones_ambition_bla
+
+		has_title = title:c_bloodstone
+
+		NOT = {
+			has_character_flag = agot_velaryon_bloodstone_taken_bla
+		}
+	}
+
+	immediate = {
+		add_character_flag = agot_velaryon_bloodstone_taken_bla
+
+		title:d_driftmark = {
+			set_variable = {
+				name = agot_velaryon_stepstones_bloodstone_taken_bla
+				value = 1
+			}
+		}
+	}
+
+	############################################
+	# Fortify Bloodstone
+	############################################
+
+	option = {
+		name = agot_crownlands_bla.0155.a
+
+		trigger = {
+			gold >= 150
+		}
+
+		remove_short_term_gold = 150
+		add_stewardship_lifestyle_xp = 250
+
+		title:c_bloodstone = {
+			add_county_modifier = {
+				modifier = agot_velaryon_fortified_bloodstone_bla
+				years = 10
+			}
+		}
+
+		add_character_flag = agot_velaryon_stepstones_bloodstone_fortified_bla
+	}
+
+	############################################
+	# Open Bloodstone to Trade
+	############################################
+
+	option = {
+		name = agot_crownlands_bla.0155.b
+
+		trigger = {
+			has_character_flag = agot_velaryon_stepstones_trade_bla
+		}
+
+		add_stewardship_lifestyle_xp = 200
+
+		title:c_bloodstone = {
+			add_county_modifier = {
+				modifier = agot_velaryon_bloodstone_trade_port_bla
+				years = 10
+			}
+		}
+
+		add_character_flag = agot_velaryon_stepstones_bloodstone_trade_bla
+	}
+
+	############################################
+	# Make Bloodstone the Seat of Conquest
+	############################################
+
+	option = {
+		name = agot_crownlands_bla.0155.c
+
+		trigger = {
+			OR = {
+				has_character_flag = agot_velaryon_stepstones_crown_bla
+				has_character_flag = agot_velaryon_stepstones_security_bla
+			}
+		}
+
+		add_prestige = 200
+		add_martial_lifestyle_xp = 250
+
+		add_character_flag = agot_velaryon_stepstones_bloodstone_war_seat_bla
+	}
+
+	############################################
+	# Win over the locals
+	############################################
+
+	option = {
+		name = agot_crownlands_bla.0155.d
+
+		trigger = {
+
+			gold >= 100
+
+			NOT = {
+				has_character_flag = agot_velaryon_stepstones_requisition_resistance_bla
+			}
+		}
+
+		remove_short_term_gold = 100
+		add_diplomacy_lifestyle_xp = 250
+
+		title:c_bloodstone = {
+			add_county_modifier = {
+				modifier = agot_velaryon_bloodstone_reconciled_bla
+				years = 8
+			}
+		}
+
+		add_character_flag = agot_velaryon_stepstones_bloodstone_reconciled_bla
+	}
+
+	############################################
+	# Rule through fear
+	############################################
+
+	option = {
+		name = agot_crownlands_bla.0155.e
+
+		add_dread = 10
+		add_martial_lifestyle_xp = 150
+
+		add_character_flag = agot_velaryon_stepstones_bloodstone_feared_bla
+
+		title:c_bloodstone = {
+			add_county_modifier = {
+				modifier = agot_velaryon_bloodstone_under_the_boot_bla
+				years = 7
+			}
+		}
+	}
+}
+
+
+############################################
+# House Velaryon - A Crown of Salt and Stone
+# 0156
+############################################
+
+agot_crownlands_bla.0156 = {
+	type = character_event
+	title = agot_crownlands_bla.0156.t
+	desc = agot_crownlands_bla.0156.desc
+	theme = crown
+
+	override_background = {
+		reference = throne_room
+	}
+
+	left_portrait = {
+		character = root
+		animation = war_over_win
+	}
+
+	trigger = {
+		is_ruler = yes
+		is_landed = yes
+		dynasty = dynasty:dynn_Velaryon
+
+		has_character_flag = agot_velaryon_stepstones_ambition_bla
+		has_title = title:k_the_stepstones
+		has_title = title:c_bloodstone
+
+		NOT = {
+			has_character_flag = agot_velaryon_stepstones_crowned_bla
+		}
+	}
+
+	immediate = {
+		add_character_flag = agot_velaryon_stepstones_crowned_bla
+		add_character_flag = agot_velaryon_bloodstone_taken_bla
+
+		title:k_the_stepstones = {
+			set_variable = {
+				name = agot_velaryon_stepstones_founded_bla
+				value = 1
+			}
+
+			set_variable = {
+				name = agot_velaryon_stepstones_years_since_founding_bla
+				value = 0
+			}
+		}
+
+		title:d_driftmark = {
+			set_variable = {
+				name = agot_velaryon_stepstones_bloodstone_taken_bla
+				value = 1
+			}
+
+			remove_variable = agot_velaryon_stepstones_campaign_active_bla
+		}
+	}
+
+	############################################
+	# Crown of the Stepstones
+	############################################
+
+	option = {
+		name = agot_crownlands_bla.0156.a
+
+		agot_create_artifact_velaryon_stepstones_crown_bla_effect = {
+			OWNER = root
+		}
+
+		scope:newly_created_artifact ?= {
+			equip_artifact_to_owner_replace = yes
+		}
+
+		add_prestige = 400
+
+		dynasty = {
+			add_dynasty_prestige = 250
+		}
+
+		if = {
+			limit = {
+				has_character_flag = agot_velaryon_stepstones_crown_bla
+			}
+
+			custom_tooltip = agot_crownlands_bla.0156.a.original_ambition_tt
+
+			add_prestige = 200
+
+			dynasty = {
+				add_dynasty_prestige = 100
+			}
+		}
+
+		add_character_flag = agot_velaryon_stepstones_final_crown_bla
+
+		title:k_the_stepstones = {
+			set_variable = {
+				name = agot_velaryon_stepstones_final_crown_bla
+				value = 1
+			}
+		}
+	}
+
+	############################################
+	# Lords of the Narrow Sea
+	############################################
+
+	option = {
+		name = agot_crownlands_bla.0156.b
+
+		add_martial_lifestyle_xp = 350
+
+		dynasty = {
+			add_dynasty_prestige = 300
+		}
+
+		add_character_modifier = {
+			modifier = agot_velaryon_lord_of_the_narrow_sea_bla
+			years = 10
+		}
+
+		if = {
+			limit = {
+				has_character_flag = agot_velaryon_stepstones_security_bla
+			}
+
+			custom_tooltip = agot_crownlands_bla.0156.b.original_ambition_tt
+
+			add_martial_lifestyle_xp = 150
+			add_prestige = 150
+		}
+
+		add_character_flag = agot_velaryon_stepstones_final_security_bla
+
+		title:k_the_stepstones = {
+			set_variable = {
+				name = agot_velaryon_stepstones_final_security_bla
+				value = 1
+			}
+		}
+	}
+
+	############################################
+	# Trade Kingdom
+	############################################
+
+	option = {
+		name = agot_crownlands_bla.0156.c
+
+		add_stewardship_lifestyle_xp = 350
+
+		title:c_bloodstone = {
+			add_county_modifier = {
+				modifier = agot_velaryon_crossroads_of_the_narrow_sea_bla
+				years = 12
+			}
+		}
+
+		if = {
+			limit = {
+				has_character_flag = agot_velaryon_stepstones_trade_bla
+			}
+
+			custom_tooltip = agot_crownlands_bla.0156.c.original_ambition_tt
+
+			add_stewardship_lifestyle_xp = 150
+			add_gold = 150
+		}
+
+		add_character_flag = agot_velaryon_stepstones_final_trade_bla
+
+		title:k_the_stepstones = {
+			set_variable = {
+				name = agot_velaryon_stepstones_final_trade_bla
+				value = 1
+			}
+		}
+	}
+
+	############################################
+	# Build a Lasting Realm
+	############################################
+
+	option = {
+		name = agot_crownlands_bla.0156.d
+
+		add_diplomacy_lifestyle_xp = 350
+
+		add_character_modifier = {
+			modifier = agot_velaryon_founder_of_stepstones_order_bla
+			years = 10
+		}
+
+		if = {
+			limit = {
+				has_character_flag = agot_velaryon_stepstones_order_bla
+			}
+
+			custom_tooltip = agot_crownlands_bla.0156.d.original_ambition_tt
+
+			add_diplomacy_lifestyle_xp = 150
+
+			dynasty = {
+				add_dynasty_prestige = 150
+			}
+		}
+
+		add_character_flag = agot_velaryon_stepstones_final_order_bla
+
+		title:k_the_stepstones = {
+			set_variable = {
+				name = agot_velaryon_stepstones_final_order_bla
+				value = 1
+			}
+		}
+	}
+
+	after = {
+		if = {
+			limit = {
+				has_character_flag = agot_velaryon_stepstones_captain_promised_land_bla
+
+				exists = var:stepstones_sellsail_captain_bla
+
+				var:stepstones_sellsail_captain_bla = {
+					is_alive = yes
+				}
+			}
+
+			trigger_event = {
+				id = agot_crownlands_bla.0157
+				days = { 14 30 }
+			}
+		}
+
+		if = {
+			limit = {
+				exists = var:stepstones_pirate_bla
+
+				var:stepstones_pirate_bla = {
+					is_alive = yes
+				}
+
+				OR = {
+					has_character_flag = agot_velaryon_stepstones_pirate_recruited_bla
+					has_character_flag = agot_velaryon_stepstones_pirate_bound_bla
+					has_character_flag = agot_velaryon_stepstones_pirate_information_bla
+				}
+			}
+
+			trigger_event = {
+				id = agot_crownlands_bla.0159
+				days = { 30 60 }
+			}
+		}
+	}
+
+}
+
+############################################
+# House Velaryon - The Captain Comes to Claim His Due
+# 0157
+############################################
+
+agot_crownlands_bla.0157 = {
+	type = character_event
+	title = agot_crownlands_bla.0157.t
+	desc = agot_crownlands_bla.0157.desc
+	theme = diplomacy
+
+	override_background = {
+		reference = throne_room
+	}
+
+	left_portrait = {
+		character = root
+		animation = personality_rational
+	}
+
+	right_portrait = {
+		character = scope:stepstones_sellsail_captain_bla
+		animation = personality_bold
+	}
+
+	trigger = {
+		is_ruler = yes
+		is_landed = yes
+		dynasty = dynasty:dynn_Velaryon
+
+		has_title = title:k_the_stepstones
+
+		has_character_flag = agot_velaryon_stepstones_captain_promised_land_bla
+
+		exists = var:stepstones_sellsail_captain_bla
+
+		var:stepstones_sellsail_captain_bla = {
+			is_alive = yes
+		}
+	}
+
+	immediate = {
+		var:stepstones_sellsail_captain_bla = {
+			save_scope_as = stepstones_sellsail_captain_bla
+		}
+	}
+
+	option = { # Give them an island
+		name = agot_crownlands_bla.0157.a
+
+		trigger = {
+			OR = {
+				has_title = title:c_lower_sunstone
+				has_title = title:c_upper_sunstone
+				has_title = title:c_wreckstone
+				has_title = title:c_grey_gallows
+				has_title = title:c_dwarfstone
+				has_title = title:c_skullhammer
+				has_title = title:c_denmaiden
+				has_title = title:c_dark_den
+			}
+		}
+
+		add_prestige = 150
+
+		scope:stepstones_sellsail_captain_bla = {
+			add_opinion = {
+				target = root
+				modifier = grateful_opinion
+				opinion = 40
+			}
+		}
+
+		add_character_flag = agot_velaryon_stepstones_promise_honored_bla
+		remove_character_flag = agot_velaryon_stepstones_captain_promised_land_bla
+
+		title:k_the_stepstones = {
+
+			set_variable = {
+				name = agot_velaryon_stepstones_promise_honored_bla
+				value = 1
+			}
+		}
+
+		trigger_event = {
+			id = agot_crownlands_bla.0158
+			days = 1
+		}
+	}
+
+	option = { # Reward them with coin instead
+		name = agot_crownlands_bla.0157.b
+
+		trigger = {
+			gold >= 200
+		}
+
+		remove_short_term_gold = 200
+
+		scope:stepstones_sellsail_captain_bla = {
+			add_opinion = {
+				target = root
+				modifier = pleased_opinion
+				opinion = 15
+			}
+		}
+
+		add_diplomacy_lifestyle_xp = 200
+		add_character_flag = agot_velaryon_stepstones_promise_bought_out_bla
+		remove_character_flag = agot_velaryon_stepstones_captain_promised_land_bla
+
+	}
+
+	option = { # Refuse
+		name = agot_crownlands_bla.0157.c
+
+		add_prestige = -150
+
+		scope:stepstones_sellsail_captain_bla = {
+			set_relation_potential_rival = {
+				target = root
+				reason = rival_disagreement
+			}
+
+			add_opinion = {
+				target = root
+				modifier = betrayed_opinion
+				opinion = -50
+			}
+		}
+
+		add_character_flag = agot_velaryon_stepstones_promise_broken_bla
+		remove_character_flag = agot_velaryon_stepstones_captain_promised_land_bla
+
+		title:k_the_stepstones = {
+			set_variable = {
+					name = agot_velaryon_stepstones_promise_broken_bla
+					value = 1
+			}
+
+		}
+	}
+
+	option = { # Bind them to court instead
+		name = agot_crownlands_bla.0157.d
+
+		trigger = {
+			intrigue >= 12
+
+			can_add_hook = {
+				target = scope:stepstones_sellsail_captain_bla
+				type = loyalty_hook
+			}
+		}
+
+		add_hook = {
+			target = scope:stepstones_sellsail_captain_bla
+			type = loyalty_hook
+		}
+
+		add_intrigue_lifestyle_xp = 250
+		add_character_flag = agot_velaryon_stepstones_captain_bound_after_victory_bla
+		remove_character_flag = agot_velaryon_stepstones_captain_promised_land_bla
+	}
+}
+
+############################################
+# House Velaryon - An Island for a Captain
+# 0158
+############################################
+
+agot_crownlands_bla.0158 = {
+	hidden = yes
+
+	immediate = {
+
+		random_held_title = {
+			limit = {
+				tier = tier_county
+
+				OR = {
+					this = title:c_lower_sunstone
+					this = title:c_upper_sunstone
+					this = title:c_wreckstone
+					this = title:c_grey_gallows
+					this = title:c_dwarfstone
+					this = title:c_skullhammer
+					this = title:c_denmaiden
+					this = title:c_dark_den
+
+				}
+			}
+
+			save_scope_as = stepstones_captain_reward_title_bla
+		}
+
+		if = {
+			limit = {
+				exists = scope:stepstones_captain_reward_title_bla
+			}
+
+			create_title_and_vassal_change = {
+				type = granted
+				save_scope_as = title_change
+			}
+
+			scope:stepstones_captain_reward_title_bla = {
+				change_title_holder = {
+					holder = scope:stepstones_sellsail_captain_bla
+					change = scope:title_change
+				}
+			}
+
+			resolve_title_and_vassal_change = scope:title_change
+		}
+	}
+}
+
+############################################
+# House Velaryon - A Corsair's Reward
+# 0159
+############################################
+
+agot_crownlands_bla.0159 = {
+	type = character_event
+	title = agot_crownlands_bla.0159.t
+
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = {
+					has_character_flag = agot_velaryon_stepstones_pirate_recruited_bla
+				}
+				desc = agot_crownlands_bla.0159.desc_recruited
+			}
+
+			triggered_desc = {
+				trigger = {
+					has_character_flag = agot_velaryon_stepstones_pirate_bound_bla
+				}
+				desc = agot_crownlands_bla.0159.desc_bound
+			}
+
+			triggered_desc = {
+				trigger = {
+					has_character_flag = agot_velaryon_stepstones_pirate_information_bla
+				}
+				desc = agot_crownlands_bla.0159.desc_information
+			}
+
+			desc = agot_crownlands_bla.0159.desc_rejected
+		}
+	}
+
+	theme = intrigue
+
+	override_background = {
+		reference = throne_room
+	}
+
+	left_portrait = {
+		character = root
+		animation = personality_rational
+	}
+
+	right_portrait = {
+		character = var:stepstones_pirate_bla
+		animation = personality_dishonorable
+	}
+
+	trigger = {
+		is_ruler = yes
+		is_landed = yes
+		dynasty = dynasty:dynn_Velaryon
+
+		has_title = title:k_the_stepstones
+		has_character_flag = agot_velaryon_stepstones_ambition_bla
+
+		exists = var:stepstones_pirate_bla
+
+		var:stepstones_pirate_bla = {
+			is_alive = yes
+		}
+
+		NOT = {
+			has_character_flag = agot_velaryon_stepstones_pirate_rewarded_bla
+		}
+	}
+
+	immediate = {
+		var:stepstones_pirate_bla = {
+			save_scope_as = stepstones_pirate_bla
+		}
+
+		add_character_flag = agot_velaryon_stepstones_pirate_rewarded_bla
+	}
+
+	############################################
+	# Give the pirate a place in the new order
+	############################################
+
+	option = {
+		name = agot_crownlands_bla.0159.a
+
+		trigger = {
+			OR = {
+				has_character_flag = agot_velaryon_stepstones_pirate_recruited_bla
+				has_character_flag = agot_velaryon_stepstones_pirate_bound_bla
+			}
+		}
+
+		scope:stepstones_pirate_bla = {
+			add_opinion = {
+				target = root
+				modifier = grateful_opinion
+				opinion = 25
+			}
+		}
+
+		add_diplomacy_lifestyle_xp = 200
+		add_character_flag = agot_velaryon_stepstones_pirate_integrated_bla
+		title:k_the_stepstones = {
+			set_variable = {
+				name = agot_velaryon_stepstones_pirate_integrated_bla
+				value = 1
+			}
+		}
+	}
+
+	############################################
+	# Use the pirate as an intelligence asset
+	############################################
+
+	option = {
+		name = agot_crownlands_bla.0159.b
+
+		trigger = {
+			OR = {
+				has_character_flag = agot_velaryon_stepstones_pirate_recruited_bla
+				has_character_flag = agot_velaryon_stepstones_pirate_bound_bla
+				has_character_flag = agot_velaryon_stepstones_pirate_information_bla
+			}
+		}
+
+		add_intrigue_lifestyle_xp = 300
+
+		scope:stepstones_pirate_bla = {
+			add_character_modifier = {
+				modifier = agot_stepstones_corsair_informant_bla
+				years = 8
+			}
+		}
+
+		add_character_flag = agot_velaryon_stepstones_pirate_spymaster_asset_bla
+		title:k_the_stepstones = {
+			set_variable = {
+				name = agot_velaryon_stepstones_pirate_spymaster_asset_bla
+				value = 1
+			}
+		}
+	}
+
+	############################################
+	# Pay them off and send them away
+	############################################
+
+	option = {
+		name = agot_crownlands_bla.0159.c
+
+		trigger = {
+			gold >= 150
+		}
+
+		remove_short_term_gold = 150
+
+		scope:stepstones_pirate_bla = {
+			add_opinion = {
+				target = root
+				modifier = pleased_opinion
+				opinion = 15
+			}
+
+			move_to_pool = yes
+		}
+
+		add_character_flag = agot_velaryon_stepstones_pirate_bought_off_bla
+	}
+
+	############################################
+	# There is no place for pirates now
+	############################################
+
+	option = {
+		name = agot_crownlands_bla.0159.d
+
+		add_prestige = 100
+
+		scope:stepstones_pirate_bla = {
+			set_relation_potential_rival = {
+				target = root
+				reason = rival_disagreement
+			}
+
+			add_opinion = {
+				target = root
+				modifier = betrayed_opinion
+				opinion = -40
+			}
+
+			move_to_pool = yes
+		}
+
+		add_character_flag = agot_velaryon_stepstones_pirate_cast_out_bla
+		title:k_the_stepstones = {
+			set_variable = {
+				name = agot_velaryon_stepstones_pirate_cast_out_bla
+				value = 1
+			}
+		}
+	}
+}
+
+############################################
+# House Velaryon - No King Rules the Stepstones for Long
+# 0160
+############################################
+
+agot_crownlands_bla.0160 = {
+	type = character_event
+	title = agot_crownlands_bla.0160.t
+
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = {
+					has_character_flag = agot_velaryon_stepstones_stable_bla
+				}
+				desc = agot_crownlands_bla.0160.desc_stable
+			}
+
+			triggered_desc = {
+				trigger = {
+					has_character_flag = agot_velaryon_stepstones_strained_bla
+				}
+				desc = agot_crownlands_bla.0160.desc_strained
+			}
+
+			desc = agot_crownlands_bla.0160.desc_restless
+		}
+	}
+
+	theme = realm
+
+	override_background = {
+		reference = throne_room
+	}
+
+	left_portrait = {
+		character = root
+		animation = personality_rational
+	}
+
+	trigger = {
+		is_ruler = yes
+		is_landed = yes
+		dynasty = dynasty:dynn_Velaryon
+
+		has_title = title:k_the_stepstones
+		has_title = title:c_bloodstone
+
+		has_character_flag = agot_velaryon_stepstones_ambition_bla
+
+		NOT = {
+			has_character_flag = agot_velaryon_stepstones_first_stability_bla
+		}
+	}
+
+	immediate = {
+		add_character_flag = agot_velaryon_stepstones_first_stability_bla
+
+		random_list = {
+
+			############################################
+			# Stable
+			############################################
+
+			30 = {
+				modifier = {
+					add = 10
+					has_character_flag = agot_velaryon_stepstones_supply_network_bla
+				}
+
+				modifier = {
+					add = 10
+					has_character_flag = agot_velaryon_stepstones_fleet_relief_bla
+				}
+
+				modifier = {
+					add = 15
+					has_character_flag = agot_velaryon_stepstones_local_cooperation_bla
+				}
+
+				modifier = {
+					add = 10
+					has_character_flag = agot_velaryon_stepstones_merchants_paid_bla
+				}
+
+				modifier = {
+					add = 15
+					has_character_flag = agot_velaryon_stepstones_merchants_bargained_bla
+				}
+
+				modifier = {
+					add = 15
+					has_character_flag = agot_velaryon_stepstones_requisitions_compensated_bla
+				}
+
+				modifier = {
+					add = 15
+					has_character_flag = agot_velaryon_stepstones_bloodstone_reconciled_bla
+				}
+
+				modifier = {
+					add = 15
+
+					title:k_the_stepstones = {
+						has_variable = agot_velaryon_stepstones_promise_honored_bla
+					}
+				}
+
+				modifier = {
+					add = 10
+
+					title:k_the_stepstones = {
+						has_variable = agot_velaryon_stepstones_pirate_integrated_bla
+					}
+				}
+
+				modifier = {
+					add = 10
+
+					title:k_the_stepstones = {
+						has_variable = agot_velaryon_stepstones_pirate_spymaster_asset_bla
+					}
+				}
+
+				add_character_flag = agot_velaryon_stepstones_stable_bla
+			}
+
+			############################################
+			# Strained
+			############################################
+
+			40 = {
+				add_character_flag = agot_velaryon_stepstones_strained_bla
+			}
+
+			############################################
+			# Restless / Dangerous
+			############################################
+
+			30 = {
+				modifier = {
+					add = 10
+					has_character_flag = agot_velaryon_stepstones_fleet_overworked_bla
+				}
+
+				modifier = {
+					add = 15
+					has_character_flag = agot_velaryon_stepstones_local_resentment_bla
+				}
+
+				modifier = {
+					add = 20
+					has_character_flag = agot_velaryon_stepstones_requisition_resistance_bla
+				}
+
+				modifier = {
+					add = 10
+					has_character_flag = agot_velaryon_stepstones_bloodstone_feared_bla
+				}
+
+				modifier = {
+					add = 20
+
+					title:k_the_stepstones = {
+						has_variable = agot_velaryon_stepstones_promise_broken_bla
+					}
+				}
+
+				modifier = {
+					add = 15
+
+					title:k_the_stepstones = {
+						has_variable = agot_velaryon_stepstones_pirate_cast_out_bla
+					}
+				}
+
+				add_character_flag = agot_velaryon_stepstones_restless_bla
+			}
+		}
+	}
+
+	############################################
+	# STABLE KINGDOM
+	############################################
+
+	option = {
+		name = agot_crownlands_bla.0160.a
+
+		trigger = {
+			has_character_flag = agot_velaryon_stepstones_stable_bla
+		}
+
+		add_prestige = 150
+		add_diplomacy_lifestyle_xp = 250
+
+		title:c_bloodstone = {
+			add_county_modifier = {
+				modifier = agot_velaryon_stepstones_new_order_bla
+				years = 8
+			}
+		}
+
+		title:k_the_stepstones = {
+			set_variable = {
+				name = agot_velaryon_stepstones_long_rule_begun_bla
+				value = 1
+			}
+
+			set_variable = {
+				name = agot_velaryon_stepstones_long_rule_years_bla
+				value = 0
+			}
+		}
+	}
+
+	############################################
+	# STRAINED - Invest in the realm
+	############################################
+
+	option = {
+		name = agot_crownlands_bla.0160.b
+
+		trigger = {
+			has_character_flag = agot_velaryon_stepstones_strained_bla
+			gold >= 200
+		}
+
+		remove_short_term_gold = 200
+		add_stewardship_lifestyle_xp = 300
+
+		add_character_flag = agot_velaryon_stepstones_stabilization_investment_bla
+
+		trigger_event = {
+			id = agot_crownlands_bla.0161
+			months = { 8 14 }
+		}
+	}
+
+	############################################
+	# STRAINED - Call the captains together
+	############################################
+
+	option = {
+		name = agot_crownlands_bla.0160.c
+
+		trigger = {
+			has_character_flag = agot_velaryon_stepstones_strained_bla
+		}
+
+		add_diplomacy_lifestyle_xp = 200
+		add_character_flag = agot_velaryon_stepstones_captains_council_bla
+
+		trigger_event = {
+			id = agot_crownlands_bla.0161
+			months = { 6 12 }
+		}
+	}
+
+	############################################
+	# RESTLESS - Great Fleet
+	############################################
+
+	option = {
+		name = agot_crownlands_bla.0160.d
+
+		trigger = {
+			has_character_flag = agot_velaryon_stepstones_restless_bla
+
+			any_held_county = {
+				any_county_province = {
+					has_building_or_higher = agot_great_fleet_01
+				}
+			}
+		}
+
+		add_martial_lifestyle_xp = 300
+		add_character_flag = agot_velaryon_stepstones_fleet_intimidation_bla
+
+		trigger_event = {
+			id = agot_crownlands_bla.0161
+			months = { 6 10 }
+		}
+	}
+
+	############################################
+	# RESTLESS - Buy peace
+	############################################
+
+	option = {
+		name = agot_crownlands_bla.0160.e
+
+		trigger = {
+			has_character_flag = agot_velaryon_stepstones_restless_bla
+			gold >= 250
+		}
+
+		remove_short_term_gold = 250
+		add_diplomacy_lifestyle_xp = 200
+
+		add_character_flag = agot_velaryon_stepstones_peace_bought_bla
+
+		trigger_event = {
+			id = agot_crownlands_bla.0161
+			months = { 6 12 }
+		}
+	}
+
+	############################################
+	# RESTLESS - Break them
+	############################################
+
+	option = {
+		name = agot_crownlands_bla.0160.f
+
+		trigger = {
+			has_character_flag = agot_velaryon_stepstones_restless_bla
+		}
+
+		add_dread = 15
+		add_martial_lifestyle_xp = 250
+
+		add_character_flag = agot_velaryon_stepstones_crushed_resistance_bla
+
+		trigger_event = {
+			id = agot_crownlands_bla.0161
+			months = { 6 12 }
+		}
+	}
+
+	after = {
+		remove_character_flag = agot_velaryon_stepstones_stable_bla
+		remove_character_flag = agot_velaryon_stepstones_strained_bla
+		remove_character_flag = agot_velaryon_stepstones_restless_bla
+	}
+}
+
+############################################
+# House Velaryon - The Stepstones Bend
+# 0161
+############################################
+
+agot_crownlands_bla.0161 = {
+	type = character_event
+	title = agot_crownlands_bla.0161.t
+
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = {
+					has_character_flag = agot_velaryon_stepstones_stability_success_bla
+				}
+				desc = agot_crownlands_bla.0161.desc_success
+			}
+
+			triggered_desc = {
+				trigger = {
+					has_character_flag = agot_velaryon_stepstones_stability_partial_bla
+				}
+				desc = agot_crownlands_bla.0161.desc_partial
+			}
+
+			desc = agot_crownlands_bla.0161.desc_failure
+		}
+	}
+
+	theme = realm
+
+	override_background = {
+		reference = throne_room
+	}
+
+	left_portrait = {
+		character = root
+		animation = personality_rational
+	}
+
+	trigger = {
+		is_ruler = yes
+		is_landed = yes
+		dynasty = dynasty:dynn_Velaryon
+
+		has_title = title:k_the_stepstones
+		has_title = title:c_bloodstone
+
+		has_character_flag = agot_velaryon_stepstones_ambition_bla
+
+		OR = {
+			has_character_flag = agot_velaryon_stepstones_stabilization_investment_bla
+			has_character_flag = agot_velaryon_stepstones_captains_council_bla
+			has_character_flag = agot_velaryon_stepstones_fleet_intimidation_bla
+			has_character_flag = agot_velaryon_stepstones_peace_bought_bla
+			has_character_flag = agot_velaryon_stepstones_crushed_resistance_bla
+		}
+	}
+
+	immediate = {
+		random_list = {
+
+			############################################
+			# SUCCESS
+			############################################
+
+			35 = {
+
+				# Investment works better with good logistics
+				modifier = {
+					add = 20
+					has_character_flag = agot_velaryon_stepstones_stabilization_investment_bla
+					has_character_flag = agot_velaryon_stepstones_supply_network_bla
+				}
+
+				modifier = {
+					add = 15
+					has_character_flag = agot_velaryon_stepstones_stabilization_investment_bla
+					has_character_flag = agot_velaryon_stepstones_local_cooperation_bla
+				}
+
+				# Council works better if promises were honored
+				modifier = {
+					add = 20
+					has_character_flag = agot_velaryon_stepstones_captains_council_bla
+					title:k_the_stepstones = {
+						has_variable = agot_velaryon_stepstones_promise_honored_bla
+					}
+				}
+
+				modifier = {
+					add = 15
+					has_character_flag = agot_velaryon_stepstones_captains_council_bla
+					title:k_the_stepstones = {
+						has_variable = agot_velaryon_stepstones_pirate_integrated_bla
+					}
+				}
+
+				modifier = {
+					add = 15
+					has_character_flag = agot_velaryon_stepstones_captains_council_bla
+					title:k_the_stepstones = {
+						has_variable = agot_velaryon_stepstones_pirate_spymaster_asset_bla
+					}
+				}
+
+				# Great Fleet intimidation
+				modifier = {
+					add = 25
+					has_character_flag = agot_velaryon_stepstones_fleet_intimidation_bla
+					has_character_flag = agot_velaryon_stepstones_bloodstone_fortified_bla
+				}
+
+				modifier = {
+					add = 15
+					has_character_flag = agot_velaryon_stepstones_fleet_intimidation_bla
+					has_character_flag = agot_velaryon_stepstones_security_bla
+				}
+
+				# Buying peace works better if merchants already trust you
+				modifier = {
+					add = 20
+					has_character_flag = agot_velaryon_stepstones_peace_bought_bla
+					has_character_flag = agot_velaryon_stepstones_merchants_paid_bla
+				}
+
+				modifier = {
+					add = 15
+					has_character_flag = agot_velaryon_stepstones_peace_bought_bla
+					has_character_flag = agot_velaryon_stepstones_merchants_bargained_bla
+				}
+
+				# Order path naturally helps stabilization
+				modifier = {
+					add = 10
+					has_character_flag = agot_velaryon_stepstones_final_order_bla
+				}
+
+				# Earlier reconciliation helps every peaceful route
+				modifier = {
+					add = 15
+					has_character_flag = agot_velaryon_stepstones_bloodstone_reconciled_bla
+				}
+
+				add_character_flag = agot_velaryon_stepstones_stability_success_bla
+			}
+
+			############################################
+			# PARTIAL
+			############################################
+
+			40 = {
+				add_character_flag = agot_velaryon_stepstones_stability_partial_bla
+			}
+
+			############################################
+			# FAILURE
+			############################################
+
+			25 = {
+
+				modifier = {
+					add = 15
+					has_character_flag = agot_velaryon_stepstones_local_resentment_bla
+				}
+
+				modifier = {
+					add = 20
+					has_character_flag = agot_velaryon_stepstones_requisition_resistance_bla
+				}
+
+				modifier = {
+					add = 20
+					title:k_the_stepstones = {
+						has_variable = agot_velaryon_stepstones_promise_broken_bla
+					}
+				}
+
+				modifier = {
+					add = 15
+					title:k_the_stepstones = {
+						has_variable = agot_velaryon_stepstones_pirate_cast_out_bla
+					}
+				}
+
+				modifier = {
+					add = 10
+					has_character_flag = agot_velaryon_stepstones_bloodstone_feared_bla
+				}
+
+				# Crushing resistance can work,
+				# but compounds earlier brutality
+				modifier = {
+					add = 15
+					has_character_flag = agot_velaryon_stepstones_crushed_resistance_bla
+					has_character_flag = agot_velaryon_stepstones_requisition_resistance_bla
+				}
+
+				modifier = {
+					add = 15
+					has_character_flag = agot_velaryon_stepstones_crushed_resistance_bla
+					title:k_the_stepstones = {
+						has_variable = agot_velaryon_stepstones_promise_broken_bla
+					}
+				}
+
+				add_character_flag = agot_velaryon_stepstones_stability_failure_bla
+			}
+		}
+	}
+
+	############################################
+	# SUCCESS
+	############################################
+
+	option = {
+		name = agot_crownlands_bla.0161.a
+	
+		trigger = {
+			has_character_flag = agot_velaryon_stepstones_stability_success_bla
+		}
+
+		add_prestige = 250
+		add_diplomacy_lifestyle_xp = 300
+
+		dynasty = {
+			add_dynasty_prestige = 150
+		}
+
+		title:k_the_stepstones = {
+			set_variable = {
+				name = agot_velaryon_stepstones_long_rule_begun_bla
+				value = 1
+			}
+
+			set_variable = {
+				name = agot_velaryon_stepstones_long_rule_years_bla
+				value = 0
+			}
+		}
+	}
+
+	############################################
+	# PARTIAL
+	############################################
+
+	option = {
+		name = agot_crownlands_bla.0161.b
+
+		trigger = {
+			has_character_flag = agot_velaryon_stepstones_stability_partial_bla
+		}
+
+		add_stewardship_lifestyle_xp = 200
+
+		add_character_modifier = {
+			modifier = agot_velaryon_fragile_stepstones_peace_bla
+			years = 5
+		}
+
+		title:k_the_stepstones = {
+			set_variable = {
+				name = agot_velaryon_stepstones_long_rule_begun_bla
+				value = 1
+			}
+
+			set_variable = {
+				name = agot_velaryon_stepstones_long_rule_years_bla
+				value = 0
+			}
+		}
+	}
+
+	############################################
+	# FAILURE
+	############################################
+
+	option = {
+		name = agot_crownlands_bla.0161.c
+
+		trigger = {
+			has_character_flag = agot_velaryon_stepstones_stability_failure_bla
+		}
+
+		add_prestige = -150
+
+		add_character_flag = agot_velaryon_stepstones_open_resistance_bla
+
+		trigger_event = {
+			id = agot_crownlands_bla.0162
+			months = { 2 6 }
+		}
+	}
+
+	after = {
+		remove_character_flag = agot_velaryon_stepstones_stability_success_bla
+		remove_character_flag = agot_velaryon_stepstones_stability_partial_bla
+		remove_character_flag = agot_velaryon_stepstones_stability_failure_bla
+
+		remove_character_flag = agot_velaryon_stepstones_stabilization_investment_bla
+		remove_character_flag = agot_velaryon_stepstones_captains_council_bla
+		remove_character_flag = agot_velaryon_stepstones_fleet_intimidation_bla
+		remove_character_flag = agot_velaryon_stepstones_peace_bought_bla
+		remove_character_flag = agot_velaryon_stepstones_crushed_resistance_bla
+	}
+}
+
+############################################
+# House Velaryon - The Rocks Rise
+# 0162
+############################################
+
+agot_crownlands_bla.0162 = {
+	type = character_event
+	title = agot_crownlands_bla.0162.t
+	desc = agot_crownlands_bla.0162.desc
+	theme = martial
+
+	override_background = {
+		reference = throne_room
+	}
+
+	left_portrait = {
+		character = root
+		animation = personality_bold
+	}
+
+	trigger = {
+		is_ruler = yes
+		is_landed = yes
+		dynasty = dynasty:dynn_Velaryon
+
+		has_title = title:k_the_stepstones
+		has_title = title:c_bloodstone
+
+		has_character_flag = agot_velaryon_stepstones_open_resistance_bla
+
+		NOT = {
+			has_character_flag = agot_velaryon_stepstones_rocks_rise_bla
+		}
+	}
+
+	immediate = {
+		add_character_flag = agot_velaryon_stepstones_rocks_rise_bla
+	}
+
+	############################################
+	# Use our corsair network
+	############################################
+
+	option = {
+		name = agot_crownlands_bla.0162.a
+
+		trigger = {
+			title:k_the_stepstones = {
+				has_variable = agot_velaryon_stepstones_pirate_spymaster_asset_bla
+			}
+		}
+
+		add_intrigue_lifestyle_xp = 350
+
+		random_list = {
+			75 = {
+				add_character_flag = agot_velaryon_stepstones_resistance_broken_bla
+				add_prestige = 100
+			}
+
+			25 = {
+				add_character_flag = agot_velaryon_stepstones_resistance_continues_bla
+			}
+		}
+
+		trigger_event = {
+			id = agot_crownlands_bla.0164
+			days = 7
+		}
+	}
+
+	############################################
+	# Call the captains together again
+	############################################
+
+	option = {
+		name = agot_crownlands_bla.0162.b
+
+		trigger = {
+			OR = {
+				title:k_the_stepstones = {
+					has_variable = agot_velaryon_stepstones_promise_honored_bla
+				}
+
+				title:k_the_stepstones = {
+					has_variable = agot_velaryon_stepstones_pirate_integrated_bla
+				}
+
+				has_character_flag = agot_velaryon_stepstones_local_cooperation_bla
+			}
+		}
+
+		add_diplomacy_lifestyle_xp = 300
+
+		random_list = {
+			60 = {
+				modifier = {
+					add = 15
+					title:k_the_stepstones = {
+						has_variable = agot_velaryon_stepstones_promise_honored_bla
+					}
+				}
+
+				modifier = {
+					add = 10
+					title:k_the_stepstones = {
+						has_variable = agot_velaryon_stepstones_pirate_integrated_bla
+					}
+				}
+
+				modifier = {
+					add = 15
+					has_character_flag = agot_velaryon_stepstones_local_cooperation_bla
+				}
+
+				add_character_flag = agot_velaryon_stepstones_resistance_broken_bla
+			}
+
+			40 = {
+				modifier = {
+					add = 20
+
+					title:k_the_stepstones = {
+						has_variable = agot_velaryon_stepstones_promise_broken_bla
+					}
+				}
+
+				add_character_flag = agot_velaryon_stepstones_resistance_continues_bla
+			}
+		}
+
+		trigger_event = {
+			id = agot_crownlands_bla.0164
+			days = 7
+		}
+	}
+
+	############################################
+	# Seal the islands with the Great Fleet
+	############################################
+
+	option = {
+		name = agot_crownlands_bla.0162.c
+
+		trigger = {
+			any_held_county = {
+				any_county_province = {
+					has_building_or_higher = agot_great_fleet_01
+				}
+			}
+		}
+
+		add_martial_lifestyle_xp = 350
+
+		random_list = {
+			70 = {
+				modifier = {
+					add = 15
+					has_character_flag = agot_velaryon_stepstones_security_bla
+				}
+
+				modifier = {
+					add = 15
+					has_character_flag = agot_velaryon_stepstones_fleet_relief_bla
+				}
+
+				modifier = {
+					add = 10
+					has_character_flag = agot_velaryon_stepstones_bloodstone_fortified_bla
+				}
+
+				add_character_flag = agot_velaryon_stepstones_resistance_broken_bla
+			}
+
+			30 = {
+				modifier = {
+					add = 15
+					has_character_flag = agot_velaryon_stepstones_fleet_overworked_bla
+				}
+
+				add_character_flag = agot_velaryon_stepstones_resistance_continues_bla
+			}
+		}
+
+		trigger_event = {
+			id = agot_crownlands_bla.0164
+			days = 7
+		}
+	}
+
+	############################################
+	# Buy the leaders
+	############################################
+
+	option = {
+		name = agot_crownlands_bla.0162.d
+
+		trigger = {
+			gold >= 300
+		}
+
+		remove_short_term_gold = 300
+		add_intrigue_lifestyle_xp = 200
+
+		random_list = {
+			70 = {
+				modifier = {
+					add = 15
+					has_character_flag = agot_velaryon_stepstones_trade_bla
+				}
+
+				modifier = {
+					add = 10
+					has_character_flag = agot_velaryon_stepstones_merchants_bargained_bla
+				}
+
+				add_character_flag = agot_velaryon_stepstones_resistance_broken_bla
+			}
+
+			30 = {
+				add_character_flag = agot_velaryon_stepstones_resistance_continues_bla
+			}
+		}
+
+		trigger_event = {
+			id = agot_crownlands_bla.0164
+			days = 7
+		}
+	}
+
+	############################################
+	# Force
+	############################################
+
+	option = {
+		name = agot_crownlands_bla.0162.e
+
+		add_dread = 15
+		add_martial_lifestyle_xp = 300
+
+		add_character_flag = agot_velaryon_stepstones_resistance_crushed_bla
+		add_character_flag = agot_velaryon_stepstones_resistance_broken_bla
+
+		title:k_the_stepstones = {
+			set_variable = {
+				name = agot_velaryon_stepstones_resistance_crushed_bla
+				value = 1
+			}
+		}
+
+		trigger_event = {
+			id = agot_crownlands_bla.0164
+			days = 7
+		}
+	}
+}
+
+############################################
+# House Velaryon - The Tide Turns
+# 0164
+############################################
+
+agot_crownlands_bla.0164 = {
+	type = character_event
+	title = agot_crownlands_bla.0164.t
+
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = {
+					has_character_flag = agot_velaryon_stepstones_resistance_crushed_bla
+				}
+				desc = agot_crownlands_bla.0164.desc_crushed
+			}
+
+			triggered_desc = {
+				trigger = {
+					has_character_flag = agot_velaryon_stepstones_resistance_broken_bla
+				}
+				desc = agot_crownlands_bla.0164.desc_success
+			}
+
+			desc = agot_crownlands_bla.0164.desc_failure
+		}
+	}
+
+	theme = realm
+
+	override_background = {
+		reference = throne_room
+	}
+
+	left_portrait = {
+		character = root
+		animation = personality_rational
+	}
+
+	option = {
+		name = agot_crownlands_bla.0164.a
+
+		trigger = {
+			has_character_flag = agot_velaryon_stepstones_resistance_broken_bla
+		}
+
+		add_prestige = 150
+
+		remove_character_flag = agot_velaryon_stepstones_open_resistance_bla
+		remove_character_flag = agot_velaryon_stepstones_resistance_continues_bla
+
+		title:k_the_stepstones = {
+			set_variable = {
+				name = agot_velaryon_stepstones_long_rule_begun_bla
+				value = 1
+			}
+
+			set_variable = {
+				name = agot_velaryon_stepstones_long_rule_years_bla
+				value = 0
+			}
+		}
+	}
+
+	option = {
+		name = agot_crownlands_bla.0164.b
+
+		trigger = {
+			has_character_flag = agot_velaryon_stepstones_resistance_continues_bla
+		}
+
+		add_prestige = -100
+
+		add_character_modifier = {
+			modifier = agot_velaryon_stepstones_smoldering_resistance_bla
+			years = 5
+		}
+
+		title:k_the_stepstones = {
+			set_variable = {
+				name = agot_velaryon_stepstones_long_rule_begun_bla
+				value = 1
+			}
+
+			set_variable = {
+				name = agot_velaryon_stepstones_long_rule_years_bla
+				value = 0
+			}
+		}
+	}
+
+	after = {
+		remove_character_flag = agot_velaryon_stepstones_resistance_broken_bla
+		remove_character_flag = agot_velaryon_stepstones_resistance_continues_bla
+	}
+}
+
+############################################
+# House Velaryon - The Seahorse Above the Stepstones
+# 0163
+############################################
+
+agot_crownlands_bla.0163 = {
+	type = character_event
+	title = agot_crownlands_bla.0163.t
+
+	desc = {
+		desc = agot_crownlands_bla.0163.desc
+
+		first_valid = {
+			triggered_desc = {
+				trigger = {
+					title:k_the_stepstones = {
+						has_variable = agot_velaryon_stepstones_final_trade_bla
+					}
+				}
+				desc = agot_crownlands_bla.0163.desc_trade
+			}
+
+			triggered_desc = {
+				trigger = {
+					title:k_the_stepstones = {
+						has_variable = agot_velaryon_stepstones_final_order_bla
+					}
+				}
+				desc = agot_crownlands_bla.0163.desc_order
+			}
+
+			triggered_desc = {
+				trigger = {
+					title:k_the_stepstones = {
+						has_variable = agot_velaryon_stepstones_final_security_bla
+					}
+				}
+				desc = agot_crownlands_bla.0163.desc_security
+			}
+
+			triggered_desc = {
+				trigger = {
+					title:k_the_stepstones = {
+						has_variable = agot_velaryon_stepstones_final_crown_bla
+					}
+				}
+				desc = agot_crownlands_bla.0163.desc_crown
+			}
+		}
+
+			triggered_desc = {
+				trigger = {
+					title:k_the_stepstones = {
+					has_variable = agot_velaryon_stepstones_resistance_crushed_bla
+				}
+			}
+			desc = agot_crownlands_bla.0163.desc_blood
+		}
+	}
+
+	theme = realm
+
+	override_background = {
+		reference = throne_room
+	}
+
+	left_portrait = {
+		character = root
+		animation = war_over_win
+	}
+
+	trigger = {
+		is_ruler = yes
+		is_landed = yes
+		dynasty = dynasty:dynn_Velaryon
+
+		has_title = title:k_the_stepstones
+		has_title = title:c_bloodstone
+
+		title:k_the_stepstones = {
+			has_variable = agot_velaryon_stepstones_long_rule_begun_bla
+
+			var:agot_velaryon_stepstones_long_rule_years_bla >= 10
+
+			NOT = {
+			has_variable = agot_velaryon_stepstones_legacy_completed_bla
+			}
+		}
+
+		NOT = {
+			dynasty = {
+			has_dynasty_modifier = agot_velaryon_stepstones_legacy_bla
+			}
+		}
+	}
+
+	immediate = {
+		add_character_flag = agot_velaryon_stepstones_legacy_completed_bla
+
+		title:k_the_stepstones = {
+			set_variable = {
+				name = agot_velaryon_stepstones_legacy_completed_bla
+				value = 1
+			}
+		}
+	}
+
+	option = {
+		name = agot_crownlands_bla.0163.a
+
+		add_prestige = 500
+
+		dynasty = {
+			add_dynasty_prestige = 500
+
+			add_dynasty_modifier = {
+				modifier = agot_velaryon_stepstones_legacy_bla
+			}
+		}
+
+		if = {
+			limit = {
+				title:k_the_stepstones = {
+					has_variable = agot_velaryon_stepstones_final_trade_bla
+				}
+			}
+
+			title:c_bloodstone = {
+				add_county_modifier = {
+					modifier = agot_velaryon_stepstones_enduring_trade_bla
+				}
+			}
+		}
+
+		else_if = {
+			limit = {
+				title:k_the_stepstones = {
+					has_variable = agot_velaryon_stepstones_final_order_bla
+				}
+			}
+
+			add_character_modifier = {
+				modifier = agot_velaryon_stepstones_lawgiver_bla
+				years = 10
+			}
+		}
+
+		else_if = {
+			limit = {
+				title:k_the_stepstones = {
+					has_variable = agot_velaryon_stepstones_final_security_bla
+				}
+			}
+
+			add_character_modifier = {
+				modifier = agot_velaryon_stepstones_master_of_the_narrow_sea_bla
+				years = 10
+			}
+		}
+
+		else_if = {
+			limit = {
+				title:k_the_stepstones = {
+					has_variable = agot_velaryon_stepstones_final_crown_bla
+				}
+			}
+
+			add_legitimacy = 100
+		}
+	}
+}

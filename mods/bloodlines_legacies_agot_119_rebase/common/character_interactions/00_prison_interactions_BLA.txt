@@ -1340,12 +1340,16 @@
 	send_option = {
 		is_shown = {
 			scope:actor = {
-				dynasty = {
-					OR = {
-						has_dynasty_perk = bolton_legacy_1
-						has_dynasty_perk = bolton_legacy_1_BLA
+				trigger_if = {
+					limit = { exists = dynasty }
+					dynasty = {
+						OR = {
+							has_dynasty_perk = bolton_legacy_1
+							has_dynasty_perk = bolton_legacy_1_BLA
+						}
 					}
 				}
+				trigger_else = { always = no }
 			}
 		}
 		flag = execution_flay

@@ -601,3 +601,171 @@ explore_oldstones_ruins_decision = {
 	}
 
 }
+
+# House Velaryon - Ambition in the Stepstones
+
+agot_velaryon_stepstones_ambition_decision_bla = {
+	picture = {
+		reference = "gfx/interface/illustrations/decisions/decision_realm.dds"
+	}
+
+	decision_group_type = major
+
+	desc = agot_velaryon_stepstones_ambition_decision_bla_desc
+
+	selection_tooltip = agot_velaryon_stepstones_ambition_decision_bla_tooltip
+
+	ai_check_interval = 60
+
+	is_shown = {
+		dynasty = dynasty:dynn_Velaryon
+		is_landed = yes
+
+		has_title = title:c_driftmark
+
+		title:c_driftmark.title_province = {
+			has_holding = yes
+		}
+
+		highest_held_title_tier >= tier_duchy
+
+		NOT = {
+			has_title = title:k_the_stepstones
+		}
+
+		NOT = {
+			has_character_flag = agot_velaryon_stepstones_ambition_bla
+		}
+	}
+
+	is_valid = {
+		is_available_adult = yes
+		is_at_war = no
+
+		prestige_level >= 3
+		gold >= 500
+
+		OR = {
+			martial >= 14
+
+			any_held_county = {
+				any_county_province = {
+					has_building_or_higher = agot_great_fleet_01
+				}
+			}
+		}
+	}
+
+	cost = {
+		gold = 250
+		prestige = 300
+	}
+
+	effect = {
+		add_character_flag = agot_velaryon_stepstones_ambition_bla
+
+		trigger_event = agot_crownlands_bla.0150
+	}
+
+	ai_potential = {
+		dynasty = dynasty:dynn_Velaryon
+	}
+
+	ai_will_do = {
+		base = 5
+
+		modifier = {
+			add = 25
+			has_trait = ambitious
+		}
+
+		modifier = {
+			add = 15
+			has_trait = brave
+		}
+
+		modifier = {
+			add = 15
+			has_trait = greedy
+		}
+
+		modifier = {
+			add = -25
+			has_trait = content
+		}
+
+		modifier = {
+			add = -15
+			has_trait = craven
+		}
+
+		modifier = {
+			add = 20
+			any_held_county = {
+				any_county_province = {
+					has_building_or_higher = agot_great_fleet_01
+				}
+			}
+		}
+	}
+}
+
+# House Celtigar - Search the Vaults of Claw Isle
+
+agot_search_vaults_of_claw_isle_decision_bla = {
+	ai_check_interval = 120
+
+	picture = {
+		reference = "gfx/interface/illustrations/decisions/decision_dynasty_house.dds"
+	}
+
+	decision_group_type = major
+
+	desc = agot_search_vaults_of_claw_isle_decision_bla_desc
+
+	selection_tooltip = agot_search_vaults_of_claw_isle_decision_bla_tooltip
+
+	is_shown = {
+		is_ruler = yes
+		is_landed = yes
+		dynasty = dynasty:dynn_Celtigar
+
+		has_character_flag = agot_celtigar_vaults_discovered_bla
+
+		NOT = {
+			has_character_flag = agot_celtigar_vaults_searched_bla
+		}
+	}
+
+	is_valid = {
+		is_available_adult = yes
+
+		gold >= 200
+
+		custom_tooltip = {
+			text = agot_search_vaults_of_claw_isle_decision_bla_claw_isle_tt
+			has_title = title:c_claw_isle
+		}
+	}
+
+	cost = {
+		gold = 200
+	}
+
+	effect = {
+		add_character_flag = agot_celtigar_vaults_searched_bla
+
+		trigger_event = {
+			id = agot_crownlands_bla.0208
+			days = { 7 14 }
+		}
+	}
+
+	ai_potential = {
+		always = yes
+	}
+
+	ai_will_do = {
+		base = 20
+	}
+}

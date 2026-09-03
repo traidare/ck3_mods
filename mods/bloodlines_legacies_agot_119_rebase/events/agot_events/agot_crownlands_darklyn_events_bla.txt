@@ -1,0 +1,5155 @@
+﻿# =========================================================
+# House Darklyn Flavor Event Pack
+# =========================================================
+
+namespace = agot_crownlands_bla
+
+
+agot_crownlands_bla.0397 = {
+	type = character_event
+	hidden = yes
+
+	trigger = {
+		is_ai = no
+		is_ruler = yes
+		is_landed = yes
+		is_available_adult = yes
+
+		dynasty = dynasty:dynn_Darklyn
+
+		has_title = title:c_duskendale
+
+		dynasty = {
+			NOT = {
+				has_variable = agot_darklyn_last_light_story_seen_bla
+			}
+		}
+	}
+
+	immediate = {
+		trigger_event = agot_crownlands_bla.0350
+	}
+}
+
+agot_crownlands_bla.0398 = {
+	type = character_event
+	hidden = yes
+
+	trigger = {
+		is_ai = no
+		is_ruler = yes
+		is_landed = yes
+		is_available_adult = yes
+
+		current_date >= 8277.1.1
+
+		OR = {
+			house = house:house_Darke
+			house = house:house_Darkwood
+			house = house:house_Dargood
+		}
+
+		dynasty = {
+			NOT = {
+				has_variable = agot_darklyn_restoration_story_offered_bla
+			}
+		}
+	}
+
+	immediate = {
+		trigger_event = agot_crownlands_bla.0310
+	}
+}
+
+agot_crownlands_bla.0399 = {
+	type = character_event
+	hidden = yes
+
+	trigger = {
+		is_ai = no
+		is_ruler = yes
+		is_landed = yes
+		is_available_adult = yes
+
+		OR = {
+			dynasty = dynasty:dynn_Darklyn
+		}
+
+		NOT = {
+			has_character_flag = darklyn_any_event_recently_bla
+		}
+	}
+
+	immediate = {
+		add_character_flag = {
+			flag = darklyn_any_event_recently_bla
+			years = 3
+		}
+
+		random_list = {
+			10 = { trigger_event = agot_crownlands_bla.0300 }
+			10 = { trigger_event = agot_crownlands_bla.0301 }
+			8 = { trigger_event = agot_crownlands_bla.0302 }
+			8 = { trigger_event = agot_crownlands_bla.0390 }
+			8 = { trigger_event = agot_crownlands_bla.0306 }
+			8 = { trigger_event = agot_crownlands_bla.0307 }
+
+			5 = {
+				trigger = {
+					dynasty = {
+						NOT = {
+							has_variable = agot_darklyn_dun_fort_history_examined_bla
+						}
+					}
+				}
+
+				trigger_event = agot_crownlands_bla.0309
+			}
+
+			120 = { }
+		}
+	}
+}
+
+############################################
+# House Darklyn - Seven White Swords
+# 0300
+############################################
+
+agot_crownlands_bla.0300 = {
+	type = character_event
+	title = agot_crownlands_bla.0300.t
+	desc = agot_crownlands_bla.0300.desc
+	theme = martial
+
+	override_background = {
+		reference = courtyard
+	}
+
+	left_portrait = {
+		character = root
+		animation = personality_honorable
+	}
+
+	trigger = {
+		is_ruler = yes
+		is_landed = yes
+		is_available_adult = yes
+		dynasty = dynasty:dynn_Darklyn
+
+		has_title = title:c_duskendale
+
+		NOT = {
+			has_character_flag = agot_darklyn_seven_swords_cooldown_bla
+		}
+	}
+
+	immediate = {
+		add_character_flag = {
+			flag = agot_darklyn_seven_swords_cooldown_bla
+			years = 9
+		}
+	}
+
+	############################################
+	# Honor the martial tradition
+	############################################
+
+	option = {
+		name = agot_crownlands_bla.0300.a
+
+		trigger = {
+			gold >= 100
+		}
+
+		remove_short_term_gold = 100
+		add_martial_lifestyle_xp = 250
+
+		add_character_modifier = {
+			modifier = agot_darklyn_seven_swords_tradition_bla
+			years = 7
+		}
+
+		add_character_flag = agot_darklyn_identity_seven_swords_bla
+	}
+
+	############################################
+	# Chivalry, not merely prowess
+	############################################
+
+	option = {
+		name = agot_crownlands_bla.0300.b
+
+		add_diplomacy_lifestyle_xp = 200
+		add_prestige = 100
+
+		add_character_modifier = {
+			modifier = agot_darklyn_white_cloak_ideal_bla
+			years = 7
+		}
+
+		add_character_flag = agot_darklyn_identity_chivalry_bla
+	}
+
+	############################################
+	# Our ancestors served kings
+	############################################
+
+	option = {
+		name = agot_crownlands_bla.0300.c
+
+		add_prestige = 150
+
+		dynasty = {
+			add_dynasty_prestige = 100
+		}
+
+		add_character_flag = agot_darklyn_identity_royal_service_bla
+	}
+
+	############################################
+	# A Darklyn need not wear white
+	############################################
+
+	option = {
+		name = agot_crownlands_bla.0300.d
+
+		add_stewardship_lifestyle_xp = 150
+		add_martial_lifestyle_xp = 150
+
+		add_character_modifier = {
+			modifier = agot_darklyn_lords_of_duskendale_bla
+			years = 7
+		}
+
+		add_character_flag = agot_darklyn_identity_duskendale_bla
+	}
+}
+
+############################################
+# House Darklyn - The Dun Fort
+# 0301
+############################################
+
+agot_crownlands_bla.0301 = {
+	type = character_event
+	title = agot_crownlands_bla.0301.t
+	desc = agot_crownlands_bla.0301.desc
+	theme = stewardship
+
+	override_background = {
+		reference = courtyard
+	}
+
+	left_portrait = {
+		character = root
+		animation = personality_rational
+	}
+
+	trigger = {
+		is_ruler = yes
+		is_landed = yes
+		is_available_adult = yes
+		dynasty = dynasty:dynn_Darklyn
+
+		has_title = title:c_duskendale
+
+
+		NOT = {
+			has_character_flag = agot_darklyn_dun_fort_cooldown_bla
+		}
+	}
+
+	immediate = {
+		add_character_flag = {
+			flag = agot_darklyn_dun_fort_cooldown_bla
+			years = 9
+		}
+	}
+
+	############################################
+	# The Dun Fort comes first.
+	############################################
+
+	option = {
+		name = agot_crownlands_bla.0301.a
+
+		trigger = {
+			gold >= 125
+		}
+
+		remove_short_term_gold = 125
+		add_martial_lifestyle_xp = 200
+		add_prestige = 75
+
+		add_character_modifier = {
+			modifier = agot_darklyn_dun_fort_restored_bla
+			years = 8
+		}
+
+		add_character_flag = agot_darklyn_dun_fort_strengthened_bla
+	}
+
+	############################################
+	# Duskendale is our true strength.
+	############################################
+
+	option = {
+		name = agot_crownlands_bla.0301.b
+
+		trigger = {
+			gold >= 125
+		}
+
+		remove_short_term_gold = 125
+		add_stewardship_lifestyle_xp = 250
+
+		add_character_modifier = {
+			modifier = agot_darklyn_duskendale_investment_bla
+			years = 8
+		}
+
+		add_character_flag = agot_darklyn_duskendale_before_dun_fort_bla
+	}
+
+	############################################
+	# Fund both.
+	############################################
+
+	option = {
+		name = agot_crownlands_bla.0301.c
+
+		trigger = {
+			gold >= 200
+		}
+
+		remove_short_term_gold = 200
+
+		duel = {
+			skill = stewardship
+			value = medium_skill_rating
+
+			50 = {
+				compare_modifier = {
+					value = scope:duel_value
+					multiplier = 3.5
+					min = -49
+				}
+
+				send_interface_toast = {
+					title = agot_crownlands_bla.0301.c.success
+
+					add_stewardship_lifestyle_xp = 350
+					add_prestige = 125
+
+					add_character_modifier = {
+						modifier = agot_darklyn_dun_fort_and_town_bla
+						years = 10
+					}
+
+					add_character_flag = agot_darklyn_dun_fort_balanced_bla
+				}
+			}
+
+			50 = {
+				compare_modifier = {
+					value = scope:duel_value
+					multiplier = -3.5
+					min = -49
+				}
+
+				send_interface_toast = {
+					title = agot_crownlands_bla.0301.c.failure
+
+					add_stewardship_lifestyle_xp = 100
+					add_stress = minor_stress_gain
+
+					add_character_modifier = {
+						modifier = agot_darklyn_overextended_works_bla
+						years = 4
+					}
+
+					add_character_flag = agot_darklyn_dun_fort_overextended_bla
+				}
+			}
+		}
+	}
+
+	############################################
+	# Neither. Preserve what already stands.
+	############################################
+
+	option = {
+		name = agot_crownlands_bla.0301.d
+
+		add_gold = 50
+		add_learning_lifestyle_xp = 150
+
+		add_character_flag = agot_darklyn_dun_fort_preserved_bla
+	}
+}
+
+############################################
+# House Darklyn - The Guilds of Duskendale
+# 0302
+############################################
+
+agot_crownlands_bla.0302 = {
+	type = character_event
+	title = agot_crownlands_bla.0302.t
+	desc = agot_crownlands_bla.0302.desc
+	theme = stewardship
+
+	override_background = {
+		reference = market
+	}
+
+	left_portrait = {
+		character = root
+		animation = personality_rational
+	}
+
+	trigger = {
+		is_ruler = yes
+		is_landed = yes
+		is_available_adult = yes
+		dynasty = dynasty:dynn_Darklyn
+
+		has_title = title:c_duskendale
+
+		NOT = {
+			has_character_flag = agot_darklyn_guilds_duskendale_cooldown_bla
+		}
+	}
+
+	immediate = {
+		add_character_flag = {
+			flag = agot_darklyn_guilds_duskendale_cooldown_bla
+			years = 8
+		}
+	}
+
+	############################################
+	# Favor the harbor merchants
+	############################################
+
+	option = {
+		name = agot_crownlands_bla.0302.a
+
+		add_stewardship_lifestyle_xp = 200
+
+		add_character_flag = agot_darklyn_guilds_merchants_bla
+
+		if = {
+			limit = {
+				has_character_flag = agot_darklyn_duskendale_before_dun_fort_bla
+			}
+
+			custom_tooltip = agot_crownlands_bla.0302.a.duskendale_tt
+			add_stewardship_lifestyle_xp = 100
+		}
+
+		trigger_event = {
+			id = agot_crownlands_bla.0303
+			months = { 6 10 }
+		}
+	}
+
+	############################################
+	# Favor the craftsmen
+	############################################
+
+	option = {
+		name = agot_crownlands_bla.0302.b
+
+		add_diplomacy_lifestyle_xp = 200
+
+		add_character_flag = agot_darklyn_guilds_craftsmen_bla
+
+		trigger_event = {
+			id = agot_crownlands_bla.0303
+			months = { 6 10 }
+		}
+	}
+
+	############################################
+	# Confirm the old guild privileges
+	############################################
+
+	option = {
+		name = agot_crownlands_bla.0302.c
+
+		add_prestige = 75
+		add_learning_lifestyle_xp = 150
+
+		add_character_flag = agot_darklyn_guilds_old_privileges_bla
+
+		if = {
+			limit = {
+				has_character_flag = agot_darklyn_dun_fort_preserved_bla
+			}
+
+			custom_tooltip = agot_crownlands_bla.0302.c.preserved_tt
+			add_prestige = 75
+		}
+
+		trigger_event = {
+			id = agot_crownlands_bla.0303
+			months = { 6 10 }
+		}
+	}
+
+	############################################
+	# Force a negotiated settlement
+	############################################
+
+	option = {
+		name = agot_crownlands_bla.0302.d
+
+		add_diplomacy_lifestyle_xp = 150
+		add_stewardship_lifestyle_xp = 150
+
+		add_character_flag = agot_darklyn_guilds_compromise_bla
+
+		if = {
+			limit = {
+				has_character_flag = agot_darklyn_dun_fort_balanced_bla
+			}
+
+			custom_tooltip = agot_crownlands_bla.0302.d.balance_tt
+			add_diplomacy_lifestyle_xp = 100
+		}
+
+		trigger_event = {
+			id = agot_crownlands_bla.0303
+			months = { 6 10 }
+		}
+	}
+}
+
+############################################
+# House Darklyn - The Price of Privilege
+# 0303
+############################################
+
+agot_crownlands_bla.0303 = {
+	type = character_event
+	title = agot_crownlands_bla.0303.t
+
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = {
+					has_character_flag = agot_darklyn_guilds_result_prosperity_bla
+				}
+				desc = agot_crownlands_bla.0303.desc_prosperity
+			}
+
+			triggered_desc = {
+				trigger = {
+					has_character_flag = agot_darklyn_guilds_result_stability_bla
+				}
+				desc = agot_crownlands_bla.0303.desc_stability
+			}
+
+			triggered_desc = {
+				trigger = {
+					has_character_flag = agot_darklyn_guilds_result_compromise_bla
+				}
+				desc = agot_crownlands_bla.0303.desc_compromise
+			}
+
+			desc = agot_crownlands_bla.0303.desc_dispute
+		}
+	}
+
+	theme = stewardship
+
+	override_background = {
+		reference = market
+	}
+
+	left_portrait = {
+		character = root
+		animation = personality_rational
+	}
+
+	immediate = {
+
+		############################################
+		# Merchant policy
+		############################################
+
+		if = {
+			limit = {
+				has_character_flag = agot_darklyn_guilds_merchants_bla
+			}
+
+			random_list = {
+				65 = {
+					modifier = {
+						add = 20
+						has_character_flag = agot_darklyn_duskendale_before_dun_fort_bla
+					}
+
+					modifier = {
+						add = 10
+						has_character_flag = agot_darklyn_dun_fort_balanced_bla
+					}
+
+					add_character_flag = agot_darklyn_guilds_result_prosperity_bla
+				}
+
+				35 = {
+					add_character_flag = agot_darklyn_guilds_result_dispute_bla
+				}
+			}
+		}
+
+		############################################
+		# Craftsmen policy
+		############################################
+
+		else_if = {
+			limit = {
+				has_character_flag = agot_darklyn_guilds_craftsmen_bla
+			}
+
+			random_list = {
+				60 = {
+					add_character_flag = agot_darklyn_guilds_result_stability_bla
+				}
+
+				40 = {
+					add_character_flag = agot_darklyn_guilds_result_dispute_bla
+				}
+			}
+		}
+
+		############################################
+		# Old privileges
+		############################################
+
+		else_if = {
+			limit = {
+				has_character_flag = agot_darklyn_guilds_old_privileges_bla
+			}
+
+			random_list = {
+				65 = {
+					modifier = {
+						add = 15
+						has_character_flag = agot_darklyn_dun_fort_preserved_bla
+					}
+
+					add_character_flag = agot_darklyn_guilds_result_stability_bla
+				}
+
+				35 = {
+					add_character_flag = agot_darklyn_guilds_result_dispute_bla
+				}
+			}
+		}
+
+		############################################
+		# Compromise
+		############################################
+
+		else_if = {
+			limit = {
+				has_character_flag = agot_darklyn_guilds_compromise_bla
+			}
+
+			random_list = {
+				55 = {
+					modifier = {
+						add = 25
+						has_character_flag = agot_darklyn_dun_fort_balanced_bla
+					}
+
+					add_character_flag = agot_darklyn_guilds_result_compromise_bla
+				}
+
+				45 = {
+					add_character_flag = agot_darklyn_guilds_result_dispute_bla
+				}
+			}
+		}
+	}
+
+	############################################
+	# Prosperity
+	############################################
+
+	option = {
+		name = agot_crownlands_bla.0303.a
+
+		trigger = {
+			has_character_flag = agot_darklyn_guilds_result_prosperity_bla
+		}
+
+		add_gold = 125
+		add_stewardship_lifestyle_xp = 250
+
+		add_character_modifier = {
+			modifier = agot_darklyn_open_duskendale_trade_bla
+			years = 7
+		}
+
+		add_character_flag = agot_darklyn_merchants_grateful_bla
+	}
+
+	############################################
+	# Stability
+	############################################
+
+	option = {
+		name = agot_crownlands_bla.0303.b
+
+		trigger = {
+			has_character_flag = agot_darklyn_guilds_result_stability_bla
+		}
+
+		add_diplomacy_lifestyle_xp = 250
+		add_prestige = 100
+
+		add_character_modifier = {
+			modifier = agot_darklyn_guild_compact_bla
+			years = 7
+		}
+
+		add_character_flag = agot_darklyn_guilds_loyal_bla
+	}
+
+	############################################
+	# Successful compromise
+	############################################
+
+	option = {
+		name = agot_crownlands_bla.0303.c
+
+		trigger = {
+			has_character_flag = agot_darklyn_guilds_result_compromise_bla
+		}
+
+		add_diplomacy_lifestyle_xp = 250
+		add_stewardship_lifestyle_xp = 250
+
+		add_character_modifier = {
+			modifier = agot_darklyn_balanced_guild_charter_bla
+			years = 8
+		}
+
+		add_character_flag = agot_darklyn_guild_compromise_success_bla
+	}
+
+	############################################
+	# Dispute
+	############################################
+
+	option = {
+		name = agot_crownlands_bla.0303.d
+
+		trigger = {
+			has_character_flag = agot_darklyn_guilds_result_dispute_bla
+		}
+
+		add_stress = minor_stress_gain
+
+		add_character_modifier = {
+			modifier = agot_darklyn_guild_resentment_bla
+			years = 4
+		}
+
+		add_character_flag = agot_darklyn_guild_dispute_bla
+	}
+
+	after = {
+		remove_character_flag = agot_darklyn_guilds_result_prosperity_bla
+		remove_character_flag = agot_darklyn_guilds_result_stability_bla
+		remove_character_flag = agot_darklyn_guilds_result_compromise_bla
+		remove_character_flag = agot_darklyn_guilds_result_dispute_bla
+
+		remove_character_flag = agot_darklyn_guilds_merchants_bla
+		remove_character_flag = agot_darklyn_guilds_craftsmen_bla
+		remove_character_flag = agot_darklyn_guilds_old_privileges_bla
+		remove_character_flag = agot_darklyn_guilds_compromise_bla
+	}
+}
+
+agot_crownlands_bla.0390 = {
+	type = character_event
+	hidden = yes
+
+	trigger = {
+		is_ruler = yes
+		is_landed = yes
+		is_available_adult = yes
+		dynasty = dynasty:dynn_Darklyn
+
+		has_title = title:c_duskendale
+
+		any_courtier = {
+			is_adult = yes
+			is_male = yes
+			is_landed = no
+			dynasty = dynasty:dynn_Darklyn
+			age >= 18
+			age <= 35
+			prowess >= 12
+		}
+
+		NOT = {
+			has_character_flag = agot_darklyn_white_cloak_cooldown_bla
+		}
+	}
+
+	immediate = {
+		random_courtier = {
+			limit = {
+				is_adult = yes
+				is_male = yes
+				is_landed = no
+				dynasty = dynasty:dynn_Darklyn
+				age >= 18
+				age <= 35
+				prowess >= 12
+			}
+
+			save_scope_as = darklyn_white_cloak_candidate_bla
+		}
+
+		trigger_event = agot_crownlands_bla.0304
+	}
+}
+
+############################################
+# House Darklyn - A White Cloak for Duskendale
+# 0304
+############################################
+
+agot_crownlands_bla.0304 = {
+	type = character_event
+	title = agot_crownlands_bla.0304.t
+	desc = agot_crownlands_bla.0304.desc
+	theme = martial
+
+	override_background = {
+		reference = courtyard
+	}
+
+	left_portrait = {
+		character = root
+		animation = personality_rational
+	}
+
+	right_portrait = {
+		character = scope:darklyn_white_cloak_candidate_bla
+		animation = personality_honorable
+	}
+
+	trigger = {
+		is_ruler = yes
+		is_landed = yes
+		is_available_adult = yes
+		dynasty = dynasty:dynn_Darklyn
+
+		has_title = title:c_duskendale
+
+		NOT = {
+			has_character_flag = agot_darklyn_white_cloak_cooldown_bla
+		}
+	}
+
+	immediate = {
+		add_character_flag = {
+			flag = agot_darklyn_white_cloak_cooldown_bla
+			years = 10
+		}
+
+	}
+
+	############################################
+	# Encourage the old tradition
+	############################################
+
+	option = {
+		name = agot_crownlands_bla.0304.a
+
+		add_prestige = 100
+		add_diplomacy_lifestyle_xp = 150
+
+		scope:darklyn_white_cloak_candidate_bla = {
+			add_martial_lifestyle_xp = 250
+
+			add_opinion = {
+				target = root
+				modifier = pleased_opinion
+				opinion = 20
+			}
+		}
+
+		if = {
+			limit = {
+				has_character_flag = agot_darklyn_identity_seven_swords_bla
+			}
+
+			custom_tooltip = agot_crownlands_bla.0304.a.seven_swords_tt
+
+			add_prestige = 100
+
+			dynasty = {
+				add_dynasty_prestige = 75
+			}
+		}
+
+		add_character_flag = agot_darklyn_white_cloak_encouraged_bla
+
+		scope:darklyn_white_cloak_candidate_bla = {
+			add_character_flag = agot_darklyn_white_cloak_aspirant_bla
+		}
+	}
+
+	############################################
+	# The vows matter more than the glory
+	############################################
+
+	option = {
+		name = agot_crownlands_bla.0304.b
+
+		add_diplomacy_lifestyle_xp = 200
+		add_prestige = 75
+
+		scope:darklyn_white_cloak_candidate_bla = {
+			save_scope_as = darklyn_white_cloak_candidate_bla
+		}
+
+		scope:darklyn_white_cloak_candidate_bla = {
+			add_opinion = {
+				target = root
+				modifier = grateful_opinion
+				opinion = 15
+			}
+		}
+
+		if = {
+			limit = {
+				has_character_flag = agot_darklyn_identity_chivalry_bla
+			}
+
+			custom_tooltip = agot_crownlands_bla.0304.b.chivalry_tt
+
+			add_diplomacy_lifestyle_xp = 150
+			add_piety = 75
+		}
+
+		add_character_flag = agot_darklyn_white_cloak_candidate_choice_bla
+
+		trigger_event = {
+			id = agot_crownlands_bla.0305
+			days = { 3 7 }
+		}
+	}
+
+	############################################
+	# Duskendale needs its swords
+	############################################
+
+	option = {
+		name = agot_crownlands_bla.0304.c
+
+		add_martial_lifestyle_xp = 200
+
+		scope:darklyn_white_cloak_candidate_bla = {
+			add_prowess_skill = 1
+		}
+
+		if = {
+			limit = {
+				has_character_flag = agot_darklyn_identity_duskendale_bla
+			}
+
+			custom_tooltip = agot_crownlands_bla.0304.c.duskendale_tt
+
+			add_martial_lifestyle_xp = 100
+			add_prestige = 75
+		}
+
+		add_character_flag = agot_darklyn_white_cloak_kept_home_bla
+	}
+
+	############################################
+	# Use the reputation politically
+	############################################
+
+	option = {
+		name = agot_crownlands_bla.0304.d
+
+		trigger = {
+			diplomacy >= 10
+		}
+
+		add_diplomacy_lifestyle_xp = 250
+		add_prestige = 125
+
+		scope:darklyn_white_cloak_candidate_bla = {
+			add_opinion = {
+				target = root
+				modifier = disappointed_opinion
+				opinion = -10
+			}
+		}
+
+		if = {
+			limit = {
+				has_character_flag = agot_darklyn_identity_royal_service_bla
+			}
+
+			custom_tooltip = agot_crownlands_bla.0304.d.royal_service_tt
+
+			add_diplomacy_lifestyle_xp = 100
+
+			dynasty = {
+				add_dynasty_prestige = 75
+			}
+		}
+
+		add_character_flag = agot_darklyn_white_cloak_reputation_used_bla
+	}
+}
+
+############################################
+# House Darklyn - The Knight's Answer
+# 0305
+############################################
+
+agot_crownlands_bla.0305 = {
+	type = character_event
+	title = agot_crownlands_bla.0305.t
+
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = {
+					has_character_flag = agot_darklyn_white_cloak_answer_service_bla
+				}
+				desc = agot_crownlands_bla.0305.desc_service
+			}
+
+			desc = agot_crownlands_bla.0305.desc_home
+		}
+	}
+
+	theme = diplomacy
+
+	override_background = {
+		reference = courtyard
+	}
+
+	left_portrait = {
+		character = root
+		animation = personality_rational
+	}
+
+	right_portrait = {
+		character = scope:darklyn_white_cloak_candidate_bla
+		animation = personality_honorable
+	}
+
+	immediate = {
+		random_list = {
+			50 = {
+				add_character_flag = agot_darklyn_white_cloak_answer_service_bla
+			}
+
+			50 = {
+				add_character_flag = agot_darklyn_white_cloak_answer_home_bla
+			}
+		}
+	}
+
+	option = {
+		name = agot_crownlands_bla.0305.a
+
+		trigger = {
+			has_character_flag = agot_darklyn_white_cloak_answer_service_bla
+		}
+
+		add_prestige = 125
+
+		scope:darklyn_white_cloak_candidate_bla = {
+			add_character_flag = agot_darklyn_white_cloak_aspirant_bla
+			add_martial_lifestyle_xp = 250
+
+			add_opinion = {
+				target = root
+				modifier = grateful_opinion
+				opinion = 20
+			}
+		}
+
+		add_character_flag = agot_darklyn_white_cloak_choice_respected_bla
+	}
+
+	option = {
+		name = agot_crownlands_bla.0305.b
+
+		trigger = {
+			has_character_flag = agot_darklyn_white_cloak_answer_home_bla
+		}
+
+		add_diplomacy_lifestyle_xp = 150
+
+		scope:darklyn_white_cloak_candidate_bla = {
+			add_prowess_skill = 1
+
+			add_opinion = {
+				target = root
+				modifier = grateful_opinion
+				opinion = 25
+			}
+		}
+
+		add_character_flag = agot_darklyn_white_cloak_choice_respected_bla
+	}
+
+	after = {
+		remove_character_flag = agot_darklyn_white_cloak_answer_service_bla
+		remove_character_flag = agot_darklyn_white_cloak_answer_home_bla
+	}
+}
+
+############################################
+# House Darklyn - The Shadow on the Blackwater
+# 0306
+############################################
+
+agot_crownlands_bla.0306 = {
+	type = character_event
+	title = agot_crownlands_bla.0306.t
+	desc = agot_crownlands_bla.0306.desc
+	theme = stewardship
+
+	override_background = {
+		reference = docks
+	}
+
+	left_portrait = {
+		character = root
+		animation = personality_rational
+	}
+
+	trigger = {
+		is_ruler = yes
+		is_landed = yes
+		is_available_adult = yes
+		dynasty = dynasty:dynn_Darklyn
+
+		has_title = title:c_duskendale
+
+		NOT = {
+			has_character_flag = agot_darklyn_blackwater_shadow_cooldown_bla
+		}
+	}
+
+	immediate = {
+		add_character_flag = {
+			flag = agot_darklyn_blackwater_shadow_cooldown_bla
+			years = 9
+		}
+	}
+
+	############################################
+	# Compete aggressively for trade
+	############################################
+
+	option = {
+		name = agot_crownlands_bla.0306.a
+
+		trigger = {
+			gold >= 125
+		}
+
+		remove_short_term_gold = 125
+		add_stewardship_lifestyle_xp = 250
+
+		add_character_modifier = {
+			modifier = agot_darklyn_competing_blackwater_port_bla
+			years = 8
+		}
+
+		if = {
+			limit = {
+				has_character_flag = agot_darklyn_merchants_grateful_bla
+			}
+
+			custom_tooltip = agot_crownlands_bla.0306.a.merchants_tt
+
+			add_stewardship_lifestyle_xp = 100
+			add_gold = 50
+		}
+
+		add_character_flag = agot_darklyn_blackwater_competition_bla
+	}
+
+	############################################
+	# Specialize Duskendale instead
+	############################################
+
+	option = {
+		name = agot_crownlands_bla.0306.b
+
+		add_stewardship_lifestyle_xp = 300
+
+		add_character_modifier = {
+			modifier = agot_darklyn_specialized_duskendale_trade_bla
+			years = 9
+		}
+
+		if = {
+			limit = {
+				has_character_flag = agot_darklyn_guild_compromise_success_bla
+			}
+
+			custom_tooltip = agot_crownlands_bla.0306.b.guilds_tt
+
+			add_diplomacy_lifestyle_xp = 100
+		}
+
+		add_character_flag = agot_darklyn_blackwater_specialization_bla
+	}
+
+	############################################
+	# Bind Duskendale closer to royal trade
+	############################################
+
+	option = {
+		name = agot_crownlands_bla.0306.c
+
+		add_diplomacy_lifestyle_xp = 250
+		add_prestige = 100
+
+		add_character_modifier = {
+			modifier = agot_darklyn_royal_blackwater_connections_bla
+			years = 8
+		}
+
+		if = {
+			limit = {
+				has_character_flag = agot_darklyn_identity_royal_service_bla
+			}
+
+			custom_tooltip = agot_crownlands_bla.0306.c.royal_service_tt
+
+			add_diplomacy_lifestyle_xp = 100
+
+			dynasty = {
+				add_dynasty_prestige = 75
+			}
+		}
+
+		add_character_flag = agot_darklyn_blackwater_cooperation_bla
+	}
+
+	############################################
+	# Duskendale bows to no other port
+	############################################
+
+	option = {
+		name = agot_crownlands_bla.0306.d
+
+		add_prestige = 150
+		add_martial_lifestyle_xp = 150
+
+		if = {
+			limit = {
+				has_character_flag = agot_darklyn_identity_duskendale_bla
+			}
+
+			custom_tooltip = agot_crownlands_bla.0306.d.duskendale_tt
+
+			add_prestige = 100
+		}
+
+		add_character_flag = agot_darklyn_blackwater_independence_bla
+	}
+}
+
+############################################
+# House Darklyn - The Crown's Due
+# 0307
+############################################
+
+agot_crownlands_bla.0307 = {
+	type = character_event
+	title = agot_crownlands_bla.0307.t
+	desc = agot_crownlands_bla.0307.desc
+	theme = diplomacy
+
+	override_background = {
+		reference = throne_room
+	}
+
+	left_portrait = {
+		character = root
+		animation = personality_rational
+	}
+
+	trigger = {
+		is_ruler = yes
+		is_landed = yes
+		is_available_adult = yes
+		dynasty = dynasty:dynn_Darklyn
+
+		has_title = title:c_duskendale
+
+		exists = liege
+
+		NOT = {
+			has_character_flag = agot_darklyn_crowns_due_cooldown_bla
+		}
+	}
+
+	immediate = {
+		add_character_flag = {
+			flag = agot_darklyn_crowns_due_cooldown_bla
+			years = 10
+		}
+	}
+
+	############################################
+	# Pay what the Crown demands.
+	############################################
+
+	option = {
+		name = agot_crownlands_bla.0307.a
+
+		trigger = {
+			gold >= 150
+		}
+
+		remove_short_term_gold = 150
+
+		add_diplomacy_lifestyle_xp = 200
+		add_prestige = 75
+
+		liege = {
+			add_opinion = {
+				target = root
+				modifier = pleased_opinion
+				opinion = 20
+			}
+		}
+
+		if = {
+			limit = {
+				has_character_flag = agot_darklyn_identity_royal_service_bla
+			}
+
+			custom_tooltip = agot_crownlands_bla.0307.a.royal_service_tt
+
+			add_prestige = 100
+
+			dynasty = {
+				add_dynasty_prestige = 75
+			}
+		}
+
+		add_character_flag = agot_darklyn_crown_demand_paid_bla
+
+		trigger_event = {
+			id = agot_crownlands_bla.0308
+			months = { 2 4 }
+		}
+	}
+
+	############################################
+	# Negotiate the amount.
+	############################################
+
+	option = {
+		name = agot_crownlands_bla.0307.b
+
+		add_diplomacy_lifestyle_xp = 150
+
+		duel = {
+			skill = diplomacy
+			value = medium_skill_rating
+
+			50 = {
+				compare_modifier = {
+					value = scope:duel_value
+					multiplier = 3.5
+					min = -49
+				}
+
+				send_interface_toast = {
+					title = agot_crownlands_bla.0307.b.success
+
+					remove_short_term_gold = 75
+					add_diplomacy_lifestyle_xp = 250
+					add_prestige = 100
+
+					add_character_flag = agot_darklyn_crown_demand_negotiated_bla
+				}
+			}
+
+			50 = {
+				compare_modifier = {
+					value = scope:duel_value
+					multiplier = -3.5
+					min = -49
+				}
+
+				send_interface_toast = {
+					title = agot_crownlands_bla.0307.b.failure
+
+					remove_short_term_gold = 150
+					add_diplomacy_lifestyle_xp = 100
+
+					add_character_flag = agot_darklyn_crown_demand_negotiation_failed_bla
+				}
+			}
+		}
+
+		trigger_event = {
+			id = agot_crownlands_bla.0308
+			months = { 2 4 }
+		}
+	}
+
+	############################################
+	# Let Duskendale share the burden.
+	############################################
+
+	option = {
+		name = agot_crownlands_bla.0307.c
+
+		trigger = {
+			OR = {
+				has_character_flag = agot_darklyn_merchants_grateful_bla
+				has_character_flag = agot_darklyn_guilds_loyal_bla
+				has_character_flag = agot_darklyn_guild_compromise_success_bla
+			}
+		}
+
+		remove_short_term_gold = 50
+		add_stewardship_lifestyle_xp = 250
+
+		custom_tooltip = agot_crownlands_bla.0307.c.guilds_tt
+
+		if = {
+			limit = {
+				has_character_flag = agot_darklyn_merchants_grateful_bla
+			}
+
+			add_gold = 25
+		}
+
+		add_character_flag = agot_darklyn_crown_demand_shared_bla
+
+		trigger_event = {
+			id = agot_crownlands_bla.0308
+			months = { 2 4 }
+		}
+	}
+
+	############################################
+	# Invoke the rights of Duskendale.
+	############################################
+
+	option = {
+		name = agot_crownlands_bla.0307.d
+
+		add_prestige = 100
+		add_diplomacy_lifestyle_xp = 150
+
+		if = {
+			limit = {
+				has_character_flag = agot_darklyn_blackwater_independence_bla
+			}
+
+			custom_tooltip = agot_crownlands_bla.0307.d.independence_tt
+			add_prestige = 100
+			add_diplomacy_lifestyle_xp = 100
+		}
+
+		add_character_flag = agot_darklyn_crown_demand_rights_bla
+
+		trigger_event = {
+			id = agot_crownlands_bla.0308
+			months = { 2 4 }
+		}
+	}
+
+	############################################
+	# Let them see the Dun Fort.
+	############################################
+
+	option = {
+		name = agot_crownlands_bla.0307.e
+
+		trigger = {
+			has_character_flag = agot_darklyn_dun_fort_strengthened_bla
+			martial >= 10
+		}
+
+		add_martial_lifestyle_xp = 250
+		add_dread = 5
+
+		custom_tooltip = agot_crownlands_bla.0307.e.dun_fort_tt
+
+		add_character_flag = agot_darklyn_crown_demand_defiance_bla
+
+		trigger_event = {
+			id = agot_crownlands_bla.0308
+			months = { 2 4 }
+		}
+	}
+}
+
+############################################
+# House Darklyn - An Answer from Above
+# 0308
+############################################
+
+agot_crownlands_bla.0308 = {
+	type = character_event
+	title = agot_crownlands_bla.0308.t
+
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = {
+					has_character_flag = agot_darklyn_crown_result_favored_bla
+				}
+				desc = agot_crownlands_bla.0308.desc_favored
+			}
+
+			triggered_desc = {
+				trigger = {
+					has_character_flag = agot_darklyn_crown_result_compromise_bla
+				}
+				desc = agot_crownlands_bla.0308.desc_compromise
+			}
+
+			triggered_desc = {
+				trigger = {
+					has_character_flag = agot_darklyn_crown_result_tolerated_bla
+				}
+				desc = agot_crownlands_bla.0308.desc_tolerated
+			}
+
+			triggered_desc = {
+				trigger = {
+					has_character_flag = agot_darklyn_crown_result_suspicion_bla
+				}
+				desc = agot_crownlands_bla.0308.desc_suspicion
+			}
+
+			desc = agot_crownlands_bla.0308.desc_displeasure
+		}
+	}
+
+	theme = diplomacy
+
+	override_background = {
+		reference = throne_room
+	}
+
+	left_portrait = {
+		character = root
+		animation = personality_rational
+	}
+
+	immediate = {
+
+		############################################
+		# Paid in full
+		############################################
+
+		if = {
+			limit = {
+				has_character_flag = agot_darklyn_crown_demand_paid_bla
+			}
+
+			add_character_flag = agot_darklyn_crown_result_favored_bla
+		}
+
+		############################################
+		# Successful negotiation
+		############################################
+
+		else_if = {
+			limit = {
+				has_character_flag = agot_darklyn_crown_demand_negotiated_bla
+			}
+
+			add_character_flag = agot_darklyn_crown_result_compromise_bla
+		}
+
+		############################################
+		# Failed negotiation
+		############################################
+
+		else_if = {
+			limit = {
+				has_character_flag = agot_darklyn_crown_demand_negotiation_failed_bla
+			}
+
+			add_character_flag = agot_darklyn_crown_result_tolerated_bla
+		}
+
+		############################################
+		# Duskendale shares the burden
+		############################################
+
+		else_if = {
+			limit = {
+				has_character_flag = agot_darklyn_crown_demand_shared_bla
+			}
+
+			random_list = {
+				75 = {
+					add_character_flag = agot_darklyn_crown_result_favored_bla
+				}
+
+				25 = {
+					modifier = {
+						add = 25
+						has_character_flag = agot_darklyn_guild_dispute_bla
+					}
+
+					add_character_flag = agot_darklyn_crown_result_tolerated_bla
+				}
+			}
+		}
+
+		############################################
+		# Invoke Duskendale's rights
+		############################################
+
+		else_if = {
+			limit = {
+				has_character_flag = agot_darklyn_crown_demand_rights_bla
+			}
+
+			random_list = {
+				55 = {
+					modifier = {
+						add = 20
+						has_character_flag = agot_darklyn_blackwater_independence_bla
+					}
+
+					modifier = {
+						add = 10
+						has_character_flag = agot_darklyn_identity_royal_service_bla
+					}
+
+					add_character_flag = agot_darklyn_crown_result_compromise_bla
+				}
+
+				45 = {
+					add_character_flag = agot_darklyn_crown_result_displeasure_bla
+				}
+			}
+		}
+
+		############################################
+		# Show them the Dun Fort
+		############################################
+
+		else_if = {
+			limit = {
+				has_character_flag = agot_darklyn_crown_demand_defiance_bla
+			}
+
+			random_list = {
+				35 = {
+					modifier = {
+						add = 15
+						has_character_flag = agot_darklyn_blackwater_independence_bla
+					}
+
+					add_character_flag = agot_darklyn_crown_result_tolerated_bla
+				}
+
+				65 = {
+					add_character_flag = agot_darklyn_crown_result_suspicion_bla
+				}
+			}
+		}
+	}
+
+	############################################
+	# Crown pleased
+	############################################
+
+	option = {
+		name = agot_crownlands_bla.0308.a
+
+		trigger = {
+			has_character_flag = agot_darklyn_crown_result_favored_bla
+		}
+
+		add_prestige = 125
+		add_diplomacy_lifestyle_xp = 200
+
+		liege = {
+			add_opinion = {
+				target = root
+				modifier = pleased_opinion
+				opinion = 15
+			}
+		}
+
+		add_character_modifier = {
+			modifier = agot_darklyn_crown_favor_bla
+			years = 6
+		}
+
+		add_character_flag = agot_darklyn_history_crown_favor_bla
+	}
+
+	############################################
+	# Compromise
+	############################################
+
+	option = {
+		name = agot_crownlands_bla.0308.b
+
+		trigger = {
+			has_character_flag = agot_darklyn_crown_result_compromise_bla
+		}
+
+		add_diplomacy_lifestyle_xp = 300
+		add_prestige = 150
+
+		liege = {
+			add_opinion = {
+				target = root
+				modifier = pleased_opinion
+				opinion = 5
+			}
+		}
+
+		add_character_flag = agot_darklyn_history_crown_compromise_bla
+	}
+
+	############################################
+	# Crown accepts it, reluctantly
+	############################################
+
+	option = {
+		name = agot_crownlands_bla.0308.c
+
+		trigger = {
+			has_character_flag = agot_darklyn_crown_result_tolerated_bla
+		}
+
+		add_prestige = 75
+		add_martial_lifestyle_xp = 150
+
+		add_character_flag = agot_darklyn_history_crown_stood_ground_bla
+	}
+
+	############################################
+	# Crown becomes suspicious
+	############################################
+
+	option = {
+		name = agot_crownlands_bla.0308.d
+
+		trigger = {
+			has_character_flag = agot_darklyn_crown_result_suspicion_bla
+		}
+
+		add_prestige = 100
+		add_stress = minor_stress_gain
+
+		liege = {
+			add_opinion = {
+				target = root
+				modifier = disappointed_opinion
+				opinion = -25
+			}
+		}
+
+		add_character_modifier = {
+			modifier = agot_darklyn_watched_by_the_crown_bla
+			years = 6
+		}
+
+		add_character_flag = agot_darklyn_history_crown_suspicion_bla
+	}
+
+	############################################
+	# Crown displeased
+	############################################
+
+	option = {
+		name = agot_crownlands_bla.0308.e
+
+		trigger = {
+			has_character_flag = agot_darklyn_crown_result_displeasure_bla
+		}
+
+		add_prestige = -75
+		add_diplomacy_lifestyle_xp = 100
+
+		liege = {
+			add_opinion = {
+				target = root
+				modifier = disappointed_opinion
+				opinion = -15
+			}
+		}
+
+		add_character_flag = agot_darklyn_history_crown_displeasure_bla
+	}
+
+	after = {
+		remove_character_flag = agot_darklyn_crown_result_favored_bla
+		remove_character_flag = agot_darklyn_crown_result_compromise_bla
+		remove_character_flag = agot_darklyn_crown_result_tolerated_bla
+		remove_character_flag = agot_darklyn_crown_result_suspicion_bla
+		remove_character_flag = agot_darklyn_crown_result_displeasure_bla
+
+		remove_character_flag = agot_darklyn_crown_demand_paid_bla
+		remove_character_flag = agot_darklyn_crown_demand_negotiated_bla
+		remove_character_flag = agot_darklyn_crown_demand_negotiation_failed_bla
+		remove_character_flag = agot_darklyn_crown_demand_shared_bla
+		remove_character_flag = agot_darklyn_crown_demand_rights_bla
+		remove_character_flag = agot_darklyn_crown_demand_defiance_bla
+	}
+}
+
+############################################
+# House Darklyn - Beneath the Dun Fort
+# 0309
+############################################
+
+agot_crownlands_bla.0309 = {
+	type = character_event
+	title = agot_crownlands_bla.0309.t
+	desc = agot_crownlands_bla.0309.desc
+	theme = learning
+
+	override_background = {
+		reference = dungeon
+	}
+
+	left_portrait = {
+		character = root
+		animation = personality_rational
+	}
+
+	trigger = {
+		is_ruler = yes
+		is_landed = yes
+		is_available_adult = yes
+		dynasty = dynasty:dynn_Darklyn
+
+		has_title = title:c_duskendale
+
+		dynasty = {
+			NOT = {
+				has_variable = agot_darklyn_dun_fort_history_examined_bla
+			}
+		}
+	}
+
+	immediate = {
+		dynasty = {
+			set_variable = {
+				name = agot_darklyn_dun_fort_history_examined_bla
+				value = 1
+			}
+		}
+	}
+
+	############################################
+	# Preserve everything as it was found.
+	############################################
+
+	option = {
+		name = agot_crownlands_bla.0309.a
+
+		trigger = {
+			gold >= 75
+		}
+
+		remove_short_term_gold = 75
+
+		add_learning_lifestyle_xp = 300
+		add_prestige = 75
+
+		add_character_modifier = {
+			modifier = agot_darklyn_keeper_of_duskendale_memory_bla
+			years = 8
+		}
+
+		add_character_flag = agot_darklyn_history_preserved_bla
+
+		if = {
+			limit = {
+				has_character_flag = agot_darklyn_dun_fort_preserved_bla
+			}
+
+			custom_tooltip = agot_crownlands_bla.0309.a.preserved_tt
+			add_learning_lifestyle_xp = 100
+		}
+	}
+
+	############################################
+	# Study what the records actually say.
+	############################################
+
+	option = {
+		name = agot_crownlands_bla.0309.b
+
+		add_learning_lifestyle_xp = 350
+
+		duel = {
+			skill = learning
+			value = medium_skill_rating
+
+			50 = {
+				compare_modifier = {
+					value = scope:duel_value
+					multiplier = 3.5
+					min = -49
+				}
+
+				send_interface_toast = {
+					title = agot_crownlands_bla.0309.b.success
+
+					add_learning_lifestyle_xp = 250
+
+					add_character_modifier = {
+						modifier = agot_darklyn_lessons_of_the_dun_fort_bla
+						years = 10
+					}
+
+					add_character_flag = agot_darklyn_history_understood_bla
+				}
+			}
+
+			50 = {
+				compare_modifier = {
+					value = scope:duel_value
+					multiplier = -3.5
+					min = -49
+				}
+
+				send_interface_toast = {
+					title = agot_crownlands_bla.0309.b.failure
+
+					add_learning_lifestyle_xp = 100
+					add_stress = minor_stress_gain
+
+					add_character_flag = agot_darklyn_history_fragmentary_bla
+				}
+			}
+		}
+	}
+
+	############################################
+	# Turn the discovery into Darklyn history.
+	############################################
+
+	option = {
+		name = agot_crownlands_bla.0309.c
+
+		trigger = {
+			gold >= 100
+		}
+
+		remove_short_term_gold = 100
+
+		add_prestige = 200
+
+		dynasty = {
+			add_dynasty_prestige = 150
+		}
+
+		add_character_modifier = {
+			modifier = agot_darklyn_chronicled_glory_bla
+			years = 8
+		}
+
+		add_character_flag = agot_darklyn_history_glorified_bla
+
+		if = {
+			limit = {
+				has_character_flag = agot_darklyn_identity_seven_swords_bla
+			}
+
+			custom_tooltip = agot_crownlands_bla.0309.c.seven_swords_tt
+
+			add_prestige = 75
+
+			dynasty = {
+				add_dynasty_prestige = 75
+			}
+		}
+	}
+
+	############################################
+	# Duskendale made the Darklyns too.
+	############################################
+
+	option = {
+		name = agot_crownlands_bla.0309.d
+
+		add_diplomacy_lifestyle_xp = 200
+		add_stewardship_lifestyle_xp = 200
+
+		add_character_modifier = {
+			modifier = agot_darklyn_shared_history_of_duskendale_bla
+			years = 9
+		}
+
+		add_character_flag = agot_darklyn_history_shared_bla
+
+		if = {
+			limit = {
+				OR = {
+					has_character_flag = agot_darklyn_merchants_grateful_bla
+					has_character_flag = agot_darklyn_guilds_loyal_bla
+					has_character_flag = agot_darklyn_guild_compromise_success_bla
+				}
+			}
+
+			custom_tooltip = agot_crownlands_bla.0309.d.guilds_tt
+			add_diplomacy_lifestyle_xp = 100
+		}
+	}
+
+	############################################
+	# Some histories are better left beneath stone.
+	############################################
+
+	option = {
+		name = agot_crownlands_bla.0309.e
+
+		add_intrigue_lifestyle_xp = 250
+		add_prestige = 75
+
+		add_character_flag = agot_darklyn_history_sealed_bla
+	}
+}
+
+############################################
+# House Darklyn Restoration
+# The Blood That Remains
+# 0310
+############################################
+
+agot_crownlands_bla.0310 = {
+	type = character_event
+	title = agot_crownlands_bla.0310.t
+
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = {
+					house = house:house_Darke
+				}
+				desc = agot_crownlands_bla.0310.desc_darke
+			}
+
+			triggered_desc = {
+				trigger = {
+					house = house:house_Darkwood
+				}
+				desc = agot_crownlands_bla.0310.desc_darkwood
+			}
+
+			triggered_desc = {
+				trigger = {
+					house = house:house_Dargood
+				}
+				desc = agot_crownlands_bla.0310.desc_dargood
+			}
+
+			desc = agot_crownlands_bla.0310.desc
+		}
+	}
+
+	theme = dynasty
+
+	override_background = {
+		reference = study
+	}
+
+	left_portrait = {
+		character = root
+		animation = personality_rational
+	}
+
+	trigger = {
+		is_ruler = yes
+		is_landed = yes
+		is_available_adult = yes
+
+		current_date >= 8277.1.1
+
+		OR = {
+			house = house:house_Darke
+			house = house:house_Darkwood
+			house = house:house_Dargood
+		}
+
+		NOT = {
+			has_character_flag = agot_darklyn_restoration_refused_bla
+		}
+
+		NOT = {
+			has_character_flag = agot_darklyn_restoration_begun_bla
+		}
+	}
+
+	immediate = {
+		dynasty = {
+			set_variable = {
+				name = agot_darklyn_restoration_story_offered_bla
+				value = 1
+			}
+		}
+	}
+
+	############################################
+	# The branch remembers the tree.
+	############################################
+
+	option = {
+		name = agot_crownlands_bla.0310.a
+
+		add_prestige = 100
+		add_learning_lifestyle_xp = 150
+
+		add_character_flag = agot_darklyn_restoration_begun_bla
+
+		if = {
+			limit = {
+				house = house:house_Darke
+			}
+
+			add_character_flag = agot_darklyn_restoration_darke_bla
+
+			custom_tooltip = agot_crownlands_bla.0310.a.darke_tt
+		}
+
+		else_if = {
+			limit = {
+				house = house:house_Darkwood
+			}
+
+			add_character_flag = agot_darklyn_restoration_darkwood_bla
+
+			custom_tooltip = agot_crownlands_bla.0310.a.darkwood_tt
+		}
+
+		else_if = {
+			limit = {
+				house = house:house_Dargood
+			}
+
+			add_character_flag = agot_darklyn_restoration_dargood_bla
+
+			custom_tooltip = agot_crownlands_bla.0310.a.dargood_tt
+
+			add_prestige = 50
+		}
+
+		trigger_event = {
+			id = agot_crownlands_bla.0311
+			days = { 7 14 }
+		}
+	}
+
+	############################################
+	# Remember them, but remain what we are.
+	############################################
+
+	option = {
+		name = agot_crownlands_bla.0310.b
+
+		add_piety = 75
+		add_prestige = 75
+
+		dynasty = {
+			add_dynasty_prestige = 75
+		}
+
+		add_character_flag = agot_darklyn_restoration_refused_bla
+	}
+}
+
+############################################
+# House Darklyn Restoration
+# What Was Lost
+# 0311
+############################################
+
+agot_crownlands_bla.0311 = {
+	type = character_event
+	title = agot_crownlands_bla.0311.t
+	desc = agot_crownlands_bla.0311.desc
+	theme = dynasty
+
+	override_background = {
+		reference = study
+	}
+
+	left_portrait = {
+		character = root
+		animation = personality_rational
+	}
+
+	trigger = {
+		has_character_flag = agot_darklyn_restoration_begun_bla
+	}
+
+	option = { # The name
+		name = agot_crownlands_bla.0311.a
+
+		add_prestige = 100
+		add_diplomacy_lifestyle_xp = 200
+
+		add_character_flag = agot_darklyn_restoration_goal_name_bla
+	}
+
+	option = { # Duskendale
+		name = agot_crownlands_bla.0311.b
+
+		add_stewardship_lifestyle_xp = 200
+		add_prestige = 75
+
+		add_character_flag = agot_darklyn_restoration_goal_duskendale_bla
+	}
+
+	option = { # The old lands
+		name = agot_crownlands_bla.0311.c
+
+		add_martial_lifestyle_xp = 200
+		add_prestige = 100
+
+		add_character_flag = agot_darklyn_restoration_goal_lands_bla
+	}
+
+	option = { # Everything
+		name = agot_crownlands_bla.0311.d
+
+		add_prestige = 150
+		add_stress = minor_stress_gain
+
+		add_character_flag = agot_darklyn_restoration_goal_everything_bla
+	}
+}
+
+
+############################################
+# House Darklyn Restoration
+# Seven Swords, One Folly
+# 0312
+############################################
+
+agot_crownlands_bla.0312 = {
+	type = character_event
+	title = agot_crownlands_bla.0312.t
+
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = {
+					has_character_flag = agot_darklyn_restoration_dargood_bla
+				}
+				desc = agot_crownlands_bla.0312.desc_dargood
+			}
+
+			desc = agot_crownlands_bla.0312.desc
+		}
+	}
+
+	theme = dynasty
+
+	override_background = {
+		reference = study
+	}
+
+	left_portrait = {
+		character = root
+		animation = personality_rational
+	}
+
+	trigger = {
+		has_character_flag = agot_darklyn_restoration_begun_bla
+
+		NOT = {
+			has_character_flag = agot_darklyn_defiance_reckoned_bla
+		}
+	}
+
+	immediate = {
+		add_character_flag = agot_darklyn_defiance_reckoned_bla
+	}
+
+	############################################
+	# Denys was destroyed for defending
+	# the dignity of his house.
+	############################################
+
+	option = {
+		name = agot_crownlands_bla.0312.a
+
+		add_prestige = 200
+		add_martial_lifestyle_xp = 200
+
+		add_character_modifier = {
+			modifier = agot_darklyn_memory_of_defiance_bla
+			years = 8
+		}
+
+		add_character_flag = agot_darklyn_defiance_denys_defended_bla
+	}
+
+	############################################
+	# Denys nearly destroyed everything
+	# that came before him.
+	############################################
+
+	option = {
+		name = agot_crownlands_bla.0312.b
+
+		add_learning_lifestyle_xp = 250
+		add_diplomacy_lifestyle_xp = 150
+
+		add_character_modifier = {
+			modifier = agot_darklyn_lesson_of_denys_bla
+			years = 8
+		}
+
+		add_character_flag = agot_darklyn_defiance_denys_condemned_bla
+	}
+
+	############################################
+	# One lord will not define an ancient house.
+	############################################
+
+	option = {
+		name = agot_crownlands_bla.0312.c
+
+		add_prestige = 150
+		add_learning_lifestyle_xp = 150
+
+		dynasty = {
+			add_dynasty_prestige = 150
+		}
+
+		add_character_modifier = {
+			modifier = agot_darklyn_before_the_defiance_bla
+			years = 10
+		}
+
+		add_character_flag = agot_darklyn_defiance_put_in_perspective_bla
+	}
+
+	############################################
+	# Dargood - The bastard blood survived.
+	############################################
+
+	option = {
+		name = agot_crownlands_bla.0312.d
+
+		trigger = {
+			has_character_flag = agot_darklyn_restoration_dargood_bla
+		}
+
+		add_prestige = 200
+		add_intrigue_lifestyle_xp = 200
+
+		dynasty = {
+			add_dynasty_prestige = 100
+		}
+
+		add_character_modifier = {
+			modifier = agot_darklyn_bastard_blood_endures_bla
+			years = 10
+		}
+
+		add_character_flag = agot_darklyn_defiance_dargood_judgment_bla
+	}
+}
+
+############################################
+# House Darklyn Restoration
+# A Claim Remembered
+# 0313
+############################################
+
+agot_crownlands_bla.0313 = {
+	type = character_event
+	title = agot_crownlands_bla.0313.t
+
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = {
+					has_character_flag = agot_darklyn_restoration_dargood_bla
+				}
+				desc = agot_crownlands_bla.0313.desc_dargood
+			}
+
+			triggered_desc = {
+				trigger = {
+					has_character_flag = agot_darklyn_restoration_goal_everything_bla
+				}
+				desc = agot_crownlands_bla.0313.desc_everything
+			}
+
+			desc = agot_crownlands_bla.0313.desc
+		}
+	}
+
+	theme = dynasty
+
+	override_background = {
+		reference = study
+	}
+
+	left_portrait = {
+		character = root
+		animation = personality_rational
+	}
+
+	trigger = {
+		is_ruler = yes
+		is_landed = yes
+		is_available_adult = yes
+
+		has_character_flag = agot_darklyn_restoration_begun_bla
+		has_character_flag = agot_darklyn_defiance_reckoned_bla
+
+		NOT = {
+			has_character_flag = agot_darklyn_duskendale_claim_path_chosen_bla
+		}
+	}
+
+	immediate = {
+		add_character_flag = agot_darklyn_duskendale_claim_path_chosen_bla
+	}
+
+	############################################
+	# Establish the genealogical case.
+	############################################
+
+	option = {
+		name = agot_crownlands_bla.0313.a
+
+		add_learning_lifestyle_xp = 250
+		add_prestige = 100
+
+		if = {
+			limit = {
+				OR = {
+					has_character_flag = agot_darklyn_restoration_darke_bla
+					has_character_flag = agot_darklyn_restoration_darkwood_bla
+				}
+			}
+
+			custom_tooltip = agot_crownlands_bla.0313.a.cadet_tt
+
+			add_learning_lifestyle_xp = 100
+			add_prestige = 75
+		}
+
+		if = {
+			limit = {
+				has_character_flag = agot_darklyn_restoration_dargood_bla
+			}
+
+			custom_tooltip = agot_crownlands_bla.0313.a.dargood_tt
+		}
+
+		add_character_flag = agot_darklyn_duskendale_genealogical_claim_bla
+	}
+
+	############################################
+	# Build support among those who remember.
+	############################################
+
+	option = {
+		name = agot_crownlands_bla.0313.b
+
+		add_diplomacy_lifestyle_xp = 300
+
+		if = {
+			limit = {
+				has_character_flag = agot_darklyn_restoration_goal_duskendale_bla
+			}
+
+			custom_tooltip = agot_crownlands_bla.0313.b.duskendale_tt
+			add_diplomacy_lifestyle_xp = 100
+			add_prestige = 75
+		}
+
+		add_character_flag = agot_darklyn_duskendale_local_claim_bla
+	}
+
+	############################################
+	# Seek recognition through the Crown.
+	############################################
+
+	option = {
+		name = agot_crownlands_bla.0313.c
+
+		add_diplomacy_lifestyle_xp = 250
+		add_prestige = 100
+
+		if = {
+			limit = {
+				has_character_flag = agot_darklyn_defiance_denys_condemned_bla
+			}
+
+			custom_tooltip = agot_crownlands_bla.0313.c.denys_tt
+			add_diplomacy_lifestyle_xp = 100
+		}
+
+		if = {
+			limit = {
+				has_character_flag = agot_darklyn_defiance_put_in_perspective_bla
+			}
+
+			custom_tooltip = agot_crownlands_bla.0313.c.history_tt
+			add_prestige = 75
+		}
+
+		add_character_flag = agot_darklyn_duskendale_royal_claim_bla
+	}
+
+	############################################
+	# Prepare to take it.
+	############################################
+
+	option = {
+		name = agot_crownlands_bla.0313.d
+
+		add_martial_lifestyle_xp = 300
+		add_prestige = 100
+
+		if = {
+			limit = {
+				has_character_flag = agot_darklyn_defiance_denys_defended_bla
+			}
+
+			custom_tooltip = agot_crownlands_bla.0313.d.denys_tt
+			add_martial_lifestyle_xp = 100
+			add_prestige = 75
+		}
+
+		if = {
+			limit = {
+				has_character_flag = agot_darklyn_restoration_goal_everything_bla
+			}
+
+			custom_tooltip = agot_crownlands_bla.0313.d.everything_tt
+			add_prestige = 75
+		}
+
+		add_character_flag = agot_darklyn_duskendale_force_claim_bla
+	}
+
+	after = {
+		trigger_event = {
+			id = agot_crownlands_bla.0314
+			months = { 2 4 }
+		}
+	}
+}
+
+############################################
+# House Darklyn Restoration
+# Whispers in Duskendale
+# 0314
+############################################
+
+agot_crownlands_bla.0314 = {
+	type = character_event
+	title = agot_crownlands_bla.0314.t
+
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = {
+					has_character_flag = agot_darklyn_duskendale_result_genealogy_bla
+				}
+				desc = agot_crownlands_bla.0314.desc_genealogy
+			}
+
+			triggered_desc = {
+				trigger = {
+					has_character_flag = agot_darklyn_duskendale_result_local_bla
+				}
+				desc = agot_crownlands_bla.0314.desc_local
+			}
+
+			triggered_desc = {
+				trigger = {
+					has_character_flag = agot_darklyn_duskendale_result_royal_bla
+				}
+				desc = agot_crownlands_bla.0314.desc_royal
+			}
+
+			triggered_desc = {
+				trigger = {
+					has_character_flag = agot_darklyn_duskendale_result_force_bla
+				}
+				desc = agot_crownlands_bla.0314.desc_force
+			}
+
+			desc = agot_crownlands_bla.0314.desc_failure
+		}
+	}
+
+	theme = intrigue
+
+	override_background = {
+		reference = study
+	}
+
+	left_portrait = {
+		character = root
+		animation = personality_rational
+	}
+
+	trigger = {
+		has_character_flag = agot_darklyn_restoration_begun_bla
+
+		OR = {
+			has_character_flag = agot_darklyn_duskendale_genealogical_claim_bla
+			has_character_flag = agot_darklyn_duskendale_local_claim_bla
+			has_character_flag = agot_darklyn_duskendale_royal_claim_bla
+			has_character_flag = agot_darklyn_duskendale_force_claim_bla
+		}
+
+		NOT = {
+			has_character_flag = agot_darklyn_whispers_duskendale_resolved_bla
+		}
+	}
+
+	immediate = {
+		add_character_flag = agot_darklyn_whispers_duskendale_resolved_bla
+
+		############################################
+		# Genealogical Route
+		############################################
+
+		if = {
+			limit = {
+				has_character_flag = agot_darklyn_duskendale_genealogical_claim_bla
+			}
+
+			random_list = {
+				70 = {
+					modifier = {
+						add = 20
+						OR = {
+							has_character_flag = agot_darklyn_restoration_darke_bla
+							has_character_flag = agot_darklyn_restoration_darkwood_bla
+						}
+					}
+
+					modifier = {
+						add = -20
+						has_character_flag = agot_darklyn_restoration_dargood_bla
+					}
+
+					add_character_flag = agot_darklyn_duskendale_result_genealogy_bla
+				}
+
+				30 = {
+					add_character_flag = agot_darklyn_duskendale_result_failure_bla
+				}
+			}
+		}
+
+		############################################
+		# Local Support Route
+		############################################
+
+		else_if = {
+			limit = {
+				has_character_flag = agot_darklyn_duskendale_local_claim_bla
+			}
+
+			random_list = {
+				65 = {
+					modifier = {
+						add = 20
+						has_character_flag = agot_darklyn_restoration_goal_duskendale_bla
+					}
+
+					modifier = {
+						add = 10
+						has_character_flag = agot_darklyn_defiance_put_in_perspective_bla
+					}
+
+					add_character_flag = agot_darklyn_duskendale_result_local_bla
+				}
+
+				35 = {
+					add_character_flag = agot_darklyn_duskendale_result_failure_bla
+				}
+			}
+		}
+
+		############################################
+		# Royal Route
+		############################################
+
+		else_if = {
+			limit = {
+				has_character_flag = agot_darklyn_duskendale_royal_claim_bla
+			}
+
+			random_list = {
+				60 = {
+					modifier = {
+						add = 20
+						has_character_flag = agot_darklyn_defiance_denys_condemned_bla
+					}
+
+					modifier = {
+						add = 15
+						has_character_flag = agot_darklyn_defiance_put_in_perspective_bla
+					}
+
+					add_character_flag = agot_darklyn_duskendale_result_royal_bla
+				}
+
+				40 = {
+					modifier = {
+						add = 20
+						has_character_flag = agot_darklyn_defiance_denys_defended_bla
+					}
+
+					add_character_flag = agot_darklyn_duskendale_result_failure_bla
+				}
+			}
+		}
+
+		############################################
+		# Force Route
+		############################################
+
+		else_if = {
+			limit = {
+				has_character_flag = agot_darklyn_duskendale_force_claim_bla
+			}
+
+			random_list = {
+				65 = {
+					modifier = {
+						add = 20
+						has_character_flag = agot_darklyn_restoration_goal_everything_bla
+					}
+
+					modifier = {
+						add = 15
+						has_character_flag = agot_darklyn_defiance_denys_defended_bla
+					}
+
+					add_character_flag = agot_darklyn_duskendale_result_force_bla
+				}
+
+				35 = {
+					add_character_flag = agot_darklyn_duskendale_result_failure_bla
+				}
+			}
+		}
+	}
+
+	############################################
+	# Genealogy succeeds
+	############################################
+
+	option = {
+		name = agot_crownlands_bla.0314.a
+
+		trigger = {
+			has_character_flag = agot_darklyn_duskendale_result_genealogy_bla
+		}
+
+		add_learning_lifestyle_xp = 300
+		add_prestige = 150
+
+		add_character_modifier = {
+			modifier = agot_darklyn_proven_descent_bla
+			years = 10
+		}
+
+		add_character_flag = agot_darklyn_reclamation_genealogy_ready_bla
+	}
+
+	############################################
+	# Local support succeeds
+	############################################
+
+	option = {
+		name = agot_crownlands_bla.0314.b
+
+		trigger = {
+			has_character_flag = agot_darklyn_duskendale_result_local_bla
+		}
+
+		add_diplomacy_lifestyle_xp = 300
+		add_prestige = 100
+
+		add_character_modifier = {
+			modifier = agot_darklyn_duskendale_sympathizers_bla
+			years = 10
+		}
+
+		add_character_flag = agot_darklyn_reclamation_local_ready_bla
+	}
+
+	############################################
+	# Royal route succeeds
+	############################################
+
+	option = {
+		name = agot_crownlands_bla.0314.c
+
+		trigger = {
+			has_character_flag = agot_darklyn_duskendale_result_royal_bla
+		}
+
+		add_diplomacy_lifestyle_xp = 350
+		add_prestige = 150
+
+		add_character_modifier = {
+			modifier = agot_darklyn_royal_tolerance_bla
+			years = 10
+		}
+
+		add_character_flag = agot_darklyn_reclamation_royal_ready_bla
+	}
+
+	############################################
+	# Force succeeds
+	############################################
+
+	option = {
+		name = agot_crownlands_bla.0314.d
+
+		trigger = {
+			has_character_flag = agot_darklyn_duskendale_result_force_bla
+		}
+
+		add_martial_lifestyle_xp = 350
+		add_prestige = 150
+
+		add_character_modifier = {
+			modifier = agot_darklyn_gathering_the_old_banners_bla
+			years = 8
+		}
+
+		add_character_flag = agot_darklyn_reclamation_force_ready_bla
+	}
+
+	############################################
+	# Failure
+	############################################
+
+	option = {
+		name = agot_crownlands_bla.0314.e
+
+		trigger = {
+			has_character_flag = agot_darklyn_duskendale_result_failure_bla
+		}
+
+		add_stress = minor_stress_gain
+		add_prestige = -50
+
+		add_character_flag = agot_darklyn_reclamation_setback_bla
+	}
+
+	after = {
+		remove_character_flag = agot_darklyn_duskendale_result_genealogy_bla
+		remove_character_flag = agot_darklyn_duskendale_result_local_bla
+		remove_character_flag = agot_darklyn_duskendale_result_royal_bla
+		remove_character_flag = agot_darklyn_duskendale_result_force_bla
+		remove_character_flag = agot_darklyn_duskendale_result_failure_bla
+	}
+}
+
+############################################
+# House Darklyn Restoration
+# The Dun Fort Beckons
+# 0315
+############################################
+
+agot_crownlands_bla.0315 = {
+	type = character_event
+	title = agot_crownlands_bla.0315.t
+
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = {
+					has_title = title:c_duskendale
+				}
+				desc = agot_crownlands_bla.0315.desc_held
+			}
+
+			triggered_desc = {
+				trigger = {
+					has_character_flag = agot_darklyn_reclamation_genealogy_ready_bla
+				}
+				desc = agot_crownlands_bla.0315.desc_genealogy
+			}
+
+			triggered_desc = {
+				trigger = {
+					has_character_flag = agot_darklyn_reclamation_local_ready_bla
+				}
+				desc = agot_crownlands_bla.0315.desc_local
+			}
+
+			triggered_desc = {
+				trigger = {
+					has_character_flag = agot_darklyn_reclamation_royal_ready_bla
+				}
+				desc = agot_crownlands_bla.0315.desc_royal
+			}
+
+			triggered_desc = {
+				trigger = {
+					has_character_flag = agot_darklyn_reclamation_force_ready_bla
+				}
+				desc = agot_crownlands_bla.0315.desc_force
+			}
+
+			desc = agot_crownlands_bla.0315.desc_setback
+		}
+	}
+
+	theme = dynasty
+
+	override_background = {
+		reference = throne_room
+	}
+
+	left_portrait = {
+		character = root
+		animation = personality_rational
+	}
+
+	trigger = {
+		is_ruler = yes
+		is_landed = yes
+		is_available_adult = yes
+
+		has_character_flag = agot_darklyn_restoration_begun_bla
+		has_character_flag = agot_darklyn_whispers_duskendale_resolved_bla
+
+		NOT = {
+			has_character_flag = agot_darklyn_duskendale_claim_established_bla
+		}
+	}
+
+	immediate = {
+		add_character_flag = agot_darklyn_duskendale_claim_established_bla
+	}
+
+	############################################
+	# Already hold Duskendale
+	############################################
+
+	option = {
+		name = agot_crownlands_bla.0315.a
+
+		trigger = {
+			has_title = title:c_duskendale
+		}
+
+		add_prestige = 250
+
+		dynasty = {
+			add_dynasty_prestige = 150
+		}
+
+		add_character_flag = agot_darklyn_duskendale_recovered_bla
+
+		if = {
+			limit = {
+				has_character_flag = agot_darklyn_restoration_goal_duskendale_bla
+			}
+
+			custom_tooltip = agot_crownlands_bla.0315.a.duskendale_tt
+
+			add_prestige = 150
+
+			dynasty = {
+				add_dynasty_prestige = 100
+			}
+		}
+
+		if = {
+			limit = {
+				has_title = title:d_duskendale
+			}
+
+			add_character_flag = agot_darklyn_duchy_recovered_bla
+		}
+
+		trigger_event = {
+			id = agot_crownlands_bla.0317
+			days = { 5 10 }
+		}
+	}
+
+	############################################
+	# Genealogical claim
+	############################################
+
+	option = {
+		name = agot_crownlands_bla.0315.b
+
+		trigger = {
+			NOT = {
+				has_title = title:c_duskendale
+			}
+
+			has_character_flag = agot_darklyn_reclamation_genealogy_ready_bla
+		}
+
+		add_pressed_claim = title:c_duskendale
+
+		add_learning_lifestyle_xp = 250
+		add_prestige = 150
+
+		custom_tooltip = agot_crownlands_bla.0315.b.tt
+
+		add_character_flag = agot_darklyn_duskendale_claim_genealogy_bla
+	}
+
+	############################################
+	# Local support
+	############################################
+
+	option = {
+		name = agot_crownlands_bla.0315.c
+
+		trigger = {
+			NOT = {
+				has_title = title:c_duskendale
+			}
+
+			has_character_flag = agot_darklyn_reclamation_local_ready_bla
+		}
+
+		add_pressed_claim = title:c_duskendale
+
+		add_diplomacy_lifestyle_xp = 250
+
+		add_character_modifier = {
+			modifier = agot_darklyn_claim_backed_by_duskendale_bla
+			years = 10
+		}
+
+		custom_tooltip = agot_crownlands_bla.0315.c.tt
+
+		add_character_flag = agot_darklyn_duskendale_claim_local_bla
+	}
+
+	############################################
+	# Royal tolerance
+	############################################
+
+	option = {
+		name = agot_crownlands_bla.0315.d
+
+		trigger = {
+			NOT = {
+				has_title = title:c_duskendale
+			}
+
+			has_character_flag = agot_darklyn_reclamation_royal_ready_bla
+		}
+
+		add_pressed_claim = title:c_duskendale
+
+		add_diplomacy_lifestyle_xp = 300
+		add_prestige = 100
+
+		custom_tooltip = agot_crownlands_bla.0315.d.tt
+
+		add_character_flag = agot_darklyn_duskendale_claim_royal_bla
+	}
+
+	############################################
+	# Forceful claim
+	############################################
+
+	option = {
+		name = agot_crownlands_bla.0315.e
+
+		trigger = {
+			NOT = {
+				has_title = title:c_duskendale
+			}
+
+			has_character_flag = agot_darklyn_reclamation_force_ready_bla
+		}
+
+		add_pressed_claim = title:c_duskendale
+
+		add_martial_lifestyle_xp = 300
+		add_prestige = 150
+
+		add_character_modifier = {
+			modifier = agot_darklyn_claimant_of_the_dun_fort_bla
+			years = 10
+		}
+
+		custom_tooltip = agot_crownlands_bla.0315.e.tt
+
+		add_character_flag = agot_darklyn_duskendale_claim_force_bla
+	}
+
+	############################################
+	# Earlier attempt failed
+	############################################
+
+	option = {
+		name = agot_crownlands_bla.0315.f
+
+		trigger = {
+			NOT = {
+				has_title = title:c_duskendale
+			}
+
+			has_character_flag = agot_darklyn_reclamation_setback_bla
+
+			gold >= 200
+			prestige_level >= 2
+		}
+
+		remove_short_term_gold = 200
+		add_prestige = -100
+
+		add_pressed_claim = title:c_duskendale
+
+		add_stewardship_lifestyle_xp = 200
+		add_learning_lifestyle_xp = 200
+
+		custom_tooltip = agot_crownlands_bla.0315.f.tt
+
+		add_character_flag = agot_darklyn_duskendale_claim_bought_dearly_bla
+	}
+}
+
+############################################
+# House Darklyn Restoration
+# Those Who Took Our Place
+# 0316
+############################################
+
+agot_crownlands_bla.0316 = {
+	type = character_event
+	title = agot_crownlands_bla.0316.t
+
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = {
+					has_character_flag = agot_darklyn_restoration_dargood_bla
+				}
+				desc = agot_crownlands_bla.0316.desc_dargood
+			}
+
+			desc = agot_crownlands_bla.0316.desc
+		}
+	}
+
+	theme = rivalry
+
+	override_background = {
+		reference = throne_room
+	}
+
+	left_portrait = {
+		character = root
+		animation = personality_bold
+	}
+
+	right_portrait = {
+		character = scope:duskendale_holder_bla
+		animation = personality_rational
+	}
+
+	trigger = {
+		is_ruler = yes
+		is_landed = yes
+
+		has_character_flag = agot_darklyn_restoration_begun_bla
+		has_character_flag = agot_darklyn_duskendale_claim_established_bla
+
+		NOT = {
+			has_title = title:c_duskendale
+		}
+
+		exists = title:c_duskendale.holder
+
+		NOT = {
+			has_character_flag = agot_darklyn_duskendale_rivalry_started_bla
+		}
+	}
+
+	immediate = {
+		add_character_flag = agot_darklyn_duskendale_rivalry_started_bla
+
+		title:c_duskendale.holder = {
+			save_scope_as = duskendale_holder_bla
+		}
+
+		set_variable = {
+			name = darklyn_duskendale_holder_bla
+			value = scope:duskendale_holder_bla
+		}
+	}
+
+	############################################
+	# Make the rivalry public
+	############################################
+
+	option = {
+		name = agot_crownlands_bla.0316.a
+
+		add_prestige = 150
+		add_diplomacy_lifestyle_xp = 150
+
+		scope:duskendale_holder_bla = {
+			add_opinion = {
+				target = root
+				modifier = claimant_opinion
+				opinion = -25
+			}
+		}
+
+		add_character_flag = agot_darklyn_duskendale_rivalry_public_bla
+
+		scope:duskendale_holder_bla = {
+			add_character_flag = agot_darklyn_duskendale_defender_bla
+		}
+	}
+
+	############################################
+	# Quietly undermine their rule
+	############################################
+
+	option = {
+		name = agot_crownlands_bla.0316.b
+
+		add_intrigue_lifestyle_xp = 300
+
+		add_character_modifier = {
+			modifier = agot_darklyn_undermining_duskendale_bla
+			years = 8
+		}
+
+		add_character_flag = agot_darklyn_duskendale_rivalry_secret_bla
+	}
+
+	############################################
+	# Appeal to those inside Duskendale
+	############################################
+
+	option = {
+		name = agot_crownlands_bla.0316.c
+
+		trigger = {
+			OR = {
+				has_character_flag = agot_darklyn_reclamation_local_ready_bla
+				has_character_flag = agot_darklyn_duskendale_claim_local_bla
+			}
+		}
+
+		add_diplomacy_lifestyle_xp = 250
+
+		custom_tooltip = agot_crownlands_bla.0316.c.local_tt
+
+		add_character_modifier = {
+			modifier = agot_darklyn_old_loyalties_stir_bla
+			years = 8
+		}
+
+		add_character_flag = agot_darklyn_duskendale_rivalry_local_bla
+	}
+
+	############################################
+	# This will be settled in the field
+	############################################
+
+	option = {
+		name = agot_crownlands_bla.0316.d
+
+		add_martial_lifestyle_xp = 300
+		add_prestige = 100
+
+		if = {
+			limit = {
+				has_character_flag = agot_darklyn_duskendale_claim_force_bla
+			}
+
+			custom_tooltip = agot_crownlands_bla.0316.d.force_tt
+
+			add_martial_lifestyle_xp = 100
+			add_prestige = 75
+		}
+
+		add_character_modifier = {
+			modifier = agot_darklyn_dun_fort_in_our_sights_bla
+			years = 8
+		}
+
+		add_character_flag = agot_darklyn_duskendale_rivalry_martial_bla
+	}
+}
+
+############################################
+# House Darklyn Restoration
+# Old Servants, New Lords
+# 0317
+############################################
+
+agot_crownlands_bla.0317 = {
+	type = character_event
+	title = agot_crownlands_bla.0317.t
+	desc = agot_crownlands_bla.0317.desc
+	theme = intrigue
+
+	override_background = {
+		reference = study
+	}
+
+	left_portrait = {
+		character = root
+		animation = personality_rational
+	}
+
+	trigger = {
+		is_ruler = yes
+		is_landed = yes
+
+		has_character_flag = agot_darklyn_duskendale_rivalry_started_bla
+
+		NOT = {
+			has_title = title:c_duskendale
+		}
+
+		NOT = {
+			has_character_flag = agot_darklyn_old_servants_event_bla
+		}
+	}
+
+	immediate = {
+		add_character_flag = agot_darklyn_old_servants_event_bla
+	}
+
+	############################################
+	# Use them as informants
+	############################################
+
+	option = {
+		name = agot_crownlands_bla.0317.a
+
+		add_intrigue_lifestyle_xp = 300
+
+		add_character_modifier = {
+			modifier = agot_darklyn_eyes_inside_duskendale_bla
+			years = 8
+		}
+
+		if = {
+			limit = {
+				has_character_flag = agot_darklyn_duskendale_rivalry_local_bla
+			}
+
+			custom_tooltip = agot_crownlands_bla.0317.a.local_tt
+			add_intrigue_lifestyle_xp = 100
+		}
+
+		add_character_flag = agot_darklyn_old_servants_informants_bla
+	}
+
+	############################################
+	# Spread support quietly
+	############################################
+
+	option = {
+		name = agot_crownlands_bla.0317.b
+
+		add_diplomacy_lifestyle_xp = 250
+
+		add_character_modifier = {
+			modifier = agot_darklyn_name_whispered_in_duskendale_bla
+			years = 8
+		}
+
+		add_character_flag = agot_darklyn_old_servants_propaganda_bla
+	}
+
+	############################################
+	# Tell them to remain loyal for now
+	############################################
+
+	option = {
+		name = agot_crownlands_bla.0317.c
+
+		add_diplomacy_lifestyle_xp = 200
+		add_prestige = 75
+
+		add_character_flag = agot_darklyn_old_servants_patient_bla
+	}
+
+	############################################
+	# Do not endanger them
+	############################################
+
+	option = {
+		name = agot_crownlands_bla.0317.d
+
+		add_piety = 75
+		add_prestige = 50
+
+		add_character_flag = agot_darklyn_old_servants_spared_bla
+	}
+}
+
+############################################
+# House Darklyn Restoration
+# The Banner Above the Dun Fort
+# 0318
+############################################
+
+agot_crownlands_bla.0318 = {
+	type = character_event
+	title = agot_crownlands_bla.0318.t
+	desc = agot_crownlands_bla.0318.desc
+	theme = rivalry
+
+	override_background = {
+		reference = throne_room
+	}
+
+	left_portrait = {
+		character = root
+		animation = personality_bold
+	}
+
+	right_portrait = {
+		character = scope:duskendale_current_holder_bla
+		animation = personality_rational
+	}
+
+	trigger = {
+		is_ruler = yes
+		is_landed = yes
+
+		has_character_flag = agot_darklyn_duskendale_rivalry_started_bla
+
+		NOT = {
+			has_title = title:c_duskendale
+		}
+
+		exists = title:c_duskendale.holder
+
+		NOT = {
+			has_character_flag = agot_darklyn_banner_dun_fort_event_bla
+		}
+	}
+
+	immediate = {
+		add_character_flag = agot_darklyn_banner_dun_fort_event_bla
+
+		title:c_duskendale.holder = {
+			save_scope_as = duskendale_current_holder_bla
+		}
+	}
+
+	############################################
+	# Mock their attempt at legitimacy
+	############################################
+
+	option = {
+		name = agot_crownlands_bla.0318.a
+
+		add_prestige = 125
+
+		scope:duskendale_current_holder_bla = {
+			add_opinion = {
+				target = root
+				modifier = offended_opinion
+				opinion = -20
+			}
+		}
+
+		add_character_flag = agot_darklyn_rivalry_mocked_holder_bla
+	}
+
+	############################################
+	# Counter them with Darklyn history
+	############################################
+
+	option = {
+		name = agot_crownlands_bla.0318.b
+
+		add_learning_lifestyle_xp = 250
+		add_diplomacy_lifestyle_xp = 150
+
+		if = {
+			limit = {
+				has_character_flag = agot_darklyn_reclamation_genealogy_ready_bla
+			}
+
+			custom_tooltip = agot_crownlands_bla.0318.b.genealogy_tt
+			add_prestige = 100
+		}
+
+		add_character_modifier = {
+			modifier = agot_darklyn_history_against_the_new_lords_bla
+			years = 8
+		}
+
+		add_character_flag = agot_darklyn_rivalry_history_weaponized_bla
+	}
+
+	############################################
+	# Admit they are ruling well
+	############################################
+
+	option = {
+		name = agot_crownlands_bla.0318.c
+
+		add_diplomacy_lifestyle_xp = 250
+		add_stress = minor_stress_gain
+
+		scope:duskendale_current_holder_bla = {
+			add_opinion = {
+				target = root
+				modifier = pleased_opinion
+				opinion = 10
+			}
+		}
+
+		add_character_flag = agot_darklyn_rivalry_grudging_respect_bla
+	}
+
+	############################################
+	# Their success only makes haste necessary
+	############################################
+
+	option = {
+		name = agot_crownlands_bla.0318.d
+
+		add_martial_lifestyle_xp = 250
+		add_prestige = 100
+
+		add_character_modifier = {
+			modifier = agot_darklyn_reclamation_urgency_bla
+			years = 6
+		}
+
+		if = {
+			limit = {
+				has_character_flag = agot_darklyn_duskendale_rivalry_martial_bla
+			}
+
+			custom_tooltip = agot_crownlands_bla.0318.d.martial_tt
+			add_martial_lifestyle_xp = 100
+		}
+
+		add_character_flag = agot_darklyn_rivalry_accelerated_bla
+	}
+}
+
+############################################
+# House Darklyn Restoration
+# The Keys of the Dun Fort
+# 0319
+############################################
+
+agot_crownlands_bla.0319 = {
+	type = character_event
+	title = agot_crownlands_bla.0319.t
+
+	desc = {
+		desc = agot_crownlands_bla.0319.desc
+
+		first_valid = {
+			triggered_desc = {
+				trigger = {
+					has_character_flag = agot_darklyn_duskendale_claim_local_bla
+				}
+				desc = agot_crownlands_bla.0319.desc_local
+			}
+
+			triggered_desc = {
+				trigger = {
+					has_character_flag = agot_darklyn_duskendale_claim_genealogy_bla
+				}
+				desc = agot_crownlands_bla.0319.desc_genealogy
+			}
+
+			triggered_desc = {
+				trigger = {
+					has_character_flag = agot_darklyn_duskendale_claim_royal_bla
+				}
+				desc = agot_crownlands_bla.0319.desc_royal
+			}
+
+			triggered_desc = {
+				trigger = {
+					has_character_flag = agot_darklyn_duskendale_claim_force_bla
+				}
+				desc = agot_crownlands_bla.0319.desc_force
+			}
+
+			triggered_desc = {
+				trigger = {
+					has_character_flag = agot_darklyn_duskendale_claim_bought_dearly_bla
+				}
+				desc = agot_crownlands_bla.0319.desc_persistence
+			}
+		}
+
+		triggered_desc = {
+			trigger = {
+				has_character_flag = agot_darklyn_rivalry_grudging_respect_bla
+			}
+			desc = agot_crownlands_bla.0319.desc_respect
+		}
+	}
+
+	theme = dynasty
+
+	override_background = {
+		reference = throne_room
+	}
+
+	left_portrait = {
+		character = root
+		animation = war_over_win
+	}
+
+	trigger = {
+		is_ruler = yes
+		is_landed = yes
+
+		has_character_flag = agot_darklyn_restoration_begun_bla
+
+		has_title = title:c_duskendale
+
+		NOT = {
+			has_character_flag = agot_darklyn_duskendale_recovered_bla
+		}
+	}
+
+	immediate = {
+		add_character_flag = agot_darklyn_duskendale_recovered_bla
+	}
+
+	############################################
+	# Restore the Dun Fort as ancestral seat
+	############################################
+
+	option = {
+		name = agot_crownlands_bla.0319.a
+
+		trigger = {
+			gold >= 150
+		}
+
+		remove_short_term_gold = 150
+
+		add_prestige = 250
+		add_stewardship_lifestyle_xp = 250
+
+		title:c_duskendale = {
+			add_county_modifier = {
+				modifier = agot_darklyn_dun_fort_reclaimed_bla
+				years = 10
+			}
+		}
+
+		if = {
+			limit = {
+				has_character_flag = agot_darklyn_restoration_goal_duskendale_bla
+			}
+
+			custom_tooltip = agot_crownlands_bla.0319.a.duskendale_tt
+
+			add_prestige = 150
+
+			dynasty = {
+				add_dynasty_prestige = 100
+			}
+		}
+
+		add_character_flag = agot_darklyn_dun_fort_formally_reclaimed_bla
+	}
+
+	############################################
+	# Win Duskendale, not merely occupy it
+	############################################
+
+	option = {
+		name = agot_crownlands_bla.0319.b
+
+		add_diplomacy_lifestyle_xp = 300
+		add_prestige = 150
+
+		title:c_duskendale = {
+			add_county_modifier = {
+				modifier = agot_darklyn_return_to_duskendale_bla
+				years = 10
+			}
+		}
+
+		if = {
+			limit = {
+				OR = {
+					has_character_flag = agot_darklyn_duskendale_claim_local_bla
+					has_character_flag = agot_darklyn_old_servants_patient_bla
+					has_character_flag = agot_darklyn_old_servants_spared_bla
+				}
+			}
+
+			custom_tooltip = agot_crownlands_bla.0319.b.local_tt
+
+			add_diplomacy_lifestyle_xp = 100
+			add_prestige = 75
+		}
+
+		add_character_flag = agot_darklyn_duskendale_reconciled_bla
+	}
+
+	############################################
+	# Mark the victory over those who replaced us
+	############################################
+
+	option = {
+		name = agot_crownlands_bla.0319.c
+
+		add_prestige = 300
+		add_martial_lifestyle_xp = 250
+
+		dynasty = {
+			add_dynasty_prestige = 150
+		}
+
+		if = {
+			limit = {
+				has_character_flag = agot_darklyn_duskendale_rivalry_started_bla
+			}
+
+			custom_tooltip = agot_crownlands_bla.0319.c.rivalry_tt
+
+			add_prestige = 100
+		}
+
+		add_character_flag = agot_darklyn_duskendale_victory_proclaimed_bla
+	}
+
+	############################################
+	# Respect the rule that came between
+	############################################
+
+	option = {
+		name = agot_crownlands_bla.0319.d
+
+		trigger = {
+			has_character_flag = agot_darklyn_rivalry_grudging_respect_bla
+		}
+
+		add_diplomacy_lifestyle_xp = 300
+		add_prestige = 150
+
+		title:c_duskendale = {
+			add_county_modifier = {
+				modifier = agot_darklyn_continuity_of_duskendale_bla
+				years = 10
+			}
+		}
+
+		custom_tooltip = agot_crownlands_bla.0319.d.respect_tt
+
+		add_character_flag = agot_darklyn_duskendale_continuity_bla
+	}
+
+	############################################
+	# We have the seat. Now recover the lordship.
+	############################################
+
+	option = {
+		name = agot_crownlands_bla.0319.e
+
+		trigger = {
+			NOT = {
+				has_title = title:d_duskendale
+			}
+		}
+
+		add_martial_lifestyle_xp = 200
+		add_prestige = 175
+
+		add_character_flag = agot_darklyn_duchy_reclamation_declared_bla
+
+		if = {
+			limit = {
+				OR = {
+					has_character_flag = agot_darklyn_restoration_goal_lands_bla
+					has_character_flag = agot_darklyn_restoration_goal_everything_bla
+				}
+			}
+
+			custom_tooltip = agot_crownlands_bla.0319.e.lands_tt
+
+			add_prestige = 100
+		}
+	}
+
+	############################################
+	# Already hold the duchy too
+	############################################
+
+	option = {
+		name = agot_crownlands_bla.0319.f
+
+		trigger = {
+			has_title = title:d_duskendale
+		}
+
+		add_prestige = 300
+
+		dynasty = {
+			add_dynasty_prestige = 250
+		}
+
+		add_character_flag = agot_darklyn_duchy_recovered_bla
+
+		trigger_event = {
+			id = agot_crownlands_bla.0320
+			days = { 5 10 }
+		}
+	}
+}
+
+############################################
+# House Darklyn Restoration
+# The House That Was Lost
+# 0320
+############################################
+
+agot_crownlands_bla.0320 = {
+	type = character_event
+	title = agot_crownlands_bla.0320.t
+
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = {
+					has_character_flag = agot_darklyn_restoration_darke_bla
+				}
+				desc = agot_crownlands_bla.0320.desc_darke
+			}
+
+			triggered_desc = {
+				trigger = {
+					has_character_flag = agot_darklyn_restoration_darkwood_bla
+				}
+				desc = agot_crownlands_bla.0320.desc_darkwood
+			}
+
+			triggered_desc = {
+				trigger = {
+					has_character_flag = agot_darklyn_restoration_dargood_bla
+				}
+				desc = agot_crownlands_bla.0320.desc_dargood
+			}
+
+			desc = agot_crownlands_bla.0320.desc
+		}
+	}
+
+	theme = dynasty
+
+	override_background = {
+		reference = throne_room
+	}
+
+	left_portrait = {
+		character = root
+		animation = war_over_win
+	}
+
+	trigger = {
+		is_ruler = yes
+		is_landed = yes
+		is_available_adult = yes
+
+		has_character_flag = agot_darklyn_restoration_begun_bla
+
+		has_title = title:c_duskendale
+		has_title = title:d_duskendale
+
+		NOT = {
+			has_character_flag = agot_darklyn_restoration_completed_bla
+		}
+	}
+
+	immediate = {
+		add_character_flag = agot_darklyn_duchy_recovered_bla
+	}
+
+	############################################
+	# Restore House Darklyn
+	############################################
+
+	option = {
+		name = agot_crownlands_bla.0320.a
+
+		add_prestige = 500
+
+		dynasty = {
+			add_dynasty_prestige = 500
+		}
+
+		############################################
+		# Remember which branch restored the house
+		############################################
+
+		if = {
+			limit = {
+				has_character_flag = agot_darklyn_restoration_darke_bla
+			}
+
+			add_character_flag = agot_darklyn_restored_from_darke_bla
+
+			custom_tooltip = agot_crownlands_bla.0320.a.darke_tt
+		}
+
+		else_if = {
+			limit = {
+				has_character_flag = agot_darklyn_restoration_darkwood_bla
+			}
+
+			add_character_flag = agot_darklyn_restored_from_darkwood_bla
+
+			custom_tooltip = agot_crownlands_bla.0320.a.darkwood_tt
+		}
+
+		else_if = {
+			limit = {
+				has_character_flag = agot_darklyn_restoration_dargood_bla
+			}
+
+			add_character_flag = agot_darklyn_restored_from_dargood_bla
+
+			custom_tooltip = agot_crownlands_bla.0320.a.dargood_tt
+
+			add_prestige = 150
+		}
+
+		############################################
+		# Ambition payoff
+		############################################
+
+		if = {
+			limit = {
+				has_character_flag = agot_darklyn_restoration_goal_name_bla
+			}
+
+			custom_tooltip = agot_crownlands_bla.0320.a.name_goal_tt
+
+			add_prestige = 150
+		}
+
+		if = {
+			limit = {
+				has_character_flag = agot_darklyn_restoration_goal_everything_bla
+			}
+
+			custom_tooltip = agot_crownlands_bla.0320.a.everything_goal_tt
+
+			add_prestige = 250
+
+			dynasty = {
+				add_dynasty_prestige = 250
+			}
+		}
+
+		############################################
+		# Actually restore the AGOT Darklyn house
+		############################################
+
+		agot_house_revival_effect = {
+			NEW_HOUSE = dynasty:dynn_Darklyn.dynasty_founder.house
+		}
+
+		add_character_flag = agot_darklyn_restoration_completed_bla
+
+		trigger_event = {
+			id = agot_crownlands_bla.0321
+			days = { 7 14 }
+		}
+	}
+
+	############################################
+	# Keep the branch name
+	############################################
+
+	option = {
+		name = agot_crownlands_bla.0320.b
+
+		add_prestige = 300
+
+		dynasty = {
+			add_dynasty_prestige = 300
+		}
+
+		if = {
+			limit = {
+				has_character_flag = agot_darklyn_restoration_darke_bla
+			}
+
+			add_character_flag = agot_darklyn_legacy_claimed_as_darke_bla
+		}
+
+		else_if = {
+			limit = {
+				has_character_flag = agot_darklyn_restoration_darkwood_bla
+			}
+
+			add_character_flag = agot_darklyn_legacy_claimed_as_darkwood_bla
+		}
+
+		else_if = {
+			limit = {
+				has_character_flag = agot_darklyn_restoration_dargood_bla
+			}
+
+			add_character_flag = agot_darklyn_legacy_claimed_as_dargood_bla
+		}
+
+		add_character_modifier = {
+			modifier = agot_darklyn_heirs_without_the_name_bla
+			years = 10
+		}
+
+		add_character_flag = agot_darklyn_restoration_completed_bla
+		add_character_flag = agot_darklyn_restoration_name_refused_bla
+	}
+}
+
+############################################
+# House Darklyn Restoration
+# The Eighth Sword
+# 0321
+############################################
+
+agot_crownlands_bla.0321 = {
+	type = character_event
+	title = agot_crownlands_bla.0321.t
+
+	desc = {
+		desc = agot_crownlands_bla.0321.desc
+
+		first_valid = {
+			triggered_desc = {
+				trigger = {
+					has_character_flag = agot_darklyn_restored_from_darke_bla
+				}
+				desc = agot_crownlands_bla.0321.desc_darke
+			}
+
+			triggered_desc = {
+				trigger = {
+					has_character_flag = agot_darklyn_restored_from_darkwood_bla
+				}
+				desc = agot_crownlands_bla.0321.desc_darkwood
+			}
+
+			triggered_desc = {
+				trigger = {
+					has_character_flag = agot_darklyn_restored_from_dargood_bla
+				}
+				desc = agot_crownlands_bla.0321.desc_dargood
+			}
+		}
+	}
+
+	theme = dynasty
+
+	override_background = {
+		reference = throne_room
+	}
+
+	left_portrait = {
+		character = root
+		animation = personality_rational
+	}
+
+	trigger = {
+		is_ruler = yes
+		is_landed = yes
+
+		dynasty = dynasty:dynn_Darklyn
+
+		has_character_flag = agot_darklyn_restoration_completed_bla
+
+		NOT = {
+			has_character_flag = agot_darklyn_second_age_defined_bla
+		}
+	}
+
+	immediate = {
+		add_character_flag = agot_darklyn_second_age_defined_bla
+	}
+
+	############################################
+	# Seven white swords
+	# Return to honor and royal service
+	############################################
+
+	option = {
+		name = agot_crownlands_bla.0321.a
+
+		add_prestige = 200
+		add_diplomacy_lifestyle_xp = 250
+
+		add_character_modifier = {
+			modifier = agot_darklyn_second_age_white_swords_bla
+			years = 10
+		}
+
+		if = {
+			limit = {
+				has_character_flag = agot_darklyn_defiance_denys_condemned_bla
+			}
+
+			custom_tooltip = agot_crownlands_bla.0321.a.denys_tt
+
+			add_prestige = 100
+
+			dynasty = {
+				add_dynasty_prestige = 100
+			}
+		}
+
+		add_character_flag = agot_darklyn_second_age_service_bla
+	}
+
+	############################################
+	# Duskendale above all
+	############################################
+
+	option = {
+		name = agot_crownlands_bla.0321.b
+
+		add_stewardship_lifestyle_xp = 300
+		add_prestige = 150
+
+		title:c_duskendale = {
+			add_county_modifier = {
+				modifier = agot_darklyn_second_age_duskendale_bla
+				years = 10
+			}
+		}
+
+		if = {
+			limit = {
+				OR = {
+					has_character_flag = agot_darklyn_duskendale_reconciled_bla
+					has_character_flag = agot_darklyn_duskendale_continuity_bla
+				}
+			}
+
+			custom_tooltip = agot_crownlands_bla.0321.b.duskendale_tt
+
+			add_stewardship_lifestyle_xp = 100
+		}
+
+		add_character_flag = agot_darklyn_second_age_duskendale_first_bla
+	}
+
+	############################################
+	# Defiance remembered
+	############################################
+
+	option = {
+		name = agot_crownlands_bla.0321.c
+
+		trigger = {
+			has_character_flag = agot_darklyn_defiance_denys_defended_bla
+		}
+
+		add_martial_lifestyle_xp = 250
+		add_prestige = 250
+		add_dread = 5
+
+		add_character_modifier = {
+			modifier = agot_darklyn_second_age_defiant_bla
+			years = 10
+		}
+
+		custom_tooltip = agot_crownlands_bla.0321.c.denys_tt
+
+		add_character_flag = agot_darklyn_second_age_defiance_bla
+	}
+
+	############################################
+	# One folly will not define us
+	############################################
+
+	option = {
+		name = agot_crownlands_bla.0321.d
+
+		trigger = {
+			has_character_flag = agot_darklyn_defiance_put_in_perspective_bla
+		}
+
+		add_learning_lifestyle_xp = 250
+		add_diplomacy_lifestyle_xp = 200
+
+		dynasty = {
+			add_dynasty_prestige = 200
+		}
+
+		add_character_modifier = {
+			modifier = agot_darklyn_second_age_beyond_denys_bla
+			years = 10
+		}
+
+		custom_tooltip = agot_crownlands_bla.0321.d.history_tt
+
+		add_character_flag = agot_darklyn_second_age_beyond_defiance_bla
+	}
+
+	############################################
+	# Remember the branch that saved us
+	############################################
+
+	option = {
+		name = agot_crownlands_bla.0321.e
+
+		trigger = {
+			OR = {
+				has_character_flag = agot_darklyn_restored_from_darke_bla
+				has_character_flag = agot_darklyn_restored_from_darkwood_bla
+				has_character_flag = agot_darklyn_restored_from_dargood_bla
+			}
+		}
+
+		add_prestige = 200
+
+		dynasty = {
+			add_dynasty_prestige = 250
+		}
+
+		add_character_modifier = {
+			modifier = agot_darklyn_second_age_remembers_the_branch_bla
+			years = 10
+		}
+
+		if = {
+			limit = {
+				has_character_flag = agot_darklyn_restored_from_dargood_bla
+			}
+
+			custom_tooltip = agot_crownlands_bla.0321.e.dargood_tt
+			add_prestige = 100
+		}
+
+		add_character_flag = agot_darklyn_second_age_branch_honored_bla
+	}
+}
+
+############################################
+# House Darklyn
+# Beneath the Dun Fort
+# 0350
+############################################
+
+agot_crownlands_bla.0350 = {
+	type = character_event
+	title = agot_crownlands_bla.0350.t
+
+	desc = {
+		desc = agot_crownlands_bla.0350.desc
+
+		triggered_desc = {
+			trigger = {
+				has_character_flag = agot_darklyn_restoration_completed_bla
+			}
+			desc = agot_crownlands_bla.0350.desc_restored
+		}
+	}
+
+	theme = learning
+
+	override_background = {
+		reference = study
+	}
+
+	left_portrait = {
+		character = root
+		animation = personality_rational
+	}
+
+	trigger = {
+		is_ruler = yes
+		is_landed = yes
+		is_available_adult = yes
+
+		dynasty = dynasty:dynn_Darklyn
+
+		has_title = title:c_duskendale
+
+		NOT = {
+			has_character_flag = agot_darklyn_beneath_dun_fort_bla
+		}
+	}
+
+	immediate = {
+		add_character_flag = agot_darklyn_beneath_dun_fort_bla
+
+		dynasty = {
+			set_variable = {
+				name = agot_darklyn_last_light_story_seen_bla
+				value = 1
+			}
+		}
+	}
+
+	############################################
+	# Open it carefully
+	############################################
+
+	option = {
+		name = agot_crownlands_bla.0350.a
+
+		trigger = {
+			gold >= 100
+		}
+
+		remove_short_term_gold = 100
+		add_learning_lifestyle_xp = 200
+
+		add_character_flag = agot_darklyn_shadow_excavation_careful_bla
+
+		trigger_event = {
+			id = agot_crownlands_bla.0351
+			days = { 20 40 }
+		}
+	}
+
+	############################################
+	# Break through
+	############################################
+
+	option = {
+		name = agot_crownlands_bla.0350.b
+
+		add_martial_lifestyle_xp = 150
+
+		add_character_flag = agot_darklyn_shadow_excavation_force_bla
+
+		trigger_event = {
+			id = agot_crownlands_bla.0351
+			days = { 10 20 }
+		}
+	}
+
+	############################################
+	# Search the Darklyn records first
+	############################################
+
+	option = {
+		name = agot_crownlands_bla.0350.c
+
+		add_learning_lifestyle_xp = 250
+
+		add_character_flag = agot_darklyn_shadow_excavation_records_bla
+
+		trigger_event = {
+			id = agot_crownlands_bla.0351
+			days = { 30 50 }
+		}
+	}
+
+	############################################
+	# Seal it again
+	############################################
+
+	option = {
+		name = agot_crownlands_bla.0350.d
+
+		add_piety = 75
+
+		add_character_flag = agot_darklyn_shadow_excavation_abandoned_bla
+	}
+}
+
+############################################
+# House Darklyn
+# The Changing of the Blades
+# 0351
+############################################
+
+agot_crownlands_bla.0351 = {
+	type = character_event
+	title = agot_crownlands_bla.0351.t
+
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = {
+					has_character_flag = agot_darklyn_shadow_excavation_records_bla
+				}
+				desc = agot_crownlands_bla.0351.desc_records
+			}
+
+			triggered_desc = {
+				trigger = {
+					has_character_flag = agot_darklyn_shadow_excavation_careful_bla
+				}
+				desc = agot_crownlands_bla.0351.desc_careful
+			}
+
+			desc = agot_crownlands_bla.0351.desc_force
+		}
+
+		desc = agot_crownlands_bla.0351.desc_revelation
+	}
+
+	theme = learning
+
+	override_background = {
+		reference = study
+	}
+
+	left_portrait = {
+		character = root
+		animation = personality_rational
+	}
+
+	trigger = {
+		dynasty = dynasty:dynn_Darklyn
+
+		OR = {
+			has_character_flag = agot_darklyn_shadow_excavation_careful_bla
+			has_character_flag = agot_darklyn_shadow_excavation_force_bla
+			has_character_flag = agot_darklyn_shadow_excavation_records_bla
+		}
+
+		NOT = {
+			has_character_flag = agot_darklyn_changing_blades_discovered_bla
+		}
+	}
+
+	immediate = {
+		add_character_flag = agot_darklyn_changing_blades_discovered_bla
+	}
+
+	############################################
+	# Study the forgotten rite
+	############################################
+
+	option = {
+		name = agot_crownlands_bla.0351.a
+
+		add_learning_lifestyle_xp = 300
+		add_prestige = 75
+
+		if = {
+			limit = {
+				has_character_flag = agot_darklyn_shadow_excavation_records_bla
+			}
+
+			custom_tooltip = agot_crownlands_bla.0351.a.records_tt
+			add_learning_lifestyle_xp = 100
+		}
+
+		add_character_flag = agot_darklyn_changing_blades_studied_bla
+
+		trigger_event = {
+			id = agot_crownlands_bla.0352
+			days = { 20 40 }
+		}
+	}
+
+	############################################
+	# This belongs to our house, not maesters
+	############################################
+
+	option = {
+		name = agot_crownlands_bla.0351.b
+
+		add_prestige = 150
+
+		add_character_flag = agot_darklyn_changing_blades_traditionalist_bla
+
+		trigger_event = {
+			id = agot_crownlands_bla.0352
+			days = { 15 30 }
+		}
+	}
+
+	############################################
+	# Treat it as history, not prophecy
+	############################################
+
+	option = {
+		name = agot_crownlands_bla.0351.c
+
+		add_learning_lifestyle_xp = 200
+
+		add_character_flag = agot_darklyn_changing_blades_skeptical_bla
+
+		trigger_event = {
+			id = agot_crownlands_bla.0352
+			days = { 20 40 }
+		}
+	}
+
+	############################################
+	# End the search
+	############################################
+
+	option = {
+		name = agot_crownlands_bla.0351.d
+
+		add_piety = 100
+
+		add_character_flag = agot_darklyn_shadow_search_ended_bla
+	}
+}
+
+############################################
+# House Darklyn
+# Where the Shadow Lies
+# 0352
+############################################
+
+agot_crownlands_bla.0352 = {
+	type = character_event
+	title = agot_crownlands_bla.0352.t
+
+	desc = {
+		desc = agot_crownlands_bla.0352.desc
+
+		first_valid = {
+			triggered_desc = {
+				trigger = {
+					has_character_flag = agot_darklyn_changing_blades_studied_bla
+				}
+				desc = agot_crownlands_bla.0352.desc_studied
+			}
+
+			triggered_desc = {
+				trigger = {
+					has_character_flag = agot_darklyn_changing_blades_traditionalist_bla
+				}
+				desc = agot_crownlands_bla.0352.desc_traditionalist
+			}
+
+			triggered_desc = {
+				trigger = {
+					has_character_flag = agot_darklyn_changing_blades_skeptical_bla
+				}
+				desc = agot_crownlands_bla.0352.desc_skeptical
+			}
+		}
+	}
+
+	theme = learning
+
+	override_background = {
+		reference = agot_dragonstone_cave
+	}
+
+	left_portrait = {
+		character = root
+		animation = personality_rational
+	}
+
+	trigger = {
+		dynasty = dynasty:dynn_Darklyn
+
+		has_character_flag = agot_darklyn_changing_blades_discovered_bla
+
+		NOT = {
+			has_character_flag = agot_darklyn_where_shadow_lies_bla
+		}
+
+		NOT = {
+			has_character_flag = agot_darklyn_shadow_search_ended_bla
+		}
+	}
+
+	immediate = {
+		add_character_flag = agot_darklyn_where_shadow_lies_bla
+	}
+
+	############################################
+	# Follow the passage carefully
+	############################################
+
+	option = {
+		name = agot_crownlands_bla.0352.a
+
+		trigger = {
+			gold >= 100
+		}
+
+		remove_short_term_gold = 100
+		add_learning_lifestyle_xp = 250
+
+		add_character_flag = agot_darklyn_shadow_passage_careful_bla
+
+		if = {
+			limit = {
+				has_character_flag = agot_darklyn_shadow_excavation_careful_bla
+			}
+
+			custom_tooltip = agot_crownlands_bla.0352.a.careful_tt
+			add_learning_lifestyle_xp = 100
+		}
+
+		trigger_event = {
+			id = agot_crownlands_bla.0353
+			days = { 20 40 }
+		}
+	}
+
+	############################################
+	# Follow the old Darklyn account
+	############################################
+
+	option = {
+		name = agot_crownlands_bla.0352.b
+
+		trigger = {
+			has_character_flag = agot_darklyn_changing_blades_studied_bla
+		}
+
+		add_learning_lifestyle_xp = 300
+
+		add_character_flag = agot_darklyn_shadow_passage_records_bla
+
+		custom_tooltip = agot_crownlands_bla.0352.b.tt
+
+		trigger_event = {
+			id = agot_crownlands_bla.0353
+			days = { 15 30 }
+		}
+	}
+
+	############################################
+	# Trust the old traditions
+	############################################
+
+	option = {
+		name = agot_crownlands_bla.0352.c
+
+		trigger = {
+			has_character_flag = agot_darklyn_changing_blades_traditionalist_bla
+		}
+
+		add_prestige = 100
+		add_piety = 75
+
+		add_character_flag = agot_darklyn_shadow_passage_tradition_bla
+
+		custom_tooltip = agot_crownlands_bla.0352.c.tt
+
+		trigger_event = {
+			id = agot_crownlands_bla.0353
+			days = { 15 30 }
+		}
+	}
+
+	############################################
+	# Whatever the carvings mean, there is a
+	# physical passage. Keep going.
+	############################################
+
+	option = {
+		name = agot_crownlands_bla.0352.d
+
+		trigger = {
+			has_character_flag = agot_darklyn_changing_blades_skeptical_bla
+		}
+
+		add_stewardship_lifestyle_xp = 200
+		add_learning_lifestyle_xp = 150
+
+		add_character_flag = agot_darklyn_shadow_passage_practical_bla
+
+		trigger_event = {
+			id = agot_crownlands_bla.0353
+			days = { 15 30 }
+		}
+	}
+
+	############################################
+	# Leave it alone
+	############################################
+
+	option = {
+		name = agot_crownlands_bla.0352.e
+
+		add_piety = 100
+
+		add_character_flag = agot_darklyn_shadow_search_ended_bla
+	}
+}
+
+############################################
+# House Darklyn
+# The Last King in Darkness
+# 0353
+############################################
+
+agot_crownlands_bla.0353 = {
+	type = character_event
+	title = agot_crownlands_bla.0353.t
+
+	desc = {
+		desc = agot_crownlands_bla.0353.desc
+
+		first_valid = {
+			triggered_desc = {
+				trigger = {
+					has_character_flag = agot_darklyn_shadow_passage_records_bla
+				}
+				desc = agot_crownlands_bla.0353.desc_records
+			}
+
+			triggered_desc = {
+				trigger = {
+					has_character_flag = agot_darklyn_shadow_passage_tradition_bla
+				}
+				desc = agot_crownlands_bla.0353.desc_tradition
+			}
+
+			triggered_desc = {
+				trigger = {
+					has_character_flag = agot_darklyn_shadow_passage_practical_bla
+				}
+				desc = agot_crownlands_bla.0353.desc_practical
+			}
+		}
+
+		desc = agot_crownlands_bla.0353.desc_sword
+	}
+
+	theme = learning
+
+	override_background = {
+		reference = agot_dragonstone_cave
+	}
+
+	left_portrait = {
+		character = root
+		animation = personality_rational
+	}
+
+	trigger = {
+		dynasty = dynasty:dynn_Darklyn
+
+		has_character_flag = agot_darklyn_where_shadow_lies_bla
+
+		OR = {
+			has_character_flag = agot_darklyn_shadow_passage_careful_bla
+			has_character_flag = agot_darklyn_shadow_passage_records_bla
+			has_character_flag = agot_darklyn_shadow_passage_tradition_bla
+			has_character_flag = agot_darklyn_shadow_passage_practical_bla
+		}
+
+		NOT = {
+			has_character_flag = agot_darklyn_shadow_chamber_found_bla
+		}
+	}
+
+	immediate = {
+		add_character_flag = agot_darklyn_shadow_chamber_found_bla
+	}
+
+	option = {
+		name = agot_crownlands_bla.0353.a
+
+		add_learning_lifestyle_xp = 300
+
+		add_character_flag = agot_darklyn_last_light_examined_bla
+
+		trigger_event = {
+			id = agot_crownlands_bla.0354
+			days = { 10 20 }
+		}
+	}
+
+	option = {
+		name = agot_crownlands_bla.0353.b
+
+		add_prestige = 200
+
+		add_character_flag = agot_darklyn_last_light_claimed_bla
+
+		trigger_event = {
+			id = agot_crownlands_bla.0354
+			days = { 5 10 }
+		}
+	}
+
+	option = {
+		name = agot_crownlands_bla.0353.c
+
+		add_piety = 150
+
+		add_character_flag = agot_darklyn_last_light_left_in_tomb_bla
+		add_character_flag = agot_darklyn_shadow_search_ended_bla
+	}
+}
+
+############################################
+# House Darklyn
+# Last Light
+# 0354
+############################################
+
+agot_crownlands_bla.0354 = {
+	type = character_event
+	title = agot_crownlands_bla.0354.t
+
+	desc = {
+		desc = agot_crownlands_bla.0354.desc
+
+		first_valid = {
+			triggered_desc = {
+				trigger = {
+					has_character_flag = agot_darklyn_last_light_examined_bla
+				}
+				desc = agot_crownlands_bla.0354.desc_examined
+			}
+
+			triggered_desc = {
+				trigger = {
+					has_character_flag = agot_darklyn_last_light_claimed_bla
+				}
+				desc = agot_crownlands_bla.0354.desc_claimed
+			}
+		}
+
+		triggered_desc = {
+			trigger = {
+				OR = {
+					has_character_flag = agot_darklyn_changing_blades_studied_bla
+					has_character_flag = agot_darklyn_shadow_passage_records_bla
+				}
+			}
+			desc = agot_crownlands_bla.0354.desc_records
+		}
+
+		desc = agot_crownlands_bla.0354.desc_conclusion
+
+		triggered_desc = {
+			trigger = {
+				has_character_flag = agot_darklyn_restoration_completed_bla
+			}
+			desc = agot_crownlands_bla.0354.desc_restored
+		}
+	}
+
+	theme = learning
+
+	override_background = {
+		reference = study
+	}
+
+	left_portrait = {
+		character = root
+		animation = personality_rational
+	}
+
+	trigger = {
+		dynasty = dynasty:dynn_Darklyn
+
+		has_character_flag = agot_darklyn_shadow_chamber_found_bla
+
+		OR = {
+			has_character_flag = agot_darklyn_last_light_examined_bla
+			has_character_flag = agot_darklyn_last_light_claimed_bla
+		}
+
+		NOT = {
+			has_character_flag = agot_darklyn_last_light_mystery_resolved_bla
+		}
+	}
+
+	immediate = {
+		add_character_flag = agot_darklyn_last_light_mystery_resolved_bla
+	}
+
+	############################################
+	# Accept it as Last Light
+	############################################
+
+	option = {
+		name = agot_crownlands_bla.0354.a
+
+		add_prestige = 200
+		add_piety = 75
+
+		add_character_flag = agot_darklyn_blade_is_last_light_bla
+
+		if = {
+			limit = {
+				has_character_flag = agot_darklyn_changing_blades_traditionalist_bla
+			}
+
+			custom_tooltip = agot_crownlands_bla.0354.a.tradition_tt
+
+			add_prestige = 100
+		}
+
+		trigger_event = {
+			id = agot_crownlands_bla.0355
+			days = { 10 20 }
+		}
+	}
+
+	############################################
+	# The ritual identity matters, not the steel
+	############################################
+
+	option = {
+		name = agot_crownlands_bla.0354.b
+
+		add_learning_lifestyle_xp = 300
+		add_prestige = 100
+
+		add_character_flag = agot_darklyn_last_light_ritual_identity_bla
+
+		if = {
+			limit = {
+				OR = {
+					has_character_flag = agot_darklyn_changing_blades_studied_bla
+					has_character_flag = agot_darklyn_shadow_passage_records_bla
+				}
+			}
+
+			custom_tooltip = agot_crownlands_bla.0354.b.records_tt
+
+			add_learning_lifestyle_xp = 100
+		}
+
+		trigger_event = {
+			id = agot_crownlands_bla.0355
+			days = { 10 20 }
+		}
+	}
+
+	############################################
+	# Reject the impossible chronology
+	############################################
+
+	option = {
+		name = agot_crownlands_bla.0354.c
+
+		add_learning_lifestyle_xp = 250
+
+		add_character_flag = agot_darklyn_last_light_skeptical_origin_bla
+
+		if = {
+			limit = {
+				has_character_flag = agot_darklyn_changing_blades_skeptical_bla
+			}
+
+			custom_tooltip = agot_crownlands_bla.0354.c.skeptical_tt
+
+			add_learning_lifestyle_xp = 100
+		}
+
+		trigger_event = {
+			id = agot_crownlands_bla.0355
+			days = { 10 20 }
+		}
+	}
+
+	############################################
+	# Whatever it was, it belongs to us now
+	############################################
+
+	option = {
+		name = agot_crownlands_bla.0354.d
+
+		add_prestige = 150
+		add_martial_lifestyle_xp = 200
+
+		add_character_flag = agot_darklyn_last_light_new_legacy_bla
+
+		trigger_event = {
+			id = agot_crownlands_bla.0355
+			days = { 10 20 }
+		}
+	}
+}
+
+############################################
+# House Darklyn
+# Shadow Will Fall
+# 0355
+############################################
+
+agot_crownlands_bla.0355 = {
+	type = character_event
+	title = agot_crownlands_bla.0355.t
+
+	desc = {
+		desc = agot_crownlands_bla.0355.desc
+
+		triggered_desc = {
+			trigger = {
+				has_character_flag = agot_darklyn_restoration_completed_bla
+			}
+			desc = agot_crownlands_bla.0355.desc_restored
+		}
+	}
+
+	theme = dynasty
+
+	override_background = {
+		reference = ruins_inside
+	}
+
+	left_portrait = {
+		character = root
+		animation = personality_bold
+	}
+
+	trigger = {
+		dynasty = dynasty:dynn_Darklyn
+
+		has_character_flag = agot_darklyn_last_light_mystery_resolved_bla
+
+		NOT = {
+			has_character_flag = agot_darklyn_valyrian_blade_completed_bla
+		}
+	}
+
+	############################################
+	# Last Light
+	############################################
+
+	option = {
+		name = agot_crownlands_bla.0355.a
+
+		trigger = {
+			OR = {
+				has_character_flag = agot_darklyn_blade_is_last_light_bla
+				has_character_flag = agot_darklyn_last_light_ritual_identity_bla
+			}
+		}
+
+		agot_create_artifact_last_light_bla_effect = {
+			OWNER = root
+		}
+
+		scope:newly_created_artifact ?= {
+			equip_artifact_to_owner_replace = yes
+		}
+
+		add_prestige = 350
+		add_piety = 150
+	
+		dynasty = {
+			add_dynasty_prestige = 250
+		}
+
+		add_character_flag = agot_darklyn_last_light_restored_bla
+		add_character_flag = agot_darklyn_changing_blades_restored_bla
+		add_character_flag = agot_darklyn_valyrian_blade_completed_bla
+
+		custom_tooltip = agot_crownlands_bla.0355.a.tt
+	}
+
+	############################################
+	# Duskfall
+	############################################
+
+	option = {
+		name = agot_crownlands_bla.0355.b
+
+		if = {
+			limit = {
+				has_character_flag = agot_darklyn_restoration_completed_bla
+			}
+
+			agot_create_artifact_duskfall_restored_bla_effect = {
+				OWNER = root
+			}
+		}
+
+		else = {
+			agot_create_artifact_duskfall_bla_effect = {
+				OWNER = root
+			}
+		}
+
+		scope:newly_created_artifact ?= {
+			equip_artifact_to_owner_replace = yes
+		}
+
+		add_prestige = 400
+
+		dynasty = {
+			add_dynasty_prestige = 300
+		}
+
+		add_character_flag = agot_darklyn_duskfall_forged_bla
+		add_character_flag = agot_darklyn_changing_blades_reborn_bla
+		add_character_flag = agot_darklyn_valyrian_blade_completed_bla
+	
+		custom_tooltip = agot_crownlands_bla.0355.b.tt
+	}
+
+	############################################
+	# Take the sword, reject the ceremony
+	############################################
+
+	option = {
+		name = agot_crownlands_bla.0355.c
+
+		trigger = {
+			OR = {
+				has_character_flag = agot_darklyn_last_light_skeptical_origin_bla
+				has_character_flag = agot_darklyn_last_light_new_legacy_bla
+			}
+		}
+
+		add_martial_lifestyle_xp = 250
+		add_prestige = 200
+
+		add_character_flag = agot_darklyn_shadow_rites_rejected_bla
+		add_character_flag = agot_darklyn_valyrian_blade_completed_bla
+
+		# We can decide whether this still becomes Duskfall,
+		# or receives a third, secular name.
+	}
+}

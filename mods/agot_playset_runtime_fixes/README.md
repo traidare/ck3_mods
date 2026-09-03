@@ -35,6 +35,12 @@ Roughly fifty parent mods are touched. The failures fall into a few classes:
   re-trigger dozens of times per tick for one character. Creation is now
   rate-limited and runs a day later, once the realm has settled, so Essos realms
   stop accumulating duplicate family titles in the save.
+- **Special-building fields the game discards while reading them** — landmark
+  buildings priced at a cost tier AGOT does not define, a misspelled terrain
+  bonus, a fort level written outside the block that applies it, and completion
+  effects pointing at a scope or an event that does not exist. Each fault is
+  dropped silently at load, so the building is built and its bonus, garrison, or
+  follow-up simply never arrives.
 - **Portrait and interface breakage** — obsolete DNA and gene entries, missing
   illustrations, a crash-prone pre-1.19 GUI widget, and an event that opened as
   an empty blocking popup.

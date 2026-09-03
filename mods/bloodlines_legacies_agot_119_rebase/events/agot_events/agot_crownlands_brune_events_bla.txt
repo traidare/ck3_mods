@@ -1,0 +1,1009 @@
+﻿namespace = agot_crownlands_bla
+
+agot_crownlands_bla.0699 = {
+	type = character_event
+	hidden = yes
+
+	trigger = {
+		is_ai = no
+		is_ruler = yes
+		is_landed = yes
+		is_available_adult = yes
+		dynasty = dynasty:dynn_Brune
+
+		NOT = {
+			has_character_flag = brune_any_event_recently_bla
+		}
+	}
+
+	immediate = {
+		add_character_flag = {
+			flag = brune_any_event_recently_bla
+			years = 3
+		}
+
+		random_list = {
+			10 = { trigger_event = agot_crownlands_bla.0600 }
+			10 = { trigger_event = agot_crownlands_bla.0601 }
+			10 = { trigger_event = agot_crownlands_bla.0602 }
+			8 = { trigger_event = agot_crownlands_bla.0603 }
+			8 = { trigger_event = agot_crownlands_bla.0604 }
+			8 = { trigger_event = agot_crownlands_bla.0605 }
+			8 = { trigger_event = agot_crownlands_bla.0606 }
+			8 = { trigger_event = agot_crownlands_bla.0607 }
+			7 = { trigger_event = agot_crownlands_bla.0608 }
+			6 = { trigger_event = agot_crownlands_bla.0609 }
+
+			120 = { }
+		}
+	}
+}
+
+agot_crownlands_bla.0600 = {
+	type = character_event
+	title = agot_crownlands_bla.0600.t
+	desc = agot_crownlands_bla.0600.desc
+	theme = stewardship
+
+	override_background = {
+		reference = wilderness
+	}
+
+	left_portrait = {
+		character = root
+		animation = personality_rational
+	}
+
+	trigger = {
+		is_ruler = yes
+		is_landed = yes
+		is_available_adult = yes
+
+		dynasty = dynasty:dynn_Brune
+		
+
+		NOT = {
+			has_character_flag = agot_brune_no_road_cooldown_bla
+		}
+	}
+
+	immediate = {
+		add_character_flag = {
+			flag = agot_brune_no_road_cooldown_bla
+			years = 8
+		}
+	}
+
+	option = { # Build the road
+		name = agot_crownlands_bla.0600.a
+
+		remove_short_term_gold = 100
+		add_stewardship_lifestyle_xp = 175
+
+		add_character_modifier = {
+			modifier = agot_brune_open_tracks_bla
+			years = 8
+		}
+	}
+
+	option = { # Improve it without making it obvious
+		name = agot_crownlands_bla.0600.b
+
+		remove_short_term_gold = 50
+		add_intrigue_lifestyle_xp = 125
+		add_stewardship_lifestyle_xp = 75
+
+		add_character_modifier = {
+			modifier = agot_brune_hidden_ways_bla
+			years = 8
+		}
+	}
+
+	option = { # Leave the wilderness alone
+		name = agot_crownlands_bla.0600.c
+
+		add_martial_lifestyle_xp = 125
+		add_prestige = 100
+
+		add_character_modifier = {
+			modifier = agot_brune_country_without_roads_bla
+			years = 8
+		}
+	}
+
+	option = { # Make outsiders pay for guides
+		name = agot_crownlands_bla.0600.d
+
+		add_gold = 75
+		add_stewardship_lifestyle_xp = 100
+
+		add_character_modifier = {
+			modifier = agot_brune_clawman_guides_bla
+			years = 5
+		}
+	}
+}
+
+agot_crownlands_bla.0601 = {
+	type = character_event
+	title = agot_crownlands_bla.0601.t
+	desc = agot_crownlands_bla.0601.desc
+	theme = diplomacy
+
+	override_background = {
+		reference = courtyard
+	}
+
+	left_portrait = {
+		character = root
+		animation = personality_rational
+	}
+
+	trigger = {
+		is_ruler = yes
+		is_landed = yes
+		is_available_adult = yes
+
+		dynasty = dynasty:dynn_Brune
+		
+
+		NOT = {
+			has_character_flag = agot_brune_brownhollow_cooldown_bla
+		}
+	}
+
+	immediate = {
+		add_character_flag = {
+			flag = agot_brune_brownhollow_cooldown_bla
+			years = 8
+		}
+	}
+
+	option = { # Respect local custom
+		name = agot_crownlands_bla.0601.a
+
+		add_diplomacy_lifestyle_xp = 150
+		add_prestige = 100
+
+		add_character_modifier = {
+			modifier = agot_brune_old_customs_bla
+			years = 8
+		}
+	}
+
+	option = { # Assert authority
+		name = agot_crownlands_bla.0601.b
+
+		add_dread = 5
+		add_martial_lifestyle_xp = 125
+
+		add_character_modifier = {
+			modifier = agot_brune_one_lord_of_the_claw_bla
+			years = 8
+		}
+	}
+
+	option = { # Split the difference
+		name = agot_crownlands_bla.0601.c
+
+		add_stewardship_lifestyle_xp = 150
+
+		add_character_modifier = {
+			modifier = agot_brune_clawman_compromise_bla
+			years = 8
+		}
+	}
+
+	option = { # Let them settle it themselves
+		name = agot_crownlands_bla.0601.d
+
+		add_intrigue_lifestyle_xp = 100
+		add_prestige = 75
+	}
+}
+
+agot_crownlands_bla.0602 = {
+	type = character_event
+	title = agot_crownlands_bla.0602.t
+	desc = agot_crownlands_bla.0602.desc
+	theme = martial
+
+	override_background = {
+		reference = wilderness
+	}
+
+	left_portrait = {
+		character = root
+		animation = personality_rational
+	}
+
+	right_portrait = {
+		character = scope:brune_bog_hunter_bla
+		animation = personality_bold
+	}
+
+	trigger = {
+		is_ruler = yes
+		is_landed = yes
+		is_available_adult = yes
+
+		dynasty = dynasty:dynn_Brune
+		
+
+		NOT = {
+			has_character_flag = agot_brune_bog_hunter_cooldown_bla
+		}
+	}
+
+	immediate = {
+		add_character_flag = {
+			flag = agot_brune_bog_hunter_cooldown_bla
+			years = 10
+		}
+
+		create_character = {
+			location = root.capital_province
+			age = { 24 40 }
+			dynasty = none
+			gender_female_chance = 0
+
+			culture = root.culture
+			faith = root.faith
+
+			martial = { 11 16 }
+			prowess = { 12 17 }
+			intrigue = { 8 13 }
+
+			trait = brave
+
+			save_scope_as = brune_bog_hunter_bla
+		}
+	}
+
+	option = {
+		name = agot_crownlands_bla.0602.a
+
+		hidden_effect = {
+			add_courtier = scope:brune_bog_hunter_bla
+		}
+
+		add_martial_lifestyle_xp = 150
+		add_prestige = 100
+
+		custom_tooltip = agot_crownlands_bla.0602.a.tt
+	}
+
+	option = {
+		name = agot_crownlands_bla.0602.b
+
+		hidden_effect = {
+			add_courtier = scope:brune_bog_hunter_bla
+		}
+
+		add_intrigue_lifestyle_xp = 125
+
+		scope:brune_bog_hunter_bla = {
+			add_opinion = {
+				target = root
+				modifier = grateful_opinion
+				opinion = 30
+			}
+		}
+
+		custom_tooltip = agot_crownlands_bla.0602.b.tt
+	}
+
+	option = {
+		name = agot_crownlands_bla.0602.c
+
+		add_gold = 50
+		add_prestige = 75
+	}
+
+	option = {
+		name = agot_crownlands_bla.0602.d
+
+		add_martial_lifestyle_xp = 100
+		add_character_modifier = {
+			modifier = agot_brune_lessons_of_the_bog_bla
+			years = 5
+		}
+	}
+}
+
+agot_crownlands_bla.0603 = {
+	type = character_event
+	title = agot_crownlands_bla.0603.t
+	desc = agot_crownlands_bla.0603.desc
+	theme = martial
+
+	override_background = {
+		reference = wilderness
+	}
+
+	left_portrait = {
+		character = root
+		animation = personality_rational
+	}
+
+	trigger = {
+		is_ruler = yes
+		is_landed = yes
+		is_available_adult = yes
+
+		dynasty = dynasty:dynn_Brune
+		
+
+		NOT = {
+			has_character_flag = agot_brune_battle_sideways_cooldown_bla
+		}
+	}
+
+	immediate = {
+		add_character_flag = {
+			flag = agot_brune_battle_sideways_cooldown_bla
+			years = 8
+		}
+	}
+
+	option = { # Conventional training
+		name = agot_crownlands_bla.0603.a
+
+		add_martial_lifestyle_xp = 175
+		add_prestige = 100
+
+		add_character_modifier = {
+			modifier = agot_brune_drilled_clawmen_bla
+			years = 8
+		}
+	}
+
+	option = { # Clawman methods
+		name = agot_crownlands_bla.0603.b
+
+		add_martial_lifestyle_xp = 150
+
+		add_character_modifier = {
+			modifier = agot_brune_warfare_of_the_claw_bla
+			years = 8
+		}
+	}
+
+	option = { # Test them
+		name = agot_crownlands_bla.0603.c
+
+		add_martial_lifestyle_xp = 100
+
+		random_list = {
+			30 = {
+				add_prestige = 125
+
+				add_character_modifier = {
+					modifier = agot_brune_drilled_clawmen_bla
+					years = 8
+				}
+
+				custom_tooltip = agot_crownlands_bla.0603.c.knights
+			}
+
+			50 = {
+				add_prestige = 175
+
+				add_character_modifier = {
+					modifier = agot_brune_warfare_of_the_claw_bla
+					years = 8
+				}
+
+				custom_tooltip = agot_crownlands_bla.0603.c.clawmen
+			}
+
+			20 = {
+				add_martial_lifestyle_xp = 150
+
+				add_character_modifier = {
+					modifier = agot_brune_blended_warfare_bla
+					years = 8
+				}
+
+				custom_tooltip = agot_crownlands_bla.0603.c.mixed
+			}
+		}
+	}
+
+	option = { # Personally teach them
+		name = agot_crownlands_bla.0603.d
+
+		trigger = {
+			martial >= 12
+		}
+
+		add_martial_lifestyle_xp = 225
+		add_prestige = 150
+
+		add_character_modifier = {
+			modifier = agot_brune_blended_warfare_bla
+			years = 8
+		}
+	}
+}
+
+agot_crownlands_bla.0604 = {
+	type = character_event
+	title = agot_crownlands_bla.0604.t
+	desc = agot_crownlands_bla.0604.desc
+	theme = diplomacy
+
+	override_background = {
+		reference = wilderness
+	}
+
+	left_portrait = {
+		character = root
+		animation = personality_rational
+	}
+
+	trigger = {
+		is_ruler = yes
+		is_landed = yes
+		is_available_adult = yes
+
+		dynasty = dynasty:dynn_Brune
+	
+
+		NOT = {
+			has_character_flag = agot_brune_feud_pines_cooldown_bla
+		}
+	}
+
+	immediate = {
+		add_character_flag = {
+			flag = agot_brune_feud_pines_cooldown_bla
+			years = 8
+		}
+	}
+
+	option = { # Hear both sides
+		name = agot_crownlands_bla.0604.a
+
+		add_diplomacy_lifestyle_xp = 125
+
+		skill = diplomacy
+
+		duel = {
+			skill = diplomacy
+			value = medium_skill_rating
+
+			60 = {
+				compare_modifier = {
+					value = scope:duel_value
+					multiplier = 1
+				}
+
+				add_prestige = 175
+				add_diplomacy_lifestyle_xp = 125
+
+				add_character_modifier = {
+					modifier = agot_brune_peace_of_the_pines_bla
+					years = 6
+				}
+
+				custom_tooltip = agot_crownlands_bla.0604.a.success
+			}
+
+			40 = {
+				compare_modifier = {
+					value = scope:duel_value
+					multiplier = -1
+				}
+
+				add_diplomacy_lifestyle_xp = 75
+
+				custom_tooltip = agot_crownlands_bla.0604.a.failure
+			}
+		}
+	}
+
+	option = { # Compensation
+		name = agot_crownlands_bla.0604.b
+
+		remove_short_term_gold = 75
+		add_stewardship_lifestyle_xp = 125
+
+		add_character_modifier = {
+			modifier = agot_brune_peace_of_the_pines_bla
+			years = 6
+		}
+	}
+
+	option = { # Hostages
+		name = agot_crownlands_bla.0604.c
+
+		add_dread = 5
+		add_intrigue_lifestyle_xp = 125
+
+		add_character_modifier = {
+			modifier = agot_brune_hard_peace_bla
+			years = 6
+		}
+	}
+
+	option = { # Let them settle it
+		name = agot_crownlands_bla.0604.d
+
+		add_martial_lifestyle_xp = 100
+		add_prestige = 75
+	}
+}
+
+agot_crownlands_bla.0605 = {
+	type = character_event
+	title = agot_crownlands_bla.0605.t
+	desc = agot_crownlands_bla.0605.desc
+	theme = intrigue
+
+	override_background = {
+		reference = courtyard
+	}
+
+	left_portrait = {
+		character = root
+		animation = personality_suspicious
+	}
+
+	trigger = {
+		is_ruler = yes
+		is_landed = yes
+		is_available_adult = yes
+
+		dynasty = dynasty:dynn_Brune
+		
+
+		NOT = {
+			has_character_flag = agot_brune_strangers_justice_cooldown_bla
+		}
+	}
+
+	immediate = {
+		add_character_flag = {
+			flag = agot_brune_strangers_justice_cooldown_bla
+			years = 8
+		}
+	}
+
+	option = { # Hand him over
+		name = agot_crownlands_bla.0605.a
+
+		add_prestige = 100
+		add_stewardship_lifestyle_xp = 125
+
+		add_character_modifier = {
+			modifier = agot_brune_law_before_custom_bla
+			years = 6
+		}
+	}
+
+	option = { # Refuse
+		name = agot_crownlands_bla.0605.b
+
+		add_prestige = 150
+		add_martial_lifestyle_xp = 100
+
+		add_character_modifier = {
+			modifier = agot_brune_shelter_of_the_claw_bla
+			years = 6
+		}
+	}
+
+	option = { # Investigate
+		name = agot_crownlands_bla.0605.c
+
+		add_intrigue_lifestyle_xp = 125
+
+		skill = intrigue
+
+		duel = {
+			skill = intrigue
+			value = medium_skill_rating
+
+			55 = {
+				compare_modifier = {
+					value = scope:duel_value
+					multiplier = 1
+				}
+
+				add_intrigue_lifestyle_xp = 150
+				add_prestige = 125
+
+				custom_tooltip = agot_crownlands_bla.0605.c.success
+			}
+
+			45 = {
+				compare_modifier = {
+					value = scope:duel_value
+					multiplier = -1
+				}
+
+				add_intrigue_lifestyle_xp = 75
+
+				custom_tooltip = agot_crownlands_bla.0605.c.failure
+			}
+		}
+	}
+
+	option = { # Outsider must prove claim
+		name = agot_crownlands_bla.0605.d
+
+		trigger = {
+			diplomacy >= 10
+		}
+
+		add_diplomacy_lifestyle_xp = 150
+		add_prestige = 100
+	}
+}
+
+agot_crownlands_bla.0606 = {
+	type = character_event
+	title = agot_crownlands_bla.0606.t
+	desc = agot_crownlands_bla.0606.desc
+	theme = martial
+
+	override_background = {
+		reference = wilderness
+	}
+
+	left_portrait = {
+		character = root
+		animation = personality_bold
+	}
+
+	trigger = {
+		is_ruler = yes
+		is_landed = yes
+		is_available_adult = yes
+
+		dynasty = dynasty:dynn_Brune
+	
+
+		NOT = {
+			has_character_flag = agot_brune_pinewood_muster_cooldown_bla
+		}
+	}
+
+	immediate = {
+		add_character_flag = {
+			flag = agot_brune_pinewood_muster_cooldown_bla
+			years = 10
+		}
+	}
+
+	option = { # Equip them
+		name = agot_crownlands_bla.0606.a
+
+		remove_short_term_gold = 100
+		add_martial_lifestyle_xp = 175
+		add_prestige = 100
+
+		spawn_army = {
+			levies = 400
+			inheritable = no
+			location = capital_province
+			name = agot_brune_pinewood_muster_army
+		}
+	}
+
+	option = { # Smaller picked force
+		name = agot_crownlands_bla.0606.b
+
+		remove_short_term_gold = 50
+		add_martial_lifestyle_xp = 125
+
+		spawn_army = {
+			levies = 250
+			inheritable = no
+			location = capital_province
+			name = agot_brune_picked_clawmen_army
+		}
+	}
+
+	option = { # Keep them home
+		name = agot_crownlands_bla.0606.c
+
+		add_stewardship_lifestyle_xp = 100
+		add_prestige = 75
+
+		add_character_modifier = {
+			modifier = agot_brune_clawmen_ready_bla
+			years = 5
+		}
+	}
+
+	option = { # Drill them personally
+		name = agot_crownlands_bla.0606.d
+
+		trigger = {
+			martial >= 12
+		}
+
+		remove_short_term_gold = 75
+		add_martial_lifestyle_xp = 225
+		add_prestige = 150
+
+		spawn_army = {
+			levies = 325
+			inheritable = no
+			location = capital_province
+			name = agot_brune_drilled_clawmen_army		
+		}
+	}
+}
+
+agot_crownlands_bla.0607 = {
+	type = character_event
+	title = agot_crownlands_bla.0607.t
+	desc = agot_crownlands_bla.0607.desc
+	theme = stewardship
+
+	override_background = {
+		reference = courtyard
+	}
+
+	left_portrait = {
+		character = root
+		animation = personality_rational
+	}
+
+	trigger = {
+		is_ruler = yes
+		is_landed = yes
+		is_available_adult = yes
+		dynasty = dynasty:dynn_Brune
+
+		NOT = {
+			has_character_flag = agot_brune_the_den_cooldown_bla
+		}
+	}
+
+	immediate = {
+		add_character_flag = {
+			flag = agot_brune_the_den_cooldown_bla
+			years = 12
+		}
+	}
+
+	option = { # Fortress
+		name = agot_crownlands_bla.0607.a
+
+		remove_short_term_gold = 125
+		add_martial_lifestyle_xp = 150
+
+		add_character_modifier = {
+			modifier = agot_brune_hard_den_bla
+			years = 10
+		}
+	}
+
+	option = { # Clawman gathering place
+		name = agot_crownlands_bla.0607.b
+
+		remove_short_term_gold = 75
+		add_diplomacy_lifestyle_xp = 150
+
+		add_character_modifier = {
+			modifier = agot_brune_open_hearth_of_the_claw_bla
+			years = 10
+		}
+	}
+
+	option = { # Proper noble seat
+		name = agot_crownlands_bla.0607.c
+
+		remove_short_term_gold = 150
+		add_stewardship_lifestyle_xp = 175
+		add_prestige = 125
+
+		add_character_modifier = {
+			modifier = agot_brune_lordly_den_bla
+			years = 10
+		}
+	}
+
+	option = { # Keep it rough
+		name = agot_crownlands_bla.0607.d
+
+		add_intrigue_lifestyle_xp = 125
+		add_prestige = 75
+
+		add_character_modifier = {
+			modifier = agot_brune_unassuming_stronghold_bla
+			years = 10
+		}
+	}
+}
+
+agot_crownlands_bla.0608 = {
+	type = character_event
+	title = agot_crownlands_bla.0608.t
+	desc = agot_crownlands_bla.0608.desc
+	theme = battle
+
+	override_background = {
+		reference = wilderness
+	}
+
+	left_portrait = {
+		character = root
+		animation = personality_bold
+	}
+
+	trigger = {
+		is_ruler = yes
+		is_landed = yes
+		is_available_adult = yes
+		dynasty = dynasty:dynn_Brune
+
+		NOT = {
+			has_character_flag = agot_brune_claw_closes_cooldown_bla
+		}
+	}
+
+	immediate = {
+		add_character_flag = {
+			flag = agot_brune_claw_closes_cooldown_bla
+			years = 12
+		}
+	}
+
+	option = { # Fight conventionally
+		name = agot_crownlands_bla.0608.a
+
+		add_martial_lifestyle_xp = 125
+
+		random_list = {
+			45 = {
+				add_prestige = 175
+				custom_tooltip = agot_crownlands_bla.0608.a.success
+			}
+
+			55 = {
+				add_prestige = 50
+				custom_tooltip = agot_crownlands_bla.0608.a.failure
+			}
+		}
+	}
+
+	option = { # Lead them into the woods
+		name = agot_crownlands_bla.0608.b
+
+		trigger = {
+			OR = {
+				has_character_modifier = agot_brune_hidden_ways_bla
+				has_character_modifier = agot_brune_warfare_of_the_claw_bla
+				has_character_modifier = agot_brune_lessons_of_the_bog_bla
+			}
+		}
+
+		add_martial_lifestyle_xp = 200
+		add_prestige = 200
+
+		custom_tooltip = agot_crownlands_bla.0608.b.tt
+	}
+
+	option = { # Locals break supplies
+		name = agot_crownlands_bla.0608.c
+
+		trigger = {
+			OR = {
+				has_character_modifier = agot_brune_old_customs_bla
+				has_character_modifier = agot_brune_shelter_of_the_claw_bla
+				has_character_modifier = agot_brune_open_hearth_of_the_claw_bla
+			}
+		}
+
+		add_intrigue_lifestyle_xp = 175
+		add_prestige = 150
+
+		custom_tooltip = agot_crownlands_bla.0608.c.tt
+	}
+
+	option = { # Bribe/guides misinformation
+		name = agot_crownlands_bla.0608.d
+
+		remove_short_term_gold = 75
+		add_intrigue_lifestyle_xp = 150
+
+		random_list = {
+			70 = {
+				add_prestige = 150
+				custom_tooltip = agot_crownlands_bla.0608.d.success
+			}
+
+			30 = {
+				custom_tooltip = agot_crownlands_bla.0608.d.failure
+			}
+		}
+	}
+}
+
+agot_crownlands_bla.0609 = {
+	type = character_event
+	title = agot_crownlands_bla.0609.t
+	desc = agot_crownlands_bla.0609.desc
+	theme = dynasty
+
+	override_background = {
+		reference = wilderness
+	}
+
+	left_portrait = {
+		character = root
+		animation = personality_honorable
+	}
+
+	trigger = {
+		is_ruler = yes
+		is_landed = yes
+		is_available_adult = yes
+		dynasty = dynasty:dynn_Brune
+
+		NOT = {
+			has_character_flag = agot_brune_claw_bends_cooldown_bla
+		}
+	}
+
+	immediate = {
+		add_character_flag = {
+			flag = agot_brune_claw_bends_cooldown_bla
+			years = 15
+		}
+	}
+
+	option = { # Masters of the ground
+		name = agot_crownlands_bla.0609.a
+
+		add_martial_lifestyle_xp = 200
+		dynasty ?= { add_dynasty_prestige = 100 }
+		add_prestige = 175
+
+		add_character_modifier = {
+			modifier = agot_brune_lords_of_the_hidden_paths_bla
+			years = 10
+		}
+	}
+
+	option = { # First among clawmen
+		name = agot_crownlands_bla.0609.b
+
+		add_diplomacy_lifestyle_xp = 175
+		dynasty ?= { add_dynasty_prestige = 100 }
+
+		add_character_modifier = {
+			modifier = agot_brune_first_among_clawmen_bla
+			years = 10
+		}
+	}
+
+	option = { # Hard authority
+		name = agot_crownlands_bla.0609.c
+
+		add_dread = 5
+		add_stewardship_lifestyle_xp = 175
+
+		add_character_modifier = {
+			modifier = agot_brune_hard_lord_of_the_claw_bla
+			years = 10
+		}
+	}
+
+	option = { # Open outward
+		name = agot_crownlands_bla.0609.d
+
+		add_stewardship_lifestyle_xp = 200
+		dynasty ?= { add_dynasty_prestige = 75 }
+
+		add_character_modifier = {
+			modifier = agot_brune_claw_and_crown_bla
+			years = 10
+		}
+	}
+}

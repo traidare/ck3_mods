@@ -2645,7 +2645,6 @@ agot_riverlands_bla.0013 = {
 				}
 				scope:crossroads_hedge_knight = {
 					set_employer = root
-					add_knight = yes
 				}
 
 				add_prestige = 75

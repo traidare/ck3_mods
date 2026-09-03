@@ -97,6 +97,16 @@ A narrow `can_raid` scripted-rule override also returns false when CK3 evaluates
 the rule without a potential-raider character, while delegating unchanged to
 AGOT's `can_raid_trigger` for every valid character.
 
+`history/provinces/replace/00_k_the_vale_prov.txt` takes the same path as AGOT
+Nobility of Westeros' own file, so it shadows that file whole rather than
+merging with it. The Sisterton culture and holding change is this layer's
+intended delta; every other province entry must therefore reproduce Nobility of
+Westeros', or the province silently falls back to AGOT's. The file carries all
+nineteen of that parent's entries, and a province it stops carrying reverts —
+`2326` in particular reverts to `holding = none`, the holdingless-barony case
+the Bloodlines game-start guard exists to work around. Re-audit whenever
+Workshop `3664900993` changes that file.
+
 ## Repairs owned elsewhere
 
 This module deliberately does not carry runtime repairs. The accompanying narrow

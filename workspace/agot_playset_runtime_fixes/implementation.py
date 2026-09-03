@@ -15,6 +15,10 @@ from .runtime_fixes.artifacts import (
     generate_artifact_manager_scripted_guis,
     generate_artifact_manager_upgrade_guis,
 )
+from .runtime_fixes.buildings import (
+    generate_landmarks_building_repairs,
+    generate_landmarks_compatch_building_repairs,
+)
 from .runtime_fixes.court_character import (
     assert_red_keep_government_override_is_current,
     generate_adventurers_beneficiary,
@@ -89,6 +93,8 @@ REPAIRS = (
     generate_dragon_template_storage_guards,
     generate_adventurer_beneficiary_cb_guard,
     generate_kraken_event_parser_repair,
+    generate_landmarks_building_repairs,
+    generate_landmarks_compatch_building_repairs,
     generate_seasons_agot_shaders,
     generate_mari_agot_portraits,
     generate_faster_transitions_gui,

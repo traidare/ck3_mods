@@ -1,0 +1,1672 @@
+﻿# =========================================================
+# Crownlands Iron Throne Modifiers
+# =========================================================
+
+agot_crownlands_royal_roads_bla = {
+	icon = stewardship_positive
+	development_growth_factor = 0.05
+	monthly_income_mult = 0.05
+}
+
+agot_crownlands_guarded_roads_bla = {
+	icon = martial_positive
+	monthly_county_control_growth_factor = 0.15
+	movement_speed = 0.05
+}
+
+agot_crownlands_road_tolls_bla = {
+	icon = stewardship_positive
+	monthly_income_mult = 0.08
+	county_opinion_add = -5
+}
+
+agot_crownlands_lords_keep_the_roads_bla = {
+	icon = diplomacy_positive
+	vassal_opinion = 5
+	monthly_prestige = 0.10
+}
+
+agot_crownlands_first_among_crownlords_bla = {
+	icon = diplomacy_positive
+	vassal_opinion = 5
+	monthly_prestige = 0.15
+}
+
+agot_crownlands_royal_arbitration_bla = {
+	icon = stewardship_positive
+	vassal_opinion = 5
+	monthly_county_control_growth_factor = 0.10
+}
+
+agot_crownlands_divided_crownlords_bla = {
+	icon = intrigue_positive
+	enemy_hostile_scheme_success_chance_add = -5
+	dread_gain_mult = 0.05
+}
+
+agot_crownlands_royal_authority_bla = {
+	icon = martial_positive
+	monthly_county_control_growth_factor = 0.15
+	monthly_prestige = 0.10
+}
+
+agot_crownlands_splendor_of_the_red_keep_bla = {
+	icon = prestige_positive
+	monthly_prestige = 0.25
+	vassal_opinion = 5
+}
+
+agot_crownlands_working_palace_bla = {
+	icon = stewardship_positive
+	monthly_income_mult = 0.05
+	monthly_stewardship_lifestyle_xp_gain_mult = 0.05
+}
+
+agot_crownlands_quiet_red_keep_bla = {
+	icon = intrigue_positive
+	enemy_hostile_scheme_success_chance_add = -10
+	monthly_intrigue_lifestyle_xp_gain_mult = 0.05
+}
+
+agot_crownlands_frugal_court_bla = {
+	icon = stewardship_positive
+	monthly_income_mult = 0.10
+	monthly_prestige = -0.10
+}
+
+agot_crownlands_open_royal_audience_bla = {
+	icon = diplomacy_positive
+	vassal_opinion = 5
+	county_opinion_add = 5
+}
+
+agot_crownlands_ordered_petitions_bla = {
+	icon = stewardship_positive
+	monthly_county_control_growth_factor = 0.10
+	monthly_prestige = 0.10
+}
+
+agot_crownlands_distant_throne_bla = {
+	icon = dread_positive
+	dread_gain_mult = 0.05
+	vassal_opinion = -5
+}
+
+agot_crownlands_royal_domain_bla = {
+	icon = stewardship_positive
+	monthly_income_mult = 0.08
+	monthly_county_control_growth_factor = 0.10
+}
+
+agot_crownlands_loyal_crownlords_bla = {
+	icon = diplomacy_positive
+	vassal_opinion = 10
+	monthly_prestige = 0.10
+}
+
+agot_crownlands_shield_of_the_capital_bla = {
+	icon = martial_positive
+	levy_reinforcement_rate = 0.10
+	defender_advantage = 3
+}
+
+agot_crownlands_heart_of_the_realm_bla = {
+	icon = stewardship_positive
+	development_growth_factor = 0.05
+	monthly_income_mult = 0.05
+	monthly_prestige = 0.10
+}
+
+# =========================================================
+# House Bar Emmon Modifiers
+# =========================================================
+
+agot_bar_emmon_light_never_fails_bla = {
+	icon = stewardship_positive
+	monthly_prestige = 0.15
+	development_growth_factor = 0.05
+}
+
+agot_bar_emmon_watch_of_sharp_point_bla = {
+	icon = martial_positive
+	coastal_advantage = 3
+	monthly_county_control_growth_factor = 0.10
+}
+
+agot_bar_emmon_beacon_dues_bla = {
+	icon = stewardship_positive
+	monthly_income_mult = 0.08
+	county_opinion_add = -5
+}
+
+agot_bar_emmon_sailors_light_bla = {
+	icon = diplomacy_positive
+	county_opinion_add = 5
+	monthly_prestige = 0.10
+}
+
+agot_bar_emmon_enemy_sails_spotted_bla = {
+	icon = martial_positive
+	coastal_advantage = 2
+	monthly_prestige = 0.10
+}
+
+agot_bar_emmon_bay_watch_bla = {
+	icon = martial_positive
+	coastal_advantage = 3
+	enemy_hostile_scheme_success_chance_add = -5
+}
+
+agot_bar_emmon_watchers_of_blackwater_bay_bla = {
+	icon = martial_positive
+
+	coastal_advantage = 3
+	defender_advantage = 2
+	monthly_prestige = 0.10
+}
+
+agot_bar_emmon_harbor_of_sharp_point_bla = {
+	icon = stewardship_positive
+	monthly_income_mult = 0.05
+	development_growth_factor = 0.05
+}
+
+agot_bar_emmon_first_light_of_warning_bla = {
+	icon = diplomacy_positive
+	liege_opinion = 10
+	monthly_prestige = 0.15
+}
+
+agot_bar_emmon_lords_of_sharp_point_bla = {
+	icon = prestige_positive
+	monthly_dynasty_prestige = 0.05
+	monthly_prestige = 0.15
+}
+# =========================================================
+# House Brune Modifiers
+# =========================================================
+
+agot_brune_open_tracks_bla = {
+	icon = stewardship_positive
+	development_growth_factor = 0.05
+	monthly_income_mult = 0.05
+}
+
+agot_brune_hidden_ways_bla = {
+	icon = intrigue_positive
+	enemy_hostile_scheme_success_chance_add = -5
+	monthly_county_control_growth_factor = 0.10
+}
+
+agot_brune_country_without_roads_bla = {
+	icon = martial_positive
+	defender_advantage = 3
+	hostile_raid_time = 0.15
+}
+
+agot_brune_clawman_guides_bla = {
+	icon = stewardship_positive
+	monthly_income = 0.5
+	movement_speed = 0.05
+}
+
+agot_brune_old_customs_bla = {
+	icon = diplomacy_positive
+	vassal_opinion = 5
+	county_opinion_add = 5
+}
+
+agot_brune_one_lord_of_the_claw_bla = {
+	icon = dread_positive
+	monthly_county_control_growth_factor = 0.15
+	dread_gain_mult = 0.05
+}
+
+agot_brune_clawman_compromise_bla = {
+	icon = stewardship_positive
+	monthly_county_control_growth_factor = 0.10
+	monthly_income_mult = 0.03
+}
+
+agot_brune_lessons_of_the_bog_bla = {
+	icon = martial_positive
+	movement_speed = 0.05
+	defender_advantage = 2
+}
+
+agot_brune_drilled_clawmen_bla = {
+	icon = martial_positive
+	levy_reinforcement_rate = 0.10
+	knight_effectiveness_mult = 0.05
+}
+
+agot_brune_warfare_of_the_claw_bla = {
+	icon = martial_positive
+	defender_advantage = 3
+	movement_speed = 0.05
+}
+
+agot_brune_blended_warfare_bla = {
+	icon = martial_positive
+	knight_effectiveness_mult = 0.05
+	defender_advantage = 2
+	monthly_prestige = 0.10
+}
+
+agot_brune_peace_of_the_pines_bla = {
+	icon = diplomacy_positive
+	county_opinion_add = 5
+	monthly_county_control_growth_factor = 0.10
+}
+
+agot_brune_hard_peace_bla = {
+	icon = dread_positive
+	monthly_county_control_growth_factor = 0.15
+	dread_gain_mult = 0.05
+}
+
+agot_brune_law_before_custom_bla = {
+	icon = stewardship_positive
+	monthly_county_control_growth_factor = 0.15
+	vassal_opinion = 5
+}
+
+agot_brune_shelter_of_the_claw_bla = {
+	icon = martial_positive
+	county_opinion_add = 5
+	defender_advantage = 2
+}
+
+agot_brune_clawmen_ready_bla = {
+	icon = martial_positive
+	levy_reinforcement_rate = 0.15
+	monthly_county_control_growth_factor = 0.10
+}
+
+agot_brune_hard_den_bla = {
+	icon = martial_positive
+	additional_fort_level = 1
+	defender_advantage = 2
+}
+
+agot_brune_open_hearth_of_the_claw_bla = {
+	icon = diplomacy_positive
+	county_opinion_add = 5
+	levy_reinforcement_rate = 0.10
+}
+
+agot_brune_lordly_den_bla = {
+	icon = stewardship_positive
+	monthly_income_mult = 0.05
+	monthly_prestige = 0.15
+}
+
+agot_brune_unassuming_stronghold_bla = {
+	icon = intrigue_positive
+	enemy_hostile_scheme_success_chance_add = -5
+	defender_advantage = 2
+}
+
+agot_brune_lords_of_the_hidden_paths_bla = {
+	icon = martial_positive
+	defender_advantage = 3
+	movement_speed = 0.05
+	monthly_prestige = 0.10
+}
+
+agot_brune_first_among_clawmen_bla = {
+	icon = diplomacy_positive
+	county_opinion_add = 10
+	vassal_opinion = 5
+}
+
+agot_brune_hard_lord_of_the_claw_bla = {
+	icon = dread_positive
+	monthly_county_control_growth_factor = 0.15
+	dread_gain_mult = 0.10
+}
+
+agot_brune_claw_and_crown_bla = {
+	icon = stewardship_positive
+	development_growth_factor = 0.05
+	monthly_income_mult = 0.05
+	liege_opinion = 5
+}
+# =========================================================
+# House Celtigar Modifiers
+# =========================================================
+
+agot_celtigar_empowered_tax_collector_bla = {
+	icon = stewardship_positive
+	stewardship = 2
+	intrigue = 1
+}
+
+agot_celtigar_relentless_collector_bla = {
+	icon = stewardship_positive
+	stewardship = 2
+	monthly_prestige = 0.15
+}
+
+agot_celtigar_keeper_of_the_ledgers_bla = {
+	icon = intrigue_positive
+	intrigue = 2
+	enemy_hostile_scheme_success_chance_add = -10
+}
+
+agot_celtigar_old_valyrian_pride_bla = {
+	icon = learning_positive
+	monthly_prestige = 0.20
+	monthly_piety = 0.10
+	learning = 1
+}
+
+agot_celtigar_display_of_wealth_bla = {
+	icon = stewardship_positive
+	monthly_income_mult = 0.05
+	monthly_prestige = 0.15
+}
+
+agot_celtigar_crownbound_service_bla = {
+	icon = diplomacy_positive
+	liege_opinion = 10
+	monthly_prestige = 0.15
+	tyranny_gain_mult = -0.05
+}
+
+agot_celtigar_claw_isle_identity_bla = {
+	icon = martial_positive
+	controlled_province_advantage = 2
+	monthly_county_control_growth_factor = 0.10
+	stewardship = 1
+}
+
+agot_celtigar_asserted_wreck_rights_bla = {
+	icon = stewardship_positive
+	monthly_income_mult = 0.05
+	monthly_prestige = 0.10
+}
+
+agot_celtigar_mercy_of_the_claw_bla = {
+	icon = diplomacy_positive
+	general_opinion = 5
+	monthly_piety = 0.15
+}
+
+agot_celtigar_velaryon_commerce_bla = {
+	icon = stewardship_positive
+	monthly_income_mult = 0.05
+	monthly_prestige = 0.10
+}
+
+agot_celtigar_quiet_competition_bla = {
+	icon = intrigue_positive
+	monthly_prestige = 0.15
+	enemy_hostile_scheme_success_chance_add = -5
+}
+
+agot_celtigar_paid_claws_bla = {
+	icon = martial_positive
+	men_at_arms_maintenance = -0.08
+	knight_effectiveness_mult = 0.10
+}
+
+agot_celtigar_military_tithes_bla = {
+	icon = stewardship_negative
+	levy_size = 0.10
+	monthly_income_mult = 0.03
+	county_opinion_add = -10
+}
+
+agot_celtigar_elite_claws_bla = {
+	icon = martial_positive
+	knight_effectiveness_mult = 0.15
+	controlled_province_advantage = 2
+}
+
+agot_celtigar_royal_accounting_bla = {
+	icon = stewardship_positive
+	stewardship = 1
+	monthly_prestige = 0.15
+	monthly_income_mult = 0.03
+}
+
+agot_celtigar_ancestral_archives_bla = {
+	icon = learning_positive
+	learning = 1
+	monthly_prestige = 0.20
+}
+
+agot_celtigar_foreign_curiosities_bla = {
+	icon = learning_positive
+	learning = 1
+	diplomacy = 1
+}
+
+agot_celtigar_secrets_of_the_vault_bla = {
+	icon = intrigue_positive
+	intrigue = 1
+	enemy_hostile_scheme_success_chance_add = -10
+}
+
+agot_celtigar_fortified_claw_isle_bla = {
+	icon = martial_positive
+	fort_level = 1
+	garrison_size = 0.10
+	defender_holding_advantage = 2
+}
+
+agot_celtigar_coastal_watch_bla = {
+	icon = martial_positive
+	monthly_county_control_growth_add = 0.10
+	county_opinion_add = 5
+}
+
+agot_celtigar_sheltered_settlements_bla = {
+	icon = diplomacy_positive
+	development_growth_factor = 0.05
+	county_opinion_add = 10
+}
+
+agot_celtigar_exposed_coast_bla = {
+	icon = martial_negative
+	monthly_county_control_growth_factor = -0.10
+	county_opinion_add = -10
+}
+
+agot_celtigar_debts_as_leverage_bla = {
+	icon = intrigue_positive
+	intrigue = 1
+	owned_hostile_scheme_success_chance_add = 5
+}
+
+agot_celtigar_trade_concessions_bla = {
+	icon = stewardship_positive
+	monthly_income_mult = 0.05
+	development_growth_factor = 0.05
+}
+
+agot_celtigar_no_debt_forgotten_bla = {
+	icon = diplomacy_negative
+	monthly_dread = 0.20
+	monthly_prestige = 0.15
+}
+
+agot_celtigar_keeper_not_owner_bla = {
+	icon = diplomacy_positive
+	dynasty_opinion = 5
+	monthly_prestige = 0.20
+}
+
+agot_celtigar_ancestral_capital_bla = {
+	icon = stewardship_positive
+	monthly_income_mult = 0.05
+	stewardship = 1
+}
+
+agot_celtigar_household_precedents_bla = {
+	icon = learning_positive
+	learning = 1
+	stewardship = 1
+}
+
+# =========================================================
+# House Crabb Modifiers
+# =========================================================
+agot_crabb_legacy_of_clarence_bla = {
+	icon = prestige_positive
+	monthly_prestige = 0.20
+	monthly_dynasty_prestige = 0.05
+}
+
+agot_crabb_whispers_reputation_bla = {
+	icon = dread_positive
+	dread_gain_mult = 0.10
+	monthly_prestige = 0.10
+}
+
+agot_crabb_words_from_the_dark_bla = {
+	icon = intrigue_positive
+	intrigue = 1
+	monthly_prestige = 0.10
+}
+
+agot_crabb_tracks_into_the_sea_bla = {
+	icon = learning_positive
+	learning = 1
+	monthly_prestige = 0.10
+}
+
+agot_crabb_knows_the_point_bla = {
+	icon = martial_positive
+	monthly_county_control_growth_factor = 0.10
+	advantage = 2
+}
+
+agot_crabb_old_blood_of_the_point_bla = {
+	icon = prestige_positive
+	monthly_dynasty_prestige = 0.05
+	monthly_prestige = 0.15
+}
+
+agot_crabb_keeper_of_the_old_tales_bla = {
+	icon = prestige_positive
+	monthly_prestige = 0.20
+	monthly_dynasty_prestige = 0.05
+}
+
+agot_crabb_chronicler_of_the_whispers_bla = {
+	icon = learning_positive
+	learning = 1
+	monthly_dynasty_prestige = 0.05
+}
+
+agot_crabb_shadow_of_the_whispers_bla = {
+	icon = dread_positive
+	dread_gain_mult = 0.10
+	enemy_hostile_scheme_success_chance_add = -5
+}
+
+agot_crabb_blood_of_clarence_bla = {
+	icon = martial_positive
+	knight_effectiveness_mult = 0.10
+	monthly_prestige = 0.15
+}
+
+agot_crabb_the_point_protects_its_own_bla = {
+	icon = stewardship_positive
+	monthly_county_control_growth_factor = 0.15
+	county_opinion_add = 5
+}
+
+agot_crabb_clawman_reputation_bla = {
+	icon = dread_positive
+	dread_gain_mult = 0.10
+	enemy_hostile_scheme_success_chance_add = -5
+}
+
+agot_crabb_future_of_the_point_bla = {
+	icon = stewardship_positive
+	development_growth_factor = 0.05
+	monthly_income_mult = 0.05
+}
+
+agot_crabb_beast_of_the_shallows_bla = {
+	icon = martial_positive
+	monthly_prestige = 0.15
+	prowess = 1
+}
+
+agot_crabb_hidden_landings_bla = {
+	icon = intrigue_positive
+	enemy_hostile_scheme_success_chance_add = -5
+	monthly_income_mult = 0.05
+}
+
+# =========================================================
+# House Darklyn Modifiers
+# =========================================================
+
+agot_darklyn_seven_swords_tradition_bla = {
+	icon = martial_positive
+	knight_effectiveness_mult = 0.15
+	knight_limit = 1
+}
+
+agot_darklyn_white_cloak_ideal_bla = {
+	icon = diplomacy_positive
+	monthly_prestige = 0.20
+	general_opinion = 5
+}
+
+agot_darklyn_lords_of_duskendale_bla = {
+	icon = stewardship_positive
+	stewardship = 1
+	monthly_prestige = 0.15
+}
+
+agot_darklyn_dun_fort_restored_bla = {
+	icon = martial_positive
+	fort_level = 1
+	monthly_prestige = 0.15
+}
+
+agot_darklyn_duskendale_investment_bla = {
+	icon = stewardship_positive
+	monthly_income_mult = 0.05
+	monthly_prestige = 0.10
+}
+
+agot_darklyn_dun_fort_and_town_bla = {
+	icon = stewardship_positive
+	stewardship = 1
+	monthly_income_mult = 0.03
+	monthly_prestige = 0.20
+}
+
+agot_darklyn_overextended_works_bla = {
+	icon = stewardship_negative
+	monthly_income_mult = -0.05
+	monthly_prestige = -0.10
+}
+
+agot_darklyn_open_duskendale_trade_bla = {
+	icon = stewardship_positive
+	monthly_income_mult = 0.06
+	development_growth_factor = 0.05
+}
+
+agot_darklyn_guild_compact_bla = {
+	icon = diplomacy_positive
+	general_opinion = 5
+	monthly_prestige = 0.15
+}
+
+agot_darklyn_balanced_guild_charter_bla = {
+	icon = stewardship_positive
+	monthly_income_mult = 0.03
+	general_opinion = 5
+	stewardship = 1
+}
+
+agot_darklyn_guild_resentment_bla = {
+	icon = diplomacy_negative
+	general_opinion = -5
+	monthly_income_mult = -0.03
+}
+
+agot_darklyn_competing_blackwater_port_bla = {
+	icon = stewardship_positive
+	monthly_income_mult = 0.06
+	development_growth_factor = 0.05
+	monthly_prestige = 0.10
+}
+
+agot_darklyn_specialized_duskendale_trade_bla = {
+	icon = stewardship_positive
+	monthly_income_mult = 0.04
+	stewardship = 1
+	development_growth_factor = 0.03
+}
+
+agot_darklyn_royal_blackwater_connections_bla = {
+	icon = diplomacy_positive
+	liege_opinion = 10
+	monthly_prestige = 0.15
+	diplomacy = 1
+}
+
+agot_darklyn_crown_favor_bla = {
+	icon = diplomacy_positive
+	monthly_prestige = 0.20
+	liege_opinion = 10
+}
+
+agot_darklyn_watched_by_the_crown_bla = {
+	icon = diplomacy_negative
+	monthly_prestige = -0.10
+	liege_opinion = -10
+}
+
+agot_darklyn_keeper_of_duskendale_memory_bla = {
+	icon = learning_positive
+	learning = 1
+	monthly_prestige = 0.15
+}
+
+agot_darklyn_lessons_of_the_dun_fort_bla = {
+	icon = learning_positive
+	learning = 1
+	stewardship = 1
+}
+
+agot_darklyn_chronicled_glory_bla = {
+	icon = diplomacy_positive
+	monthly_prestige = 0.30
+	dynasty_opinion = 5
+}
+
+agot_darklyn_shared_history_of_duskendale_bla = {
+	icon = diplomacy_positive
+	general_opinion = 5
+	monthly_prestige = 0.15
+}
+
+agot_darklyn_memory_of_defiance_bla = {
+	icon = martial_positive
+	monthly_prestige = 0.25
+	monthly_dread = 0.10
+}
+
+agot_darklyn_lesson_of_denys_bla = {
+	icon = learning_positive
+	learning = 1
+	liege_opinion = 5
+}
+
+agot_darklyn_before_the_defiance_bla = {
+	icon = diplomacy_positive
+	monthly_prestige = 0.20
+	dynasty_opinion = 5
+}
+
+agot_darklyn_bastard_blood_endures_bla = {
+	icon = intrigue_positive
+	monthly_prestige = 0.20
+	intrigue = 1
+}
+
+agot_darklyn_proven_descent_bla = {
+	icon = learning_positive
+	monthly_prestige = 0.20
+	dynasty_opinion = 5
+}
+
+agot_darklyn_duskendale_sympathizers_bla = {
+	icon = diplomacy_positive
+	general_opinion = 5
+	monthly_prestige = 0.15
+}
+
+agot_darklyn_royal_tolerance_bla = {
+	icon = diplomacy_positive
+	liege_opinion = 10
+	monthly_prestige = 0.15
+}
+
+agot_darklyn_gathering_the_old_banners_bla = {
+	icon = martial_positive
+	knight_effectiveness_mult = 0.10
+	monthly_prestige = 0.20
+}
+
+agot_darklyn_claim_backed_by_duskendale_bla = {
+	icon = diplomacy_positive
+	general_opinion = 5
+	monthly_prestige = 0.15
+}
+
+agot_darklyn_claimant_of_the_dun_fort_bla = {
+	icon = martial_positive
+	knight_effectiveness_mult = 0.10
+	monthly_prestige = 0.20
+}
+
+agot_darklyn_undermining_duskendale_bla = {
+	icon = intrigue_positive
+	intrigue = 1
+	owned_hostile_scheme_success_chance_add = 5
+}
+
+agot_darklyn_old_loyalties_stir_bla = {
+	icon = diplomacy_positive
+	diplomacy = 1
+	monthly_prestige = 0.15
+}
+
+agot_darklyn_dun_fort_in_our_sights_bla = {
+	icon = martial_positive
+	knight_effectiveness_mult = 0.10
+	monthly_prestige = 0.20
+}
+
+agot_darklyn_eyes_inside_duskendale_bla = {
+	icon = intrigue_positive
+	intrigue = 1
+	owned_hostile_scheme_success_chance_add = 5
+}
+
+agot_darklyn_name_whispered_in_duskendale_bla = {
+	icon = diplomacy_positive
+	diplomacy = 1
+	monthly_prestige = 0.15
+}
+
+agot_darklyn_history_against_the_new_lords_bla = {
+	icon = learning_positive
+	learning = 1
+	monthly_prestige = 0.20
+}
+
+agot_darklyn_reclamation_urgency_bla = {
+	icon = martial_positive
+	martial = 1
+	monthly_prestige = 0.15
+}
+
+agot_darklyn_dun_fort_reclaimed_bla = {
+	icon = martial_positive
+	fort_level = 1
+	monthly_county_control_growth_add = 0.10
+	monthly_county_control_growth_factor = 0.10
+}
+
+agot_darklyn_return_to_duskendale_bla = {
+	icon = diplomacy_positive
+	county_opinion_add = 15
+	development_growth_factor = 0.05
+}
+
+agot_darklyn_continuity_of_duskendale_bla = {
+	icon = stewardship_positive
+	county_opinion_add = 10
+	development_growth_factor = 0.05
+	tax_mult = 0.05
+}
+
+agot_darklyn_heirs_without_the_name_bla = {
+	icon = dynasty_house_opinion_positive
+	monthly_prestige = 0.25
+	dynasty_opinion = 5
+	legitimacy_gain_mult = 0.05
+}
+
+agot_darklyn_second_age_white_swords_bla = {
+	icon = diplomacy_positive
+	monthly_prestige = 0.25
+	knight_effectiveness_mult = 0.10
+	liege_opinion = 5
+}
+
+agot_darklyn_second_age_duskendale_bla = {
+	icon = stewardship_positive
+	development_growth_factor = 0.06
+	tax_mult = 0.05
+	county_opinion_add = 10
+}
+
+agot_darklyn_second_age_defiant_bla = {
+	icon = martial_positive
+	monthly_prestige = 0.25
+	monthly_dread = 0.10
+	controlled_province_advantage = 2
+}
+
+agot_darklyn_second_age_beyond_denys_bla = {
+	icon = learning_positive
+	learning = 1
+	diplomacy = 1
+	monthly_prestige = 0.15
+}
+
+agot_darklyn_second_age_remembers_the_branch_bla = {
+	icon = dynasty_house_opinion_positive
+	dynasty_opinion = 5
+	monthly_prestige = 0.20
+	legitimacy_gain_mult = 0.05
+}
+
+# =========================================================
+# House Massey Modifiers
+# =========================================================
+agot_massey_ancient_claims_bla = {
+	icon = prestige_positive
+	monthly_prestige = 0.20
+	monthly_dynasty_prestige = 0.05
+}
+
+agot_massey_just_lord_of_hook_bla = {
+	icon = diplomacy_positive
+	vassal_opinion = 5
+	monthly_prestige = 0.15
+}
+
+agot_massey_hard_hand_of_stonedance_bla = {
+	icon = dread_positive
+	dread_gain_mult = 0.10
+	monthly_prestige = 0.10
+}
+
+agot_massey_watchful_hook_bla = {
+	icon = intrigue_positive
+	enemy_hostile_scheme_success_chance_add = -5
+	monthly_prestige = 0.10
+}
+
+agot_massey_beacon_watch_bla = {
+	icon = martial_positive
+	levy_reinforcement_rate = 0.10
+	monthly_county_control_growth_factor = 0.10
+}
+
+agot_massey_coastal_understanding_bla = {
+	icon = intrigue_positive
+	monthly_income = 0.5
+	monthly_prestige = -0.10
+}
+
+agot_massey_judgment_of_the_hook_bla = {
+	icon = prestige_positive
+	monthly_prestige = 0.20
+	vassal_opinion = 5
+}
+
+agot_massey_law_of_the_hook_bla = {
+	icon = stewardship_positive
+	monthly_county_control_growth_factor = 0.15
+	stewardship = 1
+}
+
+agot_massey_hook_before_all_bla = {
+	icon = martial_positive
+	monthly_county_control_growth_factor = 0.15
+	levy_reinforcement_rate = 0.10
+}
+
+agot_massey_indispensable_vassal_bla = {
+	icon = diplomacy_positive
+	liege_opinion = 10
+	monthly_prestige = 0.15
+}
+
+agot_massey_blackwater_outlook_bla = {
+	icon = stewardship_positive
+	monthly_income_mult = 0.05
+	diplomatic_range_mult = 0.10
+}
+
+agot_massey_blood_of_kings_bla = {
+	icon = prestige_positive
+	monthly_prestige_gain_mult = 0.10
+	monthly_dynasty_prestige = 0.10
+}
+
+agot_massey_roads_of_the_hook_bla = {
+	icon = stewardship_positive
+	monthly_income_mult = 0.05
+	development_growth_factor = 0.05
+}
+
+agot_massey_merchant_roads_bla = {
+	icon = stewardship_positive
+	monthly_income = 0.5
+	monthly_prestige = 0.10
+}
+
+agot_massey_military_roads_bla = {
+	icon = martial_positive
+	levy_reinforcement_rate = 0.10
+	monthly_county_control_growth_factor = 0.10
+}
+
+agot_massey_forced_road_labor_bla = {
+	icon = dread_positive
+	monthly_income = 0.5
+	county_opinion_add = -5
+}
+
+# =========================================================
+# House Rosby Modifiers
+# =========================================================
+
+agot_rosby_generous_provision_bla = {
+	icon = diplomacy_positive
+	liege_opinion = 5
+	monthly_prestige = 0.10
+}
+
+agot_rosby_roadside_trade_bla = {
+	icon = stewardship_positive
+	monthly_income_mult = 0.08
+	county_opinion_add = -5
+}
+
+agot_rosby_guarded_stores_bla = {
+	icon = stewardship_positive
+	county_opinion_add = 5
+	levy_reinforcement_rate = 0.10
+}
+
+agot_rosby_keep_them_moving_bla = {
+	icon = intrigue_positive
+	monthly_county_control_growth_factor = 0.10
+	monthly_prestige = 0.10
+}
+
+agot_rosby_generous_provision_bla = {
+	icon = diplomacy_positive
+	liege_opinion = 5
+	monthly_prestige = 0.10
+}
+
+agot_rosby_roadside_trade_bla = {
+	icon = stewardship_positive
+	monthly_income_mult = 0.08
+	county_opinion_add = -5
+}
+
+agot_rosby_guarded_stores_bla = {
+	icon = stewardship_positive
+	county_opinion_add = 5
+	levy_reinforcement_rate = 0.10
+}
+
+agot_rosby_keep_them_moving_bla = {
+	icon = intrigue_positive
+	monthly_county_control_growth_factor = 0.10
+	monthly_prestige = 0.10
+}
+
+agot_rosby_open_gates_bla = {
+	icon = diplomacy_positive
+	county_opinion_add = 10
+	monthly_piety = 0.10
+	monthly_income_mult = -0.05
+}
+
+agot_rosby_ordered_refuge_bla = {
+	icon = stewardship_positive
+	county_opinion_add = 5
+	monthly_county_control_growth_factor = 0.10
+}
+
+agot_rosby_refugee_craftsmen_bla = {
+	icon = stewardship_positive
+	development_growth_factor = 0.08
+	monthly_income_mult = 0.03
+}
+
+agot_rosby_closed_gates_bla = {
+	icon = martial_positive
+	monthly_county_control_growth_factor = 0.15
+	county_opinion_add = -5
+}
+
+agot_rosby_indispensable_neighbor_bla = {
+	icon = stewardship_positive
+	monthly_income_mult = 0.05
+	development_growth_factor = 0.05
+	liege_opinion = 5
+}
+
+agot_rosby_eyes_on_the_capital_bla = {
+	icon = intrigue_positive
+	liege_opinion = 5
+	enemy_hostile_scheme_success_chance_add = -5
+	monthly_prestige = 0.10
+}
+
+agot_rosby_guarded_doorstep_bla = {
+	icon = martial_positive
+	defender_advantage = 2
+	monthly_county_control_growth_factor = 0.15
+}
+
+agot_rosby_beyond_the_city_bla = {
+	icon = stewardship_positive
+	monthly_dynasty_prestige = 0.05
+	monthly_income_mult = 0.05
+}
+
+# =========================================================
+# House Stokeworth Modifiers
+# =========================================================
+
+agot_stokeworth_open_granaries_bla = {
+	icon = diplomacy_positive
+	county_opinion_add = 10
+	monthly_prestige = 0.10
+}
+
+agot_stokeworth_grain_trade_bla = {
+	icon = stewardship_positive
+	monthly_income_mult = 0.08
+}
+
+agot_stokeworth_full_storehouses_bla = {
+	icon = stewardship_positive
+	monthly_income_mult = 0.03
+	levy_reinforcement_rate = 0.10
+}
+
+agot_stokeworth_provisioner_of_the_crown_bla = {
+	icon = diplomacy_positive
+	liege_opinion = 10
+	monthly_prestige = 0.10
+}
+
+agot_stokeworth_ambitious_matches_bla = {
+	icon = prestige_positive
+	monthly_prestige = 0.20
+	attraction_opinion = 5
+}
+
+agot_stokeworth_ties_to_court_bla = {
+	icon = diplomacy_positive
+	liege_opinion = 10
+	monthly_diplomacy_lifestyle_xp_gain_mult = 0.05
+}
+
+agot_stokeworth_practical_matches_bla = {
+	icon = stewardship_positive
+	monthly_income_mult = 0.05
+	monthly_dynasty_prestige = 0.05
+}
+
+agot_stokeworth_ashes_of_vhagar_bla = {
+	icon = prestige_positive
+	monthly_dynasty_prestige = 0.05
+	monthly_prestige = 0.15
+}
+
+agot_stokeworth_remembers_the_flame_bla = {
+	icon = martial_positive
+	defender_advantage = 2
+	monthly_prestige = 0.10
+}
+
+agot_stokeworth_bend_before_breaking_bla = {
+	icon = stewardship_positive
+	liege_opinion = 5
+	stress_gain_mult = -0.05
+}
+
+agot_stokeworth_crowns_diligent_servants_bla = {
+	icon = diplomacy_positive
+	liege_opinion = 10
+	monthly_prestige = 0.15
+}
+
+agot_stokeworth_duty_in_the_field_bla = {
+	icon = martial_positive
+	prowess = 1
+	knight_effectiveness_mult = 0.05
+	monthly_prestige = 0.10
+}
+
+agot_stokeworth_near_the_throne_bla = {
+	icon = intrigue_positive
+	liege_opinion = 5
+	enemy_hostile_scheme_success_chance_add = -5
+	monthly_prestige = 0.10
+}
+
+agot_stokeworth_house_before_office_bla = {
+	icon = stewardship_positive
+	monthly_dynasty_prestige = 0.05
+	monthly_income_mult = 0.05
+}
+
+# =========================================================
+# House Sunglass Modifiers
+# =========================================================
+
+agot_sunglass_patron_of_sweetport_faith_bla = {
+	icon = piety_positive
+	monthly_piety = 0.20
+	monthly_prestige = 0.10
+}
+
+agot_sunglass_humble_sept_bla = {
+	icon = piety_positive
+	monthly_piety = 0.15
+	monthly_income_mult = 0.03
+}
+
+agot_sunglass_open_sept_bla = {
+	icon = diplomacy_positive
+	monthly_piety = 0.10
+	county_opinion_add = 5
+}
+
+agot_sunglass_beacon_of_sweetport_bla = {
+	icon = stewardship_positive
+	monthly_income_mult = 0.05
+	development_growth_factor = 0.05
+}
+
+agot_sunglass_sailors_watch_bla = {
+	icon = diplomacy_positive
+	county_opinion_add = 5
+	monthly_prestige = 0.10
+}
+
+agot_sunglass_harbor_dues_bla = {
+	icon = stewardship_positive
+	monthly_income_mult = 0.08
+	county_opinion_add = -5
+}
+
+agot_sunglass_conscience_before_command_bla = {
+	icon = piety_positive
+	monthly_piety = 0.20
+	monthly_prestige = 0.15
+}
+
+agot_sunglass_obedient_vassal_bla = {
+	icon = diplomacy_positive
+	liege_opinion = 10
+	monthly_prestige = 0.10
+}
+
+agot_sunglass_tempered_obedience_bla = {
+	icon = diplomacy_positive
+	liege_opinion = 5
+	monthly_piety = 0.10
+	monthly_prestige = 0.10
+}
+
+agot_sunglass_watched_waters_bla = {
+	icon = martial_positive
+	defender_advantage = 2
+	monthly_prestige = 0.10
+}
+
+agot_sunglass_pirates_mark_the_sound_bla = {
+	icon = martial_negative
+	monthly_income_mult = -0.05
+	monthly_prestige = -0.10
+}
+
+agot_sunglass_light_of_the_seven_bla = {
+	icon = piety_positive
+	monthly_piety = 0.25
+	monthly_dynasty_prestige = 0.05
+}
+
+agot_sunglass_guardians_of_the_sound_bla = {
+	icon = martial_positive
+	defender_advantage = 2
+	monthly_prestige = 0.15
+}
+
+agot_sunglass_sweetport_prosperity_bla = {
+	icon = stewardship_positive
+	monthly_income_mult = 0.05
+	development_growth_factor = 0.05
+}
+
+agot_sunglass_faith_and_fealty_bla = {
+	icon = diplomacy_positive
+	liege_opinion = 5
+	monthly_piety = 0.10
+	monthly_prestige = 0.10
+}
+# =========================================================
+# House Velaryon Modifiers
+# =========================================================
+
+agot_velaryon_expanded_harbor_bla = {
+	icon = stewardship_positive
+	tax_mult = 0.10
+	development_growth_factor = 0.10
+	supply_limit_mult = 0.10
+}
+
+agot_velaryon_harbor_discipline_bla = {
+	icon = prestige_positive
+	monthly_prestige = 0.25
+	embarkation_cost_mult = -0.10
+}
+
+agot_velaryon_crowded_anchorages_bla = {
+	icon = economy_positive
+	tax_mult = 0.15
+	county_opinion_add = -10
+}
+
+agot_velaryon_fleet_well_provisioned_bla = {
+	icon = martial_positive
+	embarkation_cost_mult = -0.15
+	monthly_prestige = 0.25
+}
+
+agot_velaryon_fleet_supply_contracts_bla = {
+	icon = economy_positive
+	tax_mult = 0.10
+	development_growth_factor = 0.05
+	county_opinion_add = 5
+}
+
+agot_velaryon_fleet_requisitions_bla = {
+	icon = county_modifier_control_negative
+	 tax_mult = -0.05
+	county_opinion_add = -15
+}
+
+agot_velaryon_stretched_fleet_stores_bla = {
+	icon = martial_negative
+	embarkation_cost_mult = 0.10
+	levy_reinforcement_rate = -0.10
+}
+
+agot_velaryon_harbor_accounts_scrutinized_bla = {
+	icon = stewardship_positive
+	 tax_mult = 0.05
+	county_opinion_add = 5
+}
+
+agot_velaryon_people_before_coin_bla = {
+	icon = diplomacy_positive
+	county_opinion_add = 15
+	development_growth_factor = 0.05
+}
+
+agot_velaryon_flooded_storehouses_bla = {
+	icon = stewardship_negative
+	tax_mult = -0.08
+	development_growth_factor = -0.05
+}
+
+agot_velaryon_storm_neglect_bla = {
+	icon = stewardship_negative
+	development_growth_factor = -0.10
+	county_opinion_add = -10
+}
+
+agot_velaryon_eastern_merchants_bla = {
+	icon = stewardship_positive
+	development_growth = 0.15
+	holding_build_gold_cost = -0.05
+}
+
+agot_velaryon_harbor_customs_bla = {
+	icon = stewardship_positive
+	 tax_mult = 0.12
+	development_growth = -0.05
+}
+
+agot_velaryon_foreign_craftsmen_bla = {
+	icon = stewardship_positive
+	holding_build_gold_cost = -0.10
+	holding_build_speed = 0.10
+}
+
+agot_velaryon_restricted_foreign_trade_bla = {
+	icon = diplomacy_negative
+	county_opinion_add = 10
+	 tax_mult = -0.08
+}
+
+agot_velaryon_gullet_swept_clean_bla = {
+	icon = martial_positive
+
+	travel_danger = -10
+	 tax_mult = 0.08
+}
+
+agot_velaryon_emboldened_pirates_bla = {
+	icon = martial_negative
+
+	travel_danger = 15
+	 tax_mult = -0.08
+}
+
+agot_velaryon_late_pirate_response_bla = {
+	icon = stewardship_negative
+
+	development_growth_factor = -0.05
+	county_opinion_add = -5
+}
+
+agot_velaryon_preserved_old_driftmark_bla = {
+	icon = learning_positive
+	monthly_dynasty_prestige_mult = 0.05
+	county_opinion_add = 5
+}
+
+agot_velaryon_new_driftmark_bla = {
+	icon = stewardship_positive
+	development_growth_factor = 0.08
+	holding_build_speed = 0.05
+}
+
+agot_velaryon_ancient_harbor_rights_bla = {
+	icon = stewardship_positive
+	 tax_mult = 0.08
+	monthly_county_control_growth_add = 0.10
+}
+
+agot_velaryon_studied_old_sea_charts_bla = {
+	icon = learning_positive
+	coastal_advantage = 3
+	monthly_learning_lifestyle_xp_gain_mult = 0.10
+}
+
+agot_velaryon_child_sea_command_bla = {
+	icon = martial_positive
+	martial = 1
+	prowess = 1
+}
+
+agot_velaryon_child_harbor_training_bla = {
+	icon = stewardship_positive
+	stewardship = 1
+	diplomacy = 1
+}
+
+agot_velaryon_child_among_sailors_bla = {
+	icon = diplomacy_positive
+	diplomacy = 1
+	health = 0.10
+}
+
+agot_velaryon_young_seafarer_bla = {
+	icon = diplomacy_positive
+	diplomacy = 1
+	prowess = 1
+}
+
+agot_velaryon_cautious_mariner_bla = {
+	icon = stewardship_positive
+	stewardship = 1
+	intrigue = 1
+}
+
+agot_velaryon_seasoned_young_sailor_bla = {
+	icon = martial_positive
+	martial = 1
+	prowess = 2
+}
+
+agot_velaryon_protected_fishing_waters_bla = {
+	icon = diplomacy_positive
+	county_opinion_add = 10
+	supply_limit_mult = 0.10
+}
+
+agot_velaryon_merchant_anchorages_bla = {
+	icon = stewardship_positive
+	 tax_mult = 0.10
+	county_opinion_add = -5
+}
+
+agot_velaryon_ordered_waters_bla = {
+	icon = stewardship_positive
+	development_growth_factor = 0.08
+	monthly_county_control_growth_add = 0.10
+}
+
+agot_velaryon_disputed_waters_bla = {
+	icon = stewardship_negative
+	development_growth_factor = -0.05
+	county_opinion_add = -10
+}
+
+agot_velaryon_lords_waters_bla = {
+	icon = diplomacy_negative
+	monthly_county_control_growth_add = 0.15
+	county_opinion_add = -5
+}
+
+agot_velaryon_golden_age_driftmark_bla = {
+	icon = stewardship_positive
+	development_growth_factor = 0.10
+	 tax_mult = 0.08
+	holding_build_speed = 0.10
+}
+
+agot_velaryon_mastery_of_the_gullet_bla = {
+	icon = martial_positive
+	coastal_advantage = 5
+	knight_effectiveness_mult = 0.10
+	monthly_martial_lifestyle_xp_gain_mult = 0.10
+}
+
+agot_velaryon_court_of_the_tides_bla = {
+	icon = diplomacy_positive
+	courtier_and_guest_opinion = 10
+	monthly_diplomacy_lifestyle_xp_gain_mult = 0.10
+	monthly_prestige = 0.25
+}
+
+agot_velaryon_hightide_old_glory_bla = {
+	icon = prestige_positive
+	build_speed = -0.05
+	monthly_prestige = 0.25
+}
+
+agot_velaryon_hightide_fortification_works_bla = {
+	icon = martial_positive
+	build_speed = -0.05
+	garrison_size = 0.15
+}
+
+agot_velaryon_hightide_practical_rebuilding_bla = {
+	icon = stewardship_positive
+	build_speed = -0.05
+	monthly_income = 0.5
+}
+
+agot_velaryon_hightide_legacy_restoration_bla = {
+	icon = prestige_positive
+	build_speed = -0.10
+	monthly_prestige = 0.25
+	development_growth_factor = 0.10
+}
+
+agot_velaryon_sea_snake_charts_bla = {
+	icon = learning_positive
+	monthly_lifestyle_xp_gain_mult = 0.05
+	monthly_prestige = 0.10
+}
+
+agot_velaryon_driftmark_reborn_bla = {
+	icon = prestige_positive
+	monthly_dynasty_prestige = 0.25
+	monthly_prestige_gain_mult = 0.05
+	monthly_income_mult = 0.05
+	diplomatic_range_mult = 0.10
+}
+
+# =========================================================
+# House Velaryon - Stepstones Modifiers
+# =========================================================
+
+agot_stepstones_well_paid_captain_bla = {
+	icon = stewardship_positive
+	martial = 1
+	monthly_income = 0.25
+}
+
+agot_stepstones_proven_captain_bla = {
+	icon = martial_positive
+	martial = 1
+	prowess = 2
+}
+
+agot_velaryon_stepstones_harsh_requisitions_bla = {
+	icon = diplomacy_negative
+	general_opinion = -5
+	monthly_dread = 0.25
+}
+
+agot_velaryon_fortified_bloodstone_bla = {
+	icon = martial_positive
+	fort_level = 1
+	defender_holding_advantage = 3
+	garrison_size = 0.15
+}
+
+agot_velaryon_bloodstone_trade_port_bla = {
+	icon = stewardship_positive
+	 tax_mult = 0.12
+	development_growth_factor = 0.08
+}
+
+agot_velaryon_bloodstone_reconciled_bla = {
+	icon = diplomacy_positive
+	county_opinion_add = 15
+	monthly_county_control_growth_add = 0.15
+}
+
+agot_velaryon_bloodstone_under_the_boot_bla = {
+	icon = martial_negative
+	monthly_county_control_growth_add = 0.20
+	county_opinion_add = -15
+}
+
+agot_velaryon_lord_of_the_narrow_sea_bla = {
+	icon = martial_positive
+	coastal_advantage = 5
+	men_at_arms_maintenance = -0.05
+	monthly_prestige = 0.25
+}
+
+agot_velaryon_crossroads_of_the_narrow_sea_bla = {
+	icon = stewardship_positive
+	 tax_mult = 0.12
+	development_growth_factor = 0.10
+	travel_danger = -5
+}
+
+agot_velaryon_founder_of_stepstones_order_bla = {
+	icon = diplomacy_positive
+	vassal_opinion = 5
+	monthly_county_control_growth_factor = 0.15
+	short_reign_duration_mult = -0.10
+}
+
+agot_stepstones_corsair_informant_bla = {
+	icon = intrigue_positive
+	intrigue = 2
+	enemy_hostile_scheme_success_chance_add = -10
+}
+
+agot_velaryon_stepstones_new_order_bla = {
+	icon = diplomacy_positive
+	monthly_county_control_growth_add = 0.15
+	county_opinion_add = 10
+	development_growth_factor = 0.05
+}
+
+agot_velaryon_fragile_stepstones_peace_bla = {
+	icon = diplomacy_negative
+	vassal_opinion = -5
+	monthly_county_control_growth_factor = -0.10
+	enemy_hostile_scheme_success_chance_add = 5
+}
+
+agot_velaryon_stepstones_smoldering_resistance_bla = {
+	icon = martial_negative
+	vassal_opinion = -5
+	county_opinion_add = -10
+	monthly_county_control_growth_factor = -0.15
+}
+
+agot_velaryon_stepstones_legacy_bla = {
+	icon = prestige_positive
+	monthly_dynasty_prestige = 0.10
+	coastal_advantage = 2
+	naval_movement_speed_mult = 0.10
+}
+
+agot_velaryon_stepstones_enduring_trade_bla = {
+	icon = stewardship_positive
+	 tax_mult = 0.08
+	development_growth_factor = 0.05
+}
+
+agot_velaryon_stepstones_lawgiver_bla = {
+	icon = diplomacy_positive
+	vassal_opinion = 5
+	monthly_county_control_growth_factor = 0.15
+	monthly_prestige = 0.20
+}
+
+agot_velaryon_stepstones_master_of_the_narrow_sea_bla = {
+	icon = martial_positive
+	coastal_advantage = 5
+	naval_movement_speed_mult = 0.10
+	monthly_prestige = 0.20
+}

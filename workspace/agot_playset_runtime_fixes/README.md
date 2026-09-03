@@ -61,6 +61,31 @@ change re-raises it.
   crash cause. The removal is anchored to that call: the adjacent
   `ep3_landless_invasion_titles_taken_effect` call does declare `$TITLE_GIVER$`
   and keeps it.
+- **Landmarks of Westeros special buildings (Workshop 3692879370):** six reader
+  faults in `zzz_landmarks_agot_special_buildings_westeros.txt`, each of which
+  drops the field it names before the database sees it. Four buildings cost
+  `normal_building_tier_9_cost`, which
+  `Failed to read named value or literal from normal_building_tier_9_cost`
+  reports because AGOT declares tiers 1 through 8 only; the repair moves them to
+  the highest tier AGOT does declare, and asserts that both the undefined tier
+  and four uses are still present. One building declares
+  `forest_development_growth_faction`, a misspelling of the terrain development
+  tag. One declares `fort_level` as a direct child of the building rather than
+  inside a `province_modifier`, which `"Unexpected token: fort_level"` reports;
+  every other `fort_level` in the file sits in a `province_modifier`, and the
+  generator asserts that ratio before wrapping the stray one. The generated file
+  is also written with the UTF-8 BOM the reader asks for.
+- **Landmarks of Westeros / COW-AGOT compatch (Workshop 3697008412):** the High
+  Tide completion effect enters a `holding` scope, which does not exist —
+  `"Unknown trigger: holding"` — so the reader discards the block and the castle
+  upgrade never runs. A building's `on_complete` runs in the province scope,
+  which is how the file's sibling blocks reach `barony.holder`, so the wrapper
+  is dropped and the building check made directly. Three further `on_complete`
+  blocks do nothing but `trigger_event = agot_cities.5000`, and no mod in the
+  playset declares that namespace —
+  `trigger_event effect [ Event [agot_cities.5000] not found ]`. Those blocks
+  hold nothing else and are removed; the generator asserts that no reference to
+  the namespace survives.
 - **Kraken events (Workshop 3781577713):**
   `"Unexpected token: override_environment"` in `events/kraken_events.txt`. CK3
   1.19 no longer accepts the field, and the parser rejects the surrounding
@@ -373,14 +398,14 @@ the generator and review the resulting diff after any update to Workshop IDs
 `3621472324`, `3324579171`, `3349316031`, `3761342990`, `3445965581`,
 `3676293022`, `3305687550`, `3662281614`, `3674548216`, `3673468355`,
 `2886417277`, `3084203091`, `3225355262`, `3235061780`, `3377641022`,
-`3462342647`, `3437814875`, `3709868073`, `3541596590`, `3719888822`, or
-`2971198450`, `3732116186`, or `2519175282`, and after CK3 updates that change
-`04_dlc_ep2_tour_effects.txt`. Re-run it after updates to `3682802751` because
-the Essos cleanup validates that parent's game rules and startup actions, and
-after updates to `3719888822` because the same repair is pinned to LoV's
-effective wilderness-conversion effect. Re-run it after updates to `3762892081`
-because the generated court-scene selector follows that compatch's current
-room-routing rules.
+`3692879370`, `3697008412`, `3462342647`, `3437814875`, `3709868073`,
+`3541596590`, `3719888822`, or `2971198450`, `3732116186`, or `2519175282`, and
+after CK3 updates that change `04_dlc_ep2_tour_effects.txt`. Re-run it after
+updates to `3682802751` because the Essos cleanup validates that parent's game
+rules and startup actions, and after updates to `3719888822` because the same
+repair is pinned to LoV's effective wilderness-conversion effect. Re-run it
+after updates to `3762892081` because the generated court-scene selector follows
+that compatch's current room-routing rules.
 
 The stability guards are pinned by file or top-level block hash and fail closed
 when a parent changes. Re-run the generator and review the diff after any update

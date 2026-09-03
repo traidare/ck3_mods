@@ -1,0 +1,435 @@
+﻿namespace = agot_crownlands_bla
+
+agot_crownlands_bla.0999 = {
+	type = character_event
+	hidden = yes
+
+	trigger = {
+		is_ai = no
+		is_ruler = yes
+		is_landed = yes
+		is_available_adult = yes
+		dynasty = dynasty:dynn_Rosby
+
+		NOT = {
+			has_character_flag = rosby_any_event_recently_bla
+		}
+	}
+
+	immediate = {
+		add_character_flag = {
+			flag = rosby_any_event_recently_bla
+			years = 3
+		}
+
+		random_list = {
+			10 = { trigger_event = agot_crownlands_bla.0900 }
+			10 = { trigger_event = agot_crownlands_bla.0901 }
+			10 = { trigger_event = agot_crownlands_bla.0902 }
+			8 = { trigger_event = agot_crownlands_bla.0903 }
+
+			90 = { }
+		}
+	}
+}
+
+agot_crownlands_bla.0900 = {
+	type = character_event
+	title = agot_crownlands_bla.0900.t
+	desc = agot_crownlands_bla.0900.desc
+	theme = stewardship
+
+	override_background = {
+		reference = courtyard
+	}
+
+	left_portrait = {
+		character = root
+		animation = personality_rational
+	}
+
+	trigger = {
+		is_ruler = yes
+		is_landed = yes
+		is_available_adult = yes
+		dynasty = dynasty:dynn_Rosby
+
+		NOT = {
+			has_character_flag = agot_rosby_kings_road_cooldown_bla
+		}
+	}
+
+	immediate = {
+		add_character_flag = {
+			flag = agot_rosby_kings_road_cooldown_bla
+			years = 8
+		}
+	}
+
+	option = {
+		name = agot_crownlands_bla.0900.a
+
+		remove_short_term_gold = 75
+		add_diplomacy_lifestyle_xp = 125
+		add_prestige = 100
+
+		if = {
+			limit = {
+				exists = liege
+			}
+
+			liege = {
+				add_opinion = {
+					target = root
+					modifier = grateful_opinion
+					opinion = 15
+				}
+			}
+		}
+
+		add_character_modifier = {
+			modifier = agot_rosby_generous_provision_bla
+			years = 6
+		}
+	}
+
+	option = {
+		name = agot_crownlands_bla.0900.b
+
+		add_gold = 100
+		add_stewardship_lifestyle_xp = 150
+
+		add_character_modifier = {
+			modifier = agot_rosby_roadside_trade_bla
+			years = 6
+		}
+	}
+
+	option = {
+		name = agot_crownlands_bla.0900.c
+
+		add_stewardship_lifestyle_xp = 175
+		add_prestige = 75
+
+		add_character_modifier = {
+			modifier = agot_rosby_guarded_stores_bla
+			years = 6
+		}
+	}
+
+	option = {
+		name = agot_crownlands_bla.0900.d
+
+		add_intrigue_lifestyle_xp = 125
+		add_prestige = 75
+
+		add_character_modifier = {
+			modifier = agot_rosby_keep_them_moving_bla
+			years = 6
+		}
+	}
+}
+
+agot_crownlands_bla.0901 = {
+	type = character_event
+	title = agot_crownlands_bla.0901.t
+	desc = agot_crownlands_bla.0901.desc
+	theme = intrigue
+
+	override_background = {
+		reference = throne_room
+	}
+
+	left_portrait = {
+		character = root
+		animation = personality_suspicious
+	}
+
+	right_portrait = {
+		character = scope:rosby_fugitive_courtier_bla
+		animation = personality_fear
+	}
+
+	trigger = {
+		is_ruler = yes
+		is_landed = yes
+		is_available_adult = yes
+		dynasty = dynasty:dynn_Rosby
+
+		NOT = {
+			has_character_flag = agot_rosby_guest_capital_cooldown_bla
+		}
+	}
+
+	immediate = {
+		add_character_flag = {
+			flag = agot_rosby_guest_capital_cooldown_bla
+			years = 10
+		}
+
+		create_character = {
+			location = root.capital_province
+			age = { 25 45 }
+			dynasty = none
+			gender_female_chance = 50
+
+			culture = root.culture
+			faith = root.faith
+
+			diplomacy = { 9 14 }
+			intrigue = { 11 16 }
+			stewardship = { 7 12 }
+
+			trait = shrewd
+
+			save_scope_as = rosby_fugitive_courtier_bla
+		}
+	}
+
+	option = { # Shelter them
+		name = agot_crownlands_bla.0901.a
+
+		hidden_effect = {
+			add_courtier = scope:rosby_fugitive_courtier_bla
+		}
+
+		add_intrigue_lifestyle_xp = 150
+
+		scope:rosby_fugitive_courtier_bla = {
+			add_opinion = {
+				target = root
+				modifier = grateful_opinion
+				opinion = 40
+			}
+		}
+
+		custom_tooltip = agot_crownlands_bla.0901.a.tt
+	}
+
+	option = { # Hear their secrets
+		name = agot_crownlands_bla.0901.b
+
+		add_intrigue_lifestyle_xp = 200
+		add_prestige = 75
+
+		random_list = {
+			65 = {
+				add_gold = 75
+				custom_tooltip = agot_crownlands_bla.0901.b.success
+			}
+
+			35 = {
+				custom_tooltip = agot_crownlands_bla.0901.b.failure
+			}
+		}
+	}
+
+	option = { # Return them
+		name = agot_crownlands_bla.0901.c
+
+		add_diplomacy_lifestyle_xp = 125
+		add_prestige = 100
+
+		if = {
+			limit = {
+				exists = liege
+			}
+
+			liege = {
+				add_opinion = {
+					target = root
+					modifier = grateful_opinion
+					opinion = 20
+				}
+			}
+		}
+	}
+
+	option = { # Send them onward
+		name = agot_crownlands_bla.0901.d
+
+		add_diplomacy_lifestyle_xp = 100
+		add_piety = 75
+
+		custom_tooltip = agot_crownlands_bla.0901.d.tt
+	}
+}
+
+agot_crownlands_bla.0902 = {
+	type = character_event
+	title = agot_crownlands_bla.0902.t
+	desc = agot_crownlands_bla.0902.desc
+	theme = stewardship
+
+	override_background = {
+		reference = courtyard
+	}
+
+	left_portrait = {
+		character = root
+		animation = personality_rational
+	}
+
+	trigger = {
+		is_ruler = yes
+		is_landed = yes
+		is_available_adult = yes
+		dynasty = dynasty:dynn_Rosby
+
+		NOT = {
+			has_character_flag = agot_rosby_gates_cooldown_bla
+		}
+	}
+
+	immediate = {
+		add_character_flag = {
+			flag = agot_rosby_gates_cooldown_bla
+			years = 10
+		}
+	}
+
+	option = { # Open gates
+		name = agot_crownlands_bla.0902.a
+
+		remove_short_term_gold = 100
+		add_piety = 150
+		add_diplomacy_lifestyle_xp = 125
+
+		add_character_modifier = {
+			modifier = agot_rosby_open_gates_bla
+			years = 6
+		}
+	}
+
+	option = { # Camps outside
+		name = agot_crownlands_bla.0902.b
+
+		remove_short_term_gold = 50
+		add_stewardship_lifestyle_xp = 175
+
+		add_character_modifier = {
+			modifier = agot_rosby_ordered_refuge_bla
+			years = 6
+		}
+	}
+
+	option = { # Skilled only
+		name = agot_crownlands_bla.0902.c
+
+		add_stewardship_lifestyle_xp = 150
+
+		add_character_modifier = {
+			modifier = agot_rosby_refugee_craftsmen_bla
+			years = 8
+		}
+
+		custom_tooltip = agot_crownlands_bla.0902.c.tt
+	}
+
+	option = { # Shut gates
+		name = agot_crownlands_bla.0902.d
+
+		add_martial_lifestyle_xp = 100
+
+		add_character_modifier = {
+			modifier = agot_rosby_closed_gates_bla
+			years = 5
+		}
+	}
+}
+
+agot_crownlands_bla.0903 = {
+	type = character_event
+	title = agot_crownlands_bla.0903.t
+	desc = agot_crownlands_bla.0903.desc
+	theme = dynasty
+
+	override_background = {
+		reference = courtyard
+	}
+
+	left_portrait = {
+		character = root
+		animation = personality_honorable
+	}
+
+	trigger = {
+		is_ruler = yes
+		is_landed = yes
+		is_available_adult = yes
+		dynasty = dynasty:dynn_Rosby
+
+		NOT = {
+			has_character_flag = agot_rosby_capitals_shadow_cooldown_bla
+		}
+	}
+
+	immediate = {
+		add_character_flag = {
+			flag = agot_rosby_capitals_shadow_cooldown_bla
+			years = 15
+		}
+	}
+
+	option = { # Indispensable to capital
+		name = agot_crownlands_bla.0903.a
+
+		add_stewardship_lifestyle_xp = 175
+		dynasty ?= { add_dynasty_prestige = 100 }
+		add_prestige = 125
+
+		add_character_modifier = {
+			modifier = agot_rosby_indispensable_neighbor_bla
+			years = 10
+		}
+	}
+
+	option = { # Court influence
+		name = agot_crownlands_bla.0903.b
+
+		trigger = {
+			exists = liege
+		}
+
+		add_diplomacy_lifestyle_xp = 175
+		add_intrigue_lifestyle_xp = 100
+		add_prestige = 150
+
+		liege = {
+			add_opinion = {
+				target = root
+				modifier = grateful_opinion
+				opinion = 15
+			}
+		}
+
+		add_character_modifier = {
+			modifier = agot_rosby_eyes_on_the_capital_bla
+			years = 10
+		}
+	}
+
+	option = { # Fortress
+		name = agot_crownlands_bla.0903.c
+
+		add_martial_lifestyle_xp = 175
+		dynasty ?= { add_dynasty_prestige = 75 }
+
+		add_character_modifier = {
+			modifier = agot_rosby_guarded_doorstep_bla
+			years = 10
+		}
+	}
+
+	option = { # Deliberately independent
+		name = agot_crownlands_bla.0903.d
+
+		add_stewardship_lifestyle_xp = 150
+		dynasty ?= { add_dynasty_prestige = 100 }
+
+		add_character_modifier = {
+			modifier = agot_rosby_beyond_the_city_bla
+			years = 10
+		}
+	}
+}

@@ -417,7 +417,6 @@ agot_riverlands_trident_council_decision.0121 = {
 			add_opinion = {
 				target = root
 				modifier = attended_trident_council_bla
-				opinion = 10
 			}
 		}
 	}
@@ -736,7 +735,6 @@ agot_riverlands_trident_council_decision.0140 = {
 			add_opinion = {
 				target = root
 				modifier = attended_trident_council_bla
-				opinion = 10
 			}
 		}
 	}

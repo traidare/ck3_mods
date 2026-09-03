@@ -1,0 +1,391 @@
+﻿namespace = agot_crownlands_bla
+
+agot_crownlands_bla.0899 = {
+	type = character_event
+	hidden = yes
+
+	trigger = {
+		is_ai = no
+		is_ruler = yes
+		is_landed = yes
+		is_available_adult = yes
+		dynasty = dynasty:dynn_Stokeworth
+
+		NOT = {
+			has_character_flag = stokeworth_any_event_recently_bla
+		}
+	}
+
+	immediate = {
+		add_character_flag = {
+			flag = stokeworth_any_event_recently_bla
+			years = 3
+		}
+
+		random_list = {
+			10 = { trigger_event = agot_crownlands_bla.0800 }
+			10 = { trigger_event = agot_crownlands_bla.0801 }
+			10 = { trigger_event = agot_crownlands_bla.0802 }
+			8 = { trigger_event = agot_crownlands_bla.0803 }
+
+			90 = { }
+		}
+	}
+}
+
+agot_crownlands_bla.0800 = {
+	type = character_event
+	title = agot_crownlands_bla.0800.t
+	desc = agot_crownlands_bla.0800.desc
+	theme = stewardship
+
+	override_background = {
+		reference = courtyard
+	}
+
+	left_portrait = {
+		character = root
+		animation = personality_rational
+	}
+
+	trigger = {
+		is_ruler = yes
+		is_landed = yes
+		is_available_adult = yes
+		dynasty = dynasty:dynn_Stokeworth
+
+		NOT = {
+			has_character_flag = agot_stokeworth_granaries_cooldown_bla
+		}
+	}
+
+	immediate = {
+		add_character_flag = {
+			flag = agot_stokeworth_granaries_cooldown_bla
+			years = 8
+		}
+	}
+
+	option = { # Feed the markets generously
+		name = agot_crownlands_bla.0800.a
+
+		remove_short_term_gold = 75
+		add_prestige = 125
+		add_stewardship_lifestyle_xp = 150
+
+		add_character_modifier = {
+			modifier = agot_stokeworth_open_granaries_bla
+			years = 6
+		}
+	}
+
+	option = { # Sell at a fair profit
+		name = agot_crownlands_bla.0800.b
+
+		add_gold = 100
+		add_stewardship_lifestyle_xp = 125
+
+		add_character_modifier = {
+			modifier = agot_stokeworth_grain_trade_bla
+			years = 6
+		}
+	}
+
+	option = { # Hold reserves
+		name = agot_crownlands_bla.0800.c
+
+		add_stewardship_lifestyle_xp = 175
+
+		add_character_modifier = {
+			modifier = agot_stokeworth_full_storehouses_bla
+			years = 6
+		}
+	}
+
+	option = { # Favor the crown
+		name = agot_crownlands_bla.0800.d
+
+		trigger = {
+			exists = liege
+		}
+
+		remove_short_term_gold = 50
+		add_diplomacy_lifestyle_xp = 150
+		add_prestige = 100
+
+		liege = {
+			add_opinion = {
+				target = root
+				modifier = grateful_opinion
+				opinion = 20
+			}
+		}
+
+		add_character_modifier = {
+			modifier = agot_stokeworth_provisioner_of_the_crown_bla
+			years = 6
+		}
+	}
+}
+
+agot_crownlands_bla.0801 = {
+	type = character_event
+	title = agot_crownlands_bla.0801.t
+	desc = agot_crownlands_bla.0801.desc
+	theme = diplomacy
+
+	override_background = {
+		reference = throne_room
+	}
+
+	left_portrait = {
+		character = root
+		animation = personality_rational
+	}
+
+	trigger = {
+		is_ruler = yes
+		is_landed = yes
+		is_available_adult = yes
+		dynasty = dynasty:dynn_Stokeworth
+
+		NOT = {
+			has_character_flag = agot_stokeworth_match_cooldown_bla
+		}
+	}
+
+	immediate = {
+		add_character_flag = {
+			flag = agot_stokeworth_match_cooldown_bla
+			years = 10
+		}
+	}
+
+	option = { # Reach upward
+		name = agot_crownlands_bla.0801.a
+
+		add_diplomacy_lifestyle_xp = 175
+		add_prestige = 150
+
+		add_character_modifier = {
+			modifier = agot_stokeworth_ambitious_matches_bla
+			years = 8
+		}
+	}
+
+	option = { # Court connection
+		name = agot_crownlands_bla.0801.b
+
+		trigger = {
+			exists = liege
+		}
+
+		add_diplomacy_lifestyle_xp = 150
+
+		liege = {
+			add_opinion = {
+				target = root
+				modifier = grateful_opinion
+				opinion = 15
+			}
+		}
+
+		add_character_modifier = {
+			modifier = agot_stokeworth_ties_to_court_bla
+			years = 8
+		}
+	}
+
+	option = { # Wealthy match
+		name = agot_crownlands_bla.0801.c
+
+		add_gold = 100
+		add_stewardship_lifestyle_xp = 150
+
+		add_character_modifier = {
+			modifier = agot_stokeworth_practical_matches_bla
+			years = 8
+		}
+	}
+
+	option = { # Worthiness over station
+		name = agot_crownlands_bla.0801.d
+
+		dynasty ?= { add_dynasty_prestige = 100 }
+		add_diplomacy_lifestyle_xp = 125
+		add_piety = 75
+	}
+}
+
+agot_crownlands_bla.0802 = {
+	type = character_event
+	title = agot_crownlands_bla.0802.t
+	desc = agot_crownlands_bla.0802.desc
+	theme = dynasty
+
+	override_background = {
+		reference = courtyard
+	}
+
+	left_portrait = {
+		character = root
+		animation = personality_rational
+	}
+
+	trigger = {
+		is_ruler = yes
+		is_landed = yes
+		is_available_adult = yes
+		dynasty = dynasty:dynn_Stokeworth
+
+		NOT = {
+			has_character_flag = agot_stokeworth_blackened_beam_cooldown_bla
+		}
+	}
+
+	immediate = {
+		add_character_flag = {
+			flag = agot_stokeworth_blackened_beam_cooldown_bla
+			years = 12
+		}
+	}
+
+	option = { # Preserve it
+		name = agot_crownlands_bla.0802.a
+
+		dynasty ?= { add_dynasty_prestige = 150 }
+		add_prestige = 125
+
+		add_character_modifier = {
+			modifier = agot_stokeworth_ashes_of_vhagar_bla
+			years = 10
+		}
+	}
+
+	option = { # Study it
+		name = agot_crownlands_bla.0802.b
+
+		add_learning_lifestyle_xp = 200
+		dynasty ?= { add_dynasty_prestige = 75 }
+
+		custom_tooltip = agot_crownlands_bla.0802.b.tt
+	}
+
+	option = { # Lesson in resistance
+		name = agot_crownlands_bla.0802.c
+
+		add_martial_lifestyle_xp = 150
+		add_prestige = 125
+
+		add_character_modifier = {
+			modifier = agot_stokeworth_remembers_the_flame_bla
+			years = 8
+		}
+	}
+
+	option = { # Lesson in pragmatism
+		name = agot_crownlands_bla.0802.d
+
+		add_stewardship_lifestyle_xp = 150
+
+		add_character_modifier = {
+			modifier = agot_stokeworth_bend_before_breaking_bla
+			years = 8
+		}
+	}
+}
+
+agot_crownlands_bla.0803 = {
+	type = character_event
+	title = agot_crownlands_bla.0803.t
+	desc = agot_crownlands_bla.0803.desc
+	theme = dynasty
+
+	override_background = {
+		reference = throne_room
+	}
+
+	left_portrait = {
+		character = root
+		animation = personality_honorable
+	}
+
+	trigger = {
+		is_ruler = yes
+		is_landed = yes
+		is_available_adult = yes
+		dynasty = dynasty:dynn_Stokeworth
+
+		NOT = {
+			has_character_flag = agot_stokeworth_hands_road_cooldown_bla
+		}
+	}
+
+	immediate = {
+		add_character_flag = {
+			flag = agot_stokeworth_hands_road_cooldown_bla
+			years = 15
+		}
+	}
+
+	option = { # Service
+		name = agot_crownlands_bla.0803.a
+
+		add_diplomacy_lifestyle_xp = 175
+		add_prestige = 175
+		dynasty ?= { add_dynasty_prestige = 100 }
+
+		add_character_modifier = {
+			modifier = agot_stokeworth_crowns_diligent_servants_bla
+			years = 10
+		}
+	}
+
+	option = { # Alyn's martial sacrifice
+		name = agot_crownlands_bla.0803.b
+
+		add_martial_lifestyle_xp = 175
+		add_prestige = 200
+
+		add_character_modifier = {
+			modifier = agot_stokeworth_duty_in_the_field_bla
+			years = 10
+		}
+	}
+
+	option = { # Court ambition
+		name = agot_crownlands_bla.0803.c
+
+		trigger = {
+			exists = liege
+		}
+
+		add_intrigue_lifestyle_xp = 150
+		add_diplomacy_lifestyle_xp = 100
+
+		liege = {
+			add_opinion = {
+				target = root
+				modifier = grateful_opinion
+				opinion = 15
+			}
+		}
+
+		add_character_modifier = {
+			modifier = agot_stokeworth_near_the_throne_bla
+			years = 10
+		}
+	}
+
+	option = { # House first
+		name = agot_crownlands_bla.0803.d
+
+		add_stewardship_lifestyle_xp = 200
+		dynasty ?= { add_dynasty_prestige = 125 }
+
+		add_character_modifier = {
+			modifier = agot_stokeworth_house_before_office_bla
+			years = 10
+		}
+	}
+}

@@ -27,7 +27,25 @@ Load immediately after Bloodlines.
   animation names to their current equivalents.
 - Removes explicit durations from opinion modifiers that decay on their own in
   CK3 1.19.
-- Restores missing Bloodlines opinion-modifier definitions and values.
+- Restores missing Bloodlines opinion-modifier definitions and values, including
+  the Trident Council opinions that previously applied no opinion at all.
 - Repairs invalid county and character modifier scope usage.
 - Makes the scripted great-project sound reference self-contained.
-- Re-encodes ten invalid compressed textures without resizing their artwork.
+- Re-encodes eleven invalid compressed textures without resizing their artwork.
+
+## Crownlands repairs
+
+- Restores 55 Crownlands modifier effects that CK3 1.19 discarded, so the road
+  tolls, scheme, construction, tax, and marriage bonuses actually apply.
+- Makes 47 Crownlands event rewards grant the dynasty prestige they promise.
+- Lets the Celtigar tax collector, Velaryon harbourmaster, Stepstones pirate,
+  and sellsail captain be created at all; each event previously produced no
+  character.
+- Fixes the Stepstones island reward, which could never select a title.
+- Applies four Velaryon Driftmark and High Tide modifiers to the ruler instead
+  of failing to apply at all.
+- Opens the House Darklyn restoration events to Darke, Darkwood, and Dargood
+  rulers, who were checked as dynasties rather than houses and so never
+  qualified. Also restores the bought-claim option's gold and prestige cost and
+  its white-cloak prowess reward.
+- Repairs the Celtigar artifact creation, which produced no artifact.

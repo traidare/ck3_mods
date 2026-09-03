@@ -1,5 +1,38 @@
 ﻿# Bloodlines used opinion ids removed from current CK3.
+#
+# The Trident Council modifiers below are declared upstream in common/modifiers/
+# as static modifiers carrying a vassal_opinion field, but they are only ever
+# applied with add_opinion, which reads this database. Their call sites pass no
+# explicit opinion, so the value has to live here; each one repeats the
+# vassal_opinion the upstream static modifier declares.
 attended_trident_council_bla = {
+	opinion = 10
+	stacking = yes
+}
+
+intimidated_by_trident_lord_bla = {
+	opinion = 10
+	stacking = yes
+}
+
+disappointed_by_trident_lord_bla = {
+	opinion = -10
+	stacking = yes
+}
+
+insulted_by_trident_lord_bla = {
+	opinion = -10
+	stacking = yes
+}
+
+# Never declared anywhere upstream. Every call site passes an explicit opinion,
+# so these only need to exist as keys.
+betrayed_opinion = {
+	opinion = 0
+	stacking = yes
+}
+
+claimant_opinion = {
 	opinion = 0
 	stacking = yes
 }

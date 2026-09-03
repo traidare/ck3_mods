@@ -1,0 +1,1544 @@
+﻿# =========================================================
+# House Celtigar Flavor Event Pack
+# =========================================================
+
+namespace = agot_crownlands_bla
+
+agot_crownlands_bla.0299 = {
+	type = character_event
+	hidden = yes
+
+	trigger = {
+		is_ai = no
+		is_ruler = yes
+		is_landed = yes
+		is_available_adult = yes
+		dynasty = dynasty:dynn_Celtigar
+
+		NOT = {
+			has_character_flag = celtigar_any_event_recently_bla
+		}
+	}
+
+	immediate = {
+		add_character_flag = {
+			flag = celtigar_any_event_recently_bla
+			years = 3
+		}
+
+		random_list = {
+			10 = { trigger_event = agot_crownlands_bla.0200 }
+			10 = { trigger_event = agot_crownlands_bla.0201 }
+			10 = { trigger_event = agot_crownlands_bla.0202 }
+			8 = { trigger_event = agot_crownlands_bla.0203 }
+			8 = { trigger_event = agot_crownlands_bla.0204 }
+			8 = { trigger_event = agot_crownlands_bla.0205 }
+			8 = { trigger_event = agot_crownlands_bla.0206 }
+
+			5 = {
+				trigger = {
+					dynasty = {
+						NOT = {
+							has_variable = agot_celtigar_vaults_found_bla
+						}
+					}
+				}
+
+				trigger_event = agot_crownlands_bla.0207
+			}
+
+			8 = { trigger_event = agot_crownlands_bla.0212 }
+			8 = { trigger_event = agot_crownlands_bla.0213 }
+
+			120 = { }
+		}
+	}
+}
+
+############################################
+# House Celtigar - The Crab's Due
+# 0200
+############################################
+
+agot_crownlands_bla.0200 = {
+	type = character_event
+	title = agot_crownlands_bla.0200.t
+	desc = agot_crownlands_bla.0200.desc
+	theme = stewardship
+
+	override_background = {
+		reference = study
+	}
+
+	left_portrait = {
+		character = root
+		animation = personality_rational
+	}
+
+	right_portrait = {
+		character = scope:celtigar_tax_collector_bla
+		animation = personality_rational
+	}
+
+	trigger = {
+		is_ruler = yes
+		is_landed = yes
+		is_available_adult = yes
+		dynasty = dynasty:dynn_Celtigar
+
+		NOT = {
+			has_character_flag = agot_celtigar_crabs_due_cooldown_bla
+		}
+	}
+
+	immediate = {
+		add_character_flag = {
+			flag = agot_celtigar_crabs_due_cooldown_bla
+			years = 7
+		}
+
+		create_character = {
+			gender_female_chance = 0
+			employer = root
+			dynasty = none
+			culture = root.culture
+			faith = root.faith
+			age = { 28 52 }
+
+			stewardship = { 11 16 }
+			intrigue = { 7 12 }
+
+			trait = diligent
+
+			save_scope_as = celtigar_tax_collector_bla
+		}
+		set_variable = {
+			name = celtigar_tax_collector_bla
+			value = scope:celtigar_tax_collector_bla
+		}
+	}
+
+	############################################
+	# Audit the books personally
+	############################################
+
+	option = {
+		name = agot_crownlands_bla.0200.a
+
+		duel = {
+			skill = stewardship
+			value = medium_skill_rating
+
+			50 = {
+				compare_modifier = {
+					value = scope:duel_value
+					multiplier = 3.5
+					min = -49
+				}
+
+				send_interface_toast = {
+					title = agot_crownlands_bla.0200.a.success
+
+					add_gold = 125
+					add_stewardship_lifestyle_xp = 300
+				}
+			}
+
+			50 = {
+				compare_modifier = {
+					value = scope:duel_value
+					multiplier = -3.5
+					min = -49
+				}
+
+				send_interface_toast = {
+					title = agot_crownlands_bla.0200.a.failure
+
+					add_stewardship_lifestyle_xp = 100
+
+					scope:celtigar_tax_collector_bla = {
+						add_opinion = {
+							target = root
+							modifier = disappointed_opinion
+							opinion = -10
+						}
+					}
+				}
+			}
+		}
+	}
+
+	############################################
+	# Give the collector authority
+	############################################
+
+	option = {
+		name = agot_crownlands_bla.0200.b
+
+		scope:celtigar_tax_collector_bla = {
+			add_character_modifier = {
+				modifier = agot_celtigar_empowered_tax_collector_bla
+				years = 8
+			}
+
+			add_opinion = {
+				target = root
+				modifier = grateful_opinion
+				opinion = 20
+			}
+		}
+
+		add_character_flag = agot_celtigar_empowered_collector_bla
+	}
+
+	############################################
+	# Take an immediate settlement
+	############################################
+
+	option = {
+		name = agot_crownlands_bla.0200.c
+
+		add_gold = 100
+
+		scope:celtigar_tax_collector_bla = {
+			move_to_pool = yes
+		}
+
+		add_character_flag = agot_celtigar_tax_compromise_bla
+	}
+
+	############################################
+	# Find leverage in the accounts
+	############################################
+
+	option = {
+		name = agot_crownlands_bla.0200.d
+
+		trigger = {
+			intrigue >= 11
+
+			can_add_hook = {
+				target = scope:celtigar_tax_collector_bla
+				type = loyalty_hook
+			}
+		}
+
+		add_intrigue_lifestyle_xp = 250
+
+		add_hook = {
+			target = scope:celtigar_tax_collector_bla
+			type = loyalty_hook
+		}
+
+		scope:celtigar_tax_collector_bla = {
+			add_opinion = {
+				target = root
+				modifier = suspicious_opinion
+				opinion = -20
+			}
+		}
+
+		add_character_flag = agot_celtigar_collector_bound_bla
+	}
+}
+
+############################################
+# House Celtigar - The Claw Isle Taxman
+# 0201
+############################################
+
+agot_crownlands_bla.0201 = {
+	type = character_event
+	title = agot_crownlands_bla.0201.t
+	desc = agot_crownlands_bla.0201.desc
+	theme = stewardship
+
+	override_background = {
+		reference = study
+	}
+
+	left_portrait = {
+		character = root
+		animation = personality_rational
+	}
+
+	right_portrait = {
+		character = scope:celtigar_tax_collector_bla
+		animation = personality_rational
+	}
+
+	trigger = {
+		is_ruler = yes
+		is_landed = yes
+		is_available_adult = yes
+		dynasty = dynasty:dynn_Celtigar
+
+		OR = {
+			has_character_flag = agot_celtigar_empowered_collector_bla
+			has_character_flag = agot_celtigar_collector_bound_bla
+		}
+
+		exists = var:celtigar_tax_collector_bla
+
+		var:celtigar_tax_collector_bla = {
+			is_alive = yes
+		}
+
+		NOT = {
+			has_character_flag = agot_celtigar_taxman_followup_bla
+		}
+	}
+
+	immediate = {
+		add_character_flag = agot_celtigar_taxman_followup_bla
+
+		var:celtigar_tax_collector_bla = {
+			save_scope_as = celtigar_tax_collector_bla
+		}
+	}
+
+	############################################
+	# Let the collector continue
+	############################################
+
+	option = {
+		name = agot_crownlands_bla.0201.a
+
+		add_gold = 125
+
+		scope:celtigar_tax_collector_bla = {
+			add_opinion = {
+				target = root
+				modifier = grateful_opinion
+				opinion = 15
+			}
+
+			add_character_modifier = {
+				modifier = agot_celtigar_relentless_collector_bla
+				years = 8
+			}
+		}
+
+		add_character_flag = agot_celtigar_taxman_unrestrained_bla
+	}
+
+	############################################
+	# Rein the collector in
+	############################################
+
+	option = {
+		name = agot_crownlands_bla.0201.b
+
+		add_diplomacy_lifestyle_xp = 200
+
+		scope:celtigar_tax_collector_bla = {
+			remove_character_modifier = agot_celtigar_empowered_tax_collector_bla
+
+			add_opinion = {
+				target = root
+				modifier = disappointed_opinion
+				opinion = -15
+			}
+		}
+
+		add_character_flag = agot_celtigar_taxman_restrained_bla
+	}
+
+	############################################
+	# Audit the collector
+	############################################
+
+	option = {
+		name = agot_crownlands_bla.0201.c
+
+		duel = {
+			skill = stewardship
+			value = medium_skill_rating
+
+			50 = {
+				compare_modifier = {
+					value = scope:duel_value
+					multiplier = 3.5
+					min = -49
+				}
+
+				send_interface_toast = {
+					title = agot_crownlands_bla.0201.c.success
+
+					add_gold = 100
+					add_stewardship_lifestyle_xp = 300
+
+					add_character_flag = agot_celtigar_taxman_corruption_found_bla
+				}
+
+				scope:celtigar_tax_collector_bla = {
+					add_opinion = {
+						target = root
+						modifier = suspicious_opinion
+						opinion = -25
+					}
+				}
+			}
+
+			50 = {
+				compare_modifier = {
+					value = scope:duel_value
+					multiplier = -3.5
+					min = -49
+				}
+
+				send_interface_toast = {
+					title = agot_crownlands_bla.0201.c.failure
+
+					add_stewardship_lifestyle_xp = 100
+
+					scope:celtigar_tax_collector_bla = {
+						add_opinion = {
+							target = root
+							modifier = offended_opinion
+							opinion = -15
+						}
+					}
+				}
+			}
+		}
+	}
+
+	############################################
+	# The collector knows too much
+	############################################
+
+	option = {
+		name = agot_crownlands_bla.0201.d
+
+		trigger = {
+			has_character_flag = agot_celtigar_collector_bound_bla
+		}
+
+		add_intrigue_lifestyle_xp = 250
+
+		scope:celtigar_tax_collector_bla = {
+			add_character_modifier = {
+				modifier = agot_celtigar_keeper_of_the_ledgers_bla
+				years = 10
+			}
+		}
+
+		add_character_flag = agot_celtigar_taxman_kept_close_bla
+	}
+
+	############################################
+	# Dismiss the collector
+	############################################
+
+	option = {
+		name = agot_crownlands_bla.0201.e
+
+		scope:celtigar_tax_collector_bla = {
+			remove_character_modifier = agot_celtigar_empowered_tax_collector_bla
+
+			set_relation_potential_rival = {
+				target = root
+				reason = rival_disagreement
+			}
+
+			move_to_pool = yes
+		}
+
+		add_prestige = 50
+
+		add_character_flag = agot_celtigar_taxman_dismissed_bla
+	}
+}
+
+############################################
+# House Celtigar - Old Blood, New Coin
+# 0202
+############################################
+
+agot_crownlands_bla.0202 = {
+	type = character_event
+	title = agot_crownlands_bla.0202.t
+	desc = agot_crownlands_bla.0202.desc
+	theme = realm
+
+	override_background = {
+		reference = study
+	}
+
+	left_portrait = {
+		character = root
+		animation = personality_rational
+	}
+
+	trigger = {
+		is_ruler = yes
+		is_landed = yes
+		is_available_adult = yes
+		dynasty = dynasty:dynn_Celtigar
+
+		NOT = {
+			has_character_flag = agot_celtigar_old_blood_cooldown_bla
+		}
+	}
+
+	immediate = {
+		add_character_flag = {
+			flag = agot_celtigar_old_blood_cooldown_bla
+			years = 10
+		}
+	}
+
+	############################################
+	# We are of Old Valyria
+	############################################
+
+	option = {
+		name = agot_crownlands_bla.0202.a
+
+		add_prestige = 100
+		add_learning_lifestyle_xp = 250
+
+		add_character_modifier = {
+			modifier = agot_celtigar_old_valyrian_pride_bla
+			years = 7
+		}
+
+		add_character_flag = agot_celtigar_identity_valyria_bla
+	}
+
+	############################################
+	# Wealth is the measure of power
+	############################################
+
+	option = {
+		name = agot_crownlands_bla.0202.b
+
+		trigger = {
+			gold >= 100
+		}
+
+		remove_short_term_gold = 100
+		add_stewardship_lifestyle_xp = 250
+
+		add_character_modifier = {
+			modifier = agot_celtigar_display_of_wealth_bla
+			years = 7
+		}
+
+		add_character_flag = agot_celtigar_identity_wealth_bla
+	}
+
+	############################################
+	# Our place was earned through service
+	############################################
+
+	option = {
+		name = agot_crownlands_bla.0202.c
+
+		add_diplomacy_lifestyle_xp = 250
+		add_prestige = 75
+
+		add_character_modifier = {
+			modifier = agot_celtigar_crownbound_service_bla
+			years = 7
+		}
+
+		add_character_flag = agot_celtigar_identity_crown_bla
+	}
+
+	############################################
+	# We need no other house to define us
+	############################################
+
+	option = {
+		name = agot_crownlands_bla.0202.d
+
+		add_stewardship_lifestyle_xp = 150
+		add_martial_lifestyle_xp = 150
+
+		add_character_modifier = {
+			modifier = agot_celtigar_claw_isle_identity_bla
+			years = 7
+		}
+
+		add_character_flag = agot_celtigar_identity_claw_bla
+	}
+}
+
+############################################
+# House Celtigar - Wreck upon the Claw
+# 0203
+############################################
+
+agot_crownlands_bla.0203 = {
+	type = character_event
+	title = agot_crownlands_bla.0203.t
+	desc = agot_crownlands_bla.0203.desc
+	theme = stewardship
+
+	override_background = {
+		reference = docks
+	}
+
+	left_portrait = {
+		character = root
+		animation = personality_rational
+	}
+
+	trigger = {
+		is_ruler = yes
+		is_landed = yes
+		is_available_adult = yes
+		dynasty = dynasty:dynn_Celtigar
+
+		NOT = {
+			has_character_flag = agot_celtigar_wreck_claw_cooldown_bla
+		}
+	}
+
+	immediate = {
+		add_character_flag = {
+			flag = agot_celtigar_wreck_claw_cooldown_bla
+			years = 8
+		}
+	}
+
+	############################################
+	# The shore belongs to the crab.
+	############################################
+
+	option = {
+		name = agot_crownlands_bla.0203.a
+
+		add_gold = 125
+		add_stewardship_lifestyle_xp = 150
+
+		add_character_modifier = {
+			modifier = agot_celtigar_asserted_wreck_rights_bla
+			years = 5
+		}
+
+		if = {
+			limit = {
+				has_character_flag = agot_celtigar_identity_wealth_bla
+			}
+
+			custom_tooltip = agot_crownlands_bla.0203.a.wealth_tt
+
+			add_gold = 50
+		}
+
+		add_character_flag = agot_celtigar_wreck_claimed_bla
+	}
+
+	############################################
+	# Save the survivors before counting cargo.
+	############################################
+
+	option = {
+		name = agot_crownlands_bla.0203.b
+
+		add_piety = 75
+		add_diplomacy_lifestyle_xp = 250
+
+		add_character_modifier = {
+			modifier = agot_celtigar_mercy_of_the_claw_bla
+			years = 5
+		}
+
+		add_character_flag = agot_celtigar_wreck_survivors_saved_bla
+	}
+
+	############################################
+	# Something about the cargo is wrong.
+	############################################
+
+	option = {
+		name = agot_crownlands_bla.0203.c
+
+		duel = {
+			skill = intrigue
+			value = medium_skill_rating
+
+			50 = {
+				compare_modifier = {
+					value = scope:duel_value
+					multiplier = 3.5
+					min = -49
+				}
+
+				send_interface_toast = {
+					title = agot_crownlands_bla.0203.c.success
+
+					add_intrigue_lifestyle_xp = 300
+					add_gold = 100
+
+					add_character_flag = agot_celtigar_wreck_secret_cargo_bla
+				}
+			}
+
+			50 = {
+				compare_modifier = {
+					value = scope:duel_value
+					multiplier = -3.5
+					min = -49
+				}
+
+				send_interface_toast = {
+					title = agot_crownlands_bla.0203.c.failure
+
+					add_intrigue_lifestyle_xp = 100
+					add_stress = minor_stress_gain
+				}
+			}
+		}
+	}
+
+	############################################
+	# Return the cargo for a proper salvage fee.
+	############################################
+
+	option = {
+		name = agot_crownlands_bla.0203.d
+
+		add_diplomacy_lifestyle_xp = 150
+		add_stewardship_lifestyle_xp = 150
+
+		add_gold = 75
+		add_prestige = 75
+
+		add_character_flag = agot_celtigar_wreck_honorable_salvage_bla
+	}
+}
+
+############################################
+# House Celtigar - Crab and Seahorse
+# 0204
+############################################
+
+agot_crownlands_bla.0204 = {
+	type = character_event
+	title = agot_crownlands_bla.0204.t
+	desc = agot_crownlands_bla.0204.desc
+	theme = diplomacy
+
+	override_background = {
+		reference = throne_room
+	}
+
+	left_portrait = {
+		character = root
+		animation = personality_rational
+	}
+
+	right_portrait = {
+		character = scope:celtigar_velaryon_lord_bla
+		animation = personality_honorable
+	}
+
+	trigger = {
+		is_ruler = yes
+		is_landed = yes
+		is_available_adult = yes
+		dynasty = dynasty:dynn_Celtigar
+
+		any_ruler = {
+			is_landed = yes
+			is_available_adult = yes
+			dynasty = dynasty:dynn_Velaryon
+		}
+
+		NOT = {
+			has_character_flag = agot_celtigar_crab_seahorse_cooldown_bla
+		}
+	}
+
+	immediate = {
+		add_character_flag = {
+			flag = agot_celtigar_crab_seahorse_cooldown_bla
+			years = 10
+		}
+
+		random_ruler = {
+			limit = {
+				is_landed = yes
+				is_available_adult = yes
+				dynasty = dynasty:dynn_Velaryon
+			}
+
+			save_scope_as = celtigar_velaryon_lord_bla
+		}
+	}
+
+	############################################
+	# Our old blood should bind us.
+	############################################
+
+	option = {
+		name = agot_crownlands_bla.0204.a
+
+		add_diplomacy_lifestyle_xp = 250
+
+		scope:celtigar_velaryon_lord_bla = {
+			add_opinion = {
+				target = root
+				modifier = pleased_opinion
+				opinion = 20
+			}
+		}
+
+		root = {
+			add_opinion = {
+				target = scope:celtigar_velaryon_lord_bla
+				modifier = pleased_opinion
+				opinion = 20
+			}
+		}
+
+		if = {
+			limit = {
+				has_character_flag = agot_celtigar_identity_valyria_bla
+			}
+
+			custom_tooltip = agot_crownlands_bla.0204.a.valyria_tt
+
+			add_prestige = 100
+			add_learning_lifestyle_xp = 100
+		}
+
+		add_character_flag = agot_celtigar_velaryon_kinship_bla
+	}
+
+	############################################
+	# There is profit in cooperation.
+	############################################
+
+	option = {
+		name = agot_crownlands_bla.0204.b
+
+		trigger = {
+			gold >= 75
+		}
+
+		remove_short_term_gold = 75
+		add_stewardship_lifestyle_xp = 250
+
+		add_character_modifier = {
+			modifier = agot_celtigar_velaryon_commerce_bla
+			years = 6
+		}
+
+		scope:celtigar_velaryon_lord_bla = {
+			add_opinion = {
+				target = root
+				modifier = pleased_opinion
+				opinion = 10
+			}
+		}
+
+		add_character_flag = agot_celtigar_velaryon_trade_bla
+	}
+
+	############################################
+	# Let the seahorse have its glory.
+	############################################
+
+	option = {
+		name = agot_crownlands_bla.0204.c
+
+		add_stewardship_lifestyle_xp = 150
+		add_prestige = 75
+
+		add_character_modifier = {
+			modifier = agot_celtigar_quiet_competition_bla
+			years = 6
+		}
+
+		scope:celtigar_velaryon_lord_bla = {
+			add_opinion = {
+				target = root
+				modifier = suspicious_opinion
+				opinion = -10
+			}
+		}
+
+		add_character_flag = agot_celtigar_velaryon_competition_bla
+	}
+
+	############################################
+	# The crab bows to no seahorse.
+	############################################
+
+	option = {
+		name = agot_crownlands_bla.0204.d
+
+		add_prestige = 125
+		add_martial_lifestyle_xp = 150
+
+		scope:celtigar_velaryon_lord_bla = {
+			add_opinion = {
+				target = root
+				modifier = offended_opinion
+				opinion = -20
+			}
+		}
+
+		add_character_flag = agot_celtigar_velaryon_distance_bla
+	}
+}
+
+############################################
+# House Celtigar - The Claws of Claw Isle
+# 0205
+############################################
+
+agot_crownlands_bla.0205 = {
+	type = character_event
+	title = agot_crownlands_bla.0205.t
+	desc = agot_crownlands_bla.0205.desc
+	theme = martial
+
+	override_background = {
+		reference = courtyard
+	}
+
+	left_portrait = {
+		character = root
+		animation = personality_rational
+	}
+
+	trigger = {
+		is_ruler = yes
+		is_landed = yes
+		is_available_adult = yes
+		dynasty = dynasty:dynn_Celtigar
+
+		NOT = {
+			has_character_flag = agot_celtigar_claws_claw_isle_cooldown_bla
+		}
+	}
+
+	immediate = {
+		add_character_flag = {
+			flag = agot_celtigar_claws_claw_isle_cooldown_bla
+			years = 8
+		}
+	}
+
+	############################################
+	# Pay for professionals
+	############################################
+
+	option = {
+		name = agot_crownlands_bla.0205.a
+
+		trigger = {
+			gold >= 125
+		}
+
+		remove_short_term_gold = 125
+		add_martial_lifestyle_xp = 250
+
+		add_character_modifier = {
+			modifier = agot_celtigar_paid_claws_bla
+			years = 6
+		}
+	}
+
+	############################################
+	# Increase local obligations
+	############################################
+
+	option = {
+		name = agot_crownlands_bla.0205.b
+
+		add_dread = 5
+		add_stewardship_lifestyle_xp = 200
+
+		add_character_modifier = {
+			modifier = agot_celtigar_military_tithes_bla
+			years = 6
+		}
+
+		add_character_flag = agot_celtigar_military_tithes_imposed_bla
+	}
+
+	############################################
+	# Build a smaller elite core
+	############################################
+
+	option = {
+		name = agot_crownlands_bla.0205.c
+
+		trigger = {
+			martial >= 10
+		}
+
+		add_martial_lifestyle_xp = 300
+
+		add_character_modifier = {
+			modifier = agot_celtigar_elite_claws_bla
+			years = 7
+		}
+
+		add_character_flag = agot_celtigar_elite_tithecrabs_bla
+	}
+
+	############################################
+	# Let the old system stand
+	############################################
+
+	option = {
+		name = agot_crownlands_bla.0205.d
+
+		add_prestige = 50
+	}
+}
+
+############################################
+# House Celtigar - Crownbound
+# 0206
+############################################
+
+agot_crownlands_bla.0206 = {
+	type = character_event
+	title = agot_crownlands_bla.0206.t
+	desc = agot_crownlands_bla.0206.desc
+	theme = diplomacy
+
+	override_background = {
+		reference = throne_room
+	}
+
+	left_portrait = {
+		character = root
+		animation = personality_rational
+	}
+
+	right_portrait = {
+		character = scope:celtigar_crown_holder_bla
+		animation = personality_honorable
+	}
+
+	trigger = {
+		is_ruler = yes
+		is_landed = yes
+		is_available_adult = yes
+		dynasty = dynasty:dynn_Celtigar
+
+		exists = title:h_the_iron_throne.holder
+
+		NOT = {
+			this = title:h_the_iron_throne.holder
+		}
+
+		NOT = {
+			has_character_flag = agot_celtigar_crownbound_cooldown_bla
+		}
+	}
+
+	immediate = {
+		add_character_flag = {
+			flag = agot_celtigar_crownbound_cooldown_bla
+			years = 10
+		}
+
+		title:h_the_iron_throne.holder = {
+			save_scope_as = celtigar_crown_holder_bla
+		}
+	}
+
+	############################################
+	# The Crown needs coin.
+	############################################
+
+	option = {
+		name = agot_crownlands_bla.0206.a
+
+		trigger = {
+			gold >= 150
+		}
+
+		remove_short_term_gold = 150
+		add_diplomacy_lifestyle_xp = 200
+
+		scope:celtigar_crown_holder_bla = {
+			add_opinion = {
+				target = root
+				modifier = grateful_opinion
+				opinion = 25
+			}
+		}
+
+		if = {
+			limit = {
+				has_character_flag = agot_celtigar_identity_crown_bla
+			}
+
+			custom_tooltip = agot_crownlands_bla.0206.a.crownbound_tt
+
+			add_prestige = 100
+
+			dynasty = {
+				add_dynasty_prestige = 75
+			}
+		}
+
+		add_character_flag = agot_celtigar_crown_financed_bla
+	}
+
+	############################################
+	# Send fighting men instead.
+	############################################
+
+	option = {
+		name = agot_crownlands_bla.0206.b
+
+		add_martial_lifestyle_xp = 250
+		add_prestige = 75
+
+		scope:celtigar_crown_holder_bla = {
+			add_opinion = {
+				target = root
+				modifier = pleased_opinion
+				opinion = 15
+			}
+		}
+
+		if = {
+			limit = {
+				has_character_flag = agot_celtigar_elite_tithecrabs_bla
+			}
+
+			custom_tooltip = agot_crownlands_bla.0206.b.claws_tt
+
+			add_martial_lifestyle_xp = 150
+			add_prestige = 100
+		}
+
+		add_character_flag = agot_celtigar_crown_military_service_bla
+	}
+
+	############################################
+	# Offer Celtigar administration.
+	############################################
+
+	option = {
+		name = agot_crownlands_bla.0206.c
+
+		add_stewardship_lifestyle_xp = 300
+
+		scope:celtigar_crown_holder_bla = {
+			add_opinion = {
+				target = root
+				modifier = pleased_opinion
+				opinion = 20
+			}
+		}
+
+		add_character_modifier = {
+			modifier = agot_celtigar_royal_accounting_bla
+			years = 6
+		}
+
+		add_character_flag = agot_celtigar_crown_administration_bla
+	}
+
+	############################################
+	# Claw Isle comes first.
+	############################################
+
+	option = {
+		name = agot_crownlands_bla.0206.d
+
+		add_prestige = 75
+
+		scope:celtigar_crown_holder_bla = {
+			add_opinion = {
+				target = root
+				modifier = disappointed_opinion
+				opinion = -20
+			}
+		}
+
+		if = {
+			limit = {
+				has_character_flag = agot_celtigar_identity_claw_bla
+			}
+
+			custom_tooltip = agot_crownlands_bla.0206.d.claw_tt
+
+			add_prestige = 75
+			add_stewardship_lifestyle_xp = 100
+		}
+
+		add_character_flag = agot_celtigar_crown_refused_bla
+	}
+}
+
+############################################
+# House Celtigar - Beneath the Cellars
+# 0207
+############################################
+
+agot_crownlands_bla.0207 = {
+	type = character_event
+	title = agot_crownlands_bla.0207.t
+	desc = agot_crownlands_bla.0207.desc
+	theme = learning
+
+	override_background = {
+		reference = dungeon
+	}
+
+	left_portrait = {
+		character = root
+		animation = personality_rational
+	}
+
+	trigger = {
+		is_ruler = yes
+		is_landed = yes
+		is_available_adult = yes
+		dynasty = dynasty:dynn_Celtigar
+
+		dynasty = {
+			NOT = {
+				has_variable = agot_celtigar_vaults_found_bla
+			}
+		}
+	}
+
+	immediate = {
+		dynasty = {
+			set_variable = {
+				name = agot_celtigar_vaults_found_bla
+				value = 1
+			}
+		}
+	}
+
+	############################################
+	# Open it now
+	############################################
+
+	option = {
+		name = agot_crownlands_bla.0207.a
+
+		trigger = {
+			gold >= 75
+		}
+
+		remove_short_term_gold = 75
+		add_learning_lifestyle_xp = 200
+
+		add_character_flag = agot_celtigar_vaults_discovered_bla
+		add_character_flag = agot_celtigar_vaults_immediate_search_bla
+
+		if = {
+			limit = {
+				has_character_flag = agot_celtigar_identity_valyria_bla
+			}
+
+			custom_tooltip = agot_crownlands_bla.0207.a.valyria_tt
+
+			add_learning_lifestyle_xp = 100
+			add_prestige = 75
+		}
+	}
+
+	############################################
+	# Study the old household records first
+	############################################
+
+	option = {
+		name = agot_crownlands_bla.0207.b
+
+		add_learning_lifestyle_xp = 300
+
+		add_character_flag = agot_celtigar_vaults_discovered_bla
+		add_character_flag = agot_celtigar_vaults_careful_search_bla
+	}
+
+	############################################
+	# Keep the discovery secret
+	############################################
+
+	option = {
+		name = agot_crownlands_bla.0207.c
+
+		trigger = {
+			intrigue >= 10
+		}
+
+		add_intrigue_lifestyle_xp = 250
+
+		add_character_flag = agot_celtigar_vaults_discovered_bla
+		add_character_flag = agot_celtigar_vaults_secret_search_bla
+	}
+
+	############################################
+	# Seal it again
+	############################################
+
+	option = {
+		name = agot_crownlands_bla.0207.d
+
+		add_prestige = 50
+
+		add_character_flag = agot_celtigar_vaults_refused_bla
+	}
+}
+
+############################################
+# House Celtigar - The Crab Endures
+# 0212
+############################################
+
+agot_crownlands_bla.0212 = {
+	type = character_event
+	title = agot_crownlands_bla.0212.t
+	desc = agot_crownlands_bla.0212.desc
+	theme = stewardship
+
+	override_background = {
+		reference = courtyard
+	}
+
+	left_portrait = {
+		character = root
+		animation = personality_rational
+	}
+
+	trigger = {
+		is_ruler = yes
+		is_landed = yes
+		is_available_adult = yes
+		dynasty = dynasty:dynn_Celtigar
+
+		has_title = title:c_claw_isle
+
+		NOT = {
+			has_character_flag = agot_celtigar_crab_endures_cooldown_bla
+		}
+	}
+
+	immediate = {
+		add_character_flag = {
+			flag = agot_celtigar_crab_endures_cooldown_bla
+			years = 8
+		}
+	}
+
+	############################################
+	# Fortify the vulnerable coast
+	############################################
+
+	option = {
+		name = agot_crownlands_bla.0212.a
+
+		trigger = {
+			gold >= 125
+		}
+
+		remove_short_term_gold = 125
+		add_stewardship_lifestyle_xp = 250
+
+		title:c_claw_isle = {
+			add_county_modifier = {
+				modifier = agot_celtigar_fortified_claw_isle_bla
+				years = 8
+			}
+		}
+
+		if = {
+			limit = {
+				has_character_flag = agot_celtigar_identity_claw_bla
+			}
+
+			custom_tooltip = agot_crownlands_bla.0212.a.claw_tt
+
+			add_prestige = 100
+			add_stewardship_lifestyle_xp = 100
+		}
+	}
+
+	############################################
+	# Raise local watchmen
+	############################################
+
+	option = {
+		name = agot_crownlands_bla.0212.b
+
+		add_martial_lifestyle_xp = 250
+
+		title:c_claw_isle = {
+			add_county_modifier = {
+				modifier = agot_celtigar_coastal_watch_bla
+				years = 7
+			}
+		}
+
+		add_character_flag = agot_celtigar_coastal_watch_raised_bla
+	}
+
+	############################################
+	# Relocate exposed settlements
+	############################################
+
+	option = {
+		name = agot_crownlands_bla.0212.c
+
+		trigger = {
+			gold >= 75
+		}
+
+		remove_short_term_gold = 75
+		add_diplomacy_lifestyle_xp = 200
+
+		title:c_claw_isle = {
+			add_county_modifier = {
+				modifier = agot_celtigar_sheltered_settlements_bla
+				years = 10
+			}
+		}
+	}
+
+	############################################
+	# Accept the risk
+	############################################
+
+	option = {
+		name = agot_crownlands_bla.0212.d
+
+		add_gold = 75
+		add_prestige = -50
+
+		title:c_claw_isle = {
+			add_county_modifier = {
+				modifier = agot_celtigar_exposed_coast_bla
+				years = 5
+			}
+		}
+	}
+}
+
+############################################
+# House Celtigar - A Debt Called Due
+# 0213
+############################################
+
+agot_crownlands_bla.0213 = {
+	type = character_event
+	title = agot_crownlands_bla.0213.t
+	desc = agot_crownlands_bla.0213.desc
+	theme = stewardship
+
+	override_background = {
+		reference = study
+	}
+
+	left_portrait = {
+		character = root
+		animation = personality_rational
+	}
+
+	trigger = {
+		is_ruler = yes
+		is_landed = yes
+		is_available_adult = yes
+		dynasty = dynasty:dynn_Celtigar
+
+		NOT = {
+			has_character_flag = agot_celtigar_debt_called_due_cooldown_bla
+		}
+	}
+
+	immediate = {
+		add_character_flag = {
+			flag = agot_celtigar_debt_called_due_cooldown_bla
+			years = 8
+		}
+	}
+
+	############################################
+	# Take the coin
+	############################################
+
+	option = {
+		name = agot_crownlands_bla.0213.a
+
+		add_gold = 150
+		add_stewardship_lifestyle_xp = 150
+
+		add_character_flag = agot_celtigar_debt_paid_in_coin_bla
+	}
+
+	############################################
+	# Convert debt into leverage
+	############################################
+
+	option = {
+		name = agot_crownlands_bla.0213.b
+
+		trigger = {
+			intrigue >= 10
+		}
+
+		add_intrigue_lifestyle_xp = 250
+
+		add_character_modifier = {
+			modifier = agot_celtigar_debts_as_leverage_bla
+			years = 7
+		}
+
+		add_character_flag = agot_celtigar_debt_used_as_leverage_bla
+	}
+
+	############################################
+	# Trade concessions
+	############################################
+
+	option = {
+		name = agot_crownlands_bla.0213.c
+
+		add_stewardship_lifestyle_xp = 250
+
+		add_character_modifier = {
+			modifier = agot_celtigar_trade_concessions_bla
+			years = 7
+		}
+
+		if = {
+			limit = {
+				has_character_flag = agot_celtigar_identity_wealth_bla
+			}
+
+			custom_tooltip = agot_crownlands_bla.0213.c.wealth_tt
+
+			add_gold = 75
+		}
+
+		add_character_flag = agot_celtigar_debt_trade_concessions_bla
+	}
+
+	############################################
+	# Make an example of the debtor
+	############################################
+
+	option = {
+		name = agot_crownlands_bla.0213.d
+
+		add_dread = 10
+		add_prestige = 75
+
+		add_character_modifier = {
+			modifier = agot_celtigar_no_debt_forgotten_bla
+			years = 5
+		}
+
+		add_character_flag = agot_celtigar_debt_publicly_enforced_bla
+	}
+}
+

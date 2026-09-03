@@ -1,0 +1,963 @@
+﻿namespace = agot_crownlands_bla
+
+agot_crownlands_bla.0499 = {
+	type = character_event
+	hidden = yes
+
+	trigger = {
+		is_ai = no
+		is_ruler = yes
+		is_landed = yes
+		is_available_adult = yes
+		dynasty = dynasty:dynn_Massey
+
+		NOT = {
+			has_character_flag = massey_any_event_recently_bla
+		}
+	}
+
+	immediate = {
+		add_character_flag = {
+			flag = massey_any_event_recently_bla
+			years = 3
+		}
+
+		random_list = {
+			10 = { trigger_event = agot_crownlands_bla.0400 }
+			10 = { trigger_event = agot_crownlands_bla.0401 }
+			10 = { trigger_event = agot_crownlands_bla.0402 }
+			8 = { trigger_event = agot_crownlands_bla.0403 }
+			8 = { trigger_event = agot_crownlands_bla.0404 }
+			8 = { trigger_event = agot_crownlands_bla.0405 }
+			8 = { trigger_event = agot_crownlands_bla.0406 }
+			7 = { trigger_event = agot_crownlands_bla.0407 }
+
+			120 = { }
+		}
+	}
+}
+
+agot_crownlands_bla.0400 = {
+	type = character_event
+	title = agot_crownlands_bla.0400.t
+	desc = agot_crownlands_bla.0400.desc
+	theme = learning
+
+	override_background = {
+		reference = study
+	}
+
+	left_portrait = {
+		character = root
+		animation = personality_rational
+	}
+
+	trigger = {
+		is_ruler = yes
+		is_landed = yes
+		is_available_adult = yes
+		dynasty = dynasty:dynn_Massey
+
+		NOT = {
+			has_character_flag = agot_massey_stones_remember_cooldown_bla
+		}
+	}
+
+	immediate = {
+		add_character_flag = {
+			flag = agot_massey_stones_remember_cooldown_bla
+			years = 8
+		}
+	}
+
+	option = { # Preserve and study it
+		name = agot_crownlands_bla.0400.a
+
+		remove_short_term_gold = 75
+		add_learning_lifestyle_xp = 200
+		dynasty ?= { add_dynasty_prestige = 50 }
+
+		random = {
+			chance = 35
+
+			add_learning_lifestyle_xp = 150
+			add_prestige = 150
+
+			custom_tooltip = agot_crownlands_bla.0400.a.discovery
+		}
+	}
+
+	option = { # Display it as proof of Massey antiquity
+		name = agot_crownlands_bla.0400.b
+
+		add_prestige = 200
+		dynasty ?= { add_dynasty_prestige = 75 }
+
+		add_character_modifier = {
+			modifier = agot_massey_ancient_claims_bla
+			years = 5
+		}
+	}
+
+	option = { # Stones are stones
+		name = agot_crownlands_bla.0400.c
+
+		add_stewardship_lifestyle_xp = 125
+		add_gold = 50
+	}
+}
+
+agot_crownlands_bla.0401 = {
+	type = character_event
+	title = agot_crownlands_bla.0401.t
+	desc = agot_crownlands_bla.0401.desc
+	theme = diplomacy
+
+	override_background = {
+		reference = throne_room
+	}
+
+	left_portrait = {
+		character = scope:massey_fisher_bla
+		animation = personality_bold
+	}
+
+	right_portrait = {
+		character = scope:massey_shepherd_bla
+		animation = personality_rational
+	}
+
+	trigger = {
+		is_ruler = yes
+		is_landed = yes
+		is_available_adult = yes
+		dynasty = dynasty:dynn_Massey
+
+		NOT = {
+			has_character_flag = agot_massey_lords_of_hook_cooldown_bla
+		}
+	}
+
+	immediate = {
+		add_character_flag = {
+			flag = agot_massey_lords_of_hook_cooldown_bla
+			years = 7
+		}
+
+		create_character = {
+			location = root.capital_province
+			age = 46
+			dynasty = none
+			gender_female_chance = 0
+
+			culture = root.culture
+			faith = root.faith
+
+			diplomacy = 9
+			martial = 6
+			stewardship = 11
+			intrigue = 5
+			learning = 5
+			prowess = 6
+
+			trait = stubborn
+
+			save_scope_as = massey_fisher_bla
+		}
+
+		create_character = {
+			location = root.capital_province
+			age = 39
+			dynasty = none
+			gender_female_chance = 0
+
+			culture = root.culture
+			faith = root.faith
+
+			diplomacy = 7
+			martial = 8
+			stewardship = 10
+			intrigue = 6
+			learning = 4
+			prowess = 8
+
+			trait = diligent
+
+			save_scope_as = massey_shepherd_bla
+		}
+	}
+
+	option = { # Find a compromise
+		name = agot_crownlands_bla.0401.a
+
+		skill = diplomacy
+
+		duel = {
+			skill = diplomacy
+			value = medium_skill_rating
+
+			50 = {
+				compare_modifier = {
+					value = scope:duel_value
+					multiplier = 1
+				}
+
+				add_prestige = 150
+				add_diplomacy_lifestyle_xp = 150
+
+				add_character_modifier = {
+					modifier = agot_massey_just_lord_of_hook_bla
+					years = 5
+				}
+
+				custom_tooltip = agot_crownlands_bla.0401.a.success
+			}
+
+			50 = {
+				compare_modifier = {
+					value = scope:duel_value
+					multiplier = -1
+				}
+
+				add_diplomacy_lifestyle_xp = 75
+
+				custom_tooltip = agot_crownlands_bla.0401.a.failure
+			}
+		}
+	}
+
+	option = { # Fishing rights
+		name = agot_crownlands_bla.0401.b
+
+		add_gold = 75
+		add_stewardship_lifestyle_xp = 100
+
+		hidden_effect = {
+			add_courtier = scope:massey_fisher_bla
+		}
+
+		custom_tooltip = agot_crownlands_bla.0401.b.tt
+	}
+
+	option = { # Shepherds
+		name = agot_crownlands_bla.0401.c
+
+		add_prestige = 100
+		add_martial_lifestyle_xp = 100
+
+		hidden_effect = {
+			add_courtier = scope:massey_shepherd_bla
+		}
+
+		custom_tooltip = agot_crownlands_bla.0401.c.tt
+	}
+
+	option = { # Massey owns it
+		name = agot_crownlands_bla.0401.d
+
+		add_dread = 5
+		add_gold = 100
+
+		add_character_modifier = {
+			modifier = agot_massey_hard_hand_of_stonedance_bla
+			years = 5
+		}
+	}
+}
+
+agot_crownlands_bla.0402 = {
+	type = character_event
+	title = agot_crownlands_bla.0402.t
+	desc = agot_crownlands_bla.0402.desc
+	theme = intrigue
+
+	override_background = {
+		reference = wilderness
+	}
+
+	left_portrait = {
+		character = root
+		animation = personality_suspicious
+	}
+
+	trigger = {
+		is_ruler = yes
+		is_landed = yes
+		is_available_adult = yes
+		dynasty = dynasty:dynn_Massey
+
+		NOT = {
+			has_character_flag = agot_massey_fires_hook_cooldown_bla
+		}
+	}
+
+	immediate = {
+		add_character_flag = {
+			flag = agot_massey_fires_hook_cooldown_bla
+			years = 8
+		}
+	}
+
+	option = { # Investigate quietly
+		name = agot_crownlands_bla.0402.a
+
+		skill = intrigue
+
+		duel = {
+			skill = intrigue
+			value = medium_skill_rating
+
+			55 = {
+				compare_modifier = {
+					value = scope:duel_value
+					multiplier = 1
+				}
+
+				add_intrigue_lifestyle_xp = 175
+				add_gold = 100
+
+				add_character_modifier = {
+					modifier = agot_massey_watchful_hook_bla
+					years = 5
+				}
+
+				custom_tooltip = agot_crownlands_bla.0402.a.success
+			}
+
+			45 = {
+				compare_modifier = {
+					value = scope:duel_value
+					multiplier = -1
+				}
+
+				add_intrigue_lifestyle_xp = 75
+
+				custom_tooltip = agot_crownlands_bla.0402.a.failure
+			}
+		}
+	}
+
+	option = { # Establish coastal watches
+		name = agot_crownlands_bla.0402.b
+
+		remove_short_term_gold = 100
+		add_martial_lifestyle_xp = 150
+
+		add_character_modifier = {
+			modifier = agot_massey_beacon_watch_bla
+			years = 8
+		}
+	}
+
+	option = { # Turn a blind eye
+		name = agot_crownlands_bla.0402.c
+
+		add_gold = 150
+		add_intrigue_lifestyle_xp = 75
+
+		add_character_modifier = {
+			modifier = agot_massey_coastal_understanding_bla
+			years = 5
+		}
+	}
+
+	option = { # Ride out personally
+		name = agot_crownlands_bla.0402.d
+
+		trigger = {
+			prowess >= 10
+		}
+
+		add_prestige = 175
+		add_martial_lifestyle_xp = 175
+
+		random = {
+			chance = 35
+
+			add_gold = 100
+
+			custom_tooltip = agot_crownlands_bla.0402.d.success
+		}
+	}
+}
+
+agot_crownlands_bla.0403 = {
+	type = character_event
+	title = agot_crownlands_bla.0403.t
+	desc = agot_crownlands_bla.0403.desc
+	theme = learning
+
+	override_background = {
+		reference = wilderness
+	}
+
+	left_portrait = {
+		character = root
+		animation = personality_rational
+	}
+
+	trigger = {
+		is_ruler = yes
+		is_landed = yes
+		is_available_adult = yes
+		dynasty = dynasty:dynn_Massey
+
+		NOT = {
+			has_character_flag = agot_massey_kings_stone_cooldown_bla
+		}
+	}
+
+	immediate = {
+		add_character_flag = {
+			flag = agot_massey_kings_stone_cooldown_bla
+			years = 10
+		}
+	}
+
+	option = { # Revive the old judgment
+		name = agot_crownlands_bla.0403.a
+
+		remove_short_term_gold = 50
+		add_prestige = 200
+		dynasty ?= { add_dynasty_prestige = 100 }
+
+		add_character_modifier = {
+			modifier = agot_massey_judgment_of_the_hook_bla
+			years = 8
+		}
+	}
+
+	option = { # Use it as a place of local justice
+		name = agot_crownlands_bla.0403.b
+
+		add_stewardship_lifestyle_xp = 175
+
+		add_character_modifier = {
+			modifier = agot_massey_law_of_the_hook_bla
+			years = 8
+		}
+	}
+
+	option = { # Examine the tradition
+		name = agot_crownlands_bla.0403.c
+
+		trigger = {
+			learning >= 10
+		}
+
+		skill = learning
+
+		duel = {
+			skill = learning
+			value = medium_skill_rating
+
+			60 = {
+				compare_modifier = {
+					value = scope:duel_value
+					multiplier = 1
+				}
+
+				add_learning_lifestyle_xp = 250
+				dynasty ?= { add_dynasty_prestige = 75 }
+
+				custom_tooltip = agot_crownlands_bla.0403.c.success
+			}
+
+			40 = {
+				compare_modifier = {
+					value = scope:duel_value
+					multiplier = -1
+				}
+
+				add_learning_lifestyle_xp = 100
+
+				custom_tooltip = agot_crownlands_bla.0403.c.failure
+			}
+		}
+	}
+
+	option = { # Dismiss the custom
+		name = agot_crownlands_bla.0403.d
+
+		add_prestige = 75
+		add_stewardship_lifestyle_xp = 75
+	}
+}
+
+agot_crownlands_bla.0404 = {
+	type = character_event
+	title = agot_crownlands_bla.0404.t
+	desc = agot_crownlands_bla.0404.desc
+	theme = diplomacy
+
+	override_background = {
+		reference = throne_room
+	}
+
+	left_portrait = {
+		character = root
+		animation = personality_honorable
+	}
+
+	trigger = {
+		is_ruler = yes
+		is_landed = yes
+		is_available_adult = yes
+		dynasty = dynasty:dynn_Massey
+
+		NOT = {
+			has_character_flag = agot_massey_between_storm_crown_cooldown_bla
+		}
+	}
+
+	immediate = {
+		add_character_flag = {
+			flag = agot_massey_between_storm_crown_cooldown_bla
+			years = 12
+		}
+	}
+
+	option = { # The Hook first
+		name = agot_crownlands_bla.0404.a
+
+		add_prestige = 200
+		add_martial_lifestyle_xp = 125
+
+		add_character_modifier = {
+			modifier = agot_massey_hook_before_all_bla
+			years = 10
+		}
+	}
+
+	option = { # Serve the greater realm
+		name = agot_crownlands_bla.0404.b
+
+		add_diplomacy_lifestyle_xp = 175
+		add_prestige = 150
+
+		add_character_modifier = {
+			modifier = agot_massey_indispensable_vassal_bla
+			years = 10
+		}
+	}
+
+	option = { # Blackwater-facing
+		name = agot_crownlands_bla.0404.c
+
+		add_stewardship_lifestyle_xp = 175
+		add_gold = 75
+
+		add_character_modifier = {
+			modifier = agot_massey_blackwater_outlook_bla
+			years = 10
+		}
+	}
+
+	option = { # Ancient Massey independence
+		name = agot_crownlands_bla.0404.d
+
+		trigger = {
+			prestige_level >= 4
+		}
+
+		add_prestige = 300
+		dynasty ?= { add_dynasty_prestige = 150 }
+
+		add_character_modifier = {
+			modifier = agot_massey_blood_of_kings_bla
+			years = 10
+		}
+	}
+}
+
+agot_crownlands_bla.0405 = {
+	type = character_event
+	title = agot_crownlands_bla.0405.t
+	desc = agot_crownlands_bla.0405.desc
+	theme = stewardship
+
+	override_background = {
+		reference = wilderness
+	}
+
+	left_portrait = {
+		character = root
+		animation = personality_rational
+	}
+
+	trigger = {
+		is_ruler = yes
+		is_landed = yes
+		is_available_adult = yes
+		dynasty = dynasty:dynn_Massey
+
+		NOT = {
+			has_character_flag = agot_massey_road_stonedance_cooldown_bla
+		}
+	}
+
+	immediate = {
+		add_character_flag = {
+			flag = agot_massey_road_stonedance_cooldown_bla
+			years = 8
+		}
+	}
+
+	option = { # Rebuild properly
+		name = agot_crownlands_bla.0405.a
+
+		remove_short_term_gold = 125
+		add_stewardship_lifestyle_xp = 175
+
+		add_character_modifier = {
+			modifier = agot_massey_roads_of_the_hook_bla
+			years = 8
+		}
+	}
+
+	option = { # Favor merchants
+		name = agot_crownlands_bla.0405.b
+
+		remove_short_term_gold = 75
+		add_gold = 75
+		add_stewardship_lifestyle_xp = 100
+
+		add_character_modifier = {
+			modifier = agot_massey_merchant_roads_bla
+			years = 8
+		}
+	}
+
+	option = { # Military roads
+		name = agot_crownlands_bla.0405.c
+
+		remove_short_term_gold = 100
+		add_martial_lifestyle_xp = 150
+
+		add_character_modifier = {
+			modifier = agot_massey_military_roads_bla
+			years = 8
+		}
+	}
+
+	option = { # Local obligation
+		name = agot_crownlands_bla.0405.d
+
+		add_dread = 5
+		add_stewardship_lifestyle_xp = 75
+
+		add_character_modifier = {
+			modifier = agot_massey_forced_road_labor_bla
+			years = 5
+		}
+	}
+}
+
+agot_crownlands_bla.0406 = {
+	type = character_event
+	title = agot_crownlands_bla.0406.t
+	desc = agot_crownlands_bla.0406.desc
+	theme = martial
+
+	override_background = {
+		reference = courtyard
+	}
+
+	left_portrait = {
+		character = root
+		animation = personality_rational
+	}
+
+	right_portrait = {
+		character = scope:massey_hook_knight_bla
+		animation = personality_bold
+	}
+
+	trigger = {
+		is_ruler = yes
+		is_landed = yes
+		is_available_adult = yes
+		dynasty = dynasty:dynn_Massey
+
+		NOT = {
+			has_character_flag = agot_massey_hook_knight_cooldown_bla
+		}
+	}
+
+	immediate = {
+		add_character_flag = {
+			flag = agot_massey_hook_knight_cooldown_bla
+			years = 10
+		}
+
+		create_character = {
+			location = root.capital_province
+			age = { 22 34 }
+			dynasty = none
+			gender_female_chance = 0
+
+			culture = root.culture
+			faith = root.faith
+
+			martial = { 9 14 }
+			prowess = { 13 18 }
+
+			trait = brave
+
+			save_scope_as = massey_hook_knight_bla
+		}
+	}
+
+	option = { # Bring him into the household
+		name = agot_crownlands_bla.0406.a
+
+		hidden_effect = {
+			add_courtier = scope:massey_hook_knight_bla
+		}
+
+		add_prestige = 100
+		add_martial_lifestyle_xp = 100
+
+		custom_tooltip = agot_crownlands_bla.0406.a.tt
+	}
+
+	option = { # Reward him without taking him
+		name = agot_crownlands_bla.0406.b
+
+		remove_short_term_gold = 50
+		add_prestige = 150
+
+		scope:massey_hook_knight_bla = {
+			add_opinion = {
+				target = root
+				modifier = grateful_opinion
+				opinion = 40
+			}
+		}
+	}
+
+	option = { # Test him personally
+		name = agot_crownlands_bla.0406.c
+
+		trigger = {
+			prowess >= 8
+		}
+
+		skill = prowess
+
+		duel = {
+			skill = prowess
+			value = scope:massey_hook_knight_bla.prowess
+
+			50 = {
+				compare_modifier = {
+					value = scope:duel_value
+					multiplier = 1
+				}
+
+				add_prestige = 200
+				add_martial_lifestyle_xp = 150
+
+				hidden_effect = {
+					add_courtier = scope:massey_hook_knight_bla
+				}
+
+				custom_tooltip = agot_crownlands_bla.0406.c.success
+			}
+
+			50 = {
+				compare_modifier = {
+					value = scope:duel_value
+					multiplier = -1
+				}
+
+				add_martial_lifestyle_xp = 100
+
+				hidden_effect = {
+					add_courtier = scope:massey_hook_knight_bla
+				}
+
+				custom_tooltip = agot_crownlands_bla.0406.c.failure
+			}
+		}
+	}
+
+	option = { # Leave him among his people
+		name = agot_crownlands_bla.0406.d
+
+		add_stewardship_lifestyle_xp = 75
+		add_prestige = 50
+	}
+}
+
+agot_crownlands_bla.0407 = {
+	type = character_event
+	title = agot_crownlands_bla.0407.t
+	desc = agot_crownlands_bla.0407.desc
+	theme = intrigue
+
+	override_background = {
+		reference = wilderness
+	}
+
+	left_portrait = {
+		character = root
+		animation = personality_suspicious
+	}
+
+	right_portrait = {
+		character = scope:massey_wreck_survivor_bla
+		animation = personality_rational
+	}
+
+	trigger = {
+		is_ruler = yes
+		is_landed = yes
+		is_available_adult = yes
+		dynasty = dynasty:dynn_Massey
+
+		NOT = {
+			has_character_flag = agot_massey_narrow_place_cooldown_bla
+		}
+	}
+
+	immediate = {
+		add_character_flag = {
+			flag = agot_massey_narrow_place_cooldown_bla
+			years = 10
+		}
+
+		create_character = {
+			location = root.capital_province
+			age = { 25 50 }
+			dynasty = none
+			gender_female_chance = 0
+
+			culture = root.culture
+			faith = root.faith
+
+			diplomacy = { 8 13 }
+			stewardship = { 8 13 }
+			intrigue = { 8 14 }
+
+			save_scope_as = massey_wreck_survivor_bla
+		}
+	}
+
+	option = { # Hospitality
+		name = agot_crownlands_bla.0407.a
+
+		remove_short_term_gold = 50
+		add_prestige = 125
+		add_diplomacy_lifestyle_xp = 100
+
+		hidden_effect = {
+			add_courtier = scope:massey_wreck_survivor_bla
+		}
+
+		custom_tooltip = agot_crownlands_bla.0407.a.tt
+	}
+
+	option = { # Question him
+		name = agot_crownlands_bla.0407.b
+
+		add_intrigue_lifestyle_xp = 100
+
+		hidden_effect = {
+			trigger_event = {
+				id = agot_crownlands_bla.0408
+				days = 3
+			}
+		}
+	}
+
+	option = { # Salvage belongs to Massey
+		name = agot_crownlands_bla.0407.c
+
+		add_gold = 150
+		add_dread = 5
+
+		scope:massey_wreck_survivor_bla = {
+			add_opinion = {
+				target = root
+				modifier = angry_opinion
+				opinion = -40
+			}
+		}
+	}
+
+	option = { # Send him onward
+		name = agot_crownlands_bla.0407.d
+
+		add_prestige = 75
+		add_diplomacy_lifestyle_xp = 75
+	}
+}
+
+agot_crownlands_bla.0408 = {
+	type = character_event
+	title = agot_crownlands_bla.0408.t
+	desc = agot_crownlands_bla.0408.desc
+	theme = intrigue
+
+	override_background = {
+		reference = wilderness
+	}
+
+	left_portrait = {
+		character = root
+		animation = personality_suspicious
+	}
+
+	right_portrait = {
+		character = scope:massey_wreck_survivor_bla
+		animation = personality_nervous
+	}
+
+	option = { # Take the correspondence
+		name = agot_crownlands_bla.0408.a
+
+		add_intrigue_lifestyle_xp = 200
+		add_prestige = 100
+
+		hidden_effect = {
+			add_courtier = scope:massey_wreck_survivor_bla
+		}
+
+		custom_tooltip = agot_crownlands_bla.0408.a.tt
+	}
+
+	option = { # Sell his silence
+		name = agot_crownlands_bla.0408.b
+
+		add_gold = 150
+		add_intrigue_lifestyle_xp = 100
+	}
+
+	option = { # Respect the correspondence
+		name = agot_crownlands_bla.0408.c
+
+		add_prestige = 150
+		add_diplomacy_lifestyle_xp = 125
+
+		scope:massey_wreck_survivor_bla = {
+			add_opinion = {
+				target = root
+				modifier = grateful_opinion
+				opinion = 40
+			}
+		}
+	}
+
+	option = { # Recruit him
+		name = agot_crownlands_bla.0408.d
+
+		hidden_effect = {
+			add_courtier = scope:massey_wreck_survivor_bla
+		}
+
+		add_intrigue_lifestyle_xp = 150
+
+		custom_tooltip = agot_crownlands_bla.0408.d.tt
+	}
+}

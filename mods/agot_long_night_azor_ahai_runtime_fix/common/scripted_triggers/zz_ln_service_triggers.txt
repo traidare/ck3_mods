@@ -1,0 +1,193 @@
+﻿# The Long Night & Azor Ahai -- who may serve a living lord.
+#
+# Three same-name overrides of AGOT triggers (knight, court position, council seat), each a verbatim
+# copy of AGOT's body with one added line. Resync note: if AGOT edits any of the three, recopy their
+# body and re-add the ln_may_serve_trigger line. Sources at time of copying (AGOT build of 1 Sep):
+#   can_be_knight_trigger            -- common/scripted_triggers/00_war_and_peace_triggers.txt
+#   base_court_position_validity_trigger -- common/scripted_triggers/00_court_position_triggers.txt
+#   can_be_councillor_basics_trigger -- common/scripted_triggers/00_councillor_triggers.txt
+#
+# can_be_commander_basic_trigger carries the same clause, but it already lives in its own override
+# file (zz_long_night_plus_commander.txt) and is amended there rather than duplicated here.
+
+# ══ THE GATE ══════════════════════════════════════════════════════════════════════════════════════
+# Root = the candidate. $LORD$ = the lord who would field or employ them.
+# Silent for everyone living under a living lord -- each clause only renders its tooltip when one side
+# of the pairing really is one of the dead, so ordinary restriction tooltips are unchanged.
+#
+# 1.1.0 (A2.1) -- AND THE MIRROR. Thomas's 290 AC observer run: Chieftess Frenya Stainrock, living, 27,
+# a thousand men, listed as "Hegemon Other's Spymaster". The first clause only ever asked whether one of
+# the dead was serving the living; nobody had asked the other way round. One gate, all four call sites
+# (knight, court position, council seat, command) inherit it. Knights included, deliberately: the
+# oathbreaker-in-the-Night-King's-line story is already told, properly, by ln_raised_as_an_other -- a
+# man who fights for the dead is one of the dead. A living spymaster for the dead is not a story.
+ln_may_serve_trigger = {
+	trigger_if = {
+		limit = { ln_is_one_of_them_trigger = yes }
+		# `?=` and not `=`: a missing lord scope must read as "no" rather than throw, and for one of the dead
+		# "no" is the safe answer anyway. Same operator this mod uses everywhere else it walks a scope that
+		# may not be there.
+		custom_tooltip = {
+			text = ln_may_serve_trigger_tt
+			$LORD$ ?= { ln_is_one_of_them_trigger = yes }
+		}
+	}
+	# The candidate is living (the clause above did not match). If the lord is one of the dead, refuse.
+	trigger_else_if = {
+		limit = { $LORD$ ?= { ln_is_one_of_them_trigger = yes } }
+		custom_tooltip = {
+			text = ln_may_not_serve_the_dead_tt
+			ln_is_one_of_them_trigger = yes
+		}
+	}
+	# CK3 1.19 fails PostValidate on a trigger_else_if with no trigger_else, and
+	# the whole gate then returns false for all four call sites. Both parties are
+	# living here, which the gate is meant to permit without a tooltip.
+	trigger_else = { always = yes }
+}
+
+can_be_knight_trigger = {
+	is_available_quick = {
+		#AGOT Disabled
+		# ai = yes
+		hostage = no
+	}
+	can_be_warrior_trigger = { ARMY_OWNER = $ARMY_OWNER$ }
+	trigger_if = { # Admin governors cannot be knights
+		limit = {
+			government_allows = administrative
+			exists = primary_title
+		}
+		primary_title = {
+			tier < tier_duchy
+			trigger_if = {
+				limit = { is_noble_family_title = yes }
+				always = no
+			}
+		}
+	}
+	trigger_if = {
+		limit = {
+			$ARMY_OWNER$.culture = {
+				has_cultural_parameter = minimum_prowess_for_knights
+			}
+		}
+		prowess >= 12
+	}
+	trigger_if = {
+		limit = {
+			is_clergy = yes
+		}
+		OR = {
+			faith = { has_doctrine_parameter = clergy_can_fight }
+			culture = { has_cultural_parameter = culture_clergy_can_fight }
+			AND = {
+				$ARMY_OWNER$.culture = {
+					has_cultural_parameter = high_prowess_ignores_knight_restrictions
+				}
+				#AGOT Modified
+				#prowess >= 10
+				prowess >= 12
+			}
+		}
+	}
+	OR = {
+		AND = {
+			$ARMY_OWNER$.culture = {
+				has_cultural_parameter = high_prowess_ignores_knight_restrictions
+			}
+			#AGOT Modified
+			#prowess >= 10
+			prowess >= 12
+		}
+		has_trait = order_member # Order Members will fight for their faith even if their faith says no
+		NOR = {
+			has_trait = blind
+			has_court_position = master_assassin_court_position #FP3 addition
+		}
+	}
+	trigger_if = {
+		limit = {
+			exists = liege.diarch
+		}
+		this != liege.diarch
+	}
+	# knight permissions for players
+	trigger_if = {
+		limit = {
+			$ARMY_OWNER$ = {
+				is_ai = no
+			}
+		}
+		is_knight_permitted = $ARMY_OWNER$
+	}
+
+	#AGOT Added, players can be knights if they haven't explicitly refused
+	OR = {
+		is_ai = yes
+		AND = {
+			NOT = { has_character_flag = cannot_be_knight_and_commander }
+			is_travelling = no
+			NOT = { exists = involved_activity }
+		}
+	}
+
+	# ── The Long Night & Azor Ahai ─────────────────────────────────────────────────────────────────
+	# Reported 1 Sep from the Long Night Discord: a player's captain was an Other. AGOT renames the
+	# knight concept to "Captain" (game_concept_knight), so an Other sitting in a living lord's court
+	# was being drafted as a knight and then narrating court events at him -- the screenshot was
+	# fund_inspiration.1051, "my captain Other announces his arrival in a surprisingly loud voice".
+	# The dead serve their own and nobody else. Their own hosts are untouched: the gate only fires
+	# when the candidate is one of them and the army owner is not.
+	ln_may_serve_trigger = { LORD = $ARMY_OWNER$ }
+}
+
+base_court_position_validity_trigger = { # would_be_valid_for_court_position ultimately traces back to this, so touch with caution
+	is_imprisoned = no
+	NOT = {
+		is_at_war_with = $EMPLOYER$
+	}
+	custom_tooltip = {
+		text = not_travel_option_character
+		NOT = { has_character_flag = travel_option_added_character }
+	}
+	custom_tooltip = {
+		text = is_not_a_ceremonial_liege_trigger
+		tgp_is_ceremonial_liege_trigger = no
+	}
+
+	#AGOT Added
+	is_human = yes
+
+	# The Long Night & Azor Ahai: no Other, Night King or wight holds a court position for the living.
+	ln_may_serve_trigger = { LORD = $EMPLOYER$ }
+}
+
+can_be_councillor_basics_trigger = {
+	is_available_quick = {
+		adult = yes
+		incapable = no
+		imprisoned = no
+	}
+	is_at_war_with_liege = no
+	trigger_if = {
+		limit = { has_variable = block_hire_councillor }
+		NOT = { var:block_hire_councillor = liege }
+	}
+	custom_tooltip = {
+		text = not_travel_option_character
+		NOT = { has_character_flag = travel_option_added_character }
+	}
+
+	#AGOT Added
+	is_human = yes
+	#No ruin councillors, or councillors for ruins
+	agot_is_dummy_character = no
+	trigger_if = {
+		limit = { exists = liege_or_court_owner }
+		liege_or_court_owner = { agot_is_dummy_character = no }
+	}
+
+	# The Long Night & Azor Ahai: no Other, Night King or wight sits on a living lord's council.
+	ln_may_serve_trigger = { LORD = liege_or_court_owner }
+}
