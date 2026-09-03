@@ -1,0 +1,397 @@
+﻿namespace = agot_btw_maintenance
+
+#Non-Wildling/Not Winter gains BTW county
+agot_btw_maintenance.0001 = {
+	hidden = yes
+	type = character_event
+
+	trigger = {
+		trigger_if = {
+			limit = {
+				exists = scope:title
+				exists = scope:title.title_province
+			}
+			scope:title = {
+				tier = tier_county
+				title_province = { geographical_region = world_westeros_beyond_the_wall }
+			}
+		}
+		trigger_else = { always = no }
+	}
+
+	immediate = {
+		scope:title = {
+			agot_update_wildling_resistance = yes
+		}
+	}
+}
+
+#Converted Culture
+agot_btw_maintenance.0002 = {
+	scope = none
+	hidden = yes
+
+	trigger = {
+		title_province = { geographical_region = world_westeros_beyond_the_wall }
+	}
+
+	immediate = {
+		agot_update_wildling_resistance = yes
+	}
+}
+
+#Global Maintenance
+agot_btw_maintenance.0004 = {
+	scope = none
+	hidden = yes
+
+	immediate = {
+		every_county_in_region = {
+			region = world_westeros_beyond_the_wall
+			agot_update_wildling_resistance = yes
+		}
+	}
+}
+
+# Create Kingdom
+agot_btw_maintenance.0100 = {
+	type = character_event
+	title = agot_btw_maintenance.0100.t
+	desc = agot_btw_maintenance.0100.desc
+	hidden = yes
+
+	theme = realm
+	left_portrait = {
+		character = root
+	}
+	override_background = {
+		reference = throne_room
+	}
+
+	trigger = {
+		is_independent_ruler = yes
+		is_available_ai_adult = yes
+		government_has_flag = government_is_tribal
+		culture = {
+			agot_is_wildling_culture = yes
+		}
+		any_character_struggle = {
+			is_struggle_type = btw_struggle
+			involvement = involved
+		}
+		primary_title = {
+			tier = tier_duchy
+		}
+		any_realm_de_jure_kingdom = {
+			is_de_jure_liege_or_above_target = root.primary_title
+			NOT = { exists = holder }
+		}
+
+		legitimacy_level >= 2
+		realm_size >= 5
+		current_military_strength >= 3000
+		gold > 0
+	}
+
+	weight_multiplier = {
+		base = 1
+		modifier = {
+			factor = { # 0.1 to 10
+				if = {
+					limit = { agot_btw_maintenance_create_kingdom_score_value >= 0 }
+					value = agot_btw_maintenance_create_kingdom_score_value
+					add = 1
+					max = 10
+				}
+				else = {
+					value = agot_btw_maintenance_create_kingdom_score_value
+					min = -9
+					add = 10
+					divide = 10
+				}
+			}
+		}
+	}
+
+	immediate = {
+		save_scope_as = king
+
+		# Determine dejure kingdom title
+		random_realm_de_jure_kingdom = {
+			limit = {
+				is_de_jure_liege_or_above_target = root.primary_title
+				NOT = { exists = holder }
+			}
+			save_scope_as = kingdom_title
+		}
+
+		# Determine potential vassals among independent dejure vassal title holders
+		scope:kingdom_title = {
+			every_dejure_vassal_title_holder = {
+				limit = {
+					NOT = { this = root }
+					is_independent_ruler = yes
+					is_ai = yes
+					government_has_flag = government_is_tribal
+					culture = {
+						agot_is_wildling_culture = yes
+					}
+					any_character_struggle = {
+						is_struggle_type = btw_struggle
+						involvement = involved
+					}
+					primary_title = {
+						tier <= tier_duchy
+					}
+					scope:kingdom_title = {
+						is_de_jure_liege_or_above_target = prev.primary_title
+					}
+					scope:king = {
+						character_is_realm_neighbor = prev
+					}
+					NOR = {
+						is_at_war_with = scope:king
+						var:independence_war_former_liege ?= scope:king
+						has_relation_rival = scope:king
+					}
+				}
+				add_to_list = potential_vassals
+			}
+		}
+
+		# Save additional scopes for debugging
+		save_scope_value_as = {
+			name = create_kingdom_score_value
+			value = agot_btw_maintenance_create_kingdom_score_value
+		}
+	}
+
+	# Become king
+	option = {
+		name = agot_btw_maintenance.0100.a
+
+		trigger = {
+			any_in_list = {
+				list = potential_vassals
+				count > 0
+			}
+		}
+
+		agot_debug_log_effect = { MSG = agot_debug_msg_btw_maintenance_maintenance_0100_a }
+		#debug_log_scopes = yes
+
+		# Create the dejure kingdom title
+		create_title_and_vassal_change = {
+			type = created
+			save_scope_as = change
+			add_claim_on_loss = yes
+		}
+		scope:kingdom_title = {
+			change_title_holder = {
+				holder = root
+				change = scope:change
+			}
+		}
+		resolve_title_and_vassal_change = scope:change
+
+		# Add 100 legitimacy to avoid penalties due to low legitimacy
+		add_legitimacy = medium_legitimacy_gain
+
+		# Fire events for potential vassals to swear fealty
+		every_in_list = {
+			list = potential_vassals
+			trigger_event = {
+				id = agot_btw_maintenance.0101
+				days = { 3 7 }
+			}
+		}
+
+		ai_chance = {
+			base = 100
+		}
+	}
+
+	# Remain duke
+	option = {
+		name = agot_btw_maintenance.0100.b
+
+		agot_debug_log_effect = { MSG = agot_debug_msg_btw_maintenance_maintenance_0100_b }
+		#debug_log_scopes = yes
+
+		ai_chance = {
+			base = 1
+		}
+	}
+}
+
+# Swear Fealty
+agot_btw_maintenance.0101 = {
+	type = character_event
+	title = agot_btw_maintenance.0101.t
+	desc = agot_btw_maintenance.0101.desc
+	hidden = yes
+
+	theme = realm
+	left_portrait = {
+		character = scope:king
+	}
+	override_background = {
+		reference = throne_room
+	}
+
+	trigger = {
+		is_independent_ruler = yes
+		trigger_if = {
+			limit = { exists = scope:king }
+			is_ai = yes
+		}
+		trigger_else = {
+			is_available_ai_adult = yes
+			any_realm_de_jure_kingdom = {
+				is_de_jure_liege_or_above_target = prev.primary_title
+				exists = holder
+				save_temporary_scope_as = kingdom_title
+				holder = {
+					save_temporary_scope_as = king
+				}
+			}
+			scope:king = {
+				is_ai = yes
+				is_adult = yes
+				government_has_flag = government_is_tribal
+				culture = {
+					agot_is_wildling_culture = yes
+				}
+				any_character_struggle = {
+					is_struggle_type = btw_struggle
+					involvement = involved
+				}
+			}
+		}
+		government_has_flag = government_is_tribal
+		culture = {
+			agot_is_wildling_culture = yes
+		}
+		any_character_struggle = {
+			is_struggle_type = btw_struggle
+			involvement = involved
+		}
+		primary_title = {
+			tier <= tier_duchy
+		}
+		scope:kingdom_title = {
+			is_de_jure_liege_or_above_target = prev.primary_title
+		}
+		scope:king = {
+			character_is_realm_neighbor = prev
+		}
+		NOR = {
+			is_at_war_with = scope:king
+			var:independence_war_former_liege ?= scope:king
+			has_relation_rival = scope:king
+		}
+	}
+
+	weight_multiplier = {
+		base = 1
+		modifier = {
+			factor = { # 0.1 to 10
+				if = {
+					limit = { agot_btw_maintenance_swear_fealty_score_value >= 0 }
+					value = agot_btw_maintenance_swear_fealty_score_value
+					add = 1
+					max = 10
+				}
+				else = {
+					value = agot_btw_maintenance_swear_fealty_score_value
+					min = -9
+					add = 10
+					divide = 10
+				}
+			}
+		}
+	}
+
+	immediate = {
+		# Determine dejure kingdom title and king
+		random_realm_de_jure_kingdom = {
+			limit = {
+				is_de_jure_liege_or_above_target = root.primary_title
+				exists = holder
+			}
+			save_scope_as = kingdom_title
+			holder = {
+				save_scope_as = king
+			}
+		}
+
+		# Calculate vassalization acceptance
+		save_scope_value_as = {
+			name = vassalization_acceptance
+			value = {
+				value = agot_btw_maintenance_vassalization_acceptance_value
+				add = agot_btw_maintenance_additional_vassalization_acceptance_value
+			}
+		}
+
+		# Save additional scopes for debugging
+		save_scope_value_as = {
+			name = swear_fealty_score_value
+			value = agot_btw_maintenance_swear_fealty_score_value
+		}
+	}
+
+	# Swear fealty
+	option = {
+		name = agot_btw_maintenance.0101.a
+
+		trigger = {
+			scope:vassalization_acceptance >= -30
+		}
+
+		agot_debug_log_effect = { MSG = agot_debug_msg_btw_maintenance_maintenance_0101_a }
+		#debug_log_scopes = yes
+
+		# Swear fealty to scope:king
+		create_title_and_vassal_change = {
+			type = swear_fealty
+			save_scope_as = change
+		}
+		change_liege = {
+			liege = scope:king
+			change = scope:change
+		}
+		resolve_title_and_vassal_change = scope:change
+
+		# Add opinion modifier
+		add_opinion = {
+			modifier = became_vassal
+			target = scope:king
+			opinion = 10
+		}
+
+		# Apply struggle catalysts
+		hidden_effect = {
+			fp3_struggle_apply_independent_vassalage_catalyst_effect = {
+				NEW_LIEGE = scope:king
+				NEW_VASSAL = root
+			}
+		}
+
+		ai_chance = {
+			base = 100
+		}
+	}
+
+	# Remain independent
+	option = {
+		name = agot_btw_maintenance.0101.b
+
+		agot_debug_log_effect = { MSG = agot_debug_msg_btw_maintenance_maintenance_0101_b }
+		#debug_log_scopes = yes
+
+		ai_chance = {
+			base = 1
+		}
+	}
+}

@@ -38,6 +38,15 @@ from .runtime_fixes.court_character import (
     generate_suggest_dragon_bonding,
     generate_vanilla_tour_pulse,
 )
+from .runtime_fixes.crash_stability import (
+    generate_adventurer_beneficiary_cb_guard,
+    generate_appointment_score_guards,
+    generate_beyond_wall_queued_event_guard,
+    generate_dragon_template_storage_guards,
+    generate_kraken_event_parser_repair,
+    generate_naval_coastal_raid_tooltip,
+    generate_naval_contact_stability,
+)
 from .runtime_fixes.integrations import (
     generate_any_new_traditions,
     generate_baie_rebases,
@@ -73,6 +82,13 @@ from .runtime_fixes.visuals_ui import (
 )
 
 REPAIRS = (
+    generate_naval_contact_stability,
+    generate_appointment_score_guards,
+    generate_beyond_wall_queued_event_guard,
+    generate_naval_coastal_raid_tooltip,
+    generate_dragon_template_storage_guards,
+    generate_adventurer_beneficiary_cb_guard,
+    generate_kraken_event_parser_repair,
     generate_seasons_agot_shaders,
     generate_mari_agot_portraits,
     generate_faster_transitions_gui,

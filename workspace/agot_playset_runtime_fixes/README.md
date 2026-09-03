@@ -13,6 +13,61 @@ integration stays in `agot_full_playset_compatch`.
 
 ## Repairs and evidence
 
+### Stability guards
+
+These repairs remove script faults that execute on recurring pulses or during
+game start, where an unset scope or a surplus macro argument is dereferenced.
+Each is justified by the effective source below, and each is pinned so a parent
+change re-raises it.
+
+- **Naval contact stability (Workshop 3772178688, 3781577713):** the contact
+  loop writes reciprocal variables through an iterator scope the engine reports
+  as weak — `set_variable effect [ This scope doesn't support variables. Scope:`
+  … `weak (Character - N)! ]` at `naval_combat_effects.txt` lines 1250-1251 in
+  `naval_combat_update_contact_effect`. The repair stores the contact target on
+  the root character and re-enters it for both writes, and restores the living
+  character gate. Iron and Salt owns the effective event file, so its changes
+  are retained. `naval_combat.0100` drives the loop on every naval pulse, so the
+  fault recurs for as long as the mods are enabled.
+- **Appointment score guards:**
+  `appointment_candidate_accumulated_score trigger [ Target title` …
+  `doesn't use appointment succession ]`. Every
+  `appointment_candidate_accumulated_score(scope:target)` call is wrapped in a
+  `trigger_if` on the target title's own `appointment_type_succession` flag,
+  with a `trigger_else = { always = no }`. The guard is applied per call rather
+  than to the enclosing modifier because CK3 evaluates these triggers eagerly,
+  so a surrounding gate does not prevent the score from being computed on a
+  title without the law.
+- **Beyond-the-Wall queued maintenance:**
+  `title_province trigger [ Failed context switch ]`. The repair requires both
+  `scope:title` and its province before entering `title_province`, so the queued
+  event fails closed instead of dereferencing an unset province.
+- **Coastal raiding tooltip:** inlines the ten-percent-of-target-gold,
+  minimum-one calculation for both transfers so the tooltip and the applied
+  value agree; the stored value is retained only for the follow-up event.
+- **Dragon template storage guards:**
+  `Failed to fetch variable for 'gene_dragon_fire_color_template' due to not being set`,
+  and the same for `gene_dragon_fire_smoke_template`, each preceded by
+  `Event target link 'var' returned an unset scope`. The templates start from a
+  numeric fallback and read `gl_dragon_variable_storage` entries only inside
+  list entries that actually carry them.
+- **Adventurer's Beneficiary CB (Workshop 3349316031):**
+  `Failed to fetch variable for 'val_beneficiary' due to not being set`. The
+  trigger returns false when the attacker has no `val_beneficiary` variable
+  instead of dereferencing it. The same file also drops one surplus
+  `TITLE_GIVER` argument passed to `ep3_become_landed_warning_effect`. Every
+  definition of that effect in the playset declares only `$TITLE$` and
+  `$TITLE_RECEIVER$`, and supplying an undeclared parameter is a documented
+  crash cause. The removal is anchored to that call: the adjacent
+  `ep3_landless_invasion_titles_taken_effect` call does declare `$TITLE_GIVER$`
+  and keeps it.
+- **Kraken events (Workshop 3781577713):**
+  `"Unexpected token: override_environment"` in `events/kraken_events.txt`. CK3
+  1.19 no longer accepts the field, and the parser rejects the surrounding
+  blocks. Removing all 13 lets the events fall back to their normal environment.
+
+### General repairs
+
 - **Voluntary become-adventurer decision:** AGOT owns the decision and More
   Dragon Eggs owns the effective voluntary event. The generated decision
   override consumes the generic `unlock_voluntary_laampdom_trait` flag (so
@@ -36,8 +91,8 @@ integration stays in `agot_full_playset_compatch`.
   based on the pre-1.19 widget definitions, which end in a GUI-thread SIGSEGV
   while an empty window is visible.
 - **Upgrade House Banners 3:** restores the already-localized close option to
-  its visible house-banner rarity event. CK3 reported the event as having no
-  options, allowing it to open as an empty blocking popup.
+  its visible house-banner rarity event. Without it the event has no options and
+  opens as an empty blocking popup.
 - **Additional Models / AGOT+ / LoV:** the Workshop compatch owns its LoV-aware
   artifact setup, which this module leaves alone; its holding art and
   illustration triggers are repaired separately below.
@@ -326,3 +381,13 @@ after updates to `3719888822` because the same repair is pinned to LoV's
 effective wilderness-conversion effect. Re-run it after updates to `3762892081`
 because the generated court-scene selector follows that compatch's current
 room-routing rules.
+
+The stability guards are pinned by file or top-level block hash and fail closed
+when a parent changes. Re-run the generator and review the diff after any update
+to Workshop `3772178688` (CK3 Naval Combat) or `3781577713` (AGOT Iron and
+Salt); the latter owns both the effective naval event file and the kraken
+events. Re-run it after updates to `3349316031`, whose Adventurer's Beneficiary
+CB carries both the beneficiary guard and the `TITLE_GIVER` removal, and after
+CK3 or AGOT updates that change `ep3_become_landed_warning_effect` or
+`ep3_landless_invasion_titles_taken_effect`, because the removal depends on
+which parameters those effects declare.

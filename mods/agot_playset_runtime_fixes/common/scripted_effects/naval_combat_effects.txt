@@ -1,0 +1,1857 @@
+﻿naval_combat_initialize_navy_effect = {
+	if = {
+		limit = {
+			NOT = { exists = var:naval_combat_initialized }
+		}
+		remove_variable = naval_combat_navy_handed_off
+		set_variable = {
+			name = naval_combat_initialized
+			value = yes
+		}
+		set_variable = {
+			name = naval_combat_transport_ships
+			value = 0
+		}
+		set_variable = {
+			name = naval_combat_oared_warships
+			value = 0
+		}
+		set_variable = {
+			name = naval_combat_high_sided_warships
+			value = 0
+		}
+		set_variable = {
+			name = naval_combat_longships
+			value = 0
+		}
+		set_variable = {
+			name = naval_combat_greek_fire_ships
+			value = 0
+		}
+		set_variable = {
+			name = naval_combat_tower_ships
+			value = 0
+		}
+		set_variable = {
+			name = naval_combat_readiness
+			value = 0
+		}
+		set_variable = {
+			name = naval_combat_drill
+			value = 0
+		}
+		set_variable = {
+			name = naval_combat_transport_active
+			value = 0
+		}
+		set_variable = {
+			name = naval_combat_sea_control_active
+			value = 0
+		}
+		naval_combat_shipwright_grant_cultural_fittings_effect = yes
+	}
+
+	if = {
+		limit = {
+			is_ai = no
+		}
+		set_global_variable = {
+			name = naval_combat_ai_system_unlocked
+			value = yes
+		}
+	}
+
+	if = {
+		limit = {
+			naval_combat_has_direct_coastal_county_trigger = yes
+		}
+		set_variable = {
+			name = naval_combat_has_royal_naval_base
+			value = yes
+		}
+	}
+	else = {
+		remove_variable = naval_combat_has_royal_naval_base
+	}
+
+	naval_combat_refresh_transport_modifier_effect = yes
+	naval_combat_schedule_weekly_readiness_effect = yes
+	naval_combat_schedule_monthly_maintenance_effect = yes
+}
+
+naval_combat_set_test_fleet_effect = {
+	set_variable = {
+		name = naval_combat_transport_ships
+		value = 10
+	}
+	set_variable = {
+		name = naval_combat_oared_warships
+		value = 5
+	}
+	set_variable = {
+		name = naval_combat_high_sided_warships
+		value = 3
+	}
+	set_variable = { name = naval_combat_longships value = 0 }
+	set_variable = { name = naval_combat_greek_fire_ships value = 0 }
+	set_variable = { name = naval_combat_tower_ships value = 0 }
+	if = {
+		limit = { naval_combat_can_build_longship_trigger = yes }
+		set_variable = { name = naval_combat_longships value = 2 }
+	}
+	else_if = {
+		limit = { naval_combat_can_build_greek_fire_ship_trigger = yes }
+		set_variable = { name = naval_combat_greek_fire_ships value = 2 }
+	}
+	else_if = {
+		limit = { naval_combat_can_build_tower_ship_trigger = yes }
+		set_variable = { name = naval_combat_tower_ships value = 2 }
+	}
+	set_variable = {
+		name = naval_combat_readiness
+		value = 100
+	}
+	set_variable = {
+		name = naval_combat_drill
+		value = 0
+	}
+	naval_combat_refresh_transport_modifier_effect = yes
+	naval_combat_schedule_weekly_readiness_effect = yes
+	naval_combat_schedule_monthly_maintenance_effect = yes
+}
+
+naval_combat_set_random_test_fleet_effect = {
+	naval_combat_initialize_navy_effect = yes
+
+	random_list = {
+		20 = {
+			trigger = { naval_combat_capacity_value >= 90 }
+			set_variable = { name = naval_combat_transport_ships value = 24 }
+			set_variable = { name = naval_combat_oared_warships value = 18 }
+			set_variable = { name = naval_combat_high_sided_warships value = 10 }
+		}
+		25 = {
+			trigger = { naval_combat_capacity_value >= 60 }
+			set_variable = { name = naval_combat_transport_ships value = 18 }
+			set_variable = { name = naval_combat_oared_warships value = 12 }
+			set_variable = { name = naval_combat_high_sided_warships value = 6 }
+		}
+		25 = {
+			trigger = { naval_combat_capacity_value >= 35 }
+			set_variable = { name = naval_combat_transport_ships value = 12 }
+			set_variable = { name = naval_combat_oared_warships value = 7 }
+			set_variable = { name = naval_combat_high_sided_warships value = 3 }
+		}
+		30 = {
+			set_variable = { name = naval_combat_transport_ships value = 8 }
+			set_variable = { name = naval_combat_oared_warships value = 3 }
+			set_variable = { name = naval_combat_high_sided_warships value = 1 }
+		}
+	}
+
+	set_variable = { name = naval_combat_longships value = 0 }
+	set_variable = { name = naval_combat_greek_fire_ships value = 0 }
+	set_variable = { name = naval_combat_tower_ships value = 0 }
+	if = {
+		limit = { naval_combat_can_build_longship_trigger = yes }
+		set_variable = { name = naval_combat_longships value = 2 }
+	}
+	else_if = {
+		limit = { naval_combat_can_build_greek_fire_ship_trigger = yes }
+		set_variable = { name = naval_combat_greek_fire_ships value = 2 }
+	}
+	else_if = {
+		limit = { naval_combat_can_build_tower_ship_trigger = yes }
+		set_variable = { name = naval_combat_tower_ships value = 2 }
+	}
+
+	set_variable = {
+		name = naval_combat_readiness
+		value = 100
+	}
+	set_variable = {
+		name = naval_combat_drill
+		value = 50
+	}
+	set_variable = {
+		name = naval_combat_transport_active
+		value = 1
+	}
+	set_variable = {
+		name = naval_combat_sea_control_active
+		value = 1
+	}
+	naval_combat_refresh_transport_modifier_effect = yes
+	naval_combat_schedule_weekly_readiness_effect = yes
+	naval_combat_schedule_monthly_maintenance_effect = yes
+}
+
+naval_combat_ai_update_focus_effect = {
+	set_variable = {
+		name = naval_combat_ai_focus
+		value = naval_combat_ai_calculated_focus_value
+	}
+}
+
+naval_combat_seed_player_initial_fleet_effect = {
+	naval_combat_ai_update_focus_effect = yes
+	set_variable = {
+		name = naval_combat_transport_ships
+		value = naval_combat_ai_target_transport_ship_count_value
+	}
+	set_variable = {
+		name = naval_combat_oared_warships
+		value = naval_combat_ai_target_oared_warship_count_value
+	}
+	set_variable = {
+		name = naval_combat_high_sided_warships
+		value = naval_combat_ai_target_high_sided_warship_count_value
+	}
+	if = {
+		limit = { naval_combat_can_build_longship_trigger = yes }
+		set_variable = {
+			name = naval_combat_longships
+			value = naval_combat_ai_target_special_ship_count_value
+		}
+	}
+	else_if = {
+		limit = { naval_combat_can_build_greek_fire_ship_trigger = yes }
+		set_variable = {
+			name = naval_combat_greek_fire_ships
+			value = naval_combat_ai_target_special_ship_count_value
+		}
+	}
+	else_if = {
+		limit = { naval_combat_can_build_tower_ship_trigger = yes }
+		set_variable = {
+			name = naval_combat_tower_ships
+			value = naval_combat_ai_target_special_ship_count_value
+		}
+	}
+	naval_combat_refresh_transport_modifier_effect = yes
+}
+
+naval_combat_ai_seed_fleet_effect = {
+	set_variable = {
+		name = naval_combat_transport_ships
+		value = {
+			value = naval_combat_ai_target_transport_ship_count_value
+			multiply = 2
+		}
+	}
+	set_variable = {
+		name = naval_combat_oared_warships
+		value = {
+			value = naval_combat_ai_target_oared_warship_count_value
+			multiply = 2
+		}
+	}
+	set_variable = {
+		name = naval_combat_high_sided_warships
+		value = {
+			value = naval_combat_ai_target_high_sided_warship_count_value
+			multiply = 2
+		}
+	}
+	if = {
+		limit = { naval_combat_can_build_longship_trigger = yes }
+		set_variable = {
+			name = naval_combat_longships
+			value = {
+				value = naval_combat_ai_target_special_ship_count_value
+				multiply = 2
+			}
+		}
+	}
+	else_if = {
+		limit = { naval_combat_can_build_greek_fire_ship_trigger = yes }
+		set_variable = {
+			name = naval_combat_greek_fire_ships
+			value = {
+				value = naval_combat_ai_target_special_ship_count_value
+				multiply = 2
+			}
+		}
+	}
+	else_if = {
+		limit = { naval_combat_can_build_tower_ship_trigger = yes }
+		set_variable = {
+			name = naval_combat_tower_ships
+			value = {
+				value = naval_combat_ai_target_special_ship_count_value
+				multiply = 2
+			}
+		}
+	}
+}
+
+naval_combat_inherit_flagship_fitting_unlock_effect = {
+	if = {
+		limit = { exists = scope:naval_combat_predecessor.var:$VARIABLE$ }
+		set_variable = {
+			name = $VARIABLE$
+			value = scope:naval_combat_predecessor.var:$VARIABLE$
+		}
+	}
+}
+
+naval_combat_inherit_flagship_state_variable_effect = {
+	if = {
+		limit = { exists = scope:naval_combat_predecessor.var:$VARIABLE$ }
+		set_variable = {
+			name = $VARIABLE$
+			value = scope:naval_combat_predecessor.var:$VARIABLE$
+		}
+	}
+}
+
+naval_combat_inherit_flagship_effect = {
+	if = {
+		limit = {
+			scope:naval_combat_predecessor = {
+				var:naval_combat_flagship_constructed ?= 1
+				exists = var:naval_combat_flagship_hull
+			}
+			NOT = { var:naval_combat_flagship_constructed ?= 1 }
+		}
+		naval_combat_inherit_flagship_state_variable_effect = { VARIABLE = naval_combat_flagship_constructed }
+		naval_combat_inherit_flagship_state_variable_effect = { VARIABLE = naval_combat_flagship_destroyed }
+		naval_combat_inherit_flagship_state_variable_effect = { VARIABLE = naval_combat_flagship_hull }
+		naval_combat_inherit_flagship_state_variable_effect = { VARIABLE = naval_combat_flagship_bow }
+		naval_combat_inherit_flagship_state_variable_effect = { VARIABLE = naval_combat_flagship_foredeck }
+		naval_combat_inherit_flagship_state_variable_effect = { VARIABLE = naval_combat_flagship_center }
+		naval_combat_inherit_flagship_state_variable_effect = { VARIABLE = naval_combat_flagship_aftdeck }
+		naval_combat_inherit_flagship_state_variable_effect = { VARIABLE = naval_combat_flagship_stern }
+		naval_combat_inherit_flagship_state_variable_effect = { VARIABLE = naval_combat_flagship_reinforcement }
+		naval_combat_inherit_flagship_state_variable_effect = { VARIABLE = naval_combat_flagship_bow_quality }
+		naval_combat_inherit_flagship_state_variable_effect = { VARIABLE = naval_combat_flagship_foredeck_quality }
+		naval_combat_inherit_flagship_state_variable_effect = { VARIABLE = naval_combat_flagship_center_quality }
+		naval_combat_inherit_flagship_state_variable_effect = { VARIABLE = naval_combat_flagship_aftdeck_quality }
+		naval_combat_inherit_flagship_state_variable_effect = { VARIABLE = naval_combat_flagship_stern_quality }
+		naval_combat_inherit_flagship_state_variable_effect = { VARIABLE = naval_combat_flagship_reinforcement_quality }
+		naval_combat_inherit_flagship_state_variable_effect = { VARIABLE = naval_combat_flagship_current_durability }
+		naval_combat_inherit_flagship_state_variable_effect = { VARIABLE = naval_combat_flagship_construction_cost }
+		naval_combat_inherit_flagship_state_variable_effect = { VARIABLE = naval_combat_flagship_saved_transport }
+		naval_combat_inherit_flagship_state_variable_effect = { VARIABLE = naval_combat_flagship_saved_combat }
+		naval_combat_inherit_flagship_state_variable_effect = { VARIABLE = naval_combat_flagship_saved_boarding }
+		naval_combat_inherit_flagship_state_variable_effect = { VARIABLE = naval_combat_flagship_saved_missile }
+		naval_combat_inherit_flagship_state_variable_effect = { VARIABLE = naval_combat_flagship_saved_maintenance }
+		naval_combat_inherit_flagship_state_variable_effect = { VARIABLE = naval_combat_flagship_name_artifact }
+	}
+}
+
+naval_combat_inherit_navy_effect = {
+	if = {
+		limit = { NOT = { exists = var:naval_combat_initialized } }
+		naval_combat_initialize_navy_effect = yes
+	}
+	change_variable = {
+		name = naval_combat_transport_ships
+		add = scope:naval_combat_predecessor.var:naval_combat_transport_ships
+	}
+	change_variable = {
+		name = naval_combat_oared_warships
+		add = scope:naval_combat_predecessor.var:naval_combat_oared_warships
+	}
+	change_variable = {
+		name = naval_combat_high_sided_warships
+		add = scope:naval_combat_predecessor.var:naval_combat_high_sided_warships
+	}
+	if = {
+		limit = { exists = scope:naval_combat_predecessor.var:naval_combat_longships }
+		change_variable = {
+			name = naval_combat_longships
+			add = scope:naval_combat_predecessor.var:naval_combat_longships
+		}
+	}
+	if = {
+		limit = { exists = scope:naval_combat_predecessor.var:naval_combat_greek_fire_ships }
+		change_variable = {
+			name = naval_combat_greek_fire_ships
+			add = scope:naval_combat_predecessor.var:naval_combat_greek_fire_ships
+		}
+	}
+	if = {
+		limit = { exists = scope:naval_combat_predecessor.var:naval_combat_tower_ships }
+		change_variable = {
+			name = naval_combat_tower_ships
+			add = scope:naval_combat_predecessor.var:naval_combat_tower_ships
+		}
+	}
+	set_variable = {
+		name = naval_combat_readiness
+		value = scope:naval_combat_predecessor.var:naval_combat_readiness
+	}
+	if = {
+		limit = { exists = scope:naval_combat_predecessor.var:naval_combat_drill }
+		set_variable = {
+			name = naval_combat_drill
+			value = scope:naval_combat_predecessor.var:naval_combat_drill
+		}
+	}
+	naval_combat_inherit_flagship_effect = yes
+	naval_combat_inherit_flagship_fitting_unlock_effect = { VARIABLE = naval_combat_flagship_unlock_bow_ram }
+	naval_combat_inherit_flagship_fitting_unlock_effect = { VARIABLE = naval_combat_flagship_unlock_bow_greek_fire }
+	naval_combat_inherit_flagship_fitting_unlock_effect = { VARIABLE = naval_combat_flagship_unlock_bow_forecastle }
+	naval_combat_inherit_flagship_fitting_unlock_effect = { VARIABLE = naval_combat_flagship_unlock_bow_wave_cutter }
+	naval_combat_inherit_flagship_fitting_unlock_effect = { VARIABLE = naval_combat_flagship_unlock_deck_light_ballista }
+	naval_combat_inherit_flagship_fitting_unlock_effect = { VARIABLE = naval_combat_flagship_unlock_deck_heavy_ballista }
+	naval_combat_inherit_flagship_fitting_unlock_effect = { VARIABLE = naval_combat_flagship_unlock_deck_sailors }
+	naval_combat_inherit_flagship_fitting_unlock_effect = { VARIABLE = naval_combat_flagship_unlock_deck_auxiliary_mast }
+	naval_combat_inherit_flagship_fitting_unlock_effect = { VARIABLE = naval_combat_flagship_unlock_deck_archers }
+	naval_combat_inherit_flagship_fitting_unlock_effect = { VARIABLE = naval_combat_flagship_unlock_center_main_mast }
+	naval_combat_inherit_flagship_fitting_unlock_effect = { VARIABLE = naval_combat_flagship_unlock_center_lateen_mast }
+	naval_combat_inherit_flagship_fitting_unlock_effect = { VARIABLE = naval_combat_flagship_unlock_center_reinforced_mast }
+	naval_combat_inherit_flagship_fitting_unlock_effect = { VARIABLE = naval_combat_flagship_unlock_center_tower }
+	naval_combat_inherit_flagship_fitting_unlock_effect = { VARIABLE = naval_combat_flagship_unlock_stern_captain_cabin }
+	naval_combat_inherit_flagship_fitting_unlock_effect = { VARIABLE = naval_combat_flagship_unlock_stern_catapult }
+	naval_combat_inherit_flagship_fitting_unlock_effect = { VARIABLE = naval_combat_flagship_unlock_stern_sterncastle }
+	naval_combat_inherit_flagship_fitting_unlock_effect = { VARIABLE = naval_combat_flagship_unlock_reinforcement_lightweight }
+	naval_combat_inherit_flagship_fitting_unlock_effect = { VARIABLE = naval_combat_flagship_unlock_reinforcement_thick }
+	naval_combat_inherit_flagship_fitting_unlock_effect = { VARIABLE = naval_combat_flagship_unlock_reinforcement_fireproof }
+	if = {
+		limit = { exists = scope:naval_combat_predecessor.var:naval_combat_flagship_quality_bits_migrated }
+		set_variable = { name = naval_combat_flagship_quality_bits_migrated value = 1 }
+	}
+	set_variable = { name = naval_combat_transport_active value = 0 }
+	set_variable = { name = naval_combat_sea_control_active value = 0 }
+	set_variable = { name = naval_combat_ai_avoiding_superior_fleet value = 0 }
+	naval_combat_clear_contact_state_effect = yes
+	naval_combat_refresh_transport_modifier_effect = yes
+	naval_combat_schedule_weekly_readiness_effect = yes
+	naval_combat_schedule_monthly_maintenance_effect = yes
+}
+
+naval_combat_finalize_living_handoff_extension_effect = {
+}
+
+naval_combat_finalize_living_handoff_effect = {
+	set_variable = { name = naval_combat_navy_handed_off value = yes }
+	set_variable = { name = naval_combat_transport_active value = 0 }
+	set_variable = { name = naval_combat_sea_control_active value = 0 }
+	naval_combat_refresh_transport_modifier_effect = yes
+	naval_combat_clear_war_penalties_effect = yes
+
+	remove_variable = naval_combat_initialized
+	remove_variable = naval_combat_transport_ships
+	remove_variable = naval_combat_oared_warships
+	remove_variable = naval_combat_high_sided_warships
+	remove_variable = naval_combat_longships
+	remove_variable = naval_combat_greek_fire_ships
+	remove_variable = naval_combat_tower_ships
+	naval_combat_finalize_living_handoff_extension_effect = yes
+	remove_variable = naval_combat_readiness
+	remove_variable = naval_combat_drill
+	remove_variable = naval_combat_transport_active
+	remove_variable = naval_combat_sea_control_active
+
+	remove_variable = naval_combat_flagship_constructed
+	remove_variable = naval_combat_flagship_destroyed
+	remove_variable = naval_combat_flagship_hull
+	remove_variable = naval_combat_flagship_bow
+	remove_variable = naval_combat_flagship_foredeck
+	remove_variable = naval_combat_flagship_center
+	remove_variable = naval_combat_flagship_aftdeck
+	remove_variable = naval_combat_flagship_stern
+	remove_variable = naval_combat_flagship_reinforcement
+	remove_variable = naval_combat_flagship_bow_quality
+	remove_variable = naval_combat_flagship_foredeck_quality
+	remove_variable = naval_combat_flagship_center_quality
+	remove_variable = naval_combat_flagship_aftdeck_quality
+	remove_variable = naval_combat_flagship_stern_quality
+	remove_variable = naval_combat_flagship_reinforcement_quality
+	remove_variable = naval_combat_flagship_current_durability
+	remove_variable = naval_combat_flagship_construction_cost
+	remove_variable = naval_combat_flagship_saved_transport
+	remove_variable = naval_combat_flagship_saved_combat
+	remove_variable = naval_combat_flagship_saved_boarding
+	remove_variable = naval_combat_flagship_saved_missile
+	remove_variable = naval_combat_flagship_saved_maintenance
+	remove_variable = naval_combat_flagship_name_artifact
+	remove_variable = naval_combat_flagship_quality_bits_migrated
+
+	remove_variable = naval_combat_flagship_builder_open
+	remove_variable = naval_combat_flagship_launch_pending
+	remove_variable = naval_combat_flagship_replace_hull
+	remove_variable = naval_combat_flagship_draft_hull
+	remove_variable = naval_combat_flagship_draft_bow
+	remove_variable = naval_combat_flagship_draft_foredeck
+	remove_variable = naval_combat_flagship_draft_center
+	remove_variable = naval_combat_flagship_draft_aftdeck
+	remove_variable = naval_combat_flagship_draft_stern
+	remove_variable = naval_combat_flagship_draft_reinforcement
+	remove_variable = naval_combat_flagship_draft_bow_quality
+	remove_variable = naval_combat_flagship_draft_foredeck_quality
+	remove_variable = naval_combat_flagship_draft_center_quality
+	remove_variable = naval_combat_flagship_draft_aftdeck_quality
+	remove_variable = naval_combat_flagship_draft_stern_quality
+	remove_variable = naval_combat_flagship_draft_reinforcement_quality
+	remove_variable = naval_combat_compatibility_window_open
+}
+
+naval_combat_ai_update_avoidance_effect = {
+	if = {
+		limit = {
+			is_at_war = yes
+			naval_combat_total_combat_power_value > 0
+			any_war_enemy = {
+				is_alive = yes
+				exists = var:naval_combat_initialized
+				naval_combat_total_ship_count_value > 0
+				var:naval_combat_sea_control_active ?= 1
+				var:naval_combat_readiness > 0
+				naval_combat_total_combat_power_value >= root.naval_combat_ai_avoidance_threshold_value
+			}
+		}
+		set_variable = { name = naval_combat_ai_avoiding_superior_fleet value = 1 }
+	}
+	else = {
+		set_variable = { name = naval_combat_ai_avoiding_superior_fleet value = 0 }
+	}
+}
+
+naval_combat_ai_update_orders_effect = {
+	if = {
+		limit = {
+			is_ai = yes
+			exists = var:naval_combat_initialized
+			NOT = { exists = var:naval_combat_ai_focus }
+		}
+		naval_combat_ai_update_focus_effect = yes
+	}
+	naval_combat_ai_update_avoidance_effect = yes
+	if = {
+		limit = {
+			is_ai = yes
+			exists = var:naval_combat_initialized
+			NOT = { exists = var:naval_combat_battle_opponent }
+		}
+		if = {
+			limit = { naval_combat_total_ship_count_value <= 0 }
+			set_variable = { name = naval_combat_transport_active value = 0 }
+			set_variable = { name = naval_combat_sea_control_active value = 0 }
+		}
+		else_if = {
+			limit = { var:naval_combat_ai_avoiding_superior_fleet ?= 1 }
+			set_variable = { name = naval_combat_transport_active value = 0 }
+			set_variable = { name = naval_combat_sea_control_active value = 0 }
+			naval_combat_clear_contact_state_effect = yes
+		}
+		else_if = {
+			limit = { is_at_war = yes }
+			set_variable = { name = naval_combat_transport_active value = 1 }
+			if = {
+				limit = {
+					var:naval_combat_ai_focus >= 50
+					short_term_treasury_or_gold >= 0
+				}
+				set_variable = { name = naval_combat_sea_control_active value = 1 }
+			}
+			else = {
+				set_variable = { name = naval_combat_sea_control_active value = 0 }
+			}
+		}
+		else_if = {
+			limit = { short_term_treasury_or_gold < 0 }
+			set_variable = { name = naval_combat_transport_active value = 0 }
+			set_variable = { name = naval_combat_sea_control_active value = 0 }
+		}
+		else_if = {
+			limit = { var:naval_combat_ai_focus >= 70 }
+			set_variable = { name = naval_combat_transport_active value = 1 }
+			set_variable = { name = naval_combat_sea_control_active value = 1 }
+		}
+		else_if = {
+			limit = { var:naval_combat_ai_focus >= 40 }
+			set_variable = { name = naval_combat_transport_active value = 1 }
+			set_variable = { name = naval_combat_sea_control_active value = 0 }
+		}
+		else = {
+			set_variable = { name = naval_combat_transport_active value = 0 }
+			set_variable = { name = naval_combat_sea_control_active value = 0 }
+		}
+	}
+}
+
+naval_combat_create_ai_default_flagship_effect = {
+	set_variable = { name = naval_combat_flagship_draft_bow value = 5 }
+	set_variable = { name = naval_combat_flagship_draft_center value = 1 }
+	set_variable = { name = naval_combat_flagship_draft_reinforcement value = 2 }
+	set_variable = { name = naval_combat_flagship_draft_foredeck value = 0 }
+	set_variable = { name = naval_combat_flagship_draft_aftdeck value = 0 }
+	set_variable = { name = naval_combat_flagship_draft_stern value = 0 }
+
+	if = {
+		limit = { has_title = title:h_china }
+		set_variable = { name = naval_combat_flagship_draft_hull value = 4 }
+		set_variable = { name = naval_combat_flagship_draft_foredeck value = 1 }
+		set_variable = { name = naval_combat_flagship_draft_aftdeck value = 1 }
+		set_variable = { name = naval_combat_flagship_draft_stern value = 1 }
+	}
+	else_if = {
+		limit = { has_title = title:e_byzantium }
+		set_variable = { name = naval_combat_flagship_draft_hull value = 2 }
+		set_variable = { name = naval_combat_flagship_draft_foredeck value = 1 }
+		set_variable = { name = naval_combat_flagship_draft_stern value = 1 }
+	}
+	else = {
+		set_variable = { name = naval_combat_flagship_draft_hull value = 1 }
+	}
+
+	set_variable = { name = naval_combat_flagship_draft_bow_quality value = 1 }
+	set_variable = { name = naval_combat_flagship_draft_foredeck_quality value = 1 }
+	set_variable = { name = naval_combat_flagship_draft_center_quality value = 1 }
+	set_variable = { name = naval_combat_flagship_draft_aftdeck_quality value = 1 }
+	set_variable = { name = naval_combat_flagship_draft_stern_quality value = 1 }
+	set_variable = { name = naval_combat_flagship_draft_reinforcement_quality value = 1 }
+
+	set_variable = { name = naval_combat_flagship_hull value = var:naval_combat_flagship_draft_hull }
+	set_variable = { name = naval_combat_flagship_bow value = var:naval_combat_flagship_draft_bow }
+	set_variable = { name = naval_combat_flagship_foredeck value = var:naval_combat_flagship_draft_foredeck }
+	set_variable = { name = naval_combat_flagship_center value = var:naval_combat_flagship_draft_center }
+	set_variable = { name = naval_combat_flagship_aftdeck value = var:naval_combat_flagship_draft_aftdeck }
+	set_variable = { name = naval_combat_flagship_stern value = var:naval_combat_flagship_draft_stern }
+	set_variable = { name = naval_combat_flagship_reinforcement value = var:naval_combat_flagship_draft_reinforcement }
+	set_variable = { name = naval_combat_flagship_bow_quality value = 1 }
+	set_variable = { name = naval_combat_flagship_foredeck_quality value = 1 }
+	set_variable = { name = naval_combat_flagship_center_quality value = 1 }
+	set_variable = { name = naval_combat_flagship_aftdeck_quality value = 1 }
+	set_variable = { name = naval_combat_flagship_stern_quality value = 1 }
+	set_variable = { name = naval_combat_flagship_reinforcement_quality value = 1 }
+	set_variable = {
+		name = naval_combat_flagship_construction_cost
+		value = naval_combat_flagship_preview_build_cost_value
+	}
+	naval_combat_refresh_flagship_saved_stats_effect = yes
+	set_variable = { name = naval_combat_flagship_constructed value = 1 }
+	set_variable = {
+		name = naval_combat_flagship_current_durability
+		value = naval_combat_flagship_active_max_durability_value
+	}
+	remove_variable = naval_combat_flagship_destroyed
+
+	if = {
+		limit = { NOT = { exists = var:naval_combat_flagship_name_artifact } }
+		create_artifact = {
+			name = naval_combat_ai_flagship_default_name
+			description = naval_combat_flagship_name_artifact_desc
+			type = miscellaneous
+			visuals = tapestry
+			creator = root
+			modifier = naval_combat_flagship_name_record_modifier
+			save_scope_as = naval_combat_flagship_name_artifact
+		}
+		set_variable = {
+			name = naval_combat_flagship_name_artifact
+			value = scope:naval_combat_flagship_name_artifact
+		}
+	}
+
+	remove_variable = naval_combat_flagship_draft_hull
+	remove_variable = naval_combat_flagship_draft_bow
+	remove_variable = naval_combat_flagship_draft_foredeck
+	remove_variable = naval_combat_flagship_draft_center
+	remove_variable = naval_combat_flagship_draft_aftdeck
+	remove_variable = naval_combat_flagship_draft_stern
+	remove_variable = naval_combat_flagship_draft_reinforcement
+	remove_variable = naval_combat_flagship_draft_bow_quality
+	remove_variable = naval_combat_flagship_draft_foredeck_quality
+	remove_variable = naval_combat_flagship_draft_center_quality
+	remove_variable = naval_combat_flagship_draft_aftdeck_quality
+	remove_variable = naval_combat_flagship_draft_stern_quality
+	remove_variable = naval_combat_flagship_draft_reinforcement_quality
+}
+
+naval_combat_seed_initial_ai_real_flagships_effect = {
+	if = {
+		limit = { NOT = { exists = global_var:naval_combat_initial_ai_real_flagships_complete } }
+		every_independent_ruler = {
+			limit = {
+				exists = var:naval_combat_initialized
+				naval_combat_ai_initial_real_flagship_trigger = yes
+			}
+			naval_combat_create_ai_default_flagship_effect = yes
+		}
+		set_global_variable = {
+			name = naval_combat_initial_ai_real_flagships_complete
+			value = yes
+		}
+	}
+}
+
+naval_combat_ai_initialize_effect = {
+	naval_combat_initialize_navy_effect = yes
+	naval_combat_ai_update_focus_effect = yes
+	naval_combat_ai_seed_fleet_effect = yes
+	naval_combat_ai_update_orders_effect = yes
+
+	if = {
+		limit = { var:naval_combat_sea_control_active ?= 1 }
+		set_variable = { name = naval_combat_readiness value = 50 }
+	}
+	else_if = {
+		limit = { var:naval_combat_transport_active ?= 1 }
+		set_variable = { name = naval_combat_readiness value = 25 }
+	}
+	else = {
+		set_variable = { name = naval_combat_readiness value = 0 }
+	}
+
+	naval_combat_refresh_transport_modifier_effect = yes
+	naval_combat_schedule_weekly_readiness_effect = yes
+	naval_combat_schedule_monthly_maintenance_effect = yes
+}
+
+naval_combat_ai_initialize_without_seed_effect = {
+	naval_combat_initialize_navy_effect = yes
+	naval_combat_ai_update_focus_effect = yes
+	naval_combat_ai_update_orders_effect = yes
+	set_variable = { name = naval_combat_readiness value = 0 }
+
+	naval_combat_refresh_transport_modifier_effect = yes
+	naval_combat_schedule_weekly_readiness_effect = yes
+	naval_combat_schedule_monthly_maintenance_effect = yes
+}
+
+naval_combat_seed_initial_ai_navies_effect = {
+	if = {
+		limit = {
+			NOT = { exists = global_var:naval_combat_initial_ai_seeding_complete }
+		}
+		every_independent_ruler = {
+			limit = {
+				is_ai = yes
+				NOT = { exists = var:naval_combat_initialized }
+				naval_combat_can_manage_navy_trigger = yes
+			}
+			naval_combat_ai_initialize_effect = yes
+		}
+		set_global_variable = {
+			name = naval_combat_initial_ai_seeding_complete
+			value = yes
+		}
+	}
+	naval_combat_seed_initial_ai_real_flagships_effect = yes
+}
+
+naval_combat_ai_build_one_ship_effect = {
+	if = {
+		limit = {
+			naval_combat_ai_maintenance_ratio_value < naval_combat_ai_maintenance_tolerance_value
+			naval_combat_transport_ship_count_value < naval_combat_ai_target_transport_ship_count_value
+			naval_combat_remaining_capacity_value >= 1
+			short_term_treasury_or_gold >= naval_combat_ai_transport_purchase_threshold_value
+		}
+		remove_treasury_or_gold = naval_combat_ai_transport_purchase_cost_value
+		change_variable = { name = naval_combat_transport_ships add = 1 }
+	}
+	else_if = {
+		limit = {
+			naval_combat_ai_maintenance_ratio_value < naval_combat_ai_maintenance_tolerance_value
+			naval_combat_cultural_special_ship_count_value < naval_combat_ai_target_special_ship_count_value
+			naval_combat_can_build_longship_trigger = yes
+			naval_combat_remaining_capacity_value >= 2
+			short_term_treasury_or_gold >= naval_combat_ai_special_purchase_threshold_value
+		}
+		remove_treasury_or_gold = naval_combat_ai_special_purchase_cost_value
+		change_variable = { name = naval_combat_longships add = 1 }
+	}
+	else_if = {
+		limit = {
+			naval_combat_ai_maintenance_ratio_value < naval_combat_ai_maintenance_tolerance_value
+			naval_combat_cultural_special_ship_count_value < naval_combat_ai_target_special_ship_count_value
+			naval_combat_can_build_greek_fire_ship_trigger = yes
+			naval_combat_remaining_capacity_value >= 3
+			short_term_treasury_or_gold >= naval_combat_ai_special_purchase_threshold_value
+		}
+		remove_treasury_or_gold = naval_combat_ai_special_purchase_cost_value
+		change_variable = { name = naval_combat_greek_fire_ships add = 1 }
+	}
+	else_if = {
+		limit = {
+			naval_combat_ai_maintenance_ratio_value < naval_combat_ai_maintenance_tolerance_value
+			naval_combat_cultural_special_ship_count_value < naval_combat_ai_target_special_ship_count_value
+			naval_combat_can_build_tower_ship_trigger = yes
+			naval_combat_remaining_capacity_value >= 4
+			short_term_treasury_or_gold >= naval_combat_ai_special_purchase_threshold_value
+		}
+		remove_treasury_or_gold = naval_combat_ai_special_purchase_cost_value
+		change_variable = { name = naval_combat_tower_ships add = 1 }
+	}
+	else_if = {
+		limit = {
+			naval_combat_ai_maintenance_ratio_value < naval_combat_ai_maintenance_tolerance_value
+			naval_combat_oared_warship_count_value < naval_combat_ai_target_oared_warship_count_value
+			naval_combat_remaining_capacity_value >= 2
+			short_term_treasury_or_gold >= naval_combat_ai_oared_purchase_threshold_value
+			OR = {
+				culture = { has_cultural_tradition = tradition_seafaring }
+				culture = { has_cultural_tradition = tradition_fp1_coastal_warriors }
+				culture = { has_cultural_tradition = tradition_practiced_pirates }
+				naval_combat_high_sided_warship_count_value >= naval_combat_ai_target_high_sided_warship_count_value
+			}
+		}
+		remove_treasury_or_gold = naval_combat_ai_oared_purchase_cost_value
+		change_variable = { name = naval_combat_oared_warships add = 1 }
+	}
+	else_if = {
+		limit = {
+			naval_combat_ai_maintenance_ratio_value < naval_combat_ai_maintenance_tolerance_value
+			naval_combat_high_sided_warship_count_value < naval_combat_ai_target_high_sided_warship_count_value
+			naval_combat_remaining_capacity_value >= 3
+			short_term_treasury_or_gold >= naval_combat_ai_high_sided_purchase_threshold_value
+		}
+		remove_treasury_or_gold = naval_combat_ai_high_sided_purchase_cost_value
+		change_variable = { name = naval_combat_high_sided_warships add = 1 }
+	}
+	else_if = {
+		limit = {
+			naval_combat_ai_maintenance_ratio_value < naval_combat_ai_maintenance_tolerance_value
+			naval_combat_oared_warship_count_value < naval_combat_ai_target_oared_warship_count_value
+			naval_combat_remaining_capacity_value >= 2
+			short_term_treasury_or_gold >= naval_combat_ai_oared_purchase_threshold_value
+		}
+		remove_treasury_or_gold = naval_combat_ai_oared_purchase_cost_value
+		change_variable = { name = naval_combat_oared_warships add = 1 }
+	}
+}
+
+naval_combat_ai_quarterly_construction_effect = {
+	naval_combat_ai_update_focus_effect = yes
+	naval_combat_ai_build_one_ship_effect = yes
+	if = {
+		limit = { monthly_character_income >= 15 }
+		naval_combat_ai_build_one_ship_effect = yes
+	}
+	if = {
+		limit = { monthly_character_income >= 30 }
+		naval_combat_ai_build_one_ship_effect = yes
+	}
+	naval_combat_ai_update_orders_effect = yes
+	naval_combat_refresh_transport_modifier_effect = yes
+	naval_combat_refresh_blockade_effect = yes
+}
+
+naval_combat_ai_yearly_management_effect = {
+	naval_combat_ai_update_focus_effect = yes
+	naval_combat_ai_yearly_drill_effect = yes
+
+	if = {
+		limit = {
+			naval_combat_special_ship_count_value > naval_combat_ai_target_special_ship_count_value
+			naval_combat_tower_ship_count_value > 0
+		}
+		change_variable = { name = naval_combat_tower_ships subtract = 1 }
+		add_treasury_or_gold = naval_combat_tower_ship_scrap_return_value
+	}
+	else_if = {
+		limit = {
+			naval_combat_special_ship_count_value > naval_combat_ai_target_special_ship_count_value
+			naval_combat_greek_fire_ship_count_value > 0
+		}
+		change_variable = { name = naval_combat_greek_fire_ships subtract = 1 }
+		add_treasury_or_gold = naval_combat_greek_fire_ship_scrap_return_value
+	}
+	else_if = {
+		limit = {
+			naval_combat_special_ship_count_value > naval_combat_ai_target_special_ship_count_value
+			naval_combat_longship_count_value > 0
+		}
+		change_variable = { name = naval_combat_longships subtract = 1 }
+		add_treasury_or_gold = naval_combat_longship_scrap_return_value
+	}
+	else_if = {
+		limit = {
+			naval_combat_high_sided_warship_count_value > naval_combat_ai_target_high_sided_warship_count_value
+		}
+		change_variable = { name = naval_combat_high_sided_warships subtract = 1 }
+		add_treasury_or_gold = naval_combat_high_sided_warship_scrap_return_value
+	}
+	else_if = {
+		limit = {
+			naval_combat_oared_warship_count_value > naval_combat_ai_target_oared_warship_count_value
+		}
+		change_variable = { name = naval_combat_oared_warships subtract = 1 }
+		add_treasury_or_gold = naval_combat_oared_warship_scrap_return_value
+	}
+	else_if = {
+		limit = {
+			naval_combat_transport_ship_count_value > naval_combat_ai_target_transport_ship_count_value
+		}
+		change_variable = { name = naval_combat_transport_ships subtract = 1 }
+		add_treasury_or_gold = naval_combat_transport_ship_scrap_return_value
+	}
+
+	naval_combat_ai_update_orders_effect = yes
+	naval_combat_refresh_transport_modifier_effect = yes
+	naval_combat_refresh_blockade_effect = yes
+	naval_combat_schedule_weekly_readiness_effect = yes
+	naval_combat_schedule_monthly_maintenance_effect = yes
+}
+
+naval_combat_refresh_transport_modifier_effect = {
+	remove_character_modifier = naval_combat_transport_10_modifier
+	remove_character_modifier = naval_combat_transport_20_modifier
+	remove_character_modifier = naval_combat_transport_30_modifier
+	remove_character_modifier = naval_combat_transport_40_modifier
+	remove_character_modifier = naval_combat_transport_50_modifier
+	remove_character_modifier = naval_combat_transport_60_modifier
+	remove_character_modifier = naval_combat_transport_70_modifier
+	remove_character_modifier = naval_combat_transport_80_modifier
+	remove_character_modifier = naval_combat_transport_90_modifier
+	remove_character_modifier = naval_combat_transport_100_modifier
+
+	if = {
+		limit = {
+			var:naval_combat_transport_active ?= 1
+			naval_combat_transport_coverage_value >= 1
+		}
+		add_character_modifier = {
+			modifier = naval_combat_transport_100_modifier
+		}
+	}
+	else_if = {
+		limit = {
+			var:naval_combat_transport_active ?= 1
+			naval_combat_transport_coverage_value >= 0.90
+		}
+		add_character_modifier = {
+			modifier = naval_combat_transport_90_modifier
+		}
+	}
+	else_if = {
+		limit = {
+			var:naval_combat_transport_active ?= 1
+			naval_combat_transport_coverage_value >= 0.80
+		}
+		add_character_modifier = {
+			modifier = naval_combat_transport_80_modifier
+		}
+	}
+	else_if = {
+		limit = {
+			var:naval_combat_transport_active ?= 1
+			naval_combat_transport_coverage_value >= 0.70
+		}
+		add_character_modifier = {
+			modifier = naval_combat_transport_70_modifier
+		}
+	}
+	else_if = {
+		limit = {
+			var:naval_combat_transport_active ?= 1
+			naval_combat_transport_coverage_value >= 0.60
+		}
+		add_character_modifier = {
+			modifier = naval_combat_transport_60_modifier
+		}
+	}
+	else_if = {
+		limit = {
+			var:naval_combat_transport_active ?= 1
+			naval_combat_transport_coverage_value >= 0.50
+		}
+		add_character_modifier = {
+			modifier = naval_combat_transport_50_modifier
+		}
+	}
+	else_if = {
+		limit = {
+			var:naval_combat_transport_active ?= 1
+			naval_combat_transport_coverage_value >= 0.40
+		}
+		add_character_modifier = {
+			modifier = naval_combat_transport_40_modifier
+		}
+	}
+	else_if = {
+		limit = {
+			var:naval_combat_transport_active ?= 1
+			naval_combat_transport_coverage_value >= 0.30
+		}
+		add_character_modifier = {
+			modifier = naval_combat_transport_30_modifier
+		}
+	}
+	else_if = {
+		limit = {
+			var:naval_combat_transport_active ?= 1
+			naval_combat_transport_coverage_value >= 0.20
+		}
+		add_character_modifier = {
+			modifier = naval_combat_transport_20_modifier
+		}
+	}
+	else_if = {
+		limit = {
+			var:naval_combat_transport_active ?= 1
+			naval_combat_transport_coverage_value >= 0.10
+		}
+		add_character_modifier = {
+			modifier = naval_combat_transport_10_modifier
+		}
+	}
+}
+
+naval_combat_clear_defeat_penalty_effect = {
+	remove_character_modifier = naval_combat_defeat_1_modifier
+	remove_character_modifier = naval_combat_defeat_2_modifier
+	remove_character_modifier = naval_combat_defeat_3_modifier
+	remove_character_modifier = naval_combat_defeat_4_modifier
+	remove_variable = naval_combat_defeat_level
+}
+
+naval_combat_refresh_defeat_penalty_effect = {
+	if = {
+		limit = {
+			exists = var:naval_combat_defeat_level
+			NOR = {
+				has_character_modifier = naval_combat_defeat_1_modifier
+				has_character_modifier = naval_combat_defeat_2_modifier
+				has_character_modifier = naval_combat_defeat_3_modifier
+				has_character_modifier = naval_combat_defeat_4_modifier
+			}
+		}
+		remove_variable = naval_combat_defeat_level
+	}
+}
+
+naval_combat_apply_defeat_penalty_effect = {
+	remove_character_modifier = naval_combat_defeat_1_modifier
+	remove_character_modifier = naval_combat_defeat_2_modifier
+	remove_character_modifier = naval_combat_defeat_3_modifier
+	remove_character_modifier = naval_combat_defeat_4_modifier
+
+	if = {
+		limit = { var:naval_combat_defeat_level >= 4 }
+		add_character_modifier = { modifier = naval_combat_defeat_4_modifier years = 1 }
+	}
+	else_if = {
+		limit = { var:naval_combat_defeat_level >= 3 }
+		add_character_modifier = { modifier = naval_combat_defeat_3_modifier years = 1 }
+	}
+	else_if = {
+		limit = { var:naval_combat_defeat_level >= 2 }
+		add_character_modifier = { modifier = naval_combat_defeat_2_modifier years = 1 }
+	}
+	else = {
+		add_character_modifier = { modifier = naval_combat_defeat_1_modifier years = 1 }
+	}
+}
+
+naval_combat_set_defeat_level_1_effect = {
+	if = {
+		limit = { NOT = { exists = var:naval_combat_defeat_level } }
+		set_variable = { name = naval_combat_defeat_level value = 1 }
+	}
+	else_if = {
+		limit = { var:naval_combat_defeat_level < 1 }
+		set_variable = { name = naval_combat_defeat_level value = 1 }
+	}
+	naval_combat_apply_defeat_penalty_effect = yes
+}
+
+naval_combat_set_defeat_level_2_effect = {
+	if = {
+		limit = { NOT = { exists = var:naval_combat_defeat_level } }
+		set_variable = { name = naval_combat_defeat_level value = 2 }
+	}
+	else_if = {
+		limit = { var:naval_combat_defeat_level < 2 }
+		set_variable = { name = naval_combat_defeat_level value = 2 }
+	}
+	naval_combat_apply_defeat_penalty_effect = yes
+}
+
+naval_combat_set_defeat_level_3_effect = {
+	if = {
+		limit = { NOT = { exists = var:naval_combat_defeat_level } }
+		set_variable = { name = naval_combat_defeat_level value = 3 }
+	}
+	else_if = {
+		limit = { var:naval_combat_defeat_level < 3 }
+		set_variable = { name = naval_combat_defeat_level value = 3 }
+	}
+	naval_combat_apply_defeat_penalty_effect = yes
+}
+
+naval_combat_set_defeat_level_4_effect = {
+	if = {
+		limit = { NOT = { exists = var:naval_combat_defeat_level } }
+		set_variable = { name = naval_combat_defeat_level value = 4 }
+	}
+	else_if = {
+		limit = { var:naval_combat_defeat_level < 4 }
+		set_variable = { name = naval_combat_defeat_level value = 4 }
+	}
+	naval_combat_apply_defeat_penalty_effect = yes
+}
+
+naval_combat_clear_war_penalties_effect = {
+	naval_combat_clear_defeat_penalty_effect = yes
+	remove_character_modifier = naval_combat_blockaded_modifier
+	remove_variable = naval_combat_blockading_enemy
+	remove_variable = naval_combat_ai_avoiding_superior_fleet
+	naval_combat_clear_contact_state_effect = yes
+	remove_character_flag = naval_combat_automatic_contact_checked
+	remove_character_flag = naval_combat_automatic_battle_cooldown
+}
+
+naval_combat_refresh_blockade_effect = {
+	if = {
+		limit = {
+			naval_combat_can_manage_navy_trigger = yes
+			is_at_war = yes
+			OR = {
+				naval_combat_total_ship_count_value <= 0
+				AND = {
+					NOT = { var:naval_combat_transport_active ?= 1 }
+					NOT = { var:naval_combat_sea_control_active ?= 1 }
+				}
+			}
+			any_war_enemy = {
+				is_alive = yes
+				naval_combat_total_ship_count_value > 0
+				var:naval_combat_sea_control_active ?= 1
+				var:naval_combat_readiness > 0
+			}
+		}
+
+		if = {
+			limit = {
+				exists = var:naval_combat_blockading_enemy
+				var:naval_combat_blockading_enemy = {
+					is_alive = yes
+					naval_combat_total_ship_count_value > 0
+					var:naval_combat_sea_control_active ?= 1
+					var:naval_combat_readiness > 0
+					any_war_enemy = { this = root }
+				}
+			}
+			var:naval_combat_blockading_enemy = {
+				save_scope_as = naval_combat_blockading_enemy
+			}
+		}
+		else = {
+			random_war_enemy = {
+				limit = {
+					is_alive = yes
+					naval_combat_total_ship_count_value > 0
+					var:naval_combat_sea_control_active ?= 1
+					var:naval_combat_readiness > 0
+				}
+				save_scope_as = naval_combat_blockading_enemy
+			}
+		}
+		set_variable = {
+			name = naval_combat_blockading_enemy
+			value = scope:naval_combat_blockading_enemy
+		}
+
+		if = {
+			limit = {
+				NOT = { has_character_modifier = naval_combat_blockaded_modifier }
+			}
+			add_character_modifier = { modifier = naval_combat_blockaded_modifier }
+			if = {
+				limit = { is_ai = no }
+				set_variable = {
+					name = naval_combat_blockade_event_enemy
+					value = scope:naval_combat_blockading_enemy
+				}
+				trigger_event = naval_combat.0300
+			}
+		}
+		naval_combat_refresh_defeat_penalty_effect = yes
+	}
+	else = {
+		remove_character_modifier = naval_combat_blockaded_modifier
+		remove_variable = naval_combat_blockading_enemy
+		naval_combat_refresh_defeat_penalty_effect = yes
+	}
+}
+
+naval_combat_clear_contact_state_effect = {
+	save_scope_as = naval_combat_contact_owner
+	if = {
+		limit = { exists = var:naval_combat_contact_target }
+		var:naval_combat_contact_target = {
+			if = {
+				limit = {
+					is_alive = yes
+					var:naval_combat_contact_target ?= scope:naval_combat_contact_owner
+				}
+				remove_variable = naval_combat_contact_target
+				remove_variable = naval_combat_contact_value
+				remove_variable = naval_combat_contact_chance
+				remove_variable = naval_combat_contact_type
+			}
+		}
+	}
+	remove_variable = naval_combat_contact_target
+	remove_variable = naval_combat_contact_value
+	remove_variable = naval_combat_contact_chance
+	remove_variable = naval_combat_contact_type
+}
+
+naval_combat_update_contact_effect = {
+	if = {
+		limit = {
+			OR = {
+				NOT = { is_at_war = yes }
+				NOT = { naval_combat_can_enter_automatic_battle_trigger = yes }
+			}
+		}
+		naval_combat_clear_contact_state_effect = yes
+	}
+	else = {
+		# Drop a stale target before looking for a new opposing fleet.
+		if = {
+			limit = {
+				exists = var:naval_combat_contact_target
+				NOT = {
+					var:naval_combat_contact_target = {
+						is_alive = yes
+						naval_combat_can_enter_automatic_battle_trigger = yes
+						any_war_enemy = { this = root }
+					}
+				}
+			}
+			naval_combat_clear_contact_state_effect = yes
+		}
+
+		# One fleet pair is tracked at a time. Human opponents are always processed
+		# from the human side so the interactive event cannot resolve off-screen.
+		if = {
+			limit = { NOT = { exists = var:naval_combat_contact_target } }
+			random_war_enemy = {
+				limit = {
+					is_alive = yes
+					naval_combat_can_enter_automatic_battle_trigger = yes
+					OR = {
+						NOT = { exists = var:naval_combat_contact_target }
+						var:naval_combat_contact_target ?= root
+					}
+					trigger_if = {
+						limit = { root = { is_ai = yes } }
+						is_ai = yes
+					}
+				}
+				save_scope_as = naval_combat_contact_enemy
+			}
+			if = {
+				limit = { exists = scope:naval_combat_contact_enemy }
+				set_variable = {
+					name = naval_combat_contact_target
+					value = scope:naval_combat_contact_enemy
+				}
+				set_variable = { name = naval_combat_contact_value value = 0 }
+				# The saved iterator scope is weak. Re-enter through the strong
+				# character variable before writing the reciprocal contact state.
+				var:naval_combat_contact_target = {
+					set_variable = { name = naval_combat_contact_target value = root }
+					set_variable = { name = naval_combat_contact_value value = 0 }
+				}
+			}
+		}
+
+		if = {
+			limit = {
+				exists = var:naval_combat_contact_target
+				NOT = { has_character_flag = naval_combat_automatic_contact_checked }
+				var:naval_combat_contact_target = {
+					is_alive = yes
+					NOT = { has_character_flag = naval_combat_automatic_contact_checked }
+				}
+				# A human-vs-AI pair is advanced only from the human side.
+				trigger_if = {
+					limit = { is_ai = yes }
+					var:naval_combat_contact_target = { is_ai = yes }
+				}
+			}
+			var:naval_combat_contact_target = {
+				save_scope_as = naval_combat_contact_enemy
+			}
+			add_character_flag = {
+				flag = naval_combat_automatic_contact_checked
+				days = 6
+			}
+			scope:naval_combat_contact_enemy = {
+				add_character_flag = {
+					flag = naval_combat_automatic_contact_checked
+					days = 6
+				}
+			}
+
+			# Both sides contesting sea control: rapid search and a high encounter chance.
+			if = {
+				limit = {
+					var:naval_combat_sea_control_active ?= 1
+					scope:naval_combat_contact_enemy = { var:naval_combat_sea_control_active ?= 1 }
+				}
+				change_variable = { name = naval_combat_contact_value add = 15 }
+				set_variable = { name = naval_combat_contact_type value = 1 }
+				set_variable = {
+					name = naval_combat_contact_chance
+					value = {
+						value = var:naval_combat_contact_value
+						multiply = 0.30
+						add = 5
+					}
+				}
+				if = {
+					limit = { var:naval_combat_contact_chance > 40 }
+					set_variable = { name = naval_combat_contact_chance value = 40 }
+				}
+			}
+			# A patrol searching for a transport fleet: lower, but persistent interception odds.
+			else_if = {
+				limit = {
+					OR = {
+						var:naval_combat_sea_control_active ?= 1
+						scope:naval_combat_contact_enemy = { var:naval_combat_sea_control_active ?= 1 }
+					}
+				}
+				change_variable = { name = naval_combat_contact_value add = 6 }
+				set_variable = { name = naval_combat_contact_type value = 2 }
+				set_variable = {
+					name = naval_combat_contact_chance
+					value = {
+						value = var:naval_combat_contact_value
+						multiply = 0.15
+						add = 2
+					}
+				}
+				if = {
+					limit = { var:naval_combat_contact_chance > 18 }
+					set_variable = { name = naval_combat_contact_chance value = 18 }
+				}
+			}
+			# Two transport fleets are avoiding battle, but a rare chance encounter remains.
+			else = {
+				change_variable = { name = naval_combat_contact_value add = 2 }
+				set_variable = { name = naval_combat_contact_type value = 3 }
+				set_variable = {
+					name = naval_combat_contact_chance
+					value = {
+						value = var:naval_combat_contact_value
+						multiply = 0.05
+						add = 0.5
+					}
+				}
+				if = {
+					limit = { var:naval_combat_contact_chance > 6 }
+					set_variable = { name = naval_combat_contact_chance value = 6 }
+				}
+			}
+
+			if = {
+				limit = { var:naval_combat_contact_value > 100 }
+				set_variable = { name = naval_combat_contact_value value = 100 }
+			}
+			scope:naval_combat_contact_enemy = {
+				set_variable = {
+					name = naval_combat_contact_value
+					value = root.var:naval_combat_contact_value
+				}
+				set_variable = {
+					name = naval_combat_contact_chance
+					value = root.var:naval_combat_contact_chance
+				}
+				set_variable = {
+					name = naval_combat_contact_type
+					value = root.var:naval_combat_contact_type
+				}
+			}
+
+			random = {
+				chance = var:naval_combat_contact_chance
+				if = {
+					limit = {
+						naval_combat_has_active_fleet_orders_trigger = yes
+						scope:naval_combat_contact_enemy = {
+							naval_combat_has_active_fleet_orders_trigger = yes
+						}
+					}
+					set_variable = {
+						name = naval_combat_battle_opponent
+						value = scope:naval_combat_contact_enemy
+					}
+					set_variable = {
+						name = naval_combat_battle_encounter_type
+						value = var:naval_combat_contact_type
+					}
+					add_character_flag = {
+						flag = naval_combat_automatic_battle_cooldown
+						months = 1
+					}
+					scope:naval_combat_contact_enemy = {
+						add_character_flag = {
+							flag = naval_combat_automatic_battle_cooldown
+							months = 1
+						}
+					}
+					naval_combat_clear_contact_state_effect = yes
+					trigger_event = naval_combat.0200
+				}
+				else = {
+					naval_combat_clear_contact_state_effect = yes
+				}
+			}
+		}
+	}
+}
+
+naval_combat_schedule_weekly_readiness_effect = {
+	if = {
+		limit = {
+			exists = var:naval_combat_initialized
+			NOT = { exists = var:naval_combat_weekly_readiness_scheduled }
+		}
+		set_variable = {
+			name = naval_combat_weekly_readiness_scheduled
+			value = yes
+		}
+		trigger_event = { id = naval_combat.0100 days = 7 }
+	}
+}
+
+naval_combat_schedule_monthly_maintenance_effect = {
+	if = {
+		limit = {
+			exists = var:naval_combat_initialized
+			naval_combat_can_manage_navy_trigger = yes
+			NOT = { exists = var:naval_combat_monthly_maintenance_scheduled }
+		}
+		set_variable = {
+			name = naval_combat_monthly_maintenance_scheduled
+			value = yes
+		}
+		trigger_event = { id = naval_combat.0110 days = 1 }
+	}
+}
+
+naval_combat_collect_monthly_maintenance_effect = {
+	if = {
+		limit = {
+			exists = var:naval_combat_initialized
+			naval_combat_can_manage_navy_trigger = yes
+			naval_combat_total_ship_count_value > 0
+			naval_combat_monthly_maintenance_value > 0
+		}
+		remove_treasury_or_gold = naval_combat_monthly_maintenance_value
+	}
+}
+
+naval_combat_ai_manage_flagship_effect = {
+	if = {
+		limit = {
+			is_ai = yes
+			var:naval_combat_flagship_constructed ?= 1
+			exists = var:naval_combat_flagship_hull
+			NOT = { var:naval_combat_flagship_destroyed ?= 1 }
+			var:naval_combat_flagship_current_durability > 0
+			exists = var:naval_combat_ai_flagship_rebuild_delay_started
+		}
+		remove_variable = naval_combat_ai_flagship_rebuild_delay_started
+	}
+
+	if = {
+		limit = {
+			is_ai = yes
+			var:naval_combat_flagship_constructed ?= 1
+			exists = var:naval_combat_flagship_hull
+			OR = {
+				var:naval_combat_flagship_destroyed ?= 1
+				var:naval_combat_flagship_current_durability <= 0
+			}
+		}
+		if = {
+			limit = { NOT = { exists = var:naval_combat_ai_flagship_rebuild_delay_started } }
+			set_variable = { name = naval_combat_ai_flagship_rebuild_delay_started value = 1 }
+			add_character_flag = {
+				flag = naval_combat_ai_flagship_rebuild_cooldown
+				months = 24
+			}
+		}
+		else_if = {
+			limit = {
+				NOT = { has_character_flag = naval_combat_ai_flagship_rebuild_cooldown }
+				NOT = { is_at_war = yes }
+				NOT = { exists = var:naval_combat_battle_opponent }
+				short_term_treasury_or_gold >= naval_combat_ai_flagship_rebuild_treasury_threshold_value
+			}
+			remove_treasury_or_gold = naval_combat_ai_flagship_rebuild_cost_value
+			set_variable = {
+				name = naval_combat_flagship_current_durability
+				value = naval_combat_flagship_active_max_durability_value
+			}
+			remove_variable = naval_combat_flagship_destroyed
+			remove_variable = naval_combat_ai_flagship_rebuild_delay_started
+			add_character_flag = {
+				flag = naval_combat_ai_flagship_repair_cooldown
+				months = 12
+			}
+		}
+	}
+	else_if = {
+		limit = {
+			is_ai = yes
+			var:naval_combat_flagship_constructed ?= 1
+			exists = var:naval_combat_flagship_hull
+			NOT = { var:naval_combat_flagship_destroyed ?= 1 }
+			var:naval_combat_flagship_current_durability > 0
+			naval_combat_flagship_missing_durability_value >= naval_combat_ai_flagship_repair_minimum_damage_value
+			NOT = { has_character_flag = naval_combat_ai_flagship_repair_cooldown }
+			NOT = { is_at_war = yes }
+			NOT = { exists = var:naval_combat_battle_opponent }
+			short_term_treasury_or_gold >= naval_combat_ai_flagship_repair_treasury_threshold_value
+		}
+		remove_treasury_or_gold = naval_combat_ai_flagship_repair_cost_value
+		set_variable = {
+			name = naval_combat_flagship_current_durability
+			value = naval_combat_flagship_active_max_durability_value
+		}
+		add_character_flag = {
+			flag = naval_combat_ai_flagship_repair_cooldown
+			months = 12
+		}
+	}
+}
+
+naval_combat_add_drill_effect = {
+	if = {
+		limit = { NOT = { exists = var:naval_combat_drill } }
+		set_variable = {
+			name = naval_combat_drill
+			value = 0
+		}
+	}
+	change_variable = {
+		name = naval_combat_drill
+		add = $AMOUNT$
+	}
+	if = {
+		limit = { var:naval_combat_drill > 100 }
+		set_variable = {
+			name = naval_combat_drill
+			value = 100
+		}
+	}
+}
+
+naval_combat_training_accident_effect = {
+	if = {
+		limit = { NOT = { exists = var:naval_combat_training_accidents } }
+		set_variable = {
+			name = naval_combat_training_accidents
+			value = 0
+		}
+	}
+	change_variable = {
+		name = naval_combat_training_accidents
+		add = 1
+	}
+	if = {
+		limit = { NOT = { exists = var:naval_combat_training_repair_cost } }
+		set_variable = {
+			name = naval_combat_training_repair_cost
+			value = 0
+		}
+	}
+	change_variable = {
+		name = naval_combat_training_repair_cost
+		add = naval_combat_training_accident_repair_cost_value
+	}
+	remove_treasury_or_gold = naval_combat_training_accident_repair_cost_value
+}
+
+naval_combat_add_training_progress_effect = {
+	if = {
+		limit = { NOT = { exists = var:naval_combat_training_progress } }
+		set_variable = {
+			name = naval_combat_training_progress
+			value = 0
+		}
+	}
+	change_variable = {
+		name = naval_combat_training_progress
+		add = $AMOUNT$
+	}
+}
+
+naval_combat_schedule_random_training_scenario_effect = {
+	random_list = {
+		34 = { trigger_event = { id = naval_combat.0401 days = 3 } }
+		33 = { trigger_event = { id = naval_combat.0402 days = 3 } }
+		33 = { trigger_event = { id = naval_combat.0403 days = 3 } }
+	}
+}
+
+naval_combat_resolve_training_effect = {
+	if = {
+		limit = { NOT = { exists = var:naval_combat_training_pre_readiness } }
+		set_variable = {
+			name = naval_combat_training_pre_readiness
+			value = 0
+		}
+		if = {
+			limit = { exists = var:naval_combat_readiness }
+			set_variable = {
+				name = naval_combat_training_pre_readiness
+				value = var:naval_combat_readiness
+			}
+		}
+	}
+	set_variable = {
+		name = naval_combat_training_pre_resolution_drill
+		value = naval_combat_drill_value
+	}
+	if = {
+		limit = { var:naval_combat_training_progress <= 4 }
+		set_variable = {
+			name = naval_combat_training_result
+			value = 15
+		}
+		naval_combat_add_drill_effect = { AMOUNT = 15 }
+	}
+	else_if = {
+		limit = { var:naval_combat_training_progress <= 7 }
+		set_variable = {
+			name = naval_combat_training_result
+			value = 20
+		}
+		naval_combat_add_drill_effect = { AMOUNT = 20 }
+	}
+	else = {
+		set_variable = {
+			name = naval_combat_training_result
+			value = 25
+		}
+		naval_combat_add_drill_effect = { AMOUNT = 25 }
+	}
+	set_variable = {
+		name = naval_combat_training_actual_gain
+		value = naval_combat_drill_value
+	}
+	change_variable = {
+		name = naval_combat_training_actual_gain
+		subtract = var:naval_combat_training_pre_resolution_drill
+	}
+	if = {
+		limit = { naval_combat_training_pre_readiness_value >= 30 }
+		set_variable = {
+			name = naval_combat_readiness
+			value = naval_combat_training_pre_readiness_value
+		}
+		change_variable = {
+			name = naval_combat_readiness
+			subtract = 30
+		}
+		set_variable = {
+			name = naval_combat_training_actual_readiness_loss
+			value = 30
+		}
+	}
+	else = {
+		set_variable = {
+			name = naval_combat_training_actual_readiness_loss
+			value = naval_combat_training_pre_readiness_value
+		}
+		set_variable = {
+			name = naval_combat_readiness
+			value = 0
+		}
+	}
+}
+
+naval_combat_clear_training_state_effect = {
+	remove_variable = naval_combat_training_progress
+	remove_variable = naval_combat_training_accidents
+	remove_variable = naval_combat_training_repair_cost
+	remove_variable = naval_combat_training_result
+	remove_variable = naval_combat_training_pre_resolution_drill
+	remove_variable = naval_combat_training_actual_gain
+	remove_variable = naval_combat_training_pre_readiness
+	remove_variable = naval_combat_training_actual_readiness_loss
+}
+
+naval_combat_monthly_drill_decay_effect = {
+	if = {
+		limit = { naval_combat_total_ship_count_value <= 0 }
+		set_variable = {
+			name = naval_combat_drill
+			value = 0
+		}
+	}
+	else_if = {
+		limit = { NOT = { exists = var:naval_combat_drill } }
+		set_variable = {
+			name = naval_combat_drill
+			value = 0
+		}
+	}
+	else_if = {
+		limit = { var:naval_combat_drill <= 1 }
+		set_variable = {
+			name = naval_combat_drill
+			value = 0
+		}
+	}
+	else = {
+		change_variable = {
+			name = naval_combat_drill
+			subtract = 1
+		}
+	}
+}
+
+naval_combat_ai_yearly_drill_effect = {
+	if = {
+		limit = {
+			is_ai = yes
+			naval_combat_total_ship_count_value > 0
+		}
+		if = {
+			limit = { var:naval_combat_ai_focus >= 70 }
+			naval_combat_add_drill_effect = { AMOUNT = 25 }
+		}
+		else_if = {
+			limit = { var:naval_combat_ai_focus >= 40 }
+			naval_combat_add_drill_effect = { AMOUNT = 20 }
+		}
+		else = {
+			naval_combat_add_drill_effect = { AMOUNT = 15 }
+		}
+	}
+}
+
+naval_combat_update_readiness_effect = {
+	if = {
+		limit = {
+			naval_combat_total_ship_count_value <= 0
+		}
+		set_variable = {
+			name = naval_combat_readiness
+			value = 0
+		}
+	}
+	else_if = {
+		limit = {
+			var:naval_combat_sea_control_active ?= 1
+		}
+		if = {
+			limit = {
+				NOT = { exists = var:naval_combat_readiness }
+			}
+			set_variable = {
+				name = naval_combat_readiness
+				value = 5
+			}
+		}
+		else_if = {
+			limit = {
+				var:naval_combat_readiness >= 95
+			}
+			set_variable = {
+				name = naval_combat_readiness
+				value = 100
+			}
+		}
+		else = {
+			change_variable = {
+				name = naval_combat_readiness
+				add = 5
+			}
+		}
+	}
+	else_if = {
+		limit = {
+			var:naval_combat_transport_active ?= 1
+		}
+		if = {
+			limit = {
+				NOT = { exists = var:naval_combat_readiness }
+			}
+			set_variable = {
+				name = naval_combat_readiness
+				value = 5
+			}
+		}
+		else_if = {
+			limit = {
+				var:naval_combat_readiness >= 50
+			}
+			set_variable = {
+				name = naval_combat_readiness
+				value = 50
+			}
+		}
+		else_if = {
+			limit = {
+				var:naval_combat_readiness >= 45
+			}
+			set_variable = {
+				name = naval_combat_readiness
+				value = 50
+			}
+		}
+		else = {
+			change_variable = {
+				name = naval_combat_readiness
+				add = 5
+			}
+		}
+	}
+	else = {
+		if = {
+			limit = {
+				NOT = { exists = var:naval_combat_readiness }
+			}
+			set_variable = {
+				name = naval_combat_readiness
+				value = 0
+			}
+		}
+		else_if = {
+			limit = {
+				var:naval_combat_readiness <= 10
+			}
+			set_variable = {
+				name = naval_combat_readiness
+				value = 0
+			}
+		}
+		else = {
+			change_variable = {
+				name = naval_combat_readiness
+				subtract = 10
+			}
+		}
+	}
+}
+
+# Cache the completed design's per-ship statistics for the read-only flagship
+# register entry. Combat bonuses continue to use the saved fittings directly.
+naval_combat_refresh_flagship_saved_stats_effect = {
+	set_variable = {
+		name = naval_combat_flagship_saved_transport
+		value = naval_combat_flagship_preview_transport_value
+	}
+	set_variable = {
+		name = naval_combat_flagship_saved_combat
+		value = naval_combat_flagship_preview_combat_value
+	}
+	set_variable = {
+		name = naval_combat_flagship_saved_boarding
+		value = naval_combat_flagship_preview_boarding_value
+	}
+	set_variable = {
+		name = naval_combat_flagship_saved_missile
+		value = naval_combat_flagship_preview_missile_value
+	}
+	set_variable = {
+		name = naval_combat_flagship_saved_maintenance
+		value = naval_combat_flagship_preview_maintenance_value
+	}
+}

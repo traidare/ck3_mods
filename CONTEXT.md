@@ -98,33 +98,13 @@ Choose the smallest appropriate layer:
    CK3/AGOT-invalid syntax, scope, or database references.
 
 Keep the first three categories separate when practical. Record ownership and
-the re-audit trigger in the affected module's `workspace/<slug>/README.md`.
-
-Every module carries two documents, and each fact belongs to exactly one:
-
-`workspace/<slug>/README.md` documents that module's CURRENT state: what it
-owns, what it patches, why that compatch layer was chosen, how to regenerate it,
-what its source assertions detect, and when to re-audit. It never narrates a
-parent's release history or what an upstream update changed. Name parent
-versions only where the module's own behavior is pinned to them.
-
-`mods/<slug>/README.md` is the compact, player-facing description — exactly what
-would be published as the mod's Workshop description. It states what the mod
-CURRENTLY does, which parent mods it requires, the required load order by
-display name, the user-visible behavior, and any incompatibility a player must
-act on. It carries no `ck3mm` commands, no repository paths, no bare Workshop
-IDs used as identifiers, no pinned parent versions, and no re-audit
-instructions. Prefer at most 40 lines.
+the re-audit trigger in the affected module's `workspace/<slug>/README.md`, as
+described under [Documentation voice](#documentation-voice).
 
 For rebases, identify the common base, compare each parent's delta, and inspect
 every merge conflict. Whole-file speed or automation overrides can accidentally
 restore vanilla logic AGOT disabled; validate unrelated behavior as well as the
 intended change.
-
-For a runtime repair, retain the exact log signature, source location, effective
-last writer, and reason the narrower repair is safe in
-`workspace/<slug>/README.md`. Quote the signature itself; never cite a specific
-log file, dated run, or playtest session.
 
 For map-data merges:
 
@@ -154,7 +134,44 @@ validate, or audit that mod lives in `workspace/<slug>/` and never ships:
 | `workspace/<slug>/artifacts/`         | generated audits and unpacked sources       |
 | `workspace/<slug>/ck3-tiger.conf`     | dependency load order for static validation |
 
-## Generated outputs and validation
+### Documentation voice
+
+Every module carries two documents, and each fact belongs to exactly one:
+
+`workspace/<slug>/README.md` documents that module's CURRENT state: what it
+owns, what it patches, why that compatch layer was chosen, how to regenerate it,
+what its source assertions detect, and when to re-audit. It never narrates a
+parent's release history or what an upstream update changed. Name parent
+versions only where the module's own behavior is pinned to them.
+
+`mods/<slug>/README.md` is the compact, player-facing description — exactly what
+would be published as the mod's Workshop description. It states what the mod
+CURRENTLY does, which parent mods it requires, the required load order by
+display name, the user-visible behavior, and any incompatibility a player must
+act on. It carries no `ck3mm` commands, no repository paths, no bare Workshop
+IDs used as identifiers, no pinned parent versions, and no re-audit
+instructions. Prefer at most 40 lines.
+
+Both documents, and code comments, describe the current state of the code: what
+a rule does, why it exists, and what invalidates it. They are not an
+investigation record.
+
+Write the standing reason, not the episode that exposed it. Omit dates, log
+timestamps, crash and save filenames, session, run, or playtest references, tool
+transcripts, and narration of what was observed at a point in time. Where a
+condition matters, state it as a property that still holds and can be rechecked,
+not as something that was seen once.
+
+Justify a rule by what is true of the sources — which mod is the effective last
+writer, which parameters an effect declares, what an assertion pins — so the
+text stays correct as long as the code does, and its re-audit trigger says when
+to revisit it. Findings that only document an incident belong in the commit
+message or the task response, not in the tracked module docs.
+
+For a runtime repair, retain the exact log signature, source location, effective
+last writer, and reason the narrower repair is safe. Quote the signature itself,
+which is a stable property of the script; never cite the log file, dated run, or
+session it was read from.
 
 When a module has a `workspace/<slug>/mod.toml` generator, edit its generator or
 assets and regenerate its declared owned outputs. The staged generator's

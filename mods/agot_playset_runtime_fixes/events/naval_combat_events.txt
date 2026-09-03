@@ -1,0 +1,4336 @@
+﻿namespace = naval_combat
+
+naval_combat.0001 = {
+	type = character_event
+	title = naval_combat.0001.t
+	desc = naval_combat.0001.desc
+
+	theme = realm
+
+	left_portrait = {
+		character = root
+		animation = personality_rational
+	}
+
+	option = {
+		name = naval_combat.0001.a
+	}
+}
+
+naval_combat.0002 = {
+	type = character_event
+	title = naval_combat.0002.t
+	desc = naval_combat.0002.desc
+
+	theme = realm
+
+	left_portrait = {
+		character = root
+		animation = personality_rational
+	}
+
+	option = {
+		name = naval_combat.0002.a
+	}
+}
+
+naval_combat.0003 = {
+	type = character_event
+	title = naval_combat.0003.t
+	desc = naval_combat.0003.desc
+
+	theme = realm
+
+	immediate = {
+		if = {
+			limit = { exists = var:naval_combat_debug_inspection_target }
+			var:naval_combat_debug_inspection_target = {
+				save_scope_as = naval_combat_debug_inspection_target
+			}
+		}
+	}
+
+	left_portrait = {
+		character = scope:naval_combat_debug_inspection_target
+		animation = personality_rational
+	}
+
+	option = {
+		name = naval_combat.0003.a
+		remove_variable = naval_combat_debug_inspection_target
+	}
+}
+
+naval_combat.0100 = {
+	type = character_event
+	hidden = yes
+	trigger = { is_alive = yes }
+
+	immediate = {
+		remove_variable = naval_combat_weekly_readiness_scheduled
+		if = {
+			limit = {
+				exists = var:naval_combat_initialized
+			}
+			if = {
+				limit = { is_ai = yes }
+				naval_combat_ai_update_orders_effect = yes
+			}
+			naval_combat_refresh_transport_modifier_effect = yes
+			naval_combat_update_readiness_effect = yes
+			naval_combat_refresh_blockade_effect = yes
+			naval_combat_update_contact_effect = yes
+			naval_combat_schedule_weekly_readiness_effect = yes
+		}
+	}
+}
+
+naval_combat.0110 = {
+	type = character_event
+	hidden = yes
+
+	immediate = {
+		remove_variable = naval_combat_monthly_maintenance_scheduled
+		if = {
+			limit = {
+				exists = var:naval_combat_initialized
+				naval_combat_can_manage_navy_trigger = yes
+			}
+			if = {
+				limit = {
+					current_day = 1
+				}
+				naval_combat_collect_monthly_maintenance_effect = yes
+				naval_combat_monthly_drill_decay_effect = yes
+				if = {
+					limit = { is_ai = yes }
+					naval_combat_ai_manage_flagship_effect = yes
+				}
+				set_variable = {
+					name = naval_combat_monthly_maintenance_scheduled
+					value = yes
+				}
+				# Twenty-eight days is safe in every month; daily checks resume near month end.
+				trigger_event = { id = naval_combat.0110 days = 28 }
+			}
+			else = {
+				naval_combat_schedule_monthly_maintenance_effect = yes
+			}
+		}
+	}
+}
+
+naval_combat.0300 = {
+	type = character_event
+	title = naval_combat.0300.t
+	desc = naval_combat.0300.desc
+
+	theme = war
+	override_background = { reference = fp1_ocean }
+
+	left_portrait = {
+		character = root
+		animation = personality_rational
+	}
+
+	right_portrait = {
+		character = var:naval_combat_blockade_event_enemy
+		animation = personality_bold
+	}
+
+	immediate = {
+		if = {
+			limit = {
+				NOT = { exists = var:naval_combat_blockade_event_enemy }
+				exists = var:naval_combat_blockading_enemy
+			}
+			set_variable = {
+				name = naval_combat_blockade_event_enemy
+				value = var:naval_combat_blockading_enemy
+			}
+		}
+	}
+
+	option = {
+		name = naval_combat.0300.a
+		remove_variable = naval_combat_blockade_event_enemy
+	}
+}
+
+naval_combat.0301 = {
+	type = character_event
+	hidden = yes
+
+	immediate = {
+		naval_combat_refresh_blockade_effect = yes
+	}
+}
+
+naval_combat.0310 = {
+	type = character_event
+	title = naval_combat.0310.t
+	desc = naval_combat.0310.desc
+
+	theme = war
+	override_background = { reference = fp1_ocean }
+
+	left_portrait = {
+		character = scope:naval_combat_raid_admiral
+		animation = personality_bold
+	}
+
+	right_portrait = {
+		character = var:naval_combat_raid_target
+		animation = personality_angry
+	}
+
+	immediate = {
+		var:naval_combat_raid_target = {
+			save_scope_as = naval_combat_raid_target
+		}
+		naval_combat_save_admiral_or_self_as_effect = { SCOPE_NAME = naval_combat_raid_admiral }
+	}
+
+	option = {
+		name = naval_combat.0310.a
+		remove_variable = naval_combat_raid_target
+		remove_variable = naval_combat_coastal_raid_loot
+	}
+}
+
+naval_combat.0311 = {
+	type = character_event
+	title = naval_combat.0311.t
+	desc = naval_combat.0311.desc
+
+	theme = war
+	override_background = { reference = fp1_ocean }
+
+	left_portrait = {
+		character = scope:naval_combat_raid_admiral
+		animation = personality_rational
+	}
+
+	right_portrait = {
+		character = var:naval_combat_raid_target
+		animation = personality_bold
+	}
+
+	immediate = {
+		var:naval_combat_raid_target = {
+			save_scope_as = naval_combat_raid_target
+		}
+		naval_combat_save_admiral_or_self_as_effect = { SCOPE_NAME = naval_combat_raid_admiral }
+	}
+
+	option = {
+		name = naval_combat.0311.a
+		remove_variable = naval_combat_raid_target
+		remove_variable = naval_combat_coastal_raid_loot
+	}
+}
+
+naval_combat.0320 = {
+	type = character_event
+	title = naval_combat.0320.t
+	desc = {
+		desc = naval_combat.0320.desc
+		triggered_desc = {
+			trigger = { exists = var:naval_combat_intel_rank_1 }
+			desc = naval_combat.0320.rank_1
+		}
+		triggered_desc = {
+			trigger = { exists = var:naval_combat_intel_rank_2 }
+			desc = naval_combat.0320.rank_2
+		}
+		triggered_desc = {
+			trigger = { exists = var:naval_combat_intel_rank_3 }
+			desc = naval_combat.0320.rank_3
+		}
+		triggered_desc = {
+			trigger = { exists = var:naval_combat_intel_rank_4 }
+			desc = naval_combat.0320.rank_4
+		}
+		triggered_desc = {
+			trigger = { exists = var:naval_combat_intel_rank_5 }
+			desc = naval_combat.0320.rank_5
+		}
+		triggered_desc = {
+			trigger = { exists = var:naval_combat_intel_rank_6 }
+			desc = naval_combat.0320.rank_6
+		}
+		triggered_desc = {
+			trigger = { exists = var:naval_combat_intel_rank_7 }
+			desc = naval_combat.0320.rank_7
+		}
+		triggered_desc = {
+			trigger = { exists = var:naval_combat_intel_rank_8 }
+			desc = naval_combat.0320.rank_8
+		}
+		triggered_desc = {
+			trigger = { exists = var:naval_combat_intel_rank_9 }
+			desc = naval_combat.0320.rank_9
+		}
+		triggered_desc = {
+			trigger = { exists = var:naval_combat_intel_rank_10 }
+			desc = naval_combat.0320.rank_10
+		}
+		triggered_desc = {
+			trigger = { NOT = { exists = var:naval_combat_intel_rank_1 } }
+			desc = naval_combat.0320.no_results
+		}
+		desc = naval_combat.0320.footer
+	}
+
+	theme = realm
+	override_background = { reference = fp1_ocean }
+
+	immediate = {
+		naval_combat_prepare_world_navy_intelligence_effect = yes
+		var:naval_combat_intel_minister = {
+			save_scope_as = naval_combat_intel_minister
+		}
+	}
+
+	left_portrait = {
+		character = scope:naval_combat_intel_minister
+		animation = personality_rational
+	}
+
+	option = {
+		name = naval_combat.0320.a
+		hidden_effect = { naval_combat_clear_world_navy_intelligence_effect = yes }
+	}
+}
+
+naval_combat.0330 = {
+	type = character_event
+	title = naval_combat.0330.t
+	desc = {
+		desc = naval_combat.0330.desc
+		triggered_desc = {
+			trigger = {
+				var:naval_combat_target_intel_target = {
+					naval_combat_longship_count_value > 0
+				}
+			}
+			desc = naval_combat.0330.longships
+		}
+		triggered_desc = {
+			trigger = {
+				var:naval_combat_target_intel_target = {
+					naval_combat_greek_fire_ship_count_value > 0
+				}
+			}
+			desc = naval_combat.0330.greek_fire
+		}
+		triggered_desc = {
+			trigger = {
+				var:naval_combat_target_intel_target = {
+					naval_combat_tower_ship_count_value > 0
+				}
+			}
+			desc = naval_combat.0330.tower_ships
+		}
+		triggered_desc = {
+			trigger = {
+				var:naval_combat_target_intel_target = {
+					naval_combat_slave_galley_count_value > 0
+				}
+			}
+			desc = naval_combat.0330.slave_galleys
+		}
+		desc = naval_combat.0330.status
+		triggered_desc = {
+			trigger = {
+				var:naval_combat_target_intel_target = {
+					var:naval_combat_transport_active ?= 1
+					var:naval_combat_sea_control_active ?= 1
+				}
+			}
+			desc = naval_combat.0330.orders_both
+		}
+		triggered_desc = {
+			trigger = {
+				var:naval_combat_target_intel_target = {
+					var:naval_combat_transport_active ?= 1
+					NOT = { var:naval_combat_sea_control_active ?= 1 }
+				}
+			}
+			desc = naval_combat.0330.orders_transport
+		}
+		triggered_desc = {
+			trigger = {
+				var:naval_combat_target_intel_target = {
+					NOT = { var:naval_combat_transport_active ?= 1 }
+					var:naval_combat_sea_control_active ?= 1
+				}
+			}
+			desc = naval_combat.0330.orders_control
+		}
+		triggered_desc = {
+			trigger = {
+				var:naval_combat_target_intel_target = {
+					NOT = { var:naval_combat_transport_active ?= 1 }
+					NOT = { var:naval_combat_sea_control_active ?= 1 }
+				}
+			}
+			desc = naval_combat.0330.orders_none
+		}
+	}
+
+	theme = intrigue
+	override_background = { reference = fp1_ocean }
+
+	immediate = {
+		var:naval_combat_target_intel_target = {
+			save_scope_as = naval_combat_target_intel_target
+		}
+	}
+
+	right_portrait = {
+		character = scope:naval_combat_target_intel_target
+		animation = personality_rational
+	}
+
+	option = {
+		name = naval_combat.0330.a
+		hidden_effect = {
+			remove_variable = naval_combat_target_intel_target
+		}
+	}
+}
+
+naval_combat.0331 = {
+	type = character_event
+	title = naval_combat.0331.t
+	desc = naval_combat.0331.desc
+	theme = intrigue
+	override_background = { reference = fp1_ocean }
+
+	immediate = {
+		var:naval_combat_target_intel_target = {
+			save_scope_as = naval_combat_target_intel_target
+		}
+	}
+
+	right_portrait = {
+		character = scope:naval_combat_target_intel_target
+		animation = personality_suspicious
+	}
+
+	option = {
+		name = naval_combat.0331.a
+		hidden_effect = {
+			remove_variable = naval_combat_target_intel_target
+		}
+	}
+}
+
+naval_combat.0332 = {
+	type = character_event
+	title = naval_combat.0332.t
+	desc = naval_combat.0332.desc
+	theme = intrigue
+	override_background = { reference = fp1_ocean }
+
+	immediate = {
+		naval_combat_save_admiral_as_effect = { SCOPE_NAME = naval_combat_intel_minister }
+	}
+
+	left_portrait = {
+		character = scope:naval_combat_intel_minister
+		animation = personality_rational
+	}
+
+	right_portrait = {
+		character = scope:target
+		animation = personality_suspicious
+	}
+
+	option = {
+		name = naval_combat.0332.a
+		trigger = { gold >= minor_gold_value }
+		remove_short_term_gold = minor_gold_value
+		scope:scheme = {
+			add_scheme_modifier = {
+				type = naval_combat_intel_bribed_clerk_modifier
+				days = 730
+			}
+		}
+		custom_tooltip = naval_combat.0332.a.tt
+	}
+
+	option = {
+		name = naval_combat.0332.b
+		scope:scheme = {
+			add_scheme_modifier = {
+				type = naval_combat_intel_careful_observation_modifier
+				days = 730
+			}
+		}
+		custom_tooltip = naval_combat.0332.b.tt
+	}
+
+	option = {
+		name = naval_combat.0332.c
+		scope:scheme = {
+			add_scheme_modifier = {
+				type = naval_combat_intel_forced_entry_modifier
+				days = 730
+			}
+		}
+		custom_tooltip = naval_combat.0332.c.tt
+	}
+}
+
+naval_combat.0333 = {
+	type = character_event
+	title = naval_combat.0333.t
+	desc = naval_combat.0333.desc
+	theme = intrigue
+	override_background = { reference = fp1_ocean }
+
+	immediate = {
+		naval_combat_save_admiral_as_effect = { SCOPE_NAME = naval_combat_intel_minister }
+	}
+
+	left_portrait = {
+		character = scope:naval_combat_intel_minister
+		animation = personality_rational
+	}
+
+	right_portrait = {
+		character = scope:target
+		animation = personality_suspicious
+	}
+
+	option = {
+		name = naval_combat.0333.a
+		trigger = { gold >= minor_gold_value }
+		remove_short_term_gold = minor_gold_value
+		scope:scheme = {
+			add_scheme_modifier = {
+				type = naval_combat_intel_hired_dockworkers_modifier
+				days = 730
+			}
+		}
+		custom_tooltip = naval_combat.0333.a.tt
+	}
+
+	option = {
+		name = naval_combat.0333.b
+		scope:scheme = {
+			add_scheme_modifier = {
+				type = naval_combat_intel_shadowed_patrols_modifier
+				days = 730
+			}
+		}
+		custom_tooltip = naval_combat.0333.b.tt
+	}
+
+	option = {
+		name = naval_combat.0333.c
+		scope:scheme = {
+			add_scheme_modifier = {
+				type = naval_combat_intel_cross_checked_manifests_modifier
+				days = 730
+			}
+		}
+		custom_tooltip = naval_combat.0333.c.tt
+	}
+}
+
+naval_combat.0340 = {
+	type = character_event
+	title = naval_combat.0340.t
+	desc = {
+		desc = naval_combat.0340.desc
+		triggered_desc = {
+			trigger = { exists = var:naval_combat_debug_focus_rank_1 }
+			desc = naval_combat.0340.rank_1
+		}
+		triggered_desc = {
+			trigger = { exists = var:naval_combat_debug_focus_rank_2 }
+			desc = naval_combat.0340.rank_2
+		}
+		triggered_desc = {
+			trigger = { exists = var:naval_combat_debug_focus_rank_3 }
+			desc = naval_combat.0340.rank_3
+		}
+		triggered_desc = {
+			trigger = { exists = var:naval_combat_debug_focus_rank_4 }
+			desc = naval_combat.0340.rank_4
+		}
+		triggered_desc = {
+			trigger = { exists = var:naval_combat_debug_focus_rank_5 }
+			desc = naval_combat.0340.rank_5
+		}
+		triggered_desc = {
+			trigger = { exists = var:naval_combat_debug_focus_rank_6 }
+			desc = naval_combat.0340.rank_6
+		}
+		triggered_desc = {
+			trigger = { exists = var:naval_combat_debug_focus_rank_7 }
+			desc = naval_combat.0340.rank_7
+		}
+		triggered_desc = {
+			trigger = { exists = var:naval_combat_debug_focus_rank_8 }
+			desc = naval_combat.0340.rank_8
+		}
+		triggered_desc = {
+			trigger = { exists = var:naval_combat_debug_focus_rank_9 }
+			desc = naval_combat.0340.rank_9
+		}
+		triggered_desc = {
+			trigger = { exists = var:naval_combat_debug_focus_rank_10 }
+			desc = naval_combat.0340.rank_10
+		}
+		triggered_desc = {
+			trigger = { NOT = { exists = var:naval_combat_debug_focus_rank_1 } }
+			desc = naval_combat.0340.no_results
+		}
+	}
+
+	theme = realm
+	override_background = { reference = fp1_ocean }
+
+	immediate = {
+		naval_combat_prepare_world_naval_focus_debug_effect = yes
+	}
+
+	option = {
+		name = naval_combat.0340.a
+		hidden_effect = { naval_combat_clear_world_naval_focus_debug_effect = yes }
+	}
+}
+
+# Flagship events
+
+naval_combat.0500 = {
+	type = character_event
+	title = naval_combat.0500.t
+	desc = naval_combat.0500.desc
+	theme = war
+	override_background = { reference = fp1_ocean }
+
+	immediate = {
+		remove_variable = naval_combat_flagship_launch_pending
+	}
+
+	left_portrait = {
+		character = root
+		animation = personality_bold
+	}
+
+	option = {
+		name = naval_combat.0500.a
+		add_prestige = 100
+	}
+}
+
+naval_combat.0501 = {
+	type = character_event
+	title = naval_combat.0501.t
+	desc = naval_combat.0501.desc
+	theme = war
+	override_background = { reference = fp1_ocean }
+
+	left_portrait = {
+		character = scope:naval_combat_flagship_minister
+		animation = prisonhouse
+		override_imprisonment_visuals = yes
+	}
+
+	right_portrait = {
+		character = scope:naval_combat_flagship_captor
+		animation = war_over_win
+	}
+
+	option = {
+		name = naval_combat.0501.a
+	}
+}
+
+naval_combat.0502 = {
+	type = character_event
+	title = naval_combat.0502.t
+	desc = naval_combat.0502.desc
+	theme = war
+	override_background = { reference = fp1_ocean }
+
+	left_portrait = {
+		character = scope:naval_combat_flagship_minister
+		animation = pain
+	}
+
+	option = {
+		name = naval_combat.0502.a
+	}
+}
+
+naval_combat.0503 = {
+	type = character_event
+	title = naval_combat.0503.t
+	desc = naval_combat.0503.desc
+	theme = war
+	override_background = { reference = fp1_ocean }
+
+	left_portrait = {
+		character = scope:naval_combat_flagship_minister
+		animation = dead
+	}
+
+	option = {
+		name = naval_combat.0503.a
+	}
+}
+
+naval_combat.0504 = {
+	type = character_event
+	title = naval_combat.0504.t
+	desc = naval_combat.0504.desc
+	theme = war
+	override_background = { reference = fp1_ocean }
+
+	left_portrait = {
+		character = root
+		animation = war_over_win
+	}
+
+	option = {
+		name = naval_combat.0504.a
+		add_prestige = 100
+	}
+}
+
+# Shipwright research events
+
+naval_combat.0600 = {
+	type = character_event
+	title = naval_combat.0600.t
+	desc = naval_combat.0600.desc
+	theme = realm
+	override_background = { reference = naval_combat_shipwright }
+
+	option = {
+		name = naval_combat.0600.a
+		trigger = { naval_combat_shipwright_longship_pool_available_trigger = yes }
+		remove_short_term_gold = 200
+		hidden_effect = {
+			naval_combat_shipwright_research_longship_effect = yes
+			trigger_event = naval_combat.0601
+		}
+	}
+
+	option = {
+		name = naval_combat.0600.b
+		trigger = { naval_combat_shipwright_galley_pool_available_trigger = yes }
+		remove_short_term_gold = 200
+		hidden_effect = {
+			naval_combat_shipwright_research_galley_effect = yes
+			trigger_event = naval_combat.0601
+		}
+	}
+
+	option = {
+		name = naval_combat.0600.c
+		trigger = { naval_combat_shipwright_high_sided_pool_available_trigger = yes }
+		remove_short_term_gold = 200
+		hidden_effect = {
+			naval_combat_shipwright_research_high_sided_effect = yes
+			trigger_event = naval_combat.0601
+		}
+	}
+
+	option = {
+		name = naval_combat.0600.d
+		trigger = { naval_combat_shipwright_large_pool_available_trigger = yes }
+		remove_short_term_gold = 200
+		hidden_effect = {
+			naval_combat_shipwright_research_large_effect = yes
+			trigger_event = naval_combat.0601
+		}
+	}
+}
+
+naval_combat.0601 = {
+	type = character_event
+	title = naval_combat.0601.t
+	desc = {
+		desc = naval_combat.0601.desc
+		triggered_desc = {
+			trigger = { var:naval_combat_shipwright_discovery ?= 1 }
+			desc = naval_combat.0601.ram
+		}
+		triggered_desc = {
+			trigger = { var:naval_combat_shipwright_discovery ?= 2 }
+			desc = naval_combat.0601.greek_fire
+		}
+		triggered_desc = {
+			trigger = { var:naval_combat_shipwright_discovery ?= 3 }
+			desc = naval_combat.0601.forecastle
+		}
+		triggered_desc = {
+			trigger = { var:naval_combat_shipwright_discovery ?= 4 }
+			desc = naval_combat.0601.wave_cutter
+		}
+		triggered_desc = {
+			trigger = { var:naval_combat_shipwright_discovery ?= 5 }
+			desc = naval_combat.0601.light_ballista
+		}
+		triggered_desc = {
+			trigger = { var:naval_combat_shipwright_discovery ?= 6 }
+			desc = naval_combat.0601.heavy_ballista
+		}
+		triggered_desc = {
+			trigger = { var:naval_combat_shipwright_discovery ?= 7 }
+			desc = naval_combat.0601.sailors
+		}
+		triggered_desc = {
+			trigger = { var:naval_combat_shipwright_discovery ?= 8 }
+			desc = naval_combat.0601.auxiliary_mast
+		}
+		triggered_desc = {
+			trigger = { var:naval_combat_shipwright_discovery ?= 9 }
+			desc = naval_combat.0601.lateen_mast
+		}
+		triggered_desc = {
+			trigger = { var:naval_combat_shipwright_discovery ?= 10 }
+			desc = naval_combat.0601.reinforced_mast
+		}
+		triggered_desc = {
+			trigger = { var:naval_combat_shipwright_discovery ?= 11 }
+			desc = naval_combat.0601.tower
+		}
+		triggered_desc = {
+			trigger = { var:naval_combat_shipwright_discovery ?= 12 }
+			desc = naval_combat.0601.captain_cabin
+		}
+		triggered_desc = {
+			trigger = { var:naval_combat_shipwright_discovery ?= 13 }
+			desc = naval_combat.0601.catapult
+		}
+		triggered_desc = {
+			trigger = { var:naval_combat_shipwright_discovery ?= 14 }
+			desc = naval_combat.0601.lightweight
+		}
+		triggered_desc = {
+			trigger = { var:naval_combat_shipwright_discovery ?= 15 }
+			desc = naval_combat.0601.thick
+		}
+		triggered_desc = {
+			trigger = { var:naval_combat_shipwright_discovery ?= 16 }
+			desc = naval_combat.0601.fireproof
+		}
+		triggered_desc = {
+			trigger = { var:naval_combat_shipwright_discovery ?= 17 }
+			desc = naval_combat.0601.archers
+		}
+		triggered_desc = {
+			trigger = { var:naval_combat_shipwright_discovery ?= 18 }
+			desc = naval_combat.0601.main_mast
+		}
+		triggered_desc = {
+			trigger = { var:naval_combat_shipwright_discovery ?= 19 }
+			desc = naval_combat.0601.sterncastle
+		}
+	}
+	theme = realm
+	override_background = { reference = naval_combat_shipwright }
+	widget = {
+		gui = "event_window_widget_naval_combat_shipwright_result"
+		container = "custom_widgets_container"
+	}
+
+	option = {
+		name = naval_combat.0601.a
+		remove_variable = naval_combat_shipwright_discovery
+		remove_variable = naval_combat_shipwright_discovery_quality
+	}
+}
+
+naval_combat.0610 = {
+	type = character_event
+	title = naval_combat.0610.t
+	desc = {
+		desc = naval_combat.0610.desc
+		triggered_desc = { trigger = { var:naval_combat_legendary_discovery ?= 1 } desc = naval_combat.0610.scorpion }
+		triggered_desc = { trigger = { var:naval_combat_legendary_discovery ?= 2 } desc = naval_combat.0610.kraken_ram }
+		triggered_desc = { trigger = { var:naval_combat_legendary_discovery ?= 3 } desc = naval_combat.0610.swan_prow }
+		triggered_desc = { trigger = { var:naval_combat_legendary_discovery ?= 4 } desc = naval_combat.0610.mouthless_maiden }
+		triggered_desc = { trigger = { var:naval_combat_legendary_discovery ?= 5 } desc = naval_combat.0610.seahorse }
+		triggered_desc = { trigger = { var:naval_combat_legendary_discovery ?= 6 } desc = naval_combat.0610.summer_hardwood }
+		triggered_desc = { trigger = { var:naval_combat_legendary_discovery ?= 7 } desc = naval_combat.0610.wildfire }
+	}
+	theme = realm
+	override_background = { reference = naval_combat_shipwright }
+	immediate = {
+		set_variable = { name = naval_combat_shipwright_discovery_quality value = 4 }
+	}
+	widget = {
+		gui = "event_window_widget_naval_combat_shipwright_result"
+		container = "custom_widgets_container"
+	}
+
+	option = {
+		name = naval_combat.0610.a
+		remove_variable = naval_combat_legendary_discovery
+		remove_variable = naval_combat_shipwright_discovery_quality
+	}
+}
+
+naval_combat.0611 = {
+	type = character_event
+	title = naval_combat.0611.t
+	desc = naval_combat.0611.desc
+	theme = realm
+	override_background = { reference = naval_combat_shipwright }
+
+	option = { name = naval_combat.0611.a }
+}
+
+# Peace-time sea raid events
+
+naval_combat.0700 = {
+	type = character_event
+	title = naval_combat.0700.t
+	desc = naval_combat.0700.desc
+	theme = war
+	override_background = { reference = fp1_ocean }
+
+	left_portrait = { character = root animation = personality_bold }
+	right_portrait = { character = var:naval_combat_sea_raid_target animation = personality_angry }
+
+	immediate = {
+		var:naval_combat_sea_raid_target = { save_scope_as = naval_combat_sea_raid_target }
+	}
+
+	option = {
+		name = naval_combat.0700.a
+		hidden_effect = { naval_combat_sea_raid_clear_state_effect = yes }
+	}
+}
+
+naval_combat.0701 = {
+	type = character_event
+	title = naval_combat.0701.t
+	desc = naval_combat.0701.desc
+	theme = war
+	override_background = { reference = fp1_ocean }
+
+	left_portrait = { character = root animation = personality_rational }
+	right_portrait = { character = var:naval_combat_sea_raid_target animation = personality_angry }
+
+	immediate = {
+		var:naval_combat_sea_raid_target = { save_scope_as = naval_combat_sea_raid_target }
+	}
+
+	option = {
+		name = naval_combat.0701.a
+		hidden_effect = { naval_combat_sea_raid_clear_state_effect = yes }
+	}
+}
+
+naval_combat.0702 = {
+	type = character_event
+	title = naval_combat.0702.t
+	desc = {
+		desc = naval_combat.0702.desc
+		desc = naval_combat.sea_raid.own_fleet
+		triggered_desc = { trigger = { var:naval_combat_sea_raid_attacker_oared > 0 } desc = naval_combat.sea_raid.own_oared }
+		triggered_desc = { trigger = { var:naval_combat_sea_raid_attacker_high_sided > 0 } desc = naval_combat.sea_raid.own_high_sided }
+		triggered_desc = { trigger = { var:naval_combat_sea_raid_attacker_longship > 0 } desc = naval_combat.sea_raid.own_longship }
+		triggered_desc = { trigger = { var:naval_combat_sea_raid_attacker_greek_fire > 0 } desc = naval_combat.sea_raid.own_greek_fire }
+		triggered_desc = { trigger = { var:naval_combat_sea_raid_attacker_tower > 0 } desc = naval_combat.sea_raid.own_tower }
+		triggered_desc = { trigger = { var:naval_combat_sea_raid_attacker_slave_galley > 0 } desc = naval_combat.sea_raid.own_slave_galley }
+		triggered_desc = { trigger = { var:naval_combat_sea_raid_attacker_flagship > 0 } desc = naval_combat.sea_raid.own_flagship }
+		triggered_desc = {
+			trigger = { naval_combat_sea_raid_defender_ship_count_value <= 0 }
+			desc = naval_combat.sea_raid.enemy_none
+		}
+		triggered_desc = {
+			trigger = { naval_combat_sea_raid_defender_ship_count_value > 0 naval_combat_sea_raid_defender_ship_count_value <= 2 }
+			desc = naval_combat.sea_raid.enemy_few
+		}
+		triggered_desc = {
+			trigger = { naval_combat_sea_raid_defender_ship_count_value >= 3 naval_combat_sea_raid_defender_ship_count_value <= 4 }
+			desc = naval_combat.sea_raid.enemy_several
+		}
+		triggered_desc = {
+			trigger = { naval_combat_sea_raid_defender_ship_count_value >= 5 naval_combat_sea_raid_defender_ship_count_value <= 6 }
+			desc = naval_combat.sea_raid.enemy_many
+		}
+		triggered_desc = {
+			trigger = { naval_combat_sea_raid_defender_ship_count_value >= 7 }
+			desc = naval_combat.sea_raid.enemy_numerous
+		}
+	}
+	theme = war
+	override_background = { reference = fp1_ocean }
+
+	left_portrait = { character = root animation = personality_bold }
+	right_portrait = { character = var:naval_combat_sea_raid_target animation = personality_angry }
+
+	immediate = {
+		var:naval_combat_sea_raid_target = { save_scope_as = naval_combat_sea_raid_target }
+	}
+
+	option = {
+		name = naval_combat.0702.a
+		hidden_effect = {
+			set_variable = { name = naval_combat_sea_raid_attacker_tactic value = 1 }
+			naval_combat_sea_raid_resolve_round_effect = yes
+			trigger_event = naval_combat.0703
+		}
+	}
+	option = {
+		name = naval_combat.0702.b
+		hidden_effect = {
+			set_variable = { name = naval_combat_sea_raid_attacker_tactic value = 2 }
+			naval_combat_sea_raid_resolve_round_effect = yes
+			trigger_event = naval_combat.0703
+		}
+	}
+	option = {
+		name = naval_combat.0702.c
+		hidden_effect = {
+			set_variable = { name = naval_combat_sea_raid_attacker_tactic value = 3 }
+			naval_combat_sea_raid_resolve_round_effect = yes
+			trigger_event = naval_combat.0703
+		}
+	}
+	option = {
+		name = naval_combat.0702.d
+		hidden_effect = {
+			random_list = {
+				65 = { trigger_event = naval_combat.0706 }
+				35 = {
+					set_variable = { name = naval_combat_sea_raid_attacker_tactic value = 3 }
+					naval_combat_sea_raid_random_defender_tactic_effect = yes
+					set_variable = { name = naval_combat_sea_raid_defender_packets value = naval_combat_sea_raid_defender_packet_count_value }
+					while = {
+						limit = {
+							var:naval_combat_sea_raid_defender_packets > 0
+							naval_combat_sea_raid_attacker_ship_count_value > 0
+						}
+						change_variable = { name = naval_combat_sea_raid_defender_packets subtract = 1 }
+						naval_combat_sea_raid_attacker_receive_hit_effect = yes
+					}
+					naval_combat_sea_raid_finalize_losses_effect = yes
+					trigger_event = naval_combat.0705
+				}
+			}
+		}
+	}
+}
+
+naval_combat.0703 = {
+	type = character_event
+	title = naval_combat.0703.t
+	desc = {
+		desc = naval_combat.0703.desc
+		triggered_desc = {
+			trigger = { var:naval_combat_sea_raid_attacker_tactic ?= 1 }
+			desc = naval_combat.0703.desc.boarding
+		}
+		triggered_desc = {
+			trigger = { var:naval_combat_sea_raid_attacker_tactic ?= 2 }
+			desc = naval_combat.0703.desc.missile
+		}
+		triggered_desc = {
+			trigger = { var:naval_combat_sea_raid_attacker_tactic ?= 3 }
+			desc = naval_combat.0703.desc.maneuver
+		}
+		desc = naval_combat.sea_raid.own_fleet
+		triggered_desc = { trigger = { var:naval_combat_sea_raid_attacker_oared > 0 } desc = naval_combat.sea_raid.own_oared }
+		triggered_desc = { trigger = { var:naval_combat_sea_raid_attacker_high_sided > 0 } desc = naval_combat.sea_raid.own_high_sided }
+		triggered_desc = { trigger = { var:naval_combat_sea_raid_attacker_longship > 0 } desc = naval_combat.sea_raid.own_longship }
+		triggered_desc = { trigger = { var:naval_combat_sea_raid_attacker_greek_fire > 0 } desc = naval_combat.sea_raid.own_greek_fire }
+		triggered_desc = { trigger = { var:naval_combat_sea_raid_attacker_tower > 0 } desc = naval_combat.sea_raid.own_tower }
+		triggered_desc = { trigger = { var:naval_combat_sea_raid_attacker_slave_galley > 0 } desc = naval_combat.sea_raid.own_slave_galley }
+		triggered_desc = { trigger = { var:naval_combat_sea_raid_attacker_flagship > 0 } desc = naval_combat.sea_raid.own_flagship }
+		triggered_desc = {
+			trigger = { naval_combat_sea_raid_defender_ship_count_value <= 0 }
+			desc = naval_combat.sea_raid.enemy_none
+		}
+		triggered_desc = {
+			trigger = { naval_combat_sea_raid_defender_ship_count_value > 0 naval_combat_sea_raid_defender_ship_count_value <= 2 }
+			desc = naval_combat.sea_raid.enemy_few
+		}
+		triggered_desc = {
+			trigger = { naval_combat_sea_raid_defender_ship_count_value >= 3 naval_combat_sea_raid_defender_ship_count_value <= 4 }
+			desc = naval_combat.sea_raid.enemy_several
+		}
+		triggered_desc = {
+			trigger = { naval_combat_sea_raid_defender_ship_count_value >= 5 naval_combat_sea_raid_defender_ship_count_value <= 6 }
+			desc = naval_combat.sea_raid.enemy_many
+		}
+		triggered_desc = {
+			trigger = { naval_combat_sea_raid_defender_ship_count_value >= 7 }
+			desc = naval_combat.sea_raid.enemy_numerous
+		}
+		desc = naval_combat.sea_raid.round_losses
+	}
+	theme = war
+	override_background = { reference = fp1_ocean }
+
+	left_portrait = { character = root animation = personality_bold }
+	right_portrait = { character = var:naval_combat_sea_raid_target animation = personality_angry }
+
+	immediate = {
+		var:naval_combat_sea_raid_target = { save_scope_as = naval_combat_sea_raid_target }
+	}
+
+	option = {
+		name = naval_combat.0703.a
+		trigger = { naval_combat_sea_raid_defender_ship_count_value <= 0 }
+		hidden_effect = {
+			naval_combat_sea_raid_finalize_losses_effect = yes
+			naval_combat_sea_raid_pay_loot_effect = yes
+			trigger_event = naval_combat.0704
+		}
+	}
+	option = {
+		name = naval_combat.0703.b
+		trigger = { naval_combat_sea_raid_attacker_ship_count_value <= 0 }
+		hidden_effect = {
+			naval_combat_sea_raid_finalize_losses_effect = yes
+			trigger_event = naval_combat.0705
+		}
+	}
+	option = {
+		name = naval_combat.0703.c
+		trigger = {
+			naval_combat_sea_raid_attacker_ship_count_value > 0
+			naval_combat_sea_raid_defender_ship_count_value > 0
+			var:naval_combat_sea_raid_round < 3
+		}
+		hidden_effect = {
+			change_variable = { name = naval_combat_sea_raid_round add = 1 }
+			trigger_event = naval_combat.0702
+		}
+	}
+	option = {
+		name = naval_combat.0703.d
+		trigger = {
+			naval_combat_sea_raid_attacker_ship_count_value > 0
+			naval_combat_sea_raid_defender_ship_count_value > 0
+			var:naval_combat_sea_raid_round >= 3
+			naval_combat_sea_raid_defender_lost_count_value >= naval_combat_sea_raid_attacker_lost_count_value
+		}
+		hidden_effect = {
+			naval_combat_sea_raid_finalize_losses_effect = yes
+			naval_combat_sea_raid_pay_loot_effect = yes
+			trigger_event = naval_combat.0704
+		}
+	}
+	option = {
+		name = naval_combat.0703.e
+		trigger = {
+			naval_combat_sea_raid_attacker_ship_count_value > 0
+			naval_combat_sea_raid_defender_ship_count_value > 0
+			var:naval_combat_sea_raid_round >= 3
+			naval_combat_sea_raid_defender_lost_count_value < naval_combat_sea_raid_attacker_lost_count_value
+		}
+		hidden_effect = {
+			naval_combat_sea_raid_finalize_losses_effect = yes
+			trigger_event = naval_combat.0705
+		}
+	}
+}
+
+naval_combat.0704 = {
+	type = character_event
+	title = naval_combat.0704.t
+	desc = {
+		desc = naval_combat.0704.desc
+		desc = naval_combat.sea_raid.final_losses
+	}
+	theme = war
+	override_background = { reference = fp1_ocean }
+
+	left_portrait = { character = root animation = war_over_win }
+	right_portrait = { character = var:naval_combat_sea_raid_target animation = personality_angry }
+
+	immediate = {
+		var:naval_combat_sea_raid_target = { save_scope_as = naval_combat_sea_raid_target }
+	}
+
+	option = {
+		name = naval_combat.0704.a
+		hidden_effect = { naval_combat_sea_raid_clear_state_effect = yes }
+	}
+}
+
+naval_combat.0705 = {
+	type = character_event
+	title = naval_combat.0705.t
+	desc = {
+		desc = naval_combat.0705.desc
+		desc = naval_combat.sea_raid.final_losses
+	}
+	theme = war
+	override_background = { reference = fp1_ocean }
+
+	left_portrait = { character = root animation = personality_rational }
+	right_portrait = { character = var:naval_combat_sea_raid_target animation = personality_bold }
+
+	immediate = {
+		var:naval_combat_sea_raid_target = { save_scope_as = naval_combat_sea_raid_target }
+	}
+
+	option = {
+		name = naval_combat.0705.a
+		hidden_effect = { naval_combat_sea_raid_clear_state_effect = yes }
+	}
+}
+
+naval_combat.0706 = {
+	type = character_event
+	title = naval_combat.0706.t
+	desc = {
+		desc = naval_combat.0706.desc
+		desc = naval_combat.sea_raid.final_losses
+	}
+	theme = war
+	override_background = { reference = fp1_ocean }
+
+	left_portrait = { character = root animation = personality_rational }
+	right_portrait = { character = var:naval_combat_sea_raid_target animation = personality_angry }
+
+	immediate = {
+		var:naval_combat_sea_raid_target = { save_scope_as = naval_combat_sea_raid_target }
+	}
+
+	option = {
+		name = naval_combat.0706.a
+		hidden_effect = {
+			naval_combat_sea_raid_finalize_losses_effect = yes
+			naval_combat_sea_raid_clear_state_effect = yes
+		}
+	}
+}
+
+naval_combat.0707 = {
+	type = character_event
+	title = naval_combat.0707.t
+	desc = naval_combat.0707.desc
+	theme = war
+	override_background = { reference = fp1_ocean }
+
+	left_portrait = { character = root animation = personality_rational }
+	right_portrait = { character = var:naval_combat_sea_raid_target animation = personality_bold }
+
+	immediate = {
+		var:naval_combat_sea_raid_target = { save_scope_as = naval_combat_sea_raid_ai_raider }
+	}
+
+	option = {
+		name = naval_combat.0707.a
+		hidden_effect = {
+			remove_variable = naval_combat_sea_raid_success
+			random = {
+				chance = var:naval_combat_sea_raid_success_chance
+				set_variable = { name = naval_combat_sea_raid_success value = 1 }
+			}
+			if = {
+				limit = { var:naval_combat_sea_raid_success ?= 1 }
+				naval_combat_sea_raid_ai_collect_from_player_effect = yes
+				trigger_event = naval_combat.0711
+			}
+			else = {
+				naval_combat_sea_raid_prepare_player_escort_effect = yes
+				trigger_event = naval_combat.0708
+			}
+		}
+	}
+	option = {
+		name = naval_combat.0707.b
+		hidden_effect = {
+			naval_combat_sea_raid_ai_collect_from_player_effect = yes
+			trigger_event = naval_combat.0711
+		}
+	}
+}
+
+naval_combat.0708 = {
+	type = character_event
+	title = naval_combat.0708.t
+	desc = {
+		desc = naval_combat.0708.desc
+		desc = naval_combat.sea_raid.own_fleet
+		triggered_desc = { trigger = { var:naval_combat_sea_raid_attacker_oared > 0 } desc = naval_combat.sea_raid.own_oared }
+		triggered_desc = { trigger = { var:naval_combat_sea_raid_attacker_high_sided > 0 } desc = naval_combat.sea_raid.own_high_sided }
+		triggered_desc = { trigger = { var:naval_combat_sea_raid_attacker_longship > 0 } desc = naval_combat.sea_raid.own_longship }
+		triggered_desc = { trigger = { var:naval_combat_sea_raid_attacker_greek_fire > 0 } desc = naval_combat.sea_raid.own_greek_fire }
+		triggered_desc = { trigger = { var:naval_combat_sea_raid_attacker_tower > 0 } desc = naval_combat.sea_raid.own_tower }
+		triggered_desc = { trigger = { var:naval_combat_sea_raid_attacker_slave_galley > 0 } desc = naval_combat.sea_raid.own_slave_galley }
+		triggered_desc = {
+			trigger = { naval_combat_sea_raid_defender_ship_count_value <= 2 }
+			desc = naval_combat.sea_raid.enemy_few
+		}
+		triggered_desc = {
+			trigger = { naval_combat_sea_raid_defender_ship_count_value >= 3 naval_combat_sea_raid_defender_ship_count_value <= 4 }
+			desc = naval_combat.sea_raid.enemy_several
+		}
+		triggered_desc = {
+			trigger = { naval_combat_sea_raid_defender_ship_count_value >= 5 naval_combat_sea_raid_defender_ship_count_value <= 6 }
+			desc = naval_combat.sea_raid.enemy_many
+		}
+		triggered_desc = {
+			trigger = { naval_combat_sea_raid_defender_ship_count_value >= 7 }
+			desc = naval_combat.sea_raid.enemy_numerous
+		}
+	}
+	theme = war
+	override_background = { reference = fp1_ocean }
+
+	left_portrait = { character = root animation = personality_bold }
+	right_portrait = { character = var:naval_combat_sea_raid_target animation = personality_angry }
+
+	option = {
+		name = naval_combat.0708.a
+		hidden_effect = {
+			set_variable = { name = naval_combat_sea_raid_attacker_tactic value = 1 }
+			naval_combat_sea_raid_resolve_round_effect = yes
+			trigger_event = naval_combat.0709
+		}
+	}
+	option = {
+		name = naval_combat.0708.b
+		hidden_effect = {
+			set_variable = { name = naval_combat_sea_raid_attacker_tactic value = 2 }
+			naval_combat_sea_raid_resolve_round_effect = yes
+			trigger_event = naval_combat.0709
+		}
+	}
+	option = {
+		name = naval_combat.0708.c
+		hidden_effect = {
+			set_variable = { name = naval_combat_sea_raid_attacker_tactic value = 3 }
+			naval_combat_sea_raid_resolve_round_effect = yes
+			trigger_event = naval_combat.0709
+		}
+	}
+	option = {
+		name = naval_combat.0708.d
+		hidden_effect = {
+			naval_combat_sea_raid_finalize_losses_effect = yes
+			naval_combat_sea_raid_ai_collect_from_player_effect = yes
+			trigger_event = naval_combat.0711
+		}
+	}
+}
+
+naval_combat.0709 = {
+	type = character_event
+	title = naval_combat.0709.t
+	desc = {
+		desc = naval_combat.0709.desc
+		triggered_desc = {
+			trigger = { var:naval_combat_sea_raid_attacker_tactic ?= 1 }
+			desc = naval_combat.0709.desc.boarding
+		}
+		triggered_desc = {
+			trigger = { var:naval_combat_sea_raid_attacker_tactic ?= 2 }
+			desc = naval_combat.0709.desc.missile
+		}
+		triggered_desc = {
+			trigger = { var:naval_combat_sea_raid_attacker_tactic ?= 3 }
+			desc = naval_combat.0709.desc.maneuver
+		}
+		desc = naval_combat.sea_raid.own_fleet
+		triggered_desc = { trigger = { var:naval_combat_sea_raid_attacker_oared > 0 } desc = naval_combat.sea_raid.own_oared }
+		triggered_desc = { trigger = { var:naval_combat_sea_raid_attacker_high_sided > 0 } desc = naval_combat.sea_raid.own_high_sided }
+		triggered_desc = { trigger = { var:naval_combat_sea_raid_attacker_longship > 0 } desc = naval_combat.sea_raid.own_longship }
+		triggered_desc = { trigger = { var:naval_combat_sea_raid_attacker_greek_fire > 0 } desc = naval_combat.sea_raid.own_greek_fire }
+		triggered_desc = { trigger = { var:naval_combat_sea_raid_attacker_tower > 0 } desc = naval_combat.sea_raid.own_tower }
+		triggered_desc = { trigger = { var:naval_combat_sea_raid_attacker_slave_galley > 0 } desc = naval_combat.sea_raid.own_slave_galley }
+		triggered_desc = {
+			trigger = { naval_combat_sea_raid_defender_ship_count_value <= 0 }
+			desc = naval_combat.sea_raid.enemy_none
+		}
+		triggered_desc = {
+			trigger = { naval_combat_sea_raid_defender_ship_count_value > 0 naval_combat_sea_raid_defender_ship_count_value <= 2 }
+			desc = naval_combat.sea_raid.enemy_few
+		}
+		triggered_desc = {
+			trigger = { naval_combat_sea_raid_defender_ship_count_value >= 3 naval_combat_sea_raid_defender_ship_count_value <= 4 }
+			desc = naval_combat.sea_raid.enemy_several
+		}
+		triggered_desc = {
+			trigger = { naval_combat_sea_raid_defender_ship_count_value >= 5 }
+			desc = naval_combat.sea_raid.enemy_many
+		}
+		desc = naval_combat.sea_raid.round_losses
+	}
+	theme = war
+	override_background = { reference = fp1_ocean }
+
+	left_portrait = { character = root animation = personality_bold }
+	right_portrait = { character = var:naval_combat_sea_raid_target animation = personality_angry }
+
+	option = {
+		name = naval_combat.0709.a
+		trigger = { naval_combat_sea_raid_defender_ship_count_value <= 0 }
+		hidden_effect = {
+			naval_combat_sea_raid_finalize_losses_effect = yes
+			trigger_event = naval_combat.0710
+		}
+	}
+	option = {
+		name = naval_combat.0709.b
+		trigger = { naval_combat_sea_raid_attacker_ship_count_value <= 0 }
+		hidden_effect = {
+			naval_combat_sea_raid_finalize_losses_effect = yes
+			naval_combat_sea_raid_ai_collect_from_player_effect = yes
+			trigger_event = naval_combat.0711
+		}
+	}
+	option = {
+		name = naval_combat.0709.c
+		trigger = {
+			naval_combat_sea_raid_attacker_ship_count_value > 0
+			naval_combat_sea_raid_defender_ship_count_value > 0
+			var:naval_combat_sea_raid_round < 3
+		}
+		hidden_effect = {
+			change_variable = { name = naval_combat_sea_raid_round add = 1 }
+			trigger_event = naval_combat.0708
+		}
+	}
+	option = {
+		name = naval_combat.0709.d
+		trigger = {
+			naval_combat_sea_raid_attacker_ship_count_value > 0
+			naval_combat_sea_raid_defender_ship_count_value > 0
+			var:naval_combat_sea_raid_round >= 3
+			naval_combat_sea_raid_defender_lost_count_value >= naval_combat_sea_raid_attacker_lost_count_value
+		}
+		hidden_effect = {
+			naval_combat_sea_raid_finalize_losses_effect = yes
+			trigger_event = naval_combat.0710
+		}
+	}
+	option = {
+		name = naval_combat.0709.e
+		trigger = {
+			naval_combat_sea_raid_attacker_ship_count_value > 0
+			naval_combat_sea_raid_defender_ship_count_value > 0
+			var:naval_combat_sea_raid_round >= 3
+			naval_combat_sea_raid_defender_lost_count_value < naval_combat_sea_raid_attacker_lost_count_value
+		}
+		hidden_effect = {
+			naval_combat_sea_raid_finalize_losses_effect = yes
+			naval_combat_sea_raid_ai_collect_from_player_effect = yes
+			trigger_event = naval_combat.0711
+		}
+	}
+}
+
+naval_combat.0710 = {
+	type = character_event
+	title = naval_combat.0710.t
+	desc = {
+		desc = naval_combat.0710.desc
+		desc = naval_combat.sea_raid.final_losses
+	}
+	theme = war
+	override_background = { reference = fp1_ocean }
+	left_portrait = { character = root animation = war_over_win }
+	right_portrait = { character = var:naval_combat_sea_raid_target animation = personality_angry }
+	option = {
+		name = naval_combat.0710.a
+		hidden_effect = { naval_combat_sea_raid_clear_state_effect = yes }
+	}
+}
+
+naval_combat.0711 = {
+	type = character_event
+	title = naval_combat.0711.t
+	desc = {
+		desc = naval_combat.0711.desc
+		triggered_desc = {
+			trigger = { var:naval_combat_sea_raid_battle_occurred ?= 1 }
+			desc = naval_combat.sea_raid.final_losses
+		}
+	}
+	theme = war
+	override_background = { reference = fp1_ocean }
+	left_portrait = { character = root animation = personality_angry }
+	right_portrait = { character = var:naval_combat_sea_raid_target animation = personality_bold }
+	option = {
+		name = naval_combat.0711.a
+		hidden_effect = { naval_combat_sea_raid_clear_state_effect = yes }
+	}
+}
+
+# Fleet training events
+
+naval_combat.0400 = {
+	type = character_event
+	title = naval_combat.0400.t
+	desc = naval_combat.0400.desc
+	theme = war
+	override_background = { reference = fp1_ocean }
+
+	immediate = {
+		naval_combat_save_admiral_or_self_as_effect = { SCOPE_NAME = naval_combat_training_minister }
+	}
+
+	left_portrait = {
+		character = scope:naval_combat_training_minister
+		animation = personality_rational
+	}
+
+	option = {
+		name = naval_combat.0400.a
+		hidden_effect = {
+			naval_combat_add_training_progress_effect = { AMOUNT = 1 }
+			naval_combat_schedule_random_training_scenario_effect = yes
+		}
+	}
+
+	option = {
+		name = naval_combat.0400.b
+		hidden_effect = {
+			naval_combat_add_training_progress_effect = { AMOUNT = 2 }
+			naval_combat_schedule_random_training_scenario_effect = yes
+		}
+	}
+
+	option = {
+		name = naval_combat.0400.c
+		add_stress = 5
+		hidden_effect = {
+			naval_combat_add_training_progress_effect = { AMOUNT = 3 }
+			naval_combat_schedule_random_training_scenario_effect = yes
+		}
+	}
+}
+
+naval_combat.0401 = {
+	type = character_event
+	title = naval_combat.0401.t
+	desc = naval_combat.0401.desc
+	theme = war
+	override_background = { reference = fp1_ocean }
+
+	immediate = {
+		naval_combat_save_admiral_or_self_as_effect = { SCOPE_NAME = naval_combat_training_minister }
+	}
+
+	left_portrait = {
+		character = scope:naval_combat_training_minister
+		animation = personality_rational
+	}
+
+	option = {
+		name = naval_combat.0401.a
+		hidden_effect = {
+			naval_combat_add_training_progress_effect = { AMOUNT = 1 }
+			trigger_event = { id = naval_combat.0404 days = 3 }
+		}
+	}
+
+	option = {
+		name = naval_combat.0401.b
+		hidden_effect = {
+			naval_combat_add_training_progress_effect = { AMOUNT = 2 }
+			trigger_event = { id = naval_combat.0404 days = 3 }
+		}
+	}
+
+	option = {
+		name = naval_combat.0401.c
+		hidden_effect = {
+			naval_combat_add_training_progress_effect = { AMOUNT = 3 }
+			random = {
+				chance = 25
+				naval_combat_training_accident_effect = yes
+			}
+			trigger_event = { id = naval_combat.0404 days = 3 }
+		}
+	}
+}
+
+naval_combat.0402 = {
+	type = character_event
+	title = naval_combat.0402.t
+	desc = naval_combat.0402.desc
+	theme = war
+	override_background = { reference = fp1_ocean }
+
+	immediate = {
+		naval_combat_save_admiral_or_self_as_effect = { SCOPE_NAME = naval_combat_training_minister }
+	}
+
+	left_portrait = {
+		character = scope:naval_combat_training_minister
+		animation = personality_bold
+	}
+
+	option = {
+		name = naval_combat.0402.a
+		hidden_effect = {
+			naval_combat_add_training_progress_effect = { AMOUNT = 1 }
+			trigger_event = { id = naval_combat.0404 days = 3 }
+		}
+	}
+
+	option = {
+		name = naval_combat.0402.b
+		hidden_effect = {
+			naval_combat_add_training_progress_effect = { AMOUNT = 2 }
+			trigger_event = { id = naval_combat.0404 days = 3 }
+		}
+	}
+
+	option = {
+		name = naval_combat.0402.c
+		hidden_effect = {
+			naval_combat_add_training_progress_effect = { AMOUNT = 3 }
+			random = {
+				chance = 35
+				naval_combat_training_accident_effect = yes
+			}
+			trigger_event = { id = naval_combat.0404 days = 3 }
+		}
+	}
+}
+
+naval_combat.0403 = {
+	type = character_event
+	title = naval_combat.0403.t
+	desc = naval_combat.0403.desc
+	theme = war
+	override_background = { reference = fp1_ocean }
+
+	immediate = {
+		naval_combat_save_admiral_or_self_as_effect = { SCOPE_NAME = naval_combat_training_minister }
+	}
+
+	left_portrait = {
+		character = scope:naval_combat_training_minister
+		animation = personality_rational
+	}
+
+	option = {
+		name = naval_combat.0403.a
+		hidden_effect = {
+			naval_combat_add_training_progress_effect = { AMOUNT = 1 }
+			trigger_event = { id = naval_combat.0404 days = 3 }
+		}
+	}
+
+	option = {
+		name = naval_combat.0403.b
+		hidden_effect = {
+			naval_combat_add_training_progress_effect = { AMOUNT = 2 }
+			trigger_event = { id = naval_combat.0404 days = 3 }
+		}
+	}
+
+	option = {
+		name = naval_combat.0403.c
+		add_stress = 5
+		hidden_effect = {
+			naval_combat_add_training_progress_effect = { AMOUNT = 3 }
+			random = {
+				chance = 20
+				naval_combat_training_accident_effect = yes
+			}
+			trigger_event = { id = naval_combat.0404 days = 3 }
+		}
+	}
+}
+
+naval_combat.0404 = {
+	type = character_event
+	title = naval_combat.0404.t
+	desc = naval_combat.0404.desc
+	theme = war
+	override_background = { reference = fp1_ocean }
+
+	immediate = {
+		naval_combat_save_admiral_or_self_as_effect = { SCOPE_NAME = naval_combat_training_minister }
+	}
+
+	left_portrait = {
+		character = scope:naval_combat_training_minister
+		animation = personality_bold
+	}
+
+	option = {
+		name = naval_combat.0404.a
+		hidden_effect = {
+			naval_combat_add_training_progress_effect = { AMOUNT = 1 }
+			naval_combat_resolve_training_effect = yes
+			trigger_event = naval_combat.0405
+		}
+	}
+
+	option = {
+		name = naval_combat.0404.b
+		hidden_effect = {
+			naval_combat_add_training_progress_effect = { AMOUNT = 2 }
+			naval_combat_resolve_training_effect = yes
+			trigger_event = naval_combat.0405
+		}
+	}
+
+	option = {
+		name = naval_combat.0404.c
+		add_stress = 5
+		hidden_effect = {
+			naval_combat_add_training_progress_effect = { AMOUNT = 3 }
+			random = {
+				chance = 30
+				naval_combat_training_accident_effect = yes
+			}
+			naval_combat_resolve_training_effect = yes
+			trigger_event = naval_combat.0405
+		}
+	}
+}
+
+naval_combat.0405 = {
+	type = character_event
+	title = naval_combat.0405.t
+	desc = {
+		desc = naval_combat.0405.desc
+		triggered_desc = {
+			trigger = { var:naval_combat_training_result ?= 15 }
+			desc = naval_combat.0405.result_10
+		}
+		triggered_desc = {
+			trigger = { var:naval_combat_training_result ?= 20 }
+			desc = naval_combat.0405.result_15
+		}
+		triggered_desc = {
+			trigger = { var:naval_combat_training_result ?= 25 }
+			desc = naval_combat.0405.result_20
+		}
+		triggered_desc = {
+			trigger = { var:naval_combat_training_accidents > 0 }
+			desc = naval_combat.0405.accidents
+		}
+		desc = naval_combat.0405.summary
+	}
+	theme = war
+	override_background = { reference = fp1_ocean }
+
+	immediate = {
+		naval_combat_save_admiral_or_self_as_effect = { SCOPE_NAME = naval_combat_training_minister }
+		if = {
+			limit = {
+				exists = var:naval_combat_training_progress
+				NOT = { exists = var:naval_combat_training_result }
+			}
+			naval_combat_resolve_training_effect = yes
+		}
+	}
+
+	left_portrait = {
+		character = scope:naval_combat_training_minister
+		animation = personality_rational
+	}
+
+	option = {
+		name = naval_combat.0405.a
+		hidden_effect = {
+			naval_combat_clear_training_state_effect = yes
+		}
+	}
+}
+
+naval_combat.0200 = {
+	type = character_event
+	title = naval_combat.0200.t
+	desc = naval_combat.0200.desc
+
+	theme = war
+	override_background = { reference = fp1_ocean }
+
+	left_portrait = {
+		character = scope:naval_combat_battle_root_admiral
+		animation = personality_bold
+	}
+
+	right_portrait = {
+		character = scope:naval_combat_battle_enemy_admiral
+		animation = personality_bold
+	}
+
+	immediate = {
+		if = {
+			limit = {
+				exists = var:naval_combat_battle_opponent
+			}
+			var:naval_combat_battle_opponent = {
+				save_scope_as = naval_combat_battle_opponent
+			}
+			naval_combat_battle_setup_effect = yes
+			naval_combat_battle_save_portrait_scopes_effect = yes
+		}
+	}
+
+	option = {
+		name = naval_combat.0200.a
+		custom_tooltip = naval_combat.0200.a.tt
+		ai_chance = {
+			base = 100
+			modifier = {
+				factor = 0.10
+				var:naval_combat_battle_organization <= 15
+			}
+			modifier = {
+				factor = 0.25
+				var:naval_combat_battle_organization > 15
+				var:naval_combat_battle_organization <= 30
+			}
+			modifier = {
+				factor = 0.50
+				var:naval_combat_battle_organization > 30
+				var:naval_combat_battle_organization <= 45
+			}
+		}
+		hidden_effect = { trigger_event = naval_combat.0201 }
+	}
+
+	option = {
+		name = naval_combat.0200.b
+		custom_tooltip = naval_combat.0200.b.tt
+		ai_chance = {
+			base = 5
+			modifier = {
+				add = 300
+				var:naval_combat_battle_organization <= 15
+			}
+			modifier = {
+				add = 150
+				var:naval_combat_battle_organization > 15
+				var:naval_combat_battle_organization <= 30
+			}
+			modifier = {
+				add = 60
+				var:naval_combat_battle_organization > 30
+				var:naval_combat_battle_organization <= 45
+			}
+		}
+		hidden_effect = {
+			naval_combat_battle_attempt_withdrawal_effect = yes
+			trigger_event = naval_combat.0206
+		}
+	}
+}
+
+naval_combat.0201 = {
+	type = character_event
+	title = naval_combat.0201.t
+	desc = {
+		desc = naval_combat.0201.desc
+		triggered_desc = {
+			trigger = { var:naval_combat_battle_dragon_support_active ?= 1 }
+			desc = naval_combat.0201.desc.dragon_support
+		}
+	}
+
+	theme = war
+	override_background = { reference = fp1_ocean }
+
+	left_portrait = {
+		character = scope:naval_combat_battle_root_admiral
+		animation = personality_bold
+	}
+
+	right_portrait = {
+		character = scope:naval_combat_battle_enemy_admiral
+		animation = personality_bold
+	}
+
+	immediate = {
+		var:naval_combat_battle_opponent = {
+			save_scope_as = naval_combat_battle_opponent
+		}
+		naval_combat_battle_save_portrait_scopes_effect = yes
+	}
+
+	option = {
+		name = naval_combat.0201.a
+		custom_tooltip = naval_combat.0201.a.tt
+		hidden_effect = {
+			set_variable = { name = naval_combat_battle_deployment value = 1 }
+			naval_combat_battle_calculate_initial_initiative_effect = yes
+			trigger_event = naval_combat.0202
+		}
+	}
+
+	option = {
+		name = naval_combat.0201.b
+		custom_tooltip = naval_combat.0201.b.tt
+		hidden_effect = {
+			set_variable = { name = naval_combat_battle_deployment value = 2 }
+			naval_combat_battle_calculate_initial_initiative_effect = yes
+			trigger_event = naval_combat.0202
+		}
+	}
+
+	option = {
+		name = naval_combat.0201.c
+		custom_tooltip = naval_combat.0201.c.tt
+		hidden_effect = {
+			set_variable = { name = naval_combat_battle_deployment value = 3 }
+			naval_combat_battle_calculate_initial_initiative_effect = yes
+			trigger_event = naval_combat.0202
+		}
+	}
+
+	option = {
+		name = naval_combat.0201.d
+		trigger = {
+			NOT = { has_variable = naval_combat_battle_dragon_support_requested }
+			naval_combat_has_available_dragonrider_trigger = yes
+		}
+		custom_tooltip = naval_combat.0201.d.tt
+		ai_chance = { base = 150 }
+		hidden_effect = { trigger_event = naval_combat.0210 }
+	}
+}
+
+naval_combat.0202 = {
+	type = character_event
+	title = naval_combat.0202.t
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = { var:naval_combat_battle_enemy_withdrawal_success ?= 1 }
+				desc = naval_combat.0203.desc.enemy_withdrew
+			}
+			triggered_desc = {
+				trigger = { var:naval_combat_battle_initiative_balance ?= 3 }
+				desc = naval_combat.0202.desc.root_3
+			}
+			triggered_desc = {
+				trigger = { var:naval_combat_battle_initiative_balance ?= 2 }
+				desc = naval_combat.0202.desc.root_2
+			}
+			triggered_desc = {
+				trigger = { var:naval_combat_battle_initiative_balance ?= 1 }
+				desc = naval_combat.0202.desc.root_1
+			}
+			triggered_desc = {
+				trigger = { var:naval_combat_battle_initiative_balance ?= -1 }
+				desc = naval_combat.0202.desc.enemy_1
+			}
+			triggered_desc = {
+				trigger = { var:naval_combat_battle_initiative_balance ?= -2 }
+				desc = naval_combat.0202.desc.enemy_2
+			}
+			triggered_desc = {
+				trigger = { var:naval_combat_battle_initiative_balance ?= -3 }
+				desc = naval_combat.0202.desc.enemy_3
+			}
+			desc = naval_combat.0202.desc.even
+		}
+		triggered_desc = {
+			trigger = { var:naval_combat_battle_dragon_support_active ?= 1 }
+			desc = naval_combat.0202.desc.dragon_support
+		}
+	}
+
+	theme = war
+	override_background = { reference = fp1_ocean }
+
+	left_portrait = {
+		character = scope:naval_combat_battle_root_admiral
+		animation = personality_bold
+	}
+
+	right_portrait = {
+		character = scope:naval_combat_battle_enemy_admiral
+		animation = personality_bold
+	}
+
+	immediate = {
+		var:naval_combat_battle_opponent = {
+			save_scope_as = naval_combat_battle_opponent
+		}
+		naval_combat_battle_save_portrait_scopes_effect = yes
+	}
+
+	option = {
+		name = naval_combat.0202.a
+		custom_tooltip = naval_combat.0202.a.tt
+		hidden_effect = {
+			set_variable = { name = naval_combat_battle_tactic value = 1 }
+			naval_combat_battle_resolve_round_effect = yes
+			trigger_event = naval_combat.0203
+		}
+	}
+
+	option = {
+		name = naval_combat.0202.b
+		custom_tooltip = naval_combat.0202.b.tt
+		hidden_effect = {
+			set_variable = { name = naval_combat_battle_tactic value = 2 }
+			naval_combat_battle_resolve_round_effect = yes
+			trigger_event = naval_combat.0203
+		}
+	}
+
+	option = {
+		name = naval_combat.0202.c
+		custom_tooltip = naval_combat.0202.c.tt
+		hidden_effect = {
+			set_variable = { name = naval_combat_battle_tactic value = 3 }
+			naval_combat_battle_resolve_round_effect = yes
+			trigger_event = naval_combat.0203
+		}
+	}
+
+}
+
+# Select a participating dragonrider. The widget and window come from AGOT's
+# siege-rider selection so this stays visually consistent with the parent mod.
+naval_combat.0210 = {
+	type = character_event
+	window = agot_dragon_character_event
+	title = naval_combat.0210.t
+	desc = naval_combat.0210.desc
+	theme = dragon
+	override_background = { reference = fp1_ocean }
+
+	left_portrait = {
+		character = root
+		animation = personality_rational
+	}
+	right_portrait = {
+		character = var:si_selected_character
+		animation = personality_bold
+	}
+
+	widget = {
+		is_shown = {
+			any_in_list = {
+				variable = possible_characters
+				count > 1
+			}
+		}
+		gui = "agot_character_selection_three_options"
+		container = "custom_widgets_container"
+	}
+
+	immediate = {
+		naval_combat_battle_build_dragonrider_list_effect = yes
+		ordered_in_list = {
+			variable = possible_characters
+			position = 0
+			order_by = { value = var:current_dragon.dragon_combat_effectiveness }
+			save_scope_as = naval_combat_default_dragonrider
+			root = { set_variable = { name = si_selected_character value = scope:naval_combat_default_dragonrider } }
+		}
+	}
+
+	option = {
+		name = naval_combat.0210.a
+		trigger = { exists = var:si_selected_character }
+		custom_tooltip = naval_combat.0210.a.tt
+			hidden_effect = {
+				save_scope_as = naval_combat_dragon_duel_root
+				var:si_selected_character = { save_scope_as = naval_combat_root_dragonrider }
+			naval_combat_battle_assign_dragonrider_effect = {
+				RIDER = scope:naval_combat_root_dragonrider
+			}
+			set_variable = { name = naval_combat_battle_dragon_support_requested value = 1 }
+			clear_variable_list = possible_characters
+			remove_variable = si_selected_character
+
+			var:naval_combat_battle_opponent = {
+				save_scope_as = naval_combat_battle_opponent
+				naval_combat_battle_choose_ai_dragonrider_effect = yes
+				if = {
+					limit = { exists = var:naval_combat_battle_dragonrider }
+					var:naval_combat_battle_dragonrider = {
+						save_scope_as = naval_combat_enemy_dragonrider
+					}
+				}
+			}
+
+			if = {
+				limit = { exists = scope:naval_combat_enemy_dragonrider }
+				scope:naval_combat_battle_opponent = {
+					save_scope_as = naval_combat_dragon_duel_opponent
+				}
+				set_variable = { name = naval_combat_battle_dragon_duel_occurred value = 1 }
+				scope:naval_combat_battle_opponent = {
+					set_variable = { name = naval_combat_battle_dragon_duel_occurred value = 1 }
+				}
+				var:naval_combat_battle_dragonrider = {
+					save_scope_as = dragonrider_in_battle
+					var:current_dragon = { save_scope_as = dragon_in_battle }
+				}
+				scope:naval_combat_enemy_dragonrider = {
+					save_scope_as = enemy_dragonrider
+				}
+				scope:dragonrider_in_battle = {
+					trigger_event = naval_dragon_duel.0001
+				}
+			}
+			else = {
+				naval_combat_battle_activate_dragon_support_effect = yes
+				trigger_event = naval_combat.0212
+			}
+		}
+	}
+
+	option = {
+		name = naval_combat.0210.b
+		ai_chance = { base = 0 }
+		hidden_effect = {
+			clear_variable_list = possible_characters
+			remove_variable = si_selected_character
+			trigger_event = naval_combat.0201
+		}
+	}
+
+	after = {
+		clear_variable_list = possible_characters
+		remove_variable = si_selected_character
+	}
+}
+
+# The naval dispatcher keeps its own persistent fleet scopes because AGOT's
+# land dispatcher requires army-battle scopes. Once both riders are selected,
+# the following events bridge those scopes into AGOT's Dragon Single Combat.
+naval_combat.0211 = {
+	type = character_event
+	window = agot_dragon_duel_event
+	title = agot_dragon_combat.0001.t
+	desc = {
+		desc = agot_dragon_combat.0001.desc_opening
+		triggered_desc = {
+			trigger = { has_character_flag = desc_opening_fly }
+			desc = naval_combat.0211.desc_opening_fly
+		}
+		triggered_desc = {
+			trigger = { has_character_flag = desc_opening_fight }
+			desc = naval_combat.0211.desc_opening_fight
+		}
+		desc = agot_dragon_combat.0001.desc_opening_end
+		first_valid = {
+			triggered_desc = {
+				trigger = { scope:dragon_in_battle.dragon_size > scope:enemy_dragon.dragon_size }
+				desc = agot_dragon_combat.0001.desc_older
+			}
+			triggered_desc = {
+				trigger = { scope:dragon_in_battle.dragon_size < scope:enemy_dragon.dragon_size }
+				desc = agot_dragon_combat.0001.desc_younger
+			}
+			desc = agot_dragon_combat.0001.desc_same_age
+		}
+		first_valid = {
+			triggered_desc = {
+				trigger = {
+					scope:dragonrider_in_battle.prowess > 12
+					scope:enemy_dragonrider.prowess > 12
+					scope:dragonrider_in_battle.prowess > scope:enemy_dragonrider.prowess
+				}
+				desc = agot_dragon_combat.0001.desc_weaker_warrior
+			}
+			triggered_desc = {
+				trigger = {
+					scope:dragonrider_in_battle.prowess > 12
+					scope:enemy_dragonrider.prowess > 12
+					scope:dragonrider_in_battle.prowess < scope:enemy_dragonrider.prowess
+				}
+				desc = agot_dragon_combat.0001.desc_stronger_warrior
+			}
+			triggered_desc = {
+				trigger = {
+					scope:dragonrider_in_battle.prowess < 12
+					scope:enemy_dragonrider.prowess > 12
+				}
+				desc = agot_dragon_combat.0001.desc_warrior
+			}
+			triggered_desc = {
+				trigger = {
+					scope:dragonrider_in_battle.prowess > 12
+					scope:enemy_dragonrider.prowess < 12
+				}
+				desc = agot_dragon_combat.0001.desc_weak
+			}
+			desc = agot_dragon_combat.0001.desc_equally_weak
+		}
+		desc = agot_dragon_combat.0001.desc_end
+	}
+	theme = dragon
+	override_background = {
+		trigger = { has_character_flag = dragon_night_ride }
+		reference = agot_night_sky_video
+	}
+	override_background = {
+		trigger = { NOT = { has_character_flag = dragon_night_ride } }
+		reference = agot_open_sky_video
+	}
+
+	immediate = {
+		var:naval_combat_battle_dragonrider = {
+			save_scope_as = dragonrider_in_battle
+			save_scope_as = myself
+		}
+		var:naval_combat_battle_dragon = {
+			save_scope_as = dragon_in_battle
+			save_scope_as = my_dragon
+		}
+		var:naval_combat_battle_opponent = {
+			save_scope_as = naval_combat_battle_opponent
+			var:naval_combat_battle_dragonrider = {
+				save_scope_as = enemy_dragonrider
+				save_scope_as = my_foe
+			}
+			var:naval_combat_battle_dragon = {
+				save_scope_as = enemy_dragon
+				save_scope_as = my_foe_dragon
+			}
+		}
+		scope:dragonrider_in_battle = {
+			set_variable = { name = current_dragon value = scope:dragon_in_battle }
+			agot_clear_dragon_animation_flags = yes
+			agot_set_dragon_animation_flag_effect = { FLAG = dragon_flying RIDING_DRAGON = yes }
+		}
+		scope:enemy_dragonrider = {
+			set_variable = { name = current_dragon value = scope:enemy_dragon }
+			agot_clear_dragon_animation_flags = yes
+			agot_set_dragon_animation_flag_effect = { FLAG = dragon_flying RIDING_DRAGON = yes }
+		}
+		random_list = {
+			50 = { add_character_flag = desc_opening_fly }
+			50 = { add_character_flag = desc_opening_fight }
+		}
+	}
+
+	left_portrait = {
+		character = scope:myself
+		animation = dragon_main
+		camera = camera_dragon_hover_left_pointing_center
+		triggered_outfit = { trigger = { OR = { scope:myself.var:current_dragon = { level_ten_dragon_size_trigger = yes } scope:my_foe.var:current_dragon = { level_ten_dragon_size_trigger = yes } } } outfit_tags = { dragonrider dynamic_camera_zoom_1.0 } }
+		triggered_outfit = { trigger = { OR = { scope:myself.var:current_dragon = { level_nine_dragon_size_trigger = yes } scope:my_foe.var:current_dragon = { level_nine_dragon_size_trigger = yes } } } outfit_tags = { dragonrider dynamic_camera_zoom_0.9 } }
+		triggered_outfit = { trigger = { OR = { scope:myself.var:current_dragon = { level_eight_dragon_size_trigger = yes } scope:my_foe.var:current_dragon = { level_eight_dragon_size_trigger = yes } } } outfit_tags = { dragonrider dynamic_camera_zoom_0.8 } }
+		triggered_outfit = { trigger = { OR = { scope:myself.var:current_dragon = { level_seven_dragon_size_trigger = yes } scope:my_foe.var:current_dragon = { level_seven_dragon_size_trigger = yes } } } outfit_tags = { dragonrider dynamic_camera_zoom_0.7 } }
+		triggered_outfit = { trigger = { OR = { scope:myself.var:current_dragon = { level_six_dragon_size_trigger = yes } scope:my_foe.var:current_dragon = { level_six_dragon_size_trigger = yes } } } outfit_tags = { dragonrider dynamic_camera_zoom_0.6 } }
+		triggered_outfit = { trigger = { OR = { scope:myself.var:current_dragon = { level_five_dragon_size_trigger = yes } scope:my_foe.var:current_dragon = { level_five_dragon_size_trigger = yes } } } outfit_tags = { dragonrider dynamic_camera_zoom_0.5 } }
+		triggered_outfit = { trigger = { OR = { scope:myself.var:current_dragon = { level_four_dragon_size_trigger = yes } scope:my_foe.var:current_dragon = { level_four_dragon_size_trigger = yes } } } outfit_tags = { dragonrider dynamic_camera_zoom_0.4 } }
+		triggered_outfit = { trigger = { OR = { scope:myself.var:current_dragon = { level_three_dragon_size_trigger = yes } scope:my_foe.var:current_dragon = { level_three_dragon_size_trigger = yes } } } outfit_tags = { dragonrider dynamic_camera_zoom_0.3 } }
+		triggered_outfit = { trigger = { OR = { scope:myself.var:current_dragon = { level_two_dragon_size_trigger = yes } scope:my_foe.var:current_dragon = { level_two_dragon_size_trigger = yes } } } outfit_tags = { dragonrider dynamic_camera_zoom_0.2 } }
+		triggered_outfit = { trigger = { OR = { scope:myself.var:current_dragon = { level_one_dragon_size_trigger = yes } scope:my_foe.var:current_dragon = { level_one_dragon_size_trigger = yes } } } outfit_tags = { dragonrider dynamic_camera_zoom_0.1 } }
+		triggered_outfit = { trigger = { OR = { scope:myself.var:current_dragon = { level_zero_dragon_size_trigger = yes } scope:my_foe.var:current_dragon = { level_zero_dragon_size_trigger = yes } } } outfit_tags = { dragonrider dynamic_camera_zoom_0.0 } }
+	}
+	right_portrait = {
+		character = scope:my_foe
+		animation = dragon_main
+		camera = camera_dragon_hover_right
+		triggered_outfit = { trigger = { OR = { scope:myself.var:current_dragon = { level_ten_dragon_size_trigger = yes } scope:my_foe.var:current_dragon = { level_ten_dragon_size_trigger = yes } } } outfit_tags = { dragonrider dynamic_camera_zoom_1.0 } }
+		triggered_outfit = { trigger = { OR = { scope:myself.var:current_dragon = { level_nine_dragon_size_trigger = yes } scope:my_foe.var:current_dragon = { level_nine_dragon_size_trigger = yes } } } outfit_tags = { dragonrider dynamic_camera_zoom_0.9 } }
+		triggered_outfit = { trigger = { OR = { scope:myself.var:current_dragon = { level_eight_dragon_size_trigger = yes } scope:my_foe.var:current_dragon = { level_eight_dragon_size_trigger = yes } } } outfit_tags = { dragonrider dynamic_camera_zoom_0.8 } }
+		triggered_outfit = { trigger = { OR = { scope:myself.var:current_dragon = { level_seven_dragon_size_trigger = yes } scope:my_foe.var:current_dragon = { level_seven_dragon_size_trigger = yes } } } outfit_tags = { dragonrider dynamic_camera_zoom_0.7 } }
+		triggered_outfit = { trigger = { OR = { scope:myself.var:current_dragon = { level_six_dragon_size_trigger = yes } scope:my_foe.var:current_dragon = { level_six_dragon_size_trigger = yes } } } outfit_tags = { dragonrider dynamic_camera_zoom_0.6 } }
+		triggered_outfit = { trigger = { OR = { scope:myself.var:current_dragon = { level_five_dragon_size_trigger = yes } scope:my_foe.var:current_dragon = { level_five_dragon_size_trigger = yes } } } outfit_tags = { dragonrider dynamic_camera_zoom_0.5 } }
+		triggered_outfit = { trigger = { OR = { scope:myself.var:current_dragon = { level_four_dragon_size_trigger = yes } scope:my_foe.var:current_dragon = { level_four_dragon_size_trigger = yes } } } outfit_tags = { dragonrider dynamic_camera_zoom_0.4 } }
+		triggered_outfit = { trigger = { OR = { scope:myself.var:current_dragon = { level_three_dragon_size_trigger = yes } scope:my_foe.var:current_dragon = { level_three_dragon_size_trigger = yes } } } outfit_tags = { dragonrider dynamic_camera_zoom_0.3 } }
+		triggered_outfit = { trigger = { OR = { scope:myself.var:current_dragon = { level_two_dragon_size_trigger = yes } scope:my_foe.var:current_dragon = { level_two_dragon_size_trigger = yes } } } outfit_tags = { dragonrider dynamic_camera_zoom_0.2 } }
+		triggered_outfit = { trigger = { OR = { scope:myself.var:current_dragon = { level_one_dragon_size_trigger = yes } scope:my_foe.var:current_dragon = { level_one_dragon_size_trigger = yes } } } outfit_tags = { dragonrider dynamic_camera_zoom_0.1 } }
+		triggered_outfit = { trigger = { OR = { scope:myself.var:current_dragon = { level_zero_dragon_size_trigger = yes } scope:my_foe.var:current_dragon = { level_zero_dragon_size_trigger = yes } } } outfit_tags = { dragonrider dynamic_camera_zoom_0.0 } }
+	}
+
+	option = {
+		name = {
+			trigger = { scope:dragonrider_in_battle = { father = scope:enemy_dragonrider } }
+			text = agot_dragon_combat.0001.a.father
+		}
+		name = {
+			trigger = { scope:dragonrider_in_battle = { mother = scope:enemy_dragonrider } }
+			text = agot_dragon_combat.0001.a.mother
+		}
+		name = {
+			trigger = { scope:dragonrider_in_battle = { any_sibling = { is_male = yes this = scope:enemy_dragonrider } } }
+			text = agot_dragon_combat.0001.a.brother
+		}
+		name = {
+			trigger = { scope:dragonrider_in_battle = { any_sibling = { is_female = yes this = scope:enemy_dragonrider } } }
+			text = agot_dragon_combat.0001.a.sister
+		}
+		name = {
+			trigger = {
+				scope:dragonrider_in_battle = {
+					NOT = { any_sibling = { this = scope:enemy_dragonrider } }
+					NOT = { father = scope:enemy_dragonrider }
+					NOT = { mother = scope:enemy_dragonrider }
+				}
+			}
+			text = agot_dragon_combat.0001.a
+		}
+		custom_tooltip = agot_dragon_combat.will_attempt_engage
+		hidden_effect = {
+			naval_combat_battle_start_agot_dragon_duel_effect = yes
+		}
+	}
+
+	option = {
+		name = {
+			trigger = { scope:dragon_in_battle.dragon_combat_effectiveness < scope:enemy_dragon.dragon_combat_effectiveness }
+			text = agot_dragon_combat.0001.b.weaker
+		}
+		name = {
+			trigger = { scope:dragonrider_in_battle = { has_trait = craven } }
+			text = agot_dragon_combat.0001.b.coward
+		}
+		name = {
+			trigger = {
+				scope:dragonrider_in_battle = { NOT = { has_trait = craven } }
+				NOT = { scope:dragon_in_battle.dragon_combat_effectiveness < scope:enemy_dragon.dragon_combat_effectiveness }
+			}
+			text = agot_dragon_combat.0001.b
+		}
+		custom_tooltip = agot_dragon_combat.will_not
+		if = {
+			limit = { scope:dragon_in_battle = { has_trait = dragon_swift } }
+			custom_tooltip = agot_dragon_combat.0001.b.swift
+		}
+		if = {
+			limit = { scope:dragon_in_battle = { has_trait = dragon_slow } }
+			custom_tooltip = agot_dragon_combat.0001.b.slow
+		}
+		random_list = {
+			50 = {
+				custom_tooltip = { text = agot_dragon_combat.0001.b.notice }
+				naval_combat_battle_start_agot_dragon_duel_effect = yes
+				scope:dsc_attacker = { change_variable = { name = dsc_chance_of_winning add = -15 } }
+				scope:dsc_defender = { change_variable = { name = dsc_chance_of_winning add = 15 } }
+				modifier = { add = 150 scope:dragon_in_battle = { has_trait = dragon_slow } }
+			}
+			50 = {
+				custom_tooltip = { text = agot_dragon_combat.0001.b.no_notice }
+				set_variable = { name = naval_combat_battle_dragon_duel_result value = 4 }
+				scope:naval_combat_battle_opponent = {
+					remove_variable = naval_combat_battle_dragon_duel_occurred
+					naval_combat_battle_activate_dragon_support_effect = yes
+				}
+				trigger_event = naval_combat.0213
+				modifier = { add = 150 scope:dragon_in_battle = { has_trait = dragon_swift } }
+			}
+		}
+	}
+
+	after = {
+		remove_character_flag = desc_opening_fly
+		remove_character_flag = desc_opening_fight
+	}
+}
+
+# Naval adaptation of AGOT's dragon single-combat round. The event is sent to
+# the fleet player, while every original move effect executes on the selected
+# rider and dragon stored in dsc_attacker/dsc_defender scopes.
+naval_combat.0214 = {
+	type = character_event
+	window = agot_dragon_duel_event
+	title = agot_dragon_combat.1001.t
+	desc = {
+		triggered_desc = {
+			trigger = { scope:dsc_defender.var:dragon_combat_current_round = 1 }
+			desc = naval_combat.0214.desc
+		}
+		# scope:dsc_attacker feedback.
+		## So you can see a bit of fairly-static feedback on how your selected combat move went.
+		triggered_desc = {
+			trigger = { exists = scope:dsc_attacker_last_move }
+			desc = {
+				first_valid = {
+					triggered_desc = {
+						trigger = { scope:dsc_attacker_last_move = flag:dragon_wait_and_hope }
+						desc = agot_dragon_combat.1001.desc.my_feedback.wait_and_hope
+					}
+					triggered_desc = {
+						trigger = { scope:dsc_attacker_last_move = flag:dragon_unsure_attack }
+						desc = agot_dragon_combat.1001.desc.my_feedback.unsure_attack
+					}
+					triggered_desc = {
+						trigger = { scope:dsc_attacker_last_move = flag:dragon_enthusiastic_onslaught }
+						desc = agot_dragon_combat.1001.desc.my_feedback.enthusiastic_onslaught
+					}
+					triggered_desc = {
+						trigger = { scope:dsc_attacker_last_move = flag:dragon_underbelly }
+						desc = agot_dragon_combat.1001.desc.my_feedback.underbelly
+					}
+					triggered_desc = {
+						trigger = { scope:dsc_attacker_last_move = flag:dragon_tail_smash }
+						desc = agot_dragon_combat.1001.desc.my_feedback.tail_smash
+					}
+					triggered_desc = {
+						trigger = { scope:dsc_attacker_last_move = flag:dragon_guard }
+						desc = agot_dragon_combat.1001.desc.my_feedback.guard
+					}
+					triggered_desc = {
+						trigger = { scope:dsc_attacker_last_move = flag:dragon_probing_attack }
+						desc = agot_dragon_combat.1001.desc.my_feedback.probing_attack
+					}
+					triggered_desc = {
+						trigger = { scope:dsc_attacker_last_move = flag:dragon_onslaught }
+						desc = agot_dragon_combat.1001.desc.my_feedback.onslaught
+					}
+					triggered_desc = {
+						trigger = { scope:dsc_attacker_last_move = flag:dragon_surprise_attack }
+						desc = agot_dragon_combat.1001.desc.my_feedback.surprise_attack
+					}
+					triggered_desc = {
+						trigger = { scope:dsc_attacker_last_move = flag:dragon_taunt }
+						desc = agot_dragon_combat.1001.desc.my_feedback.taunt
+					}
+					triggered_desc = {
+						trigger = { scope:dsc_attacker_last_move = flag:dragon_go_for_the_gonads }
+						desc = agot_dragon_combat.1001.desc.my_feedback.go_for_the_gonads
+					}
+					triggered_desc = {
+						trigger = { scope:dsc_attacker_last_move = flag:dragon_strict_guard }
+						desc = agot_dragon_combat.1001.desc.my_feedback.strict_guard
+					}
+					triggered_desc = {
+						trigger = { scope:dsc_attacker_last_move = flag:dragon_confident_attack }
+						desc = agot_dragon_combat.1001.desc.my_feedback.confident_attack
+					}
+					triggered_desc = {
+						trigger = { scope:dsc_attacker_last_move = flag:dragon_expert_onslaught }
+						desc = agot_dragon_combat.1001.desc.my_feedback.expert_onslaught
+					}
+					triggered_desc = {
+						trigger = { scope:dsc_attacker_last_move = flag:dragon_lightning_assault }
+						desc = agot_dragon_combat.1001.desc.my_feedback.lightning_assault
+					}
+					triggered_desc = {
+						trigger = { scope:dsc_attacker_last_move = flag:dragon_tire_opponent }
+						desc = agot_dragon_combat.1001.desc.my_feedback.tire_opponent
+					}
+					triggered_desc = {
+						trigger = { scope:dsc_attacker_last_move = flag:dragon_motivate }
+						desc = agot_dragon_combat.1001.desc.my_feedback.motivate
+					}
+					triggered_desc = {
+						trigger = { scope:dsc_attacker_last_move = flag:dragon_technique_from_legend }
+						desc = agot_dragon_combat.1001.desc.my_feedback.technique_from_legend
+					}
+					triggered_desc = {
+						trigger = { scope:dsc_attacker_last_move = flag:dragon_like_a_viper }
+						desc = agot_dragon_combat.1001.desc.my_feedback.like_a_viper
+					}
+					triggered_desc = {
+						trigger = { scope:dsc_attacker_last_move = flag:dragon_martial_voice }
+						desc = agot_dragon_combat.1001.desc.my_feedback.martial_voice
+					}
+					triggered_desc = {
+						trigger = { scope:dsc_attacker_last_move = flag:dragon_mocking_boast }
+						desc = agot_dragon_combat.1001.desc.my_feedback.mocking_boast
+					}
+					triggered_desc = {
+						trigger = { scope:dsc_attacker_last_move = flag:dragon_desert_warrior }
+						desc = agot_dragon_combat.1001.desc.my_feedback.desert_warrior
+					}
+					triggered_desc = {
+						trigger = { scope:dsc_attacker_last_move = flag:dragon_jungle_stalker }
+						desc = agot_dragon_combat.1001.desc.my_feedback.jungle_stalker
+					}
+					triggered_desc = {
+						trigger = { scope:dsc_attacker_last_move = flag:dragon_open_terrain_expert }
+						desc = agot_dragon_combat.1001.desc.my_feedback.open_terrain_expert
+					}
+					triggered_desc = {
+						trigger = {
+							scope:dsc_attacker_last_move = flag:dragon_rough_terrain_expert
+							scope:dsc_defender.location = {
+								OR = {
+									terrain = hills
+									terrain = mountains
+									terrain = desert_mountains
+								}
+							}
+						}
+						desc = agot_dragon_combat.1001.desc.my_feedback.rough_terrain_expert.rocky
+					}
+					triggered_desc = {
+						trigger = {
+							scope:dsc_attacker_last_move = flag:dragon_rough_terrain_expert
+							scope:dsc_defender.location = { terrain = wetlands }
+						}
+						desc = agot_dragon_combat.1001.desc.my_feedback.rough_terrain_expert.boggy
+					}
+					triggered_desc = {
+						trigger = { scope:dsc_attacker_last_move = flag:dragon_forest_fighter }
+						desc = agot_dragon_combat.1001.desc.my_feedback.forest_fighter
+					}
+					triggered_desc = {
+						trigger = { scope:dsc_attacker_last_move = flag:dragon_special_fallback }
+						desc = agot_dragon_combat.1001.desc.my_feedback.special_fallback
+					}
+				}
+			}
+		}
+		# scope:dsc_defender responses.
+		## What move did your opponent pick, and how does that play out from your POV?
+		triggered_desc = {
+			trigger = { exists = scope:dsc_defender_last_move }
+			desc = {
+				first_valid = {
+					triggered_desc = {
+						trigger = { scope:dsc_defender_last_move = flag:dragon_wait_and_hope }
+						desc = agot_dragon_combat.1001.desc.opponent_response.wait_and_hope
+					}
+					triggered_desc = {
+						trigger = { scope:dsc_defender_last_move = flag:dragon_unsure_attack }
+						desc = agot_dragon_combat.1001.desc.opponent_response.unsure_attack
+					}
+					triggered_desc = {
+						trigger = { scope:dsc_defender_last_move = flag:dragon_enthusiastic_onslaught }
+						desc = agot_dragon_combat.1001.desc.opponent_response.enthusiastic_onslaught
+					}
+					triggered_desc = {
+						trigger = { scope:dsc_defender_last_move = flag:dragon_underbelly }
+						desc = agot_dragon_combat.1001.desc.opponent_response.underbelly
+					}
+					triggered_desc = {
+						trigger = { scope:dsc_defender_last_move = flag:dragon_tail_smash }
+						desc = agot_dragon_combat.1001.desc.opponent_response.tail_smash
+					}
+					triggered_desc = {
+						trigger = { scope:dsc_defender_last_move = flag:dragon_guard }
+						desc = agot_dragon_combat.1001.desc.opponent_response.guard
+					}
+					triggered_desc = {
+						trigger = { scope:dsc_defender_last_move = flag:dragon_probing_attack }
+						desc = agot_dragon_combat.1001.desc.opponent_response.probing_attack
+					}
+					triggered_desc = {
+						trigger = { scope:dsc_defender_last_move = flag:dragon_onslaught }
+						desc = agot_dragon_combat.1001.desc.opponent_response.onslaught
+					}
+					triggered_desc = {
+						trigger = { scope:dsc_defender_last_move = flag:dragon_surprise_attack }
+						desc = agot_dragon_combat.1001.desc.opponent_response.surprise_attack
+					}
+					triggered_desc = {
+						trigger = { scope:dsc_defender_last_move = flag:dragon_taunt }
+						desc = agot_dragon_combat.1001.desc.opponent_response.taunt
+					}
+					triggered_desc = {
+						trigger = { scope:dsc_defender_last_move = flag:dragon_go_for_the_gonads }
+						desc = agot_dragon_combat.1001.desc.opponent_response.go_for_the_gonads
+					}
+					triggered_desc = {
+						trigger = { scope:dsc_defender_last_move = flag:dragon_strict_guard }
+						desc = agot_dragon_combat.1001.desc.opponent_response.strict_guard
+					}
+					triggered_desc = {
+						trigger = { scope:dsc_defender_last_move = flag:dragon_confident_attack }
+						desc = agot_dragon_combat.1001.desc.opponent_response.confident_attack
+					}
+					triggered_desc = {
+						trigger = { scope:dsc_defender_last_move = flag:dragon_expert_onslaught }
+						desc = agot_dragon_combat.1001.desc.opponent_response.expert_onslaught
+					}
+					triggered_desc = {
+						trigger = { scope:dsc_defender_last_move = flag:dragon_lightning_assault }
+						desc = agot_dragon_combat.1001.desc.opponent_response.lightning_assault
+					}
+					triggered_desc = {
+						trigger = { scope:dsc_defender_last_move = flag:dragon_tire_opponent }
+						desc = agot_dragon_combat.1001.desc.opponent_response.tire_opponent
+					}
+					triggered_desc = {
+						trigger = { scope:dsc_defender_last_move = flag:dragon_motivate }
+						desc = agot_dragon_combat.1001.desc.opponent_response.motivate
+					}
+					triggered_desc = {
+						trigger = { scope:dsc_defender_last_move = flag:dragon_technique_from_legend }
+						desc = agot_dragon_combat.1001.desc.opponent_response.technique_from_legend
+					}
+					triggered_desc = {
+						trigger = { scope:dsc_defender_last_move = flag:dragon_like_a_viper }
+						desc = agot_dragon_combat.1001.desc.opponent_response.like_a_viper
+					}
+					triggered_desc = {
+						trigger = { scope:dsc_defender_last_move = flag:dragon_martial_voice }
+						desc = agot_dragon_combat.1001.desc.opponent_response.martial_voice
+					}
+					triggered_desc = {
+						trigger = { scope:dsc_defender_last_move = flag:dragon_mocking_boast }
+						desc = agot_dragon_combat.1001.desc.opponent_response.mocking_boast
+					}
+					triggered_desc = {
+						trigger = { scope:dsc_defender_last_move = flag:dragon_desert_warrior }
+						desc = agot_dragon_combat.1001.desc.opponent_response.desert_warrior
+					}
+					triggered_desc = {
+						trigger = { scope:dsc_defender_last_move = flag:dragon_jungle_stalker }
+						desc = agot_dragon_combat.1001.desc.opponent_response.jungle_stalker
+					}
+					triggered_desc = {
+						trigger = { scope:dsc_defender_last_move = flag:dragon_open_terrain_expert }
+						desc = agot_dragon_combat.1001.desc.opponent_response.open_terrain_expert
+					}
+					triggered_desc = {
+						trigger = {
+							scope:dsc_defender_last_move = flag:dragon_rough_terrain_expert
+							scope:dsc_defender.location = {
+								OR = {
+									terrain = hills
+									terrain = mountains
+									terrain = desert_mountains
+								}
+							}
+						}
+						desc = agot_dragon_combat.1001.desc.opponent_response.rough_terrain_expert.rocky
+					}
+					triggered_desc = {
+						trigger = {
+							scope:dsc_defender_last_move = flag:dragon_rough_terrain_expert
+							scope:dsc_defender.location = { terrain = wetlands }
+						}
+						desc = agot_dragon_combat.1001.desc.opponent_response.rough_terrain_expert.boggy
+					}
+					triggered_desc = {
+						trigger = { scope:dsc_defender_last_move = flag:dragon_forest_fighter }
+						desc = agot_dragon_combat.1001.desc.opponent_response.forest_fighter
+					}
+					triggered_desc = {
+						trigger = { scope:dsc_defender_last_move = flag:dragon_special_fallback }
+						desc = agot_dragon_combat.1001.desc.opponent_response.special_fallback
+					}
+				}
+			}
+		}
+		# Duel status updates
+		triggered_desc = {
+			trigger = { scope:dsc_defender.var:dragon_combat_current_round > 1 }
+			# My injury
+			desc = {
+				first_valid = {
+					triggered_desc = {
+						trigger = { scope:dsc_attacker.dsc_injury_calculator = 0 }
+						desc = agot_dragon_combat.1001.desc.my_injury.none
+					}
+					triggered_desc = {
+						trigger = { scope:dsc_attacker.dsc_injury_calculator = 1 }
+						desc = agot_dragon_combat.1001.desc.my_injury.light
+					}
+					triggered_desc = {
+						trigger = { scope:dsc_attacker.dsc_injury_calculator = 2 }
+						desc = agot_dragon_combat.1001.desc.my_injury.heavy
+					}
+					triggered_desc = {
+						trigger = { scope:dsc_attacker.dsc_injury_calculator = 3 }
+						desc = agot_dragon_combat.1001.desc.my_injury.severe
+					}
+					triggered_desc = {
+						trigger = { scope:dsc_attacker.dsc_injury_calculator >= 4 }
+						desc = agot_dragon_combat.1001.desc.my_injury.mortal
+					}
+				}
+				# My foe's injury
+				first_valid = {
+					triggered_desc = {
+						trigger = { scope:my_foe.dsc_injury_calculator = 0 }
+						desc = agot_dragon_combat.1001.desc.foe_injury.none
+					}
+					triggered_desc = {
+						trigger = { scope:my_foe.dsc_injury_calculator = 1 }
+						desc = agot_dragon_combat.1001.desc.foe_injury.light
+					}
+					triggered_desc = {
+						trigger = { scope:my_foe.dsc_injury_calculator = 2 }
+						desc = agot_dragon_combat.1001.desc.foe_injury.heavy
+					}
+					triggered_desc = {
+						trigger = { scope:my_foe.dsc_injury_calculator = 3 }
+						desc = agot_dragon_combat.1001.desc.foe_injury.severe
+					}
+					triggered_desc = {
+						trigger = { scope:my_foe.dsc_injury_calculator >= 4 }
+						desc = agot_dragon_combat.1001.desc.foe_injury.mortal
+					}
+				}
+				# My chance of winning
+				first_valid = {
+					triggered_desc = {
+						trigger = { scope:dsc_attacker.var:dsc_chance_of_winning < 10 }
+						desc = agot_dragon_combat.1001.desc.chance_of_winning.near_zero
+					}
+					triggered_desc = {
+						trigger = {
+							scope:dsc_attacker.var:dsc_chance_of_winning >= 10
+							scope:dsc_attacker.var:dsc_chance_of_winning < 20
+						}
+						desc = agot_dragon_combat.1001.desc.chance_of_winning.minimal
+					}
+					triggered_desc = {
+						trigger = {
+							scope:dsc_attacker.var:dsc_chance_of_winning >= 20
+							scope:dsc_attacker.var:dsc_chance_of_winning < 30
+						}
+						desc = agot_dragon_combat.1001.desc.chance_of_winning.low
+					}
+					triggered_desc = {
+						trigger = {
+							scope:dsc_attacker.var:dsc_chance_of_winning >= 30
+							scope:dsc_attacker.var:dsc_chance_of_winning < 40
+						}
+						desc = agot_dragon_combat.1001.desc.chance_of_winning.fair
+					}
+					triggered_desc = {
+						trigger = {
+							scope:dsc_attacker.var:dsc_chance_of_winning >= 40
+							scope:dsc_attacker.var:dsc_chance_of_winning < 50
+						}
+						desc = agot_dragon_combat.1001.desc.chance_of_winning.okay
+					}
+					triggered_desc = {
+						trigger = {
+							scope:dsc_attacker.var:dsc_chance_of_winning >= 50
+							scope:dsc_attacker.var:dsc_chance_of_winning < 60
+						}
+						desc = agot_dragon_combat.1001.desc.chance_of_winning.good
+					}
+					triggered_desc = {
+						trigger = {
+							scope:dsc_attacker.var:dsc_chance_of_winning >= 60
+							scope:dsc_attacker.var:dsc_chance_of_winning < 70
+						}
+						desc = agot_dragon_combat.1001.desc.chance_of_winning.high
+					}
+					triggered_desc = {
+						trigger = {
+							scope:dsc_attacker.var:dsc_chance_of_winning >= 70
+							scope:dsc_attacker.var:dsc_chance_of_winning < 80
+						}
+						desc = agot_dragon_combat.1001.desc.chance_of_winning.very_high
+					}
+					triggered_desc = {
+						trigger = {
+							scope:dsc_attacker.var:dsc_chance_of_winning >= 80
+							scope:dsc_attacker.var:dsc_chance_of_winning < 90
+						}
+						desc = agot_dragon_combat.1001.desc.chance_of_winning.excellent
+					}
+					triggered_desc = {
+						trigger = { scope:dsc_attacker.var:dsc_chance_of_winning >= 90 }
+						desc = agot_dragon_combat.1001.desc.chance_of_winning.near_certain
+					}
+				}
+			}
+		}
+	}
+	theme = dragon
+	override_background = {
+		trigger = { has_character_flag = dragon_night_ride }
+		reference = agot_night_sky_video
+	}
+	override_background = {
+		trigger = { NOT = { has_character_flag = dragon_night_ride } }
+		reference = agot_open_sky_video
+	}
+
+	immediate = {
+		naval_combat_battle_save_dragon_duel_scopes_effect = yes
+		naval_combat_battle_select_original_dragon_duel_options_effect = { RIDER = scope:dsc_attacker }
+		scope:myself = {
+			agot_clear_dragon_animation_flags = yes
+			agot_set_dragon_animation_flag_effect = { FLAG = dragon_hover RIDING_DRAGON = yes }
+		}
+		scope:my_foe = {
+			agot_clear_dragon_animation_flags = yes
+			agot_set_dragon_animation_flag_effect = { FLAG = dragon_hover RIDING_DRAGON = yes }
+		}
+		# Show opponent's move effect.
+		if = {
+			# Check that there's a last move kicking about to look at.
+			limit = {
+				OR = {
+					AND = {
+						always = no
+						exists = scope:dsc_attacker_last_move
+					}
+					AND = {
+						always = yes
+						exists = scope:dsc_defender_last_move
+					}
+				}
+			}
+			if = {
+				limit = {
+					OR = {
+						AND = {
+							always = no
+							scope:dsc_attacker_last_move = flag:dragon_wait_and_hope
+						}
+						AND = {
+							always = yes
+							scope:dsc_defender_last_move = flag:dragon_wait_and_hope
+						}
+					}
+				}
+				scope:my_foe = {
+					show_as_tooltip = { dragon_combat_move_wait_and_hope_effect = yes }
+				}
+			}
+			if = {
+				limit = {
+					OR = {
+						AND = {
+							always = no
+							scope:dsc_attacker_last_move = flag:dragon_unsure_attack
+						}
+						AND = {
+							always = yes
+							scope:dsc_defender_last_move = flag:dragon_unsure_attack
+						}
+					}
+				}
+				scope:my_foe = {
+					show_as_tooltip = { dragon_combat_move_unsure_attack_effect = yes }
+				}
+			}
+			if = {
+				limit = {
+					OR = {
+						AND = {
+							always = no
+							scope:dsc_attacker_last_move = flag:dragon_enthusiastic_onslaught
+						}
+						AND = {
+							always = yes
+							scope:dsc_defender_last_move = flag:dragon_enthusiastic_onslaught
+						}
+					}
+				}
+				scope:my_foe = {
+					show_as_tooltip = { dragon_combat_move_enthusiastic_onslaught_effect = yes }
+				}
+			}
+			if = {
+				limit = {
+					OR = {
+						AND = {
+							always = no
+							scope:dsc_attacker_last_move = flag:dragon_underbelly
+						}
+						AND = {
+							always = yes
+							scope:dsc_defender_last_move = flag:dragon_underbelly
+						}
+					}
+				}
+				scope:my_foe = {
+					show_as_tooltip = { dragon_combat_move_underbelly_effect = yes }
+				}
+			}
+			if = {
+				limit = {
+					OR = {
+						AND = {
+							always = no
+							scope:dsc_attacker_last_move = flag:dragon_tail_smash
+						}
+						AND = {
+							always = yes
+							scope:dsc_defender_last_move = flag:dragon_tail_smash
+						}
+					}
+				}
+				scope:my_foe = {
+					show_as_tooltip = { dragon_combat_move_tail_smash_effect = yes }
+				}
+			}
+			if = {
+				limit = {
+					OR = {
+						AND = {
+							always = no
+							scope:dsc_attacker_last_move = flag:dragon_guard
+						}
+						AND = {
+							always = yes
+							scope:dsc_defender_last_move = flag:dragon_guard
+						}
+					}
+				}
+				scope:my_foe = {
+					show_as_tooltip = { dragon_combat_move_guard_effect = yes }
+				}
+			}
+			if = {
+				limit = {
+					OR = {
+						AND = {
+							always = no
+							scope:dsc_attacker_last_move = flag:dragon_probing_attack
+						}
+						AND = {
+							always = yes
+							scope:dsc_defender_last_move = flag:dragon_probing_attack
+						}
+					}
+				}
+				scope:my_foe = {
+					show_as_tooltip = { dragon_combat_move_probing_attack_effect = yes }
+				}
+			}
+			if = {
+				limit = {
+					OR = {
+						AND = {
+							always = no
+							scope:dsc_attacker_last_move = flag:dragon_onslaught
+						}
+						AND = {
+							always = yes
+							scope:dsc_defender_last_move = flag:dragon_onslaught
+						}
+					}
+				}
+				scope:my_foe = {
+					show_as_tooltip = { dragon_combat_move_onslaught_effect = yes }
+				}
+			}
+			if = {
+				limit = {
+					OR = {
+						AND = {
+							always = no
+							scope:dsc_attacker_last_move = flag:dragon_surprise_attack
+						}
+						AND = {
+							always = yes
+							scope:dsc_defender_last_move = flag:dragon_surprise_attack
+						}
+					}
+				}
+				scope:my_foe = {
+					show_as_tooltip = { dragon_combat_move_surprise_attack_effect = yes }
+				}
+			}
+			if = {
+				limit = {
+					OR = {
+						AND = {
+							always = no
+							scope:dsc_attacker_last_move = flag:dragon_taunt
+						}
+						AND = {
+							always = yes
+							scope:dsc_defender_last_move = flag:dragon_taunt
+						}
+					}
+				}
+				scope:my_foe = {
+					show_as_tooltip = { dragon_combat_move_taunt_effect = yes }
+				}
+			}
+			if = {
+				limit = {
+					OR = {
+						AND = {
+							always = no
+							scope:dsc_attacker_last_move = flag:dragon_go_for_the_gonads
+						}
+						AND = {
+							always = yes
+							scope:dsc_defender_last_move = flag:dragon_go_for_the_gonads
+						}
+					}
+				}
+				scope:my_foe = {
+					show_as_tooltip = { dragon_combat_move_go_for_the_gonads_effect = yes }
+				}
+			}
+			if = {
+				limit = {
+					OR = {
+						AND = {
+							always = no
+							scope:dsc_attacker_last_move = flag:dragon_strict_guard
+						}
+						AND = {
+							always = yes
+							scope:dsc_defender_last_move = flag:dragon_strict_guard
+						}
+					}
+				}
+				scope:my_foe = {
+					show_as_tooltip = { dragon_combat_move_strict_guard_effect = yes }
+				}
+			}
+			if = {
+				limit = {
+					OR = {
+						AND = {
+							always = no
+							scope:dsc_attacker_last_move = flag:dragon_confident_attack
+						}
+						AND = {
+							always = yes
+							scope:dsc_defender_last_move = flag:dragon_confident_attack
+						}
+					}
+				}
+				scope:my_foe = {
+					show_as_tooltip = { dragon_combat_move_confident_attack_effect = yes }
+				}
+			}
+			if = {
+				limit = {
+					OR = {
+						AND = {
+							always = no
+							scope:dsc_attacker_last_move = flag:dragon_expert_onslaught
+						}
+						AND = {
+							always = yes
+							scope:dsc_defender_last_move = flag:dragon_expert_onslaught
+						}
+					}
+				}
+				scope:my_foe = {
+					show_as_tooltip = { dragon_combat_move_expert_onslaught_effect = yes }
+				}
+			}
+			if = {
+				limit = {
+					OR = {
+						AND = {
+							always = no
+							scope:dsc_attacker_last_move = flag:dragon_lightning_assault
+						}
+						AND = {
+							always = yes
+							scope:dsc_defender_last_move = flag:dragon_lightning_assault
+						}
+					}
+				}
+				scope:my_foe = {
+					show_as_tooltip = { dragon_combat_move_lightning_assault_effect = yes }
+				}
+			}
+			if = {
+				limit = {
+					OR = {
+						AND = {
+							always = no
+							scope:dsc_attacker_last_move = flag:dragon_tire_opponent
+						}
+						AND = {
+							always = yes
+							scope:dsc_defender_last_move = flag:dragon_tire_opponent
+						}
+					}
+				}
+				scope:my_foe = {
+					show_as_tooltip = { dragon_combat_move_tire_opponent_effect = yes }
+				}
+			}
+			if = {
+				limit = {
+					OR = {
+						AND = {
+							always = no
+							scope:dsc_attacker_last_move = flag:dragon_motivate
+						}
+						AND = {
+							always = yes
+							scope:dsc_defender_last_move = flag:dragon_motivate
+						}
+					}
+				}
+				scope:my_foe = {
+					show_as_tooltip = { dragon_combat_move_motivate_effect = yes }
+				}
+			}
+			if = {
+				limit = {
+					OR = {
+						AND = {
+							always = no
+							scope:dsc_attacker_last_move = flag:dragon_technique_from_legend
+						}
+						AND = {
+							always = yes
+							scope:dsc_defender_last_move = flag:dragon_technique_from_legend
+						}
+					}
+				}
+				scope:my_foe = {
+					show_as_tooltip = { dragon_combat_move_technique_from_legend_effect = yes }
+				}
+			}
+			if = {
+				limit = {
+					OR = {
+						AND = {
+							always = no
+							scope:dsc_attacker_last_move = flag:dragon_like_a_viper
+						}
+						AND = {
+							always = yes
+							scope:dsc_defender_last_move = flag:dragon_like_a_viper
+						}
+					}
+				}
+				scope:my_foe = {
+					show_as_tooltip = { dragon_combat_move_like_a_viper_effect = yes }
+				}
+			}
+			if = {
+				limit = {
+					OR = {
+						AND = {
+							always = no
+							scope:dsc_attacker_last_move = flag:dragon_martial_voice
+						}
+						AND = {
+							always = yes
+							scope:dsc_defender_last_move = flag:dragon_martial_voice
+						}
+					}
+				}
+				scope:my_foe = {
+					show_as_tooltip = { dragon_combat_move_martial_voice_effect = yes }
+				}
+			}
+			if = {
+				limit = {
+					OR = {
+						AND = {
+							always = no
+							scope:dsc_attacker_last_move = flag:dragon_mocking_boast
+						}
+						AND = {
+							always = yes
+							scope:dsc_defender_last_move = flag:dragon_mocking_boast
+						}
+					}
+				}
+				scope:my_foe = {
+					show_as_tooltip = { dragon_combat_move_mocking_boast_effect = yes }
+				}
+			}
+			if = {
+				limit = {
+					OR = {
+						AND = {
+							always = no
+							scope:dsc_attacker_last_move = flag:dragon_desert_warrior
+						}
+						AND = {
+							always = yes
+							scope:dsc_defender_last_move = flag:dragon_desert_warrior
+						}
+					}
+				}
+				scope:my_foe = {
+					show_as_tooltip = { dragon_combat_move_desert_warrior_effect = yes }
+				}
+			}
+			if = {
+				limit = {
+					OR = {
+						AND = {
+							always = no
+							scope:dsc_attacker_last_move = flag:dragon_jungle_stalker
+						}
+						AND = {
+							always = yes
+							scope:dsc_defender_last_move = flag:dragon_jungle_stalker
+						}
+					}
+				}
+				scope:my_foe = {
+					show_as_tooltip = { dragon_combat_move_jungle_stalker_effect = yes }
+				}
+			}
+			if = {
+				limit = {
+					OR = {
+						AND = {
+							always = no
+							scope:dsc_attacker_last_move = flag:dragon_open_terrain_expert
+						}
+						AND = {
+							always = yes
+							scope:dsc_defender_last_move = flag:dragon_open_terrain_expert
+						}
+					}
+				}
+				scope:my_foe = {
+					show_as_tooltip = { dragon_combat_move_open_terrain_expert_effect = yes }
+				}
+			}
+			if = {
+				limit = {
+					OR = {
+						AND = {
+							always = no
+							scope:dsc_attacker_last_move = flag:dragon_rough_terrain_expert
+						}
+						AND = {
+							always = yes
+							scope:dsc_defender_last_move = flag:dragon_rough_terrain_expert
+						}
+					}
+				}
+				scope:my_foe = {
+					show_as_tooltip = { dragon_combat_move_rough_terrain_expert_effect = yes }
+				}
+			}
+			if = {
+				limit = {
+					OR = {
+						AND = {
+							always = no
+							scope:dsc_attacker_last_move = flag:dragon_forest_fighter
+						}
+						AND = {
+							always = yes
+							scope:dsc_defender_last_move = flag:dragon_forest_fighter
+						}
+					}
+				}
+				scope:my_foe = {
+					show_as_tooltip = { dragon_combat_move_forest_fighter_effect = yes }
+				}
+			}
+			if = {
+				limit = {
+					OR = {
+						AND = {
+							always = no
+							scope:dsc_attacker_last_move = flag:dragon_special_fallback
+						}
+						AND = {
+							always = yes
+							scope:dsc_defender_last_move = flag:dragon_special_fallback
+						}
+					}
+				}
+				scope:my_foe = {
+					show_as_tooltip = { dragon_combat_move_special_fallback_effect = yes }
+				}
+			}
+		}
+	}
+
+	left_portrait = {
+		character = scope:myself
+		animation = dragon_main
+		camera = camera_dragon_hover_left
+		triggered_outfit = { trigger = { OR = { scope:myself.var:current_dragon = { level_ten_dragon_size_trigger = yes } scope:my_foe.var:current_dragon = { level_ten_dragon_size_trigger = yes } } } outfit_tags = { dragonrider dynamic_camera_zoom_1.0 } }
+		triggered_outfit = { trigger = { OR = { scope:myself.var:current_dragon = { level_nine_dragon_size_trigger = yes } scope:my_foe.var:current_dragon = { level_nine_dragon_size_trigger = yes } } } outfit_tags = { dragonrider dynamic_camera_zoom_0.9 } }
+		triggered_outfit = { trigger = { OR = { scope:myself.var:current_dragon = { level_eight_dragon_size_trigger = yes } scope:my_foe.var:current_dragon = { level_eight_dragon_size_trigger = yes } } } outfit_tags = { dragonrider dynamic_camera_zoom_0.8 } }
+		triggered_outfit = { trigger = { OR = { scope:myself.var:current_dragon = { level_seven_dragon_size_trigger = yes } scope:my_foe.var:current_dragon = { level_seven_dragon_size_trigger = yes } } } outfit_tags = { dragonrider dynamic_camera_zoom_0.7 } }
+		triggered_outfit = { trigger = { OR = { scope:myself.var:current_dragon = { level_six_dragon_size_trigger = yes } scope:my_foe.var:current_dragon = { level_six_dragon_size_trigger = yes } } } outfit_tags = { dragonrider dynamic_camera_zoom_0.6 } }
+		triggered_outfit = { trigger = { OR = { scope:myself.var:current_dragon = { level_five_dragon_size_trigger = yes } scope:my_foe.var:current_dragon = { level_five_dragon_size_trigger = yes } } } outfit_tags = { dragonrider dynamic_camera_zoom_0.5 } }
+		triggered_outfit = { trigger = { OR = { scope:myself.var:current_dragon = { level_four_dragon_size_trigger = yes } scope:my_foe.var:current_dragon = { level_four_dragon_size_trigger = yes } } } outfit_tags = { dragonrider dynamic_camera_zoom_0.4 } }
+		triggered_outfit = { trigger = { OR = { scope:myself.var:current_dragon = { level_three_dragon_size_trigger = yes } scope:my_foe.var:current_dragon = { level_three_dragon_size_trigger = yes } } } outfit_tags = { dragonrider dynamic_camera_zoom_0.3 } }
+		triggered_outfit = { trigger = { OR = { scope:myself.var:current_dragon = { level_two_dragon_size_trigger = yes } scope:my_foe.var:current_dragon = { level_two_dragon_size_trigger = yes } } } outfit_tags = { dragonrider dynamic_camera_zoom_0.2 } }
+		triggered_outfit = { trigger = { OR = { scope:myself.var:current_dragon = { level_one_dragon_size_trigger = yes } scope:my_foe.var:current_dragon = { level_one_dragon_size_trigger = yes } } } outfit_tags = { dragonrider dynamic_camera_zoom_0.1 } }
+		triggered_outfit = { trigger = { OR = { scope:myself.var:current_dragon = { level_zero_dragon_size_trigger = yes } scope:my_foe.var:current_dragon = { level_zero_dragon_size_trigger = yes } } } outfit_tags = { dragonrider dynamic_camera_zoom_0.0 } }
+	}
+	right_portrait = {
+		character = scope:my_foe
+		animation = dragon_main
+		camera = camera_dragon_hover_right
+		triggered_outfit = { trigger = { OR = { scope:myself.var:current_dragon = { level_ten_dragon_size_trigger = yes } scope:my_foe.var:current_dragon = { level_ten_dragon_size_trigger = yes } } } outfit_tags = { dragonrider dynamic_camera_zoom_1.0 } }
+		triggered_outfit = { trigger = { OR = { scope:myself.var:current_dragon = { level_nine_dragon_size_trigger = yes } scope:my_foe.var:current_dragon = { level_nine_dragon_size_trigger = yes } } } outfit_tags = { dragonrider dynamic_camera_zoom_0.9 } }
+		triggered_outfit = { trigger = { OR = { scope:myself.var:current_dragon = { level_eight_dragon_size_trigger = yes } scope:my_foe.var:current_dragon = { level_eight_dragon_size_trigger = yes } } } outfit_tags = { dragonrider dynamic_camera_zoom_0.8 } }
+		triggered_outfit = { trigger = { OR = { scope:myself.var:current_dragon = { level_seven_dragon_size_trigger = yes } scope:my_foe.var:current_dragon = { level_seven_dragon_size_trigger = yes } } } outfit_tags = { dragonrider dynamic_camera_zoom_0.7 } }
+		triggered_outfit = { trigger = { OR = { scope:myself.var:current_dragon = { level_six_dragon_size_trigger = yes } scope:my_foe.var:current_dragon = { level_six_dragon_size_trigger = yes } } } outfit_tags = { dragonrider dynamic_camera_zoom_0.6 } }
+		triggered_outfit = { trigger = { OR = { scope:myself.var:current_dragon = { level_five_dragon_size_trigger = yes } scope:my_foe.var:current_dragon = { level_five_dragon_size_trigger = yes } } } outfit_tags = { dragonrider dynamic_camera_zoom_0.5 } }
+		triggered_outfit = { trigger = { OR = { scope:myself.var:current_dragon = { level_four_dragon_size_trigger = yes } scope:my_foe.var:current_dragon = { level_four_dragon_size_trigger = yes } } } outfit_tags = { dragonrider dynamic_camera_zoom_0.4 } }
+		triggered_outfit = { trigger = { OR = { scope:myself.var:current_dragon = { level_three_dragon_size_trigger = yes } scope:my_foe.var:current_dragon = { level_three_dragon_size_trigger = yes } } } outfit_tags = { dragonrider dynamic_camera_zoom_0.3 } }
+		triggered_outfit = { trigger = { OR = { scope:myself.var:current_dragon = { level_two_dragon_size_trigger = yes } scope:my_foe.var:current_dragon = { level_two_dragon_size_trigger = yes } } } outfit_tags = { dragonrider dynamic_camera_zoom_0.2 } }
+		triggered_outfit = { trigger = { OR = { scope:myself.var:current_dragon = { level_one_dragon_size_trigger = yes } scope:my_foe.var:current_dragon = { level_one_dragon_size_trigger = yes } } } outfit_tags = { dragonrider dynamic_camera_zoom_0.1 } }
+		triggered_outfit = { trigger = { OR = { scope:myself.var:current_dragon = { level_zero_dragon_size_trigger = yes } scope:my_foe.var:current_dragon = { level_zero_dragon_size_trigger = yes } } } outfit_tags = { dragonrider dynamic_camera_zoom_0.0 } }
+	}
+
+	option = {
+		name = agot_dragon_combat.1001.wait_and_hope
+		trigger = {
+			exists = local_var:dragon_combat_move_wait_and_hope_flag
+			NOT = { exists = local_var:dragon_combat_move_chomp_flag }
+		}
+		custom_tooltip = agot_dragon_combat.1001.tt.wait_and_hope
+		show_as_tooltip = {
+			naval_combat_battle_prepare_dragon_duel_move_scopes_effect = { RIDER = scope:dsc_attacker }
+			scope:dsc_attacker = { dragon_combat_move_wait_and_hope_effect = yes }
+		}
+		hidden_effect = {
+			naval_combat_battle_prepare_dragon_duel_move_scopes_effect = { RIDER = scope:dsc_attacker }
+			scope:dsc_attacker = { dragon_combat_move_wait_and_hope_effect = yes }
+			naval_combat_battle_resolve_dragon_duel_ai_move_effect = yes
+			naval_combat_battle_finish_dragon_duel_round_effect = yes
+		}
+	}
+	option = {
+		name = agot_dragon_combat.1001.unsure_attack
+		trigger = {
+			exists = local_var:dragon_combat_move_unsure_attack_flag
+			NOT = { exists = local_var:dragon_combat_move_chomp_flag }
+		}
+		custom_tooltip = agot_dragon_combat.1001.tt.unsure_attack
+		show_as_tooltip = {
+			naval_combat_battle_prepare_dragon_duel_move_scopes_effect = { RIDER = scope:dsc_attacker }
+			scope:dsc_attacker = { dragon_combat_move_unsure_attack_effect = yes }
+		}
+		hidden_effect = {
+			naval_combat_battle_prepare_dragon_duel_move_scopes_effect = { RIDER = scope:dsc_attacker }
+			scope:dsc_attacker = { dragon_combat_move_unsure_attack_effect = yes }
+			naval_combat_battle_resolve_dragon_duel_ai_move_effect = yes
+			naval_combat_battle_finish_dragon_duel_round_effect = yes
+		}
+	}
+	option = {
+		name = agot_dragon_combat.1001.enthusiastic_onslaught
+		trigger = {
+			exists = local_var:dragon_combat_move_enthusiastic_onslaught_flag
+			NOT = { exists = local_var:dragon_combat_move_chomp_flag }
+		}
+		custom_tooltip = agot_dragon_combat.1001.tt.enthusiastic_onslaught
+		show_as_tooltip = {
+			naval_combat_battle_prepare_dragon_duel_move_scopes_effect = { RIDER = scope:dsc_attacker }
+			scope:dsc_attacker = { dragon_combat_move_enthusiastic_onslaught_effect = yes }
+		}
+		hidden_effect = {
+			naval_combat_battle_prepare_dragon_duel_move_scopes_effect = { RIDER = scope:dsc_attacker }
+			scope:dsc_attacker = { dragon_combat_move_enthusiastic_onslaught_effect = yes }
+			naval_combat_battle_resolve_dragon_duel_ai_move_effect = yes
+			naval_combat_battle_finish_dragon_duel_round_effect = yes
+		}
+	}
+	option = {
+		name = agot_dragon_combat.1001.underbelly
+		trigger = {
+			exists = local_var:dragon_combat_move_underbelly_flag
+			NOT = { exists = local_var:dragon_combat_move_chomp_flag }
+		}
+		custom_tooltip = agot_dragon_combat.1001.tt.underbelly
+		show_as_tooltip = {
+			naval_combat_battle_prepare_dragon_duel_move_scopes_effect = { RIDER = scope:dsc_attacker }
+			scope:dsc_attacker = { dragon_combat_move_underbelly_effect = yes }
+		}
+		hidden_effect = {
+			naval_combat_battle_prepare_dragon_duel_move_scopes_effect = { RIDER = scope:dsc_attacker }
+			scope:dsc_attacker = { dragon_combat_move_underbelly_effect = yes }
+			naval_combat_battle_resolve_dragon_duel_ai_move_effect = yes
+			naval_combat_battle_finish_dragon_duel_round_effect = yes
+		}
+	}
+	option = {
+		name = agot_dragon_combat.1001.tail_smash
+		trigger = {
+			exists = local_var:dragon_combat_move_tail_smash_flag
+			NOT = { exists = local_var:dragon_combat_move_chomp_flag }
+		}
+		custom_tooltip = agot_dragon_combat.1001.tt.tail_smash
+		show_as_tooltip = {
+			naval_combat_battle_prepare_dragon_duel_move_scopes_effect = { RIDER = scope:dsc_attacker }
+			scope:dsc_attacker = { dragon_combat_move_tail_smash_effect = yes }
+		}
+		hidden_effect = {
+			naval_combat_battle_prepare_dragon_duel_move_scopes_effect = { RIDER = scope:dsc_attacker }
+			scope:dsc_attacker = { dragon_combat_move_tail_smash_effect = yes }
+			naval_combat_battle_resolve_dragon_duel_ai_move_effect = yes
+			naval_combat_battle_finish_dragon_duel_round_effect = yes
+		}
+	}
+	option = {
+		name = agot_dragon_combat.1001.guard
+		trigger = {
+			exists = local_var:dragon_combat_move_guard_flag
+			NOT = { exists = local_var:dragon_combat_move_chomp_flag }
+		}
+		custom_tooltip = agot_dragon_combat.1001.tt.guard
+		show_as_tooltip = {
+			naval_combat_battle_prepare_dragon_duel_move_scopes_effect = { RIDER = scope:dsc_attacker }
+			scope:dsc_attacker = { dragon_combat_move_guard_effect = yes }
+		}
+		hidden_effect = {
+			naval_combat_battle_prepare_dragon_duel_move_scopes_effect = { RIDER = scope:dsc_attacker }
+			scope:dsc_attacker = { dragon_combat_move_guard_effect = yes }
+			naval_combat_battle_resolve_dragon_duel_ai_move_effect = yes
+			naval_combat_battle_finish_dragon_duel_round_effect = yes
+		}
+	}
+	option = {
+		name = agot_dragon_combat.1001.probing_attack
+		trigger = {
+			exists = local_var:dragon_combat_move_probing_attack_flag
+			NOT = { exists = local_var:dragon_combat_move_chomp_flag }
+		}
+		custom_tooltip = agot_dragon_combat.1001.tt.probing_attack
+		show_as_tooltip = {
+			naval_combat_battle_prepare_dragon_duel_move_scopes_effect = { RIDER = scope:dsc_attacker }
+			scope:dsc_attacker = { dragon_combat_move_probing_attack_effect = yes }
+		}
+		hidden_effect = {
+			naval_combat_battle_prepare_dragon_duel_move_scopes_effect = { RIDER = scope:dsc_attacker }
+			scope:dsc_attacker = { dragon_combat_move_probing_attack_effect = yes }
+			naval_combat_battle_resolve_dragon_duel_ai_move_effect = yes
+			naval_combat_battle_finish_dragon_duel_round_effect = yes
+		}
+	}
+	option = {
+		name = agot_dragon_combat.1001.onslaught
+		trigger = {
+			exists = local_var:dragon_combat_move_onslaught_flag
+			NOT = { exists = local_var:dragon_combat_move_chomp_flag }
+		}
+		custom_tooltip = agot_dragon_combat.1001.tt.onslaught
+		show_as_tooltip = {
+			naval_combat_battle_prepare_dragon_duel_move_scopes_effect = { RIDER = scope:dsc_attacker }
+			scope:dsc_attacker = { dragon_combat_move_onslaught_effect = yes }
+		}
+		hidden_effect = {
+			naval_combat_battle_prepare_dragon_duel_move_scopes_effect = { RIDER = scope:dsc_attacker }
+			scope:dsc_attacker = { dragon_combat_move_onslaught_effect = yes }
+			naval_combat_battle_resolve_dragon_duel_ai_move_effect = yes
+			naval_combat_battle_finish_dragon_duel_round_effect = yes
+		}
+	}
+	option = {
+		name = agot_dragon_combat.1001.surprise_attack
+		trigger = {
+			exists = local_var:dragon_combat_move_surprise_attack_flag
+			NOT = { exists = local_var:dragon_combat_move_chomp_flag }
+		}
+		custom_tooltip = agot_dragon_combat.1001.tt.surprise_attack
+		show_as_tooltip = {
+			naval_combat_battle_prepare_dragon_duel_move_scopes_effect = { RIDER = scope:dsc_attacker }
+			scope:dsc_attacker = { dragon_combat_move_surprise_attack_effect = yes }
+		}
+		hidden_effect = {
+			naval_combat_battle_prepare_dragon_duel_move_scopes_effect = { RIDER = scope:dsc_attacker }
+			scope:dsc_attacker = { dragon_combat_move_surprise_attack_effect = yes }
+			naval_combat_battle_resolve_dragon_duel_ai_move_effect = yes
+			naval_combat_battle_finish_dragon_duel_round_effect = yes
+		}
+	}
+	option = {
+		name = agot_dragon_combat.1001.taunt
+		trigger = {
+			exists = local_var:dragon_combat_move_taunt_flag
+			NOT = { exists = local_var:dragon_combat_move_chomp_flag }
+		}
+		custom_tooltip = agot_dragon_combat.1001.tt.taunt
+		show_as_tooltip = {
+			naval_combat_battle_prepare_dragon_duel_move_scopes_effect = { RIDER = scope:dsc_attacker }
+			scope:dsc_attacker = { dragon_combat_move_taunt_effect = yes }
+		}
+		hidden_effect = {
+			naval_combat_battle_prepare_dragon_duel_move_scopes_effect = { RIDER = scope:dsc_attacker }
+			scope:dsc_attacker = { dragon_combat_move_taunt_effect = yes }
+			naval_combat_battle_resolve_dragon_duel_ai_move_effect = yes
+			naval_combat_battle_finish_dragon_duel_round_effect = yes
+		}
+	}
+	option = {
+		name = agot_dragon_combat.1001.go_for_the_gonads
+		trigger = {
+			exists = local_var:dragon_combat_move_go_for_the_gonads_flag
+			NOT = { exists = local_var:dragon_combat_move_chomp_flag }
+		}
+		custom_tooltip = agot_dragon_combat.1001.tt.go_for_the_gonads
+		show_as_tooltip = {
+			naval_combat_battle_prepare_dragon_duel_move_scopes_effect = { RIDER = scope:dsc_attacker }
+			scope:dsc_attacker = { dragon_combat_move_go_for_the_gonads_effect = yes }
+		}
+		hidden_effect = {
+			naval_combat_battle_prepare_dragon_duel_move_scopes_effect = { RIDER = scope:dsc_attacker }
+			scope:dsc_attacker = { dragon_combat_move_go_for_the_gonads_effect = yes }
+			naval_combat_battle_resolve_dragon_duel_ai_move_effect = yes
+			naval_combat_battle_finish_dragon_duel_round_effect = yes
+		}
+	}
+	option = {
+		name = agot_dragon_combat.1001.strict_guard
+		trigger = {
+			exists = local_var:dragon_combat_move_strict_guard_flag
+			NOT = { exists = local_var:dragon_combat_move_chomp_flag }
+		}
+		custom_tooltip = agot_dragon_combat.1001.tt.strict_guard
+		show_as_tooltip = {
+			naval_combat_battle_prepare_dragon_duel_move_scopes_effect = { RIDER = scope:dsc_attacker }
+			scope:dsc_attacker = { dragon_combat_move_strict_guard_effect = yes }
+		}
+		hidden_effect = {
+			naval_combat_battle_prepare_dragon_duel_move_scopes_effect = { RIDER = scope:dsc_attacker }
+			scope:dsc_attacker = { dragon_combat_move_strict_guard_effect = yes }
+			naval_combat_battle_resolve_dragon_duel_ai_move_effect = yes
+			naval_combat_battle_finish_dragon_duel_round_effect = yes
+		}
+	}
+	option = {
+		name = agot_dragon_combat.1001.confident_attack
+		trigger = {
+			exists = local_var:dragon_combat_move_confident_attack_flag
+			NOT = { exists = local_var:dragon_combat_move_chomp_flag }
+		}
+		custom_tooltip = agot_dragon_combat.1001.tt.confident_attack
+		show_as_tooltip = {
+			naval_combat_battle_prepare_dragon_duel_move_scopes_effect = { RIDER = scope:dsc_attacker }
+			scope:dsc_attacker = { dragon_combat_move_confident_attack_effect = yes }
+		}
+		hidden_effect = {
+			naval_combat_battle_prepare_dragon_duel_move_scopes_effect = { RIDER = scope:dsc_attacker }
+			scope:dsc_attacker = { dragon_combat_move_confident_attack_effect = yes }
+			naval_combat_battle_resolve_dragon_duel_ai_move_effect = yes
+			naval_combat_battle_finish_dragon_duel_round_effect = yes
+		}
+	}
+	option = {
+		name = agot_dragon_combat.1001.expert_onslaught
+		trigger = {
+			exists = local_var:dragon_combat_move_expert_onslaught_flag
+			NOT = { exists = local_var:dragon_combat_move_chomp_flag }
+		}
+		custom_tooltip = agot_dragon_combat.1001.tt.expert_onslaught
+		show_as_tooltip = {
+			naval_combat_battle_prepare_dragon_duel_move_scopes_effect = { RIDER = scope:dsc_attacker }
+			scope:dsc_attacker = { dragon_combat_move_expert_onslaught_effect = yes }
+		}
+		hidden_effect = {
+			naval_combat_battle_prepare_dragon_duel_move_scopes_effect = { RIDER = scope:dsc_attacker }
+			scope:dsc_attacker = { dragon_combat_move_expert_onslaught_effect = yes }
+			naval_combat_battle_resolve_dragon_duel_ai_move_effect = yes
+			naval_combat_battle_finish_dragon_duel_round_effect = yes
+		}
+	}
+	option = {
+		name = agot_dragon_combat.1001.lightning_assault
+		trigger = {
+			exists = local_var:dragon_combat_move_lightning_assault_flag
+			NOT = { exists = local_var:dragon_combat_move_chomp_flag }
+		}
+		custom_tooltip = agot_dragon_combat.1001.tt.lightning_assault
+		show_as_tooltip = {
+			naval_combat_battle_prepare_dragon_duel_move_scopes_effect = { RIDER = scope:dsc_attacker }
+			scope:dsc_attacker = { dragon_combat_move_lightning_assault_effect = yes }
+		}
+		hidden_effect = {
+			naval_combat_battle_prepare_dragon_duel_move_scopes_effect = { RIDER = scope:dsc_attacker }
+			scope:dsc_attacker = { dragon_combat_move_lightning_assault_effect = yes }
+			naval_combat_battle_resolve_dragon_duel_ai_move_effect = yes
+			naval_combat_battle_finish_dragon_duel_round_effect = yes
+		}
+	}
+	option = {
+		name = agot_dragon_combat.1001.tire_opponent
+		trigger = {
+			exists = local_var:dragon_combat_move_tire_opponent_flag
+			NOT = { exists = local_var:dragon_combat_move_chomp_flag }
+		}
+		custom_tooltip = agot_dragon_combat.1001.tt.tire_opponent
+		show_as_tooltip = {
+			naval_combat_battle_prepare_dragon_duel_move_scopes_effect = { RIDER = scope:dsc_attacker }
+			scope:dsc_attacker = { dragon_combat_move_tire_opponent_effect = yes }
+		}
+		hidden_effect = {
+			naval_combat_battle_prepare_dragon_duel_move_scopes_effect = { RIDER = scope:dsc_attacker }
+			scope:dsc_attacker = { dragon_combat_move_tire_opponent_effect = yes }
+			naval_combat_battle_resolve_dragon_duel_ai_move_effect = yes
+			naval_combat_battle_finish_dragon_duel_round_effect = yes
+		}
+	}
+	option = {
+		name = agot_dragon_combat.1001.chomp
+		trigger = {
+			exists = local_var:dragon_combat_move_chomp_flag
+		}
+		custom_tooltip = agot_dragon_combat.1001.tt.chomp
+		add_internal_flag = special
+		show_as_tooltip = {
+			naval_combat_battle_prepare_dragon_duel_move_scopes_effect = { RIDER = scope:dsc_attacker }
+			scope:dsc_attacker = { dragon_combat_move_chomp_effect = yes }
+		}
+		hidden_effect = {
+			naval_combat_battle_prepare_dragon_duel_move_scopes_effect = { RIDER = scope:dsc_attacker }
+			scope:dsc_attacker = { dragon_combat_move_chomp_effect = yes }
+			naval_combat_battle_resolve_dragon_duel_ai_move_effect = yes
+			naval_combat_battle_finish_dragon_duel_round_effect = yes
+		}
+	}
+	option = {
+		name = {
+			trigger = {
+				scope:dsc_attacker = {
+					has_trait_xp = { trait = dragonrider track = dragon_bond value >= 50 }
+				}
+			}
+			text = agot_dragon_combat.1001.motivate.bond
+		}
+		name = {
+			trigger = {
+				scope:dsc_attacker = {
+					NOT = { has_trait_xp = { trait = dragonrider track = dragon_bond value >= 50 } }
+					has_trait = rude
+				}
+			}
+			text = agot_dragon_combat.1001.motivate.rude
+		}
+		name = {
+			trigger = {
+				scope:dsc_attacker = {
+					NOT = { has_trait_xp = { trait = dragonrider track = dragon_bond value >= 50 } }
+					NOT = { has_trait = rude }
+					has_trait = authoritative
+				}
+			}
+			text = agot_dragon_combat.1001.motivate.authoritative
+		}
+		name = {
+			trigger = {
+				scope:dsc_attacker = {
+					NOT = { has_trait_xp = { trait = dragonrider track = dragon_bond value >= 50 } }
+					NOT = { has_trait = rude }
+					NOT = { has_trait = authoritative }
+					has_trait = sadistic
+					var:current_dragon = { NOT = { has_trait = dragon_skittish } }
+				}
+			}
+			text = agot_dragon_combat.1001.motivate.sadistic
+		}
+		name = {
+			trigger = {
+				scope:dsc_attacker = {
+					NOT = { has_trait_xp = { trait = dragonrider track = dragon_bond value >= 50 } }
+					NOT = { has_trait = rude }
+					NOT = { has_trait = authoritative }
+					OR = { NOT = { has_trait = sadistic } var:current_dragon = { has_trait = dragon_skittish } }
+					has_trait = eccentric
+				}
+			}
+			text = agot_dragon_combat.1001.motivate.eccentric
+		}
+		name = {
+			trigger = {
+				scope:dsc_attacker = {
+					NOT = { has_trait_xp = { trait = dragonrider track = dragon_bond value >= 50 } }
+					NOT = { has_trait = rude }
+					NOT = { has_trait = authoritative }
+					OR = { NOT = { has_trait = sadistic } var:current_dragon = { has_trait = dragon_skittish } }
+					NOT = { has_trait = eccentric }
+				}
+			}
+			text = agot_dragon_combat.1001.motivate.generic
+		}
+		trigger = {
+			exists = local_var:dragon_combat_move_motivate_flag
+			NOT = { exists = local_var:dragon_combat_move_chomp_flag }
+		}
+		custom_tooltip = agot_dragon_combat.1001.tt.motivate
+		skill = diplomacy
+		show_as_tooltip = {
+			naval_combat_battle_prepare_dragon_duel_move_scopes_effect = { RIDER = scope:dsc_attacker }
+			scope:dsc_attacker = { dragon_combat_move_motivate_effect = yes }
+		}
+		hidden_effect = {
+			naval_combat_battle_prepare_dragon_duel_move_scopes_effect = { RIDER = scope:dsc_attacker }
+			scope:dsc_attacker = { dragon_combat_move_motivate_effect = yes }
+			naval_combat_battle_resolve_dragon_duel_ai_move_effect = yes
+			naval_combat_battle_finish_dragon_duel_round_effect = yes
+		}
+	}
+	option = {
+		name = agot_dragon_combat.1001.technique_from_legend
+		trigger = {
+			exists = local_var:dragon_combat_move_technique_from_legend_flag
+			NOT = { exists = local_var:dragon_combat_move_chomp_flag }
+		}
+		custom_tooltip = agot_dragon_combat.1001.tt.technique_from_legend
+		skill = learning
+		show_as_tooltip = {
+			naval_combat_battle_prepare_dragon_duel_move_scopes_effect = { RIDER = scope:dsc_attacker }
+			scope:dsc_attacker = { dragon_combat_move_technique_from_legend_effect = yes }
+		}
+		hidden_effect = {
+			naval_combat_battle_prepare_dragon_duel_move_scopes_effect = { RIDER = scope:dsc_attacker }
+			scope:dsc_attacker = { dragon_combat_move_technique_from_legend_effect = yes }
+			naval_combat_battle_resolve_dragon_duel_ai_move_effect = yes
+			naval_combat_battle_finish_dragon_duel_round_effect = yes
+		}
+	}
+	option = {
+		name = agot_dragon_combat.1001.like_a_viper
+		trigger = {
+			exists = local_var:dragon_combat_move_like_a_viper_flag
+			NOT = { exists = local_var:dragon_combat_move_chomp_flag }
+		}
+		custom_tooltip = agot_dragon_combat.1001.tt.like_a_viper
+		skill = intrigue
+		show_as_tooltip = {
+			naval_combat_battle_prepare_dragon_duel_move_scopes_effect = { RIDER = scope:dsc_attacker }
+			scope:dsc_attacker = { dragon_combat_move_like_a_viper_effect = yes }
+		}
+		hidden_effect = {
+			naval_combat_battle_prepare_dragon_duel_move_scopes_effect = { RIDER = scope:dsc_attacker }
+			scope:dsc_attacker = { dragon_combat_move_like_a_viper_effect = yes }
+			naval_combat_battle_resolve_dragon_duel_ai_move_effect = yes
+			naval_combat_battle_finish_dragon_duel_round_effect = yes
+		}
+	}
+	option = {
+		name = agot_dragon_combat.1001.martial_voice
+		trigger = {
+			exists = local_var:dragon_combat_move_martial_voice_flag
+			NOT = { exists = local_var:dragon_combat_move_chomp_flag }
+		}
+		custom_tooltip = agot_dragon_combat.1001.tt.martial_voice
+		skill = martial
+		show_as_tooltip = {
+			naval_combat_battle_prepare_dragon_duel_move_scopes_effect = { RIDER = scope:dsc_attacker }
+			scope:dsc_attacker = { dragon_combat_move_martial_voice_effect = yes }
+		}
+		hidden_effect = {
+			naval_combat_battle_prepare_dragon_duel_move_scopes_effect = { RIDER = scope:dsc_attacker }
+			scope:dsc_attacker = { dragon_combat_move_martial_voice_effect = yes }
+			naval_combat_battle_resolve_dragon_duel_ai_move_effect = yes
+			naval_combat_battle_finish_dragon_duel_round_effect = yes
+		}
+	}
+	option = {
+		name = agot_dragon_combat.1001.mocking_boast
+		trigger = {
+			exists = local_var:dragon_combat_move_mocking_boast_flag
+			NOT = { exists = local_var:dragon_combat_move_chomp_flag }
+		}
+		custom_tooltip = agot_dragon_combat.1001.tt.mocking_boast
+		show_as_tooltip = {
+			naval_combat_battle_prepare_dragon_duel_move_scopes_effect = { RIDER = scope:dsc_attacker }
+			scope:dsc_attacker = { dragon_combat_move_mocking_boast_effect = yes }
+		}
+		hidden_effect = {
+			naval_combat_battle_prepare_dragon_duel_move_scopes_effect = { RIDER = scope:dsc_attacker }
+			scope:dsc_attacker = { dragon_combat_move_mocking_boast_effect = yes }
+			naval_combat_battle_resolve_dragon_duel_ai_move_effect = yes
+			naval_combat_battle_finish_dragon_duel_round_effect = yes
+		}
+	}
+	option = {
+		name = agot_dragon_combat.1001.special_fallback
+		trigger = {
+			exists = local_var:dragon_combat_move_special_fallback_flag
+			NOT = { exists = local_var:dragon_combat_move_chomp_flag }
+		}
+		custom_tooltip = agot_dragon_combat.1001.tt.special_fallback
+		show_as_tooltip = {
+			naval_combat_battle_prepare_dragon_duel_move_scopes_effect = { RIDER = scope:dsc_attacker }
+			scope:dsc_attacker = { dragon_combat_move_special_fallback_effect = yes }
+		}
+		hidden_effect = {
+			naval_combat_battle_prepare_dragon_duel_move_scopes_effect = { RIDER = scope:dsc_attacker }
+			scope:dsc_attacker = { dragon_combat_move_special_fallback_effect = yes }
+			naval_combat_battle_resolve_dragon_duel_ai_move_effect = yes
+			naval_combat_battle_finish_dragon_duel_round_effect = yes
+		}
+	}
+}
+
+naval_combat.0212 = {
+	type = character_event
+	title = naval_combat.0212.t
+	desc = naval_combat.0212.desc
+	theme = dragon
+	override_background = { reference = fp1_ocean }
+	left_portrait = {
+		character = var:naval_combat_battle_dragonrider
+		animation = personality_bold
+	}
+	right_portrait = {
+		character = var:naval_combat_battle_dragon
+		animation = dragon_main
+	}
+	option = {
+		name = naval_combat.0212.a
+		hidden_effect = { trigger_event = naval_combat.0201 }
+	}
+}
+
+naval_combat.0213 = {
+	type = character_event
+	title = {
+		first_valid = {
+			triggered_desc = {
+				trigger = {
+					exists = var:naval_combat_battle_dragonrider
+					var:naval_combat_battle_dragonrider = { NOT = { this = root } }
+				}
+				desc = naval_combat.0213.t.delegated
+			}
+			desc = naval_combat.0213.t
+		}
+	}
+	immediate = {
+		var:naval_combat_battle_dragonrider ?= {
+			save_scope_as = naval_combat_report_root_dragonrider
+		}
+		var:naval_combat_battle_dragon ?= {
+			save_scope_as = naval_combat_report_root_dragon
+		}
+		var:naval_combat_battle_opponent ?= {
+			var:naval_combat_battle_dragonrider ?= {
+				save_scope_as = naval_combat_enemy_dragonrider_portrait
+			}
+			var:naval_combat_battle_dragon ?= {
+				save_scope_as = naval_combat_report_enemy_dragon
+			}
+		}
+	}
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = {
+					var:naval_combat_battle_dragon_duel_result ?= 4
+					exists = var:naval_combat_battle_dragonrider
+					var:naval_combat_battle_dragonrider = { NOT = { this = root } }
+				}
+				desc = naval_combat.0213.desc.delegated_withdrew
+			}
+			triggered_desc = {
+				trigger = {
+					var:naval_combat_battle_dragon_duel_result ?= 1
+					exists = var:naval_combat_battle_dragonrider
+					var:naval_combat_battle_dragonrider = { NOT = { this = root } }
+				}
+				desc = naval_combat.0213.desc.delegated_root
+			}
+			triggered_desc = {
+				trigger = {
+					var:naval_combat_battle_dragon_duel_result ?= 2
+					exists = var:naval_combat_battle_dragonrider
+					var:naval_combat_battle_dragonrider = { NOT = { this = root } }
+				}
+				desc = naval_combat.0213.desc.delegated_enemy
+			}
+			triggered_desc = {
+				trigger = {
+					NOT = {
+						OR = {
+							var:naval_combat_battle_dragon_duel_result ?= 1
+							var:naval_combat_battle_dragon_duel_result ?= 2
+							var:naval_combat_battle_dragon_duel_result ?= 4
+						}
+					}
+					exists = var:naval_combat_battle_dragonrider
+					var:naval_combat_battle_dragonrider = { NOT = { this = root } }
+				}
+				desc = naval_combat.0213.desc.delegated_neither
+			}
+			triggered_desc = {
+				trigger = { var:naval_combat_battle_dragon_duel_result ?= 4 }
+				desc = naval_combat.0213.desc.withdrew
+			}
+			triggered_desc = {
+				trigger = { var:naval_combat_battle_dragon_duel_result ?= 1 }
+				desc = naval_combat.0213.desc.root
+			}
+			triggered_desc = {
+				trigger = { var:naval_combat_battle_dragon_duel_result ?= 2 }
+				desc = naval_combat.0213.desc.enemy
+			}
+			desc = naval_combat.0213.desc.neither
+		}
+	}
+	theme = dragon
+	override_background = { reference = fp1_ocean }
+	left_portrait = {
+		character = var:naval_combat_battle_dragonrider
+		animation = personality_bold
+	}
+	right_portrait = {
+		character = scope:naval_combat_enemy_dragonrider_portrait
+		animation = personality_bold
+	}
+	option = {
+		name = naval_combat.0213.a
+		hidden_effect = { naval_combat_battle_resume_after_dragon_duel_effect = yes }
+	}
+}
+
+naval_combat.0203 = {
+	type = character_event
+	title = naval_combat.0203.t
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = { var:naval_combat_battle_enemy_withdrawal_success ?= 1 }
+				desc = naval_combat.0203.desc.enemy_withdrew
+			}
+			triggered_desc = {
+				trigger = {
+					var:naval_combat_battle_enemy_withdrawal_attempted ?= 1
+					NOT = { var:naval_combat_battle_enemy_withdrawal_success ?= 1 }
+				}
+				desc = naval_combat.0203.desc.enemy_withdraw_failed
+			}
+			triggered_desc = {
+				trigger = { var:naval_combat_battle_initiative_balance ?= 3 }
+				desc = naval_combat.0203.desc.root_3
+			}
+			triggered_desc = {
+				trigger = { var:naval_combat_battle_initiative_balance ?= 2 }
+				desc = naval_combat.0203.desc.root_2
+			}
+			triggered_desc = {
+				trigger = { var:naval_combat_battle_initiative_balance ?= 1 }
+				desc = naval_combat.0203.desc.root_1
+			}
+			triggered_desc = {
+				trigger = { var:naval_combat_battle_initiative_balance ?= -1 }
+				desc = naval_combat.0203.desc.enemy_1
+			}
+			triggered_desc = {
+				trigger = { var:naval_combat_battle_initiative_balance ?= -2 }
+				desc = naval_combat.0203.desc.enemy_2
+			}
+			triggered_desc = {
+				trigger = { var:naval_combat_battle_initiative_balance ?= -3 }
+				desc = naval_combat.0203.desc.enemy_3
+			}
+			desc = naval_combat.0203.desc.even
+		}
+	}
+
+	theme = war
+	override_background = { reference = fp1_ocean }
+
+	left_portrait = {
+		character = scope:naval_combat_battle_root_admiral
+		animation = personality_bold
+	}
+
+	right_portrait = {
+		character = scope:naval_combat_battle_enemy_admiral
+		animation = personality_bold
+	}
+
+	immediate = {
+		var:naval_combat_battle_opponent = {
+			save_scope_as = naval_combat_battle_opponent
+		}
+		naval_combat_battle_save_portrait_scopes_effect = yes
+	}
+
+	option = {
+		name = naval_combat.0203.a
+		trigger = {
+			NOT = { var:naval_combat_battle_enemy_withdrawal_success ?= 1 }
+			var:naval_combat_battle_round < 3
+			var:naval_combat_battle_organization > 0
+			scope:naval_combat_battle_opponent = { var:naval_combat_battle_organization > 0 }
+		}
+		custom_tooltip = naval_combat.0203.a.tt
+		ai_chance = {
+			base = 100
+			modifier = {
+				factor = 0.10
+				var:naval_combat_battle_organization <= 15
+			}
+			modifier = {
+				factor = 0.30
+				var:naval_combat_battle_organization > 15
+				var:naval_combat_battle_organization <= 30
+			}
+			modifier = {
+				factor = 0.60
+				var:naval_combat_battle_organization > 30
+				var:naval_combat_battle_organization <= 45
+			}
+			modifier = {
+				factor = 0.50
+				var:naval_combat_battle_initiative_balance <= -2
+			}
+		}
+		hidden_effect = {
+			change_variable = { name = naval_combat_battle_round add = 1 }
+			trigger_event = naval_combat.0202
+		}
+	}
+
+	option = {
+		name = naval_combat.0203.b
+		trigger = {
+			NOT = { var:naval_combat_battle_enemy_withdrawal_success ?= 1 }
+			var:naval_combat_battle_round < 3
+			var:naval_combat_battle_organization > 0
+			scope:naval_combat_battle_opponent = { var:naval_combat_battle_organization > 0 }
+		}
+		custom_tooltip = naval_combat.0203.b.tt
+		ai_chance = {
+			base = 5
+			modifier = {
+				add = 300
+				var:naval_combat_battle_organization <= 15
+			}
+			modifier = {
+				add = 150
+				var:naval_combat_battle_organization > 15
+				var:naval_combat_battle_organization <= 30
+			}
+			modifier = {
+				add = 60
+				var:naval_combat_battle_organization > 30
+				var:naval_combat_battle_organization <= 45
+			}
+			modifier = {
+				add = 100
+				var:naval_combat_battle_initiative_balance <= -3
+			}
+			modifier = {
+				add = 50
+				var:naval_combat_battle_initiative_balance ?= -2
+			}
+			modifier = {
+				add = 25
+				var:naval_combat_battle_damage >= 5
+			}
+		}
+		hidden_effect = {
+			naval_combat_battle_attempt_withdrawal_effect = yes
+			trigger_event = naval_combat.0205
+		}
+	}
+
+	option = {
+		name = naval_combat.0203.c
+		trigger = {
+			OR = {
+				var:naval_combat_battle_enemy_withdrawal_success ?= 1
+				var:naval_combat_battle_round >= 3
+				var:naval_combat_battle_organization <= 0
+				scope:naval_combat_battle_opponent = { var:naval_combat_battle_organization <= 0 }
+			}
+		}
+		custom_tooltip = naval_combat.0203.c.tt
+		hidden_effect = {
+			naval_combat_battle_determine_outcome_effect = yes
+			trigger_event = naval_combat.0204
+		}
+	}
+}
+
+naval_combat.0204 = {
+	type = character_event
+	title = naval_combat.0204.t
+	desc = {
+		desc = naval_combat.0204.losses.ours
+		triggered_desc = {
+			trigger = { var:naval_combat_battle_lost_longships > 0 }
+			desc = naval_combat.0204.loss.longship.ours
+		}
+		triggered_desc = {
+			trigger = { var:naval_combat_battle_lost_greek_fire_ships > 0 }
+			desc = naval_combat.0204.loss.greek_fire.ours
+		}
+		triggered_desc = {
+			trigger = { var:naval_combat_battle_lost_tower_ships > 0 }
+			desc = naval_combat.0204.loss.tower_ship.ours
+		}
+		triggered_desc = {
+			trigger = { var:naval_combat_battle_lost_slave_galleys > 0 }
+			desc = naval_combat.0204.loss.slave_galley.ours
+		}
+		desc = naval_combat.0204.losses.enemy
+		triggered_desc = {
+			trigger = {
+				scope:naval_combat_battle_opponent = {
+					var:naval_combat_battle_lost_longships > 0
+				}
+			}
+			desc = naval_combat.0204.loss.longship.enemy
+		}
+		triggered_desc = {
+			trigger = {
+				scope:naval_combat_battle_opponent = {
+					var:naval_combat_battle_lost_greek_fire_ships > 0
+				}
+			}
+			desc = naval_combat.0204.loss.greek_fire.enemy
+		}
+		triggered_desc = {
+			trigger = {
+				scope:naval_combat_battle_opponent = {
+					var:naval_combat_battle_lost_tower_ships > 0
+				}
+			}
+			desc = naval_combat.0204.loss.tower_ship.enemy
+		}
+		triggered_desc = {
+			trigger = {
+				scope:naval_combat_battle_opponent = {
+					var:naval_combat_battle_lost_slave_galleys > 0
+				}
+			}
+			desc = naval_combat.0204.loss.slave_galley.enemy
+		}
+		desc = naval_combat.0204.losses.end
+		desc = {
+			first_valid = {
+				triggered_desc = {
+					trigger = { var:naval_combat_battle_outcome ?= 6 }
+					desc = naval_combat.0204.desc.annihilation_win
+				}
+				triggered_desc = {
+					trigger = { var:naval_combat_battle_outcome ?= -6 }
+					desc = naval_combat.0204.desc.annihilation_loss
+				}
+				triggered_desc = {
+					trigger = { var:naval_combat_battle_outcome ?= 3 }
+					desc = naval_combat.0204.desc.epic_win
+				}
+				triggered_desc = {
+					trigger = { var:naval_combat_battle_outcome ?= 2 }
+					desc = naval_combat.0204.desc.big_win
+				}
+				triggered_desc = {
+					trigger = { var:naval_combat_battle_outcome ?= 1 }
+					desc = naval_combat.0204.desc.small_win
+				}
+				triggered_desc = {
+					trigger = { var:naval_combat_battle_outcome ?= 4 }
+					desc = naval_combat.0204.desc.hard_win
+				}
+				triggered_desc = {
+					trigger = { var:naval_combat_battle_outcome ?= -1 }
+					desc = naval_combat.0204.desc.small_loss
+				}
+				triggered_desc = {
+					trigger = { var:naval_combat_battle_outcome ?= -2 }
+					desc = naval_combat.0204.desc.big_loss
+				}
+				triggered_desc = {
+					trigger = { var:naval_combat_battle_outcome ?= -3 }
+					desc = naval_combat.0204.desc.epic_loss
+				}
+				triggered_desc = {
+					trigger = { var:naval_combat_battle_outcome ?= -4 }
+					desc = naval_combat.0204.desc.hard_loss
+				}
+				triggered_desc = {
+					trigger = { var:naval_combat_battle_outcome ?= 5 }
+					desc = naval_combat.0204.desc.bloody_draw
+				}
+				desc = naval_combat.0204.desc.draw
+			}
+		}
+		triggered_desc = {
+			trigger = { var:naval_combat_battle_drill_gain > 0 }
+			desc = naval_combat.0204.drill_gain
+		}
+		triggered_desc = {
+			trigger = {
+				var:naval_combat_flagship_battle_damage_taken > 0
+				NOT = { var:naval_combat_flagship_destroyed ?= 1 }
+			}
+			desc = naval_combat.0204.flagship_damage
+		}
+		triggered_desc = {
+			trigger = {
+				var:naval_combat_flagship_battle_damage_taken > 0
+				var:naval_combat_flagship_destroyed ?= 1
+			}
+			desc = naval_combat.0204.flagship_destroyed
+		}
+		triggered_desc = {
+			trigger = {
+				scope:naval_combat_battle_opponent = {
+					var:naval_combat_flagship_battle_damage_taken > 0
+					var:naval_combat_flagship_destroyed ?= 1
+				}
+			}
+			desc = naval_combat.0204.enemy_flagship_destroyed
+		}
+		triggered_desc = {
+			trigger = { var:naval_combat_battle_dragon_wounded ?= 1 }
+			desc = naval_combat.0204.dragon_wounded
+		}
+		triggered_desc = {
+			trigger = {
+				scope:naval_combat_battle_opponent = {
+					var:naval_combat_battle_dragon_wounded ?= 1
+				}
+			}
+			desc = naval_combat.0204.enemy_dragon_wounded
+		}
+	}
+
+	theme = war
+	override_background = { reference = fp1_ocean }
+
+	left_portrait = {
+		character = scope:naval_combat_battle_root_admiral
+		animation = personality_bold
+	}
+
+	right_portrait = {
+		character = scope:naval_combat_battle_enemy_admiral
+		animation = personality_bold
+	}
+
+	immediate = {
+		var:naval_combat_battle_opponent = {
+			save_scope_as = naval_combat_battle_opponent
+		}
+		naval_combat_battle_save_portrait_scopes_effect = yes
+	}
+
+	option = {
+		name = naval_combat.0204.a
+		custom_tooltip = naval_combat.0204.a.tt
+		if = {
+			limit = {
+				is_ai = no
+				scope:naval_combat_battle_opponent = {
+					var:naval_combat_flagship_battle_damage_taken > 0
+					var:naval_combat_flagship_destroyed ?= 1
+				}
+			}
+			trigger_event = { id = naval_combat.0504 }
+		}
+		hidden_effect = {
+			naval_combat_battle_cleanup_effect = yes
+		}
+	}
+}
+
+naval_combat.0205 = {
+	type = character_event
+	title = naval_combat.0205.t
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = { var:naval_combat_battle_withdrawal_success ?= 1 }
+				desc = naval_combat.0205.desc.success
+			}
+			desc = naval_combat.0205.desc.failure
+		}
+	}
+
+	theme = war
+	override_background = { reference = fp1_ocean }
+
+	left_portrait = {
+		character = scope:naval_combat_battle_root_admiral
+		animation = personality_rational
+	}
+
+	right_portrait = {
+		character = scope:naval_combat_battle_enemy_admiral
+		animation = personality_bold
+	}
+
+	immediate = {
+		var:naval_combat_battle_opponent = {
+			save_scope_as = naval_combat_battle_opponent
+		}
+		naval_combat_battle_save_portrait_scopes_effect = yes
+	}
+
+	option = {
+		name = naval_combat.0205.a
+		trigger = { var:naval_combat_battle_withdrawal_success ?= 1 }
+		custom_tooltip = naval_combat.0205.a.tt
+		hidden_effect = {
+			naval_combat_battle_determine_outcome_effect = yes
+			trigger_event = naval_combat.0204
+		}
+	}
+
+	option = {
+		name = naval_combat.0205.b
+		trigger = {
+			var:naval_combat_battle_withdrawal_success ?= 0
+			var:naval_combat_battle_organization > 0
+			var:naval_combat_battle_round < 3
+		}
+		custom_tooltip = naval_combat.0205.b.tt
+		hidden_effect = {
+			change_variable = { name = naval_combat_battle_round add = 1 }
+			trigger_event = naval_combat.0202
+		}
+	}
+
+	option = {
+		name = naval_combat.0205.c
+		trigger = {
+			var:naval_combat_battle_withdrawal_success ?= 0
+			OR = {
+				var:naval_combat_battle_organization <= 0
+				var:naval_combat_battle_round >= 3
+			}
+		}
+		custom_tooltip = naval_combat.0205.c.tt
+		hidden_effect = {
+			naval_combat_battle_determine_outcome_effect = yes
+			trigger_event = naval_combat.0204
+		}
+	}
+}
+
+naval_combat.0206 = {
+	type = character_event
+	title = naval_combat.0206.t
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = { var:naval_combat_battle_withdrawal_success ?= 1 }
+				desc = naval_combat.0206.desc.success
+			}
+			desc = naval_combat.0206.desc.failure
+		}
+	}
+
+	theme = war
+	override_background = { reference = fp1_ocean }
+
+	left_portrait = {
+		character = scope:naval_combat_battle_root_admiral
+		animation = personality_rational
+	}
+
+	right_portrait = {
+		character = scope:naval_combat_battle_enemy_admiral
+		animation = personality_bold
+	}
+
+	immediate = {
+		var:naval_combat_battle_opponent = {
+			save_scope_as = naval_combat_battle_opponent
+		}
+		naval_combat_battle_save_portrait_scopes_effect = yes
+	}
+
+	option = {
+		name = naval_combat.0206.a
+		trigger = { var:naval_combat_battle_withdrawal_success ?= 1 }
+		custom_tooltip = naval_combat.0206.a.tt
+		hidden_effect = {
+			set_variable = {
+				name = naval_combat_readiness
+				value = var:naval_combat_battle_organization
+			}
+			naval_combat_battle_cleanup_effect = yes
+		}
+	}
+
+	option = {
+		name = naval_combat.0206.b
+		trigger = { var:naval_combat_battle_withdrawal_success ?= 0 }
+		custom_tooltip = naval_combat.0206.b.tt
+		hidden_effect = { trigger_event = naval_combat.0201 }
+	}
+}

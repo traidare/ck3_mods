@@ -1,0 +1,2961 @@
+﻿# This file is how we call the story cycle dragon variables from the ruin character to give dragons their genes
+# Each svalue (scripted value) is split into two IF statements, one for the Dragonrider poses (identifed by flag currently riding)
+# the other If statement is for retaining dragon appearances when they die
+# If new dragon genes are added, you have to add the appropriate svalue in the format everything else uses below
+# You then call the 'gene_name_svalue' in the portrait modifier value slot!
+
+# Template
+# GENE_NAME_HERE_svalue = {
+#	value = {
+#		if = {
+#			limit = {
+#				has_character_flag = currently_riding_dragon
+#				title:c_ruins.holder = {
+#					any_owned_story = {
+#						story_type = story_dragon_variable_storage
+#					}
+#				}
+#			}
+#			title:c_ruins.holder = {
+#				every_owned_story = {
+#					limit = {
+#						story_type = story_dragon_variable_storage
+#						var:dragon_id ?= root.var:current_dragon
+#					}
+#					save_temporary_scope_as = dragon_var_story_val
+#				}
+#			}
+#			value = scope:dragon_var_story_val.var:GENE_NAME_HERE_svalue
+#		}
+#		if = {
+#			limit = {
+#				title:c_ruins.holder = {
+#					any_owned_story = {
+#						story_type = story_dragon_variable_storage
+#					}
+#				}
+#			}
+#			title:c_ruins.holder = {
+#				every_owned_story = {
+#					limit = {
+#						story_type = story_dragon_variable_storage
+#						var:dragon_id ?= root
+#					}
+#					save_temporary_scope_as = dragon_var_story_val
+#				}
+#			}
+#			value = scope:dragon_var_story_val.var:GENE_NAME_HERE_svalue
+#		}
+#	}
+# }
+
+dragon_age_svalue = {
+	value = {
+		if = {
+			limit = {
+				has_character_flag = currently_riding_dragon
+				agot_has_dragon_storage_system_global_list = yes
+			}
+			every_in_global_list = {
+				variable = gl_dragon_variable_storage
+				limit = {
+					var:dragon_id ?= root.var:current_dragon
+				}
+				save_temporary_scope_as = dragon_var_story_val
+			}
+			if = {
+				limit = {
+					exists = scope:dragon_var_story_val
+					scope:dragon_var_story_val = { has_variable = dragon_age }
+				}
+				value = scope:dragon_var_story_val.var:dragon_age
+			}
+		}
+		if = {
+			limit = {
+				agot_has_dragon_storage_system_global_list = yes
+			}
+			every_in_global_list = {
+				variable = gl_dragon_variable_storage
+				limit = {
+					var:dragon_id ?= root
+				}
+				save_temporary_scope_as = dragon_var_story_val
+			}
+			if = {
+				limit = {
+					exists = scope:dragon_var_story_val
+					scope:dragon_var_story_val = { has_variable = dragon_age }
+				}
+				value = scope:dragon_var_story_val.var:dragon_age
+			}
+		}
+	}
+}
+
+dragon_size_svalue = {
+	value = {
+		if = {
+			limit = {
+				has_character_flag = currently_riding_dragon
+				agot_has_dragon_storage_system_global_list = yes
+			}
+			every_in_global_list = {
+				variable = gl_dragon_variable_storage
+				limit = {
+					var:dragon_id ?= root.var:current_dragon
+				}
+				save_temporary_scope_as = dragon_var_story_val
+			}
+			if = {
+				limit = {
+					exists = scope:dragon_var_story_val
+					scope:dragon_var_story_val = { has_variable = dragon_size }
+				}
+				value = scope:dragon_var_story_val.var:dragon_size
+			}
+			divide = 300
+			max = 1
+		}
+		if = {
+			limit = {
+				agot_has_dragon_storage_system_global_list = yes
+			}
+			every_in_global_list = {
+				variable = gl_dragon_variable_storage
+				limit = {
+					var:dragon_id ?= root
+				}
+				save_temporary_scope_as = dragon_var_story_val
+			}
+			if = {
+				limit = {
+					exists = scope:dragon_var_story_val
+					scope:dragon_var_story_val = { has_variable = dragon_size }
+				}
+				value = scope:dragon_var_story_val.var:dragon_size
+			}
+			divide = 300
+			max = 1
+		}
+	}
+}
+
+gene_dragonrider_size_svalue = {
+	value = {
+		if = {
+			limit = {
+				has_character_flag = currently_riding_dragon
+				agot_has_dragon_storage_system_global_list = yes
+			}
+			every_in_global_list = {
+				variable = gl_dragon_variable_storage
+				limit = {
+					var:dragon_id ?= root.var:current_dragon
+				}
+				save_temporary_scope_as = dragon_var_story_val
+			}
+			if = {
+				limit = {
+					exists = scope:dragon_var_story_val
+					scope:dragon_var_story_val = { has_variable = dragon_age }
+				}
+				value = scope:dragon_var_story_val.var:dragon_age
+			}
+			divide = 300
+			max = 1
+		}
+	}
+}
+
+gene_dragon_primary_color_value_svalue = {
+	value = {
+		# Fallback: the dragon's own spawn variables. Lowest priority - the storage
+		# branches below overwrite it once the dragon storage list exists. Without this,
+		# portraits rendered before the storage populates get 0 and the DNA baseline
+		# shows instead of the scripted appearance.
+		if = {
+			limit = { is_alive = yes has_variable = gene_dragon_primary_color_value }
+			value = var:gene_dragon_primary_color_value
+		}
+		if = {
+			limit = {
+				has_character_flag = currently_riding_dragon
+				agot_has_dragon_storage_system_global_list = yes
+			}
+			every_in_global_list = {
+				variable = gl_dragon_variable_storage
+				limit = {
+					var:dragon_id ?= root.var:current_dragon
+				}
+				save_temporary_scope_as = dragon_var_story_val
+			}
+			if = {
+				limit = {
+					exists = scope:dragon_var_story_val
+					scope:dragon_var_story_val = { has_variable = gene_dragon_primary_color_value }
+				}
+				value = scope:dragon_var_story_val.var:gene_dragon_primary_color_value
+			}
+		}
+		if = {
+			limit = {
+				agot_has_dragon_storage_system_global_list = yes
+			}
+			every_in_global_list = {
+				variable = gl_dragon_variable_storage
+				limit = {
+					var:dragon_id ?= root
+				}
+				save_temporary_scope_as = dragon_var_story_val
+			}
+			if = {
+				limit = {
+					exists = scope:dragon_var_story_val
+					scope:dragon_var_story_val = { has_variable = gene_dragon_primary_color_value }
+				}
+				value = scope:dragon_var_story_val.var:gene_dragon_primary_color_value
+			}
+		}
+	}
+}
+
+gene_dragon_secondary_hue_svalue = {
+	value = {
+		# Fallback: the dragon's own spawn variables. Lowest priority - the storage
+		# branches below overwrite it once the dragon storage list exists. Without this,
+		# portraits rendered before the storage populates get 0 and the DNA baseline
+		# shows instead of the scripted appearance.
+		if = {
+			limit = { is_alive = yes has_variable = gene_dragon_secondary_hue }
+			value = var:gene_dragon_secondary_hue
+		}
+		if = {
+			limit = {
+				has_character_flag = currently_riding_dragon
+				agot_has_dragon_storage_system_global_list = yes
+			}
+			every_in_global_list = {
+				variable = gl_dragon_variable_storage
+				limit = {
+					var:dragon_id ?= root.var:current_dragon
+				}
+				save_temporary_scope_as = dragon_var_story_val
+			}
+			if = {
+				limit = {
+					exists = scope:dragon_var_story_val
+					scope:dragon_var_story_val = { has_variable = gene_dragon_secondary_hue }
+				}
+				value = scope:dragon_var_story_val.var:gene_dragon_secondary_hue
+			}
+		}
+		if = {
+			limit = {
+				agot_has_dragon_storage_system_global_list = yes
+			}
+			every_in_global_list = {
+				variable = gl_dragon_variable_storage
+				limit = {
+					var:dragon_id ?= root
+				}
+				save_temporary_scope_as = dragon_var_story_val
+			}
+			if = {
+				limit = {
+					exists = scope:dragon_var_story_val
+					scope:dragon_var_story_val = { has_variable = gene_dragon_secondary_hue }
+				}
+				value = scope:dragon_var_story_val.var:gene_dragon_secondary_hue
+			}
+		}
+	}
+}
+gene_dragon_secondary_value_svalue = {
+	value = {
+		# Fallback: the dragon's own spawn variables. Lowest priority - the storage
+		# branches below overwrite it once the dragon storage list exists. Without this,
+		# portraits rendered before the storage populates get 0 and the DNA baseline
+		# shows instead of the scripted appearance.
+		if = {
+			limit = { is_alive = yes has_variable = gene_dragon_secondary_value }
+			value = var:gene_dragon_secondary_value
+		}
+		if = {
+			limit = {
+				has_character_flag = currently_riding_dragon
+				agot_has_dragon_storage_system_global_list = yes
+			}
+			every_in_global_list = {
+				variable = gl_dragon_variable_storage
+				limit = {
+					var:dragon_id ?= root.var:current_dragon
+				}
+				save_temporary_scope_as = dragon_var_story_val
+			}
+			if = {
+				limit = {
+					exists = scope:dragon_var_story_val
+					scope:dragon_var_story_val = { has_variable = gene_dragon_secondary_value }
+				}
+				value = scope:dragon_var_story_val.var:gene_dragon_secondary_value
+			}
+		}
+		if = {
+			limit = {
+				agot_has_dragon_storage_system_global_list = yes
+			}
+			every_in_global_list = {
+				variable = gl_dragon_variable_storage
+				limit = {
+					var:dragon_id ?= root
+				}
+				save_temporary_scope_as = dragon_var_story_val
+			}
+			if = {
+				limit = {
+					exists = scope:dragon_var_story_val
+					scope:dragon_var_story_val = { has_variable = gene_dragon_secondary_value }
+				}
+				value = scope:dragon_var_story_val.var:gene_dragon_secondary_value
+			}
+		}
+	}
+
+}
+gene_dragon_tertiary_hue_svalue = {
+	value = {
+		# Fallback: the dragon's own spawn variables. Lowest priority - the storage
+		# branches below overwrite it once the dragon storage list exists. Without this,
+		# portraits rendered before the storage populates get 0 and the DNA baseline
+		# shows instead of the scripted appearance.
+		if = {
+			limit = { is_alive = yes has_variable = gene_dragon_tertiary_hue }
+			value = var:gene_dragon_tertiary_hue
+		}
+		if = {
+			limit = {
+				has_character_flag = currently_riding_dragon
+				agot_has_dragon_storage_system_global_list = yes
+			}
+			every_in_global_list = {
+				variable = gl_dragon_variable_storage
+				limit = {
+					var:dragon_id ?= root.var:current_dragon
+				}
+				save_temporary_scope_as = dragon_var_story_val
+			}
+			if = {
+				limit = {
+					exists = scope:dragon_var_story_val
+					scope:dragon_var_story_val = { has_variable = gene_dragon_tertiary_hue }
+				}
+				value = scope:dragon_var_story_val.var:gene_dragon_tertiary_hue
+			}
+		}
+		if = {
+			limit = {
+				agot_has_dragon_storage_system_global_list = yes
+			}
+			every_in_global_list = {
+				variable = gl_dragon_variable_storage
+				limit = {
+					var:dragon_id ?= root
+				}
+				save_temporary_scope_as = dragon_var_story_val
+			}
+			if = {
+				limit = {
+					exists = scope:dragon_var_story_val
+					scope:dragon_var_story_val = { has_variable = gene_dragon_tertiary_hue }
+				}
+				value = scope:dragon_var_story_val.var:gene_dragon_tertiary_hue
+			}
+		}
+	}
+}
+gene_dragon_tertiary_value_svalue = {
+	value = {
+		# Fallback: the dragon's own spawn variables. Lowest priority - the storage
+		# branches below overwrite it once the dragon storage list exists. Without this,
+		# portraits rendered before the storage populates get 0 and the DNA baseline
+		# shows instead of the scripted appearance.
+		if = {
+			limit = { is_alive = yes has_variable = gene_dragon_tertiary_value }
+			value = var:gene_dragon_tertiary_value
+		}
+		if = {
+			limit = {
+				has_character_flag = currently_riding_dragon
+				agot_has_dragon_storage_system_global_list = yes
+			}
+			every_in_global_list = {
+				variable = gl_dragon_variable_storage
+				limit = {
+					var:dragon_id ?= root.var:current_dragon
+				}
+				save_temporary_scope_as = dragon_var_story_val
+			}
+			if = {
+				limit = {
+					exists = scope:dragon_var_story_val
+					scope:dragon_var_story_val = { has_variable = gene_dragon_tertiary_value }
+				}
+				value = scope:dragon_var_story_val.var:gene_dragon_tertiary_value
+			}
+		}
+		if = {
+			limit = {
+				agot_has_dragon_storage_system_global_list = yes
+			}
+			every_in_global_list = {
+				variable = gl_dragon_variable_storage
+				limit = {
+					var:dragon_id ?= root
+				}
+				save_temporary_scope_as = dragon_var_story_val
+			}
+			if = {
+				limit = {
+					exists = scope:dragon_var_story_val
+					scope:dragon_var_story_val = { has_variable = gene_dragon_tertiary_value }
+				}
+				value = scope:dragon_var_story_val.var:gene_dragon_tertiary_value
+			}
+		}
+	}
+
+}
+gene_dragon_eye_color_hue_svalue = {
+	value = {
+		# Fallback: the dragon's own spawn variables. Lowest priority - the storage
+		# branches below overwrite it once the dragon storage list exists. Without this,
+		# portraits rendered before the storage populates get 0 and the DNA baseline
+		# shows instead of the scripted appearance.
+		if = {
+			limit = { is_alive = yes has_variable = gene_dragon_eye_color_hue }
+			value = var:gene_dragon_eye_color_hue
+		}
+		if = {
+			limit = {
+				has_character_flag = currently_riding_dragon
+				agot_has_dragon_storage_system_global_list = yes
+			}
+			every_in_global_list = {
+				variable = gl_dragon_variable_storage
+				limit = {
+					var:dragon_id ?= root.var:current_dragon
+				}
+				save_temporary_scope_as = dragon_var_story_val
+			}
+			if = {
+				limit = {
+					exists = scope:dragon_var_story_val
+					scope:dragon_var_story_val = { has_variable = gene_dragon_eye_color_hue }
+				}
+				value = scope:dragon_var_story_val.var:gene_dragon_eye_color_hue
+			}
+		}
+		if = {
+			limit = {
+				agot_has_dragon_storage_system_global_list = yes
+			}
+			every_in_global_list = {
+				variable = gl_dragon_variable_storage
+				limit = {
+					var:dragon_id ?= root
+				}
+				save_temporary_scope_as = dragon_var_story_val
+			}
+			if = {
+				limit = {
+					exists = scope:dragon_var_story_val
+					scope:dragon_var_story_val = { has_variable = gene_dragon_eye_color_hue }
+				}
+				value = scope:dragon_var_story_val.var:gene_dragon_eye_color_hue
+			}
+		}
+	}
+}
+gene_dragon_eye_color_value_svalue = {
+	value = {
+		# Fallback: the dragon's own spawn variables. Lowest priority - the storage
+		# branches below overwrite it once the dragon storage list exists. Without this,
+		# portraits rendered before the storage populates get 0 and the DNA baseline
+		# shows instead of the scripted appearance.
+		if = {
+			limit = { is_alive = yes has_variable = gene_dragon_eye_color_value }
+			value = var:gene_dragon_eye_color_value
+		}
+		if = {
+			limit = {
+				has_character_flag = currently_riding_dragon
+				agot_has_dragon_storage_system_global_list = yes
+			}
+			every_in_global_list = {
+				variable = gl_dragon_variable_storage
+				limit = {
+					var:dragon_id ?= root.var:current_dragon
+				}
+				save_temporary_scope_as = dragon_var_story_val
+			}
+			if = {
+				limit = {
+					exists = scope:dragon_var_story_val
+					scope:dragon_var_story_val = { has_variable = gene_dragon_eye_color_value }
+				}
+				value = scope:dragon_var_story_val.var:gene_dragon_eye_color_value
+			}
+		}
+		if = {
+			limit = {
+				agot_has_dragon_storage_system_global_list = yes
+			}
+			every_in_global_list = {
+				variable = gl_dragon_variable_storage
+				limit = {
+					var:dragon_id ?= root
+				}
+				save_temporary_scope_as = dragon_var_story_val
+			}
+			if = {
+				limit = {
+					exists = scope:dragon_var_story_val
+					scope:dragon_var_story_val = { has_variable = gene_dragon_eye_color_value }
+				}
+				value = scope:dragon_var_story_val.var:gene_dragon_eye_color_value
+			}
+		}
+	}
+}
+gene_dragon_horn_color_hue_svalue = {
+	value = {
+		# Fallback: the dragon's own spawn variables. Lowest priority - the storage
+		# branches below overwrite it once the dragon storage list exists. Without this,
+		# portraits rendered before the storage populates get 0 and the DNA baseline
+		# shows instead of the scripted appearance.
+		if = {
+			limit = { is_alive = yes has_variable = gene_dragon_horn_color_hue }
+			value = var:gene_dragon_horn_color_hue
+		}
+		if = {
+			limit = {
+				has_character_flag = currently_riding_dragon
+				agot_has_dragon_storage_system_global_list = yes
+			}
+			every_in_global_list = {
+				variable = gl_dragon_variable_storage
+				limit = {
+					var:dragon_id ?= root.var:current_dragon
+				}
+				save_temporary_scope_as = dragon_var_story_val
+			}
+			if = {
+				limit = {
+					exists = scope:dragon_var_story_val
+					scope:dragon_var_story_val = { has_variable = gene_dragon_horn_color_hue }
+				}
+				value = scope:dragon_var_story_val.var:gene_dragon_horn_color_hue
+			}
+		}
+		if = {
+			limit = {
+				agot_has_dragon_storage_system_global_list = yes
+			}
+			every_in_global_list = {
+				variable = gl_dragon_variable_storage
+				limit = {
+					var:dragon_id ?= root
+				}
+				save_temporary_scope_as = dragon_var_story_val
+			}
+			if = {
+				limit = {
+					exists = scope:dragon_var_story_val
+					scope:dragon_var_story_val = { has_variable = gene_dragon_horn_color_hue }
+				}
+				value = scope:dragon_var_story_val.var:gene_dragon_horn_color_hue
+			}
+		}
+	}
+}
+gene_dragon_horn_color_value_svalue = {
+	value = {
+		# Fallback: the dragon's own spawn variables. Lowest priority - the storage
+		# branches below overwrite it once the dragon storage list exists. Without this,
+		# portraits rendered before the storage populates get 0 and the DNA baseline
+		# shows instead of the scripted appearance.
+		if = {
+			limit = { is_alive = yes has_variable = gene_dragon_horn_color_value }
+			value = var:gene_dragon_horn_color_value
+		}
+		if = {
+			limit = {
+				has_character_flag = currently_riding_dragon
+				agot_has_dragon_storage_system_global_list = yes
+			}
+			every_in_global_list = {
+				variable = gl_dragon_variable_storage
+				limit = {
+					var:dragon_id ?= root.var:current_dragon
+				}
+				save_temporary_scope_as = dragon_var_story_val
+			}
+			if = {
+				limit = {
+					exists = scope:dragon_var_story_val
+					scope:dragon_var_story_val = { has_variable = gene_dragon_horn_color_value }
+				}
+				value = scope:dragon_var_story_val.var:gene_dragon_horn_color_value
+			}
+		}
+		if = {
+			limit = {
+				agot_has_dragon_storage_system_global_list = yes
+			}
+			every_in_global_list = {
+				variable = gl_dragon_variable_storage
+				limit = {
+					var:dragon_id ?= root
+				}
+				save_temporary_scope_as = dragon_var_story_val
+			}
+			if = {
+				limit = {
+					exists = scope:dragon_var_story_val
+					scope:dragon_var_story_val = { has_variable = gene_dragon_horn_color_value }
+				}
+				value = scope:dragon_var_story_val.var:gene_dragon_horn_color_value
+			}
+		}
+	}
+}
+gene_dragon_brow_width_svalue = {
+	value = {
+		# Fallback: the dragon's own spawn variables. Lowest priority - the storage
+		# branches below overwrite it once the dragon storage list exists. Without this,
+		# portraits rendered before the storage populates get 0 and the DNA baseline
+		# shows instead of the scripted appearance.
+		if = {
+			limit = { is_alive = yes has_variable = gene_dragon_brow_width }
+			value = var:gene_dragon_brow_width
+		}
+		if = {
+			limit = {
+				has_character_flag = currently_riding_dragon
+				agot_has_dragon_storage_system_global_list = yes
+			}
+			every_in_global_list = {
+				variable = gl_dragon_variable_storage
+				limit = {
+					var:dragon_id ?= root.var:current_dragon
+				}
+				save_temporary_scope_as = dragon_var_story_val
+			}
+			if = {
+				limit = {
+					exists = scope:dragon_var_story_val
+					scope:dragon_var_story_val = { has_variable = gene_dragon_brow_width }
+				}
+				value = scope:dragon_var_story_val.var:gene_dragon_brow_width
+			}
+		}
+		if = {
+			limit = {
+				agot_has_dragon_storage_system_global_list = yes
+			}
+			every_in_global_list = {
+				variable = gl_dragon_variable_storage
+				limit = {
+					var:dragon_id ?= root
+				}
+				save_temporary_scope_as = dragon_var_story_val
+			}
+			if = {
+				limit = {
+					exists = scope:dragon_var_story_val
+					scope:dragon_var_story_val = { has_variable = gene_dragon_brow_width }
+				}
+				value = scope:dragon_var_story_val.var:gene_dragon_brow_width
+			}
+		}
+	}
+}
+gene_dragon_cheek_width_svalue = {
+	value = {
+		# Fallback: the dragon's own spawn variables. Lowest priority - the storage
+		# branches below overwrite it once the dragon storage list exists. Without this,
+		# portraits rendered before the storage populates get 0 and the DNA baseline
+		# shows instead of the scripted appearance.
+		if = {
+			limit = { is_alive = yes has_variable = gene_dragon_cheek_width }
+			value = var:gene_dragon_cheek_width
+		}
+		if = {
+			limit = {
+				has_character_flag = currently_riding_dragon
+				agot_has_dragon_storage_system_global_list = yes
+			}
+			every_in_global_list = {
+				variable = gl_dragon_variable_storage
+				limit = {
+					var:dragon_id ?= root.var:current_dragon
+				}
+				save_temporary_scope_as = dragon_var_story_val
+			}
+			if = {
+				limit = {
+					exists = scope:dragon_var_story_val
+					scope:dragon_var_story_val = { has_variable = gene_dragon_cheek_width }
+				}
+				value = scope:dragon_var_story_val.var:gene_dragon_cheek_width
+			}
+		}
+		if = {
+			limit = {
+				agot_has_dragon_storage_system_global_list = yes
+			}
+			every_in_global_list = {
+				variable = gl_dragon_variable_storage
+				limit = {
+					var:dragon_id ?= root
+				}
+				save_temporary_scope_as = dragon_var_story_val
+			}
+			if = {
+				limit = {
+					exists = scope:dragon_var_story_val
+					scope:dragon_var_story_val = { has_variable = gene_dragon_cheek_width }
+				}
+				value = scope:dragon_var_story_val.var:gene_dragon_cheek_width
+			}
+		}
+	}
+}
+gene_dragon_chin_profile_svalue = {
+	value = {
+		# Fallback: the dragon's own spawn variables. Lowest priority - the storage
+		# branches below overwrite it once the dragon storage list exists. Without this,
+		# portraits rendered before the storage populates get 0 and the DNA baseline
+		# shows instead of the scripted appearance.
+		if = {
+			limit = { is_alive = yes has_variable = gene_dragon_chin_profile }
+			value = var:gene_dragon_chin_profile
+		}
+		if = {
+			limit = {
+				has_character_flag = currently_riding_dragon
+				agot_has_dragon_storage_system_global_list = yes
+			}
+			every_in_global_list = {
+				variable = gl_dragon_variable_storage
+				limit = {
+					var:dragon_id ?= root.var:current_dragon
+				}
+				save_temporary_scope_as = dragon_var_story_val
+			}
+			if = {
+				limit = {
+					exists = scope:dragon_var_story_val
+					scope:dragon_var_story_val = { has_variable = gene_dragon_chin_profile }
+				}
+				value = scope:dragon_var_story_val.var:gene_dragon_chin_profile
+			}
+		}
+		if = {
+			limit = {
+				agot_has_dragon_storage_system_global_list = yes
+			}
+			every_in_global_list = {
+				variable = gl_dragon_variable_storage
+				limit = {
+					var:dragon_id ?= root
+				}
+				save_temporary_scope_as = dragon_var_story_val
+			}
+			if = {
+				limit = {
+					exists = scope:dragon_var_story_val
+					scope:dragon_var_story_val = { has_variable = gene_dragon_chin_profile }
+				}
+				value = scope:dragon_var_story_val.var:gene_dragon_chin_profile
+			}
+		}
+	}
+}
+gene_dragon_crest_depth_svalue = {
+	value = {
+		# Fallback: the dragon's own spawn variables. Lowest priority - the storage
+		# branches below overwrite it once the dragon storage list exists. Without this,
+		# portraits rendered before the storage populates get 0 and the DNA baseline
+		# shows instead of the scripted appearance.
+		if = {
+			limit = { is_alive = yes has_variable = gene_dragon_crest_depth }
+			value = var:gene_dragon_crest_depth
+		}
+		if = {
+			limit = {
+				has_character_flag = currently_riding_dragon
+				agot_has_dragon_storage_system_global_list = yes
+			}
+			every_in_global_list = {
+				variable = gl_dragon_variable_storage
+				limit = {
+					var:dragon_id ?= root.var:current_dragon
+				}
+				save_temporary_scope_as = dragon_var_story_val
+			}
+			if = {
+				limit = {
+					exists = scope:dragon_var_story_val
+					scope:dragon_var_story_val = { has_variable = gene_dragon_crest_depth }
+				}
+				value = scope:dragon_var_story_val.var:gene_dragon_crest_depth
+			}
+		}
+		if = {
+			limit = {
+				agot_has_dragon_storage_system_global_list = yes
+			}
+			every_in_global_list = {
+				variable = gl_dragon_variable_storage
+				limit = {
+					var:dragon_id ?= root
+				}
+				save_temporary_scope_as = dragon_var_story_val
+			}
+			if = {
+				limit = {
+					exists = scope:dragon_var_story_val
+					scope:dragon_var_story_val = { has_variable = gene_dragon_crest_depth }
+				}
+				value = scope:dragon_var_story_val.var:gene_dragon_crest_depth
+			}
+		}
+	}
+}
+gene_dragon_head_roundness_svalue = {
+	value = {
+		# Fallback: the dragon's own spawn variables. Lowest priority - the storage
+		# branches below overwrite it once the dragon storage list exists. Without this,
+		# portraits rendered before the storage populates get 0 and the DNA baseline
+		# shows instead of the scripted appearance.
+		if = {
+			limit = { is_alive = yes has_variable = gene_dragon_head_roundness }
+			value = var:gene_dragon_head_roundness
+		}
+		if = {
+			limit = {
+				has_character_flag = currently_riding_dragon
+				agot_has_dragon_storage_system_global_list = yes
+			}
+			every_in_global_list = {
+				variable = gl_dragon_variable_storage
+				limit = {
+					var:dragon_id ?= root.var:current_dragon
+				}
+				save_temporary_scope_as = dragon_var_story_val
+			}
+			if = {
+				limit = {
+					exists = scope:dragon_var_story_val
+					scope:dragon_var_story_val = { has_variable = gene_dragon_head_roundness }
+				}
+				value = scope:dragon_var_story_val.var:gene_dragon_head_roundness
+			}
+		}
+		if = {
+			limit = {
+				agot_has_dragon_storage_system_global_list = yes
+			}
+			every_in_global_list = {
+				variable = gl_dragon_variable_storage
+				limit = {
+					var:dragon_id ?= root
+				}
+				save_temporary_scope_as = dragon_var_story_val
+			}
+			if = {
+				limit = {
+					exists = scope:dragon_var_story_val
+					scope:dragon_var_story_val = { has_variable = gene_dragon_head_roundness }
+				}
+				value = scope:dragon_var_story_val.var:gene_dragon_head_roundness
+			}
+		}
+	}
+}
+gene_dragon_horns_eyebrow_length_svalue = {
+	value = {
+		# Fallback: the dragon's own spawn variables. Lowest priority - the storage
+		# branches below overwrite it once the dragon storage list exists. Without this,
+		# portraits rendered before the storage populates get 0 and the DNA baseline
+		# shows instead of the scripted appearance.
+		if = {
+			limit = { is_alive = yes has_variable = gene_dragon_horns_eyebrow_length }
+			value = var:gene_dragon_horns_eyebrow_length
+		}
+		if = {
+			limit = {
+				has_character_flag = currently_riding_dragon
+				agot_has_dragon_storage_system_global_list = yes
+			}
+			every_in_global_list = {
+				variable = gl_dragon_variable_storage
+				limit = {
+					var:dragon_id ?= root.var:current_dragon
+				}
+				save_temporary_scope_as = dragon_var_story_val
+			}
+			if = {
+				limit = {
+					exists = scope:dragon_var_story_val
+					scope:dragon_var_story_val = { has_variable = gene_dragon_horns_eyebrow_length }
+				}
+				value = scope:dragon_var_story_val.var:gene_dragon_horns_eyebrow_length
+			}
+		}
+		if = {
+			limit = {
+				agot_has_dragon_storage_system_global_list = yes
+			}
+			every_in_global_list = {
+				variable = gl_dragon_variable_storage
+				limit = {
+					var:dragon_id ?= root
+				}
+				save_temporary_scope_as = dragon_var_story_val
+			}
+			if = {
+				limit = {
+					exists = scope:dragon_var_story_val
+					scope:dragon_var_story_val = { has_variable = gene_dragon_horns_eyebrow_length }
+				}
+				value = scope:dragon_var_story_val.var:gene_dragon_horns_eyebrow_length
+			}
+		}
+	}
+}
+gene_dragon_main_horn_shape_template_svalue = {
+	value = {
+		# Fallback: the dragon's own spawn variables. Lowest priority - the storage
+		# branches below overwrite it once the dragon storage list exists. Without this,
+		# portraits rendered before the storage populates get 0 and the DNA baseline
+		# shows instead of the scripted appearance.
+		if = {
+			limit = { is_alive = yes has_variable = gene_dragon_main_horn_shape_template }
+			value = var:gene_dragon_main_horn_shape_template
+		}
+		if = {
+			limit = {
+				has_character_flag = currently_riding_dragon
+				agot_has_dragon_storage_system_global_list = yes
+			}
+			every_in_global_list = {
+				variable = gl_dragon_variable_storage
+				limit = {
+					var:dragon_id ?= root.var:current_dragon
+				}
+				save_temporary_scope_as = dragon_var_story_val
+			}
+			if = {
+				limit = {
+					exists = scope:dragon_var_story_val
+					scope:dragon_var_story_val = { has_variable = gene_dragon_main_horn_shape_template }
+				}
+				value = scope:dragon_var_story_val.var:gene_dragon_main_horn_shape_template
+			}
+		}
+		if = {
+			limit = {
+				agot_has_dragon_storage_system_global_list = yes
+				has_trait = dragon
+			}
+			every_in_global_list = {
+				variable = gl_dragon_variable_storage
+				limit = {
+					var:dragon_id ?= root
+				}
+				save_temporary_scope_as = dragon_var_story_val
+			}
+			if = {
+				limit = {
+					exists = scope:dragon_var_story_val
+					scope:dragon_var_story_val = { has_variable = gene_dragon_main_horn_shape_template }
+				}
+				value = scope:dragon_var_story_val.var:gene_dragon_main_horn_shape_template
+			}
+		}
+	}
+}
+gene_dragon_main_horn_shape_value_svalue = {
+	value = {
+		# Fallback: the dragon's own spawn variables. Lowest priority - the storage
+		# branches below overwrite it once the dragon storage list exists. Without this,
+		# portraits rendered before the storage populates get 0 and the DNA baseline
+		# shows instead of the scripted appearance.
+		if = {
+			limit = { is_alive = yes has_variable = gene_dragon_main_horn_shape_value }
+			value = var:gene_dragon_main_horn_shape_value
+		}
+		if = {
+			limit = {
+				has_character_flag = currently_riding_dragon
+				agot_has_dragon_storage_system_global_list = yes
+			}
+			every_in_global_list = {
+				variable = gl_dragon_variable_storage
+				limit = {
+					var:dragon_id ?= root.var:current_dragon
+				}
+				save_temporary_scope_as = dragon_var_story_val
+			}
+			if = {
+				limit = {
+					exists = scope:dragon_var_story_val
+					scope:dragon_var_story_val = { has_variable = gene_dragon_main_horn_shape_value }
+				}
+				value = scope:dragon_var_story_val.var:gene_dragon_main_horn_shape_value
+			}
+		}
+		if = {
+			limit = {
+				agot_has_dragon_storage_system_global_list = yes
+			}
+			every_in_global_list = {
+				variable = gl_dragon_variable_storage
+				limit = {
+					var:dragon_id ?= root
+				}
+				save_temporary_scope_as = dragon_var_story_val
+			}
+			if = {
+				limit = {
+					exists = scope:dragon_var_story_val
+					scope:dragon_var_story_val = { has_variable = gene_dragon_main_horn_shape_value }
+				}
+				value = scope:dragon_var_story_val.var:gene_dragon_main_horn_shape_value
+			}
+		}
+	}
+}
+gene_dragon_body_shading_template_svalue = {
+	value = {
+		# Fallback: the dragon's own spawn variables. Lowest priority - the storage
+		# branches below overwrite it once the dragon storage list exists. Without this,
+		# portraits rendered before the storage populates get 0 and the DNA baseline
+		# shows instead of the scripted appearance.
+		if = {
+			limit = { is_alive = yes has_variable = gene_dragon_body_shading_template }
+			value = var:gene_dragon_body_shading_template
+		}
+		if = {
+			limit = {
+				has_character_flag = currently_riding_dragon
+				agot_has_dragon_storage_system_global_list = yes
+			}
+			every_in_global_list = {
+				variable = gl_dragon_variable_storage
+				limit = {
+					var:dragon_id ?= root.var:current_dragon
+				}
+				save_temporary_scope_as = dragon_var_story_val
+			}
+			if = {
+				limit = {
+					exists = scope:dragon_var_story_val
+					scope:dragon_var_story_val = { has_variable = gene_dragon_body_shading_template }
+				}
+				value = scope:dragon_var_story_val.var:gene_dragon_body_shading_template
+			}
+		}
+		if = {
+			limit = {
+				agot_has_dragon_storage_system_global_list = yes
+				has_trait = dragon
+			}
+			every_in_global_list = {
+				variable = gl_dragon_variable_storage
+				limit = {
+					var:dragon_id ?= root
+				}
+				save_temporary_scope_as = dragon_var_story_val
+			}
+			if = {
+				limit = {
+					exists = scope:dragon_var_story_val
+					scope:dragon_var_story_val = { has_variable = gene_dragon_body_shading_template }
+				}
+				value = scope:dragon_var_story_val.var:gene_dragon_body_shading_template
+			}
+		}
+	}
+}
+gene_dragon_body_pattern_template_svalue = {
+	value = {
+		# Fallback: the dragon's own spawn variables. Lowest priority - the storage
+		# branches below overwrite it once the dragon storage list exists. Without this,
+		# portraits rendered before the storage populates get 0 and the DNA baseline
+		# shows instead of the scripted appearance.
+		if = {
+			limit = { is_alive = yes has_variable = gene_dragon_body_pattern_template }
+			value = var:gene_dragon_body_pattern_template
+		}
+		if = {
+			limit = {
+				has_character_flag = currently_riding_dragon
+				agot_has_dragon_storage_system_global_list = yes
+			}
+			every_in_global_list = {
+				variable = gl_dragon_variable_storage
+				limit = {
+					var:dragon_id ?= root.var:current_dragon
+				}
+				save_temporary_scope_as = dragon_var_story_val
+			}
+			if = {
+				limit = {
+					exists = scope:dragon_var_story_val
+					scope:dragon_var_story_val = { has_variable = gene_dragon_body_pattern_template }
+				}
+				value = scope:dragon_var_story_val.var:gene_dragon_body_pattern_template
+			}
+		}
+		if = {
+			limit = {
+				agot_has_dragon_storage_system_global_list = yes
+				has_trait = dragon
+			}
+			every_in_global_list = {
+				variable = gl_dragon_variable_storage
+				limit = {
+					var:dragon_id ?= root
+				}
+				save_temporary_scope_as = dragon_var_story_val
+			}
+			if = {
+				limit = {
+					exists = scope:dragon_var_story_val
+					scope:dragon_var_story_val = { has_variable = gene_dragon_body_pattern_template }
+				}
+				value = scope:dragon_var_story_val.var:gene_dragon_body_pattern_template
+			}
+		}
+	}
+}
+gene_dragon_body_shading_value_svalue = {
+	value = {
+		# Fallback: the dragon's own spawn variables. Lowest priority - the storage
+		# branches below overwrite it once the dragon storage list exists. Without this,
+		# portraits rendered before the storage populates get 0 and the DNA baseline
+		# shows instead of the scripted appearance.
+		if = {
+			limit = { is_alive = yes has_variable = gene_dragon_body_shading_value }
+			value = var:gene_dragon_body_shading_value
+		}
+		if = {
+			limit = {
+				has_character_flag = currently_riding_dragon
+				agot_has_dragon_storage_system_global_list = yes
+			}
+			every_in_global_list = {
+				variable = gl_dragon_variable_storage
+				limit = {
+					var:dragon_id ?= root.var:current_dragon
+				}
+				save_temporary_scope_as = dragon_var_story_val
+			}
+			if = {
+				limit = {
+					exists = scope:dragon_var_story_val
+					scope:dragon_var_story_val = { has_variable = gene_dragon_body_shading_value }
+				}
+				value = scope:dragon_var_story_val.var:gene_dragon_body_shading_value
+			}
+		}
+		if = {
+			limit = {
+				agot_has_dragon_storage_system_global_list = yes
+			}
+			every_in_global_list = {
+				variable = gl_dragon_variable_storage
+				limit = {
+					var:dragon_id ?= root
+				}
+				save_temporary_scope_as = dragon_var_story_val
+			}
+			if = {
+				limit = {
+					exists = scope:dragon_var_story_val
+					scope:dragon_var_story_val = { has_variable = gene_dragon_body_shading_value }
+				}
+				value = scope:dragon_var_story_val.var:gene_dragon_body_shading_value
+			}
+		}
+	}
+}
+gene_dragon_body_pattern_value_svalue = {
+	value = {
+		# Fallback: the dragon's own spawn variables. Lowest priority - the storage
+		# branches below overwrite it once the dragon storage list exists. Without this,
+		# portraits rendered before the storage populates get 0 and the DNA baseline
+		# shows instead of the scripted appearance.
+		if = {
+			limit = { is_alive = yes has_variable = gene_dragon_body_pattern_value }
+			value = var:gene_dragon_body_pattern_value
+		}
+		if = {
+			limit = {
+				has_character_flag = currently_riding_dragon
+				agot_has_dragon_storage_system_global_list = yes
+			}
+			every_in_global_list = {
+				variable = gl_dragon_variable_storage
+				limit = {
+					var:dragon_id ?= root.var:current_dragon
+				}
+				save_temporary_scope_as = dragon_var_story_val
+			}
+			if = {
+				limit = {
+					exists = scope:dragon_var_story_val
+					scope:dragon_var_story_val = { has_variable = gene_dragon_body_pattern_value }
+				}
+				value = scope:dragon_var_story_val.var:gene_dragon_body_pattern_value
+			}
+		}
+		if = {
+			limit = {
+				agot_has_dragon_storage_system_global_list = yes
+			}
+			every_in_global_list = {
+				variable = gl_dragon_variable_storage
+				limit = {
+					var:dragon_id ?= root
+				}
+				save_temporary_scope_as = dragon_var_story_val
+			}
+			if = {
+				limit = {
+					exists = scope:dragon_var_story_val
+					scope:dragon_var_story_val = { has_variable = gene_dragon_body_pattern_value }
+				}
+				value = scope:dragon_var_story_val.var:gene_dragon_body_pattern_value
+			}
+		}
+	}
+}
+
+gene_dragon_wings_shading_template_svalue = {
+	value = {
+		# Fallback: the dragon's own spawn variables. Lowest priority - the storage
+		# branches below overwrite it once the dragon storage list exists. Without this,
+		# portraits rendered before the storage populates get 0 and the DNA baseline
+		# shows instead of the scripted appearance.
+		if = {
+			limit = { is_alive = yes has_variable = gene_dragon_wings_shading_template }
+			value = var:gene_dragon_wings_shading_template
+		}
+		if = {
+			limit = {
+				has_character_flag = currently_riding_dragon
+				agot_has_dragon_storage_system_global_list = yes
+			}
+			every_in_global_list = {
+				variable = gl_dragon_variable_storage
+				limit = {
+					var:dragon_id ?= root.var:current_dragon
+				}
+				save_temporary_scope_as = dragon_var_story_val
+			}
+			if = {
+				limit = {
+					exists = scope:dragon_var_story_val
+					scope:dragon_var_story_val = { has_variable = gene_dragon_wings_shading_template }
+				}
+				value = scope:dragon_var_story_val.var:gene_dragon_wings_shading_template
+			}
+		}
+		if = {
+			limit = {
+				agot_has_dragon_storage_system_global_list = yes
+				has_trait = dragon
+			}
+			every_in_global_list = {
+				variable = gl_dragon_variable_storage
+				limit = {
+					var:dragon_id ?= root
+				}
+				save_temporary_scope_as = dragon_var_story_val
+			}
+			if = {
+				limit = {
+					exists = scope:dragon_var_story_val
+					scope:dragon_var_story_val = { has_variable = gene_dragon_wings_shading_template }
+				}
+				value = scope:dragon_var_story_val.var:gene_dragon_wings_shading_template
+			}
+		}
+	}
+}
+gene_dragon_wings_shading_value_svalue = {
+	value = {
+		# Fallback: the dragon's own spawn variables. Lowest priority - the storage
+		# branches below overwrite it once the dragon storage list exists. Without this,
+		# portraits rendered before the storage populates get 0 and the DNA baseline
+		# shows instead of the scripted appearance.
+		if = {
+			limit = { is_alive = yes has_variable = gene_dragon_wings_shading_value }
+			value = var:gene_dragon_wings_shading_value
+		}
+		if = {
+			limit = {
+				has_character_flag = currently_riding_dragon
+				agot_has_dragon_storage_system_global_list = yes
+			}
+			every_in_global_list = {
+				variable = gl_dragon_variable_storage
+				limit = {
+					var:dragon_id ?= root.var:current_dragon
+				}
+				save_temporary_scope_as = dragon_var_story_val
+			}
+			if = {
+				limit = {
+					exists = scope:dragon_var_story_val
+					scope:dragon_var_story_val = { has_variable = gene_dragon_wings_shading_value }
+				}
+				value = scope:dragon_var_story_val.var:gene_dragon_wings_shading_value
+			}
+		}
+		if = {
+			limit = {
+				agot_has_dragon_storage_system_global_list = yes
+			}
+			every_in_global_list = {
+				variable = gl_dragon_variable_storage
+				limit = {
+					var:dragon_id ?= root
+				}
+				save_temporary_scope_as = dragon_var_story_val
+			}
+			if = {
+				limit = {
+					exists = scope:dragon_var_story_val
+					scope:dragon_var_story_val = { has_variable = gene_dragon_wings_shading_value }
+				}
+				value = scope:dragon_var_story_val.var:gene_dragon_wings_shading_value
+			}
+		}
+	}
+}
+
+gene_dragon_jaw_width_svalue = {
+	value = {
+		# Fallback: the dragon's own spawn variables. Lowest priority - the storage
+		# branches below overwrite it once the dragon storage list exists. Without this,
+		# portraits rendered before the storage populates get 0 and the DNA baseline
+		# shows instead of the scripted appearance.
+		if = {
+			limit = { is_alive = yes has_variable = gene_dragon_jaw_width }
+			value = var:gene_dragon_jaw_width
+		}
+		if = {
+			limit = {
+				has_character_flag = currently_riding_dragon
+				agot_has_dragon_storage_system_global_list = yes
+			}
+			every_in_global_list = {
+				variable = gl_dragon_variable_storage
+				limit = {
+					var:dragon_id ?= root.var:current_dragon
+				}
+				save_temporary_scope_as = dragon_var_story_val
+			}
+			if = {
+				limit = {
+					exists = scope:dragon_var_story_val
+					scope:dragon_var_story_val = { has_variable = gene_dragon_jaw_width }
+				}
+				value = scope:dragon_var_story_val.var:gene_dragon_jaw_width
+			}
+		}
+		if = {
+			limit = {
+				agot_has_dragon_storage_system_global_list = yes
+			}
+			every_in_global_list = {
+				variable = gl_dragon_variable_storage
+				limit = {
+					var:dragon_id ?= root
+				}
+				save_temporary_scope_as = dragon_var_story_val
+			}
+			if = {
+				limit = {
+					exists = scope:dragon_var_story_val
+					scope:dragon_var_story_val = { has_variable = gene_dragon_jaw_width }
+				}
+				value = scope:dragon_var_story_val.var:gene_dragon_jaw_width
+			}
+		}
+	}
+}
+gene_dragon_lower_jaw_height_svalue = {
+	value = {
+		# Fallback: the dragon's own spawn variables. Lowest priority - the storage
+		# branches below overwrite it once the dragon storage list exists. Without this,
+		# portraits rendered before the storage populates get 0 and the DNA baseline
+		# shows instead of the scripted appearance.
+		if = {
+			limit = { is_alive = yes has_variable = gene_dragon_lower_jaw_height }
+			value = var:gene_dragon_lower_jaw_height
+		}
+		if = {
+			limit = {
+				has_character_flag = currently_riding_dragon
+				agot_has_dragon_storage_system_global_list = yes
+			}
+			every_in_global_list = {
+				variable = gl_dragon_variable_storage
+				limit = {
+					var:dragon_id ?= root.var:current_dragon
+				}
+				save_temporary_scope_as = dragon_var_story_val
+			}
+			if = {
+				limit = {
+					exists = scope:dragon_var_story_val
+					scope:dragon_var_story_val = { has_variable = gene_dragon_lower_jaw_height }
+				}
+				value = scope:dragon_var_story_val.var:gene_dragon_lower_jaw_height
+			}
+		}
+		if = {
+			limit = {
+				agot_has_dragon_storage_system_global_list = yes
+			}
+			every_in_global_list = {
+				variable = gl_dragon_variable_storage
+				limit = {
+					var:dragon_id ?= root
+				}
+				save_temporary_scope_as = dragon_var_story_val
+			}
+			if = {
+				limit = {
+					exists = scope:dragon_var_story_val
+					scope:dragon_var_story_val = { has_variable = gene_dragon_lower_jaw_height }
+				}
+				value = scope:dragon_var_story_val.var:gene_dragon_lower_jaw_height
+			}
+		}
+	}
+}
+gene_dragon_lower_jaw_width_svalue = {
+	value = {
+		# Fallback: the dragon's own spawn variables. Lowest priority - the storage
+		# branches below overwrite it once the dragon storage list exists. Without this,
+		# portraits rendered before the storage populates get 0 and the DNA baseline
+		# shows instead of the scripted appearance.
+		if = {
+			limit = { is_alive = yes has_variable = gene_dragon_lower_jaw_width }
+			value = var:gene_dragon_lower_jaw_width
+		}
+		if = {
+			limit = {
+				has_character_flag = currently_riding_dragon
+				agot_has_dragon_storage_system_global_list = yes
+			}
+			every_in_global_list = {
+				variable = gl_dragon_variable_storage
+				limit = {
+					var:dragon_id ?= root.var:current_dragon
+				}
+				save_temporary_scope_as = dragon_var_story_val
+			}
+			if = {
+				limit = {
+					exists = scope:dragon_var_story_val
+					scope:dragon_var_story_val = { has_variable = gene_dragon_lower_jaw_width }
+				}
+				value = scope:dragon_var_story_val.var:gene_dragon_lower_jaw_width
+			}
+		}
+		if = {
+			limit = {
+				agot_has_dragon_storage_system_global_list = yes
+			}
+			every_in_global_list = {
+				variable = gl_dragon_variable_storage
+				limit = {
+					var:dragon_id ?= root
+				}
+				save_temporary_scope_as = dragon_var_story_val
+			}
+			if = {
+				limit = {
+					exists = scope:dragon_var_story_val
+					scope:dragon_var_story_val = { has_variable = gene_dragon_lower_jaw_width }
+				}
+				value = scope:dragon_var_story_val.var:gene_dragon_lower_jaw_width
+			}
+		}
+	}
+}
+gene_dragon_old_neck_svalue = {
+	value = {
+		# Fallback: the dragon's own spawn variables. Lowest priority - the storage
+		# branches below overwrite it once the dragon storage list exists. Without this,
+		# portraits rendered before the storage populates get 0 and the DNA baseline
+		# shows instead of the scripted appearance.
+		if = {
+			limit = { is_alive = yes has_variable = gene_dragon_old_neck }
+			value = var:gene_dragon_old_neck
+		}
+		if = {
+			limit = {
+				has_character_flag = currently_riding_dragon
+				agot_has_dragon_storage_system_global_list = yes
+			}
+			every_in_global_list = {
+				variable = gl_dragon_variable_storage
+				limit = {
+					var:dragon_id ?= root.var:current_dragon
+				}
+				save_temporary_scope_as = dragon_var_story_val
+			}
+			if = {
+				limit = {
+					exists = scope:dragon_var_story_val
+					scope:dragon_var_story_val = { has_variable = gene_dragon_old_neck }
+				}
+				value = scope:dragon_var_story_val.var:gene_dragon_old_neck
+			}
+		}
+		if = {
+			limit = {
+				agot_has_dragon_storage_system_global_list = yes
+			}
+			every_in_global_list = {
+				variable = gl_dragon_variable_storage
+				limit = {
+					var:dragon_id ?= root
+				}
+				save_temporary_scope_as = dragon_var_story_val
+			}
+			if = {
+				limit = {
+					exists = scope:dragon_var_story_val
+					scope:dragon_var_story_val = { has_variable = gene_dragon_old_neck }
+				}
+				value = scope:dragon_var_story_val.var:gene_dragon_old_neck
+			}
+		}
+	}
+}
+gene_dragon_outer_brow_height_svalue = {
+	value = {
+		# Fallback: the dragon's own spawn variables. Lowest priority - the storage
+		# branches below overwrite it once the dragon storage list exists. Without this,
+		# portraits rendered before the storage populates get 0 and the DNA baseline
+		# shows instead of the scripted appearance.
+		if = {
+			limit = { is_alive = yes has_variable = gene_dragon_outer_brow_height }
+			value = var:gene_dragon_outer_brow_height
+		}
+		if = {
+			limit = {
+				has_character_flag = currently_riding_dragon
+				agot_has_dragon_storage_system_global_list = yes
+			}
+			every_in_global_list = {
+				variable = gl_dragon_variable_storage
+				limit = {
+					var:dragon_id ?= root.var:current_dragon
+				}
+				save_temporary_scope_as = dragon_var_story_val
+			}
+			if = {
+				limit = {
+					exists = scope:dragon_var_story_val
+					scope:dragon_var_story_val = { has_variable = gene_dragon_outer_brow_height }
+				}
+				value = scope:dragon_var_story_val.var:gene_dragon_outer_brow_height
+			}
+		}
+		if = {
+			limit = {
+				agot_has_dragon_storage_system_global_list = yes
+			}
+			every_in_global_list = {
+				variable = gl_dragon_variable_storage
+				limit = {
+					var:dragon_id ?= root
+				}
+				save_temporary_scope_as = dragon_var_story_val
+			}
+			if = {
+				limit = {
+					exists = scope:dragon_var_story_val
+					scope:dragon_var_story_val = { has_variable = gene_dragon_outer_brow_height }
+				}
+				value = scope:dragon_var_story_val.var:gene_dragon_outer_brow_height
+			}
+		}
+	}
+}
+gene_dragon_snout_height_svalue = {
+	value = {
+		# Fallback: the dragon's own spawn variables. Lowest priority - the storage
+		# branches below overwrite it once the dragon storage list exists. Without this,
+		# portraits rendered before the storage populates get 0 and the DNA baseline
+		# shows instead of the scripted appearance.
+		if = {
+			limit = { is_alive = yes has_variable = gene_dragon_snout_height }
+			value = var:gene_dragon_snout_height
+		}
+		if = {
+			limit = {
+				has_character_flag = currently_riding_dragon
+				agot_has_dragon_storage_system_global_list = yes
+			}
+			every_in_global_list = {
+				variable = gl_dragon_variable_storage
+				limit = {
+					var:dragon_id ?= root.var:current_dragon
+				}
+				save_temporary_scope_as = dragon_var_story_val
+			}
+			if = {
+				limit = {
+					exists = scope:dragon_var_story_val
+					scope:dragon_var_story_val = { has_variable = gene_dragon_snout_height }
+				}
+				value = scope:dragon_var_story_val.var:gene_dragon_snout_height
+			}
+		}
+		if = {
+			limit = {
+				agot_has_dragon_storage_system_global_list = yes
+			}
+			every_in_global_list = {
+				variable = gl_dragon_variable_storage
+				limit = {
+					var:dragon_id ?= root
+				}
+				save_temporary_scope_as = dragon_var_story_val
+			}
+			if = {
+				limit = {
+					exists = scope:dragon_var_story_val
+					scope:dragon_var_story_val = { has_variable = gene_dragon_snout_height }
+				}
+				value = scope:dragon_var_story_val.var:gene_dragon_snout_height
+			}
+		}
+	}
+}
+gene_dragon_snout_length_svalue = {
+	value = {
+		# Fallback: the dragon's own spawn variables. Lowest priority - the storage
+		# branches below overwrite it once the dragon storage list exists. Without this,
+		# portraits rendered before the storage populates get 0 and the DNA baseline
+		# shows instead of the scripted appearance.
+		if = {
+			limit = { is_alive = yes has_variable = gene_dragon_snout_length }
+			value = var:gene_dragon_snout_length
+		}
+		if = {
+			limit = {
+				has_character_flag = currently_riding_dragon
+				agot_has_dragon_storage_system_global_list = yes
+			}
+			every_in_global_list = {
+				variable = gl_dragon_variable_storage
+				limit = {
+					var:dragon_id ?= root.var:current_dragon
+				}
+				save_temporary_scope_as = dragon_var_story_val
+			}
+			if = {
+				limit = {
+					exists = scope:dragon_var_story_val
+					scope:dragon_var_story_val = { has_variable = gene_dragon_snout_length }
+				}
+				value = scope:dragon_var_story_val.var:gene_dragon_snout_length
+			}
+		}
+		if = {
+			limit = {
+				agot_has_dragon_storage_system_global_list = yes
+			}
+			every_in_global_list = {
+				variable = gl_dragon_variable_storage
+				limit = {
+					var:dragon_id ?= root
+				}
+				save_temporary_scope_as = dragon_var_story_val
+			}
+			if = {
+				limit = {
+					exists = scope:dragon_var_story_val
+					scope:dragon_var_story_val = { has_variable = gene_dragon_snout_length }
+				}
+				value = scope:dragon_var_story_val.var:gene_dragon_snout_length
+			}
+		}
+	}
+}
+gene_dragon_snout_profile_svalue = {
+	value = {
+		# Fallback: the dragon's own spawn variables. Lowest priority - the storage
+		# branches below overwrite it once the dragon storage list exists. Without this,
+		# portraits rendered before the storage populates get 0 and the DNA baseline
+		# shows instead of the scripted appearance.
+		if = {
+			limit = { is_alive = yes has_variable = gene_dragon_snout_profile }
+			value = var:gene_dragon_snout_profile
+		}
+		if = {
+			limit = {
+				has_character_flag = currently_riding_dragon
+				agot_has_dragon_storage_system_global_list = yes
+			}
+			every_in_global_list = {
+				variable = gl_dragon_variable_storage
+				limit = {
+					var:dragon_id ?= root.var:current_dragon
+				}
+				save_temporary_scope_as = dragon_var_story_val
+			}
+			if = {
+				limit = {
+					exists = scope:dragon_var_story_val
+					scope:dragon_var_story_val = { has_variable = gene_dragon_snout_profile }
+				}
+				value = scope:dragon_var_story_val.var:gene_dragon_snout_profile
+			}
+		}
+		if = {
+			limit = {
+				agot_has_dragon_storage_system_global_list = yes
+			}
+			every_in_global_list = {
+				variable = gl_dragon_variable_storage
+				limit = {
+					var:dragon_id ?= root
+				}
+				save_temporary_scope_as = dragon_var_story_val
+			}
+			if = {
+				limit = {
+					exists = scope:dragon_var_story_val
+					scope:dragon_var_story_val = { has_variable = gene_dragon_snout_profile }
+				}
+				value = scope:dragon_var_story_val.var:gene_dragon_snout_profile
+			}
+		}
+	}
+}
+gene_dragon_snout_width_svalue = {
+	value = {
+		# Fallback: the dragon's own spawn variables. Lowest priority - the storage
+		# branches below overwrite it once the dragon storage list exists. Without this,
+		# portraits rendered before the storage populates get 0 and the DNA baseline
+		# shows instead of the scripted appearance.
+		if = {
+			limit = { is_alive = yes has_variable = gene_dragon_snout_width }
+			value = var:gene_dragon_snout_width
+		}
+		if = {
+			limit = {
+				has_character_flag = currently_riding_dragon
+				agot_has_dragon_storage_system_global_list = yes
+			}
+			every_in_global_list = {
+				variable = gl_dragon_variable_storage
+				limit = {
+					var:dragon_id ?= root.var:current_dragon
+				}
+				save_temporary_scope_as = dragon_var_story_val
+			}
+			if = {
+				limit = {
+					exists = scope:dragon_var_story_val
+					scope:dragon_var_story_val = { has_variable = gene_dragon_snout_width }
+				}
+				value = scope:dragon_var_story_val.var:gene_dragon_snout_width
+			}
+		}
+		if = {
+			limit = {
+				agot_has_dragon_storage_system_global_list = yes
+			}
+			every_in_global_list = {
+				variable = gl_dragon_variable_storage
+				limit = {
+					var:dragon_id ?= root
+				}
+				save_temporary_scope_as = dragon_var_story_val
+			}
+			if = {
+				limit = {
+					exists = scope:dragon_var_story_val
+					scope:dragon_var_story_val = { has_variable = gene_dragon_snout_width }
+				}
+				value = scope:dragon_var_story_val.var:gene_dragon_snout_width
+			}
+		}
+	}
+}
+gene_dragon_upper_jaw_width_svalue = {
+	value = {
+		# Fallback: the dragon's own spawn variables. Lowest priority - the storage
+		# branches below overwrite it once the dragon storage list exists. Without this,
+		# portraits rendered before the storage populates get 0 and the DNA baseline
+		# shows instead of the scripted appearance.
+		if = {
+			limit = { is_alive = yes has_variable = gene_dragon_upper_jaw_width }
+			value = var:gene_dragon_upper_jaw_width
+		}
+		if = {
+			limit = {
+				has_character_flag = currently_riding_dragon
+				agot_has_dragon_storage_system_global_list = yes
+			}
+			every_in_global_list = {
+				variable = gl_dragon_variable_storage
+				limit = {
+					var:dragon_id ?= root.var:current_dragon
+				}
+				save_temporary_scope_as = dragon_var_story_val
+			}
+			if = {
+				limit = {
+					exists = scope:dragon_var_story_val
+					scope:dragon_var_story_val = { has_variable = gene_dragon_upper_jaw_width }
+				}
+				value = scope:dragon_var_story_val.var:gene_dragon_upper_jaw_width
+			}
+		}
+		if = {
+			limit = {
+				agot_has_dragon_storage_system_global_list = yes
+			}
+			every_in_global_list = {
+				variable = gl_dragon_variable_storage
+				limit = {
+					var:dragon_id ?= root
+				}
+				save_temporary_scope_as = dragon_var_story_val
+			}
+			if = {
+				limit = {
+					exists = scope:dragon_var_story_val
+					scope:dragon_var_story_val = { has_variable = gene_dragon_upper_jaw_width }
+				}
+				value = scope:dragon_var_story_val.var:gene_dragon_upper_jaw_width
+			}
+		}
+	}
+}
+gene_dragon_center_fin_size_svalue = {
+	value = {
+		# Fallback: the dragon's own spawn variables. Lowest priority - the storage
+		# branches below overwrite it once the dragon storage list exists. Without this,
+		# portraits rendered before the storage populates get 0 and the DNA baseline
+		# shows instead of the scripted appearance.
+		if = {
+			limit = { is_alive = yes has_variable = gene_dragon_center_fin_size }
+			value = var:gene_dragon_center_fin_size
+		}
+		if = {
+			limit = {
+				has_character_flag = currently_riding_dragon
+				agot_has_dragon_storage_system_global_list = yes
+			}
+			every_in_global_list = {
+				variable = gl_dragon_variable_storage
+				limit = {
+					var:dragon_id ?= root.var:current_dragon
+				}
+				save_temporary_scope_as = dragon_var_story_val
+			}
+			if = {
+				limit = {
+					exists = scope:dragon_var_story_val
+					scope:dragon_var_story_val = { has_variable = gene_dragon_center_fin_size }
+				}
+				value = scope:dragon_var_story_val.var:gene_dragon_center_fin_size
+			}
+		}
+		if = {
+			limit = {
+				agot_has_dragon_storage_system_global_list = yes
+			}
+			every_in_global_list = {
+				variable = gl_dragon_variable_storage
+				limit = {
+					var:dragon_id ?= root
+				}
+				save_temporary_scope_as = dragon_var_story_val
+			}
+			if = {
+				limit = {
+					exists = scope:dragon_var_story_val
+					scope:dragon_var_story_val = { has_variable = gene_dragon_center_fin_size }
+				}
+				value = scope:dragon_var_story_val.var:gene_dragon_center_fin_size
+			}
+		}
+	}
+}
+gene_dragon_back_spike_size_svalue = {
+	value = {
+		# Fallback: the dragon's own spawn variables. Lowest priority - the storage
+		# branches below overwrite it once the dragon storage list exists. Without this,
+		# portraits rendered before the storage populates get 0 and the DNA baseline
+		# shows instead of the scripted appearance.
+		if = {
+			limit = { is_alive = yes has_variable = gene_dragon_back_spike_size }
+			value = var:gene_dragon_back_spike_size
+		}
+		if = {
+			limit = {
+				has_character_flag = currently_riding_dragon
+				agot_has_dragon_storage_system_global_list = yes
+			}
+			every_in_global_list = {
+				variable = gl_dragon_variable_storage
+				limit = {
+					var:dragon_id ?= root.var:current_dragon
+				}
+				save_temporary_scope_as = dragon_var_story_val
+			}
+			if = {
+				limit = {
+					exists = scope:dragon_var_story_val
+					scope:dragon_var_story_val = { has_variable = gene_dragon_back_spike_size }
+				}
+				value = scope:dragon_var_story_val.var:gene_dragon_back_spike_size
+			}
+		}
+		if = {
+			limit = {
+				agot_has_dragon_storage_system_global_list = yes
+			}
+			every_in_global_list = {
+				variable = gl_dragon_variable_storage
+				limit = {
+					var:dragon_id ?= root
+				}
+				save_temporary_scope_as = dragon_var_story_val
+			}
+			if = {
+				limit = {
+					exists = scope:dragon_var_story_val
+					scope:dragon_var_story_val = { has_variable = gene_dragon_back_spike_size }
+				}
+				value = scope:dragon_var_story_val.var:gene_dragon_back_spike_size
+			}
+		}
+	}
+}
+gene_dragon_horns_eyebrow_svalue = {
+	value = {
+		# Fallback: the dragon's own spawn variables. Lowest priority - the storage
+		# branches below overwrite it once the dragon storage list exists. Without this,
+		# portraits rendered before the storage populates get 0 and the DNA baseline
+		# shows instead of the scripted appearance.
+		if = {
+			limit = { is_alive = yes has_variable = gene_dragon_horns_eyebrow }
+			value = var:gene_dragon_horns_eyebrow
+		}
+		if = {
+			limit = {
+				has_character_flag = currently_riding_dragon
+				agot_has_dragon_storage_system_global_list = yes
+			}
+			every_in_global_list = {
+				variable = gl_dragon_variable_storage
+				limit = {
+					var:dragon_id ?= root.var:current_dragon
+				}
+				save_temporary_scope_as = dragon_var_story_val
+			}
+			if = {
+				limit = {
+					exists = scope:dragon_var_story_val
+					scope:dragon_var_story_val = { has_variable = gene_dragon_horns_eyebrow }
+				}
+				value = scope:dragon_var_story_val.var:gene_dragon_horns_eyebrow
+			}
+		}
+		if = {
+			limit = {
+				agot_has_dragon_storage_system_global_list = yes
+			}
+			every_in_global_list = {
+				variable = gl_dragon_variable_storage
+				limit = {
+					var:dragon_id ?= root
+				}
+				save_temporary_scope_as = dragon_var_story_val
+			}
+			if = {
+				limit = {
+					exists = scope:dragon_var_story_val
+					scope:dragon_var_story_val = { has_variable = gene_dragon_horns_eyebrow }
+				}
+				value = scope:dragon_var_story_val.var:gene_dragon_horns_eyebrow
+			}
+		}
+	}
+}
+gene_dragon_neck_spike_size_svalue = {
+	value = {
+		# Fallback: the dragon's own spawn variables. Lowest priority - the storage
+		# branches below overwrite it once the dragon storage list exists. Without this,
+		# portraits rendered before the storage populates get 0 and the DNA baseline
+		# shows instead of the scripted appearance.
+		if = {
+			limit = { is_alive = yes has_variable = gene_dragon_neck_spike_size }
+			value = var:gene_dragon_neck_spike_size
+		}
+		if = {
+			limit = {
+				has_character_flag = currently_riding_dragon
+				agot_has_dragon_storage_system_global_list = yes
+			}
+			every_in_global_list = {
+				variable = gl_dragon_variable_storage
+				limit = {
+					var:dragon_id ?= root.var:current_dragon
+				}
+				save_temporary_scope_as = dragon_var_story_val
+			}
+			if = {
+				limit = {
+					exists = scope:dragon_var_story_val
+					scope:dragon_var_story_val = { has_variable = gene_dragon_neck_spike_size }
+				}
+				value = scope:dragon_var_story_val.var:gene_dragon_neck_spike_size
+			}
+		}
+		if = {
+			limit = {
+				agot_has_dragon_storage_system_global_list = yes
+			}
+			every_in_global_list = {
+				variable = gl_dragon_variable_storage
+				limit = {
+					var:dragon_id ?= root
+				}
+				save_temporary_scope_as = dragon_var_story_val
+			}
+			if = {
+				limit = {
+					exists = scope:dragon_var_story_val
+					scope:dragon_var_story_val = { has_variable = gene_dragon_neck_spike_size }
+				}
+				value = scope:dragon_var_story_val.var:gene_dragon_neck_spike_size
+			}
+		}
+	}
+}
+gene_dragon_side_fin_size_svalue = {
+	value = {
+		# Fallback: the dragon's own spawn variables. Lowest priority - the storage
+		# branches below overwrite it once the dragon storage list exists. Without this,
+		# portraits rendered before the storage populates get 0 and the DNA baseline
+		# shows instead of the scripted appearance.
+		if = {
+			limit = { is_alive = yes has_variable = gene_dragon_side_fin_size }
+			value = var:gene_dragon_side_fin_size
+		}
+		if = {
+			limit = {
+				has_character_flag = currently_riding_dragon
+				agot_has_dragon_storage_system_global_list = yes
+			}
+			every_in_global_list = {
+				variable = gl_dragon_variable_storage
+				limit = {
+					var:dragon_id ?= root.var:current_dragon
+				}
+				save_temporary_scope_as = dragon_var_story_val
+			}
+			if = {
+				limit = {
+					exists = scope:dragon_var_story_val
+					scope:dragon_var_story_val = { has_variable = gene_dragon_side_fin_size }
+				}
+				value = scope:dragon_var_story_val.var:gene_dragon_side_fin_size
+			}
+		}
+		if = {
+			limit = {
+				agot_has_dragon_storage_system_global_list = yes
+			}
+			every_in_global_list = {
+				variable = gl_dragon_variable_storage
+				limit = {
+					var:dragon_id ?= root
+				}
+				save_temporary_scope_as = dragon_var_story_val
+			}
+			if = {
+				limit = {
+					exists = scope:dragon_var_story_val
+					scope:dragon_var_story_val = { has_variable = gene_dragon_side_fin_size }
+				}
+				value = scope:dragon_var_story_val.var:gene_dragon_side_fin_size
+			}
+		}
+	}
+}
+gene_dragon_snout_end_width_svalue = {
+	value = {
+		# Fallback: the dragon's own spawn variables. Lowest priority - the storage
+		# branches below overwrite it once the dragon storage list exists. Without this,
+		# portraits rendered before the storage populates get 0 and the DNA baseline
+		# shows instead of the scripted appearance.
+		if = {
+			limit = { is_alive = yes has_variable = gene_dragon_snout_end_width }
+			value = var:gene_dragon_snout_end_width
+		}
+		if = {
+			limit = {
+				has_character_flag = currently_riding_dragon
+				agot_has_dragon_storage_system_global_list = yes
+			}
+			every_in_global_list = {
+				variable = gl_dragon_variable_storage
+				limit = {
+					var:dragon_id ?= root.var:current_dragon
+				}
+				save_temporary_scope_as = dragon_var_story_val
+			}
+			if = {
+				limit = {
+					exists = scope:dragon_var_story_val
+					scope:dragon_var_story_val = { has_variable = gene_dragon_snout_end_width }
+				}
+				value = scope:dragon_var_story_val.var:gene_dragon_snout_end_width
+			}
+		}
+		if = {
+			limit = {
+				agot_has_dragon_storage_system_global_list = yes
+			}
+			every_in_global_list = {
+				variable = gl_dragon_variable_storage
+				limit = {
+					var:dragon_id ?= root
+				}
+				save_temporary_scope_as = dragon_var_story_val
+			}
+			if = {
+				limit = {
+					exists = scope:dragon_var_story_val
+					scope:dragon_var_story_val = { has_variable = gene_dragon_snout_end_width }
+				}
+				value = scope:dragon_var_story_val.var:gene_dragon_snout_end_width
+			}
+		}
+	}
+}
+gene_dragon_neck_length_svalue = {
+	value = {
+		# Fallback: the dragon's own spawn variables. Lowest priority - the storage
+		# branches below overwrite it once the dragon storage list exists. Without this,
+		# portraits rendered before the storage populates get 0 and the DNA baseline
+		# shows instead of the scripted appearance.
+		if = {
+			limit = { is_alive = yes has_variable = gene_dragon_neck_length }
+			value = var:gene_dragon_neck_length
+		}
+		if = {
+			limit = {
+				has_character_flag = currently_riding_dragon
+				agot_has_dragon_storage_system_global_list = yes
+			}
+			every_in_global_list = {
+				variable = gl_dragon_variable_storage
+				limit = {
+					var:dragon_id ?= root.var:current_dragon
+				}
+				save_temporary_scope_as = dragon_var_story_val
+			}
+			if = {
+				limit = {
+					exists = scope:dragon_var_story_val
+					scope:dragon_var_story_val = { has_variable = gene_dragon_neck_length }
+				}
+				value = scope:dragon_var_story_val.var:gene_dragon_neck_length
+			}
+		}
+		if = {
+			limit = {
+				agot_has_dragon_storage_system_global_list = yes
+			}
+			every_in_global_list = {
+				variable = gl_dragon_variable_storage
+				limit = {
+					var:dragon_id ?= root
+				}
+				save_temporary_scope_as = dragon_var_story_val
+			}
+			if = {
+				limit = {
+					exists = scope:dragon_var_story_val
+					scope:dragon_var_story_val = { has_variable = gene_dragon_neck_length }
+				}
+				value = scope:dragon_var_story_val.var:gene_dragon_neck_length
+			}
+		}
+	}
+}
+gene_dragon_metallic_scales_strength_svalue = {
+	value = {
+		# Fallback: the dragon's own spawn variables. Lowest priority - the storage
+		# branches below overwrite it once the dragon storage list exists. Without this,
+		# portraits rendered before the storage populates get 0 and the DNA baseline
+		# shows instead of the scripted appearance.
+		if = {
+			limit = { is_alive = yes has_variable = gene_dragon_metallic_scales_strength }
+			value = var:gene_dragon_metallic_scales_strength
+		}
+		if = {
+			limit = {
+				has_character_flag = currently_riding_dragon
+				agot_has_dragon_storage_system_global_list = yes
+			}
+			every_in_global_list = {
+				variable = gl_dragon_variable_storage
+				limit = {
+					var:dragon_id ?= root.var:current_dragon
+				}
+				save_temporary_scope_as = dragon_var_story_val
+			}
+			if = {
+				limit = {
+					exists = scope:dragon_var_story_val
+					scope:dragon_var_story_val = { has_variable = gene_dragon_metallic_scales_strength }
+				}
+				value = scope:dragon_var_story_val.var:gene_dragon_metallic_scales_strength
+			}
+		}
+		if = {
+			limit = {
+				agot_has_dragon_storage_system_global_list = yes
+			}
+			every_in_global_list = {
+				variable = gl_dragon_variable_storage
+				limit = {
+					var:dragon_id ?= root
+				}
+				save_temporary_scope_as = dragon_var_story_val
+			}
+			if = {
+				limit = {
+					exists = scope:dragon_var_story_val
+					scope:dragon_var_story_val = { has_variable = gene_dragon_metallic_scales_strength }
+				}
+				value = scope:dragon_var_story_val.var:gene_dragon_metallic_scales_strength
+			}
+		}
+	}
+}
+gene_dragon_scale_shadows_svalue = {
+	value = {
+		# Fallback: the dragon's own spawn variables. Lowest priority - the storage
+		# branches below overwrite it once the dragon storage list exists. Without this,
+		# portraits rendered before the storage populates get 0 and the DNA baseline
+		# shows instead of the scripted appearance.
+		if = {
+			limit = { is_alive = yes has_variable = gene_dragon_scale_shadows }
+			value = var:gene_dragon_scale_shadows
+		}
+		if = {
+			limit = {
+				has_character_flag = currently_riding_dragon
+				agot_has_dragon_storage_system_global_list = yes
+			}
+			every_in_global_list = {
+				variable = gl_dragon_variable_storage
+				limit = {
+					var:dragon_id ?= root.var:current_dragon
+				}
+				save_temporary_scope_as = dragon_var_story_val
+			}
+			if = {
+				limit = {
+					exists = scope:dragon_var_story_val
+					scope:dragon_var_story_val = { has_variable = gene_dragon_scale_shadows }
+				}
+				value = scope:dragon_var_story_val.var:gene_dragon_scale_shadows
+			}
+		}
+		if = {
+			limit = {
+				agot_has_dragon_storage_system_global_list = yes
+			}
+			every_in_global_list = {
+				variable = gl_dragon_variable_storage
+				limit = {
+					var:dragon_id ?= root
+				}
+				save_temporary_scope_as = dragon_var_story_val
+			}
+			if = {
+				limit = {
+					exists = scope:dragon_var_story_val
+					scope:dragon_var_story_val = { has_variable = gene_dragon_scale_shadows }
+				}
+				value = scope:dragon_var_story_val.var:gene_dragon_scale_shadows
+			}
+		}
+	}
+}
+gene_dragon_scale_highlights_svalue = {
+	value = {
+		# Fallback: the dragon's own spawn variables. Lowest priority - the storage
+		# branches below overwrite it once the dragon storage list exists. Without this,
+		# portraits rendered before the storage populates get 0 and the DNA baseline
+		# shows instead of the scripted appearance.
+		if = {
+			limit = { is_alive = yes has_variable = gene_dragon_scale_highlights }
+			value = var:gene_dragon_scale_highlights
+		}
+		if = {
+			limit = {
+				has_character_flag = currently_riding_dragon
+				agot_has_dragon_storage_system_global_list = yes
+			}
+			every_in_global_list = {
+				variable = gl_dragon_variable_storage
+				limit = {
+					var:dragon_id ?= root.var:current_dragon
+				}
+				save_temporary_scope_as = dragon_var_story_val
+			}
+			if = {
+				limit = {
+					exists = scope:dragon_var_story_val
+					scope:dragon_var_story_val = { has_variable = gene_dragon_scale_highlights }
+				}
+				value = scope:dragon_var_story_val.var:gene_dragon_scale_highlights
+			}
+		}
+		if = {
+			limit = {
+				agot_has_dragon_storage_system_global_list = yes
+			}
+			every_in_global_list = {
+				variable = gl_dragon_variable_storage
+				limit = {
+					var:dragon_id ?= root
+				}
+				save_temporary_scope_as = dragon_var_story_val
+			}
+			if = {
+				limit = {
+					exists = scope:dragon_var_story_val
+					scope:dragon_var_story_val = { has_variable = gene_dragon_scale_highlights }
+				}
+				value = scope:dragon_var_story_val.var:gene_dragon_scale_highlights
+			}
+		}
+	}
+}
+gene_dragon_wounded_svalue = {
+	value = {
+		# Fallback: the dragon's own spawn variables. Lowest priority - the storage
+		# branches below overwrite it once the dragon storage list exists. Without this,
+		# portraits rendered before the storage populates get 0 and the DNA baseline
+		# shows instead of the scripted appearance.
+		if = {
+			limit = { is_alive = yes has_variable = gene_dragon_wounded }
+			value = var:gene_dragon_wounded
+		}
+		if = {
+			limit = {
+				has_character_flag = currently_riding_dragon
+				agot_has_dragon_storage_system_global_list = yes
+			}
+			every_in_global_list = {
+				variable = gl_dragon_variable_storage
+				limit = {
+					var:dragon_id ?= root.var:current_dragon
+				}
+				save_temporary_scope_as = dragon_var_story_val
+			}
+			if = {
+				limit = {
+					exists = scope:dragon_var_story_val
+					scope:dragon_var_story_val = { has_variable = gene_dragon_wounded }
+				}
+				value = scope:dragon_var_story_val.var:gene_dragon_wounded
+			}
+		}
+		if = {
+			limit = {
+				agot_has_dragon_storage_system_global_list = yes
+			}
+			every_in_global_list = {
+				variable = gl_dragon_variable_storage
+				limit = {
+					var:dragon_id ?= root
+				}
+				save_temporary_scope_as = dragon_var_story_val
+			}
+			if = {
+				limit = {
+					exists = scope:dragon_var_story_val
+					scope:dragon_var_story_val = { has_variable = gene_dragon_wounded }
+				}
+				value = scope:dragon_var_story_val.var:gene_dragon_wounded
+			}
+		}
+	}
+}
+gene_dragon_tail_length_svalue = {
+	value = {
+		# Fallback: the dragon's own spawn variables. Lowest priority - the storage
+		# branches below overwrite it once the dragon storage list exists. Without this,
+		# portraits rendered before the storage populates get 0 and the DNA baseline
+		# shows instead of the scripted appearance.
+		if = {
+			limit = { is_alive = yes has_variable = gene_dragon_tail_length }
+			value = var:gene_dragon_tail_length
+		}
+		if = {
+			limit = {
+				has_character_flag = currently_riding_dragon
+				agot_has_dragon_storage_system_global_list = yes
+			}
+			every_in_global_list = {
+				variable = gl_dragon_variable_storage
+				limit = {
+					var:dragon_id ?= root.var:current_dragon
+				}
+				save_temporary_scope_as = dragon_var_story_val
+			}
+			if = {
+				limit = {
+					exists = scope:dragon_var_story_val
+					scope:dragon_var_story_val = { has_variable = gene_dragon_tail_length }
+				}
+				value = scope:dragon_var_story_val.var:gene_dragon_tail_length
+			}
+		}
+		if = {
+			limit = {
+				agot_has_dragon_storage_system_global_list = yes
+			}
+			every_in_global_list = {
+				variable = gl_dragon_variable_storage
+				limit = {
+					var:dragon_id ?= root
+				}
+				save_temporary_scope_as = dragon_var_story_val
+			}
+			if = {
+				limit = {
+					exists = scope:dragon_var_story_val
+					scope:dragon_var_story_val = { has_variable = gene_dragon_tail_length }
+				}
+				value = scope:dragon_var_story_val.var:gene_dragon_tail_length
+			}
+		}
+	}
+}
+
+gene_dragon_primary_color_hue_svalue = {
+	value = {
+		# Fallback: the dragon's own spawn variables. Lowest priority - the storage
+		# branches below overwrite it once the dragon storage list exists. Without this,
+		# portraits rendered before the storage populates get 0 and the DNA baseline
+		# shows instead of the scripted appearance.
+		if = {
+			limit = { is_alive = yes has_variable = gene_dragon_primary_color_hue }
+			value = var:gene_dragon_primary_color_hue
+		}
+		if = {
+			limit = {
+				has_character_flag = currently_riding_dragon
+				agot_has_dragon_storage_system_global_list = yes
+			}
+			every_in_global_list = {
+				variable = gl_dragon_variable_storage
+				limit = {
+					var:dragon_id ?= root.var:current_dragon
+				}
+				save_temporary_scope_as = dragon_var_story_val
+			}
+			if = {
+				limit = {
+					exists = scope:dragon_var_story_val
+					scope:dragon_var_story_val = { has_variable = gene_dragon_primary_color_hue }
+				}
+				value = scope:dragon_var_story_val.var:gene_dragon_primary_color_hue
+			}
+		}
+		if = {
+			limit = {
+				agot_has_dragon_storage_system_global_list = yes
+			}
+			every_in_global_list = {
+				variable = gl_dragon_variable_storage
+				limit = {
+					var:dragon_id ?= root
+				}
+				save_temporary_scope_as = dragon_var_story_val
+			}
+			if = {
+				limit = {
+					exists = scope:dragon_var_story_val
+					scope:dragon_var_story_val = { has_variable = gene_dragon_primary_color_hue }
+				}
+				value = scope:dragon_var_story_val.var:gene_dragon_primary_color_hue
+			}
+		}
+	}
+}
+
+gene_dragon_fire_color_template_svalue = {
+	value = {
+		# Fallback: the dragon's own spawn variables. Lowest priority - the storage
+		# branches below overwrite it once the dragon storage list exists. Without this,
+		# portraits rendered before the storage populates get 0 and the DNA baseline
+		# shows instead of the scripted appearance.
+		if = {
+			limit = { is_alive = yes has_variable = gene_dragon_fire_color_template }
+			value = var:gene_dragon_fire_color_template
+		}
+		if = {
+			limit = {
+				has_character_flag = currently_riding_dragon
+				agot_has_dragon_storage_system_global_list = yes
+			}
+			every_in_global_list = {
+				variable = gl_dragon_variable_storage
+				limit = {
+					var:dragon_id ?= root.var:current_dragon
+					has_variable = gene_dragon_fire_color_template
+				}
+				value = var:gene_dragon_fire_color_template
+			}
+		}
+		if = {
+			limit = {
+				agot_has_dragon_storage_system_global_list = yes
+				has_trait = dragon
+			}
+			every_in_global_list = {
+				variable = gl_dragon_variable_storage
+				limit = {
+					var:dragon_id ?= root
+					has_variable = gene_dragon_fire_color_template
+				}
+				value = var:gene_dragon_fire_color_template
+			}
+		}
+	}
+}
+gene_dragon_fire_color_value_svalue = {
+	value = {
+		# Fallback: the dragon's own spawn variables. Lowest priority - the storage
+		# branches below overwrite it once the dragon storage list exists. Without this,
+		# portraits rendered before the storage populates get 0 and the DNA baseline
+		# shows instead of the scripted appearance.
+		if = {
+			limit = { is_alive = yes has_variable = gene_dragon_fire_color_value }
+			value = var:gene_dragon_fire_color_value
+		}
+		if = {
+			limit = {
+				has_character_flag = currently_riding_dragon
+				agot_has_dragon_storage_system_global_list = yes
+			}
+			every_in_global_list = {
+				variable = gl_dragon_variable_storage
+				limit = {
+					var:dragon_id ?= root.var:current_dragon
+				}
+				save_temporary_scope_as = dragon_var_story_val
+			}
+			if = {
+				limit = {
+					exists = scope:dragon_var_story_val
+					scope:dragon_var_story_val = { has_variable = gene_dragon_fire_color_value }
+				}
+				value = scope:dragon_var_story_val.var:gene_dragon_fire_color_value
+			}
+		}
+		if = {
+			limit = {
+				agot_has_dragon_storage_system_global_list = yes
+				has_trait = dragon
+			}
+			every_in_global_list = {
+				variable = gl_dragon_variable_storage
+				limit = {
+					var:dragon_id ?= root
+				}
+				save_temporary_scope_as = dragon_var_story_val
+			}
+			if = {
+				limit = {
+					exists = scope:dragon_var_story_val
+					scope:dragon_var_story_val = { has_variable = gene_dragon_fire_color_value }
+				}
+				value = scope:dragon_var_story_val.var:gene_dragon_fire_color_value
+			}
+		}
+	}
+}
+gene_dragon_fire_smoke_template_svalue = {
+	value = {
+		# Fallback: the dragon's own spawn variables. Lowest priority - the storage
+		# branches below overwrite it once the dragon storage list exists. Without this,
+		# portraits rendered before the storage populates get 0 and the DNA baseline
+		# shows instead of the scripted appearance.
+		if = {
+			limit = { is_alive = yes has_variable = gene_dragon_fire_smoke_template }
+			value = var:gene_dragon_fire_smoke_template
+		}
+		if = {
+			limit = {
+				has_character_flag = currently_riding_dragon
+				agot_has_dragon_storage_system_global_list = yes
+			}
+			every_in_global_list = {
+				variable = gl_dragon_variable_storage
+				limit = {
+					var:dragon_id ?= root.var:current_dragon
+					has_variable = gene_dragon_fire_smoke_template
+				}
+				value = var:gene_dragon_fire_smoke_template
+			}
+		}
+		if = {
+			limit = {
+				agot_has_dragon_storage_system_global_list = yes
+				has_trait = dragon
+			}
+			every_in_global_list = {
+				variable = gl_dragon_variable_storage
+				limit = {
+					var:dragon_id ?= root
+					has_variable = gene_dragon_fire_smoke_template
+				}
+				value = var:gene_dragon_fire_smoke_template
+			}
+		}
+	}
+}
+gene_dragon_fire_smoke_value_svalue = {
+	value = {
+		# Fallback: the dragon's own spawn variables. Lowest priority - the storage
+		# branches below overwrite it once the dragon storage list exists. Without this,
+		# portraits rendered before the storage populates get 0 and the DNA baseline
+		# shows instead of the scripted appearance.
+		if = {
+			limit = { is_alive = yes has_variable = gene_dragon_fire_smoke_value }
+			value = var:gene_dragon_fire_smoke_value
+		}
+		if = {
+			limit = {
+				has_character_flag = currently_riding_dragon
+				agot_has_dragon_storage_system_global_list = yes
+			}
+			every_in_global_list = {
+				variable = gl_dragon_variable_storage
+				limit = {
+					var:dragon_id ?= root.var:current_dragon
+				}
+				save_temporary_scope_as = dragon_var_story_val
+			}
+			if = {
+				limit = {
+					exists = scope:dragon_var_story_val
+					scope:dragon_var_story_val = { has_variable = gene_dragon_fire_smoke_value }
+				}
+				value = scope:dragon_var_story_val.var:gene_dragon_fire_smoke_value
+			}
+		}
+		if = {
+			limit = {
+				agot_has_dragon_storage_system_global_list = yes
+				has_trait = dragon
+			}
+			every_in_global_list = {
+				variable = gl_dragon_variable_storage
+				limit = {
+					var:dragon_id ?= root
+				}
+				save_temporary_scope_as = dragon_var_story_val
+			}
+			if = {
+				limit = {
+					exists = scope:dragon_var_story_val
+					scope:dragon_var_story_val = { has_variable = gene_dragon_fire_smoke_value }
+				}
+				value = scope:dragon_var_story_val.var:gene_dragon_fire_smoke_value
+			}
+		}
+	}
+}
+gene_dragon_primary_color_saturation_svalue = {
+	value = {
+		# Defaults to FULL saturation, not 0: dragons stored before the saturation
+		# genes shipped carry no variable and must render exactly as they always did.
+		value = 1
+		if = {
+			limit = { is_alive = yes has_variable = gene_dragon_primary_color_saturation }
+			value = var:gene_dragon_primary_color_saturation
+		}
+		if = {
+			limit = {
+				has_character_flag = currently_riding_dragon
+				agot_has_dragon_storage_system_global_list = yes
+			}
+			every_in_global_list = {
+				variable = gl_dragon_variable_storage
+				limit = {
+					var:dragon_id ?= root.var:current_dragon
+				}
+				save_temporary_scope_as = dragon_var_story_val
+			}
+			if = {
+				limit = {
+					exists = scope:dragon_var_story_val
+					scope:dragon_var_story_val = { has_variable = gene_dragon_primary_color_saturation }
+				}
+				value = scope:dragon_var_story_val.var:gene_dragon_primary_color_saturation
+			}
+		}
+		if = {
+			limit = {
+				agot_has_dragon_storage_system_global_list = yes
+			}
+			every_in_global_list = {
+				variable = gl_dragon_variable_storage
+				limit = {
+					var:dragon_id ?= root
+				}
+				save_temporary_scope_as = dragon_var_story_val
+			}
+			if = {
+				limit = {
+					exists = scope:dragon_var_story_val
+					scope:dragon_var_story_val = { has_variable = gene_dragon_primary_color_saturation }
+				}
+				value = scope:dragon_var_story_val.var:gene_dragon_primary_color_saturation
+			}
+		}
+	}
+}
+gene_dragon_secondary_saturation_svalue = {
+	value = {
+		# Defaults to FULL saturation, not 0: dragons stored before the saturation
+		# genes shipped carry no variable and must render exactly as they always did.
+		value = 1
+		if = {
+			limit = { is_alive = yes has_variable = gene_dragon_secondary_saturation }
+			value = var:gene_dragon_secondary_saturation
+		}
+		if = {
+			limit = {
+				has_character_flag = currently_riding_dragon
+				agot_has_dragon_storage_system_global_list = yes
+			}
+			every_in_global_list = {
+				variable = gl_dragon_variable_storage
+				limit = {
+					var:dragon_id ?= root.var:current_dragon
+				}
+				save_temporary_scope_as = dragon_var_story_val
+			}
+			if = {
+				limit = {
+					exists = scope:dragon_var_story_val
+					scope:dragon_var_story_val = { has_variable = gene_dragon_secondary_saturation }
+				}
+				value = scope:dragon_var_story_val.var:gene_dragon_secondary_saturation
+			}
+		}
+		if = {
+			limit = {
+				agot_has_dragon_storage_system_global_list = yes
+			}
+			every_in_global_list = {
+				variable = gl_dragon_variable_storage
+				limit = {
+					var:dragon_id ?= root
+				}
+				save_temporary_scope_as = dragon_var_story_val
+			}
+			if = {
+				limit = {
+					exists = scope:dragon_var_story_val
+					scope:dragon_var_story_val = { has_variable = gene_dragon_secondary_saturation }
+				}
+				value = scope:dragon_var_story_val.var:gene_dragon_secondary_saturation
+			}
+		}
+	}
+}
+gene_dragon_tertiary_saturation_svalue = {
+	value = {
+		# Defaults to FULL saturation, not 0: dragons stored before the saturation
+		# genes shipped carry no variable and must render exactly as they always did.
+		value = 1
+		if = {
+			limit = { is_alive = yes has_variable = gene_dragon_tertiary_saturation }
+			value = var:gene_dragon_tertiary_saturation
+		}
+		if = {
+			limit = {
+				has_character_flag = currently_riding_dragon
+				agot_has_dragon_storage_system_global_list = yes
+			}
+			every_in_global_list = {
+				variable = gl_dragon_variable_storage
+				limit = {
+					var:dragon_id ?= root.var:current_dragon
+				}
+				save_temporary_scope_as = dragon_var_story_val
+			}
+			if = {
+				limit = {
+					exists = scope:dragon_var_story_val
+					scope:dragon_var_story_val = { has_variable = gene_dragon_tertiary_saturation }
+				}
+				value = scope:dragon_var_story_val.var:gene_dragon_tertiary_saturation
+			}
+		}
+		if = {
+			limit = {
+				agot_has_dragon_storage_system_global_list = yes
+			}
+			every_in_global_list = {
+				variable = gl_dragon_variable_storage
+				limit = {
+					var:dragon_id ?= root
+				}
+				save_temporary_scope_as = dragon_var_story_val
+			}
+			if = {
+				limit = {
+					exists = scope:dragon_var_story_val
+					scope:dragon_var_story_val = { has_variable = gene_dragon_tertiary_saturation }
+				}
+				value = scope:dragon_var_story_val.var:gene_dragon_tertiary_saturation
+			}
+		}
+	}
+}
+gene_dragon_eye_color_saturation_svalue = {
+	value = {
+		# Defaults to FULL saturation, not 0: dragons stored before the saturation
+		# genes shipped carry no variable and must render exactly as they always did.
+		value = 1
+		if = {
+			limit = { is_alive = yes has_variable = gene_dragon_eye_color_saturation }
+			value = var:gene_dragon_eye_color_saturation
+		}
+		if = {
+			limit = {
+				has_character_flag = currently_riding_dragon
+				agot_has_dragon_storage_system_global_list = yes
+			}
+			every_in_global_list = {
+				variable = gl_dragon_variable_storage
+				limit = {
+					var:dragon_id ?= root.var:current_dragon
+				}
+				save_temporary_scope_as = dragon_var_story_val
+			}
+			if = {
+				limit = {
+					exists = scope:dragon_var_story_val
+					scope:dragon_var_story_val = { has_variable = gene_dragon_eye_color_saturation }
+				}
+				value = scope:dragon_var_story_val.var:gene_dragon_eye_color_saturation
+			}
+		}
+		if = {
+			limit = {
+				agot_has_dragon_storage_system_global_list = yes
+			}
+			every_in_global_list = {
+				variable = gl_dragon_variable_storage
+				limit = {
+					var:dragon_id ?= root
+				}
+				save_temporary_scope_as = dragon_var_story_val
+			}
+			if = {
+				limit = {
+					exists = scope:dragon_var_story_val
+					scope:dragon_var_story_val = { has_variable = gene_dragon_eye_color_saturation }
+				}
+				value = scope:dragon_var_story_val.var:gene_dragon_eye_color_saturation
+			}
+		}
+	}
+}
+gene_dragon_horn_color_saturation_svalue = {
+	value = {
+		# Defaults to FULL saturation, not 0: dragons stored before the saturation
+		# genes shipped carry no variable and must render exactly as they always did.
+		value = 1
+		if = {
+			limit = { is_alive = yes has_variable = gene_dragon_horn_color_saturation }
+			value = var:gene_dragon_horn_color_saturation
+		}
+		if = {
+			limit = {
+				has_character_flag = currently_riding_dragon
+				agot_has_dragon_storage_system_global_list = yes
+			}
+			every_in_global_list = {
+				variable = gl_dragon_variable_storage
+				limit = {
+					var:dragon_id ?= root.var:current_dragon
+				}
+				save_temporary_scope_as = dragon_var_story_val
+			}
+			if = {
+				limit = {
+					exists = scope:dragon_var_story_val
+					scope:dragon_var_story_val = { has_variable = gene_dragon_horn_color_saturation }
+				}
+				value = scope:dragon_var_story_val.var:gene_dragon_horn_color_saturation
+			}
+		}
+		if = {
+			limit = {
+				agot_has_dragon_storage_system_global_list = yes
+			}
+			every_in_global_list = {
+				variable = gl_dragon_variable_storage
+				limit = {
+					var:dragon_id ?= root
+				}
+				save_temporary_scope_as = dragon_var_story_val
+			}
+			if = {
+				limit = {
+					exists = scope:dragon_var_story_val
+					scope:dragon_var_story_val = { has_variable = gene_dragon_horn_color_saturation }
+				}
+				value = scope:dragon_var_story_val.var:gene_dragon_horn_color_saturation
+			}
+		}
+	}
+}

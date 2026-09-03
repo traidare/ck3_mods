@@ -1,0 +1,599 @@
+﻿namespace = kraken
+
+kraken.0001 = {
+	type = character_event
+	title = kraken.0001.t
+	desc = kraken.0001.desc
+	theme = sailing_activity
+
+	override_background = {
+		reference = agot_underwater_whale_squid
+	}
+	right_portrait = {
+		character = scope:kraken
+		camera = camera_kraken_event_right
+	}
+
+	option = {
+		name = kraken.0001.a
+	}
+}
+
+kraken.0002 = {
+	type = character_event
+	title = kraken.0002.t
+	desc = kraken.0002.desc
+	theme = sailing_activity
+
+	override_background = {
+		reference = agot_underwater_whale_squid
+	}
+	right_portrait = {
+		character = scope:kraken
+		camera = camera_kraken_event_right
+	}
+
+	option = {
+		name = kraken.0002.a
+	}
+}
+
+# The Krakenhorn decision has successfully drawn an enraged creature nearby.
+kraken.0003 = {
+	type = character_event
+	title = kraken.0003.t
+	desc = kraken.0003.desc
+	theme = dread
+
+	override_background = {
+		reference = kraken_sea_surface
+	}
+	left_portrait = {
+		character = root
+		animation = fear
+	}
+
+	right_portrait = {
+		character = scope:kraken
+		camera = camera_kraken_event_right
+	}
+
+	option = {
+		name = kraken.0003.a
+	}
+}
+
+# The horn was sounded, but no eligible kraken could answer nearby.
+kraken.0004 = {
+	type = character_event
+	title = kraken.0004.t
+	desc = kraken.0004.desc
+	theme = sailing_activity
+
+	override_background = {
+		reference = kraken_sea_surface
+	}
+
+	left_portrait = {
+		character = root
+	}
+
+	option = {
+		name = kraken.0004.a
+	}
+}
+
+# A travel party crosses the same sea province as the kraken.
+kraken.0100 = {
+	type = character_event
+	title = kraken.0100.t
+	desc = kraken.0100.desc
+	theme = travel_danger
+
+	immediate = {
+		if = {
+			limit = {
+				exists = current_travel_plan
+				current_travel_plan = {
+					any_entourage_character = {
+						is_alive = yes
+						NOT = { this = root }
+					}
+				}
+			}
+			current_travel_plan = {
+				random_entourage_character = {
+					limit = {
+						is_alive = yes
+						NOT = { this = root }
+					}
+					save_scope_as = kraken_endangered_traveler
+				}
+			}
+		}
+	}
+
+	option = {
+		name = kraken.0100.a
+		custom_tooltip = kraken.0100.a.tt
+		hidden_effect = {
+			if = {
+				limit = { exists = scope:kraken_endangered_traveler }
+				random = {
+					chance = 35
+					scope:kraken_endangered_traveler = {
+						death = { death_reason = death_kraken_attack }
+					}
+				}
+			}
+			else = {
+				random = {
+					chance = 15
+					death = { death_reason = death_kraken_attack }
+				}
+			}
+		}
+	}
+}
+
+# The common outcome: merchant shipping is torn apart.
+kraken.0200 = {
+	type = character_event
+	title = kraken.0200.t
+	desc = kraken.0200.desc
+	theme = dread
+
+	override_background = {
+		reference = kraken_merchant_wreckage
+	}
+
+	option = {
+		name = kraken.0200.a
+		show_as_tooltip = {
+			remove_short_term_gold = 100
+			add_prestige = -50
+		}
+	}
+
+	after = {
+		remove_variable = kraken_ship_loss
+	}
+}
+
+# A rarer direct attack against an initialized Iron and Salt fleet.
+kraken.0201 = {
+	type = character_event
+	title = kraken.0201.t
+	desc = kraken.0201.desc
+	theme = dread
+
+	override_background = {
+		reference = kraken_fleet_attack
+	}
+
+	option = {
+		name = kraken.0201.a
+		custom_tooltip = kraken.0201.ship_loss.tt
+	}
+
+	after = {
+		remove_variable = kraken_ship_loss
+	}
+}
+
+# Feedback after offering livestock through the character interaction.
+kraken.0300 = {
+	type = character_event
+	title = kraken.0300.t
+	desc = kraken.0300.desc
+	theme = stewardship
+
+	override_background = {
+		reference = kraken_livestock_offering
+	}
+
+	option = {
+		name = kraken.0300.a
+	}
+}
+
+# Personal challenge: preparation.
+kraken.1000 = {
+	type = character_event
+	title = kraken.1000.t
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = { has_character_flag = kraken_challenge_has_horn }
+				desc = kraken.1000.desc.with_horn
+			}
+			desc = kraken.1000.desc
+		}
+	}
+	theme = sailing_activity
+	override_background = { reference = kraken_sea_surface }
+	right_portrait = {
+		character = scope:kraken
+		camera = camera_kraken_event_right
+	}
+
+	immediate = {
+		kraken_initialize_challenge_effect = yes
+	}
+
+	option = {
+		name = kraken.1000.a
+		trigger = { prowess >= 20 }
+		show_as_unavailable = { always = yes }
+		flavor = kraken.1000.a.tt
+		hidden_effect = {
+			change_variable = { name = kraken_challenge_score add = 10 }
+			kraken_calculate_challenge_balance_effect = yes
+			trigger_event = kraken.1001
+		}
+	}
+	option = {
+		name = kraken.1000.b
+		trigger = { learning >= 15 }
+		show_as_unavailable = { always = yes }
+		flavor = kraken.1000.b.tt
+		hidden_effect = {
+			change_variable = { name = kraken_challenge_score add = 10 }
+			kraken_calculate_challenge_balance_effect = yes
+			trigger_event = kraken.1001
+		}
+	}
+	option = {
+		name = kraken.1000.c
+		trigger = { intrigue >= 15 }
+		show_as_unavailable = { always = yes }
+		flavor = kraken.1000.c.tt
+		hidden_effect = {
+			change_variable = { name = kraken_challenge_score add = 10 }
+			kraken_calculate_challenge_balance_effect = yes
+			trigger_event = kraken.1001
+		}
+	}
+	option = {
+		name = kraken.1000.d
+		trigger = { stewardship >= 15 }
+		show_as_unavailable = { always = yes }
+		flavor = kraken.1000.d.tt
+		hidden_effect = {
+			change_variable = { name = kraken_challenge_score add = 10 }
+			kraken_calculate_challenge_balance_effect = yes
+			trigger_event = kraken.1001
+		}
+	}
+	option = {
+		name = kraken.1000.e
+		hidden_effect = {
+			kraken_calculate_challenge_balance_effect = yes
+			trigger_event = kraken.1001
+		}
+	}
+}
+
+# The Kraken's terror is checked separately from combat skill.
+kraken.1001 = {
+	type = character_event
+	title = kraken.1001.t
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = { has_character_flag = kraken_challenge_fear_failed }
+				desc = kraken.1001.desc.failed
+			}
+			desc = kraken.1001.desc.held
+		}
+	}
+	theme = dread
+	override_background = { reference = kraken_sea_surface }
+	right_portrait = {
+		character = scope:kraken
+		camera = camera_kraken_event_right
+	}
+
+	immediate = {
+		random_list = {
+			60 = {
+				modifier = { factor = 2 has_trait = brave }
+				modifier = { factor = 0.5 has_trait = craven }
+				modifier = { factor = 1.5 has_character_flag = kraken_challenge_has_horn }
+				modifier = { factor = 1.5 var:kraken_challenge_balance >= 2 }
+				modifier = { factor = 0.65 var:kraken_challenge_balance <= -2 }
+				modifier = { factor = 0.7 scope:kraken = { var:kraken_dread >= 200 } }
+				remove_character_flag = kraken_challenge_fear_failed
+			}
+			40 = {
+				add_character_flag = kraken_challenge_fear_failed
+			}
+		}
+	}
+
+	option = {
+		name = kraken.1001.a
+		trigger = { NOT = { has_character_flag = kraken_challenge_fear_failed } }
+		hidden_effect = { trigger_event = kraken.1010 }
+	}
+	option = {
+		name = kraken.1001.b
+		trigger = { has_character_flag = kraken_challenge_fear_failed }
+		add_stress = medium_stress_gain
+		hidden_effect = {
+			change_variable = { name = kraken_challenge_score subtract = 10 }
+			kraken_calculate_challenge_balance_effect = yes
+			trigger_event = kraken.1010
+		}
+	}
+	option = {
+		name = kraken.1001.c
+		trigger = { has_character_flag = kraken_challenge_fear_failed }
+		hidden_effect = { kraken_cleanup_challenge_effect = yes }
+	}
+}
+
+# Up to three personal strikes can be attempted during one expedition.
+kraken.1010 = {
+	type = character_event
+	title = kraken.1010.t
+	desc = kraken.1010.desc
+	theme = martial
+	override_background = { reference = kraken_sea_surface }
+	right_portrait = {
+		character = scope:kraken
+		camera = camera_kraken_event_right
+	}
+
+	option = {
+		name = kraken.1010.a
+		custom_tooltip = kraken.1010.eye.tt
+			hidden_effect = {
+				remove_character_flag = kraken_challenge_target_tentacle
+				remove_character_flag = kraken_challenge_target_beak
+				remove_character_flag = kraken_challenge_target_mantle
+				add_character_flag = kraken_challenge_target_eye
+				change_variable = { name = kraken_challenge_round add = 1 }
+				kraken_resolve_challenge_strike_effect = yes
+				kraken_dispatch_challenge_result_effect = yes
+			}
+		}
+	option = {
+		name = kraken.1010.b
+		custom_tooltip = kraken.1010.tentacle.tt
+		hidden_effect = {
+			remove_character_flag = kraken_challenge_target_eye
+			remove_character_flag = kraken_challenge_target_beak
+				remove_character_flag = kraken_challenge_target_mantle
+				add_character_flag = kraken_challenge_target_tentacle
+				change_variable = { name = kraken_challenge_round add = 1 }
+				kraken_resolve_challenge_strike_effect = yes
+				kraken_dispatch_challenge_result_effect = yes
+			}
+		}
+	option = {
+		name = kraken.1010.c
+		custom_tooltip = kraken.1010.beak.tt
+		hidden_effect = {
+			remove_character_flag = kraken_challenge_target_eye
+			remove_character_flag = kraken_challenge_target_tentacle
+				remove_character_flag = kraken_challenge_target_mantle
+				add_character_flag = kraken_challenge_target_beak
+				change_variable = { name = kraken_challenge_round add = 1 }
+				kraken_resolve_challenge_strike_effect = yes
+				kraken_dispatch_challenge_result_effect = yes
+			}
+		}
+	option = {
+		name = kraken.1010.d
+		custom_tooltip = kraken.1010.mantle.tt
+		hidden_effect = {
+			remove_character_flag = kraken_challenge_target_eye
+			remove_character_flag = kraken_challenge_target_tentacle
+				remove_character_flag = kraken_challenge_target_beak
+				add_character_flag = kraken_challenge_target_mantle
+				change_variable = { name = kraken_challenge_round add = 1 }
+				kraken_resolve_challenge_strike_effect = yes
+				kraken_dispatch_challenge_result_effect = yes
+			}
+		}
+	option = {
+		name = kraken.1010.e
+		custom_tooltip = kraken.challenge.withdraw.tt
+		hidden_effect = { kraken_resolve_challenge_withdrawal_effect = yes }
+	}
+}
+
+# Decisive hit and targeted permanent injury.
+kraken.1101 = {
+	type = character_event
+	title = kraken.1101.t
+	desc = {
+		first_valid = {
+			triggered_desc = { trigger = { has_character_flag = kraken_challenge_target_eye } desc = kraken.1101.desc.eye }
+			triggered_desc = { trigger = { has_character_flag = kraken_challenge_target_tentacle } desc = kraken.1101.desc.tentacle }
+			triggered_desc = { trigger = { has_character_flag = kraken_challenge_target_beak } desc = kraken.1101.desc.beak }
+			desc = kraken.1101.desc.mantle
+		}
+	}
+	theme = martial
+	override_background = { reference = kraken_sea_surface }
+	right_portrait = {
+		character = scope:kraken
+		camera = camera_kraken_event_right
+	}
+	option = {
+		name = kraken.challenge.continue
+		trigger = { var:kraken_challenge_round < 3 scope:kraken = { is_alive = yes } }
+		hidden_effect = {
+			kraken_calculate_challenge_balance_effect = yes
+			trigger_event = kraken.1010
+		}
+	}
+	option = {
+		name = kraken.challenge.withdraw
+		trigger = { var:kraken_challenge_round < 3 }
+		custom_tooltip = kraken.challenge.withdraw.tt
+		hidden_effect = { kraken_resolve_challenge_withdrawal_effect = yes }
+	}
+	option = {
+		name = kraken.challenge.exhausted
+		trigger = { var:kraken_challenge_round >= 3 }
+		hidden_effect = { kraken_cleanup_challenge_effect = yes }
+	}
+}
+
+# Ordinary hit: temporary wound only.
+kraken.1102 = {
+	type = character_event
+	title = kraken.1102.t
+	desc = kraken.1102.desc
+	theme = martial
+	override_background = { reference = kraken_sea_surface }
+	right_portrait = {
+		character = scope:kraken
+		camera = camera_kraken_event_right
+	}
+	option = {
+		name = kraken.challenge.continue
+		trigger = { var:kraken_challenge_round < 3 scope:kraken = { is_alive = yes } }
+		hidden_effect = {
+			kraken_calculate_challenge_balance_effect = yes
+			trigger_event = kraken.1010
+		}
+	}
+	option = {
+		name = kraken.challenge.withdraw
+		trigger = { var:kraken_challenge_round < 3 }
+		custom_tooltip = kraken.challenge.withdraw.tt
+		hidden_effect = { kraken_resolve_challenge_withdrawal_effect = yes }
+	}
+	option = {
+		name = kraken.challenge.exhausted
+		trigger = { var:kraken_challenge_round >= 3 }
+		hidden_effect = { kraken_cleanup_challenge_effect = yes }
+	}
+}
+
+# The strike fails without injuring the challenger.
+kraken.1103 = {
+	type = character_event
+	title = kraken.1103.t
+	desc = kraken.1103.desc
+	theme = martial
+	override_background = { reference = kraken_sea_surface }
+	right_portrait = {
+		character = scope:kraken
+		camera = camera_kraken_event_right
+	}
+	option = {
+		name = kraken.challenge.continue
+		trigger = { var:kraken_challenge_round < 3 scope:kraken = { is_alive = yes } }
+		hidden_effect = { trigger_event = kraken.1010 }
+	}
+	option = {
+		name = kraken.challenge.withdraw
+		trigger = { var:kraken_challenge_round < 3 }
+		custom_tooltip = kraken.challenge.withdraw.tt
+		hidden_effect = { kraken_resolve_challenge_withdrawal_effect = yes }
+	}
+	option = {
+		name = kraken.challenge.exhausted
+		trigger = { var:kraken_challenge_round >= 3 }
+		hidden_effect = { kraken_cleanup_challenge_effect = yes }
+	}
+}
+
+# The challenger is wounded but can still choose whether to press on.
+kraken.1104 = {
+	type = character_event
+	title = kraken.1104.t
+	desc = kraken.1104.desc
+	theme = martial
+	override_background = { reference = kraken_sea_surface }
+	right_portrait = {
+		character = scope:kraken
+		camera = camera_kraken_event_right
+	}
+	option = {
+		name = kraken.challenge.continue_wounded
+		trigger = { var:kraken_challenge_round < 3 scope:kraken = { is_alive = yes } }
+		hidden_effect = {
+			change_variable = { name = kraken_challenge_score subtract = 5 }
+			kraken_calculate_challenge_balance_effect = yes
+			trigger_event = kraken.1010
+		}
+	}
+	option = {
+		name = kraken.challenge.withdraw
+		trigger = { var:kraken_challenge_round < 3 }
+		custom_tooltip = kraken.challenge.withdraw.tt
+		hidden_effect = { kraken_resolve_challenge_withdrawal_effect = yes }
+	}
+	option = {
+		name = kraken.challenge.exhausted
+		trigger = { var:kraken_challenge_round >= 3 }
+		hidden_effect = { kraken_cleanup_challenge_effect = yes }
+	}
+}
+
+# Fatal outcome is displayed before the death effect is applied.
+kraken.1105 = {
+	type = character_event
+	title = kraken.1105.t
+	desc = kraken.1105.desc
+	theme = dread
+	override_background = { reference = kraken_sea_surface }
+	right_portrait = {
+		character = scope:kraken
+		camera = camera_kraken_event_right
+	}
+	option = {
+		name = kraken.1105.a
+		hidden_effect = { kraken_cleanup_challenge_effect = yes }
+		death = { death_reason = death_kraken_attack killer = scope:kraken }
+	}
+}
+
+# A Kraken already near death can be slain by either kind of successful hit.
+kraken.1110 = {
+	type = character_event
+	title = kraken.1110.t
+	desc = kraken.1110.desc
+	theme = martial
+	override_background = { reference = kraken_sea_surface }
+	right_portrait = {
+		character = scope:kraken
+		camera = camera_kraken_event_right
+	}
+	option = {
+		name = kraken.1110.a
+		add_prestige = 1000
+		add_character_modifier = {
+			modifier = kraken_slayer
+			years = 20
+		}
+		kraken_create_tooth_artifact_effect = yes
+		hidden_effect = { kraken_cleanup_challenge_effect = yes }
+	}
+}
+
+# The challenger escapes, but not before a tentacle lands one final blow.
+kraken.1120 = {
+	type = character_event
+	title = kraken.1120.t
+	desc = kraken.1120.desc
+	theme = martial
+	override_background = { reference = kraken_sea_surface }
+	right_portrait = {
+		character = scope:kraken
+		camera = camera_kraken_event_right
+	}
+	option = {
+		name = kraken.1120.a
+		hidden_effect = {
+			kraken_wound_challenger_effect = yes
+			kraken_cleanup_challenge_effect = yes
+		}
+	}
+}

@@ -1,0 +1,497 @@
+﻿naval_combat_initialize_decision = {
+	ai_check_interval = 0
+	decision_group_type = naval_combat
+	should_create_alert = { always = yes }
+
+	picture = {
+		reference = "gfx/interface/illustrations/decisions/decision_realm.dds"
+	}
+
+	desc = naval_combat_initialize_decision_desc
+	selection_tooltip = naval_combat_initialize_decision_tooltip
+
+	is_shown = {
+		is_ai = no
+		NOT = { exists = global_var:naval_combat_initial_ai_seeding_complete }
+	}
+
+	is_valid = {
+		always = yes
+	}
+
+	effect = {
+		custom_tooltip = naval_combat_initialize_decision_effect
+		hidden_effect = {
+			set_global_variable = {
+				name = naval_combat_ai_system_unlocked
+				value = yes
+			}
+			if = {
+				limit = {
+					naval_combat_can_manage_navy_trigger = yes
+					NOT = { exists = var:naval_combat_initialized }
+				}
+				naval_combat_initialize_navy_effect = yes
+				naval_combat_seed_player_initial_fleet_effect = yes
+				trigger_event = naval_combat.0001
+			}
+			naval_combat_seed_initial_ai_navies_effect = yes
+		}
+	}
+
+	ai_potential = {
+		always = no
+	}
+
+	ai_will_do = {
+		base = 0
+	}
+}
+
+naval_combat_establish_administration_decision = {
+	ai_check_interval = 0
+	decision_group_type = naval_combat
+	should_create_alert = { always = yes }
+
+	picture = {
+		reference = "gfx/interface/illustrations/decisions/decision_realm.dds"
+	}
+
+	desc = naval_combat_establish_administration_decision_desc
+	selection_tooltip = naval_combat_establish_administration_decision_tooltip
+
+	is_shown = {
+		is_ai = no
+		exists = global_var:naval_combat_ai_system_unlocked
+		NOT = { exists = var:naval_combat_initialized }
+		naval_combat_can_manage_navy_trigger = yes
+	}
+
+	is_valid = {
+		naval_combat_can_manage_navy_trigger = yes
+	}
+
+	effect = {
+		custom_tooltip = naval_combat_establish_administration_decision_effect
+		hidden_effect = {
+			naval_combat_initialize_navy_effect = yes
+			naval_combat_seed_player_initial_fleet_effect = yes
+			trigger_event = naval_combat.0001
+		}
+	}
+
+	ai_potential = {
+		always = no
+	}
+
+	ai_will_do = {
+		base = 0
+	}
+}
+
+naval_combat_test_fleet_decision = {
+	ai_check_interval = 0
+
+	picture = {
+		reference = "gfx/interface/illustrations/decisions/decision_siege_warfare.dds"
+	}
+
+	desc = naval_combat_test_fleet_decision_desc
+	selection_tooltip = naval_combat_test_fleet_decision_tooltip
+
+	is_shown = {
+		debug_only = yes
+		is_ai = no
+		exists = var:naval_combat_initialized
+	}
+
+	is_valid = {
+		naval_combat_can_manage_navy_trigger = yes
+	}
+
+	effect = {
+		naval_combat_initialize_navy_effect = yes
+		naval_combat_set_test_fleet_effect = yes
+		trigger_event = naval_combat.0002
+	}
+
+	ai_potential = {
+		always = no
+	}
+
+	ai_will_do = {
+		base = 0
+	}
+}
+
+naval_combat_debug_world_naval_focus_decision = {
+	ai_check_interval = 0
+	decision_group_type = naval_combat
+	should_create_alert = { always = no }
+
+	picture = {
+		reference = "gfx/interface/illustrations/decisions/decision_realm.dds"
+	}
+
+	desc = naval_combat_debug_world_naval_focus_decision_desc
+	selection_tooltip = naval_combat_debug_world_naval_focus_decision_tooltip
+
+	is_shown = {
+		debug_only = yes
+		is_ai = no
+	}
+
+	is_valid = {
+		always = yes
+	}
+
+	effect = {
+		trigger_event = naval_combat.0340
+	}
+
+	ai_potential = {
+		always = no
+	}
+
+	ai_will_do = {
+		base = 0
+	}
+}
+
+naval_combat_debug_unlock_all_flagship_fittings_decision = {
+	ai_check_interval = 0
+	decision_group_type = naval_combat
+	should_create_alert = { always = no }
+
+	picture = {
+		reference = "gfx/interface/illustrations/decisions/decision_siege_warfare.dds"
+	}
+
+	desc = naval_combat_debug_unlock_all_flagship_fittings_decision_desc
+	selection_tooltip = naval_combat_debug_unlock_all_flagship_fittings_decision_tooltip
+
+	is_shown = {
+		debug_only = yes
+		is_ai = no
+		exists = var:naval_combat_initialized
+		NOT = { naval_combat_shipwright_all_fittings_unlocked_trigger = yes }
+	}
+
+	is_valid = {
+		always = yes
+	}
+
+	effect = {
+		custom_tooltip = naval_combat_debug_unlock_all_flagship_fittings_effect
+		hidden_effect = {
+			naval_combat_shipwright_unlock_all_fittings_effect = yes
+		}
+	}
+
+	ai_potential = { always = no }
+	ai_will_do = { base = 0 }
+}
+
+naval_combat_report_fleet_decision = {
+	ai_check_interval = 0
+	decision_group_type = naval_combat
+	should_create_alert = { always = no }
+
+	picture = {
+		reference = "gfx/interface/illustrations/decisions/decision_realm.dds"
+	}
+
+	desc = naval_combat_report_fleet_decision_desc
+	selection_tooltip = naval_combat_report_fleet_decision_tooltip
+
+	is_shown = {
+		is_ai = no
+		exists = var:naval_combat_initialized
+	}
+
+	is_valid = {
+		naval_combat_can_manage_navy_trigger = yes
+	}
+
+	effect = {
+		hidden_effect = {
+			naval_combat_initialize_navy_effect = yes
+			set_variable = {
+				name = naval_combat_compatibility_window_open
+				value = 1
+			}
+		}
+	}
+
+	ai_potential = {
+		always = no
+	}
+
+	ai_will_do = {
+		base = 0
+	}
+}
+
+naval_combat_gather_intelligence_decision = {
+	ai_check_interval = 0
+	decision_group_type = naval_combat
+	should_create_alert = { always = no }
+
+	picture = {
+		reference = "gfx/interface/illustrations/decisions/decision_realm.dds"
+	}
+
+	desc = naval_combat_gather_intelligence_decision_desc
+	selection_tooltip = naval_combat_gather_intelligence_decision_tooltip
+
+	is_shown = {
+		is_ai = no
+		exists = var:naval_combat_initialized
+		naval_combat_can_manage_navy_trigger = yes
+	}
+
+	is_valid = {
+		custom_description = {
+			text = naval_combat_gather_intelligence_decision_requirements
+			naval_combat_has_admiral_trigger = yes
+		}
+	}
+
+	effect = {
+		trigger_event = naval_combat.0320
+	}
+
+	ai_potential = { always = no }
+	ai_will_do = { base = 0 }
+}
+
+naval_combat_train_fleet_decision = {
+	ai_check_interval = 0
+	decision_group_type = naval_combat
+	should_create_alert = { always = yes }
+	cooldown = { years = 1 }
+
+	picture = {
+		reference = "gfx/interface/illustrations/decisions/naval_combat_train_fleet_decision.png"
+	}
+
+	desc = naval_combat_train_fleet_decision_desc
+	selection_tooltip = naval_combat_train_fleet_decision_tooltip
+
+	is_shown = {
+		is_ai = no
+		exists = var:naval_combat_initialized
+		naval_combat_can_manage_navy_trigger = yes
+	}
+
+	is_valid = {
+		custom_description = {
+			text = naval_combat_train_fleet_requires_peace
+			is_at_war = no
+		}
+		custom_description = {
+			text = naval_combat_train_fleet_requires_ships
+			naval_combat_total_ship_count_value > 0
+		}
+		custom_description = {
+			text = naval_combat_train_fleet_requires_room
+			naval_combat_drill_value < 100
+		}
+		custom_description = {
+			text = naval_combat_train_fleet_requires_minister
+			naval_combat_has_admiral_trigger = yes
+		}
+		custom_description = {
+			text = naval_combat_train_fleet_requires_gold
+			short_term_treasury_or_gold >= naval_combat_drill_training_cost_value
+		}
+	}
+
+	effect = {
+		remove_treasury_or_gold = naval_combat_drill_training_cost_value
+		hidden_effect = {
+			naval_combat_clear_training_state_effect = yes
+			set_variable = {
+				name = naval_combat_training_pre_readiness
+				value = 0
+			}
+			if = {
+				limit = { exists = var:naval_combat_readiness }
+				set_variable = {
+					name = naval_combat_training_pre_readiness
+					value = var:naval_combat_readiness
+				}
+			}
+			set_variable = {
+				name = naval_combat_training_progress
+				value = 0
+			}
+			set_variable = {
+				name = naval_combat_training_accidents
+				value = 0
+			}
+			set_variable = {
+				name = naval_combat_training_repair_cost
+				value = 0
+			}
+			trigger_event = naval_combat.0400
+		}
+	}
+
+	ai_potential = { always = no }
+	ai_will_do = { base = 0 }
+}
+
+naval_combat_commission_shipwright_research_decision = {
+	ai_check_interval = 0
+	decision_group_type = naval_combat
+	should_create_alert = { always = yes }
+	cooldown = { months = 6 }
+
+	picture = {
+		reference = "gfx/interface/illustrations/event_scenes/naval_combat_shipwright.dds"
+	}
+
+	desc = naval_combat_commission_shipwright_research_decision_desc
+	selection_tooltip = naval_combat_commission_shipwright_research_decision_tooltip
+
+	is_shown = {
+		is_ai = no
+		exists = var:naval_combat_initialized
+		naval_combat_can_manage_navy_trigger = yes
+	}
+
+	is_valid = {
+		custom_description = {
+			text = naval_combat_shipwright_requires_royal_architect
+			employs_court_position = royal_architect_court_position
+		}
+		custom_description = {
+			text = naval_combat_shipwright_requires_gold
+			gold >= 200
+		}
+		custom_description = {
+			text = naval_combat_shipwright_requires_unknown_fitting
+			naval_combat_shipwright_any_research_available_trigger = yes
+		}
+	}
+
+	effect = {
+		naval_combat_shipwright_migrate_quality_bits_effect = yes
+		trigger_event = naval_combat.0600
+	}
+
+	ai_potential = { always = no }
+	ai_will_do = { base = 0 }
+}
+
+naval_combat_raid_blockaded_coast_decision = {
+	ai_check_interval = 0
+	decision_group_type = naval_combat
+	should_create_alert = { always = yes }
+	cooldown = { months = 3 }
+
+	picture = {
+		reference = "gfx/interface/illustrations/decisions/naval_combat_raid_blockaded_coast.png"
+	}
+
+	desc = naval_combat_raid_blockaded_coast_decision_desc
+	selection_tooltip = naval_combat_raid_blockaded_coast_decision_tooltip
+
+	is_shown = {
+		is_ai = no
+		exists = var:naval_combat_initialized
+		is_at_war = yes
+	}
+
+	is_valid = {
+		custom_description = {
+			text = naval_combat_raid_blockaded_coast_decision_requirements
+			AND = {
+				naval_combat_can_manage_navy_trigger = yes
+				naval_combat_total_ship_count_value > 0
+				var:naval_combat_sea_control_active ?= 1
+				var:naval_combat_readiness > 0
+				any_war_enemy = {
+					is_alive = yes
+					gold >= 10
+					naval_combat_can_manage_navy_trigger = yes
+					OR = {
+						naval_combat_total_ship_count_value <= 0
+						AND = {
+							NOT = { var:naval_combat_transport_active ?= 1 }
+							NOT = { var:naval_combat_sea_control_active ?= 1 }
+						}
+					}
+				}
+			}
+		}
+	}
+
+	effect = {
+		hidden_effect = {
+			random_war_enemy = {
+				limit = {
+					is_alive = yes
+					gold >= 10
+					naval_combat_can_manage_navy_trigger = yes
+					OR = {
+						naval_combat_total_ship_count_value <= 0
+						AND = {
+							NOT = { var:naval_combat_transport_active ?= 1 }
+							NOT = { var:naval_combat_sea_control_active ?= 1 }
+						}
+					}
+				}
+				save_scope_as = naval_combat_raid_target
+			}
+			set_variable = {
+				name = naval_combat_raid_target
+				value = scope:naval_combat_raid_target
+			}
+			scope:naval_combat_raid_target = {
+				if = {
+					limit = { NOT = { has_character_modifier = naval_combat_blockaded_modifier } }
+					add_character_modifier = { modifier = naval_combat_blockaded_modifier }
+				}
+				set_variable = {
+					name = naval_combat_blockading_enemy
+					value = root
+				}
+			}
+			random_list = {
+				65 = {
+					set_variable = {
+						name = naval_combat_coastal_raid_loot
+						value = {
+							value = scope:naval_combat_raid_target.gold
+							multiply = 0.10
+							min = 1
+						}
+					}
+					# Tooltips do not execute the set_variable above. Repeat the
+					# deterministic formula so preview evaluation never reads an unset var.
+					add_gold = {
+						value = scope:naval_combat_raid_target.gold
+						multiply = 0.10
+						min = 1
+					}
+					scope:naval_combat_raid_target = {
+						remove_short_term_gold = {
+							value = gold
+							multiply = 0.10
+							min = 1
+						}
+					}
+					trigger_event = naval_combat.0310
+				}
+				35 = {
+					trigger_event = naval_combat.0311
+				}
+			}
+		}
+	}
+
+	ai_potential = { always = no }
+	ai_will_do = { base = 0 }
+}

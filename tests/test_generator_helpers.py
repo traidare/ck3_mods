@@ -109,6 +109,102 @@ class SharedGeneratorHelperTest(unittest.TestCase):
                 {3, 8},
             )
 
+    def test_map_title_parser_handles_inline_assignments_and_comments(self) -> None:
+        source = (
+            "b_first = { province = 7 color = { 1 2 3 } }\n"
+            "b_second = {\n\tprovince = 9\n}\n"
+            "# b_retired = { province = 11 }\n"
+        )
+        with generator_function(
+            "workspace/agot_now_lov_ee_map_compatch/map_merge.py",
+            "province_ids_from_landed_titles",
+        ) as province_ids:
+            self.assertEqual(province_ids(source), (7, 9))
+
+    def test_map_quarantine_is_deterministic_and_non_passable(self) -> None:
+        source = "sea_zones = LIST { 2 }\nimpassable_mountains = LIST { 3 }\n"
+        with (
+            generator_function(
+                "workspace/agot_now_lov_ee_map_compatch/map_merge.py",
+                "append_impassable_quarantine",
+            ) as append_quarantine,
+            generator_function(
+                "workspace/agot_now_lov_ee_map_compatch/map_merge.py",
+                "land_provinces",
+            ) as land_provinces,
+        ):
+            output = append_quarantine(source, (4, 5, 6), chunk_size=2)
+            self.assertIn("impassable_mountains = LIST { 4 5 }", output)
+            self.assertIn("impassable_mountains = LIST { 6 }", output)
+            self.assertEqual(land_provinces(output, frozenset(range(1, 7))), {1})
+
+    def test_crash_repair_guards_all_appointment_scores(self) -> None:
+        block = (
+            "\t\t\tscope:target = {\n\t\t\t\tholder = {\n"
+            "\t\t\t\t\thas_realm_law_flag = appointment_type_succession\n"
+            "\t\t\t\t}\n\t\t\t}\n"
+            "\t\t\tscope:target = {\n\t\t\t\tholder = {\n"
+            "\t\t\t\t\thas_realm_law_flag = appointment_type_succession\n"
+            "\t\t\t\t}\n\t\t\t}\n"
+            '\t\t\t\t\t\t"appointment_candidate_accumulated_score'
+            '(scope:target)" > 0\n'
+            '\t\t\t\t\t\t"appointment_candidate_accumulated_score'
+            '(scope:target)" > 0\n'
+            '\t\t\t\t"appointment_candidate_accumulated_score'
+            '(scope:target)" <= 0\n'
+        )
+        with generator_function(
+            "workspace/agot_playset_runtime_fixes/runtime_fixes/crash_stability.py",
+            "guard_appointment_score_calls",
+        ) as guard_scores:
+            repaired = guard_scores(block)
+        self.assertEqual(repaired.count("trigger_else = { always = no }"), 3)
+        self.assertEqual(
+            repaired.count("has_title_law_flag = appointment_type_succession"), 5
+        )
+
+    def test_crash_repair_drops_surplus_title_giver_arguments(self) -> None:
+        source = (
+            "\t\t\tep3_become_landed_warning_effect = {\n"
+            "\t\t\t\tTITLE_RECEIVER = scope:attacker\n"
+            "\t\t\t\tTITLE_GIVER = scope:defender\n"
+            "\t\t\t\tTITLE = scope:target\n"
+            "\t\t\t}\n"
+            "\t\t\tep3_landless_invasion_titles_taken_effect = {\n"
+            "\t\t\t\tTITLE_GIVER = scope:defender\n"
+            "\t\t\t\tTITLE_RECEIVER = scope:attacker\n"
+            "\t\t\t\tTITLE = scope:target\n"
+            "\t\t\t\tTITLE_LIST = target_titles\n"
+            "\t\t\t}\n"
+        )
+        with generator_function(
+            "workspace/agot_playset_runtime_fixes/runtime_fixes/crash_stability.py",
+            "drop_unneeded_title_giver_arguments",
+        ) as drop_title_giver:
+            repaired = drop_title_giver(source)
+        warning_block, invasion_block = repaired.split(
+            "ep3_landless_invasion_titles_taken_effect"
+        )
+        # The warning effect loses the surplus argument...
+        self.assertNotIn("TITLE_GIVER", warning_block)
+        self.assertIn("TITLE_RECEIVER = scope:attacker", warning_block)
+        # ...while the invasion effect keeps the one it actually declares.
+        self.assertIn("TITLE_GIVER = scope:defender", invasion_block)
+        self.assertIn("TITLE_LIST = target_titles", invasion_block)
+
+    def test_crash_repair_strips_all_kraken_environment_fields(self) -> None:
+        source = "".join(
+            f"event.{index} = {{\n\toverride_environment = "
+            "{ event_environment = x }\n}\n"
+            for index in range(13)
+        )
+        with generator_function(
+            "workspace/agot_playset_runtime_fixes/runtime_fixes/crash_stability.py",
+            "strip_unsupported_override_environments",
+        ) as strip_fields:
+            repaired = strip_fields(source)
+        self.assertNotIn("override_environment", repaired)
+
     def test_map_locator_band_replacement_removes_stale_parent_ids(self) -> None:
         current = (
             "prefix\n",

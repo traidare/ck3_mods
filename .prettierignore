@@ -1,0 +1,4 @@
+# Generated outputs are written by their module generator, which owns their
+# formatting. Reformatting them makes `ck3mm mod validate` report the module as
+# stale.
+workspace/*/artifacts/

@@ -25,6 +25,8 @@ from gen.text import matching_brace, read_source
 DEFINITION = "map_data/definition.csv"
 DEFAULT_MAP = "map_data/default.map"
 PROVINCES_RASTER = "map_data/provinces.png"
+LANDED_TITLES = "common/landed_titles"
+QUARANTINE_ASSET = "untitled_province_quarantine.json"
 GEO_REGIONS = "map_data/geographical_regions/00_agot_geographical_region.txt"
 NOW_GEO_REGIONS = (
     "map_data/geographical_regions/replace/00_agot_geographical_region.txt"
@@ -265,6 +267,130 @@ def land_provinces(text: str, defined: frozenset[int]) -> frozenset[int]:
     return defined - excluded
 
 
+def province_ids_from_landed_titles(text: str) -> tuple[int, ...]:
+    """Return province assignments from one landed-title file.
+
+    Assignments occur both on their own line and inside compact one-line barony
+    blocks. Comments are removed first so retired definitions do not make land
+    appear titled.
+    """
+    stripped = "\n".join(line.split("#", 1)[0] for line in text.splitlines())
+    return tuple(
+        int(match.group(1))
+        for match in re.finditer(r"\bprovince\s*=\s*(\d+)\b", stripped)
+    )
+
+
+def effective_landed_title_files(inputs: Inputs) -> dict[str, Path]:
+    """Resolve the effective landed-title file set by relative path."""
+    winners: dict[str, Path] = {}
+    for root in (
+        inputs.agot,
+        inputs.now,
+        inputs.lov,
+        inputs.lov_bridge,
+        inputs.ee,
+        inputs.eep,
+        inputs.eec,
+    ):
+        directory = root / LANDED_TITLES
+        if not directory.is_dir():
+            continue
+        for path in sorted(directory.rglob("*.txt")):
+            winners[path.relative_to(directory).as_posix()] = path
+    return winners
+
+
+def effective_titled_provinces(
+    title_files: dict[str, Path],
+) -> tuple[frozenset[int], dict[int, str]]:
+    """Return unique province assignments and their effective source files."""
+    providers: dict[int, str] = {}
+    for relative, path in sorted(title_files.items()):
+        for province in province_ids_from_landed_titles(read(path)):
+            if previous := providers.get(province):
+                raise RuntimeError(
+                    f"province {province} is assigned by both {previous} and {relative}"
+                )
+            providers[province] = relative
+    return frozenset(providers), providers
+
+
+def append_impassable_quarantine(
+    default_map: str, provinces: tuple[int, ...], *, chunk_size: int = 80
+) -> str:
+    """Append a deterministic reviewed impassable-province section."""
+    if not provinces:
+        raise RuntimeError("untitled province quarantine unexpectedly became empty")
+    lines = [
+        "",
+        "# LOCAL_UNTITLED_PROVINCE_QUARANTINE_START",
+        "# Defined but unpainted provinces without effective landed titles.",
+    ]
+    for offset in range(0, len(provinces), chunk_size):
+        values = " ".join(
+            str(value) for value in provinces[offset : offset + chunk_size]
+        )
+        lines.append(f"impassable_mountains = LIST {{ {values} }}")
+    lines.append("# LOCAL_UNTITLED_PROVINCE_QUARANTINE_END")
+    return default_map.rstrip() + "\n" + "\n".join(lines) + "\n"
+
+
+def quarantined_default_map(
+    inputs: Inputs, definition: str, geometry: ProvinceGeometry
+) -> tuple[str, dict[str, object]]:
+    """Make every reviewed, titleless definition non-passable."""
+    default_map = read(inputs.current_map_source(DEFAULT_MAP))
+    defined = frozenset(definition_colours(definition))
+    title_files = effective_landed_title_files(inputs)
+    titled, providers = effective_titled_provinces(title_files)
+    candidates = tuple(sorted(land_provinces(default_map, defined) - titled))
+
+    reviewed = json.loads(
+        (inputs.context.assets_dir / QUARANTINE_ASSET).read_text(encoding="utf-8")
+    )
+    if reviewed.get("schema_version") != 1:
+        raise RuntimeError("unsupported untitled-province quarantine schema")
+    expected = tuple(reviewed.get("province_ids", ()))
+    if candidates != expected:
+        added = sorted(set(candidates) - set(expected))
+        removed = sorted(set(expected) - set(candidates))
+        raise RuntimeError(
+            "untitled province quarantine drifted; review the map/title inputs "
+            f"(added={added[:20]}, removed={removed[:20]})"
+        )
+
+    painted = sorted(set(candidates) - set(geometry.unpainted))
+    if painted:
+        raise RuntimeError(
+            "reviewed untitled provinces became painted; do not quarantine visible "
+            f"land without a separate map review: {painted[:20]}"
+        )
+
+    output = append_impassable_quarantine(default_map, candidates)
+    remaining = sorted(land_provinces(output, defined) - titled)
+    if remaining:
+        raise RuntimeError(
+            f"generated default.map leaves passable untitled provinces: {remaining[:20]}"
+        )
+    return output, {
+        "effective_title_files": {
+            relative: canonical_source_path(
+                path,
+                root=inputs.context.workspace_root,
+                workshop_root=inputs.workshop_root,
+            )
+            for relative, path in sorted(title_files.items())
+        },
+        "title_assignments": len(providers),
+        "quarantined_count": len(candidates),
+        "quarantined_painted": 0,
+        "quarantined_unpainted": len(candidates),
+        "quarantined_provinces": list(candidates),
+        "remaining_passable_untitled": 0,
+    }
+
+
 def definition_colours(text: str) -> dict[int, int]:
     """Map each province id to its packed definition colour."""
     colours: dict[int, int] = {}
@@ -389,18 +515,30 @@ class Inputs:
     workshop_root: Path
     agot: Path
     now: Path
+    lov: Path
+    lov_bridge: Path
     ee: Path
     eep: Path
     eec: Path
 
     @classmethod
     def from_context(cls, context: GenerationContext) -> Inputs:
-        names = ("agot", "now", "essos-expanded", "essos-bridge", "essos-compatch")
+        names = (
+            "agot",
+            "now",
+            "legacy-of-valyria",
+            "legacy-of-valyria-bridge",
+            "essos-expanded",
+            "essos-bridge",
+            "essos-compatch",
+        )
         return cls(
             context=context,
             workshop_root=context.workshop_root(*names),
             agot=context.source("agot"),
             now=context.source("now"),
+            lov=context.source("legacy-of-valyria"),
+            lov_bridge=context.source("legacy-of-valyria-bridge"),
             ee=context.source("essos-expanded"),
             eep=context.source("essos-bridge"),
             eec=context.source("essos-compatch"),
@@ -1080,10 +1218,13 @@ def source_manifest(inputs: Inputs) -> dict[str, object]:
             )
         }
         | {inputs.eec / relative for relative in ADOPTED_LOCATOR_FILES}
+        | set(effective_landed_title_files(inputs).values())
     )
     modules = {
         "AGOT": inputs.agot,
         "NOW": inputs.now,
+        "LoV": inputs.lov,
+        "LoV AGOT bridge": inputs.lov_bridge,
         "EEP": inputs.eep,
         "EEC": inputs.eec,
     }
@@ -1107,8 +1248,9 @@ def source_manifest(inputs: Inputs) -> dict[str, object]:
             for path in sorted(paths)
         },
         "intent": (
-            "EEP-native map; apply NOW semantic Westeros deltas, then place every "
-            "land province's locator inside its own province"
+            "EEP-native map; apply NOW semantic Westeros deltas, quarantine reviewed "
+            "unpainted definitions without effective titles, then place every land "
+            "province's locator inside its own province"
         ),
     }
 
@@ -1125,6 +1267,8 @@ def generate(context: GenerationContext) -> None:
     inputs.write(GEO_REGIONS, merge_geographical_regions(inputs))
 
     geometry = province_geometry(inputs, definition)
+    default_map, title_audit = quarantined_default_map(inputs, definition, geometry)
+    inputs.write(DEFAULT_MAP, default_map)
     audit: dict[str, object] = {}
     for relative in LOCATOR_FILES:
         inputs.write(relative, merge_locator_file(inputs, relative, geometry, audit))
@@ -1141,6 +1285,7 @@ def generate(context: GenerationContext) -> None:
                 "raster_outputs": "none",
                 "land_provinces": len(geometry.land),
                 "provinces_unpainted": len(geometry.unpainted),
+                "title_quarantine": title_audit,
                 "locator_repair": audit,
             },
             indent=2,

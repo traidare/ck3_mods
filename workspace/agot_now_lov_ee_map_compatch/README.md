@@ -106,6 +106,34 @@ re-places, reset height and scale to the editor defaults; NOW instead
 deliberately resized the same model from 0.267 to 0.468. The resolution keeps
 Further East's placement and NOW's scale, so neither source loses its intent.
 
+## Untitled province quarantine
+
+A province that is passable in `default.map` but carries no landed title is an
+invalid map state: the engine expects every passable province to belong to a
+barony. The effective playset leaves 1,000 such provinces, because this layer
+takes Further East's province table while the title stack across AGOT, NOW,
+Legacy of Valyria, and the LoV bridge assigns no barony to them.
+
+The generator resolves the effective `landed_titles` files by load order across
+those parents, parses both inline and multiline `province = <id>` assignments,
+and computes the province definitions that are neither water nor already
+impassable and carry no title. All 1,000 are unpainted in the winning raster, so
+they are map-table residue rather than territory, and making them impassable
+removes nothing a player can see or hold.
+
+Those ids are appended to a generated `map_data/default.map` as deterministic,
+chunked `impassable_mountains` lists between explicit begin/end markers, leaving
+Further East's own 1,710 impassable entries untouched and non-overlapping. The
+generator asserts the computed set matches the reviewed
+`assets/untitled_province_quarantine.json`, that every quarantined province is
+unpainted, and that no passable untitled definition remains.
+
+Quarantine is deliberately preferred over wilderness conversion here. Wilderness
+is a state applied to an existing county title, and these provinces have no
+title at all; converting them would require synthesizing baronies, counties, de
+jure parents, capitals, history, and localization. Where a real county title
+exists, wilderness conversion remains the correct tool and is handled elsewhere.
+
 ## Generation
 
 The `mod.toml` generator stages output and only promotes a complete declared
@@ -121,6 +149,13 @@ ck3mm mod generate agot_now_lov_ee_map_compatch --apply
 
 - A pinned-source or pinned-count mismatch fails generation; that failure is the
   general re-audit trigger.
+- Re-audit the quarantine whenever the computed untitled set stops matching
+  `assets/untitled_province_quarantine.json`. A shrinking set means a parent
+  supplied the missing titles, and those ids should be released from quarantine
+  rather than re-pinned. A growing set, or any quarantined province that is
+  painted in the raster, means real territory is about to be made impassable and
+  must be reviewed before the asset is replaced. Landed-title changes in AGOT,
+  NOW, Legacy of Valyria, the LoV bridge, or Further East can all move it.
 - Re-audit the thirteen NOW province rows whenever Further East begins authoring
   any of them itself; generation fails rather than overwriting Further East.
 - Re-audit locator `3462` when its digest pin trips, and re-review rather than

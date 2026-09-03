@@ -1,5 +1,41 @@
 {
   "files": {
+    "2962333032/common/landed_titles/02_agot_special_titles.txt": {
+      "sha256": "96df3adc5dd932db9fb38cae53a559c02aa09cd39933421239442aca458e607b",
+      "size": 8332
+    },
+    "2962333032/common/landed_titles/03_agot_landed_titles_westeros_titular.txt": {
+      "sha256": "9e4479cdca704039bad7bfaad473b63fc4658f599dacddfdd1791b63c1844f56",
+      "size": 782
+    },
+    "2962333032/common/landed_titles/04_agot_mapmodes_titles.txt": {
+      "sha256": "59ab67f76a194639219f5262eb9d20fc6fa8892f249ea316f36e99e0bd25057b",
+      "size": 478
+    },
+    "2962333032/common/landed_titles/05_agot_laamps.txt": {
+      "sha256": "447dfb975a21cd7e33931b220c144237dfa6d95663c1960baee6fa95dfef45ef",
+      "size": 20878
+    },
+    "2962333032/common/landed_titles/05_agot_laamps_merc.txt": {
+      "sha256": "6324d4fba9699eaa1bd52a20da06365e94adf25206c99195c391f4d4c0f80878",
+      "size": 5890
+    },
+    "2962333032/common/landed_titles/06_agot_powerful_family_titles.txt": {
+      "sha256": "efae819a2352065972fbcf2bdcb99e859fc0ade801b61a7ffffa28f46149707c",
+      "size": 57442
+    },
+    "2962333032/common/landed_titles/07_agot_hegemony_titles.txt": {
+      "sha256": "8f8bad119185d27c89969edc2eb4fd8b895aae7efe872c9cc0d62f98d6fc3278",
+      "size": 100
+    },
+    "2962333032/common/landed_titles/99_agot_unused_titles.txt": {
+      "sha256": "f898b2a4bd98ac86a86b6a69e37ea402e6025db1d30f05afd71bf79597b74653",
+      "size": 3185
+    },
+    "2962333032/common/landed_titles/norvos_titles.txt": {
+      "sha256": "092d45e0621150e5a195274e214b59702b1441c529e74b7ed2dc75c2ac834b8b",
+      "size": 322
+    },
     "2962333032/gfx/map/map_object_data/building_locators.txt": {
       "sha256": "852e7d32c6ccd28d86f53c86775ebde5c7360cf5ae539883cc7542940031f55c",
       "size": 1371277
@@ -23,6 +59,34 @@
     "2962333032/map_data/geographical_regions/00_agot_geographical_region.txt": {
       "sha256": "b4945a6165a4f4653608623d3c4aa05304839912d8e70d9a53bb32d44195fb2c",
       "size": 66957
+    },
+    "3403938445/common/landed_titles/cob_laamps.txt": {
+      "sha256": "89ef584c70afa41931bd5e74cc22151be69b185052e7c977911c24cd81972e14",
+      "size": 683
+    },
+    "3403938445/common/landed_titles/lv_misc_titles.txt": {
+      "sha256": "c0e7d81307cc68d40f3feb4de5fcc6041686e4bf2949b2ccfa6a50f1beb3521c",
+      "size": 227
+    },
+    "3403938445/common/landed_titles/lv_noble_families.txt": {
+      "sha256": "77a8e2a7a0911d83b571631a98227d843935c913770d0ebf3d7e9203dc8327ee",
+      "size": 12704
+    },
+    "3403938445/common/landed_titles/lv_special_titles.txt": {
+      "sha256": "2813724c22eb2af08e2977a383facae0097a248f60ced6ed2e7c34c2faee47f1",
+      "size": 1306
+    },
+    "3664900993/common/landed_titles/01_agot_landed_titles.txt": {
+      "sha256": "f498d7bd351f525a219c731aa318ec4c3ea035d5d3c606ed3bd9ee7f0c888ea1",
+      "size": 905756
+    },
+    "3664900993/common/landed_titles/replace/02_agot_special_titles.txt": {
+      "sha256": "813131b219671869c2b878cf4483ee25c0ed5b8c0e1435246a33c760cd9c57bd",
+      "size": 11493
+    },
+    "3664900993/common/landed_titles/replace/03_agot_landed_titles_westeros_titular.txt": {
+      "sha256": "b9621d9c05493de4cec419b7462095a58743df54e431a6933852a04bf08e2a9a",
+      "size": 2078
     },
     "3664900993/gfx/map/map_object_data/building_locators.txt": {
       "sha256": "97cda34bc10a16adf4427fc9a7867685034fc9e08ad8ccd3078b8894902350c2",
@@ -55,6 +119,50 @@
     "3682802751/gfx/map/map_object_data/new_mapobject_2.txt": {
       "sha256": "69c75450b5c9c72f8aa78f1217cc0a4321856a130c830befb93c79d1f21cb757",
       "size": 47605
+    },
+    "3719888822/common/landed_titles/03_agot_landed_titles_essos_titular.txt": {
+      "sha256": "50ec65f3e1bc2779bbdfb2038bf0074c19394e89eada85097ee3165d6a38da91",
+      "size": 1185
+    },
+    "3719888822/common/landed_titles/lv_asshai_titles.txt": {
+      "sha256": "39cc98069da342f8d38d3ad671e7de9cb961d9fd22a905b43c52648d84df09f1",
+      "size": 25349
+    },
+    "3719888822/common/landed_titles/lv_far_essos_islands_titles.txt": {
+      "sha256": "aa59d5bb3a9ed54d9b458cd448fd683178a588384122b6a1d59f6673589e7d68",
+      "size": 3992
+    },
+    "3719888822/common/landed_titles/lv_faros_titles.txt": {
+      "sha256": "95f8cd69e7658231067fa311afe169083aedce3fc8e8ea18c4541e6474d7ed56",
+      "size": 518
+    },
+    "3719888822/common/landed_titles/lv_ghiscar_titles.txt": {
+      "sha256": "c5b07f420d4abe2f9456329b77c12477bce8f9faceebd3847b4087a27162ef1a",
+      "size": 21819
+    },
+    "3719888822/common/landed_titles/lv_north_valyria_titles.txt": {
+      "sha256": "1712cde8dd56cfaed5a4692e4a53c33d5bae82365de7a2371f12947e38f238e6",
+      "size": 15051
+    },
+    "3719888822/common/landed_titles/lv_rhoyne_titles.txt": {
+      "sha256": "5f4ed89a300529e48b99a60a3ec56e52deed84d2a472b066e12c0864ad95ae18",
+      "size": 61
+    },
+    "3719888822/common/landed_titles/lv_sothoryos_titles.txt": {
+      "sha256": "376e321a60192b08dae6e35306702712c0d70bf406aa36859451164f8f08c1d7",
+      "size": 81080
+    },
+    "3719888822/common/landed_titles/lv_valyria_titles.txt": {
+      "sha256": "146d7ae9046549cc32a72db30184d76f6228b27e580cfd0e2e27a8814dad7438",
+      "size": 32477
+    },
+    "3719888822/common/landed_titles/lv_volantis_titles.txt": {
+      "sha256": "e8e22f7ce09e259df5f93155802e336526356cbede484de3a2085c34040e2988",
+      "size": 26890
+    },
+    "3768149491/common/landed_titles/01_landed_titles.txt": {
+      "sha256": "e74e028a73e5d49c0878131c42623bdb66dffdf5f5c141ff9e759babb65efb0e",
+      "size": 1340905
     },
     "3768149491/gfx/map/map_object_data/new_mapobject_3.txt": {
       "sha256": "eaed683ed4da1aac106c9721d1f597358a5db07012fe4d340c3edcfdc166a958",
@@ -97,12 +205,14 @@
       "size": 3356346
     }
   },
-  "intent": "EEP-native map; apply NOW semantic Westeros deltas, then place every land province's locator inside its own province",
+  "intent": "EEP-native map; apply NOW semantic Westeros deltas, quarantine reviewed unpainted definitions without effective titles, then place every land province's locator inside its own province",
   "schema_version": 2,
   "versions": {
     "AGOT": "0.5.1",
     "EEC": "1.0.20",
     "EEP": "4.0.36",
+    "LoV": "1.5.2.13",
+    "LoV AGOT bridge": "0.5.1-stage09d-postrelease-runtime-repair-rc7-2026-08-25",
     "NOW": "1.2.8.1"
   }
 }

@@ -19,6 +19,16 @@ kind = "workshop"
 item_id = "3664900993"
 
 [[sources]]
+name = "legacy-of-valyria"
+kind = "workshop"
+item_id = "3403938445"
+
+[[sources]]
+name = "legacy-of-valyria-bridge"
+kind = "workshop"
+item_id = "3719888822"
+
+[[sources]]
 name = "essos-expanded"
 kind = "workshop"
 item_id = "3682802751"
