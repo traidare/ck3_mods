@@ -1,9 +1,10 @@
 # agot_plus_119_runtime_rebase — module state
 
 Narrow executable-script repair for **AGOT+** (`2950245430`, version `1.0.0`) on
-CK3 `1.19`. Load position: immediately after **AGOT: Canon Children EZ Mode**.
-The EZ-mode mod does not override the repaired AGOT+ file, but loading after
-both parents makes the intended winner unambiguous.
+CK3 `1.19`. Load position: immediately after **AGOT+**, which itself loads after
+**AGOT: Canon Children EZ Mode**. The EZ-mode mod does not override the repaired
+AGOT+ files, but loading after both parents makes the intended winner
+unambiguous.
 
 ## Ownership
 

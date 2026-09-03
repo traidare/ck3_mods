@@ -14,7 +14,7 @@ coexist with AGOT Submod Core and Dynamic Family Portrait.
 ## Load order
 
 Load all requirements first, then any Long Night runtime fix, and load this
-compatch last.
+compatch last within the Long Night stack.
 
 Disable this compatch whenever AGOT: The Long Night & Azor Ahai is disabled.
 

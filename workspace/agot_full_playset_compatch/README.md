@@ -117,11 +117,12 @@ wrapped in its guard, and that the Long Night's is still AGOT's plus one
 The bridge's `is_diarch_able` guard needs no entry, because only the bridge and
 AGOT define that key and both do so in `00_rules.txt`, where load order decides.
 
-Rule keys resolve by parse order, not mod position, which is why this file wins
-from a load position ahead of the Long Night's. Parse order walks every
-top-level file in `common/scripted_rules/` in name order and only then its
-subdirectories, so re-audit if any playset mod starts shipping rules from a
-subdirectory or from a name sorting after `zzz_agot_playset_`.
+Rule keys resolve by parse order, not mod position. This module now also loads
+after the Long Night chain, while its `zzz_agot_playset_` file remains the later
+parsed definition. Parse order walks every top-level file in
+`common/scripted_rules/` in name order and only then its subdirectories, so
+re-audit if any playset mod starts shipping rules from a subdirectory or from a
+name sorting after `zzz_agot_playset_`.
 
 `history/provinces/replace/00_k_the_vale_prov.txt` takes the same path as AGOT
 Nobility of Westeros' own file, so it shadows that file whole rather than
@@ -196,15 +197,15 @@ ck3mm mod generate agot_full_playset_compatch --apply
 
 The `mod.toml` manifest regenerates the owned outputs from the declared AGOT,
 New Personality Events, NOW, Seasons-fork, dragon-mod, Iron and Salt, Dynamic
-Family Portrait, LoV bridge, and Great Councils sources. It also declares the
-Additional Models, AGOT+/LoV compatch, and disabled COW-AGOT/NOW source that
-back the assertions above. Its portable source metadata lives here, outside the
-installed runtime payload.
+Family Portrait, LoV bridge, Long Night, and Great Councils sources. It also
+declares the Additional Models, AGOT+/LoV compatch, and disabled COW-AGOT/NOW
+source that back the assertions above. Its portable source metadata lives here,
+outside the installed runtime payload.
 
 ## Re-audit
 
 Re-audit whenever any merged parent updates — in particular AGOT or New
 Personality Events' tenth-birthday on-actions, NOW, the Seasons-of-Valyria
 Workshop fork, LoV, MFA, COW, CaFG, Iron and Salt, Dynamic Family Portrait, or
-Great Councils. Remove the canon-dragon birthday bridge if the effective parent
-restores AGOT's dispatch itself.
+Great Councils, and the Long Night's diarch rule. Remove the canon-dragon
+birthday bridge if the effective parent restores AGOT's dispatch itself.

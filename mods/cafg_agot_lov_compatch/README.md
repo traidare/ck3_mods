@@ -9,7 +9,7 @@ Faith Granularity + AGOT Compatch**.
 2. `A Game of Thrones`
 3. `Culture and Faith Granularity + AGOT Compatch`
 4. `Legacy of Valyria` and its AGOT compatibility patch
-5. This add-on, last
+5. This add-on, last among these five
 
 Do not use this on its own — it only carries two files and expects the base
 compatch underneath.

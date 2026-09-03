@@ -6,7 +6,10 @@ else.
 
 ## Requirements and load order
 
-Load after every mod it repairs and before the final **AGOT Playset Compatch**.
+Load after every mod it repairs. In this playset, keep **AGOT: Canon
+Enforcement**, the **AGOT: The Long Night & Azor Ahai** parent, its runtime fix
+and DFP compatch, and **AGOT - Stricter Excommunication Requests** before this
+module. Keep the final **AGOT Playset Compatch** after it.
 
 ## What it repairs
 

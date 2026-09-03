@@ -1,7 +1,7 @@
 # agot_whispers_of_magic — module state
 
 Additive AGOT submod for skinchanging, animal bonds, greensight mastery, and
-dragon dreams. Only parent: A Game of Thrones.
+dragon dreams. Only parent: A Game of Thrones. Load anywhere after AGOT.
 
 ## Ownership
 

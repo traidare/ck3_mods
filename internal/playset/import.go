@@ -24,7 +24,7 @@ func (r ResolvedMod) ToMap() map[string]any {
 		"mod_id":          r.ModID,
 		"display_name":    r.DisplayName,
 		"enabled":         r.Enabled,
-		"source_position": r.SourcePosition,
+		"source_position": r.SourcePosition + 1,
 		"source_index":    r.SourceIndex,
 	}
 }

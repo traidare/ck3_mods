@@ -4,6 +4,10 @@ Generated final-integration layer owning the AGOT playset's eight Character UI
 Overhaul GUI overlaps, the four files that declare its three contested shared
 portrait types, and Artifact Manager's two artifact-icon atlases.
 
+Load after every parent represented in the merge, including the MPD + Dragon
+Wives compatch, AGOT Iron and Salt, and Character UI Overhaul; keep this module
+before `agot_playset_runtime_fixes` and `agot_full_playset_compatch`.
+
 ## Ownership
 
 Character UI Overhaul is the layout authority. The generator three-way merges

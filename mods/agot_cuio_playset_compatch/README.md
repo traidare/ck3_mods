@@ -9,8 +9,7 @@ Load after **A Game of Thrones**, **Better Barbershop**, **AGOT Dragon Wives**,
 **More Interactive Vassals**, **Artifact Manager**, **AGOT More Personality
 Depth**, its runtime rebase, **AGOT - More Personality Depth + Dragon Wives
 Compatch**, **AGOT Iron and Salt**, and **Character UI Overhaul**. Keep it
-before **AGOT Playset Runtime Fixes** and the final **AGOT Personal Playset
-Compatch**.
+before **AGOT Playset Runtime Fixes** and the final **AGOT Playset Compatch**.
 
 ## What it merges
 

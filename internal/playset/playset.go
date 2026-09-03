@@ -60,7 +60,7 @@ func (m Mod) ToOrdered() jsonout.Ordered {
 	ordered := jsonout.Ordered{
 		{Key: "displayName", Value: m.DisplayName},
 		{Key: "enabled", Value: m.Enabled},
-		{Key: "position", Value: m.Position},
+		{Key: "position", Value: m.Position + 1},
 	}
 	if m.Source != "" {
 		ordered = append(ordered, jsonout.Pair{Key: "source", Value: m.Source})
@@ -234,16 +234,20 @@ func LoadFile(filePath string) (Playset, error) {
 	for index, raw := range file.Mods {
 		displayName := stringValue(raw, "displayName", "name")
 		if displayName == "" {
-			displayName = fmt.Sprintf("entry %d", index)
+			displayName = fmt.Sprintf("entry %d", index+1)
 		}
 		enabled := true
 		if value, ok := raw["enabled"]; ok {
 			enabled = launcher.ParseEnabled(value)
 		}
+		position := launcher.ParsePosition(raw["position"], index+1)
+		if position < 1 {
+			return Playset{}, fmt.Errorf("mod entry %d position must be at least 1", index+1)
+		}
 		mods = append(mods, Mod{
 			DisplayName:    displayName,
 			Enabled:        enabled,
-			Position:       launcher.ParsePosition(raw["position"], index),
+			Position:       position - 1,
 			Source:         strings.ToLower(stringValue(raw, "source")),
 			SteamID:        stringValue(raw, "steamId", "steamID", "remoteSteamId"),
 			PdxID:          stringValue(raw, "pdxId", "pdxID", "remotePdxId"),

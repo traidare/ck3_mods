@@ -55,8 +55,8 @@ vanilla's.
 
 ## Load order
 
-After Build-a-Courtier. It carries AGOT's copies of both files, so it may sit
-anywhere after that.
+After A Game of Thrones and Build-a-Courtier. It carries AGOT's copies of both
+files, so it may sit anywhere after both.
 
 ## Generation
 

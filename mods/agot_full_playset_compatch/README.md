@@ -49,22 +49,21 @@ erroring when it evaluates raiding without a raider.
 compatch. Keep the integration layers in this order:
 
 1. `VIET 1.3.0 - AGOT CK3 1.19 Runtime Rebase`, immediately after VIET
-2. `AGOT+ 1.0.0 - CK3 1.19 Runtime Rebase`, immediately after AGOT: Canon
-   Children EZ Mode
+2. `AGOT+ 1.0.0 - CK3 1.19 Runtime Rebase`, immediately after AGOT+, which must
+   load after AGOT: Canon Children EZ Mode
 3. `Legacy Of The Dragon - Linux Texture Fix`, immediately after Legacy Of The
    Dragon
 4. `AGOT NOW - CK3 1.19 Rebase`, immediately after NOW
-5. `AGOT 0.4.40 - Much Faster Activities Rebase`, immediately after MFA
-6. `Grand Remembrance 1.9.0 - CK3 1.19 Runtime Fix`, immediately after the Grand
+5. `AGOT NOW-Season of Ice and Fire Compatch`, immediately after the NOW rebase
+6. `AGOT 0.4.40 - Much Faster Activities Rebase`, immediately after MFA
+7. `Grand Remembrance 1.9.0 - CK3 1.19 Runtime Fix`, immediately after the Grand
    Remembrance AGOT compatibility submod
-7. `AGOT MPD 0.4.0 - CK3 1.19 Runtime Rebase`, immediately after AGOT MPD and
+8. `AGOT MPD 0.4.0 - CK3 1.19 Runtime Rebase`, immediately after AGOT MPD and
    before the MPD + Dragon Wives compatch
-8. `Legacy of Valyria - AGOT 0.5.1 Bridge - CK3 1.19 Runtime Rebase`,
+9. `Legacy of Valyria - AGOT 0.5.1 Bridge - CK3 1.19 Runtime Rebase`,
    immediately after `Legacy of Valyria - AGOT 0.5.1`
-9. `Essos Expanded: The Further East - CK3 1.19 History Rebase`, immediately
-   after `Essos Expanded: The Further East` and before its TempLoV compatch
-10. `AGOT NOW-Season of Ice and Fire Compatch`, after the Essos Expanded LoV
-    compatch
+10. `Essos Expanded: The Further East - CK3 1.19 History Rebase`, immediately
+    after `Essos Expanded: The Further East` and before its TempLoV compatch
 11. `Seasons of Valyria - TempLoV/NOW/Seasons Compatch`
 12. `Essos Expanded - TempLoV/NOW Compatch`
 13. `AGOT NOW + Legacy of Valyria + Essos Expanded Map Compatch`
@@ -74,12 +73,13 @@ compatch. Keep the integration layers in this order:
 17. `AGOT Iron and Salt`
 18. `Character UI Overhaul`
 19. `AGOT Playset - Character UI Overhaul Compatch`
-20. `AGOT Playset Runtime Fixes`
-21. `AGOT Playset Compatch`
-
-`AGOT: The Long Night & Azor Ahai` and its own fixes load after this compatch.
-That is intentional and changes nothing: the regent rule above is decided by
-file name rather than by mod order.
+20. `AGOT: Canon Enforcement`
+21. `AGOT: The Long Night & Azor Ahai`
+22. `AGOT: The Long Night & Azor Ahai - CK3 1.19 Runtime Fix`
+23. `AGOT: The Long Night & Azor Ahai + DFP Compatch`
+24. `AGOT - Stricter Excommunication Requests`
+25. `AGOT Playset Runtime Fixes`
+26. `AGOT Playset Compatch`
 
 Disable these superseded compatch mods:
 

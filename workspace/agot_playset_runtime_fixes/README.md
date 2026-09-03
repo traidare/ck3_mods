@@ -2,7 +2,10 @@
 
 Narrow generated repairs for evidenced executable-script failures across the
 current AGOT playset on CK3 `1.19`. Load position: after every repaired parent
-and before the final `agot_full_playset_compatch`.
+and after the Long Night chain and excommunication balance override, but before
+the final `agot_full_playset_compatch`. The Tiger dependency stack includes
+those non-owned late modules so the Long Night's on-action registrations are
+validated alongside this module's repaired registrations in effective order.
 
 ## Ownership
 

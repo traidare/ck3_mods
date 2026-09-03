@@ -1,7 +1,8 @@
 # agot_mpd_dragon_wives_compatch — module state
 
 Hand-authored final-integration layer over A Game of Thrones, AGOT Dragon Wives,
-AGOT - More Personality Depth, and the local `agot_mpd_119_rebase`.
+AGOT - More Personality Depth, and the local `agot_mpd_119_rebase`. Load after
+all four parents.
 
 ## Ownership
 

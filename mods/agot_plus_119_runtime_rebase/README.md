@@ -4,9 +4,9 @@ Narrow script repair for **AGOT+** on CK3 1.19.
 
 ## Requirements and load order
 
-Load immediately after **AGOT: Canon Children EZ Mode**. That mod does not
-override the repaired AGOT+ files, but loading after both parents makes the
-intended winner unambiguous.
+Load immediately after **AGOT+**. AGOT+ itself must load after **AGOT: Canon
+Children EZ Mode**; this rebase then loads after both parents and remains the
+unambiguous winner for its repaired files.
 
 ## What it repairs
 

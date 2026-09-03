@@ -4,14 +4,13 @@ Map-data merge across AGOT, NOW, Legacy of Valyria, the LoV AGOT bridge, Essos
 Expanded, and Further East.
 
 Load position: after all parents. The local `agot_now_119_rebase` must load
-immediately after NOW and before this map layer; the local
-`essos_expanded_further_east_rebase` must load **after** Further East, because
-it now generates from Further East's history. The three Workshop compatches must
-follow that history rebase, in this order, before this module:
+immediately after NOW, followed by `AGOT NOW-Season of Ice and Fire Compatch`.
+The local `essos_expanded_further_east_rebase` must load **after** Further East,
+because it now generates from Further East's history. The remaining two Workshop
+compatches must follow that history rebase, in this order, before this module:
 
-1. `AGOT NOW-Season of Ice and Fire Compatch`
-2. `Seasons of Valyria - TempLoV/NOW/Seasons Compatch`
-3. `Essos Expanded - TempLoV/NOW Compatch`
+1. `Seasons of Valyria - TempLoV/NOW/Seasons Compatch`
+2. `Essos Expanded - TempLoV/NOW Compatch`
 
 ## Ownership
 

@@ -1,7 +1,8 @@
 # agot_mayham_aow_compatch — module state
 
 Generated final-integration layer over A Game of Thrones, aGoT: Mayham, and
-AGOT - Armies of Westeros (with Armies of Westeros REMASTERED optional).
+AGOT - Armies of Westeros (with Armies of Westeros REMASTERED optional). Load
+after every enabled parent.
 
 ## Ownership
 

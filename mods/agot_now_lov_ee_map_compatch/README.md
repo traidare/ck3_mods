@@ -11,13 +11,14 @@ AGOT LoV bridge, Essos Expanded, and Essos Expanded: The Further East.
 
 - **AGOT NOW - CK3 1.19 Rebase** must load immediately after Nobility of
   Westeros and before this map layer.
+- **AGOT NOW-Season of Ice and Fire Compatch** must load immediately after that
+  NOW rebase.
 - **Essos Expanded: The Further East - CK3 1.19 History Rebase** must load
   **after** Essos Expanded: The Further East.
-- These three Workshop compatches must follow that history rebase, in order,
-  before this module:
-  1. AGOT NOW-Season of Ice and Fire Compatch
-  2. Seasons of Valyria - TempLoV/NOW/Seasons Compatch
-  3. Essos Expanded - TempLoV/NOW Compatch
+- After the history rebase, load these two Workshop compatches in order before
+  this module:
+  1. Seasons of Valyria - TempLoV/NOW/Seasons Compatch
+  2. Essos Expanded - TempLoV/NOW Compatch
 
 ## What it does
 
