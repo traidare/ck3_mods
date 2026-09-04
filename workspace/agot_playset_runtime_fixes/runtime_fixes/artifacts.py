@@ -345,3 +345,154 @@ def generate_agot_wall_banner_capital_fallback(inputs: RunInputs) -> None:
         "common/scripted_effects/zz_agot_runtime_wall_banner_effect.txt",
         f"{block}\n",
     )
+
+
+_MVS = "3573203384"
+_AGOT_SWORD_TEMPLATE = "valyrian_steel_template"
+_MVS_TEMPLATE_REFERENCE = re.compile(r"template = (vs_\w+_template)\b")
+
+
+def _undefined_valyrian_templates(inputs: RunInputs, text: str) -> set[str]:
+    """Return the `vs_*_template` names in ``text`` that nothing defines.
+
+    `vs_*` is More Valyrian Steel's own naming for AGOT's Valyrian steel swords,
+    so only its template file and AGOT's template directory can supply one. A
+    name either of them starts defining stops being rewritten here.
+    """
+    defined: set[str] = set()
+    sources = [inputs.WORKSHOP / _MVS / "common/artifacts/templates"]
+    sources.append(inputs.WORKSHOP / "2962333032" / "common/artifacts/templates")
+    for directory in sources:
+        for path in sorted(directory.glob("*.txt")):
+            defined.update(re.findall(r"(?m)^(\w+)\s*=\s*\{", read_text(path)))
+    if _AGOT_SWORD_TEMPLATE not in defined:
+        raise RuntimeError(
+            f"AGOT no longer defines {_AGOT_SWORD_TEMPLATE}; re-audit which "
+            "template its Valyrian steel swords use"
+        )
+    return {
+        name for name in _MVS_TEMPLATE_REFERENCE.findall(text) if name not in defined
+    }
+
+
+def _resolve_valyrian_templates(
+    inputs: RunInputs, text: str, *, expected: int, label: str
+) -> str:
+    """Point More Valyrian Steel's dead sword templates at AGOT's own.
+
+    Every unresolved name is `vs_<sword>_template`, which More Valyrian Steel
+    ships no definition for; AGOT gives each of those same swords
+    `valyrian_steel_template`, so restoring it is the value the override
+    diverged from rather than a new choice. More Valyrian Steel's own
+    `<sword>_sword_template` names are defined and are left alone.
+    """
+    undefined = _undefined_valyrian_templates(inputs, text)
+    if not undefined:
+        raise RuntimeError(f"{label}: every vs_*_template now resolves")
+    replaced = 0
+    for name in sorted(undefined):
+        count = text.count(f"template = {name}")
+        text = text.replace(f"template = {name}", f"template = {_AGOT_SWORD_TEMPLATE}")
+        replaced += count
+    if replaced != expected:
+        raise RuntimeError(
+            f"{label}: expected {expected} unresolved template reference(s), "
+            f"found {replaced} across {sorted(undefined)}"
+        )
+    return text
+
+
+def generate_more_valyrian_steel_artifact_repairs(inputs: RunInputs) -> None:
+    """Repair the dead references in More Valyrian Steel's artifact setup.
+
+    Signatures:
+    `Nothing after the colon in event target link 'province:' at file:`
+    `common/scripted_effects/00_mvs_scripted_effects_artifacts.txt line: 6892`
+    `(create_artifact_karstark_effect[...])`, and
+    `Unknown effect: agot_agot_add_artifact_history, near line: 4048` in the
+    same file. ck3-tiger reports the template and dynasty references as
+    `artifact template vs_sting_template not defined in
+    common/artifacts/templates/` and `dynasty dynn_Scales not defined in
+    common/dynasties/`.
+
+    The Karstark sword's created-history entry names no province after
+    `province:`, so the entry resolves an empty event target every time the
+    sword is created. `location` is optional on an artifact history entry — the
+    overwhelming majority of AGOT's own entries omit it — and no province id is
+    recoverable from the source, so the field is dropped rather than guessed at.
+    The two `agot_agot_add_artifact_history` calls double the effect's own
+    prefix; that name is defined nowhere, so both inherited-history entries are
+    discarded, while every neighbouring `agot_add_artifact_history` call in the
+    same block is read.
+
+    `dynn_Scales` is the localized *house* name AGOT gives `house_Scales`, not a
+    dynasty key, so the sword's traditional-house variable resolves to nothing.
+    AGOT defines that house directly, and the variable wants a dynasty house, so
+    the reference becomes `house:house_Scales`; the block's Saerygan history is
+    untouched.
+
+    More Valyrian Steel provides `00_mvs_scripted_effects_artifacts.txt` alone
+    and is the effective last writer for AGOT's forgeable-sword effects.
+    """
+    relative = "common/scripted_effects/00_mvs_scripted_effects_artifacts.txt"
+    text = read_text(inputs.WORKSHOP / _MVS / relative)
+    if "agot_add_artifact_history = {" not in text:
+        raise RuntimeError(
+            "More Valyrian Steel no longer defines agot_add_artifact_history; "
+            "re-audit which effect its history entries should call"
+        )
+    text = replace_exact(
+        text,
+        "\t\t\tlocation = province:\n",
+        "",
+        expected=1,
+        label="More Valyrian Steel empty artifact-history location",
+    )
+    text = replace_exact(
+        text,
+        "agot_agot_add_artifact_history = {",
+        "agot_add_artifact_history = {",
+        expected=2,
+        label="More Valyrian Steel doubled artifact-history effect prefix",
+    )
+    houses = read_text(
+        inputs.WORKSHOP / "2962333032/common/dynasty_houses/00_agot_dynasty_houses.txt"
+    )
+    if "house_Scales = {" not in houses:
+        raise RuntimeError(
+            "AGOT no longer defines house_Scales; re-audit which house owns "
+            "the Scales sword"
+        )
+    text = replace_exact(
+        text,
+        "value = dynasty:dynn_Scales.dynasty_founder.house",
+        "value = house:house_Scales",
+        expected=1,
+        label="More Valyrian Steel Scales traditional-house owner",
+    )
+    text = _resolve_valyrian_templates(
+        inputs,
+        text,
+        expected=2,
+        label="More Valyrian Steel historical sword templates",
+    )
+    write_text(inputs.OUTPUT, relative, text)
+
+    forgeable = (
+        "common/scripted_effects/00_agot_artifact_vs_sword_forgeable_effects.txt"
+    )
+    text = read_text(inputs.WORKSHOP / _MVS / forgeable)
+    agot_forgeable = read_text(inputs.WORKSHOP / "2962333032" / forgeable)
+    agot_templates = set(_MVS_TEMPLATE_REFERENCE.findall(agot_forgeable))
+    if agot_templates:
+        raise RuntimeError(
+            "AGOT's forgeable swords now use per-sword templates "
+            f"{sorted(agot_templates)}; re-audit the fallback"
+        )
+    text = _resolve_valyrian_templates(
+        inputs,
+        text,
+        expected=28,
+        label="More Valyrian Steel forgeable sword templates",
+    )
+    write_text(inputs.OUTPUT, forgeable, text)

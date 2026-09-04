@@ -1281,3 +1281,42 @@ def generate_voluntary_laamp_repairs(inputs: RunInputs) -> None:
         preserve_trailing_whitespace=True,
         force_newline="\r\n",
     )
+
+
+def generate_lov_agot_title_on_action_septon_naming(inputs: RunInputs) -> None:
+    """Point LoV's AGOT title on-actions at AGOT's current High Septon effect.
+
+    Signature:
+    `Unknown effect: agot_assign_high_septon_nickname_effect, near line: 2047`
+    in `common/on_action/agot_on_actions/agot_title_on_actions.txt`. AGOT names
+    the High Septon rather than nicknaming them and calls
+    `agot_assign_high_septon_name_effect`; LoV's whole-file copy of that path
+    still calls the retired name, so the reader discards
+    `agot_on_title_gain_high_septon` and a new High Septon keeps their birth
+    name. LoV is the effective last writer for the path, so this module restates
+    its file with only that one call renamed; the sibling
+    `agot_assign_high_septon_effect` call and every other on-action are kept.
+    """
+    agot = inputs.WORKSHOP / "2962333032"
+    effects = read_text(agot / "common/scripted_effects/00_agot_effects.txt")
+    if "agot_assign_high_septon_name_effect = {" not in effects:
+        raise RuntimeError(
+            "AGOT no longer defines agot_assign_high_septon_name_effect; "
+            "re-audit which effect names the High Septon"
+        )
+    if "agot_assign_high_septon_nickname_effect = {" in effects:
+        raise RuntimeError(
+            "AGOT defines agot_assign_high_septon_nickname_effect again; "
+            "LoV's call resolves on its own and this rename is obsolete"
+        )
+
+    relative = "common/on_action/agot_on_actions/agot_title_on_actions.txt"
+    source = read_text(inputs.WORKSHOP / "3719888822" / relative)
+    source = replace_exact(
+        source,
+        "agot_assign_high_septon_nickname_effect = yes",
+        "agot_assign_high_septon_name_effect = yes",
+        expected=1,
+        label="LoV High Septon naming call",
+    )
+    write_text(inputs.OUTPUT, relative, normalize_rebased_source(source))

@@ -1,6 +1,30 @@
 {
   "schemaVersion": 1,
   "files": {
+    "workshop/2950245430/common/coat_of_arms/coat_of_arms/test_bastard_templates.txt": {
+      "sha256": "4423f19f9ce87f90ad4456b9d071d81696f188add7b69a646356d34e069cbd18",
+      "size": 99430
+    },
+    "workshop/2950245430/common/coat_of_arms/coat_of_arms/test_ironborn_dynasties.txt": {
+      "sha256": "ca5f3fd85a4b73b27a814cdec44531f1ff0d9405273069470e510dcf6675a7ce",
+      "size": 13522
+    },
+    "workshop/2950245430/common/coat_of_arms/coat_of_arms/test_northern_dynasties.txt": {
+      "sha256": "680e7e748f72d470dce05b6a3fae91dc16bac170f5612a1b4b36929c031ab0af",
+      "size": 35565
+    },
+    "workshop/2950245430/common/coat_of_arms/coat_of_arms/test_personal_coas.txt": {
+      "sha256": "e404f3471bdca432bee34062fe6b465a303ee20d091de7e673c7432382d8b271",
+      "size": 71037
+    },
+    "workshop/2950245430/common/coat_of_arms/coat_of_arms/test_reach_dynasties.txt": {
+      "sha256": "3c9e9391aefb5892d54015178e1cb45f15268c469c7a36f5cec75d2920b0b46e",
+      "size": 55998
+    },
+    "workshop/2950245430/common/coat_of_arms/coat_of_arms/test_riverland_dynasties.txt": {
+      "sha256": "ea593611d2ca6abe53fc50e17af67ef2e6b70f706bcf07ac69863b2b7085d6ff",
+      "size": 28711
+    },
     "workshop/2950245430/common/modifiers/asoiaf_canon_children_modifiers.txt": {
       "sha256": "359ecc47d8bbc8814ac73d7480aed47008287092aadca0f05979465f0c5485fc",
       "size": 39557
@@ -48,6 +72,30 @@
     "workshop/2950245430/history/characters/asoiaf_char_vanity.txt": {
       "sha256": "2fe8519624fea74011a50253c42c4749244a05c3523129895226ca5c2960ed86",
       "size": 75374
+    },
+    "workshop/2962333032/common/coat_of_arms/coat_of_arms/bastard_templates.txt": {
+      "sha256": "084cf287f6f2c554ac3d49b680b01363557d8df0425d57be0fc85e74840578de",
+      "size": 86654
+    },
+    "workshop/2962333032/common/coat_of_arms/coat_of_arms/ironborn_dynasties.txt": {
+      "sha256": "eacb381702d26f96b2f6d07b85ef5b47b0c9df5feec567028920694f6f8dcc83",
+      "size": 14808
+    },
+    "workshop/2962333032/common/coat_of_arms/coat_of_arms/northern_dynasties.txt": {
+      "sha256": "2da3010173da91ad72b21b18220abe451df046ee6a4950c8e9a77061c3735ddf",
+      "size": 90127
+    },
+    "workshop/2962333032/common/coat_of_arms/coat_of_arms/personal_coas_dynamic.txt": {
+      "sha256": "4a49f9460453bdaf7c6f5acf360f3b770d263697e96a62dfc79aa0265a6ceec2",
+      "size": 31849
+    },
+    "workshop/2962333032/common/coat_of_arms/coat_of_arms/reach_dynasties.txt": {
+      "sha256": "e0ba75399b3f02389cb8e0a313d4915650c14c2a9c3545a7ecc3ac4c4d3f974d",
+      "size": 92570
+    },
+    "workshop/2962333032/common/coat_of_arms/coat_of_arms/riverland_dynasties.txt": {
+      "sha256": "e75cb34c1d9a4fe2c2dfa9b11a800633e9422c27432f023ac503a1870da3f712",
+      "size": 74814
     },
     "workshop/2962333032/history/characters/00_agot_char_a_historical_heroes.txt": {
       "sha256": "b5649351dccde2c20d29eb02265955166a19c9d76ee4ea3773ebc97ff16795a5",

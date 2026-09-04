@@ -33,6 +33,10 @@
       "sha256": "8668174191a58aece3fba57a0e65c7e7dc1384f1b3a7ba281ea6e801d76811f4",
       "size": 78402
     },
+    "game/game/gui/shared/portraits.gui": {
+      "sha256": "ca62fc35337d4f6cba9096af0dc66f15a5e56fc21fdc49a7f0788fb1003c6a08",
+      "size": 84331
+    },
     "workshop/2519175282/common/on_action/hometowns_on_actions.txt": {
       "sha256": "6e34399be13c8ea47d0d7e2ecb99a5c220ca1060322ec0e4b68c5491ce0f4ef1",
       "size": 2257
@@ -65,6 +69,38 @@
       "sha256": "6f09df655d1630042ec7bc2b5239a1c6acc4b997de7c56a53ba57b7410624967",
       "size": 2538
     },
+    "workshop/2962333032/common/artifacts/templates/00_agot_event_templates.txt": {
+      "sha256": "346ea6eebd100fdba003af711ffd166913672391383a6bcb1736b8500186796c",
+      "size": 546
+    },
+    "workshop/2962333032/common/artifacts/templates/00_agot_historical_artifacts.txt": {
+      "sha256": "0a2826b8d68fab11ee0adea6ce8ed6a9ccc7267e8a720327ff0e1302201c2f32",
+      "size": 3015
+    },
+    "workshop/2962333032/common/artifacts/templates/00_agot_historical_artifacts_crowns.txt": {
+      "sha256": "df1afe63e4307b771d52968eb979446048cffcb7ccd57c296c322bb4a7764492",
+      "size": 51014
+    },
+    "workshop/2962333032/common/artifacts/templates/00_agot_historical_artifacts_equipment.txt": {
+      "sha256": "cd787ff43ad20225cc51915f0150fee578c61db6b6ee6058666beca9609cc0c8",
+      "size": 35089
+    },
+    "workshop/2962333032/common/artifacts/templates/00_agot_misc_templates.txt": {
+      "sha256": "e00e391d5553d713b369ff87c711df0bfbf163f1011e5ed15996d2c724128d9b",
+      "size": 4654
+    },
+    "workshop/2962333032/common/artifacts/templates/00_event_templates.txt": {
+      "sha256": "d069ed9b2e1fe5122001fe288c87794c4ab418e1b80bbded9ab7f00f0d56f461",
+      "size": 5048
+    },
+    "workshop/2962333032/common/artifacts/templates/00_historical_artifacts_templates.txt": {
+      "sha256": "00f8e2be44dc72ac9ade999359499472570f1f4b0122e14a9cbf61d5e7e4138a",
+      "size": 22659
+    },
+    "workshop/2962333032/common/artifacts/templates/02_ep3_templates.txt": {
+      "sha256": "97f62d3125518db8a677e432dee07d53832d06ecb0a7b6f80188fd287b9e6577",
+      "size": 17
+    },
     "workshop/2962333032/common/buildings/00_agot_castle_buildings.txt": {
       "sha256": "de9d55f8620f7ddd76e2b6125c396781e47b99fb877aa8f8733ec76b4e97b080",
       "size": 118756
@@ -84,6 +120,10 @@
     "workshop/2962333032/common/decisions/dlc_decisions/ep_3/06_ep3_laamp_decisions.txt": {
       "sha256": "12f9db78b6118c72c33dbd62210eaa674c9d59140ca0d6fb74ff1d66ee3504c8",
       "size": 85551
+    },
+    "workshop/2962333032/common/dynasty_houses/00_agot_dynasty_houses.txt": {
+      "sha256": "6a064f0c934ba160db66bd61c9fd7098f56ad887aa4dbce0f16a3ae38ab055bc",
+      "size": 13316
     },
     "workshop/2962333032/common/governments/00_agot_government_types.txt": {
       "sha256": "fb640b0bcc566a611882ba48032cb1d7c7ae093fdaae1cd8052af18b8f4810d5",
@@ -109,9 +149,17 @@
       "sha256": "8c0a56ecbf5f53f80b021c31d55d3f7b02cc9c88fd284f01735fd44b42a8e28d",
       "size": 26044
     },
+    "workshop/2962333032/common/scripted_effects/00_agot_artifact_vs_sword_forgeable_effects.txt": {
+      "sha256": "b335d81d7f2f588146d35641835f22ee1b871ef9c4b7c060218793b49999b257",
+      "size": 38289
+    },
     "workshop/2962333032/common/scripted_effects/00_agot_citadel_effects.txt": {
       "sha256": "faf05f5a1aff0767b1ab05eaf8b2524ec47b4b2f05396dc697c570a8b7d1c305",
       "size": 77285
+    },
+    "workshop/2962333032/common/scripted_effects/00_agot_effects.txt": {
+      "sha256": "8142dea606c1762dac6cbf425772d72fb517a8b7fd1ba362bdb9c7ce9de45ea6",
+      "size": 122065
     },
     "workshop/2962333032/common/scripted_effects/00_agot_remove_realms_effects.txt": {
       "sha256": "14258bb8eff1a17c0ec4f7d0a1e89cb109da74afb51844d06f79305a15cccd22",
@@ -276,6 +324,10 @@
     "workshop/3388366564/events/dlc/ep3/ep3_laamp_events.txt": {
       "sha256": "68dd290277ae7d467634f45ede56238232b52418401637f7f1b7c6f40934b613",
       "size": 207042
+    },
+    "workshop/3388366564/gui/shared/mde_portraits.gui": {
+      "sha256": "56d377d324b97dd2dee38f76aca80db59e30fa966766b28b04acfbc13431954c",
+      "size": 15277
     },
     "workshop/3437814875/gui/00_no_transition.gui": {
       "sha256": "8a682c5401033379c6902dca6e0077397fd93a9cf6d4782ef3d8e0c700d082bd",
@@ -1161,6 +1213,18 @@
       "sha256": "f9fe42248286b936e7c8a8d4aaaa24911416d3b7707d8149b88435df12027726",
       "size": 180816
     },
+    "workshop/3573203384/common/artifacts/templates/mvs_artifact_templates.txt": {
+      "sha256": "2f4de80b17415d738aea5db0a19ae4942a231a04f3aa33615752e8229e91c595",
+      "size": 11597
+    },
+    "workshop/3573203384/common/scripted_effects/00_agot_artifact_vs_sword_forgeable_effects.txt": {
+      "sha256": "bc5807f61f0760894a6510981bf2b919e9bb3fa5c8882da6979726dabdbc4395",
+      "size": 46293
+    },
+    "workshop/3573203384/common/scripted_effects/00_mvs_scripted_effects_artifacts.txt": {
+      "sha256": "ff1d5d5a7a1892c70482f6fb32332c4329b700ccd17494386c3faa02812ae3c3",
+      "size": 162367
+    },
     "workshop/3596393244/common/traits/zz_gptev_traits.txt": {
       "sha256": "528c88288a91fadd81e35ebaeb16877578366a9ae6c8ea714c00ff1062c5086e",
       "size": 50320
@@ -1240,6 +1304,10 @@
     "workshop/3719888822/common/character_interactions/06_ep3_interactions.txt": {
       "sha256": "ebacc93400ab7d3c96bac91dce54923cca47889211284b50157262ab507058d7",
       "size": 319435
+    },
+    "workshop/3719888822/common/on_action/agot_on_actions/agot_title_on_actions.txt": {
+      "sha256": "402efc4de6a26a91fadeb03316a92b6c04f36383524e4ac35e69e5e5e66d07d7",
+      "size": 98940
     },
     "workshop/3719888822/common/on_action/cob_on_actions/zz_lv_aurion_lost_expedition_title_gain_rc61.txt": {
       "sha256": "02e083eecf6f69e96d70dfd83581ce23ac5447f92446e19131b7666b915c7ad1",

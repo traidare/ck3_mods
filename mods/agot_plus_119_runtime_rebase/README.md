@@ -41,3 +41,8 @@ unambiguous winner for its repaired files.
   effects AGOT+ does not define. Those branches are disabled so they can no
   longer terminate a pregnancy and then call a nonexistent effect. Every
   complete canon-child branch stays enabled.
+- **Seventeen coat-of-arms emblems that do not exist**, which left Oakheart,
+  Thornton, Bridges, Yelshire, Byrne, Wibberley, Goodbrother, Brax, and Webber
+  bastard arms drawing without the charge that identifies them. Each one falls
+  back to the emblem A Game of Thrones puts in the same place on the same coat
+  of arms. Every colour, pattern, and placement AGOT+ chose is kept.

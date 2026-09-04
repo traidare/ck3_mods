@@ -14,6 +14,8 @@ unambiguous.
 - `common/scripted_effects/zz_asoiaf_runtime_disabled_incomplete_children.txt`
 - `common/scripted_triggers/zz_asoiaf_runtime_disabled_incomplete_children.txt`
 - `common/modifiers/zz_asoiaf_runtime_missing_modifiers.txt`
+- the six `common/coat_of_arms/coat_of_arms/test_*.txt` files that name an
+  emblem the playset does not ship
 
 ## Repairs and evidence
 
@@ -93,6 +95,28 @@ no-op effects. This prevents the branches from terminating a pregnancy before
 calling a nonexistent birth effect while leaving every complete canon-child
 branch enabled.
 
+### Missing coat-of-arms emblems
+
+AGOT+ redefines several hundred of AGOT's coats of arms in files of its own
+named `test_<file>.txt`. Those parse after AGOT's `<file>.txt` in the same
+directory, so AGOT+'s definition is the one the game keeps — the restyling is
+deliberate and is left alone. Seventeen of its emblem references name a file no
+mod in the playset ships, which the game reports as
+`Failed to find textured emblem texture at path:`
+`gfx/coat_of_arms/colored_emblems/<name>.dds near file:`
+`common/coat_of_arms/coat_of_arms/<file> line: <n>`, and the coat of arms then
+draws without the charge that identifies the house.
+
+The replacement for each dead name is read out of AGOT's own definition of the
+same coat of arms, at the same position in its emblem list, so what is restored
+is the charge AGOT+ drew over rather than a chosen substitute. Generation fails
+when AGOT does not define the coat of arms, when it has no emblem in that
+position, or when its emblem is missing too; a dead name repeated inside one
+coat of arms reuses the resolution its first occurrence produced. The pinned
+`EXPECTED_DEAD_EMBLEM_REFERENCES` count fails generation when AGOT+ adds or
+fixes one. Emblem availability is measured against AGOT, AGOT+, and CK3, which
+are the only providers these coats of arms draw from.
+
 ## Generation
 
 ```sh
@@ -106,3 +130,7 @@ staged generator.
 ## Re-audit
 
 Recompare this override after every update to Workshop mod `2950245430`.
+Re-audit the emblem repairs after an AGOT update as well, because each
+replacement is read out of AGOT's own coat of arms; a coat of arms AGOT stops
+defining, or an emblem it stops shipping, fails generation rather than being
+resolved.

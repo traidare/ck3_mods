@@ -178,6 +178,46 @@ change re-raises it.
 - **Additional Models decision illustrations:** replaces three references to the
   parent's nonexistent `agot_court/throne.dds` with AGOT's existing Iron Throne
   room illustration.
+- **Legacy of Valyria High Septon naming (Workshop 3719888822):**
+  `Unknown effect: agot_assign_high_septon_nickname_effect, near line: 2047` in
+  `common/on_action/agot_on_actions/agot_title_on_actions.txt`. AGOT names the
+  High Septon rather than nicknaming them and calls
+  `agot_assign_high_septon_name_effect`; LoV's whole-file copy of that path
+  still calls the retired name, so the reader discards
+  `agot_on_title_gain_high_septon` and a newly elected High Septon keeps their
+  birth name. LoV is the effective last writer for the path, so this module
+  restates its file with that one call renamed and every other on-action intact.
+  Generation fails if AGOT stops defining the current effect or starts defining
+  the old one.
+- **More Valyrian Steel artifacts (Workshop 3573203384):** four dead references
+  across the two artifact files it is the effective last writer for. The
+  Karstark sword's history entry ends at
+  `Nothing after the colon in event target link 'province:'`; `location` is
+  optional on a history entry and no province id is recoverable, so the field is
+  dropped rather than guessed at. Two calls double the effect's own prefix —
+  `Unknown effect: agot_agot_add_artifact_history` — and are corrected to the
+  `agot_add_artifact_history` its neighbours use. `dynn_Scales` is the localized
+  _house_ name AGOT gives `house_Scales`, not a dynasty key, so the Scales
+  sword's traditional-house variable resolves to nothing and now reads
+  `house:house_Scales` directly. Thirty `template = vs_*_template` references
+  name templates the mod never shipped, twenty-eight of them in its override of
+  AGOT's forgeable-sword effects; each falls back to `valyrian_steel_template`,
+  which is what AGOT gives every sword in the file the override diverged from.
+  More Valyrian Steel's own `<sword>_sword_template` names are defined and are
+  left alone. Generation fails if any of those names becomes defined, or if
+  AGOT's forgeable swords stop using one shared template.
+- **More Dragon Eggs portraits (Workshop 3388366564):**
+  `Could not find data system function 'IsCharacterFakeDead'` with
+  `gui/shared/mde_portraits.gui:501 - Failed parsing data statement`
+  `'And(Character.IsValid, Not(IsCharacterFakeDead))' for property 'visible'`,
+  and `gui/shared/mde_portraits.gui:561 -`
+  `'agot_fake_death_portrait_status_icons_small' is not a valid`
+  `widget/type/property`. Both hooks come from an AGOT fake-death portrait layer
+  no mod in the playset defines. A `visible` property that fails to parse leaves
+  the small status-icon container with no visibility rule, and the unknown child
+  widget is discarded on every instantiation. The rule falls back to CK3's own
+  `[Character.IsValid]`, which is what vanilla `portrait_status_icons_small`
+  uses, and generation fails if CK3 begins supplying the function.
 - **Additional Models holding art:** binds the 565 `@holding_illustration_*`
   references in the compatch's merged `zz_am_lov_nv_holding_art.txt` to literal
   art paths. `@` constants are file-scoped, and the merge folds castle, city,
@@ -420,13 +460,13 @@ the generator and review the resulting diff after any update to Workshop IDs
 `3676293022`, `3305687550`, `3662281614`, `3674548216`, `3673468355`,
 `2886417277`, `3084203091`, `3225355262`, `3235061780`, `3377641022`,
 `3692879370`, `3697008412`, `3462342647`, `3437814875`, `3709868073`,
-`3541596590`, `3719888822`, or `2971198450`, `3732116186`, or `2519175282`, and
-after CK3 updates that change `04_dlc_ep2_tour_effects.txt`. Re-run it after
-updates to `3682802751` because the Essos cleanup validates that parent's game
-rules and startup actions, and after updates to `3719888822` because the same
-repair is pinned to LoV's effective wilderness-conversion effect. Re-run it
-after updates to `3762892081` because the generated court-scene selector follows
-that compatch's current room-routing rules.
+`3541596590`, `3719888822`, or `2971198450`, `3732116186`, `3573203384`, or
+`2519175282`, and after CK3 updates that change `04_dlc_ep2_tour_effects.txt`.
+Re-run it after updates to `3682802751` because the Essos cleanup validates that
+parent's game rules and startup actions, and after updates to `3719888822`
+because the same repair is pinned to LoV's effective wilderness-conversion
+effect. Re-run it after updates to `3762892081` because the generated
+court-scene selector follows that compatch's current room-routing rules.
 
 The stability guards are pinned by file or top-level block hash and fail closed
 when a parent changes. Re-run the generator and review the diff after any update

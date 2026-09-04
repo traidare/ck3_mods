@@ -4556,6 +4556,653 @@ graphical_east_asia = {
 	}
 }
 
+world_westeros_seven_kingdoms_andals = {
+	regions = {
+		world_westeros_the_vale
+		world_westeros_the_riverlands
+		world_westeros_the_iron_islands
+		world_westeros_the_westerlands
+		world_westeros_the_crownlands
+		world_westeros_the_reach
+		world_westeros_the_stormlands
+	}
+}
+
+world_westeros_the_vale_of_arryn = {
+	duchies = {
+		d_the_giants_lance
+		d_gulltown
+		d_ironoaks
+		d_ninestars
+		d_old_anchor
+		d_strongstone
+		# d_runestone #Partial
+		# d_eastweald #Partial
+	}
+	counties = {
+		# d_runestone #Partial
+		c_runestone
+		c_bronzeguard
+		c_gullview
+		c_the_etchings
+		# c_witch_isle
+		# d_eastweald #Partial
+		c_longbow_hills
+		# c_ruthermont
+		c_sedgemore
+		# c_lyme
+		# c_brackenbrick_point
+		c_bowlyn
+		c_the_stills
+	}
+}
+
+world_westeros_the_vale_mountains = {
+	duchies = {
+		d_crowncrests
+		d_wickenden
+		d_strongsong
+	}
+}
+
+world_westeros_the_vale_fingers = {
+	duchies = {
+		d_hearts_home
+		d_the_drainlands
+		# d_eastweald #Partial
+		# d_grimholm #Partial
+	}
+	counties = {
+		# d_eastweald #Partial
+		# c_longbow_hills
+		c_ruthermont
+		# c_sedgemore
+		c_lyme
+		c_brackenbrick_point
+		# c_bowlyn
+		# c_the_stills
+		# d_grimholm #Partial
+		# c_the_paps
+		c_midlor_point
+		c_midlor
+		c_brownden
+		c_bommenstone
+	}
+}
+
+world_westeros_the_vale_north = {
+	duchies = {
+		d_snakewood_forest
+		d_the_cut
+		# d_northbreach #Partial
+	}
+	counties = {
+		# d_northbreach #Partial
+		c_hersy
+		# c_pebble
+		c_eventide
+		c_portmouth
+		c_reckshaw
+		c_scorched_vale
+		c_forgotten_shore
+		c_strikeguard
+	}
+}
+
+world_westeros_the_vale_isles = {
+	duchies = {
+		d_the_sisters
+		# d_runestone #Partial
+		# d_northbreach #Partial
+		# d_grimholm #Partial
+	}
+	counties = {
+		# d_runestone #Partial
+		# c_runestone
+		# c_bronzeguard
+		# c_gullview
+		# c_the_etchings
+		c_witch_isle
+		# d_northbreach #Partial
+		# c_hersy
+		c_pebble
+		# c_eventide
+		# c_portmouth
+		# c_reckshaw
+		# c_scorched_vale
+		# c_forgotten_shore
+		# c_strikeguard
+		# d_grimholm #Partial
+		c_the_paps
+		# c_midlor_point
+		# c_midlor
+		# c_brownden
+		# c_bommenstone
+	}
+}
+
+world_westeros_the_iron_islands_great_wyk = {
+	duchies = {
+		d_east_wyk
+		d_hardstone_hills
+	}
+}
+
+world_westeros_the_iron_islands_harlaw = {
+	duchies = {
+		d_harlaw
+	}
+}
+
+world_westeros_the_iron_islands_northern_islands = {
+	duchies = {
+		d_blacktyde
+		d_orkmont
+		d_old_wyk
+	}
+}
+
+world_westeros_the_iron_islands_southern_islands = {
+	duchies = {
+		d_pyke
+		d_saltcliffe
+	}
+}
+
+world_westeros_the_iron_islands_lonely = {
+	duchies = {
+		d_lonely_light
+	}
+}
+
+world_westeros_the_reach_minus_dornish_marches = {
+	regions = {
+		world_westeros_mander_kingdom
+		world_westeros_northmarch
+		world_westeros_reach_blackwater
+		world_westeros_shield_islands
+		world_westeros_arbor
+		world_westeros_greater_oldtown
+	}
+}
+
+world_westeros_mander_kingdom = {
+	regions = {
+		world_westeros_lower_mander
+		world_westeros_upper_mander
+	}
+}
+
+world_westeros_lower_mander = {
+	duchies = {
+		d_highgarden
+		d_darstone
+		d_darkdell
+		d_the_roseroad
+		d_orchard_way
+		d_cockleswhent
+		# d_brightwater #Partial
+	}
+	counties = {
+		# d_brightwater #Partial
+		# c_brightwater
+		c_denflower
+		c_whitewater_watch
+		# c_islandview
+		# c_bloomfield_hills
+		# c_festune
+		# c_laurelridge
+		c_greenaway
+	}
+}
+
+world_westeros_upper_mander = {
+	duchies = {
+		d_bitterbridge
+		d_fullharvest
+		d_blueburn
+		d_manderfields
+		d_tumbleton
+	}
+}
+
+world_westeros_northmarch = {
+	duchies = {
+		d_goldengrove
+		d_red_front
+		d_the_northmarch
+		d_the_ocean_road
+		d_sunnyvale
+	}
+}
+
+world_westeros_reach_blackwater = {
+	duchies = {
+		d_goldenfields
+		d_heartland_heights
+	}
+}
+
+world_westeros_shield_islands = {
+	duchies = {
+		d_shield_islands
+	}
+}
+
+world_westeros_arbor = {
+	duchies = {
+		d_the_arbor
+	}
+}
+
+world_westeros_the_stormlands_minus_dornish_marches = {
+	regions = {
+		world_westeros_the_stormlands_core
+		world_westeros_the_stormlands_cape_wrath
+		world_westeros_the_stormlands_kingswood
+		world_westeros_the_stormlands_isles
+	}
+}
+
+world_westeros_the_stormlands_core = {
+	duchies = {
+		d_shipbreaker_bay
+		d_nestridge
+		d_stackfield
+		d_vellum_coast
+	}
+}
+
+world_westeros_the_stormlands_cape_wrath = {
+	duchies = {
+		d_cape_wrath
+		d_the_drench
+		d_the_rainwood
+	}
+}
+
+world_westeros_the_stormlands_kingswood = {
+	duchies = {
+		d_kingswood
+		d_greatstock
+		d_valor_meadows
+		d_dark_harrow
+	}
+}
+
+world_westeros_the_stormlands_isles = {
+	duchies = {
+		d_tarth
+		d_estermont_isles
+	}
+}
+
+world_westeros_dornish_marches_andal = {
+	regions = {
+		world_westeros_dornish_marches_reach
+		world_westeros_dornish_marches_stormlands
+	}
+}
+
+world_essos_west = {
+	regions = {
+		world_stepstones
+		world_essos_free_cities
+		world_essos_rhoyne
+		# world_essos_valyria
+	}
+}
+
+world_essos_lys_mainland = {
+	duchies = {
+		d_mangrove_shoals
+		d_thaehaes
+	}
+}
+
+world_essos_tyrosh_islands = {
+	duchies = {
+		d_tyrosh
+		d_muricosh
+		# d_quhyrys #Partial
+	}
+	counties = {
+		# d_quhyrys #Partial
+		c_zernosh
+		# c_uhyrosh_coast
+		# c_tandaynish
+	}
+}
+
+world_essos_tyrosh_mainland = {
+	duchies = {
+		d_ryrys
+		d_great_vilibosh
+		# d_quhyrys #Partial
+	}
+	counties = {
+		# d_quhyrys #Partial
+		# c_zernosh
+		c_uhyrosh_coast
+		c_tandaynish
+	}
+}
+
+world_essos_myr_core = {
+	duchies = {
+		d_myr
+		d_southcliffs
+		d_loomwright
+		d_lotyr_bay
+		d_croraera
+		d_brenassar
+	}
+}
+
+world_essos_myr_north = {
+	duchies = {
+		d_greenlace
+		d_daarano
+		d_qehes
+	}
+}
+
+world_essos_northern_free_cities = {
+	regions = {
+		world_essos_pentos
+		world_essos_andalos
+		world_essos_braavos
+		world_essos_lorath
+		world_essos_norvos
+		world_essos_the_axe
+	}
+}
+
+world_essos_pentos_north = {
+	duchies = {
+		d_pentos
+		d_shepamoti
+		d_the_flatlands
+		d_little_rhoyne
+		d_nyojon
+		d_princes_shore
+		d_hinozobris
+	}
+}
+
+world_essos_pentos_south = {
+	duchies = {
+		d_konian_coast
+		d_the_baked_lands
+		d_nontelos
+		d_samaalis
+	}
+}
+
+world_essos_braavos_swamp = {
+	duchies = {
+		d_braavos
+	}
+}
+
+world_essos_braavos_mainland = {
+	duchies = {
+		d_teggarlozar
+		d_braavosian_coastlands
+		d_inkolantibyr
+		d_lunar_bay_hills
+		d_noporzhyr
+		d_mothers_crown
+		d_sweetwater
+	}
+}
+
+world_essos_lorath_islands = {
+	duchies = {
+		d_lorath
+		d_the_harvest
+		d_lorassyon
+	}
+}
+
+world_essos_lorath_mainland = {
+	duchies = {
+		d_wrighters_wood
+		d_shlorath
+		d_fisher_point
+		d_rbateros
+	}
+}
+
+world_essos_norvos_central = {
+	duchies = {
+		d_norvos
+		d_kevele_kiy
+		d_bear_valley
+	}
+}
+
+world_essos_norvos_west = {
+	duchies = {
+		d_the_noyne
+		d_irughagyu
+		d_limestone_hills
+		d_neath_canals
+	}
+}
+
+world_essos_norvos_east = {
+	duchies = {
+		d_norvole_kiy
+		d_esauritra_eon
+		d_vardyghagyu
+		d_soqhoyn_eon
+		d_norvos_rib
+	}
+}
+
+world_essos_the_axe_peninsula = {
+	duchies = {
+		d_the_bit
+		d_the_haft
+	}
+}
+
+world_essos_the_axe_mainland = {
+	duchies = {
+		d_the_knuckles
+		d_the_spike
+		d_the_grasp
+		d_the_wrist
+	}
+}
+
+world_essos_qohor_steppe = {
+	duchies = {
+		# d_the_crucible #Partial
+	}
+	counties = {
+		# d_the_crucible #Partial
+		c_nomads_encroach
+		# c_shiverness #Partial
+		# c_ghu
+		# c_the_perch
+		# c_senaghon
+	}
+	provinces = {
+		# c_shiverness #Partial
+		# 8969
+		# 8970
+		# 8971
+		# 8972
+		8973
+		# 8974
+	}
+}
+
+world_essos_chroyane_west = {
+	duchies = {
+		d_chroyane
+		d_gar_sagon
+		d_azure_valley
+	}
+}
+
+world_essos_chroyane_east = {
+	duchies = {
+		d_suru_mal
+		d_sen_malhoy
+	}
+}
+
+world_essos_ar_noy_north = {
+	duchies = {
+		# d_ar_noy #Partial
+	}
+	counties = {
+		# d_ar_noy #Partial
+		# c_ar_noy
+		c_the_spearhead
+		c_dhoylleal
+		# c_lliis
+	}
+}
+
+world_essos_ar_noy_south = {
+	duchies = {
+		d_ferrous_basin
+		d_mal_dareas
+		d_rhillupea
+		d_eastern_daggers
+		# d_ar_noy #Partial
+	}
+	counties = {
+		# d_ar_noy #Partial
+		c_ar_noy
+		# c_the_spearhead
+		# c_dhoylleal
+		c_lliis
+	}
+}
+
+world_essos_ny_sar_north = {
+	duchies = {
+		d_roseate_bank
+		# d_ny_sar #Partial
+	}
+	counties = {
+		# d_ny_sar #Partial
+		c_ny_sar
+		# c_marble_knife
+		# c_seanhallial
+		# c_quarried_wings
+	}
+}
+
+world_essos_ny_sar_south = {
+	duchies = {
+		d_rel_gydhal
+		d_golden_fields
+		d_western_daggers
+		# d_ny_sar #Partial
+	}
+	counties = {
+		# d_ny_sar #Partial
+		# c_ny_sar
+		c_marble_knife
+		c_seanhallial
+		c_quarried_wings
+	}
+}
+
+world_essos_ghoyan_drohe_north = {
+	duchies = {
+		d_fair_spine
+		d_the_grommet
+		# d_ghoyan_drohe #Partial
+	}
+	counties = {
+		# d_ghoyan_drohe #Partial
+		c_ghoyan_drohe
+		c_rhusos
+		# c_llounkum
+	}
+}
+
+world_essos_ghoyan_drohe_south = {
+	duchies = {
+		d_gamia_noias
+		# d_ghoyan_drohe #Partial
+	}
+	counties = {
+		# d_ghoyan_drohe #Partial
+		# c_ghoyan_drohe
+		# c_rhusos
+		c_llounkum
+	}
+}
+
+world_jade_sea_moraq = {
+	regions = {
+		world_ruins
+	}
+}
+
+world_jade_sea_leng = {
+	provinces = {
+		7293
+	}
+}
+
+world_essos_dagger_lake_islands = {
+	duchies = {
+		d_eastern_daggers
+		d_western_daggers
+	}
+}
+
+rhoyne_river_region = {
+	counties = {
+		c_soytialne
+		c_tianos
+		c_chroyane
+		c_peadhean
+		c_golden_fields
+		c_rhunamllias
+		c_stiletys
+		c_skean
+		c_anlys
+		c_jambiya
+		c_dyrk
+		c_poniard
+		c_susnys_mal
+		c_dagger_flats
+		c_sen_malhoy
+		c_rhogo_sar
+		c_suru_mal
+		c_punulea_sar
+		c_witnesses_mire
+		c_the_spearhead
+		c_asanydeanos
+		c_uydhean
+		c_quarried_wings
+		c_seanhallial
+		c_marble_knife
+		c_dhiro_bis
+		c_gamia_noias
+		c_panliam
+		c_ghoyan_drohe
+		c_lol_sar
+	}
+}
+
+world_punishment = {
+	regions = {
+		world_essos_free_cities
+		world_stepstones
+	}
+}
+
 world_westeros_skagos = {
 	duchies = {
 		d_skagos

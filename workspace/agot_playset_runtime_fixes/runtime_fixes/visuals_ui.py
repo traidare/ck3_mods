@@ -942,3 +942,46 @@ def generate_advanced_character_search(inputs: RunInputs) -> None:
         label="Advanced Character Search invalid-player window guard",
     )
     write_text(inputs.OUTPUT, relative, text, force_newline="\r\n")
+
+
+def generate_more_dragon_eggs_portrait_widget(inputs: RunInputs) -> None:
+    """Drop the retired AGOT fake-death hooks from More Dragon Eggs' portraits.
+
+    Signatures: `Could not find data system function 'IsCharacterFakeDead'`
+    with `gui/shared/mde_portraits.gui:501 - Failed parsing data statement`
+    `'And(Character.IsValid, Not(IsCharacterFakeDead))' for property 'visible'`,
+    and `gui/shared/mde_portraits.gui:561 -`
+    `'agot_fake_death_portrait_status_icons_small' is not a valid`
+    `widget/type/property`.
+
+    Both hooks come from an AGOT fake-death portrait layer no mod in the playset
+    defines any more. A `visible` property that fails to parse leaves the small
+    status-icon flow container with no visibility rule at all, and the unknown
+    child widget is discarded on every instantiation of the type. Falling back
+    to CK3's own `[Character.IsValid]`, which is what vanilla
+    `portrait_status_icons_small` uses, restores the intended rule; the icons
+    themselves are untouched. More Dragon Eggs is the only provider of the path.
+    """
+    relative = "gui/shared/mde_portraits.gui"
+    text = read_text(inputs.WORKSHOP / "3388366564" / relative)
+    vanilla = read_text(game_root(inputs) / "gui/shared/portraits.gui")
+    if "IsCharacterFakeDead" in vanilla:
+        raise RuntimeError(
+            "CK3 now supplies IsCharacterFakeDead; More Dragon Eggs' portrait "
+            "visibility rule resolves on its own"
+        )
+    text = replace_exact(
+        text,
+        'visible = "[And(Character.IsValid, Not(IsCharacterFakeDead))]"',
+        'visible = "[Character.IsValid]"',
+        expected=1,
+        label="More Dragon Eggs portrait fake-death visibility rule",
+    )
+    text = replace_exact(
+        text,
+        "\t\t#AGOT Added\n\t\tagot_fake_death_portrait_status_icons_small = {}\n",
+        "",
+        expected=1,
+        label="More Dragon Eggs fake-death status-icon widget",
+    )
+    write_text(inputs.OUTPUT, relative, text, force_newline="\r\n", with_bom=False)

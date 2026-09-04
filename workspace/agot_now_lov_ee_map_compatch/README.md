@@ -27,7 +27,8 @@ owns ten files under `gfx/map/map_object_data` and `map_data`:
 - the player-stack, combat, siege and activity locator files, carried verbatim
   from the Essos compatch that is their effective last writer and changed only
   by the locator repair below;
-- the geographical regions file, carrying NOW's island deltas.
+- the geographical regions file, carrying NOW's island deltas over a baseline
+  restored to AGOT's full region set.
 
 It ships **no rasters, heightmaps, landed titles, or history.** Further East
 supplies all of them, so this layer needs no province renumbering, title
@@ -71,6 +72,29 @@ merged value it overrides, so a later Further East or NOW re-placement fails
 generation instead of being silently discarded. `OBJECT_INSTANCE_SUPPRESSIONS`
 pairs with the Planky Town scale by dropping NOW's Greenblood bridge instance
 there, which would otherwise cross COW's mesh.
+
+## Geographical regions
+
+AGOT writes this file and Further East overrides it wholesale, so what this
+layer ships is the effective definition of every region AGOT script names.
+Further East's copy defines fewer regions than AGOT's, and a region it omits is
+a gap in its fork rather than a removal: AGOT still resolves the name, and a
+`region = <key>` that resolves to nothing is a load failure rather than a
+missing feature. The baseline is therefore AGOT's region set with Further East's
+own block kept wherever both define one, and generation fails when an AGOT
+region other than a reviewed dissolution does not reach the shipped file.
+
+Carrying a region forward places AGOT's text over a map this layer does not own,
+so each restored region is checked before it is merged: every duchy and county
+it names must exist in the effective landed-title stack, and every province id
+it names must be the same barony in AGOT's province table and in the one this
+layer ships. Either mismatch means the region would cover land AGOT did not
+name, which fails generation rather than shipping.
+
+Regions may overlap and reference each other in either direction, so a restored
+region coexists with whatever Further East flattened its territory into and its
+position in the file carries no meaning. `DISSOLVED_REGIONS` is the reviewed
+exception where an absence is deliberate.
 
 ## Locator repair
 
@@ -159,6 +183,11 @@ ck3mm mod generate agot_now_lov_ee_map_compatch --apply
   any of them itself; generation fails rather than overwriting Further East.
 - Re-audit locator `3462` when its digest pin trips, and re-review rather than
   re-pinning the new inputs unchanged.
+- Re-audit the region set when generation reports an AGOT region dropped without
+  review, or a restored region naming territory the playset lacks. The first
+  means the merge stopped carrying AGOT's set forward; the second means AGOT's
+  regions and Further East's map have diverged, and the region needs remapping
+  rather than carrying.
 - Re-audit the locator repair if Further East begins shipping its own
   `building_locators.txt`, or if the audit's `unplaceable` counts move: a rising
   count means the province table and the raster are drifting apart.

@@ -3,6 +3,14 @@
   "findings": [
     {
       "severity": "error",
+      "code": "missing-item",
+      "message": "unknown artifact history taken",
+      "source": "AGOT",
+      "file": "common/scripted_effects/00_agot_artifact_effects.txt",
+      "count": 1
+    },
+    {
+      "severity": "error",
       "code": "validation",
       "message": "expected `count =`, found `\u003c`",
       "source": "AGOT",
@@ -23,7 +31,7 @@
       "message": "scope:the_lc might not be available here",
       "source": "AGOT",
       "file": "events/agot_events/agot_nw_ranger_events.txt",
-      "count": 1
+      "count": 2
     },
     {
       "severity": "error",
@@ -143,6 +151,30 @@
       "message": "unknown list",
       "source": "MOD",
       "file": "common/character_interactions/06_ep3_interactions.txt",
+      "count": 2
+    },
+    {
+      "severity": "error",
+      "code": "strict-scopes",
+      "message": "scope:old_holder might not be available here",
+      "source": "MOD",
+      "file": "common/on_action/agot_on_actions/agot_title_on_actions.txt",
+      "count": 1
+    },
+    {
+      "severity": "error",
+      "code": "strict-scopes",
+      "message": "scope:previous_holder might not be available here",
+      "source": "MOD",
+      "file": "common/on_action/agot_on_actions/agot_title_on_actions.txt",
+      "count": 1
+    },
+    {
+      "severity": "error",
+      "code": "validation",
+      "message": "expected `right_icon =`, found `?=`",
+      "source": "MOD",
+      "file": "common/on_action/agot_on_actions/agot_title_on_actions.txt",
       "count": 2
     },
     {
@@ -803,6 +835,54 @@
     },
     {
       "severity": "warning",
+      "code": "logic",
+      "message": "OR with only one item inside is probably not what you intended",
+      "source": "MOD",
+      "file": "common/on_action/agot_on_actions/agot_title_on_actions.txt",
+      "count": 4
+    },
+    {
+      "severity": "warning",
+      "code": "scopes",
+      "message": "`agot_set_mw_pwl_variables` expects scope to be landed title but scope seems to be character",
+      "source": "MOD",
+      "file": "common/on_action/agot_on_actions/agot_title_on_actions.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "strict-scopes",
+      "message": "`agot_add_to_silent_sisters_effect` expects scope:nightswatch_candidate to be set",
+      "source": "MOD",
+      "file": "common/on_action/agot_on_actions/agot_title_on_actions.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "strict-scopes",
+      "message": "`agot_assign_temp_vassalage_effect` expects scope:mw_rebel_leader to be set",
+      "source": "MOD",
+      "file": "common/on_action/agot_on_actions/agot_title_on_actions.txt",
+      "count": 2
+    },
+    {
+      "severity": "warning",
+      "code": "strict-scopes",
+      "message": "`mw_on_action_pwl_variables_trigger` expects scope:mw_crown_story to be set",
+      "source": "MOD",
+      "file": "common/on_action/agot_on_actions/agot_title_on_actions.txt",
+      "count": 2
+    },
+    {
+      "severity": "warning",
+      "code": "strict-scopes",
+      "message": "`mw_on_action_remove_pwl_variables_trigger` expects scope:old_holder to be set",
+      "source": "MOD",
+      "file": "common/on_action/agot_on_actions/agot_title_on_actions.txt",
+      "count": 4
+    },
+    {
+      "severity": "warning",
       "code": "strict-scopes",
       "message": "`agot_assign_bespoke_dynasty` expects scope:title to be set",
       "source": "MOD",
@@ -848,6 +928,22 @@
       "source": "MOD",
       "file": "common/on_action/title_on_actions.txt",
       "count": 2
+    },
+    {
+      "severity": "warning",
+      "code": "duplicate-item",
+      "message": "scripted effect is redefined by another scripted effect",
+      "source": "MOD",
+      "file": "common/scripted_effects/00_agot_artifact_vs_sword_forgeable_effects.txt",
+      "count": 7
+    },
+    {
+      "severity": "warning",
+      "code": "duplicate-field",
+      "message": "`value` is redefined in a following line",
+      "source": "MOD",
+      "file": "common/scripted_effects/00_mvs_scripted_effects_artifacts.txt",
+      "count": 1
     },
     {
       "severity": "warning",
@@ -1544,6 +1640,14 @@
       "source": "MOD",
       "file": "gfx/interface/illustrations/scripted_illustrations/ingame.txt",
       "count": 4
+    },
+    {
+      "severity": "untidy",
+      "code": "gui",
+      "message": "template not found",
+      "source": "MOD",
+      "file": "gui/shared/mde_portraits.gui",
+      "count": 2
     },
     {
       "severity": "tips",

@@ -30,7 +30,8 @@ only the Westeros details that would otherwise be lost:
 - the eleven provinces Nobility of Westeros retunes;
 - building and special-building placements, merged one record at a time;
 - roads, bridges, and other map decorations, merged placement by placement;
-- Nobility of Westeros' island regions.
+- Nobility of Westeros' island regions, over A Game of Thrones' own complete set
+  of map regions, so everything AGOT keys to a region still finds it.
 
 This is a semantic merge, not a last-writer copy. Where two mods changed the
 same thing, the merge keeps both intentions where they can coexist — a road mesh

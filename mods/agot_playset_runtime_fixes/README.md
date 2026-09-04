@@ -29,7 +29,14 @@ Roughly fifty parent mods are touched. The failures fall into a few classes:
   equivalents.
 - **Stale whole-file copies** — mods shipping pre-AGOT or pre-1.19 versions of
   files they also override, which silently revert AGOT's own content. These are
-  rebased so the mod's intended change survives without the reversion.
+  rebased so the mod's intended change survives without the reversion. One such
+  copy still called a retired effect for naming the High Septon, so a newly
+  elected High Septon kept their birth name.
+- **Names a mod uses but never ships** — artifact templates, effects, dynasties,
+  and event targets a mod refers to without defining anywhere. Each is pointed
+  at the definition AGOT already provides for the same thing, so the Valyrian
+  steel swords keep their intended restrictions and history instead of being
+  created bare.
 - **Broken succession and war joins** — participants added to a war they are
   already in, and successions evaluated against titles or holders that no longer
   exist, both of which loop on every evaluation.
@@ -45,8 +52,9 @@ Roughly fifty parent mods are touched. The failures fall into a few classes:
   dropped silently at load, so the building is built and its bonus, garrison, or
   follow-up simply never arrives.
 - **Portrait and interface breakage** — obsolete DNA and gene entries, missing
-  illustrations, a crash-prone pre-1.19 GUI widget, and an event that opened as
-  an empty blocking popup.
+  illustrations, a crash-prone pre-1.19 GUI widget, an event that opened as an
+  empty blocking popup, and portrait status icons wired to an AGOT fake-death
+  layer that no longer exists.
 - **Art and trigger lookups that fail every frame** — holding art referenced
   through constants a merged file never declares, and interface triggers testing
   a culture that does not exist. Both are retried on each redraw, so they cost

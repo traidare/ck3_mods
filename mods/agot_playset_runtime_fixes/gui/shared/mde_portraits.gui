@@ -1,0 +1,564 @@
+######################################################
+################## PORTRAIT TYPES ####################
+######################################################
+
+types PortraitTypes
+{
+
+	type mde_dragon_portrait_zeroth_size = portrait_button {
+		
+		visible = "[Not(GetVariableSystem.Exists( 'lifestyle_open' ))]"
+		size = { 650 350 }
+
+		gfxtype = portraitbuttongfx
+		shaderfile = "gfx/FX/jomini/gui_portrait.shader"
+		effectname = "NoHighlight"
+
+		state = {
+			name = _mouse_enter
+			on_start = "[Character.OnMouseEnter]"
+			scale = 1.35
+			using = Animation_Curve_Default
+			duration = 0.05
+		}
+
+		state = {
+			name = _mouse_leave
+			on_start = "[Character.OnMouseLeave]"
+			using = Animation_Curve_Default
+			duration = 0.05
+			scale = 1.3
+		}
+
+		state = {
+			name = _mouse_release
+			start_sound = {
+				soundeffect = "event:/SFX/UI/Character/sfx_ui_character_portrait_select"
+			}
+		}
+
+		onclick = "[DefaultOnCharacterClick(Character.GetRelationOfType(GetRelation('agot_dragon')).GetID)]"
+		onrightclick = "[DefaultOnCharacterRightClick(Character.GetRelationOfType(GetRelation('agot_dragon')).GetID)]"
+		button_ignore = none
+
+		clicksound = "event:/SFX/UI/Character/sfx_ui_character_portrait_select"
+		oversound = "event:/SFX/UI/Character/sfx_ui_character_portrait_pointer_over"
+
+		portrait_texture = "[Character.GetRelationOfType(GetRelation('agot_dragon')).GetAnimatedPortrait('environment_dragon_portrait', 'camera_dragon_portrait_zero', 'dragon_main', PdxGetWidgetScreenSize(PdxGuiWidget.Self))]"
+		background_texture = "gfx/portraits/portrait_transparent.dds"
+		texture = "gfx/portraits/portrait_transparent.dds"
+		mask = "gfx/portraits/portrait_mask_blank.dds"
+
+		highlight_icon = {
+			name = "prison_bars"
+			visible = "[Character.IsImprisoned]"
+			visible_at_creation = no
+			size = { 100% 100% }
+			effectname = "NoHighlight"
+			texture = "gfx/portraits/portrait_prison_shoulders.dds"
+			position = { 25 0 }
+
+			modify_texture = {
+				name = "mask"
+				texture = "gfx/portraits/portrait_mask_head.dds"
+				spriteType = Corneredstretched
+				blend_mode = alphamultiply
+				rotate_uv = 180
+			}
+		}
+
+		using = tooltip_es
+		# tooltip_visible = "[Not(IsInteractionMenuOpenForCharacter(Character.GetID))]"
+		tooltip_visible = no
+
+		tooltipwidget = {
+			cooltip_type = {
+				blockoverride "interaction_info"
+				{
+					text = "CHARACTER_TOOLTIP_INSTRUCTION"
+				}
+			}
+		}
+
+		tooltip_offset = { -10 0 }
+		tooltip_verticalbehavior = slide
+		tooltip_horizontalbehavior = mirror
+	}
+
+	type mde_dragon_portrait_first_size = portrait_button {
+		
+		visible = "[Not(GetVariableSystem.Exists( 'lifestyle_open' ))]"
+		size = { 650 350 }
+
+		gfxtype = portraitbuttongfx
+		shaderfile = "gfx/FX/jomini/gui_portrait.shader"
+		effectname = "NoHighlight"
+
+		state = {
+			name = _mouse_enter
+			on_start = "[Character.OnMouseEnter]"
+			scale = 1.35
+			using = Animation_Curve_Default
+			duration = 0.05
+		}
+
+		state = {
+			name = _mouse_leave
+			on_start = "[Character.OnMouseLeave]"
+			using = Animation_Curve_Default
+			duration = 0.05
+			scale = 1.3
+		}
+
+		state = {
+			name = _mouse_release
+			start_sound = {
+				soundeffect = "event:/SFX/UI/Character/sfx_ui_character_portrait_select"
+			}
+		}
+
+		onclick = "[DefaultOnCharacterClick(Character.GetRelationOfType(GetRelation('agot_dragon')).GetID)]"
+		onrightclick = "[DefaultOnCharacterRightClick(Character.GetRelationOfType(GetRelation('agot_dragon')).GetID)]"
+		button_ignore = none
+
+		clicksound = "event:/SFX/UI/Character/sfx_ui_character_portrait_select"
+		oversound = "event:/SFX/UI/Character/sfx_ui_character_portrait_pointer_over"
+
+		portrait_texture = "[Character.GetRelationOfType(GetRelation('agot_dragon')).GetAnimatedPortrait('environment_dragon_portrait', 'camera_dragon_portrait_one', 'dragon_main', PdxGetWidgetScreenSize(PdxGuiWidget.Self))]"
+		background_texture = "gfx/portraits/portrait_transparent.dds"
+		texture = "gfx/portraits/portrait_transparent.dds"
+		mask = "gfx/portraits/portrait_mask_blank.dds"
+
+		highlight_icon = {
+			name = "prison_bars"
+			visible = "[Character.IsImprisoned]"
+			visible_at_creation = no
+			size = { 100% 100% }
+			effectname = "NoHighlight"
+			texture = "gfx/portraits/portrait_prison_shoulders.dds"
+			position = { 25 0 }
+
+			modify_texture = {
+				name = "mask"
+				texture = "gfx/portraits/portrait_mask_head.dds"
+				spriteType = Corneredstretched
+				blend_mode = alphamultiply
+				rotate_uv = 180
+			}
+		}
+
+		using = tooltip_es
+		# tooltip_visible = "[Not(IsInteractionMenuOpenForCharacter(Character.GetID))]"
+		tooltip_visible = no
+
+		tooltipwidget = {
+			cooltip_type = {
+				blockoverride "interaction_info"
+				{
+					text = "CHARACTER_TOOLTIP_INSTRUCTION"
+				}
+			}
+		}
+
+		tooltip_offset = { -10 0 }
+		tooltip_verticalbehavior = slide
+		tooltip_horizontalbehavior = mirror
+	}
+
+	type mde_dragon_portrait_second_size = portrait_button {
+		
+		visible = "[Not(GetVariableSystem.Exists( 'lifestyle_open' ))]"
+		size = { 650 350 }
+
+		gfxtype = portraitbuttongfx
+		shaderfile = "gfx/FX/jomini/gui_portrait.shader"
+		effectname = "NoHighlight"
+
+		state = {
+			name = _mouse_enter
+			on_start = "[Character.OnMouseEnter]"
+			scale = 1.35
+			using = Animation_Curve_Default
+			duration = 0.05
+		}
+
+		state = {
+			name = _mouse_leave
+			on_start = "[Character.OnMouseLeave]"
+			using = Animation_Curve_Default
+			duration = 0.05
+			scale = 1.3
+		}
+
+		state = {
+			name = _mouse_release
+			start_sound = {
+				soundeffect = "event:/SFX/UI/Character/sfx_ui_character_portrait_select"
+			}
+		}
+
+		onclick = "[DefaultOnCharacterClick(Character.GetRelationOfType(GetRelation('agot_dragon')).GetID)]"
+		onrightclick = "[DefaultOnCharacterRightClick(Character.GetRelationOfType(GetRelation('agot_dragon')).GetID)]"
+		button_ignore = none
+
+		clicksound = "event:/SFX/UI/Character/sfx_ui_character_portrait_select"
+		oversound = "event:/SFX/UI/Character/sfx_ui_character_portrait_pointer_over"
+
+		portrait_texture = "[Character.GetRelationOfType(GetRelation('agot_dragon')).GetAnimatedPortrait('environment_dragon_portrait', 'camera_dragon_portrait_two', 'dragon_main', PdxGetWidgetScreenSize(PdxGuiWidget.Self))]"
+		background_texture = "gfx/portraits/portrait_transparent.dds"
+		texture = "gfx/portraits/portrait_transparent.dds"
+		mask = "gfx/portraits/portrait_mask_blank.dds"
+
+		highlight_icon = {
+			name = "prison_bars"
+			visible = "[Character.IsImprisoned]"
+			visible_at_creation = no
+			size = { 100% 100% }
+			effectname = "NoHighlight"
+			texture = "gfx/portraits/portrait_prison_shoulders.dds"
+			position = { 25 0 }
+
+			modify_texture = {
+				name = "mask"
+				texture = "gfx/portraits/portrait_mask_head.dds"
+				spriteType = Corneredstretched
+				blend_mode = alphamultiply
+				rotate_uv = 180
+			}
+		}
+
+		using = tooltip_es
+		# tooltip_visible = "[Not(IsInteractionMenuOpenForCharacter(Character.GetID))]"
+		tooltip_visible = no
+
+		tooltipwidget = {
+			cooltip_type = {
+				blockoverride "interaction_info"
+				{
+					text = "CHARACTER_TOOLTIP_INSTRUCTION"
+				}
+			}
+		}
+
+		tooltip_offset = { -10 0 }
+		tooltip_verticalbehavior = slide
+		tooltip_horizontalbehavior = mirror
+	}
+
+	type mde_dragon_portrait_third_size = portrait_button {
+		
+		visible = "[Not(GetVariableSystem.Exists( 'lifestyle_open' ))]"
+		size = { 750 450 }
+
+		gfxtype = portraitbuttongfx
+		shaderfile = "gfx/FX/jomini/gui_portrait.shader"
+		effectname = "NoHighlight"
+
+		state = {
+			name = _mouse_enter
+			on_start = "[Character.OnMouseEnter]"
+			scale = 1.35
+			using = Animation_Curve_Default
+			duration = 0.05
+		}
+
+		state = {
+			name = _mouse_leave
+			on_start = "[Character.OnMouseLeave]"
+			using = Animation_Curve_Default
+			duration = 0.05
+			scale = 1.3
+		}
+
+		state = {
+			name = _mouse_release
+			start_sound = {
+				soundeffect = "event:/SFX/UI/Character/sfx_ui_character_portrait_select"
+			}
+		}
+
+		onclick = "[DefaultOnCharacterClick(Character.GetRelationOfType(GetRelation('agot_dragon')).GetID)]"
+		onrightclick = "[DefaultOnCharacterRightClick(Character.GetRelationOfType(GetRelation('agot_dragon')).GetID)]"
+		button_ignore = none
+
+		clicksound = "event:/SFX/UI/Character/sfx_ui_character_portrait_select"
+		oversound = "event:/SFX/UI/Character/sfx_ui_character_portrait_pointer_over"
+
+		portrait_texture = "[Character.GetRelationOfType(GetRelation('agot_dragon')).GetAnimatedPortrait('environment_dragon_portrait', 'camera_dragon_portrait_three', 'dragon_main', PdxGetWidgetScreenSize(PdxGuiWidget.Self))]"
+		background_texture = "gfx/portraits/portrait_transparent.dds"
+		texture = "gfx/portraits/portrait_transparent.dds"
+		mask = "gfx/portraits/portrait_mask_blank.dds"
+
+		highlight_icon = {
+			name = "prison_bars"
+			visible = "[Character.IsImprisoned]"
+			visible_at_creation = no
+			size = { 100% 100% }
+			effectname = "NoHighlight"
+			texture = "gfx/portraits/portrait_prison_shoulders.dds"
+			position = { 25 0 }
+
+			modify_texture = {
+				name = "mask"
+				texture = "gfx/portraits/portrait_mask_head.dds"
+				spriteType = Corneredstretched
+				blend_mode = alphamultiply
+				rotate_uv = 180
+			}
+		}
+
+		using = tooltip_es
+		# tooltip_visible = "[Not(IsInteractionMenuOpenForCharacter(Character.GetID))]"
+		tooltip_visible = no
+
+		tooltipwidget = {
+			cooltip_type = {
+				blockoverride "interaction_info"
+				{
+					text = "CHARACTER_TOOLTIP_INSTRUCTION"
+				}
+			}
+		}
+
+		tooltip_offset = { -10 0 }
+		tooltip_verticalbehavior = slide
+		tooltip_horizontalbehavior = mirror
+	}
+
+	type mde_view_kingsguard_portrait_head_small = widget {
+		size = { 85 90 }
+
+		background = {
+			using = Background_Area_Solid
+
+			modify_texture = {
+				texture = "gfx/interface/component_masks/mask_fade_vertical.dds"
+				blend_mode = alphamultiply
+				alpha = 0.2
+				mirror = vertical
+			}
+		}
+
+		background = {
+			block "empty_character" {}
+			visible = "[Not( Character.HasLandedTitles )]"
+			texture = "gfx/portraits/portrait_frame.dds"
+			using = Color_Grey
+			margin = { -4 -4 }
+			alpha = 0.4
+		}
+
+		widget = {
+			size = { 100% 100% }
+			using = Portrait_Background_Glows
+
+			block "empty_character" {}
+		}
+
+		portrait_button = {
+			#AGOT Added
+			using = visible_if_not_dragon
+			parentanchor = bottom|hcenter
+			size = { 80 100 }
+			using = portrait_base
+
+			block "portrait_texture"
+			{
+				portrait_texture = "[Character.GetPortrait('environment_head', 'camera_head', 'idle', PdxGetWidgetScreenSize(PdxGuiWidget.Self))]"
+			}
+
+			mask = "gfx/portraits/portrait_mask_head_small.dds"
+			effectname = "NoHighlight"
+
+			highlight_icon = {
+				name = "prison_bars"
+				visible = "[Character.IsImprisoned]"
+				visible_at_creation = no
+				size = { 80 88 }
+				parentanchor = center
+				effectname = "NoHighlight"
+				texture = "gfx/portraits/portrait_prison_head.dds"
+
+				modify_texture = {
+					name = "mask"
+					texture = "gfx/portraits/portrait_mask_head_small.dds"
+					spriteType = Corneredstretched
+					blend_mode = alphamultiply
+				}
+			}
+
+			block "portrait_button" {}
+		}
+		#AGOT Added
+		portrait_button = {
+			#AGOT Added
+			using = visible_if_dragon
+			parentanchor = bottom|hcenter
+			size = { 80 100 }
+			using = portrait_base
+
+			block "portrait_texture"
+			{
+				portrait_texture = "[Character.GetPortrait('environment_dragonpit_portrait', 'camera_dragon_head', 'dragon_head', PdxGetWidgetScreenSize(PdxGuiWidget.Self))]"
+			}
+
+			mask = "gfx/portraits/portrait_mask_head_small.dds"
+			effectname = "NoHighlight"
+
+			highlight_icon = {
+				name = "prison_bars"
+				visible = "[Character.IsImprisoned]"
+				visible_at_creation = no
+				size = { 80 88 }
+				parentanchor = center
+				effectname = "NoHighlight"
+				texture = "gfx/portraits/portrait_prison_head.dds"
+
+				modify_texture = {
+					name = "mask"
+					texture = "gfx/portraits/portrait_mask_head_small.dds"
+					spriteType = Corneredstretched
+					blend_mode = alphamultiply
+				}
+			}
+
+			block "portrait_button" {}
+		}
+
+		widget_portrait_frame = {}
+
+		block "coa" {
+			coa_house_tiny = {
+				datacontext = "[Character.GetHouse]"
+				visible = "[Character.GetHouse.IsValid]"
+				parentanchor = bottom|left
+				position = { 1 -1 }
+				scale = 0.75
+			}
+		}
+
+		mde_portrait_status_icons_small = {
+			parentanchor = bottom|right
+			position = { 1 -3 }
+		}
+
+		widget = {
+			size = { 100% 100% }
+			visible = "[Not( Character.HasLandedTitles )]"
+			block "empty_character" {}
+
+			background = {
+				texture = "gfx/portraits/portrait_frame.dds"
+				using = Color_Grey
+				margin = { -4 -4 }
+				alpha = 0.4
+
+				modify_texture = {
+					texture = "gfx/interface/component_masks/mask_fade_vertical.dds"
+					blend_mode = alphamultiply
+					mirror = vertical
+				}
+			}
+
+			background = {
+				visible = "[Character.IsHovered]"
+				texture = "gfx/portraits/portrait_frame.dds"
+				using = Color_Grey
+				alpha = 0.7
+				margin = { -4 -4 }
+			}
+		}
+
+
+		# Portrait unknown glow
+		highlight_icon = {
+			name = "portrait_unknown_head_small_glow"
+			parentanchor = center
+			position = { 3 -9 }
+			gfxtype = framedbuttongfx
+			effectname = "NoHighlight"
+			texture = "gfx/portraits/unknown_portraits/button_unknown_head.dds"
+			size = { 80 100 }
+			framesize = { 384 480 }
+			upframe = 1
+			overframe = 2
+			block "glow_visible" {
+
+				visible = "[Not(Character.IsValid)]"
+			}
+
+			block "glow_flip" {}
+
+			block "onclick" {}
+		}
+	}
+	
+	type mde_portrait_status_icons_small = widget {
+		size = { 32 60 }
+		scissor = yes
+
+		flowcontainer = {
+			visible = "[Character.IsValid]"
+			ignoreinvisible = yes
+			direction = vertical
+			parentanchor = bottom
+			spacing = 1
+
+			
+
+			# sorted by priority, highest prio at the bottom
+			block "status_icons" {
+
+				block "scripted_relation_status_icons"
+				{
+					using = Portrait_Relation_Icons_Small
+				}
+				container = {
+					background = {
+						using = Background_Area_Dark
+						margin = { 2 2 }
+					}
+					parentanchor = right
+					button_religion_icon = {
+						name = "faith_button"
+						datacontext = "[Character.GetFaith]"
+						size = { 14 14 }
+					}
+				}
+				flowcontainer = {
+					background = {
+						using = Background_Area_Dark
+						margin = { 2 2 }
+					}
+					#direction = vertical
+					text_single = {
+						name = "character_age"
+						#layoutpolicy_horizontal = expanding
+						max_width = 14
+						fontsize_min = 2
+
+						text = "CHARACTER_VIEW_AGE"
+						#default_format = "#low"
+						fontsize = 8
+						align = center
+						tooltip = "CHARACTER_VIEW_AGE_TT"
+					}
+					icon = {
+						visible = "[Not( Character.IsDeadAndValid )]"
+						size = { 14 14 }
+
+						framesize = { 60 60 }
+						frame = "[Character.GetHealthIconFrame]"
+						texture = "gfx/interface/icons/character_status/icon_health.dds"
+
+						tooltip = "CHARACTER_VIEW_ALIVE_TT"
+					
+					}
+				}
+			}
+		}
+	}
+
+}
+
+	

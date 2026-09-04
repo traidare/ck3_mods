@@ -27,10 +27,9 @@ DEFAULT_MAP = "map_data/default.map"
 PROVINCES_RASTER = "map_data/provinces.png"
 LANDED_TITLES = "common/landed_titles"
 QUARANTINE_ASSET = "untitled_province_quarantine.json"
-GEO_REGIONS = "map_data/geographical_regions/00_agot_geographical_region.txt"
-NOW_GEO_REGIONS = (
-    "map_data/geographical_regions/replace/00_agot_geographical_region.txt"
-)
+GEO_REGION_DIR = "map_data/geographical_regions"
+GEO_REGIONS = f"{GEO_REGION_DIR}/00_agot_geographical_region.txt"
+NOW_GEO_REGIONS = f"{GEO_REGION_DIR}/replace/00_agot_geographical_region.txt"
 BUILDING_LOCATORS = "gfx/map/map_object_data/building_locators.txt"
 SPECIAL_BUILDING_LOCATORS = "gfx/map/map_object_data/special_building_locators.txt"
 LOCATOR_FILES = (BUILDING_LOCATORS, SPECIAL_BUILDING_LOCATORS)
@@ -299,6 +298,20 @@ def effective_landed_title_files(inputs: Inputs) -> dict[str, Path]:
         for path in sorted(directory.rglob("*.txt")):
             winners[path.relative_to(directory).as_posix()] = path
     return winners
+
+
+TITLE_KEY = re.compile(r"(?m)^\s*([bcdek]_[A-Za-z0-9_]+)\s*=\s*\{")
+
+
+def effective_title_keys(title_files: dict[str, Path]) -> frozenset[str]:
+    """Return every title key the effective landed-title stack defines."""
+    keys: set[str] = set()
+    for path in title_files.values():
+        uncommented = "\n".join(
+            line.split("#", 1)[0] for line in read(path).splitlines()
+        )
+        keys.update(match.group(1) for match in TITLE_KEY.finditer(uncommented))
+    return frozenset(keys)
 
 
 def effective_titled_provinces(
@@ -1232,14 +1245,26 @@ def merge_object_file(inputs: Inputs, relative: str) -> str:
     )
 
 
-def definition_rows(path: Path) -> tuple[list[str], dict[int, str]]:
-    lines = read(path).splitlines()
+def definition_rows_from_text(text: str) -> tuple[list[str], dict[int, str]]:
+    lines = text.splitlines()
     rows = {
         int(line.split(";", 1)[0]): line
         for line in lines
         if ";" in line and line.split(";", 1)[0].strip().isdigit()
     }
     return lines, rows
+
+
+def definition_rows(path: Path) -> tuple[list[str], dict[int, str]]:
+    return definition_rows_from_text(read(path))
+
+
+def province_identity(row: str | None) -> str | None:
+    """Return the barony a definition row names, ignoring its colour."""
+    if row is None:
+        return None
+    fields = row.split(";")
+    return fields[4] if len(fields) > 4 else None
 
 
 def locator_definition_dependencies(
@@ -1307,7 +1332,77 @@ def merge_definition(inputs: Inputs) -> str:
     return "\n".join(output) + "\n"
 
 
-def merge_geographical_regions(inputs: Inputs) -> str:
+def restored_baseline(
+    agot: tuple[str, str, list[str], dict[str, str]],
+    eep: tuple[str, str, list[str], dict[str, str]],
+) -> tuple[tuple[str, str, list[str], dict[str, str]], dict[str, str]]:
+    """Carry AGOT's regions that EEP's copy of this file does not define.
+
+    AGOT is this file's native author and EEP overrides it wholesale, so a
+    region only AGOT defines is a gap in EEP's fork rather than a removal: AGOT
+    script still resolves the name, and an unresolved region reference is a hard
+    load error.  Restoring AGOT's own block is safe because regions may overlap,
+    so a restored region coexists with whatever EEP flattened its territory
+    into.  `DISSOLVED_REGIONS` is the reviewed exception where the absence is
+    deliberate, and the territory those name is asserted to survive separately.
+    """
+    prefix, suffix, order, blocks = eep
+    order = list(order)
+    blocks = dict(blocks)
+    restored = {
+        key: agot[3][key]
+        for key in agot[2]
+        if key not in blocks and key not in DISSOLVED_REGIONS
+    }
+    # Appended in AGOT's own order.  Regions reference each other freely in both
+    # directions already, so position carries no meaning and keeping EEP's own
+    # blocks where they are keeps the generated diff readable.
+    blocks.update(restored)
+    order.extend(restored)
+    return (prefix, suffix, order, blocks), restored
+
+
+def assert_restored_regions_resolve(
+    inputs: Inputs, restored: dict[str, str], definition: str
+) -> None:
+    """Fail when a carried-forward region names territory the playset lacks.
+
+    A restored region is AGOT's own text placed over a map this layer does not
+    own, so it is only safe while every member it names still means what AGOT
+    meant.  Titles are checked against the effective landed-title stack, and
+    province ids against the shipped province table, because an id that changed
+    hands between AGOT's map and Further East's would silently move a region
+    onto someone else's land instead of failing.
+    """
+    titles = effective_title_keys(effective_landed_title_files(inputs))
+    _, agot_rows = definition_rows(inputs.agot / DEFINITION)
+    _, shipped_rows = definition_rows_from_text(definition)
+    unresolved: dict[str, list[str]] = {}
+    for key, block in restored.items():
+        absent: list[str] = []
+        for category, values in region_members(block).items():
+            if category in ("color", "regions"):
+                continue
+            for value in values:
+                if category == "provinces":
+                    identity = province_identity(agot_rows.get(int(value)))
+                    if identity != province_identity(shipped_rows.get(int(value))):
+                        absent.append(f"province {value}, now a different barony")
+                elif value not in titles:
+                    absent.append(value)
+        if absent:
+            unresolved[key] = absent
+    if unresolved:
+        detail = "; ".join(
+            f"{key} names {', '.join(absent)}"
+            for key, absent in sorted(unresolved.items())
+        )
+        raise RuntimeError(
+            f"AGOT regions cannot be carried forward unreviewed: {detail}"
+        )
+
+
+def merge_geographical_regions(inputs: Inputs, definition: str) -> str:
     base = split_blocks(read(inputs.agot / GEO_REGIONS), REGION_BLOCK)
     current = split_blocks(read(inputs.eep / GEO_REGIONS), REGION_BLOCK)
     now = split_blocks(read(inputs.now / NOW_GEO_REGIONS), REGION_BLOCK)
@@ -1315,15 +1410,27 @@ def merge_geographical_regions(inputs: Inputs) -> str:
     resolver = geographical_block_merger(
         {"agot": base[3], "eep": current[3], "now": now[3]}
     )
+    baseline, restored = restored_baseline(base, current)
+    assert_restored_regions_resolve(inputs, restored, definition)
     merged = merge_file_blocks(
-        current, (overlay,), conflict=resolver, dissolved=DISSOLVED_REGIONS
+        baseline, (overlay,), conflict=resolver, dissolved=DISSOLVED_REGIONS
     )
+
+    # Every AGOT region other than a reviewed dissolution has to reach the
+    # shipped file, because this file is AGOT's effective override and AGOT
+    # resolves its own region names against it.
+    result = split_blocks(merged, REGION_BLOCK)[3]
+    lost = set(base[2]) - set(result) - DISSOLVED_REGIONS
+    if lost:
+        raise RuntimeError(
+            f"AGOT regions dropped without review: {sorted(lost)}; "
+            "restore them or record why the absence is deliberate"
+        )
 
     # A dissolved region is only safe to drop while the territory it named is
     # still reachable, so that is checked against the merged file rather than
     # assumed.  Anything left stranded fails here instead of quietly leaving a
     # duchy outside every region.
-    result = split_blocks(merged, REGION_BLOCK)[3]
     covered = {
         member
         for key in result
@@ -1383,7 +1490,7 @@ def generate(context: GenerationContext) -> None:
 
     definition = merge_definition(inputs)
     inputs.write(DEFINITION, definition, encoding="utf-8")
-    inputs.write(GEO_REGIONS, merge_geographical_regions(inputs))
+    inputs.write(GEO_REGIONS, merge_geographical_regions(inputs, definition))
 
     geometry = province_geometry(inputs, definition)
     default_map, title_audit = quarantined_default_map(inputs, definition, geometry)
