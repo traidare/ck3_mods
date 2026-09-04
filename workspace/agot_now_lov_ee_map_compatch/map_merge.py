@@ -627,6 +627,7 @@ def merge_file_blocks(
     conflict=None,
     pins=None,
     separator: str = "\n\n",
+    dissolved: frozenset[str] = frozenset(),
 ) -> str:
     """Apply keyed source deltas onto the EEP baseline.
 
@@ -651,8 +652,10 @@ def merge_file_blocks(
             ):
                 continue
             if existing is None:
-                if original is not None:
+                if original is not None and key not in dissolved:
                     raise RuntimeError(f"{overlay.label}: {key} disappeared from EEP")
+                if key in dissolved:
+                    continue
                 merged[key] = incoming
                 order.append(key)
                 continue
@@ -668,7 +671,7 @@ def merge_file_blocks(
                 )
                 continue
             merged[key] = conflict(
-                original, existing, incoming, f"{overlay.label} {key}"
+                original, existing, incoming, f"{overlay.label} {key}", key
             )
     if pins is not None:
         order, merged = pins(order, merged)
@@ -762,7 +765,9 @@ def object_transforms(block: str, label: str) -> tuple[str, list[str], str]:
     return block[: count.start()], rows, block[end:]
 
 
-def merge_object_block(base: str, current: str, incoming: str, label: str) -> str:
+def merge_object_block(
+    base: str, current: str, incoming: str, label: str, _key: str | None = None
+) -> str:
     """Merge instance lists as sets rather than as text.
 
     Adding or removing a single road segment rewrites both the `count=` line and
@@ -790,7 +795,9 @@ def merge_object_block(base: str, current: str, incoming: str, label: str) -> st
     return f"{header}\tcount={len(merged)}\n{TRANSFORM_OPEN}" + "\n".join(merged) + tail
 
 
-def three_way_block(base: str, current: str, incoming: str, label: str) -> str:
+def three_way_block(
+    base: str, current: str, incoming: str, label: str, _key: str | None = None
+) -> str:
     """Merge the rare shared edit instead of deciding by load order."""
     with tempfile.TemporaryDirectory() as directory:
         root = Path(directory)
@@ -816,6 +823,127 @@ def three_way_block(base: str, current: str, incoming: str, label: str) -> str:
     if result.returncode != 0 or "<<<<<<<" in result.stdout:
         raise RuntimeError(f"{label}: overlapping EEP/NOW change needs review")
     return result.stdout.rstrip("\n")
+
+
+REGION_MEMBERS = re.compile(r"(?m)^\t(?P<category>\w+)\s*=\s*\{(?P<values>[^}]*)\}")
+
+# Regions EEP dissolves into their parent instead of keeping as a nesting level.
+# NOW still maintains them, so the overlay would otherwise read the absence as
+# EEP having lost a region.  The territory each one named is asserted to survive
+# in the merged file.
+DISSOLVED_REGIONS = frozenset({"world_westeros_flints_finger"})
+
+# AGOT reaches a region's territory through nested `regions = { … }`, while EEP
+# and NOW both flatten the same territory into direct duchy and county lists.
+# Comparing the memberships those three spellings resolve to is what makes an
+# edit on one side distinguishable from a restructure on the other.
+STORMLANDS_MARCHES_LABEL = (
+    "NOW geographical regions world_westeros_dornish_marches_stormlands"
+)
+STORMLANDS_MARCHES_DIGEST = (
+    "a04a9091692549fbf9301f12b483d33cc4d34c01343ac8cf8b160d944ad0f517"
+)
+# Reviewed rather than derived: `d_grandview` and `d_the_slayne` are kept even
+# though one parent drops them, because the Marches keep marching with the
+# Stormlands here.  A derived merge would honour that drop and shrink the region.
+STORMLANDS_MARCHES = """world_westeros_dornish_marches_stormlands = {
+	duchies = {
+		d_nightsong
+		d_marchfields
+		d_whentway
+		d_blackhaven
+		d_red_watch
+		d_grandview
+		d_the_slayne
+		d_summerhall
+	}
+	counties = {
+		c_scale_valley
+		c_summerfield
+		c_leddan
+	}
+}"""
+
+
+def region_members(block: str | None) -> dict[str, list[str]]:
+    """Return one region's declared members per category, ignoring comments."""
+    if block is None:
+        return {}
+    uncommented = re.sub(r"(?m)#.*$", "", block)
+    return {
+        match.group("category"): match.group("values").split()
+        for match in REGION_MEMBERS.finditer(uncommented)
+    }
+
+
+def region_territory(
+    blocks: dict[str, str], key: str, seen: frozenset[str] = frozenset()
+) -> frozenset[str]:
+    """Resolve a region to the territory it covers through any nesting.
+
+    Nested regions are followed so a hierarchy and its flattened equivalent
+    compare equal.  `seen` stops a malformed cycle from recursing forever.
+    """
+    if key in seen or key not in blocks:
+        return frozenset()
+    seen = seen | {key}
+    territory: set[str] = set()
+    for category, values in region_members(blocks[key]).items():
+        if category == "regions":
+            for nested in values:
+                territory |= region_territory(blocks, nested, seen)
+        else:
+            territory |= {f"{category}:{value}" for value in values}
+    return frozenset(territory)
+
+
+def merged_territory(
+    base: frozenset[str], current: frozenset[str], incoming: frozenset[str]
+) -> frozenset[str]:
+    """Apply both parents' additions and removals to the shared ancestor.
+
+    The same three-way rule the map-object rows use: territory either parent
+    deliberately removed stays removed, and either parent's additions are kept.
+    """
+    dropped = (base - current) | (base - incoming)
+    return (base - dropped) | (current - base) | (incoming - base)
+
+
+def geographical_block_merger(sources: dict[str, dict[str, str]]):
+    """Build the region resolver, closing over every source's whole file.
+
+    Resolving nested regions needs the files, not just the one block in hand,
+    so the resolver is built where all three are in scope.
+    """
+
+    def merge_geographical_block(
+        base: str, current: str, incoming: str, label: str, key: str
+    ) -> str:
+        if label == STORMLANDS_MARCHES_LABEL:
+            digest = hashlib.sha256(
+                "|".join(
+                    semantic_script(text) or "" for text in (base, current, incoming)
+                ).encode()
+            ).hexdigest()
+            if digest != STORMLANDS_MARCHES_DIGEST:
+                raise RuntimeError(f"{label}: reviewed memberships changed upstream")
+            return STORMLANDS_MARCHES
+
+        # AGOT supplies the regions the parents nest into, so each side is
+        # resolved against its own file layered over AGOT's.
+        territory = {
+            name: region_territory({**sources["agot"], **blocks}, key)
+            for name, blocks in sources.items()
+        }
+        wanted = merged_territory(territory["agot"], territory["eep"], territory["now"])
+        # Emitting a parent's own text keeps its spelling and nesting rather
+        # than flattening the region into a rendered list.
+        for name, text in (("now", incoming), ("eep", current)):
+            if territory[name] == wanted:
+                return text
+        raise RuntimeError(f"{label}: overlapping EEP/NOW change needs review")
+
+    return merge_geographical_block
 
 
 def locator_records(text: str) -> tuple[str, str, list[int], dict[int, str]]:
@@ -1184,7 +1312,36 @@ def merge_geographical_regions(inputs: Inputs) -> str:
     current = split_blocks(read(inputs.eep / GEO_REGIONS), REGION_BLOCK)
     now = split_blocks(read(inputs.now / NOW_GEO_REGIONS), REGION_BLOCK)
     overlay = Overlay.build("NOW geographical regions", base, now)
-    return merge_file_blocks(current, (overlay,))
+    resolver = geographical_block_merger(
+        {"agot": base[3], "eep": current[3], "now": now[3]}
+    )
+    merged = merge_file_blocks(
+        current, (overlay,), conflict=resolver, dissolved=DISSOLVED_REGIONS
+    )
+
+    # A dissolved region is only safe to drop while the territory it named is
+    # still reachable, so that is checked against the merged file rather than
+    # assumed.  Anything left stranded fails here instead of quietly leaving a
+    # duchy outside every region.
+    result = split_blocks(merged, REGION_BLOCK)[3]
+    covered = {
+        member
+        for key in result
+        for category, values in region_members(result[key]).items()
+        if category != "regions"
+        for member in (f"{category}:{value}" for value in values)
+    }
+    for key in DISSOLVED_REGIONS:
+        stranded = (
+            region_territory(base[3], key)
+            | region_territory({**base[3], **now[3]}, key)
+        ) - covered
+        if stranded:
+            raise RuntimeError(
+                f"dissolved region {key} stranded {sorted(stranded)}; "
+                "it still names territory no surviving region covers"
+            )
+    return merged
 
 
 # The one-line statement of what this merge is for.  The upstream inputs behind

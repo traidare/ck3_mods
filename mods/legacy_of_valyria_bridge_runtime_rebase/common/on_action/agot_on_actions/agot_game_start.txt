@@ -36,10 +36,6 @@ agot_on_game_start = {
 
 		##### General setup start #####
 
-		#Banking Initialization
-		agot_init_banking_system = yes
-		agot_init_historical_loans = yes
-
 		##### General setup start #####
 
 		### Character Initialization Pre-Rules
@@ -171,12 +167,10 @@ agot_on_game_start = {
 		dynasty:dynn_Urnebar = { add_dynasty_modifier = valyrian_heritage_dynasty_modifier }
 		dynasty:dynn_Sonaryen = { add_dynasty_modifier = valyrian_heritage_dynasty_modifier }
 		dynasty:dynn_Sellos = { add_dynasty_modifier = valyrian_heritage_dynasty_modifier }
-		dynasty:dynn_Ormollen = { add_dynasty_modifier = valyrian_heritage_dynasty_modifier }
 		dynasty:dynn_Haen = { add_dynasty_modifier = valyrian_heritage_dynasty_modifier }
 		dynasty:dynn_Dagareon = { add_dynasty_modifier = valyrian_heritage_dynasty_modifier }
 		dynasty:dynn_Bazanne = { add_dynasty_modifier = valyrian_heritage_dynasty_modifier }
 		dynasty:dynn_Moraqos = { add_dynasty_modifier = valyrian_heritage_dynasty_modifier }
-		dynasty:dynn_Taeryhen = { add_dynasty_modifier = valyrian_heritage_dynasty_modifier }
 		dynasty:dynn_Orthys = { add_dynasty_modifier = valyrian_heritage_dynasty_modifier }
 		dynasty:dynn_Erosenes = { add_dynasty_modifier = valyrian_heritage_dynasty_modifier }
 		dynasty:dynn_Laryen = { add_dynasty_modifier = valyrian_heritage_dynasty_modifier }
@@ -196,19 +190,19 @@ agot_on_game_start = {
 
 		#Dragonriders
 		dynasty:dynn_Targaryen = { every_dynasty_house = { add_house_modifier = dragonrider_house_modifier } }
-		dynasty:dynn_Belaerys = { every_dynasty_house = { add_house_modifier = dragonrider_house_modifier } }
-		dynasty:dynn_Urnebar = { every_dynasty_house = { add_house_modifier = dragonrider_house_modifier } }
-		dynasty:dynn_Mataeryon = { every_dynasty_house = { add_house_modifier = dragonrider_house_modifier } }
-		dynasty:dynn_Varezys = { every_dynasty_house = { add_house_modifier = dragonrider_house_modifier } }
-		dynasty:dynn_Laryen = { every_dynasty_house = { add_house_modifier = dragonrider_house_modifier } }
-		dynasty:dynn_Volarys = { every_dynasty_house = { add_house_modifier = dragonrider_house_modifier } }
-		dynasty:dynn_Quinarion = { every_dynasty_house = { add_house_modifier = dragonrider_house_modifier } }
-		dynasty:dynn_Ozastys = { every_dynasty_house = { add_house_modifier = dragonrider_house_modifier } }
-		dynasty:dynn_Zabrozar = { every_dynasty_house = { add_house_modifier = dragonrider_house_modifier } }
-		dynasty:dynn_Arakys = { every_dynasty_house = { add_house_modifier = dragonrider_house_modifier } }
-		dynasty:dynn_Undaryen = { every_dynasty_house = { add_house_modifier = dragonrider_house_modifier } }
-		dynasty:dynn_Phassalmaar = { every_dynasty_house = { add_house_modifier = dragonrider_house_modifier } }
-		dynasty:dynn_Symbaxes = { every_dynasty_house = { add_house_modifier = dragonrider_house_modifier } }
+		dynasty:dynn_Belaerys.dynasty_founder.house = { add_house_modifier = dragonrider_house_modifier }
+		dynasty:dynn_Urnebar.dynasty_founder.house = { add_house_modifier = dragonrider_house_modifier }
+		dynasty:dynn_Mataeryon.dynasty_founder.house = { add_house_modifier = dragonrider_house_modifier }
+		dynasty:dynn_Varezys.dynasty_founder.house = { add_house_modifier = dragonrider_house_modifier }
+		dynasty:dynn_Laryen.dynasty_founder.house = { add_house_modifier = dragonrider_house_modifier }
+		dynasty:dynn_Volarys.dynasty_founder.house = { add_house_modifier = dragonrider_house_modifier }
+		dynasty:dynn_Quinarion.dynasty_founder.house = { add_house_modifier = dragonrider_house_modifier }
+		dynasty:dynn_Ozastys.dynasty_founder.house = { add_house_modifier = dragonrider_house_modifier }
+		dynasty:dynn_Zabrozar.dynasty_founder.house = { add_house_modifier = dragonrider_house_modifier }
+		dynasty:dynn_Arakys.dynasty_founder.house = { add_house_modifier = dragonrider_house_modifier }
+		dynasty:dynn_Undaryen.dynasty_founder.house = { add_house_modifier = dragonrider_house_modifier }
+		dynasty:dynn_Phassalmaar.dynasty_founder.house = { add_house_modifier = dragonrider_house_modifier }
+		dynasty:dynn_Symbaxes.dynasty_founder.house = { add_house_modifier = dragonrider_house_modifier }
 
 		# Thrall Houses Modifier
 		dynasty:dynn_Codd = { add_dynasty_modifier = thrall_house_dynasty_modifier }
@@ -275,15 +269,13 @@ agot_on_game_start = {
 		### Most Devout Setup
 		title:k_the_most_devout ?= {
 			every_past_holder = {
-				limit = { has_any_nickname = no }
-				agot_assign_high_septon_nickname_effect = yes
+				if = { # Current holder counts as past holder so it is unnecessary to do below
+					limit = { has_first_name = HIGH_SEPTON_NAME }
+					agot_assign_high_septon_name_effect = yes
+				}
 			}
 
 			holder ?= {
-				if = {
-					limit = { has_any_nickname = no }
-					agot_assign_high_septon_nickname_effect = yes
-				}
 				if = {
 					limit = { exists = title:h_the_iron_throne.holder }
 					agot_assign_high_septon_effect = yes
@@ -2325,6 +2317,7 @@ agot_on_game_start_after_lobby = {
 
 		### Character Initialization Post-Rules
 		agot_init_canon_child_setup = yes
+		agot_high_septon_dummies_setup_effect = yes
 
 		##### General setup start #####
 		# Targaryen Exiles Scripted Invasion
@@ -3055,6 +3048,10 @@ agot_on_game_start_after_lobby = {
 
 		# NW Ranger after lobby
 		agot_nw_ranger_on_creation = yes
+
+		#Banking Initialization
+		agot_init_banking_system = yes
+		agot_init_historical_loans = yes
 	}
 	events = {
 		agot_adventurers_events.0001

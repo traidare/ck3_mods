@@ -128,11 +128,13 @@ def merged_animations(inputs: RunInputs) -> str:
     poses, expected_pose_names = extract_dfp_poses(inputs.dfp_agot)
     bow = extract_bow_pose(inputs.submod_core)
 
+    body_marker = "# DEFAULT PERSONALITY ANIMATIONS"
+    body_start = unique_marker(inputs.long_night, body_marker, "Long Night body")
+    merged = inputs.long_night[body_start:]
+
     high_septon_marker = "\t\t#AGOT Added\n\t\thigh_septon = {"
-    unique_marker(inputs.long_night, high_septon_marker, "Long Night high_septon")
-    merged = inputs.long_night.replace(
-        high_septon_marker, poses + high_septon_marker, 1
-    )
+    unique_marker(merged, high_septon_marker, "Long Night high_septon")
+    merged = merged.replace(high_septon_marker, poses + high_septon_marker, 1)
 
     hammer_marker = "\t\t#AGOT Added\n\t\thold_hammer_idle = {"
     unique_marker(merged, hammer_marker, "Long Night hold_hammer_idle")

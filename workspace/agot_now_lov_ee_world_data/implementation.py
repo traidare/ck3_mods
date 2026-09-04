@@ -1095,7 +1095,7 @@ def connected_components(
     return component_by_id
 
 
-def target_source_manifest(
+def feature_source_state(
     map_definition: Path,
     reference_paths: dict[str, Path],
     *,
@@ -1147,16 +1147,8 @@ def target_source_manifest(
         }
         for path in mask_paths
     }
-    versions: dict[str, str] = {}
-    for label, module_root in workshop.items():
-        descriptor = module_root / "descriptor.mod"
-        if descriptor.is_file():
-            match = re.search(r'(?m)^\s*version\s*=\s*"([^"]+)"', read_text(descriptor))
-            versions[label] = match.group(1) if match else "unversioned"
     return {
         "schema_version": 2,
-        "workshop_ids": WORKSHOP_IDS,
-        "versions": versions,
         "expected": {
             "definition_rows": DEFINITION_ROWS,
             "target_first": TARGET_FIRST,
@@ -1220,7 +1212,6 @@ class WorldDataPipeline:
         self.decisions_path = assets / "terrain_decisions.csv"
         lore_regions_path = assets / "terrain_lore_regions.csv"
         self.graphical_config_path = assets / "graphical_style_map.csv"
-        manifest_path = assets / "source_manifest.json"
         self.reference_paths = {
             "detailed": self.context.source("known-world-detailed"),
             "google": self.context.source("known-world-google"),
@@ -1355,7 +1346,7 @@ class WorldDataPipeline:
                     f"unexpected heightmap image: size={image.size}, mode={image.mode}"
                 )
 
-        self.current_manifest = target_source_manifest(
+        self.feature_source_state = feature_source_state(
             self.context.source("map-definition"),
             self.reference_paths,
             root=self.root,
@@ -1363,17 +1354,6 @@ class WorldDataPipeline:
             workshop_root=workshop_root,
             mask_paths=self.mask_paths,
         )
-        if not manifest_path.is_file():
-            raise FileNotFoundError(
-                f"{manifest_path.relative_to(self.root)} does not exist; review the current "
-                "inputs and replace the reviewed asset deliberately"
-            )
-        recorded_manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
-        if recorded_manifest != self.current_manifest:
-            raise AssertionError(
-                "upstream source manifest drifted; review the source changes and replace "
-                f"{manifest_path.relative_to(self.root)} deliberately"
-            )
 
     def build_features(self) -> None:
         id_raster, area, centroid_x, centroid_y = build_id_raster(
@@ -1400,7 +1380,7 @@ class WorldDataPipeline:
         )
         self.water_ids = self.sea_zones | self.river_provinces | self.lakes
         self.target_ids = np.arange(TARGET_FIRST, TARGET_LAST + 1, dtype=np.int32)
-        cache_key = feature_cache_key(self.current_manifest, self.mask_config_path)
+        cache_key = feature_cache_key(self.feature_source_state, self.mask_config_path)
         self.features = load_or_compute_features(
             cache_dir=self.root / ".ignored/cache/agot_now_lov_ee_world_data",
             cache_key=cache_key,

@@ -66,12 +66,12 @@
       "size": 2538
     },
     "workshop/2962333032/common/buildings/00_agot_castle_buildings.txt": {
-      "sha256": "1c436222fefc956f826da59700ca2dec19a695fb865dc37a1ef3cefde64ab43c",
-      "size": 116174
+      "sha256": "de9d55f8620f7ddd76e2b6125c396781e47b99fb877aa8f8733ec76b4e97b080",
+      "size": 118756
     },
     "workshop/2962333032/common/buildings/00_agot_city_buildings.txt": {
-      "sha256": "64df3cc18ad612ab39a849e1d3ead6e3770911a99fe355c48dff5fb91802f8f8",
-      "size": 106998
+      "sha256": "084d8fa33177f969e10e336c2a91aacbfab5f3ff2771a8feb42158a0847ba45b",
+      "size": 109771
     },
     "workshop/2962333032/common/character_interactions/00_education_interactions.txt": {
       "sha256": "7274b26638c574da6a3c0fcf6681e7aec869f32025e315349393c7f70de6313e",
@@ -86,8 +86,12 @@
       "size": 85551
     },
     "workshop/2962333032/common/governments/00_agot_government_types.txt": {
-      "sha256": "f54d6b888226033050fcecfcf91f6d1d2c0d0b38b87b1d6048adaef3f4193125",
-      "size": 15916
+      "sha256": "fb640b0bcc566a611882ba48032cb1d7c7ae093fdaae1cd8052af18b8f4810d5",
+      "size": 14663
+    },
+    "workshop/2962333032/common/governments/zz_agot_government_types.txt": {
+      "sha256": "37a95e6e92456c9ce915b684668970a2b0e99013c2da2cc842dd7c8d855e66f5",
+      "size": 1845
     },
     "workshop/2962333032/common/on_action/agot_on_actions/agot_starting_legitimacy_on_actions.txt": {
       "sha256": "a10375f3ddd232d41b114a1da4de6d151bfa59c47d038f11df4401d738cab689",
@@ -134,8 +138,8 @@
       "size": 66972
     },
     "workshop/2962333032/common/traits/00_traits.txt": {
-      "sha256": "ff79c002c630277792bb08fcdab1db37b65541ce5af433f04f47d34343ad4a16",
-      "size": 422297
+      "sha256": "3764f1db75d4939639f84e727cea46c09fa586cb59ed82caadf1cd6336237806",
+      "size": 423603
     },
     "workshop/2962333032/events/activities/tour_activity/az_tour_events.txt": {
       "sha256": "52f219b5d36b9eefa0625c98ba5e4848ca051bcce6c807f13808f59045474d29",
@@ -188,10 +192,6 @@
     "workshop/2967263410/common/on_action/dynasty_on_actions.txt": {
       "sha256": "cd2208b30c6cbf89037419c686dd12d74b6f07e222d37e2bb426a0e632ce3264",
       "size": 18659
-    },
-    "workshop/2967263410/common/scripted_effects/00_agot_hf_effects.txt": {
-      "sha256": "66628c384eef295d4966fb4057a4af92b69c3c39fc54d28df514e5451f93cce6",
-      "size": 197831
     },
     "workshop/2971198450/common/on_action/cowagot_province_on_actions.txt": {
       "sha256": "ffc1fd1167435692a90ce7330e28df45d189007d53a3992930df55b05b7562b6",

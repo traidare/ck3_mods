@@ -11,8 +11,9 @@ poses and AGOT's animation body, then adds Submod Core's bow pose and the DFP
 AGOT pose region. DFP's obsolete `CIP_agressive_longsword` and active
 `use_longsword_default_trigger` are intentionally omitted.
 
-All four consumed animation files are SHA-256 pinned. Generation also asserts
-196 retained DFP poses, five wight poses, one bow pose, and one long-axe pose.
+The exact upstream files the generator consumes and their hashes are recorded in
+`sources.lock.json`. Generation also asserts 196 retained DFP poses, five wight
+poses, one bow pose, and one long-axe pose.
 
 ## Load order
 
@@ -29,7 +30,7 @@ ck3mm mod generate agot_longnight_submodcore_dfp_compatch --apply
 
 ## Re-audit
 
-Re-audit after any update to AGOT, AGOT Submod Core, Dynamyc Family Portrait
+Re-audit after any update to AGOT, AGOT Submod Core, Dynamic Family Portrait
 (AGOT), or AGOT: The Long Night & Azor Ahai. A pin or structural assertion
 failure means the corresponding parent delta must be reviewed before updating
 the generated output.

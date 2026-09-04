@@ -2,8 +2,8 @@
   "schemaVersion": 1,
   "files": {
     "workshop/2962333032/common/landed_titles/02_agot_special_titles.txt": {
-      "sha256": "96df3adc5dd932db9fb38cae53a559c02aa09cd39933421239442aca458e607b",
-      "size": 8332
+      "sha256": "bf9cb458c0458a68d947748615b241f1832889cad0371beeb4d2ddbb6291c076",
+      "size": 8274
     },
     "workshop/2962333032/common/landed_titles/03_agot_landed_titles_westeros_titular.txt": {
       "sha256": "9e4479cdca704039bad7bfaad473b63fc4658f599dacddfdd1791b63c1844f56",
@@ -38,8 +38,8 @@
       "size": 322
     },
     "workshop/2962333032/descriptor.mod": {
-      "sha256": "ad765ec356998009cd374270c8758878ab8f2a4887f669a037e602b299463769",
-      "size": 1070
+      "sha256": "d3f9f28eac898beb4c37288b74109eb94718f003d1609ce8de20db83f4788a73",
+      "size": 1072
     },
     "workshop/2962333032/gfx/map/map_object_data/building_locators.txt": {
       "sha256": "852e7d32c6ccd28d86f53c86775ebde5c7360cf5ae539883cc7542940031f55c",
@@ -54,16 +54,16 @@
       "size": 50056
     },
     "workshop/2962333032/gfx/map/map_object_data/special_building_locators.txt": {
-      "sha256": "92eecbecbbdc100da7ce5f1872938fe80074fdec5058a0b8014785a86280d5f1",
-      "size": 1372703
+      "sha256": "931793643339019147d1265b75a4e71a7884a2965e7ce2b149d372418e98e8fd",
+      "size": 1372704
     },
     "workshop/2962333032/map_data/definition.csv": {
-      "sha256": "a8722ba54ccefdea0382dc3384f8df57c5f77992f82a28280ad7f0c9d672f6dc",
+      "sha256": "e426b7cfe2858fd5004a9403456b95ee5ec18b0b1943a335a3ffa31fde6529c6",
       "size": 296740
     },
     "workshop/2962333032/map_data/geographical_regions/00_agot_geographical_region.txt": {
-      "sha256": "b4945a6165a4f4653608623d3c4aa05304839912d8e70d9a53bb32d44195fb2c",
-      "size": 66957
+      "sha256": "90cc7510be518876a555f81eb298ce8233b91e80f08ebd87dc5965cc26be86b1",
+      "size": 77102
     },
     "workshop/3403938445/common/landed_titles/cob_laamps.txt": {
       "sha256": "89ef584c70afa41931bd5e74cc22151be69b185052e7c977911c24cd81972e14",

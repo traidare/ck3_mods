@@ -137,10 +137,13 @@ change re-raises it.
   copy lags behind AGOT it drops the governments AGOT has added since — a
   missing `lorathi_principality_government` produces
   `change_government effect [ target government type was null ]` during Lorath's
-  three-princes game-start setup. This module ships no government file while the
-  override stays complete, and asserts that it equals current AGOT plus the
-  `lp_feudal_government` domicile line. That check failing is the signal to
-  generate a last writer again.
+  three-princes game-start setup. This module is therefore the last writer for
+  `00_agot_government_types.txt`: it restates current AGOT and re-applies only
+  the `lp_feudal_government` domicile line, so the database stays whatever AGOT
+  ships. The Red Keep's copy also predates AGOT moving `first_ranger_government`
+  into `zz_agot_government_types.txt`, and restating AGOT drops that stale
+  second definition. Generation fails if The Red Keep's file ever holds a line
+  current AGOT does not, since such an edit is one this rebase would discard.
 - **Essos Expanded: The Further East:** rebases its sole
   `zz_eetlv_gov_dev_on_actions.txt` startup owner while omitting only
   `zz_eetlv_gov_dev_effect` and `zz_eetlv_cannibal_confederation_effect`. The
@@ -171,10 +174,7 @@ change re-raises it.
   `common/on_action/dynasty_on_actions.txt (on_became_dynasty_head)`. Making its
   effect empty still registered the same faulting effect chain, so the generated
   last writer now queues a hidden cleanup event one day later instead of
-  synchronously removing `denounced` and `disinherited`. Its title-gain
-  house-head effect also makes all nine new-ruler `capital_province` switches
-  nullable, preventing landless pirate creation from returning an unset scope
-  through global `on_title_gain`.
+  synchronously removing `denounced` and `disinherited`.
 - **Additional Models decision illustrations:** replaces three references to the
   parent's nonexistent `agot_court/throne.dds` with AGOT's existing Iron Throne
   room illustration.

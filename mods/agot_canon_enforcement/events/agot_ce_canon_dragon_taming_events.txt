@@ -220,19 +220,19 @@ agot_ce_canon_dragon.0001 = {
 			}
 			agot_ce_canon_dragon_bond_effect = { DRAGON = silverwing }
 		}
-		else_if = { # Targaryen_33 and dragon_quicksilver
-			limit = {
-				has_character_flag = is_Targaryen_33
-				current_date >= 8042.1.1
-			}
-			agot_ce_canon_dragon_bond_effect = { DRAGON = quicksilver }
-		}
 		else_if = { # Targaryen_35 and dragon_vermithor
 			limit = {
 				has_character_flag = is_Targaryen_35
 				current_date >= 8042.1.1
 			}
 			agot_ce_canon_dragon_bond_effect = { DRAGON = vermithor }
+		}
+		else_if = { # Targaryen_33 and dragon_quicksilver
+			limit = {
+				has_character_flag = is_Targaryen_33
+				current_date >= 8042.6.1
+			}
+			agot_ce_canon_dragon_bond_effect = { DRAGON = quicksilver }
 		}
 		else_if = { # Targaryen_41 and dragon_balerion
 			limit = {

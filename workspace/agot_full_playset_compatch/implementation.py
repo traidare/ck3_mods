@@ -762,6 +762,15 @@ def generate_hud(agot: str, iron_and_salt: str, dfp: str) -> str:
 def generate_map_icon_layer(agot: str, iron_and_salt: str, lov: str) -> str:
     """Keep the kraken map icon without restoring LoV's removed datacontext."""
     label = "map_icon_layer.gui"
+    # LoV expresses the same human-portrait gate through AGOT's shared template,
+    # while AGOT's source spells it inline. Normalising the equivalent forms
+    # leaves LoV's find-elder datacontext removal as its only merge delta.
+    lov = replace_exact(
+        lov,
+        "\t\t\t\tusing = visible_if_not_dragon\n",
+        '\t\t\t\tvisible = "[Not(IsCharacterDragon)]"\n',
+        label=f"{label} LoV dragon gate",
+    )
     merged = merge_onto_agot(ours=iron_and_salt, base=agot, theirs=lov, label=label)
     require_delta_preserved(
         base=agot, parent=lov, merged=merged, ours=iron_and_salt, label=label

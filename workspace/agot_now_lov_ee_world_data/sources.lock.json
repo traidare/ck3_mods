@@ -18,7 +18,7 @@
       "size": 135604
     },
     "workshop/2962333032/common/province_terrain/01_province_properties.txt": {
-      "sha256": "e555ce58121b213ef2cd9b059a6440380dc00f22cb0df41a26c10750fa401d92",
+      "sha256": "71d97d039cda109dbb37ea39920a11e2643d9b706aaa959c84d386632b6af405",
       "size": 410317
     },
     "workshop/2962333032/common/terrain_types/00_terrains.txt": {
@@ -29,17 +29,13 @@
       "sha256": "db0f329743943742073adbb81c7688cebcabf2463df387b2fd8a02204ff8cbe0",
       "size": 42777
     },
-    "workshop/2962333032/descriptor.mod": {
-      "sha256": "ad765ec356998009cd374270c8758878ab8f2a4887f669a037e602b299463769",
-      "size": 1070
-    },
     "workshop/2962333032/map_data/geographical_regions/00_agot_geographical_region.txt": {
-      "sha256": "b4945a6165a4f4653608623d3c4aa05304839912d8e70d9a53bb32d44195fb2c",
-      "size": 66957
+      "sha256": "90cc7510be518876a555f81eb298ce8233b91e80f08ebd87dc5965cc26be86b1",
+      "size": 77102
     },
     "workshop/2962333032/map_data/geographical_regions/10_natural_disaster_regions.txt": {
-      "sha256": "37a4b4d17e657dbb5979a86cd6149198cf5ac37e485a493d4ce65f5f7b91f969",
-      "size": 121
+      "sha256": "2f47d414b1edaebf28e9f7892e772779d2106d7030d0e6fce035e8e4a1750dfc",
+      "size": 134
     },
     "workshop/3403938445/common/province_terrain/cv_province_terrain.txt": {
       "sha256": "d8a4ce217a79fb076c25676cf8df2a1387a9fedc1c79f7eea5cb3ea59c14cfcb",
@@ -69,10 +65,6 @@
       "sha256": "736efcafa4fc81e0d57c24d966ee753c512852c5192b4bf372f1c17462d28023",
       "size": 538
     },
-    "workshop/3403938445/descriptor.mod": {
-      "sha256": "3dd3ea608a1a049aa4fc9306b9e63c5da44588db997cc171830a45039c50ee01",
-      "size": 162
-    },
     "workshop/3403938445/map_data/geographical_regions/lv_geographical_regions.txt": {
       "sha256": "85d92c5a8dafb8e04e9079a818b61abbaf98e9d7367b4b7d3008f5eaddbc1416",
       "size": 3938
@@ -93,10 +85,6 @@
       "sha256": "fb0986f714d346a134b5945048dfc1a1ab8a13de9aafb3df3f06fda4802c484c",
       "size": 1463
     },
-    "workshop/3664900993/descriptor.mod": {
-      "sha256": "54e471e606274d8460a57bd95cbaea1a0f77dff73c9c87faa29eb581a9060a96",
-      "size": 159
-    },
     "workshop/3664900993/map_data/geographical_regions/replace/00_agot_geographical_region.txt": {
       "sha256": "8c954a26d9035c5acb596e0fb5b907d7c1b274a241f500e08b19b2d71542d42b",
       "size": 33952
@@ -108,10 +96,6 @@
     "workshop/3682802751/common/province_terrain/ee_province_terrain.txt": {
       "sha256": "80f7c43ca6c72b08b46d9f0cf0a2c8dfec0d97b2216fc1346f08334f51f505b3",
       "size": 232301
-    },
-    "workshop/3682802751/descriptor.mod": {
-      "sha256": "cace9e13ee7aa736f5682bb082c5c1505919f2482cfa1f12f80a17585be010d4",
-      "size": 134
     },
     "workshop/3682802751/gfx/map/terrain/beach_02_blackpebbles_mask.png": {
       "sha256": "440e7768188d3d2f6e212ecf6b35f036fcad3ebe7eea503510b6f07972fe7079",
@@ -901,10 +885,6 @@
       "sha256": "96d64f5e63e695b9c06249e147e7fa88c9ec49d0f626763499ca0c74aa94ee8d",
       "size": 12317
     },
-    "workshop/3719888822/descriptor.mod": {
-      "sha256": "d72391046f56759e6f971ac844ac83fefaa1aea825deaf618f8eec90aef9a08f",
-      "size": 287
-    },
     "workshop/3719888822/map_data/geographical_regions/lv_geographical_regions.txt": {
       "sha256": "12439c81d59bada3651299acc5b28ae425629af982c0142edd1c19be5ec2d89b",
       "size": 97
@@ -936,10 +916,6 @@
     "workshop/3768149491/common/province_terrain/zz_eetlv_roads_terrain.txt": {
       "sha256": "bfa05d027960e9fbcaf4133d59eb669f0492ed61e11c3d9e995be9752e9bfe2d",
       "size": 11066
-    },
-    "workshop/3768149491/descriptor.mod": {
-      "sha256": "e78405a0d476a4d7bdb20d3390fb012feb10e69eca12f4ac3669f38af3611dad",
-      "size": 371
     },
     "workshop/3768149491/map_data/default.map": {
       "sha256": "084bdefbd0d21d7a71509ebef875ab014c03c3ec56763c580da14a2ecc046af6",

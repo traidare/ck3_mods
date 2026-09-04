@@ -109,5 +109,5 @@ liege, and succession lines are byte-identical to their sources.
 Re-run the audit after updates to Workshop mods `2962333032`, `3664900993`,
 `3403938445`, `3719888822`, `3682802751`, `3768149491`, or `3773608127`, or
 after changing the LoV/EE rebases. After an intentional upstream change, review
-the source diff and update the granular source-manifest asset before
-regenerating.
+the source diff before regenerating. The exact files consumed by the generator
+and their hashes are recorded in `sources.lock.json`.

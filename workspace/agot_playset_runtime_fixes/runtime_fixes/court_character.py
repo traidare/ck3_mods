@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+from difflib import SequenceMatcher
+
 from gen.script import normalize_rebased_source, read_text, replace_regex, write_text
 from gen.text import replace_exact
 
@@ -256,14 +258,29 @@ def generate_red_keep_castellan_guard(inputs: RunInputs) -> None:
     write_text(inputs.OUTPUT, relative, text)
 
 
-def assert_red_keep_government_override_is_current(inputs: RunInputs) -> None:
-    """Fail when The Red Keep's government override drifts from AGOT again.
+def _lines_only_in_second(first: str, second: str) -> list[str]:
+    """Return the lines `second` holds that `first` does not, in order."""
+    matcher = SequenceMatcher(None, first.split("\n"), second.split("\n"))
+    return [
+        line
+        for tag, _, _, start, end in matcher.get_opcodes()
+        if tag in {"insert", "replace"}
+        for line in second.split("\n")[start:end]
+    ]
 
-    The Red Keep replaces AGOT's whole government database to add one estate
-    domicile. When that copy lags behind AGOT it silently drops whichever
-    governments AGOT added since, which is how Lorath's three-princes setup lost
-    `lorathi_principality_government`. This module ships no file of its own while
-    the override stays complete; the check is what makes that safe to rely on.
+
+def generate_red_keep_government_rebase(inputs: RunInputs) -> None:
+    """Restate AGOT's government database with The Red Keep's estate domicile.
+
+    The Red Keep replaces AGOT's whole government file to add one line, so its
+    copy silently reverts whatever AGOT changed in the meantime — that is how
+    Lorath's three-princes setup lost `lorathi_principality_government`. Writing
+    the same one-line delta on top of current AGOT keeps the estate while the
+    rest of the database stays whatever AGOT ships.
+
+    The Red Keep's copy also predates AGOT moving `first_ranger_government` into
+    a sibling file, so restating AGOT drops the stale second definition of that
+    key rather than leaving the playset with two.
     """
     relative = "common/governments/00_agot_government_types.txt"
     agot_text = normalize_rebased_source(
@@ -272,19 +289,53 @@ def assert_red_keep_government_override_is_current(inputs: RunInputs) -> None:
     red_keep_text = normalize_rebased_source(
         read_text(inputs.WORKSHOP / "3662281614" / relative)
     )
-    domicile = "\tcourt_generate_commanders = no\n\tdomicile_type = red_keep_estate\n"
+
+    estate = extract_top_level_block(agot_text, "lp_feudal_government")
+    rebased = replace_exact(
+        agot_text,
+        estate,
+        replace_exact(
+            estate,
+            "\tcourt_generate_commanders = no\n",
+            "\tcourt_generate_commanders = no\n\tdomicile_type = red_keep_estate\n",
+            expected=1,
+            label="AGOT lp_feudal_government commander rule",
+        ),
+        expected=1,
+        label="AGOT lp_feudal_government",
+    )
+
     if red_keep_text.count("domicile_type = red_keep_estate") != 1:
         raise RuntimeError("The Red Keep estate government delta changed")
-    if (
-        red_keep_text.replace(domicile, "\tcourt_generate_commanders = no\n")
-        != agot_text
+    stale_ranger = extract_top_level_block(red_keep_text, "first_ranger_government")
+    zz_relative = "common/governments/zz_agot_government_types.txt"
+    if "first_ranger_government" not in read_text(
+        inputs.WORKSHOP / "2962333032" / zz_relative
     ):
         raise RuntimeError(
-            "The Red Keep government override no longer matches current AGOT "
-            "plus the estate domicile; re-audit whether this playset needs a "
-            "generated last writer for "
-            f"{relative}"
+            f"AGOT no longer defines first_ranger_government in {zz_relative}, "
+            "so The Red Keep's copy is the only one left"
         )
+
+    # Where the two files disagree, The Red Keep may only be *missing* lines:
+    # that is the copy lagging AGOT, which is exactly what the rebase absorbs.
+    # A line it holds and AGOT does not would be an edit this rebase would
+    # discard, so it fails here rather than being dropped silently.
+    contributed = [
+        line
+        for line in _lines_only_in_second(
+            rebased, normalize_rebased_source(red_keep_text.replace(stale_ranger, ""))
+        )
+        if line.strip()
+    ]
+    if contributed:
+        raise RuntimeError(
+            "The Red Keep government override changes more than the estate "
+            f"domicile; re-audit what it now contributes to {relative}: "
+            f"{contributed}"
+        )
+
+    write_text(inputs.OUTPUT, relative, rebased)
 
 
 def generate_further_east_startup_government_quarantine(inputs: RunInputs) -> None:
@@ -388,33 +439,6 @@ def generate_house_founders(inputs: RunInputs) -> None:
         label="House Founders optional top-liege guards",
     )
     write_text(inputs.OUTPUT, relative, text)
-
-
-def generate_house_founders_title_gain_capital_guards(inputs: RunInputs) -> None:
-    """Keep title-gain house-head checks safe for landless new rulers."""
-    relative = "common/scripted_effects/00_agot_hf_effects.txt"
-    source = read_text(inputs.WORKSHOP / "2967263410" / relative)
-    effect = assert_source_block_hash(
-        source,
-        "agot_hf_force_house_head",
-        "45044132166b6b31262e2b5be243501067e122d48304ca19a02adc4a20fbe35e",
-        label="House Founders force-house-head effect",
-    )
-    guarded = replace_exact(
-        effect,
-        "scope:new_ruler.capital_province = {",
-        "scope:new_ruler.capital_province ?= {",
-        expected=9,
-        label="House Founders optional new-ruler capital switches",
-    )
-    source = replace_exact(
-        source,
-        effect,
-        guarded,
-        expected=1,
-        label="House Founders force-house-head in-place rebase",
-    )
-    write_text(inputs.OUTPUT, relative, source)
 
 
 def generate_house_founders_dynasty_on_action_rebase(inputs: RunInputs) -> None:

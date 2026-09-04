@@ -1,40 +1,4 @@
-﻿# ══════════════════════════════════════════════════════════════════════════════════════════════════════════
-# AGOT: The Long Night & Azor Ahai -- THIS FILE IS A FULL SHADOW OF AGOT'S animations.txt. READ THIS FIRST.
-#
-# WHAT IT IS. AGOT's own gfx/portraits/portrait_animations/animations.txt, copied verbatim, PLUS 77 lines:
-# five wight_pose_* entries inside idle -> male (wounded, loss, aggressive, yield, stayback). Verified
-# 27 Aug by diff against AGOT 0.5.1: our copy is a strict SUPERSET -- 77 lines added, ZERO lines of theirs
-# removed or altered. It is not stale today.
-#
-# WHY IT IS A WHOLE-FILE COPY AND NOT A SMALL ADDITIVE FILE. The directory does merge by file -- AGOT itself
-# ships five (animations.txt, b_agot_animations.txt, c_agot_eggs_, d_agot_sword_, e_agot_dragon_) and other
-# playset mods ship standalone ones. So the obvious fix is to lift our five poses into
-# zz_ln_wight_animations.txt and delete this shadow entirely.
-#
-# THAT WAS INVESTIGATED ON 27 AUG AND DELIBERATELY NOT DONE. Our five entries do not define a new animation;
-# they live INSIDE the existing `idle` key. Re-opening an existing key from a second file only works if the
-# engine MERGES that key rather than REPLACING it -- and there is no evidence either way. Every standalone
-# animation file across the entire playset defines NEW top-level keys and not one re-opens an existing one:
-#     AGOT b_agot_animations.txt -> agot_idle        2870506215 wam_animations.txt      -> wam_*
-#     2962713441 99_dragon_horn_animations.txt       3319354609 f_amsvb_dragon_animations.txt -> dragon_court
-#     2220098919 CFP_animations.txt -> cfp_*
-# If `idle` replaces rather than merges, extracting would silently delete AGOT's ENTIRE idle animation set
-# for every character in the game -- a subtle, ugly, hard-to-attribute regression. Not worth the 10,000 lines.
-#
-# ── WHAT THIS COSTS, AND WHAT TO DO ABOUT IT ───────────────────────────────────────────────────────────────
-# The day AGOT edits animations.txt, our copy silently wins and their change is lost with nothing logged.
-# This is the same failure mode documented in common/on_action/zz_ln_shadows/ and the thing shadowcheck.py
-# exists to catch -- but this file lives under gfx/, not common/on_action/zz_ln_shadows/, so CHECK THAT
-# SHADOWCHECK ACTUALLY COVERS IT.
-#
-# ON EVERY AGOT UPDATE: diff AGOT's animations.txt against this file. Expect exactly 77 added lines and zero
-# removals. Anything else means AGOT moved and we are overwriting them -- re-copy theirs and re-apply the
-# five wight_pose_* blocks. If AGOT ever moves the poses' host key out of `idle`, or a future CK3 patch
-# documents merge semantics for portrait animation keys, revisit the extraction above; it is the better
-# answer the moment it can be proven safe.
-# ══════════════════════════════════════════════════════════════════════════════════════════════════════════
-
-# DEFAULT PERSONALITY ANIMATIONS
+﻿# DEFAULT PERSONALITY ANIMATIONS
 # COUNCIL ANIMATIONS
 # EMOTION ANIMATIONS
 # MISC ANIMATIONS
@@ -3754,7 +3718,7 @@ idle = {
 					add = 100
 					age >= 10
 					NOR = {
-						has_trait = dragonwidowed
+						has_trait_with_flag = can_not_bond_dragon
 						has_character_modifier = agot_dragon_disinterest
 						any_relation = {
 							type = agot_dragon

@@ -68,6 +68,14 @@
     {
       "severity": "error",
       "code": "strict-scopes",
+      "message": "scope:activity might not be available here",
+      "source": "AGOT Seasons of Ice and Fire",
+      "file": "common/event_backgrounds/01_event_backgrounds.txt",
+      "count": 1
+    },
+    {
+      "severity": "error",
+      "code": "strict-scopes",
       "message": "scope:bg_override_char might not be available here",
       "source": "AGOT Seasons of Ice and Fire",
       "file": "common/event_backgrounds/01_event_backgrounds.txt",
@@ -168,14 +176,6 @@
       "source": "MOD",
       "file": "common/on_action/title_on_actions.txt",
       "count": 1
-    },
-    {
-      "severity": "error",
-      "code": "unknown-field",
-      "message": "unknown token `dw_tradition_valyrian_polgamy`",
-      "source": "MOD",
-      "file": "common/scripted_modifiers/00_marriage_scripted_modifiers.txt",
-      "count": 3
     },
     {
       "severity": "error",
@@ -1576,14 +1576,6 @@
       "source": "MOD",
       "file": "common/character_interactions/xx_baie_wl_education_interactions.txt",
       "count": 1
-    },
-    {
-      "severity": "tips",
-      "code": "if-else",
-      "message": "`else` with a `limit` does work, but may indicate a mistake",
-      "source": "MOD",
-      "file": "common/scripted_effects/00_agot_hf_effects.txt",
-      "count": 2
     },
     {
       "severity": "tips",

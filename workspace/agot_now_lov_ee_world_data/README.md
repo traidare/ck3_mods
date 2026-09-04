@@ -78,7 +78,8 @@ Re-run the audit after every update to Workshop mods `2962333032`, `3664900993`,
 `3403938445`, `3719888822`, `3682802751`, or `3768149491`, or after regenerating
 `agot_now_lov_ee_map_compatch`. When an upstream input or reference image
 changes, review the source diff and structural assertions, then update the
-granular source-manifest asset before regenerating.
+source diff before regenerating. The exact files consumed by the generator and
+their hashes are recorded in `sources.lock.json`.
 
 Specific triggers carried over from the Further East v4 rebase:
 

@@ -237,10 +237,17 @@ world_westeros_dornish_marches_stormlands = {
 	duchies = {
 		d_nightsong
 		d_marchfields
+		d_whentway
 		d_blackhaven
 		d_red_watch
-		d_whentway
+		d_grandview
+		d_the_slayne
 		d_summerhall
+	}
+	counties = {
+		c_scale_valley
+		c_summerfield
+		c_leddan
 	}
 }
 
@@ -554,6 +561,7 @@ world_westeros_greater_oldtown = {
 		d_garden_coast
 		d_ridgeview
 		d_honeylands
+		d_brightwater
 		d_black_sound
 	}
 }
@@ -4566,14 +4574,6 @@ world_westeros_the_northern_mountains = {
 		d_the_burley
 		d_the_liddle
 		d_the_norrey
-	}
-}
-
-world_westeros_flints_finger = {
-	duchies = {
-		d_flints_finger
-		d_cape_kraken
-		d_lakelands
 	}
 }
 

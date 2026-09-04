@@ -13,11 +13,14 @@ and it is save-compatible.
 - **Merged traditions.** Armies of Westeros' culture-tradition definitions are
   the baseline; Mayham's 49 balance changes are reapplied across the 45 affected
   traditions. Current AGOT's Stormlands, Frozen Shoremen, Harbormen, Stoneborn,
-  and Wolfswood Clansmen traditions are carried through because Armies of
-  Westeros defines them with divergent values; Mayham's own Stoneborn and
-  Wolfswood deltas apply on top. This preserves Armies of Westeros' MAA unlocks,
-  parameters, costs, and AI behavior alongside Mayham's opinion values and
-  AGOT's current cultural-tradition bonuses.
+  Wolfswood Clansmen traditions are carried through because Armies of Westeros
+  defines them with divergent values; Ibbenese and Ironmen use AGOT's complete
+  blocks because Mayham and Armies of Westeros both omit current AGOT
+  parameters. Mayham's own Stoneborn and Wolfswood deltas apply on top. This
+  preserves Armies of Westeros' MAA unlocks, parameters, costs, and AI behavior
+  alongside Mayham's opinion values and AGOT's current cultural-tradition
+  bonuses. Greenborn, Ironborn, and Marcher remain supplied by the complete
+  Armies of Westeros rebase after their exact parent relationships are asserted.
 - **Arbor token repair.** Armies of Westeros ships one bare
   `reveler_traits_more_valued` token in the Arbor tradition; CK3 treats it as
   malformed parameter syntax during load. The generated same-path rebase

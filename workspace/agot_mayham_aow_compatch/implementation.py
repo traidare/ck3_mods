@@ -98,6 +98,79 @@ UPSTREAM_REBASES: dict[str, tuple[str, ...]] = {
     ),
 }
 
+# Definitions where both balance parents carry the same block without AGOT's
+# current parameters. The final writer emits AGOT's definition because neither
+# parent contributes a distinct delta to preserve.
+SHARED_PARENT_REBASES: dict[str, tuple[str, ...]] = {
+    "00_agot_regional_traditions.txt": (
+        "tradition_agot_ib",
+        "tradition_agot_ironmen",
+    ),
+}
+
+# Definitions whose complete final form belongs to Armies of Westeros. The
+# edits describe each parent's exact relationship to AGOT so the compatch can
+# emit AoW's block without accepting unrelated drift from either parent.
+PARENT_OWNED_REBASES = {
+    "00_agot_unique_traditions.txt": {
+        "tradition_agot_greenborn": {
+            "mayham": (
+                (
+                    "\t\tbetter_regimental_bonuses = yes\n",
+                    "\t\tbetter_regimental_bonuses = yes\n"
+                    "\t\tironborn_great_fleet_bonuses = yes\n"
+                    "\t\tironborn_raiding_sailing = yes\n"
+                    "\t\tironborn_sailing_requirements = yes\n",
+                ),
+            ),
+            "aow": (
+                (
+                    "\t\tunlock_maa_black_blood_cavalry = yes\n"
+                    "\t\tlanding_house_members_gives_renown = yes\n"
+                    "\t\tbetter_regimental_bonuses = yes\n",
+                    "\t\tlanding_house_members_gives_renown = yes\n"
+                    "\t\tbetter_regimental_bonuses = yes\n"
+                    "\t\tunlock_maa_black_blood_cavalry = yes\n",
+                ),
+            ),
+        },
+        "tradition_agot_ironborn": {
+            "mayham": (
+                (
+                    "\t\tnext_level_trade_ports = yes\n",
+                    "\t\tnext_level_trade_ports = yes\n"
+                    "\t\tironborn_great_fleet_bonuses = yes\n"
+                    "\t\tironborn_raiding_sailing = yes\n"
+                    "\t\tironborn_sailing_requirements = yes\n",
+                ),
+            ),
+            "aow": (
+                (
+                    "\t\tunlock_maa_ironborn_reavers = yes\n",
+                    "\t\tunlock_maa_ironborn_reavers = yes\n"
+                    "\t\tunlock_maa_iron_bows = yes\n"
+                    "\t\tunlock_maa_iron_pikes = yes\n"
+                    "\t\tunlock_maa_iron_riders = yes\n",
+                ),
+            ),
+        },
+        "tradition_agot_marcher": {
+            "mayham": (
+                (
+                    "\t\tunlock_maa_vulture_killers = yes\n",
+                    "\t\tunlock_maa_marcher_longbowmen = yes\n",
+                ),
+            ),
+            "aow": (
+                (
+                    "\t\tunlock_maa_vulture_killers = yes\n",
+                    "\t\tunlock_maa_marcher_longbowmen = yes\n",
+                ),
+            ),
+        },
+    },
+}
+
 # Mayham has balance deltas on definitions that also need the current AGOT
 # rebase. Apply them after the current AGOT blocks are selected.
 UPSTREAM_REBASE_DELTAS: dict[str, dict[str, list[tuple[str, str, str]]]] = {
@@ -194,6 +267,16 @@ def apply_deltas(block: str, tradition: str, deltas: list[tuple[str, str, str]])
     return block
 
 
+def apply_text_edits(
+    block: str, tradition: str, parent: str, edits: tuple[tuple[str, str], ...]
+) -> str:
+    for old, new in edits:
+        if block.count(old) != 1:
+            raise ValueError(f"{tradition}: expected one {parent} edit anchor {old!r}")
+        block = block.replace(old, new, 1)
+    return block
+
+
 def merge_definition(base: str, ours: str, theirs: str, tradition: str) -> str:
     """Three-way merge AoW and current AGOT changes from a reconstructed base."""
     with tempfile.TemporaryDirectory() as directory:
@@ -276,11 +359,17 @@ def generate_traditions(agot_root: Path, mayham_root: Path, aow_root: Path) -> s
             )
         upstream_rebases = UPSTREAM_REBASES.get(filename, ())
         upstream_rebase_set = set(upstream_rebases)
+        shared_parent_rebases = SHARED_PARENT_REBASES.get(filename, ())
+        shared_parent_rebase_set = set(shared_parent_rebases)
+        parent_owned_rebases = PARENT_OWNED_REBASES.get(filename, {})
+        parent_owned_rebase_set = set(parent_owned_rebases)
         ignored = dev_only_exclusions(filename, agot)
         changed = {
             name
             for name in agot
             if name not in upstream_rebase_set
+            and name not in shared_parent_rebase_set
+            and name not in parent_owned_rebase_set
             and name not in ignored
             and agot[name] != mayham[name]
         }
@@ -308,6 +397,37 @@ def generate_traditions(agot_root: Path, mayham_root: Path, aow_root: Path) -> s
             definition_count += 1
             delta_count += len(rebase_deltas)
 
+        for tradition in shared_parent_rebases:
+            if tradition not in aow:
+                raise ValueError(f"{filename}: AoW is missing {tradition}")
+            if mayham[tradition] != aow[tradition]:
+                raise ValueError(
+                    f"{filename}: shared-parent rebase differs for {tradition}"
+                )
+            if agot[tradition] == aow[tradition]:
+                raise ValueError(
+                    f"{filename}: shared-parent rebase for {tradition} is no longer needed"
+                )
+            generated.append(agot[tradition])
+            definition_count += 1
+
+        for tradition, parent_edits in parent_owned_rebases.items():
+            if tradition not in aow:
+                raise ValueError(f"{filename}: AoW is missing {tradition}")
+            for parent, definitions_by_name in (
+                ("mayham", mayham),
+                ("aow", aow),
+            ):
+                expected_parent = apply_text_edits(
+                    agot[tradition],
+                    tradition,
+                    parent,
+                    parent_edits[parent],
+                )
+                if expected_parent != definitions_by_name[tradition]:
+                    raise ValueError(
+                        f"{filename}: {parent} definition drift for {tradition}"
+                    )
         for tradition, deltas in expected.items():
             if tradition not in aow:
                 raise ValueError(f"{filename}: AoW is missing {tradition}")
@@ -331,7 +451,7 @@ def generate_traditions(agot_root: Path, mayham_root: Path, aow_root: Path) -> s
             definition_count += 1
             delta_count += len(deltas)
 
-    if definition_count != 50 or delta_count != 51:
+    if definition_count != 52 or delta_count != 51:
         raise ValueError(
             f"unexpected manifest size: {definition_count} definitions, {delta_count} deltas"
         )
@@ -371,4 +491,4 @@ def generate(context: GenerationContext) -> None:
         AOW_UNIQUE_RELATIVE.as_posix(),
         generate_aow_unique_syntax_repair(aow),
     )
-    print(f"Generated {output} (50 definitions, 51 deltas, 5 upstream rebases)")
+    print(f"Generated {output} (52 definitions, 51 deltas, 7 upstream rebases)")

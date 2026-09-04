@@ -30,24 +30,24 @@
       "size": 55267
     },
     "workshop/2962333032/common/on_action/agot_on_actions/agot_yearly_on_actions.txt": {
-      "sha256": "50352c133536c8cea25abbe44cbca78404cba303626577e6bbd2ccf95e020668",
-      "size": 29085
+      "sha256": "124a6ee1f8a5e98fa18d7737f03bec3a5c6bc54455fe72aa2904b01bf00ed522",
+      "size": 33000
     },
     "workshop/2962333032/common/on_action/childhood_on_actions.txt": {
       "sha256": "0f34dc3dca045a58be35d4f5de061a88ed266244ce2f9b8c23d7f2d292a4a198",
       "size": 31452
     },
     "workshop/2962333032/common/scripted_rules/00_rules.txt": {
-      "sha256": "2d2f353c05a263251ecf251f8f30cb7d4f6b6f2adca9da79bc205cd9649e4319",
-      "size": 51711
+      "sha256": "0c205d5266bc77b2d05d4fca9ca4aff109cdc7999cdd6d50f4e5181bf01e06bd",
+      "size": 52170
     },
     "workshop/2962333032/common/scripted_triggers/00_agot_character_triggers.txt": {
       "sha256": "2414f0faa1338a2fa4029a8d465a9581c70724cf5e981325a0a4355bd8cccaee",
       "size": 4380
     },
     "workshop/2962333032/descriptor.mod": {
-      "sha256": "ad765ec356998009cd374270c8758878ab8f2a4887f669a037e602b299463769",
-      "size": 1070
+      "sha256": "d3f9f28eac898beb4c37288b74109eb94718f003d1609ce8de20db83f4788a73",
+      "size": 1072
     },
     "workshop/2962333032/events/activities/coronation_activity/coronation_events.txt": {
       "sha256": "a95d71dc2909b02bb4d415c70e5deed86a3fa48e03882a3f30b96967c527e5b5",
@@ -62,8 +62,8 @@
       "size": 216653
     },
     "workshop/2962333032/gui/map_icon_layer.gui": {
-      "sha256": "9748f281fb271856b7b4bfd21f50ec73ee4df54622236a5d2cb1ebc1d48c2d60",
-      "size": 147679
+      "sha256": "8c1205440b6394291b31979c6a4ce3cc23ad8ebb8bc4af7f8fae3d6913a1abc7",
+      "size": 147686
     },
     "workshop/3206891770/descriptor.mod": {
       "sha256": "f041d856b5bd91afca51967963f499ec70e82f4f555cb66c3723a4cd2db0d677",
@@ -78,8 +78,8 @@
       "size": 154
     },
     "workshop/3319354609/gfx/court_scene/scene_settings/grandeur_levels/grandeur_levels.txt": {
-      "sha256": "170eaef8c16f72faa29334086d625e0a169d24084ed5fbdf5d2249c55183eb69",
-      "size": 11068
+      "sha256": "79110e35d1e1d75403caf8b9400dd2886059e9d0593766aa422b4b0fb19ddc80",
+      "size": 11468
     },
     "workshop/3388366564/common/on_action/agot_on_actions/mde_yearly_on_actions.txt": {
       "sha256": "6be6b2ab0f6a7c6e6d88424a38ae1b737c2ec24ca0a503544e83a5cd3482ed83",
@@ -226,7 +226,7 @@
       "size": 1038
     },
     "workshop/3780269495/descriptor.mod": {
-      "sha256": "09f66b9bc0d04c8474ebfbf97ea0e81b8a57119035d59c19ebcb4b8ba470043c",
+      "sha256": "58c55be5ab73bd9b80a24486f912c159199679c981a52806a5cfce323f1a3602",
       "size": 216
     },
     "workshop/3781577713/common/scripted_triggers/zz_kraken_character_triggers.txt": {

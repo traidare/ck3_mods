@@ -2,6 +2,9 @@
 {
 
 	type portrait_opinion_small = flowcontainer {
+		#name = "tutorial_highlight_portrait_opinion"
+		#AGOT Modified
+		# visible = "[And(Character.IsValid, And(Character.IsAlive, Not(Character.IsLocalPlayer)))]"
 		visible = "[And(And(And(And(Character.IsValid, Character.IsAlive), Not(Character.IsLocalPlayer)), Not(IsCharacterDragon)), Not(Character.HasTrait(GetTrait('kraken'))))]"
 		ignoreinvisible = yes
 		margin_right = 2
@@ -18,6 +21,8 @@
 
 		icon = {
 			name = "dread"
+			#AGOT Modified
+			# visible = "[Character.ShouldShowDreadEffectIcon]"
 			visible = "[And(Not(IsCharacterDragon), Character.ShouldShowDreadEffectIcon)]"
 			size = { 16 16 }
 			texture = "gfx/interface/icons/portraits/dread_values.dds"
@@ -27,7 +32,7 @@
 		}
 
 		text_single = {
-			visible = "[And(Character.IsValid, Not(IsCharacterFakeDead))]"
+			visible = "[Character.IsValid]"
 			max_width = 45
 			align = nobaseline
 			fontsize = 13
@@ -38,7 +43,8 @@
 			default_format = "#true_white"
 
 			block "opinion_text" {
-				using = visible_if_not_dragon
+				#AGOT Added
+				visible = "[Not(IsCharacterDragon)]"
 				text = "[Character.GetOpinionOf( GetPlayer )|=]"
 				fonttintcolor = "[Character.GetOpinionOfTint( GetPlayer )]"
 			}

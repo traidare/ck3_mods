@@ -124,13 +124,13 @@ agot_ce_canon_taming_due_trigger = {
 			has_character_flag = is_Targaryen_36
 			current_date >= 8040.1.1
 		}
-		AND = { # Targaryen_33 and dragon_quicksilver
-			has_character_flag = is_Targaryen_33
-			current_date >= 8042.1.1
-		}
 		AND = { # Targaryen_35 and dragon_vermithor
 			has_character_flag = is_Targaryen_35
 			current_date >= 8042.1.1
+		}
+		AND = { # Targaryen_33 and dragon_quicksilver
+			has_character_flag = is_Targaryen_33
+			current_date >= 8042.6.1
 		}
 		AND = { # Targaryen_41 and dragon_balerion
 			has_character_flag = is_Targaryen_41

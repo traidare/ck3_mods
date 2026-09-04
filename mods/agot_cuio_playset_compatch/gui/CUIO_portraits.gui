@@ -44,7 +44,7 @@ types CUIOPortraitTypes
 		# Dual opinion display - character's opinion of player
 		text_single = {
 			name = "tutorial_highlight_character_view_opinion"
-			visible = "[And(Character.IsValid, Not(IsCharacterFakeDead))]"
+			visible = "[Character.IsValid]"
 			max_width = 55
 			align = nobaseline
 			margin = { 2 0 }
@@ -61,7 +61,7 @@ types CUIOPortraitTypes
 		# Dual opinion display - player's opinion of character
 		text_single = {
 			name = "tutorial_highlight_character_view_opinion_player"
-			visible = "[And(Character.IsValid, Not(IsCharacterFakeDead))]"
+			visible = "[Character.IsValid]"
 			max_width = 55
 			align = nobaseline
 			margin = { 2 0 }

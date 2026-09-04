@@ -9,22 +9,6 @@
       "sha256": "f7195f1fa0af016c2317047269a106d39d6a8697ed3ef0b47697a8513a98cf8f",
       "size": 13341
     },
-    "workshop/2962333032/common/governments/00_government_types.txt": {
-      "sha256": "004c063878ddfe66a325003223e1aafaf5446a35ea7b4cbd95252d2c8c084160",
-      "size": 36107
-    },
-    "workshop/2962333032/common/religion/religion_types/00_agot_the_venerations.txt": {
-      "sha256": "352b94b0da4cf4cb978561b7fd94e8d81ec61e5b817839affae2244acdfc8f35",
-      "size": 18039
-    },
-    "workshop/2962333032/descriptor.mod": {
-      "sha256": "ad765ec356998009cd374270c8758878ab8f2a4887f669a037e602b299463769",
-      "size": 1070
-    },
-    "workshop/3403938445/descriptor.mod": {
-      "sha256": "3dd3ea608a1a049aa4fc9306b9e63c5da44588db997cc171830a45039c50ee01",
-      "size": 162
-    },
     "workshop/3403938445/history/characters/Elyria.txt": {
       "sha256": "e25f8394e4ba05c568fe089255e9c4c94c227949d0eaf59735c6389e1e093f3e",
       "size": 5534
@@ -76,10 +60,6 @@
     "workshop/3403938445/history/characters/sothoryos_characters.txt": {
       "sha256": "9cc3c212a4259754f4cc60015e799707ba264329514e7d1fde1ff1083933a67c",
       "size": 3357
-    },
-    "workshop/3682802751/descriptor.mod": {
-      "sha256": "cace9e13ee7aa736f5682bb082c5c1505919f2482cfa1f12f80a17585be010d4",
-      "size": 134
     },
     "workshop/3682802751/history/characters/bookmark_chars.txt": {
       "sha256": "0a3ea5d235fa5adee0488cdc0065b79784602824db411635638b223eaf899775",
@@ -184,10 +164,6 @@
     "workshop/3682802751/history/titles/vassal_titles_e_upper_sarne_dothraki.txt": {
       "sha256": "8728d8c67d4a68a7cf914f148dbe9b2b43e59ab6c412f35d46f6830fa2a61803",
       "size": 51567
-    },
-    "workshop/3719888822/descriptor.mod": {
-      "sha256": "d72391046f56759e6f971ac844ac83fefaa1aea825deaf618f8eec90aef9a08f",
-      "size": 287
     },
     "workshop/3719888822/history/characters/cob_high_valyrian_ancestors.txt": {
       "sha256": "ab75c890aed3c625dba2695ccb1050bb53d3bf5577c8f36f3e53fc2866ce3e90",
@@ -297,10 +273,6 @@
       "sha256": "e74e028a73e5d49c0878131c42623bdb66dffdf5f5c141ff9e759babb65efb0e",
       "size": 1340905
     },
-    "workshop/3768149491/descriptor.mod": {
-      "sha256": "e78405a0d476a4d7bdb20d3390fb012feb10e69eca12f4ac3669f38af3611dad",
-      "size": 371
-    },
     "workshop/3768149491/history/characters/essos_7898_chars.txt": {
       "sha256": "f29b9b0ed5f3c5d02ee9906f71ee4b2a1d8b2db87f9fce0cc27272565b6ae3e9",
       "size": 21437
@@ -352,10 +324,6 @@
     "workshop/3773608127/common/scripted_effects/replace/00_agot_character_data_effects.txt": {
       "sha256": "e689600bbd1cdab9a2e4075bb3f7bd927e8cb413abb4b006f338803abc16a7b5",
       "size": 147340
-    },
-    "workshop/3773608127/descriptor.mod": {
-      "sha256": "4bc8f867b418b8831b75d6ffe4e775d7a58368adb42e2f93b60b79328f95e7f7",
-      "size": 377
     }
   }
 }

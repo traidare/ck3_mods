@@ -635,8 +635,8 @@ def restore_agot_character_widgets(text: str) -> str:
         label="AGOT character window width",
     )
     # AGOT gates the human character sheet and supplies its own top-level views
-    # for dragons, hidden characters, and faked deaths.  Without the gate a
-    # dragon renders through CUIO's human layout.
+    # for dragons and hidden characters. Without the gate a dragon renders
+    # through CUIO's human layout.
     text = prepend_to_block(
         text,
         'name = "main_characters"',
@@ -654,9 +654,7 @@ def restore_agot_character_widgets(text: str) -> str:
     text = insert_before_block(
         text,
         'name = "court_character_filter_window"',
-        "agot_hidden_character_view = {}\n"
-        "agot_dragons_character_view = {}\n"
-        "agot_fake_death_character_view = {}",
+        "agot_hidden_character_view = {}\nagot_dragons_character_view = {}",
         parent_depth=0,
         label="AGOT character-kind views",
     )
@@ -1102,15 +1100,31 @@ def generate_portraits(context: GenerationContext) -> dict[str, str]:
     )
     label = "shared portrait types"
 
-    # Iron and Salt reproduces AGOT's small opinion badge and small head, so its
-    # copies stay authoritative; assert they are still AGOT plus the kraken
-    # branch rather than a stale fork.
+    # The small opinion badge and small head follow AGOT's current types with a
+    # kraken branch added to each. Iron and Salt supplies the target files and
+    # the kraken widgets those branches instantiate.
     agot_small_opinion = 'visible = "[And(And(Character.IsValid, Not(IsCharacterDragon)), And(Character.IsAlive, Not(Character.IsLocalPlayer)))]"'
     kraken_small_opinion = "visible = \"[And(And(And(And(Character.IsValid, Character.IsAlive), Not(Character.IsLocalPlayer)), Not(IsCharacterDragon)), Not(Character.HasTrait(GetTrait('kraken'))))]\""
-    assert_reproduces(
-        extract_type(agot, "portrait_opinion_small", label=label),
-        extract_type(kraken_opinion, "portrait_opinion_small", label=label),
-        ((agot_small_opinion, kraken_small_opinion),),
+    agot_small_opinion_type = extract_type(agot, "portrait_opinion_small", label=label)
+    iron_small_opinion_type = extract_type(
+        kraken_opinion, "portrait_opinion_small", label=label
+    )
+    require_count(
+        iron_small_opinion_type,
+        "Character.HasTrait(GetTrait('kraken'))",
+        1,
+        label=f"{label}: Iron and Salt small opinion badge",
+    )
+    kraken_small_opinion_type = replace_exact(
+        agot_small_opinion_type,
+        agot_small_opinion,
+        kraken_small_opinion,
+        label=f"{label}: portrait_opinion_small kraken gate",
+    )
+    kraken_opinion = replace_exact(
+        kraken_opinion,
+        iron_small_opinion_type,
+        kraken_small_opinion_type,
         label=f"{label}: portrait_opinion_small",
     )
     assert_reproduces(
@@ -1118,7 +1132,7 @@ def generate_portraits(context: GenerationContext) -> dict[str, str]:
         extract_type(kraken_heads, "portrait_head_small", label=label),
         (
             (
-                "using = visible_if_not_dragon",
+                'visible = "[Not(IsCharacterDragon)]"',
                 "visible = \"[And( Not( IsCharacterDragon ), Not( Character.HasTrait( GetTrait('kraken') ) ) )]\"",
             ),
             (
@@ -1129,10 +1143,8 @@ def generate_portraits(context: GenerationContext) -> dict[str, str]:
         label=f"{label}: portrait_head_small",
     )
 
-    # CUIO's dual opinion badge is the layout owner, but its copy predates AGOT
-    # and Iron and Salt: it shows a dread icon on dragons, an opinion value on
-    # faked deaths, and the badge itself on krakens.  Iron and Salt's own copy
-    # restores neither AGOT gate, so re-apply both here alongside the kraken one.
+    # CUIO's dual opinion badge is the layout owner. Apply AGOT's dragon gates
+    # and Iron and Salt's kraken gate to that layout.
     portraits = replace_exact(
         cuio,
         'visible = "[And(Character.IsValid, And(Character.IsAlive, Not(Character.IsLocalPlayer)))]"',
@@ -1148,14 +1160,6 @@ def generate_portraits(context: GenerationContext) -> dict[str, str]:
         'visible = "[And(Not(IsCharacterDragon), Character.ShouldShowDreadEffectIcon)]"',
         label=f"{label}: CUIO dread icon",
     )
-    portraits = replace_every(
-        portraits,
-        'visible = "[Character.IsValid]"',
-        'visible = "[And(Character.IsValid, Not(IsCharacterFakeDead))]"',
-        expected=2,
-        label=f"{label}: CUIO opinion values",
-    )
-
     outputs = {
         "gui/CUIO_portraits.gui": portraits,
         "gui/shared/00_kraken_portrait_opinion.gui": remove_type(

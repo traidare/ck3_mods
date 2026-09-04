@@ -73,7 +73,7 @@ types PortraitTypes
 
 		portrait_button = {
 			#AGOT Added
-			using = visible_if_not_dragon
+			visible = "[Not(IsCharacterDragon)]"
 			parentanchor = bottom|hcenter
 			size = { 80 100 }
 			using = portrait_base
@@ -592,7 +592,7 @@ types PortraitTypes
 
 		portrait_button = {
 			#AGOT Added
-			using = visible_if_not_dragon
+			visible = "[Not(IsCharacterDragon)]"
 			parentanchor = bottom|hcenter
 			size = { 100 125 }
 			using = portrait_base
@@ -709,7 +709,7 @@ types PortraitTypes
 
 		portrait_button = {
 			#AGOT Added
-			using = visible_if_not_dragon
+			visible = "[Not(IsCharacterDragon)]"
 			parentanchor = bottom|hcenter
 
 			block "portrait_size"
@@ -813,7 +813,7 @@ types PortraitTypes
 
 		portrait_button = {
 			#AGOT Added
-			using = visible_if_not_dragon
+			visible = "[Not(IsCharacterDragon)]"
 			parentanchor = bottom|hcenter
 			size = { 195 225 }
 			using = portrait_base
@@ -917,7 +917,7 @@ types PortraitTypes
 
 		portrait_button = {
 			#AGOT Added
-			using = visible_if_not_dragon
+			visible = "[Not(IsCharacterDragon)]"
 			parentanchor = bottom|hcenter
 			size = { 240 330 }
 			using = portrait_base
@@ -1022,7 +1022,7 @@ types PortraitTypes
 
 		portrait_button = {
 			#AGOT Added
-			using = visible_if_not_dragon
+			visible = "[Not(IsCharacterDragon)]"
 			parentanchor = bottom|hcenter
 			size = { 432 594 }
 			using = portrait_base
@@ -1156,7 +1156,7 @@ types PortraitTypes
 			using = portrait_base
 			#AGOT Modified
 			# visible = "[Not( And( Character.GetGovernment.IsType( 'herder_government' ), Character.HasLandedTitles) )]"
-			using = shown_if_not_fake_death_dragon_or_herder
+			visible = "[And(Not(And(Character.GetGovernment.IsType('herder_government'), Character.HasLandedTitles)), Not(IsCharacterDragon))]"
 
 			portrait_texture = "[Character.GetAnimatedPortrait(Illustration.GetEnvironment(Character.Self), 'camera_character_view_main', 'idle', PdxGetWidgetScreenSize(PdxGuiWidget.Self))]"
 			mask = "gfx/portraits/portrait_mask_character_view.dds"
@@ -1184,8 +1184,6 @@ types PortraitTypes
 		}
 
 		portrait_button = {
-			#AGOT Added
-			using = shown_if_not_fake_death_and_not_dragon
 			size = { 1000 421 }
 			position = { -30 10 }
 			parentanchor = bottom|hcenter
@@ -1194,7 +1192,9 @@ types PortraitTypes
 			portrait_texture = "[Character.GetAnimatedPortrait(Illustration.GetEnvironment(Character.Self), 'camera_character_view_main', 'idle', PdxGetWidgetScreenSize(PdxGuiWidget.Self))]"
 			mask = "gfx/portraits/portrait_mask_character_view.dds"
 			effectname = "NoHighlight"
-			visible = "[And(Character.GetGovernment.IsType( 'herder_government' ), Character.HasLandedTitles)]"
+			#AGOT Modified
+			# visible = "[And(Character.GetGovernment.IsType( 'herder_government' ), Character.HasLandedTitles)]"
+			visible = "[And(And(Character.GetGovernment.IsType('herder_government'), Character.HasLandedTitles), Not(IsCharacterDragon))]"
 
 			block "prison_bars" {
 				highlight_icon = {
@@ -1220,7 +1220,6 @@ types PortraitTypes
 		}
 		#AGOT Added
 		agot_dragons_portrait_character_view_main = {}
-		agot_fake_death_portrait_character_view_main = {}
 
 		portrait_status_icons = {
 			parentanchor = bottom|right
@@ -1255,7 +1254,7 @@ types PortraitTypes
 
 		portrait_button = {
 			#AGOT Added
-			using = visible_if_not_dragon
+			visible = "[Not(IsCharacterDragon)]"
 			size = { 350 338 }
 			position = { 0 10 }
 			parentanchor = bottom|hcenter
@@ -1342,7 +1341,7 @@ types PortraitTypes
 				size = { 500 558 }
 				using = portrait_base
 				#AGOT Added
-				using = visible_if_not_dragon
+				visible = "[Not(IsCharacterDragon)]"
 				parentanchor = hcenter|bottom
 
 				portrait_texture = "[Character.GetAnimatedPortrait('environment_event_standard', 'environment_event_standard', 'idle', PdxGetWidgetScreenSize(PdxGuiWidget.Self))]"
@@ -1401,7 +1400,7 @@ types PortraitTypes
 
 			portrait_button = {
 				#AGOT Added
-				using = visible_if_not_dragon_or_riding_dragon
+				visible = "[GetScriptedGui('not_dragon_or_dragonrider').IsShown(GuiScope.SetRoot(Character.MakeScope).End)]"
 				size = { 930 490 }
 				using = portrait_base
 				parentanchor = hcenter|bottom
@@ -1456,7 +1455,7 @@ types PortraitTypes
 
 			portrait_button = {
 				#AGOT Added
-				using = visible_if_not_dragon
+				visible = "[Not(IsCharacterDragon)]"
 				size = { 1150 900 }
 				using = portrait_base
 				parentanchor = hcenter|bottom
@@ -1518,7 +1517,7 @@ types PortraitTypes
 
 		portrait_shoulders = {
 			#AGOT Added
-			using = visible_if_not_dragon
+			visible = "[Not(IsCharacterDragon)]"
 			size = { 100% 100% }
 			blockoverride "portrait_size"
 			{
@@ -1584,7 +1583,7 @@ types PortraitTypes
 			size = { 90 112 }
 			using = portrait_base
 			#AGOT Added
-			using = visible_if_not_dragon
+			visible = "[Not(IsCharacterDragon)]"
 
 			portrait_texture = "[Character.GetPortrait('environment_shoulders', 'camera_scheme_widget_microscopic', 'idle', PdxGetWidgetScreenSize(PdxGuiWidget.Self))]"
 
@@ -1620,7 +1619,7 @@ types PortraitTypes
 
 		portrait_button = {
 			#AGOT Added
-			using = visible_if_not_dragon
+			visible = "[Not(IsCharacterDragon)]"
 			block "portrait_size"
 			{
 				size = { 260 285 }
@@ -1673,7 +1672,7 @@ types PortraitTypes
 
 		portrait_button = {
 			#AGOT Added
-			using = visible_if_not_dragon
+			visible = "[Not(IsCharacterDragon)]"
 			position = { 0 4 }
 			block "portrait_size"
 			{
@@ -1728,7 +1727,7 @@ types PortraitTypes
 
 		portrait_button = {
 			#AGOT Added
-			using = visible_if_not_dragon
+			visible = "[Not(IsCharacterDragon)]"
 			size = { 420 632 }
 			parentanchor = bottom|hcenter
 			using = portrait_base
@@ -2048,9 +2047,7 @@ types PortraitTypes
 		scissor = yes
 
 		flowcontainer = {
-			#AGOT Modified
-			# visible = "[Character.IsValid]"
-			visible = "[And(Character.IsValid, Not(IsCharacterFakeDead))]"
+			visible = "[Character.IsValid]"
 			ignoreinvisible = yes
 			direction = vertical
 			parentanchor = bottom
@@ -2323,8 +2320,6 @@ types PortraitTypes
 				}
 			}
 		}
-		#AGOT Added
-		agot_fake_death_portrait_status_icons_small = {}
 	}
 
 	type portrait_status_icons = flowcontainer {
@@ -2562,8 +2557,6 @@ types PortraitTypes
 				tooltip = "CHARACTER_DEAD_TOOLTIP"
 			}
 		}
-		#AGOT Added
-		agot_fake_death_portrait_status_icons = {}
 	}
 }
 

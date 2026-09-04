@@ -2923,7 +2923,7 @@ tradition_agot_thenns = {
 	parameters = {
 		unlock_maa_bronze_raiders = yes
 		uses_generic_milk_names = yes
-		has_access_to_runestones = yes	
+		has_access_to_runestones = yes
 		piety_per_blacksmith_level = yes
 	}
 

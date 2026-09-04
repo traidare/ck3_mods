@@ -4,7 +4,6 @@
 from __future__ import annotations
 
 import csv
-import json
 import re
 from collections import defaultdict, deque
 from collections.abc import Iterable
@@ -13,9 +12,7 @@ from pathlib import Path
 
 from gen import GenerationContext
 from gen.data import csv_bytes
-from gen.hashing import sha256_file
 from gen.script import read_text
-from gen.sources import canonical_source_path
 
 DOOM = (7899, 8, 14)
 DOOM_TEXT = "7899.8.14"
@@ -686,31 +683,6 @@ def transform_effect(text: str) -> str:
     return text
 
 
-def target_manifest(
-    root: Path, workshop: dict[str, Path], workshop_root: Path, inputs: Iterable[Path]
-) -> dict[str, object]:
-    files = {
-        canonical_source_path(path, root=root, workshop_root=workshop_root): {
-            "sha256": sha256_file(path),
-            "size": path.stat().st_size,
-        }
-        for path in sorted(set(inputs))
-    }
-    versions: dict[str, str] = {}
-    for label, module_root in workshop.items():
-        descriptor = module_root / "descriptor.mod"
-        if descriptor.is_file():
-            match = re.search(r'(?m)^\s*version\s*=\s*"([^"]+)"', read_text(descriptor))
-            versions[label] = match.group(1) if match else "unversioned"
-    return {
-        "schema_version": 1,
-        "workshop_ids": WORKSHOP_IDS,
-        "versions": versions,
-        "doom_date": DOOM_TEXT,
-        "files": files,
-    }
-
-
 @dataclass
 class LoreGovernmentPipeline:
     """Run the ordered generation phases without module-global state."""
@@ -749,7 +721,6 @@ class LoreGovernmentPipeline:
         self.module = self.context.output_root
         assets = self.context.assets_dir / "lore_governments"
         rules_path = assets / "government_lore_rules.csv"
-        manifest_path = assets / "source_manifest.json"
         self.effect_source = (
             workshop["BRIDGE"]
             / "common/scripted_effects/replace/00_agot_character_data_effects.txt"
@@ -800,29 +771,6 @@ class LoreGovernmentPipeline:
         # Further East ships the last common/landed_titles/01_landed_titles.txt in
         # the playset, so its file is the effective eastern title tree.
         landed_titles = workshop["EEP"] / "common/landed_titles/01_landed_titles.txt"
-        input_paths = [
-            rules_path,
-            self.effect_source,
-            landed_titles,
-            workshop["AGOT"] / "common/governments/00_government_types.txt",
-            workshop["AGOT"]
-            / "common/religion/religion_types/00_agot_the_venerations.txt",
-            *[path for _, path in self.title_winners.values()],
-            *[path for _, path in self.character_winners.values()],
-            *[path for _, path in self.province_winners.values()],
-        ]
-        current_manifest = target_manifest(root, workshop, workshop_root, input_paths)
-        if not manifest_path.is_file():
-            raise FileNotFoundError(
-                f"{manifest_path.relative_to(root)} is missing; review the upstream "
-                "inputs and replace the reviewed asset deliberately"
-            )
-        if json.loads(manifest_path.read_text(encoding="utf-8")) != current_manifest:
-            raise AssertionError(
-                "upstream source manifest drifted; review the differences and replace "
-                f"{manifest_path.relative_to(root)} deliberately"
-            )
-
         self.rules = load_rules(rules_path)
         self.title_empire, self.province_empire = title_and_province_scope(
             landed_titles
