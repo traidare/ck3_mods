@@ -1,6 +1,10 @@
 [generator]
 entrypoint = "implementation.py:generate"
-owned_outputs = ["common/on_action/activities"]
+owned_outputs = [
+    "common/on_action/activities",
+    "common/activities/activity_types/tournament.txt",
+    "events/activities/tournaments/tournament_events.txt",
+]
 
 [[sources]]
 name = "workshop-3723597729"

@@ -276,9 +276,11 @@ func TestSaveBaselineRemovesTheFileForACleanModule(t *testing.T) {
 
 // scopeFinding is one of the checks ck3-tiger does not report reproducibly.
 func scopeFinding(count int) Finding {
-	return Finding{Severity: "warning", Code: "scopes", Message: "deduced something",
+	return Finding{
+		Severity: "warning", Code: "scopes", Message: "deduced something",
 		Source: "AGOT", File: "common/scripted_triggers/00_artifact_triggers.txt",
-		Count: count}
+		Count: count,
+	}
 }
 
 func TestCompareBaselineDoesNotFailOnUnreproducibleChecks(t *testing.T) {
@@ -308,8 +310,10 @@ func TestCompareBaselineIgnoresUnreproducibleChecksThatShrank(t *testing.T) {
 }
 
 func TestCompareBaselineStillFailsOnReproducibleChecks(t *testing.T) {
-	finding := Finding{Severity: "error", Code: "missing-item", Message: "m",
-		Source: "MOD", File: "a.txt", Count: 1}
+	finding := Finding{
+		Severity: "error", Code: "missing-item", Message: "m",
+		Source: "MOD", File: "a.txt", Count: 1,
+	}
 	delta := CompareBaseline(Baseline{}, []Finding{finding})
 	if !delta.Regressed() || len(delta.New) != 1 {
 		t.Errorf("delta = %+v, want a failing regression", delta)
@@ -317,8 +321,10 @@ func TestCompareBaselineStillFailsOnReproducibleChecks(t *testing.T) {
 }
 
 func TestMergeBaselineHoldsUnreproducibleChecksAtTheirHighWaterMark(t *testing.T) {
-	stable := Finding{Severity: "error", Code: "missing-item", Message: "m",
-		Source: "MOD", File: "a.txt", Count: 3}
+	stable := Finding{
+		Severity: "error", Code: "missing-item", Message: "m",
+		Source: "MOD", File: "a.txt", Count: 3,
+	}
 	recorded := Baseline{Findings: []Finding{scopeFinding(4), stable}}
 
 	lower := stable
@@ -352,8 +358,10 @@ func TestMergeBaselineSettlesAfterOneRefresh(t *testing.T) {
 }
 
 func TestChangeDetailDistinguishesGrowthFromArrival(t *testing.T) {
-	finding := Finding{Severity: "error", Code: "scopes", Message: "m",
-		Source: "MOD", File: "a.txt", Count: 2}
+	finding := Finding{
+		Severity: "error", Code: "scopes", Message: "m",
+		Source: "MOD", File: "a.txt", Count: 2,
+	}
 	arrived := changeDetail("+", Change{Finding: finding})
 	if !strings.Contains(arrived, "2 occurrences") {
 		t.Errorf("arrived = %q", arrived)

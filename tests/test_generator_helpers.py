@@ -6,6 +6,7 @@ from pathlib import Path
 
 from gen.__main__ import load_entrypoint
 from gen.data import csv_bytes
+from gen.script import guard_event_deaths
 from gen.text import direct_child_block_start, line_block_end
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -586,6 +587,49 @@ class CanonDragonTamingTest(unittest.TestCase):
             self.assertRaisesRegex(ValueError, "outside a dated block"),
         ):
             parse(history)
+
+
+class GuardEventDeathsTest(unittest.TestCase):
+    """Cover the canon-enforcement guard shared by the AGOT rebase modules."""
+
+    EVENT = (
+        "tourney.0001 = {\n"
+        "\timmediate = {\n"
+        "\t\tdeath = {\n"
+        "\t\t\tdeath_reason = death_accident\n"
+        "\t\t}\n"
+        "\t}\n"
+        "\tshow_as_tooltip = {\n"
+        "\t\tdeath = {\n"
+        "\t\t\tdeath_reason = death_accident\n"
+        "\t\t}\n"
+        "\t}\n"
+        "}\n"
+    )
+
+    def test_every_death_is_wrapped_in_the_guard(self) -> None:
+        guarded = guard_event_deaths(self.EVENT, "tourney.0001", expected=2)
+        self.assertEqual(guarded.count("agot_ce_event_death_protected_trigger = no"), 2)
+        self.assertIn("\t\tif = {\n\t\t\tlimit = {", guarded)
+
+    def test_skip_tooltips_leaves_display_copies_alone(self) -> None:
+        guarded = guard_event_deaths(
+            self.EVENT, "tourney.0001", expected=1, skip_tooltips=True
+        )
+        self.assertEqual(guarded.count("agot_ce_event_death_protected_trigger = no"), 1)
+        tooltip = guarded[guarded.index("show_as_tooltip") :]
+        self.assertNotIn("agot_ce_event_death_protected_trigger", tooltip)
+
+    def test_a_miscounted_event_fails_instead_of_guarding_part_of_it(self) -> None:
+        # An MFA release that adds a lethal outcome has to stop the generator,
+        # not leave the new one silently unguarded.
+        with self.assertRaisesRegex(RuntimeError, "expected 1 death effect"):
+            guard_event_deaths(self.EVENT, "tourney.0001", expected=1)
+
+    def test_text_outside_the_named_event_is_untouched(self) -> None:
+        other = "other.0002 = {\n\timmediate = {\n\t\tdeath = { }\n\t}\n}\n"
+        guarded = guard_event_deaths(self.EVENT + other, "tourney.0001", expected=2)
+        self.assertIn(other, guarded)
 
 
 if __name__ == "__main__":

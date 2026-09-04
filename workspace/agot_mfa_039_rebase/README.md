@@ -6,9 +6,12 @@ and CK3 1.19. Load position: immediately after MFA, before any MFA + LoV / CaFG
 
 ## Ownership
 
-The module owns same-path rebases of the MFA whole-file overrides it repairs.
-MFA's additive files remain supplied by the Workshop parent and are not copied
-here.
+Every file the module ships is derived by the generator, and it ships only the
+files it changes. MFA's additive files, and the whole-file overrides it needs no
+repair to, remain supplied by the Workshop parent one load position below and
+are not copied here: an override identical to the provider beneath it changes
+nothing at runtime, and only offers a way to freeze stale content across the
+next MFA release.
 
 ## Canon-enforcement guards
 
@@ -66,7 +69,5 @@ value, one participant check, and all five affected random lists with their 19
 fractional weights. It stops when an MFA update invalidates any source
 assumption; that failure is the re-audit trigger.
 
-Pinned inputs:
-
-- AGOT Workshop ID `2962333032`, version `0.4.40`
-- MFA Workshop ID `3723597729`, version `1.1.1`
+The exact upstream files the generator consumed, and their hashes, are recorded
+in `sources.lock.json`.

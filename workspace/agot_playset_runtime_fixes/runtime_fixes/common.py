@@ -6,8 +6,13 @@ import hashlib
 import re
 from pathlib import Path
 
+# `extract_top_level_block` and `guard_event_deaths` are shared with other
+# modules and live in `gen.script`; they are re-exported here so the repair
+# domains import every script helper from one place.
 from gen.script import balanced_brace_end, read_text
-from gen.text import matching_brace, replace_exact
+from gen.script import extract_top_level_block as extract_top_level_block
+from gen.script import guard_event_deaths as guard_event_deaths
+from gen.text import replace_exact
 
 from .context import RunInputs
 
@@ -155,64 +160,6 @@ def assert_source_block_hash(
             f"{label} changed: expected {expected_hash}, found {actual_hash}"
         )
     return block
-
-
-def extract_top_level_block(text: str, key: str) -> str:
-    match = re.search(rf"(?m)^{re.escape(key)}\s*=\s*\{{", text)
-    if not match:
-        raise RuntimeError(f"top-level block not found: {key}")
-    opening = text.find("{", match.start(), match.end())
-    try:
-        end = matching_brace(text, opening)
-    except ValueError as error:
-        raise RuntimeError(f"unbalanced top-level block: {key}") from error
-    return text[match.start() : end + 1]
-
-
-def guard_event_deaths(text: str, event_key: str, *, expected: int) -> str:
-    """Let AGOT: Canon Enforcement spare its protected characters in one event.
-
-    Every `death` effect in the event is wrapped, rather than named branches,
-    so an upstream release that adds or drops a lethal outcome fails the
-    expected count instead of leaving the new one unguarded. Only events whose
-    deaths are accidental belong here; murder, execution and poisoning are
-    chosen deaths and stay reachable.
-
-    The guard trigger is defined by the AGOT: Canon Enforcement module.
-    """
-    block = extract_top_level_block(text, event_key)
-    matches = list(re.finditer(r"(?m)^([ \t]*)death\s*=\s*\{", block))
-    if len(matches) != expected:
-        raise RuntimeError(
-            f"{event_key}: expected {expected} death effect(s) to guard, "
-            f"found {len(matches)}"
-        )
-
-    guarded = block
-    for match in reversed(matches):
-        indent = match.group(1)
-        opening = guarded.index("{", match.start())
-        end = balanced_brace_end(guarded, opening)
-        body = "\n".join(
-            f"\t{line}" if line.strip() else line
-            for line in guarded[match.start() : end + 1].splitlines()
-        )
-        guarded = (
-            guarded[: match.start()]
-            + f"{indent}if = {{\n"
-            + f"{indent}\tlimit = {{ agot_ce_event_death_protected_trigger = no }}\n"
-            + f"{body}\n"
-            + f"{indent}}}"
-            + guarded[end + 1 :]
-        )
-
-    return replace_exact(
-        text,
-        block,
-        guarded,
-        expected=1,
-        label=f"{event_key} canon-enforcement guard",
-    )
 
 
 def replace_numbered_branch_with_constant(

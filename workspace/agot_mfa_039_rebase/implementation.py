@@ -13,7 +13,7 @@ from decimal import Decimal
 from pathlib import Path
 
 from gen import GenerationContext
-from gen.script import balanced_brace_end, read_text, write_text
+from gen.script import balanced_brace_end, guard_event_deaths, read_text, write_text
 from gen.sources import WorkshopSources
 from gen.text import replace_exact
 
@@ -194,9 +194,76 @@ def generate_mfa_delayed_pulse_scopes(inputs: RunInputs) -> None:
         write_text(inputs.MFA_OUTPUT, relative, text)
 
 
+def generate_mfa_tournament_bow_tradition(inputs: RunInputs) -> None:
+    """Disable the vanilla archery bonus MFA's whole-file override carries.
+
+    AGOT removes `tradition_land_of_the_bow`, so the block scores a tradition no
+    culture in the playset can hold. It is commented rather than deleted, to keep
+    the file lining up with MFA's own copy when the next release is diffed.
+    """
+    relative = "common/activities/activity_types/tournament.txt"
+    text = read_text(inputs.WORKSHOP / "3723597729" / relative)
+    text = replace_exact(
+        text,
+        """				if = {
+					limit = {
+						culture = { has_cultural_tradition = tradition_land_of_the_bow }
+					}
+					add = {
+						value = 50
+						desc = tradition_land_of_the_bow_name
+					}
+				}
+""",
+        """				# AGOT disables tradition_land_of_the_bow; MFA's generated
+				# whole-file override accidentally restored the vanilla block.
+				# if = {
+				# 	limit = {
+				# 		culture = { has_cultural_tradition = tradition_land_of_the_bow }
+				# 	}
+				# 	add = {
+				# 		value = 50
+				# 		desc = tradition_land_of_the_bow_name
+				# 	}
+				# }
+""",
+        expected=1,
+        label="MFA tournament land-of-the-bow tradition bonus",
+    )
+    # MFA ships these two files CRLF, unlike the on_action files above, so they
+    # are written back the way they arrive.
+    write_text(inputs.MFA_OUTPUT, relative, text, force_newline="\r\n")
+
+
+def generate_mfa_tournament_death_guards(inputs: RunInputs) -> None:
+    """Let AGOT: Canon Enforcement spare its characters from lethal tournaments.
+
+    These deaths are accidents — a pas d'armes bout, a collapsing stand, a trampled
+    peasant — so they are the kind of death canon characters are spared. The
+    `show_as_tooltip` copies in 1141 report a death resolved elsewhere in the
+    same event and stay unguarded, or the player would be told nothing happened
+    to a character who did in fact die.
+    """
+    relative = "events/activities/tournaments/tournament_events.txt"
+    text = read_text(inputs.WORKSHOP / "3723597729" / relative)
+    for event_key, expected in {
+        "tournament_events.1110": 4,
+        "tournament_events.1141": 2,
+        "tournament_events.1151": 2,
+        "tournament_events.1230": 1,
+        "tournament_events.1280": 1,
+    }.items():
+        text = guard_event_deaths(
+            text, event_key, expected=expected, skip_tooltips=True
+        )
+    write_text(inputs.MFA_OUTPUT, relative, text, force_newline="\r\n")
+
+
 def generate(context: GenerationContext) -> None:
 
     WORKSHOP = WorkshopSources(context)
     MFA_OUTPUT = context.output_root
     inputs = RunInputs(WORKSHOP=WORKSHOP, MFA_OUTPUT=MFA_OUTPUT)
     generate_mfa_delayed_pulse_scopes(inputs)
+    generate_mfa_tournament_bow_tradition(inputs)
+    generate_mfa_tournament_death_guards(inputs)

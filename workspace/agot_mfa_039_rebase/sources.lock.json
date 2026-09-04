@@ -1,6 +1,10 @@
 {
   "schemaVersion": 1,
   "files": {
+    "workshop/3723597729/common/activities/activity_types/tournament.txt": {
+      "sha256": "0ee205a9d06496bb66733591ef244d0a1656bfb03dd661e882f74e405890febf",
+      "size": 192057
+    },
     "workshop/3723597729/common/on_action/activities/MFA_adult_education_on_actions.txt": {
       "sha256": "5ede36b1169157ea53d451e3607b6d5f29a706792a1ebd44182a1976ece173dd",
       "size": 11612
@@ -112,6 +116,10 @@
     "workshop/3723597729/common/on_action/activities/converted_pulse_actions/MFA_witch_ritual_pulse_actions.txt": {
       "sha256": "88ac5ceccf4b73378aa06b074fd219a487af9742b0c84fbb58c9567f5a8ac20f",
       "size": 7179
+    },
+    "workshop/3723597729/events/activities/tournaments/tournament_events.txt": {
+      "sha256": "9addc8470a71d38cc356958e19a58b1cca7ed96dd14d38955c158d4c9f6b3fd9",
+      "size": 376820
     }
   }
 }

@@ -140,6 +140,14 @@
     {
       "severity": "error",
       "code": "strict-scopes",
+      "message": "scope:house might not be available here",
+      "source": "AGOT - Much Faster Activities",
+      "file": "events/activities/coronation_activity/coronation_events_6.txt",
+      "count": 1
+    },
+    {
+      "severity": "error",
+      "code": "strict-scopes",
       "message": "scope:other might not be available here",
       "source": "CK3",
       "file": "events/activities/chariot_race_activity/chariot_ongoing_events_jp.txt",
@@ -295,22 +303,6 @@
       "message": "scope:province might not be available here",
       "source": "MOD",
       "file": "common/activities/activity_types/hike.txt",
-      "count": 1
-    },
-    {
-      "severity": "error",
-      "code": "missing-item",
-      "message": "special guest priest not defined in common/activities/activity_types/",
-      "source": "MOD",
-      "file": "events/activities/coronation_activity/coronation_events.txt",
-      "count": 3
-    },
-    {
-      "severity": "error",
-      "code": "missing-item",
-      "message": "struggle iberian_struggle not defined in common/struggle/struggles/",
-      "source": "MOD",
-      "file": "events/activities/coronation_activity/coronation_events.txt",
       "count": 1
     },
     {
@@ -916,6 +908,14 @@
     {
       "severity": "warning",
       "code": "strict-scopes",
+      "message": "`coronation_events_6000_valid_switch_title_trigger` expects list war_targets to exist",
+      "source": "AGOT - Much Faster Activities",
+      "file": "events/activities/coronation_activity/coronation_events_6.txt",
+      "count": 5
+    },
+    {
+      "severity": "warning",
+      "code": "strict-scopes",
       "message": "`create_artifact_bow_effect` expects scope:location to be set",
       "source": "CK3",
       "file": "events/activities/hunt_activity/mpo_nerge_events.txt",
@@ -995,14 +995,6 @@
     },
     {
       "severity": "warning",
-      "code": "missing-item",
-      "message": "portrait animation lunatic not defined in gfx/portraits/portrait_animations/",
-      "source": "MOD",
-      "file": "common/activities/activity_types/agot_coronation.txt",
-      "count": 1
-    },
-    {
-      "severity": "warning",
       "code": "scopes",
       "message": "`activity_cost_scale_by_tier` expects root to be character but root seems to be activity",
       "source": "MOD",
@@ -1035,14 +1027,6 @@
     },
     {
       "severity": "warning",
-      "code": "logic",
-      "message": "OR with only one item inside is probably not what you intended",
-      "source": "MOD",
-      "file": "common/activities/activity_types/coronation.txt",
-      "count": 6
-    },
-    {
-      "severity": "warning",
       "code": "scopes",
       "message": "`activity_location` is for activity but scope seems to be character",
       "source": "MOD",
@@ -1064,14 +1048,6 @@
       "source": "MOD",
       "file": "common/activities/activity_types/feast.txt",
       "count": 5
-    },
-    {
-      "severity": "warning",
-      "code": "logic",
-      "message": "OR with only one item inside is probably not what you intended",
-      "source": "MOD",
-      "file": "common/activities/activity_types/festival.txt",
-      "count": 1
     },
     {
       "severity": "warning",
@@ -1147,34 +1123,10 @@
     },
     {
       "severity": "warning",
-      "code": "logic",
-      "message": "OR with only one item inside is probably not what you intended",
-      "source": "MOD",
-      "file": "common/activities/activity_types/inspection.txt",
-      "count": 1
-    },
-    {
-      "severity": "warning",
       "code": "scopes",
       "message": "`is_landless_adventurer` expects scope to be character but scope seems to be activity",
       "source": "MOD",
       "file": "common/activities/activity_types/inspection.txt",
-      "count": 1
-    },
-    {
-      "severity": "warning",
-      "code": "tooltip",
-      "message": "OR is a too complex trigger to be tooltipped in a trigger that shows failures only.",
-      "source": "MOD",
-      "file": "common/activities/activity_types/inspection.txt",
-      "count": 1
-    },
-    {
-      "severity": "warning",
-      "code": "logic",
-      "message": "OR with only one item inside is probably not what you intended",
-      "source": "MOD",
-      "file": "common/activities/activity_types/local_examination.txt",
       "count": 1
     },
     {
@@ -1187,43 +1139,11 @@
     },
     {
       "severity": "warning",
-      "code": "logic",
-      "message": "OR with only one item inside is probably not what you intended",
-      "source": "MOD",
-      "file": "common/activities/activity_types/monument_expedition.txt",
-      "count": 1
-    },
-    {
-      "severity": "warning",
-      "code": "missing-item",
-      "message": "unknown sound event:/SFX/Events/Backgrounds/FP4/fp4_magic_spring",
-      "source": "MOD",
-      "file": "common/activities/activity_types/monument_expedition.txt",
-      "count": 1
-    },
-    {
-      "severity": "warning",
-      "code": "field-missing",
-      "message": "required field `limit` missing",
-      "source": "MOD",
-      "file": "common/activities/activity_types/pilgrimage.txt",
-      "count": 1
-    },
-    {
-      "severity": "warning",
       "code": "scopes",
       "message": "`agot_is_part_of_paramountcy_realm` expects scope to be character but scope seems to be province",
       "source": "MOD",
       "file": "common/activities/activity_types/pilgrimage.txt",
       "count": 1
-    },
-    {
-      "severity": "warning",
-      "code": "logic",
-      "message": "OR with only one item inside is probably not what you intended",
-      "source": "MOD",
-      "file": "common/activities/activity_types/tour.txt",
-      "count": 2
     },
     {
       "severity": "warning",
@@ -1320,22 +1240,6 @@
       "source": "MOD",
       "file": "events/activities/coronation_activity/coronation_events.txt",
       "count": 5
-    },
-    {
-      "severity": "warning",
-      "code": "logic",
-      "message": "OR with only one item inside is probably not what you intended",
-      "source": "MOD",
-      "file": "events/activities/coronation_activity/coronation_events_6.txt",
-      "count": 8
-    },
-    {
-      "severity": "warning",
-      "code": "missing-sound",
-      "message": "music not defined in music/ or dlc/*/music/",
-      "source": "MOD",
-      "file": "events/activities/coronation_activity/coronation_events_6.txt",
-      "count": 3
     },
     {
       "severity": "warning",
@@ -1583,30 +1487,6 @@
       "message": "variable list gf_guests_rejecting_invite_list was deduced to be landed title but scope seems to be character",
       "source": "MOD",
       "file": "events/dlc/fp1/fp1_other_decision_events.txt",
-      "count": 2
-    },
-    {
-      "severity": "tips",
-      "code": "performance",
-      "message": "AND with only one item inside is useless",
-      "source": "MOD",
-      "file": "common/activities/activity_types/pilgrimage.txt",
-      "count": 1
-    },
-    {
-      "severity": "tips",
-      "code": "if-else",
-      "message": "`else` with a `limit` does work, but may indicate a mistake",
-      "source": "MOD",
-      "file": "events/activities/coronation_activity/coronation_events_6.txt",
-      "count": 1
-    },
-    {
-      "severity": "tips",
-      "code": "performance",
-      "message": "AND with only one item inside is useless",
-      "source": "MOD",
-      "file": "events/activities/coronation_activity/coronation_events_6.txt",
       "count": 2
     }
   ]
