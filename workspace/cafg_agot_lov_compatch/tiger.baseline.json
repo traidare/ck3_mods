@@ -1,0 +1,45 @@
+{
+  "schemaVersion": 1,
+  "findings": [
+    {
+      "severity": "warning",
+      "code": "scopes",
+      "message": "`agot_event_valid_for_qolab` expects scope to be activity but scope seems to be character",
+      "source": "MOD",
+      "file": "events/activities/tournaments/contest_events.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "scopes",
+      "message": "`contest_winner_dedicate_victory_effect` expects scope to be activity but scope seems to be character",
+      "source": "MOD",
+      "file": "events/activities/tournaments/contest_events.txt",
+      "count": 3
+    },
+    {
+      "severity": "warning",
+      "code": "scopes",
+      "message": "`exists = yes/no` does not work",
+      "source": "MOD",
+      "file": "events/activities/tournaments/contest_events.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "scopes",
+      "message": "`stress_impact` is for character but scope seems to be activity",
+      "source": "MOD",
+      "file": "events/activities/tournaments/contest_events.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "scopes",
+      "message": "`tournament_contest_versus_pulse_effect` expects root to be character, province or landed title but root seems to be activity",
+      "source": "MOD",
+      "file": "events/activities/tournaments/contest_events.txt",
+      "count": 4
+    }
+  ]
+}

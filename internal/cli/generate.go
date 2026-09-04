@@ -8,6 +8,7 @@ import (
 
 	"codeberg.org/traidare/ck3_mods/internal/generate"
 	"codeberg.org/traidare/ck3_mods/internal/jsonout"
+	"codeberg.org/traidare/ck3_mods/internal/sourcelock"
 	"codeberg.org/traidare/ck3_mods/internal/validate"
 	"codeberg.org/traidare/ck3_mods/internal/workspace"
 )
@@ -76,6 +77,23 @@ func isIdentifier(value string) bool {
 	return true
 }
 
+// printSourceChanges lists how a module's upstream inputs moved, marking each
+// key so a changed pin is never mistaken for a newly consumed file.
+func printSourceChanges(env *Env, changes sourcelock.Changes, indent string) {
+	for _, group := range []struct {
+		marker string
+		keys   []string
+	}{
+		{"~", changes.Changed},
+		{"+", changes.Added},
+		{"-", changes.Removed},
+	} {
+		for _, key := range group.keys {
+			env.Printf("%s%s %s\n", indent, group.marker, key)
+		}
+	}
+}
+
 func runModGenerate(env *Env) (int, error) {
 	set := flagSet("mod generate", env)
 	var options stringList
@@ -116,7 +134,7 @@ func runModGenerate(env *Env) (int, error) {
 		sort.Strings(paths)
 		if env.JSON() {
 			status := "current"
-			if !result.Current() {
+			if !result.Settled() {
 				status = "stale"
 				if env.Apply {
 					status = "updated"
@@ -127,8 +145,13 @@ func runModGenerate(env *Env) (int, error) {
 				"status":  status,
 				"changed": result.ChangedFiles,
 				"stale":   result.StaleFiles,
-				"stdout":  result.Stdout,
-				"stderr":  result.Stderr,
+				"sources": map[string]any{
+					"added":   result.SourceChanges.Added,
+					"changed": result.SourceChanges.Changed,
+					"removed": result.SourceChanges.Removed,
+				},
+				"stdout": result.Stdout,
+				"stderr": result.Stderr,
 			})
 		}
 
@@ -138,7 +161,7 @@ func runModGenerate(env *Env) (int, error) {
 		if result.Stderr != "" {
 			fmt.Fprint(env.Stderr, result.Stderr)
 		}
-		if result.Current() {
+		if result.Settled() {
 			if !env.JSON() {
 				env.Printf("%s: current\n", mod.Slug)
 			}
@@ -152,9 +175,22 @@ func runModGenerate(env *Env) (int, error) {
 		if env.Apply {
 			action = "updated"
 		}
-		env.Printf("%s: %s %d file(s)\n", mod.Slug, action, len(paths))
-		for _, path := range paths {
-			env.Printf("  %s\n", path)
+		if !result.Current() {
+			env.Printf("%s: %s %d file(s)\n", mod.Slug, action, len(paths))
+			for _, path := range paths {
+				env.Printf("  %s\n", path)
+			}
+		}
+		// Reported on its own line: an input that moved without moving the
+		// output is the change a staleness check cannot see.
+		if !result.Pinned() {
+			pinAction := "would repin"
+			if env.Apply {
+				pinAction = "repinned"
+			}
+			env.Printf("%s: %s %d upstream input(s)\n",
+				mod.Slug, pinAction, result.SourceChanges.Total())
+			printSourceChanges(env, result.SourceChanges, "  ")
 		}
 	}
 
@@ -192,7 +228,8 @@ func runModValidate(env *Env) (int, error) {
 	failed := false
 	reports := make([]any, 0, len(mods))
 	for _, mod := range mods {
-		result := validate.Mod(env.Workspace, mod, env.Config)
+		result := validate.Mod(env.Workspace, mod, env.Config,
+			validate.Options{Apply: env.Apply})
 		if !result.OK() {
 			failed = true
 		}

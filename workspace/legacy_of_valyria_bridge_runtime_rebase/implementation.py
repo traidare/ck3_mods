@@ -3,7 +3,6 @@
 
 from __future__ import annotations
 
-import hashlib
 from dataclasses import dataclass
 from pathlib import Path
 
@@ -13,8 +12,6 @@ from gen.sources import WorkshopSources
 from gen.text import definition_span, replace_exact
 
 GAME_START = "common/on_action/agot_on_actions/agot_game_start.txt"
-AGOT_SOURCE_HASH = "b0b88f5b5562bb3dd1b8bf1040cb448289a5f6a29b18e8f9fcfb419b903e2533"
-BRIDGE_SOURCE_HASH = "d6f8ac2357df4594ebbedc96265f48df16982ba5f08a4d8766f73ee19ff43bf9"
 
 ESTATE_ANCHORS = {
     6: "\t\t\t\t\t\towner.dynasty = dynasty:dynn_Sonaryen\n",
@@ -102,16 +99,6 @@ class RunInputs:
     output: Path
 
 
-def pinned_source(inputs: RunInputs, item: str, expected_hash: str) -> str:
-    text = read_text(inputs.workshop / item / GAME_START)
-    actual = hashlib.sha256(text.encode()).hexdigest()
-    if actual != expected_hash:
-        raise RuntimeError(
-            f"{item} game-start source changed: expected {expected_hash}, found {actual}"
-        )
-    return text
-
-
 def block(text: str, name: str) -> str:
     start, end = definition_span(text, name)
     return text[start:end]
@@ -150,8 +137,10 @@ def estate_guard_span(text: str, tier: int, next_tier: int) -> tuple[int, int]:
 
 
 def rebase_game_start(inputs: RunInputs) -> None:
-    agot = pinned_source(inputs, "2962333032", AGOT_SOURCE_HASH)
-    bridge = pinned_source(inputs, "3719888822", BRIDGE_SOURCE_HASH)
+    # sources.lock.json pins both game-start files by content, so a hash
+    # repeated here would only be a second copy to update by hand.
+    agot = read_text(inputs.workshop / "2962333032" / GAME_START)
+    bridge = read_text(inputs.workshop / "3719888822" / GAME_START)
     text = agot
 
     on_start = block(text, "agot_on_game_start")

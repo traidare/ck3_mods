@@ -1,0 +1,53 @@
+{
+  "schemaVersion": 1,
+  "findings": [
+    {
+      "severity": "error",
+      "code": "unknown-field",
+      "message": "unknown token `world_westeros_dense_population`",
+      "source": "MOD",
+      "file": "common/on_action/agot_now_on_actions.txt",
+      "count": 1
+    },
+    {
+      "severity": "error",
+      "code": "unknown-field",
+      "message": "unknown token `world_westeros_slightly_dense_population`",
+      "source": "MOD",
+      "file": "common/on_action/agot_now_on_actions.txt",
+      "count": 1
+    },
+    {
+      "severity": "error",
+      "code": "unknown-field",
+      "message": "unknown token `world_westeros_slightly_sparse_population`",
+      "source": "MOD",
+      "file": "common/on_action/agot_now_on_actions.txt",
+      "count": 1
+    },
+    {
+      "severity": "error",
+      "code": "unknown-field",
+      "message": "unknown token `world_westeros_sparse_population`",
+      "source": "MOD",
+      "file": "common/on_action/agot_now_on_actions.txt",
+      "count": 1
+    },
+    {
+      "severity": "error",
+      "code": "unknown-field",
+      "message": "unknown token `world_westeros_very_dense_population`",
+      "source": "MOD",
+      "file": "common/on_action/agot_now_on_actions.txt",
+      "count": 1
+    },
+    {
+      "severity": "error",
+      "code": "unknown-field",
+      "message": "unknown token `world_westeros_very_sparse_population`",
+      "source": "MOD",
+      "file": "common/on_action/agot_now_on_actions.txt",
+      "count": 1
+    }
+  ]
+}

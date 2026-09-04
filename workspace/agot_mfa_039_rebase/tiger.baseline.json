@@ -1,0 +1,1613 @@
+{
+  "schemaVersion": 1,
+  "findings": [
+    {
+      "severity": "error",
+      "code": "strict-scopes",
+      "message": "scope:new_holder might not be available here",
+      "source": "AGOT",
+      "file": "events/activities/activity_system_events.txt",
+      "count": 5
+    },
+    {
+      "severity": "error",
+      "code": "strict-scopes",
+      "message": "scope:new_host might not be available here",
+      "source": "AGOT",
+      "file": "events/activities/activity_system_events.txt",
+      "count": 4
+    },
+    {
+      "severity": "error",
+      "code": "strict-scopes",
+      "message": "scope:actor might not be available here",
+      "source": "AGOT",
+      "file": "events/activities/agot_coronation_activity/agot_coronation_events.txt",
+      "count": 1
+    },
+    {
+      "severity": "error",
+      "code": "strict-scopes",
+      "message": "scope:house_head might not be available here",
+      "source": "AGOT",
+      "file": "events/activities/agot_coronation_activity/agot_coronation_events.txt",
+      "count": 1
+    },
+    {
+      "severity": "error",
+      "code": "strict-scopes",
+      "message": "scope:officiant might not be available here",
+      "source": "AGOT",
+      "file": "events/activities/agot_coronation_activity/agot_coronation_events.txt",
+      "count": 4
+    },
+    {
+      "severity": "error",
+      "code": "strict-scopes",
+      "message": "scope:previous_host might not be available here",
+      "source": "AGOT",
+      "file": "events/activities/agot_coronation_activity/agot_coronation_events.txt",
+      "count": 4
+    },
+    {
+      "severity": "error",
+      "code": "strict-scopes",
+      "message": "scope:prisoner_spouse might not be available here",
+      "source": "AGOT",
+      "file": "events/activities/agot_coronation_activity/agot_coronation_events.txt",
+      "count": 1
+    },
+    {
+      "severity": "error",
+      "code": "strict-scopes",
+      "message": "scope:sad_spouse might not be available here",
+      "source": "AGOT",
+      "file": "events/activities/agot_coronation_activity/agot_coronation_events.txt",
+      "count": 1
+    },
+    {
+      "severity": "error",
+      "code": "strict-scopes",
+      "message": "scope:faction_leader might not be available here",
+      "source": "AGOT",
+      "file": "events/activities/coronation_activity/prelude_events.txt",
+      "count": 1
+    },
+    {
+      "severity": "error",
+      "code": "strict-scopes",
+      "message": "scope:spouse might not be available here",
+      "source": "AGOT",
+      "file": "events/activities/feast_activity/main_events/feast_default_events.txt",
+      "count": 1
+    },
+    {
+      "severity": "error",
+      "code": "strict-scopes",
+      "message": "scope:priest might not be available here",
+      "source": "AGOT",
+      "file": "events/activities/funeral_activity/funeral_events.txt",
+      "count": 1
+    },
+    {
+      "severity": "error",
+      "code": "strict-scopes",
+      "message": "scope:random_attendee might not be available here",
+      "source": "AGOT",
+      "file": "events/activities/funeral_activity/funeral_events.txt",
+      "count": 1
+    },
+    {
+      "severity": "error",
+      "code": "strict-scopes",
+      "message": "scope:county_owner might not be available here",
+      "source": "AGOT",
+      "file": "events/activities/hunt_activity/hunt_events.txt",
+      "count": 1
+    },
+    {
+      "severity": "error",
+      "code": "strict-scopes",
+      "message": "scope:killer might not be available here",
+      "source": "AGOT",
+      "file": "events/activities/hunt_activity/hunt_events.txt",
+      "count": 4
+    },
+    {
+      "severity": "error",
+      "code": "strict-scopes",
+      "message": "scope:wounded_courtier might not be available here",
+      "source": "AGOT",
+      "file": "events/activities/hunt_activity/hunt_events.txt",
+      "count": 1
+    },
+    {
+      "severity": "error",
+      "code": "strict-scopes",
+      "message": "scope:exam_advantage_mult might not be available here",
+      "source": "AGOT",
+      "file": "events/activities/imperial_examination_activity/imperial_examination_events.txt",
+      "count": 6
+    },
+    {
+      "severity": "error",
+      "code": "strict-scopes",
+      "message": "scope:victim might not be available here",
+      "source": "AGOT",
+      "file": "events/dlc/ep2/wedding_events/ep2_wedding_events.txt",
+      "count": 1
+    },
+    {
+      "severity": "error",
+      "code": "strict-scopes",
+      "message": "scope:other might not be available here",
+      "source": "CK3",
+      "file": "events/activities/chariot_race_activity/chariot_ongoing_events_jp.txt",
+      "count": 1
+    },
+    {
+      "severity": "error",
+      "code": "strict-scopes",
+      "message": "scope:petition_sender_faction might not be available here",
+      "source": "CK3",
+      "file": "events/activities/coronation_activity/guest_intent_coronation_events.txt",
+      "count": 3
+    },
+    {
+      "severity": "error",
+      "code": "strict-scopes",
+      "message": "scope:title_to_give might not be available here",
+      "source": "CK3",
+      "file": "events/activities/coronation_activity/guest_intent_coronation_events.txt",
+      "count": 3
+    },
+    {
+      "severity": "error",
+      "code": "strict-scopes",
+      "message": "scope:honorary_guest might not be available here",
+      "source": "CK3",
+      "file": "events/activities/feast_activity/feast_events.txt",
+      "count": 2
+    },
+    {
+      "severity": "error",
+      "code": "strict-scopes",
+      "message": "scope:entourage_1 might not be available here",
+      "source": "CK3",
+      "file": "events/activities/feast_activity/murder_feast_events.txt",
+      "count": 1
+    },
+    {
+      "severity": "error",
+      "code": "strict-scopes",
+      "message": "scope:entourage_2 might not be available here",
+      "source": "CK3",
+      "file": "events/activities/feast_activity/murder_feast_events.txt",
+      "count": 1
+    },
+    {
+      "severity": "error",
+      "code": "strict-scopes",
+      "message": "scope:spouse_2 might not be available here",
+      "source": "CK3",
+      "file": "events/activities/feast_activity/murder_feast_events.txt",
+      "count": 2
+    },
+    {
+      "severity": "error",
+      "code": "strict-scopes",
+      "message": "scope:event_planner might not be available here",
+      "source": "CK3",
+      "file": "events/activities/festival_activity/festival_events.txt",
+      "count": 1
+    },
+    {
+      "severity": "error",
+      "code": "strict-scopes",
+      "message": "scope:story might not be available here",
+      "source": "CK3",
+      "file": "events/activities/hunt_activity/jb_hunt_events.txt",
+      "count": 1
+    },
+    {
+      "severity": "error",
+      "code": "strict-scopes",
+      "message": "scope:hof might not be available here",
+      "source": "CK3",
+      "file": "events/dlc/ach/ach_maintenance_events.txt",
+      "count": 1
+    },
+    {
+      "severity": "error",
+      "code": "strict-scopes",
+      "message": "scope:province might not be available here",
+      "source": "CK3",
+      "file": "events/dlc/bp3/bp3_roaming_events.txt",
+      "count": 5
+    },
+    {
+      "severity": "error",
+      "code": "strict-scopes",
+      "message": "scope:province might not be available here",
+      "source": "CK3",
+      "file": "events/dlc/bp3/bp3_survey_events.txt",
+      "count": 14
+    },
+    {
+      "severity": "error",
+      "code": "strict-scopes",
+      "message": "scope:entourage_1 might not be available here",
+      "source": "CK3",
+      "file": "events/dlc/ep2/wedding_events/ep2_bloody_wedding_events.txt",
+      "count": 1
+    },
+    {
+      "severity": "error",
+      "code": "strict-scopes",
+      "message": "scope:entourage_2 might not be available here",
+      "source": "CK3",
+      "file": "events/dlc/ep2/wedding_events/ep2_bloody_wedding_events.txt",
+      "count": 1
+    },
+    {
+      "severity": "error",
+      "code": "strict-scopes",
+      "message": "scope:story might not be available here",
+      "source": "CK3",
+      "file": "events/story_cycles/story_cycle_hunt_mystical_animal_events.txt",
+      "count": 1
+    },
+    {
+      "severity": "error",
+      "code": "strict-scopes",
+      "message": "scope:target might not be available here",
+      "source": "CK3",
+      "file": "events/witch_events.txt",
+      "count": 1
+    },
+    {
+      "severity": "error",
+      "code": "strict-scopes",
+      "message": "scope:root might not be available here",
+      "source": "MOD",
+      "file": "common/activities/activity_types/agot_coronation.txt",
+      "count": 1
+    },
+    {
+      "severity": "error",
+      "code": "strict-scopes",
+      "message": "scope:special_type might not be available here",
+      "source": "MOD",
+      "file": "common/activities/activity_types/coronation.txt",
+      "count": 1
+    },
+    {
+      "severity": "error",
+      "code": "strict-scopes",
+      "message": "scope:activity might not be available here",
+      "source": "MOD",
+      "file": "common/activities/activity_types/feast.txt",
+      "count": 1
+    },
+    {
+      "severity": "error",
+      "code": "strict-scopes",
+      "message": "scope:province might not be available here",
+      "source": "MOD",
+      "file": "common/activities/activity_types/hike.txt",
+      "count": 1
+    },
+    {
+      "severity": "error",
+      "code": "missing-item",
+      "message": "special guest priest not defined in common/activities/activity_types/",
+      "source": "MOD",
+      "file": "events/activities/coronation_activity/coronation_events.txt",
+      "count": 3
+    },
+    {
+      "severity": "error",
+      "code": "missing-item",
+      "message": "struggle iberian_struggle not defined in common/struggle/struggles/",
+      "source": "MOD",
+      "file": "events/activities/coronation_activity/coronation_events.txt",
+      "count": 1
+    },
+    {
+      "severity": "error",
+      "code": "strict-scopes",
+      "message": "scope:province might not be available here",
+      "source": "MOD",
+      "file": "events/activities/coronation_activity/coronation_events.txt",
+      "count": 2
+    },
+    {
+      "severity": "error",
+      "code": "strict-scopes",
+      "message": "scope:anointer might not be available here",
+      "source": "MOD",
+      "file": "events/activities/coronation_activity/coronation_events_6.txt",
+      "count": 33
+    },
+    {
+      "severity": "error",
+      "code": "strict-scopes",
+      "message": "scope:detractor_ally_1 might not be available here",
+      "source": "MOD",
+      "file": "events/activities/coronation_activity/coronation_events_6.txt",
+      "count": 1
+    },
+    {
+      "severity": "error",
+      "code": "strict-scopes",
+      "message": "scope:detractor_ally_2 might not be available here",
+      "source": "MOD",
+      "file": "events/activities/coronation_activity/coronation_events_6.txt",
+      "count": 1
+    },
+    {
+      "severity": "error",
+      "code": "strict-scopes",
+      "message": "scope:house might not be available here",
+      "source": "MOD",
+      "file": "events/activities/coronation_activity/coronation_events_6.txt",
+      "count": 1
+    },
+    {
+      "severity": "error",
+      "code": "strict-scopes",
+      "message": "scope:congragulate_winner might not be available here",
+      "source": "MOD",
+      "file": "events/activities/tournaments/tournament_events.txt",
+      "count": 1
+    },
+    {
+      "severity": "error",
+      "code": "strict-scopes",
+      "message": "scope:contest_prize_1 might not be available here",
+      "source": "MOD",
+      "file": "events/activities/tournaments/tournament_events.txt",
+      "count": 1
+    },
+    {
+      "severity": "error",
+      "code": "strict-scopes",
+      "message": "scope:contest_prize_2 might not be available here",
+      "source": "MOD",
+      "file": "events/activities/tournaments/tournament_events.txt",
+      "count": 1
+    },
+    {
+      "severity": "error",
+      "code": "strict-scopes",
+      "message": "scope:contest_prize_3 might not be available here",
+      "source": "MOD",
+      "file": "events/activities/tournaments/tournament_events.txt",
+      "count": 1
+    },
+    {
+      "severity": "error",
+      "code": "strict-scopes",
+      "message": "scope:murder_match might not be available here",
+      "source": "MOD",
+      "file": "events/activities/tournaments/tournament_events.txt",
+      "count": 1
+    },
+    {
+      "severity": "error",
+      "code": "strict-scopes",
+      "message": "scope:prize_child_1 might not be available here",
+      "source": "MOD",
+      "file": "events/activities/tournaments/tournament_events.txt",
+      "count": 1
+    },
+    {
+      "severity": "error",
+      "code": "strict-scopes",
+      "message": "scope:prize_child_2 might not be available here",
+      "source": "MOD",
+      "file": "events/activities/tournaments/tournament_events.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "scopes",
+      "message": "`culture` is for character, province or landed title but scope seems to be activity",
+      "source": "AGOT",
+      "file": "common/event_backgrounds/01_event_backgrounds.txt",
+      "count": 2
+    },
+    {
+      "severity": "warning",
+      "code": "scopes",
+      "message": "`government_has_flag` is for character but scope seems to be activity",
+      "source": "AGOT",
+      "file": "common/event_backgrounds/01_event_backgrounds.txt",
+      "count": 9
+    },
+    {
+      "severity": "warning",
+      "code": "scopes",
+      "message": "`has_government` is for character but scope seems to be activity",
+      "source": "AGOT",
+      "file": "common/event_backgrounds/01_event_backgrounds.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "scopes",
+      "message": "`has_realm_law` is for character but scope seems to be activity",
+      "source": "AGOT",
+      "file": "common/event_backgrounds/01_event_backgrounds.txt",
+      "count": 5
+    },
+    {
+      "severity": "warning",
+      "code": "scopes",
+      "message": "`has_trait` is for character but scope seems to be activity",
+      "source": "AGOT",
+      "file": "common/event_backgrounds/01_event_backgrounds.txt",
+      "count": 2
+    },
+    {
+      "severity": "warning",
+      "code": "scopes",
+      "message": "`highest_held_title_tier` is for character but scope seems to be activity",
+      "source": "AGOT",
+      "file": "common/event_backgrounds/01_event_backgrounds.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "scopes",
+      "message": "`is_governor_or_admin_count` expects scope to be character but scope seems to be activity",
+      "source": "AGOT",
+      "file": "common/event_backgrounds/01_event_backgrounds.txt",
+      "count": 7
+    },
+    {
+      "severity": "warning",
+      "code": "scopes",
+      "message": "`is_independent_ruler` is for character but scope seems to be activity",
+      "source": "AGOT",
+      "file": "common/event_backgrounds/01_event_backgrounds.txt",
+      "count": 2
+    },
+    {
+      "severity": "warning",
+      "code": "scopes",
+      "message": "`is_landless_adventurer` expects scope to be character but scope seems to be activity",
+      "source": "AGOT",
+      "file": "common/event_backgrounds/01_event_backgrounds.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "scopes",
+      "message": "`location` is for character, army or combat but scope seems to be activity",
+      "source": "AGOT",
+      "file": "common/event_backgrounds/01_event_backgrounds.txt",
+      "count": 18
+    },
+    {
+      "severity": "warning",
+      "code": "scopes",
+      "message": "`tgp_is_ceremonial_liege_trigger` expects scope to be character but scope seems to be activity",
+      "source": "AGOT",
+      "file": "common/event_backgrounds/01_event_backgrounds.txt",
+      "count": 2
+    },
+    {
+      "severity": "warning",
+      "code": "scopes",
+      "message": "`exists = yes/no` does not work",
+      "source": "AGOT",
+      "file": "common/scripted_effects/00_agot_knighthood_effects.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "scopes",
+      "message": "`scope:mysterious_stranger` produces character but expected bool",
+      "source": "AGOT",
+      "file": "common/scripted_effects/04_dlc_ep2_tournament_effects.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "scopes",
+      "message": "var:mysterious_stranger_appeared was deduced to be bool but scope seems to be character",
+      "source": "AGOT",
+      "file": "common/scripted_effects/04_dlc_ep2_tournament_effects.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "scopes",
+      "message": "`var:banner_dynasty` produces landed title but expected dynasty",
+      "source": "AGOT",
+      "file": "common/scripted_triggers/00_artifact_triggers.txt",
+      "count": 2
+    },
+    {
+      "severity": "warning",
+      "code": "scopes",
+      "message": "var:banner_dynasty was deduced to be landed title but scope seems to be dynasty",
+      "source": "AGOT",
+      "file": "common/scripted_triggers/00_artifact_triggers.txt",
+      "count": 2
+    },
+    {
+      "severity": "warning",
+      "code": "scopes",
+      "message": "`add_opinion` is for character but scope seems to be activity",
+      "source": "AGOT",
+      "file": "events/activities/agot_coronation_activity/agot_coronation_events.txt",
+      "count": 3
+    },
+    {
+      "severity": "warning",
+      "code": "scopes",
+      "message": "`any_powerful_vassal` is for character but scope seems to be activity",
+      "source": "AGOT",
+      "file": "events/activities/agot_coronation_activity/agot_coronation_events.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "scopes",
+      "message": "`random_powerful_vassal` is for character but scope seems to be activity",
+      "source": "AGOT",
+      "file": "events/activities/agot_coronation_activity/agot_coronation_events.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "scopes",
+      "message": "`remove_character_flag` is for character but scope seems to be activity",
+      "source": "AGOT",
+      "file": "events/activities/agot_coronation_activity/agot_coronation_events.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "scopes",
+      "message": "`scope:spectator` produces activity but expected character",
+      "source": "AGOT",
+      "file": "events/activities/agot_coronation_activity/agot_coronation_events.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "strict-scopes",
+      "message": "`activity_wedding_diplomatic_intent_impressible_target` expects scope:actor to be set",
+      "source": "AGOT",
+      "file": "events/activities/agot_coronation_activity/agot_coronation_events.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "strict-scopes",
+      "message": "`activity_wedding_diplomatic_intent_impressible_target` expects scope:recipient to be set",
+      "source": "AGOT",
+      "file": "events/activities/agot_coronation_activity/agot_coronation_events.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "strict-scopes",
+      "message": "`agot_mw_choose_stance_modifier` expects list target_titles to exist",
+      "source": "AGOT",
+      "file": "events/activities/agot_coronation_activity/agot_coronation_events.txt",
+      "count": 12
+    },
+    {
+      "severity": "warning",
+      "code": "strict-scopes",
+      "message": "`agot_mw_choose_stance_modifier` expects scope:mw_crown_story to be set",
+      "source": "AGOT",
+      "file": "events/activities/agot_coronation_activity/agot_coronation_events.txt",
+      "count": 12
+    },
+    {
+      "severity": "warning",
+      "code": "strict-scopes",
+      "message": "`agot_mw_choose_stance_modifier` expects scope:mw_rebel_story to be set",
+      "source": "AGOT",
+      "file": "events/activities/agot_coronation_activity/agot_coronation_events.txt",
+      "count": 12
+    },
+    {
+      "severity": "warning",
+      "code": "strict-scopes",
+      "message": "`agot_mw_choose_stance_modifier` expects scope:mw_ruler_scope to be set",
+      "source": "AGOT",
+      "file": "events/activities/agot_coronation_activity/agot_coronation_events.txt",
+      "count": 12
+    },
+    {
+      "severity": "warning",
+      "code": "strict-scopes",
+      "message": "`agot_mw_choose_stance_modifier` expects scope:s_close_family_crown to be set",
+      "source": "AGOT",
+      "file": "events/activities/agot_coronation_activity/agot_coronation_events.txt",
+      "count": 12
+    },
+    {
+      "severity": "warning",
+      "code": "strict-scopes",
+      "message": "`agot_mw_choose_stance_modifier` expects scope:s_close_family_rebel_leader to be set",
+      "source": "AGOT",
+      "file": "events/activities/agot_coronation_activity/agot_coronation_events.txt",
+      "count": 12
+    },
+    {
+      "severity": "warning",
+      "code": "strict-scopes",
+      "message": "`agot_mw_choose_stance_modifier` expects scope:s_leverage_unlock to be set",
+      "source": "AGOT",
+      "file": "events/activities/agot_coronation_activity/agot_coronation_events.txt",
+      "count": 12
+    },
+    {
+      "severity": "warning",
+      "code": "strict-scopes",
+      "message": "`agot_mw_choose_stance_modifier` expects scope:s_relation_t_crown to be set",
+      "source": "AGOT",
+      "file": "events/activities/agot_coronation_activity/agot_coronation_events.txt",
+      "count": 12
+    },
+    {
+      "severity": "warning",
+      "code": "strict-scopes",
+      "message": "`agot_mw_choose_stance_modifier` expects scope:s_relation_t_rebel_leader to be set",
+      "source": "AGOT",
+      "file": "events/activities/agot_coronation_activity/agot_coronation_events.txt",
+      "count": 12
+    },
+    {
+      "severity": "warning",
+      "code": "strict-scopes",
+      "message": "`agot_mw_choose_stance_modifier` expects scope:war to be set",
+      "source": "AGOT",
+      "file": "events/activities/agot_coronation_activity/agot_coronation_events.txt",
+      "count": 12
+    },
+    {
+      "severity": "warning",
+      "code": "strict-scopes",
+      "message": "`disburse_agot_coronation_activity_rewards` expects scope:spouse_1 to be set",
+      "source": "AGOT",
+      "file": "events/activities/agot_coronation_activity/agot_coronation_events.txt",
+      "count": 2
+    },
+    {
+      "severity": "warning",
+      "code": "strict-scopes",
+      "message": "`disburse_agot_coronation_activity_rewards` expects scope:spouse_2 to be set",
+      "source": "AGOT",
+      "file": "events/activities/agot_coronation_activity/agot_coronation_events.txt",
+      "count": 2
+    },
+    {
+      "severity": "warning",
+      "code": "strict-scopes",
+      "message": "`known_murder_effect` expects scope:secret to be set",
+      "source": "AGOT",
+      "file": "events/activities/chariot_race_activity/chariot_race_ongoing_events.txt",
+      "count": 3
+    },
+    {
+      "severity": "warning",
+      "code": "scopes",
+      "message": "`coronation_add_magnificence_log_effect` expects scope to be character but scope seems to be activity",
+      "source": "AGOT",
+      "file": "events/activities/coronation_activity/coronation_events_1.txt",
+      "count": 2
+    },
+    {
+      "severity": "warning",
+      "code": "scopes",
+      "message": "`host` is for character but scope seems to be activity",
+      "source": "AGOT",
+      "file": "events/activities/coronation_activity/coronation_events_1.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "scopes",
+      "message": "`target_of_powerful_faction_trigger` expects scope to be faction but scope seems to be character",
+      "source": "AGOT",
+      "file": "events/activities/coronation_activity/prelude_events.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "strict-scopes",
+      "message": "`create_coronation_artifact_effect` expects scope:artifact to be set",
+      "source": "AGOT",
+      "file": "events/activities/coronation_activity/prelude_events.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "strict-scopes",
+      "message": "`create_coronation_artifact_effect` expects scope:location to be set",
+      "source": "AGOT",
+      "file": "events/activities/coronation_activity/prelude_events.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "strict-scopes",
+      "message": "`create_coronation_artifact_effect` expects scope:story to be set",
+      "source": "AGOT",
+      "file": "events/activities/coronation_activity/prelude_events.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "strict-scopes",
+      "message": "`known_murder_effect` expects scope:secret to be set",
+      "source": "AGOT",
+      "file": "events/activities/feast_activity/main_events/feast_default_events.txt",
+      "count": 7
+    },
+    {
+      "severity": "warning",
+      "code": "scopes",
+      "message": "`hunt_activity_dangerous_game_effect` expects scope to be activity but scope seems to be character",
+      "source": "AGOT",
+      "file": "events/activities/hunt_activity/hunt_events.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "scopes",
+      "message": "`root` produces character but expected flag",
+      "source": "AGOT",
+      "file": "events/activities/hunt_activity/hunt_events.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "strict-scopes",
+      "message": "`end_hunt_mystical_animal_story_cycle_effect` expects scope:story to be set",
+      "source": "AGOT",
+      "file": "events/activities/hunt_activity/hunt_events.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "strict-scopes",
+      "message": "`hunt_activity_random_interest_participant_effect` expects scope:murder_target to be set",
+      "source": "AGOT",
+      "file": "events/activities/hunt_activity/hunt_events.txt",
+      "count": 4
+    },
+    {
+      "severity": "warning",
+      "code": "strict-scopes",
+      "message": "`known_murder_effect` expects scope:secret to be set",
+      "source": "AGOT",
+      "file": "events/activities/hunt_activity/hunt_events.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "strict-scopes",
+      "message": "`scheme_progress_gain` expects scope:scheme to be set",
+      "source": "AGOT",
+      "file": "events/activities/hunt_activity/hunt_events.txt",
+      "count": 2
+    },
+    {
+      "severity": "warning",
+      "code": "strict-scopes",
+      "message": "`create_artifact_book_effect` expects scope:story to be set",
+      "source": "AGOT",
+      "file": "events/activities/imperial_examination_activity/emperor_prep_phase_imperial_examination_events.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "strict-scopes",
+      "message": "`create_artifact_brooch_effect` expects scope:location to be set",
+      "source": "AGOT",
+      "file": "events/activities/imperial_examination_activity/emperor_prep_phase_imperial_examination_events.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "strict-scopes",
+      "message": "`create_artifact_necklace_effect` expects scope:location to be set",
+      "source": "AGOT",
+      "file": "events/activities/imperial_examination_activity/emperor_prep_phase_imperial_examination_events.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "strict-scopes",
+      "message": "`create_artifact_urn_effect` expects scope:location to be set",
+      "source": "AGOT",
+      "file": "events/activities/imperial_examination_activity/emperor_prep_phase_imperial_examination_events.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "strict-scopes",
+      "message": "`create_artifact_wall_narwhal_horn_effect` expects scope:location to be set",
+      "source": "AGOT",
+      "file": "events/activities/imperial_examination_activity/emperor_prep_phase_imperial_examination_events.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "strict-scopes",
+      "message": "`playdate_2001_guest_of_interest_1_trigger` expects scope:guest_of_interest_1 to be set",
+      "source": "AGOT",
+      "file": "events/activities/playdate_activity/playdate_events.txt",
+      "count": 4
+    },
+    {
+      "severity": "warning",
+      "code": "strict-scopes",
+      "message": "`playdate_2001_guest_of_interest_1_trigger` expects scope:guest_of_interest_2 to be set",
+      "source": "AGOT",
+      "file": "events/activities/playdate_activity/playdate_events.txt",
+      "count": 8
+    },
+    {
+      "severity": "warning",
+      "code": "strict-scopes",
+      "message": "`adult_education_completed_log_entry_effect` expects scope:story to be set",
+      "source": "AGOT",
+      "file": "events/dlc/bp2/bp2_adult_education_activity_events.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "strict-scopes",
+      "message": "`create_artifact_book_effect` expects scope:story to be set",
+      "source": "AGOT",
+      "file": "events/dlc/bp2/bp2_adult_education_activity_events.txt",
+      "count": 2
+    },
+    {
+      "severity": "warning",
+      "code": "strict-scopes",
+      "message": "`activity_wedding_diplomatic_intent_impressible_target` expects scope:actor to be set",
+      "source": "AGOT",
+      "file": "events/dlc/ep2/wedding_events/ep2_wedding_events.txt",
+      "count": 3
+    },
+    {
+      "severity": "warning",
+      "code": "strict-scopes",
+      "message": "`activity_wedding_diplomatic_intent_impressible_target` expects scope:recipient to be set",
+      "source": "AGOT",
+      "file": "events/dlc/ep2/wedding_events/ep2_wedding_events.txt",
+      "count": 3
+    },
+    {
+      "severity": "warning",
+      "code": "strict-scopes",
+      "message": "`known_murder_effect` expects scope:secret to be set",
+      "source": "AGOT",
+      "file": "events/dlc/ep2/wedding_events/ep2_wedding_events.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "strict-scopes",
+      "message": "`scheme_progress_gain` expects scope:scheme to be set",
+      "source": "AGOT",
+      "file": "events/dlc/ep2/wedding_events/ep2_wedding_events.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "scopes",
+      "message": "`any_attending_character` is for activity but scope seems to be character",
+      "source": "AGOT - Much Faster Activities",
+      "file": "common/on_action/activities/converted_pulse_actions/MFA_imperial_examination_pulse_actions.txt",
+      "count": 4
+    },
+    {
+      "severity": "warning",
+      "code": "strict-scopes",
+      "message": "`create_artifact_bow_effect` expects scope:location to be set",
+      "source": "CK3",
+      "file": "events/activities/hunt_activity/mpo_nerge_events.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "strict-scopes",
+      "message": "`create_artifact_armor_effect` expects scope:location to be set",
+      "source": "CK3",
+      "file": "events/dlc/bp3/bp3_roaming_events.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "strict-scopes",
+      "message": "`create_artifact_brooch_effect` expects scope:location to be set",
+      "source": "CK3",
+      "file": "events/dlc/bp3/bp3_roaming_events.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "strict-scopes",
+      "message": "`create_artifact_weapon_effect` expects scope:artifact to be set",
+      "source": "CK3",
+      "file": "events/dlc/bp3/bp3_roaming_events.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "strict-scopes",
+      "message": "`create_artifact_weapon_effect` expects scope:location to be set",
+      "source": "CK3",
+      "file": "events/dlc/bp3/bp3_roaming_events.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "strict-scopes",
+      "message": "`inspection_survey_local_message_county_modifier` expects scope:province to be set",
+      "source": "CK3",
+      "file": "events/dlc/bp3/bp3_survey_events.txt",
+      "count": 4
+    },
+    {
+      "severity": "warning",
+      "code": "strict-scopes",
+      "message": "`inspection_survey_local_message_province_modifier` expects scope:province to be set",
+      "source": "CK3",
+      "file": "events/dlc/bp3/bp3_survey_events.txt",
+      "count": 2
+    },
+    {
+      "severity": "warning",
+      "code": "strict-scopes",
+      "message": "`end_hunt_mystical_animal_story_cycle_effect` expects scope:story to be set",
+      "source": "CK3",
+      "file": "events/story_cycles/story_cycle_hunt_mystical_animal_events.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "strict-scopes",
+      "message": "`hunt_mystical_animal_immediate_effect` expects scope:story to be set",
+      "source": "CK3",
+      "file": "events/story_cycles/story_cycle_hunt_mystical_animal_events.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "scopes",
+      "message": "`scope:left_portrait` produces activity but expected character",
+      "source": "CK3",
+      "file": "events/witch_events.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "missing-item",
+      "message": "portrait animation lunatic not defined in gfx/portraits/portrait_animations/",
+      "source": "MOD",
+      "file": "common/activities/activity_types/agot_coronation.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "scopes",
+      "message": "`activity_cost_scale_by_tier` expects root to be character but root seems to be activity",
+      "source": "MOD",
+      "file": "common/activities/activity_types/agot_coronation.txt",
+      "count": 2
+    },
+    {
+      "severity": "warning",
+      "code": "scopes",
+      "message": "`agot_mw_is_in_realm_at_megawar` expects root to be character but root seems to be activity",
+      "source": "MOD",
+      "file": "common/activities/activity_types/agot_coronation.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "strict-scopes",
+      "message": "`disburse_agot_coronation_activity_rewards` expects scope:spouse_1 to be set",
+      "source": "MOD",
+      "file": "common/activities/activity_types/agot_coronation.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "strict-scopes",
+      "message": "`disburse_agot_coronation_activity_rewards` expects scope:spouse_2 to be set",
+      "source": "MOD",
+      "file": "common/activities/activity_types/agot_coronation.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "logic",
+      "message": "OR with only one item inside is probably not what you intended",
+      "source": "MOD",
+      "file": "common/activities/activity_types/coronation.txt",
+      "count": 6
+    },
+    {
+      "severity": "warning",
+      "code": "scopes",
+      "message": "`activity_location` is for activity but scope seems to be character",
+      "source": "MOD",
+      "file": "common/activities/activity_types/coronation.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "strict-scopes",
+      "message": "`accolades_activity_complete_coronation_glory_effect` expects scope:root_scope to be set",
+      "source": "MOD",
+      "file": "common/activities/activity_types/coronation.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "strict-scopes",
+      "message": "`base_feast_cost_value` expects scope:host to be set",
+      "source": "MOD",
+      "file": "common/activities/activity_types/feast.txt",
+      "count": 5
+    },
+    {
+      "severity": "warning",
+      "code": "logic",
+      "message": "OR with only one item inside is probably not what you intended",
+      "source": "MOD",
+      "file": "common/activities/activity_types/festival.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "scopes",
+      "message": "`gruesome_festival_option_large` expects root to be character but root seems to be activity",
+      "source": "MOD",
+      "file": "common/activities/activity_types/gruesome_festival.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "scopes",
+      "message": "`gruesome_festival_option_medium` expects root to be character but root seems to be activity",
+      "source": "MOD",
+      "file": "common/activities/activity_types/gruesome_festival.txt",
+      "count": 5
+    },
+    {
+      "severity": "warning",
+      "code": "scopes",
+      "message": "`gruesome_festival_option_small` expects root to be character but root seems to be activity",
+      "source": "MOD",
+      "file": "common/activities/activity_types/gruesome_festival.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "strict-scopes",
+      "message": "`end_hunt_mystical_animal_story_cycle_effect` expects scope:story to be set",
+      "source": "MOD",
+      "file": "common/activities/activity_types/hunt.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "scopes",
+      "message": "`imperial_examination_alternate_focus_value` expects root to be character but root seems to be activity",
+      "source": "MOD",
+      "file": "common/activities/activity_types/imperial_examination.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "scopes",
+      "message": "`imperial_examination_breadth_exclusive_value` expects root to be character but root seems to be activity",
+      "source": "MOD",
+      "file": "common/activities/activity_types/imperial_examination.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "scopes",
+      "message": "`imperial_examination_breadth_open_value` expects root to be character but root seems to be activity",
+      "source": "MOD",
+      "file": "common/activities/activity_types/imperial_examination.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "scopes",
+      "message": "`imperial_examination_breadth_restricted_value` expects root to be character but root seems to be activity",
+      "source": "MOD",
+      "file": "common/activities/activity_types/imperial_examination.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "strict-scopes",
+      "message": "`imperial_examination_set_up_examiners_effect` expects scope:activity_location to be set",
+      "source": "MOD",
+      "file": "common/activities/activity_types/imperial_examination.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "logic",
+      "message": "OR with only one item inside is probably not what you intended",
+      "source": "MOD",
+      "file": "common/activities/activity_types/inspection.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "scopes",
+      "message": "`is_landless_adventurer` expects scope to be character but scope seems to be activity",
+      "source": "MOD",
+      "file": "common/activities/activity_types/inspection.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "tooltip",
+      "message": "OR is a too complex trigger to be tooltipped in a trigger that shows failures only.",
+      "source": "MOD",
+      "file": "common/activities/activity_types/inspection.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "logic",
+      "message": "OR with only one item inside is probably not what you intended",
+      "source": "MOD",
+      "file": "common/activities/activity_types/local_examination.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "strict-scopes",
+      "message": "`imperial_examination_set_up_examiners_effect` expects scope:activity_location to be set",
+      "source": "MOD",
+      "file": "common/activities/activity_types/local_examination.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "logic",
+      "message": "OR with only one item inside is probably not what you intended",
+      "source": "MOD",
+      "file": "common/activities/activity_types/monument_expedition.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "missing-item",
+      "message": "unknown sound event:/SFX/Events/Backgrounds/FP4/fp4_magic_spring",
+      "source": "MOD",
+      "file": "common/activities/activity_types/monument_expedition.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "field-missing",
+      "message": "required field `limit` missing",
+      "source": "MOD",
+      "file": "common/activities/activity_types/pilgrimage.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "scopes",
+      "message": "`agot_is_part_of_paramountcy_realm` expects scope to be character but scope seems to be province",
+      "source": "MOD",
+      "file": "common/activities/activity_types/pilgrimage.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "logic",
+      "message": "OR with only one item inside is probably not what you intended",
+      "source": "MOD",
+      "file": "common/activities/activity_types/tour.txt",
+      "count": 2
+    },
+    {
+      "severity": "warning",
+      "code": "strict-scopes",
+      "message": "`ep2_tour_phase_invalidation_check` expects scope:activity to be set",
+      "source": "MOD",
+      "file": "common/activities/activity_types/tour.txt",
+      "count": 3
+    },
+    {
+      "severity": "warning",
+      "code": "logic",
+      "message": "OR with only one item inside is probably not what you intended",
+      "source": "MOD",
+      "file": "common/activities/activity_types/tournament.txt",
+      "count": 11
+    },
+    {
+      "severity": "warning",
+      "code": "strict-scopes",
+      "message": "`tournament_contest_race_winner_effect` expects scope:battle_province to be set",
+      "source": "MOD",
+      "file": "common/activities/activity_types/tournament.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "strict-scopes",
+      "message": "`tournament_contest_turn_winner_effect` expects scope:battle_province to be set",
+      "source": "MOD",
+      "file": "common/activities/activity_types/tournament.txt",
+      "count": 2
+    },
+    {
+      "severity": "warning",
+      "code": "strict-scopes",
+      "message": "`tournament_contest_versus_winner_effect` expects scope:battle_province to be set",
+      "source": "MOD",
+      "file": "common/activities/activity_types/tournament.txt",
+      "count": 4
+    },
+    {
+      "severity": "warning",
+      "code": "scopes",
+      "message": "`special_guest:spouse_1` produces character but expected activity",
+      "source": "MOD",
+      "file": "common/activities/activity_types/wedding.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "scopes",
+      "message": "`special_guest:spouse_2` produces character but expected activity",
+      "source": "MOD",
+      "file": "common/activities/activity_types/wedding.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "logic",
+      "message": "OR with only one item inside is probably not what you intended",
+      "source": "MOD",
+      "file": "common/on_action/activities/MFA_adult_education_on_actions.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "logic",
+      "message": "OR with only one item inside is probably not what you intended",
+      "source": "MOD",
+      "file": "common/on_action/activities/MFA_pilgrimage_on_actions.txt",
+      "count": 2
+    },
+    {
+      "severity": "warning",
+      "code": "logic",
+      "message": "OR with only one item inside is probably not what you intended",
+      "source": "MOD",
+      "file": "common/on_action/activities/MFA_witch_ritual_on_actions.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "scopes",
+      "message": "`culture` produces culture but expected landed title",
+      "source": "MOD",
+      "file": "events/activities/coronation_activity/coronation_events.txt",
+      "count": 5
+    },
+    {
+      "severity": "warning",
+      "code": "scopes",
+      "message": "`this` produces character but expected landed title",
+      "source": "MOD",
+      "file": "events/activities/coronation_activity/coronation_events.txt",
+      "count": 5
+    },
+    {
+      "severity": "warning",
+      "code": "logic",
+      "message": "OR with only one item inside is probably not what you intended",
+      "source": "MOD",
+      "file": "events/activities/coronation_activity/coronation_events_6.txt",
+      "count": 8
+    },
+    {
+      "severity": "warning",
+      "code": "missing-sound",
+      "message": "music not defined in music/ or dlc/*/music/",
+      "source": "MOD",
+      "file": "events/activities/coronation_activity/coronation_events_6.txt",
+      "count": 3
+    },
+    {
+      "severity": "warning",
+      "code": "scopes",
+      "message": "`faith` is for character, province, great holy war or landed title but scope seems to be faith",
+      "source": "MOD",
+      "file": "events/activities/coronation_activity/coronation_events_6.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "scopes",
+      "message": "`prev` produces none but expected character",
+      "source": "MOD",
+      "file": "events/activities/coronation_activity/coronation_events_6.txt",
+      "count": 2
+    },
+    {
+      "severity": "warning",
+      "code": "scopes",
+      "message": "variable list major_detractor was deduced to be character but scope seems to be none",
+      "source": "MOD",
+      "file": "events/activities/coronation_activity/coronation_events_6.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "strict-scopes",
+      "message": "`coronation_events_6000_valid_switch_title_trigger` expects list war_targets to exist",
+      "source": "MOD",
+      "file": "events/activities/coronation_activity/coronation_events_6.txt",
+      "count": 5
+    },
+    {
+      "severity": "warning",
+      "code": "scopes",
+      "message": "`agot_event_valid_for_qolab` expects scope to be activity but scope seems to be character",
+      "source": "MOD",
+      "file": "events/activities/tournaments/contest_events.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "scopes",
+      "message": "`contest_winner_dedicate_victory_effect` expects scope to be activity but scope seems to be character",
+      "source": "MOD",
+      "file": "events/activities/tournaments/contest_events.txt",
+      "count": 3
+    },
+    {
+      "severity": "warning",
+      "code": "scopes",
+      "message": "`exists = yes/no` does not work",
+      "source": "MOD",
+      "file": "events/activities/tournaments/contest_events.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "scopes",
+      "message": "`stress_impact` is for character but scope seems to be activity",
+      "source": "MOD",
+      "file": "events/activities/tournaments/contest_events.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "scopes",
+      "message": "`tournament_contest_versus_pulse_effect` expects root to be character, province or landed title but root seems to be activity",
+      "source": "MOD",
+      "file": "events/activities/tournaments/contest_events.txt",
+      "count": 4
+    },
+    {
+      "severity": "warning",
+      "code": "scopes",
+      "message": "`tournament_1270_versus_effect` expects scope to be activity but scope seems to be character",
+      "source": "MOD",
+      "file": "events/activities/tournaments/tournament_events.txt",
+      "count": 8
+    },
+    {
+      "severity": "warning",
+      "code": "strict-scopes",
+      "message": "`tournament_disburse_contest_prize_effect` expects scope:artifact to be set",
+      "source": "MOD",
+      "file": "events/activities/tournaments/tournament_events.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "strict-scopes",
+      "message": "`tournament_disburse_contest_prize_effect` expects scope:location to be set",
+      "source": "MOD",
+      "file": "events/activities/tournaments/tournament_events.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "strict-scopes",
+      "message": "`tournament_events_1250_favor_trigger` expects scope:favor_recipient_1 to be set",
+      "source": "MOD",
+      "file": "events/activities/tournaments/tournament_events.txt",
+      "count": 7
+    },
+    {
+      "severity": "warning",
+      "code": "strict-scopes",
+      "message": "`tournament_events_1250_favor_trigger` expects scope:favor_recipient_2 to be set",
+      "source": "MOD",
+      "file": "events/activities/tournaments/tournament_events.txt",
+      "count": 7
+    },
+    {
+      "severity": "warning",
+      "code": "strict-scopes",
+      "message": "`tournament_events_1250_favor_trigger` expects scope:favor_recipient_3 to be set",
+      "source": "MOD",
+      "file": "events/activities/tournaments/tournament_events.txt",
+      "count": 7
+    },
+    {
+      "severity": "warning",
+      "code": "scopes",
+      "message": "`add_stress` is for character but scope seems to be activity",
+      "source": "MOD",
+      "file": "events/dlc/fp1/fp1_other_decision_events.txt",
+      "count": 3
+    },
+    {
+      "severity": "warning",
+      "code": "scopes",
+      "message": "`add_trait` is for character but scope seems to be landed title",
+      "source": "MOD",
+      "file": "events/dlc/fp1/fp1_other_decision_events.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "scopes",
+      "message": "`fp1_other_decisions.0024` is for character but scope seems to be activity",
+      "source": "MOD",
+      "file": "events/dlc/fp1/fp1_other_decision_events.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "scopes",
+      "message": "`gf_guests_rejecting_invite_list` is for landed title but scope seems to be character",
+      "source": "MOD",
+      "file": "events/dlc/fp1/fp1_other_decision_events.txt",
+      "count": 2
+    },
+    {
+      "severity": "warning",
+      "code": "scopes",
+      "message": "`gruesome_festivals_own_faith_martyred_own_hof_effect` expects scope to be character but scope seems to be activity",
+      "source": "MOD",
+      "file": "events/dlc/fp1/fp1_other_decision_events.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "scopes",
+      "message": "`happified_title_subjects_list` expects list to be landed title but list seems to be character",
+      "source": "MOD",
+      "file": "events/dlc/fp1/fp1_other_decision_events.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "scopes",
+      "message": "`has_trait` is for character but scope seems to be activity",
+      "source": "MOD",
+      "file": "events/dlc/fp1/fp1_other_decision_events.txt",
+      "count": 4
+    },
+    {
+      "severity": "warning",
+      "code": "scopes",
+      "message": "`scope:decliner_1` produces landed title but expected character",
+      "source": "MOD",
+      "file": "events/dlc/fp1/fp1_other_decision_events.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "scopes",
+      "message": "`scope:decliner_2` produces landed title but expected character",
+      "source": "MOD",
+      "file": "events/dlc/fp1/fp1_other_decision_events.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "scopes",
+      "message": "`scope:decliner_3` produces landed title but expected character",
+      "source": "MOD",
+      "file": "events/dlc/fp1/fp1_other_decision_events.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "scopes",
+      "message": "`scope:decliner_4` produces landed title but expected character",
+      "source": "MOD",
+      "file": "events/dlc/fp1/fp1_other_decision_events.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "scopes",
+      "message": "`scope:decliner_5` produces landed title but expected character",
+      "source": "MOD",
+      "file": "events/dlc/fp1/fp1_other_decision_events.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "scopes",
+      "message": "`send_interface_toast` is for character but scope seems to be landed title",
+      "source": "MOD",
+      "file": "events/dlc/fp1/fp1_other_decision_events.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "scopes",
+      "message": "`var:recent_rank_increase` produces landed title but expected character",
+      "source": "MOD",
+      "file": "events/dlc/fp1/fp1_other_decision_events.txt",
+      "count": 3
+    },
+    {
+      "severity": "warning",
+      "code": "scopes",
+      "message": "var:stele_container was deduced to be character but scope seems to be landed title",
+      "source": "MOD",
+      "file": "events/dlc/fp1/fp1_other_decision_events.txt",
+      "count": 3
+    },
+    {
+      "severity": "warning",
+      "code": "scopes",
+      "message": "variable list gf_guests_rejecting_invite_list was deduced to be landed title but scope seems to be character",
+      "source": "MOD",
+      "file": "events/dlc/fp1/fp1_other_decision_events.txt",
+      "count": 2
+    },
+    {
+      "severity": "tips",
+      "code": "performance",
+      "message": "AND with only one item inside is useless",
+      "source": "MOD",
+      "file": "common/activities/activity_types/pilgrimage.txt",
+      "count": 1
+    },
+    {
+      "severity": "tips",
+      "code": "if-else",
+      "message": "`else` with a `limit` does work, but may indicate a mistake",
+      "source": "MOD",
+      "file": "events/activities/coronation_activity/coronation_events_6.txt",
+      "count": 1
+    },
+    {
+      "severity": "tips",
+      "code": "performance",
+      "message": "AND with only one item inside is useless",
+      "source": "MOD",
+      "file": "events/activities/coronation_activity/coronation_events_6.txt",
+      "count": 2
+    }
+  ]
+}

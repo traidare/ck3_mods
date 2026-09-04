@@ -1,0 +1,285 @@
+{
+  "schemaVersion": 1,
+  "findings": [
+    {
+      "severity": "error",
+      "code": "temporary-scope",
+      "message": "`scope:rumor_person` was temporary and is no longer available here",
+      "source": "MOD",
+      "file": "events/activities/hold_court_activity/hold_court_events_general.txt",
+      "count": 2
+    },
+    {
+      "severity": "error",
+      "code": "strict-scopes",
+      "message": "scope:warden might not be available here",
+      "source": "MOD",
+      "file": "events/dlc/bp2/bp2_yearly_events_6.txt",
+      "count": 2
+    },
+    {
+      "severity": "error",
+      "code": "strict-scopes",
+      "message": "scope:location might not be available here",
+      "source": "MOD",
+      "file": "events/dlc/ce1/epidemic_events.txt",
+      "count": 1
+    },
+    {
+      "severity": "error",
+      "code": "strict-scopes",
+      "message": "scope:peasant_1 might not be available here",
+      "source": "MOD",
+      "file": "events/dlc/ce1/epidemic_events.txt",
+      "count": 1
+    },
+    {
+      "severity": "error",
+      "code": "unknown-list",
+      "message": "unknown list",
+      "source": "MOD",
+      "file": "events/dlc/fp3/fp3_misc_decision_events.txt",
+      "count": 1
+    },
+    {
+      "severity": "error",
+      "code": "strict-scopes",
+      "message": "scope:county might not be available here",
+      "source": "MOD",
+      "file": "events/global_religion_events.txt",
+      "count": 4
+    },
+    {
+      "severity": "error",
+      "code": "unknown-list",
+      "message": "unknown list",
+      "source": "MOD",
+      "file": "events/lifestyles/governance_lifestyle/stewardship_domain_events.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "scopes",
+      "message": "`add_dynasty_prestige` is for dynasty but scope seems to be character",
+      "source": "AGOT",
+      "file": "common/scripted_effects/01_ep1_court_artifact_creation_effects.txt",
+      "count": 14
+    },
+    {
+      "severity": "warning",
+      "code": "scopes",
+      "message": "`var:banner_dynasty` produces dynasty house but expected dynasty",
+      "source": "AGOT",
+      "file": "common/scripted_triggers/00_artifact_triggers.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "scopes",
+      "message": "var:banner_dynasty was deduced to be dynasty house but scope seems to be dynasty",
+      "source": "AGOT",
+      "file": "common/scripted_triggers/00_artifact_triggers.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "encoding",
+      "message": "Expected UTF-8 BOM encoding",
+      "source": "MOD",
+      "file": "common/script_values/zzz_kei_cafg_agot_compatibility_values.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "logic",
+      "message": "OR with only one item inside is probably not what you intended",
+      "source": "MOD",
+      "file": "events/activities/hold_court_activity/hold_court_events_general.txt",
+      "count": 5
+    },
+    {
+      "severity": "warning",
+      "code": "scopes",
+      "message": "`exists = yes/no` does not work",
+      "source": "MOD",
+      "file": "events/activities/hold_court_activity/hold_court_events_general.txt",
+      "count": 5
+    },
+    {
+      "severity": "warning",
+      "code": "scopes",
+      "message": "`agot_event_valid_for_qolab` expects scope to be activity but scope seems to be character",
+      "source": "MOD",
+      "file": "events/activities/tournaments/contest_events.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "scopes",
+      "message": "`contest_winner_dedicate_victory_effect` expects scope to be activity but scope seems to be character",
+      "source": "MOD",
+      "file": "events/activities/tournaments/contest_events.txt",
+      "count": 3
+    },
+    {
+      "severity": "warning",
+      "code": "scopes",
+      "message": "`exists = yes/no` does not work",
+      "source": "MOD",
+      "file": "events/activities/tournaments/contest_events.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "scopes",
+      "message": "`stress_impact` is for character but scope seems to be activity",
+      "source": "MOD",
+      "file": "events/activities/tournaments/contest_events.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "scopes",
+      "message": "`tournament_contest_versus_pulse_effect` expects root to be character, province or landed title but root seems to be activity",
+      "source": "MOD",
+      "file": "events/activities/tournaments/contest_events.txt",
+      "count": 4
+    },
+    {
+      "severity": "warning",
+      "code": "duplicate-field",
+      "message": "`content_source` is redefined in a following line",
+      "source": "MOD",
+      "file": "events/dlc/bp2/bp2_yearly_events_6.txt",
+      "count": 2
+    },
+    {
+      "severity": "warning",
+      "code": "scopes",
+      "message": "`exists = yes/no` does not work",
+      "source": "MOD",
+      "file": "events/dlc/bp2/bp2_yearly_events_6.txt",
+      "count": 3
+    },
+    {
+      "severity": "warning",
+      "code": "logic",
+      "message": "OR with only one item inside is probably not what you intended",
+      "source": "MOD",
+      "file": "events/dlc/ce1/epidemic_events.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "strict-scopes",
+      "message": "`epidemic_outbreak_legitimacy_effect` expects scope:province to be set",
+      "source": "MOD",
+      "file": "events/dlc/ce1/epidemic_events.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "duplicate-field",
+      "message": "`animation` is redefined in a following line",
+      "source": "MOD",
+      "file": "events/dlc/fp3/fp3_misc_decision_events.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "logic",
+      "message": "OR with only one item inside is probably not what you intended",
+      "source": "MOD",
+      "file": "events/global_religion_events.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "strict-scopes",
+      "message": "`stewardship_domain_special_1500_valid_county` expects list excluded_counties to exist",
+      "source": "MOD",
+      "file": "events/lifestyles/governance_lifestyle/stewardship_domain_events.txt",
+      "count": 2
+    },
+    {
+      "severity": "warning",
+      "code": "strict-scopes",
+      "message": "`stewardship_domain_special_1510_upset_priest` expects list excluded_counties to exist",
+      "source": "MOD",
+      "file": "events/lifestyles/governance_lifestyle/stewardship_domain_events.txt",
+      "count": 3
+    },
+    {
+      "severity": "warning",
+      "code": "strict-scopes",
+      "message": "`stewardship_domain_special_1520_objecting_noble` expects list excluded_counties to exist",
+      "source": "MOD",
+      "file": "events/lifestyles/governance_lifestyle/stewardship_domain_events.txt",
+      "count": 2
+    },
+    {
+      "severity": "warning",
+      "code": "strict-scopes",
+      "message": "`stewardship_domain_special_1530_unhappy_city` expects list excluded_counties to exist",
+      "source": "MOD",
+      "file": "events/lifestyles/governance_lifestyle/stewardship_domain_events.txt",
+      "count": 2
+    },
+    {
+      "severity": "warning",
+      "code": "strict-scopes",
+      "message": "`stewardship_domain_special_1560_upset_merchants` expects list excluded_counties to exist",
+      "source": "MOD",
+      "file": "events/lifestyles/governance_lifestyle/stewardship_domain_events.txt",
+      "count": 2
+    },
+    {
+      "severity": "warning",
+      "code": "logic",
+      "message": "OR with only one item inside is probably not what you intended",
+      "source": "MOD",
+      "file": "events/religion_events/faith_conversion_events.txt",
+      "count": 2
+    },
+    {
+      "severity": "warning",
+      "code": "scopes",
+      "message": "`has_memory_type` is for character memory but scope seems to be character",
+      "source": "MOD",
+      "file": "events/religion_events/false_conversion_events.txt",
+      "count": 7
+    },
+    {
+      "severity": "warning",
+      "code": "scopes",
+      "message": "`secret_faith` is for character but scope seems to be faith",
+      "source": "MOD",
+      "file": "events/religion_events/false_conversion_events.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "strict-scopes",
+      "message": "`secret_exposed_owner_effects_effect` expects scope:murderer to be set",
+      "source": "MOD",
+      "file": "events/religion_events/false_conversion_events.txt",
+      "count": 1
+    },
+    {
+      "severity": "untidy",
+      "code": "unneeded",
+      "message": "not needed for court_event",
+      "source": "MOD",
+      "file": "events/activities/hold_court_activity/hold_court_events_general.txt",
+      "count": 7
+    },
+    {
+      "severity": "tips",
+      "code": "performance",
+      "message": "AND with only one item inside is useless",
+      "source": "MOD",
+      "file": "events/dlc/bp2/bp2_yearly_events_6.txt",
+      "count": 1
+    }
+  ]
+}

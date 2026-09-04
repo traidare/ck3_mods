@@ -1,0 +1,201 @@
+{
+  "schemaVersion": 1,
+  "files": {
+    "workshop/2962333032/common/character_interactions/00_prison_interactions.txt": {
+      "sha256": "04d7f3975b951537b34b0cbb264e0cc2eeb7ac05c21d63c7c31d8b1d593ef750",
+      "size": 249917
+    },
+    "workshop/3522779004/common/decisions/agot_decisions/00_agot_major_decisions_BLA.txt": {
+      "sha256": "f7f3deda87b95818db400669aa3cc79bd496cb18d796f8df4babf1a55fb02108",
+      "size": 14703
+    },
+    "workshop/3522779004/common/dynasty_legacies/99_agot_cultures_BLA_legacies.txt": {
+      "sha256": "31dec6a39c975756753a9576e58af23d4bdc218addab0e719cb498f99b99492f",
+      "size": 14100
+    },
+    "workshop/3522779004/common/dynasty_perks/00_agot_BLA_perks.txt": {
+      "sha256": "a28572f5e271cde780b58a7453432b93a8694a732f02f6029de870e5ea073861",
+      "size": 416065
+    },
+    "workshop/3522779004/common/great_projects/types/zz_agot_great_projects_BLA.txt": {
+      "sha256": "9642f1201196633c54687379fe83959ddbe4a1945ffa994080af0e52089fa5d6",
+      "size": 30902
+    },
+    "workshop/3522779004/common/modifiers/00_agot_crownlands_modifiers_BLA.txt": {
+      "sha256": "e179917e60dd2c5d482fa5e71acc9178ab55530da631be5743692616b6e11e46",
+      "size": 37293
+    },
+    "workshop/3522779004/common/modifiers/00_agot_riverlands_modifiers_BLA.txt": {
+      "sha256": "579832be67180b1d12398011209ff772bcffc97663decd437dccec9aafc15c23",
+      "size": 39407
+    },
+    "workshop/3522779004/common/on_action/agot_on_actions/agot_game_start_BLA.txt": {
+      "sha256": "9960f26486befed3253b6c5daa5525679422b2fc3e5378d2d0b59720f61d71e0",
+      "size": 8306
+    },
+    "workshop/3522779004/common/on_action/child_birth_on_actions_cultures_BLA.txt": {
+      "sha256": "8e37715911821244c38c472bb10a41b6f0e5e2b7314bead1c3aa7abc31da183d",
+      "size": 6092
+    },
+    "workshop/3522779004/common/scripted_effects/00_agot_artifact_effects_BLA.txt": {
+      "sha256": "25dbad4db04036227457811618218a506a327432d7029fda616d48308c51c440",
+      "size": 20464
+    },
+    "workshop/3522779004/events/agot_decision_events/agot_blackwood_bow_events.txt": {
+      "sha256": "2d17c52c7d1ac67092c19dace0bfad6f08dda92b2412648543e0b5fabc9f3fb5",
+      "size": 5914
+    },
+    "workshop/3522779004/events/agot_decision_events/agot_butterwell_whitewalls_events.txt": {
+      "sha256": "3513d2793e22cb1a4d2bdb18d932ebac8c85d1b3198e07769d1a728840a7e1c8",
+      "size": 2875
+    },
+    "workshop/3522779004/events/agot_decision_events/agot_celtigar_vault_events_bla.txt": {
+      "sha256": "31c33359836daf7676f7467050c98bd0f040a1f219f9f6681d2f08bccbc2dcbe",
+      "size": 10535
+    },
+    "workshop/3522779004/events/agot_decision_events/agot_crownlands_velaryon_stepstones_bla.txt": {
+      "sha256": "62001a1848a29c2bf98e9a7da3e5e958e6b06728f4ab326646dd1fb28337f6cb",
+      "size": 73147
+    },
+    "workshop/3522779004/events/agot_decision_events/agot_oldstones_bla_events.txt": {
+      "sha256": "aa8d87411c71e6414fac66b3b86e34ff954ce161d64e3f1f59141b63ec6c1092",
+      "size": 17978
+    },
+    "workshop/3522779004/events/agot_decision_events/agot_redwyne_festival_events.txt": {
+      "sha256": "ceb4a5fceb45e1d709ac14c1f175fd283f27d001f1d7d1d15165aa8032e7bdb8",
+      "size": 3622
+    },
+    "workshop/3522779004/events/agot_decision_events/agot_reyne_excavation_events.txt": {
+      "sha256": "8741273dd6547f7ebe558d07a1977e4173c9b2745884b78a7679d55e65c8bf07",
+      "size": 3980
+    },
+    "workshop/3522779004/events/agot_decision_events/agot_riverlands_trident_council_decision_events.txt": {
+      "sha256": "2584c8857cad698c9d12257286ad2576635668dec9ad15d3d5df457713524d4a",
+      "size": 16413
+    },
+    "workshop/3522779004/events/agot_events/agot_crownlands_bar_emmon_events_bla.txt": {
+      "sha256": "bb55b3c7297b3587e7637c7d93770a5401722597c1ab8e07a5c4be9550d6b468",
+      "size": 5942
+    },
+    "workshop/3522779004/events/agot_events/agot_crownlands_brune_events_bla.txt": {
+      "sha256": "62d956cbb7b92617ee227633b5166feafe40aae9f0c6bfcb0cadc9c697c1da09",
+      "size": 18997
+    },
+    "workshop/3522779004/events/agot_events/agot_crownlands_celtigar_events_bla.txt": {
+      "sha256": "608245c5b2608be2b15b422e45b49588f07fbe58f00b754db1dbbc12c5c6bd06",
+      "size": 31679
+    },
+    "workshop/3522779004/events/agot_events/agot_crownlands_crabb_events_bla.txt": {
+      "sha256": "3dcfc94d277edd36718e77b3fe7f5690cacd3e43e2637f7b16cb9d7a2b900518",
+      "size": 24349
+    },
+    "workshop/3522779004/events/agot_events/agot_crownlands_darklyn_events_bla.txt": {
+      "sha256": "0e618f7d770cfbe9dfd1962c58f395d7533b146917dc1a139bbb111eea9a2d90",
+      "size": 109904
+    },
+    "workshop/3522779004/events/agot_events/agot_crownlands_iron_throne_events_bla.txt": {
+      "sha256": "36a196e78041533be6d48d3466e615761b69ac2ec62248f517b4b95948720005",
+      "size": 9337
+    },
+    "workshop/3522779004/events/agot_events/agot_crownlands_massey_events_bla.txt": {
+      "sha256": "83a69a0796805cb9acdea9b5865221b2ed7ed44cbc4cece51f5e7bccd9aaeaf0",
+      "size": 18077
+    },
+    "workshop/3522779004/events/agot_events/agot_crownlands_rosby_events_bla.txt": {
+      "sha256": "f77352e947a7de3d5d1764088591a9aea2abe1c47bf731a271afe667dff2fc6f",
+      "size": 7959
+    },
+    "workshop/3522779004/events/agot_events/agot_crownlands_stokeworth_events_bla.txt": {
+      "sha256": "55206213eb6acf77bcd19c022c6101a17d969f9b9f2a894586dab387b0d59aea",
+      "size": 7383
+    },
+    "workshop/3522779004/events/agot_events/agot_crownlands_sunglass_events_bla.txt": {
+      "sha256": "55686e62a530fb590162b2e504fbbe5c614cad665fcdb50a6b1ed4cfa57c88b8",
+      "size": 8632
+    },
+    "workshop/3522779004/events/agot_events/agot_crownlands_velaryon_events_bla.txt": {
+      "sha256": "b24dad2a5b9701ba484ee75366997d9732b659aeff2af72d5e58f487e62f5b4d",
+      "size": 70407
+    },
+    "workshop/3522779004/events/agot_events/agot_hightower_archmaesters_decision_events.txt": {
+      "sha256": "c238ed9f6d1bca421ea4faf82f68386f34c8c9c6ac9a8d7a4254941f16d05470",
+      "size": 1416
+    },
+    "workshop/3522779004/events/agot_events/agot_john_mudd_claim_hammerford_events.txt": {
+      "sha256": "c33d96f7f90d7bd532572b605ebfae3cf94e9da2932d25c7f9c1e6185b924c08",
+      "size": 3686
+    },
+    "workshop/3522779004/events/agot_events/agot_lothston_returns_events.txt": {
+      "sha256": "684b6fb397708d8ce11441637567d0cf34851a3cf2f5ed74b62cc259e3f3d0e3",
+      "size": 2896
+    },
+    "workshop/3522779004/events/agot_events/agot_reforge_red_rain_events.txt": {
+      "sha256": "0c86f0c506539b3047154003b4e3fc2692484452e64d1ff12a4fe7794ffc31d6",
+      "size": 942
+    },
+    "workshop/3522779004/events/agot_events/agot_religious_decision_bla_events.txt": {
+      "sha256": "28cb20e262596f8aa252922111352066c55dad54e9e030a0656c4ca0fed2a294",
+      "size": 3884
+    },
+    "workshop/3522779004/events/agot_events/agot_riverlands_blackwood_bracken_events_bla.txt": {
+      "sha256": "de07b1c7a3763a1d124de6e3adaf4ccbebd068d4e5661149fdf2f46540d7176d",
+      "size": 43428
+    },
+    "workshop/3522779004/events/agot_events/agot_riverlands_blackwood_events_bla.txt": {
+      "sha256": "10c5793aee556b9a3857f6f4f1435e39167a69c8312b549934974526021ba9c9",
+      "size": 17816
+    },
+    "workshop/3522779004/events/agot_events/agot_riverlands_bracken_events_bla.txt": {
+      "sha256": "933f3bf4182462f29019b1910b8bc3082f60f3aec76b2a07e76b8b2b1853c8c2",
+      "size": 19123
+    },
+    "workshop/3522779004/events/agot_events/agot_riverlands_events_bla.txt": {
+      "sha256": "b8996b12e23e6b124549555400a55ccca37597c704ab6abd452459138a194aa7",
+      "size": 54502
+    },
+    "workshop/3522779004/events/agot_events/agot_riverlands_frey_events_bla.txt": {
+      "sha256": "cd18adeef4ec209b514645db8e66e7401148550c92d9c6ca666b2ecc41bf8edd",
+      "size": 20857
+    },
+    "workshop/3522779004/events/agot_events/agot_riverlands_harrenhal_events_bla.txt": {
+      "sha256": "293f6d057526ae2a538a84223b4567e725d2aa90abf8646f7e4a6cf8340fa5e4",
+      "size": 47028
+    },
+    "workshop/3522779004/events/agot_events/agot_riverlands_justman_events_bla.txt": {
+      "sha256": "28173d4f3c1591eb34dd3e84a7cf2532fd741ace8fd92e3925709b1b88f61f0a",
+      "size": 24968
+    },
+    "workshop/3522779004/events/agot_events/agot_riverlands_mallister_events_bla.txt": {
+      "sha256": "3f0de76687b4ae63aaa7f029178111a0cffdea5a03d9f46a8964f6f6a675e464",
+      "size": 12270
+    },
+    "workshop/3522779004/events/agot_events/agot_riverlands_mooton_events_bla.txt": {
+      "sha256": "b9fa6ddf50d1b0813e0d2cb157c6a542f51137ff5f1265ef0c62fcfd7082da2a",
+      "size": 12699
+    },
+    "workshop/3522779004/events/agot_events/agot_riverlands_mudd_events_bla.txt": {
+      "sha256": "b8a2729f9b5da14e0c1d2ed0fa2d0d80608bd86ee78af4af19aeac517d1a4fe6",
+      "size": 11962
+    },
+    "workshop/3522779004/events/agot_events/agot_riverlands_piper_events_bla.txt": {
+      "sha256": "5e1b72f4e8b8476682429175f374ddf6870e7cb73843fb0f3e3c9fb93d7455ac",
+      "size": 12376
+    },
+    "workshop/3522779004/events/agot_events/agot_riverlands_vance_events_bla.txt": {
+      "sha256": "cf99cd9b8035e680dbe82f5f45106dc8035cf6de3df4b00fc867df114d4a0e98",
+      "size": 22019
+    },
+    "workshop/3522779004/events/agot_events/agot_strong_claim_events.txt": {
+      "sha256": "6024017f45bd6c1e1c145be7bde4b7576a00374aa3422ff168059ea87ad6b35f",
+      "size": 3220
+    },
+    "workshop/3522779004/events/bla_custom_house_legacy_events.txt": {
+      "sha256": "855371bcc33e0bcd284c6ddb5426799e85ba5f6b68556c2e11f3593f4a0e4e0a",
+      "size": 21427
+    },
+    "workshop/3522779004/localization/replace/english/agot_BLA_l_english.yml": {
+      "sha256": "903bbaf5cafea0176287bcee36e5a51d6b9b556dc8baa065ea4a1ef8dd735ff3",
+      "size": 667362
+    }
+  }
+}

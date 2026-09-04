@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "files": {
+    "workshop/3664900993/common/on_action/agot_now_on_actions.txt": {
+      "sha256": "dba4d91bc06801d5d93758e85e4febf2f9435077bcc58fcc385fed563d9481c6",
+      "size": 14626
+    },
+    "workshop/3664900993/events/agot_events/agot_summerhall_events.txt": {
+      "sha256": "fe046371a71d370da4176c233bd86df542d9807589fb7d097afddcce30a65f3d",
+      "size": 59704
+    },
+    "workshop/3664900993/events/agot_events/replace/agot_coa_events.txt": {
+      "sha256": "91d09c9957f8aa21ce6bc59eabc3d087c74188b60a4dd50dd321abe4c888e1de",
+      "size": 625
+    }
+  }
+}

@@ -142,7 +142,12 @@ def guard_scene_culture_triggers(text: str, *, expected: int, label: str) -> str
 def assert_source_block_hash(
     text: str, key: str, expected_hash: str, *, label: str
 ) -> str:
-    """Return a pinned top-level block, failing closed on upstream drift."""
+    """Return a pinned top-level block, failing closed on upstream drift.
+
+    This is finer-grained than sources.lock.json, which pins whole files: it
+    asserts that one block inside a large upstream file is untouched, so an
+    edit elsewhere in that file does not have to be reviewed here.
+    """
     block = extract_top_level_block(text, key)
     actual_hash = hashlib.sha256(block.encode()).hexdigest()
     if actual_hash != expected_hash:
@@ -150,15 +155,6 @@ def assert_source_block_hash(
             f"{label} changed: expected {expected_hash}, found {actual_hash}"
         )
     return block
-
-
-def assert_source_file_hash(path: Path, expected_hash: str, *, label: str) -> None:
-    """Fail closed when a whole-file rebase parent changes."""
-    actual_hash = hashlib.sha256(path.read_bytes()).hexdigest()
-    if actual_hash != expected_hash:
-        raise RuntimeError(
-            f"{label} changed: expected {expected_hash}, found {actual_hash}"
-        )
 
 
 def extract_top_level_block(text: str, key: str) -> str:

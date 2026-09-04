@@ -157,6 +157,7 @@ func Root() *Command {
 		Children: []*Command{
 			configCommand(),
 			modCommand(),
+			upstreamCommand(),
 			playsetCommand(),
 			conflictsCommand(),
 			refsCommand(),

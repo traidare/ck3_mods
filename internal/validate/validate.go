@@ -7,6 +7,7 @@ import (
 	"errors"
 	"fmt"
 	"os/exec"
+	"path/filepath"
 	"strings"
 
 	"codeberg.org/traidare/ck3_mods/internal/config"
@@ -48,6 +49,9 @@ type Check struct {
 	Stdout  string
 	Stderr  string
 	Details []string
+	// Totals is the tiger stage's finding tally, carried structurally so a JSON
+	// consumer can trend it instead of parsing the message.
+	Totals Totals
 }
 
 // OK reports whether this stage lets the mod pass.
@@ -73,6 +77,9 @@ func (c Check) ToMap() map[string]any {
 	}
 	if len(c.Details) > 0 {
 		result["details"] = c.Details
+	}
+	if c.Totals != nil {
+		result["totals"] = c.Totals
 	}
 	return result
 }
@@ -124,14 +131,21 @@ func (r Result) ToMap() map[string]any {
 	}
 }
 
-// Mod validates one mod without promoting outputs or writing anything.
-func Mod(space *workspace.Workspace, mod *workspace.Mod, settings config.Config) Result {
+// Options controls what a validation run is allowed to write. Nothing is
+// written unless Apply is set, and even then only the tiger baseline.
+type Options struct {
+	Apply bool
+}
+
+// Mod validates one mod, promoting no outputs and writing nothing unless
+// options.Apply refreshes the tiger baseline.
+func Mod(space *workspace.Workspace, mod *workspace.Mod, settings config.Config, options Options) Result {
 	return Result{
 		Slug: mod.Slug,
 		Checks: []Check{
 			validateDescriptor(mod),
 			validateGenerator(space, mod, settings),
-			validateTiger(space, mod, settings),
+			validateTiger(space, mod, settings, options),
 		},
 	}
 }
@@ -193,7 +207,7 @@ func validateGenerator(space *workspace.Workspace, mod *workspace.Mod, settings 
 	}
 }
 
-func validateTiger(space *workspace.Workspace, mod *workspace.Mod, settings config.Config) Check {
+func validateTiger(space *workspace.Workspace, mod *workspace.Mod, settings config.Config, options Options) Check {
 	if err := settings.Require(config.GameDir, config.ParadoxDir); err != nil {
 		return Check{
 			Step:    StepTiger,
@@ -224,29 +238,122 @@ func validateTiger(space *workspace.Workspace, mod *workspace.Mod, settings conf
 	execution.Stderr = &stderr
 
 	err := execution.Run()
-	check := Check{
-		Step:    StepTiger,
-		Command: command,
-		Stdout:  stdout.String(),
-		Stderr:  stderr.String(),
-	}
+	check := Check{Step: StepTiger, Command: command}
 	var exitError *exec.ExitError
 	switch {
-	case err == nil:
-		check.Status = StatusPassed
-		check.Message = "ck3-tiger passed"
-	case errors.As(err, &exitError):
-		check.Status = StatusFailed
-		check.Message = fmt.Sprintf("ck3-tiger exited with status %d", exitError.ExitCode())
+	case err == nil, errors.As(err, &exitError):
+		// A nonzero exit means fatal findings, which the report below covers in
+		// detail. Anything else means ck3-tiger never ran at all.
 	case errors.Is(err, exec.ErrNotFound):
 		check.Status = StatusError
 		check.Message = TigerExecutable + " was not found on PATH; run validation inside " +
 			"`nix develop` or install ck3-tiger, then retry"
-		check.Stdout, check.Stderr = "", ""
+		return check
 	default:
 		check.Status = StatusError
 		check.Message = "could not start " + TigerExecutable + ": " + err.Error()
-		check.Stdout, check.Stderr = "", ""
+		return check
+	}
+
+	// The raw output is deliberately dropped from here on: the sweep emits six
+	// figures of lines, all of it identical from one run to the next. What the
+	// baseline comparison keeps is the part that changed. The command above
+	// reproduces the full report when a finding needs its line number.
+	findings, parseErr := ParseTiger(stdout.String())
+	if parseErr != nil {
+		return Check{
+			Step:    StepTiger,
+			Status:  StatusError,
+			Command: command,
+			Message: parseErr.Error(),
+			Stdout:  stdout.String(),
+			Stderr:  stderr.String(),
+		}
+	}
+	totals := tally(findings)
+	check.Totals = totals
+
+	baselinePath := filepath.Join(mod.ToolingRoot, BaselineFileName)
+	recorded, err := LoadBaseline(baselinePath)
+	if err != nil {
+		return Check{
+			Step:    StepTiger,
+			Status:  StatusError,
+			Command: command,
+			Message: err.Error(),
+		}
+	}
+	delta := CompareBaseline(recorded, findings)
+	for _, group := range []struct {
+		marker  string
+		changes []Change
+	}{
+		{"+", delta.New},
+		// Marked apart so a finding tiger only sometimes reports is never read
+		// as one an upstream update introduced.
+		{"?", delta.Unstable},
+		{"-", delta.Resolved},
+	} {
+		for _, change := range group.changes {
+			check.Details = append(check.Details, changeDetail(group.marker, change))
+		}
+	}
+
+	// A fatal is never an accepted finding: it fails whatever the baseline says,
+	// and --apply refuses to record it.
+	if exitError != nil {
+		check.Status = StatusFailed
+		check.Message = fmt.Sprintf("ck3-tiger exited with status %d: %s",
+			exitError.ExitCode(), totals)
+		return check
+	}
+
+	if options.Apply && !delta.Empty() {
+		if err := SaveBaseline(baselinePath, MergeBaseline(recorded, findings)); err != nil {
+			return Check{
+				Step:    StepTiger,
+				Status:  StatusError,
+				Command: command,
+				Message: err.Error(),
+			}
+		}
+		check.Status = StatusPassed
+		check.Message = fmt.Sprintf(
+			"recorded %d new, %d unreproducible and %d resolved ck3-tiger finding(s): %s",
+			len(delta.New), len(delta.Unstable), len(delta.Resolved), totals)
+		return check
+	}
+
+	switch {
+	case delta.Regressed():
+		check.Status = StatusFailed
+		check.Message = fmt.Sprintf(
+			"%d new ck3-tiger finding(s) since the baseline; review them, then "+
+				"run `ck3mm mod validate %s --apply` to accept: %s",
+			len(delta.New), mod.Slug, totals)
+	case !delta.Empty():
+		check.Status = StatusPassed
+		check.Message = fmt.Sprintf(
+			"%d unreproducible and %d resolved ck3-tiger finding(s); run "+
+				"`ck3mm mod validate %s --apply` to refresh the baseline: %s",
+			len(delta.Unstable), len(delta.Resolved), mod.Slug, totals)
+	default:
+		check.Status = StatusPassed
+		check.Message = "ck3-tiger matches the baseline: " + totals.String()
 	}
 	return check
+}
+
+// changeDetail renders one baseline difference, keeping the recorded count in
+// view so a finding that merely grew is never read as one that is wholly new.
+func changeDetail(marker string, change Change) string {
+	detail := marker + " " + change.Finding.Label()
+	switch {
+	case change.Recorded > 0:
+		return fmt.Sprintf("%s (%s%d, baseline %d)",
+			detail, marker, change.Finding.Count, change.Recorded)
+	case change.Finding.Count > 1:
+		return fmt.Sprintf("%s (%d occurrences)", detail, change.Finding.Count)
+	}
+	return detail
 }

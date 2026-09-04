@@ -1,0 +1,21 @@
+{
+  "schemaVersion": 1,
+  "findings": [
+    {
+      "severity": "warning",
+      "code": "duplicate-item",
+      "message": "region is redefined by another region",
+      "source": "MOD",
+      "file": "map_data/geographical_regions/00_agot_geographical_region.txt",
+      "count": 11
+    },
+    {
+      "severity": "warning",
+      "code": "exact-duplicate-item",
+      "message": "region is redefined by an identical region",
+      "source": "MOD",
+      "file": "map_data/geographical_regions/00_agot_geographical_region.txt",
+      "count": 1
+    }
+  ]
+}

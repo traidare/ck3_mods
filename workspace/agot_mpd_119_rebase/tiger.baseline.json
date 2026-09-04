@@ -1,0 +1,141 @@
+{
+  "schemaVersion": 1,
+  "findings": [
+    {
+      "severity": "tips",
+      "code": "suggest-localization",
+      "message": "you can define localization `TRAIT_FLAG_DESC_can_abandon_hooks_interaction`",
+      "source": "MOD",
+      "file": "common/traits/01_personality_overrides.txt",
+      "count": 1
+    },
+    {
+      "severity": "tips",
+      "code": "suggest-localization",
+      "message": "you can define localization `TRAIT_FLAG_DESC_can_accelerate_schemes_decision`",
+      "source": "MOD",
+      "file": "common/traits/01_personality_overrides.txt",
+      "count": 1
+    },
+    {
+      "severity": "tips",
+      "code": "suggest-localization",
+      "message": "you can define localization `TRAIT_FLAG_DESC_can_dismiss_hooks_interaction`",
+      "source": "MOD",
+      "file": "common/traits/01_personality_overrides.txt",
+      "count": 1
+    },
+    {
+      "severity": "tips",
+      "code": "suggest-localization",
+      "message": "you can define localization `TRAIT_FLAG_DESC_can_duel_criminals_interaction`",
+      "source": "MOD",
+      "file": "common/traits/01_personality_overrides.txt",
+      "count": 1
+    },
+    {
+      "severity": "tips",
+      "code": "suggest-localization",
+      "message": "you can define localization `TRAIT_FLAG_DESC_can_fabricate_hooks_on_rivals`",
+      "source": "MOD",
+      "file": "common/traits/01_personality_overrides.txt",
+      "count": 1
+    },
+    {
+      "severity": "tips",
+      "code": "suggest-localization",
+      "message": "you can define localization `TRAIT_FLAG_DESC_can_improve_capital_decision`",
+      "source": "MOD",
+      "file": "common/traits/01_personality_overrides.txt",
+      "count": 1
+    },
+    {
+      "severity": "tips",
+      "code": "suggest-localization",
+      "message": "you can define localization `TRAIT_FLAG_DESC_can_improve_hostile_schemes_decision`",
+      "source": "MOD",
+      "file": "common/traits/01_personality_overrides.txt",
+      "count": 1
+    },
+    {
+      "severity": "tips",
+      "code": "suggest-localization",
+      "message": "you can define localization `TRAIT_FLAG_DESC_can_murder_own_children`",
+      "source": "MOD",
+      "file": "common/traits/01_personality_overrides.txt",
+      "count": 1
+    },
+    {
+      "severity": "tips",
+      "code": "suggest-localization",
+      "message": "you can define localization `TRAIT_FLAG_DESC_can_offer_strong_hook_to_agents`",
+      "source": "MOD",
+      "file": "common/traits/01_personality_overrides.txt",
+      "count": 1
+    },
+    {
+      "severity": "tips",
+      "code": "suggest-localization",
+      "message": "you can define localization `TRAIT_FLAG_DESC_extra_scheme_success_chance_vs_rivals`",
+      "source": "MOD",
+      "file": "common/traits/01_personality_overrides.txt",
+      "count": 1
+    },
+    {
+      "severity": "tips",
+      "code": "suggest-localization",
+      "message": "you can define localization `TRAIT_FLAG_DESC_higher_chance_of_dying_in_battle`",
+      "source": "MOD",
+      "file": "common/traits/01_personality_overrides.txt",
+      "count": 1
+    },
+    {
+      "severity": "tips",
+      "code": "suggest-localization",
+      "message": "you can define localization `TRAIT_FLAG_DESC_initial_legitimacy_boost`",
+      "source": "MOD",
+      "file": "common/traits/01_personality_overrides.txt",
+      "count": 1
+    },
+    {
+      "severity": "tips",
+      "code": "suggest-localization",
+      "message": "you can define localization `TRAIT_FLAG_DESC_lower_chance_of_dying_in_combat`",
+      "source": "MOD",
+      "file": "common/traits/01_personality_overrides.txt",
+      "count": 1
+    },
+    {
+      "severity": "tips",
+      "code": "suggest-localization",
+      "message": "you can define localization `TRAIT_FLAG_DESC_trait_unlocks_t2_arbitrary_arrests`",
+      "source": "MOD",
+      "file": "common/traits/01_personality_overrides.txt",
+      "count": 1
+    },
+    {
+      "severity": "tips",
+      "code": "suggest-localization",
+      "message": "you can define localization `TRAIT_FLAG_DESC_trait_unlocks_t2_countermeasures`",
+      "source": "MOD",
+      "file": "common/traits/01_personality_overrides.txt",
+      "count": 1
+    },
+    {
+      "severity": "tips",
+      "code": "suggest-localization",
+      "message": "you can define localization `TRAIT_FLAG_DESC_trait_unlocks_t2_withdraw_from_view`",
+      "source": "MOD",
+      "file": "common/traits/01_personality_overrides.txt",
+      "count": 1
+    },
+    {
+      "severity": "tips",
+      "code": "suggest-localization",
+      "message": "you can define localization `TRAIT_FLAG_DESC_trait_unlocks_t4_withdraw_from_view`",
+      "source": "MOD",
+      "file": "common/traits/01_personality_overrides.txt",
+      "count": 1
+    }
+  ]
+}

@@ -1,0 +1,477 @@
+{
+  "schemaVersion": 1,
+  "findings": [
+    {
+      "severity": "error",
+      "code": "duplicate-character",
+      "message": "duplicate character id",
+      "source": "MOD",
+      "file": "history/characters/bookmark_chars.txt",
+      "count": 10
+    },
+    {
+      "severity": "error",
+      "code": "duplicate-character",
+      "message": "duplicate character id",
+      "source": "MOD",
+      "file": "history/characters/empire_rulers.txt",
+      "count": 1
+    },
+    {
+      "severity": "error",
+      "code": "duplicate-character",
+      "message": "duplicate character id",
+      "source": "MOD",
+      "file": "history/characters/essos_7898_chars.txt",
+      "count": 5
+    },
+    {
+      "severity": "error",
+      "code": "wrong-gender",
+      "message": "character is not female",
+      "source": "MOD",
+      "file": "history/characters/essos_7898_chars.txt",
+      "count": 2
+    },
+    {
+      "severity": "error",
+      "code": "history",
+      "message": "d_astapor has no holder at 7849.1.1",
+      "source": "MOD",
+      "file": "history/titles/lv_k_astapor.txt",
+      "count": 1
+    },
+    {
+      "severity": "error",
+      "code": "history",
+      "message": "d_astapor has no holder at 7860.1.1",
+      "source": "MOD",
+      "file": "history/titles/lv_k_astapor.txt",
+      "count": 4
+    },
+    {
+      "severity": "error",
+      "code": "history",
+      "message": "d_astapor has no holder at 7865.1.1",
+      "source": "MOD",
+      "file": "history/titles/lv_k_astapor.txt",
+      "count": 2
+    },
+    {
+      "severity": "error",
+      "code": "history",
+      "message": "d_astapor has no holder at 7872.1.1",
+      "source": "MOD",
+      "file": "history/titles/lv_k_astapor.txt",
+      "count": 3
+    },
+    {
+      "severity": "error",
+      "code": "history",
+      "message": "d_ghis has no holder at 7859.1.1",
+      "source": "MOD",
+      "file": "history/titles/lv_k_ghiscar.txt",
+      "count": 2
+    },
+    {
+      "severity": "error",
+      "code": "history",
+      "message": "d_ghis has no holder at 7868.1.1",
+      "source": "MOD",
+      "file": "history/titles/lv_k_ghiscar.txt",
+      "count": 2
+    },
+    {
+      "severity": "error",
+      "code": "history",
+      "message": "d_new_ghis has no holder at 7858.1.1",
+      "source": "MOD",
+      "file": "history/titles/lv_k_ghiscar.txt",
+      "count": 1
+    },
+    {
+      "severity": "error",
+      "code": "history",
+      "message": "d_meereen has no holder at 7820.1.1",
+      "source": "MOD",
+      "file": "history/titles/lv_k_meereen.txt",
+      "count": 2
+    },
+    {
+      "severity": "error",
+      "code": "history",
+      "message": "d_meereen has no holder at 7839.1.1",
+      "source": "MOD",
+      "file": "history/titles/lv_k_meereen.txt",
+      "count": 2
+    },
+    {
+      "severity": "error",
+      "code": "history",
+      "message": "d_meereen has no holder at 7849.1.1",
+      "source": "MOD",
+      "file": "history/titles/lv_k_meereen.txt",
+      "count": 1
+    },
+    {
+      "severity": "error",
+      "code": "history",
+      "message": "d_meereen has no holder at 7850.1.1",
+      "source": "MOD",
+      "file": "history/titles/lv_k_meereen.txt",
+      "count": 2
+    },
+    {
+      "severity": "error",
+      "code": "history",
+      "message": "d_meereen has no holder at 7852.1.1",
+      "source": "MOD",
+      "file": "history/titles/lv_k_meereen.txt",
+      "count": 2
+    },
+    {
+      "severity": "error",
+      "code": "history",
+      "message": "d_meereen has no holder at 7855.1.1",
+      "source": "MOD",
+      "file": "history/titles/lv_k_meereen.txt",
+      "count": 3
+    },
+    {
+      "severity": "error",
+      "code": "history",
+      "message": "d_meereen has no holder at 7857.1.1",
+      "source": "MOD",
+      "file": "history/titles/lv_k_meereen.txt",
+      "count": 1
+    },
+    {
+      "severity": "error",
+      "code": "history",
+      "message": "d_meereen has no holder at 7858.1.1",
+      "source": "MOD",
+      "file": "history/titles/lv_k_meereen.txt",
+      "count": 2
+    },
+    {
+      "severity": "error",
+      "code": "history",
+      "message": "d_meereen has no holder at 7860.1.1",
+      "source": "MOD",
+      "file": "history/titles/lv_k_meereen.txt",
+      "count": 3
+    },
+    {
+      "severity": "error",
+      "code": "history",
+      "message": "d_meereen has no holder at 7864.1.1",
+      "source": "MOD",
+      "file": "history/titles/lv_k_meereen.txt",
+      "count": 1
+    },
+    {
+      "severity": "error",
+      "code": "history",
+      "message": "d_meereen has no holder at 7867.1.1",
+      "source": "MOD",
+      "file": "history/titles/lv_k_meereen.txt",
+      "count": 2
+    },
+    {
+      "severity": "error",
+      "code": "history",
+      "message": "d_tolos has no holder at 7859.1.1",
+      "source": "MOD",
+      "file": "history/titles/lv_k_north_valyria.txt",
+      "count": 1
+    },
+    {
+      "severity": "error",
+      "code": "history",
+      "message": "d_death_swamps has no holder at 7866.1.1",
+      "source": "MOD",
+      "file": "history/titles/lv_k_volantis.txt",
+      "count": 1
+    },
+    {
+      "severity": "error",
+      "code": "history",
+      "message": "d_dreos has no holder at 7859.1.1",
+      "source": "MOD",
+      "file": "history/titles/lv_k_volantis.txt",
+      "count": 1
+    },
+    {
+      "severity": "error",
+      "code": "history",
+      "message": "d_dreos has no holder at 7860.1.1",
+      "source": "MOD",
+      "file": "history/titles/lv_k_volantis.txt",
+      "count": 1
+    },
+    {
+      "severity": "error",
+      "code": "history",
+      "message": "d_little_valyria has no holder at 7847.1.1",
+      "source": "MOD",
+      "file": "history/titles/lv_k_volantis.txt",
+      "count": 2
+    },
+    {
+      "severity": "error",
+      "code": "history",
+      "message": "d_selhorys has no holder at 7840.1.1",
+      "source": "MOD",
+      "file": "history/titles/lv_k_volantis.txt",
+      "count": 1
+    },
+    {
+      "severity": "error",
+      "code": "history",
+      "message": "d_valon_sar has no holder at 7849.1.1",
+      "source": "MOD",
+      "file": "history/titles/lv_k_volantis.txt",
+      "count": 1
+    },
+    {
+      "severity": "error",
+      "code": "history",
+      "message": "d_valysar has no holder at 7850.1.1",
+      "source": "MOD",
+      "file": "history/titles/lv_k_volantis.txt",
+      "count": 1
+    },
+    {
+      "severity": "error",
+      "code": "history",
+      "message": "d_vysyria has no holder at 7866.1.1",
+      "source": "MOD",
+      "file": "history/titles/lv_k_volantis.txt",
+      "count": 1
+    },
+    {
+      "severity": "error",
+      "code": "history",
+      "message": "k_volantis has no holder at 7849.1.1",
+      "source": "MOD",
+      "file": "history/titles/lv_k_volantis.txt",
+      "count": 1
+    },
+    {
+      "severity": "error",
+      "code": "missing-item",
+      "message": "d_sarhoy has no title history",
+      "source": "MOD",
+      "file": "history/titles/lv_k_volantis.txt",
+      "count": 1
+    },
+    {
+      "severity": "error",
+      "code": "history",
+      "message": "k_astapor has no holder at 7849.1.1",
+      "source": "MOD",
+      "file": "history/titles/lv_nf_titles.txt",
+      "count": 1
+    },
+    {
+      "severity": "error",
+      "code": "history",
+      "message": "k_astapor has no holder at 7860.1.1",
+      "source": "MOD",
+      "file": "history/titles/lv_nf_titles.txt",
+      "count": 2
+    },
+    {
+      "severity": "error",
+      "code": "history",
+      "message": "k_astapor has no holder at 7865.1.1",
+      "source": "MOD",
+      "file": "history/titles/lv_nf_titles.txt",
+      "count": 1
+    },
+    {
+      "severity": "error",
+      "code": "history",
+      "message": "k_astapor has no holder at 7872.1.1",
+      "source": "MOD",
+      "file": "history/titles/lv_nf_titles.txt",
+      "count": 1
+    },
+    {
+      "severity": "error",
+      "code": "history",
+      "message": "k_gogossos has no holder at 7870.1.1",
+      "source": "MOD",
+      "file": "history/titles/lv_nf_titles.txt",
+      "count": 1
+    },
+    {
+      "severity": "error",
+      "code": "history",
+      "message": "k_gogossos has no holder at 7880.1.1",
+      "source": "MOD",
+      "file": "history/titles/lv_nf_titles.txt",
+      "count": 3
+    },
+    {
+      "severity": "error",
+      "code": "history",
+      "message": "k_meereen has no holder at 7820.1.1",
+      "source": "MOD",
+      "file": "history/titles/lv_nf_titles.txt",
+      "count": 1
+    },
+    {
+      "severity": "error",
+      "code": "history",
+      "message": "k_meereen has no holder at 7839.1.1",
+      "source": "MOD",
+      "file": "history/titles/lv_nf_titles.txt",
+      "count": 1
+    },
+    {
+      "severity": "error",
+      "code": "history",
+      "message": "k_volantis has no holder at 7852.1.1",
+      "source": "MOD",
+      "file": "history/titles/lv_nf_titles.txt",
+      "count": 1
+    },
+    {
+      "severity": "error",
+      "code": "history",
+      "message": "k_yunkai has no holder at 7833.1.1",
+      "source": "MOD",
+      "file": "history/titles/lv_nf_titles.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "bookmarks",
+      "message": "culture is fish_man in bookmark but manticorian in character history at 7899.8.14",
+      "source": "Further East EEP",
+      "file": "common/bookmarks/bookmarks/zz_eetlv_further_east.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "duplicate-item",
+      "message": "scripted effect is redefined by another scripted effect",
+      "source": "MOD",
+      "file": "common/scripted_effects/replace/00_agot_character_data_effects.txt",
+      "count": 5
+    },
+    {
+      "severity": "warning",
+      "code": "duplicate-field",
+      "message": "`culture` is redefined in a following line",
+      "source": "MOD",
+      "file": "history/provinces/k_generated.txt",
+      "count": 1834
+    },
+    {
+      "severity": "warning",
+      "code": "duplicate-field",
+      "message": "`holding` is redefined in a following line",
+      "source": "MOD",
+      "file": "history/provinces/k_generated.txt",
+      "count": 147
+    },
+    {
+      "severity": "warning",
+      "code": "duplicate-field",
+      "message": "`religion` is redefined in a following line",
+      "source": "MOD",
+      "file": "history/provinces/k_generated.txt",
+      "count": 2341
+    },
+    {
+      "severity": "warning",
+      "code": "duplicate-item",
+      "message": "province is redefined by another province",
+      "source": "MOD",
+      "file": "history/provinces/k_generated.txt",
+      "count": 2727
+    },
+    {
+      "severity": "warning",
+      "code": "duplicate-item",
+      "message": "title has two definition blocks, they will be added together",
+      "source": "MOD",
+      "file": "history/titles/hist_titles.txt",
+      "count": 4
+    },
+    {
+      "severity": "warning",
+      "code": "duplicate-field",
+      "message": "`effect` is redefined in a following line",
+      "source": "MOD",
+      "file": "history/titles/lv_k_volantis.txt",
+      "count": 30
+    },
+    {
+      "severity": "warning",
+      "code": "duplicate-item",
+      "message": "title has two definition blocks, they will be added together",
+      "source": "MOD",
+      "file": "history/titles/vassal_titles_e_great_grass_sea_dothraki.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "duplicate-item",
+      "message": "title has two definition blocks, they will be added together",
+      "source": "MOD",
+      "file": "history/titles/vassal_titles_e_hidden_sea.txt",
+      "count": 6
+    },
+    {
+      "severity": "warning",
+      "code": "duplicate-item",
+      "message": "title has two definition blocks, they will be added together",
+      "source": "MOD",
+      "file": "history/titles/vassal_titles_e_lower_sarne_dothraki.txt",
+      "count": 2
+    },
+    {
+      "severity": "warning",
+      "code": "duplicate-item",
+      "message": "title has two definition blocks, they will be added together",
+      "source": "MOD",
+      "file": "history/titles/vassal_titles_e_omber.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "duplicate-item",
+      "message": "title has two definition blocks, they will be added together",
+      "source": "MOD",
+      "file": "history/titles/vassal_titles_e_qarth.txt",
+      "count": 6
+    },
+    {
+      "severity": "warning",
+      "code": "duplicate-item",
+      "message": "title has two definition blocks, they will be added together",
+      "source": "MOD",
+      "file": "history/titles/vassal_titles_e_qohor.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "duplicate-item",
+      "message": "title has two definition blocks, they will be added together",
+      "source": "MOD",
+      "file": "history/titles/vassal_titles_e_sarnor.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "duplicate-item",
+      "message": "title has two definition blocks, they will be added together",
+      "source": "MOD",
+      "file": "history/titles/vassal_titles_e_upper_sarne_dothraki.txt",
+      "count": 3
+    }
+  ]
+}

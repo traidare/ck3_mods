@@ -1,0 +1,13 @@
+{
+  "schemaVersion": 1,
+  "findings": [
+    {
+      "severity": "error",
+      "code": "datafunctions",
+      "message": "wrong number of arguments for macro",
+      "source": "MOD",
+      "file": "gui/window_character.gui",
+      "count": 2
+    }
+  ]
+}

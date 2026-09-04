@@ -1,0 +1,25 @@
+{
+  "schemaVersion": 1,
+  "files": {
+    "game/game/events/activities/tournaments/contest_events.txt": {
+      "sha256": "df1040fbcb1b471e063b64c23217669e489737395422632a27a8bbea1fa1ba6a",
+      "size": 357781
+    },
+    "workshop/3206891770/events/activities/tournaments/contest_events.txt": {
+      "sha256": "22bddf3d562a04bc3a43c759d92a4e5df61d6792ae2537d7eeeca18a7880008f",
+      "size": 357920
+    },
+    "workshop/3206891770/gui/kei_cafg_county_view_additions.gui": {
+      "sha256": "c878eb2177d66a7033d4c24ee30ebe506e0be00ff0e41c55c1b01bbe14b681e3",
+      "size": 4466
+    },
+    "workshop/3719888822/events/activities/tournaments/contest_events.txt": {
+      "sha256": "b52fde29e536f1fbdc3b164d465ee1af4f31abd1a0edbf4177b988fad2103c0e",
+      "size": 364312
+    },
+    "workshop/3719888822/gui/window_county_view.gui": {
+      "sha256": "4928e1a4e215d1b2a44d99c069c5f49ec9a9b27aca01f18a1417705fd00e1bbc",
+      "size": 110020
+    }
+  }
+}

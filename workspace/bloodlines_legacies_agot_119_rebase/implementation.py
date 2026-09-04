@@ -247,7 +247,13 @@ def repair_crownlands_modifiers(inputs: RunInputs) -> None:
             rf"(?m)^(?P<indent>[ \t]*){token}(?P<space>\s*=\s*)(?P<value>-?[\d.]+)[ \t]*$"
         )
 
-        def rewrite(match: re.Match[str]) -> str:
+        # The loop variables are bound as defaults: the closure is only called
+        # by the subn below, but a late-binding read here would be silent.
+        def rewrite(
+            match: re.Match[str],
+            replacement: str = replacement,
+            invert: bool = invert,
+        ) -> str:
             value = match.group("value")
             if invert:
                 value = value[1:] if value.startswith("-") else f"-{value}"

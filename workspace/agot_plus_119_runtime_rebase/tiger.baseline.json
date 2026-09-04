@@ -1,0 +1,85 @@
+{
+  "schemaVersion": 1,
+  "findings": [
+    {
+      "severity": "error",
+      "code": "missing-item",
+      "message": "character Hotah_rs_2 not defined in history/characters/",
+      "source": "MOD",
+      "file": "common/scripted_effects/asoiaf_setup_effects.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "use-of-this",
+      "message": "target `this` makes no sense here",
+      "source": "AGOT",
+      "file": "common/scripted_effects/00_agot_artifact_weapon_effects.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "scopes",
+      "message": "`asoiaf_setup_characters_effect` expects root to be character but root seems to be none",
+      "source": "AGOT+",
+      "file": "common/on_action/asoiaf_setup.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "strict-scopes",
+      "message": "`asoiaf_setup_characters_effect` expects scope:host to be set",
+      "source": "AGOT+",
+      "file": "common/on_action/asoiaf_setup.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "strict-scopes",
+      "message": "`asoiaf_canon_children_Targaryen_61_1_birth_effect` expects scope:execution_dragon_burn to be set",
+      "source": "AGOT+",
+      "file": "events/asoiaf_canon_children_events/asoiaf_canon_children_targaryen_events.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "strict-scopes",
+      "message": "`asoiaf_canon_children_Targaryen_61_1_birth_effect` expects scope:execution_dragon_fed to be set",
+      "source": "AGOT+",
+      "file": "events/asoiaf_canon_children_events/asoiaf_canon_children_targaryen_events.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "missing-item",
+      "message": "nickname nick_the_imp not defined in common/nicknames/",
+      "source": "MOD",
+      "file": "common/scripted_effects/asoiaf_canon_children_effects.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "scopes",
+      "message": "`exists = yes/no` does not work",
+      "source": "MOD",
+      "file": "common/scripted_effects/asoiaf_canon_children_effects.txt",
+      "count": 55
+    },
+    {
+      "severity": "warning",
+      "code": "scopes",
+      "message": "global_var:asoiaf_canon_children_Targaryen_61_1_born_variable was deduced to be bool but scope seems to be character",
+      "source": "MOD",
+      "file": "common/scripted_effects/asoiaf_canon_children_effects.txt",
+      "count": 3
+    },
+    {
+      "severity": "warning",
+      "code": "missing-item",
+      "message": "nickname nick_the_ironrod not defined in common/nicknames/",
+      "source": "MOD",
+      "file": "common/scripted_effects/asoiaf_setup_effects.txt",
+      "count": 1
+    }
+  ]
+}

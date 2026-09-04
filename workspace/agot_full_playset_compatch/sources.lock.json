@@ -1,0 +1,169 @@
+{
+  "schemaVersion": 1,
+  "files": {
+    "workshop/2779836155/common/on_action/childhood_on_actions.txt": {
+      "sha256": "c4d5237c5cd5ee7abe292a9d7f515593a9cf8cbbd56f4ee454eda8b98fbfe0d7",
+      "size": 29773
+    },
+    "workshop/2779836155/descriptor.mod": {
+      "sha256": "ea21b130c39c24fa4bbd468f7e2812e307cb8ed27afc49935996981509d3075a",
+      "size": 178
+    },
+    "workshop/2962333032/common/on_action/agot_on_actions/agot_childhood_on_actions.txt": {
+      "sha256": "7c8fb7f65d7978521d456191371b057296e36f96af603b56bed4a383eb347da2",
+      "size": 55267
+    },
+    "workshop/2962333032/common/on_action/agot_on_actions/agot_yearly_on_actions.txt": {
+      "sha256": "50352c133536c8cea25abbe44cbca78404cba303626577e6bbd2ccf95e020668",
+      "size": 29085
+    },
+    "workshop/2962333032/common/on_action/childhood_on_actions.txt": {
+      "sha256": "0f34dc3dca045a58be35d4f5de061a88ed266244ce2f9b8c23d7f2d292a4a198",
+      "size": 31452
+    },
+    "workshop/2962333032/common/scripted_rules/00_rules.txt": {
+      "sha256": "2d2f353c05a263251ecf251f8f30cb7d4f6b6f2adca9da79bc205cd9649e4319",
+      "size": 51711
+    },
+    "workshop/2962333032/common/scripted_triggers/00_agot_character_triggers.txt": {
+      "sha256": "2414f0faa1338a2fa4029a8d465a9581c70724cf5e981325a0a4355bd8cccaee",
+      "size": 4380
+    },
+    "workshop/2962333032/descriptor.mod": {
+      "sha256": "ad765ec356998009cd374270c8758878ab8f2a4887f669a037e602b299463769",
+      "size": 1070
+    },
+    "workshop/2962333032/gui/hud.gui": {
+      "sha256": "aa5f754b763df4fa933109f2e20b4efd7b3f85bd6577f93b4b18efc437936d91",
+      "size": 216653
+    },
+    "workshop/2962333032/gui/map_icon_layer.gui": {
+      "sha256": "9748f281fb271856b7b4bfd21f50ec73ee4df54622236a5d2cb1ebc1d48c2d60",
+      "size": 147679
+    },
+    "workshop/3319354609/descriptor.mod": {
+      "sha256": "eceebcded422f245fb29e2f243162d969b1f34beac32397c68142570497183f7",
+      "size": 154
+    },
+    "workshop/3319354609/gfx/court_scene/scene_settings/grandeur_levels/grandeur_levels.txt": {
+      "sha256": "170eaef8c16f72faa29334086d625e0a169d24084ed5fbdf5d2249c55183eb69",
+      "size": 11068
+    },
+    "workshop/3388366564/common/on_action/agot_on_actions/mde_yearly_on_actions.txt": {
+      "sha256": "6be6b2ab0f6a7c6e6d88424a38ae1b737c2ec24ca0a503544e83a5cd3482ed83",
+      "size": 525
+    },
+    "workshop/3388366564/descriptor.mod": {
+      "sha256": "dbc867ab83a4757b1fc6cce954ead8f53cbc619a294b3d4d5400cf27b40daf46",
+      "size": 132
+    },
+    "workshop/3466228580/common/on_action/agot_on_actions/mde_yearly_on_actions.txt": {
+      "sha256": "e759525cb4a5d129415f4757d95499bb538464cfc9d4c9224eed290afd19423e",
+      "size": 5159
+    },
+    "workshop/3466228580/descriptor.mod": {
+      "sha256": "0af5ed1a3378e634af2136e5990a43438ae4bcd62d5d5aadfd86258b8c1169f5",
+      "size": 217
+    },
+    "workshop/3609763696/descriptor.mod": {
+      "sha256": "2935daabfe2a1923ceb8978cb5535b83a36670ab150e9e789fb6322660f22d8b",
+      "size": 163
+    },
+    "workshop/3609763696/gui/hud.gui": {
+      "sha256": "76df67673317651afd126f257bc91373268614f46135588ddb8e76d9951a9cbd",
+      "size": 221978
+    },
+    "workshop/3621472324/common/scripted_triggers/zzz_Great_Councils_replaced_triggers.txt": {
+      "sha256": "10eb1975b391d457e213659afaf5166320f44d13669a52a20e33eabbd69d9199",
+      "size": 805
+    },
+    "workshop/3621472324/descriptor.mod": {
+      "sha256": "03c72c8d6294d1bd00e4d4a8f9829df8e10c4a26a76eceafeda24a2c20deb88a",
+      "size": 149
+    },
+    "workshop/3664900993/common/landed_titles/01_agot_landed_titles.txt": {
+      "sha256": "f498d7bd351f525a219c731aa318ec4c3ea035d5d3c606ed3bd9ee7f0c888ea1",
+      "size": 905756
+    },
+    "workshop/3664900993/descriptor.mod": {
+      "sha256": "54e471e606274d8460a57bd95cbaea1a0f77dff73c9c87faa29eb581a9060a96",
+      "size": 159
+    },
+    "workshop/3664900993/localization/replace/english/agot/replace/00_agot_titles_l_english.yml": {
+      "sha256": "e50b4eecb97f808e1a6d3fd3703ee9dc918013bccd5127bec04e610ecc225873",
+      "size": 9454
+    },
+    "workshop/3664900993/localization/replace/spanish/agot/replace/00_agot_titles_l_spanish.yml": {
+      "sha256": "cf43c9cfb0a1737ac7950f4819e8747ac5d14c35c00e24ae533c76a3c05b3c1e",
+      "size": 6858
+    },
+    "workshop/3719888822/common/scripted_rules/00_rules.txt": {
+      "sha256": "f8c4d2b99690f1134d6883aaba11fbee045469ce254136406a8e392a81e3e800",
+      "size": 51885
+    },
+    "workshop/3719888822/descriptor.mod": {
+      "sha256": "d72391046f56759e6f971ac844ac83fefaa1aea825deaf618f8eec90aef9a08f",
+      "size": 287
+    },
+    "workshop/3719888822/gui/map_icon_layer.gui": {
+      "sha256": "0274676f8fc2fc97575710871630286760623c9df480031cbec8d3cd0b80a2fe",
+      "size": 141553
+    },
+    "workshop/3742055253/common/buildings/replace/99_background_graphics_buildings.txt": {
+      "sha256": "8635d5000b8c6f63c5aa204b7a529d84d7d7aa6cd8b28b1c997a2ef764abeede",
+      "size": 240563
+    },
+    "workshop/3742055253/descriptor.mod": {
+      "sha256": "df516080f69117d701b75cff9dd45202b42c55307009a034b92d9c9bc8f072f5",
+      "size": 189
+    },
+    "workshop/3762892081/descriptor.mod": {
+      "sha256": "5b8a3dd9c137cdda208f5b201778bb840704456cd79e3f85677179d55a92e6c6",
+      "size": 376
+    },
+    "workshop/3762892081/gfx/court_scene/scene_settings/grandeur_levels/grandeur_levels.txt": {
+      "sha256": "5a4a0affa13d220b77cff6ff97fbcd611e3477030d23bfaec3c0ae4722e6d0a1",
+      "size": 15366
+    },
+    "workshop/3766038754/descriptor.mod": {
+      "sha256": "6c6d79068a705334e1a8e4864a261ff1f73f6a502b3f6e8bb83370d328f15665",
+      "size": 404
+    },
+    "workshop/3766038754/events/lov_season_events.txt": {
+      "sha256": "68aecc6fb9c756ec0ce5a877de758cadc9fb8b9e8e62b2dda7ce0b7f100982e2",
+      "size": 16687
+    },
+    "workshop/3766038754/gfx/FX/province_effects.fxh": {
+      "sha256": "6f4f61689d423d5941dd0dcb39b47bedfe33fe2a94c7a5f057c7b3ad05578a85",
+      "size": 56312
+    },
+    "workshop/3766038754/map_data/geographical_regions/north_sans_neck.txt": {
+      "sha256": "42cfc42517fb98ecfcd192e7e2c2b7aef913efb9a0c108ac0d1ca4e1c25b4092",
+      "size": 21190
+    },
+    "workshop/3780269495/common/scripted_rules/zz_ln_diarch_rules.txt": {
+      "sha256": "5004ff7ffdb30f9cf65868a4a2332f4e1dbe9f1020caf9c3034e583f42201e13",
+      "size": 1038
+    },
+    "workshop/3780269495/descriptor.mod": {
+      "sha256": "09f66b9bc0d04c8474ebfbf97ea0e81b8a57119035d59c19ebcb4b8ba470043c",
+      "size": 216
+    },
+    "workshop/3781577713/common/scripted_triggers/zz_kraken_character_triggers.txt": {
+      "sha256": "6843f96713121877cbb0d30106d66af4c0e3f8d399a0c2a3ff9a2a7622e38add",
+      "size": 10082
+    },
+    "workshop/3781577713/descriptor.mod": {
+      "sha256": "08598bdf00a6db3aa650f0f0593b131094201fc3be1cdeaafa33e71d6aeecee7",
+      "size": 244
+    },
+    "workshop/3781577713/gui/hud.gui": {
+      "sha256": "4521a94ae64db363b5037d7a2acc00ff059a869590d7b1aa20cc266d928dcba8",
+      "size": 533330
+    },
+    "workshop/3781577713/gui/map_icon_layer.gui": {
+      "sha256": "21a8849258ce07a2672ea5624060685618e7ded6959e698505280074d611b2d9",
+      "size": 147833
+    }
+  }
+}

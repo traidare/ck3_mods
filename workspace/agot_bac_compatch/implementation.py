@@ -24,7 +24,6 @@ a fourth one it cannot know about, so the same clear is added there.
 
 from __future__ import annotations
 
-import hashlib
 from codecs import BOM_UTF8
 from dataclasses import dataclass
 
@@ -36,27 +35,6 @@ AGOT_MULTIPLAYER_TYPES = "gui/custom_gui/agot_multiplayer_types.gui"
 
 # Full-file pins, vanilla included: this merge is only reviewable when all
 # three sides of it are known inputs.  A mismatch is the re-audit trigger.
-PINS = {
-    "game": {
-        MULTIPLAYER_TYPES: (
-            "93912d008d2362955470e7f42029280c41e3e316e28d8d1055ee09dfbe8bc3a3"
-        ),
-    },
-    "agot": {
-        MULTIPLAYER_TYPES: (
-            "b1e236e7597760ab980983c6c91e4579e79b44e4b8c73aefb9ce93f3d37ceca0"
-        ),
-        AGOT_MULTIPLAYER_TYPES: (
-            "2328def2571f0987b7545b78ee0f3a479e6222ebd9ac10f59a953ac07f532f4f"
-        ),
-    },
-    "build-a-courtier": {
-        MULTIPLAYER_TYPES: (
-            "687f1e36ba1312230109c06f8f21c3fe5ced3bd1e4d637ba21e8553240afe54d"
-        ),
-    },
-}
-
 # Build-a-Courtier's scripted GUI names.  Both live in the parent mod; this
 # module only adds call sites, never redefines them.
 CLEAR_INTENT = (
@@ -152,8 +130,8 @@ BUTTON_ANCHOR = (
 
 
 @dataclass(frozen=True, slots=True)
-class PinnedSource:
-    """A pinned source file plus the byte-level shape to write back.
+class ParentSource:
+    """One parent's text plus the byte-level shape to write back.
 
     These GUI files disagree about both BOM and line endings, so each
     output restores what its own parent used rather than a house style.
@@ -167,22 +145,21 @@ class PinnedSource:
         return normalize_newlines(merged, self.newline)
 
 
-def pinned_source(
+def parent_source(
     context: GenerationContext, source: str, relative: str
-) -> PinnedSource:
-    """Read a pinned source file, normalised to LF for rewriting."""
+) -> ParentSource:
+    """Read one parent file, normalised to LF for rewriting.
+
+    Content drift is not checked here: sources.lock.json pins every file the run
+    reads, so a hash repeated in this module would only be a second copy to
+    update by hand.
+    """
     path = context.source(source) / relative
     if not path.is_file():
         raise GenerationError(f"missing required source: {path}")
     raw = path.read_bytes()
-    expected = PINS[source][relative]
-    actual = hashlib.sha256(raw).hexdigest()
-    if actual != expected:
-        raise GenerationError(
-            f"{source}/{relative} changed: expected {expected}, found {actual}"
-        )
     decoded = raw.decode("utf-8-sig")
-    return PinnedSource(
+    return ParentSource(
         text=decoded.replace("\r\n", "\n").replace("\r", "\n"),
         bom=raw.startswith(BOM_UTF8),
         newline=newline_style(decoded),
@@ -190,7 +167,7 @@ def pinned_source(
 
 
 def write_like_parent(
-    context: GenerationContext, relative: str, parent: PinnedSource, merged: str
+    context: GenerationContext, relative: str, parent: ParentSource, merged: str
 ) -> None:
     """Write a merged file in its parent's own encoding and newlines."""
     context.write_text(
@@ -238,8 +215,8 @@ def add_clear_before_designer(text: str, mode: str) -> str:
 
 def generate_multiplayer_types(context: GenerationContext) -> None:
     """Replay Build-a-Courtier's additions onto AGOT's lobby GUI."""
-    agot = pinned_source(context, "agot", MULTIPLAYER_TYPES)
-    courtier = pinned_source(context, "build-a-courtier", MULTIPLAYER_TYPES)
+    agot = parent_source(context, "agot", MULTIPLAYER_TYPES)
+    courtier = parent_source(context, "build-a-courtier", MULTIPLAYER_TYPES)
     assert_parent_delta(courtier.text)
 
     merged = agot.text
@@ -263,7 +240,7 @@ def generate_multiplayer_types(context: GenerationContext) -> None:
 
 def generate_pirate_button(context: GenerationContext) -> None:
     """Give AGOT's pirate button the same stale-flag clear as the rest."""
-    agot = pinned_source(context, "agot", AGOT_MULTIPLAYER_TYPES)
+    agot = parent_source(context, "agot", AGOT_MULTIPLAYER_TYPES)
 
     call = "onclick = \"[GetVariableSystem.Set('pirate_designer', 'true')]\""
     merged = replace_exact(
@@ -284,7 +261,7 @@ def generate_pirate_button(context: GenerationContext) -> None:
 def generate(context: GenerationContext) -> None:
     # Read only: the vanilla base is pinned so a three-way review stays
     # possible even though the merge itself is a replay onto AGOT.
-    pinned_source(context, "game", MULTIPLAYER_TYPES)
+    parent_source(context, "game", MULTIPLAYER_TYPES)
 
     generate_multiplayer_types(context)
     generate_pirate_button(context)

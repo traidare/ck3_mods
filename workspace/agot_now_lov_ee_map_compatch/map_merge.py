@@ -1187,39 +1187,22 @@ def merge_geographical_regions(inputs: Inputs) -> str:
     return merge_file_blocks(current, (overlay,))
 
 
-def source_manifest(inputs: Inputs) -> dict[str, object]:
-    relatives = [
-        DEFINITION,
-        GEO_REGIONS,
-        NOW_GEO_REGIONS,
-        *LOCATOR_FILES,
-        *OBJECT_FILES,
-    ]
-    paths = (
-        {
-            inputs.agot / relative
-            for relative in relatives
-            if (inputs.agot / relative).is_file()
-        }
-        | {
-            inputs.now / relative
-            for relative in (DEFINITION, NOW_GEO_REGIONS, *LOCATOR_FILES, *OBJECT_FILES)
-            if (inputs.now / relative).is_file()
-        }
-        | {
-            inputs.current_map_source(relative)
-            for relative in (
-                DEFINITION,
-                DEFAULT_MAP,
-                PROVINCES_RASTER,
-                GEO_REGIONS,
-                *LOCATOR_FILES,
-                *OBJECT_FILES,
-            )
-        }
-        | {inputs.eec / relative for relative in ADOPTED_LOCATOR_FILES}
-        | set(effective_landed_title_files(inputs).values())
-    )
+# The one-line statement of what this merge is for.  The upstream inputs behind
+# it are pinned by sources.lock.json.
+INTENT = (
+    "EEP-native map; apply NOW semantic Westeros deltas, quarantine reviewed "
+    "unpainted definitions without effective titles, then place every land "
+    "province's locator inside its own province"
+)
+
+
+def parent_versions(inputs: Inputs) -> dict[str, str]:
+    """Read each parent's declared version, for the generation report.
+
+    Reading every descriptor.mod also keeps them in sources.lock.json, which
+    makes a parent bump visible to `ck3mm upstream` even when this module's
+    own output does not move.
+    """
     modules = {
         "AGOT": inputs.agot,
         "NOW": inputs.now,
@@ -1229,38 +1212,17 @@ def source_manifest(inputs: Inputs) -> dict[str, object]:
         "EEC": inputs.eec,
     }
     return {
-        "schema_version": 2,
-        "versions": {
-            label: re.search(
-                r'(?m)^version="([^\"]+)"', read(root / "descriptor.mod")
-            ).group(1)
-            for label, root in modules.items()
-        },
-        "files": {
-            canonical_source_path(
-                path,
-                root=inputs.context.workspace_root,
-                workshop_root=inputs.workshop_root,
-            ): {
-                "sha256": hashlib.sha256(path.read_bytes()).hexdigest(),
-                "size": path.stat().st_size,
-            }
-            for path in sorted(paths)
-        },
-        "intent": (
-            "EEP-native map; apply NOW semantic Westeros deltas, quarantine reviewed "
-            "unpainted definitions without effective titles, then place every land "
-            "province's locator inside its own province"
-        ),
+        label: re.search(
+            r'(?m)^version="([^\"]+)"', read(root / "descriptor.mod")
+        ).group(1)
+        for label, root in modules.items()
     }
 
 
 def generate(context: GenerationContext) -> None:
     inputs = Inputs.from_context(context)
-    manifest = source_manifest(inputs)
-    manifest_path = context.assets_dir / "source_manifest.json"
-    if json.loads(manifest_path.read_text(encoding="utf-8")) != manifest:
-        raise RuntimeError("map source manifest drifted; review and replace the asset")
+    versions = parent_versions(inputs)
+    print("Parents: " + ", ".join(f"{k} {v}" for k, v in versions.items()))
 
     definition = merge_definition(inputs)
     inputs.write(DEFINITION, definition, encoding="utf-8")

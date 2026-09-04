@@ -13,7 +13,6 @@ from gen.text import replace_exact
 
 from .common import (
     assert_source_block_hash,
-    assert_source_file_hash,
     guard_event_deaths,
 )
 from .context import RunInputs
@@ -173,11 +172,6 @@ def generate_naval_contact_stability(inputs: RunInputs) -> None:
 
     events_relative = "events/naval_combat_events.txt"
     event_path = inputs.WORKSHOP / "3781577713" / events_relative
-    assert_source_file_hash(
-        event_path,
-        "14b877a8f04a61e953792eea295ad0908cd3db4bac10e19f9ab4911f10a99e89",
-        label="Iron and Salt naval events",
-    )
     events = read_text(event_path)
     events = replace_exact(
         events,
@@ -360,11 +354,6 @@ def generate_adventurer_beneficiary_cb_guard(inputs: RunInputs) -> None:
 def generate_kraken_event_parser_repair(inputs: RunInputs) -> None:
     relative = "events/kraken_events.txt"
     path = inputs.WORKSHOP / "3781577713" / relative
-    assert_source_file_hash(
-        path,
-        "f74b3420b58d2999bc96384406b6abf6a96753c66547e2f3408d10812faaa5ce",
-        label="Iron and Salt kraken events",
-    )
     source = strip_unsupported_override_environments(read_text(path))
     # A kraken taking a traveller is an accident, so protected characters are
     # spared it: the entourage victim in kraken.0100, the travel plan owner

@@ -1,0 +1,1317 @@
+{
+  "schemaVersion": 1,
+  "files": {
+    "game/game/common/character_interactions/00_education_interactions.txt": {
+      "sha256": "841cc160d73dd5c24519d3160fba0d6098873904a736fdeb0b27781af7393474",
+      "size": 93188
+    },
+    "game/game/common/scripted_effects/00_nickname_effects.txt": {
+      "sha256": "5e7259ed1c50c843e4c49f73842f2b11f10cddd5c56d231fed35af492e8d48c0",
+      "size": 175602
+    },
+    "game/game/common/scripted_effects/04_dlc_ep2_tour_effects.txt": {
+      "sha256": "c7e9380b475d07118b545068ced83fc43c0b3899b3162c4d5df7a5b3bc7fe586",
+      "size": 17862
+    },
+    "game/game/common/scripted_effects/09_dlc_mpo_scripted_effects.txt": {
+      "sha256": "146cdc822ad7a6f45b3b324c2660b2118188321cd4e7edbcb447ac7939ec8914",
+      "size": 152188
+    },
+    "game/game/events/travel_events/travel_events_james.txt": {
+      "sha256": "8bb63d8317f69358c9d0ee90210f4bc19bbfaad990a8eda648f09dc7dccb1412",
+      "size": 173857
+    },
+    "game/game/gui/activity_window_widgets/chariot_race_widget_types.gui": {
+      "sha256": "1a181e9ef2d47dfd722f4c114c623cf0da8663fffefd9dbc7f8d78aa403e4de8",
+      "size": 22461
+    },
+    "game/game/gui/activity_window_widgets/tournament_widget_types.gui": {
+      "sha256": "8779ac7e14d6f32b430a90000a08d28d79069fd1d806ec2b94240311f14dbede",
+      "size": 28933
+    },
+    "game/game/gui/shared/event_windows.gui": {
+      "sha256": "8668174191a58aece3fba57a0e65c7e7dc1384f1b3a7ba281ea6e801d76811f4",
+      "size": 78402
+    },
+    "workshop/2519175282/common/on_action/hometowns_on_actions.txt": {
+      "sha256": "6e34399be13c8ea47d0d7e2ecb99a5c220ca1060322ec0e4b68c5491ce0f4ef1",
+      "size": 2257
+    },
+    "workshop/2519175282/events/hometowns_events.txt": {
+      "sha256": "4a7a6b520aad037093af116e2ce9f70cc59be97135003a3d31f8a6cbfb32a119",
+      "size": 23331
+    },
+    "workshop/2712590542/events/interactive_events/interactive_events.txt": {
+      "sha256": "7fa78808a30694ffe3647d88c3d573b6fe8d07169cc321194d8567163f735ec0",
+      "size": 23885
+    },
+    "workshop/2886417277/common/scripted_guis/am_artifacts_batch_ops.txt": {
+      "sha256": "e205543565ae053aeb497342dcd515d05ed0397dc1ff8b23e7c543349b528bdb",
+      "size": 15140
+    },
+    "workshop/2886417277/common/scripted_guis/am_status_events.txt": {
+      "sha256": "968228c98de04978e147934898dfa165dfdd8bdec6ce9f5287926010aba05fe8",
+      "size": 66865
+    },
+    "workshop/2886417277/common/scripted_guis/am_upgrade_ops.txt": {
+      "sha256": "02a2fc123a3ac66222130514f42ea352234a2cd82d7c88f00681431be5ca022f",
+      "size": 160593
+    },
+    "workshop/2886417277/common/scripted_guis/distribute_artifacts.txt": {
+      "sha256": "ecc080af92a36b4910b8ed0d4f1a6855ee23b3cdf72004f2096de88e317387c5",
+      "size": 129
+    },
+    "workshop/2886417277/events/distribute_artifacts.txt": {
+      "sha256": "6f09df655d1630042ec7bc2b5239a1c6acc4b997de7c56a53ba57b7410624967",
+      "size": 2538
+    },
+    "workshop/2962333032/common/buildings/00_agot_castle_buildings.txt": {
+      "sha256": "1c436222fefc956f826da59700ca2dec19a695fb865dc37a1ef3cefde64ab43c",
+      "size": 116174
+    },
+    "workshop/2962333032/common/buildings/00_agot_city_buildings.txt": {
+      "sha256": "64df3cc18ad612ab39a849e1d3ead6e3770911a99fe355c48dff5fb91802f8f8",
+      "size": 106998
+    },
+    "workshop/2962333032/common/character_interactions/00_education_interactions.txt": {
+      "sha256": "7274b26638c574da6a3c0fcf6681e7aec869f32025e315349393c7f70de6313e",
+      "size": 110334
+    },
+    "workshop/2962333032/common/culture/cultures/00_agot_cul_shadowlanders.txt": {
+      "sha256": "03658ad9eef08074029cb080356da16aa79c3a922ff06fc9256e707981eae99a",
+      "size": 2069
+    },
+    "workshop/2962333032/common/decisions/dlc_decisions/ep_3/06_ep3_laamp_decisions.txt": {
+      "sha256": "12f9db78b6118c72c33dbd62210eaa674c9d59140ca0d6fb74ff1d66ee3504c8",
+      "size": 85551
+    },
+    "workshop/2962333032/common/governments/00_agot_government_types.txt": {
+      "sha256": "f54d6b888226033050fcecfcf91f6d1d2c0d0b38b87b1d6048adaef3f4193125",
+      "size": 15916
+    },
+    "workshop/2962333032/common/on_action/agot_on_actions/agot_starting_legitimacy_on_actions.txt": {
+      "sha256": "a10375f3ddd232d41b114a1da4de6d151bfa59c47d038f11df4401d738cab689",
+      "size": 11852
+    },
+    "workshop/2962333032/common/on_action/dynasty_on_actions.txt": {
+      "sha256": "90d79cc408096f6e9ca4560aeb834b85ba9616d409a029d450d2693e1e589d45",
+      "size": 18413
+    },
+    "workshop/2962333032/common/script_values/00_agot_dragon_gene_values.txt": {
+      "sha256": "6218687de506f50d6cc24f2ec5548f1a62be4ada2c992a36f723a3a32a0beb04",
+      "size": 90022
+    },
+    "workshop/2962333032/common/script_values/00_war_values.txt": {
+      "sha256": "8c0a56ecbf5f53f80b021c31d55d3f7b02cc9c88fd284f01735fd44b42a8e28d",
+      "size": 26044
+    },
+    "workshop/2962333032/common/scripted_effects/00_agot_citadel_effects.txt": {
+      "sha256": "faf05f5a1aff0767b1ab05eaf8b2524ec47b4b2f05396dc697c570a8b7d1c305",
+      "size": 77285
+    },
+    "workshop/2962333032/common/scripted_effects/00_agot_remove_realms_effects.txt": {
+      "sha256": "14258bb8eff1a17c0ec4f7d0a1e89cb109da74afb51844d06f79305a15cccd22",
+      "size": 8959
+    },
+    "workshop/2962333032/common/scripted_effects/00_nickname_effects.txt": {
+      "sha256": "1d77901c8d95061002a0e432b935409cd3652cd4b7bd47d0d80ecb7234faa77e",
+      "size": 183845
+    },
+    "workshop/2962333032/common/scripted_effects/01_ep1_court_artifact_creation_effects.txt": {
+      "sha256": "dd8d5a916394d8a1420d337f7ce3ac3ef995b4c4f7e9033591677758a2288177",
+      "size": 188076
+    },
+    "workshop/2962333032/common/scripted_effects/09_dlc_mpo_scripted_effects.txt": {
+      "sha256": "4134f13bbe3719d550fbb1fd08bdbc639c87e93a099e0a764413f9bf4dcc5acb",
+      "size": 153660
+    },
+    "workshop/2962333032/common/scripted_modifiers/00_faction_modifiers.txt": {
+      "sha256": "db445a723e4961cea6335cd4a70bfa3248825e559fce5e19c7561c18b65640f1",
+      "size": 127164
+    },
+    "workshop/2962333032/common/scripted_triggers/00_artifact_triggers.txt": {
+      "sha256": "f4fd999fc3da2455295ae3e7d0b8f5b8f3922773a500d1ade422eba062bb94b5",
+      "size": 66972
+    },
+    "workshop/2962333032/common/traits/00_traits.txt": {
+      "sha256": "ff79c002c630277792bb08fcdab1db37b65541ce5af433f04f47d34343ad4a16",
+      "size": 422297
+    },
+    "workshop/2962333032/events/activities/tour_activity/az_tour_events.txt": {
+      "sha256": "52f219b5d36b9eefa0625c98ba5e4848ca051bcce6c807f13808f59045474d29",
+      "size": 74157
+    },
+    "workshop/2962333032/events/activities/tour_activity/tour_phase_cultural_festival.txt": {
+      "sha256": "6d78a83aa05fef2f4ec90530335220c971eaacd5059eaa7752e20918ca753535",
+      "size": 241943
+    },
+    "workshop/2962333032/events/activities/tour_activity/tour_phase_host_a_dinner.txt": {
+      "sha256": "31826244a80e7fce6c8ddb82cee389f292bb63ebec980ef96fa88eb15f87ca2a",
+      "size": 248270
+    },
+    "workshop/2962333032/events/agot_events/agot_btw_maintenance_events.txt": {
+      "sha256": "b4914673a069edd264462f613533b5a38295185a0ba7d0bfb07e2ff37ed87118",
+      "size": 8350
+    },
+    "workshop/2962333032/events/artifacts/artifact_events.txt": {
+      "sha256": "5ad696ddbf78148806a741fade6a72ee2f4cdea08fece66a678509cde0cd191b",
+      "size": 99661
+    },
+    "workshop/2962333032/events/court_events/01_ep3_court_events_3.txt": {
+      "sha256": "81b83214864ed43cec928c39c84b5d4e080e3339b1b318b3a4d8a6a6e3726a95",
+      "size": 75655
+    },
+    "workshop/2962333032/events/dlc/mpo/mpo_nomads_flavour_events.txt": {
+      "sha256": "ca2873aba03643ac0c26ad155cc7be7e477a21f845ee384233ec1260ea058d68",
+      "size": 126800
+    },
+    "workshop/2962333032/events/mpo_chaotic_kurultai_succession.txt": {
+      "sha256": "cc5fbd66055546932e2e1c4618730ef80cd039362104481faceffc8281388a44",
+      "size": 68837
+    },
+    "workshop/2962333032/events/travel_events/travel_events_james.txt": {
+      "sha256": "b039875d45057d4d218fb8c1964b11183a4b6ad1b7cb052c97b9c187879a7957",
+      "size": 176901
+    },
+    "workshop/2962333032/gfx/FX/tree.shader": {
+      "sha256": "fd5e673e91305ec1a5747c8a9b1e1ab946e687bdcf510d8abebf5d2025c87f62",
+      "size": 14265
+    },
+    "workshop/2962333032/gfx/court_scene/scene_cultures/agot_default_cultures.txt": {
+      "sha256": "5acc91673b993a0113202542e806f7023c1fa1fd049cc782f51ac4b947bbbde2",
+      "size": 2541
+    },
+    "workshop/2967263410/common/character_interactions/00_agot_hf_revealbastards.txt": {
+      "sha256": "e01e922b2677b3007d1890c9ddab0ae3708f5b6996b9f49cb9289a2d1a224aad",
+      "size": 5744
+    },
+    "workshop/2967263410/common/on_action/dynasty_on_actions.txt": {
+      "sha256": "cd2208b30c6cbf89037419c686dd12d74b6f07e222d37e2bb426a0e632ce3264",
+      "size": 18659
+    },
+    "workshop/2967263410/common/scripted_effects/00_agot_hf_effects.txt": {
+      "sha256": "66628c384eef295d4966fb4057a4af92b69c3c39fc54d28df514e5451f93cce6",
+      "size": 197831
+    },
+    "workshop/2971198450/common/on_action/cowagot_province_on_actions.txt": {
+      "sha256": "ffc1fd1167435692a90ce7330e28df45d189007d53a3992930df55b05b7562b6",
+      "size": 8293
+    },
+    "workshop/3084203091/common/scripted_guis/acs_sg_main_scripted_gui.txt": {
+      "sha256": "396a0f8516954c015ba3863adfbb0ca3297ffc12d96cad7f8f81c626cda91d6c",
+      "size": 4324
+    },
+    "workshop/3084203091/common/scripted_triggers/gen_acs_st_big_switch.txt": {
+      "sha256": "1d96dfc4e69c57a735a38e703334f4b8eff6f84a27a5ef04860b4c04c9e597ce",
+      "size": 177667
+    },
+    "workshop/3084203091/gui/acs.gui": {
+      "sha256": "42bea9468222168c9d8cbd90be6cb1eed3ad8a49b0a1bfa3d32639b19534f8df",
+      "size": 2853
+    },
+    "workshop/3241130652/common/decisions/any_new_traditions_decisions.txt": {
+      "sha256": "a5fe1428200b5f98a80c2293d6cefe413d22dd0b521fd1640f62d55e6828627c",
+      "size": 16493
+    },
+    "workshop/3241130652/common/decisions/any_vanilla_traditions_decisions.txt": {
+      "sha256": "2ba572594a54db6d0c3a45d3bdc1f093853f52a8d8ef46e1a213e270e913b634",
+      "size": 16519
+    },
+    "workshop/3241130652/common/on_action/any_new_traditions_on_action.txt": {
+      "sha256": "eb2235b19728255b0ccb24d1364d13a553959596b955dfe267eb476ebdde630f",
+      "size": 1176
+    },
+    "workshop/3305687550/events/lot_ai_events.txt": {
+      "sha256": "250716b7f283f16d22387b435ab24cf25bb1be06ffd17045a5f8aa4098310afd",
+      "size": 3333
+    },
+    "workshop/3319354609/common/decisions/amsb_abdicate_decision.txt": {
+      "sha256": "9644b7dbd0fb06afe9aed20a98e0dfde8afff196dd48505e6fc95cbb46e48c55",
+      "size": 7293
+    },
+    "workshop/3319354609/common/decisions/amsb_bent_knees_decision.txt": {
+      "sha256": "76cb5f29836cf784b4cc93fe4aed89652f7f1e1fae1d9a2f473946304de92714",
+      "size": 5252
+    },
+    "workshop/3319354609/common/on_action/amsb_dynasty_on_actions.txt": {
+      "sha256": "27a91f1ab65a8455508bc07f8ffb0adeb351a6b3b9ff644d31230cda19e190ef",
+      "size": 5775
+    },
+    "workshop/3319354609/gfx/court_scene/scene_cultures/00_default_cultures.txt": {
+      "sha256": "9ae1438c6d0ca840dcbc2488eed6cb947ff665f118c290432acb3980eee75cf1",
+      "size": 11706
+    },
+    "workshop/3324579171/common/character_interactions/00_agot_suggest_dragon_bonding_interaction.txt": {
+      "sha256": "b3d796bddb2117bdd1b6efb3c2dad47730dd6d1ab9acfe38218bd3c3f0cf244a",
+      "size": 23813
+    },
+    "workshop/3349316031/common/casus_belli_types/adventurers_beneficiary_conquer.txt": {
+      "sha256": "abe1e917d0ff06edbdb5afd6b9fed26b6da8cf2cb02f87bb07a0b013dbdc32f7",
+      "size": 50570
+    },
+    "workshop/3349316031/common/character_interactions/adventurers_beneficiary_unselect.txt": {
+      "sha256": "a7ab1be0b1631f732bd1a7c93dfbbc979ea9a77d4b0f18fee3b707b029f8c873",
+      "size": 890
+    },
+    "workshop/3361162762/common/on_action/on_add_vet_modifer.txt": {
+      "sha256": "3ef399703bc2b6f4028ae6f99a7daae3bd97f19abfe3975093563f5ea95a772b",
+      "size": 538
+    },
+    "workshop/3377641022/gfx/FX/tree_autumn_orange.shader": {
+      "sha256": "aee0e627de8ed7fc8f37d69bd47a08879c33ca296ad41404417f58f23acf30b7",
+      "size": 14272
+    },
+    "workshop/3377641022/gfx/FX/tree_autumn_red.shader": {
+      "sha256": "0015e7b9e3de5628ce94eaba26e51a518455df13f7cbbf1a65dd23ac39739025",
+      "size": 14269
+    },
+    "workshop/3377641022/gfx/FX/tree_autumn_yellow.shader": {
+      "sha256": "6ac9ce15be304ff5bcbfe86f0251bae7502e6cfff31520842febbf59dd0e9d14",
+      "size": 14272
+    },
+    "workshop/3377641022/gfx/FX/tree_piney_winey.shader": {
+      "sha256": "b017898783ad2a01160d2b228bc81502effeef6cdd770989ed5c500d25a1aeaa",
+      "size": 14267
+    },
+    "workshop/3388366564/events/dlc/ep3/ep3_laamp_events.txt": {
+      "sha256": "68dd290277ae7d467634f45ede56238232b52418401637f7f1b7c6f40934b613",
+      "size": 207042
+    },
+    "workshop/3437814875/gui/00_no_transition.gui": {
+      "sha256": "8a682c5401033379c6902dca6e0077397fd93a9cf6d4782ef3d8e0c700d082bd",
+      "size": 4543
+    },
+    "workshop/3445965581/common/traits/dc_traits.txt": {
+      "sha256": "b871b97f019fb4bd2bc78ed36169f1db09f710df5dbe48a2e6a6c66c98d4b871",
+      "size": 16892
+    },
+    "workshop/3445965581/events/health_events.txt": {
+      "sha256": "c444e3b68bfdb5632efb84cdb2c57033568204fdd65b572c9ac83f5f88979a66",
+      "size": 302004
+    },
+    "workshop/3462342647/common/bookmark_portraits/bookmark_106_alicent_hightower.txt": {
+      "sha256": "fa9c401f7a572926d6ee52033d82041112349989bda24cefefd37c04e6f4cffd",
+      "size": 16393
+    },
+    "workshop/3462342647/common/bookmark_portraits/bookmark_106_corlys_velaryon.txt": {
+      "sha256": "1b868376ec08d369a29d876ae634e931ea344ceec0d0e4a3e0ff42863cd57d88",
+      "size": 16858
+    },
+    "workshop/3462342647/common/bookmark_portraits/bookmark_106_craghas_drahar.txt": {
+      "sha256": "44980a5d815e797e0e7020fdd0d7ac6c0f037d7f716d77e07d4035f90d3b2d88",
+      "size": 15760
+    },
+    "workshop/3462342647/common/bookmark_portraits/bookmark_106_daemon_targaryen.txt": {
+      "sha256": "f1838d9004dbc4c29e2c469ab26933e2735157678c8cb763567dce0b883480a7",
+      "size": 16115
+    },
+    "workshop/3462342647/common/bookmark_portraits/bookmark_106_laenor_velaryon.txt": {
+      "sha256": "5bc607fbe868b52c36e666a711edfaaffd1db4d98c422a6bdd98a23470b3ccbd",
+      "size": 17374
+    },
+    "workshop/3462342647/common/bookmark_portraits/bookmark_106_mysaria.txt": {
+      "sha256": "49a3447fd58824c799e8fd97acfb69616217d5844602f4605b7da5769751d6d6",
+      "size": 16158
+    },
+    "workshop/3462342647/common/bookmark_portraits/bookmark_106_rhaenyra_targaryen.txt": {
+      "sha256": "53d3d8ed7d941c6ccb3c793e7b51d69ff9abf15bbdad6a7c2255f55282a4d5bb",
+      "size": 16359
+    },
+    "workshop/3462342647/common/bookmark_portraits/bookmark_106_rhaenys_targaryen.txt": {
+      "sha256": "b0d9ed6d4a4fc2e809802d5af459af474d74a697f081e90534904e8feb41ea7c",
+      "size": 16399
+    },
+    "workshop/3462342647/common/bookmark_portraits/bookmark_106_rhea_royce.txt": {
+      "sha256": "27b79ff7c008f363f58de89f049d0b5d1ced08a5b993e15bb3111b8c8dab0bef",
+      "size": 15998
+    },
+    "workshop/3462342647/common/bookmark_portraits/bookmark_106_viserys_targaryen.txt": {
+      "sha256": "3b2c6a8384f9262aa1aaf966a6996736a03c613bdcaa91278ae6aed8f0fb1dd4",
+      "size": 16641
+    },
+    "workshop/3462342647/common/bookmark_portraits/bookmark_129_aegon_targaryen_2.txt": {
+      "sha256": "91230d6006c5e4acf89aa43450149b68e50674c8bac908f2f8c325e94540d9b8",
+      "size": 15919
+    },
+    "workshop/3462342647/common/bookmark_portraits/bookmark_129_aemond_targaryen.txt": {
+      "sha256": "eabb76324488797bd85d066ee3e23065a0963d77569d8fca178a91c134d6f7a9",
+      "size": 16170
+    },
+    "workshop/3462342647/common/bookmark_portraits/bookmark_129_daemon_targaryen.txt": {
+      "sha256": "2a46546ba06838cc34e8e1c91390b8fe54aab388dab402e95361a4e3a5f070ae",
+      "size": 15878
+    },
+    "workshop/3462342647/common/bookmark_portraits/bookmark_129_helaena_targaryen.txt": {
+      "sha256": "ecb49cda527e4a65846accd20353631bdd62081b214249e3386dd594a08e1dd2",
+      "size": 16075
+    },
+    "workshop/3462342647/common/bookmark_portraits/bookmark_129_jacaerys_velaryon.txt": {
+      "sha256": "ea1d90ac0d6faef5cf3321198a7a5e35c58685383eaeeca4eab18081bcc66b7a",
+      "size": 15803
+    },
+    "workshop/3462342647/common/bookmark_portraits/bookmark_129_rhaenyra_targaryen.txt": {
+      "sha256": "8abff465ce65340b1b033299a3f7ff8235f550d286a7190c1f58355e39bbefe9",
+      "size": 16247
+    },
+    "workshop/3462342647/common/bookmark_portraits/bookmark_170_aryse_ranennox.txt": {
+      "sha256": "1ae1166fb3f7bb71b4bd951148a756ac4a2319625955375bff332bc88a4d184e",
+      "size": 16367
+    },
+    "workshop/3462342647/common/bookmark_portraits/bookmark_170_baelor_targaryen.txt": {
+      "sha256": "5b20be81e42b60f9b47861f44bd64b2bd91d1a9ab40500bf0eef281e3224437c",
+      "size": 15824
+    },
+    "workshop/3462342647/common/bookmark_portraits/bookmark_170_donalo_prestayn.txt": {
+      "sha256": "e888e9bc8dfb95bcc0a54c6c5ab34c3030fcb80f7cb333be0b773116f5dfebbb",
+      "size": 15827
+    },
+    "workshop/3462342647/common/bookmark_portraits/bookmark_170_syssilio_estatis.txt": {
+      "sha256": "571c4c3139da65dadcf6a28b7e4b52356d30d5bc4bb80f14fb818253356b71a0",
+      "size": 15678
+    },
+    "workshop/3462342647/common/bookmark_portraits/bookmark_170_tenesio_velaron.txt": {
+      "sha256": "f34de1c38fc50fb9fa702a92c107e5940e145581d5fe0d7f5021c1ad3887c8ad",
+      "size": 15700
+    },
+    "workshop/3462342647/common/bookmark_portraits/bookmark_195_aegor_targaryen.txt": {
+      "sha256": "4716bb347d1c13b158dd25dea04733fdb4959be75738340e85648b0b0c702066",
+      "size": 16178
+    },
+    "workshop/3462342647/common/bookmark_portraits/bookmark_195_baelor_targaryen.txt": {
+      "sha256": "22e3c59855bf55fe1b7765f9dff9d8100a817691f4ac91674bc1e002c46c364e",
+      "size": 15843
+    },
+    "workshop/3462342647/common/bookmark_portraits/bookmark_195_daemon_blackfyre.txt": {
+      "sha256": "5975510fdc3eb002a29ad6653a6196c6d5f1eae0350dad69205b083168d80751",
+      "size": 16172
+    },
+    "workshop/3462342647/common/bookmark_portraits/bookmark_195_daeron_targaryen.txt": {
+      "sha256": "f95b5a153d6352fa6422febe30e78dbab837ae6079eb4d912ab53ac0f2e0c4ac",
+      "size": 15602
+    },
+    "workshop/3462342647/common/bookmark_portraits/bookmark_195_harys_bracken.txt": {
+      "sha256": "1e81c8ddb9bf1600c457419005d5857b1f7455148af3edffc5bcb1f4ed5bfa45",
+      "size": 15872
+    },
+    "workshop/3462342647/common/bookmark_portraits/bookmark_195_maekar_targaryen.txt": {
+      "sha256": "505d44a21390a897c21a659430efdd959ec7822d6ee5a295036632df9c507986",
+      "size": 15871
+    },
+    "workshop/3462342647/common/bookmark_portraits/bookmark_209_aegon_targaryen.txt": {
+      "sha256": "3deb070bd776785010d0fc8669cdb0e1f825c8591cf0f67eba72a17f28bfe4d5",
+      "size": 15977
+    },
+    "workshop/3462342647/common/bookmark_portraits/bookmark_209_aerion_brightflame.txt": {
+      "sha256": "a244bd73fc72e714b0a4edadfefa0df9f4aa064ac1d84ecb9e0306565f164be4",
+      "size": 16128
+    },
+    "workshop/3462342647/common/bookmark_portraits/bookmark_209_aerys_targaryen.txt": {
+      "sha256": "d0e714be1db0682f5fbefe64c67293c5c5d9ca8971faa6ef60b9a8d148f6492c",
+      "size": 15828
+    },
+    "workshop/3462342647/common/bookmark_portraits/bookmark_209_ambrose_butterwell.txt": {
+      "sha256": "5d4b34c7ebf90d9f6a720b5af62b3afd02b00105f0d260a1569613a245ddaec2",
+      "size": 15839
+    },
+    "workshop/3462342647/common/bookmark_portraits/bookmark_209_brynden_bloodraven.txt": {
+      "sha256": "b1558eee50818c5cb17c45249a29410116e9fe08ae60358b98e5adbd1e733753",
+      "size": 16161
+    },
+    "workshop/3462342647/common/bookmark_portraits/bookmark_209_daemon_blackfyre.txt": {
+      "sha256": "bbfb843bbb964055c0d32497cbc5eb4c2bb38cfccd4ecc2c4469e7c845216ac4",
+      "size": 15782
+    },
+    "workshop/3462342647/common/bookmark_portraits/bookmark_209_daeron_targaryen.txt": {
+      "sha256": "95c6ef4baf9af901ace4a30329f5986b52195d5c48810ee4f14530e72e05a505",
+      "size": 15813
+    },
+    "workshop/3462342647/common/bookmark_portraits/bookmark_209_dagon_greyjoy.txt": {
+      "sha256": "313e0edb80d9e60b9ccba17955e68204000f13dce562bdbb76e47fe6ae68abc8",
+      "size": 15917
+    },
+    "workshop/3462342647/common/bookmark_portraits/bookmark_209_duncan_tall.txt": {
+      "sha256": "63a61d9747ad6f77fd1f7522f197370fe61575d9b1f1c91d142591a832d93de4",
+      "size": 16126
+    },
+    "workshop/3462342647/common/bookmark_portraits/bookmark_209_egg.txt": {
+      "sha256": "3e0630213d7c57f2a90a5d1ed18427356a09d63668fbc36f8278840ab4a84017",
+      "size": 15965
+    },
+    "workshop/3462342647/common/bookmark_portraits/bookmark_209_maekar_targaryen.txt": {
+      "sha256": "75e14de16c2b979a25e376705cfd5c50dee0f939c06ea293929a1391324fa968",
+      "size": 15871
+    },
+    "workshop/3462342647/common/bookmark_portraits/bookmark_209_valarr_targaryen.txt": {
+      "sha256": "bd6dd0c0544e9cd862b77a0227c6ee066cf3f92fe863145560e24f3481f87f2f",
+      "size": 15975
+    },
+    "workshop/3462342647/common/bookmark_portraits/bookmark_211_bennis.txt": {
+      "sha256": "2213c87251bd9555817d64d2102efe86eab9793df319fa89ac09a456a8c250e1",
+      "size": 16171
+    },
+    "workshop/3462342647/common/bookmark_portraits/bookmark_211_bittersteel.txt": {
+      "sha256": "b01508932bfcb8e34a23996e2c4efc087ceca9b71088766ef4382c667dee6432",
+      "size": 15854
+    },
+    "workshop/3462342647/common/bookmark_portraits/bookmark_211_daemon_blackfyre.txt": {
+      "sha256": "7414ca965da63a3c46cde68d71a6a1302feddd05d45b851678b19d9db8a87e61",
+      "size": 15783
+    },
+    "workshop/3462342647/common/bookmark_portraits/bookmark_211_duncan_tall.txt": {
+      "sha256": "a3dea104416a8bb1d36ca177dfa26cd803dd398b9c0830d740cbae3ddc4260b4",
+      "size": 16121
+    },
+    "workshop/3462342647/common/bookmark_portraits/bookmark_211_egg.txt": {
+      "sha256": "29c088ea840efa42b15f7bc65096e1b3298e5c8fe160c67ae6615d2ad7c201b3",
+      "size": 15967
+    },
+    "workshop/3462342647/common/bookmark_portraits/bookmark_211_eustace_osgrey.txt": {
+      "sha256": "162150c9621a7c769d7b5bd0dc1cfbdc1ec7f50f732115d9a951665bdd24c3f3",
+      "size": 15968
+    },
+    "workshop/3462342647/common/bookmark_portraits/bookmark_211_longinch.txt": {
+      "sha256": "beab952e7983f6c26b8832ae09120edf13f2c60633a5f39d85122291ccdcdd72",
+      "size": 15995
+    },
+    "workshop/3462342647/common/bookmark_portraits/bookmark_211_rohanne_webber.txt": {
+      "sha256": "76164154c138c7db213ee28355d3570e27db1f2e7aacaaf838b0d10e89b3f0e9",
+      "size": 16227
+    },
+    "workshop/3462342647/common/bookmark_portraits/bookmark_233_aegon_targaryen.txt": {
+      "sha256": "66605598d665e71864dc3ed402b8df61f0ea2b15b26d49e279e4d8cd500ec8c8",
+      "size": 15830
+    },
+    "workshop/3462342647/common/bookmark_portraits/bookmark_233_aemon_targaryen.txt": {
+      "sha256": "9d5681b13300584af740613b4484a427dbab3fc67b53bbb8a680fb34fcb32229",
+      "size": 15638
+    },
+    "workshop/3462342647/common/bookmark_portraits/bookmark_233_betha_blackwood.txt": {
+      "sha256": "4a6f2b2e03784e688507e3b776f071812745c5122c7e24064d34cf79a43781d4",
+      "size": 16305
+    },
+    "workshop/3462342647/common/bookmark_portraits/bookmark_233_brynden_bloodraven.txt": {
+      "sha256": "ca0fc723a571290df581b9de3efdce29efe8e8c21ce42d806594492967959714",
+      "size": 16231
+    },
+    "workshop/3462342647/common/bookmark_portraits/bookmark_233_duncan_tall.txt": {
+      "sha256": "79ff9368e4ad90f17ebb1e946765de7ddf2d8b282e8aab44ae101ba1f6daa3bf",
+      "size": 16173
+    },
+    "workshop/3462342647/common/bookmark_portraits/bookmark_233_ellyn_reyne.txt": {
+      "sha256": "b4a5187ae78c7f589362571701d03a276cfb08f16630655ce01d6ccadaa611ee",
+      "size": 16066
+    },
+    "workshop/3462342647/common/bookmark_portraits/bookmark_233_estyn_peake.txt": {
+      "sha256": "28a22af1487f5b889b14b3725d8dbd9ff96109c8c3925e76ede18d8ae0ef6176",
+      "size": 15785
+    },
+    "workshop/3462342647/common/bookmark_portraits/bookmark_233_gerold_lannister.txt": {
+      "sha256": "a66c1a017332aea9e6a5f372f9b10f11f615815aceedc53124f46f338f509dde",
+      "size": 15906
+    },
+    "workshop/3462342647/common/bookmark_portraits/bookmark_233_maekar_targaryen.txt": {
+      "sha256": "5768026eec1b53055c1f20b5a498eeb159b0f31b5758a613975fef33013b414c",
+      "size": 15874
+    },
+    "workshop/3462342647/common/bookmark_portraits/bookmark_233_robert_reyne.txt": {
+      "sha256": "89a3aa6cdbff0bbb28cfe6914cc36e6f9ce95c531977bdc17ac64b31a32081aa",
+      "size": 16024
+    },
+    "workshop/3462342647/common/bookmark_portraits/bookmark_233_roger_reyne.txt": {
+      "sha256": "026b5f98f779eb5e85e1bb1d25e6654e0f9fbfa3b942ba62b04514d0dfecc9f8",
+      "size": 16068
+    },
+    "workshop/3462342647/common/bookmark_portraits/bookmark_233_tion_lannister.txt": {
+      "sha256": "3f48fc69bb40e189a3974c6e603a29df2f64ab195365007fde219dd5ec4bac58",
+      "size": 16067
+    },
+    "workshop/3462342647/common/bookmark_portraits/bookmark_233_tywald_lannister.txt": {
+      "sha256": "736b5f5fc3a0b06c5d6f08b2a63c5683b762f3e23de567f898009c9eb574cb23",
+      "size": 15831
+    },
+    "workshop/3462342647/common/bookmark_portraits/bookmark_236_aegon_targaryen.txt": {
+      "sha256": "4425439cbf18609075e0ecf4a208993a827ef410362aba787424d630f4b67fce",
+      "size": 15829
+    },
+    "workshop/3462342647/common/bookmark_portraits/bookmark_236_bittersteel.txt": {
+      "sha256": "c0fff89525df61ee858788774ad5cb4ee43a66fd9cc7ae049935aa2d0c6de281",
+      "size": 16205
+    },
+    "workshop/3462342647/common/bookmark_portraits/bookmark_236_duncan_tall.txt": {
+      "sha256": "4de7959715f4e6be2ef9178f840999e6271bb9ae3f16cbef1ce37cd210706acc",
+      "size": 15901
+    },
+    "workshop/3462342647/common/bookmark_portraits/bookmark_236_duncan_targaryen.txt": {
+      "sha256": "0af780b8b8445d9fefeb2df0872c132848cfd8093aa3c27826304c7ae1618f76",
+      "size": 16871
+    },
+    "workshop/3462342647/common/bookmark_portraits/bookmark_236_gerold_lannister.txt": {
+      "sha256": "7d591c90f60d080977c5407743a59758fc400e4198e5cd4bb949861ed78a3c4d",
+      "size": 15906
+    },
+    "workshop/3462342647/common/bookmark_portraits/bookmark_236_jaehaerys_targaryen.txt": {
+      "sha256": "b36c9875095261c835c468d848ab376f194c1d826f8b782b9686c743bf03ba2b",
+      "size": 17245
+    },
+    "workshop/3462342647/common/bookmark_portraits/bookmark_236_lyonel_baratheon.txt": {
+      "sha256": "e8fd853d3686871cc4e6aae3959d2eb4d0730de67bfe9128712d6f7e5361c8a4",
+      "size": 16044
+    },
+    "workshop/3462342647/common/bookmark_portraits/bookmark_236_maelys.txt": {
+      "sha256": "7eb16dd2b7b9bb6a8c7578470837a8e87deb417795f3398b32889224358b7965",
+      "size": 15975
+    },
+    "workshop/3462342647/common/bookmark_portraits/bookmark_239_aegon_targaryen.txt": {
+      "sha256": "40e5ac1475d76f5ab9e26ebbf9e91e284b0d9001e00ce50871f9b05c3a565657",
+      "size": 15728
+    },
+    "workshop/3462342647/common/bookmark_portraits/bookmark_239_aemon.txt": {
+      "sha256": "b27f6341e8558029990156087d0304eb0897c6fcc2074f8b496c34e9422d05c6",
+      "size": 15630
+    },
+    "workshop/3462342647/common/bookmark_portraits/bookmark_239_bittersteel.txt": {
+      "sha256": "00e38cebdc50d71aef5c0ac9a2facb3dd75064af6eb57434a5c0aec1059cc8cf",
+      "size": 16115
+    },
+    "workshop/3462342647/common/bookmark_portraits/bookmark_239_bloodraven.txt": {
+      "sha256": "1cbf01f6d2b94785e20601e3d491d0d06155f3a6008cc7072d7ae7717c7f19f8",
+      "size": 16305
+    },
+    "workshop/3462342647/common/bookmark_portraits/bookmark_239_cassandra_baratheon.txt": {
+      "sha256": "1930de9903b6f332cfbe94b5976db09a12b77c620e414cb0d1a4541e309c20bb",
+      "size": 15949
+    },
+    "workshop/3462342647/common/bookmark_portraits/bookmark_239_daemon.txt": {
+      "sha256": "56b2fc7228da9816aacadf02cb1a60ebab67942a62baa0686d03a85a6c248b7d",
+      "size": 15750
+    },
+    "workshop/3462342647/common/bookmark_portraits/bookmark_239_denys_redwyne.txt": {
+      "sha256": "1e81320c5fbe4faab5e0f1bd2db06b945acca053d63e569730cf459028a42c2e",
+      "size": 15844
+    },
+    "workshop/3462342647/common/bookmark_portraits/bookmark_239_duncan_tall.txt": {
+      "sha256": "1427a19fc76add3ca5e05b89a679c68763125c5c2545e8d9d06628ff1fca9b5f",
+      "size": 15781
+    },
+    "workshop/3462342647/common/bookmark_portraits/bookmark_239_duncan_targaryen.txt": {
+      "sha256": "6079b1d1370b8339e98f76bd59706fc9243a68c27b846f12ff71bb3476601cff",
+      "size": 16153
+    },
+    "workshop/3462342647/common/bookmark_portraits/bookmark_239_garlan_tyrell.txt": {
+      "sha256": "69454fa1c2dd47fbacc3ddc0de63f851270fe67e582df4a83ce4ac21462f6852",
+      "size": 15728
+    },
+    "workshop/3462342647/common/bookmark_portraits/bookmark_239_gormon_tyrell.txt": {
+      "sha256": "1a6a9a90256556584ee9cb2113cca0104a38e15309dc3d41126118fd2d2c4372",
+      "size": 15836
+    },
+    "workshop/3462342647/common/bookmark_portraits/bookmark_239_jon_karstark.txt": {
+      "sha256": "fca2cf11cfd7f373a845365cb67c4e61c8d6acd4d877fee5cc38d9bb86ba233a",
+      "size": 16052
+    },
+    "workshop/3462342647/common/bookmark_portraits/bookmark_239_luthor_tyrell.txt": {
+      "sha256": "997e083f3f088cdc4e07bce8706961d1e11a8c988f7edb3f45fb8a38b35491d2",
+      "size": 15684
+    },
+    "workshop/3462342647/common/bookmark_portraits/bookmark_239_lyonel_baratheon.txt": {
+      "sha256": "4f52cb48c86f5458e9091d65c21453e43a6daa0be3a6a3e953e8aef392789917",
+      "size": 16105
+    },
+    "workshop/3462342647/common/bookmark_portraits/bookmark_239_maelys.txt": {
+      "sha256": "715d19661dfb976689a14700ddf7965a916d876119a4bfd4fa56ed405eae7ca2",
+      "size": 15915
+    },
+    "workshop/3462342647/common/bookmark_portraits/bookmark_239_olenna_redwyne.txt": {
+      "sha256": "d363a02136b7dd6cd6e0ccbf62667165e054936498b392adab5fe0d99e4f2393",
+      "size": 16011
+    },
+    "workshop/3462342647/common/bookmark_portraits/bookmark_239_ormund_baratheon.txt": {
+      "sha256": "d6d4a7b14254e39b75bac8517ee418bbd13457ba79aec60c86dc1a526cba074c",
+      "size": 15804
+    },
+    "workshop/3462342647/common/bookmark_portraits/bookmark_239_runceford_redwyne.txt": {
+      "sha256": "7294179549bad3154759def1a6118dac931c0d79b831bac069b2423efdeef932",
+      "size": 15870
+    },
+    "workshop/3462342647/common/bookmark_portraits/bookmark_259_aegon_targaryen.txt": {
+      "sha256": "2fee1ba61fc1dec290f8f0963c4b729a8c2d6ccc878edb8ffb42d0bfcd034246",
+      "size": 15728
+    },
+    "workshop/3462342647/common/bookmark_portraits/bookmark_259_aerys_targaryen.txt": {
+      "sha256": "8f6a5110a0bb4cf09cf12292128280163426dbc21b81b44f7c71af53cf86d6f3",
+      "size": 15754
+    },
+    "workshop/3462342647/common/bookmark_portraits/bookmark_259_betha_blackwood.txt": {
+      "sha256": "3393227055021210f4e071092eeebb6beb9b8c534f7eb2dbb19a55791a0c7ca0",
+      "size": 16223
+    },
+    "workshop/3462342647/common/bookmark_portraits/bookmark_259_duncan_targaryen.txt": {
+      "sha256": "7ba64913f37d901fdbc0f75a66c5d00e6a96bd5210cc346a9fcc666cc7417754",
+      "size": 16232
+    },
+    "workshop/3462342647/common/bookmark_portraits/bookmark_259_ellyn_reyne.txt": {
+      "sha256": "09b1cf469a343a7f01d43a3a25e3b4037d2f19242101e539a43fbcf9e5f66836",
+      "size": 16007
+    },
+    "workshop/3462342647/common/bookmark_portraits/bookmark_259_jaehaerys_targaryen.txt": {
+      "sha256": "e4160cdd686631a0e894aa7a17dbfb342a8c4c0db33145ddbed4b7607717ecfe",
+      "size": 15964
+    },
+    "workshop/3462342647/common/bookmark_portraits/bookmark_259_kevan_lannister.txt": {
+      "sha256": "91d93f0e2d36a24c6e6ca71cd03bbd8aeb459f2413d6afdb80c9ecd28cfe4f36",
+      "size": 15696
+    },
+    "workshop/3462342647/common/bookmark_portraits/bookmark_259_maelys_blackfyre.txt": {
+      "sha256": "958b3a49a619e35848b0a591df01dea81bf92a1b0873018b0fde3a28216feced",
+      "size": 15924
+    },
+    "workshop/3462342647/common/bookmark_portraits/bookmark_259_roger_reyne.txt": {
+      "sha256": "3a2db33401cba7056f3efded09744ab318b6c0f6b344d572de8ee5956d2203c8",
+      "size": 16072
+    },
+    "workshop/3462342647/common/bookmark_portraits/bookmark_259_shaera_targaryen.txt": {
+      "sha256": "4c72acd153b8c044c793f13f1cd978c672ce497f2e8bf29d7bc575fa4caca928",
+      "size": 16402
+    },
+    "workshop/3462342647/common/bookmark_portraits/bookmark_259_tytos_lannister.txt": {
+      "sha256": "e4dcd006b2aae0636f8c1f81fbc42f04469f1cd171bbd1d2aae1768b13699abe",
+      "size": 15743
+    },
+    "workshop/3462342647/common/bookmark_portraits/bookmark_259_tywin_lannister.txt": {
+      "sha256": "ac99addd3ce8a76186883978fb071a27893ac473813e326d5ac78c5da2cba81b",
+      "size": 15712
+    },
+    "workshop/3462342647/common/bookmark_portraits/bookmark_259_walderan_tarbeck.txt": {
+      "sha256": "816128c65c870ac8eb10d88a5bed4ddb531ab85c03af9734d54e5546ad5d8063",
+      "size": 16098
+    },
+    "workshop/3462342647/common/bookmark_portraits/bookmark_277_aerys_targaryen.txt": {
+      "sha256": "9a38e4fed84768344a713d6973674485029925c33679328950935d25690cf529",
+      "size": 15798
+    },
+    "workshop/3462342647/common/bookmark_portraits/bookmark_277_arthur_dayne.txt": {
+      "sha256": "71121d62dc6c19ee7ccd531cd28ea9260ce0fc23bf83c26fcc86ed220d390443",
+      "size": 15897
+    },
+    "workshop/3462342647/common/bookmark_portraits/bookmark_277_barristan_selmy.txt": {
+      "sha256": "f50d22e069ed06c6476514f92004ac111b39a874e099b747bc1c381fbea92164",
+      "size": 15707
+    },
+    "workshop/3462342647/common/bookmark_portraits/bookmark_277_cersei_lannister.txt": {
+      "sha256": "2c0863a2c54bfb0d990c0c5d8493414aacc1fa191f22c7f9c4904e4d0976d0fd",
+      "size": 16291
+    },
+    "workshop/3462342647/common/bookmark_portraits/bookmark_277_denys_darklyn.txt": {
+      "sha256": "a37be0c48534465ee41f0d35cc8a2ea008a44d3eee3c947713808b298cb1cb5a",
+      "size": 15862
+    },
+    "workshop/3462342647/common/bookmark_portraits/bookmark_277_elia_martell.txt": {
+      "sha256": "979a52a25dd60275b561e2d73e5d6df7c266a4aa5320851184cc13ab223739a8",
+      "size": 16032
+    },
+    "workshop/3462342647/common/bookmark_portraits/bookmark_277_jaime_lannister.txt": {
+      "sha256": "74a99fba89d32dbf1e9117ce6a7ddaf4b0d57146fd828ddd015c0e08161dc853",
+      "size": 16025
+    },
+    "workshop/3462342647/common/bookmark_portraits/bookmark_277_jon_hollard.txt": {
+      "sha256": "f6db4b4d187770a6133f30bbd6024fec0a0950fbafc5d2e5132437ee8071944a",
+      "size": 15813
+    },
+    "workshop/3462342647/common/bookmark_portraits/bookmark_277_lady_serala.txt": {
+      "sha256": "2bda638bc8cf7be7c2125a972c7d5c214aed8bb5039b5cabb8adc1187abb426f",
+      "size": 16172
+    },
+    "workshop/3462342647/common/bookmark_portraits/bookmark_277_rhaegar_targaryen.txt": {
+      "sha256": "f8828bd2e581e646cd3fcb06a1a41459c51dfc316ae66f9808b9f50faa5a47de",
+      "size": 16191
+    },
+    "workshop/3462342647/common/bookmark_portraits/bookmark_277_tywin_lannister.txt": {
+      "sha256": "b730440341882ad287816a27427cb96ee6352aa57f92ee58f13313b460b0ad3e",
+      "size": 15872
+    },
+    "workshop/3462342647/common/bookmark_portraits/bookmark_282_aerys_targaryen.txt": {
+      "sha256": "d4bb120b98789749b835c63854f6e18b139dbfb56fd4559e4e2750fb34a18683",
+      "size": 17093
+    },
+    "workshop/3462342647/common/bookmark_portraits/bookmark_282_benjen_stark.txt": {
+      "sha256": "02e553a6c7b183f18a1923ae9d7b841a70274b21a2fbb1c523c3dba46cf99a1d",
+      "size": 15785
+    },
+    "workshop/3462342647/common/bookmark_portraits/bookmark_282_catelyn_tully.txt": {
+      "sha256": "5a46a3ed6bf1bfa335d62675848635fb529bd0ce4bb507bb32d10ebe04308f77",
+      "size": 16604
+    },
+    "workshop/3462342647/common/bookmark_portraits/bookmark_282_cersei_lannister.txt": {
+      "sha256": "1c38cbeab12c20c1ae3449eee1cc21e784b3a818c2f68c3c6dea8ea43cd76512",
+      "size": 16470
+    },
+    "workshop/3462342647/common/bookmark_portraits/bookmark_282_eddard_stark.txt": {
+      "sha256": "2beb7669d611c953e11e2553fe4508aa1db826a2480d30cb714aba3f857568ef",
+      "size": 16145
+    },
+    "workshop/3462342647/common/bookmark_portraits/bookmark_282_elia_martell.txt": {
+      "sha256": "69a162c00d4ee9a0929ad5ec920ff0a4aed7d2cb4212b7882d12e539f7867838",
+      "size": 17672
+    },
+    "workshop/3462342647/common/bookmark_portraits/bookmark_282_jaime_lannister.txt": {
+      "sha256": "79e2f99f8ae05f71bd1c7bb73ab12c9c0d0cb703fba078de30fa471eae1dcc62",
+      "size": 15970
+    },
+    "workshop/3462342647/common/bookmark_portraits/bookmark_282_lyanna_stark.txt": {
+      "sha256": "c804573c047b3994112f9e5dfa3632561112b8c5d7131ce844b36619ffb5f5db",
+      "size": 17030
+    },
+    "workshop/3462342647/common/bookmark_portraits/bookmark_282_renly_baratheon.txt": {
+      "sha256": "1d26dc72b783c553a030c63a0e92171d5cfd76990dee145dc84840904bb09c0c",
+      "size": 16317
+    },
+    "workshop/3462342647/common/bookmark_portraits/bookmark_282_rhaegar_targaryen.txt": {
+      "sha256": "7c453354688b1f327ba59b5217eaf4247e3eeff3c1d7db266f1e424fa5ba6965",
+      "size": 16271
+    },
+    "workshop/3462342647/common/bookmark_portraits/bookmark_282_rhaella_targaryen.txt": {
+      "sha256": "a978f95009eb5999c2cfb8d457c4d029c116a3efeaef5286eae6f83822635f27",
+      "size": 17408
+    },
+    "workshop/3462342647/common/bookmark_portraits/bookmark_282_robert_baratheon.txt": {
+      "sha256": "e7429f51dc800eecb58bd997c44f09f214dbc4c7fbef4bffcfcd253900fca21c",
+      "size": 15907
+    },
+    "workshop/3462342647/common/bookmark_portraits/bookmark_282_stannis_baratheon.txt": {
+      "sha256": "08a5080bdfb7346d5897278b7104c4c63cfd92ab2baf4688ced7438d1dd87460",
+      "size": 16179
+    },
+    "workshop/3462342647/common/bookmark_portraits/bookmark_282_tywin_lannister.txt": {
+      "sha256": "ebcdd0505fe41c78db9be9ede93ae402457fd427a55d67809f02e312e7965249",
+      "size": 15802
+    },
+    "workshop/3462342647/common/bookmark_portraits/bookmark_282_viserys_targaryen.txt": {
+      "sha256": "a35d32f23cc8e12d3cf7b36b747ffd9217a8669d875d07af294137ff193f4299",
+      "size": 15744
+    },
+    "workshop/3462342647/common/bookmark_portraits/bookmark_284_balon_greyjoy.txt": {
+      "sha256": "a8f6d154705b51b614b06271fb0b3eabe44a38e60002c3198f768a14a1c9087f",
+      "size": 15924
+    },
+    "workshop/3462342647/common/bookmark_portraits/bookmark_284_cersei_lannister.txt": {
+      "sha256": "a7fb13921b810de0ff40b828764904d208c45c71213b2403c5ba109f797dc369",
+      "size": 16151
+    },
+    "workshop/3462342647/common/bookmark_portraits/bookmark_284_cressen.txt": {
+      "sha256": "5fd18e7ba32653dacb4b8b40b140682af09878d7d1e9f9d2f759b4bd54d70803",
+      "size": 15715
+    },
+    "workshop/3462342647/common/bookmark_portraits/bookmark_284_davos_seaworth.txt": {
+      "sha256": "715bf4739c0482da6b8dce1544d2408587fca371a5a28eeebd59e4dc906989f5",
+      "size": 15742
+    },
+    "workshop/3462342647/common/bookmark_portraits/bookmark_284_euron_greyjoy.txt": {
+      "sha256": "415a59189c63781039e5657466421813cad85ebae95fb425234513ca3717b0df",
+      "size": 16340
+    },
+    "workshop/3462342647/common/bookmark_portraits/bookmark_284_jaime_lannister.txt": {
+      "sha256": "f261f19b772010da1824a7885a0cf3e0a917b2ead60b7e97c909ec707c37cd1a",
+      "size": 15971
+    },
+    "workshop/3462342647/common/bookmark_portraits/bookmark_284_jon_arryn.txt": {
+      "sha256": "31f52c00ca60e2f7f298a056bf88b7d001637bbfcbf8f593815ff8944aa4a417",
+      "size": 16912
+    },
+    "workshop/3462342647/common/bookmark_portraits/bookmark_284_renly_baratheon.txt": {
+      "sha256": "dc8cf6a582e2e0736e7d8a31dd5a20ef26046c8a437572c3df93ee6ddb420b48",
+      "size": 15782
+    },
+    "workshop/3462342647/common/bookmark_portraits/bookmark_284_robert_baratheon.txt": {
+      "sha256": "e8095d10d3ab5dada63fba0b4a5ba5f71f34d1116ac5265f908e711481b48c84",
+      "size": 16140
+    },
+    "workshop/3462342647/common/bookmark_portraits/bookmark_284_stannis_baratheon.txt": {
+      "sha256": "8606245b18e402ed3c1ee2e92d7beda2d68b49dba96f3dbe2fd4a6e85c20867d",
+      "size": 15875
+    },
+    "workshop/3462342647/common/bookmark_portraits/bookmark_284_tyrion_lannister.txt": {
+      "sha256": "a52be01845675e30d6575e03f9306c0320b4d52a70bc464c9d43209c841e1f5f",
+      "size": 15902
+    },
+    "workshop/3462342647/common/bookmark_portraits/bookmark_284_tywin_lannister.txt": {
+      "sha256": "6d8a7532baa13f7f626b4a7389ca53357289c9f156751eb3329c1c87500bb9f2",
+      "size": 15802
+    },
+    "workshop/3462342647/common/bookmark_portraits/bookmark_284_victarion_greyjoy.txt": {
+      "sha256": "027c1e694ef888fa864fb9820fa698a80115f9354b5e4ef7f87f32377e7ee64b",
+      "size": 16293
+    },
+    "workshop/3462342647/common/bookmark_portraits/bookmark_298_asha_greyjoy.txt": {
+      "sha256": "5d6a2157a881b3ede16e7456174d8b661758bcd6662646e8b8b3b570ee8ac1ed",
+      "size": 16476
+    },
+    "workshop/3462342647/common/bookmark_portraits/bookmark_298_balon_greyjoy.txt": {
+      "sha256": "acc32112474c45d14d197bb39e4d335a5128d374cfbedf171e01b81dc87a33de",
+      "size": 15815
+    },
+    "workshop/3462342647/common/bookmark_portraits/bookmark_298_cersei_lannister.txt": {
+      "sha256": "8dee0884f1b0ad83074fcfa5eac06945fba7d3abbf25f024b0716dcd9321ee12",
+      "size": 16152
+    },
+    "workshop/3462342647/common/bookmark_portraits/bookmark_298_jaime_lannister.txt": {
+      "sha256": "62aeba5a596734a06fd0555bae496410f709ddb11adebbfbb4a52457a51b3470",
+      "size": 15840
+    },
+    "workshop/3462342647/common/bookmark_portraits/bookmark_298_joffrey_baratheon.txt": {
+      "sha256": "c5f7cb4eaf4ca0715e9f6422406006355b3fb3f855922171be5a447134552029",
+      "size": 16903
+    },
+    "workshop/3462342647/common/bookmark_portraits/bookmark_298_myrcella_baratheon.txt": {
+      "sha256": "e97ac048cbdbf1a195089c27a8b4ec1fcb7c834f46ccad662285a494b83090fc",
+      "size": 16601
+    },
+    "workshop/3462342647/common/bookmark_portraits/bookmark_298_renly_baratheon.txt": {
+      "sha256": "bbcc8dc9aec9a52214e4b6bb0e94fe200ef166183598501ce49ec613d9623d53",
+      "size": 15817
+    },
+    "workshop/3462342647/common/bookmark_portraits/bookmark_298_robb_stark.txt": {
+      "sha256": "a29f0dc10f8ddb148db694f289bdfe7599d4c1774423a3678cfdb45061823544",
+      "size": 15738
+    },
+    "workshop/3462342647/common/bookmark_portraits/bookmark_298_stannis_baratheon.txt": {
+      "sha256": "00b80e8f6fd98e9e7103ecc8bd5e849430d7e0cea1a72e5f55f1750bdf976509",
+      "size": 15875
+    },
+    "workshop/3462342647/common/bookmark_portraits/bookmark_298_theon_greyjoy.txt": {
+      "sha256": "8f6ce201935ca26d6f8ecd1d1362f2dbaeebaabe2f76f33b0869879efdf7479b",
+      "size": 15901
+    },
+    "workshop/3462342647/common/bookmark_portraits/bookmark_298_tommen_baratheon.txt": {
+      "sha256": "813614db0afb8ed560433d7e42da95a8129fca7a1d18c516a1e8965ad4a8811a",
+      "size": 16214
+    },
+    "workshop/3462342647/common/bookmark_portraits/bookmark_298_tywin_lannister.txt": {
+      "sha256": "c76d02bd6c3f2069ea671b6055e5423a36a36f54f1a26a7a301c9105843c5cc4",
+      "size": 15802
+    },
+    "workshop/3462342647/common/bookmark_portraits/bookmark_298_walder_frey.txt": {
+      "sha256": "bb790ea43f04edf50012de629c111150afb76f6e61bd53bdc533ecda22f9125c",
+      "size": 16756
+    },
+    "workshop/3462342647/common/bookmark_portraits/bookmark_299_asha_greyjoy.txt": {
+      "sha256": "fbbfca7416a8a8a95ee27bbf59c836b75fad458f05bf55f7d963073616a2680a",
+      "size": 16186
+    },
+    "workshop/3462342647/common/bookmark_portraits/bookmark_299_balon_greyjoy.txt": {
+      "sha256": "1e6d511a4152be4c403bf1c522f61c763fa6c4ca4facf6938a8635becddbafe6",
+      "size": 15815
+    },
+    "workshop/3462342647/common/bookmark_portraits/bookmark_299_cersei_lannister.txt": {
+      "sha256": "fd2e7be64dc519cde8831a52a32f0000163711fd6cf9f51ff9da8e77362b913a",
+      "size": 16151
+    },
+    "workshop/3462342647/common/bookmark_portraits/bookmark_299_jaime_lannister.txt": {
+      "sha256": "ec42448d95aa4ec39b73d5c72678cafa8249cd0fa14a006544757cb259c0df14",
+      "size": 15840
+    },
+    "workshop/3462342647/common/bookmark_portraits/bookmark_299_joffrey_baratheon.txt": {
+      "sha256": "75c930ce363e579f93c831a6676c76a83c1d2f0ab2a327819773a354e0d0d2e0",
+      "size": 16812
+    },
+    "workshop/3462342647/common/bookmark_portraits/bookmark_299_myrcella_baratheon.txt": {
+      "sha256": "d2cee778405db2f138cf29f1b14ba668edfafff8d12fd906c962fddc2d12dd91",
+      "size": 16601
+    },
+    "workshop/3462342647/common/bookmark_portraits/bookmark_299_robb_stark.txt": {
+      "sha256": "4ffbc9da00972d0045e02d3629a5beb5615a522e2c3e6deee3106404fa5d443b",
+      "size": 15738
+    },
+    "workshop/3462342647/common/bookmark_portraits/bookmark_299_stannis_baratheon.txt": {
+      "sha256": "0cd986160b06a6cfe9674c3926b5876fefc839bc16d593f7588e1f2c23460dde",
+      "size": 15881
+    },
+    "workshop/3462342647/common/bookmark_portraits/bookmark_299_theon_greyjoy.txt": {
+      "sha256": "61e57ac913579613385fa032659a57428816b0ede9100e7df9d2403e36a7f5fc",
+      "size": 16025
+    },
+    "workshop/3462342647/common/bookmark_portraits/bookmark_299_tommen_baratheon.txt": {
+      "sha256": "e4de8b043702bb49104af926ea11320f09f7c8ee9cc44601a1edc7e856a8f66f",
+      "size": 15706
+    },
+    "workshop/3462342647/common/bookmark_portraits/bookmark_299_tywin_lannister.txt": {
+      "sha256": "e44d34bbf21e00c9ed8fc154de51d2be60c1ca1eaa5b263fff37ff83a95fabb1",
+      "size": 15802
+    },
+    "workshop/3462342647/common/bookmark_portraits/bookmark_299_walder_frey.txt": {
+      "sha256": "f8b09513080a223c154c6effb9ac8bb15435987484da4db76a861946251bb4d6",
+      "size": 16757
+    },
+    "workshop/3462342647/common/bookmark_portraits/bookmark_2bc_aegon_targaryen.txt": {
+      "sha256": "661cc8df33b490ee1160fc9dc56a86806b161c6f5b49b3f3c17733c21f8d2810",
+      "size": 16689
+    },
+    "workshop/3462342647/common/bookmark_portraits/bookmark_2bc_argilac_durrandon.txt": {
+      "sha256": "5b5c5c3843d69c20fb5d06cfc26a82a732dd7c51ff503396ba4804cecb55e212",
+      "size": 15933
+    },
+    "workshop/3462342647/common/bookmark_portraits/bookmark_2bc_harren_hoare.txt": {
+      "sha256": "207ad735f7e4e918724f0ac5f1f1786803b5475d81f869ed3bfb8e328a6b8e29",
+      "size": 15758
+    },
+    "workshop/3462342647/common/bookmark_portraits/bookmark_2bc_mern_gardener.txt": {
+      "sha256": "b958f1f18a4e79ea83557680bf4074c57563a52abc2dbe4450601047586a6c96",
+      "size": 15895
+    },
+    "workshop/3462342647/common/bookmark_portraits/bookmark_2bc_rhaenys_targaryen.txt": {
+      "sha256": "7ea84768ca96fcb4c213cb2f655c98544a820bb5c7d7e7432712216c90463c9b",
+      "size": 17687
+    },
+    "workshop/3462342647/common/bookmark_portraits/bookmark_2bc_torrhen_stark.txt": {
+      "sha256": "d189c48f21ee853e9594ad5379cad1f3753d6f20cc4a15996732cbae80adfb72",
+      "size": 15696
+    },
+    "workshop/3462342647/common/bookmark_portraits/bookmark_2bc_visenya_targaryen.txt": {
+      "sha256": "3ca1da1df2696d89d1ef90830309e78a6bd0c832b6d6fdcb30d7979c2c38d690",
+      "size": 16179
+    },
+    "workshop/3462342647/common/bookmark_portraits/bookmark_300_cersei_lannister.txt": {
+      "sha256": "082ef312fda3e854ecf3f2d59acb768957d7e888fda93d7cf1cbef49f959693e",
+      "size": 16206
+    },
+    "workshop/3462342647/common/bookmark_portraits/bookmark_300_euron_greyjoy.txt": {
+      "sha256": "e183616a4744180a73c567bf8b057c46f21e9df28546977b6ce193f9251c2eaa",
+      "size": 16279
+    },
+    "workshop/3462342647/common/bookmark_portraits/bookmark_300_stannis_baratheon.txt": {
+      "sha256": "141f51e6056e0a6c2cc68b2df66a43a4d94ae1ebd2633de8eb6483bc76d8abf8",
+      "size": 15969
+    },
+    "workshop/3462342647/common/bookmark_portraits/bookmark_300_tommen_baratheon.txt": {
+      "sha256": "bde7420c8824881f9aa4360867edd9f1755e220b678b9e43db6f81eb68a55c6b",
+      "size": 15706
+    },
+    "workshop/3462342647/common/bookmark_portraits/bookmark_82_aemon_targaryen.txt": {
+      "sha256": "44d9a40e5cd4df456a3bead7fec195200e800b56c49d2da58ae236d1e2138515",
+      "size": 16037
+    },
+    "workshop/3462342647/common/bookmark_portraits/bookmark_82_alysanne_targaryen.txt": {
+      "sha256": "208a5fa8b5b57f5c0e416ec0d8f4cb9d774263a6b01f1e67fb9e036cd4c1abc6",
+      "size": 16349
+    },
+    "workshop/3462342647/common/bookmark_portraits/bookmark_82_braxton_beesbury.txt": {
+      "sha256": "8dce70aec0e9f474dd9a318cb8bac084f0c70266610603487e1d4e42fa7c737f",
+      "size": 16165
+    },
+    "workshop/3462342647/common/bookmark_portraits/bookmark_82_jaehaerys_targaryen.txt": {
+      "sha256": "3f577fe5654f03e6905f000dfe1023b9d335aaa8793f1b29fded32fb3be2eb44",
+      "size": 16103
+    },
+    "workshop/3462342647/common/bookmark_portraits/bookmark_82_jocelyn_baratheon.txt": {
+      "sha256": "fb1152121bd53c1946472332c857a8401eacc5672881a4e1710dd9d48d22744b",
+      "size": 17489
+    },
+    "workshop/3462342647/common/bookmark_portraits/bookmark_82_lyman_beesbury.txt": {
+      "sha256": "ecb31de65a73b87a2d4f389f35d1a94f0f653ca3c92a68a630dd22613c151846",
+      "size": 15878
+    },
+    "workshop/3462342647/common/bookmark_portraits/bookmark_82_lyonel_strong.txt": {
+      "sha256": "734e8a8e038c66b3e4ee891b791be850f0a307098aff712189b9b910734e7ed4",
+      "size": 15649
+    },
+    "workshop/3462342647/common/bookmark_portraits/bookmark_82_manfryd_redwyne.txt": {
+      "sha256": "bf6f6319bc9be406265ff659d7aa053df7a865537540907f76697b413a048161",
+      "size": 15824
+    },
+    "workshop/3462342647/common/bookmark_portraits/bookmark_82_osmund_strong.txt": {
+      "sha256": "a76766307f61428baa9b7ca52cdd030edcd2ad4981b426091586fa3db11d7a89",
+      "size": 15893
+    },
+    "workshop/3462342647/common/bookmark_portraits/bookmark_82_rhaenys_targaryen.txt": {
+      "sha256": "b847961e5d67c41b9a5a7f7007241dff8451a35f663830f83f39d0febc339090",
+      "size": 16195
+    },
+    "workshop/3462342647/common/bookmark_portraits/bookmark_82_robert_redwyne.txt": {
+      "sha256": "1d6905e5d9b033c679c44e839a8319f7188fabd6c1b44470cd65faa66b8f1420",
+      "size": 15980
+    },
+    "workshop/3462342647/common/bookmark_portraits/bookmark_82_roy_connington.txt": {
+      "sha256": "d37e362844c9679b8b7c5a800f2882a460f89634707170c9620af907f19d4b9c",
+      "size": 15793
+    },
+    "workshop/3462342647/common/bookmark_portraits/bookmark_82_ryam_redwyne.txt": {
+      "sha256": "b5410b18e42d2287d962dbfc2cefaf924a873a017f30025d146ff1294828dc5c",
+      "size": 15725
+    },
+    "workshop/3462342647/common/bookmark_portraits/bookmark_82_septon_barth.txt": {
+      "sha256": "0bb756a7d7415f9c20f63b694dda26d482a191e89073a0d3790aed6519776f79",
+      "size": 15807
+    },
+    "workshop/3462342647/common/bookmark_portraits/bookmark_82_simon_strong.txt": {
+      "sha256": "37f8c9764ffc8aeba41a7f2073690bad52017048680527f9cb466f41291541b1",
+      "size": 16019
+    },
+    "workshop/3462342647/common/bookmark_portraits/bookmark_99_aenar_targaryen.txt": {
+      "sha256": "5d03c6ffd016d771c6bce38f001a1a65e1f49b2a20ad4da5e2faaf6d1557ce35",
+      "size": 15687
+    },
+    "workshop/3462342647/common/bookmark_portraits/bookmark_99_arrec_durrandon.txt": {
+      "sha256": "01dd4fe3e8eda800c7a140aa1a3109b4872fd5e65cf9e3a610d3c76b1a36781f",
+      "size": 15816
+    },
+    "workshop/3462342647/common/bookmark_portraits/bookmark_99_aurion_varezys.txt": {
+      "sha256": "0cbc698ed7e16cef866a44638a434fedd3d764bbea95be951d2f6bf6c65ea2c8",
+      "size": 16056
+    },
+    "workshop/3462342647/common/bookmark_portraits/bookmark_99_daenys_targaryen.txt": {
+      "sha256": "00dcbedfc19bd99977f438e8368d03435a844aa29c5ddd14a36a6a0b742008ab",
+      "size": 16025
+    },
+    "workshop/3462342647/common/bookmark_portraits/bookmark_99_elissa_florent.txt": {
+      "sha256": "6e6b80b9669da68db2ade4d929993bfb5edff423ab2916c74a1e0090eebf0a21",
+      "size": 15945
+    },
+    "workshop/3462342647/common/bookmark_portraits/bookmark_99_ellyn_tarbeck.txt": {
+      "sha256": "514e424601ffb03b4192f671598635151c7e376381e7d7f8aa7dbdec43ab34b4",
+      "size": 16105
+    },
+    "workshop/3462342647/common/bookmark_portraits/bookmark_99_erich_durrandon.txt": {
+      "sha256": "376aebbea355a2f4f837ca35a1c0ac18b9d1231375f3aa34ac89ba46f5491cad",
+      "size": 15760
+    },
+    "workshop/3462342647/common/bookmark_portraits/bookmark_99_gaemon_targaryen.txt": {
+      "sha256": "b6033cdf1ac6b2eac7c0f41dfd543341d30a35144423b4761910e3cf0cdc401f",
+      "size": 16027
+    },
+    "workshop/3462342647/common/bookmark_portraits/bookmark_99_garland_gardener.txt": {
+      "sha256": "82c80db69042b80eca47a78979064b09eccc18240e7dd4fe00cd303c056ab0eb",
+      "size": 15868
+    },
+    "workshop/3462342647/common/bookmark_portraits/bookmark_99_mern_gardener.txt": {
+      "sha256": "5a26e64e7d8c94c0822fcddf70582c8801e92810499b329c14eab873a2b0aa65",
+      "size": 15744
+    },
+    "workshop/3462342647/common/bookmark_portraits/bookmark_99_monfryd_durrandon.txt": {
+      "sha256": "cc11a0358014afbc7c7b7f057b2cf5c977a6e0b855fa80c1499e4cc274404d9a",
+      "size": 15796
+    },
+    "workshop/3462342647/common/bookmark_portraits/bookmark_99_tommen_lannister.txt": {
+      "sha256": "944d5669336292036236dd91fe500eb72905783141a6522028be700fbac76632",
+      "size": 15860
+    },
+    "workshop/3462342647/common/bookmark_portraits/bookmark_99_tyrion_lannister.txt": {
+      "sha256": "477d97e07e03d937a164d40bc441cbbe8528a0e59413023a7941f25c4e2d9c42",
+      "size": 15773
+    },
+    "workshop/3462342647/common/bookmark_portraits/challenge_character_106_jeyne_arryn.txt": {
+      "sha256": "432d1c7b561b2aebf8d45957fbe947632d3f0a95af3e0fdb6e4e4a22aa5c8751",
+      "size": 16227
+    },
+    "workshop/3462342647/common/bookmark_portraits/challenge_character_106_rhaenyra_targaryen.txt": {
+      "sha256": "d012ff905eac6bd0593f4744dd7bd3187e32e34751e27208ec69046cff7c9898",
+      "size": 16370
+    },
+    "workshop/3462342647/common/bookmark_portraits/challenge_character_209_danelle_lothston.txt": {
+      "sha256": "0c614c535d822cde2a75b8968bacb2766aa706519747bdfc8f9a9a528637d785",
+      "size": 15989
+    },
+    "workshop/3462342647/common/bookmark_portraits/challenge_character_209_viserys_plumm.txt": {
+      "sha256": "25575b8c6a9633cf1656c902a08e2525491ae6889a7435edc2dc1d5e77330e78",
+      "size": 15812
+    },
+    "workshop/3462342647/common/bookmark_portraits/challenge_character_239_gerold_lannister.txt": {
+      "sha256": "400357a73e52e6b6c1a63f7e3760ba148007572652ea7148bbe7f8cf5ea2fc3d",
+      "size": 15841
+    },
+    "workshop/3462342647/common/bookmark_portraits/challenge_character_239_steffon_tully.txt": {
+      "sha256": "fb0f6be323dad23f489af30053ce95027164d7a25e5ce8be113d4be1a4bb9f6c",
+      "size": 15826
+    },
+    "workshop/3462342647/common/bookmark_portraits/challenge_character_259_aemon_tarth.txt": {
+      "sha256": "353139f16d3a3d21e68c9693e0d6d92751378dba23a8eaa35fb0d8cc56533ed6",
+      "size": 15821
+    },
+    "workshop/3462342647/common/bookmark_portraits/challenge_character_259_tancred_crane.txt": {
+      "sha256": "b855fbee1a589229eaa222394f38d690acd6e3ac1bf16931f107dda306612de8",
+      "size": 15744
+    },
+    "workshop/3462342647/common/bookmark_portraits/challenge_character_277_beric_dayne.txt": {
+      "sha256": "82c6b1688a676eb474bc0605e4482720c49335d6225e1e6f22bb6f952c076210",
+      "size": 15799
+    },
+    "workshop/3462342647/common/bookmark_portraits/challenge_character_277_loreza_martell.txt": {
+      "sha256": "54f04a2fb7c48014b17e77a4c576552a3665d8b5b06b067fa06dc30a71060da8",
+      "size": 16027
+    },
+    "workshop/3462342647/common/bookmark_portraits/challenge_character_282_walder_frey.txt": {
+      "sha256": "a799e654c5303fcefbae20a1871204493133f338cfa77f25c930a8bff30d7ed8",
+      "size": 16765
+    },
+    "workshop/3462342647/common/bookmark_portraits/challenge_character_282_walter_whent.txt": {
+      "sha256": "6011fa819cd7c99e82a422324a0d6e14a3c310d848e95baf6bb907606cc367fb",
+      "size": 16994
+    },
+    "workshop/3462342647/common/bookmark_portraits/challenge_character_284_jon_arryn.txt": {
+      "sha256": "e3e7a89e5d2c11880264408c9a887467fbabe372f6133364cc189295a3095f92",
+      "size": 16923
+    },
+    "workshop/3462342647/common/bookmark_portraits/challenge_character_284_petyr_baelish.txt": {
+      "sha256": "c031ac99cbc8326ed2fb2025d99b25f1ec4b480b92ecc964a6cce13ecda1c39e",
+      "size": 15789
+    },
+    "workshop/3462342647/common/dna_data/mari_new_dna_data.txt": {
+      "sha256": "129322622c89bd955f57e0f4daa25ca2c1c130d27a2cf988d473ca5b699c8a22",
+      "size": 4485908
+    },
+    "workshop/3541596590/common/scripted_modifiers/00_marriage_scripted_modifiers.txt": {
+      "sha256": "f9fe42248286b936e7c8a8d4aaaa24911416d3b7707d8149b88435df12027726",
+      "size": 180816
+    },
+    "workshop/3596393244/common/traits/zz_gptev_traits.txt": {
+      "sha256": "528c88288a91fadd81e35ebaeb16877578366a9ae6c8ea714c00ff1062c5086e",
+      "size": 50320
+    },
+    "workshop/3621472324/events/zzz_Great_Councils_events.txt": {
+      "sha256": "98541a991dcf99e1ed9007ac965f147f5059e58069fc7fa2e1bb1d959e2899f2",
+      "size": 59935
+    },
+    "workshop/3662281614/common/governments/00_agot_government_types.txt": {
+      "sha256": "039558237b3bfd46c91cffbcee0d1a6bb35681b08103a2e0557479033819d057",
+      "size": 15950
+    },
+    "workshop/3662281614/events/red_keep_title_events.txt": {
+      "sha256": "69ba5a389b4ddfb91eb274c17f6c8d7a4df23033767914516abac999fe264050",
+      "size": 38588
+    },
+    "workshop/3673468355/events/zz_agot_squire_automation_events.txt": {
+      "sha256": "8894a67dada8d9ebbb59c0a8f99785e40deffa52c5b430b37321a458cf113ce5",
+      "size": 16954
+    },
+    "workshop/3674548216/events/agot_events/agot_squirehood_ongoing_events.txt": {
+      "sha256": "0b868d55ea5d971aab85c71edb52facb7c37cc4cbd4d5c8ce7068f2db113c534",
+      "size": 79382
+    },
+    "workshop/3676293022/events/lunarac_00_hire_events.txt": {
+      "sha256": "b048db9190943dcc755a82b99527d4e7b0b833022ddaf499ddc20c4be71becb3",
+      "size": 88992
+    },
+    "workshop/3682802751/common/game_rules/01_essos_empire_game_rules.txt": {
+      "sha256": "c7b9cafca5fcab2b68f501118a99df51d8c232a0fff6619d5932f89d03f63834",
+      "size": 5362
+    },
+    "workshop/3682802751/common/on_action/essos_game_start.txt": {
+      "sha256": "a623231e12182709fbffc66ec9c8098ef507935de7de0257e38fa5a34828723c",
+      "size": 7859
+    },
+    "workshop/3682802751/common/scripted_effects/essos_family_effects.txt": {
+      "sha256": "d0001f92ded88fbf435981550021c4dc73e7bb902b85b2d33338ba023e766c1a",
+      "size": 1955
+    },
+    "workshop/3692879370/common/buildings/zzz_landmarks_agot_special_buildings_westeros.txt": {
+      "sha256": "17d888f680b75f8d494a3343bf4fbdad671d24c0734241fa29eaf5d4eb58308c",
+      "size": 295027
+    },
+    "workshop/3697008412/common/buildings/zzzz_cow_agot_landmarks_special_buildings_westeros.txt": {
+      "sha256": "eb6f319efdeff6011472b815db27d058e526a0a06fbbdcc12103babf51951b15",
+      "size": 63559
+    },
+    "workshop/3709868073/events/uhb_court_maintenance.txt": {
+      "sha256": "7f25a0d3671f1e5f4ca6b9e995d0fd17c547869a2e6d6a26983159a301d1e7b7",
+      "size": 3538
+    },
+    "workshop/3709868073/localization/english/uhb_court_events_altner_l_english.yml": {
+      "sha256": "7a571eb4fdc67c74f5ca5785cd5490efe364f9076b2d07f080a45b6f62ee709a",
+      "size": 964
+    },
+    "workshop/3713902872/common/casus_belli_types/succession_crisis_cb.txt": {
+      "sha256": "4babec6ffab735f80b0cf0579bc408446d7a3e35b369eb49d2255d2d6183ddb3",
+      "size": 16171
+    },
+    "workshop/3713902872/common/on_action/sc_power_consolidation.txt": {
+      "sha256": "5418ac19dd87c10d16ea461cd10d9845619ca81b3b227c76fb692caa952697fd",
+      "size": 4503
+    },
+    "workshop/3713902872/common/scripted_effects/sc_create_landless_adventurer_title_effect.txt": {
+      "sha256": "9661508233a6432458005b7d62b04f9a2fe19745ccb3c63acedadeab077de3a7",
+      "size": 15570
+    },
+    "workshop/3713902872/events/sc_power_consolidation_event.txt": {
+      "sha256": "a59a4e14d668d86c9f4e7ef5e745ac3b170018d9ba8f46537efc77fbecdc3d5d",
+      "size": 14392
+    },
+    "workshop/3713902872/events/succession_crisis_misc.txt": {
+      "sha256": "549771cef7014981bb2565d3ceeffcec93fb5d3611419ceb9fa89e03e704e159",
+      "size": 25111
+    },
+    "workshop/3719888822/common/character_interactions/06_ep3_interactions.txt": {
+      "sha256": "ebacc93400ab7d3c96bac91dce54923cca47889211284b50157262ab507058d7",
+      "size": 319435
+    },
+    "workshop/3719888822/common/on_action/cob_on_actions/zz_lv_aurion_lost_expedition_title_gain_rc61.txt": {
+      "sha256": "02e083eecf6f69e96d70dfd83581ce23ac5447f92446e19131b7666b915c7ad1",
+      "size": 1102
+    },
+    "workshop/3719888822/common/on_action/title_on_actions.txt": {
+      "sha256": "9fbc04ee75c651f3d2f82336285a97285defbffcbed17cb4a2eb21d5c6550d3d",
+      "size": 137621
+    },
+    "workshop/3719888822/common/scripted_effects/00_agot_colonization_effects.txt": {
+      "sha256": "ad8277dc30dfb419a43a0f7b090b3476d5c330da675bd3621d4cc01ec13bd060",
+      "size": 16107
+    },
+    "workshop/3719888822/events/activities/tour_activity/tour_general_events.txt": {
+      "sha256": "54fd5855776df72573a11f7dec61aa9056ec6d84e3c1538ebe11f5d27eb67422",
+      "size": 84001
+    },
+    "workshop/3732116186/common/character_interactions/xx_baie_wl_education_interactions.txt": {
+      "sha256": "75719936ae5bdd2d6ae6757cd17aa4a4a27ff0330c0fd7f22347600972668692",
+      "size": 99352
+    },
+    "workshop/3732116186/common/scripted_effects/baie_wl_nickname_effects.txt": {
+      "sha256": "ec003a89b9cb51d504ed5cd757f4191cd0880dc874522e35ef7e3f149becbf2d",
+      "size": 134568
+    },
+    "workshop/3732116186/events/travel_events/travel_events_james.txt": {
+      "sha256": "eb01c891f835df24cfbbb0fa15410e79fbdddac4864abd3a4f83aabd31fcf797",
+      "size": 174170
+    },
+    "workshop/3761342990/common/scripted_effects/00_ame_effects.txt": {
+      "sha256": "c9683ae1c81359fe68d349af4218cdf1d4446faac6a5db9f4a4a5d5c7f243bfe",
+      "size": 10197
+    },
+    "workshop/3762892081/common/buildings/zz_am_lov_nv_holding_art.txt": {
+      "sha256": "6dfb18e85b09e4fab061189b89ed2e90d00cc38e7ee2da1d6a7a7d8097ed1cff",
+      "size": 1327873
+    },
+    "workshop/3762892081/common/scripted_effects/zz_am_lov_artifact_dedup_effects.txt": {
+      "sha256": "8ed0451996e83f1072769ee151c029fb851210830af236df17380affca5cc1e2",
+      "size": 2964
+    },
+    "workshop/3762892081/gfx/court_scene/scene_cultures/00_default_cultures.txt": {
+      "sha256": "5922a48397e71553a4308c7e5a6815fb233866e89e854bcf91b33825ef55ad69",
+      "size": 20313
+    },
+    "workshop/3762892081/gfx/interface/illustrations/scripted_illustrations/ingame.txt": {
+      "sha256": "afcec4437eefa3c21cd894fe0bce9cd15848085449e56e5cf228dd112ff83d1c",
+      "size": 540900
+    },
+    "workshop/3768149491/common/landed_titles/01_landed_titles.txt": {
+      "sha256": "e74e028a73e5d49c0878131c42623bdb66dffdf5f5c141ff9e759babb65efb0e",
+      "size": 1340905
+    },
+    "workshop/3768149491/common/on_action/zz_eetlv_gov_dev_on_actions.txt": {
+      "sha256": "d33d2f8dd115bd585bb38be87655b708f8f27fe95c1b333f416450a8bc1145e3",
+      "size": 2698
+    },
+    "workshop/3772178688/common/decisions/naval_combat_decisions.txt": {
+      "sha256": "3d43a634622cd55c69bd086ecb29e90c73a6a32ff96722fd22dad824e884762a",
+      "size": 11048
+    },
+    "workshop/3772178688/common/scripted_effects/naval_combat_effects.txt": {
+      "sha256": "b1330ecd36015e925f18aa68b4a6ecc87818187158a0584845791e337d885d24",
+      "size": 59715
+    },
+    "workshop/3781577713/events/kraken_events.txt": {
+      "sha256": "f74b3420b58d2999bc96384406b6abf6a96753c66547e2f3408d10812faaa5ce",
+      "size": 16164
+    },
+    "workshop/3781577713/events/naval_combat_events.txt": {
+      "sha256": "14b877a8f04a61e953792eea295ad0908cd3db4bac10e19f9ab4911f10a99e89",
+      "size": 137218
+    }
+  }
+}

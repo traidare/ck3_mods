@@ -19,6 +19,7 @@ import (
 
 	"codeberg.org/traidare/ck3_mods/internal/config"
 	"codeberg.org/traidare/ck3_mods/internal/fsutil"
+	"codeberg.org/traidare/ck3_mods/internal/sourcelock"
 	"codeberg.org/traidare/ck3_mods/internal/workspace"
 )
 
@@ -38,11 +39,27 @@ type Result struct {
 	Promoted     bool
 	Stdout       string
 	Stderr       string
+
+	// SourceChanges is how the files this run read differ from the checked-in
+	// lock. It is reported separately from the output comparison because the
+	// interesting case is precisely when the two disagree: an upstream file
+	// moved and the generated output did not.
+	SourceChanges sourcelock.Changes
 }
 
 // Current reports whether the checked-in tree already matches the run.
 func (r Result) Current() bool {
 	return len(r.ChangedFiles) == 0 && len(r.StaleFiles) == 0
+}
+
+// Pinned reports whether the run read exactly what the lock recorded.
+func (r Result) Pinned() bool {
+	return r.SourceChanges.Empty()
+}
+
+// Settled reports whether nothing at all needs review.
+func (r Result) Settled() bool {
+	return r.Current() && r.Pinned()
 }
 
 // Options selects what one run does.
@@ -68,12 +85,13 @@ type request struct {
 }
 
 type response struct {
-	SchemaVersion int    `json:"schemaVersion"`
-	Status        string `json:"status"`
-	Error         string `json:"error"`
-	Traceback     string `json:"traceback"`
-	Stdout        string `json:"stdout"`
-	Stderr        string `json:"stderr"`
+	SchemaVersion int      `json:"schemaVersion"`
+	Status        string   `json:"status"`
+	Error         string   `json:"error"`
+	Traceback     string   `json:"traceback"`
+	Stdout        string   `json:"stdout"`
+	Stderr        string   `json:"stderr"`
+	Reads         []string `json:"reads"`
 }
 
 type outputGroup struct {
@@ -141,9 +159,45 @@ func Run(space *workspace.Workspace, mod *workspace.Mod, settings config.Config,
 		}
 	}
 
+	if err := updateSourceLock(&result, space, mod, settings, answer.Reads, options.Apply); err != nil {
+		return result, err
+	}
+
 	sort.Strings(result.ChangedFiles)
 	sort.Strings(result.StaleFiles)
 	return result, nil
+}
+
+// LockPath is where one mod's input pins are checked in.
+func LockPath(mod *workspace.Mod) string {
+	return filepath.Join(mod.ToolingRoot, sourcelock.FileName)
+}
+
+// LockRoots names the host directories input keys are taken relative to.
+func LockRoots(space *workspace.Workspace, settings config.Config) sourcelock.Roots {
+	return sourcelock.Roots{
+		Workshop:   settings.WorkshopDir,
+		Game:       settings.GameDir,
+		Repository: space.Root,
+	}
+}
+
+// updateSourceLock compares what the run read against the checked-in lock.
+func updateSourceLock(result *Result, space *workspace.Workspace, mod *workspace.Mod, settings config.Config, reads []string, apply bool) error {
+	path := LockPath(mod)
+	recorded, err := sourcelock.Load(path)
+	if err != nil {
+		return err
+	}
+	current, err := sourcelock.Build(reads, LockRoots(space, settings))
+	if err != nil {
+		return err
+	}
+	result.SourceChanges = sourcelock.Compare(recorded, current)
+	if !apply || result.Pinned() {
+		return nil
+	}
+	return sourcelock.Save(path, current)
 }
 
 func undeclaredOutputs(staged map[string]string, generator *workspace.GeneratorSpec) []string {

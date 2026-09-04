@@ -1,0 +1,405 @@
+{
+  "schemaVersion": 1,
+  "findings": [
+    {
+      "severity": "error",
+      "code": "strict-scopes",
+      "message": "scope:background_temple_scope might not be available here",
+      "source": "AGOT",
+      "file": "common/event_backgrounds/01_event_backgrounds.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "strict-scopes",
+      "message": "`agot_house_revival_effect` expects scope:bastard_house_of to be set",
+      "source": "AGOT",
+      "file": "common/decisions/agot_decisions/00_agot_house_revival_decisions.txt",
+      "count": 9
+    },
+    {
+      "severity": "warning",
+      "code": "strict-scopes",
+      "message": "`determine_which_bit_was_chopped_off_recipient_effect` expects scope:maim_arm to be set",
+      "source": "AGOT",
+      "file": "events/diarchy_events/diarchy_events.txt",
+      "count": 2
+    },
+    {
+      "severity": "warning",
+      "code": "strict-scopes",
+      "message": "`determine_which_bit_was_chopped_off_recipient_effect` expects scope:maim_blind to be set",
+      "source": "AGOT",
+      "file": "events/diarchy_events/diarchy_events.txt",
+      "count": 2
+    },
+    {
+      "severity": "warning",
+      "code": "strict-scopes",
+      "message": "`determine_which_bit_was_chopped_off_recipient_effect` expects scope:maim_castrate to be set",
+      "source": "AGOT",
+      "file": "events/diarchy_events/diarchy_events.txt",
+      "count": 2
+    },
+    {
+      "severity": "warning",
+      "code": "strict-scopes",
+      "message": "`determine_which_bit_was_chopped_off_recipient_effect` expects scope:maim_face to be set",
+      "source": "AGOT",
+      "file": "events/diarchy_events/diarchy_events.txt",
+      "count": 2
+    },
+    {
+      "severity": "warning",
+      "code": "strict-scopes",
+      "message": "`determine_which_bit_was_chopped_off_recipient_effect` expects scope:maim_leg to be set",
+      "source": "AGOT",
+      "file": "events/diarchy_events/diarchy_events.txt",
+      "count": 2
+    },
+    {
+      "severity": "warning",
+      "code": "strict-scopes",
+      "message": "`agot_create_artifact_cask_of_summerwine_effect` expects scope:creator to be set",
+      "source": "Bloodlines: Legacies of AGOT",
+      "file": "events/agot_decision_events/agot_redwyne_festival_events.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "deprecated",
+      "message": "should use `is_available` instead of `ai_potential`",
+      "source": "MOD",
+      "file": "common/character_interactions/00_prison_interactions_BLA.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "logic",
+      "message": "OR with only one item inside is probably not what you intended",
+      "source": "MOD",
+      "file": "common/decisions/agot_decisions/00_agot_major_decisions_BLA.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "missing-localization",
+      "message": "missing english localization key agot_velaryon_stepstones_ambition_decision_bla_confirm",
+      "source": "MOD",
+      "file": "common/decisions/agot_decisions/00_agot_major_decisions_BLA.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "logic",
+      "message": "OR with only one item inside is probably not what you intended",
+      "source": "MOD",
+      "file": "common/dynasty_legacies/99_agot_cultures_BLA_legacies.txt",
+      "count": 15
+    },
+    {
+      "severity": "warning",
+      "code": "missing-file",
+      "message": "file gfx/interface/icons/modifiers/dynasty_house_opinion_positive.dds does not exist",
+      "source": "MOD",
+      "file": "common/modifiers/00_agot_crownlands_modifiers_BLA.txt",
+      "count": 2
+    },
+    {
+      "severity": "warning",
+      "code": "scopes",
+      "message": "expected bool",
+      "source": "MOD",
+      "file": "common/scripted_effects/00_agot_artifact_effects_BLA.txt",
+      "count": 30
+    },
+    {
+      "severity": "warning",
+      "code": "scopes",
+      "message": "var:historical_unique_artifact was deduced to be bool but scope seems to be value",
+      "source": "MOD",
+      "file": "common/scripted_effects/00_agot_artifact_effects_BLA.txt",
+      "count": 25
+    },
+    {
+      "severity": "warning",
+      "code": "scopes",
+      "message": "var:not_stolen was deduced to be bool but scope seems to be value",
+      "source": "MOD",
+      "file": "common/scripted_effects/00_agot_artifact_effects_BLA.txt",
+      "count": 2
+    },
+    {
+      "severity": "warning",
+      "code": "scopes",
+      "message": "var:valyrian_steel was deduced to be bool but scope seems to be value",
+      "source": "MOD",
+      "file": "common/scripted_effects/00_agot_artifact_effects_BLA.txt",
+      "count": 3
+    },
+    {
+      "severity": "warning",
+      "code": "missing-localization",
+      "message": "missing english localization key rival_disagreement",
+      "source": "MOD",
+      "file": "events/agot_decision_events/agot_crownlands_velaryon_stepstones_bla.txt",
+      "count": 7
+    },
+    {
+      "severity": "warning",
+      "code": "missing-item",
+      "message": "portrait animation personality_suspicious not defined in gfx/portraits/portrait_animations/",
+      "source": "MOD",
+      "file": "events/agot_events/agot_crownlands_bar_emmon_events_bla.txt",
+      "count": 12
+    },
+    {
+      "severity": "warning",
+      "code": "missing-localization",
+      "message": "missing english localization key agot_bar_emmon_bay_watch_bla",
+      "source": "MOD",
+      "file": "events/agot_events/agot_crownlands_bar_emmon_events_bla.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "missing-localization",
+      "message": "missing english localization key agot_bar_emmon_enemy_sails_spotted_bla",
+      "source": "MOD",
+      "file": "events/agot_events/agot_crownlands_bar_emmon_events_bla.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "missing-localization",
+      "message": "missing english localization key agot_crabb_beast_of_the_shallows_bla",
+      "source": "MOD",
+      "file": "events/agot_events/agot_crownlands_crabb_events_bla.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "logic",
+      "message": "OR with only one item inside is probably not what you intended",
+      "source": "MOD",
+      "file": "events/agot_events/agot_crownlands_darklyn_events_bla.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "missing-item",
+      "message": "event background ruins_inside not defined in common/event_backgrounds/",
+      "source": "MOD",
+      "file": "events/agot_events/agot_crownlands_darklyn_events_bla.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "missing-item",
+      "message": "event theme rivalry not defined in common/event_themes/",
+      "source": "MOD",
+      "file": "events/agot_events/agot_crownlands_darklyn_events_bla.txt",
+      "count": 2
+    },
+    {
+      "severity": "warning",
+      "code": "missing-item",
+      "message": "portrait animation personality_nervous not defined in gfx/portraits/portrait_animations/",
+      "source": "MOD",
+      "file": "events/agot_events/agot_crownlands_massey_events_bla.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "missing-item",
+      "message": "portrait animation personality_fear not defined in gfx/portraits/portrait_animations/",
+      "source": "MOD",
+      "file": "events/agot_events/agot_crownlands_rosby_events_bla.txt",
+      "count": 1
+    },
+    {
+      "severity": "tips",
+      "code": "suggest-localization",
+      "message": "you can define localization `great_project_name_construct_great_fleet_01`",
+      "source": "MOD",
+      "file": "common/great_projects/types/zz_agot_great_projects_BLA.txt",
+      "count": 1
+    },
+    {
+      "severity": "tips",
+      "code": "suggest-localization",
+      "message": "you can define localization `great_project_name_construct_great_fleet_02`",
+      "source": "MOD",
+      "file": "common/great_projects/types/zz_agot_great_projects_BLA.txt",
+      "count": 1
+    },
+    {
+      "severity": "tips",
+      "code": "suggest-localization",
+      "message": "you can define localization `great_project_name_construct_great_fleet_03`",
+      "source": "MOD",
+      "file": "common/great_projects/types/zz_agot_great_projects_BLA.txt",
+      "count": 1
+    },
+    {
+      "severity": "tips",
+      "code": "suggest-localization",
+      "message": "you can define localization `great_project_name_possessive_construct_great_fleet_01`",
+      "source": "MOD",
+      "file": "common/great_projects/types/zz_agot_great_projects_BLA.txt",
+      "count": 1
+    },
+    {
+      "severity": "tips",
+      "code": "suggest-localization",
+      "message": "you can define localization `great_project_name_possessive_construct_great_fleet_02`",
+      "source": "MOD",
+      "file": "common/great_projects/types/zz_agot_great_projects_BLA.txt",
+      "count": 1
+    },
+    {
+      "severity": "tips",
+      "code": "suggest-localization",
+      "message": "you can define localization `great_project_name_possessive_construct_great_fleet_03`",
+      "source": "MOD",
+      "file": "common/great_projects/types/zz_agot_great_projects_BLA.txt",
+      "count": 1
+    },
+    {
+      "severity": "tips",
+      "code": "suggest-localization",
+      "message": "you can define localization `great_project_type_construct_great_fleet_01_contribution_name_engineers`",
+      "source": "MOD",
+      "file": "common/great_projects/types/zz_agot_great_projects_BLA.txt",
+      "count": 1
+    },
+    {
+      "severity": "tips",
+      "code": "suggest-localization",
+      "message": "you can define localization `great_project_type_construct_great_fleet_01_contribution_name_materials`",
+      "source": "MOD",
+      "file": "common/great_projects/types/zz_agot_great_projects_BLA.txt",
+      "count": 1
+    },
+    {
+      "severity": "tips",
+      "code": "suggest-localization",
+      "message": "you can define localization `great_project_type_construct_great_fleet_01_contribution_name_merchant_quays`",
+      "source": "MOD",
+      "file": "common/great_projects/types/zz_agot_great_projects_BLA.txt",
+      "count": 1
+    },
+    {
+      "severity": "tips",
+      "code": "suggest-localization",
+      "message": "you can define localization `great_project_type_construct_great_fleet_01_contribution_name_military_wharf`",
+      "source": "MOD",
+      "file": "common/great_projects/types/zz_agot_great_projects_BLA.txt",
+      "count": 1
+    },
+    {
+      "severity": "tips",
+      "code": "suggest-localization",
+      "message": "you can define localization `great_project_type_construct_great_fleet_01_contribution_name_workforce`",
+      "source": "MOD",
+      "file": "common/great_projects/types/zz_agot_great_projects_BLA.txt",
+      "count": 1
+    },
+    {
+      "severity": "tips",
+      "code": "suggest-localization",
+      "message": "you can define localization `great_project_type_construct_great_fleet_02_contribution_name_engineers`",
+      "source": "MOD",
+      "file": "common/great_projects/types/zz_agot_great_projects_BLA.txt",
+      "count": 1
+    },
+    {
+      "severity": "tips",
+      "code": "suggest-localization",
+      "message": "you can define localization `great_project_type_construct_great_fleet_02_contribution_name_materials`",
+      "source": "MOD",
+      "file": "common/great_projects/types/zz_agot_great_projects_BLA.txt",
+      "count": 1
+    },
+    {
+      "severity": "tips",
+      "code": "suggest-localization",
+      "message": "you can define localization `great_project_type_construct_great_fleet_02_contribution_name_merchant_quays`",
+      "source": "MOD",
+      "file": "common/great_projects/types/zz_agot_great_projects_BLA.txt",
+      "count": 1
+    },
+    {
+      "severity": "tips",
+      "code": "suggest-localization",
+      "message": "you can define localization `great_project_type_construct_great_fleet_02_contribution_name_military_wharf`",
+      "source": "MOD",
+      "file": "common/great_projects/types/zz_agot_great_projects_BLA.txt",
+      "count": 1
+    },
+    {
+      "severity": "tips",
+      "code": "suggest-localization",
+      "message": "you can define localization `great_project_type_construct_great_fleet_02_contribution_name_workforce`",
+      "source": "MOD",
+      "file": "common/great_projects/types/zz_agot_great_projects_BLA.txt",
+      "count": 1
+    },
+    {
+      "severity": "tips",
+      "code": "suggest-localization",
+      "message": "you can define localization `great_project_type_construct_great_fleet_03_contribution_name_engineers`",
+      "source": "MOD",
+      "file": "common/great_projects/types/zz_agot_great_projects_BLA.txt",
+      "count": 1
+    },
+    {
+      "severity": "tips",
+      "code": "suggest-localization",
+      "message": "you can define localization `great_project_type_construct_great_fleet_03_contribution_name_materials`",
+      "source": "MOD",
+      "file": "common/great_projects/types/zz_agot_great_projects_BLA.txt",
+      "count": 1
+    },
+    {
+      "severity": "tips",
+      "code": "suggest-localization",
+      "message": "you can define localization `great_project_type_construct_great_fleet_03_contribution_name_merchant_quays`",
+      "source": "MOD",
+      "file": "common/great_projects/types/zz_agot_great_projects_BLA.txt",
+      "count": 1
+    },
+    {
+      "severity": "tips",
+      "code": "suggest-localization",
+      "message": "you can define localization `great_project_type_construct_great_fleet_03_contribution_name_military_wharf`",
+      "source": "MOD",
+      "file": "common/great_projects/types/zz_agot_great_projects_BLA.txt",
+      "count": 1
+    },
+    {
+      "severity": "tips",
+      "code": "suggest-localization",
+      "message": "you can define localization `great_project_type_construct_great_fleet_03_contribution_name_workforce`",
+      "source": "MOD",
+      "file": "common/great_projects/types/zz_agot_great_projects_BLA.txt",
+      "count": 1
+    },
+    {
+      "severity": "tips",
+      "code": "exact-duplicate-item",
+      "message": "modifier is redefined by an identical modifier, which may cause problems if one of them is later changed",
+      "source": "MOD",
+      "file": "common/modifiers/00_agot_crownlands_modifiers_BLA.txt",
+      "count": 4
+    },
+    {
+      "severity": "tips",
+      "code": "if-else",
+      "message": "`else` with a `limit` does work, but may indicate a mistake",
+      "source": "MOD",
+      "file": "events/agot_events/agot_john_mudd_claim_hammerford_events.txt",
+      "count": 1
+    }
+  ]
+}

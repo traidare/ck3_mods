@@ -2,22 +2,21 @@
 """Generate the CUIO-first GUI owner for the current AGOT playset.
 
 The relevant Workshop GUI files use inconsistent line endings.  We normalise
-them before asking ``git merge-file`` for a three-way merge, but pin the raw
-files first so an upstream update cannot be mistaken for a harmless reformat.
+them before asking ``git merge-file`` for a three-way merge, which means a real
+upstream edit and a harmless reformat look alike here; sources.lock.json tells
+them apart, by recording the raw bytes of every file this run reads.
 """
 
 from __future__ import annotations
 
 import codecs
-import hashlib
 import re
 import subprocess
 import tempfile
 from pathlib import Path
 
 from gen import GenerationContext
-from gen.text import matching_brace
-
+from gen.text import matching_brace, read_source
 
 GUI_PARENTS = {
     "gui/interaction_declare_war.gui": "more-interactive-vassals",
@@ -30,93 +29,25 @@ GUI_PARENTS = {
     "gui/window_factions.gui": "agot",
 }
 
-# Full-file pins deliberately include the vanilla merge base: GUI changes are
-# only reviewed when all three sides of a three-way merge are known inputs.
-PINS = {
-    "game": {
-        "gui/interaction_declare_war.gui": "00e47623902d8b4e536444d6c66ac249ecbda672e8f8537df4a8cfcfffc1df1a",
-        "gui/interaction_menu_window.gui": "8fdc67edf82d59ac3c0bcbbd5eec00624cb582c4b47f0f35ed2063b96303909a",
-        "gui/shared/coa_designer.gui": "2f3b863a7fea692d630825052426ccc674403d096c37dd470e63c923d2d356ec",
-        "gui/shared/cooltip.gui": "702a1135d22b28c7a73b902a730d906481c5efb003c6929fe9dcf4350be74a34",
-        "gui/shared/lists.gui": "21cb58ce683f514589f34b00f854b492c338b6c4bf3f49457478ca3f4ea28e5c",
-        "gui/window_accolade.gui": "5a5d45b4e8994c5b87578c5b2171c6585298c17de3d80d3b505b13c3f5e04cdd",
-        "gui/window_character.gui": "474b1979df99c972eb3339d8931a9eb97f2f852579e209e34a6007320e825a58",
-        "gui/window_factions.gui": "798f177b1db914b34cce177d8cd29f336e182bc6bb24294bd46ece7b27392770",
-    },
-    "cuio": {
-        "gui/CUIO_portraits.gui": "cf70fe3d2579e24ac2648fcf680d7b3c0bdd01150e8712f10ff7be2e0fc551b6",
-        "gui/interaction_declare_war.gui": "4b046c4f7a184eb68d97aefe63d15f4d0211a3a45fa1121f9cee2ca56640f938",
-        "gui/interaction_menu_window.gui": "fa535010a80b9c4050c96be2a411a8e2b427efbb0f98f8a5f94f7de5beb16a3a",
-        "gui/shared/coa_designer.gui": "fa1a7c55fa58b9caeef4ce23e52d5da51d90c5d171aafbbaa06f2f62cffb6bad",
-        "gui/shared/cooltip.gui": "d032dc285b878764045538bd0161e36ba545b1935a05de46126003c24f10b9c4",
-        "gui/shared/lists.gui": "8aedbaa05219e191f6749edaca91e2f4037d6f55025edd31b9d5e443ba305e06",
-        "gui/window_accolade.gui": "0a238e513e9d0b53ec48118c713c32af416c491c7621e514a8900a91b6145711",
-        "gui/window_character.gui": "c13b75739a0dfb6b474d0a2d2cc94e40b3ff79c816b1c06ecba7e944dfc74e79",
-        "gui/window_factions.gui": "4efbb89e9c0c9df4c0897922695d6aeb0374be1f9a4db71ba54a0770ca6aa04e",
-    },
-    "agot": {
-        "gui/interaction_declare_war.gui": "847d997bde45b497274954504b2c8feff4f5ebd343c836d70378604cbe626499",
-        "gui/interaction_menu_window.gui": "f54a6dba8a6df9f4db6d97291a9291433e7feeea31157235b3e1bb449b932ad2",
-        "gui/shared/coa_designer.gui": "e885c419c0b2942659f687c66df2dfa74f894e42393af168708327efbfefd38f",
-        "gui/shared/cooltip.gui": "d157749b64d5d6d8e85f300ae9f8548fde1a4a49661ef06032322688adf5acd3",
-        "gui/shared/lists.gui": "897cc471c6ec16dbb34327d68a212d076ea59589f716c677a785709ec2903cad",
-        "gui/shared/portraits.gui": "6a80edb6922af28f984749b61ec39534e18eeb12d902d77ea7416db0e9c4f02b",
-        "gui/window_accolade.gui": "17cbd7e1f2370659f2230fe323005cfdde220d2c8ea5ef9f39868df71244172b",
-        "gui/window_character.gui": "5fc9c380069105dcd88729dd1b20b1db9bf896d0d4f42277e2173dc69ff3ca11",
-        "gui/window_factions.gui": "2457335d6725711e5dd96dbd4bc6b663e5b280c970f71d60afa90779bc3de10d",
-    },
-    "better-barbershop": {
-        "gui/interaction_menu_window.gui": "074c6f12722f4a1830ca6e96432ec60ab555b6b57a9a4e9fff3b98e8599c7ce3",
-    },
-    "more-interactive-vassals": {
-        "gui/interaction_declare_war.gui": "64aae257ca6f06bbc18e3eaf7d58adcb8e2f7c7fc1a381b3835648f8fe321ac7",
-    },
-    "more-personality-depth": {
-        "gui/shared/cooltip.gui": "6cf36d66274fc31375d35b370d6ef24705bc04adc837daaa3b9ba75612193d8f",
-    },
-    "mpd-dragon-wives-compatch": {
-        "gui/window_character.gui": "e08e355d7bf3bd2ee7383d831fac6b978cf35079b1f12d20993d499d40b620b8",
-    },
-    "iron-and-salt": {
-        "gui/shared/00_kraken_portrait_opinion.gui": "98d5a774c48c3daecaf966ec9acdec8d1fb7c8be4b9faec8ca75b43c8de1607f",
-        "gui/shared/cooltip.gui": "48250d0a44271fb37ae7ffc7395dfd232682840207b475e1d2336fbce80f729b",
-        "gui/shared/lists.gui": "7094460a3b465dfd8556e3287709dc2f4d9157a48e2c50365991c45ced579532",
-        "gui/shared/zz_kraken_list_portraits.gui": "2cc2262aac7183061fc67a86e13574fde9bb46a2a2503ab869c368555ebe9cd4",
-        "gui/window_character.gui": "41e95b9f2645d9e6fa2f552bf80525d1daf2a91688d2dbe604e3222469ed51db",
-    },
-    "artifact-manager": {
-        "gfx/interface/icons/artifact/artifact_bg.dds": "5cf39c75f0551be3b93635a7477e3eda16a5b24ba255637ae775968839669b90",
-        "gfx/interface/icons/artifact/artifact_unique.dds": "e89cd9340a8d467d4ebbf7f2b1bb073cf75c13a1c42a4f77cb66e4aac52131ad",
-    },
-}
-
 
 def source_path(context: GenerationContext, source: str, relative: str) -> Path:
     return context.source(source) / relative
 
 
-def pinned_text(context: GenerationContext, source: str, relative: str) -> str:
-    path = source_path(context, source, relative)
-    raw = path.read_bytes()
-    expected = PINS[source][relative]
-    actual = hashlib.sha256(raw).hexdigest()
-    if actual != expected:
-        raise RuntimeError(
-            f"{source}/{relative} changed: expected {expected}, found {actual}"
-        )
-    return raw.decode("utf-8-sig").replace("\r\n", "\n").replace("\r", "\n")
+def source_text(context: GenerationContext, source: str, relative: str) -> str:
+    """Read one upstream GUI file with its line endings normalised.
+
+    The vanilla merge base is read through here too, deliberately: a GUI change
+    is only reviewable when all three sides of the three-way merge are recorded
+    inputs.  Content drift is not checked here, because sources.lock.json pins
+    every file the run reads rather than the subset someone remembered to list.
+    """
+    return read_source(source_path(context, source, relative), normalize_newlines=True)
 
 
-def pinned_bytes(context: GenerationContext, source: str, relative: str) -> bytes:
-    path = source_path(context, source, relative)
-    raw = path.read_bytes()
-    expected = PINS[source][relative]
-    actual = hashlib.sha256(raw).hexdigest()
-    if actual != expected:
-        raise RuntimeError(
-            f"{source}/{relative} changed: expected {expected}, found {actual}"
-        )
-    return raw
+def source_bytes(context: GenerationContext, source: str, relative: str) -> bytes:
+    """Read one upstream asset verbatim, for files that are copied unchanged."""
+    return source_path(context, source, relative).read_bytes()
 
 
 def merge_three_way(
@@ -513,9 +444,9 @@ def merge_gui(
     context: GenerationContext, relative: str, *, prefer_cuio: bool
 ) -> tuple[str, str]:
     parent_source = GUI_PARENTS[relative]
-    cuio = pinned_text(context, "cuio", relative)
-    base = pinned_text(context, "game", relative)
-    parent = pinned_text(context, parent_source, relative)
+    cuio = source_text(context, "cuio", relative)
+    base = source_text(context, "game", relative)
+    parent = source_text(context, parent_source, relative)
     return (
         merge_three_way(
             ours=cuio,
@@ -530,7 +461,7 @@ def merge_gui(
 
 def generate_interaction_menu(context: GenerationContext) -> str:
     text, _ = merge_gui(context, "gui/interaction_menu_window.gui", prefer_cuio=True)
-    agot = pinned_text(context, "agot", "gui/interaction_menu_window.gui")
+    agot = source_text(context, "agot", "gui/interaction_menu_window.gui")
     text = replace_once(
         text,
         'text = "[Character.GetUINameNoTooltip|U]"',
@@ -562,7 +493,7 @@ def generate_interaction_menu(context: GenerationContext) -> str:
 
 def generate_declare_war(context: GenerationContext) -> str:
     text, miv = merge_gui(context, "gui/interaction_declare_war.gui", prefer_cuio=True)
-    agot = pinned_text(context, "agot", "gui/interaction_declare_war.gui")
+    agot = source_text(context, "agot", "gui/interaction_declare_war.gui")
     # MIV's source replaces AGOT's file, so restore AGOT's rescue/revenge
     # components explicitly and retain MIV's two warning strings in CUIO's view.
     for control in (
@@ -1160,12 +1091,12 @@ def generate_portraits(context: GenerationContext) -> dict[str, str]:
     load order.  Rather than depend on that, this module takes over all four
     declaring files so exactly one declaration of each type survives.
     """
-    cuio = pinned_text(context, "cuio", "gui/CUIO_portraits.gui")
-    agot = pinned_text(context, "agot", "gui/shared/portraits.gui")
-    kraken_opinion = pinned_text(
+    cuio = source_text(context, "cuio", "gui/CUIO_portraits.gui")
+    agot = source_text(context, "agot", "gui/shared/portraits.gui")
+    kraken_opinion = source_text(
         context, "iron-and-salt", "gui/shared/00_kraken_portrait_opinion.gui"
     )
-    kraken_heads = pinned_text(
+    kraken_heads = source_text(
         context, "iron-and-salt", "gui/shared/zz_kraken_list_portraits.gui"
     )
     label = "shared portrait types"
@@ -1259,7 +1190,7 @@ def generate(context: GenerationContext) -> None:
         text, _ = merge_gui(context, relative, prefer_cuio=False)
         outputs[relative] = text
     tooltip, _ = merge_gui(context, "gui/shared/cooltip.gui", prefer_cuio=True)
-    cuio_tooltip = pinned_text(context, "cuio", "gui/shared/cooltip.gui")
+    cuio_tooltip = source_text(context, "cuio", "gui/shared/cooltip.gui")
     # AGOT disables the faith struggle effect by commenting its whole type.
     # CUIO modifies that type, so a line-level merge would leave the CUIO body
     # outside a type declaration.  The CUIO-first policy keeps its valid type.
@@ -1312,15 +1243,15 @@ def generate(context: GenerationContext) -> None:
         label="AGOT/MPD culture and trait tooltip",
     )
     outputs["gui/shared/cooltip.gui"] = add_kraken_to_cooltip(
-        tooltip, pinned_text(context, "iron-and-salt", "gui/shared/cooltip.gui")
+        tooltip, source_text(context, "iron-and-salt", "gui/shared/cooltip.gui")
     )
     outputs["gui/shared/lists.gui"] = add_kraken_to_lists(
         generate_lists(context),
-        pinned_text(context, "iron-and-salt", "gui/shared/lists.gui"),
+        source_text(context, "iron-and-salt", "gui/shared/lists.gui"),
     )
     outputs["gui/window_character.gui"] = add_kraken_to_character(
         generate_character(context),
-        pinned_text(context, "iron-and-salt", "gui/window_character.gui"),
+        source_text(context, "iron-and-salt", "gui/window_character.gui"),
     )
     outputs.update(generate_portraits(context))
 
@@ -1336,5 +1267,5 @@ def generate(context: GenerationContext) -> None:
         "gfx/interface/icons/artifact/artifact_unique.dds",
     ):
         context.write_bytes(
-            relative, pinned_bytes(context, "artifact-manager", relative)
+            relative, source_bytes(context, "artifact-manager", relative)
         )

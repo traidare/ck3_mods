@@ -1,0 +1,21 @@
+{
+  "schemaVersion": 1,
+  "findings": [
+    {
+      "severity": "warning",
+      "code": "logic",
+      "message": "OR with only one item inside is probably not what you intended",
+      "source": "MOD",
+      "file": "gfx/portraits/portrait_animations/animations.txt",
+      "count": 1
+    },
+    {
+      "severity": "tips",
+      "code": "performance",
+      "message": "AND with only one item inside is useless",
+      "source": "MOD",
+      "file": "gfx/portraits/portrait_animations/animations.txt",
+      "count": 1
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "schemaVersion": 1,
+  "findings": [
+    {
+      "severity": "warning",
+      "code": "duplicate-item",
+      "message": "culture tradition is redefined by another culture tradition",
+      "source": "MOD",
+      "file": "common/culture/traditions/00_agot_unique_traditions.txt",
+      "count": 42
+    },
+    {
+      "severity": "warning",
+      "code": "missing-item",
+      "message": "modifier format chariot_cavalry_toughness_mult not defined in common/modifier_definition_formats/",
+      "source": "MOD",
+      "file": "common/culture/traditions/zzz_agot_mayham_aow_compatch_traditions.txt",
+      "count": 1
+    }
+  ]
+}

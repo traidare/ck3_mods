@@ -1,0 +1,85 @@
+{
+  "schemaVersion": 1,
+  "findings": [
+    {
+      "severity": "error",
+      "code": "missing-item",
+      "message": "situation participant group advancement_movement not defined in common/situation/situations/",
+      "source": "MOD",
+      "file": "gui/shared/portraits.gui",
+      "count": 3
+    },
+    {
+      "severity": "error",
+      "code": "missing-item",
+      "message": "situation participant group conservative_movement not defined in common/situation/situations/",
+      "source": "MOD",
+      "file": "gui/shared/portraits.gui",
+      "count": 3
+    },
+    {
+      "severity": "error",
+      "code": "missing-item",
+      "message": "situation participant group expansion_movement not defined in common/situation/situations/",
+      "source": "MOD",
+      "file": "gui/shared/portraits.gui",
+      "count": 3
+    },
+    {
+      "severity": "error",
+      "code": "missing-item",
+      "message": "situation participant group pro_hegemon_movement not defined in common/situation/situations/",
+      "source": "MOD",
+      "file": "gui/shared/portraits.gui",
+      "count": 3
+    },
+    {
+      "severity": "error",
+      "code": "missing-item",
+      "message": "situation participant group undecided_movement not defined in common/situation/situations/",
+      "source": "MOD",
+      "file": "gui/shared/portraits.gui",
+      "count": 3
+    },
+    {
+      "severity": "error",
+      "code": "datafunctions",
+      "message": "wrong number of arguments for macro",
+      "source": "MOD",
+      "file": "gui/window_character.gui",
+      "count": 2
+    },
+    {
+      "severity": "warning",
+      "code": "datafunctions",
+      "message": "GetActiveFilter returns int32 but a CVector2i is needed here",
+      "source": "MOD",
+      "file": "gui/shared/lists.gui",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "datafunctions",
+      "message": "GetActiveSortIndex returns int32 but a CVector2i is needed here",
+      "source": "MOD",
+      "file": "gui/shared/lists.gui",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "missing-item",
+      "message": "portrait camera environment_event_standard not defined in gfx/portraits/cameras/",
+      "source": "MOD",
+      "file": "gui/shared/portraits.gui",
+      "count": 3
+    },
+    {
+      "severity": "untidy",
+      "code": "gui",
+      "message": "template not found",
+      "source": "MOD",
+      "file": "gui/shared/cooltip.gui",
+      "count": 1
+    }
+  ]
+}

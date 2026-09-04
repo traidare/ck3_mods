@@ -1,0 +1,325 @@
+{
+  "schemaVersion": 1,
+  "files": {
+    "workshop/2962333032/common/combat_phase_events/00_commander_phase_events.txt": {
+      "sha256": "ac06b195acb92bca308ade195e5af2455e075aaeee2d40d40485775e09ad14fa",
+      "size": 25527
+    },
+    "workshop/2962333032/common/on_action/agot_on_actions/agot_childhood_on_actions.txt": {
+      "sha256": "7c8fb7f65d7978521d456191371b057296e36f96af603b56bed4a383eb347da2",
+      "size": 55267
+    },
+    "workshop/2962333032/common/on_action/agot_on_actions/agot_game_start.txt": {
+      "sha256": "615283fb7035fc6ab6eadf8b52e19d154ae16016b31e34f9e42b665bdf76a3da",
+      "size": 122247
+    },
+    "workshop/2962333032/common/scripted_effects/00_agot_dragon_effects.txt": {
+      "sha256": "0b4303a246f46c8a970b0118ca2d63d2f63e59d61683dfc3dc80da63e0b021f0",
+      "size": 81096
+    },
+    "workshop/2962333032/common/scripted_effects/00_historical_characters_scripted_effects.txt": {
+      "sha256": "5c78c4d7722d031564ae2e98bdbfc20fbe738c09e78167007d7f124e6aee1412",
+      "size": 253496
+    },
+    "workshop/2962333032/common/scripted_effects/04_dlc_ep2_tournament_effects.txt": {
+      "sha256": "9552401c10061edc45d7de07775f534af8998b78ed33f0596683b7c868fd1de6",
+      "size": 271472
+    },
+    "workshop/2962333032/common/scripted_effects/10_dlc_tgp_natural_disaster_scripted_effects.txt": {
+      "sha256": "ec5238f69d97550db8711da46f277584e487dad30a887ab81fc882301afcea1f",
+      "size": 27850
+    },
+    "workshop/2962333032/common/scripted_effects/agot_character_initializiation_effects.txt": {
+      "sha256": "155e521bb502dc41f2edfc00f4a8490c2fcbbba213f7535728b279f1d8617a28",
+      "size": 2370832
+    },
+    "workshop/2962333032/common/scripted_triggers/00_agot_canon_dragons_trait_triggers.txt": {
+      "sha256": "519bb068770d9067bb5f3ff709ec38127ec169d440c7136e38e15fadf9b88c17",
+      "size": 13463
+    },
+    "workshop/2962333032/common/scripted_triggers/00_agot_canon_dragons_triggers.txt": {
+      "sha256": "f633bf6ce7e7b2726a52bd8eeea0509121bb2cbbe5f885e69b3aec84bb0e0609",
+      "size": 32701
+    },
+    "workshop/2962333032/common/scripted_triggers/00_agot_dragon_triggers.txt": {
+      "sha256": "e0c0727e3451e8e5aa0c858a25fbf61469e875155fd6b99a32d82b8b4af9bc8f",
+      "size": 35064
+    },
+    "workshop/2962333032/events/agot_events/agot_dragon_taming_events.txt": {
+      "sha256": "77f2cdeaf4fb1c0777a2562870e6895334a5ebc2f29c9524ac61aa63ad5c750d",
+      "size": 45753
+    },
+    "workshop/2962333032/history/characters/00_agot_char_a_historical_heroes.txt": {
+      "sha256": "b5649351dccde2c20d29eb02265955166a19c9d76ee4ea3773ebc97ff16795a5",
+      "size": 3151
+    },
+    "workshop/2962333032/history/characters/00_agot_char_a_special.txt": {
+      "sha256": "95da8acd04f33b52f5f2f4c1fea2d0fda2752d62e02f8129697a29bce47b253e",
+      "size": 25245
+    },
+    "workshop/2962333032/history/characters/00_agot_char_andalos.txt": {
+      "sha256": "7d58e445a0f138c09b711263a04e9f5ef6b044e9096c11330a9ad52c2b622d2b",
+      "size": 63367
+    },
+    "workshop/2962333032/history/characters/00_agot_char_andalos_ancestors.txt": {
+      "sha256": "001cbf359d0c0d79b9d297243ff9ac3d211da4e9eca2b1e28fc61a1f922e0081",
+      "size": 187820
+    },
+    "workshop/2962333032/history/characters/00_agot_char_axe.txt": {
+      "sha256": "10a9b435702023be94084fc95bbb739d296965d339f726605bdc7258f18c44e3",
+      "size": 92366
+    },
+    "workshop/2962333032/history/characters/00_agot_char_axe_ancestors.txt": {
+      "sha256": "3ce07fea5dad0345189b5340260ab395ba4a42833f46d5af9514e919ea9fda01",
+      "size": 569080
+    },
+    "workshop/2962333032/history/characters/00_agot_char_braavos.txt": {
+      "sha256": "b6146933435d781cd6b1b433ca5edad4ed9c4306c29c04b15e89945889bbb225",
+      "size": 251649
+    },
+    "workshop/2962333032/history/characters/00_agot_char_braavos_ancestors.txt": {
+      "sha256": "16644b298fcbb39eaaec44cd217dcaa07c097f3a46a34090ce40c25a8e026dca",
+      "size": 897088
+    },
+    "workshop/2962333032/history/characters/00_agot_char_btw.txt": {
+      "sha256": "e33234a7bcc5f7cfae17872d32f9b134c1bc211453225dafa0e59f0bedd406b3",
+      "size": 97006
+    },
+    "workshop/2962333032/history/characters/00_agot_char_btw_ancestors.txt": {
+      "sha256": "85419f3ec64371abe782dd1db1737e9aa24120e984d423057f4b8766cc2ddad4",
+      "size": 74433
+    },
+    "workshop/2962333032/history/characters/00_agot_char_btw_craster.txt": {
+      "sha256": "6cfba778edd60b44520d3635bf5eaf892209a4781c8c1b63a988418234903ccf",
+      "size": 10888
+    },
+    "workshop/2962333032/history/characters/00_agot_char_btw_thenn.txt": {
+      "sha256": "764715a573d1a52f235f5a5c531d85ce37ea95e3cbb72ffc5acda3922bf32888",
+      "size": 47788
+    },
+    "workshop/2962333032/history/characters/00_agot_char_btw_thenn_ancestors.txt": {
+      "sha256": "a34d0a2a1a0dd5f1846730a57230dd4865154285ebaef8c41ac67ad082e1d0a2",
+      "size": 240485
+    },
+    "workshop/2962333032/history/characters/00_agot_char_btw_ygon.txt": {
+      "sha256": "9fd63974dee22154f441bacfbc0473043a27fa7a61a59cbcc6e99a29b130ca94",
+      "size": 27343
+    },
+    "workshop/2962333032/history/characters/00_agot_char_contest.txt": {
+      "sha256": "b2fde37f336a2805d0dc9cce963f113b33c678c948234a211846b0a67225fd18",
+      "size": 69884
+    },
+    "workshop/2962333032/history/characters/00_agot_char_contest_ancestors.txt": {
+      "sha256": "b746c9bcd561a05e4f306506e7cbec3780cc5e15361252e1b65d6f1be65a3c20",
+      "size": 264704
+    },
+    "workshop/2962333032/history/characters/00_agot_char_crownlands.txt": {
+      "sha256": "06313b0cc81fbd5a93d16fe30fa5a35dda3ebd0d8549e104a487fcb05ae7933a",
+      "size": 299844
+    },
+    "workshop/2962333032/history/characters/00_agot_char_crownlands_ancestors.txt": {
+      "sha256": "620a209551e8a57d4d2205c702647bd9d80f489c660d8a73e413c0b02159c008",
+      "size": 1573737
+    },
+    "workshop/2962333032/history/characters/00_agot_char_dorne.txt": {
+      "sha256": "d54ced015cadfd7467e099aa112f4fc87c10635d37c86c04f3bdd3000be31f26",
+      "size": 534957
+    },
+    "workshop/2962333032/history/characters/00_agot_char_dorne_ancestors.txt": {
+      "sha256": "3a69db2f587403f58d36f30b70f25f9b9f94086008aac9514843f9762b484a9d",
+      "size": 2702785
+    },
+    "workshop/2962333032/history/characters/00_agot_char_dragons.txt": {
+      "sha256": "0d9d1ead7294c2059517b9ec9a7e81e7c2812c98d7286104eb1a5030af67594e",
+      "size": 78388
+    },
+    "workshop/2962333032/history/characters/00_agot_char_dragonstone.txt": {
+      "sha256": "6bf310a6750b9de0b46798027ca04ee29b08b0e82555c3b7e1590e5f8ff23607",
+      "size": 77328
+    },
+    "workshop/2962333032/history/characters/00_agot_char_dragonstone_ancestors.txt": {
+      "sha256": "94a9b6a65e587ee2aaa9ab991445001a007b9d75732a57e02664bd8642f6e94e",
+      "size": 456453
+    },
+    "workshop/2962333032/history/characters/00_agot_char_iron_islands.txt": {
+      "sha256": "4d406edbb7a4c2f757a6f20731fa42d22c15e5ece8f776eb3795bee665ebcff5",
+      "size": 193785
+    },
+    "workshop/2962333032/history/characters/00_agot_char_iron_islands_ancestors.txt": {
+      "sha256": "569631655d0b25436e08647073bb7c0e4aab7dc040329348b0156d2f548ace93",
+      "size": 985088
+    },
+    "workshop/2962333032/history/characters/00_agot_char_lorath.txt": {
+      "sha256": "a2fa7d4dd1f487232a33acd9c03bd0ac08bffe7d0ef6e0548c70e3236bcd0bbd",
+      "size": 158432
+    },
+    "workshop/2962333032/history/characters/00_agot_char_lorath_ancestors.txt": {
+      "sha256": "55e581fd39b93c8e603d074c4fc810dffb23b04c21dacf3f6e68a8ce127c6159",
+      "size": 869391
+    },
+    "workshop/2962333032/history/characters/00_agot_char_mercenaries.txt": {
+      "sha256": "64df7255f3bb9df2748ec43f93d6d29010a52b338d85c115f96cdb3e951ea3dc",
+      "size": 55715
+    },
+    "workshop/2962333032/history/characters/00_agot_char_moonclans.txt": {
+      "sha256": "1c947d957a1b661b3bef2774152cfb307cc1f4e9b74c8d70ae377dd439dfe3a7",
+      "size": 237887
+    },
+    "workshop/2962333032/history/characters/00_agot_char_nightswatch.txt": {
+      "sha256": "190cfce46856cf1bb960985971d2ce6cd8715dec8518e994f33d4b5315f97408",
+      "size": 48875
+    },
+    "workshop/2962333032/history/characters/00_agot_char_north.txt": {
+      "sha256": "16dffe1d13209fcf7d2546249784879d3e6d9746e56d80e31561f072449e2198",
+      "size": 917942
+    },
+    "workshop/2962333032/history/characters/00_agot_char_north_ancestors.txt": {
+      "sha256": "5c8ac1fe0a09fb4b77512d7d4f13979c608a4cf8e46e9e1a416abbcab3b6b1c0",
+      "size": 4006679
+    },
+    "workshop/2962333032/history/characters/00_agot_char_norvos.txt": {
+      "sha256": "6b6378896fa6be1b9b1da78777a5c8684c72f0bea237d1bc7203425eda3fc9cf",
+      "size": 172693
+    },
+    "workshop/2962333032/history/characters/00_agot_char_norvos_ancestors.txt": {
+      "sha256": "99791b7aaa91d180df96f6ce6106915cafbac7493e6f001098752e3e1199ec5e",
+      "size": 1324417
+    },
+    "workshop/2962333032/history/characters/00_agot_char_pentos.txt": {
+      "sha256": "59838ee950b63d6ffb689f1a9c458b9d68c3e3946b8ac2f97919d3d6ba09fe29",
+      "size": 301636
+    },
+    "workshop/2962333032/history/characters/00_agot_char_pentos_ancestors.txt": {
+      "sha256": "55b4939d51abbc0711ee97acdfc1b2b282c3b6ce2ee60b3031a57276ba439a1b",
+      "size": 1032643
+    },
+    "workshop/2962333032/history/characters/00_agot_char_qohor.txt": {
+      "sha256": "f151af6b782ed5c63d4af416a86a7561bdc249bd7c18cff40dd50ea8421264cf",
+      "size": 199408
+    },
+    "workshop/2962333032/history/characters/00_agot_char_qohor_ancestors.txt": {
+      "sha256": "1548d2b094e5584d599b0c9782a5edf01ca4b7d7137f0598a78ef62689d2bf94",
+      "size": 1353094
+    },
+    "workshop/2962333032/history/characters/00_agot_char_reach.txt": {
+      "sha256": "3aec6007f949abc655453ee6a613016d888cea15d4c291583888fb6a00686c54",
+      "size": 804708
+    },
+    "workshop/2962333032/history/characters/00_agot_char_reach_ancestors.txt": {
+      "sha256": "ace8dcacd61a347cceab0165344b77a988cffa2d71987097ec4cf0b9f01dbcbf",
+      "size": 4087540
+    },
+    "workshop/2962333032/history/characters/00_agot_char_rhoyne.txt": {
+      "sha256": "287189c72e3563aa5d11fcff5fb934d83b6837fced802b9566fd6d1bf2f695a8",
+      "size": 33806
+    },
+    "workshop/2962333032/history/characters/00_agot_char_rhoyne_ancestors.txt": {
+      "sha256": "554dfd18be4e133608f45832a43cd7d59f75357d9cf523b96a10d1dd75f4186c",
+      "size": 332994
+    },
+    "workshop/2962333032/history/characters/00_agot_char_riverlands.txt": {
+      "sha256": "a7ae54b7606423df4569dc91470a8bd7be9d6a8a094d211359ab2fcf8426043d",
+      "size": 539614
+    },
+    "workshop/2962333032/history/characters/00_agot_char_riverlands_ancestors.txt": {
+      "sha256": "7dacbeef3ce193052ef1eb8699e35a9b154024422a4c6f3e7eb122391c09fdfc",
+      "size": 2661706
+    },
+    "workshop/2962333032/history/characters/00_agot_char_riverlands_freys.txt": {
+      "sha256": "36bd272398e56430567b61a104aa2afb4da19b538bc641f244cabbf5f6236ac9",
+      "size": 73978
+    },
+    "workshop/2962333032/history/characters/00_agot_char_stepstones.txt": {
+      "sha256": "9b495df84989bd8739b4bae8a70b6ae1ac278d83f1b6cd04570e767c97539605",
+      "size": 75981
+    },
+    "workshop/2962333032/history/characters/00_agot_char_stepstones_ancestors.txt": {
+      "sha256": "ac9b9ecd000d34cd5ddeeefd5b1f23921f3a80c32a673f28704d1a4e26b8fe2a",
+      "size": 158173
+    },
+    "workshop/2962333032/history/characters/00_agot_char_stormlands.txt": {
+      "sha256": "84f644030765cf1a2cc6c504637c6646b086dc13fedcd55290ad4e70f75a5ac6",
+      "size": 494829
+    },
+    "workshop/2962333032/history/characters/00_agot_char_stormlands_ancestors.txt": {
+      "sha256": "e8ea8cef8379f296c2be92999931281ba10f7ec4db83a62420f3ba65ee40cbcb",
+      "size": 2434223
+    },
+    "workshop/2962333032/history/characters/00_agot_char_summer_islands.txt": {
+      "sha256": "435b5969fcab2248adbbd6758268a2fc1a85cd49cec225b2b7384bbf2cc38e38",
+      "size": 1344
+    },
+    "workshop/2962333032/history/characters/00_agot_char_three_daughters.txt": {
+      "sha256": "5248b56ace64496f6b539b5d1dc8720fa6467d5e9f81e633711a0054ce0a4999",
+      "size": 384354
+    },
+    "workshop/2962333032/history/characters/00_agot_char_three_daughters_ancestors.txt": {
+      "sha256": "d03f7e66d66bc2ee005a2174dee66cdb6cdc08e73457a98e87537f9ea403e23e",
+      "size": 1830355
+    },
+    "workshop/2962333032/history/characters/00_agot_char_vale.txt": {
+      "sha256": "59641a2cc8fd3db63f488cd7e0cd06df6fbd699af4b6982ee8b46e949f998594",
+      "size": 467957
+    },
+    "workshop/2962333032/history/characters/00_agot_char_vale_ancestors.txt": {
+      "sha256": "e2dc824f506fc699925eddb924f9e97a55d012c97e7fc3d3ac93060145de4d60",
+      "size": 2357988
+    },
+    "workshop/2962333032/history/characters/00_agot_char_valyria_ancestors.txt": {
+      "sha256": "b9f8bd3f15973cae3cfda2d44efbce43460183da478c15e4fd64bbdbc1e6cd77",
+      "size": 126677
+    },
+    "workshop/2962333032/history/characters/00_agot_char_vanity.txt": {
+      "sha256": "b80fb595a1b4873ba7c2f6b75f7a7dc6a061037a135d5980e8508a6e46544bcb",
+      "size": 81422
+    },
+    "workshop/2962333032/history/characters/00_agot_char_vanity_ancestors.txt": {
+      "sha256": "26de8fcc26809d59924d939f38db6d965829fc6a0b66541548285a8a9e43fa5b",
+      "size": 258647
+    },
+    "workshop/2962333032/history/characters/00_agot_char_westerlands.txt": {
+      "sha256": "70e761f80b8f27f6cb933a63ddbf9a2bb2ed28f4078200cbf6e61e2552e54c08",
+      "size": 401844
+    },
+    "workshop/2962333032/history/characters/00_agot_char_westerlands_ancestors.txt": {
+      "sha256": "12a2d62b4dc838a5b7f6fee438f87374776cca75cd63a990d40a25775be4cd09",
+      "size": 2006846
+    },
+    "workshop/2962333032/history/characters/00_agot_ck2vanity.txt": {
+      "sha256": "be3601d2d8ea4411b97ae68eec36df54fabed7b6b55d47f80a5719c33a22c349",
+      "size": 44281
+    },
+    "workshop/2962333032/history/characters/00_agot_dummy_characters.txt": {
+      "sha256": "f027b0b69cc0f79f25380e79b50fbac6841e3771a264b2f4d36da94195d4af55",
+      "size": 14440
+    },
+    "workshop/2962333032/history/characters/00_agot_ruins.txt": {
+      "sha256": "634a5166b3c551918b5058078f61718f92ea3823d5d33b78897e2ac7fbcfd408",
+      "size": 650
+    },
+    "workshop/2962333032/history/characters/agot_canon_children_dummy_characters.txt": {
+      "sha256": "c9a58315d6c8b3f69e1d20f357137e805c8ac6e8e5205108cc97cab7bb48073f",
+      "size": 396861
+    },
+    "workshop/2962333032/history/characters/portrait_debug_characters.txt": {
+      "sha256": "e6b0a4f36cf92c4bef54cd095613034cdaf692c91d686c27ff81ff6d01377c0d",
+      "size": 3063
+    },
+    "workshop/3287741117/common/combat_phase_events/mfb_combat_phase_events.txt": {
+      "sha256": "78bb4ffa8215beeef90dbc1ca6b2f7bd967d13ba2df052ee2bf81261b4ee3f2f",
+      "size": 1518
+    },
+    "workshop/3415188429/common/combat_phase_events/zz_mfb_combat_phase_events.txt": {
+      "sha256": "8f3f1de45932f17f622b3f624c571d9aa9232ad795f4d0cc01933a8ad86a2462",
+      "size": 1744
+    },
+    "workshop/3664962140/common/modifiers/00_agot_canon_children_easy_mode_modifiers.txt": {
+      "sha256": "409e1473cfb91370047cd8e2e42ed81f748970c1224a213a7e82aa2fbdf55fc1",
+      "size": 124
+    },
+    "workshop/3720557758/common/combat_phase_events/00_db_combat_phase_events.txt": {
+      "sha256": "048bc48d120be7f86a1009563a23d5f0498458cbb522f9ca745d46911a8244b6",
+      "size": 816
+    }
+  }
+}

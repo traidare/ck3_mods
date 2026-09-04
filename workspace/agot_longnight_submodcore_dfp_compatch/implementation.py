@@ -4,7 +4,6 @@
 from __future__ import annotations
 
 import codecs
-import hashlib
 import re
 from dataclasses import dataclass
 from pathlib import Path
@@ -15,18 +14,12 @@ from gen.text import (
     direct_definition_names,
     nested_definition_span,
     normalize_newlines,
+    read_source,
     strip_trailing_whitespace,
     unique_marker,
 )
 
 RELATIVE_ANIMATIONS = Path("gfx/portraits/portrait_animations/animations.txt")
-
-PINS = {
-    "agot": "bacc160cccae8a4f0d0687efdf9667ea0a4cc08ad7b0d6eead341380dfcda76e",
-    "submod-core": "c0b7d8bf00ce21001e28a10ca76cc0c95cf850a0bf5ef3dd81d98b671b1a111a",
-    "dynamic-family-portrait-agot": "8ddcb0ba720c236d6913779d924203d5105897c63251224b64e931e272f6a65c",
-    "long-night-azor-ahai": "868445534a87cc5ce384fa3f9aef0685fa0b43a9050e26002e5dfa0f95acf230",
-}
 
 EXPECTED_DFP_POSES = 197
 EXPECTED_MERGED_DFP_POSES = 196
@@ -41,21 +34,18 @@ class RunInputs:
     long_night: str
 
 
-def read_pinned(context: GenerationContext, source: str) -> str:
-    path = context.source(source) / RELATIVE_ANIMATIONS
-    if not path.is_file():
-        raise GenerationError(f"missing required source: {path}")
-    raw = path.read_bytes()
-    actual = hashlib.sha256(raw).hexdigest()
-    expected = PINS[source]
-    if actual != expected:
-        raise GenerationError(
-            f"{source}/{RELATIVE_ANIMATIONS} changed: "
-            f"expected {expected}, found {actual}"
-        )
-    if not raw.startswith(codecs.BOM_UTF8):
-        raise GenerationError(f"required source is missing its UTF-8 BOM: {path}")
-    return raw.decode("utf-8-sig").replace("\r\n", "\n").replace("\r", "\n")
+def read_animations(context: GenerationContext, source: str) -> str:
+    """Read one parent's animation file, asserting the encoding assumed below.
+
+    Content drift is not checked here: sources.lock.json pins every file the run
+    reads, so a hash repeated in this module would only be a second copy to
+    update by hand.
+    """
+    return read_source(
+        context.source(source) / RELATIVE_ANIMATIONS,
+        require_bom=True,
+        normalize_newlines=True,
+    )
 
 
 def extract_dfp_poses(dfp: str) -> tuple[str, set[str]]:
@@ -173,10 +163,10 @@ def merged_animations(inputs: RunInputs) -> str:
 
 def generate(context: GenerationContext) -> None:
     inputs = RunInputs(
-        agot=read_pinned(context, "agot"),
-        submod_core=read_pinned(context, "submod-core"),
-        dfp_agot=read_pinned(context, "dynamic-family-portrait-agot"),
-        long_night=read_pinned(context, "long-night-azor-ahai"),
+        agot=read_animations(context, "agot"),
+        submod_core=read_animations(context, "submod-core"),
+        dfp_agot=read_animations(context, "dynamic-family-portrait-agot"),
+        long_night=read_animations(context, "long-night-azor-ahai"),
     )
     payload = codecs.BOM_UTF8 + merged_animations(inputs).encode("utf-8")
     context.write_bytes(RELATIVE_ANIMATIONS, payload)

@@ -1,0 +1,13 @@
+{
+  "schemaVersion": 1,
+  "findings": [
+    {
+      "severity": "warning",
+      "code": "deprecated",
+      "message": "should use `is_available` instead of `ai_potential`",
+      "source": "MOD",
+      "file": "common/character_interactions/zz_agot_excommunication_balance.txt",
+      "count": 1
+    }
+  ]
+}

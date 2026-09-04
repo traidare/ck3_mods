@@ -4,17 +4,15 @@
 from __future__ import annotations
 
 import codecs
-import hashlib
 import re
 from pathlib import Path
 
 from gen import GenerationContext, GenerationError
-from gen.text import normalize_newlines, strip_trailing_whitespace
+from gen.text import normalize_newlines, read_source, strip_trailing_whitespace
 
 SOURCE = "long-night-azor-ahai"
 
 RELATIVE_GENES = Path("common/genes/zz_long_night_genes.txt")
-GENES_SHA256 = "f42025226bfca56fddd95279e9411867f3a60bf915b3bec328749e16425d1502"
 EXPECTED_GENES = 18
 
 RELATIVE_SERVICE_TRIGGERS = Path("common/scripted_triggers/zz_ln_service_triggers.txt")
@@ -26,19 +24,16 @@ SERVICE_TRIGGER_CALL_SITES = (
 )
 
 
-def read_pinned(context: GenerationContext, relative: Path, expected: str) -> str:
-    path = context.source(SOURCE) / relative
-    if not path.is_file():
-        raise GenerationError(f"missing required source: {path}")
-    raw = path.read_bytes()
-    actual = hashlib.sha256(raw).hexdigest()
-    if actual != expected:
-        raise GenerationError(
-            f"{SOURCE}/{relative} changed: expected {expected}, found {actual}"
-        )
-    if not raw.startswith(codecs.BOM_UTF8):
-        raise GenerationError(f"required source is missing its UTF-8 BOM: {path}")
-    return raw.decode("utf-8-sig").replace("\r\n", "\n").replace("\r", "\n")
+def read_upstream(context: GenerationContext, relative: Path) -> str:
+    """Read one upstream file, asserting the encoding this generator assumes.
+
+    Content drift is not checked here: sources.lock.json pins every file the run
+    reads, so a hash repeated in this module would only be a second copy to
+    update by hand.
+    """
+    return read_source(
+        context.source(SOURCE) / relative, require_bom=True, normalize_newlines=True
+    )
 
 
 def repaired_genes(source: str) -> str:
@@ -111,7 +106,7 @@ def assert_service_gate_terminated(context: GenerationContext) -> None:
 
 
 def generate(context: GenerationContext) -> None:
-    genes = read_pinned(context, RELATIVE_GENES, GENES_SHA256)
+    genes = read_upstream(context, RELATIVE_GENES)
     context.write_bytes(
         RELATIVE_GENES, codecs.BOM_UTF8 + repaired_genes(genes).encode("utf-8")
     )

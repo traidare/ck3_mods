@@ -3,33 +3,14 @@
 
 from __future__ import annotations
 
-import json
 import re
 import subprocess
 import tempfile
 from pathlib import Path
 
 from gen import GenerationContext
-from gen.hashing import sha256_file
-from gen.sources import canonical_source_path
 from gen.text import definition_span, matching_brace, read_source
 
-WORKSHOP_IDS = {
-    "AGOT": "2962333032",
-    "NEW_PERSONALITY_EVENTS": "2779836155",
-    "NOW": "3664900993",
-    "SEASONS_BRIDGE": "3766038754",
-    "AMSB": "3319354609",
-    "AMSB_LOV": "3762892081",
-    "MDE_EGGS": "3388366564",
-    "MDE_EVENTS": "3466228580",
-    "COW_NOW": "3742055253",
-    "IRON_AND_SALT": "3781577713",
-    "DFP_AGOT": "3609763696",
-    "LOV_BRIDGE": "3719888822",
-    "GREAT_COUNCILS": "3621472324",
-    "LONG_NIGHT": "3780269495",
-}
 HUD_RELATIVE = Path("gui/hud.gui")
 MAP_ICON_RELATIVE = Path("gui/map_icon_layer.gui")
 IS_HUMAN_RELATIVE = Path("common/scripted_triggers/zzz_agot_playset_is_human.txt")
@@ -853,57 +834,55 @@ def generate_outputs(workshop: dict[str, Path]) -> dict[Path, bytes]:
     return outputs
 
 
-def source_manifest(
-    root: Path, workshop: dict[str, Path], workshop_root: Path
-) -> dict[str, object]:
-    sources = {
-        "NOW": workshop["NOW"] / SOURCE_RELATIVES["NOW"],
-        "SEASON_EVENTS": workshop["SEASONS_BRIDGE"] / SOURCE_RELATIVES["SEASON_EVENTS"],
-        "SEASON_FX": workshop["SEASONS_BRIDGE"] / SOURCE_RELATIVES["SEASON_FX"],
-        "SEASON_REGIONS": workshop["SEASONS_BRIDGE"]
-        / SOURCE_RELATIVES["SEASON_REGIONS"],
-        "NOW_DESCRIPTOR": workshop["NOW"] / "descriptor.mod",
-        "SEASONS_BRIDGE_DESCRIPTOR": workshop["SEASONS_BRIDGE"] / "descriptor.mod",
-        **{
-            f"NOW_TITLES_{language.upper()}": workshop["NOW"]
-            / SOURCE_RELATIVES[f"NOW_TITLES_{language.upper()}"]
-            for language in TITLE_LANGUAGES
-        },
-        "AMSB_GRANDEUR": workshop["AMSB"] / GRANDEUR_RELATIVE,
-        "AMSB_LOV_GRANDEUR": workshop["AMSB_LOV"] / GRANDEUR_RELATIVE,
-        "AMSB_DESCRIPTOR": workshop["AMSB"] / "descriptor.mod",
-        "AMSB_LOV_DESCRIPTOR": workshop["AMSB_LOV"] / "descriptor.mod",
-        "AGOT_YEARLY": workshop["AGOT"] / AGOT_YEARLY_RELATIVE,
-        "AGOT_CHILDHOOD": workshop["AGOT"] / CHILDHOOD_ON_ACTIONS_RELATIVE,
-        "AGOT_CHILDHOOD_ACTIONS": workshop["AGOT"] / AGOT_CHILDHOOD_ON_ACTIONS_RELATIVE,
-        "NEW_PERSONALITY_CHILDHOOD": workshop["NEW_PERSONALITY_EVENTS"]
-        / CHILDHOOD_ON_ACTIONS_RELATIVE,
-        "NEW_PERSONALITY_DESCRIPTOR": workshop["NEW_PERSONALITY_EVENTS"]
-        / "descriptor.mod",
-        "MDE_EGGS": workshop["MDE_EGGS"] / MDE_RELATIVE,
-        "MDE_EVENTS": workshop["MDE_EVENTS"] / MDE_RELATIVE,
-        "MDE_EGGS_DESCRIPTOR": workshop["MDE_EGGS"] / "descriptor.mod",
-        "MDE_EVENTS_DESCRIPTOR": workshop["MDE_EVENTS"] / "descriptor.mod",
-        "COW_NOW_GRAPHICS": workshop["COW_NOW"] / COW_NOW_GRAPHICS_RELATIVE,
-        "COW_NOW_DESCRIPTOR": workshop["COW_NOW"] / "descriptor.mod",
-        "AGOT_HUD": workshop["AGOT"] / HUD_RELATIVE,
-        "AGOT_MAP_ICON": workshop["AGOT"] / MAP_ICON_RELATIVE,
-        "AGOT_CHARACTER_TRIGGERS": workshop["AGOT"] / AGOT_CHARACTER_TRIGGERS,
-        "IRON_AND_SALT_HUD": workshop["IRON_AND_SALT"] / HUD_RELATIVE,
-        "IRON_AND_SALT_MAP_ICON": workshop["IRON_AND_SALT"] / MAP_ICON_RELATIVE,
-        "IRON_AND_SALT_TRIGGERS": workshop["IRON_AND_SALT"] / KRAKEN_TRIGGERS,
-        "IRON_AND_SALT_DESCRIPTOR": workshop["IRON_AND_SALT"] / "descriptor.mod",
-        "DFP_AGOT_HUD": workshop["DFP_AGOT"] / HUD_RELATIVE,
-        "DFP_AGOT_DESCRIPTOR": workshop["DFP_AGOT"] / "descriptor.mod",
-        "LOV_BRIDGE_MAP_ICON": workshop["LOV_BRIDGE"] / MAP_ICON_RELATIVE,
-        "LOV_BRIDGE_DESCRIPTOR": workshop["LOV_BRIDGE"] / "descriptor.mod",
-        "GREAT_COUNCILS_TRIGGERS": workshop["GREAT_COUNCILS"] / GREAT_COUNCILS_TRIGGERS,
-        "GREAT_COUNCILS_DESCRIPTOR": workshop["GREAT_COUNCILS"] / "descriptor.mod",
-        "AGOT_RULES": workshop["AGOT"] / RULES_RELATIVE,
-        "LOV_BRIDGE_RULES": workshop["LOV_BRIDGE"] / RULES_RELATIVE,
-        "LONG_NIGHT_DIARCH_RULES": workshop["LONG_NIGHT"] / LONG_NIGHT_DIARCH_RULES,
-        "LONG_NIGHT_DESCRIPTOR": workshop["LONG_NIGHT"] / "descriptor.mod",
-    }
+# One line per merge decision, kept beside the code that implements it. The
+# upstream inputs behind them are pinned by sources.lock.json.
+INTENT = {
+    "title": "repair NOW's removed d_medway reference",
+    "title_localization": (
+        "rebase NOW's title names and re-add the COW Sisterton/Dunstonbury barony names"
+    ),
+    "events": "start DoD historical starts in autumn",
+    "shader": "share the AGOT skip threshold with vertex shaders",
+    "regions": "rebase NOW tokens and cover LoV cleanup regions without ruins",
+    "grandeur": (
+        "assert the AGOT+/LoV compatch still covers every AMSB court "
+        "scene, so this module needs no grandeur_levels.txt override"
+    ),
+    "dragon_on_actions": ("union the two mods that contest mde_yearly_on_actions.txt"),
+    "canon_dragon_birthday": (
+        "restore AGOT's AI canon-rider tenth-birthday dispatch beside "
+        "New Personality Events for Children"
+    ),
+    "cow_models": (
+        "assert the unenabled NOW-COW compatch's special-building model "
+        "remaps are still carried by the hand-merged trigger"
+    ),
+    "iron_and_salt_hud": (
+        "merge Iron and Salt's naval and kraken HUD with Dynamic Family "
+        "Portrait's AGOT stack and More Dragon Eggs portrait sizes"
+    ),
+    "iron_and_salt_map_icon": (
+        "keep the kraken map icon without restoring the LoV bridge's "
+        "removed find_elder datacontext"
+    ),
+    "iron_and_salt_is_human": (
+        "combine AGOT's body with the Iron and Salt and Great Councils "
+        "extensions under one later-sorting writer"
+    ),
+    "is_diarch_valid": (
+        "keep the LoV bridge's missing-character guard under the Long "
+        "Night's later-sorting Night's Watch clause"
+    ),
+}
+
+
+def parent_versions(workshop: dict[str, Path]) -> dict[str, str]:
+    """Read each parent's declared version, for the generation report.
+
+    Reading every descriptor.mod also keeps them in sources.lock.json, which
+    makes a parent bump visible to `ck3mm upstream` even when the module's
+    own output does not move.
+    """
     versions: dict[str, str] = {}
     for label, module_root in workshop.items():
         match = re.search(
@@ -911,68 +890,14 @@ def source_manifest(
             read_text(module_root / "descriptor.mod"),
         )
         versions[label] = match.group(1) if match else "unversioned"
-
-    return {
-        "schema_version": 1,
-        "workshop_ids": WORKSHOP_IDS,
-        "versions": versions,
-        "files": {
-            label: {
-                "path": canonical_source_path(
-                    path, root=root, workshop_root=workshop_root
-                ),
-                "sha256": sha256_file(path),
-                "size": path.stat().st_size,
-            }
-            for label, path in sources.items()
-        },
-        "intent": {
-            "title": "repair NOW's removed d_medway reference",
-            "title_localization": (
-                "rebase NOW's title names and re-add the COW Sisterton/"
-                "Dunstonbury barony names"
-            ),
-            "events": "start DoD historical starts in autumn",
-            "shader": "share the AGOT skip threshold with vertex shaders",
-            "regions": "rebase NOW tokens and cover LoV cleanup regions without ruins",
-            "grandeur": (
-                "assert the AGOT+/LoV compatch still covers every AMSB court "
-                "scene, so this module needs no grandeur_levels.txt override"
-            ),
-            "dragon_on_actions": (
-                "union the two mods that contest mde_yearly_on_actions.txt"
-            ),
-            "canon_dragon_birthday": (
-                "restore AGOT's AI canon-rider tenth-birthday dispatch beside "
-                "New Personality Events for Children"
-            ),
-            "cow_models": (
-                "assert the unenabled NOW-COW compatch's special-building model "
-                "remaps are still carried by the hand-merged trigger"
-            ),
-            "iron_and_salt_hud": (
-                "merge Iron and Salt's naval and kraken HUD with Dynamic Family "
-                "Portrait's AGOT stack and More Dragon Eggs portrait sizes"
-            ),
-            "iron_and_salt_map_icon": (
-                "keep the kraken map icon without restoring the LoV bridge's "
-                "removed find_elder datacontext"
-            ),
-            "iron_and_salt_is_human": (
-                "combine AGOT's body with the Iron and Salt and Great Councils "
-                "extensions under one later-sorting writer"
-            ),
-            "is_diarch_valid": (
-                "keep the LoV bridge's missing-character guard under the Long "
-                "Night's later-sorting Night's Watch clause"
-            ),
-        },
-    }
+    return versions
 
 
 def generate(context: GenerationContext) -> None:
     root = context.workspace_root
-    workshop_root = context.workshop_root(
+    # Called for the check, not the value: every parent must sit under one
+    # Workshop root, or the source names below are resolving somewhere unexpected.
+    context.workshop_root(
         "agot",
         "new-personality-events",
         "agot-now",
@@ -1010,18 +935,10 @@ def generate(context: GenerationContext) -> None:
     if missing:
         raise FileNotFoundError(f"missing Workshop modules: {missing}")
 
-    manifest_path = context.assets_dir / "source_manifest.json"
-    manifest = source_manifest(root, workshop, workshop_root)
-    if not manifest_path.is_file():
-        raise FileNotFoundError(
-            f"{manifest_path.relative_to(root)} is missing; review the upstream "
-            "inputs and replace the reviewed asset deliberately"
-        )
-    if json.loads(manifest_path.read_text(encoding="utf-8")) != manifest:
-        raise AssertionError(
-            "upstream source manifest drifted; review the differences and replace "
-            f"{manifest_path.relative_to(root)} deliberately"
-        )
+    versions = parent_versions(workshop)
+    print(
+        "Parents: " + ", ".join(f"{label} {v}" for label, v in sorted(versions.items()))
+    )
 
     check_grandeur_coverage(
         read_text(workshop["AMSB"] / GRANDEUR_RELATIVE),

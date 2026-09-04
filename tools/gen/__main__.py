@@ -18,6 +18,7 @@ from contextlib import contextmanager, redirect_stderr, redirect_stdout
 from pathlib import Path, PurePosixPath
 
 from . import GenerationContext, GenerationError
+from .reads import ReadRecorder
 
 SCHEMA_VERSION = 1
 
@@ -103,13 +104,16 @@ def main() -> int:
     result: dict[str, object] = {"schemaVersion": SCHEMA_VERSION, "status": "ok"}
     captured_output = io.StringIO()
     captured_errors = io.StringIO()
+    recorder = ReadRecorder(())
     try:
         request = json.load(sys.stdin)
         context, module_path, function_name = build_context(request)
+        recorder = ReadRecorder(context.sources.values())
         with (
             redirect_stdout(captured_output),
             redirect_stderr(captured_errors),
             load_entrypoint(module_path, function_name) as generate,
+            recorder.active(),
         ):
             materialize(context, generate(context))
     except GenerationError as error:
@@ -121,6 +125,9 @@ def main() -> int:
         result["traceback"] = traceback.format_exc()
     result["stdout"] = captured_output.getvalue()
     result["stderr"] = captured_errors.getvalue()
+    # Reported even on failure: a generator that raised part-way still shows
+    # which upstream file it choked on.
+    result["reads"] = recorder.paths()
     json.dump(result, report)
     report.write("\n")
     report.flush()

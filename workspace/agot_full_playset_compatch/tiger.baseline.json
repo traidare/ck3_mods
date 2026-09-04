@@ -1,0 +1,1349 @@
+{
+  "schemaVersion": 1,
+  "findings": [
+    {
+      "severity": "error",
+      "code": "strict-scopes",
+      "message": "scope:faction_leader might not be available here",
+      "source": "AGOT",
+      "file": "events/activities/coronation_activity/prelude_events.txt",
+      "count": 1
+    },
+    {
+      "severity": "error",
+      "code": "strict-scopes",
+      "message": "scope:petition_sender_faction might not be available here",
+      "source": "CK3",
+      "file": "events/activities/coronation_activity/guest_intent_coronation_events.txt",
+      "count": 3
+    },
+    {
+      "severity": "error",
+      "code": "strict-scopes",
+      "message": "scope:title_to_give might not be available here",
+      "source": "CK3",
+      "file": "events/activities/coronation_activity/guest_intent_coronation_events.txt",
+      "count": 3
+    },
+    {
+      "severity": "error",
+      "code": "strict-scopes",
+      "message": "scope:hof might not be available here",
+      "source": "CK3",
+      "file": "events/dlc/ach/ach_maintenance_events.txt",
+      "count": 1
+    },
+    {
+      "severity": "error",
+      "code": "strict-scopes",
+      "message": "scope:anointer might not be available here",
+      "source": "MFA 0.4.40 local",
+      "file": "events/activities/coronation_activity/coronation_events_6.txt",
+      "count": 33
+    },
+    {
+      "severity": "error",
+      "code": "strict-scopes",
+      "message": "scope:detractor_ally_1 might not be available here",
+      "source": "MFA 0.4.40 local",
+      "file": "events/activities/coronation_activity/coronation_events_6.txt",
+      "count": 1
+    },
+    {
+      "severity": "error",
+      "code": "strict-scopes",
+      "message": "scope:detractor_ally_2 might not be available here",
+      "source": "MFA 0.4.40 local",
+      "file": "events/activities/coronation_activity/coronation_events_6.txt",
+      "count": 1
+    },
+    {
+      "severity": "error",
+      "code": "strict-scopes",
+      "message": "scope:house might not be available here",
+      "source": "MFA 0.4.40 local",
+      "file": "events/activities/coronation_activity/coronation_events_6.txt",
+      "count": 1
+    },
+    {
+      "severity": "error",
+      "code": "strict-scopes",
+      "message": "scope:congragulate_winner might not be available here",
+      "source": "MFA 0.4.40 local",
+      "file": "events/activities/tournaments/tournament_events.txt",
+      "count": 1
+    },
+    {
+      "severity": "error",
+      "code": "strict-scopes",
+      "message": "scope:contest_prize_1 might not be available here",
+      "source": "MFA 0.4.40 local",
+      "file": "events/activities/tournaments/tournament_events.txt",
+      "count": 1
+    },
+    {
+      "severity": "error",
+      "code": "strict-scopes",
+      "message": "scope:contest_prize_2 might not be available here",
+      "source": "MFA 0.4.40 local",
+      "file": "events/activities/tournaments/tournament_events.txt",
+      "count": 1
+    },
+    {
+      "severity": "error",
+      "code": "strict-scopes",
+      "message": "scope:contest_prize_3 might not be available here",
+      "source": "MFA 0.4.40 local",
+      "file": "events/activities/tournaments/tournament_events.txt",
+      "count": 1
+    },
+    {
+      "severity": "error",
+      "code": "strict-scopes",
+      "message": "scope:special_type might not be available here",
+      "source": "MOD",
+      "file": "common/activities/activity_types/coronation.txt",
+      "count": 1
+    },
+    {
+      "severity": "error",
+      "code": "missing-item",
+      "message": "special guest priest not defined in common/activities/activity_types/",
+      "source": "MOD",
+      "file": "events/activities/coronation_activity/coronation_events.txt",
+      "count": 2
+    },
+    {
+      "severity": "error",
+      "code": "missing-item",
+      "message": "struggle iberian_struggle not defined in common/struggle/struggles/",
+      "source": "MOD",
+      "file": "events/activities/coronation_activity/coronation_events.txt",
+      "count": 1
+    },
+    {
+      "severity": "error",
+      "code": "strict-scopes",
+      "message": "scope:province might not be available here",
+      "source": "MOD",
+      "file": "events/activities/coronation_activity/coronation_events.txt",
+      "count": 2
+    },
+    {
+      "severity": "error",
+      "code": "missing-item",
+      "message": "situation participant group other_rulers not defined in common/situation/situations/",
+      "source": "MOD",
+      "file": "gui/hud.gui",
+      "count": 1
+    },
+    {
+      "severity": "error",
+      "code": "missing-item",
+      "message": "title d_dagger_lake not defined in common/landed_titles/",
+      "source": "MOD",
+      "file": "map_data/geographical_regions/north_sans_neck.txt",
+      "count": 1
+    },
+    {
+      "severity": "error",
+      "code": "missing-item",
+      "message": "title d_golden_bridge not defined in common/landed_titles/",
+      "source": "MOD",
+      "file": "map_data/geographical_regions/north_sans_neck.txt",
+      "count": 1
+    },
+    {
+      "severity": "error",
+      "code": "missing-item",
+      "message": "title d_the_sorrows not defined in common/landed_titles/",
+      "source": "MOD",
+      "file": "map_data/geographical_regions/north_sans_neck.txt",
+      "count": 1
+    },
+    {
+      "severity": "error",
+      "code": "missing-item",
+      "message": "title d_turnbridge not defined in common/landed_titles/",
+      "source": "MOD",
+      "file": "map_data/geographical_regions/north_sans_neck.txt",
+      "count": 1
+    },
+    {
+      "severity": "error",
+      "code": "missing-item",
+      "message": "title d_velvet_peak not defined in common/landed_titles/",
+      "source": "MOD",
+      "file": "map_data/geographical_regions/north_sans_neck.txt",
+      "count": 1
+    },
+    {
+      "severity": "error",
+      "code": "strict-scopes",
+      "message": "scope:current_dragon might not be available here",
+      "source": "More Dragon Events",
+      "file": "events/agot_events/mde_agot_filler_events_dragon.txt",
+      "count": 1
+    },
+    {
+      "severity": "error",
+      "code": "strict-scopes",
+      "message": "scope:ridden_dragon might not be available here",
+      "source": "More Dragon Events",
+      "file": "events/agot_events/mde_agot_filler_events_dragon.txt",
+      "count": 1
+    },
+    {
+      "severity": "error",
+      "code": "strict-scopes",
+      "message": "scope:younger_child might not be available here",
+      "source": "More Dragon Events",
+      "file": "events/agot_events/mde_agot_filler_events_dragon.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "missing-localization",
+      "message": "missing spanish localization key esr_all_friends_and_lovers",
+      "source": "AGOT",
+      "file": "common/scripted_effects/00_agot_im_gonna_murder_uber_effects.txt",
+      "count": 2
+    },
+    {
+      "severity": "warning",
+      "code": "missing-localization",
+      "message": "missing spanish localization key esr_rival_attempted_murder_vengeful",
+      "source": "AGOT",
+      "file": "common/scripted_effects/00_agot_im_gonna_murder_uber_effects.txt",
+      "count": 18
+    },
+    {
+      "severity": "warning",
+      "code": "missing-localization",
+      "message": "missing spanish localization key esr_rivals",
+      "source": "AGOT",
+      "file": "common/scripted_effects/00_agot_im_gonna_murder_uber_effects.txt",
+      "count": 2
+    },
+    {
+      "severity": "warning",
+      "code": "missing-localization",
+      "message": "missing spanish localization key esr_rivals_attempted",
+      "source": "AGOT",
+      "file": "common/scripted_effects/00_agot_im_gonna_murder_uber_effects.txt",
+      "count": 2
+    },
+    {
+      "severity": "warning",
+      "code": "missing-localization",
+      "message": "missing spanish localization key contest_winner_ceremony_knighthood_tt",
+      "source": "AGOT",
+      "file": "common/scripted_effects/04_dlc_ep2_tournament_effects.txt",
+      "count": 7
+    },
+    {
+      "severity": "warning",
+      "code": "scopes",
+      "message": "`scope:mysterious_stranger` produces character but expected bool",
+      "source": "AGOT",
+      "file": "common/scripted_effects/04_dlc_ep2_tournament_effects.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "scopes",
+      "message": "var:mysterious_stranger_appeared was deduced to be bool but scope seems to be character",
+      "source": "AGOT",
+      "file": "common/scripted_effects/04_dlc_ep2_tournament_effects.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "scopes",
+      "message": "`coronation_add_magnificence_log_effect` expects scope to be character but scope seems to be activity",
+      "source": "AGOT",
+      "file": "events/activities/coronation_activity/coronation_events_1.txt",
+      "count": 2
+    },
+    {
+      "severity": "warning",
+      "code": "scopes",
+      "message": "`host` is for character but scope seems to be activity",
+      "source": "AGOT",
+      "file": "events/activities/coronation_activity/coronation_events_1.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "scopes",
+      "message": "`target_of_powerful_faction_trigger` expects scope to be faction but scope seems to be character",
+      "source": "AGOT",
+      "file": "events/activities/coronation_activity/prelude_events.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "strict-scopes",
+      "message": "`create_coronation_artifact_effect` expects scope:artifact to be set",
+      "source": "AGOT",
+      "file": "events/activities/coronation_activity/prelude_events.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "strict-scopes",
+      "message": "`create_coronation_artifact_effect` expects scope:location to be set",
+      "source": "AGOT",
+      "file": "events/activities/coronation_activity/prelude_events.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "strict-scopes",
+      "message": "`create_coronation_artifact_effect` expects scope:story to be set",
+      "source": "AGOT",
+      "file": "events/activities/coronation_activity/prelude_events.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "scopes",
+      "message": "`has_graphical_african_culture_group_trigger` expects scope to be culture but scope seems to be character",
+      "source": "AGOT playset runtime fixes",
+      "file": "gfx/interface/illustrations/scripted_illustrations/ingame.txt",
+      "count": 2
+    },
+    {
+      "severity": "warning",
+      "code": "scopes",
+      "message": "`has_graphical_steppe_culture_group_trigger` expects scope to be culture but scope seems to be character",
+      "source": "AGOT playset runtime fixes",
+      "file": "gfx/interface/illustrations/scripted_illustrations/ingame.txt",
+      "count": 2
+    },
+    {
+      "severity": "warning",
+      "code": "missing-localization",
+      "message": "missing spanish localization key kCAFG_E_convert_faith_in_all_county_provinces_tt",
+      "source": "CaFG",
+      "file": "common/scripted_effects/kei_cafg_county_faith_effects.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "scopes",
+      "message": "`exists = yes/no` does not work",
+      "source": "LoV AGOT 0.5.1 bridge",
+      "file": "common/scripted_effects/zzzz_lv_agot_scripted_effect_runtime_overrides_v0_2_2.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "scopes",
+      "message": "`prev` produces none but expected character",
+      "source": "MFA 0.4.40 local",
+      "file": "events/activities/coronation_activity/coronation_events_6.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "strict-scopes",
+      "message": "`coronation_events_6000_valid_switch_title_trigger` expects list war_targets to exist",
+      "source": "MFA 0.4.40 local",
+      "file": "events/activities/coronation_activity/coronation_events_6.txt",
+      "count": 5
+    },
+    {
+      "severity": "warning",
+      "code": "scopes",
+      "message": "`tournament_1270_versus_effect` expects scope to be activity but scope seems to be character",
+      "source": "MFA 0.4.40 local",
+      "file": "events/activities/tournaments/tournament_events.txt",
+      "count": 4
+    },
+    {
+      "severity": "warning",
+      "code": "strict-scopes",
+      "message": "`tournament_disburse_contest_prize_effect` expects scope:artifact to be set",
+      "source": "MFA 0.4.40 local",
+      "file": "events/activities/tournaments/tournament_events.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "strict-scopes",
+      "message": "`tournament_disburse_contest_prize_effect` expects scope:location to be set",
+      "source": "MFA 0.4.40 local",
+      "file": "events/activities/tournaments/tournament_events.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "missing-localization",
+      "message": "missing english and spanish localization key activity_dragon_hatching_name",
+      "source": "MOD",
+      "file": "common/activities/activity_types/agot_dragon_hatching.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "missing-localization",
+      "message": "missing english and spanish localization key activity_dragon_hatching_no_dlc_name",
+      "source": "MOD",
+      "file": "common/activities/activity_types/agot_dragon_hatching.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "missing-localization",
+      "message": "missing english and spanish localization key activity_dragon_hatching_no_dlc_owner",
+      "source": "MOD",
+      "file": "common/activities/activity_types/agot_dragon_hatching.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "missing-localization",
+      "message": "missing english and spanish localization key activity_dragon_hatching_owner",
+      "source": "MOD",
+      "file": "common/activities/activity_types/agot_dragon_hatching.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "missing-localization",
+      "message": "missing spanish localization key MFA_dragon_hatching_no_dlc_wait_1_month",
+      "source": "MOD",
+      "file": "common/activities/activity_types/agot_dragon_hatching.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "missing-localization",
+      "message": "missing spanish localization key MFA_dragon_hatching_no_dlc_wait_1_month_desc",
+      "source": "MOD",
+      "file": "common/activities/activity_types/agot_dragon_hatching.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "missing-localization",
+      "message": "missing spanish localization key MFA_dragon_hatching_no_dlc_wait_1_week",
+      "source": "MOD",
+      "file": "common/activities/activity_types/agot_dragon_hatching.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "missing-localization",
+      "message": "missing spanish localization key MFA_dragon_hatching_no_dlc_wait_1_week_desc",
+      "source": "MOD",
+      "file": "common/activities/activity_types/agot_dragon_hatching.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "missing-localization",
+      "message": "missing spanish localization key MFA_dragon_hatching_no_dlc_wait_2_months",
+      "source": "MOD",
+      "file": "common/activities/activity_types/agot_dragon_hatching.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "missing-localization",
+      "message": "missing spanish localization key MFA_dragon_hatching_no_dlc_wait_2_months_desc",
+      "source": "MOD",
+      "file": "common/activities/activity_types/agot_dragon_hatching.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "missing-localization",
+      "message": "missing spanish localization key MFA_dragon_hatching_no_dlc_wait_4_months",
+      "source": "MOD",
+      "file": "common/activities/activity_types/agot_dragon_hatching.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "missing-localization",
+      "message": "missing spanish localization key MFA_dragon_hatching_no_dlc_wait_4_months_desc",
+      "source": "MOD",
+      "file": "common/activities/activity_types/agot_dragon_hatching.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "missing-localization",
+      "message": "missing spanish localization key MFA_dragon_hatching_no_dlc_wait_vanilla",
+      "source": "MOD",
+      "file": "common/activities/activity_types/agot_dragon_hatching.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "missing-localization",
+      "message": "missing spanish localization key MFA_dragon_hatching_no_dlc_wait_vanilla_desc",
+      "source": "MOD",
+      "file": "common/activities/activity_types/agot_dragon_hatching.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "missing-localization",
+      "message": "missing spanish localization key MFA_option_wait_time",
+      "source": "MOD",
+      "file": "common/activities/activity_types/agot_dragon_hatching.txt",
+      "count": 3
+    },
+    {
+      "severity": "warning",
+      "code": "missing-localization",
+      "message": "missing spanish localization key MFA_wait_time_set_via_decision_tt",
+      "source": "MOD",
+      "file": "common/activities/activity_types/agot_dragon_hatching.txt",
+      "count": 15
+    },
+    {
+      "severity": "warning",
+      "code": "missing-localization",
+      "message": "missing spanish localization key TRAVEL_NAME_FOR_activity_dragon_hatching",
+      "source": "MOD",
+      "file": "common/activities/activity_types/agot_dragon_hatching.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "missing-localization",
+      "message": "missing spanish localization key TRAVEL_NAME_FOR_activity_dragon_hatching_no_dlc",
+      "source": "MOD",
+      "file": "common/activities/activity_types/agot_dragon_hatching.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "missing-localization",
+      "message": "missing spanish localization key activity_dragon_hatching",
+      "source": "MOD",
+      "file": "common/activities/activity_types/agot_dragon_hatching.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "missing-localization",
+      "message": "missing spanish localization key activity_dragon_hatching_desc",
+      "source": "MOD",
+      "file": "common/activities/activity_types/agot_dragon_hatching.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "missing-localization",
+      "message": "missing spanish localization key activity_dragon_hatching_destination_selection",
+      "source": "MOD",
+      "file": "common/activities/activity_types/agot_dragon_hatching.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "missing-localization",
+      "message": "missing spanish localization key activity_dragon_hatching_guest_desc",
+      "source": "MOD",
+      "file": "common/activities/activity_types/agot_dragon_hatching.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "missing-localization",
+      "message": "missing spanish localization key activity_dragon_hatching_guest_help_text",
+      "source": "MOD",
+      "file": "common/activities/activity_types/agot_dragon_hatching.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "missing-localization",
+      "message": "missing spanish localization key activity_dragon_hatching_no_dlc",
+      "source": "MOD",
+      "file": "common/activities/activity_types/agot_dragon_hatching.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "missing-localization",
+      "message": "missing spanish localization key activity_dragon_hatching_no_dlc_desc",
+      "source": "MOD",
+      "file": "common/activities/activity_types/agot_dragon_hatching.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "missing-localization",
+      "message": "missing spanish localization key activity_dragon_hatching_no_dlc_destination_selection",
+      "source": "MOD",
+      "file": "common/activities/activity_types/agot_dragon_hatching.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "missing-localization",
+      "message": "missing spanish localization key activity_dragon_hatching_no_dlc_guest_desc",
+      "source": "MOD",
+      "file": "common/activities/activity_types/agot_dragon_hatching.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "missing-localization",
+      "message": "missing spanish localization key activity_dragon_hatching_no_dlc_guest_help_text",
+      "source": "MOD",
+      "file": "common/activities/activity_types/agot_dragon_hatching.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "missing-localization",
+      "message": "missing spanish localization key activity_dragon_hatching_no_dlc_predicted_cost",
+      "source": "MOD",
+      "file": "common/activities/activity_types/agot_dragon_hatching.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "missing-localization",
+      "message": "missing spanish localization key activity_dragon_hatching_no_dlc_selection_tooltip",
+      "source": "MOD",
+      "file": "common/activities/activity_types/agot_dragon_hatching.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "missing-localization",
+      "message": "missing spanish localization key activity_dragon_hatching_predicted_cost",
+      "source": "MOD",
+      "file": "common/activities/activity_types/agot_dragon_hatching.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "missing-localization",
+      "message": "missing spanish localization key activity_dragon_hatching_selection_tooltip",
+      "source": "MOD",
+      "file": "common/activities/activity_types/agot_dragon_hatching.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "missing-localization",
+      "message": "missing spanish localization key agot_hatching_fail",
+      "source": "MOD",
+      "file": "common/activities/activity_types/agot_dragon_hatching.txt",
+      "count": 2
+    },
+    {
+      "severity": "warning",
+      "code": "missing-localization",
+      "message": "missing spanish localization key agot_hatching_fail_guest",
+      "source": "MOD",
+      "file": "common/activities/activity_types/agot_dragon_hatching.txt",
+      "count": 2
+    },
+    {
+      "severity": "warning",
+      "code": "missing-localization",
+      "message": "missing spanish localization key agot_hatching_host_folded",
+      "source": "MOD",
+      "file": "common/activities/activity_types/agot_dragon_hatching.txt",
+      "count": 2
+    },
+    {
+      "severity": "warning",
+      "code": "missing-localization",
+      "message": "missing spanish localization key agot_hatching_host_folded_guest",
+      "source": "MOD",
+      "file": "common/activities/activity_types/agot_dragon_hatching.txt",
+      "count": 2
+    },
+    {
+      "severity": "warning",
+      "code": "missing-localization",
+      "message": "missing spanish localization key agot_hatching_prov_has_KL_dragonpit",
+      "source": "MOD",
+      "file": "common/activities/activity_types/agot_dragon_hatching.txt",
+      "count": 2
+    },
+    {
+      "severity": "warning",
+      "code": "missing-localization",
+      "message": "missing spanish localization key agot_hatching_prov_has_dragonmont",
+      "source": "MOD",
+      "file": "common/activities/activity_types/agot_dragon_hatching.txt",
+      "count": 2
+    },
+    {
+      "severity": "warning",
+      "code": "missing-localization",
+      "message": "missing spanish localization key agot_hatching_prov_has_dragonpit",
+      "source": "MOD",
+      "file": "common/activities/activity_types/agot_dragon_hatching.txt",
+      "count": 2
+    },
+    {
+      "severity": "warning",
+      "code": "missing-localization",
+      "message": "missing spanish localization key agot_hatching_prov_is_realm_capital",
+      "source": "MOD",
+      "file": "common/activities/activity_types/agot_dragon_hatching.txt",
+      "count": 2
+    },
+    {
+      "severity": "warning",
+      "code": "missing-localization",
+      "message": "missing spanish localization key agot_hatching_prov_is_summerhall",
+      "source": "MOD",
+      "file": "common/activities/activity_types/agot_dragon_hatching.txt",
+      "count": 2
+    },
+    {
+      "severity": "warning",
+      "code": "missing-localization",
+      "message": "missing spanish localization key agot_hatching_something_broke",
+      "source": "MOD",
+      "file": "common/activities/activity_types/agot_dragon_hatching.txt",
+      "count": 2
+    },
+    {
+      "severity": "warning",
+      "code": "missing-localization",
+      "message": "missing spanish localization key agot_hatching_success",
+      "source": "MOD",
+      "file": "common/activities/activity_types/agot_dragon_hatching.txt",
+      "count": 2
+    },
+    {
+      "severity": "warning",
+      "code": "missing-localization",
+      "message": "missing spanish localization key agot_hatching_success_guest",
+      "source": "MOD",
+      "file": "common/activities/activity_types/agot_dragon_hatching.txt",
+      "count": 2
+    },
+    {
+      "severity": "warning",
+      "code": "missing-localization",
+      "message": "missing spanish localization key agot_host_hatching_potential_reward",
+      "source": "MOD",
+      "file": "common/activities/activity_types/agot_dragon_hatching.txt",
+      "count": 2
+    },
+    {
+      "severity": "warning",
+      "code": "missing-localization",
+      "message": "missing spanish localization key ceremony",
+      "source": "MOD",
+      "file": "common/activities/activity_types/agot_dragon_hatching.txt",
+      "count": 2
+    },
+    {
+      "severity": "warning",
+      "code": "missing-localization",
+      "message": "missing spanish localization key ceremony_desc",
+      "source": "MOD",
+      "file": "common/activities/activity_types/agot_dragon_hatching.txt",
+      "count": 2
+    },
+    {
+      "severity": "warning",
+      "code": "missing-localization",
+      "message": "missing spanish localization key hatching_attempt",
+      "source": "MOD",
+      "file": "common/activities/activity_types/agot_dragon_hatching.txt",
+      "count": 2
+    },
+    {
+      "severity": "warning",
+      "code": "missing-localization",
+      "message": "missing spanish localization key hatching_attempt_desc",
+      "source": "MOD",
+      "file": "common/activities/activity_types/agot_dragon_hatching.txt",
+      "count": 2
+    },
+    {
+      "severity": "warning",
+      "code": "missing-localization",
+      "message": "missing spanish localization key hatching_catalyst",
+      "source": "MOD",
+      "file": "common/activities/activity_types/agot_dragon_hatching.txt",
+      "count": 2
+    },
+    {
+      "severity": "warning",
+      "code": "missing-localization",
+      "message": "missing spanish localization key hatching_catalyst_major",
+      "source": "MOD",
+      "file": "common/activities/activity_types/agot_dragon_hatching.txt",
+      "count": 2
+    },
+    {
+      "severity": "warning",
+      "code": "missing-localization",
+      "message": "missing spanish localization key hatching_catalyst_major_desc",
+      "source": "MOD",
+      "file": "common/activities/activity_types/agot_dragon_hatching.txt",
+      "count": 2
+    },
+    {
+      "severity": "warning",
+      "code": "missing-localization",
+      "message": "missing spanish localization key hatching_catalyst_massive",
+      "source": "MOD",
+      "file": "common/activities/activity_types/agot_dragon_hatching.txt",
+      "count": 2
+    },
+    {
+      "severity": "warning",
+      "code": "missing-localization",
+      "message": "missing spanish localization key hatching_catalyst_massive_desc",
+      "source": "MOD",
+      "file": "common/activities/activity_types/agot_dragon_hatching.txt",
+      "count": 2
+    },
+    {
+      "severity": "warning",
+      "code": "missing-localization",
+      "message": "missing spanish localization key hatching_catalyst_medium",
+      "source": "MOD",
+      "file": "common/activities/activity_types/agot_dragon_hatching.txt",
+      "count": 2
+    },
+    {
+      "severity": "warning",
+      "code": "missing-localization",
+      "message": "missing spanish localization key hatching_catalyst_medium_desc",
+      "source": "MOD",
+      "file": "common/activities/activity_types/agot_dragon_hatching.txt",
+      "count": 2
+    },
+    {
+      "severity": "warning",
+      "code": "missing-localization",
+      "message": "missing spanish localization key hatching_catalyst_minor",
+      "source": "MOD",
+      "file": "common/activities/activity_types/agot_dragon_hatching.txt",
+      "count": 2
+    },
+    {
+      "severity": "warning",
+      "code": "missing-localization",
+      "message": "missing spanish localization key hatching_catalyst_minor_desc",
+      "source": "MOD",
+      "file": "common/activities/activity_types/agot_dragon_hatching.txt",
+      "count": 2
+    },
+    {
+      "severity": "warning",
+      "code": "missing-localization",
+      "message": "missing spanish localization key hatching_outcome",
+      "source": "MOD",
+      "file": "common/activities/activity_types/agot_dragon_hatching.txt",
+      "count": 2
+    },
+    {
+      "severity": "warning",
+      "code": "missing-localization",
+      "message": "missing spanish localization key hatching_outcome_desc",
+      "source": "MOD",
+      "file": "common/activities/activity_types/agot_dragon_hatching.txt",
+      "count": 2
+    },
+    {
+      "severity": "warning",
+      "code": "missing-localization",
+      "message": "missing spanish localization key hatching_sacrifice",
+      "source": "MOD",
+      "file": "common/activities/activity_types/agot_dragon_hatching.txt",
+      "count": 2
+    },
+    {
+      "severity": "warning",
+      "code": "missing-localization",
+      "message": "missing spanish localization key hatching_sacrifice_animal",
+      "source": "MOD",
+      "file": "common/activities/activity_types/agot_dragon_hatching.txt",
+      "count": 2
+    },
+    {
+      "severity": "warning",
+      "code": "missing-localization",
+      "message": "missing spanish localization key hatching_sacrifice_animal_desc",
+      "source": "MOD",
+      "file": "common/activities/activity_types/agot_dragon_hatching.txt",
+      "count": 2
+    },
+    {
+      "severity": "warning",
+      "code": "missing-localization",
+      "message": "missing spanish localization key hatching_sacrifice_blood",
+      "source": "MOD",
+      "file": "common/activities/activity_types/agot_dragon_hatching.txt",
+      "count": 2
+    },
+    {
+      "severity": "warning",
+      "code": "missing-localization",
+      "message": "missing spanish localization key hatching_sacrifice_blood_desc",
+      "source": "MOD",
+      "file": "common/activities/activity_types/agot_dragon_hatching.txt",
+      "count": 2
+    },
+    {
+      "severity": "warning",
+      "code": "missing-localization",
+      "message": "missing spanish localization key hatching_type",
+      "source": "MOD",
+      "file": "common/activities/activity_types/agot_dragon_hatching.txt",
+      "count": 2
+    },
+    {
+      "severity": "warning",
+      "code": "missing-localization",
+      "message": "missing spanish localization key hatching_type_esoteric",
+      "source": "MOD",
+      "file": "common/activities/activity_types/agot_dragon_hatching.txt",
+      "count": 2
+    },
+    {
+      "severity": "warning",
+      "code": "missing-localization",
+      "message": "missing spanish localization key hatching_type_esoteric_desc",
+      "source": "MOD",
+      "file": "common/activities/activity_types/agot_dragon_hatching.txt",
+      "count": 2
+    },
+    {
+      "severity": "warning",
+      "code": "missing-localization",
+      "message": "missing spanish localization key hatching_type_knowledge",
+      "source": "MOD",
+      "file": "common/activities/activity_types/agot_dragon_hatching.txt",
+      "count": 2
+    },
+    {
+      "severity": "warning",
+      "code": "missing-localization",
+      "message": "missing spanish localization key hatching_type_knowledge_desc",
+      "source": "MOD",
+      "file": "common/activities/activity_types/agot_dragon_hatching.txt",
+      "count": 2
+    },
+    {
+      "severity": "warning",
+      "code": "logic",
+      "message": "OR with only one item inside is probably not what you intended",
+      "source": "MOD",
+      "file": "common/activities/activity_types/coronation.txt",
+      "count": 6
+    },
+    {
+      "severity": "warning",
+      "code": "missing-localization",
+      "message": "missing english and spanish localization key activity_coronation_name",
+      "source": "MOD",
+      "file": "common/activities/activity_types/coronation.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "missing-localization",
+      "message": "missing english and spanish localization key activity_coronation_owner",
+      "source": "MOD",
+      "file": "common/activities/activity_types/coronation.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "missing-localization",
+      "message": "missing english and spanish localization key special_type",
+      "source": "MOD",
+      "file": "common/activities/activity_types/coronation.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "missing-localization",
+      "message": "missing spanish localization key MFA_coronation_wait_vanilla",
+      "source": "MOD",
+      "file": "common/activities/activity_types/coronation.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "missing-localization",
+      "message": "missing spanish localization key MFA_coronation_wait_vanilla_desc",
+      "source": "MOD",
+      "file": "common/activities/activity_types/coronation.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "missing-localization",
+      "message": "missing spanish localization key MFA_wait_1_month",
+      "source": "MOD",
+      "file": "common/activities/activity_types/coronation.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "missing-localization",
+      "message": "missing spanish localization key MFA_wait_1_month_desc",
+      "source": "MOD",
+      "file": "common/activities/activity_types/coronation.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "missing-localization",
+      "message": "missing spanish localization key MFA_wait_1_week",
+      "source": "MOD",
+      "file": "common/activities/activity_types/coronation.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "missing-localization",
+      "message": "missing spanish localization key MFA_wait_1_week_desc",
+      "source": "MOD",
+      "file": "common/activities/activity_types/coronation.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "missing-localization",
+      "message": "missing spanish localization key MFA_wait_2_months",
+      "source": "MOD",
+      "file": "common/activities/activity_types/coronation.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "missing-localization",
+      "message": "missing spanish localization key MFA_wait_2_months_desc",
+      "source": "MOD",
+      "file": "common/activities/activity_types/coronation.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "missing-localization",
+      "message": "missing spanish localization key MFA_wait_4_months",
+      "source": "MOD",
+      "file": "common/activities/activity_types/coronation.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "missing-localization",
+      "message": "missing spanish localization key MFA_wait_4_months_desc",
+      "source": "MOD",
+      "file": "common/activities/activity_types/coronation.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "scopes",
+      "message": "`activity_location` is for activity but scope seems to be character",
+      "source": "MOD",
+      "file": "common/activities/activity_types/coronation.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "logic",
+      "message": "OR with only one item inside is probably not what you intended",
+      "source": "MOD",
+      "file": "common/activities/activity_types/tournament.txt",
+      "count": 11
+    },
+    {
+      "severity": "warning",
+      "code": "missing-localization",
+      "message": "missing english and spanish localization key activity_tournament_name",
+      "source": "MOD",
+      "file": "common/activities/activity_types/tournament.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "missing-localization",
+      "message": "missing english and spanish localization key activity_tournament_owner",
+      "source": "MOD",
+      "file": "common/activities/activity_types/tournament.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "missing-localization",
+      "message": "missing spanish localization key MFA_tournament_wait_1_month",
+      "source": "MOD",
+      "file": "common/activities/activity_types/tournament.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "missing-localization",
+      "message": "missing spanish localization key MFA_tournament_wait_1_month_desc",
+      "source": "MOD",
+      "file": "common/activities/activity_types/tournament.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "missing-localization",
+      "message": "missing spanish localization key MFA_tournament_wait_1_week",
+      "source": "MOD",
+      "file": "common/activities/activity_types/tournament.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "missing-localization",
+      "message": "missing spanish localization key MFA_tournament_wait_1_week_desc",
+      "source": "MOD",
+      "file": "common/activities/activity_types/tournament.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "missing-localization",
+      "message": "missing spanish localization key MFA_tournament_wait_2_months",
+      "source": "MOD",
+      "file": "common/activities/activity_types/tournament.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "missing-localization",
+      "message": "missing spanish localization key MFA_tournament_wait_2_months_desc",
+      "source": "MOD",
+      "file": "common/activities/activity_types/tournament.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "missing-localization",
+      "message": "missing spanish localization key MFA_tournament_wait_4_months",
+      "source": "MOD",
+      "file": "common/activities/activity_types/tournament.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "missing-localization",
+      "message": "missing spanish localization key MFA_tournament_wait_4_months_desc",
+      "source": "MOD",
+      "file": "common/activities/activity_types/tournament.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "missing-localization",
+      "message": "missing spanish localization key MFA_tournament_wait_vanilla",
+      "source": "MOD",
+      "file": "common/activities/activity_types/tournament.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "missing-localization",
+      "message": "missing spanish localization key MFA_tournament_wait_vanilla_desc",
+      "source": "MOD",
+      "file": "common/activities/activity_types/tournament.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "missing-localization",
+      "message": "missing spanish localization key activity_tournament_province_agot_ashford_tourney_grounds_01_desc",
+      "source": "MOD",
+      "file": "common/activities/activity_types/tournament.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "missing-localization",
+      "message": "missing spanish localization key activity_tournament_province_harrenhal_01_desc",
+      "source": "MOD",
+      "file": "common/activities/activity_types/tournament.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "missing-localization",
+      "message": "missing spanish localization key tournament_cost_discount_ashford",
+      "source": "MOD",
+      "file": "common/activities/activity_types/tournament.txt",
+      "count": 4
+    },
+    {
+      "severity": "warning",
+      "code": "missing-localization",
+      "message": "missing spanish localization key tournament_cost_discount_harrenhal",
+      "source": "MOD",
+      "file": "common/activities/activity_types/tournament.txt",
+      "count": 12
+    },
+    {
+      "severity": "warning",
+      "code": "strict-scopes",
+      "message": "`tournament_contest_race_winner_effect` expects scope:battle_province to be set",
+      "source": "MOD",
+      "file": "common/activities/activity_types/tournament.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "strict-scopes",
+      "message": "`tournament_contest_turn_winner_effect` expects scope:battle_province to be set",
+      "source": "MOD",
+      "file": "common/activities/activity_types/tournament.txt",
+      "count": 2
+    },
+    {
+      "severity": "warning",
+      "code": "strict-scopes",
+      "message": "`tournament_contest_versus_winner_effect` expects scope:battle_province to be set",
+      "source": "MOD",
+      "file": "common/activities/activity_types/tournament.txt",
+      "count": 4
+    },
+    {
+      "severity": "warning",
+      "code": "scopes",
+      "message": "`culture` produces culture but expected landed title",
+      "source": "MOD",
+      "file": "events/activities/coronation_activity/coronation_events.txt",
+      "count": 5
+    },
+    {
+      "severity": "warning",
+      "code": "scopes",
+      "message": "`this` produces character but expected landed title",
+      "source": "MOD",
+      "file": "events/activities/coronation_activity/coronation_events.txt",
+      "count": 5
+    },
+    {
+      "severity": "warning",
+      "code": "missing-localization",
+      "message": "missing spanish localization key contest_events.qolab.beloved",
+      "source": "MOD",
+      "file": "events/activities/tournaments/contest_events.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "missing-localization",
+      "message": "missing spanish localization key contest_events.qolab.honor_host",
+      "source": "MOD",
+      "file": "events/activities/tournaments/contest_events.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "missing-localization",
+      "message": "missing spanish localization key contest_events.qolab.self",
+      "source": "MOD",
+      "file": "events/activities/tournaments/contest_events.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "missing-localization",
+      "message": "missing spanish localization key contest_events.qolab.someone_else",
+      "source": "MOD",
+      "file": "events/activities/tournaments/contest_events.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "missing-localization",
+      "message": "missing spanish localization key contest_events_qolab_not_winner",
+      "source": "MOD",
+      "file": "events/activities/tournaments/contest_events.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "missing-localization",
+      "message": "missing spanish localization key contest_events_qolab_winner",
+      "source": "MOD",
+      "file": "events/activities/tournaments/contest_events.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "scopes",
+      "message": "`agot_event_valid_for_qolab` expects scope to be activity but scope seems to be character",
+      "source": "MOD",
+      "file": "events/activities/tournaments/contest_events.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "scopes",
+      "message": "`contest_winner_dedicate_victory_effect` expects scope to be activity but scope seems to be character",
+      "source": "MOD",
+      "file": "events/activities/tournaments/contest_events.txt",
+      "count": 3
+    },
+    {
+      "severity": "warning",
+      "code": "scopes",
+      "message": "`exists = yes/no` does not work",
+      "source": "MOD",
+      "file": "events/activities/tournaments/contest_events.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "scopes",
+      "message": "`stress_impact` is for character but scope seems to be activity",
+      "source": "MOD",
+      "file": "events/activities/tournaments/contest_events.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "scopes",
+      "message": "`tournament_contest_versus_pulse_effect` expects root to be character, province or landed title but root seems to be activity",
+      "source": "MOD",
+      "file": "events/activities/tournaments/contest_events.txt",
+      "count": 4
+    },
+    {
+      "severity": "warning",
+      "code": "duplicate-item",
+      "message": "event is redefined by another event",
+      "source": "MOD",
+      "file": "events/lov_season_events.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "localization",
+      "message": "The substitution parameter $k_the_blackwater$ is not defined anywhere as a key.",
+      "source": "MOD",
+      "file": "localization/replace/spanish/agot/replace/00_agot_titles_l_spanish.yml",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "strict-scopes",
+      "message": "`agot_send_to_dragonpit_effect` expects scope:dragon_pit_location to be set",
+      "source": "More Dragon Events",
+      "file": "events/agot_events/mde_agot_filler_events_dragon.txt",
+      "count": 1
+    }
+  ]
+}

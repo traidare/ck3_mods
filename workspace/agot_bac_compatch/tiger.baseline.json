@@ -1,0 +1,13 @@
+{
+  "schemaVersion": 1,
+  "findings": [
+    {
+      "severity": "warning",
+      "code": "datafunctions",
+      "message": "GetTransferSpeedSettingIndex returns int32 but a CVector2i is needed here",
+      "source": "MOD",
+      "file": "gui/multiplayer_types.gui",
+      "count": 1
+    }
+  ]
+}

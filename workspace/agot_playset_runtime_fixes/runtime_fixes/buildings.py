@@ -16,7 +16,6 @@ from gen.script import (
 )
 from gen.text import replace_exact
 
-from .common import assert_source_file_hash
 from .context import RunInputs
 
 LANDMARKS_RELATIVE = (
@@ -33,11 +32,6 @@ HIGHEST_AGOT_BUILDING_TIER = 8
 
 def generate_landmarks_building_repairs(inputs: RunInputs) -> None:
     path = inputs.WORKSHOP / "3692879370" / LANDMARKS_RELATIVE
-    assert_source_file_hash(
-        path,
-        "17d888f680b75f8d494a3343bf4fbdad671d24c0734241fa29eaf5d4eb58308c",
-        label="Landmarks of Westeros special buildings",
-    )
     source = read_text(path)
 
     tier = HIGHEST_AGOT_BUILDING_TIER
@@ -83,11 +77,6 @@ def generate_landmarks_building_repairs(inputs: RunInputs) -> None:
 
 def generate_landmarks_compatch_building_repairs(inputs: RunInputs) -> None:
     path = inputs.WORKSHOP / "3697008412" / LANDMARKS_COMPATCH_RELATIVE
-    assert_source_file_hash(
-        path,
-        "eb6f319efdeff6011472b815db27d058e526a0a06fbbdcc12103babf51951b15",
-        label="Landmarks of Westeros/COW-AGOT compatch special buildings",
-    )
     source = read_text(path)
 
     # A building's on_complete runs in the province scope, which is why the

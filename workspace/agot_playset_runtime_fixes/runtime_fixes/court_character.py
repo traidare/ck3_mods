@@ -7,7 +7,6 @@ from gen.text import replace_exact
 
 from .common import (
     assert_source_block_hash,
-    assert_source_file_hash,
     extract_top_level_block,
     game_root,
     guard_event_deaths,
@@ -292,11 +291,6 @@ def generate_further_east_startup_government_quarantine(inputs: RunInputs) -> No
     """Keep Further East setup while suppressing its unsafe government rewrites."""
     relative = "common/on_action/zz_eetlv_gov_dev_on_actions.txt"
     source_path = inputs.WORKSHOP / "3768149491" / relative
-    assert_source_file_hash(
-        source_path,
-        "d33d2f8dd115bd585bb38be87655b708f8f27fe95c1b333f416450a8bc1145e3",
-        label="The Further East startup setup",
-    )
     text = read_text(source_path)
     text = replace_exact(
         text,

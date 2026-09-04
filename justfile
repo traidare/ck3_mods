@@ -9,7 +9,7 @@ lint:
     deadcode -test ./...
     ruff check .
 
-# Run the Go tests
+# Run the tests
 test:
     go test ./...
     PYTHONPATH=tools python -m unittest discover -s tests

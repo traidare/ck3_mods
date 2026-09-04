@@ -1,0 +1,1653 @@
+{
+  "schemaVersion": 1,
+  "findings": [
+    {
+      "severity": "error",
+      "code": "validation",
+      "message": "expected `count =`, found `\u003c`",
+      "source": "AGOT",
+      "file": "common/scripted_effects/00_agot_effects.txt",
+      "count": 30
+    },
+    {
+      "severity": "error",
+      "code": "temporary-scope",
+      "message": "`scope:current_maester` was temporary and is no longer available here",
+      "source": "AGOT",
+      "file": "events/agot_events/agot_maester_events.txt",
+      "count": 2
+    },
+    {
+      "severity": "error",
+      "code": "strict-scopes",
+      "message": "scope:the_lc might not be available here",
+      "source": "AGOT",
+      "file": "events/agot_events/agot_nw_ranger_events.txt",
+      "count": 1
+    },
+    {
+      "severity": "error",
+      "code": "strict-scopes",
+      "message": "scope:pledge_loyalty_to_liege_scope might not be available here",
+      "source": "AGOT",
+      "file": "events/decisions_events/pledge_loyalty_to_liege_events.txt",
+      "count": 1
+    },
+    {
+      "severity": "error",
+      "code": "strict-scopes",
+      "message": "scope:epidemic might not be available here",
+      "source": "AGOT",
+      "file": "events/dlc/ce1/physician_epidemic_events.txt",
+      "count": 1
+    },
+    {
+      "severity": "error",
+      "code": "strict-scopes",
+      "message": "scope:new_holder might not be available here",
+      "source": "AGOT",
+      "file": "events/dlc/ep3/ep3_governor_yearly_3.txt",
+      "count": 1
+    },
+    {
+      "severity": "error",
+      "code": "strict-scopes",
+      "message": "scope:request_support_score might not be available here",
+      "source": "AGOT",
+      "file": "events/dlc/ep3/ep3_interactions_events.txt",
+      "count": 1
+    },
+    {
+      "severity": "error",
+      "code": "validation",
+      "message": "`max = ` is only for `ordered_` lists, `random_list`, and `duel`",
+      "source": "AGOT House Founders",
+      "file": "common/scripted_effects/07_dlc_ep3_scripted_effects.txt",
+      "count": 1
+    },
+    {
+      "severity": "error",
+      "code": "strict-scopes",
+      "message": "scope:bg_override_char might not be available here",
+      "source": "AGOT Seasons of Ice and Fire",
+      "file": "common/event_backgrounds/01_event_backgrounds.txt",
+      "count": 1
+    },
+    {
+      "severity": "error",
+      "code": "strict-scopes",
+      "message": "scope:previous_holder might not be available here",
+      "source": "Legacy of Valyria AGOT temporary compatch",
+      "file": "common/on_action/agot_on_actions/agot_title_on_actions.txt",
+      "count": 1
+    },
+    {
+      "severity": "error",
+      "code": "strict-scopes",
+      "message": "scope:completed_ruin might not be available here",
+      "source": "Legacy of Valyria AGOT temporary compatch",
+      "file": "events/agot_events/agot_ruins_events.txt",
+      "count": 1
+    },
+    {
+      "severity": "error",
+      "code": "unknown-field",
+      "message": "unknown token `agot_can_build_temple_holdings`",
+      "source": "MOD",
+      "file": "common/buildings/zz_am_lov_nv_holding_art.txt",
+      "count": 1
+    },
+    {
+      "severity": "error",
+      "code": "strict-scopes",
+      "message": "scope:change might not be available here",
+      "source": "MOD",
+      "file": "common/casus_belli_types/adventurers_beneficiary_conquer.txt",
+      "count": 1
+    },
+    {
+      "severity": "error",
+      "code": "unknown-list",
+      "message": "unknown list",
+      "source": "MOD",
+      "file": "common/casus_belli_types/adventurers_beneficiary_conquer.txt",
+      "count": 1
+    },
+    {
+      "severity": "error",
+      "code": "missing-item",
+      "message": "law flag free_city_election_succession_law not defined in common/laws/",
+      "source": "MOD",
+      "file": "common/character_interactions/06_ep3_interactions.txt",
+      "count": 1
+    },
+    {
+      "severity": "error",
+      "code": "missing-item",
+      "message": "law flag norvos_regency_succession_law not defined in common/laws/",
+      "source": "MOD",
+      "file": "common/character_interactions/06_ep3_interactions.txt",
+      "count": 1
+    },
+    {
+      "severity": "error",
+      "code": "unknown-list",
+      "message": "unknown list",
+      "source": "MOD",
+      "file": "common/character_interactions/06_ep3_interactions.txt",
+      "count": 2
+    },
+    {
+      "severity": "error",
+      "code": "missing-item",
+      "message": "boolean house head parameter aspect_of_creation not defined in common/house_aspirations/",
+      "source": "MOD",
+      "file": "common/on_action/dynasty_on_actions.txt",
+      "count": 1
+    },
+    {
+      "severity": "error",
+      "code": "strict-scopes",
+      "message": "scope:bloc might not be available here",
+      "source": "MOD",
+      "file": "common/on_action/title_on_actions.txt",
+      "count": 1
+    },
+    {
+      "severity": "error",
+      "code": "strict-scopes",
+      "message": "scope:new_holder might not be available here",
+      "source": "MOD",
+      "file": "common/on_action/title_on_actions.txt",
+      "count": 1
+    },
+    {
+      "severity": "error",
+      "code": "strict-scopes",
+      "message": "scope:transfer_type might not be available here",
+      "source": "MOD",
+      "file": "common/on_action/title_on_actions.txt",
+      "count": 1
+    },
+    {
+      "severity": "error",
+      "code": "unknown-field",
+      "message": "unknown token `dw_tradition_valyrian_polgamy`",
+      "source": "MOD",
+      "file": "common/scripted_modifiers/00_marriage_scripted_modifiers.txt",
+      "count": 3
+    },
+    {
+      "severity": "error",
+      "code": "strict-scopes",
+      "message": "scope:steward might not be available here",
+      "source": "MOD",
+      "file": "events/court_events/01_ep3_court_events_3.txt",
+      "count": 1
+    },
+    {
+      "severity": "error",
+      "code": "strict-scopes",
+      "message": "scope:adventurer might not be available here",
+      "source": "MOD",
+      "file": "events/dlc/ep3/ep3_laamp_events.txt",
+      "count": 3
+    },
+    {
+      "severity": "error",
+      "code": "strict-scopes",
+      "message": "scope:hunter might not be available here",
+      "source": "MOD",
+      "file": "events/dlc/ep3/ep3_laamp_events.txt",
+      "count": 1
+    },
+    {
+      "severity": "error",
+      "code": "missing-item",
+      "message": "decision commit_suicide_decision not defined in common/decisions/",
+      "source": "MOD",
+      "file": "events/health_events.txt",
+      "count": 1
+    },
+    {
+      "severity": "error",
+      "code": "strict-scopes",
+      "message": "scope:infecting_partner might not be available here",
+      "source": "MOD",
+      "file": "events/health_events.txt",
+      "count": 2
+    },
+    {
+      "severity": "error",
+      "code": "unknown-list",
+      "message": "unknown list",
+      "source": "MOD",
+      "file": "events/zzz_Great_Councils_events.txt",
+      "count": 2
+    },
+    {
+      "severity": "error",
+      "code": "missing-item",
+      "message": "game rule setting asoiaf_new_clothes_crownlands_rule_on not defined in common/game_rules/",
+      "source": "MOD",
+      "file": "gfx/interface/illustrations/scripted_illustrations/ingame.txt",
+      "count": 4
+    },
+    {
+      "severity": "error",
+      "code": "missing-item",
+      "message": "game rule setting asoiaf_new_clothes_dorne_rule_on not defined in common/game_rules/",
+      "source": "MOD",
+      "file": "gfx/interface/illustrations/scripted_illustrations/ingame.txt",
+      "count": 2
+    },
+    {
+      "severity": "error",
+      "code": "missing-item",
+      "message": "game rule setting asoiaf_new_clothes_north_rule_on not defined in common/game_rules/",
+      "source": "MOD",
+      "file": "gfx/interface/illustrations/scripted_illustrations/ingame.txt",
+      "count": 6
+    },
+    {
+      "severity": "error",
+      "code": "missing-item",
+      "message": "game rule setting asoiaf_new_clothes_reach_rule_on not defined in common/game_rules/",
+      "source": "MOD",
+      "file": "gfx/interface/illustrations/scripted_illustrations/ingame.txt",
+      "count": 2
+    },
+    {
+      "severity": "error",
+      "code": "missing-item",
+      "message": "game rule setting asoiaf_new_clothes_riverlands_rule_on not defined in common/game_rules/",
+      "source": "MOD",
+      "file": "gfx/interface/illustrations/scripted_illustrations/ingame.txt",
+      "count": 2
+    },
+    {
+      "severity": "error",
+      "code": "missing-item",
+      "message": "game rule setting asoiaf_new_clothes_stormlands_rule_on not defined in common/game_rules/",
+      "source": "MOD",
+      "file": "gfx/interface/illustrations/scripted_illustrations/ingame.txt",
+      "count": 2
+    },
+    {
+      "severity": "error",
+      "code": "missing-item",
+      "message": "game rule setting asoiaf_new_clothes_vale_rule_on not defined in common/game_rules/",
+      "source": "MOD",
+      "file": "gfx/interface/illustrations/scripted_illustrations/ingame.txt",
+      "count": 2
+    },
+    {
+      "severity": "error",
+      "code": "missing-item",
+      "message": "game rule setting asoiaf_new_clothes_valyrian_rule_on not defined in common/game_rules/",
+      "source": "MOD",
+      "file": "gfx/interface/illustrations/scripted_illustrations/ingame.txt",
+      "count": 2
+    },
+    {
+      "severity": "error",
+      "code": "unknown-field",
+      "message": "unknown token `activity_no_dlc_coronation`",
+      "source": "MOD",
+      "file": "gfx/interface/illustrations/scripted_illustrations/ingame.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "strict-scopes",
+      "message": "`common_faction_modifiers` expects scope:faction to be set",
+      "source": "AGOT",
+      "file": "common/factions/00_nation_fracturing_faction.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "strict-scopes",
+      "message": "`ceremonial_claimant_faction_modifiers` expects scope:target to be set",
+      "source": "AGOT",
+      "file": "common/factions/10_tgp_factions.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "strict-scopes",
+      "message": "`common_faction_modifiers` expects scope:faction to be set",
+      "source": "AGOT",
+      "file": "common/factions/10_tgp_factions.txt",
+      "count": 4
+    },
+    {
+      "severity": "warning",
+      "code": "scopes",
+      "message": "`add_dynasty_prestige` is for dynasty but scope seems to be character",
+      "source": "AGOT",
+      "file": "common/scripted_effects/01_ep1_court_artifact_creation_effects.txt",
+      "count": 2
+    },
+    {
+      "severity": "warning",
+      "code": "scopes",
+      "message": "`end_story` is for story cycle but scope seems to be house relation",
+      "source": "AGOT",
+      "file": "common/scripted_effects/03_bp1_scripted_effects.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "scopes",
+      "message": "`var:banner_dynasty` produces dynasty house but expected dynasty",
+      "source": "AGOT",
+      "file": "common/scripted_triggers/00_artifact_triggers.txt",
+      "count": 9
+    },
+    {
+      "severity": "warning",
+      "code": "scopes",
+      "message": "var:banner_dynasty was deduced to be dynasty house but scope seems to be dynasty",
+      "source": "AGOT",
+      "file": "common/scripted_triggers/00_artifact_triggers.txt",
+      "count": 9
+    },
+    {
+      "severity": "warning",
+      "code": "strict-scopes",
+      "message": "`elopment_ai_accept_modifier` expects scope:secondary_recipient to be set",
+      "source": "AGOT",
+      "file": "events/agot_lmf_events/agot_lmf_scheme_events.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "scopes",
+      "message": "`capital_county` produces landed title but expected province",
+      "source": "AGOT House Founders",
+      "file": "common/scripted_effects/07_dlc_ep3_scripted_effects.txt",
+      "count": 2
+    },
+    {
+      "severity": "warning",
+      "code": "scopes",
+      "message": "`has_graphical_steppe_culture_group_trigger` expects scope to be culture but scope seems to be character",
+      "source": "AGOT Seasons of Ice and Fire",
+      "file": "common/event_backgrounds/01_event_backgrounds.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "scopes",
+      "message": "`scope:target` produces dynasty but expected dynasty house",
+      "source": "Legacy of Valyria",
+      "file": "common/scripted_effects/cob_scripted_effects.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "strict-scopes",
+      "message": "`admin_claimant_faction_modifiers` expects scope:claimant to be set",
+      "source": "Legacy of Valyria AGOT temporary compatch",
+      "file": "common/factions/00_factions.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "strict-scopes",
+      "message": "`claimant_faction_blockers` expects scope:claimant to be set",
+      "source": "Legacy of Valyria AGOT temporary compatch",
+      "file": "common/factions/00_factions.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "strict-scopes",
+      "message": "`claimant_faction_modifiers` expects scope:claimant to be set",
+      "source": "Legacy of Valyria AGOT temporary compatch",
+      "file": "common/factions/00_factions.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "strict-scopes",
+      "message": "`claimant_faction_modifiers` expects scope:title to be set",
+      "source": "Legacy of Valyria AGOT temporary compatch",
+      "file": "common/factions/00_factions.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "strict-scopes",
+      "message": "`common_faction_modifiers` expects scope:faction to be set",
+      "source": "Legacy of Valyria AGOT temporary compatch",
+      "file": "common/factions/00_factions.txt",
+      "count": 3
+    },
+    {
+      "severity": "warning",
+      "code": "strict-scopes",
+      "message": "`agot_add_to_silent_sisters_effect` expects scope:nightswatch_candidate to be set",
+      "source": "Legacy of Valyria AGOT temporary compatch",
+      "file": "common/on_action/agot_on_actions/agot_title_on_actions.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "strict-scopes",
+      "message": "`agot_assign_temp_vassalage_effect` expects scope:mw_rebel_leader to be set",
+      "source": "Legacy of Valyria AGOT temporary compatch",
+      "file": "common/on_action/agot_on_actions/agot_title_on_actions.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "strict-scopes",
+      "message": "`mw_on_action_pwl_variables_trigger` expects scope:mw_crown_story to be set",
+      "source": "Legacy of Valyria AGOT temporary compatch",
+      "file": "common/on_action/agot_on_actions/agot_title_on_actions.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "strict-scopes",
+      "message": "`mw_on_action_remove_pwl_variables_trigger` expects scope:old_holder to be set",
+      "source": "Legacy of Valyria AGOT temporary compatch",
+      "file": "common/on_action/agot_on_actions/agot_title_on_actions.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "strict-scopes",
+      "message": "`create_artifact_book_effect` expects scope:story to be set",
+      "source": "Legacy of Valyria AGOT temporary compatch",
+      "file": "events/agot_events/agot_rebuilding_ruins_events.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "strict-scopes",
+      "message": "`create_artifact_weapon_effect` expects scope:artifact to be set",
+      "source": "Legacy of Valyria AGOT temporary compatch",
+      "file": "events/agot_events/agot_rebuilding_ruins_events.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "strict-scopes",
+      "message": "`create_artifact_weapon_effect` expects scope:location to be set",
+      "source": "Legacy of Valyria AGOT temporary compatch",
+      "file": "events/agot_events/agot_rebuilding_ruins_events.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "strict-scopes",
+      "message": "`0040_traveling_towards_treasure_with_domicile_trigger` expects scope:task_contract_destination to be set",
+      "source": "Legacy of Valyria AGOT temporary compatch",
+      "file": "events/dlc/ep3/ep3_contract_events.txt",
+      "count": 2
+    },
+    {
+      "severity": "warning",
+      "code": "brace-placement",
+      "message": "possible brace error",
+      "source": "MOD",
+      "file": "common/buildings/zz_am_lov_nv_holding_art.txt",
+      "count": 12
+    },
+    {
+      "severity": "warning",
+      "code": "duplicate-field",
+      "message": "`ai_value` is redefined in a following line",
+      "source": "MOD",
+      "file": "common/buildings/zz_am_lov_nv_holding_art.txt",
+      "count": 2
+    },
+    {
+      "severity": "warning",
+      "code": "duplicate-field",
+      "message": "`can_construct_potential` is redefined in a following line",
+      "source": "MOD",
+      "file": "common/buildings/zz_am_lov_nv_holding_art.txt",
+      "count": 2
+    },
+    {
+      "severity": "warning",
+      "code": "duplicate-field",
+      "message": "`can_construct` is redefined in a following line",
+      "source": "MOD",
+      "file": "common/buildings/zz_am_lov_nv_holding_art.txt",
+      "count": 2
+    },
+    {
+      "severity": "warning",
+      "code": "duplicate-field",
+      "message": "`cost_gold` is redefined in a following line",
+      "source": "MOD",
+      "file": "common/buildings/zz_am_lov_nv_holding_art.txt",
+      "count": 2
+    },
+    {
+      "severity": "warning",
+      "code": "duplicate-field",
+      "message": "`garrison_reinforcement_factor` is redefined in a following line",
+      "source": "MOD",
+      "file": "common/buildings/zz_am_lov_nv_holding_art.txt",
+      "count": 2
+    },
+    {
+      "severity": "warning",
+      "code": "duplicate-field",
+      "message": "`levy` is redefined in a following line",
+      "source": "MOD",
+      "file": "common/buildings/zz_am_lov_nv_holding_art.txt",
+      "count": 2
+    },
+    {
+      "severity": "warning",
+      "code": "duplicate-field",
+      "message": "`max_garrison` is redefined in a following line",
+      "source": "MOD",
+      "file": "common/buildings/zz_am_lov_nv_holding_art.txt",
+      "count": 2
+    },
+    {
+      "severity": "warning",
+      "code": "duplicate-field",
+      "message": "`on_complete` is redefined in a following line",
+      "source": "MOD",
+      "file": "common/buildings/zz_am_lov_nv_holding_art.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "duplicate-field",
+      "message": "`type_icon` is redefined in a following line",
+      "source": "MOD",
+      "file": "common/buildings/zz_am_lov_nv_holding_art.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "scopes",
+      "message": "`creator_mandala_upgraded_regular_holding_piety_effect` expects scope to be province or landed title but scope seems to be character",
+      "source": "MOD",
+      "file": "common/buildings/zz_am_lov_nv_holding_art.txt",
+      "count": 2
+    },
+    {
+      "severity": "warning",
+      "code": "scopes",
+      "message": "`mandala_upgraded_temple_holding_effect` expects scope to be province or landed title but scope seems to be character",
+      "source": "MOD",
+      "file": "common/buildings/zz_am_lov_nv_holding_art.txt",
+      "count": 3
+    },
+    {
+      "severity": "warning",
+      "code": "duplicate-field",
+      "message": "`cost_gold` is redefined in a following line",
+      "source": "MOD",
+      "file": "common/buildings/zzz_landmarks_agot_special_buildings_westeros.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "duplicate-item",
+      "message": "building is redefined by another building",
+      "source": "MOD",
+      "file": "common/buildings/zzz_landmarks_agot_special_buildings_westeros.txt",
+      "count": 33
+    },
+    {
+      "severity": "warning",
+      "code": "missing-item",
+      "message": "modifier format crownlander_opinion not defined in common/modifier_definition_formats/",
+      "source": "MOD",
+      "file": "common/buildings/zzz_landmarks_agot_special_buildings_westeros.txt",
+      "count": 4
+    },
+    {
+      "severity": "warning",
+      "code": "scopes",
+      "message": "`holder` is for landed title but scope seems to be character",
+      "source": "MOD",
+      "file": "common/buildings/zzz_landmarks_agot_special_buildings_westeros.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "tooltip",
+      "message": "OR is a too complex trigger to be tooltipped in a trigger that shows failures only.",
+      "source": "MOD",
+      "file": "common/buildings/zzz_landmarks_agot_special_buildings_westeros.txt",
+      "count": 2
+    },
+    {
+      "severity": "warning",
+      "code": "duplicate-field",
+      "message": "`next_building` is redefined in a following line",
+      "source": "MOD",
+      "file": "common/buildings/zzzz_cow_agot_landmarks_special_buildings_westeros.txt",
+      "count": 2
+    },
+    {
+      "severity": "warning",
+      "code": "missing-file",
+      "message": "file gfx/interface/icons/building_types/icon_riverrun.dds does not exist",
+      "source": "MOD",
+      "file": "common/buildings/zzzz_cow_agot_landmarks_special_buildings_westeros.txt",
+      "count": 3
+    },
+    {
+      "severity": "warning",
+      "code": "deprecated",
+      "message": "should use `is_available` instead of `ai_potential`",
+      "source": "MOD",
+      "file": "common/character_interactions/00_agot_hf_revealbastards.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "tooltip",
+      "message": "OR is a too complex trigger to be tooltipped in a trigger that shows failures only.",
+      "source": "MOD",
+      "file": "common/character_interactions/00_agot_suggest_dragon_bonding_interaction.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "deprecated",
+      "message": "should use `is_available` instead of `ai_potential`",
+      "source": "MOD",
+      "file": "common/character_interactions/06_ep3_interactions.txt",
+      "count": 24
+    },
+    {
+      "severity": "warning",
+      "code": "duplicate-field",
+      "message": "`interface_priority` is redefined in a following line",
+      "source": "MOD",
+      "file": "common/character_interactions/06_ep3_interactions.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "duplicate-item",
+      "message": "character interaction is redefined by another character interaction",
+      "source": "MOD",
+      "file": "common/character_interactions/06_ep3_interactions.txt",
+      "count": 2
+    },
+    {
+      "severity": "warning",
+      "code": "scopes",
+      "message": "`main_administrative_tier` is for character but scope seems to be landed title",
+      "source": "MOD",
+      "file": "common/character_interactions/06_ep3_interactions.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "scopes",
+      "message": "`tgp_ceremonial_candidacy_restriction_trigger` expects scope to be character but scope seems to be none",
+      "source": "MOD",
+      "file": "common/character_interactions/06_ep3_interactions.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "strict-scopes",
+      "message": "`diarch_overwrites_old_designated_heir_apply_opinions_effect` expects scope:ai_recipient to be set",
+      "source": "MOD",
+      "file": "common/character_interactions/06_ep3_interactions.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "tooltip",
+      "message": "NAND is a too complex trigger to be tooltipped in a trigger that shows failures only.",
+      "source": "MOD",
+      "file": "common/character_interactions/06_ep3_interactions.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "tooltip",
+      "message": "OR is a too complex trigger to be tooltipped in a trigger that shows failures only.",
+      "source": "MOD",
+      "file": "common/character_interactions/06_ep3_interactions.txt",
+      "count": 2
+    },
+    {
+      "severity": "warning",
+      "code": "deprecated",
+      "message": "should use `is_available` instead of `ai_potential`",
+      "source": "MOD",
+      "file": "common/character_interactions/xx_baie_wl_education_interactions.txt",
+      "count": 4
+    },
+    {
+      "severity": "warning",
+      "code": "logic",
+      "message": "OR with only one item inside is probably not what you intended",
+      "source": "MOD",
+      "file": "common/character_interactions/xx_baie_wl_education_interactions.txt",
+      "count": 2
+    },
+    {
+      "severity": "warning",
+      "code": "field-missing",
+      "message": "required field `limit` missing",
+      "source": "MOD",
+      "file": "common/decisions/amsb_abdicate_decision.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "logic",
+      "message": "OR with only one item inside is probably not what you intended",
+      "source": "MOD",
+      "file": "common/decisions/amsb_bent_knees_decision.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "logic",
+      "message": "OR with only one item inside is probably not what you intended",
+      "source": "MOD",
+      "file": "common/decisions/any_new_traditions_decisions.txt",
+      "count": 11
+    },
+    {
+      "severity": "warning",
+      "code": "logic",
+      "message": "OR with only one item inside is probably not what you intended",
+      "source": "MOD",
+      "file": "common/decisions/any_vanilla_traditions_decisions.txt",
+      "count": 11
+    },
+    {
+      "severity": "warning",
+      "code": "duplicate-item",
+      "message": "decision is redefined by another decision",
+      "source": "MOD",
+      "file": "common/decisions/naval_combat_decisions.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "logic",
+      "message": "OR with only one item inside is probably not what you intended",
+      "source": "MOD",
+      "file": "common/decisions/zz_agot_voluntary_laamp_decision.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "range",
+      "message": "expected value from 0 to 256",
+      "source": "MOD",
+      "file": "common/dna_data/mari_new_dna_data.txt",
+      "count": 2
+    },
+    {
+      "severity": "warning",
+      "code": "logic",
+      "message": "OR with only one item inside is probably not what you intended",
+      "source": "MOD",
+      "file": "common/on_action/agot_on_actions/agot_starting_legitimacy_on_actions.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "strict-scopes",
+      "message": "`agot_assign_bespoke_dynasty` expects scope:title to be set",
+      "source": "MOD",
+      "file": "common/on_action/dynasty_on_actions.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "logic",
+      "message": "OR with only one item inside is probably not what you intended",
+      "source": "MOD",
+      "file": "common/on_action/title_on_actions.txt",
+      "count": 2
+    },
+    {
+      "severity": "warning",
+      "code": "scopes",
+      "message": "`house_head` is for dynasty house but scope seems to be character",
+      "source": "MOD",
+      "file": "common/on_action/title_on_actions.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "scopes",
+      "message": "`story_owner` is for story cycle but scope seems to be character",
+      "source": "MOD",
+      "file": "common/on_action/title_on_actions.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "strict-scopes",
+      "message": "`ep3_laamp_supporter_invalidated_effect` expects scope:actor to be set",
+      "source": "MOD",
+      "file": "common/on_action/title_on_actions.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "strict-scopes",
+      "message": "`ep3_laamp_supporter_invalidated_effect` expects scope:attacker to be set",
+      "source": "MOD",
+      "file": "common/on_action/title_on_actions.txt",
+      "count": 2
+    },
+    {
+      "severity": "warning",
+      "code": "duplicate-item",
+      "message": "scripted effect is redefined by another scripted effect",
+      "source": "MOD",
+      "file": "common/scripted_effects/naval_combat_effects.txt",
+      "count": 14
+    },
+    {
+      "severity": "warning",
+      "code": "scopes",
+      "message": "`scope:target` produces dynasty but expected dynasty house",
+      "source": "MOD",
+      "file": "common/scripted_effects/zz_agot_runtime_wall_banner_effect.txt",
+      "count": 10
+    },
+    {
+      "severity": "warning",
+      "code": "scopes",
+      "message": "`scope:target` produces dynasty house but expected dynasty",
+      "source": "MOD",
+      "file": "common/scripted_effects/zz_agot_runtime_wall_banner_effect.txt",
+      "count": 6
+    },
+    {
+      "severity": "warning",
+      "code": "scopes",
+      "message": "`scope:target` produces landed title but expected dynasty",
+      "source": "MOD",
+      "file": "common/scripted_effects/zz_agot_runtime_wall_banner_effect.txt",
+      "count": 8
+    },
+    {
+      "severity": "warning",
+      "code": "scopes",
+      "message": "`scope:target` produces landed title but expected dynasty house",
+      "source": "MOD",
+      "file": "common/scripted_effects/zz_agot_runtime_wall_banner_effect.txt",
+      "count": 16
+    },
+    {
+      "severity": "warning",
+      "code": "scopes",
+      "message": "var:banner_dynasty was deduced to be dynasty but scope seems to be dynasty house",
+      "source": "MOD",
+      "file": "common/scripted_effects/zz_agot_runtime_wall_banner_effect.txt",
+      "count": 6
+    },
+    {
+      "severity": "warning",
+      "code": "scopes",
+      "message": "var:banner_dynasty was deduced to be dynasty but scope seems to be landed title",
+      "source": "MOD",
+      "file": "common/scripted_effects/zz_agot_runtime_wall_banner_effect.txt",
+      "count": 8
+    },
+    {
+      "severity": "warning",
+      "code": "scopes",
+      "message": "var:banner_dynasty was deduced to be dynasty house but scope seems to be dynasty",
+      "source": "MOD",
+      "file": "common/scripted_effects/zz_agot_runtime_wall_banner_effect.txt",
+      "count": 5
+    },
+    {
+      "severity": "warning",
+      "code": "scopes",
+      "message": "var:banner_dynasty was deduced to be dynasty house but scope seems to be landed title",
+      "source": "MOD",
+      "file": "common/scripted_effects/zz_agot_runtime_wall_banner_effect.txt",
+      "count": 8
+    },
+    {
+      "severity": "warning",
+      "code": "scopes",
+      "message": "var:banner_house was deduced to be dynasty house but scope seems to be dynasty",
+      "source": "MOD",
+      "file": "common/scripted_effects/zz_agot_runtime_wall_banner_effect.txt",
+      "count": 5
+    },
+    {
+      "severity": "warning",
+      "code": "scopes",
+      "message": "var:banner_house was deduced to be dynasty house but scope seems to be landed title",
+      "source": "MOD",
+      "file": "common/scripted_effects/zz_agot_runtime_wall_banner_effect.txt",
+      "count": 8
+    },
+    {
+      "severity": "warning",
+      "code": "logic",
+      "message": "OR with only one item inside is probably not what you intended",
+      "source": "MOD",
+      "file": "common/scripted_guis/am_status_events.txt",
+      "count": 3
+    },
+    {
+      "severity": "warning",
+      "code": "logic",
+      "message": "OR with only one item inside is probably not what you intended",
+      "source": "MOD",
+      "file": "common/scripted_modifiers/00_faction_modifiers.txt",
+      "count": 5
+    },
+    {
+      "severity": "warning",
+      "code": "logic",
+      "message": "OR with only one item inside is probably not what you intended",
+      "source": "MOD",
+      "file": "common/scripted_triggers/gen_acs_st_big_switch.txt",
+      "count": 13
+    },
+    {
+      "severity": "warning",
+      "code": "scopes",
+      "message": "`any_secret_knower` is for secret but scope seems to be character",
+      "source": "MOD",
+      "file": "common/scripted_triggers/gen_acs_st_big_switch.txt",
+      "count": 2
+    },
+    {
+      "severity": "warning",
+      "code": "brace-placement",
+      "message": "possible brace error",
+      "source": "MOD",
+      "file": "events/activities/tour_activity/az_tour_events.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "logic",
+      "message": "OR with only one item inside is probably not what you intended",
+      "source": "MOD",
+      "file": "events/activities/tour_activity/az_tour_events.txt",
+      "count": 2
+    },
+    {
+      "severity": "warning",
+      "code": "scopes",
+      "message": "`exists = yes/no` does not work",
+      "source": "MOD",
+      "file": "events/activities/tour_activity/az_tour_events.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "logic",
+      "message": "OR with only one item inside is probably not what you intended",
+      "source": "MOD",
+      "file": "events/activities/tour_activity/tour_phase_cultural_festival.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "scopes",
+      "message": "`exists = yes/no` does not work",
+      "source": "MOD",
+      "file": "events/activities/tour_activity/tour_phase_cultural_festival.txt",
+      "count": 2
+    },
+    {
+      "severity": "warning",
+      "code": "scopes",
+      "message": "`real_father` is for character but scope seems to be secret",
+      "source": "MOD",
+      "file": "events/activities/tour_activity/tour_phase_host_a_dinner.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "scopes",
+      "message": "`agot_update_wildling_resistance` expects scope to be landed title but scope seems to be none",
+      "source": "MOD",
+      "file": "events/agot_events/agot_btw_maintenance_events.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "scopes",
+      "message": "`title_province` is for landed title but scope seems to be none",
+      "source": "MOD",
+      "file": "events/agot_events/agot_btw_maintenance_events.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "scopes",
+      "message": "`dynasty` produces dynasty but expected dynasty house",
+      "source": "MOD",
+      "file": "events/artifacts/artifact_events.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "scopes",
+      "message": "`side_primary_participant` is for combat side but scope seems to be character",
+      "source": "MOD",
+      "file": "events/artifacts/artifact_events.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "scopes",
+      "message": "var:banner_dynasty was deduced to be dynasty house but scope seems to be dynasty",
+      "source": "MOD",
+      "file": "events/artifacts/artifact_events.txt",
+      "count": 3
+    },
+    {
+      "severity": "warning",
+      "code": "strict-scopes",
+      "message": "`change_artifact_quality_effect` expects scope:inspiration_owner to be set",
+      "source": "MOD",
+      "file": "events/court_events/01_ep3_court_events_3.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "scopes",
+      "message": "`add_character_modifier` is for character but scope seems to be bool",
+      "source": "MOD",
+      "file": "events/dlc/ep3/ep3_laamp_events.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "scopes",
+      "message": "`add_prestige` is for character but scope seems to be bool",
+      "source": "MOD",
+      "file": "events/dlc/ep3/ep3_laamp_events.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "scopes",
+      "message": "`adventurer_prestige_reset_effect` expects scope to be character but scope seems to be bool",
+      "source": "MOD",
+      "file": "events/dlc/ep3/ep3_laamp_events.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "scopes",
+      "message": "`capital_province` is for character but scope seems to be bool",
+      "source": "MOD",
+      "file": "events/dlc/ep3/ep3_laamp_events.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "scopes",
+      "message": "`create_landless_adventurer_title_effect` expects root to be character but root seems to be bool",
+      "source": "MOD",
+      "file": "events/dlc/ep3/ep3_laamp_events.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "scopes",
+      "message": "`create_landless_adventurer_title_effect` expects scope to be character but scope seems to be bool",
+      "source": "MOD",
+      "file": "events/dlc/ep3/ep3_laamp_events.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "scopes",
+      "message": "`create_landless_adventurer_title_tooltip_effect` expects scope to be character but scope seems to be bool",
+      "source": "MOD",
+      "file": "events/dlc/ep3/ep3_laamp_events.txt",
+      "count": 2
+    },
+    {
+      "severity": "warning",
+      "code": "scopes",
+      "message": "`destroy_title` is for character but scope seems to be bool",
+      "source": "MOD",
+      "file": "events/dlc/ep3/ep3_laamp_events.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "scopes",
+      "message": "`every_held_title` is for character but scope seems to be bool",
+      "source": "MOD",
+      "file": "events/dlc/ep3/ep3_laamp_events.txt",
+      "count": 2
+    },
+    {
+      "severity": "warning",
+      "code": "scopes",
+      "message": "`liege` is for character but scope seems to be bool",
+      "source": "MOD",
+      "file": "events/dlc/ep3/ep3_laamp_events.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "scopes",
+      "message": "`play_music_cue` is for character but scope seems to be bool",
+      "source": "MOD",
+      "file": "events/dlc/ep3/ep3_laamp_events.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "scopes",
+      "message": "`primary_title` is for character but scope seems to be bool",
+      "source": "MOD",
+      "file": "events/dlc/ep3/ep3_laamp_events.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "scopes",
+      "message": "`root` produces bool but expected character",
+      "source": "MOD",
+      "file": "events/dlc/ep3/ep3_laamp_events.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "scopes",
+      "message": "`scope:adventurer` produces bool but expected character",
+      "source": "MOD",
+      "file": "events/dlc/ep3/ep3_laamp_events.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "scopes",
+      "message": "`this` produces bool but expected character",
+      "source": "MOD",
+      "file": "events/dlc/ep3/ep3_laamp_events.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "scopes",
+      "message": "`top_liege` is for character but scope seems to be bool",
+      "source": "MOD",
+      "file": "events/dlc/ep3/ep3_laamp_events.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "strict-scopes",
+      "message": "`artifact_can_be_gift_to_trigger` expects scope:guide to be set",
+      "source": "MOD",
+      "file": "events/dlc/ep3/ep3_laamp_events.txt",
+      "count": 2
+    },
+    {
+      "severity": "warning",
+      "code": "strict-scopes",
+      "message": "`create_artifact_weapon_effect` expects scope:artifact to be set",
+      "source": "MOD",
+      "file": "events/dlc/ep3/ep3_laamp_events.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "strict-scopes",
+      "message": "`create_landless_adventurer_title_effect` expects scope:host to be set",
+      "source": "MOD",
+      "file": "events/dlc/ep3/ep3_laamp_events.txt",
+      "count": 18
+    },
+    {
+      "severity": "warning",
+      "code": "strict-scopes",
+      "message": "`negotiate_settlement_interaction_effect` expects scope:defender to be set",
+      "source": "MOD",
+      "file": "events/dlc/ep3/ep3_laamp_events.txt",
+      "count": 3
+    },
+    {
+      "severity": "warning",
+      "code": "strict-scopes",
+      "message": "`purchase_land_interaction_effect` expects scope:defender to be set",
+      "source": "MOD",
+      "file": "events/dlc/ep3/ep3_laamp_events.txt",
+      "count": 3
+    },
+    {
+      "severity": "warning",
+      "code": "logic",
+      "message": "OR with only one item inside is probably not what you intended",
+      "source": "MOD",
+      "file": "events/dlc/mpo/mpo_nomads_flavour_events.txt",
+      "count": 2
+    },
+    {
+      "severity": "warning",
+      "code": "duplicate-field",
+      "message": "multiple unconditional desc in one first_valid",
+      "source": "MOD",
+      "file": "events/health_events.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "scopes",
+      "message": "`exists = yes/no` does not work",
+      "source": "MOD",
+      "file": "events/health_events.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "scopes",
+      "message": "unknown scope type",
+      "source": "MOD",
+      "file": "events/lot_ai_events.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "missing-item",
+      "message": "portrait animation personality_angry not defined in gfx/portraits/portrait_animations/",
+      "source": "MOD",
+      "file": "events/naval_combat_events.txt",
+      "count": 11
+    },
+    {
+      "severity": "warning",
+      "code": "missing-item",
+      "message": "portrait animation personality_suspicious not defined in gfx/portraits/portrait_animations/",
+      "source": "MOD",
+      "file": "events/naval_combat_events.txt",
+      "count": 3
+    },
+    {
+      "severity": "warning",
+      "code": "missing-item",
+      "message": "event background rk_atop_the_wall not defined in common/event_backgrounds/",
+      "source": "MOD",
+      "file": "events/red_keep_title_events.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "missing-item",
+      "message": "event background rk_castle_black_1 not defined in common/event_backgrounds/",
+      "source": "MOD",
+      "file": "events/red_keep_title_events.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "missing-item",
+      "message": "event background rk_dyre_den not defined in common/event_backgrounds/",
+      "source": "MOD",
+      "file": "events/red_keep_title_events.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "missing-item",
+      "message": "event background rk_dyredenhall not defined in common/event_backgrounds/",
+      "source": "MOD",
+      "file": "events/red_keep_title_events.txt",
+      "count": 5
+    },
+    {
+      "severity": "warning",
+      "code": "missing-item",
+      "message": "event background rk_hands_room not defined in common/event_backgrounds/",
+      "source": "MOD",
+      "file": "events/red_keep_title_events.txt",
+      "count": 11
+    },
+    {
+      "severity": "warning",
+      "code": "missing-item",
+      "message": "event background rk_the_wall_arrival not defined in common/event_backgrounds/",
+      "source": "MOD",
+      "file": "events/red_keep_title_events.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "missing-item",
+      "message": "event background rk_village_wheat not defined in common/event_backgrounds/",
+      "source": "MOD",
+      "file": "events/red_keep_title_events.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "missing-item",
+      "message": "event theme rk_red_keep not defined in common/event_themes/",
+      "source": "MOD",
+      "file": "events/red_keep_title_events.txt",
+      "count": 18
+    },
+    {
+      "severity": "warning",
+      "code": "logic",
+      "message": "OR with only one item inside is probably not what you intended",
+      "source": "MOD",
+      "file": "events/travel_events/travel_events_james.txt",
+      "count": 2
+    },
+    {
+      "severity": "warning",
+      "code": "logic",
+      "message": "running `random_list` inside `send_interface_toast` does not work right",
+      "source": "MOD",
+      "file": "events/travel_events/travel_events_james.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "scopes",
+      "message": "`dynasty` is for character but scope seems to be dynasty house",
+      "source": "MOD",
+      "file": "events/uhb_court_maintenance.txt",
+      "count": 2
+    },
+    {
+      "severity": "warning",
+      "code": "logic",
+      "message": "OR with only one item inside is probably not what you intended",
+      "source": "MOD",
+      "file": "gfx/court_scene/scene_cultures/00_default_cultures.txt",
+      "count": 2
+    },
+    {
+      "severity": "warning",
+      "code": "logic",
+      "message": "OR with only one item inside is probably not what you intended",
+      "source": "MOD",
+      "file": "gfx/interface/illustrations/scripted_illustrations/ingame.txt",
+      "count": 41
+    },
+    {
+      "severity": "warning",
+      "code": "missing-file",
+      "message": "file gfx/interface/illustrations/event_scenes/CastleBlack/asoiaf_throneroom_castleblack.dds does not exist",
+      "source": "MOD",
+      "file": "gfx/interface/illustrations/scripted_illustrations/ingame.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "missing-file",
+      "message": "file gfx/interface/illustrations/event_scenes/Citadel/asoiaf_throneroom_citadel.dds does not exist",
+      "source": "MOD",
+      "file": "gfx/interface/illustrations/scripted_illustrations/ingame.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "missing-file",
+      "message": "file gfx/interface/illustrations/event_scenes/Dragonstone/asoiaf_throneroom_dragonstone.dds does not exist",
+      "source": "MOD",
+      "file": "gfx/interface/illustrations/scripted_illustrations/ingame.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "missing-file",
+      "message": "file gfx/interface/illustrations/event_scenes/Eyrie/asoiaf_throneroom_eyrie.dds does not exist",
+      "source": "MOD",
+      "file": "gfx/interface/illustrations/scripted_illustrations/ingame.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "missing-file",
+      "message": "file gfx/interface/illustrations/event_scenes/Highpoint/asoiaf_throneroom_highpoint.dds does not exist",
+      "source": "MOD",
+      "file": "gfx/interface/illustrations/scripted_illustrations/ingame.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "missing-file",
+      "message": "file gfx/interface/illustrations/event_scenes/Ironrath/asoiaf_throneroom_ironrath.dds does not exist",
+      "source": "MOD",
+      "file": "gfx/interface/illustrations/scripted_illustrations/ingame.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "missing-file",
+      "message": "file gfx/interface/illustrations/event_scenes/Riverrun/asoiaf_throneroom_riverrun.dds does not exist",
+      "source": "MOD",
+      "file": "gfx/interface/illustrations/scripted_illustrations/ingame.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "missing-file",
+      "message": "file gfx/interface/illustrations/event_scenes/SeptofBaelor/asoiaf_throneroom_sept_of_baelor.dds does not exist",
+      "source": "MOD",
+      "file": "gfx/interface/illustrations/scripted_illustrations/ingame.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "missing-file",
+      "message": "file gfx/interface/illustrations/event_scenes/StormsEnd/asoiaf_throneroom_storms_end.dds does not exist",
+      "source": "MOD",
+      "file": "gfx/interface/illustrations/scripted_illustrations/ingame.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "missing-file",
+      "message": "file gfx/interface/illustrations/event_scenes/Sunspear/asoiaf_throneroom_sunspear.dds does not exist",
+      "source": "MOD",
+      "file": "gfx/interface/illustrations/scripted_illustrations/ingame.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "missing-file",
+      "message": "file gfx/interface/illustrations/event_scenes/Winterfell/asoiaf_throneroom_winterfell.dds does not exist",
+      "source": "MOD",
+      "file": "gfx/interface/illustrations/scripted_illustrations/ingame.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "missing-file",
+      "message": "file gfx/interface/illustrations/event_scenes/ep2_events_generic_hunt.dds does not exist",
+      "source": "MOD",
+      "file": "gfx/interface/illustrations/scripted_illustrations/ingame.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "missing-file",
+      "message": "file gfx/interface/illustrations/event_scenes/ironthrone/agot_throneroom_ironthrone.dds does not exist",
+      "source": "MOD",
+      "file": "gfx/interface/illustrations/scripted_illustrations/ingame.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "missing-item",
+      "message": "portrait environment character_view_main not defined in gfx/portraits/environments/",
+      "source": "MOD",
+      "file": "gfx/interface/illustrations/scripted_illustrations/ingame.txt",
+      "count": 2
+    },
+    {
+      "severity": "warning",
+      "code": "missing-item",
+      "message": "portrait environment character_view_spouse not defined in gfx/portraits/environments/",
+      "source": "MOD",
+      "file": "gfx/interface/illustrations/scripted_illustrations/ingame.txt",
+      "count": 2
+    },
+    {
+      "severity": "warning",
+      "code": "missing-item",
+      "message": "portrait environment tgp_camp_asia not defined in gfx/portraits/environments/",
+      "source": "MOD",
+      "file": "gfx/interface/illustrations/scripted_illustrations/ingame.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "missing-item",
+      "message": "portrait environment tgp_farm_asia not defined in gfx/portraits/environments/",
+      "source": "MOD",
+      "file": "gfx/interface/illustrations/scripted_illustrations/ingame.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "scopes",
+      "message": "`geographical_region` is for province but scope seems to be character",
+      "source": "MOD",
+      "file": "gfx/interface/illustrations/scripted_illustrations/ingame.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "scopes",
+      "message": "`has_graphical_african_culture_group_trigger` expects scope to be culture but scope seems to be character",
+      "source": "MOD",
+      "file": "gfx/interface/illustrations/scripted_illustrations/ingame.txt",
+      "count": 4
+    },
+    {
+      "severity": "warning",
+      "code": "scopes",
+      "message": "`has_graphical_steppe_culture_group_trigger` expects scope to be culture but scope seems to be character",
+      "source": "MOD",
+      "file": "gfx/interface/illustrations/scripted_illustrations/ingame.txt",
+      "count": 4
+    },
+    {
+      "severity": "tips",
+      "code": "performance",
+      "message": "AND with only one item inside is useless",
+      "source": "AGOT",
+      "file": "common/scripted_triggers/00_illustration_triggers.txt",
+      "count": 2
+    },
+    {
+      "severity": "tips",
+      "code": "tooltip",
+      "message": "could rewrite this as `title:c_moat_cailin = { is_title_created = yes }`",
+      "source": "MOD",
+      "file": "common/buildings/zzz_landmarks_agot_special_buildings_westeros.txt",
+      "count": 1
+    },
+    {
+      "severity": "tips",
+      "code": "tooltip",
+      "message": "could rewrite this as `title:d_kingsguard = { is_title_created = yes }`",
+      "source": "MOD",
+      "file": "common/buildings/zzzz_cow_agot_landmarks_special_buildings_westeros.txt",
+      "count": 2
+    },
+    {
+      "severity": "tips",
+      "code": "performance",
+      "message": "AND with only one item inside is useless",
+      "source": "MOD",
+      "file": "common/character_interactions/xx_baie_wl_education_interactions.txt",
+      "count": 1
+    },
+    {
+      "severity": "tips",
+      "code": "if-else",
+      "message": "`else` with a `limit` does work, but may indicate a mistake",
+      "source": "MOD",
+      "file": "common/scripted_effects/00_agot_hf_effects.txt",
+      "count": 2
+    },
+    {
+      "severity": "tips",
+      "code": "performance",
+      "message": "AND with only one item inside is useless",
+      "source": "MOD",
+      "file": "common/scripted_modifiers/00_marriage_scripted_modifiers.txt",
+      "count": 1
+    },
+    {
+      "severity": "tips",
+      "code": "performance",
+      "message": "AND with only one item inside is useless",
+      "source": "MOD",
+      "file": "common/scripted_triggers/gen_acs_st_big_switch.txt",
+      "count": 5
+    },
+    {
+      "severity": "tips",
+      "code": "suggest-localization",
+      "message": "you can define localization `TRAIT_FLAG_DESC_age_related_ailment`",
+      "source": "MOD",
+      "file": "common/traits/zz_deadly_agot_runtime_infirm.txt",
+      "count": 1
+    },
+    {
+      "severity": "tips",
+      "code": "suggest-localization",
+      "message": "you can define localization `TRAIT_FLAG_DESC_infirm_random_xp_gain`",
+      "source": "MOD",
+      "file": "common/traits/zz_deadly_agot_runtime_infirm.txt",
+      "count": 1
+    },
+    {
+      "severity": "tips",
+      "code": "suggest-localization",
+      "message": "you can define localization `TRAIT_FLAG_DESC_is_healthy_trigger_flag`",
+      "source": "MOD",
+      "file": "common/traits/zz_deadly_agot_runtime_infirm.txt",
+      "count": 1
+    },
+    {
+      "severity": "tips",
+      "code": "performance",
+      "message": "AND with only one item inside is useless",
+      "source": "MOD",
+      "file": "events/health_events.txt",
+      "count": 1
+    },
+    {
+      "severity": "tips",
+      "code": "performance",
+      "message": "AND with only one item inside is useless",
+      "source": "MOD",
+      "file": "events/travel_events/travel_events_james.txt",
+      "count": 2
+    },
+    {
+      "severity": "tips",
+      "code": "performance",
+      "message": "AND with only one item inside is useless",
+      "source": "MOD",
+      "file": "gfx/interface/illustrations/scripted_illustrations/ingame.txt",
+      "count": 3
+    }
+  ]
+}

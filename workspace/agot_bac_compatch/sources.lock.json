@@ -1,0 +1,21 @@
+{
+  "schemaVersion": 1,
+  "files": {
+    "game/game/gui/multiplayer_types.gui": {
+      "sha256": "93912d008d2362955470e7f42029280c41e3e316e28d8d1055ee09dfbe8bc3a3",
+      "size": 56911
+    },
+    "workshop/2962333032/gui/custom_gui/agot_multiplayer_types.gui": {
+      "sha256": "2328def2571f0987b7545b78ee0f3a479e6222ebd9ac10f59a953ac07f532f4f",
+      "size": 1329
+    },
+    "workshop/2962333032/gui/multiplayer_types.gui": {
+      "sha256": "b1e236e7597760ab980983c6c91e4579e79b44e4b8c73aefb9ce93f3d37ceca0",
+      "size": 59717
+    },
+    "workshop/3730686405/gui/multiplayer_types.gui": {
+      "sha256": "687f1e36ba1312230109c06f8f21c3fe5ced3bd1e4d637ba21e8553240afe54d",
+      "size": 59308
+    }
+  }
+}

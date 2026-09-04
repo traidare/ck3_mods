@@ -3,8 +3,6 @@
 
 from __future__ import annotations
 
-from pathlib import Path
-
 from gen import GenerationContext
 from gen.text import (
     definition_span,

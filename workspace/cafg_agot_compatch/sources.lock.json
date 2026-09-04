@@ -1,0 +1,185 @@
+{
+  "schemaVersion": 1,
+  "files": {
+    "game/game/events/activities/hold_court_activity/hold_court_events_general.txt": {
+      "sha256": "f65ae8cd578043c145a16b7034a773a20a5137e7690cc4d190f4e52a2aded1c8",
+      "size": 619616
+    },
+    "game/game/events/activities/tournaments/contest_events.txt": {
+      "sha256": "df1040fbcb1b471e063b64c23217669e489737395422632a27a8bbea1fa1ba6a",
+      "size": 357781
+    },
+    "game/game/events/culture_events/culture_emergence_events.txt": {
+      "sha256": "60693989d8e8dd2d1b5f900a309cf439fb6817863d7ab7dc668299751cc97624",
+      "size": 36419
+    },
+    "game/game/events/decisions_events/ce1_decision_events.txt": {
+      "sha256": "80e9cc6c4d2b8dca8d7c1352b233c3c18cd11d8087d8af13ac4019e722bd3303",
+      "size": 19754
+    },
+    "game/game/events/dlc/bp2/bp2_yearly_events_6.txt": {
+      "sha256": "70004ce71ad4ec7fc162188b5bf08868d3e62fa3008958262db40d57b91290d1",
+      "size": 332278
+    },
+    "game/game/events/dlc/ce1/epidemic_events.txt": {
+      "sha256": "fef2972bd4f778818cd3a414c337d036f5132c1598febab0e2623e0252db7a1e",
+      "size": 207042
+    },
+    "game/game/events/dlc/fp3/fp3_misc_decision_events.txt": {
+      "sha256": "cad3b2134da0ffd9c8b4b23e4248a1aceb12e7bde992dfd20361e1dd8c22490e",
+      "size": 77000
+    },
+    "game/game/events/global_religion_events.txt": {
+      "sha256": "b8c21375d7ff75e52d9a42cc5d10639f6f5aca513b4e08f0a7ab4880962a285e",
+      "size": 29978
+    },
+    "game/game/events/lifestyles/governance_lifestyle/stewardship_domain_events.txt": {
+      "sha256": "cca816f7bbef9eb593cb7cb626ad4779cc43a8f2b0088023f0a4a8246b27495e",
+      "size": 245532
+    },
+    "game/game/events/religion_events/faith_conversion_events.txt": {
+      "sha256": "b7b925887a7fc25e514bc66a2799b945944bc5a6af261fa42c61d4856e1d2e55",
+      "size": 11898
+    },
+    "game/game/events/religion_events/false_conversion_events.txt": {
+      "sha256": "fc79f108eb7baabb625cadc8c8687b34e4bf2faeda62454413df71b711dba4ed",
+      "size": 40386
+    },
+    "workshop/2962333032/events/activities/hold_court_activity/hold_court_events_general.txt": {
+      "sha256": "6daa5fdc917efe99afb524b2cfa55b6535b140ef987d18c924313e2fd018dba1",
+      "size": 628926
+    },
+    "workshop/2962333032/events/activities/tournaments/contest_events.txt": {
+      "sha256": "b52fde29e536f1fbdc3b164d465ee1af4f31abd1a0edbf4177b988fad2103c0e",
+      "size": 364312
+    },
+    "workshop/2962333032/events/culture_events/culture_emergence_events.txt": {
+      "sha256": "c42a4457a65c8eb74333f98734278da61ee3b9c640cba00438ff6561b9f3f69b",
+      "size": 39738
+    },
+    "workshop/2962333032/events/decisions_events/ce1_decision_events.txt": {
+      "sha256": "1509d84a30b67653c87e18c60400a7ab34d093d8f18efcf763ded14fe40fa676",
+      "size": 19920
+    },
+    "workshop/2962333032/events/dlc/bp2/bp2_yearly_events_6.txt": {
+      "sha256": "3c5f9f71718d82be78a5194b5ebc15e0600abd3ff06f21f30f55e6be965b2060",
+      "size": 333063
+    },
+    "workshop/2962333032/events/dlc/ce1/epidemic_events.txt": {
+      "sha256": "7b99d42032ef7a44452a777a6159e78bf258e01d1cd0bd64f9056615af19f7ab",
+      "size": 213890
+    },
+    "workshop/2962333032/events/dlc/fp3/fp3_misc_decision_events.txt": {
+      "sha256": "aac0de16343d9b6dd74d22fdee4143788b04386796550167bf10bab318344c49",
+      "size": 77651
+    },
+    "workshop/2962333032/events/global_religion_events.txt": {
+      "sha256": "8c158ec48a296e806b9f020d0234b16640f793dbabd67fac45cec0af43453be0",
+      "size": 32687
+    },
+    "workshop/2962333032/events/lifestyles/governance_lifestyle/stewardship_domain_events.txt": {
+      "sha256": "6dffc517f82dfd3918d7909cf6fc5c67abbaa8c817bf82a457ac8dc585c0374b",
+      "size": 249593
+    },
+    "workshop/2962333032/events/religion_events/faith_conversion_events.txt": {
+      "sha256": "bcd583cbace5452e6975aa851c2e52e204ccc326d2f8ee877b543fdbd3b3107c",
+      "size": 13737
+    },
+    "workshop/2962333032/events/religion_events/false_conversion_events.txt": {
+      "sha256": "c57615938b12de2233ae8f77ec1d3cdf7e8d6167477306d2ad2c3ff89c294863",
+      "size": 40511
+    },
+    "workshop/2962333032/gui/window_county_view.gui": {
+      "sha256": "309c9fcb45748f46a8b12fac47ac48b0f2d64f9e59e4f8dae516ddf34717c640",
+      "size": 109458
+    },
+    "workshop/3206891770/common/casus_belli_types/99_kei_cafg_replaced_fp3_wars.txt": {
+      "sha256": "0e2063f129e5ea6640bac4e22f1ae641a8131a05d6ae39846b3ff39d3cf4a0c4",
+      "size": 8635
+    },
+    "workshop/3206891770/common/decisions/99_kei_cafg_replaced_major_decisions_middle_east.txt": {
+      "sha256": "137a6796d5c5da0950faeed95644b07aecac9ffc5bdc5b6ca9b86a4cc05ef3b4",
+      "size": 3250
+    },
+    "workshop/3206891770/common/decisions/dlc_decisions/fp_3/99_kei_cafg_replaced_fp3_decisions.txt": {
+      "sha256": "8f7090057f6630cf259a53ab36fcea53b80ee8ed0e4f03ba7b7ea7a23a956872",
+      "size": 13905
+    },
+    "workshop/3206891770/common/script_values/kei_cafg_cultural_benefits_values.txt": {
+      "sha256": "fcae3af8f0447729a48033c0d7510f473ee2078441e45c006b8a7061c155fc3f",
+      "size": 3549
+    },
+    "workshop/3206891770/common/scripted_effects/99_kei_cafg_replaced_decisions_effects.txt": {
+      "sha256": "86d58fa8dfcd7347cc9010898523801f5e7316c71b933fa5152ff0143c1e9416",
+      "size": 31514
+    },
+    "workshop/3206891770/common/scripted_effects/99_kei_cafg_replaced_dlc_fp3_scripted_effects.txt": {
+      "sha256": "30e6fe81b0df2725a46708ebdd56e317c5ebe1fcf8c6a789bab92843541fb6e9",
+      "size": 17986
+    },
+    "workshop/3206891770/common/scripted_effects/kei_cafg_cultural_benefits_effects.txt": {
+      "sha256": "2ef9b4f4ab1c636a0271d6e961f57f830569fdd3e2bca0688a3fb141f8040728",
+      "size": 47609
+    },
+    "workshop/3206891770/common/scripted_effects/kei_cafg_cultural_boons_effects.txt": {
+      "sha256": "ee8c6ac9e244c0d189407e5d67033c489b5ca45c544869e226306e9de114963f",
+      "size": 78436
+    },
+    "workshop/3206891770/common/scripted_triggers/kei_cafg_culture_laws_triggers.txt": {
+      "sha256": "a34ec514172159f23ae7b205f0143c1d0084ae03c098e501753fe9e2551d56b2",
+      "size": 8324
+    },
+    "workshop/3206891770/common/scripted_triggers/kei_cafg_faith_laws_triggers.txt": {
+      "sha256": "5cf82f262852eb74ac507aad64e02be42c4b6e0756ed8ba784795d81514307b5",
+      "size": 8609
+    },
+    "workshop/3206891770/events/activities/hold_court_activity/hold_court_events_general.txt": {
+      "sha256": "76abe70441a86c8e8cf70c836cb534f1c062598cae6dbeff06c59e86741572ff",
+      "size": 619837
+    },
+    "workshop/3206891770/events/activities/tournaments/contest_events.txt": {
+      "sha256": "22bddf3d562a04bc3a43c759d92a4e5df61d6792ae2537d7eeeca18a7880008f",
+      "size": 357920
+    },
+    "workshop/3206891770/events/culture_events/culture_emergence_events.txt": {
+      "sha256": "54f409bfdc4bb3a703627efbcb83af56faf0e7522c84e77e05e0dbf679b65e1d",
+      "size": 36646
+    },
+    "workshop/3206891770/events/decisions_events/ce1_decision_events.txt": {
+      "sha256": "4f18b960d86e1190856e990edd26f03d75909c7cb10694d9e951f7cd97401cc5",
+      "size": 19824
+    },
+    "workshop/3206891770/events/dlc/bp2/bp2_yearly_events_6.txt": {
+      "sha256": "97fa5c768eff800d1029e79c22137bdd601c2e14cabfe690883737c35b621fb9",
+      "size": 332501
+    },
+    "workshop/3206891770/events/dlc/ce1/epidemic_events.txt": {
+      "sha256": "f99ed747770e668c8dcccafddfcc2801c82f45624534788ef9c299f0d113dd04",
+      "size": 207150
+    },
+    "workshop/3206891770/events/dlc/fp3/fp3_misc_decision_events.txt": {
+      "sha256": "5e42bc87fc9d6d05edd27b9bca2d2db633841d0c477bb89a08a179ff1beca36e",
+      "size": 75678
+    },
+    "workshop/3206891770/events/global_religion_events.txt": {
+      "sha256": "5f6a01037cffbbd203d5d4180fff2ce2d32ecebb87800e5c67f5904809fc03d1",
+      "size": 31096
+    },
+    "workshop/3206891770/events/lifestyles/governance_lifestyle/stewardship_domain_events.txt": {
+      "sha256": "14e8561272b62b06c8344d6625432ff3eb413dc30af89f6cde535b3e577d485e",
+      "size": 245654
+    },
+    "workshop/3206891770/events/religion_events/faith_conversion_events.txt": {
+      "sha256": "6ef31170b4961a8d0ed1ba8e226bd3dab955e4366138848394d1489f7c90b0f3",
+      "size": 12149
+    },
+    "workshop/3206891770/events/religion_events/false_conversion_events.txt": {
+      "sha256": "76f6144f716e8874f881e65623e03db1fce4f8491fbd267fa50621faed0385c2",
+      "size": 41130
+    },
+    "workshop/3206891770/gui/kei_cafg_county_view_additions.gui": {
+      "sha256": "c878eb2177d66a7033d4c24ee30ebe506e0be00ff0e41c55c1b01bbe14b681e3",
+      "size": 4466
+    }
+  }
+}
