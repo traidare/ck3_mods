@@ -11,8 +11,6 @@ genuine cross-mod overlaps that need a single deliberate winner.
 - Legacy of Valyria's tournament guards, Much Faster Activities' cooldown, and
   Culture and Faith Granularity's granular county-faith conversion in the same
   tournament events.
-- Culture and Faith Granularity's county and province controls with Legacy of
-  Valyria's ruin restoration in the county view.
 - Special-building model detection from AGOT, Additional Models, and Crowns of
   Westeros, with Nobility of Westeros' Dunstonbury and Sisterton province
   remaps, while keeping Legacy of Valyria's later graphical backgrounds.
@@ -80,9 +78,3 @@ compatch. Keep the integration layers in this order:
 24. `AGOT - Stricter Excommunication Requests`
 25. `AGOT Playset Runtime Fixes`
 26. `AGOT Playset Compatch`
-
-Disable these superseded compatch mods:
-
-- `COW-AGOT: Nobility of Westeros Compatch`
-- `TEMPORARY Seasons of Valyria - LoV & Seasons REBASED Compatch`
-- `Legacy of Valyria - AGOT 0.5.1 Compatch (Beta)`

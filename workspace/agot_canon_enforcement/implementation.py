@@ -492,32 +492,6 @@ def build_taming_audit(
     )
 
 
-@dataclass(frozen=True, slots=True)
-class RunInputs:
-    COMMANDER_PHASE_EVENTS: Path
-    NATURAL_DISASTER_EFFECTS: Path
-    TOURNAMENT_EFFECTS: Path
-    CANON_CHILDREN_MODIFIERS: Path
-    DUEL_PHASE_EVENTS: tuple[tuple[str, Path], ...]
-    DRAGON_HISTORY: Path
-    CHARACTER_HISTORY: Path
-    CANON_DRAGON_TRIGGERS: Path
-    CANON_DRAGON_TRAIT_TRIGGERS: Path
-    CHARACTER_INIT_EFFECTS: Path
-    HISTORICAL_CHARACTER_EFFECTS: Path
-    DRAGON_EFFECTS: Path
-    DRAGON_TRIGGERS: Path
-    DRAGON_TAMING_EVENTS: Path
-    CHILDHOOD_ON_ACTIONS: Path
-    GAME_START_ON_ACTIONS: Path
-    COMMANDER_OUTPUT: Path
-    DISASTER_OUTPUT: Path
-    TOURNAMENT_OUTPUT: Path
-    CANON_TRIGGER_OUTPUT: Path
-    CANON_EVENT_OUTPUT: Path
-    CANON_AUDIT_OUTPUT: Path
-
-
 def extract(text: str, name: str) -> str:
     start, end = definition_span(text, name)
     return text[start:end]
@@ -572,13 +546,14 @@ def write_output(path: Path, content: str, newline: str) -> None:
     path.write_text(content, encoding="utf-8-sig", newline="")
 
 
-def main(inputs: RunInputs) -> None:
+def generate(context: GenerationContext) -> None:
     assert_contains(
-        read_source(inputs.CANON_CHILDREN_MODIFIERS),
+        read_source(context.source("canon-children-modifiers")),
         f"{CANON_CHILDREN_MODIFIER} = {{",
         "AGOT: Canon Children EZ Mode health boost modifier",
     )
-    for name, path in inputs.DUEL_PHASE_EVENTS:
+    for name in DUEL_SOURCES:
+        path = context.source(name)
         assert_contains(
             extract(
                 normalize_newlines(read_source(path), "\n"),
@@ -588,27 +563,33 @@ def main(inputs: RunInputs) -> None:
             f"{name} commander duel cooldown gate",
         )
 
-    commander_raw = read_source(inputs.COMMANDER_PHASE_EVENTS)
-    disaster_raw = read_source(inputs.NATURAL_DISASTER_EFFECTS)
-    tournament_raw = read_source(inputs.TOURNAMENT_EFFECTS)
+    commander_raw = read_source(context.source("agot-commander-phase-events"))
+    disaster_raw = read_source(context.source("agot-natural-disaster-effects"))
+    tournament_raw = read_source(context.source("agot-tournament-effects"))
 
     write_output(
-        inputs.COMMANDER_OUTPUT,
+        context.output_path(
+            "common/combat_phase_events/zzzz_agot_ce_commander_phase_events.txt"
+        ),
         build_commander_killed(normalize_newlines(commander_raw, "\n")),
         newline_style(commander_raw),
     )
     write_output(
-        inputs.DISASTER_OUTPUT,
+        context.output_path(
+            "common/scripted_effects/zzzz_agot_ce_natural_disaster_effects.txt"
+        ),
         build_natural_disaster(normalize_newlines(disaster_raw, "\n")),
         newline_style(disaster_raw),
     )
     write_output(
-        inputs.TOURNAMENT_OUTPUT,
+        context.output_path(
+            "common/scripted_effects/zzzz_agot_ce_tournament_effects.txt"
+        ),
         build_tournament_accident(normalize_newlines(tournament_raw, "\n")),
         newline_style(tournament_raw),
     )
 
-    records = generate_canon_dragon_tamings(inputs)
+    records = generate_canon_dragon_tamings(context)
     print(
         "Generated canon enforcement: commander_killed, the natural disaster death "
         "roll and the tournament accident now skip protected characters; "
@@ -617,34 +598,42 @@ def main(inputs: RunInputs) -> None:
     )
 
 
-def assert_canon_dispatch_unchanged(inputs: RunInputs) -> None:
+def assert_canon_dispatch_unchanged(context: GenerationContext) -> None:
     """Pin the AGOT behaviour the generated fallback is defined against."""
     tame_effect = extract_top_level(
-        normalize_newlines(read_source(inputs.DRAGON_EFFECTS), "\n"), TAME_EFFECT
+        normalize_newlines(read_source(context.source("agot-dragon-effects")), "\n"),
+        TAME_EFFECT,
     )
     for parameter in TAME_EFFECT_PARAMETERS:
         assert_contains(tame_effect, parameter, f"AGOT {TAME_EFFECT} parameters")
 
     pit_trigger = extract_top_level(
-        normalize_newlines(read_source(inputs.DRAGON_TRIGGERS), "\n"), PIT_TRIGGER
+        normalize_newlines(read_source(context.source("agot-dragon-triggers")), "\n"),
+        PIT_TRIGGER,
     )
     for parameter in PIT_TRIGGER_PARAMETERS:
         assert_contains(pit_trigger, parameter, f"AGOT {PIT_TRIGGER} parameters")
 
     dispatch = extract_top_level(
-        normalize_newlines(read_source(inputs.DRAGON_TAMING_EVENTS), "\n"),
+        normalize_newlines(
+            read_source(context.source("agot-dragon-taming-events")), "\n"
+        ),
         CANON_DISPATCH_EVENT,
     )
     for marker in (TAME_EFFECT, LIVING_DRAGONS_LIST, "agot_is_canon_rider_dragon_pair"):
         assert_contains(dispatch, marker, f"AGOT {CANON_DISPATCH_EVENT}")
 
     birthday = extract_top_level(
-        normalize_newlines(read_source(inputs.CHILDHOOD_ON_ACTIONS), "\n"),
+        normalize_newlines(
+            read_source(context.source("agot-childhood-on-actions")), "\n"
+        ),
         CANON_BIRTHDAY_ACTION,
     )
     assert_contains(birthday, CANON_DISPATCH_EVENT, f"AGOT {CANON_BIRTHDAY_ACTION}")
 
-    game_start = normalize_newlines(read_source(inputs.GAME_START_ON_ACTIONS), "\n")
+    game_start = normalize_newlines(
+        read_source(context.source("agot-game-start-on-actions")), "\n"
+    )
     start_dispatch = game_start.find(CANON_DISPATCH_EVENT)
     if start_dispatch < 0:
         raise ValueError(
@@ -660,7 +649,9 @@ def assert_canon_dispatch_unchanged(inputs: RunInputs) -> None:
             f"`{CANON_GAME_START_AGE_GATE}`; re-audit which riders it now reaches"
         )
 
-    dragon_effects = normalize_newlines(read_source(inputs.DRAGON_EFFECTS), "\n")
+    dragon_effects = normalize_newlines(
+        read_source(context.source("agot-dragon-effects")), "\n"
+    )
     assert_contains(
         extract_top_level(dragon_effects, "agot_dragons_on_start_effect"),
         f"name = {LIVING_DRAGONS_LIST}",
@@ -668,75 +659,48 @@ def assert_canon_dispatch_unchanged(inputs: RunInputs) -> None:
     )
 
 
-def generate_canon_dragon_tamings(inputs: RunInputs) -> tuple[TamingRecord, ...]:
+def generate_canon_dragon_tamings(
+    context: GenerationContext,
+) -> tuple[TamingRecord, ...]:
     """Emit the date-gated fallback and its audit from AGOT's static records."""
-    assert_canon_dispatch_unchanged(inputs)
+    assert_canon_dispatch_unchanged(context)
 
     def source(path: Path) -> str:
         return normalize_newlines(read_source(path), "\n")
 
-    spawn_effects = source(inputs.HISTORICAL_CHARACTER_EFFECTS)
-    canon_triggers = source(inputs.CANON_DRAGON_TRIGGERS)
+    spawn_effects = source(context.source("agot-historical-character-effects"))
+    canon_triggers = source(context.source("agot-canon-dragon-triggers"))
     records = build_taming_records(
-        source(inputs.DRAGON_HISTORY),
+        source(context.source("agot-dragon-history")),
         canon_triggers,
-        source(inputs.CANON_DRAGON_TRAIT_TRIGGERS),
-        source(inputs.CHARACTER_INIT_EFFECTS),
+        source(context.source("agot-canon-dragon-trait-triggers")),
+        source(context.source("agot-character-init-effects")),
         spawn_effects,
     )
 
-    write_output(inputs.CANON_TRIGGER_OUTPUT, build_canon_taming_trigger(records), "\n")
-    write_output(inputs.CANON_EVENT_OUTPUT, build_canon_taming_event(records), "\n")
+    write_output(
+        context.output_path(
+            "common/scripted_triggers/agot_ce_canon_dragon_triggers.txt"
+        ),
+        build_canon_taming_trigger(records),
+        "\n",
+    )
+    write_output(
+        context.output_path("events/agot_ce_canon_dragon_taming_events.txt"),
+        build_canon_taming_event(records),
+        "\n",
+    )
 
-    births = parse_birth_dates(tuple(sorted(inputs.CHARACTER_HISTORY.glob("*.txt"))))
-    inputs.CANON_AUDIT_OUTPUT.write_bytes(
+    births = parse_birth_dates(
+        tuple(sorted(context.source("agot-character-history").glob("*.txt")))
+    )
+    context.write_bytes(
+        "artifacts/canon_dragon_tamings/taming_audit.csv",
         build_taming_audit(
             records,
             births,
             set(FLAG_LINE.findall(spawn_effects)),
             canon_rider_pairs(canon_triggers),
-        )
+        ),
     )
     return records
-
-
-def generate(context: GenerationContext) -> None:
-    inputs = RunInputs(
-        COMMANDER_PHASE_EVENTS=context.source("agot-commander-phase-events"),
-        NATURAL_DISASTER_EFFECTS=context.source("agot-natural-disaster-effects"),
-        TOURNAMENT_EFFECTS=context.source("agot-tournament-effects"),
-        CANON_CHILDREN_MODIFIERS=context.source("canon-children-modifiers"),
-        DUEL_PHASE_EVENTS=tuple((name, context.source(name)) for name in DUEL_SOURCES),
-        DRAGON_HISTORY=context.source("agot-dragon-history"),
-        CHARACTER_HISTORY=context.source("agot-character-history"),
-        CANON_DRAGON_TRIGGERS=context.source("agot-canon-dragon-triggers"),
-        CANON_DRAGON_TRAIT_TRIGGERS=context.source("agot-canon-dragon-trait-triggers"),
-        CHARACTER_INIT_EFFECTS=context.source("agot-character-init-effects"),
-        HISTORICAL_CHARACTER_EFFECTS=context.source(
-            "agot-historical-character-effects"
-        ),
-        DRAGON_EFFECTS=context.source("agot-dragon-effects"),
-        DRAGON_TRIGGERS=context.source("agot-dragon-triggers"),
-        DRAGON_TAMING_EVENTS=context.source("agot-dragon-taming-events"),
-        CHILDHOOD_ON_ACTIONS=context.source("agot-childhood-on-actions"),
-        GAME_START_ON_ACTIONS=context.source("agot-game-start-on-actions"),
-        COMMANDER_OUTPUT=context.output_path(
-            "common/combat_phase_events/zzzz_agot_ce_commander_phase_events.txt"
-        ),
-        DISASTER_OUTPUT=context.output_path(
-            "common/scripted_effects/zzzz_agot_ce_natural_disaster_effects.txt"
-        ),
-        TOURNAMENT_OUTPUT=context.output_path(
-            "common/scripted_effects/zzzz_agot_ce_tournament_effects.txt"
-        ),
-        CANON_TRIGGER_OUTPUT=context.output_path(
-            "common/scripted_triggers/agot_ce_canon_dragon_triggers.txt"
-        ),
-        CANON_EVENT_OUTPUT=context.output_path(
-            "events/agot_ce_canon_dragon_taming_events.txt"
-        ),
-        CANON_AUDIT_OUTPUT=context.artifact_path(
-            "canon_dragon_tamings/taming_audit.csv"
-        ),
-    )
-    main(inputs)

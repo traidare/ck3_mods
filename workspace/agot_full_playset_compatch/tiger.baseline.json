@@ -37,6 +37,38 @@
       "severity": "error",
       "code": "strict-scopes",
       "message": "scope:anointer might not be available here",
+      "source": "MFA",
+      "file": "events/activities/coronation_activity/coronation_events_6.txt",
+      "count": 33
+    },
+    {
+      "severity": "error",
+      "code": "strict-scopes",
+      "message": "scope:detractor_ally_1 might not be available here",
+      "source": "MFA",
+      "file": "events/activities/coronation_activity/coronation_events_6.txt",
+      "count": 1
+    },
+    {
+      "severity": "error",
+      "code": "strict-scopes",
+      "message": "scope:detractor_ally_2 might not be available here",
+      "source": "MFA",
+      "file": "events/activities/coronation_activity/coronation_events_6.txt",
+      "count": 1
+    },
+    {
+      "severity": "error",
+      "code": "strict-scopes",
+      "message": "scope:house might not be available here",
+      "source": "MFA",
+      "file": "events/activities/coronation_activity/coronation_events_6.txt",
+      "count": 1
+    },
+    {
+      "severity": "error",
+      "code": "strict-scopes",
+      "message": "scope:anointer might not be available here",
       "source": "MFA 0.4.40 local",
       "file": "events/activities/coronation_activity/coronation_events_6.txt",
       "count": 33
@@ -336,6 +368,22 @@
       "source": "LoV AGOT 0.5.1 bridge",
       "file": "common/scripted_effects/zzzz_lv_agot_scripted_effect_runtime_overrides_v0_2_2.txt",
       "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "scopes",
+      "message": "`prev` produces none but expected character",
+      "source": "MFA",
+      "file": "events/activities/coronation_activity/coronation_events_6.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "strict-scopes",
+      "message": "`coronation_events_6000_valid_switch_title_trigger` expects list war_targets to exist",
+      "source": "MFA",
+      "file": "events/activities/coronation_activity/coronation_events_6.txt",
+      "count": 5
     },
     {
       "severity": "warning",

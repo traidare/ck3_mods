@@ -9,7 +9,13 @@ import tempfile
 from pathlib import Path
 
 from gen import GenerationContext
-from gen.text import definition_span, matching_brace, read_source
+from gen.text import (
+    definition_span,
+    matching_brace,
+    read_source,
+    replace_exact,
+    replace_regex,
+)
 
 HUD_RELATIVE = Path("gui/hud.gui")
 MAP_ICON_RELATIVE = Path("gui/map_icon_layer.gui")
@@ -60,6 +66,140 @@ CANON_DRAGON_BIRTHDAY_RELATIVE = Path(
 )
 CANON_DRAGON_BIRTHDAY_ACTION = "on_10th_birthday_tame_canon_dragon"
 TITLE_LANGUAGES = ("english", "spanish")
+
+TOURNAMENT_RELATIVE = Path("common/activities/activity_types/tournament.txt")
+CORONATION_RELATIVE = Path("common/activities/activity_types/coronation.txt")
+DRAGON_HATCHING_RELATIVE = Path(
+    "common/activities/activity_types/agot_dragon_hatching.txt"
+)
+CORONATION_EVENTS_RELATIVE = Path(
+    "events/activities/coronation_activity/coronation_events.txt"
+)
+CONTEST_EVENTS_RELATIVE = Path("events/activities/tournaments/contest_events.txt")
+VALE_PROVINCES_RELATIVE = Path("history/provinces/replace/00_k_the_vale_prov.txt")
+
+# Much Faster Activities regenerates its overrides from vanilla, so its files
+# carry vanilla lines AGOT had already replaced alongside the timing edits that
+# are the mod's actual purpose.  Restoring AGOT's text for each of those before
+# the merge keeps MFA's delta to the timings, which is the only part the playset
+# wants and the only part that merges without a conflict.
+MFA_VANILLA_REGRESSIONS = (
+    (
+        "tournament jungle terrain",
+        "\t\t\t\t\tterrain = jungle\n",
+        "\t\t\t\t\t#AGOT Modified\n"
+        "\t\t\t\t\t# terrain = jungle\n"
+        "\t\t\t\t\tagot_is_jungle_terrain = yes\n",
+    ),
+    (
+        "tournament land-of-the-bow archery bonus",
+        "\t\t\t\tif = {\n"
+        "\t\t\t\t\tlimit = {\n"
+        "\t\t\t\t\t\tculture = { has_cultural_tradition = tradition_land_of_the_bow }\n"
+        "\t\t\t\t\t}\n"
+        "\t\t\t\t\tadd = {\n"
+        "\t\t\t\t\t\tvalue = 50\n"
+        "\t\t\t\t\t\tdesc = tradition_land_of_the_bow_name\n"
+        "\t\t\t\t\t}\n"
+        "\t\t\t\t}\n",
+        "\t\t\t\t#AGOT Disabled\n"
+        "\t\t\t\t# if = {\n"
+        "\t\t\t\t# \tlimit = {\n"
+        "\t\t\t\t# \t\tculture = { has_cultural_tradition = tradition_land_of_the_bow }\n"
+        "\t\t\t\t# \t}\n"
+        "\t\t\t\t# \tadd = {\n"
+        "\t\t\t\t# \t\tvalue = 50\n"
+        "\t\t\t\t# \t\tdesc = tradition_land_of_the_bow_name\n"
+        "\t\t\t\t# \t}\n"
+        "\t\t\t\t# }\n",
+    ),
+)
+
+HOLY_SITE_HOLDER_GUARD = (
+    "exists = barony.holder "
+    "# A holy site's barony can be unheld, and CK3 drops the whole clause "
+    "when its holder does not resolve.\n"
+)
+DRAGON_HATCHING_DEATH_LIMIT = (
+    "\t\t\t\tthis = scope:host\n"
+    "\t\t\t\thas_character_flag = agot_dead_in_dragon_hatching\n"
+)
+CANON_DEATH_GUARD = (
+    "\t\t\t\t# The host survives their own hatching accident while AGOT:\n"
+    "\t\t\t\t# Canon Enforcement protects them.\n"
+    "\t\t\t\tagot_ce_event_death_protected_trigger = no\n"
+)
+
+# Culture and Faith Granularity's contest_events delta, counted the same way its
+# own compatch counts it, so a CaFG or AGOT release that moves either number
+# fails here instead of shipping a half-merged file.
+CAFG_CALL = re.compile(r"\bE_kCAFG_[A-Za-z0-9_]+")
+AGOT_MARKER = re.compile(r"(?i)#\s*AGOT\b")
+CONTEST_EVENTS_CAFG_CALLS = 1
+CONTEST_EVENTS_AGOT_MARKERS = 24
+
+# Nobility of Westeros' own Sisterton entries, and the holdings this layer wants
+# in their place.  Everything else in the file is that parent's, because the
+# same path shadows it whole rather than merging.
+VALE_SISTERTON_PARENT = (
+    "############### b_breakwater_castle ###############\n"
+    "########## c_sweetsister - d_the_sisters ##########\n"
+    "2715 = {\n"
+    "\tculture = sisterman\n"
+    "\treligion = fots_seven\n"
+    "\tholding = castle_holding\n"
+    "\t7824.1.1 = {\n"
+    "\t\tbuildings = { castle_03 }\n"
+    "\t}\n"
+    "}\n"
+    "################ b_breakwater_watch ###############\n"
+    "########## c_sweetsister - d_the_sisters ##########\n"
+    "2716 = {\n"
+    "\tholding = none\n"
+    "}\n"
+    "##################### b_dordon ####################\n"
+    "########## c_sweetsister - d_the_sisters ##########\n"
+    "2717 = {\n"
+    "\tculture = sisterman\n"
+    "\treligion = fots_seven\n"
+    "\tholding = castle_holding\n"
+    "\t7824.1.1 = {\n"
+    "\t\tbuildings = { castle_03 }\n"
+    "\t}\n"
+    "}\n"
+)
+VALE_SISTERTON_OWNED = (
+    "############### b_breakwater_castle ###############\n"
+    "########## c_sweetsister - d_the_sisters ##########\n"
+    "2715 = {\n"
+    "\tholding = castle_holding\n"
+    "\t7824.1.1 = {\n"
+    "\t\tbuildings = { castle_01 }\n"
+    "\t}\n"
+    "}\n"
+    "################ b_sunderland_hall ################\n"
+    "########### c_sunderland - d_the_sisters ##########\n"
+    "2716 = {\n"
+    "\tculture = sisterman\n"
+    "\treligion = fots_seven\n"
+    "\tholding = castle_holding\n"
+    "\t7824.1.1 = {\n"
+    "\t\tbuildings = { castle_03 }\n"
+    "\t}\n"
+    "}\n"
+    "################ b_breakwater_watch ###############\n"
+    "########## c_sweetsister - d_the_sisters ##########\n"
+    "2717 = {\n"
+    "\tculture = sisterman\n"
+    "\treligion = fots_seven\n"
+    "\tholding = castle_holding\n"
+    "\t7824.1.1 = {\n"
+    "\t\tbuildings = { castle_03 }\n"
+    "\t}\n"
+    "}\n"
+)
+VALE_DORDON_HEADER_PARENT = "################ b_sunderland_hall ################\n"
+VALE_DORDON_HEADER_OWNED = "##################### b_dordon ####################\n"
 
 
 def title_localization_relative(language: str) -> Path:
@@ -131,13 +271,6 @@ def normalize_output(text: str) -> str:
     return re.sub(r"[ \t]+(?=\n)", "", text).rstrip() + "\n"
 
 
-def replace_once(text: str, old: str, new: str, *, label: str) -> str:
-    count = text.count(old)
-    if count != 1:
-        raise AssertionError(f"{label}: expected one match, found {count}")
-    return text.replace(old, new)
-
-
 def require_balanced_quotes(text: str, *, label: str) -> None:
     """Reject an unterminated localization value.
 
@@ -156,7 +289,7 @@ def generate_title_localization(text: str, language: str) -> str:
     """Rebase NOW's title names, keeping only this module's COW barony delta."""
     label = f"NOW {language} title localization"
     for old, new, repair in NOW_TITLE_REPAIRS.get(language, ()):
-        text = replace_once(text, old, new, label=repair)
+        text = replace_exact(text, old, new, label=repair)
     require_balanced_quotes(text, label=label)
 
     lines = [text.rstrip("\n"), "", COW_TITLE_HEADER]
@@ -390,7 +523,7 @@ def generate_events(source: str) -> str:
         raise AssertionError("upstream added the 8129.4.1 historical-season start")
     text = replace_historical_season_block(source, "8129.4.2", 705)
     first = historical_season_block("8129.4.2", 705)
-    text = replace_once(
+    text = replace_exact(
         text,
         first,
         first + "\n" + historical_season_block("8129.4.1", 705),
@@ -431,7 +564,7 @@ def generate_shader(source: str) -> str:
         )
         + source[struct_end + 1 :]
     )
-    text = replace_once(
+    text = replace_exact(
         text,
         "\t\tstatic const float SKIP_VALUE = 0.001f;\n",
         "",
@@ -461,7 +594,7 @@ def add_group_regions(text: str, group: str, regions: tuple[str, ...]) -> str:
 def replace_block_member(text: str, block_name: str, old: str, new: str) -> str:
     start, end = named_block(text, block_name)
     block = text[start : end + 1]
-    block = replace_once(block, old, new, label=f"{block_name} member")
+    block = replace_exact(block, old, new, label=f"{block_name} member")
     return text[:start] + block + text[end + 1 :]
 
 
@@ -732,7 +865,7 @@ def generate_is_diarch_valid(agot: str, lov: str, long_night: str) -> str:
         raise AssertionError(
             f"{label}: the LoV bridge's guarded branch lost its indent"
         )
-    body = replace_once(
+    body = replace_exact(
         guarded,
         inner,
         f"{inner[:closing]}\n{nested}\n\t}}",
@@ -759,7 +892,171 @@ def generate_is_diarch_valid(agot: str, lov: str, long_night: str) -> str:
     )
 
 
-def generate_outputs(workshop: dict[str, Path]) -> dict[Path, bytes]:
+def mfa_timing_delta(text: str) -> str:
+    """Return Much Faster Activities' file with only its timing edits left."""
+    for label, vanilla, agot in MFA_VANILLA_REGRESSIONS:
+        text = replace_exact(text, vanilla, agot, label=f"MFA {label}")
+    return text
+
+
+def generate_tournament(agot: str, lov: str, mfa: str) -> str:
+    """Run tournaments at MFA's pace on AGOT's map and cultures."""
+    label = "tournament.txt"
+    trimmed = mfa_timing_delta(mfa)
+    merged = merge_onto_agot(ours=lov, base=agot, theirs=trimmed, label=label)
+    require_delta_preserved(
+        base=agot, parent=trimmed, merged=merged, ours=lov, label=label
+    )
+    for needle in ("MFA_tournament_cooldown", "agot_is_jungle_terrain = yes"):
+        if needle not in merged:
+            raise AssertionError(f"{label}: merged output lost {needle!r}")
+    return merged
+
+
+def guard_holy_site_holders(text: str, *, label: str) -> str:
+    """Keep coronation holy-site tests from resolving through an unheld barony.
+
+    CK3 discards the enclosing clause when `barony.holder` finds no character,
+    so a restored or ruined holy site silently makes the location unusable
+    rather than merely unqualified.
+    """
+    text = replace_regex(
+        text,
+        r"(?m)^([ \t]*)barony\.holder = \{",
+        lambda match: (
+            f"{match.group(1)}{HOLY_SITE_HOLDER_GUARD}"
+            f"{match.group(1)}barony.holder = {{"
+        ),
+        f"{label} holy-site holder guard",
+        expected=4,
+    )
+    # AGOT writes one of the five tests through optional scopes instead, which
+    # suppresses the missing holder without ever failing the test.
+    return replace_exact(
+        text,
+        "\t\t\t\t\t\tbarony ?= {\n"
+        "\t\t\t\t\t\t\tholder ?= {\n"
+        "\t\t\t\t\t\t\t\tOR = {\n"
+        "\t\t\t\t\t\t\t\t\tthis = scope:host\n"
+        "\t\t\t\t\t\t\t\t\tany_liege_or_above = { this = scope:host }\n"
+        "\t\t\t\t\t\t\t\t}\n"
+        "\t\t\t\t\t\t\t}\n"
+        "\t\t\t\t\t\t}\n",
+        f"\t\t\t\t\t\t{HOLY_SITE_HOLDER_GUARD}"
+        "\t\t\t\t\t\tbarony.holder = {\n"
+        "\t\t\t\t\t\t\tOR = {\n"
+        "\t\t\t\t\t\t\t\tthis = scope:host\n"
+        "\t\t\t\t\t\t\t\tany_liege_or_above = { this = scope:host }\n"
+        "\t\t\t\t\t\t\t}\n"
+        "\t\t\t\t\t\t}\n",
+        label=f"{label} optional-scope holy-site test",
+    )
+
+
+def generate_coronation(agot: str, lov: str, mfa: str) -> str:
+    """Run coronations at MFA's pace without failing on an unheld holy site."""
+    label = "coronation.txt"
+    merged = merge_onto_agot(ours=lov, base=agot, theirs=mfa, label=label)
+    require_delta_preserved(base=agot, parent=mfa, merged=merged, ours=lov, label=label)
+    return guard_holy_site_holders(merged, label=label)
+
+
+def generate_coronation_events(agot: str, lov: str, mfa: str) -> str:
+    """Run the coronation chain at MFA's pace without a stale chaplain scope."""
+    label = "coronation_events.txt"
+    merged = merge_onto_agot(ours=lov, base=agot, theirs=mfa, label=label)
+    require_delta_preserved(base=agot, parent=mfa, merged=merged, ours=lov, label=label)
+    # The court chaplain is summoned outside the effect that established the
+    # activity, so both the councillor and the scopes it is moved into have to
+    # be tested before the move rather than assumed.
+    return replace_exact(
+        merged,
+        "\t\t\t\t\tcp:councillor_court_chaplain = {\n"
+        "\t\t\t\t\t\tset_location = root.location\n"
+        "\t\t\t\t\t\tadd_to_activity_without_travel = root.involved_activity\n"
+        "\t\t\t\t\t}\n",
+        "\t\t\t\t\tcp:councillor_court_chaplain ?= {\n"
+        "\t\t\t\t\t\tif = {\n"
+        "\t\t\t\t\t\t\tlimit = {\n"
+        "\t\t\t\t\t\t\t\texists = root.location\n"
+        "\t\t\t\t\t\t\t\texists = root.involved_activity\n"
+        "\t\t\t\t\t\t\t}\n"
+        "\t\t\t\t\t\t\tset_location = root.location\n"
+        "\t\t\t\t\t\t\tadd_to_activity_without_travel = root.involved_activity\n"
+        "\t\t\t\t\t\t}\n"
+        "\t\t\t\t\t}\n",
+        label=f"{label} court chaplain summon",
+    )
+
+
+def generate_dragon_hatching(agot: str, mde_lov: str, mfa: str) -> str:
+    """Run hatching ceremonies at MFA's pace, sparing canon-protected hosts."""
+    label = "agot_dragon_hatching.txt"
+    merged = merge_onto_agot(ours=mde_lov, base=agot, theirs=mfa, label=label)
+    require_delta_preserved(
+        base=agot, parent=mfa, merged=merged, ours=mde_lov, label=label
+    )
+    # A hatching death is an accident, so it is one of the deaths AGOT: Canon
+    # Enforcement withholds.  Both activity variants kill the host the same way.
+    return replace_exact(
+        merged,
+        DRAGON_HATCHING_DEATH_LIMIT,
+        DRAGON_HATCHING_DEATH_LIMIT + CANON_DEATH_GUARD,
+        f"{label} canon-enforcement guard",
+        expected=2,
+    )
+
+
+def generate_contest_events(
+    agot: str, lov: str, mfa: str, cafg: str, vanilla: str
+) -> str:
+    """Run tournament contests with LoV's guards, MFA's pace, and CaFG's faiths.
+
+    Two merges over two different ancestors, because the parents are two
+    generations apart: LoV and MFA both edit AGOT's file, while CaFG edits
+    vanilla's and never saw AGOT at all.
+    """
+    label = "contest_events.txt"
+    merged = merge_onto_agot(ours=lov, base=agot, theirs=mfa, label=label)
+    require_delta_preserved(base=agot, parent=mfa, merged=merged, ours=lov, label=label)
+    merged = merge_onto_agot(
+        ours=cafg, base=vanilla, theirs=merged, label=f"{label} (CaFG)"
+    )
+    calls = len(CAFG_CALL.findall(merged))
+    markers = len(AGOT_MARKER.findall(merged))
+    if (calls, markers) != (CONTEST_EVENTS_CAFG_CALLS, CONTEST_EVENTS_AGOT_MARKERS):
+        raise AssertionError(
+            f"{label}: expected {CONTEST_EVENTS_CAFG_CALLS} CaFG call(s) and "
+            f"{CONTEST_EVENTS_AGOT_MARKERS} AGOT marker(s), found {calls} and "
+            f"{markers}"
+        )
+    return merged
+
+
+def generate_vale_provinces(now: str) -> str:
+    """Give Sisterton its held baronies without dropping the rest of the Vale.
+
+    This path shadows Nobility of Westeros' file whole rather than merging with
+    it, so every province entry the parent ships has to be carried through or it
+    falls back to AGOT's.  Deriving the file from the parent is what keeps that
+    true as the parent gains, drops, or re-numbers entries.
+    """
+    label = "00_k_the_vale_prov.txt"
+    text = replace_exact(
+        now,
+        VALE_DORDON_HEADER_PARENT,
+        VALE_DORDON_HEADER_OWNED,
+        label=f"{label} b_dordon header",
+    )
+    return replace_exact(
+        text,
+        VALE_SISTERTON_PARENT,
+        VALE_SISTERTON_OWNED,
+        label=f"{label} Sisterton holdings",
+    )
+
+
+def generate_outputs(workshop: dict[str, Path], vanilla: Path) -> dict[Path, bytes]:
     # NOW 1.2.5 corrected the `d_lychester` creation requirement upstream (it
     # previously required `d_medway`'s capital county), which was this override's
     # only delta.  Assert the fix is still present instead of shipping a
@@ -831,6 +1128,49 @@ def generate_outputs(workshop: dict[str, Path]) -> dict[Path, bytes]:
             read_text(workshop["LONG_NIGHT"] / LONG_NIGHT_DIARCH_RULES),
         )
     ).encode("utf-8-sig")
+    agot = workshop["AGOT"]
+    lov = workshop["LOV_BRIDGE"]
+    mfa = workshop["MFA"]
+    outputs[TOURNAMENT_RELATIVE] = normalize_output(
+        generate_tournament(
+            read_text(agot / TOURNAMENT_RELATIVE),
+            read_text(lov / TOURNAMENT_RELATIVE),
+            read_text(mfa / TOURNAMENT_RELATIVE),
+        )
+    ).encode("utf-8-sig")
+    outputs[CORONATION_RELATIVE] = normalize_output(
+        generate_coronation(
+            read_text(agot / CORONATION_RELATIVE),
+            read_text(lov / CORONATION_RELATIVE),
+            read_text(mfa / CORONATION_RELATIVE),
+        )
+    ).encode("utf-8-sig")
+    outputs[CORONATION_EVENTS_RELATIVE] = normalize_output(
+        generate_coronation_events(
+            read_text(agot / CORONATION_EVENTS_RELATIVE),
+            read_text(lov / CORONATION_EVENTS_RELATIVE),
+            read_text(mfa / CORONATION_EVENTS_RELATIVE),
+        )
+    ).encode("utf-8-sig")
+    outputs[DRAGON_HATCHING_RELATIVE] = normalize_output(
+        generate_dragon_hatching(
+            read_text(agot / DRAGON_HATCHING_RELATIVE),
+            read_text(workshop["MDE_LOV"] / DRAGON_HATCHING_RELATIVE),
+            read_text(mfa / DRAGON_HATCHING_RELATIVE),
+        )
+    ).encode("utf-8-sig")
+    outputs[CONTEST_EVENTS_RELATIVE] = normalize_output(
+        generate_contest_events(
+            read_text(agot / CONTEST_EVENTS_RELATIVE),
+            read_text(workshop["LOV_COMPATCH"] / CONTEST_EVENTS_RELATIVE),
+            read_text(mfa / CONTEST_EVENTS_RELATIVE),
+            read_text(workshop["CAFG"] / CONTEST_EVENTS_RELATIVE),
+            read_text(vanilla / CONTEST_EVENTS_RELATIVE),
+        )
+    ).encode("utf-8-sig")
+    outputs[VALE_PROVINCES_RELATIVE] = normalize_output(
+        generate_vale_provinces(read_text(workshop["NOW"] / VALE_PROVINCES_RELATIVE))
+    ).encode("utf-8-sig")
     return outputs
 
 
@@ -868,6 +1208,29 @@ INTENT = {
     "iron_and_salt_is_human": (
         "combine AGOT's body with the Iron and Salt and Great Councils "
         "extensions under one later-sorting writer"
+    ),
+    "tournament": (
+        "run tournaments at MFA's pace while keeping AGOT's terrain "
+        "abstraction and disabled archery tradition"
+    ),
+    "coronation": (
+        "run coronations at MFA's pace and test holy-site holders that may not exist"
+    ),
+    "coronation_events": (
+        "run the coronation chain at MFA's pace and summon the court "
+        "chaplain only into scopes that still resolve"
+    ),
+    "dragon_hatching": (
+        "run hatching ceremonies at MFA's pace on the More Dragon "
+        "Eggs/LoV activity, sparing canon-protected hosts"
+    ),
+    "contest_events": (
+        "combine the LoV compatch's tournament summary guards, MFA's "
+        "contest cooldown, and CaFG's granular county conversion"
+    ),
+    "vale_provinces": (
+        "give Sisterton its held baronies on top of every province entry "
+        "NOW ships, because this path shadows that file whole"
     ),
     "is_diarch_valid": (
         "keep the LoV bridge's missing-character guard under the Long "
@@ -912,6 +1275,10 @@ def generate(context: GenerationContext) -> None:
         "lov-agot-bridge",
         "great-councils",
         "long-night-azor-ahai",
+        "much-faster-activities",
+        "mde-lov-hatching",
+        "lov-agot-compatch",
+        "culture-faith-granularity",
     )
     workshop = {
         "AGOT": context.source("agot"),
@@ -928,7 +1295,12 @@ def generate(context: GenerationContext) -> None:
         "LOV_BRIDGE": context.source("lov-agot-bridge"),
         "GREAT_COUNCILS": context.source("great-councils"),
         "LONG_NIGHT": context.source("long-night-azor-ahai"),
+        "MFA": context.source("much-faster-activities"),
+        "MDE_LOV": context.source("mde-lov-hatching"),
+        "LOV_COMPATCH": context.source("lov-agot-compatch"),
+        "CAFG": context.source("culture-faith-granularity"),
     }
+    vanilla = context.source("vanilla")
     missing = [
         f"{label}:{path}" for label, path in workshop.items() if not path.is_dir()
     ]
@@ -949,7 +1321,7 @@ def generate(context: GenerationContext) -> None:
         read_text(root / PAYLOAD_ROOT / COW_MODEL_TRIGGER_RELATIVE),
     )
 
-    outputs = generate_outputs(workshop)
+    outputs = generate_outputs(workshop, vanilla)
     for relative, data in outputs.items():
         context.write_bytes(relative, data)
     print(f"Generated full-compatch overrides: {len(outputs)} files")

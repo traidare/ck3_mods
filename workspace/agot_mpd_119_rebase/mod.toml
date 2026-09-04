@@ -1,6 +1,10 @@
 [generator]
 entrypoint = "implementation.py:generate"
-owned_outputs = ["common/traits/01_personality_overrides.txt"]
+owned_outputs = [
+  "common/traits/01_personality_overrides.txt",
+  "common/scripted_effects/mpd_xp_calculator.txt",
+  "common/traits/99_replaced_traits.txt",
+]
 
 [[sources]]
 name = "more-personality-depth"
@@ -9,7 +13,21 @@ item_id = "3717990443"
 path = "common/traits/01_personality_overrides.txt"
 
 [[sources]]
+name = "more-personality-depth-calculator"
+kind = "workshop"
+item_id = "3717990443"
+path = "common/scripted_effects/mpd_xp_calculator.txt"
+
+[[sources]]
 name = "agot-traits"
 kind = "workshop"
 item_id = "2962333032"
 path = "common/traits/00_traits.txt"
+
+# Immersive Personalities' file is read only to confirm it still holds nothing
+# but the `paranoid` duplicate this module blanks.
+[[sources]]
+name = "immersive-personalities-traits"
+kind = "workshop"
+item_id = "3596393244"
+path = "common/traits/99_replaced_traits.txt"

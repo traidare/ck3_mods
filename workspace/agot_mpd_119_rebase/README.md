@@ -6,10 +6,15 @@ immediately after MPD and before the local MPD + Dragon Wives GUI compatch.
 
 ## Ownership
 
-- `common/scripted_effects/mpd_xp_calculator.txt`
-- `common/scripted_effects/mpd_119_shift_helpers.txt`
+Generated from the Workshop parents:
+
 - `common/traits/01_personality_overrides.txt`
+- `common/scripted_effects/mpd_xp_calculator.txt`
 - `common/traits/99_replaced_traits.txt`
+
+Hand-authored, with no upstream parent to derive from:
+
+- `common/scripted_effects/mpd_119_shift_helpers.txt`
 
 ## Repairs and evidence
 
@@ -35,7 +40,13 @@ immediately after MPD and before the local MPD + Dragon Wives GUI compatch.
   (`3596393244`) with an empty compatibility file. This leaves MPD's earlier
   definition as the sole source of the shorthand `paranoid` track. Re-declaring
   MPD's track in a later `zzz_` file creates two accumulated tracks and makes
-  parameterized `add_trait_xp` calls fail.
+  parameterized `add_trait_xp` calls fail. The generator reads the Immersive
+  Personalities file to confirm `paranoid` is still the only definition in it,
+  so an added trait fails generation rather than being silently blanked.
+
+The XP calculator carries upstream's own commentary through unchanged and adds
+the three repairs above beneath it, so an upstream note that stops being true is
+visible in the generated diff.
 
 Faith, guardian, parent, guardian-influence, and wet-nurse weighting are
 otherwise unchanged.

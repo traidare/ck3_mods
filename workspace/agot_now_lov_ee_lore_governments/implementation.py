@@ -60,15 +60,6 @@ WORKSHOP_IDS = {
 }
 
 
-@dataclass(frozen=True, slots=True)
-class RunInputs:
-    root: Path
-    workshop_root: Path
-    output_root: Path
-    assets_dir: Path
-    local_sources: dict[str, Path]
-
-
 @dataclass
 class Block:
     ident: int
@@ -724,7 +715,7 @@ def target_manifest(
 class LoreGovernmentPipeline:
     """Run the ordered generation phases without module-global state."""
 
-    inputs: RunInputs
+    context: GenerationContext
 
     def run(self) -> None:
         self.load_sources()
@@ -736,8 +727,15 @@ class LoreGovernmentPipeline:
         self.write_outputs()
 
     def load_sources(self) -> None:
-        root = self.inputs.root
-        workshop_root = self.inputs.workshop_root
+        root = self.context.workspace_root
+        workshop_root = self.context.workshop_root(
+            "agot",
+            "legacy-of-valyria",
+            "legacy-of-valyria-bridge",
+            "essos-expanded",
+            "essos-expanded-bridge",
+            "lore-bridge",
+        )
         workshop = {
             label: workshop_root / workshop_id
             for label, workshop_id in WORKSHOP_IDS.items()
@@ -748,15 +746,18 @@ class LoreGovernmentPipeline:
         if missing:
             raise FileNotFoundError(f"missing Workshop modules: {missing}")
 
-        self.module = self.inputs.output_root
-        assets = self.inputs.assets_dir
+        self.module = self.context.output_root
+        assets = self.context.assets_dir / "lore_governments"
         rules_path = assets / "government_lore_rules.csv"
         manifest_path = assets / "source_manifest.json"
         self.effect_source = (
             workshop["BRIDGE"]
             / "common/scripted_effects/replace/00_agot_character_data_effects.txt"
         )
-        local_sources = self.inputs.local_sources
+        local_sources = {
+            "LOV_REBASE": self.context.source("legacy-of-valyria-rebase"),
+            "EE_REBASE": self.context.source("essos-expanded-rebase"),
+        }
         roots = [
             ("LOV", workshop["LOV"]),
             ("RC", workshop["RC"]),
@@ -1535,9 +1536,7 @@ class LoreGovernmentPipeline:
             raise AssertionError("Ibben faith audit is incomplete")
 
         for relative, content in self.generated.items():
-            path = self.module / relative
-            path.parent.mkdir(parents=True, exist_ok=True)
-            path.write_bytes(content)
+            self.context.write_bytes(relative, content)
         print(
             f"Generated {len(self.generated)} files: {len(self.government_audit)} governments, "
             f"{len(self.culture_audit)} culture corrections, "
@@ -1547,27 +1546,5 @@ class LoreGovernmentPipeline:
         return None
 
 
-def main(inputs: RunInputs) -> None:
-    LoreGovernmentPipeline(inputs).run()
-
-
 def generate(context: GenerationContext) -> None:
-    main(
-        RunInputs(
-            root=context.workspace_root,
-            workshop_root=context.workshop_root(
-                "agot",
-                "legacy-of-valyria",
-                "legacy-of-valyria-bridge",
-                "essos-expanded",
-                "essos-expanded-bridge",
-                "lore-bridge",
-            ),
-            output_root=context.output_root,
-            assets_dir=context.assets_dir / "lore_governments",
-            local_sources={
-                "LOV_REBASE": context.source("legacy-of-valyria-rebase"),
-                "EE_REBASE": context.source("essos-expanded-rebase"),
-            },
-        )
-    )
+    LoreGovernmentPipeline(context).run()

@@ -1,7 +1,6 @@
 ######################################################
 ################# CHARACTER WINDOW ###################
 ######################################################
-# Compatch baseline: AGOT 0.5.0 + Dragon Wives 14.2 + MPD 0.4.0
 
 window = {
 	name = "character_window"
@@ -4239,7 +4238,6 @@ window = {
 	#AGOT Added; Hidden, Dragons, Fake Death
 	agot_hidden_character_view = {}
 	agot_dragons_character_view = {}
-	agot_fake_death_character_view = {}
 
 	window_character_filter = {
 		name = "court_character_filter_window"
@@ -4700,7 +4698,7 @@ types CharacterWindow
 			text_single = {
 				maximumsize = { 149 -1 }
 				name = "ai_personality"
-				# More Personality Depth: visible for all characters
+				# More Personality Depth: visible for all characters (was hidden for players)
 				visible = yes
 
 				raw_text = " • #L [Character.GetAIPersonalityNoTooltip]#!"

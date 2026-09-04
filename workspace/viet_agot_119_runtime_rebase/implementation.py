@@ -5,21 +5,10 @@ from __future__ import annotations
 
 import hashlib
 import re
-from dataclasses import dataclass
-from pathlib import Path
 
 from gen import GenerationContext
-from gen.script import read_text
-from gen.script import write_text as write_source
+from gen.script import read_text, write_text
 from gen.text import direct_child_block_start, line_block_end
-
-
-@dataclass(frozen=True, slots=True)
-class RunInputs:
-    SOURCE: Path
-    OUTPUT: Path
-    DISABLED_EVENTS_FILE: Path
-
 
 EVENT_KEY_RE = re.compile(r"^(VIET[A-Za-z]*\.\d+)\s*=\s*\{")
 EVENT_TYPE_RE = re.compile(r"^\s*type\s*=\s*([a-z0-9_]+)\s*(?:#.*)?$", re.MULTILINE)
@@ -412,14 +401,10 @@ ek_character_setup_effect = {
 """
 
 
-def write_text(inputs: RunInputs, relative: str, text: str) -> None:
-    write_source(inputs.OUTPUT, relative, text, preserve_trailing_whitespace=True)
-
-
-def disabled_events(inputs: RunInputs) -> set[str]:
+def disabled_events(context: GenerationContext) -> set[str]:
     events = {
         line.strip()
-        for line in read_text(inputs.DISABLED_EVENTS_FILE).splitlines()
+        for line in read_text(context.assets_dir / "disabled-events.txt").splitlines()
         if line.strip() and not line.lstrip().startswith("#")
     }
     if len(events) != 151:
@@ -549,9 +534,9 @@ def repair_animation_names(text: str) -> tuple[str, int]:
 
 
 def replace_disabled_events(
-    inputs: RunInputs, relative: str, disabled: set[str], found: set[str]
+    context: GenerationContext, relative: str, disabled: set[str], found: set[str]
 ) -> tuple[int, int, int, int, int, int, int]:
-    lines = read_text(inputs.SOURCE / relative).splitlines(keepends=True)
+    lines = read_text(context.source("viet") / relative).splitlines(keepends=True)
     output: list[str] = []
     index = 0
     replaced = 0
@@ -608,7 +593,12 @@ def replace_disabled_events(
         or else_patches
         or animation_patches
     ):
-        write_text(inputs, relative, output_text)
+        write_text(
+            context.output_root,
+            relative,
+            output_text,
+            preserve_trailing_whitespace=True,
+        )
     return (
         replaced,
         owner_patches,
@@ -621,9 +611,9 @@ def replace_disabled_events(
 
 
 def remove_disabled_on_action_entries(
-    inputs: RunInputs, relative: str, disabled: set[str]
+    context: GenerationContext, relative: str, disabled: set[str]
 ) -> int:
-    text = read_text(inputs.SOURCE / relative)
+    text = read_text(context.source("viet") / relative)
     lines = text.splitlines(keepends=True)
     event_pattern = re.compile(r"^\s*\d+\s*=\s*(VIET[A-Za-z]*\.\d+)\s*(?:#.*)?$")
     output: list[str] = []
@@ -635,14 +625,21 @@ def remove_disabled_on_action_entries(
             continue
         output.append(line)
     if removed:
-        write_text(inputs, relative, "".join(output))
+        write_text(
+            context.output_root,
+            relative,
+            "".join(output),
+            preserve_trailing_whitespace=True,
+        )
     return removed
 
 
 def replace_named_blocks(
-    inputs: RunInputs, source_relative: str, replacements: dict[str, str]
+    context: GenerationContext, source_relative: str, replacements: dict[str, str]
 ) -> int:
-    lines = read_text(inputs.SOURCE / source_relative).splitlines(keepends=True)
+    lines = read_text(context.source("viet") / source_relative).splitlines(
+        keepends=True
+    )
     key_pattern = re.compile(
         rf"^({'|'.join(re.escape(key) for key in replacements)})\s*=\s*\{{"
     )
@@ -665,12 +662,17 @@ def replace_named_blocks(
         raise RuntimeError(
             f"{source_relative}: missing replacement blocks: {sorted(missing)}"
         )
-    write_text(inputs, source_relative, "".join(output))
+    write_text(
+        context.output_root,
+        source_relative,
+        "".join(output),
+        preserve_trailing_whitespace=True,
+    )
     return len(found)
 
 
 def replace_pinned_named_blocks(
-    inputs: RunInputs,
+    context: GenerationContext,
     source_relative: str,
     replacements: dict[str, str],
     expected_hashes: dict[str, str],
@@ -681,7 +683,9 @@ def replace_pinned_named_blocks(
             f"{source_relative}: replacement and source-hash keys do not match"
         )
 
-    lines = read_text(inputs.SOURCE / source_relative).splitlines(keepends=True)
+    lines = read_text(context.source("viet") / source_relative).splitlines(
+        keepends=True
+    )
     key_pattern = re.compile(
         rf"^({'|'.join(re.escape(key) for key in replacements)})\s*=\s*\{{"
     )
@@ -716,20 +720,27 @@ def replace_pinned_named_blocks(
         raise RuntimeError(
             f"{source_relative}: missing replacement blocks: {sorted(missing)}"
         )
-    write_text(inputs, source_relative, "".join(output))
+    write_text(
+        context.output_root,
+        source_relative,
+        "".join(output),
+        preserve_trailing_whitespace=True,
+    )
     return len(found)
 
 
-def generate_database_compatibility(inputs: RunInputs) -> tuple[int, int]:
+def generate_database_compatibility(
+    context: GenerationContext,
+) -> tuple[int, int]:
     trigger_count = replace_pinned_named_blocks(
-        inputs,
+        context,
         "common/scripted_triggers/VIET_scripted_triggers.txt",
         DATABASE_TRIGGER_REPLACEMENTS,
         DATABASE_TRIGGER_HASHES,
     )
     county_decision_key = "VIET_decision_venerate_a_mummified_hermit"
     county_decision_count = replace_pinned_named_blocks(
-        inputs,
+        context,
         "common/decisions/VIET_county_decisions.txt",
         {county_decision_key: DATABASE_DECISION_REPLACEMENTS[county_decision_key]},
         {county_decision_key: DATABASE_DECISION_HASHES[county_decision_key]},
@@ -739,20 +750,22 @@ def generate_database_compatibility(inputs: RunInputs) -> tuple[int, int]:
         "VIET_decision_destroy_shadowbanish_wine",
     )
     misc_decision_count = replace_pinned_named_blocks(
-        inputs,
+        context,
         "common/decisions/VIET_misc_decisions.txt",
         {key: DATABASE_DECISION_REPLACEMENTS[key] for key in misc_decision_keys},
         {key: DATABASE_DECISION_HASHES[key] for key in misc_decision_keys},
     )
     write_text(
-        inputs,
+        context.output_root,
         "common/scripted_triggers/zzz_viet_agot_heritage_triggers.txt",
         AGOT_HERITAGE_TRIGGERS,
+        preserve_trailing_whitespace=True,
     )
     write_text(
-        inputs,
+        context.output_root,
         "common/scripted_effects/zzz_viet_agot_optional_effects.txt",
         OPTIONAL_ETHNICITIES_EFFECT,
+        preserve_trailing_whitespace=True,
     )
 
     stale_database_tokens = (
@@ -773,7 +786,7 @@ def generate_database_compatibility(inputs: RunInputs) -> tuple[int, int]:
         "common/decisions/VIET_county_decisions.txt",
         "common/decisions/VIET_misc_decisions.txt",
     ):
-        text = read_text(inputs.OUTPUT / relative)
+        text = read_text(context.output_root / relative)
         stale = [token for token in stale_database_tokens if token in text]
         if stale:
             raise RuntimeError(
@@ -783,14 +796,15 @@ def generate_database_compatibility(inputs: RunInputs) -> tuple[int, int]:
     return trigger_count, county_decision_count + misc_decision_count
 
 
-def main(inputs: RunInputs) -> None:
-    if not inputs.SOURCE.is_dir():
-        raise RuntimeError(f"VIET Workshop source is unavailable: {inputs.SOURCE}")
+def generate(context: GenerationContext) -> None:
+    source = context.source("viet")
+    if not source.is_dir():
+        raise RuntimeError(f"VIET Workshop source is unavailable: {source}")
 
-    disabled = disabled_events(inputs)
+    disabled = disabled_events(context)
     found: set[str] = set()
     event_results = {
-        relative: replace_disabled_events(inputs, relative, disabled, found)
+        relative: replace_disabled_events(context, relative, disabled, found)
         for relative in EVENT_FILES
     }
     missing = disabled - found
@@ -798,20 +812,20 @@ def main(inputs: RunInputs) -> None:
         raise RuntimeError(f"disabled event definitions not found: {sorted(missing)}")
 
     on_action_counts = {
-        relative: remove_disabled_on_action_entries(inputs, relative, disabled)
+        relative: remove_disabled_on_action_entries(context, relative, disabled)
         for relative in ON_ACTION_FILES
     }
     custom_count = replace_named_blocks(
-        inputs,
+        context,
         "common/customizable_localization/VIET_customizable_localization_misc.txt",
         CUSTOM_LOC_REPLACEMENTS,
     )
     background_count = replace_named_blocks(
-        inputs,
+        context,
         "common/event_backgrounds/VIET_event_backgrounds.txt",
         BACKGROUND_REPLACEMENTS,
     )
-    trigger_count, decision_count = generate_database_compatibility(inputs)
+    trigger_count, decision_count = generate_database_compatibility(context)
 
     print(
         f"Stubbed {sum(result[0] for result in event_results.values())} "
@@ -855,14 +869,3 @@ def main(inputs: RunInputs) -> None:
     print(f"Replaced {custom_count} customizable-localization selectors")
     print(f"Replaced {background_count} event-background selectors")
     print(f"Rebased {trigger_count} scripted triggers and {decision_count} decisions")
-
-
-def generate(context: GenerationContext) -> None:
-
-    SOURCE = context.source("viet")
-    OUTPUT = context.output_root
-    DISABLED_EVENTS_FILE = context.assets_dir / "disabled-events.txt"
-    inputs = RunInputs(
-        SOURCE=SOURCE, OUTPUT=OUTPUT, DISABLED_EVENTS_FILE=DISABLED_EVENTS_FILE
-    )
-    main(inputs)

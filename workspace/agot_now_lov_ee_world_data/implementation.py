@@ -57,17 +57,6 @@ WORKSHOP_IDS = {
 }
 
 
-@dataclass(frozen=True, slots=True)
-class RunInputs:
-    root: Path
-    workshop_root: Path
-    output_root: Path
-    assets_dir: Path
-    map_definition: Path
-    reference_paths: dict[str, Path]
-    no_cache: bool
-
-
 @dataclass(frozen=True)
 class Definition:
     province_id: int
@@ -1107,7 +1096,8 @@ def connected_components(
 
 
 def target_source_manifest(
-    inputs: RunInputs,
+    map_definition: Path,
+    reference_paths: dict[str, Path],
     *,
     root: Path,
     workshop: dict[str, Path],
@@ -1130,9 +1120,9 @@ def target_source_manifest(
         workshop["EE"] / "common/province_terrain/ee_province_terrain.txt",
         workshop["EEP"] / "common/province_terrain/ee_province_terrain.txt",
         workshop["NOW"] / "common/landed_titles/01_agot_landed_titles.txt",
-        inputs.map_definition,
+        map_definition,
     }
-    source_files.update(inputs.reference_paths.values())
+    source_files.update(reference_paths.values())
     for module_root in workshop.values():
         for relative_root in (
             "common/province_terrain",
@@ -1187,7 +1177,7 @@ def target_source_manifest(
 class WorldDataPipeline:
     """Run the ordered generation phases without module-global state."""
 
-    inputs: RunInputs
+    context: GenerationContext
 
     def run(self) -> None:
         self.load_sources()
@@ -1199,8 +1189,15 @@ class WorldDataPipeline:
         self.write_outputs()
 
     def load_sources(self) -> None:
-        self.root = self.inputs.root
-        workshop_root = self.inputs.workshop_root
+        self.root = self.context.workspace_root
+        workshop_root = self.context.workshop_root(
+            "agot",
+            "agot-now",
+            "legacy-of-valyria",
+            "legacy-of-valyria-bridge",
+            "essos-expanded",
+            "essos-expanded-bridge",
+        )
         self.workshop = {
             label: workshop_root / workshop_id
             for label, workshop_id in WORKSHOP_IDS.items()
@@ -1213,18 +1210,21 @@ class WorldDataPipeline:
         if missing_modules:
             raise FileNotFoundError(f"missing Workshop modules: {missing_modules}")
 
-        self.module = self.inputs.output_root
+        self.module = self.context.output_root
         # Audits are development artifacts: staged under the reserved artifacts/
         # prefix, promoted into the tooling tree, never installed into CK3.
         artifacts = self.module / "artifacts"
         self.source = artifacts / "world_data"
-        assets = self.inputs.assets_dir
+        assets = self.context.assets_dir / "world_data"
         self.mask_config_path = assets / "terrain_mask_groups.toml"
         self.decisions_path = assets / "terrain_decisions.csv"
         lore_regions_path = assets / "terrain_lore_regions.csv"
         self.graphical_config_path = assets / "graphical_style_map.csv"
         manifest_path = assets / "source_manifest.json"
-        self.reference_paths = self.inputs.reference_paths
+        self.reference_paths = {
+            "detailed": self.context.source("known-world-detailed"),
+            "google": self.context.source("known-world-google"),
+        }
         missing_reference_maps = [
             path.relative_to(self.root).as_posix()
             for path in self.reference_paths.values()
@@ -1248,7 +1248,7 @@ class WorldDataPipeline:
         ]
 
         merged_definitions = parse_definitions(
-            self.inputs.map_definition, expected_rows=DEFINITION_ROWS
+            self.context.source("map-definition"), expected_rows=DEFINITION_ROWS
         )
         self.eep_definitions = parse_definitions(
             self.workshop["EEP"] / "map_data/definition.csv",
@@ -1356,7 +1356,8 @@ class WorldDataPipeline:
                 )
 
         self.current_manifest = target_source_manifest(
-            self.inputs,
+            self.context.source("map-definition"),
+            self.reference_paths,
             root=self.root,
             workshop=self.workshop,
             workshop_root=workshop_root,
@@ -1403,7 +1404,7 @@ class WorldDataPipeline:
         self.features = load_or_compute_features(
             cache_dir=self.root / ".ignored/cache/agot_now_lov_ee_world_data",
             cache_key=cache_key,
-            no_cache=self.inputs.no_cache,
+            no_cache=bool(self.context.options.get("no_cache", False)),
             heightmap_path=self.workshop["EEP"] / "map_data/heightmap.png",
             mask_paths=self.mask_paths,
             terrain_root=self.terrain_root,
@@ -2068,8 +2069,7 @@ class WorldDataPipeline:
                 raise AssertionError(f"water province {province_id} has land terrain")
 
         for path, data in outputs.items():
-            path.parent.mkdir(parents=True, exist_ok=True)
-            path.write_bytes(data)
+            self.context.write_bytes(path.relative_to(self.module), data)
             print(f"Wrote {path.relative_to(self.root)}")
         print(
             f"Generated terrain={TARGET_COUNT}, graphical={len(self.graphical_titles)}, "
@@ -2078,29 +2078,5 @@ class WorldDataPipeline:
         return None
 
 
-def main(inputs: RunInputs) -> None:
-    WorldDataPipeline(inputs).run()
-
-
 def generate(context: GenerationContext) -> None:
-    main(
-        RunInputs(
-            root=context.workspace_root,
-            workshop_root=context.workshop_root(
-                "agot",
-                "agot-now",
-                "legacy-of-valyria",
-                "legacy-of-valyria-bridge",
-                "essos-expanded",
-                "essos-expanded-bridge",
-            ),
-            output_root=context.output_root,
-            assets_dir=context.assets_dir / "world_data",
-            map_definition=context.source("map-definition"),
-            reference_paths={
-                "detailed": context.source("known-world-detailed"),
-                "google": context.source("known-world-google"),
-            },
-            no_cache=bool(context.options.get("no_cache", False)),
-        )
-    )
+    WorldDataPipeline(context).run()

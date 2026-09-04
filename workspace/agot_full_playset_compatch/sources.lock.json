@@ -1,6 +1,10 @@
 {
   "schemaVersion": 1,
   "files": {
+    "game/game/events/activities/tournaments/contest_events.txt": {
+      "sha256": "df1040fbcb1b471e063b64c23217669e489737395422632a27a8bbea1fa1ba6a",
+      "size": 357781
+    },
     "workshop/2779836155/common/on_action/childhood_on_actions.txt": {
       "sha256": "c4d5237c5cd5ee7abe292a9d7f515593a9cf8cbbd56f4ee454eda8b98fbfe0d7",
       "size": 29773
@@ -8,6 +12,18 @@
     "workshop/2779836155/descriptor.mod": {
       "sha256": "ea21b130c39c24fa4bbd468f7e2812e307cb8ed27afc49935996981509d3075a",
       "size": 178
+    },
+    "workshop/2962333032/common/activities/activity_types/agot_dragon_hatching.txt": {
+      "sha256": "b2bf9e6f8517a4922459e286f8c997f74a677c5725be50eaa5dd2cc74fc4c633",
+      "size": 79996
+    },
+    "workshop/2962333032/common/activities/activity_types/coronation.txt": {
+      "sha256": "b3feb3f6d846ab5e70e3973ce7917e2fdd15afa503d9d79356c2ad2463e02652",
+      "size": 140131
+    },
+    "workshop/2962333032/common/activities/activity_types/tournament.txt": {
+      "sha256": "3eff84471d062a9e5daaa1e3741afe697f45142308481c1667b79498596f9b41",
+      "size": 189585
     },
     "workshop/2962333032/common/on_action/agot_on_actions/agot_childhood_on_actions.txt": {
       "sha256": "7c8fb7f65d7978521d456191371b057296e36f96af603b56bed4a383eb347da2",
@@ -33,6 +49,14 @@
       "sha256": "ad765ec356998009cd374270c8758878ab8f2a4887f669a037e602b299463769",
       "size": 1070
     },
+    "workshop/2962333032/events/activities/coronation_activity/coronation_events.txt": {
+      "sha256": "a95d71dc2909b02bb4d415c70e5deed86a3fa48e03882a3f30b96967c527e5b5",
+      "size": 120046
+    },
+    "workshop/2962333032/events/activities/tournaments/contest_events.txt": {
+      "sha256": "b52fde29e536f1fbdc3b164d465ee1af4f31abd1a0edbf4177b988fad2103c0e",
+      "size": 364312
+    },
     "workshop/2962333032/gui/hud.gui": {
       "sha256": "aa5f754b763df4fa933109f2e20b4efd7b3f85bd6577f93b4b18efc437936d91",
       "size": 216653
@@ -40,6 +64,14 @@
     "workshop/2962333032/gui/map_icon_layer.gui": {
       "sha256": "9748f281fb271856b7b4bfd21f50ec73ee4df54622236a5d2cb1ebc1d48c2d60",
       "size": 147679
+    },
+    "workshop/3206891770/descriptor.mod": {
+      "sha256": "f041d856b5bd91afca51967963f499ec70e82f4f555cb66c3723a4cd2db0d677",
+      "size": 219
+    },
+    "workshop/3206891770/events/activities/tournaments/contest_events.txt": {
+      "sha256": "22bddf3d562a04bc3a43c759d92a4e5df61d6792ae2537d7eeeca18a7880008f",
+      "size": 357920
     },
     "workshop/3319354609/descriptor.mod": {
       "sha256": "eceebcded422f245fb29e2f243162d969b1f34beac32397c68142570497183f7",
@@ -89,6 +121,10 @@
       "sha256": "54e471e606274d8460a57bd95cbaea1a0f77dff73c9c87faa29eb581a9060a96",
       "size": 159
     },
+    "workshop/3664900993/history/provinces/replace/00_k_the_vale_prov.txt": {
+      "sha256": "f55e4f284c5d5de2191e5641cb86093d4a7749caabebc9ae05b141f3f3da0187",
+      "size": 4171
+    },
     "workshop/3664900993/localization/replace/english/agot/replace/00_agot_titles_l_english.yml": {
       "sha256": "e50b4eecb97f808e1a6d3fd3703ee9dc918013bccd5127bec04e610ecc225873",
       "size": 9454
@@ -96,6 +132,14 @@
     "workshop/3664900993/localization/replace/spanish/agot/replace/00_agot_titles_l_spanish.yml": {
       "sha256": "cf43c9cfb0a1737ac7950f4819e8747ac5d14c35c00e24ae533c76a3c05b3c1e",
       "size": 6858
+    },
+    "workshop/3719888822/common/activities/activity_types/coronation.txt": {
+      "sha256": "591853255d1f72e529db5f74ab545a1e0acac6b405ce32266fcceb0f1aa05f08",
+      "size": 134943
+    },
+    "workshop/3719888822/common/activities/activity_types/tournament.txt": {
+      "sha256": "9153424b0faf8d816458a577e8a5c6fee9bbd19429f7a3062afb222b9d1fa773",
+      "size": 192312
     },
     "workshop/3719888822/common/scripted_rules/00_rules.txt": {
       "sha256": "f8c4d2b99690f1134d6883aaba11fbee045469ce254136406a8e392a81e3e800",
@@ -105,9 +149,37 @@
       "sha256": "d72391046f56759e6f971ac844ac83fefaa1aea825deaf618f8eec90aef9a08f",
       "size": 287
     },
+    "workshop/3719888822/events/activities/coronation_activity/coronation_events.txt": {
+      "sha256": "a95d71dc2909b02bb4d415c70e5deed86a3fa48e03882a3f30b96967c527e5b5",
+      "size": 120046
+    },
     "workshop/3719888822/gui/map_icon_layer.gui": {
       "sha256": "0274676f8fc2fc97575710871630286760623c9df480031cbec8d3cd0b80a2fe",
       "size": 141553
+    },
+    "workshop/3723597729/common/activities/activity_types/agot_dragon_hatching.txt": {
+      "sha256": "240dca514cb9033ea9ca93844d16bbc63857d21b456ff50ca7004f7b199d2987",
+      "size": 82269
+    },
+    "workshop/3723597729/common/activities/activity_types/coronation.txt": {
+      "sha256": "d5dce2a952acc5ce221422184dced2b2355be707dbfa2265f5e567057ab1e165",
+      "size": 142839
+    },
+    "workshop/3723597729/common/activities/activity_types/tournament.txt": {
+      "sha256": "0ee205a9d06496bb66733591ef244d0a1656bfb03dd661e882f74e405890febf",
+      "size": 192057
+    },
+    "workshop/3723597729/descriptor.mod": {
+      "sha256": "8e3024fc083e840c066e4c8effb3f527b9ed5e8f59258857a263594e679e02e0",
+      "size": 184
+    },
+    "workshop/3723597729/events/activities/coronation_activity/coronation_events.txt": {
+      "sha256": "76f44f5d0dc5151707d4063b554ac4346c11282e0bdb7a65e4cf684d14579bae",
+      "size": 121019
+    },
+    "workshop/3723597729/events/activities/tournaments/contest_events.txt": {
+      "sha256": "a3e990f425103a30895234fe1d4df1c9f9635d84e41505346deea3bdaf473877",
+      "size": 364635
     },
     "workshop/3742055253/common/buildings/replace/99_background_graphics_buildings.txt": {
       "sha256": "8635d5000b8c6f63c5aa204b7a529d84d7d7aa6cd8b28b1c997a2ef764abeede",
@@ -124,6 +196,14 @@
     "workshop/3762892081/gfx/court_scene/scene_settings/grandeur_levels/grandeur_levels.txt": {
       "sha256": "5a4a0affa13d220b77cff6ff97fbcd611e3477030d23bfaec3c0ae4722e6d0a1",
       "size": 15366
+    },
+    "workshop/3762892932/common/activities/activity_types/agot_dragon_hatching.txt": {
+      "sha256": "d848b8f89724abb83a641c8070d632021d318a970bb5c191c68ac919057ab712",
+      "size": 82266
+    },
+    "workshop/3762892932/descriptor.mod": {
+      "sha256": "acd409ad0a361f3f43f370089793ea6d03fc0be521704b8d5f44d2e92a8e968d",
+      "size": 357
     },
     "workshop/3766038754/descriptor.mod": {
       "sha256": "6c6d79068a705334e1a8e4864a261ff1f73f6a502b3f6e8bb83370d328f15665",
@@ -164,6 +244,14 @@
     "workshop/3781577713/gui/map_icon_layer.gui": {
       "sha256": "21a8849258ce07a2672ea5624060685618e7ded6959e698505280074d611b2d9",
       "size": 147833
+    },
+    "workshop/3788296332/descriptor.mod": {
+      "sha256": "6a060053208485f259c277c1b9d113a4f2757eeb2d597ff8b9c3c33630fe6e8a",
+      "size": 271
+    },
+    "workshop/3788296332/events/activities/tournaments/contest_events.txt": {
+      "sha256": "157c60a7603883dcc30869f5f8288f5b54f60721365e5b52d2a07bc5b51bd93d",
+      "size": 349932
     }
   }
 }

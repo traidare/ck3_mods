@@ -1,43 +1,58 @@
-﻿# More Personality Depth — XP Calculator (AGOT 0.4.40 / CK3 1.19 runtime rebase)
+﻿# More Personality Depth — XP Calculator (childhood-locked design)
 #
-# Parent: AGOT - More Personality Depth 0.4.0 (3717990443)
+# This file defines mpd_calculate_trait_xp, the parameterized scripted effect
+# that picks a level (L1/L2/L3) for a trait when added to a character. Called
+# by mpd_roll_all_personality_xp dispatcher (see mpd_scripted_effects.txt).
 #
-# Local repairs:
-# - AGOT does not define every dynamically generated personality-trait culture
-#   parameter, so the generic culture weighting is omitted.
-# - Wet-nurse task checks safely handle characters without a court owner or an
-#   active task variable.
-# - Personality traits use CK3's shorthand track named after the trait.
+# Architecture: a single random_list with 3 branches (L1=XP 1, L2=XP 50,
+# L3=XP 100). Base weights 60/35/15 produce ~60% L1, ~35% L2, ~5% L3 for a
+# character with no context matches. Each modifier shifts the weights by
+# adding to the L2/L3 branches (boost upward) or subtracting from them.
+#
+# Why this pattern instead of a character-variable score: variable-based
+# accumulation (set_variable + change_variable + var:X >= N threshold) works
+# when called via every_living_character but proved unreliable when called
+# from inside an event's immediate block (children received only XP=1 because
+# the variable comparison apparently couldn't see the accumulated value).
+# Direct random_list with weight modifiers is the vanilla pattern, definitely
+# works in all contexts.
+#
+# Calculator is idempotent: skips traits already at XP >= 1.
+
+# Local repairs applied by the runtime-rebase generator:
+#
+# - The generic culture weighting is dropped. It reads
+#   `$TRAIT$_trait_more_common` / `$TRAIT$_trait_less_common` cultural
+#   parameters that AGOT defines for only part of the personality set, and CK3
+#   rejects every instantiated call that names a parameter no culture declares.
+# - The wet-nurse checks scope through `court_owner ?=` and defer the variable
+#   comparison behind `trigger_if`, because a courtless character or an unset
+#   task variable is an ordinary state, not an error.
+# - Every XP operation names the trait as its track. CK3's shorthand
+#   `track = { ... }` form creates one track named after the trait, and an
+#   unnamed operation resolves against no track at all.
 
 mpd_calculate_trait_xp = {
-	# Required parameters:
-	#   TRAIT      = trait_key
-	#   WN_SOCIAL  = score bonus for the promote_relationships wet-nurse task
-	#   WN_COMPETE = score bonus for the promote_competition wet-nurse task
+	# Required parameters (CK3 scripted_effects don't support optional params):
+	#   TRAIT      = trait_key (e.g. lustful, wrathful, compassionate)
+	#   WN_SOCIAL  = score bonus when wet nurse is doing promote_relationships task
+	#   WN_COMPETE = score bonus when wet nurse is doing promote_competition task
+	#
+	# Pass 0 for traits that should be neutral on a given wet nurse task.
 
 	if = {
 		limit = {
 			has_trait = $TRAIT$
-			NOT = {
-				has_trait_xp = {
-					trait = $TRAIT$
-					track = $TRAIT$
-					value >= 1
-				}
-			}
+			NOT = { has_trait_xp = { trait = $TRAIT$ track = $TRAIT$ value >= 1 } }
 		}
 
 		random_list = {
-			# L1 (XP=1, Mild) — base 60
+			# ─── L1 (XP=1, Mild) ─── base 60
 			60 = {
-				add_trait_xp = {
-					trait = $TRAIT$
-					track = $TRAIT$
-					value = 1
-				}
+				add_trait_xp = { trait = $TRAIT$ track = $TRAIT$ value = 1 }
 			}
 
-			# L2 (XP=50, Normal) — base 35
+			# ─── L2 (XP=50, Normal) ─── base 35, boosted by positive context
 			35 = {
 				# Faith virtue/sin
 				modifier = { add = 25  faith = { trait_is_virtue = $TRAIT$ } }
@@ -73,7 +88,7 @@ mpd_calculate_trait_xp = {
 					}
 					faith = { trait_is_sin = $TRAIT$ }
 				}
-				# Wet nurse — relationships task active
+				# Wet nurse — relationships task active (per-call WN_SOCIAL)
 				modifier = {
 					add = $WN_SOCIAL$
 					court_owner ?= {
@@ -85,7 +100,7 @@ mpd_calculate_trait_xp = {
 						any_court_position_holder = { type = wet_nurse_court_position }
 					}
 				}
-				# Wet nurse — competition task active
+				# Wet nurse — competition task active (per-call WN_COMPETE)
 				modifier = {
 					add = $WN_COMPETE$
 					court_owner ?= {
@@ -97,14 +112,10 @@ mpd_calculate_trait_xp = {
 						any_court_position_holder = { type = wet_nurse_court_position }
 					}
 				}
-				add_trait_xp = {
-					trait = $TRAIT$
-					track = $TRAIT$
-					value = 50
-				}
+				add_trait_xp = { trait = $TRAIT$ track = $TRAIT$ value = 50 }
 			}
 
-			# L3 (XP=100, Intense) — base 5
+			# ─── L3 (XP=100, Intense) ─── base 5, requires strong context
 			5 = {
 				modifier = { add = 15  faith = { trait_is_virtue = $TRAIT$ } }
 				modifier = { add = -10 faith = { trait_is_sin = $TRAIT$ } }
@@ -145,14 +156,11 @@ mpd_calculate_trait_xp = {
 						any_court_position_holder = { type = wet_nurse_court_position }
 					}
 				}
-				add_trait_xp = {
-					trait = $TRAIT$
-					track = $TRAIT$
-					value = 100
-				}
+				add_trait_xp = { trait = $TRAIT$ track = $TRAIT$ value = 100 }
 			}
 		}
 
+		# Clean up guardian_influence variable after use
 		if = {
 			limit = { has_variable = mpd_trait_from_guardian_influence }
 			remove_variable = mpd_trait_from_guardian_influence

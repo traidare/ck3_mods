@@ -5,19 +5,10 @@ from __future__ import annotations
 
 import math
 import re
-from dataclasses import dataclass
 from pathlib import Path
 
 from gen import GenerationContext
-from gen.text import matching_brace, read_source
-
-
-@dataclass(frozen=True, slots=True)
-class RunInputs:
-    ANT: Path
-    ANT_AGOT: Path
-    OUT: Path
-    COMMON_CHAINS: dict[str, Path]
+from gen.text import matching_brace, read_source, replace_exact
 
 
 def read(path: Path) -> str:
@@ -66,13 +57,6 @@ def replace_subblock(block: str, key: str, replacement: str | None) -> str:
     return block[:start] + (replacement or "") + block[end:]
 
 
-def replace_once(block: str, old: str, new: str) -> str:
-    count = block.count(old)
-    if count != 1:
-        raise ValueError(f"expected one occurrence of {old!r}, found {count}")
-    return block.replace(old, new, 1)
-
-
 def replace_field(block: str, field: str, value: int | float, count: int = 1) -> str:
     pattern = re.compile(rf"(?m)^(\s*{re.escape(field)}\s*=\s*)(-?\d+(?:\.\d+)?)")
     matches = list(pattern.finditer(block))
@@ -99,17 +83,15 @@ def modifier_block(name: str, values: list[tuple[str, int | float | str]]) -> st
     return "\n".join(lines)
 
 
-def write(inputs: RunInputs, relative: str, content: str) -> None:
-    path = inputs.OUT / relative
+def write(output_root: Path, relative: str, content: str) -> None:
+    path = output_root / relative
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(content.rstrip() + "\n", encoding="utf-8-sig")
 
 
-def generate_traditions(inputs: RunInputs) -> None:
-    base_source = read(inputs.ANT_AGOT / "common/culture/traditions/ary_traditions.txt")
-    upgrade_source = read(
-        inputs.ANT / "common/culture/traditions/ary_traditions_upgrade.txt"
-    )
+def generate_traditions(ant: Path, ant_agot: Path, output_root: Path) -> None:
+    base_source = read(ant_agot / "common/culture/traditions/ary_traditions.txt")
+    upgrade_source = read(ant / "common/culture/traditions/ary_traditions_upgrade.txt")
     names = [
         "vv_tradition_more_1",
         "vv_tradition_ice_age1",
@@ -289,7 +271,7 @@ def generate_traditions(inputs: RunInputs) -> None:
     }
     for name, replacements in changes.items():
         for old, new in replacements:
-            blocks[name] = replace_once(blocks[name], old, new)
+            blocks[name] = replace_exact(blocks[name], old, new, name)
 
     upgrade_names = [
         "vv_tradition_by_lance2",
@@ -324,13 +306,14 @@ def generate_traditions(inputs: RunInputs) -> None:
         ("enemy_hard_casualty_modifier = 0.25", "enemy_hard_casualty_modifier = 0.1"),
         ("character_travel_speed_mult = 0.25", "character_travel_speed_mult = 0.1"),
     ]:
-        upgrades["vv_tradition_by_lance2"] = replace_once(
-            upgrades["vv_tradition_by_lance2"], old, new
+        upgrades["vv_tradition_by_lance2"] = replace_exact(
+            upgrades["vv_tradition_by_lance2"], old, new, "vv_tradition_by_lance2"
         )
-    upgrades["vv_tradition_by_the_arrow2"] = replace_once(
+    upgrades["vv_tradition_by_the_arrow2"] = replace_exact(
         upgrades["vv_tradition_by_the_arrow2"],
         "enemy_terrain_advantage = -0.3",
         "enemy_terrain_advantage = -0.1",
+        "vv_tradition_by_the_arrow2",
     )
 
     for old, new in [
@@ -351,8 +334,8 @@ def generate_traditions(inputs: RunInputs) -> None:
             "elephant_cavalry_recruitment_cost_mult = -0.1",
         ),
     ]:
-        upgrades["vv_tradition_ice_age2"] = replace_once(
-            upgrades["vv_tradition_ice_age2"], old, new
+        upgrades["vv_tradition_ice_age2"] = replace_exact(
+            upgrades["vv_tradition_ice_age2"], old, new, "vv_tradition_ice_age2"
         )
 
     supreme = upgrades["vv_tradition_supremeblood2"]
@@ -378,11 +361,12 @@ def generate_traditions(inputs: RunInputs) -> None:
         ("levy_reinforcement_rate = -0.8", "levy_reinforcement_rate = -0.5"),
         ("hard_casualty_modifier = -0.3", "hard_casualty_modifier = -0.15"),
     ]:
-        supreme = replace_once(supreme, old, new)
-    supreme = replace_once(
+        supreme = replace_exact(supreme, old, new, "vv_tradition_supremeblood2")
+    supreme = replace_exact(
         supreme,
         "\t\tprowess = 5\n",
         "\t\tprowess = 5\n\t\tmonthly_lifestyle_xp_gain_mult = -0.15\n\t\tmonthly_piety_gain_mult = -0.15\n\t\tmonthly_prestige_gain_mult = -0.15\n\t\tmonthly_influence_mult = -0.15\n",
+        "vv_tradition_supremeblood2",
     )
     upgrades["vv_tradition_supremeblood2"] = supreme
 
@@ -400,11 +384,12 @@ def generate_traditions(inputs: RunInputs) -> None:
             "knight_effectiveness_per_prowess = 0.01",
         ),
     ]:
-        knight = replace_once(knight, old, new)
-    knight = replace_once(
+        knight = replace_exact(knight, old, new, "vv_tradition_true_knight2")
+    knight = replace_exact(
         knight,
         "\t\tknight_effectiveness_per_prowess = 0.01\n",
         "\t\tknight_effectiveness_per_prowess = 0.01\n\t\tlevy_size = -0.4\n\t\tlevy_maintenance = 0.75\n",
+        "vv_tradition_true_knight2",
     )
     upgrades["vv_tradition_true_knight2"] = knight
 
@@ -421,20 +406,20 @@ def generate_traditions(inputs: RunInputs) -> None:
         ("build_speed = -0.35", "build_speed = -0.15"),
         ("development_growth_factor = 0.2", "development_growth_factor = 0.1"),
     ]:
-        builder = replace_once(builder, old, new)
+        builder = replace_exact(builder, old, new, "vv_tradition_tb2")
     upgrades["vv_tradition_tb2"] = builder
 
     content = "# Generated by ck3mm from the mod's workspace implementation.\n\n"
     content += "\n".join(blocks[name].rstrip() for name in names)
     content += "\n\n" + "\n".join(upgrades[name].rstrip() for name in upgrade_names)
     write(
-        inputs,
+        output_root,
         "common/culture/traditions/zz_ant_agot_vanilla_balance_traditions.txt",
         content,
     )
 
 
-def generate_modifiers(inputs: RunInputs) -> None:
+def generate_modifiers(output_root: Path) -> None:
     content = r"""# Generated by ck3mm from the mod's workspace implementation.
 
 ary_traditions_1_modifier = {
@@ -569,7 +554,11 @@ ary_house_traditions_1_modifier = {
 	glory_hound_opinion = 5
 }
 """
-    write(inputs, "common/modifiers/zz_ant_agot_vanilla_balance_modifiers.txt", content)
+    write(
+        output_root,
+        "common/modifiers/zz_ant_agot_vanilla_balance_modifiers.txt",
+        content,
+    )
 
 
 MAA_STATS = {
@@ -609,8 +598,8 @@ def scale_environment_bonus(bonus_block: str, new_stats: dict[str, int]) -> str:
     return pattern.sub(scaled, bonus_block)
 
 
-def generate_maa(inputs: RunInputs) -> None:
-    source = read(inputs.ANT_AGOT / "common/men_at_arms_types/vv_ary_maa_types.txt")
+def generate_maa(ant_agot: Path, output_root: Path) -> None:
+    source = read(ant_agot / "common/men_at_arms_types/vv_ary_maa_types.txt")
     blocks: list[str] = []
     for name, (stack, damage, toughness, pursuit, screen) in MAA_STATS.items():
         block = extract(source, name)
@@ -646,7 +635,9 @@ def generate_maa(inputs: RunInputs) -> None:
 
 """ + "\n\n".join(blocks)
     write(
-        inputs, "common/men_at_arms_types/zz_ant_agot_vanilla_balance_maa.txt", content
+        output_root,
+        "common/men_at_arms_types/zz_ant_agot_vanilla_balance_maa.txt",
+        content,
     )
 
 
@@ -674,13 +665,15 @@ def replace_matching_values(
     return regex.sub(lambda match: match.group(1) + number(value), block)
 
 
-def generate_common_buildings(inputs: RunInputs) -> None:
-    source_cache = {path: read(path) for path in set(inputs.COMMON_CHAINS.values())}
+def generate_common_buildings(
+    common_chains: dict[str, Path], output_root: Path
+) -> None:
+    source_cache = {path: read(path) for path in set(common_chains.values())}
     specialist_curve = [0.10, 0.15, 0.20, 0.25, 0.30, 0.35, 0.40, 0.45]
     general_curve = [0.05, 0.10, 0.15, 0.20, 0.25, 0.30, 0.35, 0.40]
     blocks: list[str] = []
 
-    for chain, path in inputs.COMMON_CHAINS.items():
+    for chain, path in common_chains.items():
         for level in range(1, 9):
             name = f"{chain}_{level:02d}"
             block = extract(source_cache[path], name)
@@ -821,7 +814,7 @@ def generate_common_buildings(inputs: RunInputs) -> None:
         + "\n\n".join(blocks)
     )
     write(
-        inputs,
+        output_root,
         "common/buildings/zz_ant_agot_vanilla_balance_common_buildings.txt",
         content,
     )
@@ -1101,13 +1094,11 @@ def ai_duchy_block() -> str:
 \t}\n"""
 
 
-def generate_duchy_buildings(inputs: RunInputs) -> None:
+def generate_duchy_buildings(ant_agot: Path, output_root: Path) -> None:
     vanilla_source = read(
-        inputs.ANT_AGOT / "common/buildings/vv_ary_duchy_and_common_buildings.txt"
+        ant_agot / "common/buildings/vv_ary_duchy_and_common_buildings.txt"
     )
-    fantasy_source = read(
-        inputs.ANT_AGOT / "common/buildings/ary_duchy_capital_buildings.txt"
-    )
+    fantasy_source = read(ant_agot / "common/buildings/ary_duchy_capital_buildings.txt")
     blocks: list[str] = []
 
     for chain in DUCHY_CHAINS:
@@ -1144,29 +1135,19 @@ def generate_duchy_buildings(inputs: RunInputs) -> None:
         + "\n\n".join(blocks)
     )
     write(
-        inputs,
+        output_root,
         "common/buildings/zz_ant_agot_vanilla_balance_duchy_buildings.txt",
         content,
     )
 
 
-def main(inputs: RunInputs) -> None:
-    generate_traditions(inputs)
-    generate_modifiers(inputs)
-    generate_maa(inputs)
-    generate_common_buildings(inputs)
-    generate_duchy_buildings(inputs)
-
-
 def generate(context: GenerationContext) -> None:
-
-    ANT = context.source("any-new-traditions")
-    ANT_AGOT = context.source("any-new-traditions-agot")
-    OUT = context.output_root
-    common = ANT / "common/buildings/ary_common_buildings.txt"
-    common2 = ANT / "common/buildings/ary_common2_buildings.txt"
-    agot = ANT_AGOT / "common/buildings/vv_ary_duchy_and_common_buildings.txt"
-    COMMON_CHAINS = {
+    ant = context.source("any-new-traditions")
+    ant_agot = context.source("any-new-traditions-agot")
+    common = ant / "common/buildings/ary_common_buildings.txt"
+    common2 = ant / "common/buildings/ary_common2_buildings.txt"
+    agot = ant_agot / "common/buildings/vv_ary_duchy_and_common_buildings.txt"
+    common_chains = {
         "ary_mtg": common,
         "ary_ew": common,
         "ary_eto": common,
@@ -1183,5 +1164,8 @@ def generate(context: GenerationContext) -> None:
         "vv_ary_merchantg": agot,
         "ary_firearmsf": common2,
     }
-    inputs = RunInputs(ANT=ANT, ANT_AGOT=ANT_AGOT, OUT=OUT, COMMON_CHAINS=COMMON_CHAINS)
-    main(inputs)
+    generate_traditions(ant, ant_agot, context.output_root)
+    generate_modifiers(context.output_root)
+    generate_maa(ant_agot, context.output_root)
+    generate_common_buildings(common_chains, context.output_root)
+    generate_duchy_buildings(ant_agot, context.output_root)

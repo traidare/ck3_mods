@@ -5,6 +5,13 @@ owned_outputs = [
   "gui/window_county_view.gui",
 ]
 
+# The base compatch's generator is imported so the merge strategy, conflict
+# resolutions, and county-view anchors are defined once for both items.
+[[sources]]
+name = "base-generator"
+kind = "repository"
+path = "workspace/cafg_agot_compatch/implementation.py"
+
 [[sources]]
 name = "vanilla"
 kind = "game"

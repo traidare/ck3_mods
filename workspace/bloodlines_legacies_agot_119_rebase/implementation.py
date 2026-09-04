@@ -4,23 +4,11 @@
 from __future__ import annotations
 
 import re
-import shutil
 import subprocess
-from dataclasses import dataclass
-from pathlib import Path
 
 from gen import GenerationContext
 from gen.script import read_text, replace_regex
-from gen.script import write_text as write_source
 from gen.text import line_block_end, matching_brace, replace_exact
-
-
-@dataclass(frozen=True, slots=True)
-class RunInputs:
-    BLOODLINES: Path
-    AGOT: Path
-    OUTPUT: Path
-
 
 MONTHLY_OPINION_MODIFIERS = {
     "disappointed_opinion",
@@ -113,10 +101,6 @@ DDS_REENCODES = (
     "gfx/interface/illustrations/men_at_arms_small/tarbeck_starforged_retainers.dds",
     "gfx/interface/illustrations/legacy_tracks/ironborn_legacy_track.dds",
 )
-
-
-def write_text(inputs: RunInputs, relative: str, text: str) -> None:
-    write_source(inputs.OUTPUT, relative, text, preserve_trailing_whitespace=True)
 
 
 def extract_named_block(text: str, name: str) -> str:
@@ -239,9 +223,9 @@ def identify_iterated_titles(text: str, *, iterator: str) -> tuple[str, int]:
     return "\n".join(lines), repaired
 
 
-def repair_crownlands_modifiers(inputs: RunInputs) -> None:
+def repair_crownlands_modifiers(context: GenerationContext) -> None:
     relative = "common/modifiers/00_agot_crownlands_modifiers_BLA.txt"
-    text = read_text(inputs.BLOODLINES / relative)
+    text = read_text(context.source("bloodlines-legacies") / relative)
     for token, (replacement, invert, expected) in CROWNLANDS_MODIFIER_TAGS.items():
         pattern = re.compile(
             rf"(?m)^(?P<indent>[ \t]*){token}(?P<space>\s*=\s*)(?P<value>-?[\d.]+)[ \t]*$"
@@ -268,12 +252,12 @@ def repair_crownlands_modifiers(inputs: RunInputs) -> None:
     for token in CROWNLANDS_MODIFIER_TAGS:
         if re.search(rf"(?m)^[ \t]*{token}\s*=", text):
             raise RuntimeError(f"Crownlands modifiers still declare {token}")
-    write_text(inputs, relative, text)
+    context.write_text(relative, text, encoding="utf-8-sig")
 
 
-def repair_artifact_effects(inputs: RunInputs) -> None:
+def repair_artifact_effects(context: GenerationContext) -> None:
     relative = "common/scripted_effects/00_agot_artifact_effects_BLA.txt"
-    text = read_text(inputs.BLOODLINES / relative)
+    text = read_text(context.source("bloodlines-legacies") / relative)
     # Every sibling creation effect in the same file spells the rarity effect
     # correctly, so the misspelling is a single typo rather than an old name.
     text = replace_exact(
@@ -292,12 +276,13 @@ def repair_artifact_effects(inputs: RunInputs) -> None:
         expected=1,
         label="Celtigar artifact owner assignment",
     )
-    write_text(inputs, relative, text)
+    context.write_text(relative, text, encoding="utf-8-sig")
 
 
-def generate_prison_interaction(inputs: RunInputs) -> None:
+def generate_prison_interaction(context: GenerationContext) -> None:
     source = read_text(
-        inputs.AGOT / "common/character_interactions/00_prison_interactions.txt"
+        context.source("agot")
+        / "common/character_interactions/00_prison_interactions.txt"
     )
     block = extract_named_block(source, "execute_prisoner_interaction")
     block = replace_exact(
@@ -322,14 +307,16 @@ def generate_prison_interaction(inputs: RunInputs) -> None:
         expected=1,
         label="Bolton flaying option",
     )
-    write_text(
-        inputs, "common/character_interactions/00_prison_interactions_BLA.txt", block
+    context.write_text(
+        "common/character_interactions/00_prison_interactions_BLA.txt",
+        block,
+        encoding="utf-8-sig",
     )
 
 
-def generate_guarded_special_buildings(inputs: RunInputs) -> None:
+def generate_guarded_special_buildings(context: GenerationContext) -> None:
     relative = "common/on_action/agot_on_actions/agot_game_start_BLA.txt"
-    text = read_text(inputs.BLOODLINES / relative)
+    text = read_text(context.source("bloodlines-legacies") / relative)
     pattern = re.compile(
         r"^(?P<indent>[ \t]*)province:(?P<province>\d+) = "
         r"\{ add_special_building = (?P<building>[A-Za-z0-9_]+) \}$",
@@ -354,12 +341,12 @@ def generate_guarded_special_buildings(inputs: RunInputs) -> None:
         raise RuntimeError(
             f"special-building guards: expected 57 active additions, guarded {count}"
         )
-    write_text(inputs, relative, text)
+    context.write_text(relative, text, encoding="utf-8-sig")
 
 
-def repair_child_birth_on_action(inputs: RunInputs) -> None:
+def repair_child_birth_on_action(context: GenerationContext) -> None:
     relative = "common/on_action/child_birth_on_actions_cultures_BLA.txt"
-    text = read_text(inputs.BLOODLINES / relative)
+    text = read_text(context.source("bloodlines-legacies") / relative)
     old = (
         "\t\t\t\t\t  random_list = {\n"
         "        \t\t\t\t\t1 = { add_trait = beauty_good_1 }\n"
@@ -380,15 +367,15 @@ def repair_child_birth_on_action(inputs: RunInputs) -> None:
         "\t\t\tif = {\n"
     )
     text = replace_exact(text, old, new, expected=1, label="Lyseni child-beauty brace")
-    write_text(inputs, relative, text)
+    context.write_text(relative, text, encoding="utf-8-sig")
 
 
-def repair_common_files(inputs: RunInputs) -> None:
+def repair_common_files(context: GenerationContext) -> None:
     # Only files with a defect Bloodlines has not fixed itself are overridden.
     # The formable-kingdoms decisions file is correct upstream and is deliberately
     # left to load unmodified, so the repairs below are the whole common/ scope.
     relative = "common/decisions/agot_decisions/00_agot_major_decisions_BLA.txt"
-    text = read_text(inputs.BLOODLINES / relative)
+    text = read_text(context.source("bloodlines-legacies") / relative)
     text = replace_exact(
         text,
         "\t\t\t\topinion < 0\n",
@@ -396,10 +383,10 @@ def repair_common_files(inputs: RunInputs) -> None:
         expected=1,
         label="opinion trigger syntax",
     )
-    write_text(inputs, relative, text)
+    context.write_text(relative, text, encoding="utf-8-sig")
 
     relative = "common/dynasty_legacies/99_agot_cultures_BLA_legacies.txt"
-    text = read_text(inputs.BLOODLINES / relative)
+    text = read_text(context.source("bloodlines-legacies") / relative)
     text = replace_exact(
         text,
         "culture:gogossosi",
@@ -407,10 +394,10 @@ def repair_common_files(inputs: RunInputs) -> None:
         expected=1,
         label="Gogossos culture id",
     )
-    write_text(inputs, relative, text)
+    context.write_text(relative, text, encoding="utf-8-sig")
 
     relative = "common/dynasty_perks/00_agot_BLA_perks.txt"
-    text = read_text(inputs.BLOODLINES / relative)
+    text = read_text(context.source("bloodlines-legacies") / relative)
     text = replace_regex(
         text,
         r"^(\s*)build_gold_cost\s+(-0\.(?:10|05))\s*$",
@@ -419,10 +406,10 @@ def repair_common_files(inputs: RunInputs) -> None:
         label="build_gold_cost equals signs",
         flags=re.MULTILINE,
     )
-    write_text(inputs, relative, text)
+    context.write_text(relative, text, encoding="utf-8-sig")
 
     relative = "common/great_projects/types/zz_agot_great_projects_BLA.txt"
-    text = read_text(inputs.BLOODLINES / relative)
+    text = read_text(context.source("bloodlines-legacies") / relative)
     if text.count("@msg_completion_effect_generic") != 3:
         raise RuntimeError("expected three generic completion sound references")
     text = (
@@ -430,10 +417,10 @@ def repair_common_files(inputs: RunInputs) -> None:
         '"event:/DLC/EP4/SFX/Stingers/China/'
         'tgp_mx_sting_finishing_great_project_generic"\n\n' + text
     )
-    write_text(inputs, relative, text)
+    context.write_text(relative, text, encoding="utf-8-sig")
 
     relative = "common/modifiers/00_agot_riverlands_modifiers_BLA.txt"
-    text = read_text(inputs.BLOODLINES / relative)
+    text = read_text(context.source("bloodlines-legacies") / relative)
     text = replace_exact(
         text,
         "\tmonthly_piety = 0.20\n"
@@ -450,7 +437,7 @@ def repair_common_files(inputs: RunInputs) -> None:
         expected=1,
         label="Vance piety modifier icon",
     )
-    write_text(inputs, relative, text)
+    context.write_text(relative, text, encoding="utf-8-sig")
 
 
 def remove_monthly_opinion_durations(text: str) -> tuple[str, int]:
@@ -902,17 +889,18 @@ EXPECTED_EVENT_REPAIRS = {
 }
 
 
-def generate_events(inputs: RunInputs) -> None:
+def generate_events(context: GenerationContext) -> None:
     totals = dict.fromkeys(EXPECTED_EVENT_REPAIRS, 0)
     changed_files = 0
-    for source in sorted((inputs.BLOODLINES / "events").rglob("*.txt")):
-        relative = source.relative_to(inputs.BLOODLINES).as_posix()
+    bloodlines = context.source("bloodlines-legacies")
+    for source in sorted((bloodlines / "events").rglob("*.txt")):
+        relative = source.relative_to(bloodlines).as_posix()
         original = read_text(source)
         patched, stats = repair_event(relative, original)
         for key in totals:
             totals[key] += stats[key]
         if patched != original:
-            write_text(inputs, relative, patched)
+            context.write_text(relative, patched, encoding="utf-8-sig")
             changed_files += 1
     for key, expected in EXPECTED_EVENT_REPAIRS.items():
         if totals[key] != expected:
@@ -928,9 +916,8 @@ def generate_events(inputs: RunInputs) -> None:
     )
 
 
-def generate_opinion_compatibility(inputs: RunInputs) -> None:
-    write_text(
-        inputs,
+def generate_opinion_compatibility(context: GenerationContext) -> None:
+    context.write_text(
         "common/opinion_modifiers/zz_bla_119_opinion_compat.txt",
         """# Bloodlines used opinion ids removed from current CK3.
 #
@@ -1006,12 +993,13 @@ offended_opinion = {
 \tstacking = yes
 }
 """,
+        encoding="utf-8-sig",
     )
 
 
-def generate_localization(inputs: RunInputs) -> None:
+def generate_localization(context: GenerationContext) -> None:
     relative = "localization/replace/english/agot_BLA_l_english.yml"
-    text = read_text(inputs.BLOODLINES / relative)
+    text = read_text(context.source("bloodlines-legacies") / relative)
     text = replace_exact(
         text,
         "kingdom_of_duskendale_decision",
@@ -1056,10 +1044,9 @@ def generate_localization(inputs: RunInputs) -> None:
         expected=1,
         label="Jordayne unit localization quote",
     )
-    write_text(inputs, relative, text)
+    context.write_text(relative, text, encoding="utf-8-sig")
 
-    write_text(
-        inputs,
+    context.write_text(
         "localization/english/bla_119_runtime_rebase_l_english.yml",
         """l_english:
  betrayed_opinion:0 "Betrayed"
@@ -1082,14 +1069,15 @@ def generate_localization(inputs: RunInputs) -> None:
  great_project_type_tooltip_construct_great_fleet_02:0 "$great_project_type_construct_great_fleet_02_desc$"
  great_project_type_tooltip_construct_great_fleet_03:0 "$great_project_type_construct_great_fleet_03_desc$"
 """,
+        encoding="utf-8-sig",
     )
 
 
-def generate_dds_reencodes(inputs: RunInputs) -> None:
+def generate_dds_reencodes(context: GenerationContext) -> None:
     """Re-encode malformed BC7 assets losslessly at their original dimensions."""
     for relative in DDS_REENCODES:
-        source = inputs.BLOODLINES / relative
-        target = inputs.OUTPUT / relative
+        source = context.source("bloodlines-legacies") / relative
+        target = context.output_path(relative)
         if not source.is_file():
             raise RuntimeError(f"DDS source not found: {source}")
         target.parent.mkdir(parents=True, exist_ok=True)
@@ -1099,33 +1087,21 @@ def generate_dds_reencodes(inputs: RunInputs) -> None:
         )
 
 
-def main(inputs: RunInputs) -> None:
-    if not inputs.BLOODLINES.is_dir():
-        raise RuntimeError(f"Bloodlines Workshop source not found: {inputs.BLOODLINES}")
-    if not inputs.AGOT.is_dir():
-        raise RuntimeError(f"AGOT Workshop source not found: {inputs.AGOT}")
-    inputs.OUTPUT.mkdir(parents=True, exist_ok=True)
-    for generated_directory in ("common", "events", "gfx", "localization"):
-        target = inputs.OUTPUT / generated_directory
-        if target.exists():
-            shutil.rmtree(target)
-
-    generate_prison_interaction(inputs)
-    generate_guarded_special_buildings(inputs)
-    repair_child_birth_on_action(inputs)
-    repair_common_files(inputs)
-    repair_crownlands_modifiers(inputs)
-    repair_artifact_effects(inputs)
-    generate_events(inputs)
-    generate_opinion_compatibility(inputs)
-    generate_localization(inputs)
-    generate_dds_reencodes(inputs)
-
-
 def generate(context: GenerationContext) -> None:
+    bloodlines = context.source("bloodlines-legacies")
+    agot = context.source("agot")
+    if not bloodlines.is_dir():
+        raise RuntimeError(f"Bloodlines Workshop source not found: {bloodlines}")
+    if not agot.is_dir():
+        raise RuntimeError(f"AGOT Workshop source not found: {agot}")
 
-    BLOODLINES = context.source("bloodlines-legacies")
-    AGOT = context.source("agot")
-    OUTPUT = context.output_root
-    inputs = RunInputs(BLOODLINES=BLOODLINES, AGOT=AGOT, OUTPUT=OUTPUT)
-    main(inputs)
+    generate_prison_interaction(context)
+    generate_guarded_special_buildings(context)
+    repair_child_birth_on_action(context)
+    repair_common_files(context)
+    repair_crownlands_modifiers(context)
+    repair_artifact_effects(context)
+    generate_events(context)
+    generate_opinion_compatibility(context)
+    generate_localization(context)
+    generate_dds_reencodes(context)

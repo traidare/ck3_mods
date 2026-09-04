@@ -13,7 +13,6 @@ Whole-file merges of paths that several parents genuinely contest:
   conversion in `contest_events.txt` — a superset of the two-file
   [cafg_agot_lov_compatch](../cafg_agot_lov_compatch/README.md) variant, which
   carries the LoV + CaFG merge for playsets without MFA;
-- CaFG county/province controls with LoV ruin restoration in the county view;
 - AGOT, Additional Models, and COW special-building model detection with the
   NOW-COW 1.0.2 Dunstonbury/Sisterton province remaps, while retaining LoV's
   later graphical-background definitions;
@@ -21,6 +20,38 @@ Whole-file merges of paths that several parents genuinely contest:
   enabled Seasons-of-Valyria Workshop fork supplies its maintained regional
   definitions, repaint actions, map modes, seasonal effects, GUI, situations,
   and localization.
+
+## Activity merges
+
+Much Faster Activities regenerates its overrides from vanilla, so each of its
+files carries vanilla lines AGOT had already replaced alongside the timing edits
+that are the mod's purpose. Both are its delta as `git merge-file` sees it, and
+the vanilla ones conflict with every AGOT-derived parent. `tournament.txt`
+therefore restores AGOT's text for the two the file contains — the jungle
+terrain test AGOT abstracts behind `agot_is_jungle_terrain`, and the archery
+bonus AGOT disables with the tradition itself — before merging, and asserts each
+is present exactly once, so a release that drops or moves either fails
+generation.
+
+The merge base is AGOT for every parent that derives from AGOT, and vanilla for
+CaFG, which edits vanilla and never saw AGOT. `contest_events.txt` needs both,
+one after the other. Each merge asserts that the parent's textual delta reaches
+the output unchanged, so an upstream release that starts touching lines another
+parent also touches fails rather than silently dropping one side.
+
+`coronation.txt`, `coronation_events.txt`, and `agot_dragon_hatching.txt` carry
+deltas of this layer's own on top of their merges: the five coronation holy-site
+tests are guarded with `exists = barony.holder`, because CK3 discards the whole
+clause when the barony is unheld and a restored or ruined holy site would
+otherwise read as an invalid location; the court chaplain is summoned through
+`?=` and a scope test, because the effect that moves them runs outside the one
+that established the activity; and both dragon-hatching variants let AGOT: Canon
+Enforcement spare a protected host from the accident.
+
+The LoV parent is the enabled `lov-agot-bridge` for every file except
+`contest_events.txt`, which takes the unenabled `lov-agot-compatch` beta — the
+only parent carrying the tournament summary guards that keep an unset
+`last_versus_match` out of a comparison.
 
 Beyond those merges the generated layer owns eight cross-parent whole-file
 overrides: the five seasonal, title-name, and dragon-on-action boundaries below,
@@ -128,11 +159,12 @@ name sorting after `zzz_agot_playset_`.
 Nobility of Westeros' own file, so it shadows that file whole rather than
 merging with it. The Sisterton culture and holding change is this layer's
 intended delta; every other province entry must therefore reproduce Nobility of
-Westeros', or the province silently falls back to AGOT's. The file carries all
-nineteen of that parent's entries, and a province it stops carrying reverts —
-`2326` in particular reverts to `holding = none`, the holdingless-barony case
-the Bloodlines game-start guard exists to work around. Re-audit whenever
-Workshop `3664900993` changes that file.
+Westeros', or the province silently falls back to AGOT's — `2326` to
+`holding = none`, the holdingless-barony case the Bloodlines game-start guard
+exists to work around. The file is generated from that parent and carries only
+the Sisterton delta, so an entry the parent gains, drops, or re-numbers follows
+without an audit, and a change to the three provinces the delta names fails
+generation.
 
 ## Canon-enforcement guard
 
@@ -196,10 +228,11 @@ ck3mm mod generate agot_full_playset_compatch --apply
 ```
 
 The `mod.toml` manifest regenerates the owned outputs from the declared AGOT,
-New Personality Events, NOW, Seasons-fork, dragon-mod, Iron and Salt, Dynamic
-Family Portrait, LoV bridge, Long Night, and Great Councils sources. It also
-declares the Additional Models, AGOT+/LoV compatch, and disabled COW-AGOT/NOW
-source that back the assertions above. Its portable source metadata lives here,
+New Personality Events, NOW, Seasons-fork, dragon-mod, MFA, CaFG, Iron and Salt,
+Dynamic Family Portrait, LoV bridge, Long Night, Great Councils, and vanilla
+sources. It also declares the Additional Models, AGOT+/LoV compatch, and the two
+disabled mods — the COW-AGOT/NOW compatch and the LoV AGOT compatch beta — that
+back the assertions and merges above. Its portable source metadata lives here,
 outside the installed runtime payload.
 
 ## Re-audit

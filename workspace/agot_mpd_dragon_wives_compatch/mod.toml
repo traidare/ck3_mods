@@ -1,0 +1,20 @@
+[generator]
+entrypoint = "implementation.py:generate"
+owned_outputs = ["gui/window_character.gui"]
+
+[[sources]]
+name = "dragon-wives"
+kind = "workshop"
+item_id = "3541596590"
+
+[[sources]]
+name = "more-personality-depth"
+kind = "workshop"
+item_id = "3717990443"
+
+# Read only to confirm Dragon Wives has absorbed AGOT's current character
+# window; nothing is copied from it.
+[[sources]]
+name = "agot"
+kind = "workshop"
+item_id = "2962333032"

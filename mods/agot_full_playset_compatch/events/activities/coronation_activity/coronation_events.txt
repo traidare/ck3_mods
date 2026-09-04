@@ -150,7 +150,7 @@ coronation_events.0100 = {
 					coronation_living_officiator_trigger = yes
 				}
 			}
-			
+
 		}
 		reference = throne_room
 	}
@@ -229,7 +229,7 @@ coronation_events.0100 = {
 		}
 		sworn_oath_effect = yes
 
-		scope:host = { 
+		scope:host = {
 			coronation_chosen_oath_setup_effect = {
 				VAR = diplomacy_oath_1
 				TIME = 7300
@@ -255,7 +255,7 @@ coronation_events.0100 = {
 		}
 		sworn_oath_effect = yes
 
-		scope:host = { 
+		scope:host = {
 			coronation_chosen_oath_setup_effect = {
 				VAR = diplomacy_oath_2
 				TIME = 10950
@@ -273,7 +273,7 @@ coronation_events.0100 = {
 		name = coronation_events.0100.reconquest
 		flavor = coronation_events.0100.reconquest_flavor
 		reason = reconquest_oath
-		
+
 		trigger = {
 			any_in_list = {
 				list = chosen_oaths
@@ -282,7 +282,7 @@ coronation_events.0100 = {
 		}
 		sworn_oath_effect = yes
 
-		scope:host = { 
+		scope:host = {
 			coronation_chosen_oath_setup_effect = {
 				VAR = martial_oath_1
 				TIME = 7300
@@ -346,7 +346,7 @@ coronation_events.0100 = {
 		}
 		sworn_oath_effect = yes
 
-		scope:host = { 
+		scope:host = {
 			if = {
 				limit = {
 					is_ai = yes
@@ -418,7 +418,7 @@ coronation_events.0100 = {
 		}
 		sworn_oath_effect = yes
 
-		scope:host = { 
+		scope:host = {
 			if = {
 				limit = {
 					is_ai = yes
@@ -454,7 +454,7 @@ coronation_events.0100 = {
 		}
 		sworn_oath_effect = yes
 
-		scope:host = { 
+		scope:host = {
 			coronation_chosen_oath_setup_effect = {
 				VAR = stewardship_oath_2
 				TIME = 7300
@@ -498,7 +498,7 @@ coronation_events.0100 = {
 		}
 		sworn_oath_effect = yes
 
-		scope:host = { 
+		scope:host = {
 			coronation_chosen_oath_setup_effect = {
 				VAR = learning_oath_1
 				TIME = 18250
@@ -528,7 +528,7 @@ coronation_events.0100 = {
 			}
 		}
 
-		scope:host = { 
+		scope:host = {
 			coronation_chosen_oath_setup_effect = {
 				VAR = purge_pretenders_oath
 				TIME = 7300
@@ -557,7 +557,7 @@ coronation_events.0100 = {
 			}
 		}
 
-		scope:host = { 
+		scope:host = {
 			coronation_chosen_oath_setup_effect = {
 				VAR = end_the_struggle_oath
 				TIME = 18250
@@ -608,7 +608,7 @@ coronation_events.0100 = {
 				this = flag:greatest_hunter_oath
 			}
 		}
-		scope:host = { 
+		scope:host = {
 			coronation_chosen_oath_setup_effect = {
 				VAR = greatest_hunter_oath
 				TIME = 14600
@@ -627,7 +627,7 @@ coronation_events.0100 = {
 			base = 0
 			modifier = {
 				add = 10
-				has_trait = lifestyle_hunter 
+				has_trait = lifestyle_hunter
 			}
 			modifier = {
 				add = 10
@@ -650,7 +650,7 @@ coronation_events.0100 = {
 		}
 		sworn_oath_effect = yes
 
-		scope:host = { 
+		scope:host = {
 			coronation_chosen_oath_setup_effect = {
 				VAR = heir_preparation_oath
 				TIME = 14600
@@ -676,7 +676,7 @@ coronation_events.0100 = {
 		}
 		sworn_oath_effect = yes
 
-		scope:host = { 
+		scope:host = {
 			coronation_chosen_oath_setup_effect = {
 				VAR = install_claimants_oath
 				TIME = 7300
@@ -730,10 +730,10 @@ coronation_events.0100 = {
 			}
 			culture = {
 				save_scope_as = target_culture
-			}	
+			}
 		}
 
-		scope:host = { 
+		scope:host = {
 			coronation_chosen_oath_setup_effect = {
 				VAR = mend_the_fracture_oath
 				TIME = 7300
@@ -763,7 +763,7 @@ coronation_events.0100 = {
 		}
 		sworn_oath_effect = yes
 
-		scope:host = { 
+		scope:host = {
 			coronation_chosen_oath_setup_effect = {
 				VAR = provide_for_the_warriors_oath
 				TIME = 7300
@@ -800,7 +800,7 @@ coronation_events.0100 = {
 		}
 		sworn_oath_effect = yes
 
-		scope:host = { 
+		scope:host = {
 			coronation_chosen_oath_setup_effect = {
 				VAR = provide_for_the_faithful_oath
 				TIME = 7300
@@ -838,7 +838,7 @@ coronation_events.0100 = {
 		}
 		sworn_oath_effect = yes
 
-		scope:host = { 
+		scope:host = {
 			coronation_chosen_oath_setup_effect = {
 				VAR = provide_for_the_poor_oath
 				TIME = 7300
@@ -876,7 +876,7 @@ coronation_events.0100 = {
 		}
 		sworn_oath_effect = yes
 
-		scope:host = { 
+		scope:host = {
 			coronation_chosen_oath_setup_effect = {
 				VAR = repent_oath
 				TIME = 7300
@@ -929,8 +929,8 @@ coronation_events.0100 = {
 					}
 				}
 			}
-			scope:activity = { 
-				progress_activity_phase_after = { days = MFA_coronation_56d_event_paf } 
+			scope:activity = {
+				progress_activity_phase_after = { days = MFA_coronation_56d_event_paf }
 				set_variable = ceremony_complete
 			}
 			trigger_event = {
@@ -1145,7 +1145,7 @@ coronation_events.0110 = {
 					coronation_living_officiator_trigger = yes
 				}
 			}
-			
+
 		}
 		reference = throne_room
 	}
@@ -1302,11 +1302,11 @@ coronation_events.0150 = {
 			VAR = diplomacy_oath_2
 		}
 		# Martial
-		coronation_oath_remove_variable_on_failure_effect = { 
-			VAR = martial_oath_1 
+		coronation_oath_remove_variable_on_failure_effect = {
+			VAR = martial_oath_1
 		}
-		coronation_oath_remove_variable_on_failure_effect = { 
-			VAR = martial_oath_2 
+		coronation_oath_remove_variable_on_failure_effect = {
+			VAR = martial_oath_2
 		}
 		# Stewardship
 		coronation_oath_remove_variable_on_failure_effect = {
@@ -1317,13 +1317,13 @@ coronation_events.0150 = {
 		}
 		# Intrigue
 		# Learning
-		coronation_oath_remove_variable_on_failure_effect = { 
-			VAR = learning_oath_1 
+		coronation_oath_remove_variable_on_failure_effect = {
+			VAR = learning_oath_1
 		}
 
 		# Purge Pretenders
-		coronation_oath_remove_variable_on_failure_effect = { 
-			VAR = purge_pretenders_oath 
+		coronation_oath_remove_variable_on_failure_effect = {
+			VAR = purge_pretenders_oath
 		}
 
 		#End the Struggle
@@ -1369,19 +1369,19 @@ coronation_events.0150 = {
 
 	option = {
 		name = {
-			trigger = { 
+			trigger = {
 				always = yes
 			}
 			text = coronation_events.0150.a
 		}
 		name = {
-			trigger = { 
+			trigger = {
 				has_trait = deceitful
 			}
 			text = coronation_events.0150.a_deceitful
 		}
 		name = {
-			trigger = { 
+			trigger = {
 				has_trait = honest
 			}
 			text = coronation_events.0150.a_honest
@@ -1395,7 +1395,7 @@ coronation_events.0150 = {
 				max = -100
 			}
 		}
-	
+
 		add_legitimacy = {
 			value = {
 				value = -10
@@ -1417,13 +1417,13 @@ coronation_events.0150 = {
 				set_nickname_effect = { NICKNAME = nick_the_oathbreaker }
 			}
 		}
-		
+
 
 		stress_impact = {
 			deceitful = minor_stress_impact_loss
 			honest = medium_stress_impact_gain
 			ambitious = minor_stress_impact_gain
-		}		
+		}
 	}
 }
 
@@ -1704,7 +1704,7 @@ coronation_events.0200 = {
 								has_relation_rival = scope:host
 							}
 						}
-						
+
 						is_in_guest_subset = {
 							name = supporter
 						}
@@ -1746,7 +1746,7 @@ coronation_events.0200 = {
 							this = scope:host.faith.religious_head
 							is_alive = yes
 							is_imprisoned = no
-							
+
 						}
 					}
 				}
@@ -1789,7 +1789,7 @@ coronation_events.0200 = {
 					add_character_flag = {
 						flag = coronation_officiator
 						years = 2
-					} 
+					}
 				}
 			}
 		}
@@ -1821,7 +1821,7 @@ scripted_trigger coronation_events_0205_audience = {
 		is_spouse_of = scope:host
 		is_close_family_of = scope:host
 		is_diarch_of_target = scope:host
-	}	
+	}
 	#AGOT Added
 	is_human = yes
 }
@@ -1974,7 +1974,7 @@ coronation_events.0205 = {
 					scope:activity.activity_host = root
 				}
 				desc = coronation_events.0205.desc.host
-				
+
 			}
 			triggered_desc = {
 				trigger = {
@@ -2293,7 +2293,7 @@ coronation_events.0205 = {
 					save_scope_as = audience_2
 				}
 			}
-			
+
 		}
 		play_coronation_ceremony_music_effect = yes
 		scope:host = {
@@ -2404,7 +2404,7 @@ coronation_events.0205 = {
 			}
 		}
 	}
-	
+
 	#You are physically not great to look at and that kind of ruins the ceremony...
 	option = {
 		trigger = {
@@ -2451,7 +2451,7 @@ coronation_events.0205 = {
 		}
 		coronation_ceremony_county_effect = yes
 
-		
+
 		if = {
 			limit = {
 				scope:activity.var:activity_special_type_progression < 25
@@ -2534,7 +2534,7 @@ coronation_events.0205 = {
 			this != scope:host
 		}
 	}
-	
+
 	option = { # Magnificence is disastrous, pay gold to fix it
 		name = {
 			trigger = {
@@ -2575,7 +2575,7 @@ coronation_events.0205 = {
 		else = {
 			remove_short_term_gold = major_gold_value
 		}
-		
+
 		custom_tooltip = coronation_tt_positive_massive
 		scope:activity = { activity_special_type_progression_massive = yes }
 		coronation_add_magnificence_log_effect = {
@@ -2602,7 +2602,7 @@ coronation_events.0205 = {
 			}
 		}
 	}
-	
+
 	option = { # Magnificence is disastrous, get stressed to try and fix it
 		name = {
 			trigger = {
@@ -2732,7 +2732,7 @@ coronation_events.0205 = {
 			}
 		}
 	}
-	
+
 	after = {
 		# For MP
 		coronation_ready_effect = yes
@@ -2942,7 +2942,7 @@ coronation_events.0210 = {
 }
 
 scripted_effect coronation_events_0300_theocratic_candidate_effect = {
-	
+
 }
 
 # Choosing an officiator
@@ -3010,12 +3010,11 @@ coronation_events.0300 = {
 				limit = {
 					NOT = {
 						exists = cp:councillor_court_chaplain.involved_activity
-						cp:councillor_court_chaplain.involved_activity = involved_activity	
+						cp:councillor_court_chaplain.involved_activity = involved_activity
 					}
 				}
 				hidden_effect = {
 					cp:councillor_court_chaplain ?= {
-						# LoV/AGOT 0.2.5: keep AGOT coronation behavior, but only when the activity/location scopes are still valid.
 						if = {
 							limit = {
 								exists = root.location
@@ -3028,7 +3027,7 @@ coronation_events.0300 = {
 				}
 			}
 		}
-		
+
 		involved_activity = {
 			ordered_attending_character = {
 				limit = {
@@ -3103,7 +3102,7 @@ coronation_events.0300 = {
 				add_prestige = medium_prestige_gain
 			}
 		}
-		
+
 		custom_tooltip = coronation_events_0300_a_tooltip
 
 		ai_chance = {
@@ -3245,7 +3244,7 @@ coronation_events.0300 = {
 				custom_tooltip = coronation_events_0300_d_tooltip_effect
 			}
 		}
-		
+
 
 		ai_chance = {
 			base = 0
@@ -3288,7 +3287,7 @@ coronation_events.0300 = {
 				add_character_flag = {
 					flag = coronation_officiator
 					years = 2
-				} 
+				}
 			}
 		}
 	}
@@ -3374,9 +3373,9 @@ coronation_events.0301 = {
 					location.county = root.location.county
 					NOT = {
 						this = scope:first_candidate
-					}		
+					}
 				}
-				
+
 			}
 			faith.religious_head = {
 				save_scope_as = second_candidate
@@ -3443,7 +3442,7 @@ coronation_events.0301 = {
 			add_character_flag = {
 				flag = coronation_officiator
 				years = 2
-			} 
+			}
 		}
 		involved_activity = {
 			set_variable = {
@@ -3451,7 +3450,7 @@ coronation_events.0301 = {
 				value = scope:first_candidate
 			}
 		}
-		
+
 		ai_chance = {
 			base = 100
 		}
@@ -3473,10 +3472,10 @@ coronation_events.0301 = {
 					NOT = {
 						scope:second_candidate = root.faith.religious_head #Whomst to prevent a new pope from blessing you
 					}
-					
+
 				}
-				scope:second_candidate.piety_level >= 4	
-			}	
+				scope:second_candidate.piety_level >= 4
+			}
 		}
 
 		show_as_unavailable = {
@@ -3489,7 +3488,7 @@ coronation_events.0301 = {
 			add_character_flag = {
 				flag = coronation_officiator
 				years = 2
-			} 
+			}
 		}
 		involved_activity = {
 			set_variable = {
@@ -3503,12 +3502,12 @@ coronation_events.0301 = {
 		name = coronation_events.0301.c
 
 		trigger = {
-			has_ce1_dlc_trigger = yes		
+			has_ce1_dlc_trigger = yes
 		}
 		custom_tooltip = coronation_events.0301.c.tooltip
 		custom_tooltip = coronation_events.0301.c.tooltip_second
 		custom_tooltip = coronation_events.0301.c.tooltip_third
-		
+
 		set_variable = {
 			name = dead_officiator_funeral
 			value = scope:dead_officiator
@@ -3551,7 +3550,7 @@ coronation_events.0301 = {
 			add_character_flag = {
 				flag = coronation_officiator
 				years = 2
-			} 
+			}
 		}
 		involved_activity = {
 			set_variable = {
@@ -3619,14 +3618,14 @@ coronation_events.0302 = {
 					if = {
 						limit = {
 							is_independent_ruler = yes
-							is_alive = yes 
+							is_alive = yes
 							coronation_trigger = yes
 							NOT = {
 								coronation_has_proper_artifact_trigger = yes
 							}
 						}
 						coronation_create_artifact_game_start_effect = yes
-					}	
+					}
 				}
 			}
 			every_empire = {
@@ -3634,14 +3633,14 @@ coronation_events.0302 = {
 					if = {
 						limit = {
 							is_independent_ruler = yes
-							is_alive = yes 
+							is_alive = yes
 							coronation_trigger = yes
 							NOT = {
 								coronation_has_proper_artifact_trigger = yes
 							}
 						}
 						coronation_create_artifact_game_start_effect = yes
-					}	
+					}
 				}
 			}
 			every_hegemony = {
@@ -3649,14 +3648,14 @@ coronation_events.0302 = {
 					if = {
 						limit = {
 							is_independent_ruler = yes
-							is_alive = yes 
+							is_alive = yes
 							coronation_trigger = yes
 							NOT = {
 								coronation_has_proper_artifact_trigger = yes
 							}
 						}
 						coronation_create_artifact_game_start_effect = yes
-					}	
+					}
 				}
 			}
 		}
@@ -4101,7 +4100,7 @@ coronation_events.0310 = {
 						}
 						save_scope_as = second_char
 					}
-				}			
+				}
 			}
 			coronation_exalt_crown = {
 				save_scope_as = exalt_crown
@@ -4177,7 +4176,7 @@ coronation_events.0310 = {
 			scope:activity = {
 				any_attending_character = { count >= 3 culture != scope:activity.activity_host.culture }
 			}
-		}	
+		}
 		custom_tooltip = coronation_events.0310.a.reward.tooltip
 		switch = {
 			trigger = exists
@@ -4310,7 +4309,7 @@ coronation_events.0310 = {
 		custom_tooltip = coronation_events.0310.c.reward.tooltip
 		trigger = {
 			exists = scope:impress_attendees
-		}	
+		}
 		switch = {
 			trigger = exists
 			scope:low_magnificence = { custom_tooltip = coronation_events.0310.low_magnificence }
@@ -4375,7 +4374,7 @@ coronation_events.0310 = {
 		name = coronation_events.0310.d
 		trigger = {
 			exists = scope:weaken_detractors
-		}	
+		}
 		custom_tooltip = coronation_events.0310.d.reward.tooltip
 		switch = {
 			trigger = exists
@@ -5072,7 +5071,7 @@ coronation_events.0311 = { #Host ending event
 	}
 
 	option = {
-		name = coronation_events.0311.a	
+		name = coronation_events.0311.a
 	}
 	after = {
 		#We trigger the guest goodbye event here to make sure the guest player is notified about the host intent reward
@@ -5273,9 +5272,9 @@ coronation_events.0401 = {
 			desc = coronation_events.0401.desc_title_loss
 		}
 	}
-	
+
 	sender = scope:host
-	
+
 	option = {
 		name = coronation_events.0401.a
 	}

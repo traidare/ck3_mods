@@ -16,7 +16,13 @@ window = {
 	size = { 650 940 }
 	layer = windows_layer
 
-	visible = "[GetGlobalVariable('gr_chronicle_window_open').IsSet]"
+	# The legacy chronicle window is unreachable: the parent's decision opens
+	# the book event instead, and nothing raises `gr_chronicle_open` above
+	# zero any more.  Its own expression builds `GetPlayer.MakeScope`
+	# unconditionally, and GUI arguments are evaluated eagerly, so leaving it
+	# in place emits an untyped `(no character)` error on every refresh from
+	# the main menu onward.
+	visible = "no"
 
 	allow_outside = yes
 	movable = yes

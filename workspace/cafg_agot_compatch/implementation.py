@@ -25,6 +25,7 @@ from dataclasses import dataclass
 from pathlib import Path
 
 from gen import GenerationContext
+from gen.script import write_text
 from gen.text import matching_brace, read_source, replace_exact
 
 
@@ -115,14 +116,6 @@ COASTAL_HELPER_CALL = "E_kCAFG_cultural_boon_tradition_fp1_coastal_warriors = ye
 
 def read_text(path: Path) -> str:
     return read_source(path, normalize_newlines=True)
-
-
-def write_text(
-    inputs: RunInputs, relative: str, text: str, *, root: Path | None = None
-) -> None:
-    path = (inputs.OUTPUT if root is None else root) / relative
-    path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_text(text, encoding="utf-8-sig", newline="\n")
 
 
 def top_level_definitions(text: str) -> tuple[dict[str, str], list[str]]:
@@ -385,7 +378,7 @@ def generate_boons(inputs: RunInputs) -> None:
             f"{sorted(remaining_invalid)}"
         )
     write_text(
-        inputs,
+        inputs.MOD_OUTPUT,
         "common/scripted_effects/zzz_cafg_agot_cultural_boons_effects.txt",
         keyed_override(
             source,
@@ -400,7 +393,7 @@ def generate_boons(inputs: RunInputs) -> None:
             ),
             relative,
         ),
-        root=inputs.MOD_OUTPUT,
+        force_newline="\n",
     )
 
 
@@ -488,10 +481,10 @@ def generate_benefits(inputs: RunInputs) -> None:
             f"traditions={sorted(remaining_traditions)}"
         )
     write_text(
-        inputs,
+        inputs.MOD_OUTPUT,
         "common/scripted_effects/zzz_cafg_agot_cultural_benefits_effects.txt",
         keyed_override(source, text, ("E_kCAFG_apply_random_cultural_boon",), relative),
-        root=inputs.MOD_OUTPUT,
+        force_newline="\n",
     )
 
 
@@ -533,12 +526,12 @@ def generate_benefit_values(inputs: RunInputs) -> None:
             f"CaFG cultural-benefit values retain AGOT-invalid identifiers: {remaining}"
         )
     write_text(
-        inputs,
+        inputs.MOD_OUTPUT,
         "common/script_values/zzz_cafg_agot_cultural_benefits_values.txt",
         keyed_override(
             source, text, ("V_kCAFG_cultural_benefits_trigger_chance",), relative
         ),
-        root=inputs.MOD_OUTPUT,
+        force_newline="\n",
     )
 
 
@@ -582,10 +575,10 @@ def generate_tolerance_law_triggers(inputs: RunInputs) -> None:
                 f"{relative} retains an AGOT-absent steppe-tolerance reference"
             )
         write_text(
-            inputs,
+            inputs.MOD_OUTPUT,
             f"common/scripted_triggers/zzz_cafg_agot_{kind}_laws_triggers.txt",
             keyed_override(source, text, expected, relative),
-            root=inputs.MOD_OUTPUT,
+            force_newline="\n",
         )
 
 
@@ -703,7 +696,7 @@ def merge_event_file(inputs: RunInputs, merge: EventMerge, label: str = "AGOT") 
             f"and {merge.agot_markers} AGOT marker(s), merged output has "
             f"{calls} and {markers}"
         )
-    write_text(inputs, merge.relative, merged, root=inputs.MOD_OUTPUT)
+    write_text(inputs.MOD_OUTPUT, merge.relative, merged, force_newline="\n")
 
 
 def generate_event_merges(inputs: RunInputs) -> None:
@@ -771,7 +764,7 @@ def generate_county_view(inputs: RunInputs, source_root: Path, label: str) -> No
         expected=1,
         label=f"{label} province-view buttons anchor",
     )
-    write_text(inputs, COUNTY_VIEW, text, root=inputs.MOD_OUTPUT)
+    write_text(inputs.MOD_OUTPUT, COUNTY_VIEW, text, force_newline="\n")
 
 
 DISABLED_VANILLA_FILES: tuple[tuple[str, tuple[str, ...], str], ...] = (
@@ -846,14 +839,26 @@ def generate_disabled_vanilla_overrides(inputs: RunInputs) -> None:
                 )
         body = "".join(f"# {line}\n".rstrip(" ") for line in reason.split("\n"))
         write_text(
-            inputs,
+            inputs.MOD_OUTPUT,
             relative,
             "# AGOT compatibility: intentionally empty.\n#\n" + body,
-            root=inputs.MOD_OUTPUT,
+            force_newline="\n",
         )
 
 
-def main(inputs: RunInputs) -> None:
+def generate(context: GenerationContext) -> None:
+    MOD_SOURCE = context.source("culture-faith-granularity")
+    SOURCE = MOD_SOURCE / "common/scripted_effects"
+    MOD_OUTPUT = context.output_root
+    OUTPUT = MOD_OUTPUT / "common/scripted_effects"
+    inputs = RunInputs(
+        MOD_SOURCE=MOD_SOURCE,
+        SOURCE=SOURCE,
+        MOD_OUTPUT=MOD_OUTPUT,
+        OUTPUT=OUTPUT,
+        AGOT_SOURCE=context.source("a-game-of-thrones"),
+        VANILLA_SOURCE=context.source("vanilla"),
+    )
     generate_boons(inputs)
     generate_benefits(inputs)
     generate_benefit_values(inputs)
@@ -867,20 +872,3 @@ def main(inputs: RunInputs) -> None:
         f"4 steppe-tolerance checks), {len(DISABLED_VANILLA_FILES)} vanilla-only "
         f"files disabled, {len(EVENT_MERGES)} event files merged."
     )
-
-
-def generate(context: GenerationContext) -> None:
-
-    MOD_SOURCE = context.source("culture-faith-granularity")
-    SOURCE = MOD_SOURCE / "common/scripted_effects"
-    MOD_OUTPUT = context.output_root
-    OUTPUT = MOD_OUTPUT / "common/scripted_effects"
-    inputs = RunInputs(
-        MOD_SOURCE=MOD_SOURCE,
-        SOURCE=SOURCE,
-        MOD_OUTPUT=MOD_OUTPUT,
-        OUTPUT=OUTPUT,
-        AGOT_SOURCE=context.source("a-game-of-thrones"),
-        VANILLA_SOURCE=context.source("vanilla"),
-    )
-    main(inputs)

@@ -30,7 +30,9 @@ AGOT bridge for AGOT as the parent source. The merge strategy, conflict
 resolutions, county-view anchors, and post-merge assertions are therefore
 defined once and cannot drift between the two published items. The
 contest-events merge is conflict-free and asserts the same 1 `E_kCAFG_` call /
-24 `#AGOT` markers as the base.
+24 `#AGOT` markers as the base. The base generator is declared as a
+`kind = "repository"` source and pinned in `sources.lock.json` like any other
+input, so editing it shows up here as upstream drift.
 
 ## Pinned parent
 

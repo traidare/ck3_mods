@@ -22,26 +22,28 @@ from gen import GenerationContext, GenerationError
 BASE_MODULE = "cafg_agot_compatch"
 
 
-def load_base(tooling_root: Path):
+def load_base(path: Path):
     """Import the base compatch generator so both items share one code path.
 
     The merge strategy, conflict resolutions, and county-view anchors must not
     drift between the base and this variant, so they are defined once.
     """
-    path = tooling_root.parent / BASE_MODULE / "implementation.py"
     if not path.is_file():
         raise GenerationError(f"missing base generator: {path}")
     spec = importlib.util.spec_from_file_location(f"{BASE_MODULE}_impl", path)
-    if spec is None or spec.loader is None:
+    if spec is None:
         raise GenerationError(f"cannot load base generator: {path}")
     module = importlib.util.module_from_spec(spec)
     sys.modules[spec.name] = module
-    spec.loader.exec_module(module)
+    # Read the source here rather than through the loader: `exec_module` opens
+    # the file with `io.open_code`, which the sidecar's read recorder does not
+    # see, and the base generator has to be pinned like any other input.
+    exec(compile(path.read_text(encoding="utf-8"), str(path), "exec"), module.__dict__)
     return module
 
 
 def generate(context: GenerationContext) -> None:
-    base = load_base(context.tooling_root)
+    base = load_base(context.source("base-generator"))
 
     MOD_SOURCE = context.source("culture-faith-granularity")
     LOV_SOURCE = context.source("legacy-of-valyria-agot-bridge")

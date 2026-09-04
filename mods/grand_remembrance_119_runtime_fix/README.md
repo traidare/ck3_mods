@@ -14,13 +14,6 @@ Load immediately after the AGOT compatibility submod.
 
 ## What it repairs
 
-**The chronicle window error loop.** The window exists before a playable
-character does, and Grand Remembrance's visibility check always builds a player
-scope — so it could run against an invalid character and log an error on every
-interface refresh. The window's visibility now uses a scope-free global flag
-instead. Grand Remembrance's own variables still own all chronicle page state;
-the flag only controls whether the window is on screen.
-
 **Obituaries against AGOT's database.** Grand Remembrance's obituary processor
 assumes the vanilla and RICE databases. AGOT removes its fame traits, religion
 tags, culture heritages, and elective title laws, so the first processed death

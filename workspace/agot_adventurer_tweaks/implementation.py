@@ -3,7 +3,6 @@
 
 from __future__ import annotations
 
-from dataclasses import dataclass
 from pathlib import Path
 
 from gen import GenerationContext
@@ -37,14 +36,6 @@ EVICT_HEADER = """\
 # evict_adventurer_interaction so only the county's own county-tier holder can
 # evict a camp. Must load after A Game of Thrones.
 """
-
-
-@dataclass(frozen=True, slots=True)
-class RunInputs:
-    BASTARD_DECISIONS: Path
-    LAAMP_INTERACTIONS: Path
-    BASTARD_OUTPUT: Path
-    EVICT_OUTPUT: Path
 
 
 def extract(text: str, name: str) -> str:
@@ -102,19 +93,23 @@ def write_output(path: Path, content: str, newline: str) -> None:
     path.write_text(content, encoding="utf-8-sig", newline="")
 
 
-def main(inputs: RunInputs) -> None:
-    decisions_raw = read_source(inputs.BASTARD_DECISIONS)
-    interactions_raw = read_source(inputs.LAAMP_INTERACTIONS)
+def generate(context: GenerationContext) -> None:
+    decisions_raw = read_source(context.source("agot-bastard-decisions"))
+    interactions_raw = read_source(context.source("agot-laamp-interactions"))
     decisions = normalize_newlines(decisions_raw, "\n")
     interactions = normalize_newlines(interactions_raw, "\n")
 
     write_output(
-        inputs.BASTARD_OUTPUT,
+        context.output_path(
+            "common/decisions/agot_decisions/zz_agot_adventurer_bastard_decisions.txt"
+        ),
         build_bastard_decisions(decisions),
         newline_style(decisions_raw),
     )
     write_output(
-        inputs.EVICT_OUTPUT,
+        context.output_path(
+            "common/character_interactions/zz_agot_adventurer_evict_interaction.txt"
+        ),
         build_evict_interaction(interactions),
         newline_style(interactions_raw),
     )
@@ -123,22 +118,3 @@ def main(inputs: RunInputs) -> None:
         "landed-or-landless, 1 eviction interaction restricted to the county's "
         "own county-tier holder."
     )
-
-
-def generate(context: GenerationContext) -> None:
-
-    BASTARD_DECISIONS = context.source("agot-bastard-decisions")
-    LAAMP_INTERACTIONS = context.source("agot-laamp-interactions")
-    BASTARD_OUTPUT = context.output_path(
-        "common/decisions/agot_decisions/zz_agot_adventurer_bastard_decisions.txt"
-    )
-    EVICT_OUTPUT = context.output_path(
-        "common/character_interactions/zz_agot_adventurer_evict_interaction.txt"
-    )
-    inputs = RunInputs(
-        BASTARD_DECISIONS=BASTARD_DECISIONS,
-        LAAMP_INTERACTIONS=LAAMP_INTERACTIONS,
-        BASTARD_OUTPUT=BASTARD_OUTPUT,
-        EVICT_OUTPUT=EVICT_OUTPUT,
-    )
-    main(inputs)

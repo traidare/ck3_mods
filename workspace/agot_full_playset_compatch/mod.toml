@@ -3,9 +3,7 @@ entrypoint = "implementation.py:generate"
 owned_outputs = [
   "events/lov_season_events.txt",
   "gfx/FX/province_effects.fxh",
-  "map_data/geographical_regions/replace/north_sans_neck.txt",
   "map_data/geographical_regions/north_sans_neck.txt",
-  "common/landed_titles/01_agot_landed_titles.txt",
   "common/on_action/agot_on_actions/mde_yearly_on_actions.txt",
   "common/on_action/agot_on_actions/zzz_agot_playset_canon_dragon_birthday_on_actions.txt",
   "localization/replace/english/agot/replace/00_agot_titles_l_english.yml",
@@ -15,6 +13,12 @@ owned_outputs = [
   "gui/map_icon_layer.gui",
   "common/scripted_triggers/zzz_agot_playset_is_human.txt",
   "common/scripted_rules/zzz_agot_playset_is_diarch_valid.txt",
+  "common/activities/activity_types/tournament.txt",
+  "common/activities/activity_types/coronation.txt",
+  "common/activities/activity_types/agot_dragon_hatching.txt",
+  "events/activities/coronation_activity/coronation_events.txt",
+  "events/activities/tournaments/contest_events.txt",
+  "history/provinces/replace/00_k_the_vale_prov.txt",
 ]
 
 [[sources]]
@@ -88,3 +92,31 @@ item_id = "3621472324"
 name = "long-night-azor-ahai"
 kind = "workshop"
 item_id = "3780269495"
+
+[[sources]]
+name = "much-faster-activities"
+kind = "workshop"
+item_id = "3723597729"
+
+[[sources]]
+name = "mde-lov-hatching"
+kind = "workshop"
+item_id = "3762892932"
+
+# Not enabled in the playset: the enabled bridge, `lov-agot-bridge`, is the one
+# that loads.  Consumed for `contest_events.txt`, where this beta carries the
+# tournament summary guards the bridge does not.
+[[sources]]
+name = "lov-agot-compatch"
+kind = "workshop"
+item_id = "3788296332"
+
+[[sources]]
+name = "culture-faith-granularity"
+kind = "workshop"
+item_id = "3206891770"
+
+[[sources]]
+name = "vanilla"
+kind = "game"
+path = "game"

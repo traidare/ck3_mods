@@ -6,27 +6,22 @@ after the Grand Remembrance AGOT compatibility submod.
 
 ## Ownership
 
-- `common/decisions/gr_decisions.txt` — mirrors the character open flag to a
-  scope-free global visibility flag.
-- `gui/gr_chronicle_window.gui` — reads that global flag without constructing a
-  player scope.
-- `gr_chronicle_close` — clears both the global visibility flag and the parent's
-  character variables.
-- `gr_on_actions.txt` and `gr_npc_obituary_data_effect.txt` — generated rebases.
+Every override is generated from the Workshop parent:
 
-The original character variables still own all chronicle page state. The global
-flag only controls whether the window exists on screen.
+- `gui/gr_chronicle_window.gui`
+- `common/on_action/gr_on_actions.txt`
+- `common/scripted_effects/gr_npc_obituary_data_effect.txt`
 
 ## Repairs and evidence
 
 ### Chronicle window visibility
 
-The chronicle window exists before a playable character does. The parent's
-`visible` expression always constructs `GetPlayer.MakeScope`, so the `is_shown`
-trigger can be invoked with an invalid character root and emit an untyped
-`(no character)` error on every GUI refresh. Wrapping the call in
-`And(GetPlayer.IsValid, ...)` did not help because GUI data-function arguments
-are evaluated eagerly — hence the scope-free global flag.
+The chronicle window's widget is loaded before a playable character exists. The
+parent's `visible` expression always constructs `GetPlayer.MakeScope`, so the
+`is_shown` trigger is invoked with an invalid character root and emits an
+untyped `(no character)` error on every GUI refresh. Wrapping the call in
+`And(GetPlayer.IsValid, ...)` does not help, because GUI data-function arguments
+are evaluated eagerly.
 
 ### Obituary classification
 

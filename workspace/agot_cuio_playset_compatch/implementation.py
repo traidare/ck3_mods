@@ -16,7 +16,7 @@ import tempfile
 from pathlib import Path
 
 from gen import GenerationContext
-from gen.text import matching_brace, read_source
+from gen.text import matching_brace, read_source, replace_exact
 
 GUI_PARENTS = {
     "gui/interaction_declare_war.gui": "more-interactive-vassals",
@@ -81,11 +81,6 @@ def require_count(text: str, needle: str, expected: int, *, label: str) -> None:
     actual = text.count(needle)
     if actual != expected:
         raise RuntimeError(f"{label}: expected {expected} {needle!r}, found {actual}")
-
-
-def replace_once(text: str, old: str, new: str, *, label: str) -> str:
-    require_count(text, old, 1, label=label)
-    return text.replace(old, new, 1)
 
 
 def nth_index(text: str, marker: str, occurrence: int) -> int:
@@ -243,7 +238,7 @@ def replace_within_block(
         occurrence=occurrence,
         expected=expected,
     )
-    block = replace_once(text[start : end + 1], old, new, label=label)
+    block = replace_exact(text[start : end + 1], old, new, label=label)
     return f"{text[:start]}{block}{text[end + 1 :]}"
 
 
@@ -462,7 +457,7 @@ def merge_gui(
 def generate_interaction_menu(context: GenerationContext) -> str:
     text, _ = merge_gui(context, "gui/interaction_menu_window.gui", prefer_cuio=True)
     agot = source_text(context, "agot", "gui/interaction_menu_window.gui")
-    text = replace_once(
+    text = replace_exact(
         text,
         'text = "[Character.GetUINameNoTooltip|U]"',
         'text = "[AGOTGetNameNoTooltip(Character)|U]"',
@@ -483,7 +478,7 @@ def generate_interaction_menu(context: GenerationContext) -> str:
         parent_depth=1,
         label="interaction menu controls target",
     )
-    return replace_once(
+    return replace_exact(
         text,
         "visible = \"[And(Character.CanCustomizePortrait, Not(GetGlobalVariable('FSB_is_loaded').IsSet))]\"",
         "visible = \"[Not(GetGlobalVariable('FSB_is_loaded').IsSet)]\"",
@@ -707,7 +702,7 @@ def restore_agot_character_widgets(text: str) -> str:
         parent_depth=0,
         label="AGOT friends-with-disciples row allocation",
     )
-    text = replace_once(
+    text = replace_exact(
         text,
         "text = \"[CharacterWindow.GetTabItemsCount('relations')]\"",
         'text = "[CharacterWindow.GetCharacter.MakeScope'
@@ -757,7 +752,7 @@ def restore_agot_character_widgets(text: str) -> str:
         parent_depth=0,
         label="AGOT character name text",
     )
-    text = replace_once(
+    text = replace_exact(
         text,
         'tooltip = "CHARACTER_VIEW_NAME_TT"',
         'tooltip = "AGOT_NAME_CHARACTER_TOOLTIP"',
@@ -796,7 +791,7 @@ def restore_agot_character_widgets(text: str) -> str:
         parent_depth=1,
         label="AGOT pirate title icon",
     )
-    text = replace_once(
+    text = replace_exact(
         text,
         'visible = "[TitleItem.GetTitle.IsNomad]"',
         'visible = "[And(TitleItem.GetTitle.IsNomad, '
@@ -847,7 +842,7 @@ def generate_character(context: GenerationContext) -> str:
         parent_depth=0,
         label="CUIO expanded spouses scrollbox",
     )
-    text = replace_once(
+    text = replace_exact(
         text,
         'visible = "[Not( Character.IsPlayer )]"',
         "visible = yes",
@@ -865,13 +860,13 @@ def generate_character(context: GenerationContext) -> str:
         parent_depth=0,
         label="MPD view hook target",
     )
-    text = replace_once(
+    text = replace_exact(
         text,
         "visible = \"[Not(Or(GreaterThan_int32( Character.GetMaxSpouses, '(int32)1' ), GreaterThan_int32( Character.GetMaxConsorts, '(int32)0' )))]\"",
         "visible = \"[And(Not(GetScriptedGui('dw_valyrian_special').IsShown(GuiScope.SetRoot(Character.MakeScope).End)), Not(Or(GreaterThan_int32( Character.GetMaxSpouses, '(int32)1' ), GreaterThan_int32( Character.GetMaxConsorts, '(int32)0' ))))]\"",
         label="Dragon Wives grandparents visibility",
     )
-    text = replace_once(
+    text = replace_exact(
         text,
         "visible = \"[Or(GreaterThan_int32( Character.GetMaxSpouses, '(int32)1' ), GreaterThan_int32( Character.GetMaxConsorts, '(int32)0' ))]\"",
         "visible = \"[And(Not(GetScriptedGui('dw_valyrian_special').IsShown(GuiScope.SetRoot(Character.MakeScope).End)), Or(GreaterThan_int32( Character.GetMaxSpouses, '(int32)1' ), GreaterThan_int32( Character.GetMaxConsorts, '(int32)0' )))]\"",
@@ -887,7 +882,7 @@ def generate_character(context: GenerationContext) -> str:
     dragon_wives_spouses = extract_named_widget(
         parent, "secondary_spouses", label="Dragon Wives family rows"
     )
-    dragon_wives_spouses = replace_once(
+    dragon_wives_spouses = replace_exact(
         dragon_wives_spouses,
         'name = "secondary_spouses"',
         'name = "secondary_spouses_special"',
@@ -1049,14 +1044,20 @@ def add_kraken_to_lists(text: str, iron_and_salt: str) -> str:
         expected=2,
         label=f"{label} creature stat rows",
     )
-    # Both list layouts route every human-only row through AGOT's template, so
-    # one substitution covers the relation line, skills grid, house arms,
-    # faith/culture box, and the two dividers in each.
-    return replace_every(
+    # The relation line uses the shared template added by `generate_lists`;
+    # AGOT writes the remaining human-only rows as explicit visibility tests.
+    text = replace_every(
         text,
         "using = visible_if_not_dragon",
         NOT_DRAGON_OR_KRAKEN,
-        expected=8,
+        expected=1,
+        label=f"{label} relation row",
+    )
+    return replace_every(
+        text,
+        'visible = "[Not(IsCharacterDragon)]"',
+        NOT_DRAGON_OR_KRAKEN,
+        expected=7,
         label=f"{label} human-only rows",
     )
 
@@ -1132,7 +1133,7 @@ def generate_portraits(context: GenerationContext) -> dict[str, str]:
     # and Iron and Salt: it shows a dread icon on dragons, an opinion value on
     # faked deaths, and the badge itself on krakens.  Iron and Salt's own copy
     # restores neither AGOT gate, so re-apply both here alongside the kraken one.
-    portraits = replace_once(
+    portraits = replace_exact(
         cuio,
         'visible = "[And(Character.IsValid, And(Character.IsAlive, Not(Character.IsLocalPlayer)))]"',
         kraken_visible(
@@ -1141,7 +1142,7 @@ def generate_portraits(context: GenerationContext) -> dict[str, str]:
         ),
         label=f"{label}: CUIO opinion badge",
     )
-    portraits = replace_once(
+    portraits = replace_exact(
         portraits,
         'visible = "[Character.ShouldShowDreadEffectIcon]"',
         'visible = "[And(Not(IsCharacterDragon), Character.ShouldShowDreadEffectIcon)]"',
@@ -1216,7 +1217,7 @@ def generate(context: GenerationContext) -> None:
         + "\n\n",
         label="AGOT/CUIO faith struggle template reconciliation",
     )
-    tooltip = replace_once(
+    tooltip = replace_exact(
         tooltip,
         "# StrugglePhaseEffectFaith = {}",
         "StrugglePhaseEffectFaith = {}",

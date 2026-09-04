@@ -12,8 +12,7 @@ from dataclasses import dataclass
 from pathlib import Path
 
 from gen import GenerationContext
-from gen.script import read_text, replace_regex
-from gen.script import write_text as write_source
+from gen.script import read_text, replace_regex, write_text
 from gen.sources import WorkshopSources
 from gen.text import replace_exact
 
@@ -22,15 +21,6 @@ from gen.text import replace_exact
 class RunInputs:
     WORKSHOP: WorkshopSources
     AGOT_PLUS_OUTPUT: Path
-
-
-def write_text(root: Path, relative: str, text: str) -> None:
-    """Write one rebased file in AGOT+'s own CRLF form.
-
-    AGOT+ ships CRLF sources, so keeping that form leaves every generated
-    rebase reviewable against both the parent and the tracked override.
-    """
-    write_source(root, relative, text, force_newline="\r\n")
 
 
 def history_character_ids(inputs: RunInputs, *workshop_ids: str) -> set[str]:
@@ -143,7 +133,7 @@ def generate_agot_plus(inputs: RunInputs) -> None:
         expected=2,
         label="AGOT+ Aemond-death trigger iterators",
     )
-    write_text(inputs.AGOT_PLUS_OUTPUT, relative, text)
+    write_text(inputs.AGOT_PLUS_OUTPUT, relative, text, force_newline="\r\n")
 
     relative = "common/scripted_effects/asoiaf_setup_effects.txt"
     text = read_text(inputs.WORKSHOP / "2950245430" / relative)
@@ -414,7 +404,7 @@ def generate_agot_plus(inputs: RunInputs) -> None:
         expected=1,
         label="AGOT+ obsolete More Bookmarks Stannis faith bridge",
     )
-    write_text(inputs.AGOT_PLUS_OUTPUT, relative, text)
+    write_text(inputs.AGOT_PLUS_OUTPUT, relative, text, force_newline="\r\n")
 
     relative = "common/scripted_effects/asoiaf_scripted_effects_strong_seed.txt"
     text = read_text(inputs.WORKSHOP / "2950245430" / relative)
@@ -425,7 +415,7 @@ def generate_agot_plus(inputs: RunInputs) -> None:
         expected=1,
         label="AGOT+ Redbeard house comparison",
     )
-    write_text(inputs.AGOT_PLUS_OUTPUT, relative, text)
+    write_text(inputs.AGOT_PLUS_OUTPUT, relative, text, force_newline="\r\n")
 
     relative = "common/modifiers/asoiaf_canon_children_modifiers.txt"
     text = read_text(inputs.WORKSHOP / "2950245430" / relative)
@@ -456,6 +446,7 @@ def generate_agot_plus(inputs: RunInputs) -> None:
             "# Keep its gameplay values synchronized with the Yara variant.\n"
             f"{alt_modifier}\n"
         ),
+        force_newline="\r\n",
     )
 
     incomplete_children = tuple(range(98, 105))
@@ -500,6 +491,7 @@ def generate_agot_plus(inputs: RunInputs) -> None:
             )
             + "\n"
         ),
+        force_newline="\r\n",
     )
     write_text(
         inputs.AGOT_PLUS_OUTPUT,
@@ -512,6 +504,7 @@ def generate_agot_plus(inputs: RunInputs) -> None:
             )
             + "\n"
         ),
+        force_newline="\r\n",
     )
 
 

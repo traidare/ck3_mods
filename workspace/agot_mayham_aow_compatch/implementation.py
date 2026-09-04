@@ -6,22 +6,11 @@ from __future__ import annotations
 import re
 import subprocess
 import tempfile
-from dataclasses import dataclass
 from pathlib import Path
 
 from gen import GenerationContext
+from gen.script import write_text
 from gen.text import matching_brace, read_source
-
-
-@dataclass(frozen=True, slots=True)
-class RunInputs:
-    ROOT: Path
-    AGOT: Path
-    MAYHAM: Path
-    AOW: Path
-    OUT: Path
-    AOW_UNIQUE_OUT: Path
-
 
 AOW_UNIQUE_RELATIVE = Path("common/culture/traditions/00_agot_unique_traditions.txt")
 
@@ -260,16 +249,16 @@ def merge_definition(base: str, ours: str, theirs: str, tradition: str) -> str:
     return merged.rstrip("\n")
 
 
-def generate_traditions(inputs: RunInputs) -> str:
+def generate_traditions(agot_root: Path, mayham_root: Path, aow_root: Path) -> str:
     generated: list[str] = []
     definition_count = 0
     delta_count = 0
 
     for filename, expected in DELTAS.items():
         relative = Path("common/culture/traditions") / filename
-        agot = definitions(read(inputs.AGOT / relative))
-        mayham = definitions(read(inputs.MAYHAM / relative))
-        aow = definitions(read(inputs.AOW / relative))
+        agot = definitions(read(agot_root / relative))
+        mayham = definitions(read(mayham_root / relative))
+        aow = definitions(read(aow_root / relative))
 
         agot_only = agot.keys() - mayham.keys()
         mayham_only = mayham.keys() - agot.keys()
@@ -355,8 +344,8 @@ def generate_traditions(inputs: RunInputs) -> str:
     return header + "\n\n".join(generated) + "\n"
 
 
-def generate_aow_unique_syntax_repair(inputs: RunInputs) -> str:
-    text = read(inputs.AOW / AOW_UNIQUE_RELATIVE)
+def generate_aow_unique_syntax_repair(aow_root: Path) -> str:
+    text = read(aow_root / AOW_UNIQUE_RELATIVE)
     old = "\t\treveler_traits_more_valued \n"
     found = text.count(old)
     if found != 1:
@@ -367,37 +356,19 @@ def generate_aow_unique_syntax_repair(inputs: RunInputs) -> str:
     return text.replace(old, "\t\treveler_traits_more_valued = yes\n")
 
 
-def main(inputs: RunInputs) -> None:
-    inputs.OUT.parent.mkdir(parents=True, exist_ok=True)
-    inputs.OUT.write_text(generate_traditions(inputs), encoding="utf-8-sig")
-    inputs.AOW_UNIQUE_OUT.parent.mkdir(parents=True, exist_ok=True)
-    inputs.AOW_UNIQUE_OUT.write_text(
-        generate_aow_unique_syntax_repair(inputs), encoding="utf-8-sig"
-    )
-    print(
-        f"Generated {inputs.OUT.relative_to(inputs.ROOT)} "
-        "(50 definitions, 51 deltas, 5 upstream rebases)"
-    )
-
-
 def generate(context: GenerationContext) -> None:
-
-    ROOT = context.workspace_root
-    AGOT = context.source("agot")
-    MAYHAM = context.source("mayham")
-    AOW = context.source("armies-of-westeros")
-    OUT = context.output_path(
-        "common/culture/traditions/zzz_agot_mayham_aow_compatch_traditions.txt"
+    output = "common/culture/traditions/zzz_agot_mayham_aow_compatch_traditions.txt"
+    agot = context.source("agot")
+    mayham = context.source("mayham")
+    aow = context.source("armies-of-westeros")
+    write_text(
+        context.output_root,
+        output,
+        generate_traditions(agot, mayham, aow),
     )
-    AOW_UNIQUE_OUT = context.output_path(
-        "common/culture/traditions/00_agot_unique_traditions.txt"
+    write_text(
+        context.output_root,
+        AOW_UNIQUE_RELATIVE.as_posix(),
+        generate_aow_unique_syntax_repair(aow),
     )
-    inputs = RunInputs(
-        ROOT=ROOT,
-        AGOT=AGOT,
-        MAYHAM=MAYHAM,
-        AOW=AOW,
-        OUT=OUT,
-        AOW_UNIQUE_OUT=AOW_UNIQUE_OUT,
-    )
-    main(inputs)
+    print(f"Generated {output} (50 definitions, 51 deltas, 5 upstream rebases)")

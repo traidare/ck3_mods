@@ -136,7 +136,7 @@ scripted_trigger contest_outcome_transition_neutral_trigger = {
 			any_guest_subset = {
 				name = qualified
 				phase = tournament_phase_$CONTEST$
-				root = this 
+				root = this
 			}
 			any_guest_subset = {
 				name = qualified
@@ -161,14 +161,14 @@ scripted_trigger contest_outcome_transition_failure_trigger = {
 				any_guest_subset = {
 					name = qualified
 					phase = tournament_phase_$CONTEST$
-					root = this 
+					root = this
 				}
 			}
 			NOT = {
 				any_guest_subset = {
 					name = winner
 					phase = tournament_phase_$CONTEST$
-					root = this 
+					root = this
 				}
 			}
 		}
@@ -181,12 +181,12 @@ scripted_trigger contest_outcome_transition_failure_trigger = {
 				any_guest_subset = {
 					name = winner
 					phase = tournament_phase_$CONTEST$
-					root.court_position:champion_court_position ?= this 
+					root.court_position:champion_court_position ?= this
 				}
 				any_guest_subset = {
 					name = winner
 					phase = tournament_phase_$CONTEST$
-					root.var:tournament_wager_target ?= this 
+					root.var:tournament_wager_target ?= this
 				}
 			}
 		}
@@ -331,7 +331,7 @@ contest_events.0500 = { # Start
 		character = scope:portrait_scope
 	}
 	artifact = {
-		target = scope:newly_created_artifact 
+		target = scope:newly_created_artifact
 		position = lower_center_portrait
 	}
 
@@ -340,7 +340,7 @@ contest_events.0500 = { # Start
 	trigger = {
 		#DLC check.
 		#has_ep2_dlc_trigger = yes
-		
+
 		#Standard checks.
 		is_ai = no
 	}
@@ -364,7 +364,7 @@ contest_events.0500 = { # Start
 						name = qualified
 						this = root
 					}
-				}		
+				}
 				NOT = {
 					has_trait = tourney_participant
 				}
@@ -781,7 +781,7 @@ contest_events.0505 = { # End
 	override_transition = {
 		trigger = { contest_outcome_transition_success_trigger = { CONTEST = horse_race } }
 		reference = pivotal_horse_racing_success
-	} 
+	}
 	override_transition = {
 		trigger = { contest_outcome_transition_neutral_trigger = { CONTEST = horse_race } }
 		reference = pivotal_horse_racing_neutral
@@ -796,7 +796,7 @@ contest_events.0505 = { # End
 	trigger = {
 		#DLC check.
 		#has_ep2_dlc_trigger = yes
-		
+
 		#Standard checks.
 	}
 
@@ -958,7 +958,7 @@ contest_events.0510 = { # Race Pivotal Moment
 		is_ai = no
 	}
 
-	immediate = { 
+	immediate = {
 		# If competing yourself, it is from your perspective, otherwise find someone relevant
 		tournament_pivotal_contestant_scope_effect = yes
 		# Determine position of PtV scale
@@ -1051,7 +1051,7 @@ contest_events.0520 = { # Enter War Horse
 	trigger = {
 		#DLC check.
 		#has_ep2_dlc_trigger = yes
-		
+
 		#Standard checks.
 		any_owned_story = {
 			type = story_cycle_martial_lifestyle_warhorse
@@ -1062,7 +1062,7 @@ contest_events.0520 = { # Enter War Horse
 	immediate = {
 		random_owned_story = {
 			type = story_cycle_martial_lifestyle_warhorse
-			limit = {			
+			limit = {
 				exists = var:story_cycle_horse_name
 			}
 			var:story_cycle_horse_name = { save_scope_as = horse_name }
@@ -1240,7 +1240,7 @@ contest_events.0530 = { # Race Outcome
 	}
 	cooldown = { months = 1 }
 
-	immediate = { 
+	immediate = {
 		var:horse_race_jockey ?= { save_scope_as = jockey }
 		scope:pivotal_contestant = {
 			switch = {
@@ -1349,7 +1349,7 @@ contest_events.0600 = { # Start
 				desc = contest_events.0600.melee
 			}
 		}
-		# Participation	
+		# Participation
 		first_valid = {
 			triggered_desc = {
 				trigger = {
@@ -1462,7 +1462,7 @@ contest_events.0600 = { # Start
 				scope:portrait_scope = scope:other_team_captain
 				scope:portrait_scope = scope:other_team_interest
 			}
-		}	
+		}
 		character = scope:portrait_scope
 	}
 	lower_right_portrait = {
@@ -1475,12 +1475,12 @@ contest_events.0600 = { # Start
 	trigger = {
 		#DLC check.
 		#has_ep2_dlc_trigger = yes
-		
+
 		#Standard checks.
 		is_ai = no
 	}
 
-	immediate = { 
+	immediate = {
 		if = {
 			limit = {
 				is_in_guest_subset = { name = team_alpha }
@@ -1525,7 +1525,7 @@ contest_events.0600 = { # Start
 			scope:alpha_captain = { save_scope_as = other_team_captain }
 			scope:beta_captain = { save_scope_as = other_team_interest }
 		}
-		tournament_contest_start_portrait_effect = yes 
+		tournament_contest_start_portrait_effect = yes
 		contest_qualification_tooltip_effect = yes
 		if = {
 			limit = {
@@ -1533,7 +1533,7 @@ contest_events.0600 = { # Start
 					any_guest_subset = {
 						name = qualified
 						this = root
-					}		
+					}
 				}
 				NOT = {
 					has_trait = tourney_participant
@@ -1542,7 +1542,7 @@ contest_events.0600 = { # Start
 			add_trait = tourney_participant
 		}
 		play_sound_effect = "event:/DLC/EP2/SFX/Events/Grand_Activities/Tournaments/ep2_event_grand_tournament_start_brawl"
-	} 
+	}
 
 	option = { # Let's go
 		name = {
@@ -1696,7 +1696,7 @@ contest_events.0605 = { # End
 			NOT = { scope:contest_portrait ?= root }
 		}
 		triggered_animation = {
-			trigger = { 
+			trigger = {
 				scope:contest_portrait = scope:contest_winner
 			}
 			animation = wrestling_victory
@@ -1733,22 +1733,22 @@ contest_events.0605 = { # End
 	}
 	override_transition = {
 		trigger = { contest_outcome_transition_success_trigger = { CONTEST = melee } }
-		reference = pivotal_melee_success 
+		reference = pivotal_melee_success
 	}
-	override_transition = { 
-		trigger = { contest_outcome_transition_neutral_trigger = { CONTEST = melee } } 
+	override_transition = {
+		trigger = { contest_outcome_transition_neutral_trigger = { CONTEST = melee } }
 		reference = pivotal_melee_neutral
 	}
-	override_transition = { 
+	override_transition = {
 		trigger = { contest_outcome_transition_failure_trigger = { CONTEST = melee } }
 		reference = pivotal_melee_fail
-	}	
+	}
 	cooldown = { months = 1 }
 
 	trigger = {
 		#DLC check.
 		#has_ep2_dlc_trigger = yes
-		
+
 		#Standard checks.
 	}
 
@@ -1785,7 +1785,7 @@ contest_events.0605 = { # End
 			limit = {
 				OR = {
 					this = scope:contest_winner
-					AND = {	
+					AND = {
 						NOT = { is_in_list = contest_losers }
 						scope:contest_winner = {
 							OR = {
@@ -1971,12 +1971,12 @@ contest_events.0610 = { # Melee Pivotal Moment
 	trigger = {
 		#DLC check.
 		has_ep2_dlc_trigger = yes
-		
+
 		#Standard checks.
 		is_ai = no
 	}
 
-	immediate = { 
+	immediate = {
         # If competing yourself, it is from your perspective, otherwise find someone relevant
         tournament_pivotal_contestant_scope_effect = yes
 		# Determine position of PtV scale
@@ -2161,7 +2161,7 @@ contest_events.0620 = { # Melee Outcome
 	}
 	cooldown = { months = 1 }
 
-	immediate = { 
+	immediate = {
 		# If competing yourself, it is from your perspective, otherwise find someone relevant
 		tournament_pivotal_contestant_scope_effect = yes
 		scope:pivotal_contestant = {
@@ -2409,7 +2409,7 @@ contest_events.0700 = { # Start
 		character = scope:portrait_scope
 	}
 	artifact = {
-		target = scope:newly_created_artifact 
+		target = scope:newly_created_artifact
 		position = lower_center_portrait
 	}
 	cooldown = { months = 1 }
@@ -2417,12 +2417,12 @@ contest_events.0700 = { # Start
 	trigger = {
 		#DLC check.
 		#has_ep2_dlc_trigger = yes
-		
+
 		#Standard checks.
 		is_ai = no
 	}
 
-	immediate = { 
+	immediate = {
 		tournament_contest_start_portrait_effect = yes
 		# For replacing a contestant options
 		tournament_replace_qualifier_scope_effect = yes
@@ -2885,34 +2885,34 @@ contest_events.0705 = { # End
 	}
 	override_transition = {
 		trigger = { contest_outcome_transition_success_trigger = { CONTEST = archery } }
-		reference = pivotal_archery_success 
-	} 
-	override_transition = { 
+		reference = pivotal_archery_success
+	}
+	override_transition = {
 		trigger = { contest_outcome_transition_neutral_trigger = { CONTEST = archery } }
 		reference = pivotal_archery_neutral
 	}
-	override_transition = { 
+	override_transition = {
 		trigger = { contest_outcome_transition_failure_trigger = { CONTEST = archery } }
-		reference = pivotal_archery_fail 
+		reference = pivotal_archery_fail
 	}
 	override_transition = {
 		trigger = { contest_outcome_transition_success_trigger = { CONTEST = recital } }
-		reference = pivotal_recital_success 
-	} 
-	override_transition = { 
+		reference = pivotal_recital_success
+	}
+	override_transition = {
 		trigger = { contest_outcome_transition_neutral_trigger = { CONTEST = recital } }
 		reference = pivotal_recital_neutral
 	}
-	override_transition = { 
+	override_transition = {
 		trigger = { contest_outcome_transition_failure_trigger = { CONTEST = recital } }
-		reference = pivotal_recital_fail 
+		reference = pivotal_recital_fail
 	}
 	cooldown = { months = 1 }
 
 	trigger = {
 		#DLC check.
 		has_ep2_dlc_trigger = yes
-		
+
 		#Standard checks.
 	}
 
@@ -2934,7 +2934,7 @@ contest_events.0705 = { # End
 			limit = {
 				OR = {
 					this = scope:contest_winner
-					AND = {	
+					AND = {
 						NOT = { is_in_list = contest_losers }
 						scope:contest_winner = {
 							OR = {
@@ -3093,7 +3093,7 @@ contest_events.0710 = { # Archery Pivotal Moment
 	trigger = {
 		#DLC check.
 		has_ep2_dlc_trigger = yes
-		
+
 		#Standard checks.
 		is_ai = no
 	}
@@ -3221,7 +3221,7 @@ contest_events.0711 = { # Recital Pivotal Moment
 	trigger = {
 		#DLC check.
 		has_ep2_dlc_trigger = yes
-		
+
 		#Standard checks.
 		is_ai = no
 	}
@@ -3244,7 +3244,7 @@ contest_events.0711 = { # Recital Pivotal Moment
 				INCREASE = medium
 				DECREASE = medium
 			}
-		}	
+		}
 		add_character_flag = diplomacy_stewardship_pivotal_duel
 	}
 
@@ -3709,8 +3709,6 @@ scripted_trigger versus_show_pair_trigger = {
 }
 
 scripted_trigger versus_show_pair_existing_trigger = {
-	# LoV AGOT compatch 0.1.57: some AGOT tournament summaries are missing last_versus_match.
-	# Do not compare an unset variable.
 	trigger_if = {
 		limit = {
 			exists = scope:contest_summary_$COMPARE$
@@ -3774,7 +3772,7 @@ scripted_effect versus_next_pair_summary_effect = {
 			versus_show_pair_existing_trigger = { NUM = 5 COMPARE = 1 TIME = next }
 			versus_show_pair_existing_trigger = { NUM = 5 COMPARE = 2 TIME = last }
 			versus_show_pair_existing_trigger = { NUM = 5 COMPARE = 3 TIME = last }
-			versus_show_pair_existing_trigger = { NUM = 5 COMPARE = 4 TIME = last }	
+			versus_show_pair_existing_trigger = { NUM = 5 COMPARE = 4 TIME = last }
 		}
 		custom_description = {
 			text = tournament_contest_round_next_tt
@@ -3868,7 +3866,7 @@ scripted_effect versus_last_pair_summary_effect = {
 			versus_show_pair_existing_trigger = { NUM = 5 COMPARE = 1 TIME = next }
 			versus_show_pair_existing_trigger = { NUM = 5 COMPARE = 2 TIME = last }
 			versus_show_pair_existing_trigger = { NUM = 5 COMPARE = 3 TIME = last }
-			versus_show_pair_existing_trigger = { NUM = 5 COMPARE = 4 TIME = last }	
+			versus_show_pair_existing_trigger = { NUM = 5 COMPARE = 4 TIME = last }
 		}
 		custom_description = {
 			text = tournament_contest_round_tt
@@ -3909,7 +3907,7 @@ scripted_effect versus_last_pair_summary_effect = {
 	}
 }
 
-contest_events.0800 = { # Start 
+contest_events.0800 = { # Start
 	type = activity_event
 	title = contest_events.0800.t
 	desc = {
@@ -4075,7 +4073,7 @@ contest_events.0800 = { # Start
 	trigger = {
 		#DLC check.
 		has_ep2_dlc_trigger = yes
-		
+
 		#Standard checks.
 		is_ai = no
 	}
@@ -4757,7 +4755,7 @@ contest_events.0805 = { # End
 			limit = {
 				OR = {
 					scope:contest_winner ?= this
-					AND = {	
+					AND = {
 						NOT = { is_in_list = contest_losers }
 						scope:contest_winner ?= {
 							OR = {
@@ -5772,7 +5770,7 @@ contest_events.0820 = { # Round Summary
 			}
 			var:vowed_to_lose = { save_scope_as = woo_target }
 			remove_variable = vowed_to_lose
-		}		
+		}
 		if = {
 			limit = {
 				exists = intent_target
@@ -5801,7 +5799,7 @@ contest_events.0820 = { # Round Summary
 				}
 			}
 		}
-		versus_last_pair_summary_effect = yes		
+		versus_last_pair_summary_effect = yes
 	}
 
 	option = { # Continue
@@ -5995,7 +5993,7 @@ contest_events.0820 = { # Round Summary
 		}
 		trigger = {
 			NOT = { exists = scope:versus_contestant }
-		}		
+		}
 	}
 
 	option = { # Force concession
@@ -6316,7 +6314,7 @@ contest_events.0860 = { # Joust Pivotal Moment
 	trigger = {
 		#DLC check.
 		has_ep2_dlc_trigger = yes
-		
+
 		#Standard checks.
 		is_ai = no
 		NOR = {
@@ -6493,7 +6491,7 @@ contest_events.0861 = { # Wrestling Pivotal Moment
 	trigger = {
 		#DLC check.
 		#has_ep2_dlc_trigger = yes
-		
+
 		#Standard checks.
 		is_ai = no
 		NOR = {
@@ -6662,7 +6660,7 @@ contest_events.0862 = { # Duel Pivotal Moment
 	trigger = {
 		#DLC check.
 		has_ep2_dlc_trigger = yes
-		
+
 		#Standard checks.
 		is_ai = no
 		NOR = {
@@ -6811,7 +6809,7 @@ contest_events.0863 = { # Board Game Pivotal Moment
 	trigger = {
 		#DLC check.
 		#has_ep2_dlc_trigger = yes
-		
+
 		#Standard checks.
 		is_ai = no
 		NOR = {
@@ -7107,17 +7105,17 @@ contest_events.0870 = { # Joust Outcome
 			scope:pivotal_contestant ?= this
 			scope:pivotal_contestant ?= scope:contest_winner
 		}
-		reference = pivotal_jousting_success 
+		reference = pivotal_jousting_success
 	}
-	override_transition = { 
+	override_transition = {
 		trigger = {
 			scope:pivotal_contestant ?= this
 			scope:pivotal_contestant ?= scope:contest_loser
 		}
 		reference = pivotal_jousting_fail
 	}
-	override_transition = { 
-		trigger = { always = yes } 
+	override_transition = {
+		trigger = { always = yes }
 		reference = pivotal_jousting_neutral
 	}
 
@@ -7129,7 +7127,7 @@ contest_events.0870 = { # Joust Outcome
 		}
 	}
 
-	immediate = { 
+	immediate = {
 		contest_versus_player_vs_ai_scope_effect = yes
 		if = {
 			limit = { scope:pivotal_contestant = scope:contest_winner }
@@ -7577,7 +7575,7 @@ contest_events.0871 = { # Wrestling Outcome
 					desc = contest_events.0810.death
 				}
 				desc = contest_events.0810.final
-			}		
+			}
 		}
 	}
 	theme = tournament_wrestling_pivotal
@@ -7611,15 +7609,15 @@ contest_events.0871 = { # Wrestling Outcome
 		}
 		reference = pivotal_fistfighting_success
 	}
-	override_transition = { 
+	override_transition = {
 		trigger = {
 			scope:pivotal_contestant ?= this
 			scope:pivotal_contestant ?= scope:contest_loser
 		}
 		reference = pivotal_fistfighting_fail
 	}
-	override_transition = { 
-		trigger = { always = yes } 
+	override_transition = {
+		trigger = { always = yes }
 		reference = pivotal_fistfighting_neutral
 	}
 
@@ -7630,7 +7628,7 @@ contest_events.0871 = { # Wrestling Outcome
 			scope:versus_matchee = { has_character_flag = resigned_contest_flag }
 		}
 	}
-	immediate = { 
+	immediate = {
 		contest_versus_player_vs_ai_scope_effect = yes
 		if = {
 			limit = { scope:pivotal_contestant = scope:contest_winner }
@@ -8078,7 +8076,7 @@ contest_events.0872 = { # Duel Outcome
 					desc = contest_events.0810.death
 				}
 				desc = contest_events.0810.final
-			}			
+			}
 		}
 	}
 	theme = tournament_melee_pivotal
@@ -8110,17 +8108,17 @@ contest_events.0872 = { # Duel Outcome
 			scope:pivotal_contestant ?= this
 			scope:pivotal_contestant ?= scope:contest_winner
 		}
-		reference = pivotal_melee_success 
+		reference = pivotal_melee_success
 	}
-	override_transition = { 
+	override_transition = {
 		trigger = {
 			scope:pivotal_contestant ?= this
 			scope:pivotal_contestant ?= scope:contest_loser
 		}
-		reference = pivotal_melee_fail 
+		reference = pivotal_melee_fail
 	}
-	override_transition = { 
-		trigger = { always = yes } 
+	override_transition = {
+		trigger = { always = yes }
 		reference = pivotal_melee_neutral
 	}
 
@@ -8132,7 +8130,7 @@ contest_events.0872 = { # Duel Outcome
 		}
 	}
 
-	immediate = { 
+	immediate = {
 		contest_versus_player_vs_ai_scope_effect = yes
 		if = {
 			limit = { scope:pivotal_contestant = scope:contest_winner }
@@ -8617,20 +8615,20 @@ contest_events.0873 = { # Board Game Outcome
 			scope:pivotal_contestant ?= this
 			scope:pivotal_contestant ?= scope:contest_winner
 		}
-		reference = pivotal_boardgame_success 
+		reference = pivotal_boardgame_success
 	}
-	override_transition = { 
+	override_transition = {
 		trigger = {
 			scope:pivotal_contestant ?= this
 			scope:pivotal_contestant ?= scope:contest_loser
 		}
-		reference = pivotal_boardgame_fail 
+		reference = pivotal_boardgame_fail
 	}
-	override_transition = { 
-		trigger = { always = yes } 
+	override_transition = {
+		trigger = { always = yes }
 		reference = pivotal_boardgame_neutral
 	}
-	
+
 	trigger = {
 		is_ai = no
 		NOR = {
@@ -8639,7 +8637,7 @@ contest_events.0873 = { # Board Game Outcome
 		}
 	}
 
-	immediate = { 
+	immediate = {
 		contest_versus_player_vs_ai_scope_effect = yes
 		if = {
 			limit = { scope:pivotal_contestant = scope:contest_winner }
@@ -9051,7 +9049,7 @@ scripted_effect tournament_savagely_beaten_outcome_effect = {
 			30 = {
 				trigger = {
 					NOT = { has_trait = wounded }
-				}		
+				}
 				add_trait = wounded_1
 			}
 			20 = {
@@ -9131,7 +9129,7 @@ contest_events.0910 = {
 	trigger = {
 		#DLC check.
 		#has_ep2_dlc_trigger = yes
-		
+
 		#Standard checks.
 		OR = {
 			has_trait = wrathful
@@ -9149,7 +9147,7 @@ contest_events.0910 = {
 					prowess < root.prowess
 					NOR = {
 						is_landed = yes
-						has_any_good_relationship_with_character_trigger = { CHARACTER = root }	
+						has_any_good_relationship_with_character_trigger = { CHARACTER = root }
 						is_consort_of = root
 						is_close_or_extended_family_of = root
 						opinion = {
@@ -9185,7 +9183,7 @@ contest_events.0910 = {
 						is_ai = yes
 						NOR = {
 							is_landed = yes
-							has_any_good_relationship_with_character_trigger = { CHARACTER = root }	
+							has_any_good_relationship_with_character_trigger = { CHARACTER = root }
 							is_consort_of = root
 							is_close_or_extended_family_of = root
 							opinion = {
@@ -9199,7 +9197,7 @@ contest_events.0910 = {
 						is_ai = yes
 						NOR = {
 							is_landed = yes
-							has_any_good_relationship_with_character_trigger = { CHARACTER = root }	
+							has_any_good_relationship_with_character_trigger = { CHARACTER = root }
 							is_consort_of = root
 							is_close_or_extended_family_of = root
 							opinion = {
@@ -9230,7 +9228,7 @@ contest_events.0910 = {
 						NOR = {
 							this = root
 							is_landed = yes
-							has_any_good_relationship_with_character_trigger = { CHARACTER = root }	
+							has_any_good_relationship_with_character_trigger = { CHARACTER = root }
 							is_consort_of = root
 							is_close_or_extended_family_of = root
 							opinion = {
@@ -9393,7 +9391,7 @@ contest_events.0911 = {
 			trigger = { exists = scope:angry_host }
 			desc = contest_events.0911.angry_host
 		}
-	}		
+	}
 	theme = tournament_contest
 	window = widget_activity_locale_fullscreen_event
 	left_portrait = {
@@ -9416,7 +9414,7 @@ contest_events.0911 = {
 
 	trigger = {
 		#DLC check.
-		#has_ep2_dlc_trigger = yes		
+		#has_ep2_dlc_trigger = yes
 	}
 
 	immediate = {
@@ -9626,7 +9624,7 @@ contest_events.0912 = {
 
 	trigger = {
 		#DLC check.
-		#has_ep2_dlc_trigger = yes		
+		#has_ep2_dlc_trigger = yes
 	}
 
 	immediate = {
@@ -9758,7 +9756,7 @@ contest_events.1100 = { # Start
 	trigger = {
 		#DLC check.
 		#has_ep2_dlc_trigger = yes
-		
+
 		#Standard checks.
 		has_activity_intent = murder_attendee_intent
 		exists = intent_target
@@ -9872,7 +9870,7 @@ contest_events.1101 = { # Outcome
 	trigger = {
 		#DLC check.
 		#has_ep2_dlc_trigger = yes
-		
+
 		#Standard checks.
 	}
 
@@ -10037,7 +10035,7 @@ contest_events.1110 = { # Start
 	trigger = {
 		#DLC check.
 		#has_ep2_dlc_trigger = yes
-		
+
 		#Standard checks.
 		has_activity_intent = murder_attendee_intent
 		exists = intent_target.var:contest_aptitude
@@ -10294,7 +10292,7 @@ contest_events.1120 = {
 	trigger = {
 		#DLC check.
 		#has_ep2_dlc_trigger = yes
-		
+
 		#Standard checks.
 		is_ai = yes
 		has_activity_intent = murder_attendee_intent
@@ -10357,7 +10355,7 @@ contest_events.1130 = { # Setup
 	trigger = {
 		#DLC check.
 		#has_ep2_dlc_trigger = yes
-		
+
 		#Standard checks.
 		scope:activity = { has_current_phase = tournament_phase_melee }
 		exists = var:contest_aptitude
@@ -11276,7 +11274,7 @@ contest_events.1521 = { # Ping
 		}
 	}
 
-	option = { # 
+	option = { #
 		name = contest_events.1521.a
 	}
 }
@@ -11609,7 +11607,7 @@ contest_events.1550 = { # Host
 					limit = { exists = scope:mysterious_bad }
 					activity_tournament_change_contestant_score_effect = { SCORE = decrease_major }
 				}
-				tournament_pivotal_flavor_variable_effect = { CONTEST = archery ID = 1550 }			
+				tournament_pivotal_flavor_variable_effect = { CONTEST = archery ID = 1550 }
 			}
 		}
 	}
@@ -11791,7 +11789,7 @@ contest_events.1553 = { # Arrested
 			modifier = grateful_opinion
 			opinion = 10
 		}
-		
+
 	}
 
 	option = { # Pardon
@@ -12004,10 +12002,10 @@ contest_events.3000 = {
 
 		ai_chance = {
 			base = 100
-			
+
 			modifier = {
 				factor = 5
-				OR = {				
+				OR = {
 					has_trait = callous
 					has_trait = arbitrary
 				}
@@ -12017,7 +12015,7 @@ contest_events.3000 = {
 
 	option = {
 		name = contest_events.3000.b
-		
+
 		reverse_add_opinion = {
 			modifier = annoyed_opinion
 			target = scope:contestant_1
@@ -12049,16 +12047,16 @@ contest_events.3000 = {
 
 		ai_chance = {
 			base = 100
-			
+
 			modifier = {
 				factor = 5
-				OR = {				
+				OR = {
 					has_trait = content
 					has_trait = humble
 				}
 			}
 		}
-	}	
+	}
 
 	after = {
 		tournament_contest_wager_info_effect = yes

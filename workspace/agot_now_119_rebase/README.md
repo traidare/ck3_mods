@@ -37,8 +37,5 @@ The generator checks all 39 candidate comparisons and stops when a NOW update
 invalidates the source assumptions. Recompare these overrides with NOW after
 every Workshop update.
 
-Pinned inputs:
-
-- AGOT Workshop ID `2962333032`, version `0.5.0`
-- NOW Workshop ID `3664900993`, version `1.2.6`
-- CK3 `1.19.0.6`
+The exact source files and hashes consumed by generation are recorded in
+`sources.lock.json`.

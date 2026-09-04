@@ -1,11 +1,13 @@
 from __future__ import annotations
 
 import re
+import tempfile
 import unittest
 from pathlib import Path
 
 from gen.__main__ import load_entrypoint
 from gen.data import csv_bytes
+from gen.reads import ReadRecorder
 from gen.script import guard_event_deaths
 from gen.text import direct_child_block_start, line_block_end
 
@@ -35,6 +37,54 @@ class SharedGeneratorHelperTest(unittest.TestCase):
         pattern = re.compile(r"^\s*random_list\s*=\s*\{")
         self.assertEqual(line_block_end(lines, 0), len(lines))
         self.assertEqual(direct_child_block_start(lines, 0, pattern), 2)
+
+    def test_nested_recorders_each_capture_the_read(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            source = Path(directory) / "source.txt"
+            source.write_text("source", encoding="utf-8")
+            outer = ReadRecorder([directory])
+            inner = ReadRecorder([directory])
+
+            with outer.active(), inner.active():
+                self.assertEqual(source.read_text(encoding="utf-8"), "source")
+
+            expected = [str(source.resolve())]
+            self.assertEqual(outer.paths(), expected)
+            self.assertEqual(inner.paths(), expected)
+
+    def test_paths_outside_source_roots_are_ignored(self) -> None:
+        with (
+            tempfile.TemporaryDirectory() as source_directory,
+            tempfile.TemporaryDirectory() as other_directory,
+        ):
+            source = Path(source_directory) / "source.txt"
+            other = Path(other_directory) / "other.txt"
+            source.write_text("source", encoding="utf-8")
+            other.write_text("other", encoding="utf-8")
+            recorder = ReadRecorder([source_directory])
+
+            with recorder.active():
+                source.read_bytes()
+                other.read_bytes()
+
+            self.assertEqual(recorder.paths(), [str(source.resolve())])
+
+    def test_exception_restores_read_functions(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            source = Path(directory) / "source.txt"
+            source.write_text("source", encoding="utf-8")
+            original_read_text = Path.read_text
+            recorder = ReadRecorder([directory])
+
+            with (
+                self.assertRaisesRegex(RuntimeError, "generator stopped"),
+                recorder.active(),
+            ):
+                source.read_text(encoding="utf-8")
+                raise RuntimeError("generator stopped")
+
+            self.assertIs(Path.read_text, original_read_text)
+            self.assertEqual(recorder.paths(), [str(source.resolve())])
 
     def test_map_locator_parser_keeps_prefix_suffix_and_ids(self) -> None:
         text = (

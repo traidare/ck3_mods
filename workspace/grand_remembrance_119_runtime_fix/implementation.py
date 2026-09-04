@@ -7,6 +7,7 @@ silently generating a stale whole-file override.
 
 from __future__ import annotations
 
+import re
 from dataclasses import dataclass
 from pathlib import Path
 
@@ -15,6 +16,24 @@ from gen.script import read_text, write_text
 from gen.sources import WorkshopSources
 from gen.text import replace_exact
 
+CHRONICLE_WINDOW_RELATIVE = "gui/gr_chronicle_window.gui"
+CHRONICLE_WINDOW_VISIBLE = (
+    "\tvisible = \"[GetScriptedGui('gr_chronicle_window')"
+    '.IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"\n'
+)
+CHRONICLE_WINDOW_HIDDEN = (
+    "\t# The legacy chronicle window is unreachable: the parent's decision opens\n"
+    "\t# the book event instead, and nothing raises `gr_chronicle_open` above\n"
+    "\t# zero any more.  Its own expression builds `GetPlayer.MakeScope`\n"
+    "\t# unconditionally, and GUI arguments are evaluated eagerly, so leaving it\n"
+    "\t# in place emits an untyped `(no character)` error on every refresh from\n"
+    "\t# the main menu onward.\n"
+    '\tvisible = "no"\n'
+)
+CHRONICLE_OPEN_ASSIGNMENT = re.compile(
+    r"set_variable\s*=\s*\{\s*name\s*=\s*gr_chronicle_open\s+value\s*=\s*(\w+)"
+)
+
 
 @dataclass(frozen=True, slots=True)
 class RunInputs:
@@ -22,7 +41,40 @@ class RunInputs:
     GR_OUTPUT: Path
 
 
+def require_chronicle_window_unreachable(root: Path) -> None:
+    """Fail if the parent can still raise the legacy window's visibility flag."""
+    values = set()
+    for path in sorted(root.rglob("*.txt")):
+        values.update(CHRONICLE_OPEN_ASSIGNMENT.findall(read_text(path)))
+    if values != {"0"}:
+        raise RuntimeError(
+            "Grand Remembrance now assigns gr_chronicle_open "
+            f"{sorted(values)}; the legacy chronicle window is reachable again "
+            "and must not be hidden"
+        )
+
+
+def generate_chronicle_window(text: str) -> str:
+    """Stop the superseded chronicle window from scoping to an absent player."""
+    return replace_exact(
+        text,
+        CHRONICLE_WINDOW_VISIBLE,
+        CHRONICLE_WINDOW_HIDDEN,
+        "Grand Remembrance chronicle window visibility",
+        expected=1,
+    )
+
+
 def generate_grand_remembrance_agot_obituary(inputs: RunInputs) -> None:
+    parent = inputs.WORKSHOP / "3678529052"
+    require_chronicle_window_unreachable(parent)
+    write_text(
+        inputs.GR_OUTPUT,
+        CHRONICLE_WINDOW_RELATIVE,
+        generate_chronicle_window(read_text(parent / CHRONICLE_WINDOW_RELATIVE)),
+        with_bom=False,
+    )
+
     relative = "common/on_action/gr_on_actions.txt"
     text = read_text(inputs.WORKSHOP / "3678529052" / relative)
     rice_revalidation = "# RICE COMPATIBILITY REVALIDATION"

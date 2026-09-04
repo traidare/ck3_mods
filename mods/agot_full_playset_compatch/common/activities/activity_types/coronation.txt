@@ -120,7 +120,7 @@
 					is_landed = yes
 					faith = {
 						any_holy_site = {
-							exists = barony.holder # LoV AGOT 0.1.46 guard: holy-site barony may be unheld in restored/ruined regions
+							exists = barony.holder # A holy site's barony can be unheld, and CK3 drops the whole clause when its holder does not resolve.
 							barony.holder = {
 								OR = {
 									this = scope:host.faith.religious_head
@@ -134,7 +134,7 @@
 			custom_tooltip = {
 				text = coronation_location_hof_owned
 				barony = { is_holy_site_of = scope:host.faith }
-				exists = barony.holder # LoV AGOT 0.1.46 guard: holy-site barony may be unheld in restored/ruined regions
+				exists = barony.holder # A holy site's barony can be unheld, and CK3 drops the whole clause when its holder does not resolve.
 				barony.holder = {
 					OR = {
 						this = scope:host.faith.religious_head
@@ -149,7 +149,7 @@
 				scope:special_option ?= flag:coronation_type_anointment
 				scope:host.faith = {
 					any_holy_site = {
-						exists = barony.holder # LoV AGOT 0.1.46 guard: holy-site barony may be unheld in restored/ruined regions
+						exists = barony.holder # A holy site's barony can be unheld, and CK3 drops the whole clause when its holder does not resolve.
 						barony.holder = {
 							OR = {
 								this = scope:host
@@ -165,7 +165,7 @@
 						NOT = {
 							faith = {
 								any_holy_site = {
-									exists = barony.holder # LoV AGOT 0.1.46 guard: holy-site barony may be unheld in restored/ruined regions
+									exists = barony.holder # A holy site's barony can be unheld, and CK3 drops the whole clause when its holder does not resolve.
 									barony.holder = {
 										OR = {
 											this = scope:host.faith.religious_head
@@ -181,7 +181,7 @@
 			custom_tooltip = {
 				text = coronation_location_holy_site_host
 				barony = { is_holy_site_of = scope:host.faith }
-				exists = barony.holder # LoV AGOT 0.1.46 guard: holy-site barony may be unheld in restored/ruined regions
+				exists = barony.holder # A holy site's barony can be unheld, and CK3 drops the whole clause when its holder does not resolve.
 				barony.holder = {
 					OR = {
 						this = scope:host
@@ -1575,7 +1575,7 @@
 				}
 			}
 		}
-	
+
 		# MFA: Wait time before the activity begins (guest arrival delay).
 		MFA_option_wait_time = {
 			MFA_wait_1_week = {
@@ -2272,7 +2272,7 @@
 				if = {
 					limit = { this = scope:host }
 					scope:activity = { progress_activity_phase_after = { days = MFA_3_weeks_days } }
-					trigger_event = { #Coronation ending events	
+					trigger_event = { #Coronation ending events
 						id = coronation_events.0310
 						days = MFA_3_weeks_minus_1_days
 					}
