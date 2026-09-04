@@ -81,7 +81,7 @@ func TestPairConflictsCountsProvidersAndReplacePathOwners(t *testing.T) {
 	if first.AID != "local:mod/agot.mod" || first.BID != "local:mod/essos.mod" {
 		t.Fatalf("unexpected pair sides: %+v", first)
 	}
-	if first.Files != 1 || first.Divergent != 1 || first.AWins != 1 || first.BWins != 0 {
+	if first.Files != 1 || first.Divergent != 1 {
 		t.Fatalf("unexpected tally: %+v", first)
 	}
 	// A replace_path owner overlaps the provider it buries even though it does
@@ -90,7 +90,7 @@ func TestPairConflictsCountsProvidersAndReplacePathOwners(t *testing.T) {
 	if second.AID != "local:mod/compatch.mod" || second.BID != "local:mod/essos.mod" {
 		t.Fatalf("unexpected shadow pair sides: %+v", second)
 	}
-	if second.Files != 1 || second.Divergent != 0 || second.AWins != 1 {
+	if second.Files != 1 || second.Divergent != 0 {
 		t.Fatalf("unexpected shadow tally: %+v", second)
 	}
 }
@@ -105,19 +105,11 @@ func TestPairConflictsIgnoresNonConflictingFiles(t *testing.T) {
 	}
 }
 
-func TestPairConflictsCreditsNeitherSideWhenAThirdModWins(t *testing.T) {
-	files := []FileEntry{{
-		Path:          "common/traits/00_traits.txt",
-		ConflictKinds: []string{"same_path"},
-		Providers: []FileProvider{
-			{ModID: "local:mod/a.mod"},
-			{ModID: "local:mod/b.mod"},
-		},
-		EffectiveWinner: EffectiveWinner{ModID: "local:mod/c.mod"},
-	}}
-	pairs := PairConflicts(files)
-	if len(pairs) != 1 || pairs[0].AWins != 0 || pairs[0].BWins != 0 {
-		t.Fatalf("expected an uncredited overlap, got %+v", pairs)
+func TestModPairMapContainsOnlyPairTallies(t *testing.T) {
+	payload := (ModPair{AID: "a", BID: "b", Files: 3, Divergent: 2}).ToMap()
+	if len(payload) != 4 || payload["a"] != "a" || payload["b"] != "b" ||
+		payload["files"] != 3 || payload["divergent"] != 2 {
+		t.Fatalf("unexpected pair payload: %#v", payload)
 	}
 }
 
@@ -133,13 +125,16 @@ func TestPairsInvolvingDropsPairsWithoutTheAnchor(t *testing.T) {
 	}
 }
 
-func TestRenderPairsPointsAtTheWinningMod(t *testing.T) {
+func TestRenderPairsGroupsByLaterLoadingMod(t *testing.T) {
 	source := shadowedReport()
 	rendered := RenderPairs(source, PairConflicts(source.Files))
 	for _, want := range []string{
-		"      files  divergent  mods",
-		"          1          1  Essos Expanded (2887408083) -> AGOT (2962333032)",
-		"          1          0  Essos Expanded (2887408083) -> Compatch (compatch)",
+		"Mod conflicts: 2 pairs",
+		"  [3] AGOT (2962333032)",
+		"        files  divergent  conflicts with",
+		"            1          1  [1] Essos Expanded (2887408083)",
+		"  [9] Compatch (compatch)",
+		"            1          0  [1] Essos Expanded (2887408083)",
 	} {
 		if !strings.Contains(rendered, want) {
 			t.Errorf("missing line %q in:\n%s", want, rendered)
@@ -147,31 +142,21 @@ func TestRenderPairsPointsAtTheWinningMod(t *testing.T) {
 	}
 }
 
-func TestRenderPairsMarksAnUndecidedOverlap(t *testing.T) {
+func TestRenderPairsBreaksPositionTiesByStableID(t *testing.T) {
 	source := Report{Mods: []ModRecord{
 		{StableID: "local:mod/a.mod", Name: "Alpha"},
 		{StableID: "local:mod/b.mod", Name: "Beta"},
 	}}
 	pairs := []ModPair{{AID: "local:mod/a.mod", BID: "local:mod/b.mod", Files: 2}}
-	if !strings.Contains(RenderPairs(source, pairs), "Alpha (a) <-> Beta (b)") {
-		t.Errorf("expected an undecided marker:\n%s", RenderPairs(source, pairs))
-	}
-}
-
-func TestRenderPairsFlagsFilesWonByAThirdMod(t *testing.T) {
-	source := Report{Mods: []ModRecord{
-		{StableID: "local:mod/a.mod", Name: "Alpha"},
-		{StableID: "local:mod/b.mod", Name: "Beta"},
-	}}
-	pairs := []ModPair{{AID: "local:mod/a.mod", BID: "local:mod/b.mod", Files: 5, AWins: 2}}
 	rendered := RenderPairs(source, pairs)
-	if !strings.Contains(rendered, "Beta (b) -> Alpha (a)  [3 won elsewhere]") {
-		t.Errorf("expected the third-party share to be reported:\n%s", rendered)
+	if !strings.Contains(rendered, "  [0] Beta (b)") ||
+		!strings.Contains(rendered, "[0] Alpha (a)") {
+		t.Errorf("expected Beta to be the deterministic later group:\n%s", rendered)
 	}
 }
 
 func TestRenderPairsReportsAnEmptyTable(t *testing.T) {
-	if !strings.Contains(RenderPairs(Report{}, nil), "Mod conflicts\n  none") {
+	if !strings.Contains(RenderPairs(Report{}, nil), "Mod conflicts: 0 pairs\n  none") {
 		t.Errorf("expected an explicit empty table:\n%s", RenderPairs(Report{}, nil))
 	}
 }
@@ -191,8 +176,41 @@ func TestRenderTextClosesWithTheSummary(t *testing.T) {
 	if !(warnings < files && files < summary) {
 		t.Errorf("expected warnings, then files, then the summary:\n%s", rendered)
 	}
-	if !strings.HasSuffix(rendered, "Divergent: 1\n") {
+	if !strings.HasSuffix(rendered, "Scan scope: 3 mods, 3 provider files\n") {
 		t.Errorf("expected the summary to close the report:\n%s", rendered)
+	}
+}
+
+func TestSummaryLinesKeepTheNormalReportCompact(t *testing.T) {
+	source := Report{Summary: Summary{
+		ModsAnalyzed: 145, FilesScanned: 45776, FilesReported: 2989,
+		Conflicts: 2989, SamePath: 2989, Divergent: 2799, Identical: 190,
+	}}
+	want := "Summary\n" +
+		"  Conflicts: 2989\n" +
+		"  Same path: 2989 (2799 divergent, 190 identical)\n" +
+		"  Scan scope: 145 mods, 45776 provider files"
+	if got := strings.Join(summaryLines(source), "\n"); got != want {
+		t.Errorf("unexpected summary:\n%s", got)
+	}
+}
+
+func TestSummaryLinesShowExceptionalCounts(t *testing.T) {
+	source := Report{Summary: Summary{
+		ModsAnalyzed: 3, ModsMissing: 1, FilesScanned: 12, FilesReported: 4,
+		Conflicts: 3, SamePath: 2, ReplacePathShadow: 1,
+		Divergent: 1, Unreadable: 1, EffectiveRemoved: 1,
+	}}
+	want := "Summary\n" +
+		"  Conflicts: 3\n" +
+		"  Same path: 2 (1 divergent, 1 unreadable)\n" +
+		"  Replace path shadows: 1\n" +
+		"  Effectively removed: 1\n" +
+		"  Files reported: 4\n" +
+		"  Mods missing: 1\n" +
+		"  Scan scope: 3 mods, 12 provider files"
+	if got := strings.Join(summaryLines(source), "\n"); got != want {
+		t.Errorf("unexpected summary:\n%s", got)
 	}
 }
 

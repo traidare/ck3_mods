@@ -69,20 +69,21 @@ registry ID:
 
 ```sh
 ck3mm conflicts AGOT --summary-only
-ck3mm conflicts AGOT --mods-only
+ck3mm conflicts AGOT
 ck3mm conflicts AGOT --involving 3206891770
-ck3mm conflicts AGOT --involving mod/cafg_agot_compatch.mod
+ck3mm conflicts AGOT --files --involving mod/cafg_agot_compatch.mod
 ```
 
 `--involving` also accepts an installed mod the playset does not enable. It is
 analyzed as if added last in load order, so a candidate addition can be checked
-before it joins the playset.
+before it joins the playset. Repeat `--involving` to match any of several mods;
+disabled candidates are appended in flag order.
 
-Use `--include-prefix`, `--exclude-prefix`, and `--format json` to reduce a
-report. Schema-v2 JSON is deterministic and excludes host filesystem paths; it
-records same-path and `replace_path` conflicts, content status, and the
-effective winner. A reported conflict is an investigation starting point, not an
-instruction to copy a file into the final compatch.
+Add `--files` to inspect conflicting paths; `--all-files` includes
+non-conflicting paths and also selects the file view. Use `--include-prefix`,
+`--exclude-prefix`, and `--format json` to reduce a report. A reported conflict
+is an investigation starting point, not an instruction to copy a file into the
+final compatch.
 
 ## Compatch workflows
 
@@ -188,7 +189,7 @@ Validate from narrow to broad:
 ```sh
 ck3mm mod generate <mod>  # when the manifest declares a generator
 ck3mm mod validate <mod>
-ck3mm conflicts AGOT --involving <id>
+ck3mm conflicts AGOT --files --involving <id>
 ```
 
 Every command previews by default and writes only with `--apply`. `mod generate`

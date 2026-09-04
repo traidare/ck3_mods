@@ -41,7 +41,7 @@ func TestApplyInvolvingAcceptsEveryAlias(t *testing.T) {
 		"steam:3766038754",
 	}
 	for _, alias := range aliases {
-		filtered, err := Apply(source, Filter{Involving: alias})
+		filtered, err := Apply(source, Filter{Involving: []string{alias}})
 		if err != nil {
 			t.Fatalf("alias %q: unexpected error: %v", alias, err)
 		}
@@ -52,7 +52,7 @@ func TestApplyInvolvingAcceptsEveryAlias(t *testing.T) {
 }
 
 func TestApplyInvolvingRejectsUnknownSelector(t *testing.T) {
-	_, err := Apply(subscribedPlayset(), Filter{Involving: "9999999999"})
+	_, err := Apply(subscribedPlayset(), Filter{Involving: []string{"9999999999"}})
 	if err == nil {
 		t.Fatal("expected an unknown selector to be an error, not an empty report")
 	}
@@ -62,11 +62,28 @@ func TestApplyInvolvingRejectsUnknownSelector(t *testing.T) {
 }
 
 func TestApplyInvolvingSuggestsNearMatches(t *testing.T) {
-	_, err := Apply(subscribedPlayset(), Filter{Involving: "Seasons"})
+	_, err := Apply(subscribedPlayset(), Filter{Involving: []string{"Seasons"}})
 	if err == nil {
 		t.Fatal("expected a partial name to be rejected")
 	}
 	if !strings.Contains(err.Error(), `did you mean "Seasons of Valyria"?`) {
 		t.Fatalf("expected a suggestion, got: %v", err)
+	}
+}
+
+func TestApplyInvolvingMatchesAnySelector(t *testing.T) {
+	filtered, err := Apply(subscribedPlayset(), Filter{Involving: []string{"Seasons of Valyria", "Other"}})
+	if err != nil {
+		t.Fatal(err)
+	}
+	if len(filtered.Files) != 2 {
+		t.Fatalf("got %d files, want files involving either mod", len(filtered.Files))
+	}
+}
+
+func TestApplyInvolvingRejectsAnyUnknownSelector(t *testing.T) {
+	_, err := Apply(subscribedPlayset(), Filter{Involving: []string{"Other", "9999999999"}})
+	if err == nil || !strings.Contains(err.Error(), `unknown mod selector "9999999999"`) {
+		t.Fatalf("unexpected error: %v", err)
 	}
 }

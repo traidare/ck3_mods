@@ -10,7 +10,7 @@ import (
 )
 
 // SchemaVersion is the report format this package emits.
-const SchemaVersion = 2
+const SchemaVersion = 3
 
 // PlaysetRecord is path-free metadata identifying the analyzed playset.
 type PlaysetRecord struct {
@@ -331,8 +331,6 @@ type ModPair struct {
 	BID       string
 	Files     int
 	Divergent int
-	AWins     int
-	BWins     int
 }
 
 // ToMap renders the pair.
@@ -342,15 +340,13 @@ func (m ModPair) ToMap() map[string]any {
 		"b":         m.BID,
 		"files":     m.Files,
 		"divergent": m.Divergent,
-		"aWins":     m.AWins,
-		"bWins":     m.BWins,
 	}
 }
 
 // PairConflicts tallies the mods that meet on the same conflicting file. Both
 // the mods physically providing a path and the mods whose replace_path buries
 // it count as participants, so replace_path shadowing is reported as the
-// overlap it is. A file won by a third mod credits neither side of the pair.
+// overlap it is.
 func PairConflicts(files []FileEntry) []ModPair {
 	pairs := map[[2]string]*ModPair{}
 	for _, entry := range files {
@@ -369,12 +365,6 @@ func PairConflicts(files []FileEntry) []ModPair {
 				pair.Files++
 				if entry.ContentStatus == "divergent" {
 					pair.Divergent++
-				}
-				switch entry.EffectiveWinner.ModID {
-				case idA:
-					pair.AWins++
-				case idB:
-					pair.BWins++
 				}
 			}
 		}
@@ -434,44 +424,67 @@ func entryParticipants(entry FileEntry) []string {
 	return participants
 }
 
-// RenderPairs renders the mod-level overlap table: one line per pair of mods
-// sharing conflicting files, pointing at the side that wins more of them.
+// RenderPairs groups each conflicting pair under its later-loading mod.
 func RenderPairs(source Report, pairs []ModPair) string {
 	return joinSections(warningLines(source), pairLines(source, pairs))
 }
 
 func pairLines(source Report, pairs []ModPair) []string {
-	lines := []string{"Mod conflicts"}
+	noun := "pairs"
+	if len(pairs) == 1 {
+		noun = "pair"
+	}
+	lines := []string{"Mod conflicts: " + itoa(len(pairs)) + " " + noun}
 	if len(pairs) == 0 {
 		return append(lines, "  none")
 	}
 
 	labels := modLabels(source.Mods)
-	label := func(modID string) string {
-		if text := labels[modID]; text != "" {
-			return text
-		}
-		return modID
+	mods := make(map[string]ModRecord, len(source.Mods))
+	for _, mod := range source.Mods {
+		mods[mod.StableID] = mod
 	}
-	width := columnWidth(pairs)
-	lines = append(lines, "  "+padText("files", width)+"  "+padText("divergent", width)+"  mods")
+	positionDigits := positionWidth(source.Mods)
+	label := func(modID string) string {
+		text := labels[modID]
+		if text == "" {
+			text = modID
+		}
+		return "[" + pad(mods[modID].Position, positionDigits) + "] " + text
+	}
+
+	type row struct {
+		pair    ModPair
+		earlier string
+	}
+	type group struct {
+		later string
+		rows  []row
+	}
+	var groups []group
+	groupIndexes := map[string]int{}
 	for _, pair := range pairs {
-		arrow := " <-> "
-		left, right := pair.AID, pair.BID
-		if pair.AWins != pair.BWins {
-			arrow = " -> "
-			if pair.AWins > pair.BWins {
-				left, right = pair.BID, pair.AID
-			}
+		earlier, later := pair.AID, pair.BID
+		if left, right := mods[earlier], mods[later]; left.Position > right.Position ||
+			(left.Position == right.Position && earlier > later) {
+			earlier, later = later, earlier
 		}
-		// Files neither side wins are settled by a third mod loading over both,
-		// which the arrow alone cannot show.
-		elsewhere := ""
-		if settled := pair.Files - pair.AWins - pair.BWins; settled > 0 {
-			elsewhere = "  [" + itoa(settled) + " won elsewhere]"
+		index, exists := groupIndexes[later]
+		if !exists {
+			index = len(groups)
+			groupIndexes[later] = index
+			groups = append(groups, group{later: later})
 		}
-		lines = append(lines, "  "+pad(pair.Files, width)+"  "+pad(pair.Divergent, width)+"  "+
-			label(left)+arrow+label(right)+elsewhere)
+		groups[index].rows = append(groups[index].rows, row{pair: pair, earlier: earlier})
+	}
+
+	width := columnWidth(pairs)
+	for _, group := range groups {
+		lines = append(lines, "", "  "+label(group.later),
+			"    "+padText("files", width)+"  "+padText("divergent", width)+"  conflicts with")
+		for _, row := range group.rows {
+			lines = append(lines, "    "+pad(row.pair.Files, width)+"  "+pad(row.pair.Divergent, width)+"  "+label(row.earlier))
+		}
 	}
 	return lines
 }
@@ -510,17 +523,40 @@ func joinSections(sections ...[]string) string {
 
 func summaryLines(source Report) []string {
 	summary := source.Summary
-	return []string{
+	lines := []string{
 		"Summary",
-		"  Mods analyzed: " + itoa(summary.ModsAnalyzed),
-		"  Mods missing: " + itoa(summary.ModsMissing),
-		"  Files scanned: " + itoa(summary.FilesScanned),
-		"  Files reported: " + itoa(summary.FilesReported),
 		"  Conflicts: " + itoa(summary.Conflicts),
-		"  Same path: " + itoa(summary.SamePath),
-		"  Replace path shadow: " + itoa(summary.ReplacePathShadow),
-		"  Divergent: " + itoa(summary.Divergent),
 	}
+	if summary.SamePath > 0 {
+		var details []string
+		if summary.Divergent > 0 {
+			details = append(details, itoa(summary.Divergent)+" divergent")
+		}
+		if summary.Identical > 0 {
+			details = append(details, itoa(summary.Identical)+" identical")
+		}
+		if summary.Unreadable > 0 {
+			details = append(details, itoa(summary.Unreadable)+" unreadable")
+		}
+		line := "  Same path: " + itoa(summary.SamePath)
+		if len(details) > 0 {
+			line += " (" + strings.Join(details, ", ") + ")"
+		}
+		lines = append(lines, line)
+	}
+	if summary.ReplacePathShadow > 0 {
+		lines = append(lines, "  Replace path shadows: "+itoa(summary.ReplacePathShadow))
+	}
+	if summary.EffectiveRemoved > 0 {
+		lines = append(lines, "  Effectively removed: "+itoa(summary.EffectiveRemoved))
+	}
+	if summary.FilesReported != summary.Conflicts {
+		lines = append(lines, "  Files reported: "+itoa(summary.FilesReported))
+	}
+	if summary.ModsMissing > 0 {
+		lines = append(lines, "  Mods missing: "+itoa(summary.ModsMissing))
+	}
+	return append(lines, "  Scan scope: "+itoa(summary.ModsAnalyzed)+" mods, "+itoa(summary.FilesScanned)+" provider files")
 }
 
 // warningLines leads every view: a mod that could not be analyzed understates

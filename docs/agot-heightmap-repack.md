@@ -199,6 +199,7 @@ ck3mm mod install agot_now_lov_ee_map_compatch
 ck3mm mod install agot_now_lov_ee_map_compatch --apply
 ck3mm mod validate agot_now_lov_ee_map_compatch
 ck3mm conflicts AGOT \
+  --files \
   --involving mod/agot_now_lov_ee_map_compatch.mod
 ```
 

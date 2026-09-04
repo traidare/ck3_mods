@@ -28,7 +28,7 @@ var FailOnChoices = []FailOn{FailOnDivergent, FailOnAny, FailOnMissing}
 
 // Filter narrows a report by path prefix and mod involvement.
 type Filter struct {
-	Involving       string
+	Involving       []string
 	IncludePrefixes []string
 	ExcludePrefixes []string
 	ConflictsOnly   bool
@@ -150,21 +150,28 @@ func Selects(mod report.ModRecord, selector string) bool {
 	return selector != "" && modAliases(mod)[selector]
 }
 
-// resolveInvolvingIDs maps a selector onto the stable IDs it names. An
+// resolveInvolvingIDs maps selectors onto the stable IDs they name. An
 // unresolvable selector is an error: reporting zero conflicts would be
 // indistinguishable from a genuinely clean playset.
-func resolveInvolvingIDs(source report.Report, involving string) (map[string]bool, error) {
-	if involving == "" {
+func resolveInvolvingIDs(source report.Report, involving []string) (map[string]bool, error) {
+	if len(involving) == 0 {
 		return nil, nil
 	}
 	matches := map[string]bool{}
-	for _, mod := range source.Mods {
-		if modAliases(mod)[involving] {
-			matches[mod.StableID] = true
+	for _, selector := range involving {
+		if selector == "" {
+			continue
 		}
-	}
-	if len(matches) == 0 {
-		return nil, unknownSelectorError(source, involving)
+		found := false
+		for _, mod := range source.Mods {
+			if modAliases(mod)[selector] {
+				matches[mod.StableID] = true
+				found = true
+			}
+		}
+		if !found {
+			return nil, unknownSelectorError(source, selector)
+		}
 	}
 	return matches, nil
 }

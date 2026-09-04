@@ -149,9 +149,9 @@ on_birth_child = { events = { mod_b_events.0001 } }
 
 ```bash
 ck3mm conflicts AGOT --summary-only
-ck3mm conflicts AGOT --mods-only
-ck3mm conflicts AGOT --involving <workshop-id> --mods-only
-ck3mm conflicts AGOT --include-prefix common/ --format json
+ck3mm conflicts AGOT
+ck3mm conflicts AGOT --involving <workshop-id>
+ck3mm conflicts AGOT --files --include-prefix common/ --format json
 ```
 
 Use the live Launcher playset as the comparison scope, then narrow the report by
@@ -159,15 +159,15 @@ Workshop ID or local launcher registry ID. It shows file conflicts and
 `replace_path` interactions for the installed playset. Use
 `--playset-file <file>` when a reproducible exported snapshot is required.
 
-Conflict report JSON uses schema version 2. It is deterministic and excludes
+Conflict report JSON uses schema version 3. It is deterministic and excludes
 host filesystem paths, so reports can be compared or stored as CI artifacts.
 Each file record distinguishes `same_path` from `replace_path_shadow`, lists
 physical providers and applicable `replace_path` owners, classifies content as
 identical, divergent, or unreadable, and identifies whether the effective file
 is present or removed after load-order processing. `--fail-on divergent`,
 `--fail-on any`, and `--fail-on missing` make those conditions usable as
-automation gates. `--mods-only` adds a `modPairs` array holding the same
-mod-level tallies the text table shows.
+automation gates. The default view reports mod-level tallies in `modPairs`; use
+`--files` for the individual file records.
 
 The effective winner describes observed CK3 load behavior. It is not a claim
 that the winning file is semantically compatible; inspect the parent deltas

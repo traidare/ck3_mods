@@ -17,43 +17,53 @@ func conflictsCommand() *Command {
 	return &Command{
 		Name:    "conflicts",
 		Summary: "Analyze load-order conflicts across a playset",
-		Usage:   "ck3mm conflicts [playset] [--involving ID] [--mods-only] [--summary-only]",
+		Usage:   "ck3mm conflicts [playset] [--involving ID ...] [--files|--summary-only]",
 		Run:     runConflicts,
 	}
 }
 
-// withExternalMod appends the mod a selector names when the playset does not
-// enable it, so `--involving` can preview a candidate addition. A selector that
-// resolves to nothing is left to the filter, which reports it with suggestions;
-// its resolution failure is returned for that message.
-func withExternalMod(discovery layers.Discovery, involving, workshopDir, paradoxDir string) ([]conflicts.Provider, []report.Warning, error) {
-	if involving == "" {
-		return discovery.Providers, discovery.Warnings, nil
-	}
-	for _, provider := range discovery.Providers {
-		if conflicts.Selects(provider.ToRecord(), involving) {
-			return discovery.Providers, discovery.Warnings, nil
+// withExternalMods appends installed selectors the playset does not enable.
+// Multiple additions follow their flag order.
+func withExternalMods(discovery layers.Discovery, involving []string, workshopDir, paradoxDir string) ([]conflicts.Provider, []report.Warning, error) {
+	providers := append([]conflicts.Provider{}, discovery.Providers...)
+	for _, selector := range involving {
+		if selector == "" {
+			continue
 		}
-	}
+		found := false
+		for _, provider := range providers {
+			if conflicts.Selects(provider.ToRecord(), selector) {
+				found = true
+				break
+			}
+		}
+		if found {
+			continue
+		}
 
-	external, err := layers.ResolveExternal(involving, workshopDir, paradoxDir,
-		layers.NextPosition(discovery.Providers))
-	if err != nil {
-		return discovery.Providers, discovery.Warnings, err
+		external, err := layers.ResolveExternal(selector, workshopDir, paradoxDir,
+			layers.NextPosition(providers))
+		if errors.Is(err, layers.ErrNotInstalled) {
+			continue
+		}
+		if err != nil {
+			return providers, discovery.Warnings, fmt.Errorf("mod selector %q: installed copy could not be read: %w", selector, err)
+		}
+		providers = append(providers, external)
 	}
-	return append(append([]conflicts.Provider{}, discovery.Providers...), external), discovery.Warnings, nil
+	return providers, discovery.Warnings, nil
 }
 
 func runConflicts(env *Env) (int, error) {
 	set := flagSet("conflicts", env)
 	playsetFile := set.String("playset-file", "", "analyze an exported playset instead of the live one")
-	involving := set.String("involving", "", "only report files touching this mod")
+	files := set.Bool("files", false, "report individual files instead of mod pairs")
 	summaryOnly := set.Bool("summary-only", false, "report only the summary")
-	modsOnly := set.Bool("mods-only", false, "report only the mod pairs that share conflicting files")
-	allFiles := set.Bool("all-files", false, "report every scanned file, not only conflicts")
+	allFiles := set.Bool("all-files", false, "report all files, including non-conflicts")
 	debugPaths := set.Bool("debug-paths", false, "append the resolved provider roots")
 	failOn := set.String("fail-on", "", "exit non-zero on divergent, any, or missing")
-	var includePrefix, excludePrefix stringList
+	var involving, includePrefix, excludePrefix stringList
+	set.Var(&involving, "involving", "only report conflicts involving this mod (repeatable)")
 	set.Var(&includePrefix, "include-prefix", "only report paths under this prefix (repeatable)")
 	set.Var(&excludePrefix, "exclude-prefix", "skip paths under this prefix (repeatable)")
 	positional, err := parse(set, env.Args)
@@ -70,9 +80,9 @@ func runConflicts(env *Env) (int, error) {
 	if *playsetFile != "" && name != "" {
 		return 2, fmt.Errorf("choose either a playset name or --playset-file, not both")
 	}
-	// Each --*-only flag selects one section, so asking for two is contradictory.
-	if *summaryOnly && *modsOnly {
-		return 2, fmt.Errorf("choose either --summary-only or --mods-only, not both")
+	fileView := *files || *allFiles
+	if *summaryOnly && fileView {
+		return 2, fmt.Errorf("choose either a file view or --summary-only, not both")
 	}
 
 	if err := env.Config.Require(config.ParadoxDir, config.WorkshopDir); err != nil {
@@ -90,43 +100,42 @@ func runConflicts(env *Env) (int, error) {
 	}
 
 	discovery := layers.Discover(source, env.Config.WorkshopDir, env.Config.ParadoxDir)
-	providers, warnings, externalErr := withExternalMod(discovery, *involving,
+	providers, warnings, err := withExternalMods(discovery, involving,
 		env.Config.WorkshopDir, env.Config.ParadoxDir)
+	if err != nil {
+		return 2, err
+	}
 
 	analysis, err := conflicts.Analyze(providers, &discovery.Playset, warnings, *allFiles)
 	if err != nil {
 		return 1, err
 	}
 	analysis, err = conflicts.Apply(analysis, conflicts.Filter{
-		Involving:       *involving,
+		Involving:       involving,
 		IncludePrefixes: includePrefix,
 		ExcludePrefixes: excludePrefix,
 		ConflictsOnly:   !*allFiles,
 		SummaryOnly:     *summaryOnly,
 	})
 	if err != nil {
-		// Every filter error is bad input: an unknown selector or an
-		// unusable prefix. A selector naming a mod that is installed but
-		// unusable needs the reason; one that matches nothing does not.
-		if externalErr != nil && !errors.Is(externalErr, layers.ErrNotInstalled) {
-			return 2, fmt.Errorf("%w; its installed copy could not be read: %v", err, externalErr)
-		}
 		return 2, err
 	}
 
-	// The pair table is derived from the filtered entries, so --mods-only keeps
-	// them through the filter and drops the file section after pairing. The
-	// rebuilt summary stays available for --fail-on even when no view shows it.
+	// The default view pairs only the selected mods, not every participant on a
+	// file that happens to involve one of them.
 	var pairs []report.ModPair
-	if *modsOnly {
+	if !fileView && !*summaryOnly {
 		anchors := map[string]bool{}
 		for _, mod := range analysis.Mods {
-			if conflicts.Selects(mod, *involving) {
-				anchors[mod.StableID] = true
+			for _, selector := range involving {
+				if conflicts.Selects(mod, selector) {
+					anchors[mod.StableID] = true
+					break
+				}
 			}
 		}
 		pairs = report.PairsInvolving(report.PairConflicts(analysis.Files), anchors)
-		analysis = report.WithFiles(analysis, analysis.Files, true)
+		analysis.Files = nil
 	}
 
 	resolvedRoots := map[string]string{}
@@ -136,10 +145,13 @@ func runConflicts(env *Env) (int, error) {
 
 	if env.JSON() {
 		payload := analysis.ToMap()
-		// A view selects the same sections in both formats: a key a view
-		// leaves out is absent, not an empty list a consumer has to interpret.
+		// A view selects the same sections in both formats.
 		switch {
-		case *modsOnly:
+		case *summaryOnly:
+			delete(payload, "files")
+			delete(payload, "mods")
+		case fileView:
+		default:
 			delete(payload, "summary")
 			delete(payload, "files")
 			rendered := make([]any, len(pairs))
@@ -147,9 +159,6 @@ func runConflicts(env *Env) (int, error) {
 				rendered[index] = pair.ToMap()
 			}
 			payload["modPairs"] = rendered
-		case *summaryOnly:
-			delete(payload, "files")
-			delete(payload, "mods")
 		}
 		if *debugPaths {
 			paths := map[string]any{}
@@ -162,10 +171,10 @@ func runConflicts(env *Env) (int, error) {
 			return 1, err
 		}
 	} else {
-		if *modsOnly {
-			env.Printf("%s", report.RenderPairs(analysis, pairs))
-		} else {
+		if fileView || *summaryOnly {
 			env.Printf("%s", report.RenderText(analysis))
+		} else {
+			env.Printf("%s", report.RenderPairs(analysis, pairs))
 		}
 		if *debugPaths {
 			env.Printf("\nDebug paths\n")
