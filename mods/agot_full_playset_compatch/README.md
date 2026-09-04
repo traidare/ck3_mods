@@ -46,18 +46,19 @@ erroring when it evaluates raiding without a raider.
 `New Personality Events for Children` must be enabled after AGOT and before this
 compatch. Keep the integration layers in this order:
 
-1. `VIET 1.3.0 - AGOT CK3 1.19 Runtime Rebase`, immediately after VIET
-2. `AGOT+ 1.0.0 - CK3 1.19 Runtime Rebase`, immediately after AGOT+, which must
-   load after AGOT: Canon Children EZ Mode
+1. `VIET - AGOT CK3 1.19 Runtime Rebase`, immediately after VIET
+2. `AGOT+ - CK3 1.19 Runtime Rebase`, immediately after AGOT+, which must load
+   after AGOT: Canon Children EZ Mode
 3. `Legacy Of The Dragon - Linux Texture Fix`, immediately after Legacy Of The
    Dragon
 4. `AGOT NOW - CK3 1.19 Rebase`, immediately after NOW
 5. `AGOT NOW-Season of Ice and Fire Compatch`, immediately after the NOW rebase
-6. `AGOT 0.4.40 - Much Faster Activities Rebase`, immediately after MFA
-7. `Grand Remembrance 1.9.0 - CK3 1.19 Runtime Fix`, immediately after the Grand
+6. `Much Faster Activities - AGOT CK3 1.19 Runtime Rebase`, immediately after
+   MFA
+7. `Grand Remembrance - CK3 1.19 Runtime Fix`, immediately after the Grand
    Remembrance AGOT compatibility submod
-8. `AGOT MPD 0.4.0 - CK3 1.19 Runtime Rebase`, immediately after AGOT MPD and
-   before the MPD + Dragon Wives compatch
+8. `AGOT MPD - CK3 1.19 Runtime Rebase`, immediately after AGOT MPD and before
+   the MPD + Dragon Wives compatch
 9. `Legacy of Valyria - AGOT 0.5.1 Bridge - CK3 1.19 Runtime Rebase`,
    immediately after `Legacy of Valyria - AGOT 0.5.1`
 10. `Essos Expanded: The Further East - CK3 1.19 History Rebase`, immediately

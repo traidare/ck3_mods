@@ -1,4 +1,4 @@
-# AGOT 0.4.40 - Much Faster Activities Rebase
+# Much Faster Activities - AGOT CK3 1.19 Runtime Rebase
 
 Rebases AGOT - Much Faster Activities onto current A Game of Thrones and CK3
 1.19, so its faster activities keep working without dragging vanilla logic back

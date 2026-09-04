@@ -127,12 +127,18 @@ func LoadSettings(root string) (Settings, error) {
 }
 
 // SourceSpec is one logical, host-independent input a generator declares.
+//
+// Note carries the comment block written directly above the source's
+// [[sources]] table. It is the only place a manifest can explain why a Workshop
+// mod is consumed by the generator yet deliberately absent from the module's
+// ck3-tiger.conf load order.
 type SourceSpec struct {
 	Name   string
 	Kind   string
 	Path   string
 	ItemID string
 	Mod    string
+	Note   string
 }
 
 // GeneratorSpec declares a mod's generator and everything it owns.
@@ -321,6 +327,41 @@ func parseSources(raw manifestFile, manifestPath string) ([]SourceSpec, error) {
 	return sources, nil
 }
 
+// sourceNotes maps each source name to the comment block written immediately
+// above its [[sources]] table. The TOML decoder drops comments, so the raw text
+// is scanned a second time; a comment must touch the table header to count,
+// since a blank line makes it commentary on the file rather than on the source.
+func sourceNotes(manifestPath string) (map[string]string, error) {
+	text, err := os.ReadFile(manifestPath)
+	if err != nil {
+		return nil, err
+	}
+	notes := map[string]string{}
+	var pending, current []string
+	for _, line := range strings.Split(strings.ReplaceAll(string(text), "\r\n", "\n"), "\n") {
+		trimmed := strings.TrimSpace(line)
+		switch {
+		case strings.HasPrefix(trimmed, "#"):
+			pending = append(pending, strings.TrimSpace(strings.TrimPrefix(trimmed, "#")))
+			continue
+		case trimmed == "[[sources]]":
+			current = pending
+		case strings.HasPrefix(trimmed, "[") && current != nil:
+			current = nil
+		case current != nil && strings.HasPrefix(trimmed, "name"):
+			if _, value, found := strings.Cut(trimmed, "="); found {
+				name := strings.Trim(strings.TrimSpace(value), `"`)
+				if name != "" && len(current) > 0 {
+					notes[name] = strings.Join(current, " ")
+				}
+			}
+			current = nil
+		}
+		pending = nil
+	}
+	return notes, nil
+}
+
 func validKind(kind string) bool {
 	for _, candidate := range SourceKinds {
 		if candidate == kind {
@@ -376,6 +417,13 @@ func LoadManifest(manifestPath, defaultSlug string) (*Manifest, error) {
 	sources, err := parseSources(raw, manifestPath)
 	if err != nil {
 		return nil, err
+	}
+	notes, err := sourceNotes(manifestPath)
+	if err != nil {
+		return nil, err
+	}
+	for index := range sources {
+		sources[index].Note = notes[sources[index].Name]
 	}
 	return &Manifest{
 		Path:      fsutil.MustAbs(manifestPath),

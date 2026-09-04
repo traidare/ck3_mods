@@ -1,4 +1,4 @@
-# AGOT+ 1.0.0 - CK3 1.19 Runtime Rebase
+# AGOT+ - CK3 1.19 Runtime Rebase
 
 Narrow script repair for **AGOT+** on CK3 1.19.
 

@@ -123,17 +123,19 @@ LoV, and Essos Expanded heightmap workflow.
 `mods/<slug>/` holds only installable CK3 payload. Everything used to build,
 validate, or audit that mod lives in `workspace/<slug>/` and never ships:
 
-| path                                  | contents                                    |
-| ------------------------------------- | ------------------------------------------- |
-| `mods/<slug>/descriptor.mod`          | game-facing metadata only                   |
-| `mods/<slug>/README.md`               | Workshop-facing description;                |
-| `mods/<slug>/common/`, `map_data/`, … | payload CK3 loads                           |
-| `workspace/<slug>/README.md`          | module state, ownership, re-audit trigger   |
-| `workspace/<slug>/mod.toml`           | generator manifest, declared sources        |
-| `workspace/<slug>/implementation.py`  | the mod's generator                         |
-| `workspace/<slug>/assets/`            | generator inputs and source manifests       |
-| `workspace/<slug>/artifacts/`         | generated audits and unpacked sources       |
-| `workspace/<slug>/ck3-tiger.conf`     | dependency load order for static validation |
+| path                                   | contents                                    |
+| -------------------------------------- | ------------------------------------------- |
+| `mods/<slug>/descriptor.mod`           | game-facing metadata only                   |
+| `mods/<slug>/README.md`                | Workshop-facing description;                |
+| `mods/<slug>/common/`, `map_data/`, …  | payload CK3 loads                           |
+| `workspace/<slug>/README.md`           | module state, ownership, re-audit trigger   |
+| `workspace/<slug>/mod.toml`            | generator manifest, declared sources        |
+| `workspace/<slug>/implementation.py`   | the mod's generator                         |
+| `workspace/<slug>/assets/`             | generator inputs                            |
+| `workspace/<slug>/sources.lock.json`   | content pins for every file the run read    |
+| `workspace/<slug>/tiger.baseline.json` | known/upstream ck3-tiger findings           |
+| `workspace/<slug>/artifacts/`          | generated audits and unpacked sources       |
+| `workspace/<slug>/ck3-tiger.conf`      | dependency load order for static validation |
 
 ### Documentation voice
 
@@ -197,6 +199,12 @@ without `--apply` reports what differs, and exits 1 when an owned output is
 stale. `--apply` promotes it. The same holds for `mod install`,
 `playset import`, `playset preserve`, and `refs sync`. Let the user run any
 apply that writes to Launcher state or another external root.
+
+A Workshop mod declared in `mod.toml` must also be loaded in the module's
+`ck3-tiger.conf`, otherwise tiger validates the payload against a stack missing
+one of its own parents. When a source is deliberately consumed without being
+loaded, write the reason in a comment directly above its `[[sources]]` table;
+`mod validate` reads that comment and fails on an unexplained omission.
 
 Keep upstream-change checks granular to the files and definitions a generator
 actually consumes. Review that source evidence and update it deliberately after

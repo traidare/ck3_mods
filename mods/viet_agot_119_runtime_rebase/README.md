@@ -1,4 +1,4 @@
-# VIET 1.3.0 - AGOT CK3 1.19 Runtime Rebase
+# VIET - AGOT CK3 1.19 Runtime Rebase
 
 Compatibility rebase for **VIET Events** on current **A Game of Thrones**.
 

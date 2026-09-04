@@ -7,7 +7,7 @@ Compatibility patch for the shared character window.
 1. A Game of Thrones
 2. AGOT Dragon Wives
 3. AGOT - More Personality Depth
-4. AGOT MPD 0.4.0 - CK3 1.19 Runtime Rebase
+4. AGOT MPD - CK3 1.19 Runtime Rebase
 5. This compatch
 
 ## What it does

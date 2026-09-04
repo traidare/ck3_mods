@@ -1,4 +1,4 @@
-# Grand Remembrance 1.9.0 - CK3 1.19 Runtime Fix
+# Grand Remembrance - CK3 1.19 Runtime Fix
 
 Narrow runtime repair for **Grand Remembrance** and its AGOT compatibility
 submod on CK3 1.19.

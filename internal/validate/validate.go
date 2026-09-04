@@ -6,8 +6,10 @@ package validate
 import (
 	"errors"
 	"fmt"
+	"os"
 	"os/exec"
 	"path/filepath"
+	"regexp"
 	"strings"
 
 	"codeberg.org/traidare/ck3_mods/internal/config"
@@ -25,6 +27,7 @@ type Status string
 
 const (
 	StepDescriptor Step = "descriptor"
+	StepSources    Step = "sources"
 	StepGenerator  Step = "generator"
 	StepTiger      Step = "tiger"
 
@@ -144,6 +147,7 @@ func Mod(space *workspace.Workspace, mod *workspace.Mod, settings config.Config,
 		Slug: mod.Slug,
 		Checks: []Check{
 			validateDescriptor(mod),
+			validateSources(mod),
 			validateGenerator(space, mod, settings),
 			validateTiger(space, mod, settings, options),
 		},
@@ -167,6 +171,76 @@ func validateDescriptor(mod *workspace.Mod) Check {
 		Status:  StatusPassed,
 		Message: "canonical descriptor is valid: " + name,
 	}
+}
+
+// tigerLoadOrder returns the Workshop IDs a module's ck3-tiger.conf loads.
+func tigerLoadOrder(path string) (map[string]bool, error) {
+	text, err := os.ReadFile(path)
+	if err != nil {
+		return nil, err
+	}
+	loaded := map[string]bool{}
+	for _, match := range workshopIDPattern.FindAllStringSubmatch(string(text), -1) {
+		loaded[match[1]] = true
+	}
+	return loaded, nil
+}
+
+var workshopIDPattern = regexp.MustCompile(`(?m)^\s*workshop_id\s*=\s*"([0-9]+)"`)
+
+// validateSources keeps a module's declared generator inputs and its ck3-tiger
+// load order from drifting apart. A Workshop mod a generator reads but tiger
+// does not load is validated against a stack missing one of its own parents, so
+// the module must either load it or say in mod.toml why it does not.
+func validateSources(mod *workspace.Mod) Check {
+	if mod.Manifest == nil || len(mod.Manifest.Sources) == 0 {
+		return Check{
+			Step:    StepSources,
+			Status:  StatusSkipped,
+			Message: "no generator sources are declared",
+		}
+	}
+	configPath := filepath.Join(mod.ToolingRoot, TigerConfigName)
+	if !fsutil.IsFile(configPath) {
+		return Check{
+			Step:    StepSources,
+			Status:  StatusSkipped,
+			Message: "no " + TigerConfigName + " declares a load order",
+		}
+	}
+	loaded, err := tigerLoadOrder(configPath)
+	if err != nil {
+		return Check{Step: StepSources, Status: StatusError, Message: err.Error()}
+	}
+
+	var details []string
+	waived := 0
+	for _, source := range mod.Manifest.Sources {
+		if source.Kind != "workshop" || loaded[source.ItemID] {
+			continue
+		}
+		if source.Note != "" {
+			waived++
+			continue
+		}
+		details = append(details, fmt.Sprintf("%s (%s) is consumed but not loaded",
+			source.Name, source.ItemID))
+	}
+	if len(details) > 0 {
+		return Check{
+			Step:   StepSources,
+			Status: StatusFailed,
+			Message: "declared Workshop sources are missing from " + TigerConfigName +
+				"; load them or explain the omission in a comment above [[sources]]",
+			Details: details,
+		}
+	}
+	message := "every declared Workshop source is loaded by " + TigerConfigName
+	if waived > 0 {
+		message = fmt.Sprintf("%s or explained in %s (%d explained)",
+			message, filepath.Base(mod.ManifestPath), waived)
+	}
+	return Check{Step: StepSources, Status: StatusPassed, Message: message}
 }
 
 func validateGenerator(space *workspace.Workspace, mod *workspace.Mod, settings config.Config) Check {

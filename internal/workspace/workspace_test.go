@@ -53,3 +53,39 @@ item_id = "2962333032"
 		t.Fatalf("unexpected entrypoint: %s", manifest.Generator.Entrypoint)
 	}
 }
+
+func TestLoadManifestAttachesSourceNotes(t *testing.T) {
+	path := writeManifest(t, `
+[generator]
+entrypoint = "implementation.py:generate"
+owned_outputs = ["common"]
+
+# Consumed only so its model remaps stay pinned.
+[[sources]]
+name = "explained"
+kind = "workshop"
+item_id = "1"
+
+# A note separated by a blank line describes the file, not the source.
+
+[[sources]]
+name = "bare"
+kind = "workshop"
+item_id = "2"
+`)
+
+	manifest, err := LoadManifest(path, "example")
+	if err != nil {
+		t.Fatal(err)
+	}
+	notes := map[string]string{}
+	for _, source := range manifest.Sources {
+		notes[source.Name] = source.Note
+	}
+	if notes["explained"] != "Consumed only so its model remaps stay pinned." {
+		t.Fatalf("explained source note: %q", notes["explained"])
+	}
+	if notes["bare"] != "" {
+		t.Fatalf("bare source should carry no note, got %q", notes["bare"])
+	}
+}

@@ -4,5 +4,5 @@ tags={
 	"Gameplay"
 	"Total Conversion"
 }
-name="Grand Remembrance 1.9.0 - CK3 1.19 Runtime Fix"
+name="Grand Remembrance - CK3 1.19 Runtime Fix"
 supported_version="1.19.*"

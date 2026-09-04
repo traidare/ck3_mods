@@ -4,5 +4,5 @@ tags={
 	"Gameplay"
 	"Total Conversion"
 }
-name="AGOT MPD 0.4.0 - CK3 1.19 Runtime Rebase"
+name="AGOT MPD - CK3 1.19 Runtime Rebase"
 supported_version="1.19.*"

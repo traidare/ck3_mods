@@ -1,4 +1,4 @@
-# AGOT MPD 0.4.0 - CK3 1.19 Runtime Rebase
+# AGOT MPD - CK3 1.19 Runtime Rebase
 
 Narrow runtime repair for **AGOT - More Personality Depth** on current A Game of
 Thrones and CK3 1.19.
