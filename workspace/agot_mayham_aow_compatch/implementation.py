@@ -89,7 +89,11 @@ DELTAS: dict[str, dict[str, list[tuple[str, str, str]]]] = {
 # Exact equality checks below make this an explicit rebase, not a blanket
 # preference for AGOT.
 UPSTREAM_REBASES: dict[str, tuple[str, ...]] = {
-    "00_agot_regional_traditions.txt": ("tradition_agot_stormlands",),
+    "00_agot_regional_traditions.txt": (
+        "tradition_agot_stormlands",
+        "tradition_agot_ib",
+        "tradition_agot_ironmen",
+    ),
     "00_agot_unique_traditions.txt": (
         "tradition_agot_harbormen",
         "tradition_agot_frozen_shoremen",
@@ -98,31 +102,14 @@ UPSTREAM_REBASES: dict[str, tuple[str, ...]] = {
     ),
 }
 
-# Definitions where both balance parents carry the same block without AGOT's
-# current parameters. The final writer emits AGOT's definition because neither
-# parent contributes a distinct delta to preserve.
-SHARED_PARENT_REBASES: dict[str, tuple[str, ...]] = {
-    "00_agot_regional_traditions.txt": (
-        "tradition_agot_ib",
-        "tradition_agot_ironmen",
-    ),
-}
-
 # Definitions whose complete final form belongs to Armies of Westeros. The
 # edits describe each parent's exact relationship to AGOT so the compatch can
-# emit AoW's block without accepting unrelated drift from either parent.
+# emit AoW's block without accepting unrelated drift from either parent. An
+# empty edit tuple asserts that the parent carries AGOT's block verbatim.
 PARENT_OWNED_REBASES = {
     "00_agot_unique_traditions.txt": {
         "tradition_agot_greenborn": {
-            "mayham": (
-                (
-                    "\t\tbetter_regimental_bonuses = yes\n",
-                    "\t\tbetter_regimental_bonuses = yes\n"
-                    "\t\tironborn_great_fleet_bonuses = yes\n"
-                    "\t\tironborn_raiding_sailing = yes\n"
-                    "\t\tironborn_sailing_requirements = yes\n",
-                ),
-            ),
+            "mayham": (),
             "aow": (
                 (
                     "\t\tunlock_maa_black_blood_cavalry = yes\n"
@@ -135,15 +122,7 @@ PARENT_OWNED_REBASES = {
             ),
         },
         "tradition_agot_ironborn": {
-            "mayham": (
-                (
-                    "\t\tnext_level_trade_ports = yes\n",
-                    "\t\tnext_level_trade_ports = yes\n"
-                    "\t\tironborn_great_fleet_bonuses = yes\n"
-                    "\t\tironborn_raiding_sailing = yes\n"
-                    "\t\tironborn_sailing_requirements = yes\n",
-                ),
-            ),
+            "mayham": (),
             "aow": (
                 (
                     "\t\tunlock_maa_ironborn_reavers = yes\n",
@@ -155,12 +134,7 @@ PARENT_OWNED_REBASES = {
             ),
         },
         "tradition_agot_marcher": {
-            "mayham": (
-                (
-                    "\t\tunlock_maa_vulture_killers = yes\n",
-                    "\t\tunlock_maa_marcher_longbowmen = yes\n",
-                ),
-            ),
+            "mayham": (),
             "aow": (
                 (
                     "\t\tunlock_maa_vulture_killers = yes\n",
@@ -359,8 +333,6 @@ def generate_traditions(agot_root: Path, mayham_root: Path, aow_root: Path) -> s
             )
         upstream_rebases = UPSTREAM_REBASES.get(filename, ())
         upstream_rebase_set = set(upstream_rebases)
-        shared_parent_rebases = SHARED_PARENT_REBASES.get(filename, ())
-        shared_parent_rebase_set = set(shared_parent_rebases)
         parent_owned_rebases = PARENT_OWNED_REBASES.get(filename, {})
         parent_owned_rebase_set = set(parent_owned_rebases)
         ignored = dev_only_exclusions(filename, agot)
@@ -368,7 +340,6 @@ def generate_traditions(agot_root: Path, mayham_root: Path, aow_root: Path) -> s
             name
             for name in agot
             if name not in upstream_rebase_set
-            and name not in shared_parent_rebase_set
             and name not in parent_owned_rebase_set
             and name not in ignored
             and agot[name] != mayham[name]
@@ -396,20 +367,6 @@ def generate_traditions(agot_root: Path, mayham_root: Path, aow_root: Path) -> s
             generated.append(apply_deltas(agot[tradition], tradition, rebase_deltas))
             definition_count += 1
             delta_count += len(rebase_deltas)
-
-        for tradition in shared_parent_rebases:
-            if tradition not in aow:
-                raise ValueError(f"{filename}: AoW is missing {tradition}")
-            if mayham[tradition] != aow[tradition]:
-                raise ValueError(
-                    f"{filename}: shared-parent rebase differs for {tradition}"
-                )
-            if agot[tradition] == aow[tradition]:
-                raise ValueError(
-                    f"{filename}: shared-parent rebase for {tradition} is no longer needed"
-                )
-            generated.append(agot[tradition])
-            definition_count += 1
 
         for tradition, parent_edits in parent_owned_rebases.items():
             if tradition not in aow:
