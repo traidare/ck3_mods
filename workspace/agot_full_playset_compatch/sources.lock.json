@@ -345,14 +345,6 @@
       "sha256": "df516080f69117d701b75cff9dd45202b42c55307009a034b92d9c9bc8f072f5",
       "size": 189
     },
-    "workshop/3762892081/descriptor.mod": {
-      "sha256": "5b8a3dd9c137cdda208f5b201778bb840704456cd79e3f85677179d55a92e6c6",
-      "size": 376
-    },
-    "workshop/3762892081/gfx/court_scene/scene_settings/grandeur_levels/grandeur_levels.txt": {
-      "sha256": "5a4a0affa13d220b77cff6ff97fbcd611e3477030d23bfaec3c0ae4722e6d0a1",
-      "size": 15366
-    },
     "workshop/3762892932/common/activities/activity_types/agot_dragon_hatching.txt": {
       "sha256": "d848b8f89724abb83a641c8070d632021d318a970bb5c191c68ac919057ab712",
       "size": 82266
@@ -376,6 +368,14 @@
     "workshop/3766038754/map_data/geographical_regions/north_sans_neck.txt": {
       "sha256": "42cfc42517fb98ecfcd192e7e2c2b7aef913efb9a0c108ac0d1ca4e1c25b4092",
       "size": 21190
+    },
+    "workshop/3773616784/descriptor.mod": {
+      "sha256": "fa6985e702d86b0e7717780327bd741149330bbd4fc7708bface380468f3b205",
+      "size": 339
+    },
+    "workshop/3773616784/gfx/court_scene/scene_settings/grandeur_levels/grandeur_levels.txt": {
+      "sha256": "5918d16e405cf1cc72cd9ab462b846ca3a052abc8fbb6c93db06eec6ec54f461",
+      "size": 14381
     },
     "workshop/3780269495/common/scripted_rules/zz_ln_diarch_rules.txt": {
       "sha256": "5004ff7ffdb30f9cf65868a4a2332f4e1dbe9f1020caf9c3034e583f42201e13",

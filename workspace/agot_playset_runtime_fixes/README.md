@@ -134,9 +134,9 @@ change re-raises it.
 - **Upgrade House Banners 3:** restores the already-localized close option to
   its visible house-banner rarity event. Without it the event has no options and
   opens as an empty blocking popup.
-- **Additional Models / AGOT+ / LoV:** the Workshop compatch owns its LoV-aware
-  artifact setup, which this module leaves alone; its holding art and
-  illustration triggers are repaired separately below.
+- **Additional Models / LoV:** the Workshop compatch owns its LoV-aware artifact
+  setup, which this module leaves alone; its holding art and illustration
+  triggers are repaired separately below.
 - **A Landed Knights Mod:** replaces the nonexistent `is_army_owner` trigger and
   makes the father comparison safe for fatherless knights.
 - **Expanded Court Position:** replaces obsolete `grumpy`, `depressed`, and
@@ -323,9 +323,6 @@ change re-raises it.
   its filter state is initialized from the guarded in-game scripted GUI rather
   than only from a widget that can be created before the game state. The
   initializer's malformed global-list iterator is repaired as well.
-- **Any New Traditions:** makes dynasty-modifier checks safe for characters
-  without a dynasty, repairs two malformed `OR` blocks, and restores four
-  renown-grant effects that incorrectly used a comparison operator.
 - **AGOT Great Councils:** passes typed `trait:` values to current AGOT
   religious scripted triggers and uses AGOT's current High Septon check.
 - **AGOT - Suggest Dragon Bonding:** uses trigger iterators while finding
@@ -349,15 +346,15 @@ change re-raises it.
   created-banner path when a royal-court owner has no capital province, while
   still creating and granting the house or dynasty banner.
 - **Court-scene culture selection:** preserves AGOT's named throne rooms and the
-  temporary Additional Models/AGOT+/LoV compatch's generic room routing, but
-  returns false instead of evaluating character triggers when CK3 transiently
-  supplies no royal-court owner. It also carries Additional Models' current
-  throne-room exclusions into the compatch's own copies of those scenes, so no
-  generic room can preempt a dedicated AMSB one. The compatch replaces
-  Additional Models' whole scene-culture file, so the guarded set is read back
-  out of Workshop `3319354609` per scene name rather than listed here; a scene
-  gaining or losing its exclusion upstream follows automatically, and a guarded
-  scene the compatch does not define fails generation.
+  temporary Additional Models/LoV compatch's generic room routing, but returns
+  false instead of evaluating character triggers when CK3 transiently supplies
+  no royal-court owner. It also carries Additional Models' current throne-room
+  exclusions into the compatch's own copies of those scenes, so no generic room
+  can preempt a dedicated AMSB one. The compatch replaces Additional Models'
+  whole scene-culture file, so the guarded set is read back out of Workshop
+  `3319354609` per scene name rather than listed here; a scene gaining or losing
+  its exclusion upstream follows automatically, and a guarded scene the compatch
+  does not define fails generation.
 - **AGOT startup maintenance:** excludes rulers without capital counties from
   maester seeding and rulers without capital provinces from the Westerosi
   starting-legitimacy branch.
@@ -497,18 +494,18 @@ update invalidates an assumption.
 Individual repairs above carry their own narrower triggers. In general, re-run
 the generator and review the resulting diff after any update to Workshop IDs
 `2962333032`, `3388366564`, `3596393244`, `3361162762`, `2967263410`,
-`3713902872`, `3719888822`, `3319354609`, `3241130652`, `3371298408`,
-`3621472324`, `3324579171`, `3349316031`, `3761342990`, `3676293022`,
-`3305687550`, `3662281614`, `3673468355`, `2886417277`, `3084203091`,
-`3225355262`, `3235061780`, `3377641022`, `3692879370`, `3697008412`,
-`3462342647`, `3437814875`, `3709868073`, `3541596590`, `3719888822`, or
-`2971198450`, `3732116186`, `3573203384`, or `2519175282`, and after CK3 updates
-that change `04_dlc_ep2_tour_effects.txt`. Re-run it after updates to
-`3682802751` because the Essos cleanup validates that parent's game rules and
-startup actions, and after updates to `3719888822` because the same repair is
-pinned to LoV's effective wilderness-conversion effect. Re-run it after updates
-to `3762892081` because the generated court-scene selector follows that
-compatch's current room-routing rules.
+`3713902872`, `3719888822`, `3319354609`, `3621472324`, `3324579171`,
+`3349316031`, `3761342990`, `3676293022`, `3305687550`, `3662281614`,
+`3673468355`, `2886417277`, `3084203091`, `3225355262`, `3235061780`,
+`3377641022`, `3692879370`, `3697008412`, `3462342647`, `3437814875`,
+`3709868073`, `3541596590`, `3719888822`, or `2971198450`, `3732116186`,
+`3573203384`, or `2519175282`, and after CK3 updates that change
+`04_dlc_ep2_tour_effects.txt`. Re-run it after updates to `3682802751` because
+the Essos cleanup validates that parent's game rules and startup actions, and
+after updates to `3719888822` because the same repair is pinned to LoV's
+effective wilderness-conversion effect. Re-run it after updates to `3773616784`
+because the generated court-scene selector follows that compatch's current
+room-routing rules.
 
 The stability guards are pinned by file or top-level block hash and fail closed
 when a parent changes. Re-run the generator and review the diff after any update

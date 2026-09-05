@@ -218,14 +218,13 @@ def rebase_additional_models_scene_guards(inputs: RunInputs, text: str) -> str:
     for key in guarded:
         if key not in top_level_block_keys(text):
             raise RuntimeError(
-                f"Additional Models/AGOT+/LoV compatch drops guarded scene {key}"
+                f"Additional Models/LoV compatch drops guarded scene {key}"
             )
         compatch_block = extract_top_level_block(text, key)
         amsb_guard_count = compatch_block.count("amsb_has_throne_room = no")
         if amsb_guard_count > 1:
             raise RuntimeError(
-                f"Additional Models/AGOT+/LoV compatch duplicates its AMSB "
-                f"guard for {key}"
+                f"Additional Models/LoV compatch duplicates its AMSB guard for {key}"
             )
         if amsb_guard_count == 1:
             # The compatch can carry the exclusion itself; keep its version.
@@ -241,7 +240,7 @@ def rebase_additional_models_scene_guards(inputs: RunInputs, text: str) -> str:
     for key in guarded:
         if extract_top_level_block(text, key).count("amsb_has_throne_room = no") != 1:
             raise RuntimeError(
-                f"Additional Models/AGOT+/LoV scene {key}: AMSB exclusion not "
+                f"Additional Models/LoV scene {key}: AMSB exclusion not "
                 "active after rebase"
             )
     return text

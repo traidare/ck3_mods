@@ -110,13 +110,12 @@ rewrites them: a stale hand copy silently drops every title NOW has renamed or
 added since the copy was taken, falling those titles back to AGOT's names.
 
 `grandeur_levels.txt` is a single whole-file path that AGOT, Additional Models,
-the AGOT+ compatch, LoV, Further East, and the temporary Additional
-Models/AGOT+/LoV compatch all claim, so the last of them silently drops every
-court scene the others registered. The temporary compatch loads last and
-registers a superset of every other claimant's scenes, so no override is needed
-here. A scene with no entry never progresses a visual culture level and nothing
-reports it at runtime, so the generator asserts that coverage still holds and
-fails if the file has to be merged again.
+LoV, Further East, and the temporary Additional Models/LoV compatch all claim,
+so the last of them silently drops every court scene the others registered. The
+temporary compatch loads last and registers a superset of every other claimant's
+scenes, so no override is needed here. A scene with no entry never progresses a
+visual culture level and nothing reports it at runtime, so the generator asserts
+that coverage still holds and fails if the file has to be merged again.
 
 The regional cleanup is written to
 `map_data/geographical_regions/north_sans_neck.txt`, the same path the Seasons
@@ -195,18 +194,12 @@ not own, so they are unaffected.
 This module deliberately does not carry runtime repairs. The accompanying narrow
 layers repair:
 
-- AGOT+'s CK3 1.19-invalid canon-child creation and dead-character perk
-  assignments;
 - NOW's unsaved Great Fork title-change scope and optional Summerhall candidate
   comparisons;
 - AGOT MPD's startup calculator parameter, variable, and XP-track failures;
-- Grand Remembrance's no-character chronicle visibility loop;
-- Grand Remembrance's vanilla/RICE-only obituary classification against AGOT's
-  removed traits, religion tags, heritages, and elective laws;
-- Legacy Of The Dragon's Linux-sensitive lowercase texture path;
 - Landed Knights, House Founders, Succession Crisis (including its copied call
-  to AGOT-disabled `misc.0001` and its nonexistent Kurdish-culture gate), Any
-  New Traditions, and AGOT/LoV tour-event optional-scope failures;
+  to AGOT-disabled `misc.0001` and its nonexistent Kurdish-culture gate), and
+  AGOT/LoV tour-event optional-scope failures;
 - Great Councils' untyped trait parameters and Suggest Dragon Bonding's stale
   trigger iterators, availability check, and AI modifiers;
 - Adventurer's Beneficiary's unset selection variable, title-following artifacts
@@ -225,8 +218,8 @@ layers repair:
 - Deadly CK3 AGOT's clouded-eyes event evaluating environmental weights for
   characters without a current location, and its stale `infirm` definition
   removing the CK3 1.19 trait track used by AGOT;
-- AGOT and the temporary Additional Models/AGOT+/LoV compatch evaluating
-  court-scene culture triggers without a valid royal-court owner;
+- AGOT and the temporary Additional Models/LoV compatch evaluating court-scene
+  culture triggers without a valid royal-court owner;
 - VIET's vanilla-only events, region selectors, and missing heritage helpers;
 - the LoV AGOT bridge's invalid county-tier pirate elective assignments;
 - Essos Expanded's 54 CK3 1.19-invalid title-history capital tokens; and
@@ -246,7 +239,7 @@ New Personality Events, NOW, Seasons-fork, dragon-mod, MFA, CaFG, Iron and Salt,
 Dynamic Family Portrait, LoV, the LoV bridge, Essos Expanded, Long Night, Great
 Councils, and vanilla sources. LoV and Essos Expanded are read only for their
 landed titles, which the seasonal-region prune above resolves membership
-against. It also declares the Additional Models, AGOT+/LoV compatch, and the two
+against. It also declares the Additional Models, AMSB/LoV compatch, and the two
 disabled mods — the COW-AGOT/NOW compatch and the LoV AGOT compatch beta — that
 back the assertions and merges above. Its portable source metadata lives here,
 outside the installed runtime payload.

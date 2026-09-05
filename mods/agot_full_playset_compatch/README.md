@@ -11,12 +11,12 @@ genuine cross-mod overlaps that need a single deliberate winner.
 - Legacy of Valyria's tournament guards, Much Faster Activities' cooldown, and
   Culture and Faith Granularity's granular county-faith conversion in the same
   tournament events.
-- Special-building model detection from AGOT, Additional Models, and Crowns of
-  Westeros, with Nobility of Westeros' Dunstonbury and Sisterton province
-  remaps, while keeping Legacy of Valyria's later graphical backgrounds.
-- Crowns of Westeros' Dunstonbury and Sisterton province history and text, while
-  the Seasons of Valyria fork supplies its maintained regional definitions,
-  repaint actions, map modes, seasonal effects, interface, situations, and text.
+- Special-building model detection from AGOT, Additional Models, and COW-AGOT,
+  with Nobility of Westeros' Dunstonbury and Sisterton province remaps, while
+  keeping Legacy of Valyria's later graphical backgrounds.
+- COW-AGOT's Dunstonbury and Sisterton province history and text, while the
+  Seasons of Valyria fork supplies its maintained regional definitions, repaint
+  actions, map modes, seasonal effects, interface, situations, and text.
 - Nobility of Westeros' title names, so its renamed and newly added titles are
   not lost behind the Dunstonbury and Sisterton barony names.
 - The dragon on-action file shipped by both More Dragon Eggs and More Dragon
@@ -47,35 +47,29 @@ erroring when it evaluates raiding without a raider.
 compatch. Keep the integration layers in this order:
 
 1. `VIET - AGOT CK3 1.19 Runtime Rebase`, immediately after VIET
-2. `AGOT+ - CK3 1.19 Runtime Rebase`, immediately after AGOT+, which must load
-   after AGOT: Canon Children EZ Mode
-3. `Legacy Of The Dragon - Linux Texture Fix`, immediately after Legacy Of The
-   Dragon
-4. `AGOT NOW - CK3 1.19 Rebase`, immediately after NOW
-5. `AGOT NOW-Season of Ice and Fire Compatch`, immediately after the NOW rebase
-6. `Much Faster Activities - AGOT CK3 1.19 Runtime Rebase`, immediately after
+2. `AGOT NOW - CK3 1.19 Rebase`, immediately after NOW
+3. `AGOT NOW-Season of Ice and Fire Compatch`, immediately after the NOW rebase
+4. `Much Faster Activities - AGOT CK3 1.19 Runtime Rebase`, immediately after
    MFA
-7. `Grand Remembrance - CK3 1.19 Runtime Fix`, immediately after the Grand
-   Remembrance AGOT compatibility submod
-8. `AGOT MPD - CK3 1.19 Runtime Rebase`, immediately after AGOT MPD and before
+5. `AGOT MPD - CK3 1.19 Runtime Rebase`, immediately after AGOT MPD and before
    the MPD + Dragon Wives compatch
-9. `Legacy of Valyria - AGOT 0.5.1 Bridge - CK3 1.19 Runtime Rebase`,
+6. `Legacy of Valyria - AGOT 0.5.1 Bridge - CK3 1.19 Runtime Rebase`,
    immediately after `Legacy of Valyria - AGOT 0.5.1`
-10. `Essos Expanded: The Further East - CK3 1.19 History Rebase`, immediately
-    after `Essos Expanded: The Further East` and before its TempLoV compatch
-11. `Seasons of Valyria - TempLoV/NOW/Seasons Compatch`
-12. `Essos Expanded - TempLoV/NOW Compatch`
-13. `AGOT NOW + Legacy of Valyria + Essos Expanded Map Compatch`
-14. `AGOT NOW + Legacy of Valyria + Essos Expanded World Data`
-15. `AGOT NOW + Legacy of Valyria + Essos Expanded Lore Governments`
-16. `CK3 Naval Combat`
-17. `AGOT Iron and Salt`
-18. `Character UI Overhaul`
-19. `AGOT Playset - Character UI Overhaul Compatch`
-20. `AGOT: Canon Enforcement`
-21. `AGOT: The Long Night & Azor Ahai`
-22. `AGOT: The Long Night & Azor Ahai - CK3 1.19 Runtime Fix`
-23. `AGOT: The Long Night & Azor Ahai + DFP Compatch`
-24. `AGOT - Excommunication Balance`
-25. `AGOT Playset Runtime Fixes`
-26. `AGOT Playset Compatch`
+7. `Essos Expanded: The Further East - CK3 1.19 History Rebase`, immediately
+   after `Essos Expanded: The Further East` and before its TempLoV compatch
+8. `Seasons of Valyria - TempLoV/NOW/Seasons Compatch`
+9. `Essos Expanded - TempLoV/NOW Compatch`
+10. `AGOT NOW + Legacy of Valyria + Essos Expanded Map Compatch`
+11. `AGOT NOW + Legacy of Valyria + Essos Expanded World Data`
+12. `AGOT NOW + Legacy of Valyria + Essos Expanded Lore Governments`
+13. `CK3 Naval Combat`
+14. `AGOT Iron and Salt`
+15. `Character UI Overhaul`
+16. `AGOT Playset - Character UI Overhaul Compatch`
+17. `AGOT: Canon Enforcement`
+18. `AGOT: The Long Night & Azor Ahai`
+19. `AGOT: The Long Night & Azor Ahai - CK3 1.19 Runtime Fix`
+20. `AGOT: The Long Night & Azor Ahai + DFP Compatch`
+21. `AGOT - Excommunication Balance`
+22. `AGOT Playset Runtime Fixes`
+23. `AGOT Playset Compatch`

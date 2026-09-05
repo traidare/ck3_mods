@@ -312,7 +312,7 @@ def check_grandeur_coverage(amsb: str, amsb_lov: str) -> None:
 
     Every playset parent owns `grandeur_levels.txt` whole, so the last of them
     silently drops the court scenes the others registered.  The temporary
-    AMSB/AGOT+/LoV compatch loads last and currently registers a superset of
+    AMSB/LoV compatch loads last and currently registers a superset of
     AMSB's scenes, which is the only reason this module does not have to merge
     the file itself.  Fail if that stops holding: a court scene with no entry
     never progresses a visual culture level, and nothing reports it at runtime.
@@ -321,7 +321,7 @@ def check_grandeur_coverage(amsb: str, amsb_lov: str) -> None:
     missing = [name for name in grandeur_cultures(amsb) if name not in covered]
     if missing:
         raise AssertionError(
-            "the AMSB/AGOT+/LoV compatch no longer covers every AMSB court "
+            "the AMSB/LoV compatch no longer covers every AMSB court "
             f"scene ({missing}); this module must merge {GRANDEUR_RELATIVE} again"
         )
 
@@ -1391,7 +1391,7 @@ INTENT = {
     "shader": "share the AGOT skip threshold with vertex shaders",
     "regions": "rebase NOW tokens and cover LoV cleanup regions without ruins",
     "grandeur": (
-        "assert the AGOT+/LoV compatch still covers every AMSB court "
+        "assert the AMSB/LoV compatch still covers every AMSB court "
         "scene, so this module needs no grandeur_levels.txt override"
     ),
     "dragon_on_actions": ("union the two mods that contest mde_yearly_on_actions.txt"),

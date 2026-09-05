@@ -320,7 +320,7 @@ def generate_additional_models_on_action_deduplication(inputs: RunInputs) -> Non
     relative = "common/on_action/amsb_dynasty_on_actions.txt"
     compatch_relative = "common/scripted_effects/zz_am_lov_artifact_dedup_effects.txt"
     additional_models = read_text(inputs.WORKSHOP / "3319354609" / relative)
-    compatch = read_text(inputs.WORKSHOP / "3762892081" / compatch_relative)
+    compatch = read_text(inputs.WORKSHOP / "3773616784" / compatch_relative)
     definitions = (
         "amsb_set_legacies",
         "amsb_set_dragonlord_legacies",
@@ -332,7 +332,7 @@ def generate_additional_models_on_action_deduplication(inputs: RunInputs) -> Non
             raise RuntimeError(f"Additional Models definition changed: {definition}")
         if len(re.findall(pattern, compatch)) != 0:
             raise RuntimeError(
-                f"Additional Models/AGOT+/LoV compatch restored duplicate "
+                f"Additional Models/LoV compatch restored duplicate "
                 f"definition: {definition}"
             )
     for definition in (
@@ -341,7 +341,7 @@ def generate_additional_models_on_action_deduplication(inputs: RunInputs) -> Non
     ):
         if len(re.findall(rf"(?m)^{definition}\s*=\s*\{{", compatch)) != 1:
             raise RuntimeError(
-                f"Additional Models/AGOT+/LoV compatch definition changed: {definition}"
+                f"Additional Models/LoV compatch definition changed: {definition}"
             )
     output_path = inputs.OUTPUT / relative
     if output_path.is_file():
@@ -383,10 +383,10 @@ def generate_upgrade_house_banners_event(inputs: RunInputs) -> None:
 def generate_scene_culture_owner_guards(inputs: RunInputs) -> None:
     sources = (
         (
-            "3762892081",
+            "3773616784",
             "gfx/court_scene/scene_cultures/00_default_cultures.txt",
             12,
-            "Additional Models/AGOT+/LoV generic court scenes",
+            "Additional Models/LoV generic court scenes",
         ),
         (
             "2962333032",
@@ -397,7 +397,7 @@ def generate_scene_culture_owner_guards(inputs: RunInputs) -> None:
     )
     for workshop_id, relative, expected, label in sources:
         text = read_text(inputs.WORKSHOP / workshop_id / relative)
-        if workshop_id == "3762892081":
+        if workshop_id == "3773616784":
             text = rebase_additional_models_scene_guards(inputs, text)
         text = guard_scene_culture_triggers(text, expected=expected, label=label)
         write_text(inputs.OUTPUT, relative, text)
@@ -456,7 +456,7 @@ def _holding_illustration_defines(
 def generate_additional_models_holding_art_constants(inputs: RunInputs) -> None:
     """Resolve the merged holding-art file's unset illustration constants."""
     relative = "common/buildings/zz_am_lov_nv_holding_art.txt"
-    text = read_text(inputs.WORKSHOP / "3762892081" / relative)
+    text = read_text(inputs.WORKSHOP / "3773616784" / relative)
     # `@` constants are file-scoped. This file merges castle, city, and temple
     # keys that AGOT keeps in separate files, each of which binds the same
     # constant names to its own art, so the merge cannot carry one define block
@@ -466,7 +466,7 @@ def generate_additional_models_holding_art_constants(inputs: RunInputs) -> None:
     # that constant in the file the block came from.
     if re.search(r"(?m)^@", text):
         raise RuntimeError(
-            "Additional Models/AGOT+/LoV holding art now declares constants of "
+            "Additional Models/LoV holding art now declares constants of "
             "its own; re-audit before resolving them here"
         )
     defines = {
@@ -512,7 +512,7 @@ def generate_additional_models_holding_art_constants(inputs: RunInputs) -> None:
     text = "".join(pieces)
     if resolved != expected:
         raise RuntimeError(
-            f"Additional Models/AGOT+/LoV holding art illustration counts "
+            f"Additional Models/LoV holding art illustration counts "
             f"changed: {resolved} is not {expected}"
         )
     if "@holding_illustration" in text:
@@ -530,7 +530,7 @@ def generate_additional_models_holding_art_constants(inputs: RunInputs) -> None:
     )
     if guarded != 5:
         raise RuntimeError(
-            f"Additional Models/AGOT+/LoV holding art now has {guarded} unguarded "
+            f"Additional Models/LoV holding art now has {guarded} unguarded "
             f"scope:character blocks in place of 5; re-audit before guarding them"
         )
     write_text(inputs.OUTPUT, relative, text, preserve_trailing_whitespace=True)
@@ -551,7 +551,7 @@ def generate_additional_models_scripted_illustration_cultures(
             "AGOT now defines a shadowmen culture; keep the reference instead"
         )
     relative = "gfx/interface/illustrations/scripted_illustrations/ingame.txt"
-    text = read_text(inputs.WORKSHOP / "3762892081" / relative)
+    text = read_text(inputs.WORKSHOP / "3773616784" / relative)
     # `character_view_bg` re-evaluates whenever the portrait redraws, so each
     # unresolvable culture costs a failed lookup per frame. Every `shadowmen`
     # line sits in an OR beside the `shadowman` line it misspells, so dropping
@@ -559,14 +559,14 @@ def generate_additional_models_scripted_illustration_cultures(
     live = r"(?m)^([ \t]*)culture = culture:shadowman[ \t]*$"
     if len(re.findall(live, text)) != 6:
         raise RuntimeError(
-            "Additional Models/AGOT+/LoV illustration shadowman references changed"
+            "Additional Models/LoV illustration shadowman references changed"
         )
     text = replace_regex(
         text,
         r"(?m)^[ \t]*culture = culture:shadowmen[ \t]*\r?\n",
         "",
         expected=6,
-        label="Additional Models/AGOT+/LoV illustration shadowmen references",
+        label="Additional Models/LoV illustration shadowmen references",
     )
     write_text(inputs.OUTPUT, relative, text, preserve_trailing_whitespace=True)
 

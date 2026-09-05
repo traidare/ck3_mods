@@ -266,78 +266,6 @@
       "count": 2
     },
     {
-      "severity": "error",
-      "code": "missing-item",
-      "message": "game rule setting asoiaf_new_clothes_crownlands_rule_on not defined in common/game_rules/",
-      "source": "MOD",
-      "file": "gfx/interface/illustrations/scripted_illustrations/ingame.txt",
-      "count": 4
-    },
-    {
-      "severity": "error",
-      "code": "missing-item",
-      "message": "game rule setting asoiaf_new_clothes_dorne_rule_on not defined in common/game_rules/",
-      "source": "MOD",
-      "file": "gfx/interface/illustrations/scripted_illustrations/ingame.txt",
-      "count": 2
-    },
-    {
-      "severity": "error",
-      "code": "missing-item",
-      "message": "game rule setting asoiaf_new_clothes_north_rule_on not defined in common/game_rules/",
-      "source": "MOD",
-      "file": "gfx/interface/illustrations/scripted_illustrations/ingame.txt",
-      "count": 6
-    },
-    {
-      "severity": "error",
-      "code": "missing-item",
-      "message": "game rule setting asoiaf_new_clothes_reach_rule_on not defined in common/game_rules/",
-      "source": "MOD",
-      "file": "gfx/interface/illustrations/scripted_illustrations/ingame.txt",
-      "count": 2
-    },
-    {
-      "severity": "error",
-      "code": "missing-item",
-      "message": "game rule setting asoiaf_new_clothes_riverlands_rule_on not defined in common/game_rules/",
-      "source": "MOD",
-      "file": "gfx/interface/illustrations/scripted_illustrations/ingame.txt",
-      "count": 2
-    },
-    {
-      "severity": "error",
-      "code": "missing-item",
-      "message": "game rule setting asoiaf_new_clothes_stormlands_rule_on not defined in common/game_rules/",
-      "source": "MOD",
-      "file": "gfx/interface/illustrations/scripted_illustrations/ingame.txt",
-      "count": 2
-    },
-    {
-      "severity": "error",
-      "code": "missing-item",
-      "message": "game rule setting asoiaf_new_clothes_vale_rule_on not defined in common/game_rules/",
-      "source": "MOD",
-      "file": "gfx/interface/illustrations/scripted_illustrations/ingame.txt",
-      "count": 2
-    },
-    {
-      "severity": "error",
-      "code": "missing-item",
-      "message": "game rule setting asoiaf_new_clothes_valyrian_rule_on not defined in common/game_rules/",
-      "source": "MOD",
-      "file": "gfx/interface/illustrations/scripted_illustrations/ingame.txt",
-      "count": 2
-    },
-    {
-      "severity": "error",
-      "code": "unknown-field",
-      "message": "unknown token `activity_no_dlc_coronation`",
-      "source": "MOD",
-      "file": "gfx/interface/illustrations/scripted_illustrations/ingame.txt",
-      "count": 1
-    },
-    {
       "severity": "warning",
       "code": "strict-scopes",
       "message": "`common_faction_modifiers` expects scope:faction to be set",
@@ -792,22 +720,6 @@
       "source": "MOD",
       "file": "common/decisions/amsb_bent_knees_decision.txt",
       "count": 1
-    },
-    {
-      "severity": "warning",
-      "code": "logic",
-      "message": "OR with only one item inside is probably not what you intended",
-      "source": "MOD",
-      "file": "common/decisions/any_new_traditions_decisions.txt",
-      "count": 11
-    },
-    {
-      "severity": "warning",
-      "code": "logic",
-      "message": "OR with only one item inside is probably not what you intended",
-      "source": "MOD",
-      "file": "common/decisions/any_vanilla_traditions_decisions.txt",
-      "count": 11
     },
     {
       "severity": "warning",
@@ -1524,94 +1436,6 @@
     {
       "severity": "warning",
       "code": "missing-file",
-      "message": "file gfx/interface/illustrations/event_scenes/CastleBlack/asoiaf_throneroom_castleblack.dds does not exist",
-      "source": "MOD",
-      "file": "gfx/interface/illustrations/scripted_illustrations/ingame.txt",
-      "count": 1
-    },
-    {
-      "severity": "warning",
-      "code": "missing-file",
-      "message": "file gfx/interface/illustrations/event_scenes/Citadel/asoiaf_throneroom_citadel.dds does not exist",
-      "source": "MOD",
-      "file": "gfx/interface/illustrations/scripted_illustrations/ingame.txt",
-      "count": 1
-    },
-    {
-      "severity": "warning",
-      "code": "missing-file",
-      "message": "file gfx/interface/illustrations/event_scenes/Dragonstone/asoiaf_throneroom_dragonstone.dds does not exist",
-      "source": "MOD",
-      "file": "gfx/interface/illustrations/scripted_illustrations/ingame.txt",
-      "count": 1
-    },
-    {
-      "severity": "warning",
-      "code": "missing-file",
-      "message": "file gfx/interface/illustrations/event_scenes/Eyrie/asoiaf_throneroom_eyrie.dds does not exist",
-      "source": "MOD",
-      "file": "gfx/interface/illustrations/scripted_illustrations/ingame.txt",
-      "count": 1
-    },
-    {
-      "severity": "warning",
-      "code": "missing-file",
-      "message": "file gfx/interface/illustrations/event_scenes/Highpoint/asoiaf_throneroom_highpoint.dds does not exist",
-      "source": "MOD",
-      "file": "gfx/interface/illustrations/scripted_illustrations/ingame.txt",
-      "count": 1
-    },
-    {
-      "severity": "warning",
-      "code": "missing-file",
-      "message": "file gfx/interface/illustrations/event_scenes/Ironrath/asoiaf_throneroom_ironrath.dds does not exist",
-      "source": "MOD",
-      "file": "gfx/interface/illustrations/scripted_illustrations/ingame.txt",
-      "count": 1
-    },
-    {
-      "severity": "warning",
-      "code": "missing-file",
-      "message": "file gfx/interface/illustrations/event_scenes/Riverrun/asoiaf_throneroom_riverrun.dds does not exist",
-      "source": "MOD",
-      "file": "gfx/interface/illustrations/scripted_illustrations/ingame.txt",
-      "count": 1
-    },
-    {
-      "severity": "warning",
-      "code": "missing-file",
-      "message": "file gfx/interface/illustrations/event_scenes/SeptofBaelor/asoiaf_throneroom_sept_of_baelor.dds does not exist",
-      "source": "MOD",
-      "file": "gfx/interface/illustrations/scripted_illustrations/ingame.txt",
-      "count": 1
-    },
-    {
-      "severity": "warning",
-      "code": "missing-file",
-      "message": "file gfx/interface/illustrations/event_scenes/StormsEnd/asoiaf_throneroom_storms_end.dds does not exist",
-      "source": "MOD",
-      "file": "gfx/interface/illustrations/scripted_illustrations/ingame.txt",
-      "count": 1
-    },
-    {
-      "severity": "warning",
-      "code": "missing-file",
-      "message": "file gfx/interface/illustrations/event_scenes/Sunspear/asoiaf_throneroom_sunspear.dds does not exist",
-      "source": "MOD",
-      "file": "gfx/interface/illustrations/scripted_illustrations/ingame.txt",
-      "count": 1
-    },
-    {
-      "severity": "warning",
-      "code": "missing-file",
-      "message": "file gfx/interface/illustrations/event_scenes/Winterfell/asoiaf_throneroom_winterfell.dds does not exist",
-      "source": "MOD",
-      "file": "gfx/interface/illustrations/scripted_illustrations/ingame.txt",
-      "count": 1
-    },
-    {
-      "severity": "warning",
-      "code": "missing-file",
       "message": "file gfx/interface/illustrations/event_scenes/ep2_events_generic_hunt.dds does not exist",
       "source": "MOD",
       "file": "gfx/interface/illustrations/scripted_illustrations/ingame.txt",
@@ -1759,7 +1583,7 @@
       "message": "AND with only one item inside is useless",
       "source": "MOD",
       "file": "gfx/interface/illustrations/scripted_illustrations/ingame.txt",
-      "count": 3
+      "count": 1
     }
   ]
 }

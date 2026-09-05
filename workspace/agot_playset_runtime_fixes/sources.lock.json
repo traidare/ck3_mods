@@ -285,18 +285,6 @@
       "sha256": "42bea9468222168c9d8cbd90be6cb1eed3ad8a49b0a1bfa3d32639b19534f8df",
       "size": 2853
     },
-    "workshop/3241130652/common/decisions/any_new_traditions_decisions.txt": {
-      "sha256": "a5fe1428200b5f98a80c2293d6cefe413d22dd0b521fd1640f62d55e6828627c",
-      "size": 16493
-    },
-    "workshop/3241130652/common/decisions/any_vanilla_traditions_decisions.txt": {
-      "sha256": "2ba572594a54db6d0c3a45d3bdc1f093853f52a8d8ef46e1a213e270e913b634",
-      "size": 16519
-    },
-    "workshop/3241130652/common/on_action/any_new_traditions_on_action.txt": {
-      "sha256": "eb2235b19728255b0ccb24d1364d13a553959596b955dfe267eb476ebdde630f",
-      "size": 1176
-    },
     "workshop/3305687550/events/lot_ai_events.txt": {
       "sha256": "250716b7f283f16d22387b435ab24cf25bb1be06ffd17045a5f8aa4098310afd",
       "size": 3333
@@ -1361,22 +1349,6 @@
       "sha256": "c9683ae1c81359fe68d349af4218cdf1d4446faac6a5db9f4a4a5d5c7f243bfe",
       "size": 10197
     },
-    "workshop/3762892081/common/buildings/zz_am_lov_nv_holding_art.txt": {
-      "sha256": "6dfb18e85b09e4fab061189b89ed2e90d00cc38e7ee2da1d6a7a7d8097ed1cff",
-      "size": 1327873
-    },
-    "workshop/3762892081/common/scripted_effects/zz_am_lov_artifact_dedup_effects.txt": {
-      "sha256": "8ed0451996e83f1072769ee151c029fb851210830af236df17380affca5cc1e2",
-      "size": 2964
-    },
-    "workshop/3762892081/gfx/court_scene/scene_cultures/00_default_cultures.txt": {
-      "sha256": "5922a48397e71553a4308c7e5a6815fb233866e89e854bcf91b33825ef55ad69",
-      "size": 20313
-    },
-    "workshop/3762892081/gfx/interface/illustrations/scripted_illustrations/ingame.txt": {
-      "sha256": "afcec4437eefa3c21cd894fe0bce9cd15848085449e56e5cf228dd112ff83d1c",
-      "size": 540900
-    },
     "workshop/3768149491/common/landed_titles/01_landed_titles.txt": {
       "sha256": "e74e028a73e5d49c0878131c42623bdb66dffdf5f5c141ff9e759babb65efb0e",
       "size": 1340905
@@ -1392,6 +1364,22 @@
     "workshop/3772178688/common/scripted_effects/naval_combat_effects.txt": {
       "sha256": "b1330ecd36015e925f18aa68b4a6ecc87818187158a0584845791e337d885d24",
       "size": 59715
+    },
+    "workshop/3773616784/common/buildings/zz_am_lov_nv_holding_art.txt": {
+      "sha256": "6dfb18e85b09e4fab061189b89ed2e90d00cc38e7ee2da1d6a7a7d8097ed1cff",
+      "size": 1327873
+    },
+    "workshop/3773616784/common/scripted_effects/zz_am_lov_artifact_dedup_effects.txt": {
+      "sha256": "8ed0451996e83f1072769ee151c029fb851210830af236df17380affca5cc1e2",
+      "size": 2964
+    },
+    "workshop/3773616784/gfx/court_scene/scene_cultures/00_default_cultures.txt": {
+      "sha256": "5922a48397e71553a4308c7e5a6815fb233866e89e854bcf91b33825ef55ad69",
+      "size": 20313
+    },
+    "workshop/3773616784/gfx/interface/illustrations/scripted_illustrations/ingame.txt": {
+      "sha256": "ea9e3ec2bb7dbbc67aae5f7a82a6e725826c8a897f2738ba76c58f04e7e1757b",
+      "size": 509627
     },
     "workshop/3781577713/common/scripted_effects/00_kraken_effects.txt": {
       "sha256": "62de176b9458c704f7a1760785729082109f478f0b6ec7998be746651dbbbd7e",

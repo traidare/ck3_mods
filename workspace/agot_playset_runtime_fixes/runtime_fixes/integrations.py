@@ -334,41 +334,6 @@ def generate_baie_rebases(inputs: RunInputs) -> None:
     )
 
 
-def generate_any_new_traditions(inputs: RunInputs) -> None:
-    relative = "common/on_action/any_new_traditions_on_action.txt"
-    text = read_text(inputs.WORKSHOP / "3241130652" / relative)
-    text = replace_exact(
-        text,
-        "dynasty = { has_dynasty_modifier = ary_traditions_5_modifier }",
-        "dynasty ?= { has_dynasty_modifier = ary_traditions_5_modifier }",
-        expected=2,
-        label="Any New Traditions optional dynasty scopes",
-    )
-    write_text(inputs.OUTPUT, relative, text)
-
-    for filename in (
-        "any_new_traditions_decisions.txt",
-        "any_vanilla_traditions_decisions.txt",
-    ):
-        relative = f"common/decisions/{filename}"
-        text = read_text(inputs.WORKSHOP / "3241130652" / relative)
-        text = replace_exact(
-            text,
-            "\t\tOR - {",
-            "\t\tOR = {",
-            expected=1,
-            label=f"Any New Traditions malformed OR in {filename}",
-        )
-        text = replace_exact(
-            text,
-            "add_dynasty_prestige >= 10000",
-            "add_dynasty_prestige = 10000",
-            expected=2,
-            label=f"Any New Traditions prestige effect in {filename}",
-        )
-        write_text(inputs.OUTPUT, relative, text)
-
-
 def generate_lov_colonization_event_restore(inputs: RunInputs) -> None:
     """Restore the wilderness regrowth event LoV's AGOT bridge drops.
 

@@ -53,7 +53,6 @@ from .runtime_fixes.crash_stability import (
     generate_naval_contact_stability,
 )
 from .runtime_fixes.integrations import (
-    generate_any_new_traditions,
     generate_baie_rebases,
     generate_health_event_death_guards,
     generate_lov_colonization_event_restore,
@@ -139,7 +138,6 @@ REPAIRS = (
     generate_artifact_manager_scripted_guis,
     generate_artifact_manager_upgrade_guis,
     generate_advanced_character_search,
-    generate_any_new_traditions,
     generate_great_councils,
     generate_suggest_dragon_bonding,
     generate_agot_tour_events,

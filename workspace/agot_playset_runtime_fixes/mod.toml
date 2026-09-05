@@ -43,11 +43,6 @@ kind = "workshop"
 item_id = "3084203091"
 
 [[sources]]
-name = "workshop-3241130652"
-kind = "workshop"
-item_id = "3241130652"
-
-[[sources]]
 name = "workshop-3305687550"
 kind = "workshop"
 item_id = "3305687550"
@@ -168,11 +163,6 @@ kind = "workshop"
 item_id = "3761342990"
 
 [[sources]]
-name = "workshop-3762892081"
-kind = "workshop"
-item_id = "3762892081"
-
-[[sources]]
 name = "workshop-3768149491"
 kind = "workshop"
 item_id = "3768149491"
@@ -181,6 +171,11 @@ item_id = "3768149491"
 name = "workshop-3772178688"
 kind = "workshop"
 item_id = "3772178688"
+
+[[sources]]
+name = "workshop-3773616784"
+kind = "workshop"
+item_id = "3773616784"
 
 [[sources]]
 name = "workshop-3781577713"
