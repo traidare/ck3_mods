@@ -95,7 +95,7 @@ class SharedGeneratorHelperTest(unittest.TestCase):
             "\t}\n}\n"
         )
         with generator_function(
-            "workspace/agot_now_lov_ee_map_compatch/map_merge.py",
+            "workspace/agot_now_lov_ee_compatch/compatch/map_merge.py",
             "locator_records",
         ) as locator_records:
             prefix, suffix, order, records = locator_records(text)
@@ -113,7 +113,7 @@ class SharedGeneratorHelperTest(unittest.TestCase):
             "\t}\n}\n"
         )
         with generator_function(
-            "workspace/agot_now_lov_ee_map_compatch/map_merge.py",
+            "workspace/agot_now_lov_ee_compatch/compatch/map_merge.py",
             "locator_records",
         ) as locator_records:
             prefix, suffix, order, records = locator_records(text)
@@ -125,7 +125,7 @@ class SharedGeneratorHelperTest(unittest.TestCase):
         duplicate = text.replace("{ id = 3", "{ id = 8")
         with (
             generator_function(
-                "workspace/agot_now_lov_ee_map_compatch/map_merge.py",
+                "workspace/agot_now_lov_ee_compatch/compatch/map_merge.py",
                 "locator_records",
             ) as locator_records,
             self.assertRaisesRegex(RuntimeError, "duplicate locator id 8"),
@@ -150,7 +150,7 @@ class SharedGeneratorHelperTest(unittest.TestCase):
             key: f"{{ id={key} position={{ {key + 1} 0 0 }} }}" for key in (3, 8, 9)
         }
         with generator_function(
-            "workspace/agot_now_lov_ee_map_compatch/map_merge.py",
+            "workspace/agot_now_lov_ee_compatch/compatch/map_merge.py",
             "locator_definition_dependencies",
         ) as dependencies:
             self.assertEqual(
@@ -167,7 +167,7 @@ class SharedGeneratorHelperTest(unittest.TestCase):
             "# b_retired = { province = 11 }\n"
         )
         with generator_function(
-            "workspace/agot_now_lov_ee_map_compatch/map_merge.py",
+            "workspace/agot_now_lov_ee_compatch/compatch/map_merge.py",
             "province_ids_from_landed_titles",
         ) as province_ids:
             self.assertEqual(province_ids(source), (7, 9))
@@ -176,11 +176,11 @@ class SharedGeneratorHelperTest(unittest.TestCase):
         source = "sea_zones = LIST { 2 }\nimpassable_mountains = LIST { 3 }\n"
         with (
             generator_function(
-                "workspace/agot_now_lov_ee_map_compatch/map_merge.py",
+                "workspace/agot_now_lov_ee_compatch/compatch/map_merge.py",
                 "append_impassable_quarantine",
             ) as append_quarantine,
             generator_function(
-                "workspace/agot_now_lov_ee_map_compatch/map_merge.py",
+                "workspace/agot_now_lov_ee_compatch/compatch/map_merge.py",
                 "land_provinces",
             ) as land_provinces,
         ):
@@ -197,7 +197,7 @@ class SharedGeneratorHelperTest(unittest.TestCase):
             "}"
         )
         with generator_function(
-            "workspace/agot_now_lov_ee_map_compatch/map_merge.py",
+            "workspace/agot_now_lov_ee_compatch/compatch/map_merge.py",
             "restore_region_members",
         ) as restore:
             restored = restore(
@@ -215,7 +215,7 @@ class SharedGeneratorHelperTest(unittest.TestCase):
 
         with (
             generator_function(
-                "workspace/agot_now_lov_ee_map_compatch/map_merge.py",
+                "workspace/agot_now_lov_ee_compatch/compatch/map_merge.py",
                 "restore_region_members",
             ) as restore,
             self.assertRaisesRegex(RuntimeError, "no provinces list"),
@@ -303,7 +303,7 @@ class SharedGeneratorHelperTest(unittest.TestCase):
             {3: "canonical-3", 5: "canonical-5"},
         )
         with generator_function(
-            "workspace/agot_now_lov_ee_map_compatch/map_merge.py",
+            "workspace/agot_now_lov_ee_compatch/compatch/map_merge.py",
             "replace_locator_band",
         ) as replace_locator_band:
             prefix, suffix, order, records = replace_locator_band(
@@ -322,7 +322,7 @@ class SharedGeneratorHelperTest(unittest.TestCase):
             'c_test = {\n\tculture = "essosi"\n\t1.2.3 = { government = clan }\n}\n'
         )
         with generator_function(
-            "workspace/agot_now_lov_ee_lore_governments/implementation.py",
+            "workspace/agot_now_lov_ee_compatch/compatch/pdx.py",
             "parse_document",
         ) as parse_document:
             document = parse_document(source)
@@ -334,7 +334,7 @@ class SharedGeneratorHelperTest(unittest.TestCase):
 
         with (
             generator_function(
-                "workspace/agot_now_lov_ee_lore_governments/implementation.py",
+                "workspace/agot_now_lov_ee_compatch/compatch/pdx.py",
                 "apply_edits",
             ) as apply_edits,
             self.assertRaisesRegex(AssertionError, "overlapping"),
@@ -346,10 +346,11 @@ class SharedGeneratorHelperTest(unittest.TestCase):
             'first = { name = "}" # }\n nested = { value = yes }\n}\nsecond = { }\n'
         )
         with generator_function(
-            "workspace/agot_now_lov_ee_world_data/implementation.py",
-            "parse_top_level_blocks",
-        ) as parse_blocks:
-            blocks = parse_blocks(source)
+            "workspace/agot_now_lov_ee_compatch/compatch/pdx.py",
+            "top_level_blocks",
+        ) as top_level_blocks:
+            _prefix, _suffix, order, blocks = top_level_blocks(source)
+        self.assertEqual(order, ["first", "second"])
         self.assertEqual(list(blocks), ["first", "second"])
 
     def test_canon_dragon_birthday_bridge_restores_agot_dispatch(self) -> None:

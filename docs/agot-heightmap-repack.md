@@ -35,7 +35,7 @@ export heightmap_stage="$CK3_PARADOX_DIR/mod/agot_heightmap_repack_staging"
 export heightmap_descriptor="$CK3_PARADOX_DIR/mod/agot_heightmap_repack_staging.mod"
 export heightmap_playset=".ignored/ck3mm/agot-heightmap-editor.json"
 export heightmap_backup=".ignored/ck3mm/agot-heightmap-backup-$(date +%Y%m%d)"
-export heightmap_source="workspace/agot_now_lov_ee_map_compatch/artifacts/heightmap/heightmap_now_delta_unpacked.png"
+export heightmap_source="workspace/agot_now_lov_ee_compatch/artifacts/heightmap/heightmap_now_delta_unpacked.png"
 export eep_map_data="$CK3_WORKSHOP_DIR/3682802751/map_data"
 ```
 
@@ -191,16 +191,16 @@ If verification passes, back up the current quartet and install the staged one:
 
 ```sh
 mkdir -p "$heightmap_backup"
-cp mods/agot_now_lov_ee_map_compatch/map_data/{heightmap.png,heightmap.heightmap,packed_heightmap.png,indirection_heightmap.png} \
+cp mods/agot_now_lov_ee_compatch/map_data/{heightmap.png,heightmap.heightmap,packed_heightmap.png,indirection_heightmap.png} \
   "$heightmap_backup/" 2>/dev/null || true
 cp "$heightmap_stage"/map_data/{heightmap.png,heightmap.heightmap,packed_heightmap.png,indirection_heightmap.png} \
-  mods/agot_now_lov_ee_map_compatch/map_data/
-ck3mm mod install agot_now_lov_ee_map_compatch
-ck3mm mod install agot_now_lov_ee_map_compatch --apply
-ck3mm mod validate agot_now_lov_ee_map_compatch
+  mods/agot_now_lov_ee_compatch/map_data/
+ck3mm mod install agot_now_lov_ee_compatch
+ck3mm mod install agot_now_lov_ee_compatch --apply
+ck3mm mod validate agot_now_lov_ee_compatch
 ck3mm conflicts AGOT \
   --files \
-  --involving mod/agot_now_lov_ee_map_compatch.mod
+  --involving mod/agot_now_lov_ee_compatch.mod
 ```
 
 The backup copy tolerates a missing quartet because the first promotion has none

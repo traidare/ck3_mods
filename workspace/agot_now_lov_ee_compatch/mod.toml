@@ -1,0 +1,61 @@
+[generator]
+entrypoint = "implementation.py:generate"
+owned_outputs = [
+  "common/on_action/agot_on_actions/agot_game_start.txt",
+  "common/province_terrain",
+  "common/scripted_effects/replace",
+  "gfx/map/map_object_data",
+  "history",
+  "map_data",
+]
+owned_artifacts = [
+  "lore_governments/*_audit.csv",
+  "world_data/terrain_audit.csv",
+  "world_data/graphical_region_audit.csv",
+  "map_data",
+]
+
+[[sources]]
+name = "agot"
+kind = "workshop"
+item_id = "2962333032"
+
+[[sources]]
+name = "now"
+kind = "workshop"
+item_id = "3664900993"
+
+[[sources]]
+name = "legacy-of-valyria"
+kind = "workshop"
+item_id = "3403938445"
+
+[[sources]]
+name = "legacy-of-valyria-bridge"
+kind = "workshop"
+item_id = "3719888822"
+
+[[sources]]
+name = "essos-expanded"
+kind = "workshop"
+item_id = "3682802751"
+
+[[sources]]
+name = "essos-expanded-bridge"
+kind = "workshop"
+item_id = "3768149491"
+
+[[sources]]
+name = "essos-compatch"
+kind = "workshop"
+item_id = "3773608127"
+
+[[sources]]
+name = "known-world-detailed"
+kind = "repository"
+path = "references/agot/map_images/KnownWorldDetailed.jpg"
+
+[[sources]]
+name = "known-world-google"
+kind = "repository"
+path = "references/agot/map_images/KnownWorldGoogleMaps.jpg"

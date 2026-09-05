@@ -40,5 +40,5 @@ known-first-party = ["gen"]
 
 [tool.ruff.lint.per-file-ignores]
 "workspace/**/implementation.py" = ["E501"]
-"workspace/**/map_merge.py" = ["E501"]
+"workspace/**/compatch/*.py" = ["E501"]
 "workspace/**/runtime_fixes/*.py" = ["E501"]

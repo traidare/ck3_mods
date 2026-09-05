@@ -161,8 +161,6 @@ def generate(context: GenerationContext) -> None:
         WORKSHOP=WorkshopSources(context),
         OUTPUT=context.output_root,
         GAME_ROOT=context.source("game"),
-        LORE_GOVERNMENTS=context.source("lore-governments"),
-        LOV_REBASE=context.source("lov-rebase"),
     )
     for repair in REPAIRS:
         repair(inputs)
