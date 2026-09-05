@@ -96,6 +96,16 @@ region coexists with whatever Further East flattened its territory into and its
 position in the file carries no meaning. `DISSOLVED_REGIONS` is the reviewed
 exception where an absence is deliberate.
 
+The same reading applies inside a region. NOW writes `coastal_counties` from its
+own Westeros survey, so the block it ships names no Rhoynish, Shivering Sea or
+Stepstones coast while its `landed_titles` still define every one of those
+counties as land. `NOW_REGION_GAPS` records that territory as a gap in a
+Westeros fork rather than a removal, and the merge restores it into NOW's own
+block; honouring the omission would drop the whole Essos coast out of AGOT's
+sailing activity and the three great projects that filter provinces through this
+region. `c_tormore` is deliberately not in the gap set: NOW retires that county
+with the Sisters rework, so its absence is the one removal NOW means.
+
 ## Locator repair
 
 Further East supplies `provinces.png` while this layer supplies
@@ -188,6 +198,10 @@ ck3mm mod generate agot_now_lov_ee_map_compatch --apply
   means the merge stopped carrying AGOT's set forward; the second means AGOT's
   regions and Further East's map have diverged, and the region needs remapping
   rather than carrying.
+- Re-audit a `NOW_REGION_GAPS` entry when generation reports that it no longer
+  holds. NOW naming the territory again, or AGOT dropping it, means the omission
+  has stopped being a fork's blind spot, and the entry belongs gone rather than
+  re-pinned.
 - Re-audit the locator repair if Further East begins shipping its own
   `building_locators.txt`, or if the audit's `unplaceable` counts move: a rising
   count means the province table and the raster are drifting apart.

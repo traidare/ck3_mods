@@ -132,6 +132,38 @@
     {
       "severity": "error",
       "code": "strict-scopes",
+      "message": "scope:congragulate_winner might not be available here",
+      "source": "MFA local rebase",
+      "file": "events/activities/tournaments/tournament_events.txt",
+      "count": 1
+    },
+    {
+      "severity": "error",
+      "code": "strict-scopes",
+      "message": "scope:contest_prize_1 might not be available here",
+      "source": "MFA local rebase",
+      "file": "events/activities/tournaments/tournament_events.txt",
+      "count": 1
+    },
+    {
+      "severity": "error",
+      "code": "strict-scopes",
+      "message": "scope:contest_prize_2 might not be available here",
+      "source": "MFA local rebase",
+      "file": "events/activities/tournaments/tournament_events.txt",
+      "count": 1
+    },
+    {
+      "severity": "error",
+      "code": "strict-scopes",
+      "message": "scope:contest_prize_3 might not be available here",
+      "source": "MFA local rebase",
+      "file": "events/activities/tournaments/tournament_events.txt",
+      "count": 1
+    },
+    {
+      "severity": "error",
+      "code": "strict-scopes",
       "message": "scope:special_type might not be available here",
       "source": "MOD",
       "file": "common/activities/activity_types/coronation.txt",
@@ -422,6 +454,30 @@
       "code": "strict-scopes",
       "message": "`tournament_disburse_contest_prize_effect` expects scope:location to be set",
       "source": "MFA 0.4.40 local",
+      "file": "events/activities/tournaments/tournament_events.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "scopes",
+      "message": "`tournament_1270_versus_effect` expects scope to be activity but scope seems to be character",
+      "source": "MFA local rebase",
+      "file": "events/activities/tournaments/tournament_events.txt",
+      "count": 4
+    },
+    {
+      "severity": "warning",
+      "code": "strict-scopes",
+      "message": "`tournament_disburse_contest_prize_effect` expects scope:artifact to be set",
+      "source": "MFA local rebase",
+      "file": "events/activities/tournaments/tournament_events.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "strict-scopes",
+      "message": "`tournament_disburse_contest_prize_effect` expects scope:location to be set",
+      "source": "MFA local rebase",
       "file": "events/activities/tournaments/tournament_events.txt",
       "count": 1
     },
@@ -1379,18 +1435,18 @@
     },
     {
       "severity": "warning",
-      "code": "localization",
-      "message": "The substitution parameter $k_the_blackwater$ is not defined anywhere as a key.",
-      "source": "MOD",
-      "file": "localization/replace/spanish/agot/replace/00_agot_titles_l_spanish.yml",
-      "count": 1
-    },
-    {
-      "severity": "warning",
       "code": "strict-scopes",
       "message": "`agot_send_to_dragonpit_effect` expects scope:dragon_pit_location to be set",
       "source": "More Dragon Events",
       "file": "events/agot_events/mde_agot_filler_events_dragon.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "scopes",
+      "message": "`location` is for character, army or combat but scope seems to be activity",
+      "source": "Seasons",
+      "file": "common/event_backgrounds/01_event_backgrounds.txt",
       "count": 1
     }
   ]

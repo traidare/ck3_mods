@@ -146,7 +146,6 @@
  b_aylmore: "Salóngristle"
  b_pridemane: "Salón Hetherfield"
  b_hetherfield_hall: "Ciudadela de Wrex"
- b_meres_mine: "Skalice de Plata"
  b_longdowns: "Torreón de Malanna"
 
 # THE REACH
@@ -182,7 +181,10 @@
 # THE CROWNLANDS
  k_blackwater_woods: "Bosque del Aguasnegras"
  k_summerhall: "$b_summerhall$"
- k_the_blackwater_rush: "e$k_the_blackwater$"
+ k_dummy_summerhall: "$b_summerhall$"
+ k_the_blackwater_rush: "$d_the_blackwater_rush$"
+ k_dummy_blackwater_rush: "$d_the_blackwater_rush$"
+ d_pikemouth: "Bocalucio"
  d_sweetport: "$c_sweetport_sound$"
  d_great_fork: "$c_great_fork$"
  d_vairs_head: "$c_vairs_head$"
@@ -208,6 +210,7 @@
 
 # THE STORMLANDS
  k_the_slayne: "Yelmo de Piedra"
+ k_the_whentway: "El Camino de los Mejillones"
  d_morne: "Morne"
  k_estermont_isles: "Islas Estermont"
  d_bronzegate: "Puertabronce"
@@ -217,6 +220,8 @@
  d_whentway: "$c_choicemarch$"
  d_weeping_town: "Villallorosa"
  d_tudbury_island: "Isla de Tudbury"
+ d_the_drench: "Punta de Aguasmil"
+ d_the_rainwood: "La Selva"
 
 # DORNE
  c_shade_dunes: "Dunas Sombrías"

@@ -136,7 +136,7 @@ LOCATOR_PINS: dict[tuple[str, int], tuple[str, dict[str, str], dict[str, str]]] 
     (SPECIAL_BUILDING_LOCATORS, 4945): (
         "b_plankytown",
         {
-            "position": "{ 2058.529053 0.000000 1979.114258 }",
+            "position": "{ 2058.590576 0.000000 1979.023560 }",
             "rotation": "{ 0.000000 0.903833 -0.000000 0.427885 }",
             "scale": "{ 0.412966 0.412966 0.412966 }",
         },
@@ -878,6 +878,74 @@ STORMLANDS_MARCHES = """world_westeros_dornish_marches_stormlands = {
 }"""
 
 
+# Territory NOW's own file omits without meaning to remove it.  NOW surveys
+# Westeros and rewrites `coastal_counties` from that survey, so the block it
+# ships names no Rhoynish, Shivering Sea or Stepstones coast while its
+# `landed_titles` still define every one of those counties as land.  That is a
+# gap in a Westeros fork rather than a removal, and honouring it would drop the
+# whole Essos coast out of the sailing activity and the three great projects
+# that filter provinces through this region.  `c_tormore` is deliberately not
+# listed: NOW retires that county with the Sisters rework, so its absence here
+# is the one removal NOW means.
+NOW_REGION_GAPS: dict[str, frozenset[str]] = {
+    "coastal_counties": frozenset(
+        {
+            "counties:c_ampnavath",
+            "counties:c_anlys",
+            "counties:c_aslath",
+            "counties:c_blindfast",
+            "counties:c_cadalth",
+            "counties:c_ceyrwin",
+            "counties:c_chroyane",
+            "counties:c_dagger_flats",
+            "counties:c_dyrk",
+            "counties:c_golden_fields",
+            "counties:c_greyamber_isles",
+            "counties:c_ibewos",
+            "counties:c_jambiya",
+            "counties:c_kaslathnn",
+            "counties:c_kulakqr",
+            "counties:c_mirths_end",
+            "counties:c_moterhyll",
+            "counties:c_olath_hills",
+            "counties:c_palliera",
+            "counties:c_peadhean",
+            "counties:c_pihu_sar",
+            "counties:c_poniard",
+            "counties:c_punulea_sar",
+            "counties:c_qapahienn",
+            "counties:c_qnlyshon",
+            "counties:c_rhezebhrhez",
+            "counties:c_rhimarthen",
+            "counties:c_rhogo_sar",
+            "counties:c_rhunamllias",
+            "counties:c_scoured_seat",
+            "counties:c_sen_malhoy",
+            "counties:c_shivering_port",
+            "counties:c_shiverness",
+            "counties:c_sinking_corridors",
+            "counties:c_skean",
+            "counties:c_sleetwin",
+            "counties:c_smitmont",
+            "counties:c_soytialne",
+            "counties:c_splintered_shore",
+            "counties:c_stiletys",
+            "counties:c_suru_mal",
+            "counties:c_susnys_mal",
+            "counties:c_the_perch",
+            "counties:c_the_shivering_crown",
+            "counties:c_the_spearhead",
+            "counties:c_tianos",
+            "counties:c_warriors_heel",
+            "counties:c_west_catch",
+            "counties:c_whitecliff",
+            "counties:c_witnesses_mire",
+            "counties:c_yaghorsosten",
+        }
+    ),
+}
+
+
 def region_members(block: str | None) -> dict[str, list[str]]:
     """Return one region's declared members per category, ignoring comments."""
     if block is None:
@@ -922,6 +990,72 @@ def merged_territory(
     return (base - dropped) | (current - base) | (incoming - base)
 
 
+def assert_now_region_gaps(agot: dict[str, str], now: dict[str, str]) -> None:
+    """Fail when a reviewed NOW gap stops being one.
+
+    A gap only holds while AGOT still names the territory and NOW still does
+    not. Either side moving turns the omission back into a claim one of them
+    means, so it is re-reviewed rather than carried on a stale reading.
+    """
+    for key, gaps in NOW_REGION_GAPS.items():
+        held = region_territory(agot, key)
+        omitted = region_territory({**agot, **now}, key)
+        stale = (gaps - held) | (gaps & omitted)
+        if stale:
+            raise RuntimeError(
+                f"reviewed NOW gaps in {key} no longer hold for {sorted(stale)}; "
+                "re-review them against both files"
+            )
+
+
+def region_gap_filler(label: str):
+    """Restore the territory NOW's own survey omits, once the file is merged.
+
+    NOW's block reaches the merged file whether or not EEP contested it, so the
+    restoration runs over the merged result rather than inside the conflict
+    resolver. Only members no surviving spelling of the region already names are
+    added, so a merge that kept AGOT's or EEP's text is left alone.
+    """
+
+    def fill(
+        order: list[str], merged: dict[str, str]
+    ) -> tuple[list[str], dict[str, str]]:
+        result = dict(merged)
+        for key, gaps in NOW_REGION_GAPS.items():
+            block = result.get(key)
+            if block is None:
+                raise RuntimeError(f"{label} {key}: the region the gaps name is gone")
+            absent = gaps - region_territory(result, key)
+            if absent:
+                result[key] = restore_region_members(block, absent, f"{label} {key}")
+        return order, result
+
+    return fill
+
+
+def restore_region_members(block: str, restored: frozenset[str], label: str) -> str:
+    """Append territory back into a region block, keeping its own layout.
+
+    The block is the parent's own text, so the restored members are appended to
+    the list they belong to rather than the whole region being re-rendered.
+    """
+    for category in sorted({member.split(":", 1)[0] for member in restored}):
+        values = sorted(
+            member.split(":", 1)[1]
+            for member in restored
+            if member.split(":", 1)[0] == category
+        )
+        found = re.search(rf"(?m)^\t{category}\s*=\s*\{{(?P<body>[^}}]*)\}}", block)
+        if found is None:
+            raise RuntimeError(f"{label}: no {category} list to restore into")
+        body = found.group("body")
+        listed = body.rstrip()
+        addition = "\n".join(f"\t\t{value}" for value in values)
+        merged = f"{listed}\n{addition}{body[len(listed) :]}"
+        block = block[: found.start("body")] + merged + block[found.end("body") :]
+    return block
+
+
 def geographical_block_merger(sources: dict[str, dict[str, str]]):
     """Build the region resolver, closing over every source's whole file.
 
@@ -948,11 +1082,17 @@ def geographical_block_merger(sources: dict[str, dict[str, str]]):
             name: region_territory({**sources["agot"], **blocks}, key)
             for name, blocks in sources.items()
         }
-        wanted = merged_territory(territory["agot"], territory["eep"], territory["now"])
+        gaps = NOW_REGION_GAPS.get(key, frozenset())
+        wanted = merged_territory(
+            territory["agot"], territory["eep"], territory["now"] | gaps
+        )
         # Emitting a parent's own text keeps its spelling and nesting rather
-        # than flattening the region into a rendered list.
+        # than flattening the region into a rendered list.  NOW's text is
+        # compared with its reviewed gaps added, because that is what the gap
+        # hook emits once the whole file is merged.
         for name, text in (("now", incoming), ("eep", current)):
-            if territory[name] == wanted:
+            emitted = territory[name] | (gaps if name == "now" else frozenset())
+            if emitted == wanted:
                 return text
         raise RuntimeError(f"{label}: overlapping EEP/NOW change needs review")
 
@@ -1412,8 +1552,13 @@ def merge_geographical_regions(inputs: Inputs, definition: str) -> str:
     )
     baseline, restored = restored_baseline(base, current)
     assert_restored_regions_resolve(inputs, restored, definition)
+    assert_now_region_gaps(base[3], now[3])
     merged = merge_file_blocks(
-        baseline, (overlay,), conflict=resolver, dissolved=DISSOLVED_REGIONS
+        baseline,
+        (overlay,),
+        conflict=resolver,
+        pins=region_gap_filler("NOW geographical regions"),
+        dissolved=DISSOLVED_REGIONS,
     )
 
     # Every AGOT region other than a reviewed dissolution has to reach the

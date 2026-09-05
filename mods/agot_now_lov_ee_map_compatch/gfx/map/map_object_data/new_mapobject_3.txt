@@ -7,7 +7,7 @@
 
 object={
 	name="Bridge_India"
-	render_pass=MapUnderTerrain
+	render_pass=Map
 	clamp_to_water_level=no
 	generated_content=no
 	layer="AGOT_roads"

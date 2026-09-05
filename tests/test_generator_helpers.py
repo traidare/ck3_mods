@@ -189,6 +189,39 @@ class SharedGeneratorHelperTest(unittest.TestCase):
             self.assertIn("impassable_mountains = LIST { 6 }", output)
             self.assertEqual(land_provinces(output, frozenset(range(1, 7))), {1})
 
+    def test_map_region_gaps_are_restored_into_their_own_list(self) -> None:
+        block = (
+            "coastal_counties = {\n"
+            "\tduchies = {\n\t\td_first\n\t}\n"
+            "\tcounties = {\n\t\tc_first\n\t\tc_second\n\t}\n"
+            "}"
+        )
+        with generator_function(
+            "workspace/agot_now_lov_ee_map_compatch/map_merge.py",
+            "restore_region_members",
+        ) as restore:
+            restored = restore(
+                block,
+                frozenset({"counties:c_third", "duchies:d_second"}),
+                "regions coastal_counties",
+            )
+        self.assertEqual(
+            restored,
+            "coastal_counties = {\n"
+            "\tduchies = {\n\t\td_first\n\t\td_second\n\t}\n"
+            "\tcounties = {\n\t\tc_first\n\t\tc_second\n\t\tc_third\n\t}\n"
+            "}",
+        )
+
+        with (
+            generator_function(
+                "workspace/agot_now_lov_ee_map_compatch/map_merge.py",
+                "restore_region_members",
+            ) as restore,
+            self.assertRaisesRegex(RuntimeError, "no provinces list"),
+        ):
+            restore(block, frozenset({"provinces:42"}), "regions coastal_counties")
+
     def test_crash_repair_guards_all_appointment_scores(self) -> None:
         block = (
             "\t\t\tscope:target = {\n\t\t\t\tholder = {\n"

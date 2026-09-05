@@ -27,7 +27,7 @@ Ibben, the Axe, Norvos, Qohor, Lorath, and Rhoyne. This compatch no longer
 renumbers provinces or ships its own terrain, heightmaps, or titles. It carries
 only the Westeros details that would otherwise be lost:
 
-- the eleven provinces Nobility of Westeros retunes;
+- the thirteen provinces Nobility of Westeros retunes;
 - building and special-building placements, merged one record at a time;
 - roads, bridges, and other map decorations, merged placement by placement;
 - Nobility of Westeros' island regions, over A Game of Thrones' own complete set
