@@ -369,6 +369,51 @@ def generate_any_new_traditions(inputs: RunInputs) -> None:
         write_text(inputs.OUTPUT, relative, text)
 
 
+def generate_lov_colonization_event_restore(inputs: RunInputs) -> None:
+    """Restore the wilderness regrowth event LoV's AGOT bridge drops.
+
+    The bridge ships a whole-file copy of AGOT's colonization events and is the
+    last writer for that path, so its copy is the only one CK3 reads. The copy
+    predates `agot_colonization_events.9001`, which AGOT's wilderness and ruin
+    buildings fire from `on_complete` to put an obstacle back once its cleared
+    marker expires. Without the event those buildings raise `Event
+    'agot_colonization_events.9001' not found` on every completion and the
+    obstacle never returns, so append AGOT's definition to the bridge's copy
+    rather than restoring the whole file and losing the bridge's own deltas.
+    """
+    relative = "events/agot_events/agot_colonization_events.txt"
+    event = "agot_colonization_events.9001"
+    agot = read_text(inputs.WORKSHOP / "2962333032" / relative)
+    bridge = read_text(inputs.WORKSHOP / "3719888822" / relative)
+    if f"{event} = {{" in bridge:
+        raise RuntimeError(
+            "LoV's AGOT bridge now defines "
+            f"{event}; drop this restoration rather than duplicating the key"
+        )
+    callers = sum(
+        read_text(inputs.WORKSHOP / "2962333032" / f"common/buildings/{name}").count(
+            f"trigger_event = {event}"
+        )
+        for name in ("00_agot_wilderness_buildings.txt", "00_agot_ruin_buildings.txt")
+    )
+    if callers != 9:
+        raise RuntimeError(
+            f"AGOT's wilderness and ruin buildings now fire {event} {callers} "
+            "times in place of 9; re-audit before restoring it"
+        )
+    restored = assert_source_block_hash(
+        agot,
+        event,
+        "7b512ff708b60b71797a5f24380e9ccafd0e1eaa3eca210b6fb09e5cc5d8c48d",
+        label="AGOT wilderness regrowth event",
+    )
+    write_text(
+        inputs.OUTPUT,
+        relative,
+        normalize_rebased_source(f"{bridge.rstrip()}\n\n{restored}\n"),
+    )
+
+
 def generate_health_event_death_guards(inputs: RunInputs) -> None:
     relative = "events/health_events.txt"
     source = read_text(inputs.WORKSHOP / "2962333032" / relative)

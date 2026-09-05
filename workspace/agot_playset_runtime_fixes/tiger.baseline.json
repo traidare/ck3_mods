@@ -12,7 +12,7 @@
     {
       "severity": "error",
       "code": "validation",
-      "message": "expected `count =`, found `<`",
+      "message": "expected `count =`, found `\u003c`",
       "source": "AGOT",
       "file": "common/scripted_effects/00_agot_effects.txt",
       "count": 30
@@ -207,6 +207,14 @@
       "message": "scope:transfer_type might not be available here",
       "source": "MOD",
       "file": "common/on_action/title_on_actions.txt",
+      "count": 1
+    },
+    {
+      "severity": "error",
+      "code": "strict-scopes",
+      "message": "scope:old_sighting_county might not be available here",
+      "source": "MOD",
+      "file": "events/agot_events/agot_colonization_events.txt",
       "count": 1
     },
     {
@@ -1128,6 +1136,38 @@
       "source": "MOD",
       "file": "events/agot_events/agot_btw_maintenance_events.txt",
       "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "logic",
+      "message": "running `random_list` inside `send_interface_toast` does not work right",
+      "source": "MOD",
+      "file": "events/agot_events/agot_colonization_events.txt",
+      "count": 2
+    },
+    {
+      "severity": "warning",
+      "code": "scopes",
+      "message": "`add_county_modifier` is for landed title but scope seems to be province",
+      "source": "MOD",
+      "file": "events/agot_events/agot_colonization_events.txt",
+      "count": 2
+    },
+    {
+      "severity": "warning",
+      "code": "scopes",
+      "message": "`agot_upgrade_settlement_to_full_holding_effect` expects scope to be landed title but scope seems to be character",
+      "source": "MOD",
+      "file": "events/agot_events/agot_colonization_events.txt",
+      "count": 2
+    },
+    {
+      "severity": "warning",
+      "code": "strict-scopes",
+      "message": "`create_landless_adventurer_title_effect` expects scope:host to be set",
+      "source": "MOD",
+      "file": "events/agot_events/agot_colonization_events.txt",
+      "count": 2
     },
     {
       "severity": "warning",

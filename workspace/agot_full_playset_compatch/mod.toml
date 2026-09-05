@@ -117,6 +117,16 @@ kind = "workshop"
 item_id = "3206891770"
 
 [[sources]]
+name = "lov"
+kind = "workshop"
+item_id = "3403938445"
+
+[[sources]]
+name = "essos-expanded"
+kind = "workshop"
+item_id = "3682802751"
+
+[[sources]]
 name = "vanilla"
 kind = "game"
 path = "game"

@@ -33,7 +33,9 @@ Roughly fifty parent mods are touched. The failures fall into a few classes:
   copy still called a retired effect for naming the High Septon, so a newly
   elected High Septon kept their birth name and, because the interface draws
   that seat's name from a nickname nothing grants any more, showed up with no
-  name at all.
+  name at all. Another dropped the event that lets a cleared wolf den, bear den,
+  bandit camp, flooded field, or overgrowth eventually return, so wilderness
+  stayed cleared forever once a settlement had dealt with it.
 - **Names a mod uses but never ships** — artifact templates, effects, dynasties,
   and event targets a mod refers to without defining anywhere. Each is pointed
   at the definition AGOT already provides for the same thing, so the Valyrian

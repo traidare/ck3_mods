@@ -517,6 +517,22 @@ def generate_additional_models_holding_art_constants(inputs: RunInputs) -> None:
         )
     if "@holding_illustration" in text:
         raise RuntimeError("holding art retains an unresolved illustration constant")
+    # `on_complete` binds `scope:character` only when a character completes the
+    # construction. Holdings granted in bulk — a government's starting holdings,
+    # for one — complete outside that path and leave the handle dangling, so
+    # every statement under the scope errors with
+    # `Scoped object is not valid. Type: (no character) weak (Character - ...)`.
+    # The optional operator skips the block instead; the two Mandala effects it
+    # guards are piety and development grants for the completing character, so
+    # there is nobody to grant them to when it is unset.
+    text, guarded = re.subn(
+        r"(?m)^(\s*)scope:character = \{$", r"\1scope:character ?= {", text
+    )
+    if guarded != 5:
+        raise RuntimeError(
+            f"Additional Models/AGOT+/LoV holding art now has {guarded} unguarded "
+            f"scope:character blocks in place of 5; re-audit before guarding them"
+        )
     write_text(inputs.OUTPUT, relative, text, preserve_trailing_whitespace=True)
 
 

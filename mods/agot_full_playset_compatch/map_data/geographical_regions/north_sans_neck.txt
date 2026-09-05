@@ -366,7 +366,6 @@ world_upper_crown = {
 		d_maidenpool
 		d_deerfield
 		d_rooks_rest
-		d_crackclaw_point
 		#d_claw_isle #maybe change
 		d_hayford
 		d_riverline
@@ -374,8 +373,6 @@ world_upper_crown = {
 		d_coinbridge
 	}
 	counties = {
-		c_darry
-		c_riverline
 		c_bramsfort
 		#c_shrinebridge
 		c_shinebridge
@@ -416,9 +413,7 @@ world_upper_reach = {
 		c_muchyre
 		c_clickingmoor
 		c_pippengrow
-		c_brandybottom
 		c_lace_river
-		c_nunny
 		c_rilldene
 		#c_sommelfield
 		#c_blandford
@@ -515,9 +510,6 @@ world_norvos_seasons = {
 		d_the_grommet
 		d_roseate_bank
 		d_ar_noy
-		d_soqhoyn_eon
-		d_norvos_rib
-		d_vardyghagyu
 		#d_
 	}
 }
@@ -617,13 +609,11 @@ world_dorne_north_coast = {
 	}
 	counties = {
 		c_husk_flats
-		c_stedding
 		c_flatwater
 		c_ghaston_grey
 		c_wayguard
 		c_yronwood
 		c_the_scourge
-		c_the_bramble
 	}
 }
 world_green_blood_river = {
@@ -759,10 +749,7 @@ world_dornish_marches_seasons = {
 		c_cadgemont
 		c_wide_way
 		c_princemarch
-		c_scale_valley
 		c_summerfield
-		c_riskmarch
-		c_choicemarch
 		c_swellcrest
 		c_grandview
 		c_greenbelt
@@ -810,20 +797,14 @@ world_westerlands_low = {
 		c_red_lake
 		c_wallow_dell
 		c_pleasant_hills
-		c_stilwood
 		c_harvestbury
 		c_iron_hedge
 		c_sarsfield
 		c_lowell
 		c_castamere
 		c_pendric_hills
-		c_lannisport
-		c_casterly_rock
-		c_fang_hill
 		c_hetherfield
-		c_hadersly
 		c_cornfield
-		c_greenfield
 		c_toll_pass
 		c_wellsmere
 		c_longbolt
@@ -1006,13 +987,10 @@ world_the_fingers_seasons = {
 	}
 	counties = {
 		c_hearts_home
-		c_snakewood
-		c_sunkenwood
 		c_harrowpool
 		c_rockle
 		c_bludden
 		c_hungerford
-		c_misty_moor
 		c_brume
 		#c_
 	}
@@ -1078,13 +1056,6 @@ world_barrowlands_seasons = {
 	kingdoms = {
 		k_barrows_and_rills
 		k_the_rills
-	}
-	duchies = {
-		d_the_barrowlands
-		d_the_rills
-		d_goldgrass
-		d_oldbarrow
-		d_ironsmith
 	}
 	counties = {
 		c_heapsdown
@@ -1171,18 +1142,15 @@ world_lonely_hills = {
 	counties = {
 		c_the_pitch
 		c_dawnforest
-		c_coldstream
 		c_the_pale
 		c_the_cinders
 		c_matchwood
 		c_ethering
 		c_the_dreadfort
 		c_rightwell
-		c_grimm_lake
 		c_whitecross
 		c_giantsbeard
 		c_boreharrow
-		c_lonely_hills
 	}
 }
 world_sheepshead_hills = {
@@ -1200,11 +1168,7 @@ world_sheepshead_hills = {
 		c_hornwood
 		c_the_cinders
 		c_velvet_grove
-		c_wraithfeld
 		c_matchwood
-		c_the_weep
-		c_overton
-		c_tawney_bay
 
 	}
 }

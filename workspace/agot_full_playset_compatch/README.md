@@ -124,6 +124,20 @@ fork uses: `replace/` is a plain subfolder there with no engine meaning, so a
 copy inside it would load _alongside_ the fork's file and define every shared
 region twice.
 
+Ten of those regions also name a title a broader entry of the same region
+already contains — a duchy under a listed kingdom, or a county under a listed
+duchy — which makes CK3 read the province twice and log
+`Region 'N' has multiple entries for the province 'N'` once per repeat at world
+init. The generator resolves each named title to its provinces through the
+landed titles AGOT, NOW, Legacy of Valyria, the LoV AGOT bridge, and Essos
+Expanded place, in load order, then drops any entry whose provinces another
+retained entry already covers. The prune is subtractive only: a region keeps
+exactly the provinces it had, an entry covering nothing is always kept, and
+generation fails if a named title resolves to no province, if the set of
+removals changes, or if a region the prune touched still lists a province twice
+— which would mean its entries only partly overlap and dropping one would have
+cost real coverage. Two Rhoyne regions do overlap that way and are left alone.
+
 `zzz_agot_cow_building_model_trigger.txt` is hand-merged rather than generated,
 and the COW-AGOT/NOW compatch it takes its province remaps from is not enabled —
 that mod's `map_object_data` would shadow the map compatch. It is declared as a
@@ -229,8 +243,10 @@ ck3mm mod generate agot_full_playset_compatch --apply
 
 The `mod.toml` manifest regenerates the owned outputs from the declared AGOT,
 New Personality Events, NOW, Seasons-fork, dragon-mod, MFA, CaFG, Iron and Salt,
-Dynamic Family Portrait, LoV bridge, Long Night, Great Councils, and vanilla
-sources. It also declares the Additional Models, AGOT+/LoV compatch, and the two
+Dynamic Family Portrait, LoV, the LoV bridge, Essos Expanded, Long Night, Great
+Councils, and vanilla sources. LoV and Essos Expanded are read only for their
+landed titles, which the seasonal-region prune above resolves membership
+against. It also declares the Additional Models, AGOT+/LoV compatch, and the two
 disabled mods — the COW-AGOT/NOW compatch and the LoV AGOT compatch beta — that
 back the assertions and merges above. Its portable source metadata lives here,
 outside the installed runtime payload.

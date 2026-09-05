@@ -56,6 +56,7 @@ from .runtime_fixes.integrations import (
     generate_any_new_traditions,
     generate_baie_rebases,
     generate_health_event_death_guards,
+    generate_lov_colonization_event_restore,
 )
 from .runtime_fixes.realm_succession import (
     generate_agot_war_value_guards,
@@ -148,6 +149,7 @@ REPAIRS = (
     generate_agot_artifact_feature_owner_guards,
     generate_agot_wall_banner_capital_fallback,
     generate_health_event_death_guards,
+    generate_lov_colonization_event_restore,
     generate_agot_citadel,
     generate_agot_starting_legitimacy,
     generate_vanilla_tour_pulse,

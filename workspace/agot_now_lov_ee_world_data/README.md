@@ -51,6 +51,19 @@ exactly. Without both, CK3 reports
 resolves an ambiguous province to whichever style it reaches first, which
 decides that province's unit, building, and clothing art.
 
+That reassignment only sees classified provinces, so a membership entry whose
+provinces all lie outside the classified range is kept by every inherited block
+that names it. Generation therefore also fails when two emitted keys claim the
+same entry, unless the winner is recorded — and fails again when a recorded
+winner is no longer contested, so the resolution is dropped once upstream
+settles. One is recorded today: `world_essos_rhoyne` stays in
+`graphical_mediterranean` and leaves `graphical_mena`. AGOT draws the Rhoyne as
+Mediterranean through its four southern sub-regions, which now hold the whole
+river because the Essos redraw emptied their northern counterparts; Legacy of
+Valyria's standalone region file moves the river to MENA, but its own AGOT
+bridge loads later and restores the Mediterranean assignment, and Further East
+then carries both.
+
 NOW's winning `graphical_siberia` block references `world_westeros_skagos`. That
 helper is not visible after the later geographical-region replacements in this
 playset, and repeating the reference causes Tiger's fatal

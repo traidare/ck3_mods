@@ -218,6 +218,17 @@ change re-raises it.
   stops rendering `agot_high_septon_titled_full_name`,
   `agot_high_septon_titled_first_name`, or
   `agot_high_septon_titled_first_name_possessive` from the nickname.
+- **Legacy of Valyria wilderness regrowth (Workshop 3719888822):**
+  `Event 'agot_colonization_events.9001' not found`. That event puts a cleared
+  obstacle back once its marker expires, and AGOT's wilderness and ruin
+  buildings fire it from `on_complete` at nine sites. The bridge's whole-file
+  copy of `events/agot_events/agot_colonization_events.txt` is the effective
+  last writer for the path and predates the event, so clearing a wolf den, bear
+  den, dense growth, flooded lands, bandits, or pirate remnants leaves the
+  obstacle gone for good. AGOT's definition is appended to the bridge's copy
+  rather than restoring the whole file, so the bridge's own event deltas
+  survive. Generation fails if the bridge starts defining the event itself, if
+  AGOT's definition changes, or if the caller count moves.
 - **More Valyrian Steel artifacts (Workshop 3573203384):** four dead references
   across the two artifact files it is the effective last writer for. The
   Karstark sword's history entry ends at
@@ -256,6 +267,13 @@ change re-raises it.
   reference resolves against the AGOT file its block came from: 292 castle and
   273 city, with temple blocks using none. The generator asserts those counts,
   that every target file exists, and that no constant survives in the output.
+  The same file's five `on_complete` Mandala grants are made optional with
+  `scope:character ?=`. `on_complete` binds `scope:character` only when a
+  character completes the construction, so a holding granted in bulk at game
+  start leaves the handle dangling and every statement under it raises
+  `Scoped object is not valid. Type: (no character) weak (Character - ...)`. The
+  grants are piety and development for the completing character, so there is
+  nobody to award when the scope is unset; the generator asserts the site count.
 - **Additional Models illustration cultures:** removes six `culture:shadowmen`
   references from `scripted_illustrations/ingame.txt`. The culture does not
   exist under any spelling the playset resolves, and `character_view_bg`

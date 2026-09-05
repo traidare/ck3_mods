@@ -311,8 +311,7 @@ graphical_mena = {
 	graphical = yes
 	color = { 255 255 0 }
 	regions = {
-# EE TempLoV Compatch:
-		world_essos_rhoyne world_essos_slavers_bay
+		world_essos_slavers_bay
 		world_westeros_dorne_rhoynish
 	}
 	duchies = {

@@ -109,6 +109,14 @@
       "sha256": "084d8fa33177f969e10e336c2a91aacbfab5f3ff2771a8feb42158a0847ba45b",
       "size": 109771
     },
+    "workshop/2962333032/common/buildings/00_agot_ruin_buildings.txt": {
+      "sha256": "33761adadadc53536c13b38a7e2d01b8052459eecbed71a9c5eb3fa3df1e40a9",
+      "size": 11268
+    },
+    "workshop/2962333032/common/buildings/00_agot_wilderness_buildings.txt": {
+      "sha256": "23249be8af96c87c42a47c23a851aaea97575219c7bee2cebc70ece79985e194",
+      "size": 16647
+    },
     "workshop/2962333032/common/character_interactions/00_education_interactions.txt": {
       "sha256": "7274b26638c574da6a3c0fcf6681e7aec869f32025e315349393c7f70de6313e",
       "size": 110334
@@ -208,6 +216,10 @@
     "workshop/2962333032/events/agot_events/agot_btw_maintenance_events.txt": {
       "sha256": "b4914673a069edd264462f613533b5a38295185a0ba7d0bfb07e2ff37ed87118",
       "size": 8350
+    },
+    "workshop/2962333032/events/agot_events/agot_colonization_events.txt": {
+      "sha256": "0dcc1a6048a2f05124ff6809efa0b88fbf4127e796a71b8605b14395f4b47f90",
+      "size": 151777
     },
     "workshop/2962333032/events/artifacts/artifact_events.txt": {
       "sha256": "5ad696ddbf78148806a741fade6a72ee2f4cdea08fece66a678509cde0cd191b",
@@ -1328,6 +1340,10 @@
     "workshop/3719888822/events/activities/tour_activity/tour_general_events.txt": {
       "sha256": "54fd5855776df72573a11f7dec61aa9056ec6d84e3c1538ebe11f5d27eb67422",
       "size": 84001
+    },
+    "workshop/3719888822/events/agot_events/agot_colonization_events.txt": {
+      "sha256": "f79d478d99e1b999157093f37777602fb6a6a664aa2acdc31ba141a17074fc83",
+      "size": 152110
     },
     "workshop/3732116186/common/character_interactions/xx_baie_wl_education_interactions.txt": {
       "sha256": "75719936ae5bdd2d6ae6757cd17aa4a4a27ff0330c0fd7f22347600972668692",

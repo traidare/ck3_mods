@@ -1014,6 +1014,24 @@ MEMBERSHIP_KEYS = {
     "kingdoms": "kingdom",
 }
 
+# Two graphical regions naming the same member both claim every province that
+# member covers, which CK3 reports as `Province 'N' lies in multiple graphical
+# regions` and resolves to whichever region it reads first. The classified-
+# province rebuild cannot see this case: a member whose provinces all lie
+# outside the classified range reaches no target province, so every style that
+# names it keeps it. Each entry names the style that keeps a contested member.
+#
+# `world_essos_rhoyne`: A Game of Thrones draws the Rhoyne as Mediterranean, by
+# naming its four southern sub-regions there; those sub-regions now hold the
+# whole river, because the Essos redraw emptied their northern counterparts.
+# Legacy of Valyria's standalone region file moves the river to MENA, but its
+# own AGOT bridge, which loads later and supersedes that file, restores the
+# Mediterranean assignment. The Further East then carries both, so only the
+# MENA claim is dropped here.
+CONTESTED_GRAPHICAL_MEMBERS = {
+    ("regions", "world_essos_rhoyne"): "graphical_mediterranean",
+}
+
 _LIST_PATTERN = r"(?ms)^([ \t]+){key}\s*=\s*\{{(.*?)^\1\}}"
 
 
@@ -1875,6 +1893,7 @@ class WorldDataPipeline:
             raise AssertionError(
                 f"mapped graphical styles are not loaded: {sorted(missing_styles)}"
             )
+        self.resolve_shared_graphical_members()
 
         scope_order = ("province", "county", "duchy", "kingdom", "empire")
         assigned_mapping: dict[int, GraphicalMapping] = {}
@@ -2004,6 +2023,48 @@ class WorldDataPipeline:
                 else:
                     covered |= self.named_member_coverage(key, member)
         return covered
+
+    def resolve_shared_graphical_members(self) -> None:
+        """Give every membership entry a single graphical region.
+
+        Fails on a contested entry with no recorded owner rather than letting
+        CK3 pick one, and fails on a recorded owner that is no longer contested
+        so the resolution is dropped once upstream settles the disagreement.
+        """
+        claims: dict[tuple[str, str], list[str]] = defaultdict(list)
+        for style, block in self.graphical_blocks.items():
+            for key in (*MEMBERSHIP_KEYS, "regions"):
+                for member in block_members(block, key):
+                    claims[(key, member)].append(style)
+        for entry, styles in sorted(claims.items()):
+            if len(styles) < 2:
+                continue
+            keep = CONTESTED_GRAPHICAL_MEMBERS.get(entry)
+            if keep is None:
+                raise AssertionError(
+                    f"{entry[0]} entry {entry[1]} is claimed by "
+                    f"{sorted(styles)}; record which style keeps it"
+                )
+            if keep not in styles:
+                raise AssertionError(
+                    f"{entry[0]} entry {entry[1]} no longer reaches {keep}; "
+                    f"it is claimed by {sorted(styles)}"
+                )
+            for style in styles:
+                if style != keep:
+                    self.graphical_blocks[style] = remove_block_members(
+                        self.graphical_blocks[style], entry[0], {entry[1]}
+                    )
+        settled = [
+            entry
+            for entry in CONTESTED_GRAPHICAL_MEMBERS
+            if len(claims.get(entry, ())) < 2
+        ]
+        if settled:
+            raise AssertionError(
+                f"graphical members are no longer contested: {sorted(settled)}; "
+                "drop their recorded resolution"
+            )
 
     def build_graphical_block(self, style: str) -> str:
         """Rebuild one graphical region as a complete replacement.

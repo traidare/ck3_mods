@@ -6,6 +6,8 @@ from __future__ import annotations
 import re
 import subprocess
 import tempfile
+from collections import Counter, defaultdict
+from collections.abc import Iterable
 from pathlib import Path
 
 from gen import GenerationContext
@@ -598,7 +600,198 @@ def replace_block_member(text: str, block_name: str, old: str, new: str) -> str:
     return text[:start] + block + text[end + 1 :]
 
 
-def generate_regions(source: str) -> str:
+# Landed titles merge by key across the load order, and a title has one parent,
+# so the last file that nests a title decides where it sits. These are the mods
+# that place every title the seasonal regions name, in load order.
+TITLE_TREE_SOURCES = ("AGOT", "NOW", "LOV", "LOV_BRIDGE", "ESSOS_EXPANDED")
+
+MEMBERSHIP_KEYS = ("empires", "kingdoms", "duchies", "counties")
+
+# Seasonal regions name three titles that hold no province: a titular duchy and
+# a titular kingdom, plus one duchy no parent defines at all. They cover
+# nothing, so they are never redundant and the coverage check has to expect
+# them by name rather than treat an empty result as a resolution failure.
+TITULAR_SEASON_TITLES = frozenset({"d_knellstone", "d_turnbridge", "k_the_rills"})
+
+# Every membership entry the prune removes, by the region that listed it. A
+# kingdom already contains its duchies and a duchy its counties, so re-listing
+# them makes CK3 read the same province twice and log `Region 'N' has multiple
+# entries for the province 'N'` once per repeat at world init. Dropping the
+# narrower entry leaves the region covering exactly the same provinces.
+EXPECTED_SEASON_REGION_PRUNE = {
+    "world_barrowlands_seasons": 5,
+    "world_westerlands_low": 6,
+    "world_sheepshead_hills": 4,
+    "world_upper_crown": 3,
+    "world_norvos_seasons": 3,
+    "world_dornish_marches_seasons": 3,
+    "world_the_fingers_seasons": 3,
+    "world_lonely_hills": 3,
+    "world_upper_reach": 2,
+    "world_dorne_north_coast": 2,
+}
+
+_TITLE_TOKEN = re.compile(r"[ekdcb]_[A-Za-z0-9_\-']+")
+_TREE_TOKEN = re.compile(r"([A-Za-z0-9_\-']+)\s*=\s*\{|\{|\}|province\s*=\s*(\d+)")
+
+
+def build_title_provinces(roots: Iterable[Path]) -> dict[str, set[int]]:
+    """Return the provinces each landed title covers, resolved by load order."""
+    parent: dict[str, str] = {}
+    barony_province: dict[str, int] = {}
+    for root in roots:
+        directory = root / "common/landed_titles"
+        if not directory.is_dir():
+            continue
+        for path in sorted(directory.rglob("*.txt")):
+            stack: list[str | None] = []
+            text = re.sub(r"#[^\n]*", "", read_text(path))
+            for match in _TREE_TOKEN.finditer(text):
+                if match.group(2) is not None:
+                    for entry in reversed(stack):
+                        if entry and entry.startswith("b_"):
+                            barony_province[entry] = int(match.group(2))
+                            break
+                    continue
+                token = match.group(0)
+                if token == "}":
+                    if stack:
+                        stack.pop()
+                elif token == "{":
+                    stack.append(None)
+                elif _TITLE_TOKEN.fullmatch(match.group(1)):
+                    enclosing = next(
+                        (entry for entry in reversed(stack) if entry), None
+                    )
+                    if enclosing:
+                        parent[match.group(1)] = enclosing
+                    stack.append(match.group(1))
+                else:
+                    stack.append(None)
+    children: dict[str, list[str]] = defaultdict(list)
+    for title, holder in parent.items():
+        children[holder].append(title)
+    resolved: dict[str, set[int]] = {}
+
+    def resolve(title: str, pending: frozenset[str]) -> set[int]:
+        if title in resolved:
+            return resolved[title]
+        if title in pending:
+            raise AssertionError(f"landed title {title} contains itself")
+        if title.startswith("b_"):
+            province = barony_province.get(title)
+            covered = set() if province is None else {province}
+        else:
+            covered = set()
+            for child in children.get(title, ()):
+                covered |= resolve(child, pending | {title})
+        resolved[title] = covered
+        return covered
+
+    for title in (*parent, *children):
+        resolve(title, frozenset())
+    return resolved
+
+
+def membership_lists(block: str) -> list[tuple[str, int, int]]:
+    """Return each membership list in a region block as (key, start, end)."""
+    found = []
+    for key in MEMBERSHIP_KEYS:
+        for match in re.finditer(rf"(?m)^[ \t]*{key}\s*=\s*\{{", block):
+            opening = block.find("{", match.start(), match.end())
+            found.append((key, opening + 1, matching_brace(block, opening)))
+    return found
+
+
+def prune_covered_members(text: str, coverage: dict[str, set[int]]) -> str:
+    """Drop membership entries a broader entry of the same region already covers.
+
+    This is subtractive only: an entry goes only when every province it holds is
+    also held by an entry that stays, so each region keeps exactly the provinces
+    it had. Entries that cover nothing are always kept, which is what stops an
+    unresolvable or titular name from being read as redundant.
+    """
+    pruned: dict[str, int] = {}
+    position = 0
+    pieces: list[str] = []
+    for match in re.finditer(r"(?m)^([a-zA-Z_0-9]+)\s*=\s*\{", text):
+        if match.start() < position:
+            continue
+        opening = text.find("{", match.start(), match.end())
+        end = matching_brace(text, opening) + 1
+        region = match.group(1)
+        block = text[match.start() : end]
+        entries: list[tuple[str, set[int]]] = []
+        for _, body_start, body_end in membership_lists(block):
+            for name in re.sub(r"#.*", "", block[body_start:body_end]).split():
+                if not _TITLE_TOKEN.fullmatch(name):
+                    raise AssertionError(
+                        f"{region} membership entry {name!r} is not a title key"
+                    )
+                covers = coverage.get(name, set())
+                if not covers and name not in TITULAR_SEASON_TITLES:
+                    raise AssertionError(
+                        f"{region} names {name}, which no declared landed-titles "
+                        "source gives a province; re-audit the seasonal membership"
+                    )
+                entries.append((name, covers))
+        covered: set[int] = set()
+        drops: list[str] = []
+        for name, provinces in sorted(entries, key=lambda entry: -len(entry[1])):
+            if provinces and provinces <= covered:
+                drops.append(name)
+            else:
+                covered |= provinces
+        for name in drops:
+            block = replace_exact(
+                block,
+                f"\t\t{name}\n",
+                "",
+                expected=1,
+                label=f"{region} redundant membership entry {name}",
+            )
+        if drops:
+            pruned[region] = len(drops)
+            # A region whose overlap was pure containment must come out clean.
+            # Anything left is a partial overlap the prune cannot express, and
+            # dropping an entry beside one would have cost real coverage.
+            retained: Counter[int] = Counter()
+            for name, provinces in entries:
+                if name not in drops:
+                    retained.update(provinces)
+            repeated = sum(1 for count in retained.values() if count > 1)
+            if repeated:
+                raise AssertionError(
+                    f"{region} still lists {repeated} province(s) twice after "
+                    "the prune; its membership entries only partly overlap"
+                )
+            # A list the prune empties carries no members and no commented-out
+            # ones either, so drop the declaration with it.
+            for key, body_start, body_end in reversed(membership_lists(block)):
+                body = block[body_start:body_end]
+                if body.strip():
+                    continue
+                opening = block.rindex(key, 0, body_start)
+                closing = body_end + 1
+                while closing < len(block) and block[closing] in " \t":
+                    closing += 1
+                if closing < len(block) and block[closing] == "\n":
+                    closing += 1
+                start = block.rindex("\n", 0, opening) + 1
+                block = block[:start] + block[closing:]
+        pieces.append(text[position : match.start()])
+        pieces.append(block)
+        position = end
+    pieces.append(text[position:])
+    if pruned != EXPECTED_SEASON_REGION_PRUNE:
+        raise AssertionError(
+            "seasonal-region membership overlap changed: "
+            f"{pruned} is not {EXPECTED_SEASON_REGION_PRUNE}"
+        )
+    return "".join(pieces)
+
+
+def generate_regions(source: str, coverage: dict[str, set[int]]) -> str:
     text = replace_block_member(
         source, "world_westeros_rest_of_dorne", "\t\td_yronwood\n", "\t\td_greenbelt\n"
     )
@@ -679,6 +872,7 @@ def generate_regions(source: str) -> str:
     river = text[river_start : river_end + 1]
     if "c_sallydance" not in river or "c_sally_dance" in river:
         raise AssertionError("Sallydance flood region did not rebase to NOW")
+    text = prune_covered_members(text, coverage)
     return text if text.endswith("\n") else text + "\n"
 
 
@@ -1085,7 +1279,10 @@ def generate_outputs(workshop: dict[str, Path], vanilla: Path) -> dict[Path, byt
             generate_shader(read_text(bridge / SOURCE_RELATIVES["SEASON_FX"]))
         ).encode("utf-8"),
         OUTPUT_RELATIVES["SEASON_REGIONS"]: normalize_output(
-            generate_regions(read_text(bridge / SOURCE_RELATIVES["SEASON_REGIONS"]))
+            generate_regions(
+                read_text(bridge / SOURCE_RELATIVES["SEASON_REGIONS"]),
+                build_title_provinces(workshop[key] for key in TITLE_TREE_SOURCES),
+            )
         ).encode("utf-8-sig"),
     }
     for language in TITLE_LANGUAGES:
@@ -1288,6 +1485,8 @@ def generate(context: GenerationContext) -> None:
         "mde-lov-hatching",
         "lov-agot-compatch",
         "culture-faith-granularity",
+        "lov",
+        "essos-expanded",
     )
     workshop = {
         "AGOT": context.source("agot"),
@@ -1308,6 +1507,8 @@ def generate(context: GenerationContext) -> None:
         "MDE_LOV": context.source("mde-lov-hatching"),
         "LOV_COMPATCH": context.source("lov-agot-compatch"),
         "CAFG": context.source("culture-faith-granularity"),
+        "LOV": context.source("lov"),
+        "ESSOS_EXPANDED": context.source("essos-expanded"),
     }
     vanilla = context.source("vanilla")
     missing = [

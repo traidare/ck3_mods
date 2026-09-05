@@ -9423,7 +9423,7 @@ castle_03 = {
 				}
 			}
 		}
-		scope:character = {
+		scope:character ?= {
 			#Mandala Creator Aspect
 			creator_mandala_upgraded_regular_holding_piety_effect = yes
 		}
@@ -12553,7 +12553,7 @@ castle_04 = {
 				}
 			}
 		}
-		scope:character = {
+		scope:character ?= {
 			#Mandala Creator Aspect
 			creator_mandala_upgraded_regular_holding_piety_effect = yes
 		}
@@ -31334,7 +31334,7 @@ temple_02 = {
 				}
 			}
 		}
-		scope:character = {
+		scope:character ?= {
 			if = {
 				limit = { government_has_flag = government_is_mandala }
 				mandala_upgraded_temple_holding_effect = yes
@@ -31997,7 +31997,7 @@ temple_03 = {
 				}
 			}
 		}
-		scope:character = {
+		scope:character ?= {
 			if = {
 				limit = { government_has_flag = government_is_mandala }
 				mandala_upgraded_temple_holding_effect = yes
@@ -32652,7 +32652,7 @@ temple_04 = {
 				}
 			}
 		}
-		scope:character = {
+		scope:character ?= {
 			if = {
 				limit = { government_has_flag = government_is_mandala }
 				mandala_upgraded_temple_holding_effect = yes
