@@ -458,7 +458,7 @@ change re-raises it.
   that situation, so the events fail closed instead of evaluating an unset
   scope.
 
-## Canon-enforcement guards
+## Canon-continuity guards
 
 Four files this module already owns carry the guards for deaths a character does
 not choose: `travel_events.4003/4007/4032` in
@@ -469,9 +469,9 @@ drinking, dessert and choking accidents `host_dinner_events.1002/3060/3061/3080`
 in `tour_phase_host_a_dinner.txt`.
 
 `guard_event_deaths` in `runtime_fixes/common.py` wraps every `death` in a named
-event in `agot_ce_event_death_protected_trigger = no` and asserts how many it
+event in `agot_cc_event_death_protected_trigger = no` and asserts how many it
 found, so a parent release that adds a lethal outcome fails generation instead
-of leaving it unguarded. The trigger is defined by the AGOT: Canon Enforcement
+of leaving it unguarded. The trigger is defined by the AGOT: Canon Continuity
 module and switched off by that module's own game rule. Murder, execution,
 sacrifice and witch-burning deaths in the same files are chosen deaths and stay
 reachable.

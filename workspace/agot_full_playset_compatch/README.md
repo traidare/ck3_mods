@@ -46,7 +46,7 @@ clause when the barony is unheld and a restored or ruined holy site would
 otherwise read as an invalid location; the court chaplain is summoned through
 `?=` and a scope test, because the effect that moves them runs outside the one
 that established the activity; and both dragon-hatching variants let AGOT: Canon
-Enforcement spare a protected host from the accident.
+Continuity spare a protected host from the accident.
 
 The LoV parent is the enabled `lov-agot-bridge` for every file except
 `contest_events.txt`, which takes the unenabled `lov-agot-compatch` beta — the
@@ -179,13 +179,13 @@ the Sisterton delta, so an entry the parent gains, drops, or re-numbers follows
 without an audit, and a change to the three provinces the delta names fails
 generation.
 
-## Canon-enforcement guard
+## Canon-continuity guard
 
 The merged dragon-hatching activity carries one guard. Both
 `activity_dragon_hatching` and `activity_dragon_hatching_no_dlc` kill the host
 in `on_complete` when the hatching went wrong, and that `limit` now also
-requires `agot_ce_event_death_protected_trigger = no`, a trigger the AGOT: Canon
-Enforcement module defines and its own game rule switches off. Guests flagged by
+requires `agot_cc_event_death_protected_trigger = no`, a trigger the AGOT: Canon
+Continuity module defines and its own game rule switches off. Guests flagged by
 the same catastrophe die in AGOT's hatching events file, which this module does
 not own, so they are unaffected.
 

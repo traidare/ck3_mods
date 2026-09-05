@@ -78,7 +78,7 @@ def extract_top_level_block(text: str, key: str) -> str:
 def guard_event_deaths(
     text: str, event_key: str, *, expected: int, skip_tooltips: bool = False
 ) -> str:
-    """Let AGOT: Canon Enforcement spare its protected characters in one event.
+    """Let AGOT: Canon Continuity spare its protected characters in one event.
 
     Every `death` effect in the event is wrapped, rather than named branches,
     so an upstream release that adds or drops a lethal outcome fails the
@@ -86,7 +86,7 @@ def guard_event_deaths(
     deaths are accidental belong here; murder, execution and poisoning are
     chosen deaths and stay reachable.
 
-    The guard trigger is defined by the AGOT: Canon Enforcement module.
+    The guard trigger is defined by the AGOT: Canon Continuity module.
     """
     block = extract_top_level_block(text, event_key)
     return replace_exact(
@@ -95,7 +95,7 @@ def guard_event_deaths(
         guard_deaths(
             block, label=event_key, expected=expected, skip_tooltips=skip_tooltips
         ),
-        f"{event_key} canon-enforcement guard",
+        f"{event_key} canon-continuity guard",
         expected=1,
     )
 
@@ -145,7 +145,7 @@ def guard_deaths(
         guarded = (
             guarded[: match.start()]
             + f"{indent}if = {{\n"
-            + f"{indent}\tlimit = {{ agot_ce_event_death_protected_trigger = no }}\n"
+            + f"{indent}\tlimit = {{ agot_cc_event_death_protected_trigger = no }}\n"
             + f"{body}\n"
             + f"{indent}}}"
             + guarded[end + 1 :]

@@ -335,7 +335,7 @@ host_dinner_events.1002 = {
 			}
 			1 = {
 				if = {
-					limit = { agot_ce_event_death_protected_trigger = no }
+					limit = { agot_cc_event_death_protected_trigger = no }
 					death = {
 						death_reason = death_drank_to_death
 					}
@@ -8314,7 +8314,7 @@ host_dinner_events.3060 = {
 			1 = { # You eat so much that you die
 				show_as_tooltip = {
 					if = {
-						limit = { agot_ce_event_death_protected_trigger = no }
+						limit = { agot_cc_event_death_protected_trigger = no }
 						death = {
 							death_reason = death_too_much_dessert
 						}
@@ -8406,7 +8406,7 @@ host_dinner_events.3061 = {
 
 	immediate = {
 		if = {
-			limit = { agot_ce_event_death_protected_trigger = no }
+			limit = { agot_cc_event_death_protected_trigger = no }
 			death = {
 				death_reason = death_too_much_dessert
 			}
@@ -8773,7 +8773,7 @@ host_dinner_events.3080 = {
 					add_prestige = minor_prestige_loss
 					scope:choking_character_scope = {
 						if = {
-							limit = { agot_ce_event_death_protected_trigger = no }
+							limit = { agot_cc_event_death_protected_trigger = no }
 							death = {
 								death_reason = death_choked
 							}
@@ -8806,7 +8806,7 @@ host_dinner_events.3080 = {
 		name = host_dinner_events.3080.b
 		scope:choking_character_scope = {
 			if = {
-				limit = { agot_ce_event_death_protected_trigger = no }
+				limit = { agot_cc_event_death_protected_trigger = no }
 				death = {
 					death_reason = death_choked
 				}

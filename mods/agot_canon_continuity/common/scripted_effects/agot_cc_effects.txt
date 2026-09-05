@@ -1,0 +1,121 @@
+﻿# Applies and withdraws the protection state. Both effects are idempotent, so
+# the yearly maintenance pulse can call them unconditionally.
+#
+# set_knight_status and add_character_flag render nothing, and the accident
+# guards are passive reads of the protection trigger rather than effects, so
+# each of those carries a custom_tooltip. They live here rather than in the
+# interaction so that every caller shows the same list of what protection means.
+
+agot_cc_apply_protection_effect = {
+	if = {
+		limit = {
+			has_game_rule = agot_cc_travel_enabled
+			NOT = { has_character_modifier = agot_cc_travel_modifier }
+		}
+		add_character_modifier = agot_cc_travel_modifier
+	}
+
+	# The health and plague stand-in for a character marked by hand. Automatic
+	# protection is defined by holding EZ Mode's own boost, so this branch is
+	# only ever reached by the manual population and cannot stack with it. It
+	# answers to the master rule alone, not to any of the per-area rules.
+	if = {
+		limit = {
+			NOT = { has_character_modifier = canon_children_easy_mode_health_boost_modifier }
+			NOT = { has_character_modifier = agot_cc_health_modifier }
+		}
+		add_character_modifier = agot_cc_health_modifier
+	}
+
+	if = {
+		limit = {
+			has_game_rule = agot_cc_schemes_enabled
+			NOT = { has_character_modifier = agot_cc_scheme_modifier }
+		}
+		add_character_modifier = agot_cc_scheme_modifier
+	}
+
+	# Removing the character from the knight pool is what keeps them out of
+	# knight_killed, the losing-side loop in combat_event.1001, and the Long
+	# Night knight phase events. agot_cc_knight_forbidden records that this
+	# module set the state: a forbidden character is no longer a potential
+	# knight, so the flag is what makes the state reversible.
+	# Dragonriders are skipped: AGOT force-knights them at every war start so
+	# the AI will use them, and dragonrider warfare has its own casualty events
+	# that the generic knight pool does not feed.
+	# is_potential_knight resolves against the character's liege, so it is asked
+	# only of characters that have one; independent and courtless protected
+	# characters are covered by is_knight alone.
+	if = {
+		limit = {
+			has_game_rule = agot_cc_battle_enabled
+			NOT = { has_character_flag = agot_cc_knight_forbidden }
+			is_current_dragonrider_warfare = no
+			OR = {
+				is_knight = yes
+				AND = {
+					exists = liege
+					is_potential_knight = yes
+				}
+			}
+		}
+		custom_tooltip = agot_cc_battle_protection.tt
+		add_character_flag = agot_cc_knight_forbidden
+		set_knight_status = forbid
+	}
+
+	# Every definer of mfb_commander_duel_event gates its is_valid on the
+	# absence of mfb_duel_cooldown, so holding that flag means the battlefield
+	# duel is never offered. The flags are timed and refreshed by the
+	# maintenance pulse, so they lapse on their own if protection stops.
+	if = {
+		limit = { has_game_rule = agot_cc_duels_avoid }
+		custom_tooltip = agot_cc_duels_avoid_protection.tt
+		add_character_flag = {
+			flag = mfb_duel_cooldown
+			years = 2
+		}
+	}
+	else_if = {
+		limit = { has_game_rule = agot_cc_duels_plot_armor }
+		custom_tooltip = agot_cc_duels_plot_armor_protection.tt
+		add_character_flag = {
+			flag = multi_duelist_plot_armor
+			years = 2
+		}
+	}
+
+	# The accident guards are read out of the protection trigger by the guarded
+	# death sites themselves, so there is nothing to apply here and nothing the
+	# game would otherwise show.
+	if = {
+		limit = { has_game_rule = agot_cc_event_guards_enabled }
+		custom_tooltip = agot_cc_event_guards_protection.tt
+	}
+}
+
+agot_cc_clear_protection_effect = {
+	if = {
+		limit = { has_character_modifier = agot_cc_travel_modifier }
+		remove_character_modifier = agot_cc_travel_modifier
+	}
+
+	if = {
+		limit = { has_character_modifier = agot_cc_health_modifier }
+		remove_character_modifier = agot_cc_health_modifier
+	}
+
+	if = {
+		limit = { has_character_modifier = agot_cc_scheme_modifier }
+		remove_character_modifier = agot_cc_scheme_modifier
+	}
+
+	if = {
+		limit = { has_character_flag = agot_cc_knight_forbidden }
+		remove_character_flag = agot_cc_knight_forbidden
+		set_knight_status = default
+	}
+
+	# The duel flags are deliberately left to expire. Clearing them here would
+	# also clear a cooldown another mod legitimately set.
+}

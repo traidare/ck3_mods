@@ -1,0 +1,29 @@
+{
+  "schemaVersion": 1,
+  "findings": [
+    {
+      "severity": "warning",
+      "code": "field-missing",
+      "message": "required field `limit` missing",
+      "source": "MOD",
+      "file": "common/combat_phase_events/zzzz_agot_cc_commander_phase_events.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "logic",
+      "message": "setting value here will overwrite the previous calculations",
+      "source": "MOD",
+      "file": "common/combat_phase_events/zzzz_agot_cc_commander_phase_events.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "strict-scopes",
+      "message": "`crown_theft_battle_effect` expects scope:enemy_knight to be set",
+      "source": "MOD",
+      "file": "common/combat_phase_events/zzzz_agot_cc_commander_phase_events.txt",
+      "count": 1
+    }
+  ]
+}

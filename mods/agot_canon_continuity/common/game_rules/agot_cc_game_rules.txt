@@ -1,0 +1,99 @@
+﻿agot_cc_protection = {
+	categories = {
+		agot
+		agot_canon
+	}
+
+	default = agot_cc_protection_enabled
+
+	agot_cc_protection_enabled = {}
+	agot_cc_protection_disabled = {}
+}
+
+agot_cc_travel = {
+	categories = {
+		agot
+		agot_canon
+	}
+
+	default = agot_cc_travel_enabled
+
+	agot_cc_travel_enabled = {}
+	agot_cc_travel_disabled = {}
+}
+
+agot_cc_battle = {
+	categories = {
+		agot
+		agot_canon
+	}
+
+	default = agot_cc_battle_enabled
+
+	agot_cc_battle_enabled = {}
+	agot_cc_battle_disabled = {}
+}
+
+agot_cc_duels = {
+	categories = {
+		agot
+		agot_canon
+	}
+
+	default = agot_cc_duels_avoid
+
+	agot_cc_duels_avoid = {}
+	agot_cc_duels_plot_armor = {}
+	agot_cc_duels_disabled = {}
+}
+
+agot_cc_event_guards = {
+	categories = {
+		agot
+		agot_canon
+	}
+
+	default = agot_cc_event_guards_enabled
+
+	agot_cc_event_guards_enabled = {}
+	agot_cc_event_guards_disabled = {}
+}
+
+# Off by default: it is the one protection that reaches deliberate killing, and
+# CK3 only exposes the target-side countermeasure per scheme category, so it
+# covers every hostile scheme rather than murder alone.
+agot_cc_schemes = {
+	categories = {
+		agot
+		agot_canon
+	}
+
+	default = agot_cc_schemes_disabled
+
+	agot_cc_schemes_enabled = {}
+	agot_cc_schemes_disabled = {}
+}
+
+agot_cc_canon_dragon_tamings = {
+	categories = {
+		agot
+		agot_canon
+	}
+
+	default = agot_cc_canon_dragon_tamings_enabled
+
+	agot_cc_canon_dragon_tamings_enabled = {}
+	agot_cc_canon_dragon_tamings_disabled = {}
+}
+
+agot_cc_manual_marking = {
+	categories = {
+		agot
+		agot_canon
+	}
+
+	default = agot_cc_manual_marking_disabled
+
+	agot_cc_manual_marking_enabled = {}
+	agot_cc_manual_marking_disabled = {}
+}

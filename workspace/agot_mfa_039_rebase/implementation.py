@@ -236,7 +236,7 @@ def generate_mfa_tournament_bow_tradition(inputs: RunInputs) -> None:
 
 
 def generate_mfa_tournament_death_guards(inputs: RunInputs) -> None:
-    """Let AGOT: Canon Enforcement spare its characters from lethal tournaments.
+    """Let AGOT: Canon Continuity spare its characters from lethal tournaments.
 
     These deaths are accidents — a pas d'armes bout, a collapsing stand, a trampled
     peasant — so they are the kind of death canon characters are spared. The

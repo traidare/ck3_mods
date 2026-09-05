@@ -13,13 +13,13 @@ are not copied here: an override identical to the provider beneath it changes
 nothing at runtime, and only offers a way to freeze stale content across the
 next MFA release.
 
-## Canon-enforcement guards
+## Canon-continuity guards
 
 `tournament_events.txt` carries the guards for the tournament deaths a
 contestant does not choose: the pas d'armes bouts `1110`, `1141` and `1151`, the
 disappearance in `1230`, and the collapsing stands in `1280`. Each wraps its
-`death` in `agot_ce_event_death_protected_trigger = no`, a trigger the AGOT:
-Canon Enforcement module defines and its own game rule switches off. The
+`death` in `agot_cc_event_death_protected_trigger = no`, a trigger the AGOT:
+Canon Continuity module defines and its own game rule switches off. The
 duplicate deaths inside `show_as_tooltip` are display copies of those same
 outcomes and are left alone. The melee accident is not guarded here; it runs
 through `tournament_accidental_death_effect`, which that module redefines.

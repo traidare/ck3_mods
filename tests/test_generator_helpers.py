@@ -418,7 +418,7 @@ class SharedGeneratorHelperTest(unittest.TestCase):
             generate_bridge(agot_childhood, changed_action, personality_childhood)
 
 
-CANON_ENFORCEMENT = "workspace/agot_canon_enforcement/implementation.py"
+CANON_CONTINUITY = "workspace/agot_canon_continuity/implementation.py"
 
 # Two dragons, four riders, shaped like AGOT's own files: a rider recorded
 # below age ten, a rider AGOT creates after game start, a rider whose canon
@@ -537,7 +537,7 @@ BIRTHS = {
 
 
 def canon_taming_records():
-    with generator_function(CANON_ENFORCEMENT, "build_taming_records") as build:
+    with generator_function(CANON_CONTINUITY, "build_taming_records") as build:
         return build(
             DRAGON_HISTORY,
             CANON_TRIGGERS,
@@ -578,13 +578,13 @@ class CanonDragonTamingTest(unittest.TestCase):
         )
 
     def test_event_gates_on_the_recorded_date_and_never_on_age(self) -> None:
-        with generator_function(CANON_ENFORCEMENT, "build_canon_taming_event") as build:
+        with generator_function(CANON_CONTINUITY, "build_canon_taming_event") as build:
             event = build(canon_taming_records())
         # Recorded below age ten, so a minimum-age gate would defer it past the
         # date the history gives.
         self.assertIn("current_date >= 8104.1.1", event)
         self.assertIn(
-            "agot_ce_canon_dragon_bond_effect = { DRAGON = sheepstealer }", event
+            "agot_cc_canon_dragon_bond_effect = { DRAGON = sheepstealer }", event
         )
         self.assertNotIn("age >", event)
         self.assertNotIn("age =", event)
@@ -594,10 +594,10 @@ class CanonDragonTamingTest(unittest.TestCase):
 
     def test_trigger_pairs_every_identity_with_its_recorded_date(self) -> None:
         with generator_function(
-            CANON_ENFORCEMENT, "build_canon_taming_trigger"
+            CANON_CONTINUITY, "build_canon_taming_trigger"
         ) as build:
             trigger = build(canon_taming_records())
-        self.assertIn("agot_ce_canon_taming_due_trigger = {", trigger)
+        self.assertIn("agot_cc_canon_taming_due_trigger = {", trigger)
         self.assertEqual(trigger.count("AND = {"), 4)
         self.assertIn(
             "\t\t\thas_character_flag = is_Farseed_1\n"
@@ -607,7 +607,7 @@ class CanonDragonTamingTest(unittest.TestCase):
 
     def test_coverage_names_why_agot_dispatch_misses_a_record(self) -> None:
         records = {record.rider: record for record in canon_taming_records()}
-        with generator_function(CANON_ENFORCEMENT, "canon_taming_coverage") as coverage:
+        with generator_function(CANON_CONTINUITY, "canon_taming_coverage") as coverage:
             pairs = {("is_farseed_1", "sheepstealer"), ("is_targaryen_63", "syrax")}
             spawn_flags = {"is_Farseed_1"}
             verdicts = {
@@ -624,14 +624,14 @@ class CanonDragonTamingTest(unittest.TestCase):
             "TAMER = character:Belaerys_3", "TAMER = character:Targaryen_63"
         )
         with (
-            generator_function(CANON_ENFORCEMENT, "build_taming_records") as build,
+            generator_function(CANON_CONTINUITY, "build_taming_records") as build,
             self.assertRaisesRegex(ValueError, "more than one taming record"),
         ):
             build(history, CANON_TRIGGERS, TRAIT_TRIGGERS, INIT_EFFECTS, SPAWN_EFFECTS)
 
     def test_generation_fails_when_a_recorded_dragon_has_no_identity(self) -> None:
         with (
-            generator_function(CANON_ENFORCEMENT, "build_taming_records") as build,
+            generator_function(CANON_CONTINUITY, "build_taming_records") as build,
             self.assertRaisesRegex(ValueError, "no is_character_dragon_"),
         ):
             build(
@@ -651,7 +651,7 @@ class CanonDragonTamingTest(unittest.TestCase):
             "\t\tadd_character_flag = is_Targaryen_70",
         )
         with (
-            generator_function(CANON_ENFORCEMENT, "build_taming_records") as build,
+            generator_function(CANON_CONTINUITY, "build_taming_records") as build,
             self.assertRaisesRegex(ValueError, "creates after game start changed"),
         ):
             build(
@@ -667,14 +667,14 @@ class CanonDragonTamingTest(unittest.TestCase):
     def test_generation_fails_when_a_taming_record_has_no_date(self) -> None:
         history = "dragon_syrax = {\n\tagot_tame_dragon = { TAMER = character:X }\n}\n"
         with (
-            generator_function(CANON_ENFORCEMENT, "parse_taming_records") as parse,
+            generator_function(CANON_CONTINUITY, "parse_taming_records") as parse,
             self.assertRaisesRegex(ValueError, "outside a dated block"),
         ):
             parse(history)
 
 
 class GuardEventDeathsTest(unittest.TestCase):
-    """Cover the canon-enforcement guard shared by the AGOT rebase modules."""
+    """Cover the canon-continuity guard shared by the AGOT rebase modules."""
 
     EVENT = (
         "tourney.0001 = {\n"
@@ -693,16 +693,16 @@ class GuardEventDeathsTest(unittest.TestCase):
 
     def test_every_death_is_wrapped_in_the_guard(self) -> None:
         guarded = guard_event_deaths(self.EVENT, "tourney.0001", expected=2)
-        self.assertEqual(guarded.count("agot_ce_event_death_protected_trigger = no"), 2)
+        self.assertEqual(guarded.count("agot_cc_event_death_protected_trigger = no"), 2)
         self.assertIn("\t\tif = {\n\t\t\tlimit = {", guarded)
 
     def test_skip_tooltips_leaves_display_copies_alone(self) -> None:
         guarded = guard_event_deaths(
             self.EVENT, "tourney.0001", expected=1, skip_tooltips=True
         )
-        self.assertEqual(guarded.count("agot_ce_event_death_protected_trigger = no"), 1)
+        self.assertEqual(guarded.count("agot_cc_event_death_protected_trigger = no"), 1)
         tooltip = guarded[guarded.index("show_as_tooltip") :]
-        self.assertNotIn("agot_ce_event_death_protected_trigger", tooltip)
+        self.assertNotIn("agot_cc_event_death_protected_trigger", tooltip)
 
     def test_a_miscounted_event_fails_instead_of_guarding_part_of_it(self) -> None:
         # An MFA release that adds a lethal outcome has to stop the generator,

@@ -1070,8 +1070,8 @@
 				this = scope:host
 				has_character_flag = agot_dead_in_dragon_hatching
 				# The host survives their own hatching accident while AGOT:
-				# Canon Enforcement protects them.
-				agot_ce_event_death_protected_trigger = no
+				# Canon Continuity protects them.
+				agot_cc_event_death_protected_trigger = no
 			}
 			death = {
 				death_reason = death_dragon_hatching_accident
@@ -2822,8 +2822,8 @@ activity_dragon_hatching_no_dlc = {
 				this = scope:host
 				has_character_flag = agot_dead_in_dragon_hatching
 				# The host survives their own hatching accident while AGOT:
-				# Canon Enforcement protects them.
-				agot_ce_event_death_protected_trigger = no
+				# Canon Continuity protects them.
+				agot_cc_event_death_protected_trigger = no
 			}
 			death = {
 				death_reason = death_dragon_hatching_accident

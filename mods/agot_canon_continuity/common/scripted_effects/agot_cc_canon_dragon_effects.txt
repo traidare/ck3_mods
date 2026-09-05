@@ -1,0 +1,57 @@
+﻿# Replays one static canon rider-dragon bond.
+#
+# $DRAGON$ is the AGOT identity token, so the parameter expands to that mod's
+# own is_character_dragon_<token> trigger. Identifying the dragon by trigger
+# rather than by character reference keeps the branch correct when AGOT
+# recreates a canon dragon under a different character.
+#
+# The availability guards are AGOT's own, taken from dragon_taming_events.9000:
+# search the living dragon list, require the dragon to have no rider, and
+# respect a dragonpit ban. Nothing here steals a dragon or replaces a bond, so
+# the effect is a no-op whenever the recorded pairing is already impossible.
+
+agot_cc_canon_dragon_bond_effect = {
+	if = {
+		limit = {
+			any_in_global_list = {
+				variable = living_dragons
+				save_temporary_scope_as = agot_cc_canon_dragon
+				is_character_dragon_$DRAGON$ = yes
+				any_relation = {
+					type = agot_dragon
+					count = 0
+				}
+				OR = {
+					NOT = { has_character_flag = owned_dragon }
+					agot_can_tame_or_bond_or_etc_with_pitted_dragons = {
+						DRAGON = scope:agot_cc_canon_dragon
+						ACTOR = root
+					}
+				}
+			}
+		}
+		random_in_global_list = {
+			variable = living_dragons
+			limit = {
+				save_temporary_scope_as = agot_cc_canon_dragon
+				is_character_dragon_$DRAGON$ = yes
+				any_relation = {
+					type = agot_dragon
+					count = 0
+				}
+				OR = {
+					NOT = { has_character_flag = owned_dragon }
+					agot_can_tame_or_bond_or_etc_with_pitted_dragons = {
+						DRAGON = scope:agot_cc_canon_dragon
+						ACTOR = root
+					}
+				}
+			}
+			save_scope_as = agot_cc_canon_dragon
+		}
+		agot_tame_dragon = {
+			TAMER = root
+			DRAGON = scope:agot_cc_canon_dragon
+		}
+	}
+}

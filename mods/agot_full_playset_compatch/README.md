@@ -66,7 +66,7 @@ compatch. Keep the integration layers in this order:
 14. `AGOT Iron and Salt`
 15. `Character UI Overhaul`
 16. `AGOT Playset - Character UI Overhaul Compatch`
-17. `AGOT: Canon Enforcement`
+17. `AGOT: Canon Continuity`
 18. `AGOT: The Long Night & Azor Ahai`
 19. `AGOT: The Long Night & Azor Ahai - CK3 1.19 Runtime Fix`
 20. `AGOT: The Long Night & Azor Ahai + DFP Compatch`

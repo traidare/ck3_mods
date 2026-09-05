@@ -2794,7 +2794,7 @@ tournament_events.1110 = { # Bout - AI Travel
 									}
 									1 = {
 										if = {
-											limit = { agot_ce_event_death_protected_trigger = no }
+											limit = { agot_cc_event_death_protected_trigger = no }
 											death = {
 												death_reason = death_tournament_pas_darmes_defend
 												killer = scope:pas_darmes_victim
@@ -2842,7 +2842,7 @@ tournament_events.1110 = { # Bout - AI Travel
 											}
 											1 = {
 												if = {
-													limit = { agot_ce_event_death_protected_trigger = no }
+													limit = { agot_cc_event_death_protected_trigger = no }
 													death = {
 														death_reason = death_tournament_pas_darmes_defend
 														killer = scope:pas_darmes_victim
@@ -2874,7 +2874,7 @@ tournament_events.1110 = { # Bout - AI Travel
 								}
 								1 = {
 									if = {
-										limit = { agot_ce_event_death_protected_trigger = no }
+										limit = { agot_cc_event_death_protected_trigger = no }
 										death = {
 											death_reason = death_tournament_pas_darmes_challenge
 											killer = scope:pas_darmes_instigator
@@ -2910,7 +2910,7 @@ tournament_events.1110 = { # Bout - AI Travel
 											}
 											1 = {
 												if = {
-													limit = { agot_ce_event_death_protected_trigger = no }
+													limit = { agot_cc_event_death_protected_trigger = no }
 													death = {
 														death_reason = death_tournament_pas_darmes_challenge
 														killer = scope:pas_darmes_instigator
@@ -3605,7 +3605,7 @@ tournament_events.1141 = { # Host Challenge - Outcome
 				random = {
 					chance = 5
 					if = {
-						limit = { agot_ce_event_death_protected_trigger = no }
+						limit = { agot_cc_event_death_protected_trigger = no }
 						death = {
 							death_reason = death_tournament_pas_darmes_defend
 							killer = root
@@ -3631,7 +3631,7 @@ tournament_events.1141 = { # Host Challenge - Outcome
 					random = {
 						chance = 5
 						if = {
-							limit = { agot_ce_event_death_protected_trigger = no }
+							limit = { agot_cc_event_death_protected_trigger = no }
 							death = {
 								death_reason = death_tournament_pas_darmes_challenge
 								killer = scope:pas_darmes_instigator
@@ -4127,7 +4127,7 @@ tournament_events.1151 = { # Keepsake Claim Challenge - Outcome
 				random = {
 					chance = 5
 					if = {
-						limit = { agot_ce_event_death_protected_trigger = no }
+						limit = { agot_cc_event_death_protected_trigger = no }
 						death = {
 							death_reason = death_tournament_pas_darmes_defend
 							killer = root
@@ -4148,7 +4148,7 @@ tournament_events.1151 = { # Keepsake Claim Challenge - Outcome
 			random = {
 				chance = 5
 				if = {
-					limit = { agot_ce_event_death_protected_trigger = no }
+					limit = { agot_cc_event_death_protected_trigger = no }
 					death = {
 						death_reason = death_tournament_pas_darmes_challenge
 						killer = scope:pas_darmes_instigator
@@ -4829,7 +4829,7 @@ tournament_events.1230 = {
 		hidden_effect = {
 			scope:battle_peasant = {
 				if = {
-					limit = { agot_ce_event_death_protected_trigger = no }
+					limit = { agot_cc_event_death_protected_trigger = no }
 					death = { death_reason = death_disappearance }
 				}
 			}
@@ -7180,7 +7180,7 @@ tournament_events.1280 = {
 			limit = { exists = scope:collapse_victim }
 			scope:collapse_victim = {
 				if = {
-					limit = { agot_ce_event_death_protected_trigger = no }
+					limit = { agot_cc_event_death_protected_trigger = no }
 					death = { death_reason = death_tournament_stands_collapsed }
 				}
 				if = {

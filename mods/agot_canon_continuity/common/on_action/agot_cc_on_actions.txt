@@ -1,0 +1,85 @@
+﻿# Additive hooks only. An on_action cannot carry a second trigger or effect
+# block, so this module extends existing on_actions with its own instead of
+# overriding any file.
+
+on_game_start_after_lobby = {
+	on_actions = {
+		delay = { days = 1 }
+		agot_cc_on_game_start
+		agot_cc_canon_dragon_sweep
+	}
+}
+
+# The delay lets the canon-children initialization finish first, so the sweep
+# sees the health boost modifier it keys off.
+agot_cc_on_game_start = {
+	effect = {
+		every_living_character = {
+			limit = { agot_cc_is_protected_trigger = yes }
+			agot_cc_apply_protection_effect = yes
+		}
+	}
+}
+
+# Shares the one-day delay, which is enough for AGOT's own game start effects to
+# have built the living dragon list this reads. It only fires where history
+# replay left a recorded bond unmade; a record dated before the bookmark has
+# already been replayed, and one dated after it is not yet due.
+agot_cc_canon_dragon_sweep = {
+	effect = {
+		every_living_character = {
+			limit = { agot_cc_canon_taming_pending_trigger = yes }
+			trigger_event = agot_cc_canon_dragon.0001
+		}
+	}
+}
+
+# Protected characters are frequently unlanded courtiers, so the playable
+# pulses would miss them. The trigger keeps the yearly cost to a handful of
+# modifier and flag checks per character. It lists every modifier the apply
+# effect can add, so a character whose protection has lapsed is still reached
+# and cleared rather than keeping one of them for life.
+random_yearly_everyone_pulse = {
+	on_actions = {
+		agot_cc_maintenance
+		agot_cc_canon_dragon_maintenance
+	}
+}
+
+agot_cc_maintenance = {
+	trigger = {
+		OR = {
+			agot_cc_is_protected_trigger = yes
+			has_character_modifier = agot_cc_travel_modifier
+			has_character_modifier = agot_cc_health_modifier
+			has_character_modifier = agot_cc_scheme_modifier
+			has_character_flag = agot_cc_knight_forbidden
+		}
+	}
+
+	effect = {
+		if = {
+			limit = { agot_cc_is_protected_trigger = yes }
+			agot_cc_apply_protection_effect = yes
+		}
+		else = {
+			agot_cc_clear_protection_effect = yes
+		}
+	}
+}
+
+# The retry for the canon riders AGOT's dispatch never reached: a rider created
+# above age ten, one whose canon flag AGOT never sets, or one whose recorded
+# dragon was unavailable when the record came due. Reaching unlanded courtiers
+# matters here too, since dragonseeds and canon children are rarely landed.
+# A record therefore takes effect within a year of its recorded date, which is
+# the same granularity as AGOT's own 365-730 day dispatch delay.
+agot_cc_canon_dragon_maintenance = {
+	trigger = {
+		agot_cc_canon_taming_pending_trigger = yes
+	}
+
+	events = {
+		agot_cc_canon_dragon.0001
+	}
+}

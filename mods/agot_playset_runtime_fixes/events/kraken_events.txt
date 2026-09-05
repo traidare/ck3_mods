@@ -123,7 +123,7 @@ kraken.0100 = {
 					chance = 35
 					scope:kraken_endangered_traveler = {
 						if = {
-							limit = { agot_ce_event_death_protected_trigger = no }
+							limit = { agot_cc_event_death_protected_trigger = no }
 							death = { death_reason = death_kraken_attack }
 						}
 					}
@@ -133,7 +133,7 @@ kraken.0100 = {
 				random = {
 					chance = 15
 					if = {
-						limit = { agot_ce_event_death_protected_trigger = no }
+						limit = { agot_cc_event_death_protected_trigger = no }
 						death = { death_reason = death_kraken_attack }
 					}
 				}
@@ -558,7 +558,7 @@ kraken.1105 = {
 		name = kraken.1105.a
 		hidden_effect = { kraken_cleanup_challenge_effect = yes }
 		if = {
-			limit = { agot_ce_event_death_protected_trigger = no }
+			limit = { agot_cc_event_death_protected_trigger = no }
 			death = { death_reason = death_kraken_attack killer = scope:kraken }
 		}
 	}

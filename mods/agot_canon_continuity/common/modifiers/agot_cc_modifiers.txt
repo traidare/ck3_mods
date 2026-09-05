@@ -1,0 +1,36 @@
+﻿# One modifier per protection rule, because each is applied under its own rule
+# and has to be withdrawable on its own.
+
+# Travel danger resolves as chance_of_no_event = 100 - danger + travel_safety,
+# capped at 100 - TRAVEL_DANGER_MINIMUM. A saturating flat bonus therefore pins
+# the danger roll at that cap for every travel plan the holder owns, which is
+# what keeps the lethal travel danger events from being selected at all. The
+# value is deliberately far above any province's danger rather than tuned: this
+# is a protection switch, not a travel bonus.
+agot_cc_travel_modifier = {
+	icon = travel_safety_positive
+	character_travel_safety = 500
+}
+
+# The stand-in for AGOT: Canon Children EZ Mode's
+# canon_children_easy_mode_health_boost_modifier, whose values these match.
+# Automatic protection is defined by holding that modifier, so this is applied
+# only to a character marked by hand, who would otherwise be protected against
+# every death the module reaches except illness and plague. health = 10 clears
+# the top HEALTH_VALUE_FORMAT_THRESHOLDS entry, so it reads as a Godlike Boost.
+agot_cc_health_modifier = {
+	icon = health_positive
+	health = 10
+	epidemic_resistance = 1000
+}
+
+# enemy_hostile_scheme_success_chance_add is target-side: it lowers the success
+# chance of hostile schemes aimed at the holder. -100 on both the running chance
+# and its maximum drives every one of them to zero, so a murder scheme can run
+# to completion and still never kill. CK3 has no target-side per-scheme-type
+# equivalent, so this reaches the whole hostile category, not murder alone.
+agot_cc_scheme_modifier = {
+	icon = intrigue_positive
+	enemy_hostile_scheme_success_chance_add = -100
+	enemy_hostile_scheme_success_chance_max_add = -100
+}

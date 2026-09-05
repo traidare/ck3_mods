@@ -1,0 +1,84 @@
+﻿# Manual marking, other characters. An interaction cannot target its own actor,
+# so a character can only be marked by someone else.
+#
+# Both sit in AGOT's own debug category, which keeps them out of the ordinary
+# player-facing menus without hiding them: the category itself carries no debug
+# gate, and AGOT's own members each opt in with debug_only in is_shown, which
+# these deliberately omit. They remain usable outside debug mode.
+#
+# Protect and release are separate interactions rather than one toggle so that
+# each one's tooltip describes what it actually does to this recipient.
+
+agot_cc_protect_interaction = {
+	category = interaction_category_agot_debug
+	icon = icon_scheme_befriend
+
+	desc = agot_cc_protect_interaction_desc
+
+	interface_priority = 40
+	use_diplomatic_range = no
+	auto_accept = yes
+	ai_frequency = 0
+
+	is_shown = {
+		has_game_rule = agot_cc_manual_marking_enabled
+		scope:actor = { is_ai = no }
+		NOT = { scope:actor = scope:recipient }
+		scope:recipient = {
+			NOT = { has_character_flag = agot_cc_protected }
+		}
+	}
+
+	is_valid_showing_failures_only = {
+		scope:recipient = { is_alive = yes }
+	}
+
+	on_accept = {
+		scope:recipient = {
+			add_character_flag = agot_cc_protected
+			agot_cc_apply_protection_effect = yes
+		}
+	}
+
+	ai_will_do = { base = 0 }
+}
+
+agot_cc_unprotect_interaction = {
+	category = interaction_category_agot_debug
+	icon = icon_scheme_befriend
+
+	desc = agot_cc_unprotect_interaction_desc
+
+	interface_priority = 40
+	use_diplomatic_range = no
+	auto_accept = yes
+	ai_frequency = 0
+
+	is_shown = {
+		has_game_rule = agot_cc_manual_marking_enabled
+		scope:actor = { is_ai = no }
+		NOT = { scope:actor = scope:recipient }
+		scope:recipient = {
+			has_character_flag = agot_cc_protected
+		}
+	}
+
+	is_valid_showing_failures_only = {
+		scope:recipient = { is_alive = yes }
+	}
+
+	# Clearing only runs where the recipient is not also protected automatically,
+	# so releasing a canon parent by hand withdraws the manual mark and leaves
+	# the automatic protection that outlives it in place.
+	on_accept = {
+		scope:recipient = {
+			remove_character_flag = agot_cc_protected
+			if = {
+				limit = { agot_cc_is_protected_trigger = no }
+				agot_cc_clear_protection_effect = yes
+			}
+		}
+	}
+
+	ai_will_do = { base = 0 }
+}

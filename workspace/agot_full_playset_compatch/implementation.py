@@ -128,8 +128,8 @@ DRAGON_HATCHING_DEATH_LIMIT = (
 )
 CANON_DEATH_GUARD = (
     "\t\t\t\t# The host survives their own hatching accident while AGOT:\n"
-    "\t\t\t\t# Canon Enforcement protects them.\n"
-    "\t\t\t\tagot_ce_event_death_protected_trigger = no\n"
+    "\t\t\t\t# Canon Continuity protects them.\n"
+    "\t\t\t\tagot_cc_event_death_protected_trigger = no\n"
 )
 
 # Culture and Faith Granularity's contest_events delta, counted the same way its
@@ -1200,12 +1200,12 @@ def generate_dragon_hatching(agot: str, mde_lov: str, mfa: str) -> str:
         base=agot, parent=mfa, merged=merged, ours=mde_lov, label=label
     )
     # A hatching death is an accident, so it is one of the deaths AGOT: Canon
-    # Enforcement withholds.  Both activity variants kill the host the same way.
+    # Continuity withholds.  Both activity variants kill the host the same way.
     return replace_exact(
         merged,
         DRAGON_HATCHING_DEATH_LIMIT,
         DRAGON_HATCHING_DEATH_LIMIT + CANON_DEATH_GUARD,
-        f"{label} canon-enforcement guard",
+        f"{label} canon-continuity guard",
         expected=2,
     )
 

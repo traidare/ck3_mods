@@ -776,7 +776,7 @@ def generate_agot_tour_events(inputs: RunInputs) -> None:
         expected=1,
         label="AGOT host dinner 3080 saved-scope guard",
     )
-    # Canon-enforcement guards for the dinner's accidents: drinking or eating oneself
+    # Canon-continuity guards for the dinner's accidents: drinking or eating oneself
     # to death, and choking. The murder and execution branches in this file are
     # chosen deaths and stay reachable.
     for event_key, deaths in (

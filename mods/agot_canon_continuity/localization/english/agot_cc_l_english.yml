@@ -1,0 +1,72 @@
+﻿l_english:
+
+ # Game rules. These join AGOT's own "AGOT - Canon" category, so every label
+ # carries a prefix naming the mod that owns it.
+
+ rule_agot_cc_protection:0 "#P Continuity:#! Protect Canon Characters"
+ setting_agot_cc_protection_enabled:0 "Enabled"
+ setting_agot_cc_protection_enabled_desc:0 "Canon parents are safe from accidental death for as long as their canon children health boost lasts."
+ setting_agot_cc_protection_disabled:0 "Disabled"
+ setting_agot_cc_protection_disabled_desc:0 "Nobody is protected, and the other protection rules do nothing. Canon dragon tamings are unaffected."
+
+ rule_agot_cc_travel:0 "#P Continuity:#! Travel"
+ setting_agot_cc_travel_enabled:0 "Enabled"
+ setting_agot_cc_travel_enabled_desc:0 "Travel dangers are not drawn on journeys a protected character leads."
+ setting_agot_cc_travel_disabled:0 "Disabled"
+ setting_agot_cc_travel_disabled_desc:0 "The road is as dangerous as ever."
+
+ rule_agot_cc_battle:0 "#P Continuity:#! Battle"
+ setting_agot_cc_battle_enabled:0 "Enabled"
+ setting_agot_cc_battle_enabled_desc:0 "Protected characters never serve as knights, and cannot fall as commanders."
+ setting_agot_cc_battle_disabled:0 "Disabled"
+ setting_agot_cc_battle_disabled_desc:0 "Protected characters fight and fall like anyone else."
+
+ rule_agot_cc_duels:0 "#P Continuity:#! Duels"
+ setting_agot_cc_duels_avoid:0 "Avoid Duels"
+ setting_agot_cc_duels_avoid_desc:0 "Protected characters are never challenged on the battlefield. They do not become better duellists."
+ setting_agot_cc_duels_plot_armor:0 "Unbeatable"
+ setting_agot_cc_duels_plot_armor_desc:0 "Protected characters cannot lose a duel."
+ setting_agot_cc_duels_disabled:0 "Disabled"
+ setting_agot_cc_duels_disabled_desc:0 "Protected characters duel normally, and can die doing it."
+
+ rule_agot_cc_event_guards:0 "#P Continuity:#! Accidents"
+ setting_agot_cc_event_guards_enabled:0 "Enabled"
+ setting_agot_cc_event_guards_enabled_desc:0 "Protected characters survive krakens, drownings, failed treatments, tournament accidents, hatchings and disasters."
+ setting_agot_cc_event_guards_disabled:0 "Disabled"
+ setting_agot_cc_event_guards_disabled_desc:0 "Accidents kill protected characters as usual."
+
+ rule_agot_cc_schemes:0 "#P Continuity:#! Plots"
+ setting_agot_cc_schemes_enabled:0 "Enabled"
+ setting_agot_cc_schemes_enabled_desc:0 "Hostile schemes against a protected character never succeed. This covers murder and abduction, but also claim throne, seize realm and every other hostile scheme."
+ setting_agot_cc_schemes_disabled:0 "Disabled"
+ setting_agot_cc_schemes_disabled_desc:0 "Protected characters can be murdered and abducted."
+
+ rule_agot_cc_canon_dragon_tamings:0 "#P Continuity:#! Canon Dragon Tamings"
+ setting_agot_cc_canon_dragon_tamings_enabled:0 "Enabled"
+ setting_agot_cc_canon_dragon_tamings_enabled_desc:0 "AI canon riders claim their recorded dragon on the recorded day, even where the game's own claim never reached them. No dragon is taken from a rider who has one.\n\nNeeds A Game of Thrones' Canon Dragons rule."
+ setting_agot_cc_canon_dragon_tamings_disabled:0 "Disabled"
+ setting_agot_cc_canon_dragon_tamings_disabled_desc:0 "Canon riders bond only through A Game of Thrones' own tenth-birthday claim."
+
+ rule_agot_cc_manual_marking:0 "#P Continuity:#! Manual Marking"
+ setting_agot_cc_manual_marking_enabled:0 "Enabled"
+ setting_agot_cc_manual_marking_enabled_desc:0 "Adds an interaction, under DEBUG ACTIONS, that protects another character by hand."
+ setting_agot_cc_manual_marking_disabled:0 "Disabled"
+ setting_agot_cc_manual_marking_disabled_desc:0 "Only canon parents are protected, and only automatically."
+
+ # Modifiers
+ agot_cc_travel_modifier:0 "Canon Protection: Travel"
+ agot_cc_health_modifier:0 "Canon Protection: Health"
+ agot_cc_scheme_modifier:0 "Canon Protection: Plots"
+
+ # Protections that apply no modifier of their own
+ agot_cc_battle_protection.tt:0 "Will not serve as a knight, and cannot fall as a commander"
+ agot_cc_duels_avoid_protection.tt:0 "Will not be challenged to a duel on the battlefield"
+ agot_cc_duels_plot_armor_protection.tt:0 "Cannot lose a duel"
+ agot_cc_event_guards_protection.tt:0 "Survives accidents: krakens, drownings, failed treatments, tournament mishaps, hatchings and disasters"
+
+ # Interactions
+ agot_cc_protect_interaction:0 "Protect from Death"
+ agot_cc_protect_interaction_desc:0 "Spare [recipient.GetShortUINameNoTooltip] the deaths that were never theirs to die"
+
+ agot_cc_unprotect_interaction:0 "End Protection"
+ agot_cc_unprotect_interaction_desc:0 "Let [recipient.GetShortUINameNoTooltip] face the road, the field and the physician's knife on the same terms as everyone else"

@@ -97,7 +97,7 @@ def generate_baie_rebases(inputs: RunInputs) -> None:
         expected=1,
         label="BAIE feral-child travel-event rebase",
     )
-    # Canon-enforcement guards for the accidental deaths in this file: the viking
+    # Canon-continuity guards for the accidental deaths in this file: the viking
     # fight, drowning in a storm at sea, and the wild-animal attack.
     for event_key, deaths in (
         ("travel_events.4003", 3),
@@ -382,7 +382,7 @@ def generate_lov_colonization_event_restore(inputs: RunInputs) -> None:
 def generate_health_event_death_guards(inputs: RunInputs) -> None:
     relative = "events/health_events.txt"
     source = read_text(inputs.WORKSHOP / "2962333032" / relative)
-    # Canon-enforcement guards for the deaths this file inflicts without the character
+    # Canon-continuity guards for the deaths this file inflicts without the character
     # choosing them: a treatment that goes wrong, and the mysterious death of
     # an incapacitated character.
     for event_key, deaths in (
