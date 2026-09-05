@@ -703,7 +703,7 @@ types GameTooltipTypes
 									portrait_opinion = {
 										#AGOT Modified
 										# visible = "[And( Character.IsAlive, Not( Character.IsPlayer ) )]"
-										visible = "[And(And(And(Character.IsAlive, Not(IsCharacterDragon)), Not(Character.IsPlayer)), Not(GetScriptedGui('kraken_character_window').IsShown(GuiScope.SetRoot(Character.MakeScope).End)))]"
+										visible = "[And(And(And(Character.IsAlive, Not(IsCharacterDragon)), Not(Character.IsPlayer)), Not(Character.HasTrait(GetTrait('kraken'))))]"
 									}
 
 									expand = {}
@@ -712,7 +712,7 @@ types GameTooltipTypes
 								spacer = {
 									#AGOT Modified
 									# visible = "[And( Character.IsAlive, Not( Character.IsPlayer ) )]"
-									visible = "[And(And(And(Character.IsAlive, Not(IsCharacterDragon)), Not(Character.IsPlayer)), Not(GetScriptedGui('kraken_character_window').IsShown(GuiScope.SetRoot(Character.MakeScope).End)))]"
+									visible = "[And(And(And(Character.IsAlive, Not(IsCharacterDragon)), Not(Character.IsPlayer)), Not(Character.HasTrait(GetTrait('kraken'))))]"
 									size = { 8 5 }
 								}
 
@@ -755,7 +755,7 @@ types GameTooltipTypes
 
 						text_multi = {
 							#AGOT Added
-							visible = "[And(Not(IsCharacterDragon), Not(GetScriptedGui('kraken_character_window').IsShown(GuiScope.SetRoot(Character.MakeScope).End)))]"
+							visible = "[And(Not(IsCharacterDragon), Not(Character.HasTrait(GetTrait('kraken'))))]"
 							name = "character_relation_to_you"
 							margin_top = 10
 							max_width = 308
@@ -790,7 +790,7 @@ types GameTooltipTypes
 							text_single = {
 								#AGOT Modified
 								# visible = "[Not( Character.IsPlayer )]"
-								visible = "[And(And(Not(Character.IsPlayer), Not(IsCharacterDragon)), Not(GetScriptedGui('kraken_character_window').IsShown(GuiScope.SetRoot(Character.MakeScope).End)))]"
+								visible = "[And(And(Not(Character.IsPlayer), Not(IsCharacterDragon)), Not(Character.HasTrait(GetTrait('kraken'))))]"
 								text = "[Character.GetAIPersonalityNoTooltip]"
 								default_format = "#L"
 								tooltip = "AI_PERSONALITY_TT"
@@ -806,21 +806,21 @@ types GameTooltipTypes
 								layoutpolicy_horizontal = expanding
 								
 								icon = {
-									visible = "[And(GetScriptedGui('agot_male_gender_shown').IsShown(GuiScope.SetRoot(Character.MakeScope).End), Not(GetScriptedGui('kraken_character_window').IsShown(GuiScope.SetRoot(Character.MakeScope).End)))]"
+									visible = "[And(GetScriptedGui('agot_male_gender_shown').IsShown(GuiScope.SetRoot(Character.MakeScope).End), Not(Character.HasTrait(GetTrait('kraken'))))]"
 									size = { 20 20 }
 									texture = "gfx/interface/icons/character_status/sex_icon_male.dds"
 									tooltip = "SEX_TT"
 								}
 
 								icon = {
-									visible = "[And(GetScriptedGui('agot_female_gender_shown').IsShown(GuiScope.SetRoot(Character.MakeScope).End), Not(GetScriptedGui('kraken_character_window').IsShown(GuiScope.SetRoot(Character.MakeScope).End)))]"
+									visible = "[And(GetScriptedGui('agot_female_gender_shown').IsShown(GuiScope.SetRoot(Character.MakeScope).End), Not(Character.HasTrait(GetTrait('kraken'))))]"
 									size = { 20 20 }
 									texture = "gfx/interface/icons/character_status/sex_icon_female.dds"
 									tooltip = "SEX_TT"
 								}
 								
 								icon = {
-									visible = "[And(GetScriptedGui('agot_male_gender_shown').IsShown(GuiScope.SetRoot(Character.MakeScope).End), Not(GetScriptedGui('kraken_character_window').IsShown(GuiScope.SetRoot(Character.MakeScope).End)))]"
+									visible = "[And(GetScriptedGui('agot_male_gender_shown').IsShown(GuiScope.SetRoot(Character.MakeScope).End), Not(Character.HasTrait(GetTrait('kraken'))))]"
 									size = { 20 20 }
 									framesize = { 40 40 }
 									frame = "[Character.GetSexualityFrame]"
@@ -832,7 +832,7 @@ types GameTooltipTypes
 								icon = {
 									#AGOT Modified
 									# visible = "[Character.IsFemale]"
-									visible = "[And(GetScriptedGui('agot_female_gender_shown').IsShown(GuiScope.SetRoot(Character.MakeScope).End), Not(GetScriptedGui('kraken_character_window').IsShown(GuiScope.SetRoot(Character.MakeScope).End)))]"
+									visible = "[And(GetScriptedGui('agot_female_gender_shown').IsShown(GuiScope.SetRoot(Character.MakeScope).End), Not(Character.HasTrait(GetTrait('kraken'))))]"
 									size = { 20 20 }
 									framesize = { 40 40 }
 									frame = "[Character.GetSexualityFrame]"
@@ -866,7 +866,7 @@ types GameTooltipTypes
 							text_single = {
 								#AGOT Modified
 								# visible = "[Character.IsAlive]"
-								visible = "[And(And(Character.IsAlive, Not(IsCharacterDragon)), Not(GetScriptedGui('kraken_character_window').IsShown(GuiScope.SetRoot(Character.MakeScope).End)))]"
+								visible = "[And(And(Character.IsAlive, Not(IsCharacterDragon)), Not(Character.HasTrait(GetTrait('kraken'))))]"
 								text = "[Character.Custom('CooltipSpouseListing')]"
 								layoutpolicy_horizontal = expanding
 								align = nobaseline
@@ -897,7 +897,7 @@ types GameTooltipTypes
 
 					hbox = {
 						#AGOT Added
-						visible = "[And(Not(IsCharacterDragon), Not(GetScriptedGui('kraken_character_window').IsShown(GuiScope.SetRoot(Character.MakeScope).End)))]"
+						visible = "[And(Not(IsCharacterDragon), Not(Character.HasTrait(GetTrait('kraken'))))]"
 						layoutpolicy_horizontal = expanding
 						spacing = 10
 
@@ -1324,7 +1324,7 @@ types GameTooltipTypes
 
 		using = DefaultTooltipBackground
 		#AGOT Added
-		visible = "[And(Not(IsCharacterDragon), Not(GetScriptedGui('kraken_character_window').IsShown(GuiScope.SetRoot(Character.MakeScope).End)))]"
+		visible = "[And(Not(IsCharacterDragon), Not(Character.HasTrait(GetTrait('kraken'))))]"
 
 		flowcontainer = {
 			direction = vertical

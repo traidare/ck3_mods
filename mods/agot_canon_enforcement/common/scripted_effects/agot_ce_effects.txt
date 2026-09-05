@@ -18,14 +18,20 @@ agot_ce_apply_protection_effect = {
 	# Dragonriders are skipped: AGOT force-knights them at every war start so
 	# the AI will use them, and dragonrider warfare has its own casualty events
 	# that the generic knight pool does not feed.
+	# is_potential_knight resolves against the character's liege, so it is asked
+	# only of characters that have one; independent and courtless protected
+	# characters are covered by is_knight alone.
 	if = {
 		limit = {
 			has_game_rule = agot_ce_battle_enabled
 			NOT = { has_character_flag = agot_ce_knight_forbidden }
 			is_current_dragonrider_warfare = no
 			OR = {
-				is_potential_knight = yes
 				is_knight = yes
+				AND = {
+					exists = liege
+					is_potential_knight = yes
+				}
 			}
 		}
 		add_character_flag = agot_ce_knight_forbidden

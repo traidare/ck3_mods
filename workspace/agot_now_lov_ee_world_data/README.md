@@ -34,6 +34,23 @@ Harderback or the gameplay policy for Oros.
 The graphical output also restores the five NOW-displaced `c_rutting` provinces,
 1697 through 1701, to `graphical_western`.
 
+Each emitted graphical key is a complete replacement, and same-key regions in
+different files are resolved by last path rather than merged, so this file is
+the sole effective definition of the eight keys it touches. Every one of them
+expresses each classified province exactly once, in exactly one region. The
+generator starts from the inherited block, which already covers the whole map,
+keeps the `duchies`, `counties`, `kingdoms`, and `regions` entries that reach
+only provinces outside the classified range or provinces this run still assigns
+to that style, drops the entries whose classified provinces moved to another
+style, and then lists explicitly only the ids no retained entry already covers.
+Generation fails if a single membership entry straddles the reassignment, and
+again before writing unless the emitted blocks reproduce the classification
+exactly. Without both, CK3 reports
+`Province 'N' lies in multiple graphical regions` and
+`Region 'N' has multiple entries for the province 'N'` at world init and
+resolves an ambiguous province to whichever style it reaches first, which
+decides that province's unit, building, and clothing art.
+
 NOW's winning `graphical_siberia` block references `world_westeros_skagos`. That
 helper is not visible after the later geographical-region replacements in this
 playset, and repeating the reference causes Tiger's fatal

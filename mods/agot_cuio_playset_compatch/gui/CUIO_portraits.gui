@@ -9,7 +9,7 @@ types CUIOPortraitTypes
 	## Based on game original shared/portraits.gui with layout fixes for dual opinion
 	type portrait_opinion = flowcontainer {
 		name = "tutorial_highlight_portrait_opinion"
-		visible = "[And(And(And(Character.IsValid, Not(IsCharacterDragon)), And(Character.IsAlive, Not(Character.IsLocalPlayer))), Not(GetScriptedGui('kraken_character_window').IsShown(GuiScope.SetRoot(Character.MakeScope).End)))]"
+		visible = "[And(And(And(Character.IsValid, Not(IsCharacterDragon)), And(Character.IsAlive, Not(Character.IsLocalPlayer))), Not(Character.HasTrait(GetTrait('kraken'))))]"
 		ignoreinvisible = yes
 
 		background = {

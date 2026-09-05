@@ -13,6 +13,7 @@ from gen.text import replace_exact
 
 from .common import (
     assert_source_block_hash,
+    extract_top_level_block,
     guard_event_deaths,
 )
 from .context import RunInputs
@@ -360,4 +361,39 @@ def generate_kraken_event_parser_repair(inputs: RunInputs) -> None:
     # when no entourage member is available, and the challenger in kraken.1105.
     source = guard_event_deaths(source, "kraken.0100", expected=2)
     source = guard_event_deaths(source, "kraken.1105", expected=1)
+    write_text(inputs.OUTPUT, relative, normalize_rebased_source(source))
+
+
+def generate_kraken_creation_scope_guard(inputs: RunInputs) -> None:
+    """Make the created kraken's follow-up block optional.
+
+    `naval_combat_initialize_decision` starts the kraken population system, and
+    that decision stays offered until the naval AI seeding global is set. CK3
+    walks a decision's effect tree to build its tooltip, and in that mode
+    `create_character` produces nothing, so `save_scope_as = kraken` leaves a
+    dead handle. Every statement under `scope:kraken` then dereferences it:
+    `untyped trigger [ Scoped object of type 'character' is not valid ]` from
+    `kraken_refresh_derived_statistics_effect` and
+    `kraken_refresh_presence_danger_effect`, five per evaluation, repeated for
+    as long as the decisions panel is drawn.
+
+    The optional-scope operator skips the block when the switch fails and is
+    inert once the effect actually runs, because a real `create_character` has
+    always populated the scope by then.
+    """
+    relative = "common/scripted_effects/00_kraken_effects.txt"
+    source = read_text(inputs.WORKSHOP / "3781577713" / relative)
+    # Eleven blocks in this file enter `scope:kraken`; only the one the creation
+    # effect owns can be reached with the scope unset.
+    block = extract_top_level_block(source, "kraken_create_at_saved_location_effect")
+    repaired = replace_exact(
+        block,
+        "\tscope:kraken = {\n",
+        "\tscope:kraken ?= {\n",
+        expected=1,
+        label="Iron and Salt kraken creation scope guard",
+    )
+    source = _replace_top_level_block(
+        source, block, repaired, label="Iron and Salt kraken creation effect"
+    )
     write_text(inputs.OUTPUT, relative, normalize_rebased_source(source))

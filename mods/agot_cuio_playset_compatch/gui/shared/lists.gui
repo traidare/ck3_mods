@@ -570,7 +570,7 @@ types Lists
 
 										text_single = {
 											name = "character_relation"
-											visible = "[And(Not(IsCharacterDragon), Not(GetScriptedGui('kraken_character_window').IsShown(GuiScope.SetRoot(Character.MakeScope).End)))]"
+											visible = "[And(Not(IsCharacterDragon), Not(Character.HasTrait(GetTrait('kraken'))))]"
 text = "[Character.GetRelationToString( GetPlayer )]"
 											tooltip = "EXTENDED_RELATIONS_TOOLTIP"
 											default_format = "#low"
@@ -597,7 +597,7 @@ text = "[Character.GetRelationToString( GetPlayer )]"
 							# Skills
 							#AGOT Modified
 							# hbox_skills_grid = {}
-							hbox_skills_grid = { visible = "[And(Not(IsCharacterDragon), Not(GetScriptedGui('kraken_character_window').IsShown(GuiScope.SetRoot(Character.MakeScope).End)))]" }
+							hbox_skills_grid = { visible = "[And(Not(IsCharacterDragon), Not(Character.HasTrait(GetTrait('kraken'))))]" }
 							#AGOT Added
 							agot_lists_dragon_size_text = {}
 							agot_lists_dragon_combat_text = {}
@@ -634,7 +634,7 @@ text = "[Character.GetRelationToString( GetPlayer )]"
 
 										coa_house_small = {
 											#AGOT Added
-											visible = "[And(Not(IsCharacterDragon), Not(GetScriptedGui('kraken_character_window').IsShown(GuiScope.SetRoot(Character.MakeScope).End)))]"
+											visible = "[And(Not(IsCharacterDragon), Not(Character.HasTrait(GetTrait('kraken'))))]"
 											datacontext = "[Character.GetHouse]"
 											parentanchor = center
 											scale = 0.7
@@ -723,7 +723,7 @@ text = "[Character.GetRelationToString( GetPlayer )]"
 										# Religion and culture
 										hbox = {
 											#AGOT Added
-											visible = "[And(Not(IsCharacterDragon), Not(GetScriptedGui('kraken_character_window').IsShown(GuiScope.SetRoot(Character.MakeScope).End)))]"
+											visible = "[And(Not(IsCharacterDragon), Not(Character.HasTrait(GetTrait('kraken'))))]"
 											layoutpolicy_horizontal = expanding
 											layoutpolicy_vertical = expanding
 											margin_left = 8
@@ -1591,7 +1591,7 @@ text = "[Character.GetRelationToString( GetPlayer )]"
 
 					#AGOT Modified
 					# hbox_skills_grid = {}
-					hbox_skills_grid = { visible = "[And(Not(IsCharacterDragon), Not(GetScriptedGui('kraken_character_window').IsShown(GuiScope.SetRoot(Character.MakeScope).End)))]" }
+					hbox_skills_grid = { visible = "[And(Not(IsCharacterDragon), Not(Character.HasTrait(GetTrait('kraken'))))]" }
 					#AGOT Added
 					agot_lists_dragon_size_text = {}
 					agot_lists_dragon_combat_text = {}
@@ -1723,7 +1723,7 @@ text = "[Character.GetRelationToString( GetPlayer )]"
 
 							coa_house_small = {
 								#AGOT Added
-								visible = "[And(Not(IsCharacterDragon), Not(GetScriptedGui('kraken_character_window').IsShown(GuiScope.SetRoot(Character.MakeScope).End)))]"
+								visible = "[And(Not(IsCharacterDragon), Not(Character.HasTrait(GetTrait('kraken'))))]"
 								datacontext = "[Character.GetHouse]"
 								parentanchor = center
 								scale = 0.7
@@ -1819,7 +1819,7 @@ text = "[Character.GetRelationToString( GetPlayer )]"
 							layoutpolicy_vertical = expanding
 							alpha = 0.5
 							#AGOT Added
-							visible = "[And(Not(IsCharacterDragon), Not(GetScriptedGui('kraken_character_window').IsShown(GuiScope.SetRoot(Character.MakeScope).End)))]"
+							visible = "[And(Not(IsCharacterDragon), Not(Character.HasTrait(GetTrait('kraken'))))]"
 						}
 
 						hbox = {
@@ -1839,7 +1839,7 @@ text = "[Character.GetRelationToString( GetPlayer )]"
 						hbox = {
 							margin_right = 5
 							#AGOT Added
-							visible = "[And(Not(IsCharacterDragon), Not(GetScriptedGui('kraken_character_window').IsShown(GuiScope.SetRoot(Character.MakeScope).End)))]"
+							visible = "[And(Not(IsCharacterDragon), Not(Character.HasTrait(GetTrait('kraken'))))]"
 
 							button_religion_icon = {
 								datacontext = "[Character.GetFaith]"

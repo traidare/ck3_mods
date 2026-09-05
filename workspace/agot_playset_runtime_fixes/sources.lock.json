@@ -241,6 +241,10 @@
       "sha256": "cd2208b30c6cbf89037419c686dd12d74b6f07e222d37e2bb426a0e632ce3264",
       "size": 18659
     },
+    "workshop/2967263410/common/scripted_triggers/00_agot_hf_dynasty_and_house_triggers.txt": {
+      "sha256": "4654d8183fd9a61ed3b69d906950994233dbccdd79faf796a48fbaa0656a25a4",
+      "size": 81297
+    },
     "workshop/2971198450/common/on_action/cowagot_province_on_actions.txt": {
       "sha256": "ffc1fd1167435692a90ce7330e28df45d189007d53a3992930df55b05b7562b6",
       "size": 8293
@@ -1372,6 +1376,10 @@
     "workshop/3772178688/common/scripted_effects/naval_combat_effects.txt": {
       "sha256": "b1330ecd36015e925f18aa68b4a6ecc87818187158a0584845791e337d885d24",
       "size": 59715
+    },
+    "workshop/3781577713/common/scripted_effects/00_kraken_effects.txt": {
+      "sha256": "62de176b9458c704f7a1760785729082109f478f0b6ec7998be746651dbbbd7e",
+      "size": 38836
     },
     "workshop/3781577713/events/kraken_events.txt": {
       "sha256": "f74b3420b58d2999bc96384406b6abf6a96753c66547e2f3408d10812faaa5ce",

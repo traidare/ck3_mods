@@ -93,6 +93,19 @@ change re-raises it.
   `"Unexpected token: override_environment"` in `events/kraken_events.txt`. CK3
   1.19 no longer accepts the field, and the parser rejects the surrounding
   blocks. Removing all 13 lets the events fall back to their normal environment.
+- **Kraken creation scope (Workshop 3781577713):**
+  `untyped trigger [ Scoped object of type 'character' is not valid ((no character) weak (Character - N)!) ]`
+  raised from `kraken_refresh_derived_statistics_effect` and
+  `kraken_refresh_presence_danger_effect` under
+  `kraken_create_at_saved_location_effect`. `naval_combat_initialize_decision`
+  starts the population system and stays offered until the naval AI seeding
+  global is set; CK3 walks a decision's effect tree to build its tooltip, and in
+  that mode `create_character` produces nothing, so `save_scope_as = kraken`
+  leaves a dead handle and every statement under `scope:kraken` dereferences it
+  — five per evaluation, repeated for as long as the decisions panel is drawn.
+  The repair makes that one scope switch optional. Eleven blocks in the file
+  enter `scope:kraken`; only the creation effect's can be reached with the scope
+  unset, and a real `create_character` has always populated it by then.
 
 ### General repairs
 
@@ -175,6 +188,18 @@ change re-raises it.
   effect empty still registered the same faulting effect chain, so the generated
   last writer now queues a hidden cleanup event one day later instead of
   synchronously removing `denounced` and `disinherited`.
+
+  Its `agothf_agot_dynasties` trigger drops one entry. That trigger is a single
+  `OR` over 2,175 AGOT dynasty keys and
+  `agot_hf_new_house_name_generation_events.0002` evaluates it once per
+  character, so the whole list runs at world init and again at every house
+  founding. AGOT keeps localisation for `dynn_Muddle` but no longer defines the
+  dynasty, and no other module in the playset supplies it, so each evaluation
+  raises `Failed to fetch a valid dynasty 'dynn_Muddle'`. A comparison against
+  an undefined dynasty can never match, so the removal preserves the trigger's
+  result. The entry count is pinned: when House Founders next edits that list,
+  **re-audit** the remaining keys against AGOT's current dynasty database.
+
 - **Additional Models decision illustrations:** replaces three references to the
   parent's nonexistent `agot_court/throne.dds` with AGOT's existing Iron Throne
   room illustration.

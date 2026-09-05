@@ -12,6 +12,7 @@ from .common import (
     extract_top_level_block,
     game_root,
     guard_event_deaths,
+    require_count,
     unwrap_unconditional_random_pool_ifs,
 )
 from .context import RunInputs
@@ -439,6 +440,40 @@ def generate_house_founders(inputs: RunInputs) -> None:
         label="House Founders optional top-liege guards",
     )
     write_text(inputs.OUTPUT, relative, text)
+
+
+def generate_house_founders_dynasty_trigger(inputs: RunInputs) -> None:
+    """Drop the one dynasty House Founders names that AGOT no longer defines.
+
+    `agothf_agot_dynasties` is a single `OR` over every AGOT dynasty key, and
+    `agot_hf_new_house_name_generation_events.0002` evaluates it once per
+    character, so the whole list runs at world init and again whenever a house
+    is founded. AGOT keeps localisation for `dynn_Muddle` but no longer defines
+    the dynasty, and no other module in the playset supplies it, so every
+    evaluation raises `Failed to fetch a valid dynasty 'dynn_Muddle'`.
+
+    A comparison against an undefined dynasty can never match, so removing the
+    entry leaves the trigger's result unchanged. The total entry count is pinned
+    because that list is the only thing this repair depends on: when House
+    Founders next edits it, the other keys are worth rechecking against AGOT's
+    current dynasty database at the same time.
+    """
+    relative = "common/scripted_triggers/00_agot_hf_dynasty_and_house_triggers.txt"
+    text = read_text(inputs.WORKSHOP / "2967263410" / relative)
+    require_count(
+        text,
+        "dynasty = dynasty:",
+        2175,
+        label="House Founders dynasty list",
+    )
+    text = replace_exact(
+        text,
+        "\t\tdynasty = dynasty:dynn_Muddle\n",
+        "",
+        expected=1,
+        label="House Founders dead dynasty reference",
+    )
+    write_text(inputs.OUTPUT, relative, normalize_rebased_source(text))
 
 
 def generate_house_founders_dynasty_on_action_rebase(inputs: RunInputs) -> None:

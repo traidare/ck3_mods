@@ -1005,17 +1005,60 @@ def direct_graphical_flag(block: str) -> bool:
     return bool(re.search(r"(?m)^\s*graphical\s*=\s*yes\s*(?:#.*)?$", block))
 
 
-def append_provinces_to_block(block: str, province_ids: Iterable[int]) -> str:
-    province_ids = sorted(set(province_ids))
-    property_pattern = re.compile(r"(?ms)^([ \t]+)provinces\s*=\s*\{(.*?)^\1\}")
-    match = property_pattern.search(block)
-    existing: set[int] = set()
-    if match:
-        existing.update(
-            int(value)
-            for value in re.findall(r"(?m)(?<![A-Za-z0-9_])\d+", match.group(2))
-        )
-    combined = sorted(existing | set(province_ids))
+# A geographical region names its members by title as well as by province. Each
+# of these lists resolves against one scope of the province's title chain; a
+# `regions` list resolves against another region block.
+MEMBERSHIP_KEYS = {
+    "counties": "county",
+    "duchies": "duchy",
+    "kingdoms": "kingdom",
+}
+
+_LIST_PATTERN = r"(?ms)^([ \t]+){key}\s*=\s*\{{(.*?)^\1\}}"
+
+
+def block_list_body(block: str, key: str) -> re.Match[str] | None:
+    return re.search(_LIST_PATTERN.format(key=key), block)
+
+
+def block_members(block: str, key: str) -> list[str]:
+    """Return the named members of one membership list, in source order."""
+    match = block_list_body(block, key)
+    if not match:
+        return []
+    return re.sub(r"#.*", "", match.group(2)).split()
+
+
+def block_province_ids(block: str) -> set[int]:
+    """Return the province ids one region block lists directly."""
+    match = block_list_body(block, "provinces")
+    if not match:
+        return set()
+    return {
+        int(value) for value in re.findall(r"(?m)(?<![A-Za-z0-9_])\d+", match.group(2))
+    }
+
+
+def remove_block_members(block: str, key: str, members: set[str]) -> str:
+    """Drop named members from one membership list, removing an emptied list."""
+    match = re.search(_LIST_PATTERN.format(key=key) + r"\n?", block)
+    if not match:
+        raise ValueError(f"graphical block has no {key} list")
+    indent = match.group(1)
+    kept = [name for name in block_members(block, key) if name not in members]
+    if not kept:
+        return block[: match.start()] + block[match.end() :]
+    body = "".join(f"{indent}\t{name}\n" for name in kept)
+    replacement = f"{indent}{key} = {{\n{body}{indent}}}\n"
+    return block[: match.start()] + replacement + block[match.end() :]
+
+
+def set_block_provinces(block: str, province_ids: Iterable[int]) -> str:
+    """Replace a region block's province list with exactly these ids."""
+    combined = sorted(set(province_ids))
+    if not combined:
+        match = re.search(_LIST_PATTERN.format(key="provinces") + r"\n?", block)
+        return block if not match else block[: match.start()] + block[match.end() :]
     lines = [
         "\tprovinces = {",
         *[
@@ -1025,6 +1068,7 @@ def append_provinces_to_block(block: str, province_ids: Iterable[int]) -> str:
         "\t}",
     ]
     replacement = "\n".join(lines)
+    match = block_list_body(block, "provinces")
     if match:
         return block[: match.start()] + replacement + block[match.end() :]
     closing = block.rfind("}")
@@ -1809,7 +1853,7 @@ class WorldDataPipeline:
                 f"missing={sorted(self.empire_keys - config_empire_keys)}, "
                 f"extra={sorted(config_empire_keys - self.empire_keys)}"
             )
-        region_blocks = effective_region_blocks(
+        self.region_blocks = effective_region_blocks(
             [
                 self.workshop["AGOT"],
                 self.workshop["NOW"],
@@ -1821,7 +1865,7 @@ class WorldDataPipeline:
         )
         self.graphical_blocks = {
             key: block
-            for key, block in region_blocks.items()
+            for key, block in self.region_blocks.items()
             if direct_graphical_flag(block)
         }
         missing_styles = {mapping.graphical_region for mapping in mappings} - set(
@@ -1869,6 +1913,19 @@ class WorldDataPipeline:
             if component_count > 1 and not mapping.allow_disconnected:
                 self.graphical_pending.append(
                     f"{mapping.scope}:{mapping.key} has {component_count} components"
+                )
+
+        self.assigned_style = {
+            province_id: mapping.graphical_region
+            for province_id, mapping in assigned_mapping.items()
+        }
+        self.targets_by_title: dict[str, dict[str, set[int]]] = {
+            scope: defaultdict(set) for scope in MEMBERSHIP_KEYS.values()
+        }
+        for title in self.graphical_titles:
+            for scope in MEMBERSHIP_KEYS.values():
+                self.targets_by_title[scope][title.value_for_scope(scope)].add(
+                    title.province_id
                 )
 
         self.style_to_ids: dict[str, set[int]] = defaultdict(set)
@@ -1919,6 +1976,115 @@ class WorldDataPipeline:
                     "review_status": review_status,
                     "reason": mapping.reason,
                 }
+            )
+
+    def named_member_coverage(self, key: str, member: str) -> set[int]:
+        """Return the target provinces one named membership entry covers.
+
+        Only target provinces matter here. Everything else a `duchies` or
+        `regions` entry pulls in lies outside the classified range and keeps its
+        own author's style, so this module neither moves nor re-lists it.
+        """
+        if key in MEMBERSHIP_KEYS:
+            return set(self.targets_by_title[MEMBERSHIP_KEYS[key]].get(member, set()))
+        return self.region_coverage(member, frozenset())
+
+    def region_coverage(self, name: str, seen: frozenset[str]) -> set[int]:
+        """Return the target provinces a named region covers, following `regions`."""
+        if name in seen:
+            return set()
+        block = self.region_blocks.get(name)
+        if block is None:
+            raise AssertionError(f"region {name} is referenced but not defined")
+        covered = block_province_ids(block) & set(self.assigned_style)
+        for key in (*MEMBERSHIP_KEYS, "regions"):
+            for member in block_members(block, key):
+                if key == "regions":
+                    covered |= self.region_coverage(member, seen | {name})
+                else:
+                    covered |= self.named_member_coverage(key, member)
+        return covered
+
+    def build_graphical_block(self, style: str) -> str:
+        """Rebuild one graphical region as a complete replacement.
+
+        The inherited block already covers the whole map, so this keeps every
+        membership entry that only reaches provinces outside the classified
+        range or provinces this run still assigns to `style`, and drops the
+        entries whose target provinces moved to another style. The province list
+        is then rewritten to the ids that are neither reassigned away nor
+        already covered by a retained entry, which is what keeps a province from
+        appearing in two regions or twice in one.
+        """
+        block = repair_inherited_graphical_block(style, self.graphical_blocks[style])
+        assigned = self.style_to_ids[style]
+        retained_coverage: set[int] = set()
+        for key in (*MEMBERSHIP_KEYS, "regions"):
+            dropped: set[str] = set()
+            for member in block_members(block, key):
+                covered = self.named_member_coverage(key, member)
+                if not covered:
+                    continue
+                if covered <= assigned:
+                    retained_coverage |= covered
+                elif covered.isdisjoint(assigned):
+                    dropped.add(member)
+                else:
+                    raise AssertionError(
+                        f"{style} {key} entry {member} straddles the graphical "
+                        f"reassignment: {len(covered & assigned)} of "
+                        f"{len(covered)} target provinces stay; split the entry "
+                        "or re-audit the mapping"
+                    )
+            if dropped:
+                block = remove_block_members(block, key, dropped)
+        kept_ids = {
+            province_id
+            for province_id in block_province_ids(block)
+            if self.assigned_style.get(province_id, style) == style
+        }
+        return set_block_provinces(block, (kept_ids | assigned) - retained_coverage)
+
+    def assert_graphical_blocks_disjoint(self, emitted: dict[str, str]) -> None:
+        """Fail unless every target province is expressed once, in one style.
+
+        CK3 reports the two ways this can go wrong as `Province 'N' lies in
+        multiple graphical regions` and `Region 'N' has multiple entries for the
+        province 'N'`, both at world init, and resolves an ambiguous province to
+        whichever style it reaches first.
+        """
+        seen: dict[int, str] = {}
+        for style, block in emitted.items():
+            explicit = block_province_ids(block)
+            named: set[int] = set()
+            for key in (*MEMBERSHIP_KEYS, "regions"):
+                for member in block_members(block, key):
+                    covered = self.named_member_coverage(key, member)
+                    twice = covered & (named | explicit)
+                    if twice:
+                        raise AssertionError(
+                            f"{style} lists {len(twice)} target province(s) "
+                            f"twice, including {min(twice)}, via {key} entry "
+                            f"{member}"
+                        )
+                    named |= covered
+            for province_id in (explicit & set(self.assigned_style)) | named:
+                owner = seen.setdefault(province_id, style)
+                if owner != style:
+                    raise AssertionError(
+                        f"target province {province_id} is in both {owner} and {style}"
+                    )
+        if seen != self.assigned_style:
+            missing = sorted(set(self.assigned_style) - set(seen))
+            wrong = sorted(
+                province_id
+                for province_id, style in seen.items()
+                if self.assigned_style.get(province_id) != style
+            )
+            raise AssertionError(
+                "emitted graphical regions do not reproduce the assignment: "
+                f"{len(missing)} missing (e.g. {missing[:5]}), "
+                f"{len(wrong)} misplaced (e.g. {wrong[:5]})"
             )
 
     def write_outputs(self) -> None:
@@ -2012,13 +2178,12 @@ class WorldDataPipeline:
             "# Complete replacements for touched graphical-region keys.",
             "",
         ]
-        for style in sorted(self.style_to_ids):
-            source_block = repair_inherited_graphical_block(
-                style, self.graphical_blocks[style]
-            )
-            region_lines.append(
-                append_provinces_to_block(source_block, self.style_to_ids[style])
-            )
+        emitted = {
+            style: self.build_graphical_block(style) for style in self.style_to_ids
+        }
+        self.assert_graphical_blocks_disjoint(emitted)
+        for style in sorted(emitted):
+            region_lines.append(emitted[style])
             region_lines.append("")
         region_output = ("\n".join(region_lines)).encode("utf-8")
 

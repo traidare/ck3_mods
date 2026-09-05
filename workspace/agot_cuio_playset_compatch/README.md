@@ -91,9 +91,24 @@ plain AGOT plus those gates, so they would revert this module's CUIO merge
 wholesale. The generator re-applies the gates to the merged output instead: it
 attaches the kraken tooltip container, creature type row, three list stat rows,
 and character view, and extends every human-only condition — including all eight
-`visible_if_not_dragon` sites in the two list layouts — with Iron and Salt's
-scripted-GUI check. Each call site is asserted against Iron and Salt's own file,
-so a renamed widget fails generation.
+`visible_if_not_dragon` sites in the two list layouts — with a kraken check.
+Each call site is asserted against Iron and Salt's own file, so a renamed widget
+fails generation.
+
+The gate is emitted as `Not(Character.HasTrait(GetTrait('kraken')))`, the form
+Iron and Salt uses in its own declarations of the shared portrait types, and not
+as its `kraken_character_window` scripted GUI. The two are equivalent — that
+scripted GUI's `is_shown` is exactly `has_trait = kraken` — but several of these
+host widgets are instantiated with an invalid character datacontext, which is
+why `portrait_opinion` opens with `Character.IsValid` in vanilla, CUIO, and Iron
+and Salt alike. CK3's `And()` is a function call and evaluates every argument,
+so that validity term does not stop a later one from running; entering the
+script system with an invalid root raises
+`untyped trigger [ Scoped object of type 'character' is not valid ]` once per
+GUI update for as long as the widget lives, while a data function returns its
+default. The generator asserts that Iron and Salt's `portrait_opinion` and
+`portrait_opinion_small` still carry the trait check, so a change to its gate
+form re-raises this choice.
 
 The cooltip gender icons are repaired in the same pass. AGOT gates all four on
 `agot_<gender>_gender_shown` so dragons draw no human sex icon, but only the

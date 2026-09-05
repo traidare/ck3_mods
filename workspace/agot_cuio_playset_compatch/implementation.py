@@ -928,23 +928,39 @@ def generate_character(context: GenerationContext) -> str:
     return restore_agot_character_widgets(text)
 
 
-# Iron and Salt gates human interface on a scripted GUI rather than a trait,
-# because a kraken is an ordinary character that AGOT's own creature views take
-# over.  The scope is whatever the host widget already provides.
-CHARACTER_SCOPE = "Character.MakeScope"
-CHARACTER_WINDOW_SCOPE = "CharacterWindow.GetCharacter.MakeScope"
+# Iron and Salt keeps human interface off krakens, which are ordinary characters
+# that AGOT's own creature views take over.  It expresses that gate two ways: a
+# `kraken_character_window` scripted GUI in the AGOT files it rebuilds, and the
+# `Character.HasTrait` data function in its own shared portrait types.  This
+# module emits the data function everywhere.
+#
+# The two forms are equivalent — the scripted GUI's `is_shown` is exactly
+# `has_trait = kraken` — but only the data function is safe on an invalid
+# datacontext.  Several of these host widgets are instantiated with one:
+# `portrait_opinion` carries `Character.IsValid` in vanilla for that reason.
+# CK3's `And()` is a function call and evaluates every argument, so an earlier
+# validity term does not stop a later one from running, and entering the script
+# system with an invalid root raises `untyped trigger [ Scoped object of type
+# 'character' is not valid ]` on every GUI update for as long as the widget
+# lives.  Data functions return their default on an invalid handle instead.
+#
+# The character expression is whatever the host widget already provides.
+CHARACTER = "Character"
+CHARACTER_WINDOW = "CharacterWindow.GetCharacter"
+
+KRAKEN_TRAIT_CHECK = "HasTrait(GetTrait('kraken'))"
 
 
-def kraken_shown(scope: str = CHARACTER_SCOPE) -> str:
-    return f"GetScriptedGui('kraken_character_window').IsShown(GuiScope.SetRoot({scope}).End)"
+def is_kraken(character: str = CHARACTER) -> str:
+    return f"{character}.{KRAKEN_TRAIT_CHECK}"
 
 
-def not_kraken(scope: str = CHARACTER_SCOPE) -> str:
-    return f"Not({kraken_shown(scope)})"
+def not_kraken(character: str = CHARACTER) -> str:
+    return f"Not({is_kraken(character)})"
 
 
-def kraken_visible(condition: str, scope: str = CHARACTER_SCOPE) -> str:
-    return f'visible = "[And({condition}, {not_kraken(scope)})]"'
+def kraken_visible(condition: str, character: str = CHARACTER) -> str:
+    return f'visible = "[And({condition}, {not_kraken(character)})]"'
 
 
 NOT_DRAGON_OR_KRAKEN = kraken_visible("Not(IsCharacterDragon)")
@@ -1018,7 +1034,8 @@ def add_kraken_to_cooltip(text: str, iron_and_salt: str) -> str:
                 text,
                 f'texture = "gfx/interface/icons/character_status/{icon}.dds"',
                 f"And(GetScriptedGui('agot_{gender}_gender_shown')"
-                f".IsShown(GuiScope.SetRoot({CHARACTER_SCOPE}).End), {not_kraken()})",
+                f".IsShown(GuiScope.SetRoot({CHARACTER}.MakeScope).End),"
+                f" {not_kraken()})",
                 parent_depth=0,
                 label=f"{label} {icon} gate",
             )
@@ -1075,7 +1092,7 @@ def add_kraken_to_character(text: str, iron_and_salt: str) -> str:
     return replace_every(
         text,
         'visible = "[IsCharacterNormal]"',
-        kraken_visible("IsCharacterNormal", CHARACTER_WINDOW_SCOPE),
+        kraken_visible("IsCharacterNormal", CHARACTER_WINDOW),
         expected=2,
         label=f"{label} normal-character gate",
     )
@@ -1104,17 +1121,28 @@ def generate_portraits(context: GenerationContext) -> dict[str, str]:
     # kraken branch added to each. Iron and Salt supplies the target files and
     # the kraken widgets those branches instantiate.
     agot_small_opinion = 'visible = "[And(And(Character.IsValid, Not(IsCharacterDragon)), And(Character.IsAlive, Not(Character.IsLocalPlayer)))]"'
-    kraken_small_opinion = "visible = \"[And(And(And(And(Character.IsValid, Character.IsAlive), Not(Character.IsLocalPlayer)), Not(IsCharacterDragon)), Not(Character.HasTrait(GetTrait('kraken'))))]\""
+    kraken_small_opinion = kraken_visible(
+        "And(And(And(Character.IsValid, Character.IsAlive),"
+        " Not(Character.IsLocalPlayer)), Not(IsCharacterDragon))"
+    )
     agot_small_opinion_type = extract_type(agot, "portrait_opinion_small", label=label)
     iron_small_opinion_type = extract_type(
         kraken_opinion, "portrait_opinion_small", label=label
     )
-    require_count(
-        iron_small_opinion_type,
-        "Character.HasTrait(GetTrait('kraken'))",
-        1,
-        label=f"{label}: Iron and Salt small opinion badge",
-    )
+    # Both of Iron and Salt's own declarations of these shared types gate krakens
+    # with the trait data function rather than its scripted GUI, because the
+    # types are instantiated with invalid character datacontexts.  That is the
+    # form this module emits at every call site, so pin it on both.
+    for type_name, site in (
+        ("portrait_opinion", "opinion badge"),
+        ("portrait_opinion_small", "small opinion badge"),
+    ):
+        require_count(
+            extract_type(kraken_opinion, type_name, label=label),
+            is_kraken(),
+            1,
+            label=f"{label}: Iron and Salt {site}",
+        )
     kraken_small_opinion_type = replace_exact(
         agot_small_opinion_type,
         agot_small_opinion,
@@ -1133,7 +1161,8 @@ def generate_portraits(context: GenerationContext) -> dict[str, str]:
         (
             (
                 'visible = "[Not(IsCharacterDragon)]"',
-                "visible = \"[And( Not( IsCharacterDragon ), Not( Character.HasTrait( GetTrait('kraken') ) ) )]\"",
+                'visible = "[And( Not( IsCharacterDragon ),'
+                " Not( Character.HasTrait( GetTrait('kraken') ) ) )]\"",
             ),
             (
                 "agot_dragons_portrait_head_small = {}",
@@ -1144,7 +1173,10 @@ def generate_portraits(context: GenerationContext) -> dict[str, str]:
     )
 
     # CUIO's dual opinion badge is the layout owner. Apply AGOT's dragon gates
-    # and Iron and Salt's kraken gate to that layout.
+    # and Iron and Salt's kraken gate to that layout.  CUIO's own condition
+    # opens with `Character.IsValid`, as vanilla's does, because the type is
+    # instantiated with invalid character datacontexts; the kraken gate is
+    # appended in the form that tolerates one.
     portraits = replace_exact(
         cuio,
         'visible = "[And(Character.IsValid, And(Character.IsAlive, Not(Character.IsLocalPlayer)))]"',

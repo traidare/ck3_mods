@@ -58,7 +58,7 @@ window = {
 	}
 	
 	vbox = {
-		visible = "[And(IsCharacterNormal, Not(GetScriptedGui('kraken_character_window').IsShown(GuiScope.SetRoot(CharacterWindow.GetCharacter.MakeScope).End)))]"
+		visible = "[And(IsCharacterNormal, Not(CharacterWindow.GetCharacter.HasTrait(GetTrait('kraken'))))]"
 		layoutpolicy_horizontal = expanding
 		layoutpolicy_vertical = expanding
 		
@@ -2666,7 +2666,7 @@ window = {
 	}
 
 	widget_top_character_bui = {
-		visible = "[And(IsCharacterNormal, Not(GetScriptedGui('kraken_character_window').IsShown(GuiScope.SetRoot(CharacterWindow.GetCharacter.MakeScope).End)))]"
+		visible = "[And(IsCharacterNormal, Not(CharacterWindow.GetCharacter.HasTrait(GetTrait('kraken'))))]"
 		size = { 100% 45 }
 	}
 	

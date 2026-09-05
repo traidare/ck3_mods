@@ -1,0 +1,1384 @@
+﻿# Recalculates combat power and terror whenever body size changes.
+kraken_refresh_derived_statistics_effect = {
+	if = {
+		limit = { age < 30 }
+		set_variable = {
+			name = kraken_base_size
+			value = {
+				value = age
+				multiply = 5
+				add = 20
+			}
+		}
+	}
+	else = {
+		set_variable = {
+			name = kraken_base_size
+			value = {
+				value = age
+				add = 140
+			}
+		}
+	}
+	if = {
+		limit = { has_variable = kraken_base_size }
+		set_variable = {
+			name = kraken_size
+			value = var:kraken_base_size
+		}
+		if = {
+			limit = { has_trait = kraken_physique_good_1 }
+			change_variable = {
+				name = kraken_size
+				multiply = 1.1
+			}
+		}
+		else_if = {
+			limit = { has_trait = kraken_physique_good_2 }
+			change_variable = {
+				name = kraken_size
+				multiply = 1.2
+			}
+		}
+		else_if = {
+			limit = { has_trait = kraken_physique_good_3 }
+			change_variable = {
+				name = kraken_size
+				multiply = 1.3
+			}
+		}
+		set_variable = {
+			name = kraken_combat_effectiveness
+			value = {
+				value = var:kraken_size
+				multiply = 0.75
+				round = yes
+			}
+		}
+		set_variable = {
+			name = kraken_dread
+			value = {
+				value = var:kraken_size
+				multiply = 0.5
+				round = yes
+			}
+		}
+
+		# Temporary wounds are mutually exclusive and always take precedence.
+		if = {
+			limit = { has_character_modifier = kraken_wound_light }
+			change_variable = { name = kraken_combat_effectiveness multiply = 0.9 }
+		}
+		else_if = {
+			limit = { has_character_modifier = kraken_wound_injured }
+			change_variable = { name = kraken_combat_effectiveness multiply = 0.7 }
+		}
+		else_if = {
+			limit = { has_character_modifier = kraken_wound_severe }
+			change_variable = { name = kraken_combat_effectiveness multiply = 0.4 }
+			change_variable = { name = kraken_dread multiply = 0.8 }
+		}
+		else_if = {
+			limit = { has_character_modifier = kraken_wound_near_death }
+			change_variable = { name = kraken_combat_effectiveness multiply = 0.2 }
+			change_variable = { name = kraken_dread multiply = 0.6 }
+		}
+
+		# Permanent injuries stack because each records a different struck part.
+		if = {
+			limit = { has_character_modifier = kraken_injury_one_eye }
+			change_variable = { name = kraken_combat_effectiveness multiply = 0.9 }
+			change_variable = { name = kraken_dread multiply = 0.9 }
+		}
+		if = {
+			limit = { has_character_modifier = kraken_injury_severed_tentacle }
+			change_variable = { name = kraken_combat_effectiveness multiply = 0.85 }
+		}
+		if = {
+			limit = { has_character_modifier = kraken_injury_broken_beak }
+			change_variable = { name = kraken_combat_effectiveness multiply = 0.9 }
+		}
+		if = {
+			limit = { has_character_modifier = kraken_injury_torn_mantle }
+			change_variable = { name = kraken_combat_effectiveness multiply = 0.9 }
+		}
+		set_variable = {
+			name = kraken_combat_effectiveness
+			value = {
+				value = var:kraken_combat_effectiveness
+				round = yes
+			}
+		}
+		set_variable = {
+			name = kraken_dread
+			value = {
+				value = var:kraken_dread
+				round = yes
+			}
+		}
+
+		set_variable = {
+			name = kraken_target_prowess
+			value = {
+				value = var:kraken_size
+				multiply = 0.45
+				round = yes
+			}
+		}
+		add_prowess_skill = {
+			value = var:kraken_target_prowess
+			subtract = prowess
+		}
+		remove_variable = kraken_target_prowess
+	}
+}
+
+# Gives an existing kraken a valid sea lair in the Sunset Sea and anchors it
+# there. AGOT's helper returns its chosen province as scope:oceanprovince.
+kraken_assign_sunset_sea_lair_effect = {
+	agot_random_province_in_is_sunset_sea = yes
+	if = {
+		limit = { exists = scope:oceanprovince }
+		set_variable = {
+			name = kraken_lair
+			value = scope:oceanprovince
+		}
+		set_location = {
+			location = scope:oceanprovince
+			stick_to_location = yes
+		}
+	}
+}
+
+# Moves the creature exactly one province through connected sea zones. The
+# saved lair remains its emergency return point rather than its current home.
+kraken_move_to_neighboring_sea_effect = {
+	if = {
+		limit = {
+			location = {
+				kraken_is_traversable_sea_trigger = yes
+				any_neighboring_province = {
+					kraken_is_traversable_sea_trigger = yes
+				}
+			}
+		}
+		location = {
+			random_neighboring_province = {
+				limit = { kraken_is_traversable_sea_trigger = yes }
+				save_scope_as = kraken_migration_destination
+			}
+		}
+	}
+	if = {
+		limit = { exists = scope:kraken_migration_destination }
+		set_location = {
+			location = scope:kraken_migration_destination
+			stick_to_location = yes
+		}
+		set_variable = {
+			name = kraken_last_sea_location
+			value = scope:kraken_migration_destination
+		}
+	}
+}
+
+# Return a displaced kraken to its most recent sea cell. The original lair is
+# only a fallback for old saves. Court-pool changes are deliberately avoided
+# here because they can recursively fire character lifecycle on-actions.
+kraken_return_to_last_sea_effect = {
+	if = {
+		limit = {
+			has_variable = kraken_last_sea_location
+			var:kraken_last_sea_location = {
+				kraken_is_traversable_sea_trigger = yes
+			}
+		}
+		set_location = {
+			location = var:kraken_last_sea_location
+			stick_to_location = yes
+		}
+	}
+	else_if = {
+		limit = {
+			has_variable = kraken_lair
+			var:kraken_lair = {
+				kraken_is_traversable_sea_trigger = yes
+			}
+		}
+		set_location = {
+			location = var:kraken_lair
+			stick_to_location = yes
+		}
+		set_variable = {
+			name = kraken_last_sea_location
+			value = var:kraken_lair
+		}
+	}
+}
+
+# Keeps exactly one travel-danger modifier attached to the creature's current
+# sea province. The saved province also lets us clean up after external moves.
+kraken_refresh_presence_danger_effect = {
+	save_scope_as = kraken_presence_character
+	if = {
+		limit = { has_variable = kraken_danger_province }
+		var:kraken_danger_province = {
+			remove_province_modifier = kraken_presence_travel_danger
+			remove_province_modifier = hungry_kraken_presence_travel_danger
+		}
+		remove_variable = kraken_danger_province
+	}
+	if = {
+		limit = {
+			is_alive = yes
+			location = { is_sea_province = yes }
+		}
+		location = {
+			remove_province_modifier = kraken_presence_travel_danger
+			remove_province_modifier = hungry_kraken_presence_travel_danger
+			if = {
+				limit = {
+					scope:kraken_presence_character = {
+						has_variable = kraken_hunger
+						var:kraken_hunger < 30
+					}
+				}
+				add_province_modifier = hungry_kraken_presence_travel_danger
+			}
+			else = {
+				add_province_modifier = kraken_presence_travel_danger
+			}
+			save_scope_as = kraken_presence_province
+		}
+		set_variable = {
+			name = kraken_danger_province
+			value = scope:kraken_presence_province
+		}
+	}
+}
+
+# Iron and Salt compatibility. This only reads its public ship variables, so
+# the Kraken experiment remains loadable when the naval mod is disabled.
+kraken_lose_random_naval_ships_effect = {
+	set_variable = { name = kraken_ship_loss value = 0 }
+	set_variable = { name = kraken_requested_ship_loss value = 1 }
+	random_list = {
+		1 = { set_variable = { name = kraken_requested_ship_loss value = 1 } }
+		1 = { set_variable = { name = kraken_requested_ship_loss value = 2 } }
+		1 = { set_variable = { name = kraken_requested_ship_loss value = 3 } }
+		1 = { set_variable = { name = kraken_requested_ship_loss value = 4 } }
+		1 = { set_variable = { name = kraken_requested_ship_loss value = 5 } }
+	}
+	while = {
+		limit = {
+			var:kraken_requested_ship_loss > 0
+			OR = {
+				var:naval_combat_transport_ships > 0
+				var:naval_combat_oared_warships > 0
+				var:naval_combat_high_sided_warships > 0
+				var:naval_combat_longships > 0
+				var:naval_combat_greek_fire_ships > 0
+				var:naval_combat_tower_ships > 0
+				var:naval_combat_slave_galleys > 0
+			}
+		}
+		random_list = {
+			100 = {
+				trigger = { var:naval_combat_transport_ships > 0 }
+				change_variable = { name = naval_combat_transport_ships subtract = 1 }
+			}
+			100 = {
+				trigger = { var:naval_combat_oared_warships > 0 }
+				change_variable = { name = naval_combat_oared_warships subtract = 1 }
+			}
+			100 = {
+				trigger = { var:naval_combat_high_sided_warships > 0 }
+				change_variable = { name = naval_combat_high_sided_warships subtract = 1 }
+			}
+			100 = {
+				trigger = { var:naval_combat_longships > 0 }
+				change_variable = { name = naval_combat_longships subtract = 1 }
+			}
+			100 = {
+				trigger = { var:naval_combat_greek_fire_ships > 0 }
+				change_variable = { name = naval_combat_greek_fire_ships subtract = 1 }
+			}
+			100 = {
+				trigger = { var:naval_combat_tower_ships > 0 }
+				change_variable = { name = naval_combat_tower_ships subtract = 1 }
+			}
+			100 = {
+				trigger = { var:naval_combat_slave_galleys > 0 }
+				change_variable = { name = naval_combat_slave_galleys subtract = 1 }
+			}
+		}
+		change_variable = { name = kraken_requested_ship_loss subtract = 1 }
+		change_variable = { name = kraken_ship_loss add = 1 }
+	}
+	remove_variable = kraken_requested_ship_loss
+}
+
+# Selects a local coastal holder first, then weights that ruler and successive
+# lieges at 60/25/10/5. Merchant shipping is common; naval attacks are rarer.
+kraken_attack_shipping_effect = {
+	save_scope_as = kraken
+	location = {
+		every_neighboring_province = {
+			limit = {
+				is_sea_province = no
+				exists = county
+				county = { exists = holder }
+			}
+			county.holder = {
+				if = {
+					limit = {
+						is_alive = yes
+						is_landed = yes
+						NOT = { is_in_list = kraken_local_shipping_rulers }
+					}
+					add_to_temporary_list = kraken_local_shipping_rulers
+				}
+			}
+		}
+		if = {
+			limit = {
+				any_in_list = {
+					list = kraken_local_shipping_rulers
+					count > 0
+				}
+			}
+			random_in_list = {
+				list = kraken_local_shipping_rulers
+				save_scope_as = kraken_local_shipping_ruler
+			}
+		}
+	}
+	if = {
+		limit = { exists = scope:kraken_local_shipping_ruler }
+		scope:kraken_local_shipping_ruler = {
+			if = {
+				limit = { exists = liege }
+				liege = { save_scope_as = kraken_shipping_liege_1 }
+			}
+			if = {
+				limit = { exists = liege.liege }
+				liege.liege = { save_scope_as = kraken_shipping_liege_2 }
+			}
+			if = {
+				limit = { exists = liege.liege.liege }
+				liege.liege.liege = { save_scope_as = kraken_shipping_liege_3 }
+			}
+		}
+		random_list = {
+			60 = {
+				scope:kraken_local_shipping_ruler = {
+					save_scope_as = kraken_shipping_victim
+				}
+			}
+			25 = {
+				trigger = { exists = scope:kraken_shipping_liege_1 }
+				scope:kraken_shipping_liege_1 = {
+					save_scope_as = kraken_shipping_victim
+				}
+			}
+			10 = {
+				trigger = { exists = scope:kraken_shipping_liege_2 }
+				scope:kraken_shipping_liege_2 = {
+					save_scope_as = kraken_shipping_victim
+				}
+			}
+			5 = {
+				trigger = { exists = scope:kraken_shipping_liege_3 }
+				scope:kraken_shipping_liege_3 = {
+					save_scope_as = kraken_shipping_victim
+				}
+			}
+		}
+	}
+	if = {
+		limit = { exists = scope:kraken_shipping_victim }
+		scope:kraken_shipping_victim = {
+			random_list = {
+				80 = {
+					remove_short_term_gold = 100
+					add_prestige = -50
+					set_variable = { name = kraken_ship_loss value = 0 }
+					trigger_event = kraken.0200
+				}
+				20 = {
+					trigger = {
+						has_variable = naval_combat_initialized
+						OR = {
+							var:naval_combat_transport_ships > 0
+							var:naval_combat_oared_warships > 0
+							var:naval_combat_high_sided_warships > 0
+							var:naval_combat_longships > 0
+							var:naval_combat_greek_fire_ships > 0
+							var:naval_combat_tower_ships > 0
+							var:naval_combat_slave_galleys > 0
+						}
+					}
+					kraken_lose_random_naval_ships_effect = yes
+					trigger_event = kraken.0201
+				}
+			}
+		}
+		set_variable = { name = kraken_hunger value = 100 }
+		kraken_refresh_presence_danger_effect = yes
+	}
+}
+
+kraken_monthly_hunger_and_hunt_effect = {
+	if = {
+		limit = { NOT = { has_variable = kraken_hunger } }
+		set_variable = { name = kraken_hunger value = 100 }
+	}
+	else_if = {
+		limit = { var:kraken_hunger >= 10 }
+		change_variable = { name = kraken_hunger subtract = 10 }
+	}
+	else = {
+		set_variable = { name = kraken_hunger value = 0 }
+	}
+	kraken_refresh_presence_danger_effect = yes
+	if = {
+		limit = { has_character_modifier = enraged_kraken }
+		if = {
+			limit = { has_character_modifier = kraken_wound_near_death }
+			remove_character_modifier = enraged_kraken
+		}
+		else = {
+			kraken_attack_shipping_effect = yes
+		}
+	}
+	else_if = {
+		limit = { var:kraken_hunger < 30 }
+		random = {
+			chance = 25
+			kraken_attack_shipping_effect = yes
+		}
+	}
+}
+
+kraken_receive_livestock_offering_effect = {
+	change_variable = { name = kraken_hunger add = 50 }
+	if = {
+		limit = { var:kraken_hunger > 100 }
+		set_variable = { name = kraken_hunger value = 100 }
+	}
+	kraken_refresh_presence_danger_effect = yes
+}
+
+# Creates one fully initialized creature at scope:kraken_spawn_location.
+kraken_create_at_saved_location_effect = {
+	create_character = {
+		location = scope:kraken_spawn_location
+		template = kraken_creature_template
+		random_traits = no
+		save_scope_as = kraken
+	}
+
+	scope:kraken ?= {
+		random_list = {
+			1 = { change_first_name = kraken_name_the_deep_one }
+			1 = { change_first_name = kraken_name_drowned_gods_wrath }
+			1 = { change_first_name = kraken_name_black_tide }
+			1 = { change_first_name = kraken_name_shipbreaker }
+			1 = { change_first_name = kraken_name_grip_of_the_abyss }
+			1 = { change_first_name = kraken_name_sailsplitter }
+		}
+
+		# Exceptional physiques are rarer; every generated creature gets one tier.
+		random_list = {
+			30 = { add_trait = kraken_physique_good_1 }
+			50 = { add_trait = kraken_physique_good_2 }
+			20 = { add_trait = kraken_physique_good_3 }
+		}
+
+		set_variable = {
+			name = kraken_base_size
+			value = 80
+		}
+		set_variable = {
+			name = kraken_hunger
+			value = 100
+		}
+		set_variable = {
+			name = kraken_lair
+			value = scope:kraken_spawn_location
+		}
+		set_variable = {
+			name = kraken_last_sea_location
+			value = scope:kraken_spawn_location
+		}
+		set_location = {
+			location = scope:kraken_spawn_location
+			stick_to_location = yes
+		}
+		kraken_refresh_derived_statistics_effect = yes
+		kraken_refresh_presence_danger_effect = yes
+
+		create_story = story_kraken_alive
+	}
+
+	add_to_global_variable_list = {
+		name = living_krakens
+		target = scope:kraken
+	}
+	kraken_recount_living_population_effect = yes
+
+	if = {
+		limit = { NOT = { exists = global_var:kraken_test_creature } }
+		set_global_variable = {
+			name = kraken_test_creature
+			value = scope:kraken
+		}
+	}
+	else_if = {
+		limit = { global_var:kraken_test_creature = { is_alive = no } }
+		set_global_variable = {
+			name = kraken_test_creature
+			value = scope:kraken
+		}
+	}
+}
+
+# Creates the debug creature beside the acting character's capital, falling
+# back to a random Sunset Sea province for inland capitals.
+kraken_spawn_test_creature_effect = {
+	save_scope_as = kraken_witness
+	capital_province = {
+		if = {
+			limit = {
+				any_neighboring_province = {
+					kraken_is_traversable_sea_trigger = yes
+				}
+			}
+			random_neighboring_province = {
+				limit = { kraken_is_traversable_sea_trigger = yes }
+				save_scope_as = kraken_spawn_location
+			}
+		}
+	}
+	if = {
+		limit = { NOT = { exists = scope:kraken_spawn_location } }
+		agot_random_province_in_is_sunset_sea = yes
+		scope:oceanprovince = {
+			save_scope_as = kraken_spawn_location
+		}
+	}
+
+	kraken_create_at_saved_location_effect = yes
+
+	trigger_event = kraken.0001
+}
+
+# Rebuilds the count from the authoritative living-creature list. The list is
+# maintained by each creature's story cycle and also supports existing saves.
+kraken_recount_living_population_effect = {
+	set_global_variable = {
+		name = kraken_living_count
+		value = 0
+	}
+	if = {
+		limit = { has_global_variable_list = living_krakens }
+		every_in_global_list = {
+			variable = living_krakens
+			limit = {
+				is_alive = yes
+				has_trait = kraken
+			}
+			change_global_variable = {
+				name = kraken_living_count
+				add = 1
+			}
+		}
+	}
+}
+
+# The two fixed anchors are traversable AGOT sea provinces. Province 6296
+# borders the three far south-western islands; 6283 borders Lonely Light.
+kraken_spawn_from_population_roll_effect = {
+	random_list = {
+		30 = {
+			province:6296 = { save_scope_as = kraken_spawn_location }
+		}
+		70 = {
+			province:6283 = { save_scope_as = kraken_spawn_location }
+		}
+	}
+	kraken_create_at_saved_location_effect = yes
+}
+
+# Draws a creature to the summoner's nearby waters. This starts from the
+# current location so landless artifact holders work without owning a realm.
+kraken_spawn_enraged_near_character_effect = {
+	if = {
+		limit = {
+			location = { kraken_is_traversable_sea_trigger = yes }
+		}
+		location = { save_scope_as = kraken_spawn_location }
+	}
+	else_if = {
+		limit = {
+			location = {
+				any_neighboring_province = {
+					kraken_is_traversable_sea_trigger = yes
+				}
+			}
+		}
+		location = {
+			random_neighboring_province = {
+				limit = { kraken_is_traversable_sea_trigger = yes }
+				save_scope_as = kraken_spawn_location
+			}
+		}
+	}
+	else_if = {
+		limit = {
+			location = {
+				exists = county
+				county = {
+					any_county_province = {
+						any_neighboring_province = {
+							kraken_is_traversable_sea_trigger = yes
+						}
+					}
+				}
+			}
+		}
+		location.county = {
+			random_county_province = {
+				limit = {
+					any_neighboring_province = {
+						kraken_is_traversable_sea_trigger = yes
+					}
+				}
+				random_neighboring_province = {
+					limit = { kraken_is_traversable_sea_trigger = yes }
+					save_scope_as = kraken_spawn_location
+				}
+			}
+		}
+	}
+	else_if = {
+		limit = {
+			is_landed = yes
+			capital_province = {
+				any_neighboring_province = {
+					kraken_is_traversable_sea_trigger = yes
+				}
+			}
+		}
+		capital_province = {
+			random_neighboring_province = {
+				limit = { kraken_is_traversable_sea_trigger = yes }
+				save_scope_as = kraken_spawn_location
+			}
+		}
+	}
+	else_if = {
+		limit = {
+			is_landed = yes
+			any_held_title = {
+				tier = tier_county
+				any_county_province = {
+					any_neighboring_province = {
+						kraken_is_traversable_sea_trigger = yes
+					}
+				}
+			}
+		}
+		random_held_title = {
+			limit = {
+				tier = tier_county
+				any_county_province = {
+					any_neighboring_province = {
+						kraken_is_traversable_sea_trigger = yes
+					}
+				}
+			}
+			random_county_province = {
+				limit = {
+					any_neighboring_province = {
+						kraken_is_traversable_sea_trigger = yes
+					}
+				}
+				random_neighboring_province = {
+					limit = { kraken_is_traversable_sea_trigger = yes }
+					save_scope_as = kraken_spawn_location
+				}
+			}
+		}
+	}
+	else_if = {
+		limit = {
+			is_landed = yes
+			any_realm_county = {
+				any_county_province = {
+					any_neighboring_province = {
+						kraken_is_traversable_sea_trigger = yes
+					}
+				}
+			}
+		}
+		random_realm_county = {
+			limit = {
+				any_county_province = {
+					any_neighboring_province = {
+						kraken_is_traversable_sea_trigger = yes
+					}
+				}
+			}
+			random_county_province = {
+				limit = {
+					any_neighboring_province = {
+						kraken_is_traversable_sea_trigger = yes
+					}
+				}
+				random_neighboring_province = {
+					limit = { kraken_is_traversable_sea_trigger = yes }
+					save_scope_as = kraken_spawn_location
+				}
+			}
+		}
+	}
+	else_if = {
+		limit = {
+			location = {
+				exists = county
+				county = {
+					exists = holder
+					holder = {
+						any_realm_county = {
+							any_county_province = {
+								any_neighboring_province = {
+									kraken_is_traversable_sea_trigger = yes
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+		location.county.holder = {
+			random_realm_county = {
+				limit = {
+					any_county_province = {
+						any_neighboring_province = {
+							kraken_is_traversable_sea_trigger = yes
+						}
+					}
+				}
+				random_county_province = {
+					limit = {
+						any_neighboring_province = {
+							kraken_is_traversable_sea_trigger = yes
+						}
+					}
+					random_neighboring_province = {
+						limit = { kraken_is_traversable_sea_trigger = yes }
+						save_scope_as = kraken_spawn_location
+					}
+				}
+			}
+		}
+	}
+
+	if = {
+		limit = { exists = scope:kraken_spawn_location }
+		kraken_create_at_saved_location_effect = yes
+		scope:kraken = {
+			add_character_modifier = {
+				modifier = enraged_kraken
+				years = 1
+			}
+		}
+		trigger_event = kraken.0003
+	}
+}
+
+kraken_start_population_system_effect = {
+	if = {
+		limit = { NOT = { exists = global_var:kraken_population_system_started } }
+		set_global_variable = {
+			name = kraken_population_system_started
+			value = yes
+		}
+		kraken_recount_living_population_effect = yes
+		if = {
+			limit = { kraken_population_below_limit_trigger = yes }
+			province:6296 = { save_scope_as = kraken_spawn_location }
+			kraken_create_at_saved_location_effect = yes
+		}
+	}
+}
+
+kraken_yearly_population_pulse_effect = {
+	if = {
+		limit = { exists = global_var:kraken_population_system_started }
+		kraken_recount_living_population_effect = yes
+		if = {
+			limit = { kraken_population_below_limit_trigger = yes }
+			random = {
+				chance = 20
+				kraken_spawn_from_population_roll_effect = yes
+			}
+		}
+	}
+}
+
+# Keeps creatures from earlier prototype versions compatible with the current
+# body-trait and statistic model. This can run safely more than once.
+kraken_migrate_test_creature_effect = {
+	if = {
+		limit = { exists = global_var:kraken_test_creature }
+		global_var:kraken_test_creature = { save_scope_as = migrated_kraken }
+		if = {
+			limit = {
+				NOT = {
+					is_target_in_global_variable_list = {
+						name = living_krakens
+						target = scope:migrated_kraken
+					}
+				}
+			}
+			add_to_global_variable_list = {
+				name = living_krakens
+				target = scope:migrated_kraken
+			}
+		}
+		global_var:kraken_test_creature = {
+			if = {
+				limit = { NOT = { has_variable = kraken_hunger } }
+				set_variable = { name = kraken_hunger value = 100 }
+			}
+			if = {
+				limit = { var:kraken_hunger > 100 }
+				set_variable = { name = kraken_hunger value = 100 }
+			}
+			if = {
+				limit = {
+					OR = {
+						NOT = { has_variable = kraken_lair }
+						AND = {
+							has_variable = kraken_lair
+							var:kraken_lair = { is_sea_province = no }
+						}
+					}
+				}
+				kraken_assign_sunset_sea_lair_effect = yes
+			}
+			else_if = {
+				limit = { location = { is_sea_province = no } }
+				kraken_return_to_last_sea_effect = yes
+			}
+			if = {
+				limit = {
+					NOT = { has_variable = kraken_last_sea_location }
+					location = {
+						kraken_is_traversable_sea_trigger = yes
+					}
+				}
+				set_variable = {
+					name = kraken_last_sea_location
+					value = location
+				}
+			}
+			if = {
+				limit = {
+					NOT = { has_variable = kraken_base_size }
+					has_variable = kraken_size
+				}
+				set_variable = {
+					name = kraken_base_size
+					value = var:kraken_size
+				}
+			}
+			if = {
+				limit = { NOT = { has_variable = kraken_base_size } }
+				set_variable = {
+					name = kraken_base_size
+					value = 80
+				}
+			}
+			if = {
+				limit = { has_trait = wilderness }
+				remove_trait = wilderness
+			}
+			if = {
+				limit = { has_character_flag = wild_kraken }
+				remove_character_flag = wild_kraken
+			}
+			if = {
+				limit = { has_trait = kraken_colossal }
+				remove_trait = kraken_colossal
+			}
+			if = {
+				limit = {
+					NOR = {
+						has_trait = kraken_physique_good_1
+						has_trait = kraken_physique_good_2
+						has_trait = kraken_physique_good_3
+					}
+				}
+				add_trait = kraken_physique_good_2
+			}
+			kraken_refresh_derived_statistics_effect = yes
+			kraken_refresh_presence_danger_effect = yes
+		}
+	}
+	kraken_recount_living_population_effect = yes
+}
+
+# Clears all actor-side state created by a personal Kraken challenge.
+kraken_cleanup_challenge_effect = {
+	remove_variable = kraken_challenge_score
+	remove_variable = kraken_challenge_human_rank
+	remove_variable = kraken_challenge_balance
+	remove_variable = kraken_challenge_round
+	remove_character_flag = kraken_challenge_has_horn
+	remove_character_flag = kraken_challenge_fear_failed
+	remove_character_flag = kraken_challenge_target_eye
+	remove_character_flag = kraken_challenge_target_tentacle
+	remove_character_flag = kraken_challenge_target_beak
+	remove_character_flag = kraken_challenge_target_mantle
+	remove_character_flag = kraken_challenge_decisive
+	remove_character_flag = kraken_challenge_hit
+	remove_character_flag = kraken_challenge_repulsed
+	remove_character_flag = kraken_challenge_wounded
+	remove_character_flag = kraken_challenge_kill
+	remove_character_flag = kraken_challenge_fatal
+	if = {
+		limit = { exists = scope:kraken }
+		scope:kraken = { remove_variable = kraken_challenge_rank }
+	}
+}
+
+# Leaving an active fight is dangerous. A favorable matchup makes a clean
+# escape more likely, while a badly outmatched challenger risks the deep.
+kraken_resolve_challenge_withdrawal_effect = {
+	random_list = {
+		70 = {
+			modifier = { factor = 2 var:kraken_challenge_balance >= 4 }
+			modifier = { factor = 1.5 var:kraken_challenge_balance >= 2 var:kraken_challenge_balance < 4 }
+			modifier = { factor = 0.7 var:kraken_challenge_balance <= -2 var:kraken_challenge_balance > -4 }
+			modifier = { factor = 0.45 var:kraken_challenge_balance <= -4 }
+			kraken_cleanup_challenge_effect = yes
+		}
+		25 = {
+			modifier = { factor = 0.7 var:kraken_challenge_balance >= 4 }
+			modifier = { factor = 0.85 var:kraken_challenge_balance >= 2 var:kraken_challenge_balance < 4 }
+			modifier = { factor = 1.25 var:kraken_challenge_balance <= -2 var:kraken_challenge_balance > -4 }
+			modifier = { factor = 1.5 var:kraken_challenge_balance <= -4 }
+			trigger_event = { id = kraken.1120 }
+		}
+		5 = {
+			modifier = { factor = 0.35 var:kraken_challenge_balance >= 4 }
+			modifier = { factor = 0.6 var:kraken_challenge_balance >= 2 var:kraken_challenge_balance < 4 }
+			modifier = { factor = 1.6 var:kraken_challenge_balance <= -2 var:kraken_challenge_balance > -4 }
+			modifier = { factor = 2.5 var:kraken_challenge_balance <= -4 }
+			trigger_event = { id = kraken.1105 }
+		}
+	}
+}
+
+# Starts from personal prowess. Krakenhorn is detected as a passive possession:
+# it is never activated, displayed as a preparation choice, or consumed.
+kraken_initialize_challenge_effect = {
+	kraken_cleanup_challenge_effect = yes
+	set_variable = {
+		name = kraken_challenge_score
+		value = prowess
+	}
+	set_variable = { name = kraken_challenge_round value = 0 }
+	if = {
+		limit = {
+			any_character_artifact = {
+				has_variable = krakenhorn
+			}
+		}
+		random_character_artifact = {
+			limit = { has_variable = krakenhorn }
+			save_scope_as = kraken_challenge_horn
+		}
+		change_variable = { name = kraken_challenge_score add = 10 }
+		add_character_flag = kraken_challenge_has_horn
+	}
+}
+
+# Converts effective human prowess and Kraken combat power into AGOT-style
+# ranks from one to ten, then stores human rank minus Kraken rank on the actor.
+kraken_calculate_challenge_balance_effect = {
+	set_variable = { name = kraken_challenge_human_rank value = 1 }
+	if = {
+		limit = { var:kraken_challenge_score >= 90 }
+		set_variable = { name = kraken_challenge_human_rank value = 10 }
+	}
+	else_if = {
+		limit = { var:kraken_challenge_score >= 80 }
+		set_variable = { name = kraken_challenge_human_rank value = 9 }
+	}
+	else_if = {
+		limit = { var:kraken_challenge_score >= 70 }
+		set_variable = { name = kraken_challenge_human_rank value = 8 }
+	}
+	else_if = {
+		limit = { var:kraken_challenge_score >= 60 }
+		set_variable = { name = kraken_challenge_human_rank value = 7 }
+	}
+	else_if = {
+		limit = { var:kraken_challenge_score >= 50 }
+		set_variable = { name = kraken_challenge_human_rank value = 6 }
+	}
+	else_if = {
+		limit = { var:kraken_challenge_score >= 40 }
+		set_variable = { name = kraken_challenge_human_rank value = 5 }
+	}
+	else_if = {
+		limit = { var:kraken_challenge_score >= 30 }
+		set_variable = { name = kraken_challenge_human_rank value = 4 }
+	}
+	else_if = {
+		limit = { var:kraken_challenge_score >= 20 }
+		set_variable = { name = kraken_challenge_human_rank value = 3 }
+	}
+	else_if = {
+		limit = { var:kraken_challenge_score >= 10 }
+		set_variable = { name = kraken_challenge_human_rank value = 2 }
+	}
+
+	scope:kraken = {
+		kraken_refresh_derived_statistics_effect = yes
+		set_variable = { name = kraken_challenge_rank value = 1 }
+		if = {
+			limit = { var:kraken_combat_effectiveness >= 350 }
+			set_variable = { name = kraken_challenge_rank value = 10 }
+		}
+		else_if = {
+			limit = { var:kraken_combat_effectiveness >= 325 }
+			set_variable = { name = kraken_challenge_rank value = 9 }
+		}
+		else_if = {
+			limit = { var:kraken_combat_effectiveness >= 300 }
+			set_variable = { name = kraken_challenge_rank value = 8 }
+		}
+		else_if = {
+			limit = { var:kraken_combat_effectiveness >= 275 }
+			set_variable = { name = kraken_challenge_rank value = 7 }
+		}
+		else_if = {
+			limit = { var:kraken_combat_effectiveness >= 250 }
+			set_variable = { name = kraken_challenge_rank value = 6 }
+		}
+		else_if = {
+			limit = { var:kraken_combat_effectiveness >= 225 }
+			set_variable = { name = kraken_challenge_rank value = 5 }
+		}
+		else_if = {
+			limit = { var:kraken_combat_effectiveness >= 200 }
+			set_variable = { name = kraken_challenge_rank value = 4 }
+		}
+		else_if = {
+			limit = { var:kraken_combat_effectiveness >= 175 }
+			set_variable = { name = kraken_challenge_rank value = 3 }
+		}
+		else_if = {
+			limit = { var:kraken_combat_effectiveness >= 150 }
+			set_variable = { name = kraken_challenge_rank value = 2 }
+		}
+	}
+
+	set_variable = {
+		name = kraken_challenge_balance
+		value = {
+			value = var:kraken_challenge_human_rank
+			subtract = scope:kraken.var:kraken_challenge_rank
+		}
+	}
+}
+
+# Advances the mutually exclusive temporary wound by one step.
+kraken_advance_wound_effect = {
+	if = {
+		limit = { has_character_modifier = kraken_wound_severe }
+		remove_character_modifier = kraken_wound_severe
+		add_character_modifier = { modifier = kraken_wound_near_death years = 10 }
+	}
+	else_if = {
+		limit = { has_character_modifier = kraken_wound_injured }
+		remove_character_modifier = kraken_wound_injured
+		add_character_modifier = { modifier = kraken_wound_severe years = 6 }
+	}
+	else_if = {
+		limit = { has_character_modifier = kraken_wound_light }
+		remove_character_modifier = kraken_wound_light
+		add_character_modifier = { modifier = kraken_wound_injured years = 3 }
+	}
+	else = {
+		add_character_modifier = { modifier = kraken_wound_light years = 1 }
+	}
+	kraken_refresh_derived_statistics_effect = yes
+}
+
+# A decisive hit records the part the player actually targeted. Existing
+# injuries cannot be duplicated.
+kraken_apply_targeted_permanent_injury_effect = {
+	if = {
+		limit = {
+			root = { has_character_flag = kraken_challenge_target_eye }
+			NOT = { has_character_modifier = kraken_injury_one_eye }
+		}
+		add_character_modifier = { modifier = kraken_injury_one_eye }
+	}
+	else_if = {
+		limit = {
+			root = { has_character_flag = kraken_challenge_target_tentacle }
+			NOT = { has_character_modifier = kraken_injury_severed_tentacle }
+		}
+		add_character_modifier = { modifier = kraken_injury_severed_tentacle }
+	}
+	else_if = {
+		limit = {
+			root = { has_character_flag = kraken_challenge_target_beak }
+			NOT = { has_character_modifier = kraken_injury_broken_beak }
+		}
+		add_character_modifier = { modifier = kraken_injury_broken_beak }
+	}
+	else_if = {
+		limit = {
+			root = { has_character_flag = kraken_challenge_target_mantle }
+			NOT = { has_character_modifier = kraken_injury_torn_mantle }
+		}
+		add_character_modifier = { modifier = kraken_injury_torn_mantle }
+	}
+	kraken_refresh_derived_statistics_effect = yes
+}
+
+kraken_wound_challenger_effect = {
+	if = {
+		limit = { has_trait = wounded_2 }
+		remove_trait = wounded_2
+		add_trait = wounded_3
+	}
+	else_if = {
+		limit = { has_trait = wounded_1 }
+		remove_trait = wounded_1
+		add_trait = wounded_2
+	}
+	else_if = {
+		limit = { NOT = { has_trait = wounded_3 } }
+		add_trait = wounded_1
+	}
+}
+
+# Any personal attack enrages a surviving Kraken unless the strike leaves it
+# near death. The monthly pulse also removes this state as a safety check.
+kraken_update_enraged_after_attack_effect = {
+	if = {
+		limit = {
+			is_alive = yes
+			NOT = { has_character_modifier = kraken_wound_near_death }
+		}
+		if = {
+			limit = { has_character_modifier = enraged_kraken }
+			remove_character_modifier = enraged_kraken
+		}
+		add_character_modifier = {
+			modifier = enraged_kraken
+			years = 1
+		}
+	}
+	else_if = {
+		limit = {
+			OR = {
+				is_alive = no
+				has_character_modifier = kraken_wound_near_death
+			}
+			has_character_modifier = enraged_kraken
+		}
+		remove_character_modifier = enraged_kraken
+	}
+}
+
+# Resolves one strike. Relative rank is the main influence; risky body targets
+# raise both decisive-hit and death weights, while the mantle is safer.
+kraken_resolve_challenge_strike_effect = {
+	remove_character_flag = kraken_challenge_decisive
+	remove_character_flag = kraken_challenge_hit
+	remove_character_flag = kraken_challenge_repulsed
+	remove_character_flag = kraken_challenge_wounded
+	remove_character_flag = kraken_challenge_kill
+	remove_character_flag = kraken_challenge_fatal
+	random_list = {
+		15 = {
+			modifier = { factor = 3 var:kraken_challenge_balance >= 4 }
+			modifier = { factor = 2 var:kraken_challenge_balance >= 2 var:kraken_challenge_balance < 4 }
+			modifier = { factor = 1.5 var:kraken_challenge_balance >= 0 var:kraken_challenge_balance < 2 }
+			modifier = { factor = 0.5 var:kraken_challenge_balance <= -2 var:kraken_challenge_balance > -4 }
+			modifier = { factor = 0.2 var:kraken_challenge_balance <= -4 }
+			modifier = {
+				factor = 1.3
+				OR = {
+					has_character_flag = kraken_challenge_target_eye
+					has_character_flag = kraken_challenge_target_beak
+				}
+			}
+			modifier = { factor = 0.75 has_character_flag = kraken_challenge_target_mantle }
+			if = {
+				limit = { scope:kraken = { has_character_modifier = kraken_wound_near_death } }
+				set_variable = {
+					name = kraken_trophy_size
+					value = scope:kraken.var:kraken_size
+				}
+				scope:kraken = {
+					death = { death_reason = death_kraken_slain killer = root }
+				}
+				add_character_flag = kraken_challenge_kill
+			}
+			else = {
+				scope:kraken = {
+					kraken_advance_wound_effect = yes
+					kraken_apply_targeted_permanent_injury_effect = yes
+				}
+				add_character_flag = kraken_challenge_decisive
+			}
+		}
+		30 = {
+			modifier = { factor = 2.5 var:kraken_challenge_balance >= 4 }
+			modifier = { factor = 1.75 var:kraken_challenge_balance >= 2 var:kraken_challenge_balance < 4 }
+			modifier = { factor = 1.25 var:kraken_challenge_balance >= 0 var:kraken_challenge_balance < 2 }
+			modifier = { factor = 0.65 var:kraken_challenge_balance <= -2 var:kraken_challenge_balance > -4 }
+			modifier = { factor = 0.3 var:kraken_challenge_balance <= -4 }
+			modifier = { factor = 1.2 has_character_flag = kraken_challenge_target_mantle }
+			if = {
+				limit = { scope:kraken = { has_character_modifier = kraken_wound_near_death } }
+				set_variable = {
+					name = kraken_trophy_size
+					value = scope:kraken.var:kraken_size
+				}
+				scope:kraken = {
+					death = { death_reason = death_kraken_slain killer = root }
+				}
+				add_character_flag = kraken_challenge_kill
+			}
+			else = {
+				scope:kraken = { kraken_advance_wound_effect = yes }
+				add_character_flag = kraken_challenge_hit
+			}
+		}
+		35 = {
+			modifier = { factor = 0.35 var:kraken_challenge_balance >= 4 }
+			modifier = { factor = 0.65 var:kraken_challenge_balance >= 2 var:kraken_challenge_balance < 4 }
+			modifier = { factor = 1.35 var:kraken_challenge_balance <= -2 var:kraken_challenge_balance > -4 }
+			modifier = { factor = 2 var:kraken_challenge_balance <= -4 }
+			add_character_flag = kraken_challenge_repulsed
+		}
+		12 = {
+			modifier = { factor = 0.2 var:kraken_challenge_balance >= 4 }
+			modifier = { factor = 0.5 var:kraken_challenge_balance >= 2 var:kraken_challenge_balance < 4 }
+			modifier = { factor = 1.75 var:kraken_challenge_balance <= -2 var:kraken_challenge_balance > -4 }
+			modifier = { factor = 3 var:kraken_challenge_balance <= -4 }
+			modifier = { factor = 1.25 has_character_flag = kraken_challenge_fear_failed }
+			root = { kraken_wound_challenger_effect = yes }
+			add_character_flag = kraken_challenge_wounded
+		}
+		8 = {
+			modifier = { factor = 0.1 var:kraken_challenge_balance >= 4 }
+			modifier = { factor = 0.35 var:kraken_challenge_balance >= 2 var:kraken_challenge_balance < 4 }
+			modifier = { factor = 2 var:kraken_challenge_balance <= -2 var:kraken_challenge_balance > -4 }
+			modifier = { factor = 4 var:kraken_challenge_balance <= -4 }
+			modifier = { factor = 1.5 has_character_flag = kraken_challenge_fear_failed }
+			modifier = {
+				factor = 1.3
+				OR = {
+					has_character_flag = kraken_challenge_target_eye
+					has_character_flag = kraken_challenge_target_beak
+				}
+			}
+			modifier = { factor = 0.75 has_character_flag = kraken_challenge_target_mantle }
+			add_character_flag = kraken_challenge_fatal
+		}
+	}
+	scope:kraken = { kraken_update_enraged_after_attack_effect = yes }
+}
+
+# Opens the result after random resolution has returned to the event option.
+kraken_dispatch_challenge_result_effect = {
+	if = {
+		limit = { has_character_flag = kraken_challenge_kill }
+		trigger_event = { id = kraken.1110 }
+	}
+	else_if = {
+		limit = { has_character_flag = kraken_challenge_decisive }
+		trigger_event = { id = kraken.1101 }
+	}
+	else_if = {
+		limit = { has_character_flag = kraken_challenge_hit }
+		trigger_event = { id = kraken.1102 }
+	}
+	else_if = {
+		limit = { has_character_flag = kraken_challenge_wounded }
+		trigger_event = { id = kraken.1104 }
+	}
+	else_if = {
+		limit = { has_character_flag = kraken_challenge_fatal }
+		trigger_event = { id = kraken.1105 }
+	}
+	else = {
+		trigger_event = { id = kraken.1103 }
+	}
+}
+
+# Trophy quality tracks the creature's existing adult size bands.
+kraken_create_tooth_artifact_effect = {
+	if = {
+		limit = { NOT = { has_variable = kraken_trophy_size } }
+		set_variable = { name = kraken_trophy_size value = 0 }
+	}
+	if = {
+		limit = { var:kraken_trophy_size >= 350 }
+		create_artifact = {
+			name = kraken_tooth_name
+			description = kraken_tooth_description
+			rarity = illustrious
+			type = miscellaneous
+			visuals = kraken_tooth
+			creator = root
+			decaying = no
+			modifier = kraken_tooth_prestige_illustrious_modifier
+			modifier = artifact_dread_baseline_add_3_modifier
+			save_scope_as = kraken_tooth_artifact
+		}
+	}
+	else_if = {
+		limit = { var:kraken_trophy_size >= 250 }
+		create_artifact = {
+			name = kraken_tooth_name
+			description = kraken_tooth_description
+			rarity = famed
+			type = miscellaneous
+			visuals = kraken_tooth
+			creator = root
+			decaying = no
+			modifier = kraken_tooth_prestige_famed_modifier
+			modifier = artifact_dread_baseline_add_2_modifier
+			save_scope_as = kraken_tooth_artifact
+		}
+	}
+	else = {
+		create_artifact = {
+			name = kraken_tooth_name
+			description = kraken_tooth_description
+			rarity = masterwork
+			type = miscellaneous
+			visuals = kraken_tooth
+			creator = root
+			decaying = no
+			modifier = kraken_tooth_prestige_masterwork_modifier
+			modifier = artifact_dread_baseline_add_1_modifier
+			save_scope_as = kraken_tooth_artifact
+		}
+	}
+	remove_variable = kraken_trophy_size
+}

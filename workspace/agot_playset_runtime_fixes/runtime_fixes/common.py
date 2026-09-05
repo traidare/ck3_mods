@@ -17,6 +17,13 @@ from gen.text import replace_exact
 from .context import RunInputs
 
 
+def require_count(text: str, needle: str, expected: int, *, label: str) -> None:
+    """Pin how often a literal appears, so an upstream edit re-raises the repair."""
+    actual = text.count(needle)
+    if actual != expected:
+        raise RuntimeError(f"{label}: expected {expected} {needle!r}, found {actual}")
+
+
 def remove_enclosing_block(
     text: str, *, marker: str, block_name: str, label: str
 ) -> str:
