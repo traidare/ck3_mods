@@ -221,6 +221,10 @@
       "sha256": "ca2873aba03643ac0c26ad155cc7be7e477a21f845ee384233ec1260ea058d68",
       "size": 126800
     },
+    "workshop/2962333032/events/health_events.txt": {
+      "sha256": "05e48264c8935fc9631803baa3afcac94cf99e04486f98c96e75fe97e2afab0d",
+      "size": 302204
+    },
     "workshop/2962333032/events/mpo_chaotic_kurultai_succession.txt": {
       "sha256": "cc5fbd66055546932e2e1c4618730ef80cd039362104481faceffc8281388a44",
       "size": 68837
@@ -344,14 +348,6 @@
     "workshop/3437814875/gui/00_no_transition.gui": {
       "sha256": "8a682c5401033379c6902dca6e0077397fd93a9cf6d4782ef3d8e0c700d082bd",
       "size": 4543
-    },
-    "workshop/3445965581/common/traits/dc_traits.txt": {
-      "sha256": "b871b97f019fb4bd2bc78ed36169f1db09f710df5dbe48a2e6a6c66c98d4b871",
-      "size": 16892
-    },
-    "workshop/3445965581/events/health_events.txt": {
-      "sha256": "c444e3b68bfdb5632efb84cdb2c57033568204fdd65b572c9ac83f5f88979a66",
-      "size": 302004
     },
     "workshop/3462342647/common/bookmark_portraits/bookmark_106_alicent_hightower.txt": {
       "sha256": "fa9c401f7a572926d6ee52033d82041112349989bda24cefefd37c04e6f4cffd",
@@ -1256,10 +1252,6 @@
     "workshop/3673468355/events/zz_agot_squire_automation_events.txt": {
       "sha256": "8894a67dada8d9ebbb59c0a8f99785e40deffa52c5b430b37321a458cf113ce5",
       "size": 16954
-    },
-    "workshop/3674548216/events/agot_events/agot_squirehood_ongoing_events.txt": {
-      "sha256": "0b868d55ea5d971aab85c71edb52facb7c37cc4cbd4d5c8ce7068f2db113c534",
-      "size": 79382
     },
     "workshop/3676293022/events/lunarac_00_hire_events.txt": {
       "sha256": "b048db9190943dcc755a82b99527d4e7b0b833022ddaf499ddc20c4be71becb3",

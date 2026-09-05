@@ -38,6 +38,7 @@ namespace = health
 #	7300		Your eyes start to cloud
 #	7400		Your heart starts faltering
 #	7500		Your bones start weakening
+
 #PULSE MANAGEMENT:
 #	9998-9999: Pulse management
 
@@ -1098,15 +1099,15 @@ health.1001 = {
 
 		modifier = {
 			is_adult = no
-			factor = 1.8
+			factor = 1.5
 		}
 		modifier = {
 			health <= fine_health
-			factor = 1.2
+			factor = 1.1
 		}
 		modifier = {
 			health <= poor_health
-			factor = 1.6
+			factor = 1.1
 		}
 		# Difficulty and Game Rules make the generic 'Ill' slightly more common
 		modifier = { # Difficulty
@@ -1137,7 +1138,7 @@ health.1001 = {
 		}
 		modifier = { # Game Rule
 			has_game_rule = fewer_minor_disease_frequency
-			factor = 1.3
+			factor = 1.2
 		}
 	}
 
@@ -1394,7 +1395,7 @@ health.1002 = {
 		}
 		modifier = {
 			is_adult = no
-			factor = 3
+			factor = 2
 		}
 		modifier = {
 			health <= fine_health
@@ -2540,37 +2541,37 @@ health.1007 = {
 
 		modifier = { #Children almost never have it
 			age < 25
-			factor = 0.2
+			factor = 0.1
 		}
 		modifier = { #Very uncommon before 30
 			age >= 25
 			age < 35
-			factor = 0.4
+			factor = 0.3
 		}
 		modifier = { #Increasingly common after 55
 			is_male = yes
 			age > 55 #Males have a higher risk later in life
-			factor = 3.5
+			factor = 3
 		}
 		modifier = { #Increasingly common after 55
 			age >= 55
 			is_female = yes
-			factor = 2.5
+			factor = 2
 		}
 		modifier = { #Increasingly common after 65
 			age >= 60
-			factor = 3.5
+			factor = 2
 		}
 		modifier = { #Increasingly common after 70
 			age >= 70
-			factor = 4
+			factor = 2
 		}
 		modifier = { #More common if you have an elder trait
 			age >= 45
 			any_character_trait = {
 				has_trait_flag = age_related_ailment
 			}
-			factor = 4
+			factor = 3
 		}
 		modifier = { #Parent had cancer
 			age >= 45
@@ -2578,7 +2579,7 @@ health.1007 = {
 				even_if_dead = yes
 				has_trait = cancer
 			}
-			factor = 4
+			factor = 3
 		}
 		modifier = { #Grandparent had cancer
 			age >= 45
@@ -2586,7 +2587,7 @@ health.1007 = {
 				even_if_dead = yes
 				has_trait = cancer
 			}
-			factor = 3
+			factor = 2
 		}
 	}
 
@@ -12415,23 +12416,23 @@ health.7000 = {
 		}
 		modifier = {
 			health < fine_health
-			factor = 3
+			factor = 2
 		}
 		modifier = {
 			health <= poor_health
-			factor = 6
+			factor = 5
 		}
 		modifier = {
 			has_trait = physique_bad_2
-			factor = 1.6
+			factor = 1.2
 		}
 		modifier = {
 			has_trait = physique_bad_3
-			factor = 2.5
+			factor = 1.5
 		}
 		modifier = {
 			age < 50
-			factor = 0.9
+			factor = 0.7
 		}
 		modifier = {
 			age > 60
@@ -12439,11 +12440,11 @@ health.7000 = {
 		}
 		modifier = {
 			age > 70
-			factor = 3
+			factor = 2
 		}
 		modifier = {
 			age > 80
-			factor = 4
+			factor = 3
 		}
 		modifier = {
 			has_trait = athletic
@@ -12459,14 +12460,14 @@ health.7000 = {
 		}
 		modifier = {
 			has_trait = cancer
-			factor = 4
+			factor = 3
 		}
 		modifier = { # More likely if you have 2+ elderly traits
 			any_character_trait = {
 				count >= 2
 				has_trait_flag = age_related_ailment
 			}
-			factor = 4
+			factor = 3
 		}
 		modifier = {
 			faith = { has_doctrine_parameter = less_likely_to_become_infirm }
@@ -12626,7 +12627,7 @@ health.7200 = {
 		modifier = { #Can happen randomly for healthy characters, but very rare
 			health >= good_health
 			age < 60
-			factor = 0.2
+			factor = 0.1
 		}
 		modifier = {
 			health >= fine_health
@@ -12651,15 +12652,15 @@ health.7200 = {
 		}
 		modifier = {
 			age > 60
-			factor = 3
+			factor = 2
 		}
 		modifier = {
 			age > 70
-			factor = 3
+			factor = 2
 		}
 		modifier = {
 			age > 80
-			factor = 4
+			factor = 3
 		}
 		# Genetics
 		modifier = {
@@ -12701,7 +12702,7 @@ health.7200 = {
 		}
 		modifier = {
 			stress_level >= 3
-			factor = 4
+			factor = 3
 		}
 		modifier = {
 			is_imprisoned = yes
@@ -12849,15 +12850,15 @@ health.7300 = {
 		}
 		modifier = {
 			age > 60
-			factor = 3
+			factor = 2
 		}
 		modifier = {
 			age > 70
-			factor = 3
+			factor = 2
 		}
 		modifier = {
 			age > 80
-			factor = 4
+			factor = 3
 		}
 		# Genetics
 		modifier = {
@@ -12891,7 +12892,6 @@ health.7300 = {
 		}
 		modifier = { # Glare
 			is_ruler = yes # For performance reasons we limit this as checking modifiers is expensive
-			exists = location
 			location = {
 				OR = {
 					has_province_modifier = winter_normal_modifier
@@ -12901,21 +12901,25 @@ health.7300 = {
 			factor = 1.5
 		}
 		modifier = { # Bright sunlight
-			exists = location
 			location = {
 				OR = {
-					terrain = desert
-					terrain = desert_mountains
+					#AGOT Modified
+					# terrain = desert
+					# terrain = desert_mountains
+					agot_is_desert_terrain = yes
+					agot_is_desert_mountains_terrain = yes
 				}
 			}
 			factor = 1.25
 		}
 		modifier = { # Shade
-			exists = location
 			location = {
 				OR = {
-					terrain = jungle
-					terrain = forest
+					#AGOT Modified
+					# terrain = jungle
+					# terrain = forest
+					agot_is_jungle_terrain = yes
+					agot_is_forest_terrain = yes
 				}
 			}
 			factor = 0.75
@@ -13006,7 +13010,7 @@ health.7400 = {
 		}
 		modifier = {
 			has_trait = physique_bad_3
-			factor = 3
+			factor = 1.5
 		}
 		modifier = {
 			age < 50
@@ -13018,11 +13022,11 @@ health.7400 = {
 		}
 		modifier = {
 			age > 70
-			factor = 4
+			factor = 2
 		}
 		modifier = {
 			age > 80
-			factor = 8
+			factor = 3
 		}
 		modifier = {
 			culture = { has_cultural_parameter = less_likely_to_gain_elder_health_traits }
@@ -13200,7 +13204,7 @@ health.7500 = {
 		}
 		modifier = {
 			has_trait = physique_bad_3
-			factor = 3
+			factor = 1.5
 		}
 		modifier = {
 			age < 50
@@ -13216,7 +13220,7 @@ health.7500 = {
 		}
 		modifier = {
 			age > 80
-			factor = 7
+			factor = 3
 		}
 		modifier = {
 			culture = { has_cultural_parameter = less_likely_to_gain_elder_health_traits }

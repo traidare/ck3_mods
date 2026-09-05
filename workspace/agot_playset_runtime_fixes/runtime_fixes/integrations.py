@@ -7,7 +7,6 @@ from gen.text import replace_exact
 
 from .common import (
     assert_source_block_hash,
-    extract_top_level_block,
     game_root,
     guard_event_deaths,
     remove_enclosing_block,
@@ -370,49 +369,9 @@ def generate_any_new_traditions(inputs: RunInputs) -> None:
         write_text(inputs.OUTPUT, relative, text)
 
 
-def generate_deadly_ck3_health_location_guards(inputs: RunInputs) -> None:
+def generate_health_event_death_guards(inputs: RunInputs) -> None:
     relative = "events/health_events.txt"
-    source = read_text(inputs.WORKSHOP / "3445965581" / relative)
-    block = extract_top_level_block(source, "health.7300")
-    repaired_block = replace_exact(
-        block,
-        """\t\tmodifier = { # Glare
-\t\t\tis_ruler = yes # For performance reasons we limit this as checking modifiers is expensive
-\t\t\tlocation = {""",
-        """\t\tmodifier = { # Glare
-\t\t\tis_ruler = yes # For performance reasons we limit this as checking modifiers is expensive
-\t\t\texists = location
-\t\t\tlocation = {""",
-        expected=1,
-        label="Deadly CK3 AGOT clouded-eyes glare location guard",
-    )
-    repaired_block = replace_exact(
-        repaired_block,
-        """\t\tmodifier = { # Bright sunlight
-\t\t\tlocation = {""",
-        """\t\tmodifier = { # Bright sunlight
-\t\t\texists = location
-\t\t\tlocation = {""",
-        expected=1,
-        label="Deadly CK3 AGOT clouded-eyes sunlight location guard",
-    )
-    repaired_block = replace_exact(
-        repaired_block,
-        """\t\tmodifier = { # Shade
-\t\t\tlocation = {""",
-        """\t\tmodifier = { # Shade
-\t\t\texists = location
-\t\t\tlocation = {""",
-        expected=1,
-        label="Deadly CK3 AGOT clouded-eyes shade location guard",
-    )
-    source = replace_exact(
-        source,
-        block,
-        repaired_block,
-        expected=1,
-        label="Deadly CK3 AGOT health event in-place replacement",
-    )
+    source = read_text(inputs.WORKSHOP / "2962333032" / relative)
     # Canon-enforcement guards for the deaths this file inflicts without the character
     # choosing them: a treatment that goes wrong, and the mysterious death of
     # an incapacitated character.
@@ -428,34 +387,4 @@ def generate_deadly_ck3_health_location_guards(inputs: RunInputs) -> None:
     ):
         source = guard_event_deaths(source, event_key, expected=deaths)
     source = normalize_rebased_source(source)
-    (inputs.OUTPUT / "events/zz_agot_runtime_health_events.txt").unlink(missing_ok=True)
     write_text(inputs.OUTPUT, relative, source)
-
-
-def generate_deadly_ck3_infirm_track(inputs: RunInputs) -> None:
-    relative = "common/traits/dc_traits.txt"
-    source = read_text(inputs.WORKSHOP / "3445965581" / relative)
-    block = extract_top_level_block(source, "infirm")
-    block = replace_exact(
-        block,
-        """\tflag = is_healthy_trigger_flag
-}""",
-        """\tflag = infirm_random_xp_gain
-\tflag = age_related_ailment
-\tflag = is_healthy_trigger_flag
-
-\t# CK3 1.19 and AGOT grant XP to a named infirm track. Deadly CK3 already
-\t# applies its full harsher penalties statically, so keep this compatibility
-\t# track modifier-free rather than stacking AGOT's progressive penalties.
-\ttracks = {
-\t\tinfirm = {
-\t\t\t100 = { }
-\t\t}
-\t}
-}""",
-        expected=1,
-        label="Deadly CK3 AGOT current infirm trait track",
-    )
-    write_text(
-        inputs.OUTPUT, "common/traits/zz_deadly_agot_runtime_infirm.txt", f"{block}\n"
-    )

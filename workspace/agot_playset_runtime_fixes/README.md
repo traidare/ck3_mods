@@ -170,11 +170,6 @@ change re-raises it.
   confederation cannot form when its prerequisite nomad conversions are all
   rejected. Re-audit after Workshop `3768149491` changes or when those
   governments are moved to valid static holding/title history.
-- **Automated Squire Training:** repairs five malformed interface-message
-  tooltips and removes an `ai_chance` block nested inside a random-list result;
-  both forms prevented parts of the automated training event from parsing. Its
-  copied AGOT downtime event also displays the knight scope it actually saves,
-  rather than an unavailable `second_squire`.
 - **AGOT: The Knighting Ceremony:** removes the obsolete `is_triggered_only`
   field from its hidden relay event; CK3 1.19 event files do not accept that
   field.
@@ -335,11 +330,6 @@ change re-raises it.
 - **Startup banners:** falls back to AGOT's existing location-less
   created-banner path when a royal-court owner has no capital province, while
   still creating and granting the house or dynasty banner.
-- **Deadly CK3 AGOT / clouded eyes:** retains its health-event weights while
-  skipping the glare, sunlight, and shade modifiers for characters without a
-  current location.
-- **Deadly CK3 AGOT / infirm:** restores the current named `infirm` XP track and
-  age-related flags while retaining Deadly CK3's harsher static penalties.
 - **Court-scene culture selection:** preserves AGOT's named throne rooms and the
   temporary Additional Models/AGOT+/LoV compatch's generic room routing, but
   returns false instead of evaluating character triggers when CK3 transiently
@@ -433,11 +423,11 @@ change re-raises it.
   `scope:physician ?=` block from `court_scene.roles`. Optional scope syntax is
   valid in event effects but not in court-scene role declarations; the physician
   and architect descriptions/cleanup remain conditional.
-- **Same-path event rebases:** the court-events, AGOT artifact, and Deadly CK3
-  health repairs replace their parent paths with complete generated files,
-  retaining every sibling event while changing only the diagnosed block. This is
-  required because CK3 replaces event files by relative path; the generator
-  checks the parent namespace and exact replacement count before writing them.
+- **Same-path event rebases:** the court-events, AGOT artifact, and AGOT health
+  repairs replace their parent paths with complete generated files, retaining
+  every sibling event while changing only the diagnosed block. This is required
+  because CK3 replaces event files by relative path; the generator checks the
+  parent namespace and exact replacement count before writing them.
 - **LoV Aurion recovery fallback (Workshop 3719888822):** makes the RC61
   title-gain fallback inert. The recovery event remains owned by LoV's travel
   movement/arrival on-actions, while the title-gain copy was attached to every
@@ -490,17 +480,17 @@ Individual repairs above carry their own narrower triggers. In general, re-run
 the generator and review the resulting diff after any update to Workshop IDs
 `2962333032`, `3388366564`, `3596393244`, `3361162762`, `2967263410`,
 `3713902872`, `3719888822`, `3319354609`, `3241130652`, `3371298408`,
-`3621472324`, `3324579171`, `3349316031`, `3761342990`, `3445965581`,
-`3676293022`, `3305687550`, `3662281614`, `3674548216`, `3673468355`,
-`2886417277`, `3084203091`, `3225355262`, `3235061780`, `3377641022`,
-`3692879370`, `3697008412`, `3462342647`, `3437814875`, `3709868073`,
-`3541596590`, `3719888822`, or `2971198450`, `3732116186`, `3573203384`, or
-`2519175282`, and after CK3 updates that change `04_dlc_ep2_tour_effects.txt`.
-Re-run it after updates to `3682802751` because the Essos cleanup validates that
-parent's game rules and startup actions, and after updates to `3719888822`
-because the same repair is pinned to LoV's effective wilderness-conversion
-effect. Re-run it after updates to `3762892081` because the generated
-court-scene selector follows that compatch's current room-routing rules.
+`3621472324`, `3324579171`, `3349316031`, `3761342990`, `3676293022`,
+`3305687550`, `3662281614`, `3673468355`, `2886417277`, `3084203091`,
+`3225355262`, `3235061780`, `3377641022`, `3692879370`, `3697008412`,
+`3462342647`, `3437814875`, `3709868073`, `3541596590`, `3719888822`, or
+`2971198450`, `3732116186`, `3573203384`, or `2519175282`, and after CK3 updates
+that change `04_dlc_ep2_tour_effects.txt`. Re-run it after updates to
+`3682802751` because the Essos cleanup validates that parent's game rules and
+startup actions, and after updates to `3719888822` because the same repair is
+pinned to LoV's effective wilderness-conversion effect. Re-run it after updates
+to `3762892081` because the generated court-scene selector follows that
+compatch's current room-routing rules.
 
 The stability guards are pinned by file or top-level block hash and fail closed
 when a parent changes. Re-run the generator and review the diff after any update

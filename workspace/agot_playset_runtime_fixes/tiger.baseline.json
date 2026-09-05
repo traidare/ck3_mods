@@ -12,7 +12,7 @@
     {
       "severity": "error",
       "code": "validation",
-      "message": "expected `count =`, found `\u003c`",
+      "message": "expected `count =`, found `<`",
       "source": "AGOT",
       "file": "common/scripted_effects/00_agot_effects.txt",
       "count": 30
@@ -1696,30 +1696,6 @@
       "source": "MOD",
       "file": "common/scripted_triggers/gen_acs_st_big_switch.txt",
       "count": 5
-    },
-    {
-      "severity": "tips",
-      "code": "suggest-localization",
-      "message": "you can define localization `TRAIT_FLAG_DESC_age_related_ailment`",
-      "source": "MOD",
-      "file": "common/traits/zz_deadly_agot_runtime_infirm.txt",
-      "count": 1
-    },
-    {
-      "severity": "tips",
-      "code": "suggest-localization",
-      "message": "you can define localization `TRAIT_FLAG_DESC_infirm_random_xp_gain`",
-      "source": "MOD",
-      "file": "common/traits/zz_deadly_agot_runtime_infirm.txt",
-      "count": 1
-    },
-    {
-      "severity": "tips",
-      "code": "suggest-localization",
-      "message": "you can define localization `TRAIT_FLAG_DESC_is_healthy_trigger_flag`",
-      "source": "MOD",
-      "file": "common/traits/zz_deadly_agot_runtime_infirm.txt",
-      "count": 1
     },
     {
       "severity": "tips",

@@ -27,7 +27,6 @@ from .runtime_fixes.court_character import (
     generate_agot_tour_events,
     generate_all_men_must_serve,
     generate_aurion_title_gain_guard,
-    generate_automated_squire_training_events,
     generate_court_events_3020_role_guard,
     generate_cow_province_setup_rebase,
     generate_expanded_court_position_hire_events,
@@ -56,8 +55,7 @@ from .runtime_fixes.crash_stability import (
 from .runtime_fixes.integrations import (
     generate_any_new_traditions,
     generate_baie_rebases,
-    generate_deadly_ck3_health_location_guards,
-    generate_deadly_ck3_infirm_track,
+    generate_health_event_death_guards,
 )
 from .runtime_fixes.realm_succession import (
     generate_agot_war_value_guards,
@@ -123,7 +121,6 @@ REPAIRS = (
     generate_red_keep_castellan_guard,
     generate_red_keep_government_rebase,
     generate_further_east_startup_government_quarantine,
-    generate_automated_squire_training_events,
     generate_knighting_ceremony_event,
     generate_house_founders,
     generate_house_founders_dynasty_on_action_rebase,
@@ -150,8 +147,7 @@ REPAIRS = (
     generate_agot_artifact_succession,
     generate_agot_artifact_feature_owner_guards,
     generate_agot_wall_banner_capital_fallback,
-    generate_deadly_ck3_health_location_guards,
-    generate_deadly_ck3_infirm_track,
+    generate_health_event_death_guards,
     generate_agot_citadel,
     generate_agot_starting_legitimacy,
     generate_vanilla_tour_pulse,

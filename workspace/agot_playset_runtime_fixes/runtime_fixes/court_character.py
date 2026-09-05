@@ -371,44 +371,6 @@ def generate_further_east_startup_government_quarantine(inputs: RunInputs) -> No
     write_text(inputs.OUTPUT, relative, normalize_rebased_source(text))
 
 
-def generate_automated_squire_training_events(inputs: RunInputs) -> None:
-    relative = "events/agot_events/agot_squirehood_ongoing_events.txt"
-    text = read_text(inputs.WORKSHOP / "3674548216" / relative)
-    event = extract_top_level_block(text, "agot_squirehood_ongoing.0018")
-    repaired_event = replace_exact(
-        event,
-        "right_portrait = scope:second_squire",
-        "right_portrait = scope:my_knight",
-        expected=1,
-        label="AGOT squire downtime portrait scope",
-    )
-    text = replace_exact(
-        text, event, repaired_event, expected=1, label="AGOT squire downtime event"
-    )
-    text = replace_regex(
-        text,
-        (
-            r"(?m)^([ \t]*)desc = "
-            r"(agot_squirehood_ongoing\.0400\.had_a_training_session"
-            r"\.desc\.[A-Za-z.]+)[ \t]*$"
-        ),
-        r"\1text = \2",
-        expected=5,
-        label="Automated Squire Training interface-message tooltips",
-    )
-    text = replace_exact(
-        text,
-        """			ai_chance = {
-				base = 115
-			}
-""",
-        "",
-        expected=1,
-        label="Automated Squire Training nested AI chance",
-    )
-    write_text(inputs.OUTPUT, relative, text)
-
-
 def generate_knighting_ceremony_event(inputs: RunInputs) -> None:
     relative = "events/zz_agot_squire_automation_events.txt"
     text = read_text(inputs.WORKSHOP / "3673468355" / relative)
