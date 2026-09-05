@@ -2046,6 +2046,7 @@ agot_on_title_gain_high_septon = {
 	effect = {
 		agot_assign_high_septon_effect = yes
 		agot_assign_high_septon_name_effect = yes
+		give_nickname = nick_agot_the_high_septon
 	}
 }
 

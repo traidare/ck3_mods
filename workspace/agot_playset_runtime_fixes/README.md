@@ -212,8 +212,17 @@ change re-raises it.
   `agot_on_title_gain_high_septon` and a newly elected High Septon keeps their
   birth name. LoV is the effective last writer for the path, so this module
   restates its file with that one call renamed and every other on-action intact.
-  Generation fails if AGOT stops defining the current effect or starts defining
-  the old one.
+  The same on-action also grants `nick_agot_the_high_septon`: AGOT's
+  `agot_is_high_septon` localization branches render the seat's displayed name
+  as `[ROOT.Char.GetNickname]` alone, and the only grant of that nickname in the
+  playset is the game-start dummy's character history, so without it every later
+  High Septon renders an empty name and the composite name line collapses to its
+  separators. `give_nickname` is idempotent, and the on-action already runs on
+  each succession to the seat. Generation fails if AGOT stops defining the
+  current effect, starts defining the old one, stops defining the nickname, or
+  stops rendering `agot_high_septon_titled_full_name`,
+  `agot_high_septon_titled_first_name`, or
+  `agot_high_septon_titled_first_name_possessive` from the nickname.
 - **More Valyrian Steel artifacts (Workshop 3573203384):** four dead references
   across the two artifact files it is the effective last writer for. The
   Karstark sword's history entry ends at

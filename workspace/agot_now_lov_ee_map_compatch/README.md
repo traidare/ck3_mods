@@ -17,11 +17,13 @@ compatches must follow that history rebase, in this order, before this module:
 Further East v4 adopted AGOT 0.5's native 8233-9400 province band and ships a
 canonical 27,589-province map. This layer therefore starts from that map and
 carries only the Westeros deltas the effective playset would otherwise lose. It
-owns ten files under `gfx/map/map_object_data` and `map_data`:
+owns eleven files under `gfx/map/map_object_data` and `map_data`:
 
 - the province table, keeping Further East's 27,589 rows and applying the
   thirteen rows NOW changes that Further East still inherits unchanged from
   AGOT;
+- the province raster, carrying Further East's pixels with the reclaims under
+  [Raster reclaims](#raster-reclaims) applied and nothing else changed;
 - the building and special-building locator files and the two map-object files,
   merged record by record;
 - the player-stack, combat, siege and activity locator files, carried verbatim
@@ -30,9 +32,9 @@ owns ten files under `gfx/map/map_object_data` and `map_data`:
 - the geographical regions file, carrying NOW's island deltas over a baseline
   restored to AGOT's full region set.
 
-It ships **no rasters, heightmaps, landed titles, or history.** Further East
-supplies all of them, so this layer needs no province renumbering, title
-retirement, or capital relocation of its own.
+It ships **no heightmaps, landed titles, or history**, and no raster beyond
+`provinces.png`. Further East supplies all of them, so this layer needs no
+province renumbering, title retirement, or capital relocation of its own.
 
 It deliberately does **not** own `00_agot_character_data_effects.txt`: the third
 Workshop compatch owns its upstream dispatcher and the later
@@ -106,28 +108,56 @@ sailing activity and the three great projects that filter provinces through this
 region. `c_tormore` is deliberately not in the gap set: NOW retires that county
 with the Sisters rework, so its absence is the one removal NOW means.
 
+## Raster reclaims
+
+Further East's `provinces.png` is the baseline for the raster this layer emits,
+and this layer supplies `definition.csv`, so the two are read as a pair. That
+pairing is exact: the thirteen NOW colour edits form a closed permutation within
+a set of neighbouring ids, so every colour this layer names is painted in
+Further East's raster and refers to the pixels NOW intended.
+
+Further East's newest provinces carry placeholder names of the form
+`R<r>G<g>B<b>` recording the colour they were painted with before their
+definition row was given a different one. Fifteen of those recorded colours are
+also colours this map assigns to an existing province, so any pixel a recolour
+missed reads back as that unrelated province. CK3 derives province adjacency
+from pixel adjacency alone, which makes the two provinces neighbours wherever
+they sit on the map, and every neighbour-scoped rule follows: a realm that owns
+the misread province can wage war on, and colonize into, a region it has no
+border with.
+
+`RASTER_RECLAIMS` repaints such pixels back to the province they belong to. Each
+entry pins the province reclaimed, the province the pixels currently read as,
+and the exact count and inclusive bounds the repair may touch, so a changed
+raster fails generation rather than being silently repainted. An entry also
+fails if reclaiming would leave the misread province unpainted, which
+distinguishes a leak from a province that genuinely lives there.
+
+`assert_compact_provinces` is the general form of the same check: a province
+painted in one place has a compact bounding box, so any province whose pixels
+span more than `MAX_COMPACT_SPAN` is either one of the reviewed map-spanning
+zones in `WIDE_PROVINCES` or an unrepaired leak, and the two sets must match
+exactly. The reviewed members are the sea and impassable zones that reach the
+map edges, plus two Further East ids painted in two places whose intended
+province no source records; both of those lie wholly inside the far-east range,
+so neither creates a cross-continent neighbour.
+
 ## Locator repair
 
-Further East supplies `provinces.png` while this layer supplies
-`definition.csv`, and the two are read as a pair. That pairing is exact: the
-thirteen NOW colour edits form a closed permutation within a set of neighbouring
-ids, so every colour this layer names is painted in Further East's raster and
-refers to the pixels NOW intended.
+Against the reclaimed raster, a locator position is either inside the province
+its record belongs to or it is not. Merged positions that are not are rewritten
+to the province's centroid, or to the painted pixel nearest the centroid where
+the centroid falls in a neighbour or in the sea, as it does for concave and
+split provinces. Land provinces with no record at all gain one. Rotation and
+scale are never touched, so an author's deliberate orientation or sizing
+survives a position repair, and `LOCATOR_PINS` records are exempt because they
+sit outside their province on purpose.
 
-Against that raster, a locator position is either inside the province its record
-belongs to or it is not. Merged positions that are not are rewritten to the
-province's centroid, or to the painted pixel nearest the centroid where the
-centroid falls in a neighbour or in the sea, as it does for concave and split
-provinces. Land provinces with no record at all gain one. Rotation and scale are
-never touched, so an author's deliberate orientation or sizing survives a
-position repair, and `LOCATOR_PINS` records are exempt because they sit outside
-their province on purpose.
-
-This is the one place the layer derives data rather than merging it. It is
-needed because Further East ships no `building_locators.txt`: the fallback Essos
-Expanded file positions every id in 9401-26420 against Essos Expanded's own map,
-which Further East redrew. `artifacts/map_data/merge_audit.json` records the
-per-file repair counts.
+Along with the raster reclaims, this is where the layer derives data rather than
+merging it. It is needed because Further East ships no `building_locators.txt`:
+the fallback Essos Expanded file positions every id in 9401-26420 against Essos
+Expanded's own map, which Further East redrew.
+`artifacts/map_data/merge_audit.json` records the per-file repair counts.
 
 The residue is provinces `definition.csv` names but the raster paints nowhere.
 They have no position to be given, they are reported as `unplaceable` in the
@@ -202,6 +232,14 @@ ck3mm mod generate agot_now_lov_ee_map_compatch --apply
   holds. NOW naming the territory again, or AGOT dropping it, means the omission
   has stopped being a fork's blind spot, and the entry belongs gone rather than
   re-pinned.
+- Re-audit a `RASTER_RECLAIMS` entry when its pixel count or bounds stop
+  matching. Fewer pixels means Further East finished the recolour and the entry
+  belongs gone; more, or moved, means the province was repainted and the repair
+  must be re-derived rather than re-pinned.
+- Re-audit `WIDE_PROVINCES` when `assert_compact_provinces` reports a change. A
+  newly wide province is a leak to be traced to the province that should own it
+  and given a reclaim entry, not added to the reviewed set; a province that
+  stops being wide means an upstream repair landed and the entry belongs gone.
 - Re-audit the locator repair if Further East begins shipping its own
   `building_locators.txt`, or if the audit's `unplaceable` counts move: a rising
   count means the province table and the raster are drifting apart.

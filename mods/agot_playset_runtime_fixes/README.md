@@ -8,8 +8,8 @@ else.
 
 Load after every mod it repairs. In this playset, keep **AGOT: Canon
 Enforcement**, the **AGOT: The Long Night & Azor Ahai** parent, its runtime fix
-and DFP compatch, and **AGOT - Stricter Excommunication Requests** before this
-module. Keep the final **AGOT Playset Compatch** after it.
+and DFP compatch, and **AGOT - Excommunication Balance** before this module.
+Keep the final **AGOT Playset Compatch** after it.
 
 ## What it repairs
 
@@ -31,7 +31,9 @@ Roughly fifty parent mods are touched. The failures fall into a few classes:
   files they also override, which silently revert AGOT's own content. These are
   rebased so the mod's intended change survives without the reversion. One such
   copy still called a retired effect for naming the High Septon, so a newly
-  elected High Septon kept their birth name.
+  elected High Septon kept their birth name and, because the interface draws
+  that seat's name from a nickname nothing grants any more, showed up with no
+  name at all.
 - **Names a mod uses but never ships** — artifact templates, effects, dynasties,
   and event targets a mod refers to without defining anywhere. Each is pointed
   at the definition AGOT already provides for the same thing, so the Valyrian

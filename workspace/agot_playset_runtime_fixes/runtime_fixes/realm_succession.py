@@ -1283,8 +1283,22 @@ def generate_voluntary_laamp_repairs(inputs: RunInputs) -> None:
     )
 
 
+HIGH_SEPTON_NICKNAME = "nick_agot_the_high_septon"
+
+# AGOT renders the High Septon's displayed name from their nickname rather than
+# their first name. These are the custom-localization keys whose
+# `agot_is_high_septon` branch resolves to `[ROOT.Char.GetNickname]` alone, so a
+# High Septon without the nickname renders as an empty string and the composite
+# name line collapses to its separators.
+HIGH_SEPTON_NICKNAME_LOC_KEYS = (
+    "agot_high_septon_titled_full_name",
+    "agot_high_septon_titled_first_name",
+    "agot_high_septon_titled_first_name_possessive",
+)
+
+
 def generate_lov_agot_title_on_action_septon_naming(inputs: RunInputs) -> None:
-    """Point LoV's AGOT title on-actions at AGOT's current High Septon effect.
+    """Name and nickname the High Septon on every succession to the seat.
 
     Signature:
     `Unknown effect: agot_assign_high_septon_nickname_effect, near line: 2047`
@@ -1296,6 +1310,14 @@ def generate_lov_agot_title_on_action_septon_naming(inputs: RunInputs) -> None:
     name. LoV is the effective last writer for the path, so this module restates
     its file with only that one call renamed; the sibling
     `agot_assign_high_septon_effect` call and every other on-action are kept.
+
+    The retirement left AGOT's custom localization behind: the
+    `agot_is_high_septon` branches still render the seat's displayed name from
+    `GetNickname`, and no effect in the playset grants
+    `nick_agot_the_high_septon` — only the game-start dummy's character history
+    does. Every later High Septon therefore renders an empty name. The on-action
+    is the one place that already runs on each succession to the seat, so it
+    grants the nickname alongside the name. `give_nickname` is idempotent.
     """
     agot = inputs.WORKSHOP / "2962333032"
     effects = read_text(agot / "common/scripted_effects/00_agot_effects.txt")
@@ -1309,13 +1331,32 @@ def generate_lov_agot_title_on_action_septon_naming(inputs: RunInputs) -> None:
             "AGOT defines agot_assign_high_septon_nickname_effect again; "
             "LoV's call resolves on its own and this rename is obsolete"
         )
+    nicknames = read_text(agot / "common/nicknames/00_agot_event_nicknames.txt")
+    if f"{HIGH_SEPTON_NICKNAME} = " not in nicknames:
+        raise RuntimeError(
+            f"AGOT no longer defines {HIGH_SEPTON_NICKNAME}; re-audit how the "
+            "High Septon's displayed name is produced"
+        )
+    custom_loc = read_text(
+        agot
+        / "localization/english/agot/custom_localization"
+        / "agot_custom_loc_l_english.yml"
+    )
+    for key in HIGH_SEPTON_NICKNAME_LOC_KEYS:
+        if f'{key}:0 "[ROOT.Char.GetNickname]' not in custom_loc:
+            raise RuntimeError(
+                f"AGOT's {key} no longer renders the High Septon from their "
+                "nickname; re-audit whether granting the nickname is still "
+                "required"
+            )
 
     relative = "common/on_action/agot_on_actions/agot_title_on_actions.txt"
     source = read_text(inputs.WORKSHOP / "3719888822" / relative)
     source = replace_exact(
         source,
         "agot_assign_high_septon_nickname_effect = yes",
-        "agot_assign_high_septon_name_effect = yes",
+        "agot_assign_high_septon_name_effect = yes\n"
+        f"\t\tgive_nickname = {HIGH_SEPTON_NICKNAME}",
         expected=1,
         label="LoV High Septon naming call",
     )

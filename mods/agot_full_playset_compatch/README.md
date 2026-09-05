@@ -76,6 +76,6 @@ compatch. Keep the integration layers in this order:
 21. `AGOT: The Long Night & Azor Ahai`
 22. `AGOT: The Long Night & Azor Ahai - CK3 1.19 Runtime Fix`
 23. `AGOT: The Long Night & Azor Ahai + DFP Compatch`
-24. `AGOT - Stricter Excommunication Requests`
+24. `AGOT - Excommunication Balance`
 25. `AGOT Playset Runtime Fixes`
 26. `AGOT Playset Compatch`

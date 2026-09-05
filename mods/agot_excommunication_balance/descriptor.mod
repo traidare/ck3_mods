@@ -4,5 +4,5 @@ tags={
 	"Gameplay"
 	"Total Conversion"
 }
-name="AGOT - Stricter Excommunication Requests"
+name="AGOT - Excommunication Balance"
 supported_version="1.19.*"

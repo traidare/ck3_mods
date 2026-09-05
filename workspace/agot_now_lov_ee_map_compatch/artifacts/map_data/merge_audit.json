@@ -15,7 +15,22 @@
     4426
   ],
   "baseline": "Further East EEP v4 native map",
-  "raster_outputs": "none",
+  "raster_outputs": [
+    "map_data/provinces.png"
+  ],
+  "raster_reclaims": [
+    {
+      "province": 27585,
+      "misread_as": 1319,
+      "pixels": 86,
+      "bounds": [
+        6667,
+        6707,
+        2164,
+        2191
+      ]
+    }
+  ],
   "land_provinces": 24083,
   "provinces_unpainted": 1245,
   "title_quarantine": {

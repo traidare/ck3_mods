@@ -7,6 +7,14 @@
       "message": "should use `is_available` instead of `ai_potential`",
       "source": "MOD",
       "file": "common/character_interactions/zz_agot_excommunication_balance.txt",
+      "count": 2
+    },
+    {
+      "severity": "warning",
+      "code": "tooltip",
+      "message": "negated AND is a too complex trigger to be tooltipped in a trigger that shows failures only.",
+      "source": "MOD",
+      "file": "common/character_interactions/zz_agot_excommunication_balance.txt",
       "count": 1
     }
   ]

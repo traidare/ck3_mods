@@ -25,13 +25,23 @@ AGOT LoV bridge, Essos Expanded, and Essos Expanded: The Further East.
 The Further East now ships the complete, canonical world map, including AGOT's
 Ibben, the Axe, Norvos, Qohor, Lorath, and Rhoyne. This compatch no longer
 renumbers provinces or ships its own terrain, heightmaps, or titles. It carries
-only the Westeros details that would otherwise be lost:
+only the Westeros details that would otherwise be lost, plus one map repair:
 
 - the thirteen provinces Nobility of Westeros retunes;
 - building and special-building placements, merged one record at a time;
 - roads, bridges, and other map decorations, merged placement by placement;
 - Nobility of Westeros' island regions, over A Game of Thrones' own complete set
   of map regions, so everything AGOT keys to a region still finds it.
+
+## Stray province pixels
+
+A handful of pixels in the far east of the world map were left in the colour of
+a Riverlands province, which made the two provinces count as neighbours no
+matter how far apart they sat. Realms in Westeros could therefore wage war on
+and colonize into the far east across a border that does not exist. Those pixels
+are repainted as the province that surrounds them; nothing else on the map is
+touched, and the build stops if the area ever looks different from what the
+repair expects.
 
 This is a semantic merge, not a last-writer copy. Where two mods changed the
 same thing, the merge keeps both intentions where they can coexist — a road mesh
