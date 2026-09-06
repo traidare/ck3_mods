@@ -498,7 +498,7 @@ construct_great_fleet_02 = {
 		}
 
 		any_sub_realm_county = {
-			title_province = {
+			any_county_province = {
 				has_building_with_flag = agot_great_fleet_01
 			}
 		}
@@ -921,7 +921,7 @@ construct_great_fleet_03 = {
 		}
 
 		any_sub_realm_county = {
-			title_province = {
+			any_county_province = {
 				has_building_with_flag = agot_great_fleet_02
 			}
 		}
