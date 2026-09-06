@@ -1435,6 +1435,14 @@
     },
     {
       "severity": "warning",
+      "code": "missing-file",
+      "message": "file gfx/interface/hud/maintab_dragonlord_oligarchy.dds does not exist",
+      "source": "MOD",
+      "file": "gui/hud.gui",
+      "count": 1
+    },
+    {
+      "severity": "warning",
       "code": "strict-scopes",
       "message": "`agot_send_to_dragonpit_effect` expects scope:dragon_pit_location to be set",
       "source": "More Dragon Events",

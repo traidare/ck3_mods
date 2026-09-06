@@ -462,112 +462,177 @@ interactive.0004 = {
 	hidden = yes
 	immediate = {
 		save_temporary_scope_as = vassal
-		scope:vassal.liege = {
-			save_temporary_scope_as = liege_to_join
-			every_character_war = {
-				save_temporary_scope_as = war
-				if = {
-					limit = {
-						scope:war = {
-							any_war_attacker = {
-								this = scope:liege_to_join
-							}
-						}
-						OR = {
+		scope:miv_bannermen_liege ?= {
+			if = {
+				limit = {
+					NOT = {
+						this = scope:vassal
+					}
+					is_alive = yes
+					scope:vassal = {
+						is_alive = yes
+					}
+				}
+				save_temporary_scope_as = liege_to_join
+				every_character_war = {
+					save_temporary_scope_as = war
+					if = {
+						limit = {
 							scope:war = {
-								primary_attacker = scope:liege_to_join
+								any_war_attacker = {
+									this = scope:liege_to_join
+								}
 							}
-							scope:liege_to_join = {
-								is_ai = no
+							scope:war = {
+								interactive_bannermen_callable_war_trigger = {
+									LIEGE = scope:liege_to_join
+								}
 							}
-							AND = {
-								OR = {
-									has_game_rule = bannermen_extended_mode_2_enabled
-									has_global_variable = AGOT_is_loaded
+							OR = {
+								scope:war = {
+									primary_attacker = scope:liege_to_join
 								}
 								scope:liege_to_join = {
-									highest_held_title_tier >= tier_kingdom
+									is_ai = no
+								}
+								AND = {
+									has_game_rule = bannermen_extended_mode_1_enabled
+									scope:liege_to_join = {
+										highest_held_title_tier >= tier_empire
+									}
+								}
+								AND = {
+									has_game_rule = bannermen_extended_mode_2_enabled
+									scope:liege_to_join = {
+										highest_held_title_tier >= tier_kingdom
+									}
+								}
+								#AND = {
+								#	has_game_rule = bannermen_extended_mode_3_enabled
+								#	scope:liege_to_join = { highest_held_title_tier >= tier_duchy }
+								#}
+							}
+						}
+						if = {
+							limit = {
+								scope:vassal = {
+									NOT = {
+										is_at_war_with = scope:war.primary_defender
+									}
 								}
 							}
-							#AND = {
-							#	has_game_rule = bannermen_extended_mode_3_enabled
-							#	scope:liege_to_join = { highest_held_title_tier >= tier_duchy }
-							#}
-						}
-						NAND = {
 							scope:war = {
-								primary_attacker = {
-									is_vassal_of = scope:war.primary_defender
-								}
-								primary_defender = {
-									this = scope:liege_to_join
+								if = {
+									limit = {
+										NOT = {
+											any_war_defender = {
+												is_at_war_with = scope:vassal
+											}
+										}
+										NOR = {
+											any_war_attacker = {
+												this = scope:vassal
+											}
+											any_war_defender = {
+												this = scope:vassal
+											}
+										}
+									}
+									add_attacker = scope:vassal
 								}
 							}
 						}
 					}
-					if = {
+					else_if = {
 						limit = {
-							scope:vassal = {
-								NOT = {
-									is_at_war_with = scope:war.primary_defender
+							scope:war = {
+								any_war_defender = {
+									this = scope:liege_to_join
 								}
 							}
+							scope:war = {
+								interactive_bannermen_callable_war_trigger = {
+									LIEGE = scope:liege_to_join
+								}
+							}
+							OR = {
+								scope:war = {
+									primary_defender = scope:liege_to_join
+								}
+								scope:liege_to_join = {
+									is_ai = no
+								}
+								AND = {
+									has_game_rule = bannermen_extended_mode_1_enabled
+									scope:liege_to_join = {
+										highest_held_title_tier >= tier_empire
+									}
+								}
+								AND = {
+									has_game_rule = bannermen_extended_mode_2_enabled
+									scope:liege_to_join = {
+										highest_held_title_tier >= tier_kingdom
+									}
+								}
+								#AND = {
+								#	has_game_rule = bannermen_extended_mode_3_enabled
+								#	scope:liege_to_join = { highest_held_title_tier >= tier_duchy }
+								#}
+							}
 						}
-						scope:war = {
-							add_attacker = scope:vassal
+						if = {
+							limit = {
+								scope:vassal = {
+									NOT = {
+										is_at_war_with = scope:war.primary_attacker
+									}
+								}
+							}
+							scope:war = {
+								if = {
+									limit = {
+										NOT = {
+											any_war_attacker = {
+												is_at_war_with = scope:vassal
+											}
+										}
+										NOR = {
+											any_war_attacker = {
+												this = scope:vassal
+											}
+											any_war_defender = {
+												this = scope:vassal
+											}
+										}
+									}
+									add_defender = scope:vassal
+								}
+							}
 						}
 					}
 				}
-				else_if = {
+				if = {
 					limit = {
-						scope:war = {
-							any_war_defender = {
-								this = scope:liege_to_join
+						any_character_war = {
+							is_civil_war = no
+							interactive_bannermen_callable_war_trigger = {
+								LIEGE = scope:liege_to_join
 							}
 						}
-						OR = {
-							scope:war = {
-								primary_defender = scope:liege_to_join
-							}
-							scope:liege_to_join = {
-								is_ai = no
-							}
-							AND = {
-								OR = {
-									has_game_rule = bannermen_extended_mode_2_enabled
-									has_global_variable = AGOT_is_loaded
+						NOT = {
+							any_character_war = {
+								is_civil_war = no
+								interactive_bannermen_callable_war_trigger = {
+									LIEGE = scope:liege_to_join
 								}
-								scope:liege_to_join = {
-									highest_held_title_tier >= tier_kingdom
-								}
-							}
-							#AND = {
-							#	has_game_rule = bannermen_extended_mode_3_enabled
-							#	scope:liege_to_join = { highest_held_title_tier >= tier_duchy }
-							#}
-						}
-						NAND = {
-							scope:war = {
-								primary_attacker = {
-									is_vassal_of = scope:war.primary_defender
-								}
-								primary_defender = {
-									this = scope:liege_to_join
+								any_war_participant = {
+									this = scope:vassal
 								}
 							}
 						}
 					}
-					if = {
-						limit = {
-							scope:vassal = {
-								NOT = {
-									is_at_war_with = scope:war.primary_attacker
-								}
-							}
-						}
-						scope:war = {
-							add_defender = scope:vassal
-						}
+					interactive_bannermen_cannot_answer_effect = {
+						VASSAL = scope:vassal
 					}
 				}
 			}
@@ -582,16 +647,37 @@ interactive.0006 = {
 		scope:vassal = {
 			save_scope_as = VASSAL
 		}
-		scope:vassal.liege = {
-			send_interface_toast = {
-				type = msg_war_oathbreaker
-				title = miv_oathbreaker_bannermen_defects
-				left_icon = scope:VASSAL
-				custom_tooltip = interactive_oathbreaker_bannermen_notification
-			}
-			add_opinion = {
-				target = scope:vassal
-				modifier = miv_oathbreaker
+		scope:miv_bannermen_liege ?= {
+			if = {
+				limit = {
+					NOT = {
+						this = scope:vassal
+					}
+					is_alive = yes
+					scope:vassal = {
+						is_alive = yes
+					}
+				}
+				if = {
+					limit = {
+						NOT = {
+							has_opinion_modifier = {
+								modifier = miv_oathbreaker
+								target = scope:vassal
+							}
+						}
+					}
+					interactive_bannermen_broadcast_effect = {
+						VASSAL = scope:vassal
+						TYPE = msg_war_oathbreaker
+						TITLE = miv_oathbreaker_bannermen_defects
+						TOOLTIP = interactive_oathbreaker_bannermen_notification
+					}
+				}
+				add_opinion = {
+					target = scope:vassal
+					modifier = miv_oathbreaker
+				}
 			}
 		}
 	}
@@ -601,272 +687,776 @@ interactive.0007 = {
 	hidden = yes
 	immediate = {
 		save_temporary_scope_as = vassal
-		scope:vassal.liege = {
-			save_temporary_scope_as = liege_to_join
-			every_character_war = {
+		scope:vassal.liege ?= {
+			if = {
 				limit = {
-					primary_attacker = {
-						is_vassal_of = scope:liege_to_join
-						is_landed = yes
+					NOT = {
+						this = scope:vassal
 					}
+				}
+				save_temporary_scope_as = liege_to_join
+				every_character_war = {
+					limit = {
+						primary_attacker = {
+							is_vassal_of = scope:liege_to_join
+							is_landed = yes
+						}
+						NOT = {
+							any_war_participant = {
+								this = scope:vassal
+							}
+						}
+					}
+					save_temporary_scope_as = war_to_join
+					if = {
+						limit = {
+							has_game_rule = bannermen_mode_enabled
+						}
+						interactive_bannermen_civilwar_effect = yes
+					}
+					# join defender
+					else_if = {
+						limit = {
+							scope:vassal = {
+								is_capable_adult = yes
+								is_imprisoned = no
+								NOT = {
+									AND = {
+										exists = joined_faction
+										NOT = {
+											joined_faction = {
+												OR = {
+													faction_is_type = crown_loyalist_faction
+													faction_is_type = agot_loyalist_faction
+												}
+											}
+										}
+									}
+								}
+								NOT = {
+									scope:liege_to_join = {
+										has_opinion_modifier = {
+											modifier = miv_oathbreaker
+											target = scope:vassal
+										}
+									}
+								}
+								NOT = {
+									opinion = {
+										target = scope:liege_to_join
+										value <= -80
+									}
+								}
+								NOT = {
+									is_allied_to = scope:war_to_join.primary_attacker
+								}
+								OR = {
+									has_relation_friend = scope:liege_to_join
+									has_relation_best_friend = scope:liege_to_join
+									has_relation_blood_brother = scope:liege_to_join
+									has_relation_lover = scope:liege_to_join
+									has_relation_soulmate = scope:liege_to_join
+									has_relation_rival = scope:war_to_join.primary_attacker
+									has_relation_nemesis = scope:war_to_join.primary_attacker
+									opinion = {
+										target = scope:liege_to_join
+										value >= 40
+									}
+									opinion = {
+										target = scope:war_to_join.primary_attacker
+										value <= -50
+									}
+									is_allied_to = scope:liege_to_join
+									ai_honor >= medium_positive_ai_value
+									AND = {
+										exists = joined_faction
+										joined_faction = {
+											faction_is_type = crown_loyalist_faction
+										}
+									}
+									is_heir_of = scope:liege_to_join
+									has_trait = loyal
+									scope:liege_to_join = {
+										has_strong_hook = scope:vassal
+									}
+								}
+							}
+						}
+						scope:war_to_join = {
+							if = {
+								limit = {
+									NOT = { any_war_participant = { this = scope:vassal } }
+									NOT = {
+										any_war_participant = {
+											is_at_war_with = scope:vassal
+										}
+									}
+								}
+								if = {
+									limit = {
+										NOT = {
+											any_war_attacker = {
+												is_at_war_with = scope:vassal
+											}
+										}
+									}
+									add_defender = scope:vassal
+								}
+							}
+						}
+						# indirect vassals
+						if = {
+							limit = {
+								has_game_rule = civil_war_indirect_vassals_enabled
+							}
+							scope:vassal = {
+								save_temporary_scope_as = vassal_liege_to_join
+								every_vassal = {
+									limit = {
+										max_military_strength > 200
+										highest_held_title_tier >= tier_county
+										is_landed = yes
+										NOT = {
+											is_at_war_with = scope:war_to_join.primary_defender
+										}
+										NOT = {
+											is_at_war_with = scope:war_to_join.primary_attacker
+										}
+										is_ai = yes
+									}
+									save_temporary_scope_as = vassals_vassal
+									if = {
+										limit = {
+											scope:vassals_vassal = {
+												is_capable_adult = yes
+												is_imprisoned = no
+												NOT = {
+													scope:vassal_liege_to_join = {
+														has_opinion_modifier = {
+															modifier = miv_oathbreaker
+															target = scope:vassals_vassal
+														}
+													}
+												}
+												OR = {
+													has_relation_friend = scope:vassal_liege_to_join
+													has_relation_best_friend = scope:vassal_liege_to_join
+													has_relation_blood_brother = scope:vassal_liege_to_join
+													has_relation_lover = scope:vassal_liege_to_join
+													has_relation_soulmate = scope:vassal_liege_to_join
+													has_relation_rival = scope:war_to_join.primary_attacker
+													has_relation_nemesis = scope:war_to_join.primary_attacker
+													opinion = {
+														target = scope:vassal_liege_to_join
+														value >= 40
+													}
+													opinion = {
+														target = scope:war_to_join.primary_attacker
+														value <= -50
+													}
+													is_allied_to = scope:vassal_liege_to_join
+													ai_honor >= medium_positive_ai_value
+													AND = {
+														exists = joined_faction
+														joined_faction = {
+															faction_is_type = crown_loyalist_faction
+														}
+													}
+													is_heir_of = scope:vassal_liege_to_join
+													has_trait = loyal
+													scope:vassal_liege_to_join = {
+														has_strong_hook = scope:vassals_vassal
+													}
+												}
+											}
+										}
+										scope:war_to_join = {
+											if = {
+												limit = {
+													NOT = { any_war_participant = { this = scope:vassals_vassal } }
+													NOT = {
+														any_war_participant = {
+															is_at_war_with = scope:vassals_vassal
+														}
+													}
+												}
+												if = {
+													limit = {
+														NOT = {
+															any_war_attacker = {
+																is_at_war_with = scope:vassals_vassal
+															}
+														}
+													}
+													add_defender = scope:vassals_vassal
+												}
+											}
+										}
+									}
+								}
+							}
+						}
+					}
+					# join attacker
+					else_if = {
+						limit = {
+							scope:vassal = {
+								is_capable_adult = yes
+								is_imprisoned = no
+								OR = {
+									NOT = {
+										has_dread_level_towards = {
+											target = scope:liege_to_join
+											level = 2
+										}
+									}
+									AND = {
+										exists = joined_faction
+										NOT = {
+											joined_faction = {
+												OR = {
+													faction_is_type = crown_loyalist_faction
+													faction_is_type = agot_loyalist_faction
+												}
+											}
+										}
+									}
+									is_allied_to = scope:war_to_join.primary_attacker
+								}
+								NOT = {
+									opinion = {
+										target = scope:war_to_join.primary_attacker
+										value <= -80
+									}
+								}
+								NOT = {
+									is_allied_to = scope:liege_to_join
+								}
+								OR = {
+									has_relation_friend = scope:war_to_join.primary_attacker
+									has_relation_best_friend = scope:war_to_join.primary_attacker
+									has_relation_blood_brother = scope:war_to_join.primary_attacker
+									has_relation_lover = scope:war_to_join.primary_attacker
+									has_relation_soulmate = scope:war_to_join.primary_attacker
+									has_relation_rival = scope:liege_to_join
+									has_relation_nemesis = scope:liege_to_join
+									opinion = {
+										target = scope:war_to_join.primary_attacker
+										value >= 40
+									}
+									opinion = {
+										target = scope:liege_to_join
+										value <= -50
+									}
+									is_allied_to = scope:war_to_join.primary_attacker
+									ai_honor <= medium_negative_ai_value
+									AND = {
+										exists = joined_faction
+										NOT = {
+											joined_faction = {
+												OR = {
+													faction_is_type = crown_loyalist_faction
+													faction_is_type = agot_loyalist_faction
+												}
+											}
+										}
+									}
+									is_heir_of = scope:war_to_join.primary_attacker
+									has_trait = disloyal
+									scope:war_to_join.primary_attacker = {
+										has_strong_hook = scope:vassal
+									}
+									scope:liege_to_join = {
+										has_opinion_modifier = {
+											modifier = miv_oathbreaker
+											target = scope:vassal
+										}
+									}
+								}
+							}
+						}
+						scope:war_to_join = {
+							if = {
+								limit = {
+									NOT = { any_war_participant = { this = scope:vassal } }
+									NOT = {
+										any_war_participant = {
+											is_at_war_with = scope:vassal
+										}
+									}
+								}
+								if = {
+									limit = {
+										NOT = {
+											any_war_defender = {
+												is_at_war_with = scope:vassal
+											}
+										}
+									}
+									add_attacker = scope:vassal
+								}
+							}
+						}
+						if = {
+							limit = {
+								exists = scope:war_to_join.primary_attacker.joined_faction
+							}
+							scope:vassal = {
+								if = {
+									limit = {
+										exists = joined_faction
+										NOT = {
+											joined_faction = scope:war_to_join.primary_attacker.joined_faction
+										}
+									}
+									leave_faction = joined_faction
+								}
+								join_faction_skip_check = scope:war_to_join.primary_attacker.joined_faction
+							}
+						}
+						# indirect vassals
+						if = {
+							limit = {
+								has_game_rule = civil_war_indirect_vassals_enabled
+							}
+							scope:vassal = {
+								save_temporary_scope_as = vassal_liege_to_join
+								every_vassal = {
+									limit = {
+										max_military_strength > 200
+										highest_held_title_tier >= tier_county
+										is_landed = yes
+										NOT = {
+											is_at_war_with = scope:war_to_join.primary_defender
+										}
+										NOT = {
+											is_at_war_with = scope:war_to_join.primary_attacker
+										}
+										is_ai = yes
+									}
+									save_temporary_scope_as = vassals_vassal
+									if = {
+										limit = {
+											scope:vassals_vassal = {
+												is_capable_adult = yes
+												is_imprisoned = no
+												NOT = {
+													scope:vassal_liege_to_join = {
+														has_opinion_modifier = {
+															modifier = miv_oathbreaker
+															target = scope:vassals_vassal
+														}
+													}
+												}
+												OR = {
+													has_relation_friend = scope:vassal_liege_to_join
+													has_relation_best_friend = scope:vassal_liege_to_join
+													has_relation_blood_brother = scope:vassal_liege_to_join
+													has_relation_lover = scope:vassal_liege_to_join
+													has_relation_soulmate = scope:vassal_liege_to_join
+													has_relation_rival = scope:war_to_join.primary_defender
+													has_relation_nemesis = scope:war_to_join.primary_defender
+													opinion = {
+														target = scope:vassal_liege_to_join
+														value >= 40
+													}
+													opinion = {
+														target = scope:war_to_join.primary_defender
+														value <= -50
+													}
+													is_allied_to = scope:vassal_liege_to_join
+													ai_honor >= medium_positive_ai_value
+													AND = {
+														exists = joined_faction
+														joined_faction = {
+															faction_is_type = crown_loyalist_faction
+														}
+													}
+													is_heir_of = scope:vassal_liege_to_join
+													has_trait = loyal
+													scope:vassal_liege_to_join = {
+														has_strong_hook = scope:vassals_vassal
+													}
+												}
+											}
+										}
+										scope:war_to_join = {
+											if = {
+												limit = {
+													NOT = { any_war_participant = { this = scope:vassals_vassal } }
+													NOT = {
+														any_war_participant = {
+															is_at_war_with = scope:vassals_vassal
+														}
+													}
+												}
+												if = {
+													limit = {
+														NOT = {
+															any_war_defender = {
+																is_at_war_with = scope:vassals_vassal
+															}
+														}
+													}
+													add_attacker = scope:vassals_vassal
+												}
+											}
+										}
+									}
+								}
+							}
+						}
+					}
+					# declare neutrality
+					else = {
+						every_player = {
+							limit = {
+								OR = {
+									is_vassal_of = scope:liege_to_join
+									this = scope:liege_to_join
+								}
+							}
+							scope:vassal = {
+								save_scope_as = VASSAL
+							}
+							send_interface_toast = {
+								type = msg_war_neutrality
+								title = miv_neutrality_defects
+								left_icon = scope:VASSAL
+								custom_tooltip = interactive_neutrality_notification
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+}
+
+interactive.0008 = {
+	hidden = yes
+	immediate = {
+		save_scope_as = VASSAL
+		save_temporary_scope_as = vassal
+		set_variable = {
+			name = miv_betrayed
+			value = yes
+			days = 1
+		}
+		scope:miv_bannermen_liege ?= {
+			if = {
+				limit = {
+					NOT = {
+						this = scope:vassal
+					}
+					is_alive = yes
+					scope:vassal = {
+						is_alive = yes
+					}
+				}
+				save_temporary_scope_as = betrayed_liege
+				every_character_war = {
+					save_temporary_scope_as = war
+					if = {
+						limit = {
+							scope:war = {
+								is_civil_war = no
+								any_war_attacker = {
+									this = scope:betrayed_liege
+								}
+								NOR = {
+									any_war_attacker = {
+										this = scope:vassal
+									}
+									any_war_defender = {
+										this = scope:vassal
+									}
+								}
+							}
+							scope:vassal = {
+								NOT = {
+									is_at_war_with = scope:war.primary_attacker
+								}
+							}
+						}
+						scope:war = {
+							if = {
+								limit = {
+									NOT = {
+										any_war_attacker = {
+											is_at_war_with = scope:vassal
+										}
+									}
+								}
+								add_defender = scope:vassal
+								scope:vassal = {
+									remove_variable = miv_betrayed
+								}
+							}
+						}
+					}
+					else_if = {
+						limit = {
+							scope:war = {
+								is_civil_war = no
+								any_war_defender = {
+									this = scope:betrayed_liege
+								}
+								NOR = {
+									any_war_attacker = {
+										this = scope:vassal
+									}
+									any_war_defender = {
+										this = scope:vassal
+									}
+								}
+							}
+							scope:vassal = {
+								NOT = {
+									is_at_war_with = scope:war.primary_defender
+								}
+							}
+						}
+						scope:war = {
+							if = {
+								limit = {
+									NOT = {
+										any_war_defender = {
+											is_at_war_with = scope:vassal
+										}
+									}
+								}
+								add_attacker = scope:vassal
+								scope:vassal = {
+									remove_variable = miv_betrayed
+								}
+							}
+						}
+					}
+				}
+				if = {
+					limit = {
+						scope:vassal = {
+							NOT = {
+								has_variable = miv_betrayed
+							}
+						}
+					}
+					interactive_bannermen_broadcast_effect = {
+						VASSAL = scope:vassal
+						TYPE = msg_war_oathbreaker
+						TITLE = miv_bannermen_betrayal_defects
+						TOOLTIP = interactive_bannermen_betrayal_notification
+					}
+				}
+				else_if = {
+					limit = {
+						NOT = {
+							has_opinion_modifier = {
+								modifier = miv_oathbreaker
+								target = scope:vassal
+							}
+						}
+					}
+					interactive_bannermen_broadcast_effect = {
+						VASSAL = scope:vassal
+						TYPE = msg_war_oathbreaker
+						TITLE = miv_oathbreaker_bannermen_defects
+						TOOLTIP = interactive_oathbreaker_bannermen_notification
+					}
+				}
+				add_opinion = {
+					target = scope:vassal
+					modifier = miv_oathbreaker
+				}
+			}
+		}
+	}
+}
+
+interactive.0009 = {
+	hidden = yes
+	immediate = {
+		if = {
+			limit = {
+				exists = scope:miv_support_war
+				exists = scope:miv_support_liege
+				exists = scope:miv_support_vassal
+				scope:miv_support_liege = {
+					is_alive = yes
+				}
+				scope:miv_support_vassal = {
+					is_alive = yes
+				}
+				scope:miv_support_vassal = {
+					NOT = {
+						is_at_war_with = scope:miv_support_liege
+					}
+				}
+				scope:miv_support_war = {
+					NOR = {
+						any_war_attacker = {
+							this = scope:miv_support_vassal
+						}
+						any_war_defender = {
+							this = scope:miv_support_vassal
+						}
+					}
+					OR = {
+						any_war_attacker = {
+							this = scope:miv_support_liege
+						}
+						any_war_defender = {
+							this = scope:miv_support_liege
+						}
+					}
+				}
+			}
+			scope:miv_support_war = {
+				if = {
+					limit = {
+						is_attacker = scope:miv_support_liege
+					}
+					if = {
+						limit = {
+							NOT = {
+								any_war_defender = {
+									is_at_war_with = scope:miv_support_vassal
+								}
+							}
+						}
+						add_attacker = scope:miv_support_vassal
+					}
+				}
+				else = {
+					if = {
+						limit = {
+							NOT = {
+								any_war_attacker = {
+									is_at_war_with = scope:miv_support_vassal
+								}
+							}
+						}
+						add_defender = scope:miv_support_vassal
+					}
+				}
+			}
+		}
+		if = {
+			limit = {
+				exists = scope:miv_support_war
+				exists = scope:miv_support_liege
+				exists = scope:miv_support_vassal
+				scope:miv_support_liege = {
+					is_alive = yes
+				}
+				scope:miv_support_vassal = {
+					is_alive = yes
+				}
+				scope:miv_support_war = {
+					is_civil_war = no
 					NOT = {
 						any_war_participant = {
+							this = scope:miv_support_vassal
+						}
+					}
+				}
+			}
+			scope:miv_support_liege = {
+				interactive_bannermen_cannot_answer_effect = {
+					VASSAL = scope:miv_support_vassal
+				}
+			}
+		}
+	}
+}
+
+interactive.0010 = {
+	hidden = yes
+	immediate = {
+		save_temporary_scope_as = vassal
+		if = {
+			limit = {
+				exists = scope:miv_cw_war
+				exists = liege
+				NOT = {
+					liege = scope:vassal
+				}
+				scope:miv_cw_war = {
+					NOR = {
+						any_war_attacker = {
+							this = scope:vassal
+						}
+						any_war_defender = {
 							this = scope:vassal
 						}
 					}
 				}
-				save_temporary_scope_as = war_to_join
-				# join defender
-				if = {
-					limit = {
-						scope:vassal = {
-							is_capable_adult = yes
-							is_imprisoned = no
-							NOT = {
-								AND = {
-									exists = joined_faction
-									NOT = {
-										joined_faction = {
-											faction_is_type = crown_loyalist_faction
-										}
-									}
-									NOT = {
-										has_global_variable = AGOT_is_loaded
-									}
-								}
-							}
-							NOT = {
-								scope:liege_to_join = {
-									has_opinion_modifier = {
-										modifier = miv_oathbreaker
-										target = scope:vassal
-									}
-								}
-							}
-							NOT = {
-								opinion = {
-									target = scope:liege_to_join
-									value <= -80
-								}
-							}
-							NOT = {
-								is_allied_to = scope:war_to_join.primary_attacker
-							}
-							OR = {
-								has_relation_friend = scope:liege_to_join
-								has_relation_best_friend = scope:liege_to_join
-								has_relation_blood_brother = scope:liege_to_join
-								has_relation_lover = scope:liege_to_join
-								has_relation_soulmate = scope:liege_to_join
-								has_relation_rival = scope:war_to_join.primary_attacker
-								has_relation_nemesis = scope:war_to_join.primary_attacker
-								opinion = {
-									target = scope:liege_to_join
-									value >= 40
-								}
-								opinion = {
-									target = scope:war_to_join.primary_attacker
-									value <= -50
-								}
-								is_allied_to = scope:liege_to_join
-								ai_honor >= medium_positive_ai_value
-								AND = {
-									exists = joined_faction
-									joined_faction = {
-										faction_is_type = crown_loyalist_faction
-									}
-								}
-								always = no # CK3 1.19 has no has_warden_contract definition
-								is_heir_of = scope:liege_to_join
-								has_trait = loyal
-								scope:liege_to_join = {
-									has_strong_hook = scope:vassal
-								}
-							}
-						}
-					}
-					scope:war_to_join = {
-						if = {
-							limit = {
-								NOT = { any_war_participant = { this = scope:vassal } }
-								NOT = {
-									any_war_participant = {
-										is_at_war_with = scope:vassal
-									}
-								}
-							}
-							add_defender = scope:vassal
-						}
-					}
-					# indirect vassals
-					if = {
-						limit = {
-							has_game_rule = civil_war_indirect_vassals_enabled
-						}
-						scope:vassal = {
-							save_temporary_scope_as = vassal_liege_to_join
-							every_vassal = {
-								limit = {
-									max_military_strength > 200
-									highest_held_title_tier >= tier_county
-									is_landed = yes
-									NOT = {
-										is_at_war_with = scope:war_to_join.primary_defender
-									}
-									NOT = {
-										is_at_war_with = scope:war_to_join.primary_attacker
-									}
-									is_ai = yes
-								}
-								save_temporary_scope_as = vassals_vassal
-								if = {
-									limit = {
-										scope:vassals_vassal = {
-											is_capable_adult = yes
-											is_imprisoned = no
-											NOT = {
-												scope:vassal_liege_to_join = {
-													has_opinion_modifier = {
-														modifier = miv_oathbreaker
-														target = scope:vassals_vassal
-													}
-												}
-											}
-											OR = {
-												has_relation_friend = scope:vassal_liege_to_join
-												has_relation_best_friend = scope:vassal_liege_to_join
-												has_relation_blood_brother = scope:vassal_liege_to_join
-												has_relation_lover = scope:vassal_liege_to_join
-												has_relation_soulmate = scope:vassal_liege_to_join
-												has_relation_rival = scope:war_to_join.primary_attacker
-												has_relation_nemesis = scope:war_to_join.primary_attacker
-												opinion = {
-													target = scope:vassal_liege_to_join
-													value >= 40
-												}
-												opinion = {
-													target = scope:war_to_join.primary_attacker
-													value <= -50
-												}
-												is_allied_to = scope:vassal_liege_to_join
-												ai_honor >= medium_positive_ai_value
-												AND = {
-													exists = joined_faction
-													joined_faction = {
-														faction_is_type = crown_loyalist_faction
-													}
-												}
-												always = no # CK3 1.19 has no has_warden_contract definition
-												is_heir_of = scope:vassal_liege_to_join
-												has_trait = loyal
-												scope:vassal_liege_to_join = {
-													has_strong_hook = scope:vassals_vassal
-												}
-											}
-										}
-									}
-									scope:war_to_join = {
-										if = {
-											limit = {
-												NOT = { any_war_participant = { this = scope:vassals_vassal } }
-												NOT = {
-													any_war_participant = {
-														is_at_war_with = scope:vassals_vassal
-													}
-												}
-											}
-											add_defender = scope:vassals_vassal
-										}
-									}
-								}
-							}
-						}
+			}
+			liege = {
+				save_temporary_scope_as = liege
+			}
+			if = {
+				limit = {
+					NOT = {
+						exists = var:miv_muster_score
 					}
 				}
-				# join attacker
-				else_if = {
+				set_variable = {
+					name = miv_muster_score
+					value = interactive_bannermen_muster_score
+					years = 2
+				}
+			}
+			if = {
+				limit = {
+					NOT = {
+						interactive_bannermen_fit_trigger = yes
+					}
+				}
+				every_player = {
 					limit = {
-						scope:vassal = {
-							is_capable_adult = yes
-							is_imprisoned = no
-							OR = {
-								NOT = {
-									has_dread_level_towards = {
-										target = scope:liege_to_join
-										level = 2
-									}
-								}
-								AND = {
-									exists = joined_faction
-									NOT = {
-										joined_faction = {
-											faction_is_type = crown_loyalist_faction
-										}
-									}
-									NOT = {
-										has_global_variable = AGOT_is_loaded
-									}
-								}
-								is_allied_to = scope:war_to_join.primary_attacker
+						OR = {
+							is_vassal_of = scope:liege
+							this = scope:liege
+						}
+					}
+					scope:vassal = {
+						save_scope_as = VASSAL
+					}
+					send_interface_toast = {
+						type = msg_war_neutrality
+						title = miv_neutrality_defects
+						left_icon = scope:VASSAL
+						custom_tooltip = interactive_neutrality_notification
+					}
+				}
+			}
+			else_if = {
+				limit = {
+					scope:miv_cw_war = {
+						OR = {
+							any_war_attacker = {
+								this = scope:liege
 							}
-							NOT = {
-								opinion = {
-									target = scope:war_to_join.primary_attacker
-									value <= -80
-								}
-							}
-							NOT = {
-								is_allied_to = scope:liege_to_join
-							}
-							OR = {
-								has_relation_friend = scope:war_to_join.primary_attacker
-								has_relation_best_friend = scope:war_to_join.primary_attacker
-								has_relation_blood_brother = scope:war_to_join.primary_attacker
-								has_relation_lover = scope:war_to_join.primary_attacker
-								has_relation_soulmate = scope:war_to_join.primary_attacker
-								has_relation_rival = scope:liege_to_join
-								has_relation_nemesis = scope:liege_to_join
-								opinion = {
-									target = scope:war_to_join.primary_attacker
-									value >= 40
-								}
-								opinion = {
-									target = scope:liege_to_join
-									value <= -50
-								}
-								is_allied_to = scope:war_to_join.primary_attacker
-								ai_honor <= medium_negative_ai_value
-								AND = {
-									exists = joined_faction
-									NOT = {
-										joined_faction = {
-											faction_is_type = crown_loyalist_faction
-										}
-									}
-									NOT = {
-										has_global_variable = AGOT_is_loaded
-									}
-								}
-								is_heir_of = scope:war_to_join.primary_attacker
-								has_trait = disloyal
-								scope:war_to_join.primary_attacker = {
-									has_strong_hook = scope:vassal
-								}
-								scope:liege_to_join = {
-									has_opinion_modifier = {
-										modifier = miv_oathbreaker
-										target = scope:vassal
-									}
-								}
+							any_war_defender = {
+								this = scope:liege
 							}
 						}
 					}
-					scope:war_to_join = {
+					interactive_bannermen_civilwar_loyal_trigger = {
+						LIEGE = scope:liege
+					}
+				}
+				scope:miv_cw_war = {
+					if = {
+						limit = {
+							is_attacker = scope:liege
+						}
 						if = {
 							limit = {
-								NOT = { any_war_participant = { this = scope:vassal } }
 								NOT = {
-									any_war_participant = {
+									any_war_defender = {
 										is_at_war_with = scope:vassal
 									}
 								}
@@ -874,127 +1464,207 @@ interactive.0007 = {
 							add_attacker = scope:vassal
 						}
 					}
-					if = {
-						limit = {
-							exists = scope:war_to_join.primary_attacker.joined_faction
-						}
-						scope:vassal = {
-							if = {
-								limit = {
-									exists = joined_faction
-									NOT = {
-										joined_faction = scope:war_to_join.primary_attacker.joined_faction
+					else = {
+						if = {
+							limit = {
+								NOT = {
+									any_war_attacker = {
+										is_at_war_with = scope:vassal
 									}
 								}
-								leave_faction = joined_faction
 							}
-							join_faction_skip_check = scope:war_to_join.primary_attacker.joined_faction
+							add_defender = scope:vassal
 						}
 					}
-					# indirect vassals
+				}
+				if = {
+					limit = {
+						exists = var:miv_muster_score
+						NOT = {
+							has_game_rule = war_exhaustion_miv_disabled
+						}
+						NOT = {
+							var:miv_muster_score >= interactive_bannermen_prompt_threshold
+						}
+					}
 					if = {
 						limit = {
-							has_game_rule = civil_war_indirect_vassals_enabled
+							exists = var:miv_muster_score
+							var:miv_muster_score >= interactive_bannermen_willing_threshold
 						}
-						scope:vassal = {
-							save_temporary_scope_as = vassal_liege_to_join
-							every_vassal = {
-								limit = {
-									max_military_strength > 200
-									highest_held_title_tier >= tier_county
-									is_landed = yes
-									NOT = {
-										is_at_war_with = scope:war_to_join.primary_defender
-									}
-									NOT = {
-										is_at_war_with = scope:war_to_join.primary_attacker
-									}
-									is_ai = yes
-								}
-								save_temporary_scope_as = vassals_vassal
-								if = {
-									limit = {
-										scope:vassals_vassal = {
-											is_capable_adult = yes
-											is_imprisoned = no
-											NOT = {
-												scope:vassal_liege_to_join = {
-													has_opinion_modifier = {
-														modifier = miv_oathbreaker
-														target = scope:vassals_vassal
-													}
-												}
-											}
-											OR = {
-												has_relation_friend = scope:vassal_liege_to_join
-												has_relation_best_friend = scope:vassal_liege_to_join
-												has_relation_blood_brother = scope:vassal_liege_to_join
-												has_relation_lover = scope:vassal_liege_to_join
-												has_relation_soulmate = scope:vassal_liege_to_join
-												has_relation_rival = scope:war_to_join.primary_defender
-												has_relation_nemesis = scope:war_to_join.primary_defender
-												opinion = {
-													target = scope:vassal_liege_to_join
-													value >= 40
-												}
-												opinion = {
-													target = scope:war_to_join.primary_defender
-													value <= -50
-												}
-												is_allied_to = scope:vassal_liege_to_join
-												ai_honor >= medium_positive_ai_value
-												AND = {
-													exists = joined_faction
-													joined_faction = {
-														faction_is_type = crown_loyalist_faction
-													}
-												}
-												always = no # CK3 1.19 has no has_warden_contract definition
-												is_heir_of = scope:vassal_liege_to_join
-												has_trait = loyal
-												scope:vassal_liege_to_join = {
-													has_strong_hook = scope:vassals_vassal
-												}
-											}
-										}
-									}
-									scope:war_to_join = {
-										if = {
-											limit = {
-												NOT = { any_war_participant = { this = scope:vassals_vassal } }
-												NOT = {
-													any_war_participant = {
-														is_at_war_with = scope:vassals_vassal
-													}
-												}
-											}
-											add_attacker = scope:vassals_vassal
-										}
-									}
-								}
+						add_opinion = {
+							target = scope:liege
+							modifier = war_exhaustion_vassal_opinion
+							opinion = -10
+						}
+					}
+					else_if = {
+						limit = {
+							exists = var:miv_muster_score
+							var:miv_muster_score >= interactive_bannermen_reluctant_threshold
+						}
+						add_opinion = {
+							target = scope:liege
+							modifier = war_exhaustion_vassal_opinion
+							opinion = -15
+						}
+					}
+					else = {
+						add_opinion = {
+							target = scope:liege
+							modifier = war_exhaustion_vassal_opinion
+							opinion = -20
+						}
+					}
+				}
+				if = {
+					limit = {
+						has_game_rule = civil_war_indirect_vassals_enabled
+						exists = var:miv_cw_depth
+						var:miv_cw_depth < 2
+					}
+					save_temporary_scope_as = liege
+					every_vassal = {
+						limit = {
+							interactive_bannermen_civilwar_eligible_trigger = {
+								LIEGE = scope:liege
+							}
+						}
+						save_temporary_scope_as = vassal
+						interactive_bannermen_civilwar_cascade_effect = yes
+					}
+				}
+			}
+			else_if = {
+				limit = {
+					scope:miv_cw_war = {
+						OR = {
+							any_war_attacker = {
+								this = scope:liege
+							}
+							any_war_defender = {
+								this = scope:liege
 							}
 						}
 					}
 				}
-				# declare neutrality
-				else = {
-					every_player = {
+				scope:miv_cw_war = {
+					if = {
 						limit = {
-							OR = {
-								is_vassal_of = scope:liege_to_join
-								this = scope:liege_to_join
+							is_attacker = scope:liege
+						}
+						if = {
+							limit = {
+								NOT = {
+									any_war_attacker = {
+										is_at_war_with = scope:vassal
+									}
+								}
 							}
-						}
-						scope:vassal = {
-							save_scope_as = VASSAL
-						}
-						send_interface_toast = {
-							type = msg_war_neutrality
-							title = miv_neutrality_defects
-							left_icon = scope:VASSAL
-							custom_tooltip = interactive_neutrality_notification
+							add_defender = scope:vassal
 						}
 					}
+					else = {
+						if = {
+							limit = {
+								NOT = {
+									any_war_defender = {
+										is_at_war_with = scope:vassal
+									}
+								}
+							}
+							add_attacker = scope:vassal
+						}
+					}
+				}
+				scope:liege = {
+					if = {
+						limit = {
+							NOT = {
+								has_opinion_modifier = {
+									modifier = miv_oathbreaker
+									target = scope:vassal
+								}
+							}
+						}
+						every_player = {
+							limit = {
+								OR = {
+									is_vassal_of = scope:liege
+									this = scope:liege
+								}
+							}
+							scope:vassal = {
+								save_scope_as = VASSAL
+							}
+							send_interface_toast = {
+								type = msg_war_oathbreaker
+								title = miv_oathbreaker_bannermen_defects
+								left_icon = scope:VASSAL
+								custom_tooltip = interactive_oathbreaker_bannermen_notification
+							}
+						}
+					}
+					add_opinion = {
+						target = scope:vassal
+						modifier = miv_oathbreaker
+					}
+				}
+				if = {
+					limit = {
+						exists = scope:miv_cw_war.primary_attacker.joined_faction
+						is_vassal_of = scope:miv_cw_war.primary_defender
+					}
+					if = {
+						limit = {
+							exists = joined_faction
+							NOT = {
+								joined_faction = scope:miv_cw_war.primary_attacker.joined_faction
+							}
+						}
+						leave_faction = joined_faction
+					}
+					join_faction_skip_check = scope:miv_cw_war.primary_attacker.joined_faction
+				}
+				if = {
+					limit = {
+						has_game_rule = civil_war_indirect_vassals_enabled
+						exists = var:miv_cw_depth
+						var:miv_cw_depth < 2
+					}
+					save_temporary_scope_as = liege
+					every_vassal = {
+						limit = {
+							interactive_bannermen_civilwar_eligible_trigger = {
+								LIEGE = scope:liege
+							}
+						}
+						save_temporary_scope_as = vassal
+						interactive_bannermen_civilwar_cascade_effect = yes
+					}
+				}
+			}
+		}
+	}
+}
+
+interactive.0011 = {
+	hidden = yes
+	immediate = {
+		save_temporary_scope_as = vassal
+		scope:miv_bannermen_liege ?= {
+			if = {
+				limit = {
+					NOT = {
+						this = scope:vassal
+					}
+					is_alive = yes
+					scope:vassal = {
+						is_alive = yes
+					}
+				}
+				interactive_bannermen_cannot_answer_effect = {
+					VASSAL = scope:vassal
 				}
 			}
 		}

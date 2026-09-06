@@ -187,6 +187,14 @@
     },
     {
       "severity": "error",
+      "code": "unknown-list",
+      "message": "unknown list",
+      "source": "MOD",
+      "file": "common/on_action/interactive_on_actions.txt",
+      "count": 1
+    },
+    {
+      "severity": "error",
       "code": "strict-scopes",
       "message": "scope:bloc might not be available here",
       "source": "MOD",
@@ -608,6 +616,166 @@
       "source": "MOD",
       "file": "common/buildings/zzzz_cow_agot_landmarks_special_buildings_westeros.txt",
       "count": 3
+    },
+    {
+      "severity": "warning",
+      "code": "strict-scopes",
+      "message": "`on_declared_war` expects list interactive_bannermen to exist",
+      "source": "MOD",
+      "file": "common/casus_belli_types/adventurers_beneficiary_conquer.txt",
+      "count": 4
+    },
+    {
+      "severity": "warning",
+      "code": "strict-scopes",
+      "message": "`on_declared_war` expects list interactive_bannermen_betray to exist",
+      "source": "MOD",
+      "file": "common/casus_belli_types/adventurers_beneficiary_conquer.txt",
+      "count": 4
+    },
+    {
+      "severity": "warning",
+      "code": "strict-scopes",
+      "message": "`on_declared_war` expects list interactive_bannermen_grudging to exist",
+      "source": "MOD",
+      "file": "common/casus_belli_types/adventurers_beneficiary_conquer.txt",
+      "count": 4
+    },
+    {
+      "severity": "warning",
+      "code": "strict-scopes",
+      "message": "`on_declared_war` expects list interactive_bannermen_prompt to exist",
+      "source": "MOD",
+      "file": "common/casus_belli_types/adventurers_beneficiary_conquer.txt",
+      "count": 4
+    },
+    {
+      "severity": "warning",
+      "code": "strict-scopes",
+      "message": "`on_declared_war` expects list interactive_bannermen_rebellion to exist",
+      "source": "MOD",
+      "file": "common/casus_belli_types/adventurers_beneficiary_conquer.txt",
+      "count": 4
+    },
+    {
+      "severity": "warning",
+      "code": "strict-scopes",
+      "message": "`on_declared_war` expects list interactive_bannermen_refuse to exist",
+      "source": "MOD",
+      "file": "common/casus_belli_types/adventurers_beneficiary_conquer.txt",
+      "count": 4
+    },
+    {
+      "severity": "warning",
+      "code": "strict-scopes",
+      "message": "`on_declared_war` expects list interactive_bannermen_reluctant to exist",
+      "source": "MOD",
+      "file": "common/casus_belli_types/adventurers_beneficiary_conquer.txt",
+      "count": 4
+    },
+    {
+      "severity": "warning",
+      "code": "strict-scopes",
+      "message": "`on_declared_war` expects list interactive_bannermen_serving to exist",
+      "source": "MOD",
+      "file": "common/casus_belli_types/adventurers_beneficiary_conquer.txt",
+      "count": 4
+    },
+    {
+      "severity": "warning",
+      "code": "strict-scopes",
+      "message": "`on_declared_war` expects list interactive_bannermen_unavailable to exist",
+      "source": "MOD",
+      "file": "common/casus_belli_types/adventurers_beneficiary_conquer.txt",
+      "count": 4
+    },
+    {
+      "severity": "warning",
+      "code": "strict-scopes",
+      "message": "`on_declared_war` expects list interactive_bannermen_willing to exist",
+      "source": "MOD",
+      "file": "common/casus_belli_types/adventurers_beneficiary_conquer.txt",
+      "count": 4
+    },
+    {
+      "severity": "warning",
+      "code": "strict-scopes",
+      "message": "`on_declared_war` expects list interactive_bannermen to exist",
+      "source": "MOD",
+      "file": "common/casus_belli_types/succession_crisis_cb.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "strict-scopes",
+      "message": "`on_declared_war` expects list interactive_bannermen_betray to exist",
+      "source": "MOD",
+      "file": "common/casus_belli_types/succession_crisis_cb.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "strict-scopes",
+      "message": "`on_declared_war` expects list interactive_bannermen_grudging to exist",
+      "source": "MOD",
+      "file": "common/casus_belli_types/succession_crisis_cb.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "strict-scopes",
+      "message": "`on_declared_war` expects list interactive_bannermen_prompt to exist",
+      "source": "MOD",
+      "file": "common/casus_belli_types/succession_crisis_cb.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "strict-scopes",
+      "message": "`on_declared_war` expects list interactive_bannermen_rebellion to exist",
+      "source": "MOD",
+      "file": "common/casus_belli_types/succession_crisis_cb.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "strict-scopes",
+      "message": "`on_declared_war` expects list interactive_bannermen_refuse to exist",
+      "source": "MOD",
+      "file": "common/casus_belli_types/succession_crisis_cb.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "strict-scopes",
+      "message": "`on_declared_war` expects list interactive_bannermen_reluctant to exist",
+      "source": "MOD",
+      "file": "common/casus_belli_types/succession_crisis_cb.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "strict-scopes",
+      "message": "`on_declared_war` expects list interactive_bannermen_serving to exist",
+      "source": "MOD",
+      "file": "common/casus_belli_types/succession_crisis_cb.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "strict-scopes",
+      "message": "`on_declared_war` expects list interactive_bannermen_unavailable to exist",
+      "source": "MOD",
+      "file": "common/casus_belli_types/succession_crisis_cb.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "strict-scopes",
+      "message": "`on_declared_war` expects list interactive_bannermen_willing to exist",
+      "source": "MOD",
+      "file": "common/casus_belli_types/succession_crisis_cb.txt",
+      "count": 1
     },
     {
       "severity": "warning",

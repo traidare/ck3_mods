@@ -293,10 +293,30 @@ change re-raises it.
   participant; this removes the repeated invalid `add_attacker` and
   `add_defender` loop.
 - **More Interactive Vassals:** rechecks all participants immediately before
-  each direct or indirect civil-war join. A vassal already in that war, or at
-  war with any current participant, is skipped rather than passed to
-  `add_attacker` or `add_defender`; its three references to the unavailable
-  `has_warden_contract` flag are explicitly false on CK3 1.19.
+  each direct or indirect civil-war join in `interactive.0007`. A vassal already
+  in that war, or at war with any current participant, is skipped rather than
+  passed to `add_attacker` or `add_defender`. Upstream gates the same four joins
+  on `any_war_attacker` only, so a conflict with a current defender still
+  reaches the join without this repair. These four joins sit in the two
+  `else_if` branches that `has_game_rule = bannermen_mode_enabled` bypasses, so
+  the repair covers the civil-war path only while that rule is off; with it on,
+  the join is deferred into `interactive.0010`, which re-derives its own scopes
+  and re-checks war membership at fire time and so is left unrepaired.
+- **More Interactive Vassals bannermen casus belli:** drops the `populist_war`
+  half of the mod's `NOR` exclusion for populist and nomadic wars. AGOT keeps
+  `populist_war` commented out of `common/casus_belli_types/`, so the key
+  resolves to nothing and every evaluation raises
+  `using_cb: Invalid casus belli 'populist_war'`. A war cannot be fought under a
+  casus belli the database does not define, so the clause excludes nothing and
+  the retained `nomadic_war` check carries the full intent. The exclusion is
+  written once as `interactive_bannermen_callable_war_trigger` and inlined at
+  six further sites, so the repair matches the shared `NOR` shape at any
+  indentation and pins one site in the trigger file, one in
+  `interactive_decisions.txt`, and five in `interactive_on_actions.txt`; a
+  release that adds, moves, or reshapes any of them fails generation. Owning
+  those two extra files also makes this module the effective source of their
+  pre-existing `unknown list` finding, which the tiger baseline records: the
+  bannermen lists are built at runtime and no static writer declares them.
 - **AGOT war AI:** returns a neutral house-relation score when either war
   participant has no house, before evaluating the original house-relation
   scoring logic.
@@ -499,7 +519,7 @@ the generator and review the resulting diff after any update to Workshop IDs
 `3673468355`, `2886417277`, `3084203091`, `3225355262`, `3235061780`,
 `3377641022`, `3692879370`, `3697008412`, `3462342647`, `3437814875`,
 `3709868073`, `3541596590`, `3719888822`, or `2971198450`, `3732116186`,
-`3573203384`, or `2519175282`, and after CK3 updates that change
+`3573203384`, `2712590542`, or `2519175282`, and after CK3 updates that change
 `04_dlc_ep2_tour_effects.txt`. Re-run it after updates to `3682802751` because
 the Essos cleanup validates that parent's game rules and startup actions, and
 after updates to `3719888822` because the same repair is pinned to LoV's

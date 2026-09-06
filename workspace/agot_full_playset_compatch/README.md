@@ -87,6 +87,15 @@ delta is reproduced exactly. Its `map_icon_layer.gui` similarly keeps the kraken
 icon while preserving the LoV AGOT bridge's removal of the stale
 `find_elder_interaction` datacontext.
 
+The merged `hud.gui` carries Iron and Salt's Dragonlord Regime main tab
+unchanged, so the tiger baseline records
+`file gfx/interface/hud/maintab_dragonlord_oligarchy.dds does not exist` against
+this module as the effective last writer. The tab is gated on
+`dragonlord_oligarchy_government`, which no mod in the playset defines, so it
+cannot become visible and the missing icon is never drawn. Drop the baseline
+entry and re-audit the tab once a mod defining that government joins the
+playset.
+
 The generated `zzz_agot_playset_is_human.txt` is the single final writer for
 `is_human`. CK3 resolves scripted-trigger definitions by filename across the
 merged VFS, so Great Councils' `zzz_Great_Councils_replaced_triggers.txt` sorts

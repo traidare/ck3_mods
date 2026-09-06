@@ -1,0 +1,748 @@
+﻿interactive_bannermen_mode_decision = {
+	desc = interactive_bannermen_mode_decision_desc
+	selection_tooltip = interactive_bannermen_mode_decision_tooltip
+	confirm_text = interactive_bannermen_mode_decision_confirm
+	decision_group_type = interactive_vassals
+	is_shown = {
+		has_game_rule = bannermen_mode_enabled
+		highest_held_title_tier >= tier_duchy
+		is_landed = yes
+		is_ruler = yes
+		any_vassal = {
+			highest_held_title_tier > tier_barony
+		}
+		OR = {
+			is_ai = no
+			is_at_war = no
+			any_character_war = {
+				interactive_bannermen_callable_war_trigger = {
+					LIEGE = root
+				}
+			}
+		}
+	}
+	is_valid = {
+		is_at_war = yes
+	}
+	cooldown = {
+		months = 12
+	}
+	ai_check_interval = 1
+	ai_potential = {
+		has_game_rule = bannermen_mode_enabled
+		is_at_war = yes
+		highest_held_title_tier >= tier_duchy
+		is_landed = yes
+		is_ruler = yes
+		any_character_war = {
+			interactive_bannermen_callable_war_trigger = {
+				LIEGE = root
+			}
+			interactive_bannermen_worth_calling_trigger = {
+				LIEGE = root
+			}
+			OR = {
+				OR = {
+					primary_attacker = root
+					primary_defender = root
+				}
+				AND = {
+					has_game_rule = bannermen_extended_mode_1_enabled
+					root = {
+						highest_held_title_tier >= tier_empire
+					}
+					NOT = {
+						primary_attacker = root
+					}
+					NOT = {
+						primary_defender = root
+					}
+				}
+				AND = {
+					has_game_rule = bannermen_extended_mode_2_enabled
+					root = {
+						highest_held_title_tier >= tier_kingdom
+					}
+					NOT = {
+						primary_attacker = root
+					}
+					NOT = {
+						primary_defender = root
+					}
+				}
+			}
+		}
+	}
+	ai_will_do = {
+		base = 1000
+	}
+	effect = {
+		save_temporary_scope_as = liege
+		scope:liege = {
+			interactive_bannermen_preview_effect = yes
+		}
+		if = {
+			limit = {
+				scope:liege = {
+					is_ai = no
+				}
+			}
+			scope:liege = {
+				custom_description_no_bullet = {
+					text = interactive_bannermen_tooltip_intro_text
+				}
+				if = {
+					limit = {
+						interactive_bannermen_not_answering_count > 0
+					}
+					custom_description_no_bullet = {
+						text = interactive_bannermen_tooltip_text
+						object = scope:liege
+						value = interactive_bannermen_muster_and_accept_strength
+					}
+				}
+				else = {
+					custom_description_no_bullet = {
+						text = interactive_bannermen_tooltip_all_text
+						object = scope:liege
+					}
+				}
+				if = {
+					limit = {
+						interactive_bannermen_serving_count > 0
+					}
+					custom_description_no_bullet = {
+						text = interactive_bannermen_rung_serving_text
+						value = interactive_bannermen_serving_count
+					}
+					if = {
+						limit = {
+							NOT = {
+								has_game_rule = war_exhaustion_miv_disabled
+							}
+						}
+						custom_description_no_bullet = {
+							text = interactive_bannermen_rung_serving_cost_text
+							value = interactive_bannermen_serving_strength
+						}
+					}
+					else = {
+						custom_description_no_bullet = {
+							text = interactive_bannermen_rung_serving_strength_text
+							value = interactive_bannermen_serving_strength
+						}
+					}
+					interactive_bannermen_list_effect = {
+						LIST = interactive_bannermen_serving
+						COUNT = interactive_bannermen_serving_count
+						TEXT = interactive_bannermen_vassal_serving_text
+					}
+				}
+				else = {
+					custom_description_no_bullet = {
+						text = interactive_bannermen_rung_serving_none_text
+					}
+					custom_description_no_bullet = {
+						text = interactive_bannermen_rung_serving_empty_text
+					}
+				}
+				if = {
+					limit = {
+						interactive_bannermen_prompt_count > 0
+					}
+					custom_description_no_bullet = {
+						text = interactive_bannermen_rung_prompt_text
+						value = interactive_bannermen_prompt_count
+					}
+					if = {
+						limit = {
+							NOT = {
+								has_game_rule = war_exhaustion_miv_disabled
+							}
+						}
+						custom_description_no_bullet = {
+							text = interactive_bannermen_rung_prompt_cost_text
+							value = interactive_bannermen_prompt_strength
+						}
+					}
+					else = {
+						custom_description_no_bullet = {
+							text = interactive_bannermen_rung_prompt_strength_text
+							value = interactive_bannermen_prompt_strength
+						}
+					}
+					interactive_bannermen_list_effect = {
+						LIST = interactive_bannermen_prompt
+						COUNT = interactive_bannermen_prompt_count
+						TEXT = interactive_bannermen_vassal_prompt_text
+					}
+				}
+				else = {
+					custom_description_no_bullet = {
+						text = interactive_bannermen_rung_prompt_none_text
+					}
+					if = {
+						limit = {
+							NOT = {
+								has_game_rule = war_exhaustion_miv_disabled
+							}
+						}
+						custom_description_no_bullet = {
+							text = interactive_bannermen_rung_prompt_cost_empty_text
+						}
+					}
+					else = {
+						custom_description_no_bullet = {
+							text = interactive_bannermen_rung_empty_strength_text
+						}
+					}
+				}
+				if = {
+					limit = {
+						interactive_bannermen_willing_count > 0
+					}
+					custom_description_no_bullet = {
+						text = interactive_bannermen_rung_willing_text
+						value = interactive_bannermen_willing_count
+					}
+					if = {
+						limit = {
+							NOT = {
+								has_game_rule = war_exhaustion_miv_disabled
+							}
+						}
+						custom_description_no_bullet = {
+							text = interactive_bannermen_rung_willing_cost_text
+							value = interactive_bannermen_willing_strength
+						}
+					}
+					else = {
+						custom_description_no_bullet = {
+							text = interactive_bannermen_rung_willing_strength_text
+							value = interactive_bannermen_willing_strength
+						}
+					}
+					interactive_bannermen_list_effect = {
+						LIST = interactive_bannermen_willing
+						COUNT = interactive_bannermen_willing_count
+						TEXT = interactive_bannermen_vassal_willing_text
+					}
+				}
+				else = {
+					custom_description_no_bullet = {
+						text = interactive_bannermen_rung_willing_none_text
+					}
+					if = {
+						limit = {
+							NOT = {
+								has_game_rule = war_exhaustion_miv_disabled
+							}
+						}
+						custom_description_no_bullet = {
+							text = interactive_bannermen_rung_willing_cost_empty_text
+						}
+					}
+					else = {
+						custom_description_no_bullet = {
+							text = interactive_bannermen_rung_empty_strength_text
+						}
+					}
+				}
+				if = {
+					limit = {
+						interactive_bannermen_reluctant_count > 0
+					}
+					custom_description_no_bullet = {
+						text = interactive_bannermen_rung_reluctant_text
+						value = interactive_bannermen_reluctant_count
+					}
+					if = {
+						limit = {
+							NOT = {
+								has_game_rule = war_exhaustion_miv_disabled
+							}
+						}
+						custom_description_no_bullet = {
+							text = interactive_bannermen_rung_reluctant_cost_text
+							value = interactive_bannermen_reluctant_strength
+						}
+					}
+					else = {
+						custom_description_no_bullet = {
+							text = interactive_bannermen_rung_reluctant_strength_text
+							value = interactive_bannermen_reluctant_strength
+						}
+					}
+					interactive_bannermen_list_effect = {
+						LIST = interactive_bannermen_reluctant
+						COUNT = interactive_bannermen_reluctant_count
+						TEXT = interactive_bannermen_vassal_reluctant_text
+					}
+				}
+				else = {
+					custom_description_no_bullet = {
+						text = interactive_bannermen_rung_reluctant_none_text
+					}
+					if = {
+						limit = {
+							NOT = {
+								has_game_rule = war_exhaustion_miv_disabled
+							}
+						}
+						custom_description_no_bullet = {
+							text = interactive_bannermen_rung_reluctant_cost_empty_text
+						}
+					}
+					else = {
+						custom_description_no_bullet = {
+							text = interactive_bannermen_rung_empty_strength_text
+						}
+					}
+				}
+				if = {
+					limit = {
+						interactive_bannermen_grudging_count > 0
+					}
+					custom_description_no_bullet = {
+						text = interactive_bannermen_rung_grudging_text
+						value = interactive_bannermen_grudging_count
+					}
+					if = {
+						limit = {
+							NOT = {
+								has_game_rule = war_exhaustion_miv_disabled
+							}
+						}
+						custom_description_no_bullet = {
+							text = interactive_bannermen_rung_grudging_cost_text
+							value = interactive_bannermen_grudging_strength
+						}
+					}
+					else = {
+						custom_description_no_bullet = {
+							text = interactive_bannermen_rung_grudging_strength_text
+							value = interactive_bannermen_grudging_strength
+						}
+					}
+					interactive_bannermen_list_effect = {
+						LIST = interactive_bannermen_grudging
+						COUNT = interactive_bannermen_grudging_count
+						TEXT = interactive_bannermen_vassal_grudging_text
+					}
+				}
+				else = {
+					custom_description_no_bullet = {
+						text = interactive_bannermen_rung_grudging_none_text
+					}
+					if = {
+						limit = {
+							NOT = {
+								has_game_rule = war_exhaustion_miv_disabled
+							}
+						}
+						custom_description_no_bullet = {
+							text = interactive_bannermen_rung_grudging_cost_empty_text
+						}
+					}
+					else = {
+						custom_description_no_bullet = {
+							text = interactive_bannermen_rung_empty_strength_text
+						}
+					}
+				}
+				if = {
+					limit = {
+						interactive_bannermen_refuse_count > 0
+					}
+					custom_description_no_bullet = {
+						text = interactive_bannermen_rung_refuse_text
+						value = interactive_bannermen_refuse_count
+					}
+					custom_description_no_bullet = {
+						text = interactive_bannermen_rung_refuse_strength_text
+						value = interactive_bannermen_refuse_strength
+					}
+					interactive_bannermen_list_effect = {
+						LIST = interactive_bannermen_refuse
+						COUNT = interactive_bannermen_refuse_count
+						TEXT = interactive_bannermen_vassal_refuse_text
+					}
+				}
+				else = {
+					custom_description_no_bullet = {
+						text = interactive_bannermen_rung_refuse_none_text
+					}
+					custom_description_no_bullet = {
+						text = interactive_bannermen_rung_refuse_empty_text
+					}
+				}
+				if = {
+					limit = {
+						interactive_bannermen_betray_count > 0
+					}
+					custom_description_no_bullet = {
+						text = interactive_bannermen_rung_betray_text
+						value = interactive_bannermen_betray_count
+					}
+					custom_description_no_bullet = {
+						text = interactive_bannermen_rung_betray_strength_text
+						value = interactive_bannermen_betray_strength
+					}
+					interactive_bannermen_list_effect = {
+						LIST = interactive_bannermen_betray
+						COUNT = interactive_bannermen_betray_count
+						TEXT = interactive_bannermen_vassal_betray_text
+					}
+				}
+				else = {
+					custom_description_no_bullet = {
+						text = interactive_bannermen_rung_betray_none_text
+					}
+					custom_description_no_bullet = {
+						text = interactive_bannermen_rung_betray_empty_text
+					}
+				}
+				if = {
+					limit = {
+						interactive_bannermen_rebellion_count > 0
+					}
+					custom_description_no_bullet = {
+						text = interactive_bannermen_rung_rebellion_text
+						value = interactive_bannermen_rebellion_count
+					}
+					custom_description_no_bullet = {
+						text = interactive_bannermen_rung_rebellion_strength_text
+						value = interactive_bannermen_rebellion_strength
+					}
+					interactive_bannermen_list_effect = {
+						LIST = interactive_bannermen_rebellion
+						COUNT = interactive_bannermen_rebellion_count
+						TEXT = interactive_bannermen_vassal_rebellion_text
+					}
+				}
+				else = {
+					custom_description_no_bullet = {
+						text = interactive_bannermen_rung_rebellion_none_text
+					}
+					custom_description_no_bullet = {
+						text = interactive_bannermen_rung_rebellion_empty_text
+					}
+				}
+				if = {
+					limit = {
+						interactive_bannermen_unavailable_count > 0
+					}
+					custom_description_no_bullet = {
+						text = interactive_bannermen_rung_unavailable_text
+						value = interactive_bannermen_unavailable_count
+					}
+					custom_description_no_bullet = {
+						text = interactive_bannermen_rung_unavailable_strength_text
+						value = interactive_bannermen_unavailable_strength
+					}
+					interactive_bannermen_list_effect = {
+						LIST = interactive_bannermen_unavailable
+						COUNT = interactive_bannermen_unavailable_count
+						TEXT = interactive_bannermen_vassal_unavailable_text
+					}
+				}
+				else = {
+					custom_description_no_bullet = {
+						text = interactive_bannermen_rung_unavailable_none_text
+					}
+					custom_description_no_bullet = {
+						text = interactive_bannermen_rung_unavailable_empty_text
+					}
+				}
+			}
+		}
+		hidden_effect = {
+			save_temporary_scope_as = liege
+			if = {
+				limit = {
+					scope:liege = {
+						is_ai = no
+					}
+				}
+				play_music_cue = "mx_cue_combat_2"
+			}
+			if = {
+				limit = {
+					OR = {
+						AND = {
+							scope:liege = {
+								is_ai = no
+							}
+							has_game_rule = civil_war_indirect_vassals_enabled
+							scope:liege = {
+								any_character_war = {
+									primary_defender = {
+										is_liege_or_above_of = scope:liege
+									}
+									primary_attacker = scope:liege
+								}
+							}
+						}
+						scope:liege = {
+							any_character_war = {
+								interactive_bannermen_callable_war_trigger = {
+									LIEGE = scope:liege
+								}
+							}
+						}
+					}
+				}
+				scope:liege = {
+					save_scope_as = miv_bannermen_liege
+					if = {
+						limit = {
+							any_character_war = {
+								is_civil_war = no
+								interactive_bannermen_callable_war_trigger = {
+									LIEGE = scope:liege
+								}
+							}
+						}
+						every_in_list = {
+							list = interactive_bannermen_unavailable
+							trigger_event = {
+								id = interactive.0011
+								days = {
+									180
+									360
+								}
+							}
+						}
+					}
+					every_in_list = {
+						list = interactive_bannermen_serving
+						add_to_list = interactive_accept
+					}
+					every_in_list = {
+						list = interactive_bannermen_prompt
+						add_to_list = interactive_accept
+					}
+					every_in_list = {
+						list = interactive_bannermen_willing
+						add_to_list = interactive_accept
+					}
+					every_in_list = {
+						list = interactive_bannermen_reluctant
+						add_to_list = interactive_accept
+					}
+					every_in_list = {
+						list = interactive_bannermen_grudging
+						add_to_list = interactive_accept
+					}
+					every_in_list = {
+						list = interactive_bannermen_refuse
+						add_to_list = interactive_refuse
+					}
+					every_in_list = {
+						list = interactive_bannermen_betray
+						add_to_list = interactive_refuse
+					}
+					every_character_war = {
+						save_temporary_scope_as = war
+						# call on attacker side
+						if = {
+							limit = {
+								scope:war = {
+									any_war_attacker = {
+										this = scope:liege
+									}
+								}
+								scope:war = {
+									interactive_bannermen_callable_war_trigger = {
+										LIEGE = scope:liege
+									}
+								}
+								OR = {
+									scope:war = {
+										primary_attacker = scope:liege
+									}
+									scope:liege = {
+										is_ai = no
+									}
+									AND = {
+										has_game_rule = bannermen_extended_mode_1_enabled
+										scope:liege = {
+											highest_held_title_tier >= tier_empire
+										}
+									}
+									AND = {
+										has_game_rule = bannermen_extended_mode_2_enabled
+										scope:liege = {
+											highest_held_title_tier >= tier_kingdom
+										}
+									}
+									#AND = {
+									#	has_game_rule = bannermen_extended_mode_3_enabled
+									#	scope:liege = { highest_held_title_tier >= tier_duchy }
+									#}
+								}
+							}
+							every_in_list = {
+								list = interactive_accept
+								save_temporary_scope_as = vassal
+								if = {
+									limit = {
+										scope:vassal = {
+											NOT = {
+												is_at_war_with = scope:war.primary_attacker
+											}
+										}
+										scope:vassal = {
+											NOT = {
+												is_at_war_with = scope:war.primary_defender
+											}
+										}
+									}
+									scope:vassal = {
+										interactive_bannermen_summon_effect = yes
+									}
+								}
+							}
+						}
+						# call on defender side
+						else_if = {
+							limit = {
+								scope:war = {
+									NOT = { using_cb = nomadic_war }
+								}
+								scope:war = {
+									any_war_defender = {
+										this = scope:liege
+									}
+								}
+								scope:war = {
+									interactive_bannermen_callable_war_trigger = {
+										LIEGE = scope:liege
+									}
+								}
+								OR = {
+									scope:war = {
+										primary_defender = scope:liege
+									}
+									scope:liege = {
+										is_ai = no
+									}
+									AND = {
+										has_game_rule = bannermen_extended_mode_1_enabled
+										scope:liege = {
+											highest_held_title_tier >= tier_empire
+										}
+									}
+									AND = {
+										has_game_rule = bannermen_extended_mode_2_enabled
+										scope:liege = {
+											highest_held_title_tier >= tier_kingdom
+										}
+									}
+									#AND = {
+									#	has_game_rule = bannermen_extended_mode_3_enabled
+									#	scope:liege = { highest_held_title_tier >= tier_duchy }
+									#}
+								}
+							}
+							every_in_list = {
+								list = interactive_accept
+								save_temporary_scope_as = vassal
+								if = {
+									limit = {
+										scope:vassal = {
+											NOT = {
+												is_at_war_with = scope:war.primary_attacker
+											}
+										}
+										scope:vassal = {
+											NOT = {
+												is_at_war_with = scope:war.primary_defender
+											}
+										}
+									}
+									scope:vassal = {
+										interactive_bannermen_summon_effect = yes
+									}
+								}
+							}
+						}
+					}
+					every_in_list = {
+						list = interactive_refuse
+						save_temporary_scope_as = vassal
+						scope:vassal = {
+							interactive_bannermen_refuse_effect = yes
+						}
+					}
+				}
+			}
+		}
+	}
+	sort_order = 1001
+	picture = {
+		reference = "gfx/interface/illustrations/decisions/decision_destiny_goal.dds"
+	}
+}
+
+interactive_dont_call_vassals = {
+	desc = interactive_dont_call_vassals_decision_desc
+	selection_tooltip = interactive_dont_call_vassals_decision_tooltip
+	decision_group_type = interactive_vassals
+	is_shown = {
+		is_landed = yes
+		is_ruler = yes
+		NOT = {
+			has_character_flag = dont_call_vassals
+		}
+		NOT = {
+			has_game_rule = bannermen_mode_enabled
+		}
+		has_game_rule = border_vassals_join_enabled
+	}
+	effect = {
+		custom_tooltip = interactive_dont_call_vassals_decision_effect
+		add_character_flag = dont_call_vassals
+	}
+	ai_check_interval = 0
+	ai_potential = {
+		always = no
+	}
+	ai_will_do = {
+		base = 0
+	}
+	sort_order = 1000
+	picture = {
+		reference = "gfx/interface/illustrations/decisions/decision_realm.dds"
+	}
+}
+
+interactive_call_vassals = {
+	desc = interactive_call_vassals_decision_desc
+	selection_tooltip = interactive_call_vassals_decision_tooltip
+	decision_group_type = interactive_vassals
+	is_shown = {
+		is_landed = yes
+		is_ruler = yes
+		has_character_flag = dont_call_vassals
+		NOT = {
+			has_game_rule = bannermen_mode_enabled
+		}
+		has_game_rule = border_vassals_join_enabled
+	}
+	effect = {
+		custom_tooltip = interactive_call_vassals_decision_effect
+		remove_character_flag = dont_call_vassals
+	}
+	ai_check_interval = 0
+	ai_potential = {
+		always = no
+	}
+	ai_will_do = {
+		base = 0
+	}
+	sort_order = 1000
+	picture = {
+		reference = "gfx/interface/illustrations/decisions/decision_realm.dds"
+	}
+}

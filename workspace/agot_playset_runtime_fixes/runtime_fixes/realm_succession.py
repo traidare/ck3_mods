@@ -969,7 +969,7 @@ def generate_more_interactive_vassals_war_join_guards(inputs: RunInputs) -> None
     assert_source_block_hash(
         text,
         "interactive.0007",
-        "9135f5b9aac37842b6e71281041130606bb9a348786e7b4fe6bccb90ad236ddb",
+        "f36abf84e1a3b363ab08128622ee3780bbafe739fb4fc8d9c1b2bf7beae0eb50",
         label="More Interactive Vassals interactive.0007",
     )
     for joiner in ("scope:vassal", "scope:vassals_vassal"):
@@ -1004,14 +1004,47 @@ def generate_more_interactive_vassals_war_join_guards(inputs: RunInputs) -> None
             expected=2,
             label=f"MIV all-participant war guard for {joiner}",
         )
-    text = replace_exact(
-        text,
-        "vassal_contract_has_flag = has_warden_contract",
-        "always = no # CK3 1.19 has no has_warden_contract definition",
-        expected=3,
-        label="MIV unavailable warden-contract branches",
-    )
     write_text(inputs.OUTPUT, relative, normalize_rebased_source(text))
+
+
+def generate_more_interactive_vassals_bannermen_cb_guard(inputs: RunInputs) -> None:
+    """Drop MIV's bannermen exclusions for a casus belli AGOT does not define.
+
+    MIV refuses a bannermen call for a populist or nomadic war. AGOT keeps its
+    `populist_war` entry commented out of `common/casus_belli_types/`, so the
+    key resolves to nothing and every evaluation raises
+    `using_cb: Invalid casus belli 'populist_war'`. A war cannot be fought
+    under a casus belli the database does not define, so the clause excludes
+    nothing and the retained `nomadic_war` check carries the full intent.
+
+    The exclusion is written once as a scripted trigger and inlined at six
+    further sites, so the repair matches the shared `NOR` shape at any
+    indentation and pins the per-file count.
+    """
+    pattern = (
+        r"(?m)^(?P<indent>\t+)NOR = \{\n"
+        r"(?P=indent)\tusing_cb = populist_war\n"
+        r"(?P=indent)\tusing_cb = nomadic_war\n"
+        r"(?P=indent)\}"
+    )
+    replacement = "\\g<indent>NOT = { using_cb = nomadic_war }"
+    expected_sites = {
+        "common/scripted_triggers/interactive_bannermen_triggers.txt": 1,
+        "common/decisions/interactive_decisions.txt": 1,
+        "common/on_action/interactive_on_actions.txt": 5,
+    }
+    for relative, expected in expected_sites.items():
+        source = read_text(inputs.WORKSHOP / "2712590542" / relative)
+        repaired = replace_regex(
+            source,
+            pattern,
+            replacement,
+            expected=expected,
+            label=f"MIV populist-war exclusion in {relative}",
+        )
+        if "populist_war" in repaired:
+            raise RuntimeError(f"{relative} retained a populist_war reference")
+        write_text(inputs.OUTPUT, relative, normalize_rebased_source(repaired))
 
 
 def generate_agot_war_value_guards(inputs: RunInputs) -> None:

@@ -1,0 +1,149 @@
+﻿interactive_bannermen_fit_trigger = {
+	is_capable_adult = yes
+	NOT = {
+		is_imprisoned = yes
+	}
+	NOT = {
+		any_character_war = {
+			primary_defender = prev
+			primary_attacker.liege ?= prev
+		}
+	}
+}
+
+interactive_bannermen_rebellion_trigger = {
+	is_at_war_with = $LIEGE$
+}
+
+interactive_bannermen_serving_trigger = {
+	any_character_war = {
+		is_participant = $LIEGE$
+	}
+	NOT = {
+		interactive_bannermen_rebellion_trigger = {
+			LIEGE = $LIEGE$
+		}
+	}
+}
+
+interactive_bannermen_available_trigger = {
+	interactive_bannermen_fit_trigger = yes
+	NOT = {
+		interactive_bannermen_rebellion_trigger = {
+			LIEGE = $LIEGE$
+		}
+	}
+}
+
+interactive_bannermen_scope_trigger = {
+	OR = {
+		AND = {
+			$LIEGE$ = {
+				highest_held_title_tier < tier_empire
+			}
+			highest_held_title_tier >= tier_county
+		}
+		highest_held_title_tier >= tier_duchy
+	}
+	max_military_strength > 200
+	is_landed = yes
+	is_ai = yes
+}
+
+interactive_bannermen_eligible_trigger = {
+	interactive_bannermen_scope_trigger = {
+		LIEGE = $LIEGE$
+	}
+	interactive_bannermen_available_trigger = {
+		LIEGE = $LIEGE$
+	}
+}
+
+interactive_bannermen_loyalist_faction_trigger = {
+	exists = joined_faction
+	joined_faction = {
+		OR = {
+			faction_is_type = crown_loyalist_faction
+			faction_is_type = agot_loyalist_faction
+		}
+	}
+}
+
+interactive_bannermen_hostile_faction_trigger = {
+	exists = joined_faction
+	joined_faction = {
+		faction_target = $LIEGE$
+		NOR = {
+			faction_is_type = crown_loyalist_faction
+			faction_is_type = agot_loyalist_faction
+		}
+	}
+}
+
+interactive_bannermen_civilwar_loyal_trigger = {
+	OR = {
+		interactive_bannermen_loyalist_faction_trigger = yes
+		AND = {
+			NOT = {
+				interactive_bannermen_hostile_faction_trigger = {
+					LIEGE = $LIEGE$
+				}
+			}
+			exists = var:miv_muster_score
+			var:miv_muster_score >= interactive_bannermen_reluctant_threshold
+		}
+	}
+}
+
+interactive_agot_megawar_trigger = {
+	OR = {
+		using_cb = agot_independence_war
+		using_cb = agot_reconquest_war
+		using_cb = agot_rebellion_war
+		using_cb = agot_revolt_war
+		using_cb = agot_liberty_faction_war
+		using_cb = agot_claimant_faction_war
+		using_cb = agot_bastard_claimant_war
+		using_cb = agot_succession_war
+	}
+}
+
+interactive_bannermen_worth_calling_trigger = {
+	trigger_if = {
+		limit = {
+			is_attacker = $LIEGE$
+		}
+		primary_defender = {
+			max_military_strength >= interactive_bannermen_minimum_enemy_strength
+		}
+	}
+	trigger_else = {
+		primary_attacker = {
+			max_military_strength >= interactive_bannermen_minimum_enemy_strength
+		}
+	}
+}
+
+interactive_bannermen_callable_war_trigger = {
+	NOT = {
+		primary_attacker = {
+			is_vassal_of = $LIEGE$
+		}
+	}
+	NOT = { using_cb = nomadic_war }
+}
+
+interactive_bannermen_civilwar_eligible_trigger = {
+	interactive_bannermen_scope_trigger = {
+		LIEGE = $LIEGE$
+	}
+	NOT = {
+		is_at_war_with = $LIEGE$
+	}
+	OR = {
+		NOT = {
+			has_government = theocracy_government
+		}
+		highest_held_title_tier >= tier_duchy
+	}
+}

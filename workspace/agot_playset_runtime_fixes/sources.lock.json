@@ -45,9 +45,21 @@
       "sha256": "4a7a6b520aad037093af116e2ce9f70cc59be97135003a3d31f8a6cbfb32a119",
       "size": 23331
     },
+    "workshop/2712590542/common/decisions/interactive_decisions.txt": {
+      "sha256": "c2c560574b4fbefdd7f0163a5355875d6d22df5674b97ddf486715f8953985f4",
+      "size": 19925
+    },
+    "workshop/2712590542/common/on_action/interactive_on_actions.txt": {
+      "sha256": "a79dccd9ffe8fc390a8469ce54b7de5ef87376e5723b3a7d4c308857ad70e465",
+      "size": 34003
+    },
+    "workshop/2712590542/common/scripted_triggers/interactive_bannermen_triggers.txt": {
+      "sha256": "bb913dea7c2b196276373acbc90fc8fb0a49e6ca37b3913debc457c09e6e2f6a",
+      "size": 3083
+    },
     "workshop/2712590542/events/interactive_events/interactive_events.txt": {
-      "sha256": "7fa78808a30694ffe3647d88c3d573b6fe8d07169cc321194d8567163f735ec0",
-      "size": 23885
+      "sha256": "943f5dbb146c85c9668634a32d7b7cbbbcbcbaffae11a78d378c96632db07b09",
+      "size": 38487
     },
     "workshop/2886417277/common/scripted_guis/am_artifacts_batch_ops.txt": {
       "sha256": "e205543565ae053aeb497342dcd515d05ed0397dc1ff8b23e7c543349b528bdb",

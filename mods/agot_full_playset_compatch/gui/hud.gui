@@ -391,9 +391,27 @@ widget = {
 				hbox = {
 					name = "tab_government_administration" #tutorial uses this
 
+					# Dragonlord Regime compatibility: keep the naval HUD while using
+					# the dedicated Dragonlord government icon.
 					widget_hud_main_tab = {
 						datacontext = "[GetPlayer.GetTopLiege]"
-						visible = "[And(Character.GetGovernment.HasRule( 'noble_families' ),Not(Or(GetPlayer.GetGovernment.IsType( 'celestial_government' ),Or(GetPlayer.GetGovernment.IsType( 'japan_administrative_government' ),GetPlayer.GetGovernment.IsType( 'japan_feudal_government' )))))]"
+						visible = "[Character.GetGovernment.IsType( 'dragonlord_oligarchy_government' )]"
+
+						blockoverride "maintab_button"
+						{
+							texture = "gfx/interface/hud/maintab_dragonlord_oligarchy.dds"
+
+							shortcut = government_hud
+							onclick = "[ToggleGameView( 'government_administration' )]"
+							down = "[IsGameViewOpen( 'government_administration' )]"
+
+							tooltip = "ADMINISTRATIVE_BUTTON"
+						}
+					}
+
+					widget_hud_main_tab = {
+						datacontext = "[GetPlayer.GetTopLiege]"
+						visible = "[And(Character.GetGovernment.HasRule( 'noble_families' ),And(Not(Character.GetGovernment.IsType( 'dragonlord_oligarchy_government' )),Not(Or(GetPlayer.GetGovernment.IsType( 'celestial_government' ),Or(GetPlayer.GetGovernment.IsType( 'japan_administrative_government' ),GetPlayer.GetGovernment.IsType( 'japan_feudal_government' ))))))]"
 
 						blockoverride "maintab_button"
 						{
