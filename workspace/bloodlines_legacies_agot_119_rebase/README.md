@@ -1,7 +1,7 @@
 # bloodlines_legacies_agot_119_rebase — module state
 
 Compatibility rebase for **Bloodlines: Legacies of AGOT** (`3522779004`) against
-current **A Game of Thrones 0.5.1** (`2962333032`) on CK3 1.19. Load position:
+current **A Game of Thrones 0.5.2.1** (`2962333032`) on CK3 1.19. Load position:
 immediately after Bloodlines.
 
 ## Ownership

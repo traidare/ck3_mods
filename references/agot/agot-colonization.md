@@ -331,8 +331,8 @@ For non-pirate rulers who hold a `pirate_den_holding` province. Converts it to
 **Visible interaction** (not hidden). A liege can pay
 `feudalize_holding_interaction_cost` gold to convert a vassal's pirate den
 directly to `castle_holding`. Grants +15 `grateful_opinion` and influence for
-administrative governments. AI checks: not at war, not warlike, gold >=
-cost \* 4.
+administrative governments. AI checks: not at war, not warlike, gold >= cost
+\* 4.
 
 #### `pirate_takeover_of_holding_interaction`
 

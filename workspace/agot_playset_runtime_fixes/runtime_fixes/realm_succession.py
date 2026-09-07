@@ -194,7 +194,7 @@ def generate_essos_disabled_realm_cleanup(inputs: RunInputs) -> None:
     )
     lov_colonization = read_text(
         inputs.WORKSHOP
-        / "3719888822/common/scripted_effects/00_agot_colonization_effects.txt"
+        / "3788296332/common/scripted_effects/00_agot_colonization_effects.txt"
     )
     assert_source_block_hash(
         on_action,
@@ -217,7 +217,7 @@ def generate_essos_disabled_realm_cleanup(inputs: RunInputs) -> None:
     assert_source_block_hash(
         lov_colonization,
         "make_settlement_county_wilderness",
-        "4bac248019f401289eac2f39e1e10c5bcd7bd7142db32ef5744af82a9066580b",
+        "9fab45f1324b1661d53b95ba7da1930a602fa0104b5d1cdb43a23245842c88c4",
         label="LoV wilderness conversion",
     )
     if on_action.count("essos_remove_realms = {") != 1:
@@ -477,7 +477,7 @@ def generate_essos_disabled_realm_cleanup(inputs: RunInputs) -> None:
 def generate_lov_title_on_action_repairs(inputs: RunInputs) -> None:
     """Repair LoV title on-actions: yurt setup and noble-family title churn."""
     relative = "common/on_action/title_on_actions.txt"
-    source = read_text(inputs.WORKSHOP / "3719888822" / relative)
+    source = read_text(inputs.WORKSHOP / "3788296332" / relative)
 
     def yurt_main_block(external_count: int) -> str:
         external = (
@@ -1331,26 +1331,20 @@ HIGH_SEPTON_NICKNAME_LOC_KEYS = (
 
 
 def generate_lov_agot_title_on_action_septon_naming(inputs: RunInputs) -> None:
-    """Name and nickname the High Septon on every succession to the seat.
+    """Nickname the High Septon on every succession to the seat.
 
-    Signature:
-    `Unknown effect: agot_assign_high_septon_nickname_effect, near line: 2047`
-    in `common/on_action/agot_on_actions/agot_title_on_actions.txt`. AGOT names
-    the High Septon rather than nicknaming them and calls
-    `agot_assign_high_septon_name_effect`; LoV's whole-file copy of that path
-    still calls the retired name, so the reader discards
-    `agot_on_title_gain_high_septon` and a new High Septon keeps their birth
-    name. LoV is the effective last writer for the path, so this module restates
-    its file with only that one call renamed; the sibling
-    `agot_assign_high_septon_effect` call and every other on-action are kept.
+    AGOT names the High Septon through `agot_assign_high_septon_name_effect`,
+    but its custom localization renders the seat's displayed name from
+    `GetNickname`: the `agot_is_high_septon` branches read the nickname, and no
+    effect in the playset grants `nick_agot_the_high_septon` — only the
+    game-start dummy's character history does. Every later High Septon therefore
+    renders an empty name.
 
-    The retirement left AGOT's custom localization behind: the
-    `agot_is_high_septon` branches still render the seat's displayed name from
-    `GetNickname`, and no effect in the playset grants
-    `nick_agot_the_high_septon` — only the game-start dummy's character history
-    does. Every later High Septon therefore renders an empty name. The on-action
-    is the one place that already runs on each succession to the seat, so it
-    grants the nickname alongside the name. `give_nickname` is idempotent.
+    `agot_on_title_gain_high_septon` is the one action that already runs on each
+    succession to the seat, so the nickname is granted there beside the name.
+    `give_nickname` is idempotent. LoV's AGOT bridge is the effective last writer
+    for the path, so this module restates its file with only that call extended;
+    every other on-action in it is kept.
     """
     agot = inputs.WORKSHOP / "2962333032"
     effects = read_text(agot / "common/scripted_effects/00_agot_effects.txt")
@@ -1358,11 +1352,6 @@ def generate_lov_agot_title_on_action_septon_naming(inputs: RunInputs) -> None:
         raise RuntimeError(
             "AGOT no longer defines agot_assign_high_septon_name_effect; "
             "re-audit which effect names the High Septon"
-        )
-    if "agot_assign_high_septon_nickname_effect = {" in effects:
-        raise RuntimeError(
-            "AGOT defines agot_assign_high_septon_nickname_effect again; "
-            "LoV's call resolves on its own and this rename is obsolete"
         )
     nicknames = read_text(agot / "common/nicknames/00_agot_event_nicknames.txt")
     if f"{HIGH_SEPTON_NICKNAME} = " not in nicknames:
@@ -1384,10 +1373,10 @@ def generate_lov_agot_title_on_action_septon_naming(inputs: RunInputs) -> None:
             )
 
     relative = "common/on_action/agot_on_actions/agot_title_on_actions.txt"
-    source = read_text(inputs.WORKSHOP / "3719888822" / relative)
+    source = read_text(inputs.WORKSHOP / "3788296332" / relative)
     source = replace_exact(
         source,
-        "agot_assign_high_septon_nickname_effect = yes",
+        "agot_assign_high_septon_name_effect = yes",
         "agot_assign_high_septon_name_effect = yes\n"
         f"\t\tgive_nickname = {HIGH_SEPTON_NICKNAME}",
         expected=1,

@@ -81,7 +81,7 @@ item_id = "3609763696"
 [[sources]]
 name = "lov-agot-bridge"
 kind = "workshop"
-item_id = "3719888822"
+item_id = "3788296332"
 
 [[sources]]
 name = "great-councils"
@@ -102,14 +102,6 @@ item_id = "3723597729"
 name = "mde-lov-hatching"
 kind = "workshop"
 item_id = "3762892932"
-
-# Not enabled in the playset: the enabled bridge, `lov-agot-bridge`, is the one
-# that loads.  Consumed for `contest_events.txt`, where this beta carries the
-# tournament summary guards the bridge does not.
-[[sources]]
-name = "lov-agot-compatch"
-kind = "workshop"
-item_id = "3788296332"
 
 [[sources]]
 name = "culture-faith-granularity"

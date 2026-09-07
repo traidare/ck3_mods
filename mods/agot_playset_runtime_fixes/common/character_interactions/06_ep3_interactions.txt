@@ -1337,7 +1337,8 @@ support_candidacy_interaction = {
 			scope:secondary_recipient ?= {
 				any_heir_title = {
 					is_noble_family_title = no
-					holder ?= {
+					exists = holder
+					holder = {
 						government_allows = administrative
 					}
 				}
@@ -1353,20 +1354,18 @@ support_candidacy_interaction = {
 					has_realm_law_flag = appointment_type_succession
 				}
 				any_title_heir = {
-					this ?= {
-						exists = house
-						exists = scope:actor.house
-						house = scope:actor.house
-						trigger_if = {
-							limit = {
-								scope:target = {
-									has_title_law_flag = appointment_type_succession
-								}
+					exists = house
+					exists = scope:actor.house
+					house = scope:actor.house
+					trigger_if = {
+						limit = {
+							scope:target = {
+								has_title_law_flag = appointment_type_succession
 							}
-							"appointment_candidate_accumulated_score(scope:target)" > 0
 						}
-						trigger_else = { always = no }
+						"appointment_candidate_accumulated_score(scope:target)" > 0
 					}
+					trigger_else = { always = no }
 				}
 			}
 			scope:secondary_recipient ?= {
@@ -1399,15 +1398,13 @@ support_candidacy_interaction = {
 		modifier = {
 			scope:target = {
 				any_title_heir = {
-					this ?= {
-						exists = house
-						exists = scope:actor.house
-						house = scope:actor.house
-						scope:target = {
-							place_in_line_of_succession = {
-								target = prev
-								value = 1
-							}
+					exists = house
+					exists = scope:actor.house
+					house = scope:actor.house
+					scope:target = {
+						place_in_line_of_succession = {
+							target = prev
+							value = 1
 						}
 					}
 				}
@@ -1420,13 +1417,11 @@ support_candidacy_interaction = {
 			exists = scope:secondary_recipient
 			scope:target = {
 				any_title_heir = {
-					this ?= {
-						this = scope:secondary_recipient
-						scope:target = {
-							place_in_line_of_succession = {
-								target = prev
-								value = 1
-							}
+					this = scope:secondary_recipient
+					scope:target = {
+						place_in_line_of_succession = {
+							target = prev
+							value = 1
 						}
 					}
 				}
@@ -1502,9 +1497,18 @@ harm_candidacy_interaction = {
 	target_filter = secondary_recipient_de_jure_titles
 
 	can_be_picked_title = {
-		is_candidate_for_title_trigger = {
-			TITLE = scope:target
-			CANDIDATE = scope:secondary_recipient
+		trigger_if = {
+			limit = {
+				exists = scope:target
+				scope:target = {
+					tier >= tier_duchy
+					has_title_law_flag = appointment_type_succession
+				}
+			}
+			is_candidate_for_title_trigger = {
+				TITLE = scope:target
+				CANDIDATE = scope:secondary_recipient
+			}
 		}
 	}
 

@@ -1,10 +1,40 @@
-﻿# Geographical regions Regions can be declared with one or more of the
+﻿# EETLV September 6th 2026 (second pass): rebuilt block-by-block on AGOT 0.5.2.1's file. Our
+# additions live only in graphical_western/mena/mediterranean/east_asia, marked EETLV additions.
+# The earlier line-patch rebuild misplaced the east asia duchies into graphical_western, which
+# sent every eastern ruler to the western castle backdrop. RE-MERGE per region on AGOT updates.
+# Geographical regions
+# Regions can be declared with one or more of the following fields:
+#	duchies = { }, takes duchy title names declared in landed_titles.txt
+#	counties = { }, takes county title names declared in landed_titles.txt
+#	provinces = { }, takes province id numbers declared in /history/provinces
+#	regions = { }, a region can also include other regions, however the subregions needs to be declared before the parent region.
+#		E.g. If the region world_europe contains the region world_europe_west then world_europe_west needs to be declared as a region before (i.e. higher up in this file) world_europe.
 
-# World Regions These groups are mutually exclusive on the same tier & should
+###########################################################################
+# World Regions
+#	These groups are mutually exclusive on the same tier & should cover every part of the map
+###########################################################################
 
 world_ruins = {
 	duchies = {
 		d_ruins
+	}
+}
+
+world_westeros = {
+	regions = {
+		world_westeros_beyond_the_wall
+		world_westeros_seven_kingdoms
+	}
+}
+
+world_westeros_beyond_the_wall = {
+	regions = {
+		world_westeros_beyond_the_wall_thenn
+		world_westeros_beyond_the_wall_the_frostfangs
+		world_westeros_beyond_the_wall_the_frozen_shore
+		world_westeros_beyond_the_wall_the_ice_lakes
+		world_westeros_beyond_the_wall_first_forest
 	}
 }
 
@@ -58,424 +88,65 @@ world_westeros_beyond_the_wall_first_forest = {
 	}
 }
 
-world_westeros_beyond_the_wall = {
+world_westeros_seven_kingdoms = {
 	regions = {
-		world_westeros_beyond_the_wall_thenn
-		world_westeros_beyond_the_wall_the_frostfangs
-		world_westeros_beyond_the_wall_the_frozen_shore
-		world_westeros_beyond_the_wall_the_ice_lakes
-		world_westeros_beyond_the_wall_first_forest
+		world_westeros_the_wall
+		world_westeros_the_north
+		world_westeros_seven_kingdoms_andals
+		world_westeros_dorne
 	}
 }
 
-world_westeros_dornish_mountains = {
+world_westeros_seven_kingdoms_without_wall = {
 	regions = {
-		world_westeros_dornish_marches_dorne
+		world_westeros_the_north
+		world_westeros_the_vale
+		world_westeros_the_riverlands
+		world_westeros_the_iron_islands
+		world_westeros_the_westerlands
+		world_westeros_the_crownlands
+		world_westeros_the_reach
+		world_westeros_the_stormlands
+		world_westeros_dorne
 	}
 }
 
-world_westeros_dorne_lost_crown = {
-	duchies = {
-		d_oldwell
-		d_sandstone
-	}
-}
-
-world_westeros_dornish_dustbowl = {
-	counties = {
-		c_the_dustbowl
-	}
-}
-
-world_westeros_dorne_red_dunes = {
-	duchies = {
-		d_red_dunes
-	}
-	counties = {
-# d_brimstone
-		c_bloodbridge
-# d_greenbelt
-		c_royalmarch
-# d_scourgehead
-		c_the_bramble
-		c_the_scourge
-# d_godsgrace
-		c_goldpeppers
-		c_nerandyn
-# d_saltshore
-		c_white_stones
-		c_saltstone
-	}
-}
-
-world_westeros_dorne_white_dunes = {
-	duchies = {
-		d_oldwell
-	}
-	counties = {
-# d_brimestone
-		c_steamfall
-		c_willburn
-		c_brimstone
-		c_burning_dunes
-		c_hellholt
-		c_jackalrun
-		c_sulphur_flats
-# d_greenbelt
-		c_great_dunes
-		c_blood_gulch
-# d_sandstone
-		c_arnight
-		c_sandhorn
-		c_sandstone
-		c_barbmane
-	}
-	provinces = {
-# d_sandstone #c_white_dunes
-		5225 #b_whitedune_pass
-		5223 #b_rashpit
-		5224 #b_whitedune_flats
-		5226 #b_dustwalk
-# d_sandstone #c_stained_sands
-		5220 #b_splitgravel
-# d_sandstone #c_stinging_sands
-		5229 #b_flat_cut
-		5230 #b_burrow_dune
-# d_sandstone #c_dreadsands
-		5238 #b_scarcrest
-		5237 #b_aurisand
-		5236 #b_silence
-# d_torrentine #c_the_elbow
-		5276 #b_elbow_cove
-		5275 #b_starryberth
-	}
-}
-
-world_westeros_dorne_sea_of_dorne_coast = {
-	duchies = {
-		d_ghost_hills
-		d_broken_arm
-	}
-	counties = {
-		#d_ghaston_grey
-		c_ghaston_grey
-		#d_the_tor
-		c_the_tor
-		c_stedding
-		c_tallor_islands
-		c_murrandy
-		c_dream_dunes
-		c_barberry
-		#d_scourgehead
-		c_flatwater
-	}
-}
-
-world_westeros_dorne_greenblood = {
-	duchies = {
-		d_sunspear
-	}
-	counties = {
-# d_lemonwood
-		c_lemonwood
-# d_godsgrace
-		c_orangewood
-		c_latebloom
-		c_sevensdunes
-		c_godsgrace
-	}
-}
-
-world_westeros_dorne_summer_coast = {
-	counties = {
-# d_salt_shore
-		c_salt_shore
-		c_brackish
-# d_lemonwood
-		c_sourmarket
-		c_sweetwater
-		c_drillwater_islands
-	}
-}
-
-world_westeros_dorne_stone = {
+world_westeros_seven_kingdoms_without_dorne = {
 	regions = {
-		world_westeros_dornish_marches_dorne
+		world_westeros_the_wall
+		world_westeros_the_north
+		world_westeros_the_vale
+		world_westeros_the_riverlands
+		world_westeros_the_iron_islands
+		world_westeros_the_westerlands
+		world_westeros_the_crownlands
+		world_westeros_the_reach
+		world_westeros_the_stormlands
 	}
 }
 
-world_westeros_dorne_sand = {
+world_westeros_the_wall = {
+	duchies = {
+		d_brandons_gift
+		d_new_gift
+		d_the_wall
+	}
+}
+
+world_westeros_the_wall_only = { #need another one for decision
+	duchies = {
+		d_the_wall
+	}
+}
+
+world_westeros_the_north = {
 	regions = {
-		world_westeros_dorne_red_dunes
-		world_westeros_dorne_white_dunes
-	}
-}
-
-world_westeros_dorne_salt = {
-	regions = {
-		world_westeros_dorne_sea_of_dorne_coast
-		world_westeros_dorne_greenblood
-		world_westeros_dorne_summer_coast
-	}
-}
-
-world_westeros_dorne_rhoynish = {
-	regions = {
-		world_westeros_dorne_sand
-		world_westeros_dorne_salt
-	}
-}
-
-world_westeros_dorne = {
-	regions = {
-		world_westeros_dorne_rhoynish
-		world_westeros_dorne_stone
-	}
-}
-
-world_westeros_dornish_marches_stormlands = {
-	duchies = {
-		d_nightsong
-		d_marchfields
-		d_whentway
-		d_blackhaven
-		d_red_watch
-		d_grandview
-		d_the_slayne
-		d_summerhall
-	}
-	counties = {
-		c_scale_valley
-		c_summerfield
-		c_leddan
-	}
-}
-
-world_westeros_dornish_marches_reach = {
-	duchies = {
-		d_oldhills
-		d_palemarch
-		d_the_westmarch
-	}
-	counties = {
-		#d_cockscombe
-		c_estryck
-		c_grandmercy
-	}
-}
-
-world_westeros_dornish_marches_dorne = {
-	duchies = {
-		d_the_stoneway
-		d_redmarch
-		d_the_princes_pass
-		d_blackmont
-	}
-	counties = {
-# d_torrentine
-		c_radiant_cliffs
-		c_dawnbrink
-		c_starfall
-		c_high_hermitage
-		c_shining_sands
-		c_fields_of_glass
-		c_astermine
-# d_greenbelt
-		c_greenbelt
-		c_wayguard
-		c_yronwood
-	}
-	provinces = {
-# d_torrentine #c_elbow
-		5274 #b_sunstop
-		5273 #b_sandance
-		5272 #b_winding_dune
-		5271 #b_broken_elbow
-# d_sandstone #c_stained_sands
-		5221 #b_senter_hall
-		5217 #b_stainwater
-		5218 #b_dunespots
-		5219 #b_basscales
-# d_sandstone #c_stinging_sands
-		5228 #b_thicktail
-		5227 #b_the_stingseat
-		5232# b_stinging_stones
-		5231 #b_white_hiss
-# d_sandstone #c_dreadsands
-		5234 #b_brickmounds
-		5233 #b_dreadsands
-		5235 #b_coarse_keep
-# d_sandstone #c_white_dunes
-		5222 #b_parchwell
-	}
-}
-
-world_westeros_dornish_marches = {
-	regions = {
-		world_westeros_dornish_marches_dorne
-		world_westeros_dornish_marches_reach
-		world_westeros_dornish_marches_stormlands
-	}
-}
-
-world_westeros_dornish_desert = {
-	duchies = {
-		d_brimstone
-		d_oldwell
-	}
-	counties = {
-		c_the_scablands
-		c_the_barrens
-		c_great_dunes
-		c_blood_gulch
-		c_white_dunes
-		c_arnight
-		c_sandstone
-		c_sandhorn
-		c_barbmane
-	}
-}
-
-world_westeros_the_crownlands_reachman = {
-	duchies = {
-		d_the_blackwater_rush
-		d_pikemouth
-	}
-}
-
-world_westeros_the_crownlands_riverlander = {
-	duchies = {
-		d_deerfield
-		d_duskendale
-		d_vairs_head
-		d_hayford
-		d_coinbridge
-		d_byrchfield
-		d_rosby
-		d_stokeworth
-		d_great_fork
-		d_riverline
-		d_bramsfort
-		d_rooks_rest
-	}
-	counties = {
-		c_kings_landing # d_kings_landing
-		c_blackmark # d_driftmark
-	}
-}
-
-world_westeros_the_crownlands_crackclaw = {
-	duchies = {
-		d_crackclaw_point
- 		d_brownhollow
-	}
-}
-
-world_westeros_the_crownlands_stormlander = {
-	regions = {
-		world_westeros_the_crownlands_the_hook
+		world_westeros_the_neck
+		world_westeros_the_north_mainland
+		world_westeros_skagos
 	}
 	duchies = {
-		d_the_baywater_woods
-		d_wendwater_forest
-		d_wings_pass
-	}
-	counties = {
-		c_blackstripe # d_kings_landing
-	}
-}
-
-world_westeros_the_crownlands_valyrian = {
-	regions = {
-		world_westeros_the_crownlands_valyrian_north_islands
-		world_westeros_the_crownlands_valyrian_central_islands
-	}
-}
-
-world_westeros_the_crownlands_valyrian_north_islands = {
-	counties = {
-		c_claw_isle
-		c_the_scales
-	}
-}
-
-world_westeros_the_crownlands_valyrian_central_islands = {
-	counties = {
-		c_dragonstone
-		c_driftmark
-		c_high_tide
-	}
-}
-
-world_westeros_dragonstone_island = {
-	counties = {
-		c_dragonstone
-	}
-}
-
-world_westeros_dragonstone_kingdom = {
-	duchies = {
-		d_dragonstone
-		d_driftmark
-		d_claw_isle
-		d_sharp_point
-		d_sweetport
-	}
-}
-
-world_westeros_the_crownlands = {
-	regions = {
-		world_westeros_the_crownlands_reachman
-		world_westeros_the_crownlands_riverlander
-		world_westeros_the_crownlands_stormlander
-		world_westeros_the_crownlands_valyrian
-		world_westeros_the_crownlands_crackclaw
-	}
-}
-
-world_westeros_the_iron_islands = {
-	duchies = {
-		d_blacktyde
-		d_east_wyk
-		d_hardstone_hills
-		d_cradlewatch
-		d_sealskin_point
-		d_shatterstone
-		d_stonehouse
-		d_harlaw
-		d_reapers_bay
-		d_ternehandle
-		d_the_flenches
-		d_volmark
-		d_dulewood
-		d_lonely_light
-		d_old_wyk
-		d_orkmont
-		d_nettlemont
-		d_orkwood
-		d_hoare_castle
-		d_pyke
-		d_lordsport
-		d_iron_holt
-		d_saltcliffe
-		d_bloatstone
-	}
-}
-
-world_westeros_the_neck = {
-	duchies = {
-		d_the_neck
-		d_moat_cailin
-		d_silvereed
-		d_fever
-	}
-}
-
-world_westeros_barrowlands = {
-	duchies = {
-		d_the_barrowlands
-		d_goldgrass
-		d_oldbarrow
+		d_bear_island
 	}
 }
 
@@ -521,14 +192,11 @@ world_westeros_the_north_mainland = {
 	}
 }
 
-world_westeros_the_north = {
-	regions = {
-		world_westeros_the_neck
-		world_westeros_the_north_mainland
-		world_westeros_skagos
-	}
+world_westeros_barrowlands = {
 	duchies = {
-		d_bear_island
+		d_the_barrowlands
+		d_goldgrass
+		d_oldbarrow
 	}
 }
 
@@ -547,67 +215,214 @@ world_westeros_the_wolfswood = {
 	}
 }
 
-world_westeros_north_of_the_twins = {
+world_westeros_the_neck = {
+	duchies = {
+		d_the_neck
+		d_moat_cailin
+		d_silvereed
+		d_fever
+	}
+}
+
+world_westeros_flints_finger = {
+	duchies = {
+		d_flints_finger
+		d_cape_kraken
+		d_lakelands
+	}
+}
+
+world_westeros_seven_kingdoms_andals = {
 	regions = {
-		world_westeros_the_north
-		world_westeros_beyond_the_wall
-		world_westeros_the_wall
+		world_westeros_the_vale
+		world_westeros_the_riverlands
+		world_westeros_the_iron_islands
+		world_westeros_the_westerlands
+		world_westeros_the_crownlands
+		world_westeros_the_reach
+		world_westeros_the_stormlands
 	}
 }
 
-world_westeros_greater_oldtown = {
+world_westeros_the_vale = {
 	duchies = {
-		d_oldtown
-		d_whisper_point
-		d_garden_coast
-		d_ridgeview
-		d_honeylands
-		d_brightwater
-		d_black_sound
+		d_crowncrests
+		d_eastweald
+		d_bronzespear
+		d_ruthermont
+		d_gulltown
+		d_hearts_home
+		d_ironoaks
+		d_ninestars
+		d_northbreach
+		d_pebble
+		d_old_anchor
+		d_runestone
+		d_witch_isle
+		d_grey_glen
+		d_snakewood_forest
+		d_strongsong
+		d_strongstone
+		d_the_cut
+		d_the_drainlands
+		d_the_giants_lance
+		d_the_sisters
+		d_longsister
+		d_sweetsister
+		d_littlesister
+		d_wickenden
+		d_grimholm
+		d_midlor_point
 	}
 }
 
-world_westeros_the_reach = {
+world_westeros_the_vale_mainland = {
 	duchies = {
-		d_highgarden
-		d_bitterbridge
-		d_black_sound
-		d_blueburn
-		d_brightwater
-		d_denflower
-		d_cockleswhent
-		d_darkdell
-		d_darstone
-		d_holyhall
-		d_fullharvest
-		d_garden_coast
-		d_whisper_point
-		d_goldenfields
-		d_goldengrove
-		d_stackhouse
-		d_heartland_heights
-		d_honeylands
-		d_manderfields
-		d_oldhills
-		d_oldtown
-		d_orchard_way
-		d_dunstonbury
-		d_palemarch
-		d_cockscombe
-		d_red_front
-		d_ridgeview
-		d_shield_islands
-		d_greyshield
-		d_greenshield
-		d_southshield
-		d_sunnyvale
-		d_the_arbor
-		d_the_northmarch
-		d_the_ocean_road
-		d_the_roseroad
-		d_the_westmarch
-		d_tumbleton
+		d_crowncrests
+		d_eastweald
+		d_bronzespear
+		d_ruthermont
+		d_gulltown
+		d_hearts_home
+		d_ironoaks
+		d_ninestars
+		d_northbreach
+		d_pebble
+		d_old_anchor
+		d_runestone
+		d_witch_isle
+		d_grey_glen
+		d_snakewood_forest
+		d_strongsong
+		d_strongstone
+		d_the_cut
+		d_the_drainlands
+		d_the_giants_lance
+		d_wickenden
+		d_grimholm
+		d_midlor_point
 	}
+}
+
+world_westeros_the_vale_of_arryn = {
+	duchies = {
+		d_the_giants_lance
+		d_gulltown
+		d_ironoaks
+		d_ninestars
+		d_old_anchor
+		d_strongstone
+		# d_runestone #Partial
+		# d_eastweald #Partial
+	}
+	counties = {
+		# d_runestone #Partial
+		c_runestone
+		c_bronzeguard
+		c_gullview
+		c_the_etchings
+		# c_witch_isle
+		# d_eastweald #Partial
+		c_longbow_hills
+		# c_ruthermont
+		c_sedgemore
+		# c_lyme
+		# c_brackenbrick_point
+		c_bowlyn
+		c_the_stills
+	}
+}
+
+world_westeros_the_vale_mountains = {
+	duchies = {
+		d_crowncrests
+		d_wickenden
+		d_strongsong
+	}
+}
+
+world_westeros_the_vale_fingers = {
+	duchies = {
+		d_hearts_home
+		d_the_drainlands
+		# d_eastweald #Partial
+		# d_grimholm #Partial
+	}
+	counties = {
+		# d_eastweald #Partial
+		# c_longbow_hills
+		c_ruthermont
+		# c_sedgemore
+		c_lyme
+		c_brackenbrick_point
+		# c_bowlyn
+		# c_the_stills
+		# d_grimholm #Partial
+		# c_the_paps
+		c_midlor_point
+		c_midlor
+		c_brownden
+		c_bommenstone
+	}
+}
+
+world_westeros_the_vale_north = {
+	duchies = {
+		d_snakewood_forest
+		d_the_cut
+		# d_northbreach #Partial
+	}
+	counties = {
+		# d_northbreach #Partial
+		c_hersy
+		# c_pebble
+		c_eventide
+		c_portmouth
+		c_reckshaw
+		c_scorched_vale
+		c_forgotten_shore
+		c_strikeguard
+	}
+}
+
+world_westeros_the_vale_isles = {
+	duchies = {
+		d_the_sisters
+		# d_runestone #Partial
+		# d_northbreach #Partial
+		# d_grimholm #Partial
+	}
+	counties = {
+		# d_runestone #Partial
+		# c_runestone
+		# c_bronzeguard
+		# c_gullview
+		# c_the_etchings
+		c_witch_isle
+		# d_northbreach #Partial
+		# c_hersy
+		c_pebble
+		# c_eventide
+		# c_portmouth
+		# c_reckshaw
+		# c_scorched_vale
+		# c_forgotten_shore
+		# c_strikeguard
+		# d_grimholm #Partial
+		c_the_paps
+		# c_midlor_point
+		# c_midlor
+		# c_brownden
+		# c_bommenstone
+	}
+}
+
+world_westeros_moonclans = {
+	#Moonclans yeet
+	# duchies = {
+	# 	d_northern_clans
+	# 	d_southern_clans
+	# }
 }
 
 world_westeros_the_riverlands = {
@@ -698,125 +513,75 @@ world_westeros_the_riverlands_north = {
 	}
 }
 
-world_westeros_gods_eye = {
-	provinces = {
-		1999
-		1972
-		1981
-		2019
-		1939
-		1941
-		1952
-		1950
-		1956
-		1959
-	}
-}
-
-world_westeros_rhaegars_rubies = {
+world_westeros_the_iron_islands = {
 	duchies = {
-		d_tridents_mouth
-		d_saltpans
-		d_maidenpool
-	}
-	counties = {
-		c_harroway
+		d_blacktyde
+		d_east_wyk
+		d_hardstone_hills
+		d_cradlewatch
+		d_sealskin_point
+		d_shatterstone
+		d_stonehouse
+		d_harlaw
+		d_reapers_bay
+		d_ternehandle
+		d_the_flenches
+		d_volmark
+		d_dulewood
+		d_lonely_light
+		d_old_wyk
+		d_orkmont
+		d_nettlemont
+		d_orkwood
+		d_hoare_castle
+		d_pyke
+		d_lordsport
+		d_iron_holt
+		d_saltcliffe
+		d_bloatstone
 	}
 }
 
-world_westeros_the_stormlands = {
+world_westeros_the_iron_islands_great_wyk = {
 	duchies = {
-		d_shipbreaker_bay
-		d_bronzegate
-		d_blackhaven
-		d_cape_wrath
-		d_weeping_town
-		d_dark_harrow
-		d_estermont_isles
-		d_tudbury_island
-		d_grandview
-		d_greatstock
-		d_kingswood
-		d_marchfields
-		d_nestridge
-		d_nightsong
-		d_red_watch
-		d_whentway
-		d_stackfield
-		d_tarth
-		d_the_drench
-		d_the_rainwood
-		d_valor_meadows
-		d_vellum_coast
-		d_fawnton
-		d_summerhall
-		d_the_slayne
+		d_east_wyk
+		d_hardstone_hills
 	}
 }
 
-world_westeros_summerhall = {
-	counties = {
-		c_summerfield
-	}
-}
-
-world_westeros_the_vale = {
+world_westeros_the_iron_islands_harlaw = {
 	duchies = {
-		d_crowncrests
-		d_eastweald
-		d_bronzespear
-		d_ruthermont
-		d_gulltown
-		d_hearts_home
-		d_ironoaks
-		d_ninestars
-		d_northbreach
-		d_pebble
-		d_old_anchor
-		d_runestone
-		d_witch_isle
-		d_grey_glen
-		d_snakewood_forest
-		d_strongsong
-		d_strongstone
-		d_the_cut
-		d_the_drainlands
-		d_the_giants_lance
-		d_the_sisters
-		d_longsister
-		d_sweetsister
-		d_littlesister
-		d_wickenden
-		d_grimholm
-		d_midlor_point
+		d_harlaw
 	}
 }
 
-world_westeros_the_vale_mainland = {
+world_westeros_the_iron_islands_northern_islands = {
 	duchies = {
-		d_crowncrests
-		d_eastweald
-		d_bronzespear
-		d_ruthermont
-		d_gulltown
-		d_hearts_home
-		d_ironoaks
-		d_ninestars
-		d_northbreach
-		d_pebble
-		d_old_anchor
-		d_runestone
-		d_witch_isle
-		d_grey_glen
-		d_snakewood_forest
-		d_strongsong
-		d_strongstone
-		d_the_cut
-		d_the_drainlands
-		d_the_giants_lance
-		d_wickenden
-		d_grimholm
-		d_midlor_point
+		d_blacktyde
+		d_orkmont
+		d_old_wyk
+	}
+}
+
+world_westeros_the_iron_islands_southern_islands = {
+	duchies = {
+		d_pyke
+		d_saltcliffe
+	}
+}
+
+world_westeros_the_iron_islands_lonely = {
+	duchies = {
+		d_lonely_light
+	}
+}
+
+world_westeros_the_westerlands = {
+	regions = {
+		world_westeros_the_westerlands_north
+		world_westeros_the_westerlands_south
+		world_westeros_the_westerlands_central
+		world_westeros_the_westerlands_coast
 	}
 }
 
@@ -864,109 +629,602 @@ world_westeros_the_westerlands_south = {
 	}
 }
 
-world_westeros_the_westerlands = {
+world_westeros_the_crownlands = {
 	regions = {
-		world_westeros_the_westerlands_north
-		world_westeros_the_westerlands_south
-		world_westeros_the_westerlands_central
-		world_westeros_the_westerlands_coast
+		world_westeros_the_crownlands_reachman
+		world_westeros_the_crownlands_riverlander
+		world_westeros_the_crownlands_stormlander
+		world_westeros_the_crownlands_valyrian
+		world_westeros_the_crownlands_crackclaw
 	}
 }
 
-world_westeros_moonclans = {
-# Moonclans yeet # duchies = { # d_northern_clans # d_southern_clans # }
-}
-
-world_westeros_the_wall = {
+world_westeros_the_crownlands_reachman = {
 	duchies = {
-		d_brandons_gift
-		d_new_gift
-		d_the_wall
+		d_the_blackwater_rush
+		d_pikemouth
 	}
 }
 
-world_westeros_the_wall_only = { #need another one for decision
+world_westeros_the_crownlands_riverlander = {
 	duchies = {
-		d_the_wall
+		d_deerfield
+		d_duskendale
+		d_vairs_head
+		d_hayford
+		d_coinbridge
+		d_byrchfield
+		d_rosby
+		d_stokeworth
+		d_great_fork
+		d_riverline
+		d_bramsfort
+		d_rooks_rest
+	}
+	counties = {
+		c_kings_landing # d_kings_landing
+		c_blackmark # d_driftmark
 	}
 }
 
-world_westeros_wilding_raiding_zone = { #Area Wildings camps can move around
+world_westeros_the_crownlands_stormlander = {
 	regions = {
-		world_westeros_beyond_the_wall
-		world_westeros_the_wall
+		world_westeros_the_crownlands_the_hook
 	}
 	duchies = {
-		d_the_northern_mountains
-		d_last_lands
-		d_skagos
-		d_bear_island
-		d_frostfields
-		d_karhold
-		d_the_dreadfort
-		d_winterfell
-		d_the_blackpines
-		d_the_wolfswood
-		d_sea_dragon_point
+		d_the_baywater_woods
+		d_wendwater_forest
+		d_wings_pass
+	}
+	counties = {
+		c_blackstripe # d_kings_landing
 	}
 }
 
-world_westeros = {
+world_westeros_the_crownlands_valyrian = {
 	regions = {
-		world_westeros_beyond_the_wall
-		world_westeros_the_wall
-		world_westeros_dorne
-		world_westeros_the_crownlands
-		world_westeros_the_iron_islands
-		world_westeros_the_north
-		world_westeros_the_reach
-		world_westeros_the_riverlands
-		world_westeros_the_stormlands
-		world_westeros_the_vale
-		world_westeros_the_westerlands
+		world_westeros_the_crownlands_valyrian_north_islands
+		world_westeros_the_crownlands_valyrian_central_islands
 	}
 }
 
-world_westeros_seven_kingdoms = {
-	regions = {
-		world_westeros_the_wall
-		world_westeros_dorne
-		world_westeros_the_crownlands
-		world_westeros_the_iron_islands
-		world_westeros_the_north
-		world_westeros_the_reach
-		world_westeros_the_riverlands
-		world_westeros_the_stormlands
-		world_westeros_the_vale
-		world_westeros_the_westerlands
+world_westeros_the_crownlands_valyrian_north_islands = {
+	counties = {
+		c_claw_isle
+		c_the_scales
 	}
 }
 
-world_westeros_seven_kingdoms_without_dorne = {
-	regions = {
-		world_westeros_the_wall
-		world_westeros_the_crownlands
-		world_westeros_the_iron_islands
-		world_westeros_the_north
-		world_westeros_the_reach
-		world_westeros_the_riverlands
-		world_westeros_the_stormlands
-		world_westeros_the_vale
-		world_westeros_the_westerlands
+world_westeros_the_crownlands_valyrian_central_islands = {
+	counties = {
+		c_dragonstone
+		c_driftmark
+		c_high_tide
 	}
 }
 
-world_westeros_seven_kingdoms_without_wall = {
+world_westeros_the_crownlands_crackclaw = {
+	duchies = {
+		d_crackclaw_point
+ 		d_brownhollow
+	}
+}
+
+world_westeros_dragonstone_island = {
+	counties = {
+		c_dragonstone
+	}
+}
+
+world_westeros_dragonstone_kingdom = {
+	duchies = {
+		d_dragonstone
+		d_driftmark
+		d_claw_isle
+		d_sharp_point
+		d_sweetport
+	}
+}
+
+world_westeros_the_reach = {
+	duchies = {
+		d_highgarden
+		d_bitterbridge
+		d_black_sound
+		d_blueburn
+		d_brightwater
+		d_denflower
+		d_cockleswhent
+		d_darkdell
+		d_darstone
+		d_holyhall
+		d_fullharvest
+		d_garden_coast
+		d_whisper_point
+		d_goldenfields
+		d_goldengrove
+		d_stackhouse
+		d_heartland_heights
+		d_honeylands
+		d_manderfields
+		d_oldhills
+		d_oldtown
+		d_orchard_way
+		d_dunstonbury
+		d_palemarch
+		d_cockscombe
+		d_red_front
+		d_ridgeview
+		d_shield_islands
+		d_greyshield
+		d_greenshield
+		d_southshield
+		d_sunnyvale
+		d_the_arbor
+		d_the_northmarch
+		d_the_ocean_road
+		d_the_roseroad
+		d_the_westmarch
+		d_tumbleton
+	}
+}
+
+world_westeros_the_reach_minus_dornish_marches = {
 	regions = {
-		world_westeros_dorne
-		world_westeros_the_crownlands
-		world_westeros_the_iron_islands
-		world_westeros_the_north
-		world_westeros_the_reach
-		world_westeros_the_riverlands
-		world_westeros_the_stormlands
-		world_westeros_the_vale
-		world_westeros_the_westerlands
+		world_westeros_mander_kingdom
+		world_westeros_northmarch
+		world_westeros_reach_blackwater
+		world_westeros_shield_islands
+		world_westeros_arbor
+		world_westeros_greater_oldtown
+	}
+}
+
+world_westeros_mander_kingdom = {
+	regions = {
+		world_westeros_lower_mander
+		world_westeros_upper_mander
+	}
+}
+
+world_westeros_lower_mander = {
+	duchies = {
+		d_highgarden
+		d_darstone
+		d_darkdell
+		d_the_roseroad
+		d_orchard_way
+		d_cockleswhent
+		# d_brightwater #Partial
+	}
+	counties = {
+		# d_brightwater #Partial
+		# c_brightwater
+		c_denflower
+		c_whitewater_watch
+		# c_islandview
+		# c_bloomfield_hills
+		# c_festune
+		# c_laurelridge
+		c_greenaway
+	}
+}
+
+world_westeros_upper_mander = {
+	duchies = {
+		d_bitterbridge
+		d_fullharvest
+		d_blueburn
+		d_manderfields
+		d_tumbleton
+	}
+}
+
+world_westeros_northmarch = {
+	duchies = {
+		d_goldengrove
+		d_red_front
+		d_the_northmarch
+		d_the_ocean_road
+		d_sunnyvale
+	}
+}
+
+world_westeros_reach_blackwater = {
+	duchies = {
+		d_goldenfields
+		d_heartland_heights
+	}
+}
+
+world_westeros_shield_islands = {
+	duchies = {
+		d_shield_islands
+	}
+}
+
+world_westeros_arbor = {
+	duchies = {
+		d_the_arbor
+	}
+}
+
+world_westeros_greater_oldtown = {
+	duchies = {
+		d_oldtown
+		d_whisper_point
+		d_garden_coast
+		d_ridgeview
+		d_honeylands
+		d_black_sound
+	}
+}
+
+world_westeros_the_stormlands = {
+	duchies = {
+		d_shipbreaker_bay
+		d_bronzegate
+		d_blackhaven
+		d_cape_wrath
+		d_weeping_town
+		d_dark_harrow
+		d_estermont_isles
+		d_tudbury_island
+		d_grandview
+		d_greatstock
+		d_kingswood
+		d_marchfields
+		d_nestridge
+		d_nightsong
+		d_red_watch
+		d_whentway
+		d_stackfield
+		d_tarth
+		d_the_drench
+		d_the_rainwood
+		d_valor_meadows
+		d_vellum_coast
+		d_fawnton
+		d_summerhall
+		d_the_slayne
+	}
+}
+
+world_westeros_the_stormlands_minus_dornish_marches = {
+	regions = {
+		world_westeros_the_stormlands_core
+		world_westeros_the_stormlands_cape_wrath
+		world_westeros_the_stormlands_kingswood
+		world_westeros_the_stormlands_isles
+	}
+}
+
+world_westeros_the_stormlands_core = {
+	duchies = {
+		d_shipbreaker_bay
+		d_nestridge
+		d_stackfield
+		d_vellum_coast
+	}
+}
+
+world_westeros_the_stormlands_cape_wrath = {
+	duchies = {
+		d_cape_wrath
+		d_the_drench
+		d_the_rainwood
+	}
+}
+
+world_westeros_the_stormlands_kingswood = {
+	duchies = {
+		d_kingswood
+		d_greatstock
+		d_valor_meadows
+		d_dark_harrow
+	}
+}
+
+world_westeros_the_stormlands_isles = {
+	duchies = {
+		d_tarth
+		d_estermont_isles
+	}
+}
+
+world_westeros_dornish_marches = {
+	regions = {
+		world_westeros_dornish_marches_andal
+		world_westeros_dornish_marches_dorne
+	}
+}
+
+world_westeros_dornish_marches_andal = {
+	regions = {
+		world_westeros_dornish_marches_reach
+		world_westeros_dornish_marches_stormlands
+	}
+}
+
+world_westeros_dornish_marches_reach = {
+	duchies = {
+		d_oldhills
+		d_palemarch
+		d_the_westmarch
+	}
+	counties = {
+		#d_cockscombe
+		c_estryck
+		c_grandmercy
+	}
+}
+
+world_westeros_dornish_marches_stormlands = {
+	duchies = {
+		d_nightsong
+		d_marchfields
+		d_blackhaven
+		d_red_watch
+		d_whentway
+		d_summerhall
+	}
+}
+
+world_westeros_dornish_marches_dorne = {
+	duchies = {
+		d_the_stoneway
+		d_redmarch
+		d_the_princes_pass
+		d_blackmont
+	}
+	counties = {
+		#d_torrentine
+		c_radiant_cliffs
+		c_dawnbrink
+		c_starfall
+		c_high_hermitage
+		c_shining_sands
+		c_fields_of_glass
+		c_astermine
+		#d_greenbelt
+		c_greenbelt
+		c_wayguard
+		c_yronwood
+	}
+	provinces = {
+		#d_torrentine
+		#c_elbow
+		5274 #b_sunstop
+		5273 #b_sandance
+		5272 #b_winding_dune
+		5271 #b_broken_elbow
+		#d_sandstone
+		#c_stained_sands
+		5221 #b_senter_hall
+		5217 #b_stainwater
+		5218 #b_dunespots
+		5219 #b_basscales
+		#d_sandstone
+		#c_stinging_sands
+		5228 #b_thicktail
+		5227 #b_the_stingseat
+		5232# b_stinging_stones
+		5231 #b_white_hiss
+		#d_sandstone
+		#c_dreadsands
+		5234 #b_brickmounds
+		5233 #b_dreadsands
+		5235 #b_coarse_keep
+		#d_sandstone
+		#c_white_dunes
+		5222 #b_parchwell
+	}
+}
+
+world_westeros_dorne = {
+	regions = {
+		world_westeros_dorne_rhoynish
+		world_westeros_dorne_stone
+	}
+}
+
+world_westeros_dorne_rhoynish = {
+	regions = {
+		world_westeros_dorne_salt
+		world_westeros_dorne_sand
+	}
+}
+
+world_westeros_dorne_salt = {
+	regions = {
+		world_westeros_dorne_sea_of_dorne_coast
+		world_westeros_dorne_greenblood
+		world_westeros_dorne_summer_coast
+	}
+}
+
+world_westeros_dorne_sea_of_dorne_coast = {
+	duchies = {
+		d_ghost_hills
+		d_broken_arm
+	}
+	counties = {
+		#d_ghaston_grey
+		c_ghaston_grey
+		#d_the_tor
+		c_the_tor
+		c_stedding
+		c_tallor_islands
+		c_murrandy
+		c_dream_dunes
+		c_barberry
+		#d_scourgehead
+		c_flatwater
+	}
+}
+
+world_westeros_dorne_greenblood = {
+	duchies = {
+		d_sunspear
+	}
+	counties = {
+		#d_lemonwood
+		c_lemonwood
+		#d_godsgrace
+		c_orangewood
+		c_latebloom
+		c_sevensdunes
+		c_godsgrace
+	}
+}
+
+world_westeros_dorne_summer_coast = {
+	counties = {
+		#d_salt_shore
+		c_salt_shore
+		c_brackish
+		#d_lemonwood
+		c_sourmarket
+		c_sweetwater
+		c_drillwater_islands
+	}
+}
+
+world_westeros_dorne_sand = {
+	regions = {
+		world_westeros_dorne_red_dunes
+		world_westeros_dorne_white_dunes
+	}
+}
+
+world_westeros_dorne_red_dunes = {
+	duchies = {
+		d_red_dunes
+	}
+	counties = {
+		#d_brimstone
+		c_bloodbridge
+		#d_greenbelt
+		c_royalmarch
+		#d_scourgehead
+		c_the_bramble
+		c_the_scourge
+		#d_godsgrace
+		c_goldpeppers
+		c_nerandyn
+		#d_saltshore
+		c_white_stones
+		c_saltstone
+	}
+}
+
+world_westeros_dorne_white_dunes = {
+	duchies = {
+		d_oldwell
+	}
+	counties = {
+		#d_brimestone
+		c_steamfall
+		c_willburn
+		c_brimstone
+		c_burning_dunes
+		c_hellholt
+		c_jackalrun
+		c_sulphur_flats
+		#d_greenbelt
+		c_great_dunes
+		c_blood_gulch
+		#d_sandstone
+		c_arnight
+		c_sandhorn
+		c_sandstone
+		c_barbmane
+	}
+	provinces = {
+		#d_sandstone
+		#c_white_dunes
+		5225 #b_whitedune_pass
+		5223 #b_rashpit
+		5224 #b_whitedune_flats
+		5226 #b_dustwalk
+		#d_sandstone
+		#c_stained_sands
+		5220 #b_splitgravel
+		#d_sandstone
+		#c_stinging_sands
+		5229 #b_flat_cut
+		5230 #b_burrow_dune
+		#d_sandstone
+		#c_dreadsands
+		5238 #b_scarcrest
+		5237 #b_aurisand
+		5236 #b_silence
+		#d_torrentine
+		#c_the_elbow
+		5276 #b_elbow_cove
+		5275 #b_starryberth
+	}
+}
+
+world_westeros_dornish_dustbowl = {
+	counties = {
+		c_the_dustbowl
+	}
+}
+
+world_westeros_dornish_desert = {
+	duchies = {
+		d_brimstone
+		d_oldwell
+	}
+	counties = {
+		c_the_scablands
+		c_the_barrens
+		c_great_dunes
+		c_blood_gulch
+		c_white_dunes
+		c_arnight
+		c_sandstone
+		c_sandhorn
+		c_barbmane
+	}
+}
+
+world_westeros_dorne_lost_crown = {
+	duchies = {
+		d_oldwell
+		d_sandstone
+	}
+}
+
+world_westeros_dorne_stone = {
+	regions = {
+		world_westeros_dornish_marches_dorne
+	}
+}
+
+world_westeros_dornish_mountains = {
+	regions = {
+		world_westeros_dornish_marches_dorne
+	}
+}
+
+world_essos = {
+	regions = {
+		world_essos_west
+		# world_essos_south
+		# world_essos_north
+		# world_essos_east
+		# world_essos_beyond_the_east
+	}
+}
+
+world_essos_west = {
+	regions = {
+		world_stepstones
+		world_essos_free_cities
+		world_essos_rhoyne
+		# world_essos_valyria
 	}
 }
 
@@ -979,11 +1237,27 @@ world_stepstones = {
 	}
 }
 
-world_essos = {
+world_essos_free_cities = {
 	regions = {
-		world_essos_free_cities
-		world_stepstones
-		world_essos_rhoyne
+		world_essos_southern_free_cities
+		world_essos_northern_free_cities
+		world_essos_eastern_free_cities
+	}
+}
+
+world_essos_southern_free_cities = {
+	regions = {
+		world_essos_lys
+		world_essos_tyrosh
+		world_essos_myr
+		world_essos_disputed_lands
+	}
+}
+
+world_essos_lys = {
+	regions = {
+		world_essos_lys_city
+		world_essos_lys_mainland
 	}
 }
 
@@ -995,10 +1269,7 @@ world_essos_lys_city = {
 	}
 }
 
-world_essos_lys = {
-	regions = {
-		world_essos_lys_city
-	}
+world_essos_lys_mainland = {
 	duchies = {
 		d_mangrove_shoals
 		d_thaehaes
@@ -1006,12 +1277,71 @@ world_essos_lys = {
 }
 
 world_essos_tyrosh = {
+	regions = {
+		world_essos_tyrosh_islands
+		world_essos_tyrosh_mainland
+	}
+}
+
+world_essos_tyrosh_islands = {
 	duchies = {
 		d_tyrosh
-		d_quhyrys
+		d_muricosh
+		# d_quhyrys #Partial
+	}
+	counties = {
+		# d_quhyrys #Partial
+		c_zernosh
+		# c_uhyrosh_coast
+		# c_tandaynish
+	}
+}
+
+world_essos_tyrosh_mainland = {
+	duchies = {
 		d_ryrys
 		d_great_vilibosh
-		d_muricosh
+		# d_quhyrys #Partial
+	}
+	counties = {
+		# d_quhyrys #Partial
+		# c_zernosh
+		c_uhyrosh_coast
+		c_tandaynish
+	}
+}
+
+world_essos_myr = {
+	regions = {
+		world_essos_myr_core
+		world_essos_myr_north
+	}
+}
+
+world_essos_myr_core = {
+	duchies = {
+		d_myr
+		d_southcliffs
+		d_loomwright
+		d_lotyr_bay
+		d_croraera
+		d_brenassar
+	}
+}
+
+world_essos_myr_north = {
+	duchies = {
+		d_greenlace
+		d_daarano
+		d_qehes
+	}
+}
+
+world_essos_disputed_lands_extended = {
+	regions = {
+		world_essos_disputed_lands
+		world_essos_lys_mainland
+		world_essos_tyrosh_mainland
 	}
 }
 
@@ -1027,37 +1357,25 @@ world_essos_disputed_lands = {
 	}
 }
 
-world_essos_disputed_lands_extended = { # Disputed Lands including parts de jure under Lys and Tyrosh
+world_essos_northern_free_cities = {
 	regions = {
-		world_essos_disputed_lands
-	}
-	duchies = {
-		d_mangrove_shoals
-		d_thaehaes
-		d_ryrys
-		d_great_vilibosh
-	}
-	counties = {
-		c_uhyrosh_coast
-		c_tandaynish
-	}
-}
-
-world_essos_myr = {
-	duchies = {
-		d_myr
-		d_southcliffs
-		d_loomwright
-		d_lotyr_bay
-		d_croraera
-		d_brenassar
-		d_greenlace
-		d_daarano
-		d_qehes
+		world_essos_pentos
+		world_essos_andalos
+		world_essos_braavos
+		world_essos_lorath
+		world_essos_norvos
+		world_essos_the_axe
 	}
 }
 
 world_essos_pentos = {
+	regions = {
+		world_essos_pentos_north
+		world_essos_pentos_south
+	}
+}
+
+world_essos_pentos_north = {
 	duchies = {
 		d_pentos
 		d_shepamoti
@@ -1065,8 +1383,13 @@ world_essos_pentos = {
 		d_little_rhoyne
 		d_nyojon
 		d_princes_shore
-		d_konian_coast
 		d_hinozobris
+	}
+}
+
+world_essos_pentos_south = {
+	duchies = {
+		d_konian_coast
 		d_the_baked_lands
 		d_nontelos
 		d_samaalis
@@ -1087,8 +1410,20 @@ world_essos_andalos = {
 }
 
 world_essos_braavos = {
+	regions = {
+		world_essos_braavos_swamp
+		world_essos_braavos_mainland
+	}
+}
+
+world_essos_braavos_swamp = {
 	duchies = {
 		d_braavos
+	}
+}
+
+world_essos_braavos_mainland = {
+	duchies = {
 		d_teggarlozar
 		d_braavosian_coastlands
 		d_inkolantibyr
@@ -1100,10 +1435,22 @@ world_essos_braavos = {
 }
 
 world_essos_lorath = {
+	regions = {
+		world_essos_lorath_islands
+		world_essos_lorath_mainland
+	}
+}
+
+world_essos_lorath_islands = {
 	duchies = {
 		d_lorath
 		d_the_harvest
 		d_lorassyon
+	}
+}
+
+world_essos_lorath_mainland = {
+	duchies = {
 		d_wrighters_wood
 		d_shlorath
 		d_fisher_point
@@ -1112,14 +1459,32 @@ world_essos_lorath = {
 }
 
 world_essos_norvos = {
+	regions = {
+		world_essos_norvos_central
+		world_essos_norvos_west
+		world_essos_norvos_east
+	}
+}
+
+world_essos_norvos_central = {
 	duchies = {
 		d_norvos
 		d_kevele_kiy
+		d_bear_valley
+	}
+}
+
+world_essos_norvos_west = {
+	duchies = {
 		d_the_noyne
 		d_irughagyu
 		d_limestone_hills
 		d_neath_canals
-		d_bear_valley
+	}
+}
+
+world_essos_norvos_east = {
+	duchies = {
 		d_norvole_kiy
 		d_esauritra_eon
 		d_vardyghagyu
@@ -1129,9 +1494,21 @@ world_essos_norvos = {
 }
 
 world_essos_the_axe = {
+	regions = {
+		world_essos_the_axe_peninsula
+		world_essos_the_axe_mainland
+	}
+}
+
+world_essos_the_axe_peninsula = {
 	duchies = {
 		d_the_bit
 		d_the_haft
+	}
+}
+
+world_essos_the_axe_mainland = {
+	duchies = {
 		d_the_knuckles
 		d_the_spike
 		d_the_grasp
@@ -1139,9 +1516,19 @@ world_essos_the_axe = {
 	}
 }
 
+world_essos_eastern_free_cities = {
+	regions = {
+		world_essos_qohor
+		# world_essos_essaria
+		# world_essos_swamps
+		# world_essos_volantis
+	}
+}
+
 world_essos_qohor = {
 	regions = {
 		world_essos_qohor_north
+		world_essos_qohor_steppe
 		world_essos_qohor_south
 	}
 }
@@ -1153,20 +1540,106 @@ world_essos_qohor_north = {
 		d_orsajks
 		d_clawed_mountains
 		d_hevanavar
-		d_the_crucible
+		# d_the_crucible #Partial
+		d_darkwash_watch
+		# d_qohor #Partial
+		# d_lumber_road #Partial
+	}
+	counties = {
+		# d_qohor #Partial
+		c_artisans_quarter
+		# c_hunters_quarter
+		# c_foresters_quarter #Partial
+		# d_lumber_road #Partial
+		c_goatswood
+		c_ajghembar
+		# c_sablewood
+		# c_op_glogjestiri #Partial
+		# d_the_crucible #Partial
+		# c_nomads_encroach
+		# c_shiverness #Partial
+		c_ghu
+		c_the_perch
+		c_senaghon
+	}
+	provinces = {
+		# c_foresters_quarter #Partial
+		# 8679
+		8680
+		8681
+		8682
+		# c_op_glogjestiri #Partial
+		8701
+		8702
+		8703
+		8704
+		# 8705
+		# c_shiverness #Partial
+		8969
+		8970
+		8971
+		8972
+		# 8973
+		8974
+	}
+}
+
+world_essos_qohor_steppe = {
+	duchies = {
+		# d_the_crucible #Partial
+	}
+	counties = {
+		# d_the_crucible #Partial
+		c_nomads_encroach
+		# c_shiverness #Partial
+		# c_ghu
+		# c_the_perch
+		# c_senaghon
+	}
+	provinces = {
+		# c_shiverness #Partial
+		# 8969
+		# 8970
+		# 8971
+		# 8972
+		8973
+		# 8974
 	}
 }
 
 world_essos_qohor_south = {
 	duchies = {
-		d_qohor
 		d_rhoskiyun
-		d_darkwash_watch
-		d_lumber_road
 		d_sentinel_woods
 		d_nazejan
 		d_storskupsqoa
 		d_ziruspakto
+		# d_qohor #Partial
+		# d_lumber_road #Partial
+	}
+	counties = {
+		# d_qohor #Partial
+		# c_artisans_quarter
+		c_hunters_quarter
+		# c_foresters_quarter #Partial
+		# d_lumber_road #Partial
+		# c_goatswood
+		# c_ajghembar
+		c_sablewood
+		# c_op_glogjestiri #Partial
+	}
+	provinces = {
+		# c_foresters_quarter #Partial
+		8679
+		# 8680
+		# 8681
+		# 8682
+		# c_op_glogjestiri #Partial
+		# 8701
+		# 8702
+		# 8703
+		# 8704
+		8705
 	}
 }
 
@@ -1180,98 +1653,132 @@ world_essos_rhoyne = {
 }
 
 world_essos_chroyane = {
+	regions = {
+		world_essos_chroyane_west
+		world_essos_chroyane_east
+	}
+}
+
+world_essos_chroyane_west = {
 	duchies = {
 		d_chroyane
 		d_gar_sagon
 		d_azure_valley
+	}
+}
+
+world_essos_chroyane_east = {
+	duchies = {
 		d_suru_mal
 		d_sen_malhoy
 	}
 }
 
 world_essos_ar_noy = {
+	regions = {
+		world_essos_ar_noy_north
+		world_essos_ar_noy_south
+	}
+}
+
+world_essos_ar_noy_north = {
 	duchies = {
-		d_ar_noy
+		# d_ar_noy #Partial
+	}
+	counties = {
+		# d_ar_noy #Partial
+		# c_ar_noy
+		c_the_spearhead
+		c_dhoylleal
+		# c_lliis
+	}
+}
+
+world_essos_ar_noy_south = {
+	duchies = {
 		d_ferrous_basin
 		d_mal_dareas
 		d_rhillupea
 		d_eastern_daggers
+		# d_ar_noy #Partial
+	}
+	counties = {
+		# d_ar_noy #Partial
+		c_ar_noy
+		# c_the_spearhead
+		# c_dhoylleal
+		c_lliis
 	}
 }
 
 world_essos_ny_sar = {
+	regions = {
+		world_essos_ny_sar_north
+		world_essos_ny_sar_south
+	}
+}
+
+world_essos_ny_sar_north = {
 	duchies = {
-		d_ny_sar
 		d_roseate_bank
+		# d_ny_sar #Partial
+	}
+	counties = {
+		# d_ny_sar #Partial
+		c_ny_sar
+		# c_marble_knife
+		# c_seanhallial
+		# c_quarried_wings
+	}
+}
+
+world_essos_ny_sar_south = {
+	duchies = {
 		d_rel_gydhal
 		d_golden_fields
 		d_western_daggers
+		# d_ny_sar #Partial
+	}
+	counties = {
+		# d_ny_sar #Partial
+		# c_ny_sar
+		c_marble_knife
+		c_seanhallial
+		c_quarried_wings
 	}
 }
 
 world_essos_ghoyan_drohe = {
+	regions = {
+		world_essos_ghoyan_drohe_north
+		world_essos_ghoyan_drohe_south
+	}
+}
+
+world_essos_ghoyan_drohe_north = {
 	duchies = {
-		d_ghoyan_drohe
 		d_fair_spine
-		d_gamia_noias
 		d_the_grommet
+		# d_ghoyan_drohe #Partial
 	}
-}
-
-world_essos_dagger_lake_pirates = {
 	counties = {
-		c_peadhean
-		c_sen_malhoy
-		c_dagger_flats
-		c_susnys_mal
-		c_anlys
-		c_skean
-		c_jambiya
-		c_ar_noy
-		c_the_spearhead
-		c_dhoylleal
-		c_lliis
-		c_golden_fields
-		c_rhunamllias
-		c_stiletys
-		c_dyrk
-		c_poniard
-		c_asanydeanos
-		c_uydhean
-		c_fuchsiara
-		c_cerise_ridge
-		c_ny_sar
-		c_quarried_wings
-		c_seanhallial
-		c_marble_knife
+		# d_ghoyan_drohe #Partial
+		c_ghoyan_drohe
+		c_rhusos
+		# c_llounkum
 	}
 }
 
-world_essos_southern_free_cities = {
-	regions = {
-		world_essos_lys
-		world_essos_tyrosh
-		world_essos_myr
-		world_essos_disputed_lands
+world_essos_ghoyan_drohe_south = {
+	duchies = {
+		d_gamia_noias
+		# d_ghoyan_drohe #Partial
 	}
-}
-
-world_essos_eastern_free_cities = {
-	regions = {
-		world_essos_lorath
-		world_essos_norvos
-		world_essos_qohor
-		world_essos_the_axe
-	}
-}
-
-world_essos_free_cities = {
-	regions = {
-		world_essos_southern_free_cities
-		world_essos_eastern_free_cities
-		world_essos_pentos
-		world_essos_andalos
-		world_essos_braavos
+	counties = {
+		# d_ghoyan_drohe #Partial
+		# c_ghoyan_drohe
+		# c_rhusos
+		c_llounkum
 	}
 }
 
@@ -1281,26 +1788,16 @@ world_essos_valyria = {
 	}
 }
 
-world_essos_yi_ti = {
-	provinces = {
-		7292
-	}
-}
-
 world_essos_painted_mountains = {
 	provinces = {
 		7291
 	}
 }
 
-world_essos_moraq = {
-	regions = {
-		world_ruins
-	}
-}
-
 world_essos_great_grass_sea = {
 	regions = {
+		# world_essos_sarnor
+		# world_essos_dothraki_sea
 		world_ruins
 	}
 }
@@ -1317,15 +1814,27 @@ world_essos_hyrkoon = {
 	}
 }
 
-world_essos_leng = {
+world_essos_yi_ti = {
 	provinces = {
-		7293
+		7292
 	}
 }
 
 world_jade_sea = {
 	regions = {
 		world_ruins
+	}
+}
+
+world_jade_sea_moraq = {
+	regions = {
+		world_ruins
+	}
+}
+
+world_jade_sea_leng = {
+	provinces = {
+		7293
 	}
 }
 
@@ -1373,6 +1882,137 @@ world_horse_buildings_in_hills_and_mountains = {
 	}
 }
 
+world_essos_dagger_lake_islands = {
+	duchies = {
+		d_eastern_daggers
+		d_western_daggers
+	}
+}
+
+world_essos_dagger_lake_pirates = {
+	counties = {
+		c_peadhean
+		c_sen_malhoy
+		c_dagger_flats
+		c_susnys_mal
+		c_anlys
+		c_skean
+		c_jambiya
+		c_ar_noy
+		c_the_spearhead
+		c_dhoylleal
+		c_lliis
+		c_golden_fields
+		c_rhunamllias
+		c_stiletys
+		c_dyrk
+		c_poniard
+		c_asanydeanos
+		c_uydhean
+		c_fuchsiara
+		c_cerise_ridge
+		c_ny_sar
+		c_quarried_wings
+		c_seanhallial
+		c_marble_knife
+	}
+}
+
+rhoyne_river_region = {
+	counties = {
+		c_soytialne
+		c_tianos
+		c_chroyane
+		c_peadhean
+		c_golden_fields
+		c_rhunamllias
+		c_stiletys
+		c_skean
+		c_anlys
+		c_jambiya
+		c_dyrk
+		c_poniard
+		c_susnys_mal
+		c_dagger_flats
+		c_sen_malhoy
+		c_rhogo_sar
+		c_suru_mal
+		c_punulea_sar
+		c_witnesses_mire
+		c_the_spearhead
+		c_asanydeanos
+		c_uydhean
+		c_quarried_wings
+		c_seanhallial
+		c_marble_knife
+		c_dhiro_bis
+		c_gamia_noias
+		c_panliam
+		c_ghoyan_drohe
+		c_lol_sar
+	}
+}
+
+world_westeros_north_of_the_twins = {
+	regions = {
+		world_westeros_the_north
+		world_westeros_beyond_the_wall
+		world_westeros_the_wall
+	}
+}
+
+world_westeros_rhaegars_rubies = {
+	duchies = {
+		d_tridents_mouth
+		d_saltpans
+		d_maidenpool
+	}
+	counties = {
+		c_harroway
+	}
+}
+
+world_westeros_summerhall = {
+	counties = {
+		c_summerfield
+	}
+}
+
+world_westeros_wilding_raiding_zone = { #Area Wildings camps can move around
+	regions = {
+		world_westeros_beyond_the_wall
+		world_westeros_the_wall
+	}
+	duchies = {
+		d_the_northern_mountains
+		d_last_lands
+		d_skagos
+		d_bear_island
+		d_frostfields
+		d_karhold
+		d_the_dreadfort
+		d_winterfell
+		d_the_blackpines
+		d_the_wolfswood
+		d_sea_dragon_point
+	}
+}
+
+world_westeros_gods_eye = {
+	provinces = {
+		1999
+		1972
+		1981
+		2019
+		1939
+		1941
+		1952
+		1950
+		1956
+		1959
+	}
+}
+
 moat_cailin_bottleneck_region = {
 	counties = {
 		c_crannbrook
@@ -1414,12 +2054,6 @@ the_neck_causeway_region = {
 	}
 }
 
-world_westeros_the_stormlands_seagard_= {
-	duchies = {
-		d_cape_of_eagles
-	}
-}
-
 world_westeros_the_kingswood = {
 	duchies = {
 		d_kingswood
@@ -1429,6 +2063,13 @@ world_westeros_the_kingswood = {
 		c_greyhelm
 		c_brushmill
 		c_bywater
+	}
+}
+
+world_punishment = {
+	regions = {
+		world_essos_free_cities
+		world_stepstones
 	}
 }
 
@@ -2585,7 +3226,7 @@ great_spring_sickness_init_region = {
 
 hunt_animal_deer_region = {
 	regions = {
-# general
+		#general
 		world_westeros_beyond_the_wall
 		world_westeros_the_wall_only
 		world_westeros_moonclans
@@ -2634,7 +3275,7 @@ hunt_animal_gazelle_region = {
 
 hunt_animal_boar_region = {
 	regions = {
-# general
+		#general
 		world_westeros_beyond_the_wall
 		world_westeros_the_wall_only
 		world_westeros_moonclans
@@ -2659,7 +3300,7 @@ hunt_animal_boar_region = {
 
 hunt_animal_bear_region = {
 	regions = {
-# general
+		#general
 		world_westeros_beyond_the_wall
 		world_westeros_the_wall_only
 		world_westeros_moonclans
@@ -2784,7 +3425,7 @@ hunt_animal_lion_region = {
 hunt_animal_tiger_region = {
 	regions = {
 		world_essos_qohor
-		world_essos_leng
+		world_jade_sea_leng
 	}
 }
 
@@ -2849,7 +3490,7 @@ hunt_animal_saiga_region = {
 
 hunt_animal_big_cat_region = {
 	regions = {
-# general
+		#general
 		world_westeros_the_westerlands
 	}
 	duchies = {
@@ -3308,7 +3949,7 @@ material_woods_olivewood = {
 
 material_woods_coromandel = {
 	regions = {
-		world_essos_leng
+		world_jade_sea_leng
 	}
 }
 
@@ -3340,7 +3981,7 @@ material_woods_poplar = {
 material_woods_sandalwood = {
 	regions = {
 		world_essos_yi_ti
-		world_essos_leng
+		world_jade_sea_leng
 	}
 }
 
@@ -3679,13 +4320,13 @@ material_gem_lapiz_lazuli = {
 
 material_gem_opal = {
 	regions = {
-		world_essos_moraq
+		world_jade_sea_moraq
 	}
 }
 
 material_gem_spinel = {
 	regions = {
-		world_essos_moraq
+		world_jade_sea_moraq
 	}
 }
 
@@ -3892,183 +4533,7 @@ mpo_region_permafrost = {
 graphical_western = {
 	graphical = yes
 	color = { 0 0 255 }
-# EETLV v2.1:
-	provinces = {
-		12116 12118 12119 12122 12128 12132 12134 12138 12139 12145 12149 12151 12161 12162 12168 12170 12173 12179 12180 12181 12183 12192 12197 12201 12203 12209 12210 12211 12215 12217
-		12218 12219 12229 12232 12233 12236 12237 12239 12240 12247 12248 12251 12252 12253 12255 12259 12271 12272 12273 12275 12278 12280 12283 12288 12291 12292 12293 12297 12299 12301
-		12302 12305 12307 12311 12317 12322 12326 12334 12335 12344 12345 12347 12348 12350 12354 12357 12358 12360 12366 12367 12371 12372 12376 12380 12382 12385 12386 12387 12388 12389
-		12390 12396 12398 12399 12402 12406 12408 12417 12419 12423 12434 12437 12439 12441 12448 12449 12452 12453 12455 12457 12462 12472 12473 12477 12479 12484 12494 12498 12500 12501
-		12502 12505 12508 12509 12510 12511 12513 12514 12516 12520 12523 12524 12527 12529 12532 12534 12535 12537 12544 12545 12546 12547 12554 12557 12559 12562 12564 12568 12569 12571
-		12575 12585 12588 12596 12597 12600 12602 12603 12606 12607 12608 12609 12612 12613 12616 12617 12620 12623 12624 12631 12634 12635 12636 12637 12640 12642 12652 12656 12658 12659
-		12664 12665 12666 12668 12669 12673 12674 12678 12680 12681 12683 12684 12687 12689 12698 12701 12702 12708 12710 12715 12716 12722 12723 12725 12727 12728 12733 12734 12737 12748
-		12750 12754 12755 12760 12763 12764 12767 12768 12769 12770 12771 12772 12773 12774 12776 12778 12782 12786 12790 12792 12794 12797 12801 12803 12807 12808 12810 12815 12816 12822
-		12823 12824 12827 12830 12832 12833 12834 12836 12837 12844 12846 12857 12858 12859 12860 12862 12864 12865 12866 12867 12874 12876 12877 12886 12887 12892 12894 12897 12903 12911
-		12912 12915 12923 12924 12926 12934 12935 12939 12940 12941 12942 12943 12946 12948 12951 12954 12956 12958 12959 12962 12966 12969 12971 12973 12977 12982 12984 12992 12994 12996
-		12998 13000 13001 13003 13012 13013 13014 13015 13018 13019 13036 13037 13045 13046 13049 13050 13051 13052 13053 13055 13059 13061 13064 13065 13066 13069 13076 13079 13087 13089
-		13095 13096 13098 13099 13107 13108 13114 13117 13118 13119 13120 13121 13124 13125 13130 13131 13132 13139 13142 13144 13146 13147 13148 13150 13154 13156 13157 13163 13164 13165
-		13167 13168 13173 13175 13177 13181 13182 13183 13189 13194 13197 13200 13203 13204 13207 13208 13209 13212 13217 13218 13219 13220 13227 13231 13239 13240 13244 13245 13248 13254
-		13257 13259 13261 13264 13266 13268 13278 13280 13281 13283 13284 13292 13294 13295 13297 13303 13304 13305 13306 13307 13311 13314 13318 13320 13321 13324 13325 13328 13331 13334
-		13335 13338 13341 13343 13344 13345 13350 13357 13359 13362 13364 13365 13368 13371 13374 13377 13380 13382 13384 13385 13388 13395 13396 13398 13399 13403 13407 13408 13412 13413
-		13417 13422 13425 13426 13429 13430 13432 13433 13434 13442 13448 13454 13461 13463 13470 13475 13479 13480 13481 13482 13486 13487 13490 13500 13501 13503 13504 13515 13516 13520
-		13527 13528 13529 13531 13534 13535 13539 13540 13543 13547 13549 13550 13554 13562 13566 13567 13573 13574 13579 13581 13583 13588 13592 13594 13595 13601 13607 13608 13612 13613
-		13626 13630 13637 13641 13642 13643 13647 13649 13650 13651 13654 13660 13661 13662 13668 13672 13674 13675 13680 13682 13685 13692 13693 13699 13704 13706 13707 13711 13723 13726
-		13728 13731 13732 13734 13736 13737 13739 13740 13741 13748 13750 13754 13757 13758 13759 13760 13763 13771 13773 13774 13776 13780 13785 13788 13791 13793 13795 13797 13802 13803
-		13804 13808 13811 13814 13824 13829 13831 13834 13839 13843 13844 13845 13846 13849 13852 13853 13858 13860 13861 13868 13870 13871 13872 13873 13874 13891 13897 13899 13906 13911
-		13912 13917 13924 13925 13931 13932 13933 13934 13944 13945 13954 13959 13962 13963 13964 13970 13971 13973 13979 13985 13986 13987 13989 14011 14012 14014 14015 14016 14017 14019
-		14022 14027 14028 14030 14031 14036 14037 14041 14046 14047 14049 14054 14056 14061 14062 14069 14070 14080 14085 14091 14094 14098 14099 14101 14104 14105 14107 14111 14112 14113
-		14117 14120 14123 14126 14127 14128 14131 14132 14142 14143 14145 14149 14152 14153 14158 14161 14171 14172 14173 14179 14181 14182 14183 14184 14187 14188 14190 14191 14196 14197
-		14199 14202 14203 14204 14206 14207 14209 14213 14219 14220 14224 14226 14230 14232 14237 14240 14241 14242 14244 14246 14251 14252 14253 14254 14258 14259 14261 14264 14265 14266
-		14269 14271 14277 14280 14286 14293 14295 14297 14299 14300 14304 14309 14310 14315 14319 14325 14329 14334 14336 14337 14346 14347 14354 14358 14359 14360 14361 14376 14377 14378
-		14384 14394 14401 14407 14411 14412 14413 14416 14419 14422 14424 14435 14437 14438 14439 14440 14444 14447 14448 14450 14452 14453 14456 14457 14459 14460 14461 14463 14465 14468
-		14472 14477 14478 14479 14483 14485 14486 14489 14491 14494 14495 14497 14504 14505 14509 14513 14516 14518 14519 14521 14524 14525 14529 14530 14536 14538 14541 14544 14549 14551
-		14555 14558 14565 14567 14569 14570 14571 14576 14577 14583 14584 14586 14596 14597 14598 14602 14605 14607 14608 14610 14611 14614 14619 14620 14621 14622 14624 14625 14627 14634
-		14636 14637 14638 14639 14640 14649 14653 14664 14667 14674 14675 14677 14679 14681 14682 14687 14692 14694 14698 14699 14701 14704 14715 14716 14720 14723 14729 14733 14736 14737
-		14739 14746 14748 14749 14750 14751 14754 14755 14759 14761 14763 14767 14768 14769 14770 14771 14773 14778 14784 14786 14788 14794 14795 14799 14801 14804 14805 14806 14807 14808
-		14809 14812 14814 14816 14818 14820 14821 14823 14825 14831 14832 14835 14838 14839 14842 14844 14846 14854 14856 14858 14869 14870 14875 14883 14897 14902 14903 14905 14906 14914
-		14919 14922 14926 14927 14930 14938 14944 14945 14948 14951 14953 14954 14959 14961 14964 14968 14973 14980 14984 14987 14989 14991 14994 15000 15004 15006 15007 15009 15010 15016
-		15019 15029 15031 15036 15037 15038 15041 15042 15045 15046 15047 15048 15049 15059 15060 15062 15064 15073 15074 15076 15085 15087 15089 15091 15093 15095 15101 15102 15108 15109
-		15111 15113 15116 15118 15119 15124 15125 15128 15129 15130 15131 15135 15136 15138 15141 15142 15144 15148 15150 15151 15153 15157 15160 15161 15162 15165 15166 15172 15173 15174
-		15176 15177 15180 15183 15192 15193 15194 15199 15200 15201 15202 15205 15206 15210 15211 15212 15214 15216 15220 15224 15227 15228 15230 15231 15239 15252 15257 15261 15262 15265
-		15271 15274 15276 15282 15284 15286 15287 15292 15295 15299 15302 15304 15306 15309 15314 15315 15319 15320 15321 15322 15323 15329 15332 15333 15338 15340 15342 15346 15358 15359
-		15360 15363 15369 15370 15371 15373 15375 15377 15382 15383 15390 15392 15393 15397 15400 15402 15403 15404 15405 15406 15416 15417 15422 15424 15430 15436 15438 15446 15451 15453
-		15454 15456 15464 15466 15467 15469 15470 15471 15472 15479 15480 15486 15489 15491 15492 15497 15500 15507 15513 15516 15517 15520 15524 15528 15534 15535 15539 15541 15542 15544
-		15545 15546 15553 15562 15563 15565 15567 15568 15571 15573 15574 15575 15576 15578 15580 15582 15583 15585 15588 15590 15591 15592 15593 15595 15604 15605 15613 15615 15619 15628
-		15629 15632 15639 15640 15641 15643 15644 15646 15647 15653 15654 15655 15657 15658 15660 15661 15666 15669 15672 15673 15674 15680 15682 15688 15689 15700 15702 15707 15708 15709
-		15710 15716 15717 15722 15723 15724 15735 15739 15742 15743 15744 15747 15749 15753 15760 15762 15770 15772 15774 15776 15779 15782 15783 15794 15798 15802 15806 15808 15810 15811
-		15816 15817 15823 15824 15829 15831 15832 15835 15836 15846 15847 15852 15853 15854 15855 15865 15867 15869 15877 15882 15884 15887 15888 15889 15893 15895 15900 15903 15905 15906
-		15910 15913 15919 15924 15932 15933 15936 15938 15941 15945 15949 15950 15953 15956 15958 15965 15966 15972 15976 15979 15982 15987 15990 15991 15993 15997 15998 15999 16000 16001
-		16002 16008 16010 16013 16018 16022 16023 16028 16029 16035 16038 16041 16042 16044 16047 16048 16049 16052 16054 16058 16076 16077 16082 16084 16087 16094 16096 16098 16100 16101
-		16102 16103 16107 16108 16109 16111 16112 16113 16117 16119 16125 16126 16135 16136 16137 16138 16139 16145 16148 16152 16154 16155 16157 16158 16160 16164 16167 16172 16173 16174
-		16185 16188 16189 16190 16191 16195 16197 16199 16200 16201 16202 16208 16218 16222 16223 16231 16232 16234 16238 16239 16250 16251 16254 16258 16265 16266 16268 16273 16274 16279
-		16283 16284 16287 16290 16296 16297 16302 16303 16312 16313 16316 16318 16321 16322 16325 16330 16331 16339 16340 16342 16343 16347 16348 16349 16352 16353 16354 16355 16356 16359
-		16366 16367 16370 16374 16376 16382 16384 16392 16393 16394 16397 16401 16406 16408 16410 16413 16418 16424 16428 16436 16439 16447 16449 16450 16458 16469 16470 16473 16475 16477
-		16479 16481 16482 16483 16485 16486 16487 16489 16493 16495 16497 16499 16500 16502 16504 16505 16509 16512 16516 16521 16523 16525 16527 16530 16531 16532 16533 16536 16538 16540
-		16541 16547 16550 16551 16552 16553 16556 16559 16563 16564 16565 16566 16567 16575 16576 16577 16578 16588 16591 16593 16594 16605 16610 16613 16614 16617 16619 16620 16627 16628
-		16629 16631 16635 16637 16640 16641 16643 16644 16645 16646 16648 16649 16653 16655 16656 16657 16658 16661 16662 16663 16664 16667 16668 16675 16676 16688 16698 16699 16700 16704
-		16705 16708 16711 16712 16713 16717 16719 16723 16724 16726 16733 16735 16740 16741 16743 16744 16745 16746 16749 16750 16754 16759 16760 16761 16762 16763 16765 16768 16769 16771
-		16772 16776 16778 16781 16782 16785 16791 16796 16798 16799 16801 16808 16811 16812 16815 16816 16821 16825 16830 16832 16836 16837 16843 16845 16846 16847 16849 16853 16854 16857
-		16859 16861 16863 16870 16874 16877 16878 16882 16883 16888 16892 16897 16899 16901 16903 16904 16906 16908 16910 16911 16913 16915 16922 16923 16927 16928 16931 16934 16935 16941
-		16942 16946 16947 16948 16954 16959 16964 16967 16968 16971 16972 16976 16979 16981 16982 16985 16988 16991 16992 16993 16995 16997 17000 17001 17006 17010 17016 17019 17020 17024
-		17025 17031 17032 17033 17039 17040 17041 17044 17046 17049 17055 17056 17057 17058 17059 17062 17067 17070 17071 17072 17074 17078 17081 17082 17084 17085 17086 17090 17095 17097
-		17099 17101 17102 17109 17116 17118 17120 17123 17127 17128 17133 17141 17144 17145 17154 17155 17160 17165 17171 17172 17175 17178 17180 17183 17191 17194 17196 17200 17205 17207
-		17208 17209 17210 17211 17212 17218 17219 17224 17225 17226 17229 17236 17237 17241 17243 17247 17249 17250 17251 17253 17259 17262 17264 17268 17270 17274 17276 17278 17279 17281
-		17289 17292 17298 17299 17302 17306 17307 17312 17316 17320 17326 17327 17331 17332 17337 17338 17339 17340 17345 17346 17347 17348 17352 17355 17358 17361 17364 17366 17367 17378
-		17379 17381 17382 17384 17385 17388 17391 17400 17402 17403 17406 17407 17412 17413 17416 17417 17430 17434 17436 17440 17441 17442 17446 17448 17449 17453 17454 17456 17471 17472
-		17476 17479 17480 17488 17491 17492 17496 17508 17515 17516 17525 17528 17536 17538 17543 17544 17545 17546 17548 17553 17557 17561 17563 17564 17565 17566 17568 17572 17573 17575
-		17576 17577 17579 17582 17584 17587 17588 17591 17593 17596 17597 17598 17601 17603 17614 17615 17620 17621 17622 17625 17628 17630 17633 17635 17639 17641 17643 17645 17652 17658
-		17660 17662 17666 17671 17672 17693 17694 17695 17697 17702 17706 17707 17709 17711 17712 17713 17723 17724 17725 17728 17731 17733 17735 17736 17740 17746 17749 17750 17752 17757
-		17763 17765 17767 17771 17776 17779 17781 17782 17789 17790 17791 17792 17793 17794 17798 17800 17801 17802 17804 17808 17809 17813 17815 17817 17819 17820 17822 17830 17833 17837
-		17852 17853 17854 17857 17858 17859 17864 17865 17868 17870 17872 17877 17879 17881 17882 17886 17888 17890 17892 17893 17896 17897 17901 17902 17904 17905 17917 17918 17926 17927
-		17934 17945 17946 17948 17952 17953 17955 17956 17957 17958 17965 17967 17968 17969 17976 17977 17985 17987 17988 18000 18005 18010 18012 18013 18014 18016 18020 18021 18027 18032
-		18034 18036 18040 18046 18048 18052 18055 18059 18060 18064 18068 18069 18075 18077 18079 18080 18081 18083 18089 18090 18096 18102 18103 18109 18110 18111 18113 18115 18121 18122
-		18123 18125 18127 18130 18131 18136 18137 18138 18140 18143 18145 18153 18156 18159 18160 18162 18163 18164 18167 18171 18177 18178 18179 18180 18184 18185 18187 18188 18190 18198
-		18200 18202 18206 18207 18208 18210 18214 18218 18221 18224 18225 18226 18227 18228 18229 18234 18235 18236 18243 18246 18247 18248 18254 18256 18257 18258 18261 18269 18270 18272
-		18273 18280 18282 18284 18291 18301 18304 18306 18313 18314 18315 18320 18321 18322 18323 18324 18327 18329 18335 18337 18341 18344 18348 18350 18352 18356 18360 18361 18368 18372
-		18374 18376 18379 18382 18390 18392 18393 18409 18410 18412 18418 18419 18421 18435 18436 18439 18441 18444 18445 18446 18448 18451 18460 18463 18464 18465 18468 18474 18481 18484
-		18486 18490 18491 18500 18501 18502 18506 18510 18511 18514 18515 18520 18521 18522 18525 18526 18528 18532 18533 18534 18537 18542 18543 18548 18552 18553 18554 18559 18561 18565
-		18568 18573 18575 18579 18581 18584 18598 18601 18602 18604 18610 18614 18616 18629 18630 18631 18632 18635 18648 18649 18650 18651 18653 18654 18655 18659 18660 18662 18666 18672
-		18674 18675 18676 18678 18679 18681 18683 18685 18686 18688 18690 18693 18694 18698 18700 18703 18709 18711 18712 18713 18714 18715 18719 18722 18725 18730 18731 18735 18737 18738
-		18739 18743 18752 18754 18758 18759 18761 18763 18767 18769 18772 18773 18774 18776 18777 18786 18789 18797 18811 18813 18814 18815 18818 18819 18820 18823 18828 18830 18836 18840
-		18846 18850 18853 18855 18861 18865 18867 18868 18876 18878 18879 18882 18887 18888 18890 18891 18894 18895 18896 18897 18901 18902 18904 18909 18911 18912 18916 18920 18926 18928
-		18930 18935 18937 18939 18942 18948 18950 18951 18952 18953 18954 18955 18960 18961 18963 18968 18970 18979 18980 18981 18982 18985 18987 18990 18992 18994 18999 19002 19003 19005
-		19007 19012 19020 19021 19023 19024 19026 19027 19028 19032 19034 19038 19039 19041 19042 19048 19049 19052 19053 19054 19055 19057 19064 19066 19069 19070 19075 19078 19079 19083
-		19084 19085 19087 19088 19090 19091 19096 19102 19111 19113 19114 19116 19117 19118 19120 19121 19122 19125 19126 19128 19134 19137 19138 19139 19142 19143 19146 19151 19154 19157
-		19162 19168 19172 19174 19179 19180 19183 19187 19192 19194 19197 19200 19205 19209 19210 19211 19213 19214 19217 19218 19221 19223 19224 19228 19229 19231 19232 19235 19239 19243
-		19244 19245 19252 19255 19256 19258 19259 19261 19263 19264 19266 19267 19268 19269 19270 19272 19273 19274 19275 19276 19283 19284 19285 19286 19288 19289 19290 19292 19294 19300
-		19301 19305 19310 19313 19315 19316 19320 19321 19324 19326 19332 19333 19334 19337 19339 19342 19344 19345 19346 19347 19350 19352 19353 19356 19360 19362 19363 19366 19367 19368
-		19369 19374 19380 19384 19386 19388 19389 19391 19394 19395 19396 19400 19401 19404 19406 19407 19415 19421 19423 19425 19427 19428 19430 19435 19439 19444 19445 19449 19460 19467
-		19468 19482 19486 19487 19496 19497 19498 19503 19504 19508 19518 19520 19521 19522 19523 19526 19535 19536 19537 19538 19540 19545 19546 19554 19557 19562 19564 19565 19567 19570
-		19571 19573 19575 19581 19582 19589 19591 19593 19595 19596 19598 19601 19604 19609 19613 19616 19619 19620 19628 19629 19631 19633 19637 19638 19640 19642 19643 19647 19651 19654
-		19659 19665 19668 19671 19676 19680 19681 19682 19688 19690 19692 19697 19698 19700 19715 19716 19719 19720 19722 19725 19726 19731 19732 19737 19738 19739 19744 19749 19750 19753
-		19755 19765 19767 19768 19773 19777 19779 19782 19783 19784 19786 19794 19795 19797 19798 19802 19804 19805 19806 19807 19808 19811 19812 19814 19815 19817 19818 19819 19820 19823
-		19824 19828 19832 19837 19839 19846 19850 19854 19861 19866 19868 19869 19874 19881 19882 19887 19891 19893 19895 19896 19898 19902 19903 19908 19909 19911 19912 19913 19914 19915
-		19917 19918 19921 19924 19927 19931 19940 19942 19943 19944 19945 19946 19947 19960 19962 19964 19968 19971 19972 19975 19976 19977 19979 19980 19982 19989 19998 20000 20001 20003
-		20004 20007 20008 20010 20014 20016 20017 20022 20028 20036 20037 20042 20045 20046 20050 20051 20053 20054 20056 20057 20058 20061 20062 20064 20067 20068 20071 20076 20077 20080
-		20083 20084 20085 20086 20088 20089 20090 20095 20096 20097 20098 20103 20123 20124 20127 20129 20135 20139 20140 20142 20145 20146 20148 20150 20153 20154 20155 20156 20158 20161
-		20164 20165 20166 20172 20174 20176 20181 20182 20185 20186 20193 20196 20197 20201 20204 20205 20209 20210 20212 20213 20215 20217 20218 20219 20220 20221 20225 20228 20232 20233
-		20240 20246 20250 20252 20253 20255 20263 20266 20267 20268 20270 20273 20274 20276 20279 20280 20282 20285 20286 20287 20289 20297 20299 20305 20307 20310 20311 20313 20315 20319
-		20324 20332 20340 20341 20344 20345 20347 20353 20359 20360 20361 20362 20363 20365 20367 20369 20370 20372 20379 20380 20386 20389 20394 20395 20396 20397 20398 20399 20402 20404
-		20405 20407 20408 20410 20413 20420 20421 20424 20426 20427 20430 20431 20434 20437 20438 20439 20451 20452 20458 20463 20467 20469 20470 20472 20475 20476 20478 20482 20483 20484
-		20487 20489 20492 20495 20497 20498 20499 20500 20503 20505 20511 20512 20513 20514 20516 20517 20518 20522 20526 20528 20531 20534 20539 20544 20546 20564 20565 20568 20570 20571
-		20573 20579 20580 20581 20582 20585 20586 20589 20593 20595 20603 20604 20609 20610 20612 20613 20615 20619 20620 20623 20625 20627 20632 20634 20638 20643 20644 20646 20647 20650
-		20651 20654 20655 20658 20659 20663 20675 20678 20681 20686 20687 20688 20689 20692 20694 20695 20699 20700 20705 20706 20710 20712 20713 20715 20716 20717 20718 20720 20721 20722
-		20736 20740 20743 20749 20750 20751 20752 20755 20756 20760 20762 20763 20764 20765 20769 20774 20775 20783 20785 20789 20790 20793 20794 20795 20797 20800 20801 20802 20803 20806
-		20807 20808 20813 20817 20818 20820 20823 20825 20826 20828 20830 20831 20832 20834 20835 20840 20841 20842 20843 20844 20846 20847 20851 20856 20859 20863 20872 20881 20889 20890
-		20893 20898 20899 20901 20902 20903 20904 20906 20907 20912 20913 20916 20917 20918 20920 20921 20923 20926 20929 20930 20942 20954 20957 20958 20961 20962 20967 20968 20976 20981
-		20984 20988 20990 20993 20997 20998 21001 21002 21003 21004 21005 21006 21013 21014 21016 21017 21018 21024 21026 21028 21029 21030 21031 21034 21035 21036 21038 21040 21046 21051
-		21052 21062 21063 21064 21066 21068 21071 21074 21077 21081 21083 21086 21087 21089 21090 21091 21094 21095 21096 21097 21098 21100 21102 21103 21105 21106 21116 21120 21124 21125
-		21135 21138 21142 21151 21157 21159 21161 21163 21167 21174 21175 21177 21179 21181 21182 21184 21186 21187 21193 21194 21197 21200 21203 21207 21212 21213 21216 21222 21225 21226
-		21230 21236 21237 21239 21246 21247 21248 21249 21251 21254 21255 21260 21262 21266 21267 21270 21273 21274 21276 21277 21282 21286 21291 21294 21296 21299 21303 21304 21305 21306
-		21307 21308 21313 21314 21316 21318 21323 21324 21326 21327 21328 21331 21333 21334 21335 21338 21343 21344 21348 21352 21357 21358 21359 21361 21362 21367 21370 21371 21374 21375
-		21376 21377 21387 21391 21397 21398 21399 21402 21403 21405 21406 21413 21417 21419 21421 21422 21425 21428 21432 21437 21439 21443 21444 21445 21448 21449 21451 21454 21457 21463
-		21467 21473 21474 21481 21482 21484 21492 21494 21495 21498 21505 21508 21509 21514 21515 21518 21520 21523 21525 21532 21534 21541 21544 21545 21547 21549 21551 21552 21555 21556
-		21558 21559 21562 21564 21574 21577 21579 21584 21588 21590 21595 21597 21601 21607 21610 21615 21619 21620 21632 21633 21634 21636 21639 21640 21642 21644 21646 21656 21657 21668
-		21671 21673 21676 21677 21678 21683 21690 21695 21698 21700 21703 21705 21707 21714 21718 21719 21720 21725 21726 21728 21732 21733 21741 21745 21747 21748 21749 21753 21755 21756
-		21758 21759 21761 21762 21763 21765 21767 21770 21773 21775 21776 21778 21781 21787 21788 21790 21791 21794 21795 21798 21801 21802 21803 21805 21809 21810 21811 21816 21821 21827
-		21833 21834 21835 21836 21837 21838 21840 21844 21850 21853 21856 21861 21865 21866 21869 21870 21873 21874 21877 21878 21881 21891 21892 21894 21897 21900 21901 21903 21904 21911
-		21912 21918 21920 21927 21931 21932 21934 21936 21937 21939 21940 21942 21945 21946 21949 21950 21955 21957 21958 21964 21967 21969 21971 21972 21974 21975 21976 21984 21986 21992
-		22000 22001 22013 22021 22022 22025 22029 22033 22037 22046 22053 22058 22060 22062 22067 22076 22079 22080 22081 22082 22091 22092 22093 22095 22096 22099 22101 22103 22104 22105
-		22107 22113 22117 22120 22123 22144 22148 22155 22160 22164 22167 22168 22170 22171 22178 22181 22182 22184 22188 22189 22197 22199 22201 22203 22207 22211 22216 22221 22226 22229
-		22238 22240 22241 22244 22248 22251 22253 22256 22265 22271 22275 22276 22279 22282 22284 22285 22286 22289 22291 22292 22293 22299 22300 22303 22307 22316 22321 22324 22327 22332
-		22333 22339 22341 22343 22344 22353 22355 22358 22364 22365 22374 22378 22379 22383 22390 22391 22392 22396 22398 22400 22402 22404 22405 22406 22407 22412 22413 22414 22416 22417
-		22418 22420 22425 22427 22428 22429 22431 22432 22438 22439 22440 22441 22442 22449 22451 22452 22453 22459 22460 22462 22465 22466 22467 22468 22476 22480 22481 22482 22486 22487
-		22490 22495 22499 22501 22502 22503 22506 22508 22509 22513 22518 22522 22525 22528 22529 22531 22532 22533 22537 22539 22542 22544 22547 22548 22549 22550 22553 22558 22559 22560
-		22562 22563 22564 22565 22566 22567 22568 22570 22571 22573 22579 22581 22583 22584 22588 22592 22593 22595 22610 22612 22613 22616 22618 22620 22621 22624 22625 22628 22635 22639
-		22640 22643 22644 22646 22647 22649 22652 22654 22655 22662 22663 22665 22666 22667 22671 22674 22675 22679 22683 22685 22692 22693 22694 22698 22700 22703 22708 22709 22711 22717
-		22719 22720 22723 22725 22730 22731 22733 22734 22736 22737 22740 22742 22743 22748 22751 22753 22755 22756 22761 22762 22763 22765 22772 22773 22777 22785 22789 22790 22793 22794
-		22796 22803 22804 22805 22806 22807 22808 22813 22815 22819 22821 22825 22826 22827 22831 22832 22837 22839 22842 22844 22847 22850 22855 22857 22858 22861 22862 22868 22870 22871
-		22874 22875 22877 22883 22890 22899 22900 22906 22908 22910 22912 22915 22918 22920 22924 22928 22929 22931 22934 22935 22936 22938 22947 22949 22950 22951 22954 22956 22958 22963
-		22965 22966 22970 22975 22978 22981 22982 22984 22985 22988 22989 22990 22992 22994 22996 23001 23005 23008 23009 23010 23014 23017 23018 23019 23021 23028 23029 23032 23034 23036
-		23043 23045 23046 23047 23049 23053 23056 23057 23061 23064 23065 23070 23075 23076 23078 23080 23081 23082 23083 23089 23092 23093 23096 23101 23106 23112 23116 23119 23124 23127
-		23129 23131 23132 23138 23139 23144 23146 23147 23148 23150 23151 23154 23156 23159 23162 23164 23169 23175 23180 23182 23191 23197 23198 23200 23201 23206 23207 23208 23213 23215
-		23219 23221 23222 23225 23229 23231 23237 23244 23245 23246 23250 23252 23254 23255 23256 23257 23259 23263 23266 23271 23272 23273 23276 23277 23279 23282 23287 23288 23295 23296
-		23299 23302 23304 23308 23309 23317 23320 23322 23324 23325 23327 23330 23335 23338 23341 23342 23349 23351 23352 23355 23357 23358 23361 23364 23369 23371 23374 23380 23394 23403
-		23404 23406 23408 23409 23413 23414 23416 23417 23418 23420 23429 23431 23432 23433 23437 23438 23444 23445 23461 23463 23464 23465 23468 23469 23472 23473 23478 23480 23482 23484
-		23486 23487 23488 23490 23493 23500 23502 23504 23505 23511 23512 23521 23523 23524 23525 23526 23528 23529 23533 23534 23538 23539 23542 23546 23551 23552 23554 23555 23556 23558
-		23559 23563 23574 23579 23580 23584 23585 23586 23587 23588 23591 23593 23597 23611 23612 23613 23616 23622 23623 23625 23626 23627 23628 23629 23633 23637 23638 23642 23644 23646
-		23648 23649 23653 23655 23656 23661 23669 23678 23679 23680 23682 23683 23685 23690 23696 23697 23698 23702 23705 23707 23710 23711 23712 23714 23719 23729 23736 23738 23745 23746
-		23748 23750 23752 23760 23761 23764 23765 23771 23772 23773 23779 23782 23783 23788 23790 23795 23796 23797 23799 23801 23803 23804 23813 23814 23815 23818 23820 23826 23830 23831
-		23832 23834 23838 23844 23845 23847 23848 23849 23850 23851 23852 23854 23861 23865 23866 23869 23871 23872 23878 23883 23884 23885 23887 23893 23895 23899 23901 23902 23906 23907
-		23910 23912 23913 23917 23919 23925 23926 23928 23929 23930 23931 23932 23935 23937 23938 23943 23951 23953 23959 23964 23966 23967 23969 23970 23973 23976 23977 23978 23984 23985
-		23987 23992 23996 24007 24010 24016 24018 24019 24022 24024 24026 24030 24031 24034 24037 24045 24046 24050 24052 24053 24059 24063 24066 24069 24073 24075 24078 24081 24085 24088
-		24091 24092 24093 24098 24099 24102 24103 24105 24108 24111 24113 24117 24120 24130 24132 24134 24136 24143 24148 24150 24151 24157 24159 24165 24167 24173 24174 24181 24185 24187
-		24191 24193 24195 24204 24205 24208 24209 24210 24214 24217 24218 24221 24222 24224 24238 24240 24242 24249 24250 24251 24252 24264 24268 24269 24271 24274 24275 24278 24279 24280
-		24294 24296 24299 24303 24309 24311 24314 24316 24317 24323 24324 24325 24326 24327 24328 24330 24332 24333 24335 24336 24342 24343 24347 24349 24350 24354 24359 24360 24361 24363
-		24364 24369 24371 24374 24377 24381 24382 24387 24392 24393 24394 24396 24398 24399 24400 24402 24403 24408 24409 24411 24414 24420 24423 24424 24428 24430 24432 24434 24436 24441
-		24442 24445 24448 24452 24455 24456 24460 24461 24464 24466 24467 24469 24471 24477 24478 24482 24484 24491 24493 24495 24500 24503 24512 24513 24522 24523 24524 24525 24527 24528
-		24533 24534 24535 24538 24543 24544 24545 24547 24556 24557 24561 24563 24566 24569 24572 24574 24582 24584 24585 24586 24589 24590 24591 24592 24597 24598 24600 24601 24605 24606
-		24608 24609 24610 24611 24613 24614 24616 24617 24619 24624 24625 24627 24633 24637 24638 24642 24647 24648 24649 24651 24656 24658 24664 24672 24673 24674 24677 24679 24680 24688
-		24690 24692 24693 24696 24698 24699 24700 24701 24703 24704 24705 24707 24710 24712 24713 24714 24717 24718 24719 24720 24725 24727 24732 24734 24741 24743 24745 24753 24754 24757
-		24767 24768 24770 24774 24779 24781 24783 24784 24790 24791 24792 24793 24794 24795 24796 24798 24799 24804 24806 24810 24817 24819 24820 24824 24825 24827 24830 24832 24835 24836
-		24842 24843 24847 24850 24854 24855 24856 24857 24858 24863 24865 24870 24873 24874 24875 24877 24878 24879 24880 24884 24894 24900 24909 24910 24912 24914 24917 24918 24919 24920
-		24925 24937 24944 24945 24947 24949 24951 24953 24954 24955 24957 24959 24960 24969 24970 24972 24974 24975 24984 24994 24995 25000 25001 25004 25007 25010 25013 25017 25020 25027
-		25031 25035 25038 25043 25045 25047 25050 25052 25053 25055 25059 25064 25065 25069 25071 25074 25076 25078 25079 25080 25082 25086 25088 25093 25097 25098 25101 25103 25106 25108
-		25112 25113 25118 25119 25120 25124 25125 25126 25129 25132 25136 25139 25142 25149 25154 25157 25158 25162 25163 25167 25168 25170 25174 25177 25190 25192 25193 25194 25197 25198
-		25203 25204 25209 25218 25222 25229 25232 25233 25235 25238 25239 25242 25243 25251 25252 25253 25257 25264 25265 25267 25268 25270 25273 25276 25281 25285 25287 25290 25291 25293
-		25294 25302 25305 25306 25307 25309 25311 25312 25314 25317 25319 25325 25326 25330 25334 25341 25342 25346 25349 25350 25355 25357 25363 25364 25365 25369 25377 25378 25388 25389
-		25390 25391 25396 25398 25399 25401 25402 25409 25413 25414 25419 25422 25424 25434 25438 25444 25449 25453 25457 25461 25462 25465 25468 25473 25475 25476 25478 25480 25486 25490
-		25496 25499 25502 25504 25508 25513 25514 25516 25518 25520 25526 25528 25530 25531 25537 25540 25541 25547 25548 25550 25552 25553 25557 25559 25564 25567 25571 25574 25577 25580
-		25586 25588 25589 25592 25594 25598 25601 25605 25609 25610 25614 25616 25618 25620 25624 25627 25631 25636 25639 25642 25645 25647 25648 25649 25651 25653 25656 25657 25659 25661
-		25664 25665 25669 25670 25672 25675 25677 25678 25682 25684 25686 25687 25692 25694 25695 25697 25702 25709 25710 25711 25713 25715 25716 25717 25718 25719 25723 25732 25733 25738
-		25739 25740 25746 25747 25748 25755 25758 25760 25762 25765 25768 25771 25775 25776 25777 25786 25787 25790 25794 25795 25797 25798 25799 25801 25803 25806 25810 25813 25814 25815
-		25818 25827 25836 25845 25846 25848 25849 25853 25858 25859 25861 25863 25875 25876 25877 25878 25879 25880 25882 25883 25884 25890 25896 25899 25900 25903 25909 25915 25917 25919
-		25921 25922 25925 25927 25930 25932 25933 25935 25936 25938 25939 25943 25944 25947 25948 25950 25952 25953 25961 25963 25965 25967 25970 25973 25979 25984 25985 25987 25991 25995
-		26001 26003 26007 26014 26016 26018 26019 26020 26022 26024 26028 26037 26049 26053 26054 26058 26061 26063 26064 26068 26072 26076 26079 26081 26083 26093 26097 26104 26106 26107
-		26108 26112 26113 26114 26116 26119 26121 26122 26124 26129 26131 26132 26141 26142 26145 26146 26147 26149 26152 26155 26156 26158 26160 26161 26163 26164 26165 26166 26169 26173
-		26174 26176 26181 26182 26187 26188 26191 26192 26195 26197 26199 26200 26202 26204 26205 26209 26213 26216 26217 26220 26221 26223 26225 26234 26235 26241 26242 26252 26256 26258
-		26260 26263 26266 26267 26268 26270 26271 26273 26277 26283 26284 26289 26296 26297 26298 26299 26300 26305 26306 26309 26315 26316 26318 26319 26320 26324 26325 26326 26328 26333
-		26334 26336 26338 26339 26343 26350 26353 26355 26358 26359 26365 26366 26368 26369 26370 26371 26374 26375 26378 26383 26385 26386 26390 26393 26394 26397 26399 26400 26403 26406
-		26408 26417 26421 26422 26423 26426 26427 26432 26435 26440 26449 26454 26455 26460 26461 26464 26467 26469 26470 26471 26474 26477 26479 26484 26488 26490 26492 26496 26497 26499
-		26504 26508 26510 26514 26515 26517 26526 26528 26529 26530 26532 26534 26535 26538 26551 26552 26555 26557 26558 26559 26563 26567 26568 26573 26574 26576 26584 26585 26586 26588
-		26589 26594 26599 26603 26607 26611 26617 26618 26619 26626 26627 26631 26634 26638 26643 26646 26647 26648 26653 26657 26659 26661 26671 26673 26677 26680 26685 26687 26688 26689
-		26692 26694 26700 26702 26708 26710 26711 26715 26717 26721 26722 26726 26729 26730 26731 26732 26739 26747 26751 26752 26756 26757 26759 26760 26761 26764 26768 26770 26773 26774
-		26775 26776 26780 26786 26789 26790 26791 26792 26793 26794 26797 26798 26801 26805 26806 26812 26815 26822 26823 26824 26825 26827 26832 26834 26837 26840 26841 26842 26843 26844
-		26845 26846 26847 26848 26849 26854 26855 26857 26860 26865 26866 26870 26874 26883 26884 26886 26888 26890 26892 26893 26894 26898 26902 26903 26905 26906 26909 26912 26915 26920
-		26923 26929 26934 26936 26937 26942 26948 26949 26954 26958 26959 26961 26965 26967 26968 26980 26981 26983 26986 26991 26994 26995 26997 27003 27006 27011 27013 27014 27015 27018
-		27023 27036 27037 27039 27040 27045 27048 27050 27052 27055 27058 27059 27061 27064 27069 27070 27076 27081 27082 27091 27095 27583 27585
-	}
-	regions = { # all of Westeros south of the Neck except Rhoynish Dorne
-		world_westeros_the_neck
+	regions = {
 		world_westeros_the_north_mainland
 		world_westeros_the_crownlands_crackclaw
 		world_westeros_the_crownlands_valyrian_north_islands
@@ -4083,9 +4548,273 @@ graphical_western = {
 		world_essos_norvos
 		world_essos_the_axe
 		world_essos_qohor_north
+		world_essos_ghoyan_drohe_north
+		world_essos_ny_sar_north
+		world_essos_ar_noy_north
 	}
 	duchies = {
 		d_bear_island
+	}
+	provinces = {
+		# EETLV additions (re-applied September 6th 2026)
+		12116 12118 12119 12122 12128 12132 12134 12138 12139 12145 12149 12151 12161 12162 12168 12170 12173 12179 12180 12181
+		12183 12192 12197 12201 12203 12209 12210 12211 12215 12217 12218 12219 12229 12232 12233 12236 12237 12239 12240 12247
+		12248 12251 12252 12253 12255 12259 12271 12272 12273 12275 12278 12280 12283 12288 12291 12292 12293 12297 12299 12301
+		12302 12305 12307 12311 12317 12322 12326 12334 12335 12344 12345 12347 12348 12350 12354 12357 12358 12360 12366 12367
+		12371 12372 12376 12380 12382 12385 12386 12387 12388 12389 12390 12396 12398 12399 12402 12406 12408 12417 12419 12423
+		12434 12437 12439 12441 12448 12449 12452 12453 12455 12457 12462 12472 12473 12477 12479 12484 12494 12498 12500 12501
+		12502 12505 12508 12509 12510 12511 12513 12514 12516 12520 12523 12524 12527 12529 12532 12534 12535 12537 12544 12545
+		12546 12547 12554 12557 12559 12562 12564 12568 12569 12571 12575 12585 12588 12596 12597 12600 12602 12603 12606 12607
+		12608 12609 12612 12613 12616 12617 12620 12623 12624 12631 12634 12635 12636 12637 12640 12642 12652 12656 12658 12659
+		12664 12665 12666 12668 12669 12673 12674 12678 12680 12681 12683 12684 12687 12689 12698 12701 12702 12708 12710 12715
+		12716 12722 12723 12725 12727 12728 12733 12734 12737 12748 12750 12754 12755 12760 12763 12764 12767 12768 12769 12770
+		12771 12772 12773 12774 12776 12778 12782 12786 12790 12792 12794 12797 12801 12803 12807 12808 12810 12815 12816 12822
+		12823 12824 12827 12830 12832 12833 12834 12836 12837 12844 12846 12857 12858 12859 12860 12862 12864 12865 12866 12867
+		12874 12876 12877 12886 12887 12892 12894 12897 12903 12911 12912 12915 12923 12924 12926 12934 12935 12939 12940 12941
+		12942 12943 12946 12948 12951 12954 12956 12958 12959 12962 12966 12969 12971 12973 12977 12982 12984 12992 12994 12996
+		12998 13000 13001 13003 13012 13013 13014 13015 13018 13019 13036 13037 13045 13046 13049 13050 13051 13052 13053 13055
+		13059 13061 13064 13065 13066 13069 13076 13079 13087 13089 13095 13096 13098 13099 13107 13108 13114 13117 13118 13119
+		13120 13121 13124 13125 13130 13131 13132 13139 13142 13144 13146 13147 13148 13150 13154 13156 13157 13163 13164 13165
+		13167 13168 13173 13175 13177 13181 13182 13183 13189 13194 13197 13200 13203 13204 13207 13208 13209 13212 13217 13218
+		13219 13220 13227 13231 13239 13240 13244 13245 13248 13254 13257 13259 13261 13264 13266 13268 13278 13280 13281 13283
+		13284 13292 13294 13295 13297 13303 13304 13305 13306 13307 13311 13314 13318 13320 13321 13324 13325 13328 13331 13334
+		13335 13338 13341 13343 13344 13345 13350 13357 13359 13362 13364 13365 13368 13371 13374 13377 13380 13382 13384 13385
+		13388 13395 13396 13398 13399 13403 13407 13408 13412 13413 13417 13422 13425 13426 13429 13430 13432 13433 13434 13442
+		13448 13454 13461 13463 13470 13475 13479 13480 13481 13482 13486 13487 13490 13500 13501 13503 13504 13515 13516 13520
+		13527 13528 13529 13531 13534 13535 13539 13540 13543 13547 13549 13550 13554 13562 13566 13567 13573 13574 13579 13581
+		13583 13588 13592 13594 13595 13601 13607 13608 13612 13613 13626 13630 13637 13641 13642 13643 13647 13649 13650 13651
+		13654 13660 13661 13662 13668 13672 13674 13675 13680 13682 13685 13692 13693 13699 13704 13706 13707 13711 13723 13726
+		13728 13731 13732 13734 13736 13737 13739 13740 13741 13748 13750 13754 13757 13758 13759 13760 13763 13771 13773 13774
+		13776 13780 13785 13788 13791 13793 13795 13797 13802 13803 13804 13808 13811 13814 13824 13829 13831 13834 13839 13843
+		13844 13845 13846 13849 13852 13853 13858 13860 13861 13868 13870 13871 13872 13873 13874 13891 13897 13899 13906 13911
+		13912 13917 13924 13925 13931 13932 13933 13934 13944 13945 13954 13959 13962 13963 13964 13970 13971 13973 13979 13985
+		13986 13987 13989 14011 14012 14014 14015 14016 14017 14019 14022 14027 14028 14030 14031 14036 14037 14041 14046 14047
+		14049 14054 14056 14061 14062 14069 14070 14080 14085 14091 14094 14098 14099 14101 14104 14105 14107 14111 14112 14113
+		14117 14120 14123 14126 14127 14128 14131 14132 14142 14143 14145 14149 14152 14153 14158 14161 14171 14172 14173 14179
+		14181 14182 14183 14184 14187 14188 14190 14191 14196 14197 14199 14202 14203 14204 14206 14207 14209 14213 14219 14220
+		14224 14226 14230 14232 14237 14240 14241 14242 14244 14246 14251 14252 14253 14254 14258 14259 14261 14264 14265 14266
+		14269 14271 14277 14280 14286 14293 14295 14297 14299 14300 14304 14309 14310 14315 14319 14325 14329 14334 14336 14337
+		14346 14347 14354 14358 14359 14360 14361 14376 14377 14378 14384 14394 14401 14407 14411 14412 14413 14416 14419 14422
+		14424 14435 14437 14438 14439 14440 14444 14447 14448 14450 14452 14453 14456 14457 14459 14460 14461 14463 14465 14468
+		14472 14477 14478 14479 14483 14485 14486 14489 14491 14494 14495 14497 14504 14505 14509 14513 14516 14518 14519 14521
+		14524 14525 14529 14530 14536 14538 14541 14544 14549 14551 14555 14558 14565 14567 14569 14570 14571 14576 14577 14583
+		14584 14586 14596 14597 14598 14602 14605 14607 14608 14610 14611 14614 14619 14620 14621 14622 14624 14625 14627 14634
+		14636 14637 14638 14639 14640 14649 14653 14664 14667 14674 14675 14677 14679 14681 14682 14687 14692 14694 14698 14699
+		14701 14704 14715 14716 14720 14723 14729 14733 14736 14737 14739 14746 14748 14749 14750 14751 14754 14755 14759 14761
+		14763 14767 14768 14769 14770 14771 14773 14778 14784 14786 14788 14794 14795 14799 14801 14804 14805 14806 14807 14808
+		14809 14812 14814 14816 14818 14820 14821 14823 14825 14831 14832 14835 14838 14839 14842 14844 14846 14854 14856 14858
+		14869 14870 14875 14883 14897 14902 14903 14905 14906 14914 14919 14922 14926 14927 14930 14938 14944 14945 14948 14951
+		14953 14954 14959 14961 14964 14968 14973 14980 14984 14987 14989 14991 14994 15000 15004 15006 15007 15009 15010 15016
+		15019 15029 15031 15036 15037 15038 15041 15042 15045 15046 15047 15048 15049 15059 15060 15062 15064 15073 15074 15076
+		15085 15087 15089 15091 15093 15095 15101 15102 15108 15109 15111 15113 15116 15118 15119 15124 15125 15128 15129 15130
+		15131 15135 15136 15138 15141 15142 15144 15148 15150 15151 15153 15157 15160 15161 15162 15165 15166 15172 15173 15174
+		15176 15177 15180 15183 15192 15193 15194 15199 15200 15201 15202 15205 15206 15210 15211 15212 15214 15216 15220 15224
+		15227 15228 15230 15231 15239 15252 15257 15261 15262 15265 15271 15274 15276 15282 15284 15286 15287 15292 15295 15299
+		15302 15304 15306 15309 15314 15315 15319 15320 15321 15322 15323 15329 15332 15333 15338 15340 15342 15346 15358 15359
+		15360 15363 15369 15370 15371 15373 15375 15377 15382 15383 15390 15392 15393 15397 15400 15402 15403 15404 15405 15406
+		15416 15417 15422 15424 15430 15436 15438 15446 15451 15453 15454 15456 15464 15466 15467 15469 15470 15471 15472 15479
+		15480 15486 15489 15491 15492 15497 15500 15507 15513 15516 15517 15520 15524 15528 15534 15535 15539 15541 15542 15544
+		15545 15546 15553 15562 15563 15565 15567 15568 15571 15573 15574 15575 15576 15578 15580 15582 15583 15585 15588 15590
+		15591 15592 15593 15595 15604 15605 15613 15615 15619 15628 15629 15632 15639 15640 15641 15643 15644 15646 15647 15653
+		15654 15655 15657 15658 15660 15661 15666 15669 15672 15673 15674 15680 15682 15688 15689 15700 15702 15707 15708 15709
+		15710 15716 15717 15722 15723 15724 15735 15739 15742 15743 15744 15747 15749 15753 15760 15762 15770 15772 15774 15776
+		15779 15782 15783 15794 15798 15802 15806 15808 15810 15811 15816 15817 15823 15824 15829 15831 15832 15835 15836 15846
+		15847 15852 15853 15854 15855 15865 15867 15869 15877 15882 15884 15887 15888 15889 15893 15895 15900 15903 15905 15906
+		15910 15913 15919 15924 15932 15933 15936 15938 15941 15945 15949 15950 15953 15956 15958 15965 15966 15972 15976 15979
+		15982 15987 15990 15991 15993 15997 15998 15999 16000 16001 16002 16008 16010 16013 16018 16022 16023 16028 16029 16035
+		16038 16041 16042 16044 16047 16048 16049 16052 16054 16058 16076 16077 16082 16084 16087 16094 16096 16098 16100 16101
+		16102 16103 16107 16108 16109 16111 16112 16113 16117 16119 16125 16126 16135 16136 16137 16138 16139 16145 16148 16152
+		16154 16155 16157 16158 16160 16164 16167 16172 16173 16174 16185 16188 16189 16190 16191 16195 16197 16199 16200 16201
+		16202 16208 16218 16222 16223 16231 16232 16234 16238 16239 16250 16251 16254 16258 16265 16266 16268 16273 16274 16279
+		16283 16284 16287 16290 16296 16297 16302 16303 16312 16313 16316 16318 16321 16322 16325 16330 16331 16339 16340 16342
+		16343 16347 16348 16349 16352 16353 16354 16355 16356 16359 16366 16367 16370 16374 16376 16382 16384 16392 16393 16394
+		16397 16401 16406 16408 16410 16413 16418 16424 16428 16436 16439 16447 16449 16450 16458 16469 16470 16473 16475 16477
+		16479 16481 16482 16483 16485 16486 16487 16489 16493 16495 16497 16499 16500 16502 16504 16505 16509 16512 16516 16521
+		16523 16525 16527 16530 16531 16532 16533 16536 16538 16540 16541 16547 16550 16551 16552 16553 16556 16559 16563 16564
+		16565 16566 16567 16575 16576 16577 16578 16588 16591 16593 16594 16605 16610 16613 16614 16617 16619 16620 16627 16628
+		16629 16631 16635 16637 16640 16641 16643 16644 16645 16646 16648 16649 16653 16655 16656 16657 16658 16661 16662 16663
+		16664 16667 16668 16675 16676 16688 16698 16699 16700 16704 16705 16708 16711 16712 16713 16717 16719 16723 16724 16726
+		16733 16735 16740 16741 16743 16744 16745 16746 16749 16750 16754 16759 16760 16761 16762 16763 16765 16768 16769 16771
+		16772 16776 16778 16781 16782 16785 16791 16796 16798 16799 16801 16808 16811 16812 16815 16816 16821 16825 16830 16832
+		16836 16837 16843 16845 16846 16847 16849 16853 16854 16857 16859 16861 16863 16870 16874 16877 16878 16882 16883 16888
+		16892 16897 16899 16901 16903 16904 16906 16908 16910 16911 16913 16915 16922 16923 16927 16928 16931 16934 16935 16941
+		16942 16946 16947 16948 16954 16959 16964 16967 16968 16971 16972 16976 16979 16981 16982 16985 16988 16991 16992 16993
+		16995 16997 17000 17001 17006 17010 17016 17019 17020 17024 17025 17031 17032 17033 17039 17040 17041 17044 17046 17049
+		17055 17056 17057 17058 17059 17062 17067 17070 17071 17072 17074 17078 17081 17082 17084 17085 17086 17090 17095 17097
+		17099 17101 17102 17109 17116 17118 17120 17123 17127 17128 17133 17141 17144 17145 17154 17155 17160 17165 17171 17172
+		17175 17178 17180 17183 17191 17194 17196 17200 17205 17207 17208 17209 17210 17211 17212 17218 17219 17224 17225 17226
+		17229 17236 17237 17241 17243 17247 17249 17250 17251 17253 17259 17262 17264 17268 17270 17274 17276 17278 17279 17281
+		17289 17292 17298 17299 17302 17306 17307 17312 17316 17320 17326 17327 17331 17332 17337 17338 17339 17340 17345 17346
+		17347 17348 17352 17355 17358 17361 17364 17366 17367 17378 17379 17381 17382 17384 17385 17388 17391 17400 17402 17403
+		17406 17407 17412 17413 17416 17417 17430 17434 17436 17440 17441 17442 17446 17448 17449 17453 17454 17456 17471 17472
+		17476 17479 17480 17488 17491 17492 17496 17508 17515 17516 17525 17528 17536 17538 17543 17544 17545 17546 17548 17553
+		17557 17561 17563 17564 17565 17566 17568 17572 17573 17575 17576 17577 17579 17582 17584 17587 17588 17591 17593 17596
+		17597 17598 17601 17603 17614 17615 17620 17621 17622 17625 17628 17630 17633 17635 17639 17641 17643 17645 17652 17658
+		17660 17662 17666 17671 17672 17693 17694 17695 17697 17702 17706 17707 17709 17711 17712 17713 17723 17724 17725 17728
+		17731 17733 17735 17736 17740 17746 17749 17750 17752 17757 17763 17765 17767 17771 17776 17779 17781 17782 17789 17790
+		17791 17792 17793 17794 17798 17800 17801 17802 17804 17808 17809 17813 17815 17817 17819 17820 17822 17830 17833 17837
+		17852 17853 17854 17857 17858 17859 17864 17865 17868 17870 17872 17877 17879 17881 17882 17886 17888 17890 17892 17893
+		17896 17897 17901 17902 17904 17905 17917 17918 17926 17927 17934 17945 17946 17948 17952 17953 17955 17956 17957 17958
+		17965 17967 17968 17969 17976 17977 17985 17987 17988 18000 18005 18010 18012 18013 18014 18016 18020 18021 18027 18032
+		18034 18036 18040 18046 18048 18052 18055 18059 18060 18064 18068 18069 18075 18077 18079 18080 18081 18083 18089 18090
+		18096 18102 18103 18109 18110 18111 18113 18115 18121 18122 18123 18125 18127 18130 18131 18136 18137 18138 18140 18143
+		18145 18153 18156 18159 18160 18162 18163 18164 18167 18171 18177 18178 18179 18180 18184 18185 18187 18188 18190 18198
+		18200 18202 18206 18207 18208 18210 18214 18218 18221 18224 18225 18226 18227 18228 18229 18234 18235 18236 18243 18246
+		18247 18248 18254 18256 18257 18258 18261 18269 18270 18272 18273 18280 18282 18284 18291 18301 18304 18306 18313 18314
+		18315 18320 18321 18322 18323 18324 18327 18329 18335 18337 18341 18344 18348 18350 18352 18356 18360 18361 18368 18372
+		18374 18376 18379 18382 18390 18392 18393 18409 18410 18412 18418 18419 18421 18435 18436 18439 18441 18444 18445 18446
+		18448 18451 18460 18463 18464 18465 18468 18474 18481 18484 18486 18490 18491 18500 18501 18502 18506 18510 18511 18514
+		18515 18520 18521 18522 18525 18526 18528 18532 18533 18534 18537 18542 18543 18548 18552 18553 18554 18559 18561 18565
+		18568 18573 18575 18579 18581 18584 18598 18601 18602 18604 18610 18614 18616 18629 18630 18631 18632 18635 18648 18649
+		18650 18651 18653 18654 18655 18659 18660 18662 18666 18672 18674 18675 18676 18678 18679 18681 18683 18685 18686 18688
+		18690 18693 18694 18698 18700 18703 18709 18711 18712 18713 18714 18715 18719 18722 18725 18730 18731 18735 18737 18738
+		18739 18743 18752 18754 18758 18759 18761 18763 18767 18769 18772 18773 18774 18776 18777 18786 18789 18797 18811 18813
+		18814 18815 18818 18819 18820 18823 18828 18830 18836 18840 18846 18850 18853 18855 18861 18865 18867 18868 18876 18878
+		18879 18882 18887 18888 18890 18891 18894 18895 18896 18897 18901 18902 18904 18909 18911 18912 18916 18920 18926 18928
+		18930 18935 18937 18939 18942 18948 18950 18951 18952 18953 18954 18955 18960 18961 18963 18968 18970 18979 18980 18981
+		18982 18985 18987 18990 18992 18994 18999 19002 19003 19005 19007 19012 19020 19021 19023 19024 19026 19027 19028 19032
+		19034 19038 19039 19041 19042 19048 19049 19052 19053 19054 19055 19057 19064 19066 19069 19070 19075 19078 19079 19083
+		19084 19085 19087 19088 19090 19091 19096 19102 19111 19113 19114 19116 19117 19118 19120 19121 19122 19125 19126 19128
+		19134 19137 19138 19139 19142 19143 19146 19151 19154 19157 19162 19168 19172 19174 19179 19180 19183 19187 19192 19194
+		19197 19200 19205 19209 19210 19211 19213 19214 19217 19218 19221 19223 19224 19228 19229 19231 19232 19235 19239 19243
+		19244 19245 19252 19255 19256 19258 19259 19261 19263 19264 19266 19267 19268 19269 19270 19272 19273 19274 19275 19276
+		19283 19284 19285 19286 19288 19289 19290 19292 19294 19300 19301 19305 19310 19313 19315 19316 19320 19321 19324 19326
+		19332 19333 19334 19337 19339 19342 19344 19345 19346 19347 19350 19352 19353 19356 19360 19362 19363 19366 19367 19368
+		19369 19374 19380 19384 19386 19388 19389 19391 19394 19395 19396 19400 19401 19404 19406 19407 19415 19421 19423 19425
+		19427 19428 19430 19435 19439 19444 19445 19449 19460 19467 19468 19482 19486 19487 19496 19497 19498 19503 19504 19508
+		19518 19520 19521 19522 19523 19526 19535 19536 19537 19538 19540 19545 19546 19554 19557 19562 19564 19565 19567 19570
+		19571 19573 19575 19581 19582 19589 19591 19593 19595 19596 19598 19601 19604 19609 19613 19616 19619 19620 19628 19629
+		19631 19633 19637 19638 19640 19642 19643 19647 19651 19654 19659 19665 19668 19671 19676 19680 19681 19682 19688 19690
+		19692 19697 19698 19700 19715 19716 19719 19720 19722 19725 19726 19731 19732 19737 19738 19739 19744 19749 19750 19753
+		19755 19765 19767 19768 19773 19777 19779 19782 19783 19784 19786 19794 19795 19797 19798 19802 19804 19805 19806 19807
+		19808 19811 19812 19814 19815 19817 19818 19819 19820 19823 19824 19828 19832 19837 19839 19846 19850 19854 19861 19866
+		19868 19869 19874 19881 19882 19887 19891 19893 19895 19896 19898 19902 19903 19908 19909 19911 19912 19913 19914 19915
+		19917 19918 19921 19924 19927 19931 19940 19942 19943 19944 19945 19946 19947 19960 19962 19964 19968 19971 19972 19975
+		19976 19977 19979 19980 19982 19989 19998 20000 20001 20003 20004 20007 20008 20010 20014 20016 20017 20022 20028 20036
+		20037 20042 20045 20046 20050 20051 20053 20054 20056 20057 20058 20061 20062 20064 20067 20068 20071 20076 20077 20080
+		20083 20084 20085 20086 20088 20089 20090 20095 20096 20097 20098 20103 20123 20124 20127 20129 20135 20139 20140 20142
+		20145 20146 20148 20150 20153 20154 20155 20156 20158 20161 20164 20165 20166 20172 20174 20176 20181 20182 20185 20186
+		20193 20196 20197 20201 20204 20205 20209 20210 20212 20213 20215 20217 20218 20219 20220 20221 20225 20228 20232 20233
+		20240 20246 20250 20252 20253 20255 20263 20266 20267 20268 20270 20273 20274 20276 20279 20280 20282 20285 20286 20287
+		20289 20297 20299 20305 20307 20310 20311 20313 20315 20319 20324 20332 20340 20341 20344 20345 20347 20353 20359 20360
+		20361 20362 20363 20365 20367 20369 20370 20372 20379 20380 20386 20389 20394 20395 20396 20397 20398 20399 20402 20404
+		20405 20407 20408 20410 20413 20420 20421 20424 20426 20427 20430 20431 20434 20437 20438 20439 20451 20452 20458 20463
+		20467 20469 20470 20472 20475 20476 20478 20482 20483 20484 20487 20489 20492 20495 20497 20498 20499 20500 20503 20505
+		20511 20512 20513 20514 20516 20517 20518 20522 20526 20528 20531 20534 20539 20544 20546 20564 20565 20568 20570 20571
+		20573 20579 20580 20581 20582 20585 20586 20589 20593 20595 20603 20604 20609 20610 20612 20613 20615 20619 20620 20623
+		20625 20627 20632 20634 20638 20643 20644 20646 20647 20650 20651 20654 20655 20658 20659 20663 20675 20678 20681 20686
+		20687 20688 20689 20692 20694 20695 20699 20700 20705 20706 20710 20712 20713 20715 20716 20717 20718 20720 20721 20722
+		20736 20740 20743 20749 20750 20751 20752 20755 20756 20760 20762 20763 20764 20765 20769 20774 20775 20783 20785 20789
+		20790 20793 20794 20795 20797 20800 20801 20802 20803 20806 20807 20808 20813 20817 20818 20820 20823 20825 20826 20828
+		20830 20831 20832 20834 20835 20840 20841 20842 20843 20844 20846 20847 20851 20856 20859 20863 20872 20881 20889 20890
+		20893 20898 20899 20901 20902 20903 20904 20906 20907 20912 20913 20916 20917 20918 20920 20921 20923 20926 20929 20930
+		20942 20954 20957 20958 20961 20962 20967 20968 20976 20981 20984 20988 20990 20993 20997 20998 21001 21002 21003 21004
+		21005 21006 21013 21014 21016 21017 21018 21024 21026 21028 21029 21030 21031 21034 21035 21036 21038 21040 21046 21051
+		21052 21062 21063 21064 21066 21068 21071 21074 21077 21081 21083 21086 21087 21089 21090 21091 21094 21095 21096 21097
+		21098 21100 21102 21103 21105 21106 21116 21120 21124 21125 21135 21138 21142 21151 21157 21159 21161 21163 21167 21174
+		21175 21177 21179 21181 21182 21184 21186 21187 21193 21194 21197 21200 21203 21207 21212 21213 21216 21222 21225 21226
+		21230 21236 21237 21239 21246 21247 21248 21249 21251 21254 21255 21260 21262 21266 21267 21270 21273 21274 21276 21277
+		21282 21286 21291 21294 21296 21299 21303 21304 21305 21306 21307 21308 21313 21314 21316 21318 21323 21324 21326 21327
+		21328 21331 21333 21334 21335 21338 21343 21344 21348 21352 21357 21358 21359 21361 21362 21367 21370 21371 21374 21375
+		21376 21377 21387 21391 21397 21398 21399 21402 21403 21405 21406 21413 21417 21419 21421 21422 21425 21428 21432 21437
+		21439 21443 21444 21445 21448 21449 21451 21454 21457 21463 21467 21473 21474 21481 21482 21484 21492 21494 21495 21498
+		21505 21508 21509 21514 21515 21518 21520 21523 21525 21532 21534 21541 21544 21545 21547 21549 21551 21552 21555 21556
+		21558 21559 21562 21564 21574 21577 21579 21584 21588 21590 21595 21597 21601 21607 21610 21615 21619 21620 21632 21633
+		21634 21636 21639 21640 21642 21644 21646 21656 21657 21668 21671 21673 21676 21677 21678 21683 21690 21695 21698 21700
+		21703 21705 21707 21714 21718 21719 21720 21725 21726 21728 21732 21733 21741 21745 21747 21748 21749 21753 21755 21756
+		21758 21759 21761 21762 21763 21765 21767 21770 21773 21775 21776 21778 21781 21787 21788 21790 21791 21794 21795 21798
+		21801 21802 21803 21805 21809 21810 21811 21816 21821 21827 21833 21834 21835 21836 21837 21838 21840 21844 21850 21853
+		21856 21861 21865 21866 21869 21870 21873 21874 21877 21878 21881 21891 21892 21894 21897 21900 21901 21903 21904 21911
+		21912 21918 21920 21927 21931 21932 21934 21936 21937 21939 21940 21942 21945 21946 21949 21950 21955 21957 21958 21964
+		21967 21969 21971 21972 21974 21975 21976 21984 21986 21992 22000 22001 22013 22021 22022 22025 22029 22033 22037 22046
+		22053 22058 22060 22062 22067 22076 22079 22080 22081 22082 22091 22092 22093 22095 22096 22099 22101 22103 22104 22105
+		22107 22113 22117 22120 22123 22144 22148 22155 22160 22164 22167 22168 22170 22171 22178 22181 22182 22184 22188 22189
+		22197 22199 22201 22203 22207 22211 22216 22221 22226 22229 22238 22240 22241 22244 22248 22251 22253 22256 22265 22271
+		22275 22276 22279 22282 22284 22285 22286 22289 22291 22292 22293 22299 22300 22303 22307 22316 22321 22324 22327 22332
+		22333 22339 22341 22343 22344 22353 22355 22358 22364 22365 22374 22378 22379 22383 22390 22391 22392 22396 22398 22400
+		22402 22404 22405 22406 22407 22412 22413 22414 22416 22417 22418 22420 22425 22427 22428 22429 22431 22432 22438 22439
+		22440 22441 22442 22449 22451 22452 22453 22459 22460 22462 22465 22466 22467 22468 22476 22480 22481 22482 22486 22487
+		22490 22495 22499 22501 22502 22503 22506 22508 22509 22513 22518 22522 22525 22528 22529 22531 22532 22533 22537 22539
+		22542 22544 22547 22548 22549 22550 22553 22558 22559 22560 22562 22563 22564 22565 22566 22567 22568 22570 22571 22573
+		22579 22581 22583 22584 22588 22592 22593 22595 22610 22612 22613 22616 22618 22620 22621 22624 22625 22628 22635 22639
+		22640 22643 22644 22646 22647 22649 22652 22654 22655 22662 22663 22665 22666 22667 22671 22674 22675 22679 22683 22685
+		22692 22693 22694 22698 22700 22703 22708 22709 22711 22717 22719 22720 22723 22725 22730 22731 22733 22734 22736 22737
+		22740 22742 22743 22748 22751 22753 22755 22756 22761 22762 22763 22765 22772 22773 22777 22785 22789 22790 22793 22794
+		22796 22803 22804 22805 22806 22807 22808 22813 22815 22819 22821 22825 22826 22827 22831 22832 22837 22839 22842 22844
+		22847 22850 22855 22857 22858 22861 22862 22868 22870 22871 22874 22875 22877 22883 22890 22899 22900 22906 22908 22910
+		22912 22915 22918 22920 22924 22928 22929 22931 22934 22935 22936 22938 22947 22949 22950 22951 22954 22956 22958 22963
+		22965 22966 22970 22975 22978 22981 22982 22984 22985 22988 22989 22990 22992 22994 22996 23001 23005 23008 23009 23010
+		23014 23017 23018 23019 23021 23028 23029 23032 23034 23036 23043 23045 23046 23047 23049 23053 23056 23057 23061 23064
+		23065 23070 23075 23076 23078 23080 23081 23082 23083 23089 23092 23093 23096 23101 23106 23112 23116 23119 23124 23127
+		23129 23131 23132 23138 23139 23144 23146 23147 23148 23150 23151 23154 23156 23159 23162 23164 23169 23175 23180 23182
+		23191 23197 23198 23200 23201 23206 23207 23208 23213 23215 23219 23221 23222 23225 23229 23231 23237 23244 23245 23246
+		23250 23252 23254 23255 23256 23257 23259 23263 23266 23271 23272 23273 23276 23277 23279 23282 23287 23288 23295 23296
+		23299 23302 23304 23308 23309 23317 23320 23322 23324 23325 23327 23330 23335 23338 23341 23342 23349 23351 23352 23355
+		23357 23358 23361 23364 23369 23371 23374 23380 23394 23403 23404 23406 23408 23409 23413 23414 23416 23417 23418 23420
+		23429 23431 23432 23433 23437 23438 23444 23445 23461 23463 23464 23465 23468 23469 23472 23473 23478 23480 23482 23484
+		23486 23487 23488 23490 23493 23500 23502 23504 23505 23511 23512 23521 23523 23524 23525 23526 23528 23529 23533 23534
+		23538 23539 23542 23546 23551 23552 23554 23555 23556 23558 23559 23563 23574 23579 23580 23584 23585 23586 23587 23588
+		23591 23593 23597 23611 23612 23613 23616 23622 23623 23625 23626 23627 23628 23629 23633 23637 23638 23642 23644 23646
+		23648 23649 23653 23655 23656 23661 23669 23678 23679 23680 23682 23683 23685 23690 23696 23697 23698 23702 23705 23707
+		23710 23711 23712 23714 23719 23729 23736 23738 23745 23746 23748 23750 23752 23760 23761 23764 23765 23771 23772 23773
+		23779 23782 23783 23788 23790 23795 23796 23797 23799 23801 23803 23804 23813 23814 23815 23818 23820 23826 23830 23831
+		23832 23834 23838 23844 23845 23847 23848 23849 23850 23851 23852 23854 23861 23865 23866 23869 23871 23872 23878 23883
+		23884 23885 23887 23893 23895 23899 23901 23902 23906 23907 23910 23912 23913 23917 23919 23925 23926 23928 23929 23930
+		23931 23932 23935 23937 23938 23943 23951 23953 23959 23964 23966 23967 23969 23970 23973 23976 23977 23978 23984 23985
+		23987 23992 23996 24007 24010 24016 24018 24019 24022 24024 24026 24030 24031 24034 24037 24045 24046 24050 24052 24053
+		24059 24063 24066 24069 24073 24075 24078 24081 24085 24088 24091 24092 24093 24098 24099 24102 24103 24105 24108 24111
+		24113 24117 24120 24130 24132 24134 24136 24143 24148 24150 24151 24157 24159 24165 24167 24173 24174 24181 24185 24187
+		24191 24193 24195 24204 24205 24208 24209 24210 24214 24217 24218 24221 24222 24224 24238 24240 24242 24249 24250 24251
+		24252 24264 24268 24269 24271 24274 24275 24278 24279 24280 24294 24296 24299 24303 24309 24311 24314 24316 24317 24323
+		24324 24325 24326 24327 24328 24330 24332 24333 24335 24336 24342 24343 24347 24349 24350 24354 24359 24360 24361 24363
+		24364 24369 24371 24374 24377 24381 24382 24387 24392 24393 24394 24396 24398 24399 24400 24402 24403 24408 24409 24411
+		24414 24420 24423 24424 24428 24430 24432 24434 24436 24441 24442 24445 24448 24452 24455 24456 24460 24461 24464 24466
+		24467 24469 24471 24477 24478 24482 24484 24491 24493 24495 24500 24503 24512 24513 24522 24523 24524 24525 24527 24528
+		24533 24534 24535 24538 24543 24544 24545 24547 24556 24557 24561 24563 24566 24569 24572 24574 24582 24584 24585 24586
+		24589 24590 24591 24592 24597 24598 24600 24601 24605 24606 24608 24609 24610 24611 24613 24614 24616 24617 24619 24624
+		24625 24627 24633 24637 24638 24642 24647 24648 24649 24651 24656 24658 24664 24672 24673 24674 24677 24679 24680 24688
+		24690 24692 24693 24696 24698 24699 24700 24701 24703 24704 24705 24707 24710 24712 24713 24714 24717 24718 24719 24720
+		24725 24727 24732 24734 24741 24743 24745 24753 24754 24757 24767 24768 24770 24774 24779 24781 24783 24784 24790 24791
+		24792 24793 24794 24795 24796 24798 24799 24804 24806 24810 24817 24819 24820 24824 24825 24827 24830 24832 24835 24836
+		24842 24843 24847 24850 24854 24855 24856 24857 24858 24863 24865 24870 24873 24874 24875 24877 24878 24879 24880 24884
+		24894 24900 24909 24910 24912 24914 24917 24918 24919 24920 24925 24937 24944 24945 24947 24949 24951 24953 24954 24955
+		24957 24959 24960 24969 24970 24972 24974 24975 24984 24994 24995 25000 25001 25004 25007 25010 25013 25017 25020 25027
+		25031 25035 25038 25043 25045 25047 25050 25052 25053 25055 25059 25064 25065 25069 25071 25074 25076 25078 25079 25080
+		25082 25086 25088 25093 25097 25098 25101 25103 25106 25108 25112 25113 25118 25119 25120 25124 25125 25126 25129 25132
+		25136 25139 25142 25149 25154 25157 25158 25162 25163 25167 25168 25170 25174 25177 25190 25192 25193 25194 25197 25198
+		25203 25204 25209 25218 25222 25229 25232 25233 25235 25238 25239 25242 25243 25251 25252 25253 25257 25264 25265 25267
+		25268 25270 25273 25276 25281 25285 25287 25290 25291 25293 25294 25302 25305 25306 25307 25309 25311 25312 25314 25317
+		25319 25325 25326 25330 25334 25341 25342 25346 25349 25350 25355 25357 25363 25364 25365 25369 25377 25378 25388 25389
+		25390 25391 25396 25398 25399 25401 25402 25409 25413 25414 25419 25422 25424 25434 25438 25444 25449 25453 25457 25461
+		25462 25465 25468 25473 25475 25476 25478 25480 25486 25490 25496 25499 25502 25504 25508 25513 25514 25516 25518 25520
+		25526 25528 25530 25531 25537 25540 25541 25547 25548 25550 25552 25553 25557 25559 25564 25567 25571 25574 25577 25580
+		25586 25588 25589 25592 25594 25598 25601 25605 25609 25610 25614 25616 25618 25620 25624 25627 25631 25636 25639 25642
+		25645 25647 25648 25649 25651 25653 25656 25657 25659 25661 25664 25665 25669 25670 25672 25675 25677 25678 25682 25684
+		25686 25687 25692 25694 25695 25697 25702 25709 25710 25711 25713 25715 25716 25717 25718 25719 25723 25732 25733 25738
+		25739 25740 25746 25747 25748 25755 25758 25760 25762 25765 25768 25771 25775 25776 25777 25786 25787 25790 25794 25795
+		25797 25798 25799 25801 25803 25806 25810 25813 25814 25815 25818 25827 25836 25845 25846 25848 25849 25853 25858 25859
+		25861 25863 25875 25876 25877 25878 25879 25880 25882 25883 25884 25890 25896 25899 25900 25903 25909 25915 25917 25919
+		25921 25922 25925 25927 25930 25932 25933 25935 25936 25938 25939 25943 25944 25947 25948 25950 25952 25953 25961 25963
+		25965 25967 25970 25973 25979 25984 25985 25987 25991 25995 26001 26003 26007 26014 26016 26018 26019 26020 26022 26024
+		26028 26037 26049 26053 26054 26058 26061 26063 26064 26068 26072 26076 26079 26081 26083 26093 26097 26104 26106 26107
+		26108 26112 26113 26114 26116 26119 26121 26122 26124 26129 26131 26132 26141 26142 26145 26146 26147 26149 26152 26155
+		26156 26158 26160 26161 26163 26164 26165 26166 26169 26173 26174 26176 26181 26182 26187 26188 26191 26192 26195 26197
+		26199 26200 26202 26204 26205 26209 26213 26216 26217 26220 26221 26223 26225 26234 26235 26241 26242 26252 26256 26258
+		26260 26263 26266 26267 26268 26270 26271 26273 26277 26283 26284 26289 26296 26297 26298 26299 26300 26305 26306 26309
+		26315 26316 26318 26319 26320 26324 26325 26326 26328 26333 26334 26336 26338 26339 26343 26350 26353 26355 26358 26359
+		26365 26366 26368 26369 26370 26371 26374 26375 26378 26383 26385 26386 26390 26393 26394 26397 26399 26400 26403 26406
+		26408 26417 26421 26422 26423 26426 26427 26432 26435 26440 26449 26454 26455 26460 26461 26464 26467 26469 26470 26471
+		26474 26477 26479 26484 26488 26490 26492 26496 26497 26499 26504 26508 26510 26514 26515 26517 26526 26528 26529 26530
+		26532 26534 26535 26538 26551 26552 26555 26557 26558 26559 26563 26567 26568 26573 26574 26576 26584 26585 26586 26588
+		26589 26594 26599 26603 26607 26611 26617 26618 26619 26626 26627 26631 26634 26638 26643 26646 26647 26648 26653 26657
+		26659 26661 26671 26673 26677 26680 26685 26687 26688 26689 26692 26694 26700 26702 26708 26710 26711 26715 26717 26721
+		26722 26726 26729 26730 26731 26732 26739 26747 26751 26752 26756 26757 26759 26760 26761 26764 26768 26770 26773 26774
+		26775 26776 26780 26786 26789 26790 26791 26792 26793 26794 26797 26798 26801 26805 26806 26812 26815 26822 26823 26824
+		26825 26827 26832 26834 26837 26840 26841 26842 26843 26844 26845 26846 26847 26848 26849 26854 26855 26857 26860 26865
+		26866 26870 26874 26883 26884 26886 26888 26890 26892 26893 26894 26898 26902 26903 26905 26906 26909 26912 26915 26920
+		26923 26929 26934 26936 26937 26942 26948 26949 26954 26958 26959 26961 26965 26967 26968 26980 26981 26983 26986 26991
+		26994 26995 26997 27003 27006 27011 27013 27014 27015 27018 27023 27036 27037 27039 27040 27045 27048 27050 27052 27055
+		27058 27059 27061 27064 27069 27070 27076 27081 27082 27091 27095 27583 27585
 	}
 }
 
@@ -4093,126 +4822,27 @@ graphical_mena = {
 	graphical = yes
 	color = { 255 255 0 }
 	regions = {
-# EE TempLoV Compatch:
-		world_essos_rhoyne world_essos_slavers_bay
 		world_westeros_dorne_rhoynish
+		# EETLV additions (re-applied September 6th 2026)
+		world_essos_rhoyne world_essos_slavers_bay
 	}
-	duchies = { # Essos Expanded: e_qarth, e_lhazar, e_sarnor, e_sothoryos, e_summer_isles, e_naath
-		d_R104G144B83
-		d_R107G39B102
-		d_R132G234B228
-		d_R138G113B254
-		d_R139G230B165
-		d_R152G107B185
-		d_R154G148B140
-		d_R154G226B97
-		d_R15G243B61
-		d_R161G200B9
-		d_R162G253B150
-		d_R168G53B18
-		d_R187G116B155
-		d_R195G123B114
-		d_R196G175B150
-		d_R201G149B127
-		d_R237G121B181
-		d_R251G71B132
-		d_R48G116B227
-		d_R56G50B236
-		d_R58G69B30
-		d_R60G1B218
-		d_R66G158B239
-		d_R67G9B102
-		d_R73G133B15
-		d_R73G169B117
-		d_R78G20B134
-		d_R88G13B155
-		d_R90G57B150
-		d_R95G51B86
-		d_R104G214B80
-		d_R110G255B130
-		d_R111G255B221
-		d_R113G164B41
-		d_R116G59B108
-		d_R11G59B233
-		d_R122G12B245
-		d_R12G187B142
-		d_R138G214B148
-		d_R140G37B103
-		d_R153G254B88
-		d_R165G143B36
-		d_R167G35B69
-		d_R173G29B222
-		d_R192G69B2
-		d_R193G200B79
-		d_R1G6B11
-		d_R225G47B160
-		d_R231G23B54
-		d_R238G196B139
-		d_R241G81B107
-		d_R24G232B25
-		d_R3G153B214
-		d_R98G157B224
-		d_R98G99B89
-		d_eetlv_wild_01
-		d_eetlv_wild_02
-		d_eetlv_wild_03
-		d_eetlv_wild_04
-		d_eetlv_wild_05
-		d_eetlv_wild_06
-		d_eetlv_wild_07
-		d_eetlv_wild_08
-		d_eetlv_wild_09
-		d_eetlv_wild_10
-		d_eetlv_wild_11
-		d_eetlv_wild_12
-		d_R113G237B226
-		d_R204G205B212
-		d_R210G115B75
-		d_R109G18B231
-		d_R113G235B150
-		d_R114G20B228
-		d_R120G124B181
-		d_R132G114B116
-		d_R141G56B178
-		d_R142G130B143
-		d_R144G166B39
-		d_R146G56B229
-		d_R164G162B93
-		d_R190G225B153
-		d_R198G233B16
-		d_R200G232B177
-		d_R200G250B80
-		d_R205G224B76
-		d_R206G85B199
-		d_R214G186B131
-		d_R216G227B230
-		d_R229G105B66
-		d_R30G190B79
-		d_R38G62B151
-		d_R54G55B57
-		d_R59G128B211
-		d_R80G145B180
-		d_R88G87B166
-		d_R103G163B139
-		d_R124G167B9
-		d_R131G64B72
-		d_R152G30B153
-		d_R177G111B163
-		d_R202G240B76
-		d_R205G235B19
-		d_R218G131B54
-		d_R31G5B22
-		d_R50G233B173
-		d_R141G72B14
+	duchies = {
+		# EETLV additions (re-applied September 6th 2026)
+		d_R1G6B11 d_R31G5B22 d_R192G69B2 d_R54G55B57 d_R58G69B30 d_R60G1B218 d_R67G9B102 d_R95G51B86 d_R98G99B89 d_R11G59B233 d_R124G167B9 d_R131G64B72 d_R141G72B14 d_R15G243B61 d_R161G200B9 d_R167G35B69 d_R168G53B18 d_R231G23B54 d_R24G232B25 d_R30G190B79
+		d_R38G62B151 d_R3G153B214 d_R56G50B236 d_R73G133B15 d_R78G20B134 d_R88G13B155 d_R88G87B166 d_R90G57B150 d_R104G144B83 d_R104G214B80 d_R107G39B102 d_R109G18B231 d_R113G164B41 d_R114G20B228 d_R116G59B108 d_R122G12B245 d_R12G187B142 d_R140G37B103 d_R141G56B178 d_R144G166B39
+		d_R146G56B229 d_R152G30B153 d_R153G254B88 d_R154G226B97 d_R164G162B93 d_R165G143B36 d_R173G29B222 d_R193G200B79 d_R198G233B16 d_R200G250B80 d_R202G240B76 d_R205G224B76 d_R205G235B19 d_R206G85B199 d_R210G115B75 d_R218G131B54 d_R225G47B160 d_R229G105B66 d_R241G81B107 d_R251G71B132
+		d_R48G116B227 d_R50G233B173 d_R59G128B211 d_R66G158B239 d_R73G169B117 d_R80G145B180 d_R98G157B224 d_R103G163B139 d_R110G255B130 d_R111G255B221 d_R113G235B150 d_R113G237B226 d_R120G124B181 d_R132G114B116 d_R132G234B228 d_R138G113B254 d_R138G214B148 d_R139G230B165 d_R142G130B143 d_R152G107B185
+		d_R154G148B140 d_R162G253B150 d_R177G111B163 d_R187G116B155 d_R190G225B153 d_R195G123B114 d_R196G175B150 d_R200G232B177 d_R201G149B127 d_R204G205B212 d_R214G186B131 d_R216G227B230 d_R237G121B181 d_R238G196B139 d_eetlv_wild_01 d_eetlv_wild_02 d_eetlv_wild_03 d_eetlv_wild_04 d_eetlv_wild_05 d_eetlv_wild_06
+		d_eetlv_wild_07 d_eetlv_wild_08 d_eetlv_wild_09 d_eetlv_wild_10 d_eetlv_wild_11 d_eetlv_wild_12
 	}
 }
 
 graphical_india = {
 	graphical = yes
 	color = { 0 255 0 }
-# regions = {
+	# regions = {
 
-# }
+	# }
 	provinces = {
 		8219
 		8220
@@ -4222,11 +4852,9 @@ graphical_india = {
 
 graphical_mediterranean = {
 	graphical = yes
-# color = { 0 0 255 }
+	#color = { 0 0 255 }
 	color = { 255 0 0 }
 	regions = {
-# EE TempLoV Compatch:
-		world_essos_volantis
 		world_stepstones
 		world_essos_pentos
 		world_essos_lys
@@ -4244,14 +4872,22 @@ graphical_mediterranean = {
 		world_westeros_the_riverlands_south
 		world_westeros_the_stormlands
 		world_westeros_dorne_stone
-		world_essos_rhoyne
 		world_essos_qohor_south
+		world_essos_chroyane
+		world_essos_ar_noy_south
+		world_essos_ny_sar_south
+		world_essos_ghoyan_drohe_south
+		# EETLV additions (re-applied September 6th 2026)
+		world_essos_volantis
 	}
 }
 
 graphical_steppe = {
 	graphical = yes
 	color = { 0 255 255 }
+	regions = {
+		world_essos_qohor_steppe
+	}
 	provinces = {
 		7291
 		7292
@@ -4275,944 +4911,23 @@ graphical_east_asia = {
 	provinces = {
 		7293
 	}
-	duchies = { # Essos Expanded: e_golden_yi_ti, e_leng, e_great_moraq, e_lesser_moraq, e_bloodless_men, e_cannibal_sands, e_hidden_sea, e_thousand_islands, e_ulthos, e_omber, e_jogos_nhai
-		d_R100G209B15
-		d_R103G34B31
-		d_R104G238B108
-		d_R106G34B26
-		d_R112G28B16
-		d_R115G164B11
-		d_R118G226B28
-		d_R119G203B117
-		d_R123G165B62
-		d_R123G69B44
-		d_R126G207B217
-		d_R126G55B188
-		d_R127G31B145
-		d_R128G163B201
-		d_R128G165B91
-		d_R129G169B173
-		d_R129G31B140
-		d_R12G131B170
-		d_R12G4B57
-		d_R131G200B113
-		d_R133G215B116
-		d_R133G93B231
-		d_R138G163B247
-		d_R140G173B221
-		d_R140G191B33
-		d_R140G63B133
-		d_R143G132B81
-		d_R143G224B96
-		d_R145G62B183
-		d_R146G124B54
-		d_R146G195B113
-		d_R147G113B69
-		d_R147G124B78
-		d_R147G241B217
-		d_R149G188B218
-		d_R152G226B139
-		d_R154G131B121
-		d_R155G213B113
-		d_R157G24B25
-		d_R15G78B55
-		d_R162G147B201
-		d_R162G163B218
-		d_R162G96B163
-		d_R164G158B236
-		d_R166G215B77
-		d_R166G7B230
-		d_R167G215B10
-		d_R170G1B201
-		d_R173G39B57
-		d_R174G82B237
-		d_R179G213B70
-		d_R184G102B177
-		d_R186G98B77
-		d_R187G97B55
-		d_R197G250B234
-		d_R198G191B13
-		d_R200G178B4
-		d_R204G32B182
-		d_R204G81B169
-		d_R209G244B199
-		d_R209G33B30
-		d_R216G170B210
-		d_R21G0B50
-		d_R220G50B93
-		d_R222G220B5
-		d_R224G121B183
-		d_R224G137B134
-		d_R224G201B152
-		d_R230G145B81
-		d_R232G107B142
-		d_R237G75B164
-		d_R23G122B200
-		d_R243G219B128
-		d_R246G38B101
-		d_R246G63B205
-		d_R24G149B3
-		d_R254G161B109
-		d_R255G46B176
-		d_R29G61B120
-		d_R2G223B70
-		d_R42G21B193
-		d_R43G59B222
-		d_R44G198B158
-		d_R55G175B124
-		d_R55G247B36
-		d_R59G123B179
-		d_R59G221B136
-		d_R5G53B50
-		d_R61G109B109
-		d_R63G211B67
-		d_R64G232B56
-		d_R65G217B122
-		d_R74G231B172
-		d_R79G198B89
-		d_R79G215B32
-		d_R82G4B39
-		d_R82G61B86
-		d_R83G108B44
-		d_R83G220B141
-		d_R84G146B204
-		d_R88G169B175
-		d_R88G177B122
-		d_R96G6B240
-		d_R99G52B102
-		d_eetlv_wilds_08
-		d_R192G168B147
-		d_R206G76B102
-		d_R228G175B102
-		d_R47G193B207
-		d_R108G205B118
-		d_R117G244B155
-		d_R15G248B48
-		d_R17G4B254
-		d_R180G130B18
-		d_R183G81B182
-		d_R214G61B80
-		d_R25G59B12
-		d_R28G255B120
-		d_R32G208B71
-		d_R34G51B9
-		d_R50G12B39
-		d_R123G214B68
-		d_R13G254B221
-		d_R145G141B153
-		d_R38G180B116
-		d_R104G124B189
-		d_R119G143B156
-		d_R11G232B14
-		d_R13G72B64
-		d_R158G10B113
-		d_R166G86B71
-		d_R178G220B218
-		d_R179G19B114
-		d_R181G76B165
-		d_R184G2B113
-		d_R192G133B221
-		d_R214G198B42
-		d_R217G108B230
-		d_R22G126B243
-		d_R22G66B24
-		d_R239G205B48
-		d_R254G116B0
-		d_R28G156B183
-		d_R35G62B235
-		d_R43G42B30
-		d_R49G138B7
-		d_R52G177B161
-		d_R60G23B175
-		d_R68G221B98
-		d_R72G96B9
-		d_R77G245B83
-		d_R80G19B19
-		d_R82G102B147
-		d_R83G216B139
-		d_R84G175B167
-		d_eetlv_wildm_02
-		d_eetlv_wildm_03
-		d_eetlv_wildm_04
-		d_eetlv_wildm_06
-		d_eetlv_wildm_07
-		d_eetlv_wildm_09
-		d_eetlv_wildm_10
-		d_eetlv_wildm_13
-		d_eetlv_wildm_14
-		d_eetlv_wilds_02
-		d_eetlv_wilds_10
-		d_R111G75B187
-		d_R122G121B140
-		d_R193G60B253
-		d_R220G226B155
-		d_R222G151B16
-		d_R232G202B38
-		d_R238G6B173
-		d_R240G127B159
-		d_R28G169B63
-		d_R41G226B41
-		d_R42G145B84
-		d_R45G162B231
-		d_R70G73B87
-		d_R81G64B118
-		d_eetlv_wildm_01
-		d_eetlv_wildm_05
-		d_eetlv_wildm_08
-		d_eetlv_wildm_11
-		d_eetlv_wildm_12
-		d_eetlv_wilds_06
-		d_R164G237B211
-		d_R1G86B152
-		d_R250G175B97
-		d_R32G145B229
-		d_R37G186B138
-		d_R44G38B62
-		d_R52G33B207
-		d_R6G17B202
-		d_R97G210B157
-		d_R48G26B112
-		d_R53G140B216
-		d_R57G49B210
-		d_R67G144B34
-		d_R77G214B155
-		d_R90G15B103
-		d_R148G142B163
-		d_R14G65B130
-		d_R168G6B61
-		d_R16G157B103
-		d_R16G61B151
-		d_R183G8B95
-		d_R1G24B200
-		d_R207G75B180
-		d_R208G238B46
-		d_R222G82B64
-		d_R23G248B166
-		d_R241G206B28
-		d_R25G165B157
-		d_R34G180B238
-		d_R46G158B212
-		d_R61G25B77
-		d_R62G111B152
-		d_R73G244B60
-		d_R83G120B90
-		d_R89G161B52
-		d_R20G128B134
-		d_R87G214B107
-		d_R90G171B108
-		d_R102G201B167
-		d_R106G176B143
-		d_R112G39B75
-		d_R11G129B100
-		d_R123G203B214
-		d_R133G181B31
-		d_R139G102B179
-		d_R139G221B148
-		d_R140G100B36
-		d_R143G96B105
-		d_R145G113B68
-		d_R147G232B129
-		d_R155G55B87
-		d_R155G69B191
-		d_R156G7B177
-		d_R159G138B147
-		d_R16G248B142
-		d_R170G220B142
-		d_R174G232B107
-		d_R179G199B57
-		d_R180G134B252
-		d_R184G97B29
-		d_R189G218B124
-		d_R19G206B105
-		d_R19G53B215
-		d_R202G176B250
-		d_R208G13B56
-		d_R210G235B19
-		d_R212G205B232
-		d_R215G35B147
-		d_R218G80B203
-		d_R221G250B127
-		d_R231G180B224
-		d_R245G84B157
-		d_R250G67B219
-		d_R251G79B255
-		d_R255G60B143
-		d_R255G68B131
-		d_R25G185B204
-		d_R27G189B204
-		d_R28G32B62
-		d_R29G161B233
-		d_R2G126B112
-		d_R30G132B29
-		d_R32G189B26
-		d_R37G183B63
-		d_R38G66B212
-		d_R48G134B93
-		d_R52G155B180
-		d_R55G111B55
-		d_R56G193B185
-		d_R57G171B81
-		d_R60G45B235
-		d_R60G66B58
-		d_R63G173B203
-		d_R66G224B167
-		d_R66G45B122
-		d_R69G215B129
-		d_R72G143B155
-		d_R72G14B18
-		d_R75G10B128
-		d_R75G157B114
-		d_R76G29B27
-		d_R83G236B170
-		d_R89G55B71
-		d_eetlv_wilds_04
-	}
-}
-
-world_westeros_seven_kingdoms_andals = {
-	regions = {
-		world_westeros_the_vale
-		world_westeros_the_riverlands
-		world_westeros_the_iron_islands
-		world_westeros_the_westerlands
-		world_westeros_the_crownlands
-		world_westeros_the_reach
-		world_westeros_the_stormlands
-	}
-}
-
-world_westeros_the_vale_of_arryn = {
 	duchies = {
-		d_the_giants_lance
-		d_gulltown
-		d_ironoaks
-		d_ninestars
-		d_old_anchor
-		d_strongstone
-		# d_runestone #Partial
-		# d_eastweald #Partial
-	}
-	counties = {
-		# d_runestone #Partial
-		c_runestone
-		c_bronzeguard
-		c_gullview
-		c_the_etchings
-		# c_witch_isle
-		# d_eastweald #Partial
-		c_longbow_hills
-		# c_ruthermont
-		c_sedgemore
-		# c_lyme
-		# c_brackenbrick_point
-		c_bowlyn
-		c_the_stills
-	}
-}
-
-world_westeros_the_vale_mountains = {
-	duchies = {
-		d_crowncrests
-		d_wickenden
-		d_strongsong
-	}
-}
-
-world_westeros_the_vale_fingers = {
-	duchies = {
-		d_hearts_home
-		d_the_drainlands
-		# d_eastweald #Partial
-		# d_grimholm #Partial
-	}
-	counties = {
-		# d_eastweald #Partial
-		# c_longbow_hills
-		c_ruthermont
-		# c_sedgemore
-		c_lyme
-		c_brackenbrick_point
-		# c_bowlyn
-		# c_the_stills
-		# d_grimholm #Partial
-		# c_the_paps
-		c_midlor_point
-		c_midlor
-		c_brownden
-		c_bommenstone
-	}
-}
-
-world_westeros_the_vale_north = {
-	duchies = {
-		d_snakewood_forest
-		d_the_cut
-		# d_northbreach #Partial
-	}
-	counties = {
-		# d_northbreach #Partial
-		c_hersy
-		# c_pebble
-		c_eventide
-		c_portmouth
-		c_reckshaw
-		c_scorched_vale
-		c_forgotten_shore
-		c_strikeguard
-	}
-}
-
-world_westeros_the_vale_isles = {
-	duchies = {
-		d_the_sisters
-		# d_runestone #Partial
-		# d_northbreach #Partial
-		# d_grimholm #Partial
-	}
-	counties = {
-		# d_runestone #Partial
-		# c_runestone
-		# c_bronzeguard
-		# c_gullview
-		# c_the_etchings
-		c_witch_isle
-		# d_northbreach #Partial
-		# c_hersy
-		c_pebble
-		# c_eventide
-		# c_portmouth
-		# c_reckshaw
-		# c_scorched_vale
-		# c_forgotten_shore
-		# c_strikeguard
-		# d_grimholm #Partial
-		c_the_paps
-		# c_midlor_point
-		# c_midlor
-		# c_brownden
-		# c_bommenstone
-	}
-}
-
-world_westeros_the_iron_islands_great_wyk = {
-	duchies = {
-		d_east_wyk
-		d_hardstone_hills
-	}
-}
-
-world_westeros_the_iron_islands_harlaw = {
-	duchies = {
-		d_harlaw
-	}
-}
-
-world_westeros_the_iron_islands_northern_islands = {
-	duchies = {
-		d_blacktyde
-		d_orkmont
-		d_old_wyk
-	}
-}
-
-world_westeros_the_iron_islands_southern_islands = {
-	duchies = {
-		d_pyke
-		d_saltcliffe
-	}
-}
-
-world_westeros_the_iron_islands_lonely = {
-	duchies = {
-		d_lonely_light
-	}
-}
-
-world_westeros_the_reach_minus_dornish_marches = {
-	regions = {
-		world_westeros_mander_kingdom
-		world_westeros_northmarch
-		world_westeros_reach_blackwater
-		world_westeros_shield_islands
-		world_westeros_arbor
-		world_westeros_greater_oldtown
-	}
-}
-
-world_westeros_mander_kingdom = {
-	regions = {
-		world_westeros_lower_mander
-		world_westeros_upper_mander
-	}
-}
-
-world_westeros_lower_mander = {
-	duchies = {
-		d_highgarden
-		d_darstone
-		d_darkdell
-		d_the_roseroad
-		d_orchard_way
-		d_cockleswhent
-		# d_brightwater #Partial
-	}
-	counties = {
-		# d_brightwater #Partial
-		# c_brightwater
-		c_denflower
-		c_whitewater_watch
-		# c_islandview
-		# c_bloomfield_hills
-		# c_festune
-		# c_laurelridge
-		c_greenaway
-	}
-}
-
-world_westeros_upper_mander = {
-	duchies = {
-		d_bitterbridge
-		d_fullharvest
-		d_blueburn
-		d_manderfields
-		d_tumbleton
-	}
-}
-
-world_westeros_northmarch = {
-	duchies = {
-		d_goldengrove
-		d_red_front
-		d_the_northmarch
-		d_the_ocean_road
-		d_sunnyvale
-	}
-}
-
-world_westeros_reach_blackwater = {
-	duchies = {
-		d_goldenfields
-		d_heartland_heights
-	}
-}
-
-world_westeros_shield_islands = {
-	duchies = {
-		d_shield_islands
-	}
-}
-
-world_westeros_arbor = {
-	duchies = {
-		d_the_arbor
-	}
-}
-
-world_westeros_the_stormlands_minus_dornish_marches = {
-	regions = {
-		world_westeros_the_stormlands_core
-		world_westeros_the_stormlands_cape_wrath
-		world_westeros_the_stormlands_kingswood
-		world_westeros_the_stormlands_isles
-	}
-}
-
-world_westeros_the_stormlands_core = {
-	duchies = {
-		d_shipbreaker_bay
-		d_nestridge
-		d_stackfield
-		d_vellum_coast
-	}
-}
-
-world_westeros_the_stormlands_cape_wrath = {
-	duchies = {
-		d_cape_wrath
-		d_the_drench
-		d_the_rainwood
-	}
-}
-
-world_westeros_the_stormlands_kingswood = {
-	duchies = {
-		d_kingswood
-		d_greatstock
-		d_valor_meadows
-		d_dark_harrow
-	}
-}
-
-world_westeros_the_stormlands_isles = {
-	duchies = {
-		d_tarth
-		d_estermont_isles
-	}
-}
-
-world_westeros_dornish_marches_andal = {
-	regions = {
-		world_westeros_dornish_marches_reach
-		world_westeros_dornish_marches_stormlands
-	}
-}
-
-world_essos_west = {
-	regions = {
-		world_stepstones
-		world_essos_free_cities
-		world_essos_rhoyne
-		# world_essos_valyria
-	}
-}
-
-world_essos_lys_mainland = {
-	duchies = {
-		d_mangrove_shoals
-		d_thaehaes
-	}
-}
-
-world_essos_tyrosh_islands = {
-	duchies = {
-		d_tyrosh
-		d_muricosh
-		# d_quhyrys #Partial
-	}
-	counties = {
-		# d_quhyrys #Partial
-		c_zernosh
-		# c_uhyrosh_coast
-		# c_tandaynish
-	}
-}
-
-world_essos_tyrosh_mainland = {
-	duchies = {
-		d_ryrys
-		d_great_vilibosh
-		# d_quhyrys #Partial
-	}
-	counties = {
-		# d_quhyrys #Partial
-		# c_zernosh
-		c_uhyrosh_coast
-		c_tandaynish
-	}
-}
-
-world_essos_myr_core = {
-	duchies = {
-		d_myr
-		d_southcliffs
-		d_loomwright
-		d_lotyr_bay
-		d_croraera
-		d_brenassar
-	}
-}
-
-world_essos_myr_north = {
-	duchies = {
-		d_greenlace
-		d_daarano
-		d_qehes
-	}
-}
-
-world_essos_northern_free_cities = {
-	regions = {
-		world_essos_pentos
-		world_essos_andalos
-		world_essos_braavos
-		world_essos_lorath
-		world_essos_norvos
-		world_essos_the_axe
-	}
-}
-
-world_essos_pentos_north = {
-	duchies = {
-		d_pentos
-		d_shepamoti
-		d_the_flatlands
-		d_little_rhoyne
-		d_nyojon
-		d_princes_shore
-		d_hinozobris
-	}
-}
-
-world_essos_pentos_south = {
-	duchies = {
-		d_konian_coast
-		d_the_baked_lands
-		d_nontelos
-		d_samaalis
-	}
-}
-
-world_essos_braavos_swamp = {
-	duchies = {
-		d_braavos
-	}
-}
-
-world_essos_braavos_mainland = {
-	duchies = {
-		d_teggarlozar
-		d_braavosian_coastlands
-		d_inkolantibyr
-		d_lunar_bay_hills
-		d_noporzhyr
-		d_mothers_crown
-		d_sweetwater
-	}
-}
-
-world_essos_lorath_islands = {
-	duchies = {
-		d_lorath
-		d_the_harvest
-		d_lorassyon
-	}
-}
-
-world_essos_lorath_mainland = {
-	duchies = {
-		d_wrighters_wood
-		d_shlorath
-		d_fisher_point
-		d_rbateros
-	}
-}
-
-world_essos_norvos_central = {
-	duchies = {
-		d_norvos
-		d_kevele_kiy
-		d_bear_valley
-	}
-}
-
-world_essos_norvos_west = {
-	duchies = {
-		d_the_noyne
-		d_irughagyu
-		d_limestone_hills
-		d_neath_canals
-	}
-}
-
-world_essos_norvos_east = {
-	duchies = {
-		d_norvole_kiy
-		d_esauritra_eon
-		d_vardyghagyu
-		d_soqhoyn_eon
-		d_norvos_rib
-	}
-}
-
-world_essos_the_axe_peninsula = {
-	duchies = {
-		d_the_bit
-		d_the_haft
-	}
-}
-
-world_essos_the_axe_mainland = {
-	duchies = {
-		d_the_knuckles
-		d_the_spike
-		d_the_grasp
-		d_the_wrist
-	}
-}
-
-world_essos_qohor_steppe = {
-	duchies = {
-		# d_the_crucible #Partial
-	}
-	counties = {
-		# d_the_crucible #Partial
-		c_nomads_encroach
-		# c_shiverness #Partial
-		# c_ghu
-		# c_the_perch
-		# c_senaghon
-	}
-	provinces = {
-		# c_shiverness #Partial
-		# 8969
-		# 8970
-		# 8971
-		# 8972
-		8973
-		# 8974
-	}
-}
-
-world_essos_chroyane_west = {
-	duchies = {
-		d_chroyane
-		d_gar_sagon
-		d_azure_valley
-	}
-}
-
-world_essos_chroyane_east = {
-	duchies = {
-		d_suru_mal
-		d_sen_malhoy
-	}
-}
-
-world_essos_ar_noy_north = {
-	duchies = {
-		# d_ar_noy #Partial
-	}
-	counties = {
-		# d_ar_noy #Partial
-		# c_ar_noy
-		c_the_spearhead
-		c_dhoylleal
-		# c_lliis
-	}
-}
-
-world_essos_ar_noy_south = {
-	duchies = {
-		d_ferrous_basin
-		d_mal_dareas
-		d_rhillupea
-		d_eastern_daggers
-		# d_ar_noy #Partial
-	}
-	counties = {
-		# d_ar_noy #Partial
-		c_ar_noy
-		# c_the_spearhead
-		# c_dhoylleal
-		c_lliis
-	}
-}
-
-world_essos_ny_sar_north = {
-	duchies = {
-		d_roseate_bank
-		# d_ny_sar #Partial
-	}
-	counties = {
-		# d_ny_sar #Partial
-		c_ny_sar
-		# c_marble_knife
-		# c_seanhallial
-		# c_quarried_wings
-	}
-}
-
-world_essos_ny_sar_south = {
-	duchies = {
-		d_rel_gydhal
-		d_golden_fields
-		d_western_daggers
-		# d_ny_sar #Partial
-	}
-	counties = {
-		# d_ny_sar #Partial
-		# c_ny_sar
-		c_marble_knife
-		c_seanhallial
-		c_quarried_wings
-	}
-}
-
-world_essos_ghoyan_drohe_north = {
-	duchies = {
-		d_fair_spine
-		d_the_grommet
-		# d_ghoyan_drohe #Partial
-	}
-	counties = {
-		# d_ghoyan_drohe #Partial
-		c_ghoyan_drohe
-		c_rhusos
-		# c_llounkum
-	}
-}
-
-world_essos_ghoyan_drohe_south = {
-	duchies = {
-		d_gamia_noias
-		# d_ghoyan_drohe #Partial
-	}
-	counties = {
-		# d_ghoyan_drohe #Partial
-		# c_ghoyan_drohe
-		# c_rhusos
-		c_llounkum
-	}
-}
-
-world_jade_sea_moraq = {
-	regions = {
-		world_ruins
-	}
-}
-
-world_jade_sea_leng = {
-	provinces = {
-		7293
-	}
-}
-
-world_essos_dagger_lake_islands = {
-	duchies = {
-		d_eastern_daggers
-		d_western_daggers
-	}
-}
-
-rhoyne_river_region = {
-	counties = {
-		c_soytialne
-		c_tianos
-		c_chroyane
-		c_peadhean
-		c_golden_fields
-		c_rhunamllias
-		c_stiletys
-		c_skean
-		c_anlys
-		c_jambiya
-		c_dyrk
-		c_poniard
-		c_susnys_mal
-		c_dagger_flats
-		c_sen_malhoy
-		c_rhogo_sar
-		c_suru_mal
-		c_punulea_sar
-		c_witnesses_mire
-		c_the_spearhead
-		c_asanydeanos
-		c_uydhean
-		c_quarried_wings
-		c_seanhallial
-		c_marble_knife
-		c_dhiro_bis
-		c_gamia_noias
-		c_panliam
-		c_ghoyan_drohe
-		c_lol_sar
-	}
-}
-
-world_punishment = {
-	regions = {
-		world_essos_free_cities
-		world_stepstones
+		# EETLV additions (re-applied September 6th 2026)
+		d_R12G4B57 d_R21G0B50 d_R34G51B9 d_R5G53B50 d_R72G96B9 d_R82G4B39 d_R13G72B64 d_R15G78B55 d_R168G6B61 d_R17G4B254 d_R183G8B95 d_R1G24B200 d_R1G86B152 d_R22G66B24 d_R24G149B3 d_R25G59B12 d_R28G32B62 d_R2G223B70 d_R43G42B30 d_R44G38B62
+		d_R49G138B7 d_R50G12B39 d_R60G66B58 d_R61G25B77 d_R6G17B202 d_R70G73B87 d_R72G14B18 d_R76G29B27 d_R80G19B19 d_R82G61B86 d_R89G55B71 d_R96G6B240 d_R103G34B31 d_R106G34B26 d_R112G28B16 d_R112G39B75 d_R11G232B14 d_R123G69B44 d_R14G65B130 d_R155G55B87
+		d_R156G7B177 d_R157G24B25 d_R15G248B48 d_R166G7B230 d_R166G86B71 d_R16G61B151 d_R170G1B201 d_R173G39B57 d_R184G2B113 d_R184G97B29 d_R186G98B77 d_R187G97B55 d_R19G53B215 d_R200G178B4 d_R208G13B56 d_R209G33B30 d_R214G61B80 d_R220G50B93 d_R222G220B5 d_R222G82B64
+		d_R238G6B173 d_R254G116B0 d_R28G169B63 d_R29G61B120 d_R2G126B112 d_R30G132B29 d_R32G189B26 d_R32G208B71 d_R35G62B235 d_R37G183B63 d_R38G66B212 d_R41G226B41 d_R42G145B84 d_R42G21B193 d_R43G59B222 d_R48G134B93 d_R48G26B112 d_R52G33B207 d_R55G111B55 d_R55G247B36
+		d_R57G171B81 d_R57G49B210 d_R60G23B175 d_R60G45B235 d_R63G211B67 d_R64G232B56 d_R66G45B122 d_R67G144B34 d_R68G221B98 d_R73G244B60 d_R75G10B128 d_R77G245B83 d_R79G198B89 d_R79G215B32 d_R81G64B118 d_R83G108B44 d_R83G120B90 d_R89G161B52 d_R90G15B103 d_R99G52B102
+		d_R100G209B15 d_R111G75B187 d_R115G164B11 d_R118G226B28 d_R11G129B100 d_R123G165B62 d_R123G214B68 d_R126G55B188 d_R127G31B145 d_R128G165B91 d_R129G31B140 d_R12G131B170 d_R133G181B31 d_R133G93B231 d_R13G254B221 d_R140G100B36 d_R140G191B33 d_R140G63B133 d_R143G132B81 d_R143G224B96
+		d_R143G96B105 d_R145G113B68 d_R145G62B183 d_R146G124B54 d_R147G113B69 d_R147G124B78 d_R155G69B191 d_R158G10B113 d_R162G96B163 d_R166G215B77 d_R167G215B10 d_R16G157B103 d_R16G248B142 d_R174G82B237 d_R179G199B57 d_R179G19B114 d_R179G213B70 d_R180G130B18 d_R181G76B165 d_R183G81B182
+		d_R193G60B253 d_R198G191B13 d_R19G206B105 d_R204G32B182 d_R204G81B169 d_R206G76B102 d_R207G75B180 d_R208G238B46 d_R20G128B134 d_R210G235B19 d_R214G198B42 d_R215G35B147 d_R218G80B203 d_R222G151B16 d_R22G126B243 d_R230G145B81 d_R232G202B38 d_R237G75B164 d_R239G205B48 d_R23G122B200
+		d_R23G248B166 d_R241G206B28 d_R245G84B157 d_R246G38B101 d_R246G63B205 d_R250G175B97 d_R250G67B219 d_R251G79B255 d_R255G46B176 d_R255G60B143 d_R255G68B131 d_R25G165B157 d_R25G185B204 d_R27G189B204 d_R28G156B183 d_R28G255B120 d_R29G161B233 d_R32G145B229 d_R34G180B238 d_R37G186B138
+		d_R38G180B116 d_R44G198B158 d_R45G162B231 d_R46G158B212 d_R47G193B207 d_R52G155B180 d_R52G177B161 d_R53G140B216 d_R55G175B124 d_R56G193B185 d_R59G123B179 d_R59G221B136 d_R61G109B109 d_R62G111B152 d_R63G173B203 d_R65G217B122 d_R66G224B167 d_R69G215B129 d_R72G143B155 d_R74G231B172
+		d_R75G157B114 d_R77G214B155 d_R82G102B147 d_R83G216B139 d_R83G220B141 d_R83G236B170 d_R84G146B204 d_R84G175B167 d_R87G214B107 d_R88G169B175 d_R88G177B122 d_R90G171B108 d_R97G210B157 d_R102G201B167 d_R104G124B189 d_R104G238B108 d_R106G176B143 d_R108G205B118 d_R117G244B155 d_R119G143B156
+		d_R119G203B117 d_R122G121B140 d_R123G203B214 d_R126G207B217 d_R128G163B201 d_R129G169B173 d_R131G200B113 d_R133G215B116 d_R138G163B247 d_R139G102B179 d_R139G221B148 d_R140G173B221 d_R145G141B153 d_R146G195B113 d_R147G232B129 d_R147G241B217 d_R148G142B163 d_R149G188B218 d_R152G226B139 d_R154G131B121
+		d_R155G213B113 d_R159G138B147 d_R162G147B201 d_R162G163B218 d_R164G158B236 d_R164G237B211 d_R170G220B142 d_R174G232B107 d_R178G220B218 d_R180G134B252 d_R184G102B177 d_R189G218B124 d_R192G133B221 d_R192G168B147 d_R197G250B234 d_R202G176B250 d_R209G244B199 d_R212G205B232 d_R216G170B210 d_R217G108B230
+		d_R220G226B155 d_R221G250B127 d_R224G121B183 d_R224G137B134 d_R224G201B152 d_R228G175B102 d_R231G180B224 d_R232G107B142 d_R240G127B159 d_R243G219B128 d_R254G161B109 d_eetlv_wildm_01 d_eetlv_wildm_02 d_eetlv_wildm_03 d_eetlv_wildm_04 d_eetlv_wildm_05 d_eetlv_wildm_06 d_eetlv_wildm_07 d_eetlv_wildm_08 d_eetlv_wildm_09
+		d_eetlv_wildm_10 d_eetlv_wildm_11 d_eetlv_wildm_12 d_eetlv_wildm_13 d_eetlv_wildm_14 d_eetlv_wilds_02 d_eetlv_wilds_04 d_eetlv_wilds_06 d_eetlv_wilds_08 d_eetlv_wilds_10
 	}
 }
 

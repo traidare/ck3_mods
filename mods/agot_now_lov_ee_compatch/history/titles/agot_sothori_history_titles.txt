@@ -59,7 +59,7 @@ c_aft_gorosh = {
 	}
 	7300.1.1 = {
 		government = pirate_no_dlc_government
-		succession_laws = { lv_county_pirate_succession_law }
+		succession_laws = { pirate_succession_law }
 		effect = {
 			if = {
 				limit = {
@@ -94,7 +94,7 @@ c_shore_of_thralls = {
  100.1.1 = { holder = Local_Pirates_Sothoryos } 
  7300.1.1 = {
  	government = pirate_no_dlc_government
- 	succession_laws = { lv_county_pirate_succession_law }
+ 	succession_laws = { pirate_succession_law }
  	effect = {
  		if = {
  			limit = {
@@ -128,7 +128,7 @@ c_shore_of_tyrants = {
 	}
 	7300.1.1 = {
 		government = pirate_no_dlc_government
-		succession_laws = { lv_county_pirate_succession_law }
+		succession_laws = { pirate_succession_law }
 		effect = {
 			if = {
 				limit = {
@@ -174,7 +174,7 @@ c_kelpest = {
  100.1.1 = { holder = Local_Pirates_Sothoryos } 
  7300.1.1 = {
  	government = pirate_no_dlc_government
- 	succession_laws = { lv_county_pirate_succession_law }
+ 	succession_laws = { pirate_succession_law }
  	effect = {
  		if = {
  			limit = {
@@ -215,7 +215,7 @@ c_wormwater = {
  100.1.1 = { holder = Local_Pirates_Sothoryos } 
  7300.1.1 = {
  	government = pirate_no_dlc_government
- 	succession_laws = { lv_county_pirate_succession_law }
+ 	succession_laws = { pirate_succession_law }
  	effect = {
  		if = {
  			limit = {
@@ -247,7 +247,7 @@ c_leechbrook = {
  100.1.1 = { holder = Local_Pirates_Sothoryos } 
  7300.1.1 = {
  	government = pirate_no_dlc_government
- 	succession_laws = { lv_county_pirate_succession_law }
+ 	succession_laws = { pirate_succession_law }
  	effect = {
  		if = {
  			limit = {
@@ -285,7 +285,7 @@ c_fleshcarvers_wreck = {
  100.1.1 = { holder = Local_Pirates_Sothoryos } 
  7300.1.1 = {
  	government = pirate_no_dlc_government
- 	succession_laws = { lv_county_pirate_succession_law }
+ 	succession_laws = { pirate_succession_law }
  	effect = {
  		if = {
  			limit = {
@@ -319,7 +319,7 @@ c_monkey_perch = {
  100.1.1 = { holder = Local_Pirates_Sothoryos } 
  7300.1.1 = {
  	government = pirate_no_dlc_government
- 	succession_laws = { lv_county_pirate_succession_law }
+ 	succession_laws = { pirate_succession_law }
  	effect = {
  		if = {
  			limit = {
@@ -351,7 +351,7 @@ c_last_stop = {
  100.1.1 = { holder = Local_Pirates_Sothoryos } 
  7300.1.1 = {
  	government = pirate_no_dlc_government
- 	succession_laws = { lv_county_pirate_succession_law }
+ 	succession_laws = { pirate_succession_law }
  	effect = {
  		if = {
  			limit = {
@@ -405,7 +405,7 @@ c_wyverns_claw = {
 	}
 	7300.1.1 = {
 		government = pirate_no_dlc_government
-		succession_laws = { lv_county_pirate_succession_law }
+		succession_laws = { pirate_succession_law }
 		effect = {
 			if = {
 				limit = {
@@ -440,7 +440,7 @@ c_lesser_claw = {
 	}
 	7300.1.1 = {
 		government = pirate_no_dlc_government
-		succession_laws = { lv_county_pirate_succession_law }
+		succession_laws = { pirate_succession_law }
 		effect = {
 			if = {
 				limit = {

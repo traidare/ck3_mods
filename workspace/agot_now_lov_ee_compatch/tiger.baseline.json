@@ -511,7 +511,7 @@
       "message": "region is redefined by another region",
       "source": "MOD",
       "file": "map_data/geographical_regions/00_agot_geographical_region.txt",
-      "count": 16
+      "count": 15
     },
     {
       "severity": "warning",
@@ -519,7 +519,7 @@
       "message": "region is redefined by an identical region",
       "source": "MOD",
       "file": "map_data/geographical_regions/00_agot_geographical_region.txt",
-      "count": 1
+      "count": 2
     }
   ]
 }

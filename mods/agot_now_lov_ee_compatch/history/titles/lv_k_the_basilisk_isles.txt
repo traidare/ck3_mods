@@ -225,7 +225,7 @@ c_talon = {
 	8000.12.19 = { holder = Vhassorlan_lv_6 }
 	8022.1.1 = {
 		government = pirate_no_dlc_government
-		succession_laws = { lv_county_pirate_succession_law }
+		succession_laws = { pirate_succession_law }
 		effect = {
 			if = {
 				limit = {
@@ -314,7 +314,7 @@ c_strait_of_skulls = {
 	7999.12.1 = { holder = Zaldrizyen_lv_6 government = pirate_no_dlc_government }
 	8022.1.1 = {
 		government = pirate_no_dlc_government
-		succession_laws = { lv_county_pirate_succession_law }
+		succession_laws = { pirate_succession_law }
 		effect = {
 			if = {
 				limit = {
@@ -363,7 +363,7 @@ c_coast_of_sorrows = {
 	7899.8.14 = { government = pirate_no_dlc_government }
 	8042.1.1 = {
 		government = pirate_no_dlc_government
-		succession_laws = { lv_county_pirate_succession_law }
+		succession_laws = { pirate_succession_law }
 		effect = {
 			if = {
 				limit = {
@@ -411,7 +411,7 @@ c_the_arm = {
 	8000.12.19 = { holder = Vhassorlan_lv_6 }
 	8022.1.1 = {
 		government = pirate_no_dlc_government
-		succession_laws = { lv_county_pirate_succession_law }
+		succession_laws = { pirate_succession_law }
 		effect = {
 			if = {
 				limit = {
@@ -462,7 +462,7 @@ c_wraiths_rest = {
 	7999.12.1 = { holder = Hendry_lv_6 government = pirate_no_dlc_government }
 	8022.1.1 = {
 		government = pirate_no_dlc_government
-		succession_laws = { lv_county_pirate_succession_law }
+		succession_laws = { pirate_succession_law }
 		effect = {
 			if = {
 				limit = {
@@ -515,7 +515,7 @@ c_scoundrels_point = {
 	7999.12.1 = { holder = Enreos_lv_6 government = pirate_no_dlc_government }
 	8022.1.1 = {
 		government = pirate_no_dlc_government
-		succession_laws = { lv_county_pirate_succession_law }
+		succession_laws = { pirate_succession_law }
 		effect = {
 			if = {
 				limit = {
@@ -567,7 +567,7 @@ c_treasure_island = {
 	7999.12.1 = { holder = Enreos_lv_6 }
 	8022.1.1 = {
 		government = pirate_no_dlc_government
-		succession_laws = { lv_county_pirate_succession_law }
+		succession_laws = { pirate_succession_law }
 		effect = {
 			if = {
 				limit = {
@@ -616,7 +616,7 @@ c_pirates_haven = {
 	7899.8.14 = { government = pirate_no_dlc_government }
 	8042.1.1 = {
 		government = pirate_no_dlc_government
-		succession_laws = { lv_county_pirate_succession_law }
+		succession_laws = { pirate_succession_law }
 		effect = {
 			if = {
 				limit = {
@@ -661,7 +661,7 @@ c_isle_of_toads = {
 	7899.8.14 = { government = pirate_no_dlc_government }
 	8042.1.1 = {
 		government = pirate_no_dlc_government
-		succession_laws = { lv_county_pirate_succession_law }
+		succession_laws = { pirate_succession_law }
 		effect = {
 			if = {
 				limit = {
@@ -740,7 +740,7 @@ c_ax_isle = {
 	8034.6.4 = { holder = Paenohrin_lv_7 }
 	8042.1.1 = {
 		government = pirate_no_dlc_government
-		succession_laws = { lv_county_pirate_succession_law }
+		succession_laws = { pirate_succession_law }
 		effect = {
 			if = {
 				limit = {
@@ -788,7 +788,7 @@ c_the_handle = {
 	8034.6.4 = { holder = Paenohrin_lv_7 }
 	8042.1.1 = {
 		government = pirate_no_dlc_government
-		succession_laws = { lv_county_pirate_succession_law }
+		succession_laws = { pirate_succession_law }
 		effect = {
 			if = {
 				limit = {
@@ -842,7 +842,7 @@ c_isle_of_vines = {
 	7999.12.1 = { holder = Nahion_lv_6 government = pirate_no_dlc_government }
 	8022.1.1 = {
 		government = pirate_no_dlc_government
-		succession_laws = { lv_county_pirate_succession_law }
+		succession_laws = { pirate_succession_law }
 		effect = {
 			if = {
 				limit = {
@@ -890,7 +890,7 @@ c_the_blade = {
 	}
 	7899.8.14 = { government = pirate_no_dlc_government }
 	8042.1.1 = {
-		succession_laws = { lv_county_pirate_succession_law }
+		succession_laws = { pirate_succession_law }
 		effect = {
 			if = {
 				limit = {
@@ -935,7 +935,7 @@ c_skull_island = {
 	7899.8.14 = { government = pirate_no_dlc_government }
 	8022.1.1 = {
 		government = pirate_no_dlc_government
-		succession_laws = { lv_county_pirate_succession_law }
+		succession_laws = { pirate_succession_law }
 		effect = {
 			if = {
 				limit = {
@@ -1021,7 +1021,7 @@ c_maggot_shore = {
 	8015.8.4 = { holder = Ennyrion_lv_8 }
 	8022.1.1 = {
 		government = pirate_no_dlc_government
-		succession_laws = { lv_county_pirate_succession_law }
+		succession_laws = { pirate_succession_law }
 		effect = {
 			if = {
 				limit = {
@@ -1073,7 +1073,7 @@ c_death_isle = {
 	7999.12.1 = { holder = Benaris_lv_6 government = pirate_no_dlc_government }
 	8022.1.1 = {
 		government = pirate_no_dlc_government
-		succession_laws = { lv_county_pirate_succession_law }
+		succession_laws = { pirate_succession_law }
 		effect = {
 			if = {
 				limit = {
@@ -1122,7 +1122,7 @@ c_isle_of_flies = {
 	7899.8.14 = { government = pirate_no_dlc_government }
 	8022.1.1 = {
 		government = pirate_no_dlc_government
-		succession_laws = { lv_county_pirate_succession_law }
+		succession_laws = { pirate_succession_law }
 		effect = {
 			if = {
 				limit = {
@@ -1175,7 +1175,7 @@ c_serpent_forest = {
 	8015.8.4 = { holder = Ennyrion_lv_8 }
 	8022.1.1 = {
 		government = pirate_no_dlc_government
-		succession_laws = { lv_county_pirate_succession_law }
+		succession_laws = { pirate_succession_law }
 		effect = {
 			if = {
 				limit = {
@@ -1223,7 +1223,7 @@ c_isle_of_lice = {
 	7899.8.14 = { government = pirate_no_dlc_government }
 	8022.1.1 = {
 		government = pirate_no_dlc_government
-		succession_laws = { lv_county_pirate_succession_law }
+		succession_laws = { pirate_succession_law }
 		effect = {
 			if = {
 				limit = {

@@ -7,7 +7,7 @@ import re
 import subprocess
 import tempfile
 from collections import Counter, defaultdict
-from collections.abc import Iterable
+from collections.abc import Iterable, Iterator
 from pathlib import Path
 
 from gen import GenerationContext
@@ -34,7 +34,19 @@ IS_DIARCH_VALID_RELATIVE = Path(
 )
 RULES_RELATIVE = Path("common/scripted_rules/00_rules.txt")
 LONG_NIGHT_DIARCH_RULES = Path("common/scripted_rules/zz_ln_diarch_rules.txt")
-LOV_DIARCH_GUARD = "limit = { exists = this }"
+LOV_DIARCH_GUARD = "this ?="
+CHAPLAIN_SUMMON_GUARD = (
+    "\t\t\t\t\tcp:councillor_court_chaplain ?= {\n"
+    "\t\t\t\t\t\tif = {\n"
+    "\t\t\t\t\t\t\tlimit = {\n"
+    "\t\t\t\t\t\t\t\texists = root.location\n"
+    "\t\t\t\t\t\t\t\texists = root.involved_activity\n"
+    "\t\t\t\t\t\t\t}\n"
+    "\t\t\t\t\t\t\tset_location = root.location\n"
+    "\t\t\t\t\t\t\tadd_to_activity_without_travel = root.involved_activity\n"
+    "\t\t\t\t\t\t}\n"
+    "\t\t\t\t\t}\n"
+)
 KRAKEN_CLAUSE = "NOT = { has_trait = kraken }"
 GREAT_COUNCILS_CLAUSE = (
     "NOT = { has_character_flag = zzz_great_councils_disable } #AGC Added"
@@ -607,11 +619,37 @@ TITLE_TREE_SOURCES = ("AGOT", "NOW", "LOV", "LOV_BRIDGE", "ESSOS_EXPANDED")
 
 MEMBERSHIP_KEYS = ("empires", "kingdoms", "duchies", "counties")
 
-# Seasonal regions name three titles that hold no province: a titular duchy and
-# a titular kingdom, plus one duchy no parent defines at all. They cover
-# nothing, so they are never redundant and the coverage check has to expect
-# them by name rather than treat an empty result as a resolution failure.
-TITULAR_SEASON_TITLES = frozenset({"d_knellstone", "d_turnbridge", "k_the_rills"})
+# Seasonal regions name two titles a parent declares but gives no province: a
+# titular duchy and a titular kingdom. They cover nothing, so they are never
+# redundant and the coverage check has to expect them by name rather than treat
+# an empty result as a resolution failure.
+TITULAR_SEASON_TITLES = frozenset({"d_knellstone", "k_the_rills"})
+
+# Membership entries no declared landed-titles source defines. The seasons
+# bridge builds its regions from the NOW-Seasons compatch, which names titles at
+# tiers the current stack does not have: NOW demoted each of these to a barony
+# or a county, or never had it. CK3 resolves a region entry by title key, so an
+# undefined key contributes no province and only logs at world init - dropping
+# the line leaves every region covering exactly what it covered.
+EXPECTED_UNDEFINED_SEASON_MEMBERS = {
+    "world_westeros_the_reach_without_south_or_marches": ("d_whitehand",),
+    "world_westeros_the_stormlands_sans_marches": ("d_morne",),
+    "world_westeros_rest_of_dorne": ("d_the_northblood",),
+    "world_tarth_and_estermont": ("d_morne",),
+    "world_central_stormlands": ("d_kings_mountain",),
+    "world_gods_eye_region": ("c_hoarespring", "c_droven"),
+    "world_upper_reach": ("d_whitehand",),
+    "world_dorne_north_coast": ("c_hall_of_the_dead",),
+    "world_dorne_south_coast": ("c_sunvane",),
+    "world_dornish_marches_seasons": ("d_the_vultures_gorge", "c_hillguard"),
+    "world_westerlands_low": ("c_bonetree", "c_silvermere", "c_longdowns"),
+    "world_upper_vale_seasons": ("c_riving",),
+    "world_barrowlands_seasons": ("d_steelwater", "d_witheredheath"),
+    "world_wolfswood_seasons": ("d_mullroot", "d_ironrath"),
+    "world_whiteknife_seasons": ("c_whittarkeep", "c_seal_rock", "c_wolfs_den"),
+    "world_lonely_hills": ("d_seals_edge",),
+    "world_sheepshead_hills": ("d_sheepshead_hills",),
+}
 
 # Every membership entry the prune removes, by the region that listed it. A
 # kingdom already contains its duchies and a duchy its counties, so re-listing
@@ -619,12 +657,12 @@ TITULAR_SEASON_TITLES = frozenset({"d_knellstone", "d_turnbridge", "k_the_rills"
 # entries for the province 'N'` once per repeat at world init. Dropping the
 # narrower entry leaves the region covering exactly the same provinces.
 EXPECTED_SEASON_REGION_PRUNE = {
-    "world_barrowlands_seasons": 5,
+    "world_upper_vale_seasons": 14,
     "world_westerlands_low": 6,
+    "world_barrowlands_seasons": 5,
     "world_sheepshead_hills": 4,
-    "world_upper_crown": 3,
+    "world_dornish_marches_seasons": 4,
     "world_norvos_seasons": 3,
-    "world_dornish_marches_seasons": 3,
     "world_the_fingers_seasons": 3,
     "world_lonely_hills": 3,
     "world_upper_reach": 2,
@@ -636,8 +674,14 @@ _TREE_TOKEN = re.compile(r"([A-Za-z0-9_\-']+)\s*=\s*\{|\{|\}|province\s*=\s*(\d+
 
 
 def build_title_provinces(roots: Iterable[Path]) -> dict[str, set[int]]:
-    """Return the provinces each landed title covers, resolved by load order."""
+    """Return the provinces each landed title covers, resolved by load order.
+
+    Every title a source declares gets an entry, so a title that is absent from
+    the result is one no parent defines at all, and one that maps to an empty
+    set is declared but holds no province.
+    """
     parent: dict[str, str] = {}
+    declared: set[str] = set()
     barony_province: dict[str, int] = {}
     for root in roots:
         directory = root / "common/landed_titles"
@@ -660,6 +704,7 @@ def build_title_provinces(roots: Iterable[Path]) -> dict[str, set[int]]:
                 elif token == "{":
                     stack.append(None)
                 elif _TITLE_TOKEN.fullmatch(match.group(1)):
+                    declared.add(match.group(1))
                     enclosing = next(
                         (entry for entry in reversed(stack) if entry), None
                     )
@@ -688,7 +733,7 @@ def build_title_provinces(roots: Iterable[Path]) -> dict[str, set[int]]:
         resolved[title] = covered
         return covered
 
-    for title in (*parent, *children):
+    for title in (*declared, *parent, *children):
         resolve(title, frozenset())
     return resolved
 
@@ -701,6 +746,47 @@ def membership_lists(block: str) -> list[tuple[str, int, int]]:
             opening = block.find("{", match.start(), match.end())
             found.append((key, opening + 1, matching_brace(block, opening)))
     return found
+
+
+def region_blocks(text: str) -> Iterator[tuple[str, int, int]]:
+    """Yield each top-level region as (name, start, end-exclusive)."""
+    position = 0
+    for match in re.finditer(r"(?m)^([a-zA-Z_0-9]+)\s*=\s*\{", text):
+        if match.start() < position:
+            continue
+        opening = text.find("{", match.start(), match.end())
+        position = matching_brace(text, opening) + 1
+        yield match.group(1), match.start(), position
+
+
+def drop_undefined_members(text: str, coverage: dict[str, set[int]]) -> str:
+    """Remove membership entries naming a title no parent declares."""
+    dropped: dict[str, tuple[str, ...]] = {}
+    position = 0
+    pieces: list[str] = []
+    for region, start, end in region_blocks(text):
+        block = text[start:end]
+        names: list[str] = []
+        for _, body_start, body_end in membership_lists(block):
+            for name in re.sub(r"#.*", "", block[body_start:body_end]).split():
+                if name not in coverage:
+                    names.append(name)
+        for name in names:
+            block, count = re.subn(rf"(?m)^[ \t]*{name}[ \t]*\r?\n", "", block, count=1)
+            if count != 1:
+                raise AssertionError(f"{region} entry {name} is not on its own line")
+        if names:
+            dropped[region] = tuple(names)
+        pieces.append(text[position:start])
+        pieces.append(block)
+        position = end
+    pieces.append(text[position:])
+    if dropped != EXPECTED_UNDEFINED_SEASON_MEMBERS:
+        raise AssertionError(
+            "undefined seasonal-region membership changed: "
+            f"{dropped} is not {EXPECTED_UNDEFINED_SEASON_MEMBERS}"
+        )
+    return "".join(pieces)
 
 
 def prune_covered_members(text: str, coverage: dict[str, set[int]]) -> str:
@@ -728,11 +814,11 @@ def prune_covered_members(text: str, coverage: dict[str, set[int]]) -> str:
                     raise AssertionError(
                         f"{region} membership entry {name!r} is not a title key"
                     )
-                covers = coverage.get(name, set())
+                covers = coverage[name]
                 if not covers and name not in TITULAR_SEASON_TITLES:
                     raise AssertionError(
-                        f"{region} names {name}, which no declared landed-titles "
-                        "source gives a province; re-audit the seasonal membership"
+                        f"{region} names {name}, which is declared but holds no "
+                        "province; re-audit the seasonal membership"
                     )
                 entries.append((name, covers))
         covered: set[int] = set()
@@ -797,10 +883,18 @@ def generate_regions(source: str, coverage: dict[str, set[int]]) -> str:
     )
     if "d_yronwood" in text:
         raise AssertionError("NOW d_greenbelt seasonal-region membership changed")
-    if "c_sunvane" in text:
-        raise AssertionError("NOW Sunvane seasonal-region membership returned")
     if text.count("\t\tc_brittlebush\n") != 1:
         raise AssertionError("NOW Brittlebush seasonal-region membership changed")
+
+    # `c_heapsdown` is named by two sub-regions of the same seasonal group, so
+    # `world_group_one` reads its provinces twice and the seasons situation has
+    # two claims on them. `world_barrowlands_seasons` keeps the county; the
+    # prune below only sees one region at a time and cannot resolve this.
+    text = replace_block_member(
+        text, "world_whiteknife_seasons", "\t\tc_heapsdown\n", ""
+    )
+    if text.count("\t\tc_heapsdown\n") != 1:
+        raise AssertionError("Heapsdown seasonal-region membership changed")
 
     text = replace_named_block(
         text,
@@ -872,6 +966,7 @@ def generate_regions(source: str, coverage: dict[str, set[int]]) -> str:
     river = text[river_start : river_end + 1]
     if "c_sallydance" not in river or "c_sally_dance" in river:
         raise AssertionError("Sallydance flood region did not rebase to NOW")
+    text = drop_undefined_members(text, coverage)
     text = prune_covered_members(text, coverage)
     return text if text.endswith("\n") else text + "\n"
 
@@ -956,15 +1051,11 @@ def generate_hud(agot: str, iron_and_salt: str, dfp: str) -> str:
 def generate_map_icon_layer(agot: str, iron_and_salt: str, lov: str) -> str:
     """Keep the kraken map icon without restoring LoV's removed datacontext."""
     label = "map_icon_layer.gui"
-    # LoV expresses the same human-portrait gate through AGOT's shared template,
-    # while AGOT's source spells it inline. Normalising the equivalent forms
-    # leaves LoV's find-elder datacontext removal as its only merge delta.
-    lov = replace_exact(
-        lov,
-        "\t\t\t\tusing = visible_if_not_dragon\n",
-        '\t\t\t\tvisible = "[Not(IsCharacterDragon)]"\n',
-        label=f"{label} LoV dragon gate",
-    )
+    # LoV spells the human-portrait gate the same way AGOT does, which leaves
+    # its find-elder datacontext removal as the only merge delta. The shared
+    # template is the equivalent form LoV used to carry instead.
+    if "using = visible_if_not_dragon" in lov:
+        raise AssertionError(f"{label}: LoV moved the dragon gate to the template")
     merged = merge_onto_agot(ours=iron_and_salt, base=agot, theirs=lov, label=label)
     require_delta_preserved(
         base=agot, parent=lov, merged=merged, ours=iron_and_salt, label=label
@@ -1040,8 +1131,7 @@ def generate_is_diarch_valid(agot: str, lov: str, long_night: str) -> str:
 
     guarded = scripted_trigger(lov, label)
     if script_tokens(guarded) != (
-        f"{label} = {{ trigger_if = {{ {LOV_DIARCH_GUARD} {label}_trigger = yes }} "
-        "trigger_else = { always = no } }"
+        f"{label} = {{ {LOV_DIARCH_GUARD} {{ {label}_trigger = yes }} }}"
     ):
         raise AssertionError(
             f"{label}: the LoV bridge no longer wraps AGOT's call in exactly its "
@@ -1062,18 +1152,12 @@ def generate_is_diarch_valid(agot: str, lov: str, long_night: str) -> str:
         )
 
     nested = "\n".join(f"\t{line}" if line else line for line in clause.splitlines())
-    inner = indented_block(guarded, "trigger_if", label=label)
-    closing = inner.rfind("\n\t}")
+    closing = guarded.rfind("\n\t}")
     if closing < 0:
         raise AssertionError(
             f"{label}: the LoV bridge's guarded branch lost its indent"
         )
-    body = replace_exact(
-        guarded,
-        inner,
-        f"{inner[:closing]}\n{nested}\n\t}}",
-        label=f"{label} guarded branch",
-    )
+    body = f"{guarded[:closing]}\n{nested}\n\t}}\n}}"
     return (
         "# The AGOT playset's single last writer for `is_diarch_valid`.\n"
         "#\n"
@@ -1123,7 +1207,7 @@ def guard_holy_site_holders(text: str, *, label: str) -> str:
     so a restored or ruined holy site silently makes the location unusable
     rather than merely unqualified.
     """
-    text = replace_regex(
+    return replace_regex(
         text,
         r"(?m)^([ \t]*)barony\.holder = \{",
         lambda match: (
@@ -1131,28 +1215,7 @@ def guard_holy_site_holders(text: str, *, label: str) -> str:
             f"{match.group(1)}barony.holder = {{"
         ),
         f"{label} holy-site holder guard",
-        expected=4,
-    )
-    # AGOT writes one of the five tests through optional scopes instead, which
-    # suppresses the missing holder without ever failing the test.
-    return replace_exact(
-        text,
-        "\t\t\t\t\t\tbarony ?= {\n"
-        "\t\t\t\t\t\t\tholder ?= {\n"
-        "\t\t\t\t\t\t\t\tOR = {\n"
-        "\t\t\t\t\t\t\t\t\tthis = scope:host\n"
-        "\t\t\t\t\t\t\t\t\tany_liege_or_above = { this = scope:host }\n"
-        "\t\t\t\t\t\t\t\t}\n"
-        "\t\t\t\t\t\t\t}\n"
-        "\t\t\t\t\t\t}\n",
-        f"\t\t\t\t\t\t{HOLY_SITE_HOLDER_GUARD}"
-        "\t\t\t\t\t\tbarony.holder = {\n"
-        "\t\t\t\t\t\t\tOR = {\n"
-        "\t\t\t\t\t\t\t\tthis = scope:host\n"
-        "\t\t\t\t\t\t\t\tany_liege_or_above = { this = scope:host }\n"
-        "\t\t\t\t\t\t\t}\n"
-        "\t\t\t\t\t\t}\n",
-        label=f"{label} optional-scope holy-site test",
+        expected=5,
     )
 
 
@@ -1171,25 +1234,16 @@ def generate_coronation_events(agot: str, lov: str, mfa: str) -> str:
     require_delta_preserved(base=agot, parent=mfa, merged=merged, ours=lov, label=label)
     # The court chaplain is summoned outside the effect that established the
     # activity, so both the councillor and the scopes it is moved into have to
-    # be tested before the move rather than assumed.
-    return replace_exact(
-        merged,
+    # be tested before the move rather than assumed. The LoV bridge already
+    # spells it that way, so this only pins the guard the merge must keep.
+    if CHAPLAIN_SUMMON_GUARD not in merged:
+        raise AssertionError(f"{label}: the guarded court chaplain summon is gone")
+    if (
         "\t\t\t\t\tcp:councillor_court_chaplain = {\n"
         "\t\t\t\t\t\tset_location = root.location\n"
-        "\t\t\t\t\t\tadd_to_activity_without_travel = root.involved_activity\n"
-        "\t\t\t\t\t}\n",
-        "\t\t\t\t\tcp:councillor_court_chaplain ?= {\n"
-        "\t\t\t\t\t\tif = {\n"
-        "\t\t\t\t\t\t\tlimit = {\n"
-        "\t\t\t\t\t\t\t\texists = root.location\n"
-        "\t\t\t\t\t\t\t\texists = root.involved_activity\n"
-        "\t\t\t\t\t\t\t}\n"
-        "\t\t\t\t\t\t\tset_location = root.location\n"
-        "\t\t\t\t\t\t\tadd_to_activity_without_travel = root.involved_activity\n"
-        "\t\t\t\t\t\t}\n"
-        "\t\t\t\t\t}\n",
-        label=f"{label} court chaplain summon",
-    )
+    ) in merged:
+        raise AssertionError(f"{label}: the court chaplain summon lost its guard")
+    return merged
 
 
 def generate_dragon_hatching(agot: str, mde_lov: str, mfa: str) -> str:
@@ -1368,7 +1422,7 @@ def generate_outputs(workshop: dict[str, Path], vanilla: Path) -> dict[Path, byt
     outputs[CONTEST_EVENTS_RELATIVE] = normalize_output(
         generate_contest_events(
             read_text(agot / CONTEST_EVENTS_RELATIVE),
-            read_text(workshop["LOV_COMPATCH"] / CONTEST_EVENTS_RELATIVE),
+            read_text(lov / CONTEST_EVENTS_RELATIVE),
             read_text(mfa / CONTEST_EVENTS_RELATIVE),
             read_text(workshop["CAFG"] / CONTEST_EVENTS_RELATIVE),
             read_text(vanilla / CONTEST_EVENTS_RELATIVE),
@@ -1483,7 +1537,6 @@ def generate(context: GenerationContext) -> None:
         "long-night-azor-ahai",
         "much-faster-activities",
         "mde-lov-hatching",
-        "lov-agot-compatch",
         "culture-faith-granularity",
         "lov",
         "essos-expanded",
@@ -1505,7 +1558,6 @@ def generate(context: GenerationContext) -> None:
         "LONG_NIGHT": context.source("long-night-azor-ahai"),
         "MFA": context.source("much-faster-activities"),
         "MDE_LOV": context.source("mde-lov-hatching"),
-        "LOV_COMPATCH": context.source("lov-agot-compatch"),
         "CAFG": context.source("culture-faith-granularity"),
         "LOV": context.source("lov"),
         "ESSOS_EXPANDED": context.source("essos-expanded"),

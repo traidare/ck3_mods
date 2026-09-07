@@ -51,7 +51,9 @@ sea_zones = LIST { 8201 8202 27123 }
 #######################
 river_provinces = RANGE { 6498 6598 }
 river_provinces = RANGE { 7129 7134 }
-river_provinces = RANGE { 7139 7163 }
+# EETLV September 6th 2026: lower Rhoyne 7151-7163 follow the 0.5.2.1 compatch reading as open
+# sea (they stay in sea_zones above); river classification ends at 7150 to match its adjacencies.
+river_provinces = RANGE { 7139 7150 }
 river_provinces = RANGE { 7242 7245 }
 river_provinces = LIST { 7269 7270 }
 river_provinces = RANGE { 8203 8207 }

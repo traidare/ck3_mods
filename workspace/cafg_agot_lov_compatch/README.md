@@ -36,9 +36,10 @@ input, so editing it shows up here as upstream drift.
 
 ## Pinned parent
 
-The LoV source is Workshop item `3719888822`, `Legacy of Valyria - AGOT 0.5.1` —
-**not** LoV base `3403938445`. Both files must be built on the bridge's
-versions, because the bridge is what actually loads in an AGOT playset.
+The LoV source is Workshop item `3788296332`,
+`Legacy of Valyria - AGOT 0.5.2.1 Compatch (Beta)` — **not** LoV base
+`3403938445`. Both files must be built on the bridge's versions, because the
+bridge is what actually loads in an AGOT playset.
 
 `mods/agot_full_playset_compatch` keeps its own three-way LoV + MFA + CaFG
 `contest_events.txt` as the local final-integration writer. That file is a

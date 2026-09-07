@@ -3705,7 +3705,11 @@ scripted_trigger versus_show_pair_trigger = {
 
 scripted_trigger versus_show_pair_existing_trigger = {
 	trigger_if = {
-		limit = { exists = scope:contest_summary_$COMPARE$ }
+		limit = {
+			exists = scope:contest_summary_$COMPARE$
+			exists = scope:contest_summary_$NUM$
+			exists = scope:contest_summary_$NUM$.var:$TIME$_versus_match
+		}
 		scope:contest_summary_$NUM$.var:$TIME$_versus_match != scope:contest_summary_$COMPARE$
 	}
 }
@@ -3761,9 +3765,9 @@ scripted_effect versus_next_pair_summary_effect = {
 		limit = {
 			versus_show_pair_trigger = { NUM = 5 TIME = next }
 			versus_show_pair_existing_trigger = { NUM = 5 COMPARE = 1 TIME = next }
-			versus_show_pair_existing_trigger = { NUM = 5 COMPARE = 2 TIME = next }
-			versus_show_pair_existing_trigger = { NUM = 5 COMPARE = 3 TIME = next }
-			versus_show_pair_existing_trigger = { NUM = 5 COMPARE = 4 TIME = next }	
+			versus_show_pair_existing_trigger = { NUM = 5 COMPARE = 2 TIME = last }
+			versus_show_pair_existing_trigger = { NUM = 5 COMPARE = 3 TIME = last }
+			versus_show_pair_existing_trigger = { NUM = 5 COMPARE = 4 TIME = last }	
 		}
 		custom_description = {
 			text = tournament_contest_round_next_tt
@@ -3775,10 +3779,10 @@ scripted_effect versus_next_pair_summary_effect = {
 		limit = {
 			versus_show_pair_trigger = { NUM = 6 TIME = next }
 			versus_show_pair_existing_trigger = { NUM = 6 COMPARE = 1 TIME = next }
-			versus_show_pair_existing_trigger = { NUM = 6 COMPARE = 2 TIME = next }
-			versus_show_pair_existing_trigger = { NUM = 6 COMPARE = 3 TIME = next }
-			versus_show_pair_existing_trigger = { NUM = 6 COMPARE = 4 TIME = next }
-			versus_show_pair_existing_trigger = { NUM = 6 COMPARE = 5 TIME = next }
+			versus_show_pair_existing_trigger = { NUM = 6 COMPARE = 2 TIME = last }
+			versus_show_pair_existing_trigger = { NUM = 6 COMPARE = 3 TIME = last }
+			versus_show_pair_existing_trigger = { NUM = 6 COMPARE = 4 TIME = last }
+			versus_show_pair_existing_trigger = { NUM = 6 COMPARE = 5 TIME = last }
 		}
 		custom_description = {
 			text = tournament_contest_round_next_tt
@@ -3790,11 +3794,11 @@ scripted_effect versus_next_pair_summary_effect = {
 		limit = {
 			versus_show_pair_trigger = { NUM = 7 TIME = next }
 			versus_show_pair_existing_trigger = { NUM = 7 COMPARE = 1 TIME = next }
-			versus_show_pair_existing_trigger = { NUM = 7 COMPARE = 2 TIME = next }
-			versus_show_pair_existing_trigger = { NUM = 7 COMPARE = 3 TIME = next }
-			versus_show_pair_existing_trigger = { NUM = 7 COMPARE = 4 TIME = next }
-			versus_show_pair_existing_trigger = { NUM = 7 COMPARE = 5 TIME = next }
-			versus_show_pair_existing_trigger = { NUM = 7 COMPARE = 6 TIME = next }
+			versus_show_pair_existing_trigger = { NUM = 7 COMPARE = 2 TIME = last }
+			versus_show_pair_existing_trigger = { NUM = 7 COMPARE = 3 TIME = last }
+			versus_show_pair_existing_trigger = { NUM = 7 COMPARE = 4 TIME = last }
+			versus_show_pair_existing_trigger = { NUM = 7 COMPARE = 5 TIME = last }
+			versus_show_pair_existing_trigger = { NUM = 7 COMPARE = 6 TIME = last }
 		}
 		custom_description = {
 			text = tournament_contest_round_next_tt
@@ -3855,9 +3859,9 @@ scripted_effect versus_last_pair_summary_effect = {
 		limit = {
 			versus_show_pair_trigger = { NUM = 5 TIME = next }
 			versus_show_pair_existing_trigger = { NUM = 5 COMPARE = 1 TIME = next }
-			versus_show_pair_existing_trigger = { NUM = 5 COMPARE = 2 TIME = next }
-			versus_show_pair_existing_trigger = { NUM = 5 COMPARE = 3 TIME = next }
-			versus_show_pair_existing_trigger = { NUM = 5 COMPARE = 4 TIME = next }	
+			versus_show_pair_existing_trigger = { NUM = 5 COMPARE = 2 TIME = last }
+			versus_show_pair_existing_trigger = { NUM = 5 COMPARE = 3 TIME = last }
+			versus_show_pair_existing_trigger = { NUM = 5 COMPARE = 4 TIME = last }	
 		}
 		custom_description = {
 			text = tournament_contest_round_tt
@@ -3869,10 +3873,10 @@ scripted_effect versus_last_pair_summary_effect = {
 		limit = {
 			versus_show_pair_trigger = { NUM = 6 TIME = next }
 			versus_show_pair_existing_trigger = { NUM = 6 COMPARE = 1 TIME = next }
-			versus_show_pair_existing_trigger = { NUM = 6 COMPARE = 2 TIME = next }
-			versus_show_pair_existing_trigger = { NUM = 6 COMPARE = 3 TIME = next }
-			versus_show_pair_existing_trigger = { NUM = 6 COMPARE = 4 TIME = next }
-			versus_show_pair_existing_trigger = { NUM = 6 COMPARE = 5 TIME = next }
+			versus_show_pair_existing_trigger = { NUM = 6 COMPARE = 2 TIME = last }
+			versus_show_pair_existing_trigger = { NUM = 6 COMPARE = 3 TIME = last }
+			versus_show_pair_existing_trigger = { NUM = 6 COMPARE = 4 TIME = last }
+			versus_show_pair_existing_trigger = { NUM = 6 COMPARE = 5 TIME = last }
 		}
 		custom_description = {
 			text = tournament_contest_round_tt
@@ -3884,11 +3888,11 @@ scripted_effect versus_last_pair_summary_effect = {
 		limit = {
 			versus_show_pair_trigger = { NUM = 7 TIME = next }
 			versus_show_pair_existing_trigger = { NUM = 7 COMPARE = 1 TIME = next }
-			versus_show_pair_existing_trigger = { NUM = 7 COMPARE = 2 TIME = next }
-			versus_show_pair_existing_trigger = { NUM = 7 COMPARE = 3 TIME = next }
-			versus_show_pair_existing_trigger = { NUM = 7 COMPARE = 4 TIME = next }
-			versus_show_pair_existing_trigger = { NUM = 7 COMPARE = 5 TIME = next }
-			versus_show_pair_existing_trigger = { NUM = 7 COMPARE = 6 TIME = next }
+			versus_show_pair_existing_trigger = { NUM = 7 COMPARE = 2 TIME = last }
+			versus_show_pair_existing_trigger = { NUM = 7 COMPARE = 3 TIME = last }
+			versus_show_pair_existing_trigger = { NUM = 7 COMPARE = 4 TIME = last }
+			versus_show_pair_existing_trigger = { NUM = 7 COMPARE = 5 TIME = last }
+			versus_show_pair_existing_trigger = { NUM = 7 COMPARE = 6 TIME = last }
 		}
 		custom_description = {
 			text = tournament_contest_round_tt

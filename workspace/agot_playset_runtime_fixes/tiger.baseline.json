@@ -19,14 +19,6 @@
     },
     {
       "severity": "error",
-      "code": "temporary-scope",
-      "message": "`scope:current_maester` was temporary and is no longer available here",
-      "source": "AGOT",
-      "file": "events/agot_events/agot_maester_events.txt",
-      "count": 2
-    },
-    {
-      "severity": "error",
       "code": "strict-scopes",
       "message": "scope:the_lc might not be available here",
       "source": "AGOT",
@@ -1216,14 +1208,6 @@
       "source": "MOD",
       "file": "events/agot_events/agot_btw_maintenance_events.txt",
       "count": 1
-    },
-    {
-      "severity": "warning",
-      "code": "logic",
-      "message": "running `random_list` inside `send_interface_toast` does not work right",
-      "source": "MOD",
-      "file": "events/agot_events/agot_colonization_events.txt",
-      "count": 2
     },
     {
       "severity": "warning",

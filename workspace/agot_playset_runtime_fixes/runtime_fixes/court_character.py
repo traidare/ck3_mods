@@ -61,20 +61,22 @@ def generate_aurion_title_gain_guard(inputs: RunInputs) -> None:
     """Disable LoV's obsolete title-gain recovery fallback.
 
     Aurion's recovery event is already attached to travel-plan movement and
-    arrival in the LoV base on-actions.  The later RC61 title-gain fallback
-    tests every gained county for the expedition building, then attempts to
+    arrival in the LoV base on-actions.  The later title-gain fallback tests
+    every gained county for the expedition building, then attempts to
     grant unique titles to whichever holder happens to gain that county.  The
     latter is the source of repeated title-holder collision errors in normal
     title transfers, so retain its registration but make the fallback inert.
     """
-    relative = "common/on_action/cob_on_actions/zz_lv_aurion_lost_expedition_title_gain_rc61.txt"
-    source = read_text(inputs.WORKSHOP / "3719888822" / relative)
+    relative = (
+        "common/on_action/cob_on_actions/zz_lv_aurion_lost_expedition_title_gain.txt"
+    )
+    source = read_text(inputs.WORKSHOP / "3788296332" / relative)
     handler = extract_top_level_block(
         source, "lv_aurion_lost_expedition_recovery_on_title_gain"
     )
     replacement = (
         "lv_aurion_lost_expedition_recovery_on_title_gain = {\n"
-        "    # RC61's title-gain fallback runs in the wrong scope. Recovery\n"
+        "    # The title-gain fallback runs in the wrong scope. Recovery\n"
         "    # remains owned by LoV's travel movement/arrival on-actions.\n"
         "    trigger = { always = no }\n"
         "    effect = { }\n"
@@ -789,7 +791,7 @@ def generate_agot_tour_events(inputs: RunInputs) -> None:
     write_text(inputs.OUTPUT, relative, text)
 
     relative = "events/activities/tour_activity/tour_general_events.txt"
-    text = read_text(inputs.WORKSHOP / "3719888822" / relative)
+    text = read_text(inputs.WORKSHOP / "3788296332" / relative)
     text = replace_exact(
         text,
         """	trigger = {

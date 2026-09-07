@@ -171,22 +171,6 @@
     },
     {
       "severity": "error",
-      "code": "missing-item",
-      "message": "special guest priest not defined in common/activities/activity_types/",
-      "source": "MOD",
-      "file": "events/activities/coronation_activity/coronation_events.txt",
-      "count": 2
-    },
-    {
-      "severity": "error",
-      "code": "missing-item",
-      "message": "struggle iberian_struggle not defined in common/struggle/struggles/",
-      "source": "MOD",
-      "file": "events/activities/coronation_activity/coronation_events.txt",
-      "count": 1
-    },
-    {
-      "severity": "error",
       "code": "strict-scopes",
       "message": "scope:province might not be available here",
       "source": "MOD",
@@ -221,14 +205,6 @@
       "severity": "error",
       "code": "missing-item",
       "message": "title d_the_sorrows not defined in common/landed_titles/",
-      "source": "MOD",
-      "file": "map_data/geographical_regions/north_sans_neck.txt",
-      "count": 1
-    },
-    {
-      "severity": "error",
-      "code": "missing-item",
-      "message": "title d_turnbridge not defined in common/landed_titles/",
       "source": "MOD",
       "file": "map_data/geographical_regions/north_sans_neck.txt",
       "count": 1
@@ -1037,6 +1013,14 @@
       "severity": "warning",
       "code": "missing-localization",
       "message": "missing spanish localization key hatching_type_knowledge_desc",
+      "source": "MOD",
+      "file": "common/activities/activity_types/agot_dragon_hatching.txt",
+      "count": 2
+    },
+    {
+      "severity": "warning",
+      "code": "missing-localization",
+      "message": "missing spanish localization key lv_agot_hatching_prov_has_volcano",
       "source": "MOD",
       "file": "common/activities/activity_types/agot_dragon_hatching.txt",
       "count": 2

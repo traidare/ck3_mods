@@ -2255,7 +2255,7 @@ agot_dummy_rulers = {
 			}
 		}
 
-		lv_rehome_all_dummy_rulers_effect = yes
+		lv_place_all_dummy_rulers_effect = yes
 	}
 }
 

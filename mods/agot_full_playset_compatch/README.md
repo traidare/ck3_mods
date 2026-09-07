@@ -53,23 +53,20 @@ compatch. Keep the integration layers in this order:
    MFA
 5. `AGOT MPD - CK3 1.19 Runtime Rebase`, immediately after AGOT MPD and before
    the MPD + Dragon Wives compatch
-6. `Legacy of Valyria - AGOT 0.5.1 Bridge - CK3 1.19 Runtime Rebase`,
-   immediately after `Legacy of Valyria - AGOT 0.5.1`
-7. `Essos Expanded: The Further East - CK3 1.19 History Rebase`, immediately
-   after `Essos Expanded: The Further East` and before its TempLoV compatch
+6. `Legacy of Valyria - AGOT 0.5.2.1 Compatch (Beta)`, immediately after
+   `Legacy of Valyria`
+7. `Essos Expanded: The Further East`, immediately after `Essos Expanded`
 8. `Seasons of Valyria - TempLoV/NOW/Seasons Compatch`
 9. `Essos Expanded - TempLoV/NOW Compatch`
-10. `AGOT NOW + Legacy of Valyria + Essos Expanded Map Compatch`
-11. `AGOT NOW + Legacy of Valyria + Essos Expanded World Data`
-12. `AGOT NOW + Legacy of Valyria + Essos Expanded Lore Governments`
-13. `CK3 Naval Combat`
-14. `AGOT Iron and Salt`
-15. `Character UI Overhaul`
-16. `AGOT Playset - Character UI Overhaul Compatch`
-17. `AGOT: Canon Continuity`
-18. `AGOT: The Long Night & Azor Ahai`
-19. `AGOT: The Long Night & Azor Ahai - CK3 1.19 Runtime Fix`
-20. `AGOT: The Long Night & Azor Ahai + DFP Compatch`
-21. `AGOT - Excommunication Balance`
-22. `AGOT Playset Runtime Fixes`
-23. `AGOT Playset Compatch`
+10. `AGOT NOW + Legacy of Valyria + Essos Expanded Compatch`
+11. `CK3 Naval Combat`
+12. `AGOT Iron and Salt`
+13. `Character UI Overhaul`
+14. `AGOT Playset - Character UI Overhaul Compatch`
+15. `AGOT: Canon Continuity`
+16. `AGOT: The Long Night & Azor Ahai`
+17. `AGOT: The Long Night & Azor Ahai - CK3 1.19 Runtime Fix`
+18. `AGOT: The Long Night & Azor Ahai + DFP Compatch`
+19. `AGOT - Excommunication Balance`
+20. `AGOT Playset Runtime Fixes`
+21. `AGOT Playset Compatch`

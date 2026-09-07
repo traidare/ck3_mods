@@ -19,7 +19,6 @@ on_title_gain = {
 		agot_pentos_treaty_on_action
 		agot_shattered_kingdom_formed
 		agot_on_title_gain
-		lv_agot_pirate_succession_on_title_change
 	}
 }
 
@@ -30,11 +29,11 @@ on_title_gain = {
 on_title_lost = {
 	on_actions = {
 		agot_pentos_treaty_on_action_title_lost
+		agot_pentos_treaty_conquered
 		agot_small_council_title_lost
 		agot_on_title_lost_mega_wars_action
 		agot_landless_pirate_vassal_manager
 		agot_destroy_nw_on_d_wall_lost
-		lv_agot_pirate_succession_on_title_change
 	}
 }
 
@@ -123,6 +122,52 @@ agot_pentos_treaty_on_action = {
 	}
 }
 
+agot_pentos_treaty_conquered = {
+	trigger = {
+		exists = global_var:braavos_treaty
+		scope:title = title:k_pentos
+		OR = {
+			scope:transfer_type = flag:conquest
+			scope:transfer_type = flag:usurped
+			scope:transfer_type = flag:conquest_holy_war
+			scope:transfer_type = flag:conquest_claim
+			scope:transfer_type = flag:conquest_populist
+		}
+	}
+	effect = {
+		remove_global_variable = braavos_treaty
+		if = {
+			limit = {
+				has_character_modifier = agot_pentos_braavos_treaty
+			}
+			remove_character_modifier = agot_pentos_braavos_treaty
+		}
+		every_vassal_or_below = {
+			limit = {
+				has_character_modifier = agot_pentos_braavos_treaty
+			}
+			remove_character_modifier = agot_pentos_braavos_treaty
+		}
+		scope:new_holder = {
+			if = {
+				limit = {
+					has_character_modifier = agot_pentos_braavos_treaty
+				}
+				remove_character_modifier = agot_pentos_braavos_treaty
+			}
+			every_vassal_or_below = {
+				limit = {
+					has_character_modifier = agot_pentos_braavos_treaty
+				}
+				remove_character_modifier = agot_pentos_braavos_treaty
+			}
+		}
+		title:k_braavos.holder ?= {
+			trigger_event = { id = agot_decisions_events.0206 days = 1 }
+		}
+	}
+}
+
 agot_pentos_treaty_on_action_independence = {
 	trigger = {
 		scope:old_liege = title:k_pentos.holder
@@ -147,6 +192,7 @@ agot_pentos_treaty_on_action_independence = {
 	}
 }
 
+# For when a vassal is conquered and removed from Pentos
 agot_pentos_treaty_on_action_title_lost = {
 	trigger = {
 		NOR = {
@@ -724,9 +770,13 @@ agot_on_title_gain = {
 					}
 				}
 			}
-			every_relation = {
-				type = pirate_ship_designated_heir
-				remove_relation_pirate_ship_designated_heir = prev
+			if = {
+				limit = {
+					any_relation = {
+						type = pirate_ship_designated_heir
+					}
+				}
+				remove_relation_pirate_ship_designated_heir = var:appointed_pirate_jank_heir
 			}
 			if = {
 				limit = {
@@ -769,25 +819,11 @@ agot_on_title_gain = {
 
 			scope:title = { save_scope_as = term_limit_country }
 
-			# RC12: title_capital_county and its de-jure duchy are not guaranteed during
-			# Free City title transitions. Resolve them before creating the transfer change.
 			if = {
 				limit = {
-					scope:term_limit_country = {
-						trigger_if = {
-							limit = { exists = title_capital_county }
-							title_capital_county = {
-								OR = {
-									has_title_law = magisterial_attached_titles_law
-									trigger_if = {
-										limit = { exists = duchy }
-										duchy = { has_title_law = magisterial_attached_titles_law }
-									}
-									trigger_else = { always = no }
-								}
-							}
-						}
-						trigger_else = { always = no }
+					OR = {
+						scope:term_limit_country.title_capital_county = { has_title_law = magisterial_attached_titles_law }
+						scope:term_limit_country.title_capital_county.duchy = { has_title_law = magisterial_attached_titles_law }
 					}
 				}
 
@@ -796,29 +832,27 @@ agot_on_title_gain = {
 					save_scope_as = title_change
 					add_claim_on_loss = no
 				}
-				scope:term_limit_country.title_capital_county = {
-					save_scope_as = term_limit_county
-					if = {
-						limit = {
-							has_title_law = magisterial_attached_titles_law
-							root = { NOT = { has_title = scope:term_limit_county } }
-						}
+				if = {
+					limit = {
+						scope:term_limit_country.title_capital_county = { has_title_law = magisterial_attached_titles_law }
+						NOT = { has_title = scope:term_limit_country.title_capital_county }
+					}
+					scope:term_limit_country.title_capital_county = {
 						change_title_holder = {
 							holder = root
 							change = scope:title_change
 						}
 					}
-					duchy ?= {
-						save_scope_as = term_limit_duchy
-						if = {
-							limit = {
-								has_title_law = magisterial_attached_titles_law
-								root = { NOT = { has_title = scope:term_limit_duchy } }
-							}
-							change_title_holder = {
-								holder = root
-								change = scope:title_change
-							}
+				}
+				if = {
+					limit = {
+						scope:term_limit_country.title_capital_county.duchy = { has_title_law = magisterial_attached_titles_law }
+						NOT = { has_title = scope:term_limit_country.title_capital_county.duchy }
+					}
+					scope:term_limit_country.title_capital_county.duchy = {
+						change_title_holder = {
+							holder = root
+							change = scope:title_change
 						}
 					}
 				}
@@ -1268,6 +1302,71 @@ agot_on_title_gain = {
 				}
 				trigger_event = agot_nw_ranger_events.0108
 			}
+		}
+
+		#Ruinment
+		if = {
+			limit = {
+				scope:title = {
+					tier = tier_county
+					any_county_province = {
+						OR = {
+							has_holding_type = ruin_holding
+							has_holding_type = settlement_holding
+						}
+					}
+				}
+			}
+			if = {
+				limit = { exists = var:domain_var }
+				every_held_county = {
+					every_county_province = {
+						limit = {
+							OR = {
+								has_holding_type = ruin_holding
+								has_holding_type = settlement_holding
+							}
+						}
+						root = {
+							increase_variable = {
+								NAME = domain_var
+								AMOUNT = 1
+							}
+						}
+					}
+				}
+			}
+			else = {
+				set_variable = {
+					name = domain_var
+					value = 0
+				}
+				every_held_county = {
+					every_county_province = {
+						limit = {
+							OR = {
+								has_holding_type = ruin_holding
+								has_holding_type = settlement_holding
+							}
+						}
+						root = {
+							increase_variable = {
+								NAME = domain_var
+								AMOUNT = 1
+							}
+						}
+					}
+				}
+			}
+			if = {
+				limit = { has_character_modifier = agot_ruinment_domain_modifier }
+				remove_character_modifier = agot_ruinment_domain_modifier
+			}
+			add_character_modifier = {
+				modifier = agot_ruinment_domain_modifier
+				days = 7
+			}
+			remove_variable = domain_var
 		}
 
 		release_excess_colony = yes
@@ -3643,7 +3742,7 @@ agot_title_destroyed_mega_wars_on_action = {
 									story_type = story_agot_mw_rebel
 									OR = {
 										is_target_in_variable_list = { name = mw_rebel_supporter_list target = scope:t_ruler }
-										var:mw_crown_story_var.story_owner ?= scope:old_holder
+										var:mw_crown_story_var.story_owner ?= root
 									}
 								}
 							}
@@ -3672,7 +3771,7 @@ agot_title_destroyed_mega_wars_on_action = {
 									story_type = story_agot_mw_rebel
 									OR = {
 										is_target_in_variable_list = { name = mw_rebel_supporter_list target = scope:t_ruler }
-										var:mw_crown_story_var.story_owner ?= scope:old_holder
+										var:mw_crown_story_var.story_owner ?= root
 									}
 								}
 							}

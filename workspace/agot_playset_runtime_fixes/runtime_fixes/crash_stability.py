@@ -195,11 +195,11 @@ def generate_naval_contact_stability(inputs: RunInputs) -> None:
 
 def generate_appointment_score_guards(inputs: RunInputs) -> None:
     relative = "common/character_interactions/06_ep3_interactions.txt"
-    source = read_text(inputs.WORKSHOP / "3719888822" / relative)
+    source = read_text(inputs.WORKSHOP / "3788296332" / relative)
     block = assert_source_block_hash(
         source,
         "support_candidacy_interaction",
-        "4547b0e857b78f47cc624edd64dadfb17f4d696c23349510f84f6a2ecee7fb74",
+        "d292185ad9e8e11770beaf32681812065ea7576f2fe1545777b3a1d87b6ac579",
         label="LoV support-candidacy interaction",
     )
     source = _replace_top_level_block(

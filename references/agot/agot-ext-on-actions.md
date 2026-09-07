@@ -27,8 +27,9 @@ AGOT's on_action modifications fall into three categories:
 1. **Vanilla on_action extensions** -- AGOT redeclares vanilla on_actions (e.g.,
    `on_title_gain`, `on_death`, `on_war_started`) and adds AGOT sub-actions into
    their `on_actions = { }` or `events = { }` blocks.
-2. **AGOT-specific on_actions** -- Custom on*actions prefixed with
-   `agot*`that form chains called from the vanilla extensions (e.g.,`agot_on_title_gain`, `agot_on_game_start`).
+2. **AGOT-specific on_actions** -- Custom on*actions prefixed with `agot*`that
+   form chains called from the vanilla extensions (e.g.,`agot_on_title_gain`,
+   `agot_on_game_start`).
 3. **AGOT custom lifecycle on_actions** -- Entirely new on_actions for
    AGOT-specific systems like dragons, the Night's Watch, the Citadel, Silent
    Sisters, mega wars, Free Cities, and the "Life More Feudal" (LMF) module.
@@ -407,9 +408,11 @@ on_title_gain = {
    all AGOT content, or (preferred) put your additions in a separate file.
 
 3. **AGOT uses a dispatch pattern.** Many vanilla on*actions dispatch to a
-   single
-   `agot_on*\*`master action, which then calls specialized sub-actions. If you hook into the vanilla on_action directly, your code runs in parallel with the entire AGOT chain. If you hook into a specific AGOT sub-action (e.g.,`agot_on_title_gain_iron_throne`),
-   you get finer control but depend on AGOT's internal structure.
+   single `agot_on*\*`master action, which then calls specialized sub-actions.
+   If you hook into the vanilla on_action directly, your code runs in parallel
+   with the entire AGOT chain. If you hook into a specific AGOT sub-action
+   (e.g.,`agot_on_title_gain_iron_throne`), you get finer control but depend on
+   AGOT's internal structure.
 
 4. **Check `has_global_variable = AGOT_is_loaded`** in your on_actions if your
    sub-mod should also work without AGOT. This variable is set in

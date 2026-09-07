@@ -324,6 +324,13 @@ indian = {
 					# COMPATCH August 25th 2026: Asshai'i and the plain far-east tribals hold court in the
 					# generic hall, not the regional palace rooms
 					NOR = {
+						# COMPATCH August 30th 2026: jogos_nhai added, their holding art moved to the
+						# steppe set, which made steppe_building_gfx_use_indian pull them into this room
+						# ahead of their own Dragon's Mandate court.
+						culture = culture:jogos_nhai
+						culture = culture:jhalai
+						culture = culture:nefer
+						culture = culture:carcosan
 						culture = culture:shadowman
 						culture = culture:asshaii
 						culture = culture:bloodless_man
@@ -332,6 +339,10 @@ indian = {
 						culture = culture:vahari
 						capital_county ?= {
 							OR = {
+								culture = culture:jogos_nhai
+								culture = culture:jhalai
+								culture = culture:nefer
+								culture = culture:carcosan
 								culture = culture:shadowman
 								culture = culture:asshaii
 								culture = culture:bloodless_man
@@ -402,6 +413,7 @@ western = {
 					OR = {
 						culture = { has_graphical_chinese_culture_group_trigger = yes }
 						culture = { has_graphical_japanese_culture_group_trigger = yes }
+						culture = culture:carcosan
 						culture = culture:jhalai
 						culture = culture:jogos_nhai
 						culture = culture:asshaii
@@ -477,6 +489,10 @@ chinese = {
 				}
 			}
 			OR = {
+				# COMPATCH August 30th 2026: Carcosa holds court in the Hall of Heaven by design. Its
+				# holding art left the chinese set, so it must pass this gate by name.
+				culture = culture:carcosan
+				capital_county ?= { culture = culture:carcosan }
 				capital_county ?= {
 					OR = {
 						culture = { has_graphical_chinese_culture_group_trigger = yes }
@@ -602,6 +618,12 @@ southeast_asia = {
 					# COMPATCH August 25th 2026: Asshai'i and the plain far-east tribals hold court in the
 					# generic hall, not the regional palace rooms
 					NOR = {
+						# COMPATCH August 30th 2026: jogos_nhai excluded, steppe holding art would pull
+						# them here via steppe_building_gfx_use_southeast_asian ahead of their own court.
+						culture = culture:jogos_nhai
+						culture = culture:jhalai
+						culture = culture:nefer
+						culture = culture:carcosan
 						culture = culture:shadowman
 						culture = culture:asshaii
 						culture = culture:bloodless_man
@@ -610,6 +632,10 @@ southeast_asia = {
 						culture = culture:vahari
 						capital_county ?= {
 							OR = {
+								culture = culture:jogos_nhai
+								culture = culture:jhalai
+								culture = culture:nefer
+								culture = culture:carcosan
 								culture = culture:shadowman
 								culture = culture:asshaii
 								culture = culture:bloodless_man

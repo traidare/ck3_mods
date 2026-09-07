@@ -15,22 +15,6 @@
     4426
   ],
   "baseline": "Further East EEP v4 native map",
-  "raster_outputs": [
-    "map_data/provinces.png"
-  ],
-  "raster_reclaims": [
-    {
-      "province": 27585,
-      "misread_as": 1319,
-      "pixels": 86,
-      "bounds": [
-        6667,
-        6707,
-        2164,
-        2191
-      ]
-    }
-  ],
   "land_provinces": 24083,
   "provinces_unpainted": 1245,
   "title_quarantine": {
@@ -38,7 +22,7 @@
       "01_agot_landed_titles.txt": "3664900993/common/landed_titles/01_agot_landed_titles.txt",
       "01_landed_titles.txt": "3768149491/common/landed_titles/01_landed_titles.txt",
       "02_agot_special_titles.txt": "2962333032/common/landed_titles/02_agot_special_titles.txt",
-      "03_agot_landed_titles_essos_titular.txt": "3719888822/common/landed_titles/03_agot_landed_titles_essos_titular.txt",
+      "03_agot_landed_titles_essos_titular.txt": "3788296332/common/landed_titles/03_agot_landed_titles_essos_titular.txt",
       "03_agot_landed_titles_westeros_titular.txt": "2962333032/common/landed_titles/03_agot_landed_titles_westeros_titular.txt",
       "04_agot_mapmodes_titles.txt": "2962333032/common/landed_titles/04_agot_mapmodes_titles.txt",
       "05_agot_laamps.txt": "2962333032/common/landed_titles/05_agot_laamps.txt",
@@ -47,18 +31,18 @@
       "07_agot_hegemony_titles.txt": "2962333032/common/landed_titles/07_agot_hegemony_titles.txt",
       "99_agot_unused_titles.txt": "2962333032/common/landed_titles/99_agot_unused_titles.txt",
       "cob_laamps.txt": "3403938445/common/landed_titles/cob_laamps.txt",
-      "lv_asshai_titles.txt": "3719888822/common/landed_titles/lv_asshai_titles.txt",
-      "lv_far_essos_islands_titles.txt": "3719888822/common/landed_titles/lv_far_essos_islands_titles.txt",
-      "lv_faros_titles.txt": "3719888822/common/landed_titles/lv_faros_titles.txt",
-      "lv_ghiscar_titles.txt": "3719888822/common/landed_titles/lv_ghiscar_titles.txt",
+      "lv_asshai_titles.txt": "3788296332/common/landed_titles/lv_asshai_titles.txt",
+      "lv_far_essos_islands_titles.txt": "3788296332/common/landed_titles/lv_far_essos_islands_titles.txt",
+      "lv_faros_titles.txt": "3788296332/common/landed_titles/lv_faros_titles.txt",
+      "lv_ghiscar_titles.txt": "3788296332/common/landed_titles/lv_ghiscar_titles.txt",
       "lv_misc_titles.txt": "3403938445/common/landed_titles/lv_misc_titles.txt",
       "lv_noble_families.txt": "3403938445/common/landed_titles/lv_noble_families.txt",
-      "lv_north_valyria_titles.txt": "3719888822/common/landed_titles/lv_north_valyria_titles.txt",
-      "lv_rhoyne_titles.txt": "3719888822/common/landed_titles/lv_rhoyne_titles.txt",
-      "lv_sothoryos_titles.txt": "3719888822/common/landed_titles/lv_sothoryos_titles.txt",
+      "lv_north_valyria_titles.txt": "3788296332/common/landed_titles/lv_north_valyria_titles.txt",
+      "lv_rhoyne_titles.txt": "3788296332/common/landed_titles/lv_rhoyne_titles.txt",
+      "lv_sothoryos_titles.txt": "3788296332/common/landed_titles/lv_sothoryos_titles.txt",
       "lv_special_titles.txt": "3403938445/common/landed_titles/lv_special_titles.txt",
-      "lv_valyria_titles.txt": "3719888822/common/landed_titles/lv_valyria_titles.txt",
-      "lv_volantis_titles.txt": "3719888822/common/landed_titles/lv_volantis_titles.txt",
+      "lv_valyria_titles.txt": "3788296332/common/landed_titles/lv_valyria_titles.txt",
+      "lv_volantis_titles.txt": "3788296332/common/landed_titles/lv_volantis_titles.txt",
       "norvos_titles.txt": "2962333032/common/landed_titles/norvos_titles.txt",
       "replace/02_agot_special_titles.txt": "3664900993/common/landed_titles/replace/02_agot_special_titles.txt",
       "replace/03_agot_landed_titles_westeros_titular.txt": "3664900993/common/landed_titles/replace/03_agot_landed_titles_westeros_titular.txt"
@@ -1079,27 +1063,27 @@
     },
     "gfx/map/map_object_data/special_building_locators.txt": {
       "moved": 4852,
-      "added": 445,
+      "added": 0,
       "unplaceable": 1000
     },
     "gfx/map/map_object_data/player_stack_locators.txt": {
       "moved": 1073,
-      "added": 445,
-      "unplaceable": 1000
+      "added": 0,
+      "unplaceable": 0
     },
     "gfx/map/map_object_data/combat_locators.txt": {
       "moved": 698,
-      "added": 445,
-      "unplaceable": 1000
+      "added": 0,
+      "unplaceable": 0
     },
     "gfx/map/map_object_data/siege_locators.txt": {
       "moved": 270,
-      "added": 445,
-      "unplaceable": 1000
+      "added": 0,
+      "unplaceable": 0
     },
     "gfx/map/map_object_data/activities.txt": {
       "moved": 8585,
-      "added": 445,
+      "added": 0,
       "unplaceable": 1000
     }
   }

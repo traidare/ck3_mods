@@ -70,36 +70,6 @@ class MergedMap:
     provinces: tuple[Definition, ...]
 
 
-@dataclass(frozen=True, slots=True)
-class RasterReclaim:
-    """Leftover pixels of one province that read back as an unrelated one."""
-
-    province: int
-    misread_as: int
-    pixels: int
-    bounds: tuple[int, int, int, int]
-
-
-# Further East's newest provinces carry placeholder names of the form
-# `R<r>G<g>B<b>` that record the colour they were painted with before their
-# definition row was given a different one.  Where that recorded colour is also
-# a colour this map assigns to an existing province, every pixel the recolour
-# missed reads back as that unrelated province.  CK3 derives province adjacency
-# from pixel adjacency alone, so such a leak makes two provinces on opposite
-# sides of the map neighbours, and every neighbour-scoped rule -- colonization
-# above all -- follows it.  Each entry states the province whose pixels are
-# reclaimed, the province they currently read as, and the exact count and
-# inclusive bounds the repair may touch, so a changed raster fails generation
-# rather than being silently repainted.
-RASTER_RECLAIMS = (
-    RasterReclaim(
-        province=27585,
-        misread_as=1319,
-        pixels=86,
-        bounds=(6667, 6707, 2164, 2191),
-    ),
-)
-
 # A province painted in one place has a compact bounding box.  A larger span
 # means either a genuinely map-spanning zone or a leak of the kind above, so the
 # set of provinces exceeding it is asserted rather than assumed.  The reviewed
@@ -282,15 +252,14 @@ def apply_locator_pins(
 class ProvinceGeometry:
     """Where each province actually sits on the effective province raster.
 
-    Further East's `provinces.png` is the baseline for the raster this layer
-    emits, and this layer supplies `definition.csv`, so the two must be read as
-    a pair.  That pairing is exact rather than approximate: the thirteen NOW
-    colour edits are a closed permutation within a set of neighbouring ids, so
-    every colour this layer names is present in Further East's raster and refers
-    to the pixels NOW intended.  `raster` carries that baseline with
-    `RASTER_RECLAIMS` applied, and `id_raster` resolves it against
-    `definition.csv`; the locator placement below and the emitted raster
-    therefore describe the same map.
+    Further East's `provinces.png` is the effective raster and this layer
+    supplies `definition.csv`, so the two must be read as a pair.  That pairing
+    is exact rather than approximate: the thirteen NOW colour edits are a closed
+    permutation within a set of neighbouring ids, so every colour this layer
+    names is present in Further East's raster and refers to the pixels NOW
+    intended.  `raster` carries that raster and `id_raster` resolves it against
+    `definition.csv`, so the locator placement below describes the map CK3
+    loads.
     """
 
     land: frozenset[int]
@@ -466,49 +435,13 @@ def quarantined_default_map(
     }
 
 
-def reclaim_raster(rgb, id_raster, colours: dict[int, int]) -> None:
-    """Repaint each declared leak in place, in both the colours and the ids."""
-    import numpy as np
-
-    for reclaim in RASTER_RECLAIMS:
-        for province in (reclaim.province, reclaim.misread_as):
-            if province not in colours:
-                raise RuntimeError(
-                    f"raster reclaim names province {province}, which "
-                    f"{DEFINITION} no longer defines"
-                )
-        left, right, top, bottom = reclaim.bounds
-        window = id_raster[top : bottom + 1, left : right + 1]
-        found = int((window == reclaim.misread_as).sum())
-        if found != reclaim.pixels:
-            raise RuntimeError(
-                f"raster reclaim for province {reclaim.province} expected "
-                f"{reclaim.pixels} pixel(s) of {reclaim.misread_as} in "
-                f"{reclaim.bounds} but found {found}; re-audit the leak before "
-                "repainting"
-            )
-        outside = int((id_raster == reclaim.misread_as).sum()) - found
-        if outside == 0:
-            raise RuntimeError(
-                f"province {reclaim.misread_as} is painted only inside "
-                f"{reclaim.bounds}; reclaiming it would leave it unpainted"
-            )
-        colour = colours[reclaim.province]
-        selected = window == reclaim.misread_as
-        window[selected] = reclaim.province
-        rgb[top : bottom + 1, left : right + 1][selected] = np.array(
-            [colour >> 16 & 0xFF, colour >> 8 & 0xFF, colour & 0xFF],
-            dtype=np.uint8,
-        )
-
-
 def assert_compact_provinces(id_raster, colours: dict[int, int]) -> None:
     """Fail on any province painted across a span only a map-spanning zone has.
 
-    This is the general form of the defect `RASTER_RECLAIMS` repairs: a province
-    whose pixels reach far beyond its own bounds is either one of the reviewed
-    zones that genuinely does, or a leak that hands some distant province a
-    neighbour it should not have.
+    A province whose pixels reach far beyond its own bounds is either one of the
+    reviewed zones that genuinely does, or stray pixels of one province left
+    behind inside another - a leak that hands two provinces on opposite sides of
+    the map a shared border, which CK3 then reads as adjacency.
     """
     import numpy as np
 
@@ -556,8 +489,6 @@ def province_geometry(inputs: RunInputs, definition_text: str) -> ProvinceGeomet
         if image.mode != "RGB":
             raise RuntimeError(f"provinces.png is {image.mode}, expected RGB")
         width, height = image.size
-        # A writable copy: the reclaims below repaint it, and it is the raster
-        # this module emits.
         rgb = np.array(image, dtype=np.uint8)
 
     packed = (
@@ -571,7 +502,6 @@ def province_geometry(inputs: RunInputs, definition_text: str) -> ProvinceGeomet
     id_raster = lookup[packed]
     del packed, lookup
 
-    reclaim_raster(rgb, id_raster, colours)
     assert_compact_provinces(id_raster, colours)
 
     size = max(colours) + 1
@@ -1614,10 +1544,9 @@ def merge_geographical_regions(inputs: RunInputs, definition: str) -> str:
 # The one-line statement of what this merge is for.  The upstream inputs behind
 # it are pinned by sources.lock.json.
 INTENT = (
-    "EEP-native map; apply NOW semantic Westeros deltas, reclaim raster pixels "
-    "that read back as an unrelated province, quarantine reviewed unpainted "
-    "definitions without effective titles, then place every land province's "
-    "locator inside its own province"
+    "EEP-native map; apply NOW semantic Westeros deltas, quarantine reviewed "
+    "unpainted definitions without effective titles, then place every land "
+    "province's locator inside its own province"
 )
 
 
@@ -1644,19 +1573,6 @@ def parent_versions(inputs: RunInputs) -> dict[str, str]:
     }
 
 
-def write_provinces_raster(inputs: RunInputs, geometry: ProvinceGeometry) -> None:
-    """Emit Further East's raster with the declared reclaims applied.
-
-    The raster is emitted whole because CK3 reads it whole; the module owns it
-    only to carry `RASTER_RECLAIMS`, and every other pixel is Further East's.
-    """
-    from PIL import Image
-
-    path = inputs.context.output_path(PROVINCES_RASTER)
-    path.parent.mkdir(parents=True, exist_ok=True)
-    Image.fromarray(geometry.raster, "RGB").save(path, format="PNG", optimize=True)
-
-
 def merge(inputs: RunInputs) -> MergedMap:
     versions = parent_versions(inputs)
     print("Parents: " + ", ".join(f"{k} {v}" for k, v in versions.items()))
@@ -1666,7 +1582,6 @@ def merge(inputs: RunInputs) -> MergedMap:
     inputs.write(GEO_REGIONS, merge_geographical_regions(inputs, definition))
 
     geometry = province_geometry(inputs, definition)
-    write_provinces_raster(inputs, geometry)
     default_map, title_audit = quarantined_default_map(inputs, definition, geometry)
     inputs.write(DEFAULT_MAP, default_map)
     audit: dict[str, object] = {}
@@ -1682,16 +1597,6 @@ def merge(inputs: RunInputs) -> MergedMap:
             {
                 "definition_rows": sorted(NOW_DEFINITION_ROWS),
                 "baseline": "Further East EEP v4 native map",
-                "raster_outputs": [PROVINCES_RASTER],
-                "raster_reclaims": [
-                    {
-                        "province": reclaim.province,
-                        "misread_as": reclaim.misread_as,
-                        "pixels": reclaim.pixels,
-                        "bounds": list(reclaim.bounds),
-                    }
-                    for reclaim in RASTER_RECLAIMS
-                ],
                 "land_provinces": len(geometry.land),
                 "provinces_unpainted": len(geometry.unpainted),
                 "title_quarantine": title_audit,

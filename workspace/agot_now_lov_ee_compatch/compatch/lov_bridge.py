@@ -14,6 +14,9 @@ from gen.text import definition_span, replace_exact
 from .context import RunInputs
 
 GAME_START = "common/on_action/agot_on_actions/agot_game_start.txt"
+# The bridge's own addition to AGOT's dummy-ruler block: it moves every dummy
+# ruler to a location LoV's redrawn map still has.
+DUMMY_RULER_HOOK = "lv_place_all_dummy_rulers_effect"
 
 ESTATE_ANCHORS = {
     6: "\t\t\t\t\t\towner.dynasty = dynasty:dynn_Sonaryen\n",
@@ -157,9 +160,12 @@ def rebase(inputs: RunInputs) -> None:
     tail = "\n\t}\n}"
     if not dummy.endswith(tail):
         raise RuntimeError("AGOT dummy-ruler block tail changed")
-    dummy = (
-        dummy[: -len(tail)] + "\n\n\t\tlv_rehome_all_dummy_rulers_effect = yes" + tail
-    )
+    if bridge.count(f"{DUMMY_RULER_HOOK} = yes") != 1:
+        raise RuntimeError(
+            f"the LoV bridge no longer calls {DUMMY_RULER_HOOK} once from its "
+            "game-start copy; re-audit which effect places its dummy rulers"
+        )
+    dummy = dummy[: -len(tail)] + f"\n\n\t\t{DUMMY_RULER_HOOK} = yes" + tail
     text = replace_exact(
         text,
         block(text, "agot_dummy_rulers"),

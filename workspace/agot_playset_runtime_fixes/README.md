@@ -198,37 +198,22 @@ change re-raises it.
 - **Additional Models decision illustrations:** replaces three references to the
   parent's nonexistent `agot_court/throne.dds` with AGOT's existing Iron Throne
   room illustration.
-- **Legacy of Valyria High Septon naming (Workshop 3719888822):**
-  `Unknown effect: agot_assign_high_septon_nickname_effect, near line: 2047` in
-  `common/on_action/agot_on_actions/agot_title_on_actions.txt`. AGOT names the
-  High Septon rather than nicknaming them and calls
-  `agot_assign_high_septon_name_effect`; LoV's whole-file copy of that path
-  still calls the retired name, so the reader discards
-  `agot_on_title_gain_high_septon` and a newly elected High Septon keeps their
-  birth name. LoV is the effective last writer for the path, so this module
-  restates its file with that one call renamed and every other on-action intact.
-  The same on-action also grants `nick_agot_the_high_septon`: AGOT's
-  `agot_is_high_septon` localization branches render the seat's displayed name
-  as `[ROOT.Char.GetNickname]` alone, and the only grant of that nickname in the
-  playset is the game-start dummy's character history, so without it every later
-  High Septon renders an empty name and the composite name line collapses to its
-  separators. `give_nickname` is idempotent, and the on-action already runs on
-  each succession to the seat. Generation fails if AGOT stops defining the
-  current effect, starts defining the old one, stops defining the nickname, or
-  stops rendering `agot_high_septon_titled_full_name`,
-  `agot_high_septon_titled_first_name`, or
+- **Legacy of Valyria High Septon nickname (Workshop 3788296332):**
+  `agot_on_title_gain_high_septon` in
+  `common/on_action/agot_on_actions/agot_title_on_actions.txt` names the High
+  Septon but does not nickname them. LoV's whole-file copy of that path is the
+  effective last writer, so this module restates its file with that one action
+  extended and every other on-action intact. The action grants
+  `nick_agot_the_high_septon` because AGOT's `agot_is_high_septon` localization
+  branches render the seat's displayed name as `[ROOT.Char.GetNickname]` alone,
+  and the only grant of that nickname in the playset is the game-start dummy's
+  character history, so without it every later High Septon renders an empty name
+  and the composite name line collapses to its separators. `give_nickname` is
+  idempotent, and the on-action already runs on each succession to the seat.
+  Generation fails if AGOT stops defining `agot_assign_high_septon_name_effect`,
+  stops defining the nickname, or stops rendering
+  `agot_high_septon_titled_full_name`, `agot_high_septon_titled_first_name`, or
   `agot_high_septon_titled_first_name_possessive` from the nickname.
-- **Legacy of Valyria wilderness regrowth (Workshop 3719888822):**
-  `Event 'agot_colonization_events.9001' not found`. That event puts a cleared
-  obstacle back once its marker expires, and AGOT's wilderness and ruin
-  buildings fire it from `on_complete` at nine sites. The bridge's whole-file
-  copy of `events/agot_events/agot_colonization_events.txt` is the effective
-  last writer for the path and predates the event, so clearing a wolf den, bear
-  den, dense growth, flooded lands, bandits, or pirate remnants leaves the
-  obstacle gone for good. AGOT's definition is appended to the bridge's copy
-  rather than restoring the whole file, so the bridge's own event deltas
-  survive. Generation fails if the bridge starts defining the event itself, if
-  AGOT's definition changes, or if the caller count moves.
 - **More Valyrian Steel artifacts (Workshop 3573203384):** four dead references
   across the two artifact files it is the effective last writer for. The
   Karstark sword's history entry ends at
@@ -415,19 +400,19 @@ change re-raises it.
   from Workshop `3768149491`'s landed titles rather than listed, and generation
   fails if it stops defining most Essos empires. The generator pins the Essos
   startup and family blocks, AGOT removal semantics, and LoV's wilderness
-  effect. Re-audit when Workshops `3682802751`, `2962333032`, or `3719888822`
+  effect. Re-audit when Workshops `3682802751`, `2962333032`, or `3788296332`
   change those blocks.
 - **Tour pulse:** makes the vanilla monthly pulse a no-op when MFA relays it
   before the activity has a `stop_host` variable, rather than dereferencing the
   missing itinerary stop.
-- **LoV nomad title-gain setup (Workshop 3719888822):** guards yurt main
+- **LoV nomad title-gain setup (Workshop 3788296332):** guards yurt main
   buildings with the current vanilla construction requirements. The upstream
   1200/1300 branches attempted to add `yurt_main_03` and `yurt_main_04` without
   checking nomadic authority or the previous building, producing the repeated
   `Domicile owner failed to meet triggered requirements` and
   `Cannot construct an upgrade when previous building has not been built`
   errors. The 900/1100 branches also avoid duplicate main-building additions.
-- **LoV noble-family title churn (Workshop 3719888822):** routes both
+- **LoV noble-family title churn (Workshop 3788296332):** routes both
   `on_vassal_change` calls to `create_noble_family_effect` through
   `agot_playset_request_noble_family_title_effect`, which sets a 30-day
   `agot_playset_nf_title_requested` flag and defers the creation to
@@ -463,8 +448,8 @@ change re-raises it.
   every sibling event while changing only the diagnosed block. This is required
   because CK3 replaces event files by relative path; the generator checks the
   parent namespace and exact replacement count before writing them.
-- **LoV Aurion recovery fallback (Workshop 3719888822):** makes the RC61
-  title-gain fallback inert. The recovery event remains owned by LoV's travel
+- **LoV Aurion recovery fallback (Workshop 3788296332):** makes the title-gain
+  fallback inert. The recovery event remains owned by LoV's travel
   movement/arrival on-actions, while the title-gain copy was attached to every
   title transfer and correlated with repeated unique-title holder collisions.
 - **COW-AGOT province setup (Workshop 2971198450):** removes a Lordsport
@@ -514,15 +499,15 @@ update invalidates an assumption.
 Individual repairs above carry their own narrower triggers. In general, re-run
 the generator and review the resulting diff after any update to Workshop IDs
 `2962333032`, `3388366564`, `3596393244`, `3361162762`, `2967263410`,
-`3713902872`, `3719888822`, `3319354609`, `3621472324`, `3324579171`,
+`3713902872`, `3788296332`, `3319354609`, `3621472324`, `3324579171`,
 `3349316031`, `3761342990`, `3676293022`, `3305687550`, `3662281614`,
 `3673468355`, `2886417277`, `3084203091`, `3225355262`, `3235061780`,
 `3377641022`, `3692879370`, `3697008412`, `3462342647`, `3437814875`,
-`3709868073`, `3541596590`, `3719888822`, or `2971198450`, `3732116186`,
+`3709868073`, `3541596590`, `3788296332`, or `2971198450`, `3732116186`,
 `3573203384`, `2712590542`, or `2519175282`, and after CK3 updates that change
 `04_dlc_ep2_tour_effects.txt`. Re-run it after updates to `3682802751` because
 the Essos cleanup validates that parent's game rules and startup actions, and
-after updates to `3719888822` because the same repair is pinned to LoV's
+after updates to `3788296332` because the same repair is pinned to LoV's
 effective wilderness-conversion effect. Re-run it after updates to `3773616784`
 because the generated court-scene selector follows that compatch's current
 room-routing rules.

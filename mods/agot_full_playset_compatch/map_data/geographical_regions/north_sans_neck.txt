@@ -1,14 +1,10 @@
 ﻿# Seasons of Valyria - TempLoV/NOW/Seasons Compatch: seasonal regions.
 #
-# v1.0.14 REBASE onto the AGOT NOW-Seasons Compatch update of August 8th 2026.
-# That update moved its copy of this file to map_data/geographical_regions/replace/, which is a
-# plain subfolder with no engine meaning (no replace_path in its descriptor). Result: its file
-# and ours both loaded and 76 regions were defined twice, spamming 'Region has multiple entries
-# for province' and leaving region membership undefined. This mod now ships:
-#   1. THIS file, carrying upstream's full updated content (16 regions changed on August 8th)
-#      plus our Legacy of Valyria additions and the Stepstones region, each defined exactly once.
-#   2. An EMPTY map_data/geographical_regions/replace/north_sans_neck.txt, which loads after
-#      upstream's copy at the same path and blanks it, ending the double definition.
+# September 6th 2026 REBASE onto the AGOT NOW-Seasons Compatch update of September 6th 2026
+# (24 regions changed upstream). This file carries upstream's full updated content plus our
+# 13 Legacy of Valyria/Stepstones regions, each defined exactly once. The mod also ships an
+# EMPTY map_data/geographical_regions/replace/north_sans_neck.txt that blanks upstream's stray
+# copy at that path (plain subfolder, no engine meaning, would double-define every region).
 # REBASE AGAIN when the NOW-Seasons Compatch (Steam 3753608966) next updates either file.
 
 world_westeros_the_north_sans_neck = {
@@ -41,7 +37,6 @@ world_westeros_the_reach_without_south_or_marches = {
 	duchies = {
 		d_highgarden
 		d_bitterbridge
-
 		d_blueburn
 
 		d_cockleswhent
@@ -79,7 +74,6 @@ world_westeros_the_arbor_seasons = {
 		d_southshield
 	}
 }
-
 world_westeros_the_stormlands_sans_marches = {
 	duchies = {
 		d_shipbreaker_bay
@@ -121,7 +115,6 @@ world_westeros_rest_of_dorne = {
 world_lonely_light = {
 
 }
-#WINTER GROUPS SEASONS
 world_group_one = {
 	regions = {
 		world_barrowlands_seasons
@@ -150,7 +143,6 @@ world_group_two = {
 		world_kraken_bay
 		world_iron_isles
 		world_the_fingers_seasons
-		world_norvos_seasons
 	}
 }
 world_group_three = {
@@ -181,7 +173,6 @@ world_group_four = {
 		world_lov_middle_rhoyne
 	}
 }
-
 world_group_five = {
 	regions = {
 		world_rainwood
@@ -252,9 +243,6 @@ world_group_ten = {
 		world_lov_north_ghiscar
 	}
 }
-#NEW REGIONS FOR SEASONS
-
-
 world_tarth_and_estermont = {
 	duchies = {
 		d_estermont_isles
@@ -421,7 +409,6 @@ world_upper_reach = {
 
 	}
 }
-
 world_andalosi_coast = {
 	counties = {
 		c_horost
@@ -596,7 +583,6 @@ world_lys_and_mangroves = {
 	}
 
 }
-
 world_broken_arm_woods = {
 	duchies = {
 		d_broken_arm
@@ -608,7 +594,6 @@ world_dorne_north_coast = {
 		d_ghost_hills
 	}
 	counties = {
-		c_husk_flats
 		c_flatwater
 		c_ghaston_grey
 		c_wayguard
@@ -625,6 +610,7 @@ world_green_blood_river = {
 		c_plankytown
 		c_lemonwood
 		c_sunspear
+		c_husk_flats
 	}
 }
 world_dorne_south_coast = {
@@ -698,13 +684,15 @@ world_star_fall = {
 		c_freeridge
 		c_evenmorn
 		c_the_rolls
+		c_echo_hills
+		c_lavenderne
+		c_the_ring
 		c_dersling
 	}
 	#regions = {
 	#	world_rest_of_dreadsands
 	#}
 }
-
 world_honey_lands = {
 	duchies = {
 	 d_honeylands
@@ -715,18 +703,14 @@ world_honey_lands = {
 	 d_denflower
 	}
 	counties = {
-		c_the_ring
 		c_beachcastle
 		c_meadowport
 		#c_meadsmeet
 		c_whisper_point
 		c_richglade
 		c_meadowsmeet
-		c_lavenderne
 	}
 }
-
-
 world_dornish_marches_seasons = {
 	regions = {
 		world_rest_of_prince_pass #incase  I want to remove to another one later
@@ -802,7 +786,6 @@ world_westerlands_low = {
 		c_sarsfield
 		c_lowell
 		c_castamere
-		c_pendric_hills
 		c_hetherfield
 		c_cornfield
 		c_toll_pass
@@ -810,7 +793,6 @@ world_westerlands_low = {
 		c_longbolt
 		c_redbramble
 		c_lansdale
-		c_rutland
 		c_lonmont
 
 	}
@@ -845,6 +827,7 @@ world_westerlands_high = {
 		c_the_drop
 		c_rivermont
 		c_borrowmore
+		c_pendric_hills
 		c_raddle
 		#c_the_golden_tooth
 	}
@@ -864,7 +847,7 @@ world_riverlands_central = {
 		d_ironwater
 		d_whiskermoor
 		d_branstone
-		d_turnbridge
+		d_tumblestone
 		d_maidstone
 		d_lychester
 		d_acorns_ridge
@@ -905,6 +888,8 @@ world_riverlands_central = {
 }
 world_upper_vale_seasons = {
 	duchies = {
+		d_crowncrests
+		d_strongsong
 
 	}
 	counties = {
@@ -918,27 +903,13 @@ world_upper_vale_seasons = {
 		c_longleaf
 		c_spiderwood
 		c_the_bloody_gate
-		c_timbers_wedge
-		c_topperpoole
-		c_vearnon
-		c_bluewater
-		c_clammath
-		c_strongsong
-		c_waldlake
-		c_morency
-		c_purling
-		c_crestfall
-		c_giants_scar
 		c_godsroost
 		c_the_eyrie
 		c_wickenden
 		c_marbletoft
 		c_stoutstone
 		c_kipress
-		c_crown_crescent
 		c_willowspire
-		c_correll
-		c_standish
 		c_the_banners
 		c_bronzespear
 		c_hardvale
@@ -1108,8 +1079,6 @@ world_whiteknife_seasons = {
 		c_whitford
 		c_wolf_branch
 		c_trenchwood
-		# c_heapsdown removed: upstream's Aug 8 update lists it here AND in world_barrowlands_seasons.
-		# A county in two sub-regions of the seasons situation is a conflict. Barrowlands keeps it.
 	}
 }
 world_winterfell_seasons = {
@@ -1166,9 +1135,7 @@ world_sheepshead_hills = {
 		c_the_gap
 		c_woodward
 		c_hornwood
-		c_the_cinders
 		c_velvet_grove
-		c_matchwood
 
 	}
 }
@@ -1226,8 +1193,6 @@ world_frozen_shore_seasons = {
 		d_great_ice_river
 	}
 }
-
-
 world_the_arbor = {
 	duchies = {
 		d_the_arbor
@@ -1243,20 +1208,11 @@ world_the_shield_islands = {
 	}
 
 }
-#ESSOS :
-
-
-#extra extra read all about it!
 world_rest_of_essos_valyria_LOV = {
 	# LoV & Seasons compatch: was duchies = { d_ruins }, which is EVERY wasteland on the map.
 	# AGOT 0.4.40 stubbed the real Essos regions, so upstream's essos_dothraki rolls were
 	# carpet-painting all ruins provinces with one season. Emptied on purpose.
 }
-
-
-#WEATHER REGIONS
-
-
 world_trident = {
 	counties = {
 		c_gaines
@@ -1269,7 +1225,6 @@ world_trident = {
 		c_fairmarket
 	}
 }
-
 world_crossing_flood = {
 	counties = {
 		c_erenford
@@ -1303,8 +1258,6 @@ world_the_neck_flood = {
 		d_moat_cailin
 	}
 }
-
-# ============ Legacy of Valyria / TempLoV additions (ours, kept across rebases) ============
 world_stepstones = {
 	duchies = {
 		d_first_stepstones

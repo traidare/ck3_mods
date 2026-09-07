@@ -883,18 +883,9 @@ MEMBERSHIP_KEYS = {
 # regions` and resolves to whichever region it reads first. The classified-
 # province rebuild cannot see this case: a member whose provinces all lie
 # outside the classified range reaches no target province, so every style that
-# names it keeps it. Each entry names the style that keeps a contested member.
-#
-# `world_essos_rhoyne`: A Game of Thrones draws the Rhoyne as Mediterranean, by
-# naming its four southern sub-regions there; those sub-regions now hold the
-# whole river, because the Essos redraw emptied their northern counterparts.
-# Legacy of Valyria's standalone region file moves the river to MENA, but its
-# own AGOT bridge, which loads later and supersedes that file, restores the
-# Mediterranean assignment. The Further East then carries both, so only the
-# MENA claim is dropped here.
-CONTESTED_GRAPHICAL_MEMBERS = {
-    ("regions", "world_essos_rhoyne"): "graphical_mediterranean",
-}
+# names it keeps it. Each entry names the style that keeps a contested member,
+# and the effective region files currently leave no member claimed twice.
+CONTESTED_GRAPHICAL_MEMBERS: dict[tuple[str, str], str] = {}
 
 _LIST_PATTERN = r"(?ms)^([ \t]+){key}\s*=\s*\{{(.*?)^\1\}}"
 

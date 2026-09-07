@@ -484,7 +484,7 @@ character_view_bg = {
 		}
 	}
 
-	##########################################
+	######################################
 
 	# Dead
 
@@ -670,12 +670,7 @@ character_view_bg = {
 		reference = "environment_event_temple"
 
 		trigger = {
-			#AGOT Modified
-			#is_alive = no
-			OR = {
-				is_alive = no
-				agot_is_fake_dead = yes
-			}
+			is_alive = no
 		}
 	}
 
@@ -17927,6 +17922,38 @@ character_view_bg = {
 		}
 	}
 
+	##########################################
+	# EETLV August 30th 2026: the Thousand Isles hold court in the East Asian palace, not the
+	# tribal hut. Their High Kings are tribal government, and the tribal backdrop is matched
+	# before any regional palace, so fish_man rulers are routed to the AUH Asia throne room here,
+	# ahead of the tribal entries. Uses the block AGOT ships disabled just below the palaces.
+	texture = {
+		reference = "event_scenes/tgp_asia_throne_room.dds"
+
+		trigger = {
+			has_tgp_dlc_trigger = yes
+			is_ruler = yes
+			OR = {
+				culture = culture:fish_man
+				capital_county ?= { culture = culture:fish_man }
+			}
+		}
+	}
+
+	environment = {
+		reference = "environment_tgp_frontend_celestial_main"
+
+		trigger = {
+			has_tgp_dlc_trigger = yes
+			is_ruler = yes
+			OR = {
+				culture = culture:fish_man
+				capital_county ?= { culture = culture:fish_man }
+			}
+			is_character_window_main_character = yes
+		}
+	}
+
 	# Tribal Norse
 	texture = { # FP1 Norse
 		reference = "character_view/fp1_throneroom_tribal.dds"
@@ -20803,12 +20830,7 @@ character_private = {
 	texture = {
 		reference = "event_scenes/temple.dds"
 		trigger = {
-			#AGOT Modified
-			#is_alive = no
-			OR = {
-				is_alive = no
-				agot_is_fake_dead = yes
-			}
+			is_alive = no
 		}
 	}
 

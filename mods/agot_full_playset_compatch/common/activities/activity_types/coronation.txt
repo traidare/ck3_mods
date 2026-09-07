@@ -120,6 +120,7 @@
 					is_landed = yes
 					faith = {
 						any_holy_site = {
+							exists = barony.holder
 							exists = barony.holder # A holy site's barony can be unheld, and CK3 drops the whole clause when its holder does not resolve.
 							barony.holder = {
 								OR = {
@@ -134,6 +135,7 @@
 			custom_tooltip = {
 				text = coronation_location_hof_owned
 				barony = { is_holy_site_of = scope:host.faith }
+				exists = barony.holder
 				exists = barony.holder # A holy site's barony can be unheld, and CK3 drops the whole clause when its holder does not resolve.
 				barony.holder = {
 					OR = {
@@ -149,6 +151,7 @@
 				scope:special_option ?= flag:coronation_type_anointment
 				scope:host.faith = {
 					any_holy_site = {
+						exists = barony.holder
 						exists = barony.holder # A holy site's barony can be unheld, and CK3 drops the whole clause when its holder does not resolve.
 						barony.holder = {
 							OR = {
@@ -165,6 +168,7 @@
 						NOT = {
 							faith = {
 								any_holy_site = {
+									exists = barony.holder
 									exists = barony.holder # A holy site's barony can be unheld, and CK3 drops the whole clause when its holder does not resolve.
 									barony.holder = {
 										OR = {
@@ -181,6 +185,7 @@
 			custom_tooltip = {
 				text = coronation_location_holy_site_host
 				barony = { is_holy_site_of = scope:host.faith }
+				exists = barony.holder
 				exists = barony.holder # A holy site's barony can be unheld, and CK3 drops the whole clause when its holder does not resolve.
 				barony.holder = {
 					OR = {

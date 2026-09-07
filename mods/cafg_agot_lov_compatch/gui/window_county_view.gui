@@ -18,7 +18,7 @@ window = {
 		on_start = "[GetVariableSystem.Set( 'county_view_open', 'true' )]"
 		on_start = "[GetVariableSystem.Set( 'hide_bottom_left_HUD', 'true' )]"
 
-		# LEGACY OF VALYRIA ADDED / AGOT 0.4.37 rebase
+		# LEGACY OF VALYRIA ADDED
 		on_finish = "[GetScriptedGui('lv_restore_ruins_tooltip_show').Execute( GuiScope.SetRoot( HoldingView.GetProvince.MakeScope ).AddScope('actor', GetPlayer.MakeScope ).End)]"
 
 		using = Animation_FadeIn_Standard
@@ -38,8 +38,7 @@ window = {
 		using = Animation_FadeOut_BottomLeft
 	}
 
-	# LEGACY OF VALYRIA ADDED / AGOT 0.4.37 rebase
-	# Failsafe for when you switch counties without closing the window.
+	# LEGACY OF VALYRIA ADDED
 	state = {
 		name = _mouse_hierarchy_enter
 		on_finish = "[GetScriptedGui('lv_restore_ruins_tooltip_show').Execute( GuiScope.SetRoot( HoldingView.GetProvince.MakeScope ).AddScope('actor', GetPlayer.MakeScope ).End)]"
@@ -971,7 +970,7 @@ window = {
 							down = "[GUICountyHolding.IsSelected]"
 							alwaystransparent = "[GUICountyHolding.IsSelected]"
 							onclick = "[GUICountyHolding.OnClick]"
-							# LEGACY OF VALYRIA ADDED / AGOT 0.4.37 rebase
+							# LEGACY OF VALYRIA ADDED
 							onclick = "[GetScriptedGui('lv_restore_ruins_tooltip_show').Execute( GuiScope.SetRoot( HoldingView.GetProvince.MakeScope ).AddScope('actor', GetPlayer.MakeScope ).End)]"
 							onclick = "[PdxGuiTriggerAllAnimations('holding_view_refresh')]"
 
@@ -1920,7 +1919,9 @@ window = {
 											name = "toggle_find_vassal"
 											datacontext = "[HoldingView.GetTitle]"
 											datacontext = "[GetPlayer]"
-											visible = "[And( And( ObjectsEqual( Title.GetHolder, Character.Self ), Title.CanUseFindVassal( Character.Self ) ), Not( Title.IsLeasedOut ) )]"
+											#AGOT Modified
+											# visible = "[And( And( ObjectsEqual( Title.GetHolder, Character.Self ), Title.CanUseFindVassal( Character.Self ) ), Not( Title.IsLeasedOut ) )]"
+											visible = "[And(And(And(ObjectsEqual(Title.GetHolder, Character.Self), Title.CanUseFindVassal(Character.Self)), Not(Title.IsLeasedOut)), GetScriptedGui('agot_human_held_ruin_county').IsShown(GuiScope.SetRoot(HoldingView.GetProvince.MakeScope).End))]"
 
 											onclick = "[HoldingView.ToggleFindVassalListWindow]"
 

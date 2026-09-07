@@ -226,8 +226,8 @@
       "size": 2078
     },
     "workshop/3664900993/descriptor.mod": {
-      "sha256": "4b9830916562d3834b022c8a8fc7f6bdea5ceadd5f5d4badfa3d4fcb82cc470e",
-      "size": 172
+      "sha256": "4d5c52dfa414117d253ce2f8940cdada63793f006be4e34d2a77735f42deed21",
+      "size": 174
     },
     "workshop/3664900993/history/provinces/replace/00_k_the_vale_prov.txt": {
       "sha256": "6ff064d0ef32bf3d24d7982b24196e97c96586237685599b8e302d709eebf519",
@@ -248,70 +248,6 @@
     "workshop/3682802751/descriptor.mod": {
       "sha256": "cace9e13ee7aa736f5682bb082c5c1505919f2482cfa1f12f80a17585be010d4",
       "size": 134
-    },
-    "workshop/3719888822/common/activities/activity_types/coronation.txt": {
-      "sha256": "591853255d1f72e529db5f74ab545a1e0acac6b405ce32266fcceb0f1aa05f08",
-      "size": 134943
-    },
-    "workshop/3719888822/common/activities/activity_types/tournament.txt": {
-      "sha256": "9153424b0faf8d816458a577e8a5c6fee9bbd19429f7a3062afb222b9d1fa773",
-      "size": 192312
-    },
-    "workshop/3719888822/common/landed_titles/03_agot_landed_titles_essos_titular.txt": {
-      "sha256": "50ec65f3e1bc2779bbdfb2038bf0074c19394e89eada85097ee3165d6a38da91",
-      "size": 1185
-    },
-    "workshop/3719888822/common/landed_titles/lv_asshai_titles.txt": {
-      "sha256": "39cc98069da342f8d38d3ad671e7de9cb961d9fd22a905b43c52648d84df09f1",
-      "size": 25349
-    },
-    "workshop/3719888822/common/landed_titles/lv_far_essos_islands_titles.txt": {
-      "sha256": "aa59d5bb3a9ed54d9b458cd448fd683178a588384122b6a1d59f6673589e7d68",
-      "size": 3992
-    },
-    "workshop/3719888822/common/landed_titles/lv_faros_titles.txt": {
-      "sha256": "95f8cd69e7658231067fa311afe169083aedce3fc8e8ea18c4541e6474d7ed56",
-      "size": 518
-    },
-    "workshop/3719888822/common/landed_titles/lv_ghiscar_titles.txt": {
-      "sha256": "c5b07f420d4abe2f9456329b77c12477bce8f9faceebd3847b4087a27162ef1a",
-      "size": 21819
-    },
-    "workshop/3719888822/common/landed_titles/lv_north_valyria_titles.txt": {
-      "sha256": "1712cde8dd56cfaed5a4692e4a53c33d5bae82365de7a2371f12947e38f238e6",
-      "size": 15051
-    },
-    "workshop/3719888822/common/landed_titles/lv_rhoyne_titles.txt": {
-      "sha256": "5f4ed89a300529e48b99a60a3ec56e52deed84d2a472b066e12c0864ad95ae18",
-      "size": 61
-    },
-    "workshop/3719888822/common/landed_titles/lv_sothoryos_titles.txt": {
-      "sha256": "376e321a60192b08dae6e35306702712c0d70bf406aa36859451164f8f08c1d7",
-      "size": 81080
-    },
-    "workshop/3719888822/common/landed_titles/lv_valyria_titles.txt": {
-      "sha256": "146d7ae9046549cc32a72db30184d76f6228b27e580cfd0e2e27a8814dad7438",
-      "size": 32477
-    },
-    "workshop/3719888822/common/landed_titles/lv_volantis_titles.txt": {
-      "sha256": "e8e22f7ce09e259df5f93155802e336526356cbede484de3a2085c34040e2988",
-      "size": 26890
-    },
-    "workshop/3719888822/common/scripted_rules/00_rules.txt": {
-      "sha256": "f8c4d2b99690f1134d6883aaba11fbee045469ce254136406a8e392a81e3e800",
-      "size": 51885
-    },
-    "workshop/3719888822/descriptor.mod": {
-      "sha256": "d72391046f56759e6f971ac844ac83fefaa1aea825deaf618f8eec90aef9a08f",
-      "size": 287
-    },
-    "workshop/3719888822/events/activities/coronation_activity/coronation_events.txt": {
-      "sha256": "a95d71dc2909b02bb4d415c70e5deed86a3fa48e03882a3f30b96967c527e5b5",
-      "size": 120046
-    },
-    "workshop/3719888822/gui/map_icon_layer.gui": {
-      "sha256": "0274676f8fc2fc97575710871630286760623c9df480031cbec8d3cd0b80a2fe",
-      "size": 141553
     },
     "workshop/3723597729/common/activities/activity_types/agot_dragon_hatching.txt": {
       "sha256": "240dca514cb9033ea9ca93844d16bbc63857d21b456ff50ca7004f7b199d2987",
@@ -346,16 +282,16 @@
       "size": 189
     },
     "workshop/3762892932/common/activities/activity_types/agot_dragon_hatching.txt": {
-      "sha256": "d848b8f89724abb83a641c8070d632021d318a970bb5c191c68ac919057ab712",
-      "size": 82266
+      "sha256": "3a262f3323262d00401c8c65e780919d9835becc70e1b1f8edc05b716f2f2022",
+      "size": 82992
     },
     "workshop/3762892932/descriptor.mod": {
-      "sha256": "acd409ad0a361f3f43f370089793ea6d03fc0be521704b8d5f44d2e92a8e968d",
-      "size": 357
+      "sha256": "e944dc551840f33b08501ae1763e66dbbff015f2cfdb40d8fa848b26927b23eb",
+      "size": 375
     },
     "workshop/3766038754/descriptor.mod": {
-      "sha256": "6c6d79068a705334e1a8e4864a261ff1f73f6a502b3f6e8bb83370d328f15665",
-      "size": 404
+      "sha256": "651c853bce9d52d8ba9843fc459d7eb385f7790ff2132e9b769065d8154b4a0c",
+      "size": 421
     },
     "workshop/3766038754/events/lov_season_events.txt": {
       "sha256": "68aecc6fb9c756ec0ce5a877de758cadc9fb8b9e8e62b2dda7ce0b7f100982e2",
@@ -366,12 +302,12 @@
       "size": 56312
     },
     "workshop/3766038754/map_data/geographical_regions/north_sans_neck.txt": {
-      "sha256": "42cfc42517fb98ecfcd192e7e2c2b7aef913efb9a0c108ac0d1ca4e1c25b4092",
-      "size": 21190
+      "sha256": "f7921062054dbb006c35205e4a4d70a0b9f9a29d2f28e782fa132b5864d648f8",
+      "size": 20768
     },
     "workshop/3773616784/descriptor.mod": {
-      "sha256": "fa6985e702d86b0e7717780327bd741149330bbd4fc7708bface380468f3b205",
-      "size": 339
+      "sha256": "1a4ce661a202a23cc6e9a47b2e083528c93a2f2f9c239a1464151b030eb28b6c",
+      "size": 358
     },
     "workshop/3773616784/gfx/court_scene/scene_settings/grandeur_levels/grandeur_levels.txt": {
       "sha256": "5918d16e405cf1cc72cd9ab462b846ca3a052abc8fbb6c93db06eec6ec54f461",
@@ -401,13 +337,73 @@
       "sha256": "21a8849258ce07a2672ea5624060685618e7ded6959e698505280074d611b2d9",
       "size": 147833
     },
+    "workshop/3788296332/common/activities/activity_types/coronation.txt": {
+      "sha256": "44f40560670565652ccc63dac1c167afa68183efcf452d997e6be373e811a2e6",
+      "size": 140281
+    },
+    "workshop/3788296332/common/activities/activity_types/tournament.txt": {
+      "sha256": "d23e9779dc2d803c5946bad06b1de23319b154dc07cee8dc1b5180e70e10828d",
+      "size": 199255
+    },
+    "workshop/3788296332/common/landed_titles/03_agot_landed_titles_essos_titular.txt": {
+      "sha256": "50ec65f3e1bc2779bbdfb2038bf0074c19394e89eada85097ee3165d6a38da91",
+      "size": 1185
+    },
+    "workshop/3788296332/common/landed_titles/lv_asshai_titles.txt": {
+      "sha256": "39cc98069da342f8d38d3ad671e7de9cb961d9fd22a905b43c52648d84df09f1",
+      "size": 25349
+    },
+    "workshop/3788296332/common/landed_titles/lv_far_essos_islands_titles.txt": {
+      "sha256": "aa59d5bb3a9ed54d9b458cd448fd683178a588384122b6a1d59f6673589e7d68",
+      "size": 3992
+    },
+    "workshop/3788296332/common/landed_titles/lv_faros_titles.txt": {
+      "sha256": "95f8cd69e7658231067fa311afe169083aedce3fc8e8ea18c4541e6474d7ed56",
+      "size": 518
+    },
+    "workshop/3788296332/common/landed_titles/lv_ghiscar_titles.txt": {
+      "sha256": "c5b07f420d4abe2f9456329b77c12477bce8f9faceebd3847b4087a27162ef1a",
+      "size": 21819
+    },
+    "workshop/3788296332/common/landed_titles/lv_north_valyria_titles.txt": {
+      "sha256": "1712cde8dd56cfaed5a4692e4a53c33d5bae82365de7a2371f12947e38f238e6",
+      "size": 15051
+    },
+    "workshop/3788296332/common/landed_titles/lv_rhoyne_titles.txt": {
+      "sha256": "5f4ed89a300529e48b99a60a3ec56e52deed84d2a472b066e12c0864ad95ae18",
+      "size": 61
+    },
+    "workshop/3788296332/common/landed_titles/lv_sothoryos_titles.txt": {
+      "sha256": "376e321a60192b08dae6e35306702712c0d70bf406aa36859451164f8f08c1d7",
+      "size": 81080
+    },
+    "workshop/3788296332/common/landed_titles/lv_valyria_titles.txt": {
+      "sha256": "146d7ae9046549cc32a72db30184d76f6228b27e580cfd0e2e27a8814dad7438",
+      "size": 32477
+    },
+    "workshop/3788296332/common/landed_titles/lv_volantis_titles.txt": {
+      "sha256": "e8e22f7ce09e259df5f93155802e336526356cbede484de3a2085c34040e2988",
+      "size": 26890
+    },
+    "workshop/3788296332/common/scripted_rules/00_rules.txt": {
+      "sha256": "499c4ad6c16f9bfd2505216fbde57a97fc7aeb3009070874ba6ba89a4ef7ee63",
+      "size": 50431
+    },
     "workshop/3788296332/descriptor.mod": {
       "sha256": "4c81ab8465fe1c5ecd02243b808baabe91ce319e0b42c411de9ca516ff372bef",
       "size": 273
     },
+    "workshop/3788296332/events/activities/coronation_activity/coronation_events.txt": {
+      "sha256": "2228ff04449ec55ac748dd6dd5989c3e5226e028879a40332a1db2276879080f",
+      "size": 114932
+    },
     "workshop/3788296332/events/activities/tournaments/contest_events.txt": {
       "sha256": "157c60a7603883dcc30869f5f8288f5b54f60721365e5b52d2a07bc5b51bd93d",
       "size": 349932
+    },
+    "workshop/3788296332/gui/map_icon_layer.gui": {
+      "sha256": "4fc1d880121db0e5f2c933d47f747992037c413af6156fe851a5f1a91d6d3201",
+      "size": 141560
     }
   }
 }

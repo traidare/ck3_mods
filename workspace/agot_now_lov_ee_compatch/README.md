@@ -10,7 +10,7 @@ full-playset compatches.
 
 1. AGOT (`2962333032`)
 2. NOW (`3664900993`), then the local `agot_now_119_rebase`
-3. Legacy of Valyria (`3403938445`), then its AGOT bridge (`3719888822`)
+3. Legacy of Valyria (`3403938445`), then its AGOT bridge (`3788296332`)
 4. Essos Expanded (`3682802751`), then Further East (`3768149491`)
 5. `AGOT NOW-Season of Ice and Fire Compatch` (`3753608966`)
 6. `Seasons of Valyria - TempLoV/NOW/Seasons Compatch` (`3766038754`)
@@ -55,22 +55,19 @@ The module owns `common/on_action/agot_on_actions/agot_game_start.txt`,
 `common/province_terrain/`, `common/scripted_effects/replace/`,
 `gfx/map/map_object_data/`, `history/`, and `map_data/`.
 
-It ships **no heightmaps and no landed titles**, and no raster beyond
-`provinces.png`. It does not own holdings, names, dynasties, or unrelated faith
-history. In particular it does not change Maegon Harderback or the gameplay
-policy for Oros.
+It ships **no heightmaps, no landed titles, and no raster**. It does not own
+holdings, names, dynasties, or unrelated faith history.
 
 ### Startup script
 
 The LoV AGOT bridge ships a whole-file copy of AGOT's game-start script, so it
 silently reverts every AGOT startup change made since that copy was taken. The
 generated file starts from AGOT's complete current script and reapplies only the
-bridge's intentional additions: the LoV dummy-ruler rehome hook, the Mantaryan
-trait hook, and the estate innovation and slot guards. AGOT's Narrow Sea gate,
-Lorath setup, confederations, scenarios, sailing setup, and every other startup
-behaviour come back with it. The supersiren distributor selects each county
-capital, requires a valid culture and faith, and kills the source ruler only
-after all counties transfer.
+bridge's intentional additions. AGOT's Narrow Sea gate, Lorath setup,
+confederations, scenarios, sailing setup, and every other startup behaviour come
+back with it. The supersiren distributor selects each county capital, requires a
+valid culture and faith, and kills the source ruler only after all counties
+transfer.
 
 The bridge's game-start estate-owner lists now match AGOT's exactly — it drives
 noble family estates from its own `title_on_actions.txt` instead — so no owner
@@ -115,8 +112,6 @@ the Westeros deltas the effective playset would otherwise lose:
 - the province table, keeping Further East's 27,589 rows and applying the
   thirteen rows NOW changes that Further East still inherits unchanged from
   AGOT;
-- the province raster, carrying Further East's pixels with the reclaims below
-  applied and nothing else changed;
 - the building and special-building locator files and the two map-object files,
   merged record by record;
 - the player-stack, combat, siege and activity locator files, carried verbatim
@@ -196,13 +191,14 @@ sailing activity and the three great projects that filter provinces through this
 region. `c_tormore` is deliberately not in the gap set: NOW retires that county
 with the Sisters rework, so its absence is the one removal NOW means.
 
-### Raster reclaims
+### Province raster
 
-Further East's `provinces.png` is the baseline for the raster this layer emits,
-and this layer supplies `definition.csv`, so the two are read as a pair. That
-pairing is exact: the thirteen NOW colour edits form a closed permutation within
-a set of neighbouring ids, so every colour this layer names is painted in
-Further East's raster and refers to the pixels NOW intended.
+Further East's `provinces.png` is the effective raster and this layer supplies
+`definition.csv`, so the two are read as a pair. That pairing is exact: the
+thirteen NOW colour edits form a closed permutation within a set of neighbouring
+ids, so every colour this layer names is painted in Further East's raster and
+refers to the pixels NOW intended. The module therefore ships no raster of its
+own; it reads Further East's to place locators and to run the check below.
 
 Further East's newest provinces carry placeholder names of the form
 `R<r>G<g>B<b>` recording the colour they were painted with before their
@@ -214,38 +210,32 @@ they sit on the map, and every neighbour-scoped rule follows: a realm that owns
 the misread province can wage war on, and colonize into, a region it has no
 border with.
 
-`RASTER_RECLAIMS` repaints such pixels back to the province they belong to. Each
-entry pins the province reclaimed, the province the pixels currently read as,
-and the exact count and inclusive bounds the repair may touch, so a changed
-raster fails generation rather than being silently repainted. An entry also
-fails if reclaiming would leave the misread province unpainted, which
-distinguishes a leak from a province that genuinely lives there.
-
-`assert_compact_provinces` is the general form of the same check: a province
-painted in one place has a compact bounding box, so any province whose pixels
-span more than `MAX_COMPACT_SPAN` is either one of the reviewed map-spanning
-zones in `WIDE_PROVINCES` or an unrepaired leak, and the two sets must match
-exactly. The reviewed members are the sea and impassable zones that reach the
-map edges, plus two Further East ids painted in two places whose intended
-province no source records; both of those lie wholly inside the far-east range,
-so neither creates a cross-continent neighbour.
+`assert_compact_provinces` is what catches that: a province painted in one place
+has a compact bounding box, so any province whose pixels span more than
+`MAX_COMPACT_SPAN` is either one of the reviewed map-spanning zones in
+`WIDE_PROVINCES` or an unrepaired leak, and the two sets must match exactly. The
+reviewed members are the sea and impassable zones that reach the map edges, plus
+two Further East ids painted in two places whose intended province no source
+records; both of those lie wholly inside the far-east range, so neither creates
+a cross-continent neighbour. A leak outside that set fails generation, and
+repairing it means repainting the raster here rather than accepting the finding.
 
 ### Locator repair
 
-Against the reclaimed raster, a locator position is either inside the province
-its record belongs to or it is not. Merged positions that are not are rewritten
-to the province's centroid, or to the painted pixel nearest the centroid where
-the centroid falls in a neighbour or in the sea, as it does for concave and
-split provinces. Land provinces with no record at all gain one. Rotation and
-scale are never touched, so an author's deliberate orientation or sizing
-survives a position repair, and `LOCATOR_PINS` records are exempt because they
-sit outside their province on purpose.
+Against that raster, a locator position is either inside the province its record
+belongs to or it is not. Merged positions that are not are rewritten to the
+province's centroid, or to the painted pixel nearest the centroid where the
+centroid falls in a neighbour or in the sea, as it does for concave and split
+provinces. Land provinces with no record at all gain one. Rotation and scale are
+never touched, so an author's deliberate orientation or sizing survives a
+position repair, and `LOCATOR_PINS` records are exempt because they sit outside
+their province on purpose.
 
-Along with the raster reclaims, this is where the module derives data rather
-than merging it. It is needed because Further East ships no
-`building_locators.txt`: the fallback Essos Expanded file positions every id in
-9401-26420 against Essos Expanded's own map, which Further East redrew.
-`artifacts/map_data/merge_audit.json` records the per-file repair counts.
+This is where the module derives data rather than merging it. It is needed
+because Further East ships no `building_locators.txt`: the fallback Essos
+Expanded file positions every id in 9401-26420 against Essos Expanded's own map,
+which Further East redrew. `artifacts/map_data/merge_audit.json` records the
+per-file repair counts.
 
 The residue is provinces `definition.csv` names but the raster paints nowhere.
 They have no position to be given, they are reported as `unplaceable` in the
@@ -332,13 +322,8 @@ provinces all lie outside the classified range is kept by every inherited block
 that names it. Generation therefore also fails when two emitted keys claim the
 same entry, unless the winner is recorded — and fails again when a recorded
 winner is no longer contested, so the resolution is dropped once upstream
-settles. One is recorded today: `world_essos_rhoyne` stays in
-`graphical_mediterranean` and leaves `graphical_mena`. AGOT draws the Rhoyne as
-Mediterranean through its four southern sub-regions, which now hold the whole
-river because the Essos redraw emptied their northern counterparts; Legacy of
-Valyria's standalone region file moves the river to MENA, but its own AGOT
-bridge loads later and restores the Mediterranean assignment, and Further East
-then carries both.
+settles. `CONTESTED_GRAPHICAL_MEMBERS` is empty today: the effective region
+files leave no membership entry claimed by two graphical regions.
 
 NOW's winning `graphical_siberia` block references `world_westeros_skagos`. That
 helper is not visible after the later geographical-region replacements in this
@@ -474,7 +459,7 @@ not declared outputs and are not regenerated by a normal run.
 
 A pinned-source or pinned-count mismatch fails generation; that failure is the
 general re-audit trigger. Re-run the audit after every update to Workshop mods
-`2962333032`, `3664900993`, `3403938445`, `3719888822`, `3682802751`,
+`2962333032`, `3664900993`, `3403938445`, `3788296332`, `3682802751`,
 `3768149491`, or `3773608127`. After an intentional upstream change, review the
 source diff before regenerating. The exact files consumed and their hashes are
 recorded in `sources.lock.json`.
@@ -501,14 +486,10 @@ Specific triggers:
   holds. NOW naming the territory again, or AGOT dropping it, means the omission
   has stopped being a fork's blind spot, and the entry belongs gone rather than
   re-pinned.
-- Re-audit a `RASTER_RECLAIMS` entry when its pixel count or bounds stop
-  matching. Fewer pixels means Further East finished the recolour and the entry
-  belongs gone; more, or moved, means the province was repainted and the repair
-  must be re-derived rather than re-pinned.
 - Re-audit `WIDE_PROVINCES` when `assert_compact_provinces` reports a change. A
   newly wide province is a leak to be traced to the province that should own it
-  and given a reclaim entry, not added to the reviewed set; a province that
-  stops being wide means an upstream repair landed and the entry belongs gone.
+  and repainted here, not added to the reviewed set; a province that stops being
+  wide means an upstream repair landed and the entry belongs gone.
 - Re-audit the locator repair if Further East begins shipping its own
   `building_locators.txt`, or if the audit's `unplaceable` counts move: a rising
   count means the province table and the raster are drifting apart.

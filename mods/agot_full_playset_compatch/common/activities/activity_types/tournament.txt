@@ -1,6 +1,4 @@
-﻿# AGOT x Legacy of Valyria - Great Arena tournament compatibility v1
-
-activity_tournament = {
+﻿activity_tournament = {
 	is_shown = {
 		highest_held_title_tier > tier_barony
 		is_landed = yes
@@ -1429,23 +1427,6 @@ activity_tournament = {
 							desc = tournament_cost_discount_ashford
 						}
 					}
-					#CV Added
-					if = {
-						limit = { scope:province ?= { has_building_or_higher = great_arena_of_valyria_02 } }
-						add = {
-							value = 0
-							add = {
-								value = tournament_base_cost
-								add = {
-									value = tournament_base_cost
-									multiply = activity_cost_scale_by_era
-									subtract = tournament_base_cost
-								}
-							}
-							multiply = tournament_activity_cost_max_discount_value
-							desc = tournament_cost_discount_cv_arena
-						}
-					}
 					# Some people get one free.
 					if = {
 						limit = { factor_zero_if_entitled_to_freebie_activity_trigger = yes }
@@ -2116,7 +2097,8 @@ activity_tournament = {
 			}
 			activity_location = {
 				OR = {
-					# AGOT current: respect AGOT jungle terrain abstraction
+					#AGOT Modified
+					# terrain = jungle
 					agot_is_jungle_terrain = yes
 					AND = {
 						OR = {
@@ -3769,7 +3751,6 @@ activity_tournament = {
 						desc = tourney_participant_bow
 					}
 				}
-				# RC17: AGOT 0.4.37 disables tradition_land_of_the_bow; it is not in the culture tradition database.
 				# if = {
 				# 	limit = {
 				# 		culture = { has_cultural_tradition = tradition_land_of_the_bow }

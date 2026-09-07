@@ -39,19 +39,19 @@ one after the other. Each merge asserts that the parent's textual delta reaches
 the output unchanged, so an upstream release that starts touching lines another
 parent also touches fails rather than silently dropping one side.
 
-`coronation.txt`, `coronation_events.txt`, and `agot_dragon_hatching.txt` carry
-deltas of this layer's own on top of their merges: the five coronation holy-site
-tests are guarded with `exists = barony.holder`, because CK3 discards the whole
-clause when the barony is unheld and a restored or ruined holy site would
-otherwise read as an invalid location; the court chaplain is summoned through
-`?=` and a scope test, because the effect that moves them runs outside the one
-that established the activity; and both dragon-hatching variants let AGOT: Canon
-Continuity spare a protected host from the accident.
+`coronation.txt` and `agot_dragon_hatching.txt` carry deltas of this layer's own
+on top of their merges: the five coronation holy-site tests are guarded with
+`exists = barony.holder`, because CK3 discards the whole clause when the barony
+is unheld and a restored or ruined holy site would otherwise read as an invalid
+location; and both dragon-hatching variants let AGOT: Canon Continuity spare a
+protected host from the accident. `coronation_events.txt` needs no delta of its
+own: the LoV bridge already summons the court chaplain through `?=` and a scope
+test, which is required because the effect that moves them runs outside the one
+that established the activity, and the generator asserts the merge keeps it.
 
-The LoV parent is the enabled `lov-agot-bridge` for every file except
-`contest_events.txt`, which takes the unenabled `lov-agot-compatch` beta — the
-only parent carrying the tournament summary guards that keep an unset
-`last_versus_match` out of a comparison.
+The LoV parent is `lov-agot-bridge` for every file it contributes, including
+`contest_events.txt`, where it carries the tournament summary guards that keep
+an unset `last_versus_match` out of a comparison.
 
 Beyond those merges the generated layer owns eight cross-parent whole-file
 overrides: the five seasonal, title-name, and dragon-on-action boundaries below,
@@ -132,19 +132,35 @@ fork uses: `replace/` is a plain subfolder there with no engine meaning, so a
 copy inside it would load _alongside_ the fork's file and define every shared
 region twice.
 
-Ten of those regions also name a title a broader entry of the same region
-already contains — a duchy under a listed kingdom, or a county under a listed
-duchy — which makes CK3 read the province twice and log
+Seventeen of those regions name a title no parent defines: the Seasons fork
+builds its regions from the NOW-Seasons compatch, which names titles at tiers
+the current stack does not have — NOW demoted each of them to a barony or a
+county, or never had it. CK3 resolves a membership entry by title key, so an
+undefined key contributes no province and only logs at world init; the generator
+drops those lines by name and fails when the set of them changes, so a new one
+is reviewed rather than shipped. `d_yronwood` is the exception: NOW renamed it
+`d_greenbelt`, so it is rebased rather than dropped.
+
+Ten regions also name a title a broader entry of the same region already
+contains — a duchy under a listed kingdom, or a county under a listed duchy —
+which makes CK3 read the province twice and log
 `Region 'N' has multiple entries for the province 'N'` once per repeat at world
 init. The generator resolves each named title to its provinces through the
 landed titles AGOT, NOW, Legacy of Valyria, the LoV AGOT bridge, and Essos
 Expanded place, in load order, then drops any entry whose provinces another
 retained entry already covers. The prune is subtractive only: a region keeps
 exactly the provinces it had, an entry covering nothing is always kept, and
-generation fails if a named title resolves to no province, if the set of
-removals changes, or if a region the prune touched still lists a province twice
-— which would mean its entries only partly overlap and dropping one would have
-cost real coverage. Two Rhoyne regions do overlap that way and are left alone.
+generation fails if a declared title resolves to no province and is not one of
+the two titular names that hold none, if the set of removals changes, or if a
+region the prune touched still lists a province twice — which would mean its
+entries only partly overlap and dropping one would have cost real coverage. Two
+Rhoyne regions do overlap that way and are left alone.
+
+`c_heapsdown` is the one overlap the prune cannot see:
+`world_barrowlands_seasons` and `world_whiteknife_seasons` both name it and both
+belong to `world_group_one`, so the group reads its provinces twice and the
+seasons situation carries two claims on them. Barrowlands keeps the county and
+the Whiteknife entry is dropped.
 
 `zzz_agot_cow_building_model_trigger.txt` is hand-merged rather than generated,
 and the COW-AGOT/NOW compatch it takes its province remaps from is not enabled —

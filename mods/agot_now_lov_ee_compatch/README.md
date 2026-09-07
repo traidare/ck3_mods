@@ -11,7 +11,7 @@ last of them and before any generic runtime-fix or full-playset compatch.
 
 1. A Game of Thrones
 2. AGOT Nobility of Westeros, then AGOT NOW - CK3 1.19 Rebase
-3. Legacy of Valyria, then Legacy of Valyria - AGOT 0.5.1 Bridge
+3. Legacy of Valyria, then Legacy of Valyria - AGOT 0.5.2.1 Compatch (Beta)
 4. Essos Expanded, then Essos Expanded: The Further East
 5. AGOT NOW-Season of Ice and Fire Compatch
 6. Seasons of Valyria - TempLoV/NOW/Seasons Compatch
