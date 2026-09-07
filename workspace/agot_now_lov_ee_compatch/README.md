@@ -22,13 +22,13 @@ full-playset compatches.
 output root, the assets directory, and the reference maps — and runs five stages
 in dependency order:
 
-| stage                       | writes                                                                           |
-| --------------------------- | -------------------------------------------------------------------------------- |
-| `compatch.lov_bridge`       | `common/on_action/agot_on_actions/agot_game_start.txt`                           |
-| `compatch.further_east`     | nothing; returns the repaired history texts in memory                            |
-| `compatch.map_merge`        | `map_data/`, `gfx/map/map_object_data/`                                          |
-| `compatch.world_data`       | `common/province_terrain/zzzz_*.txt`, `map_data/geographical_regions/zzzz_*.txt` |
-| `compatch.lore_governments` | `history/`, `common/scripted_effects/replace/00_agot_character_data_effects.txt` |
+| stage                       | writes                                                                                                                                  |
+| --------------------------- | --------------------------------------------------------------------------------------------------------------------------------------- |
+| `compatch.lov_bridge`       | `common/on_action/agot_on_actions/agot_game_start.txt`                                                                                  |
+| `compatch.further_east`     | nothing; returns the repaired history texts in memory                                                                                   |
+| `compatch.map_merge`        | `map_data/`, `gfx/map/map_object_data/`                                                                                                 |
+| `compatch.world_data`       | `common/province_terrain/zzzz_*.txt`, `map_data/geographical_regions/zzzz_*.txt` and `map_data/geographical_regions/replace/zzzz_*.txt` |
+| `compatch.lore_governments` | `history/`, `common/scripted_effects/replace/00_agot_character_data_effects.txt`                                                        |
 
 Two results travel between stages in memory rather than through the payload. The
 Further East history repair hands its `hist_titles.txt` and `k_generated.txt`
@@ -44,10 +44,19 @@ that answers which module supplies a file and which module's definition of a key
 wins; `compatch/mapdata.py` the `definition.csv` row model. Everything narrower
 than that lives in `gen`.
 
-`map_data/geographical_regions/` carries two files from two stages. CK3 reads a
-directory in filename order, so the `zzzz_` world-data file still wins the
-duplicate region keys it redefines over the `00_agot_` map-merge file, which is
-what the prefix is for.
+`map_data/geographical_regions/` carries three files from two stages. CK3 reads
+a directory's own files in filename order and its subdirectories afterwards, and
+both halves of that rule decide which definition survives here.
+
+In the directory root, the `zzzz_` world-data file wins the duplicate region
+keys it redefines over the `00_agot_` map-merge file, which is what the prefix
+is for. Both of them are then outranked by anything under `replace/`, which is a
+plain subfolder with no engine meaning that several parents use for their own
+region files. NOW ships its Westeros survey there, so the world-data stage also
+writes `replace/zzzz_agot_now_lov_ee_regions.txt`: it restates this module's
+definition of every key that survey names, from the same subfolder under a later
+filename. Without it the merged and generated blocks are computed, shipped in
+the root, and then replaced at load.
 
 ## Ownership
 
@@ -68,6 +77,20 @@ confederations, scenarios, sailing setup, and every other startup behaviour come
 back with it. The supersiren distributor selects each county capital, requires a
 valid culture and faith, and kills the source ruler only after all counties
 transfer.
+
+The bridge names two hooks of its own in that script, and both are reapplied at
+the position it uses: `lv_place_all_dummy_rulers_effect` rehomes every dummy
+ruler onto LoV's redrawn map, and
+`lv_agot_posthistory_government_fallback_effect` gives dead Asshai and Basilisk
+Isles holders the government data AGOT's historical list omits, so their titles
+resolve a government-specific name rather than the generic one. AGOT's own
+script names no `lv_` hook, so that set is exactly what a rebase from AGOT would
+otherwise drop; the stage compares the bridge's whole hook set against the
+reviewed pair and fails on either an added or a retired hook.
+
+The after-lobby block also chains LoV's `agot_mantaryans_traits`. No upstream
+file chains that on_action, so LoV's Mantaryan mutation pass runs from here or
+not at all.
 
 The bridge's game-start estate-owner lists now match AGOT's exactly — it drives
 noble family estates from its own `title_on_actions.txt` instead — so no owner
@@ -161,10 +184,11 @@ there, which would otherwise cross COW's mesh.
 ### Geographical regions
 
 AGOT writes this file and Further East overrides it wholesale, so what this
-layer ships is the effective definition of every region AGOT script names.
-Further East's copy defines fewer regions than AGOT's, and a region it omits is
-a gap in its fork rather than a removal: AGOT still resolves the name, and a
-`region = <key>` that resolves to nothing is a load failure rather than a
+layer ships — the root file below together with the `replace/` restatement that
+outranks NOW's survey — is the effective definition of every region AGOT script
+names. Further East's copy defines fewer regions than AGOT's, and a region it
+omits is a gap in its fork rather than a removal: AGOT still resolves the name,
+and a `region = <key>` that resolves to nothing is a load failure rather than a
 missing feature. The baseline is therefore AGOT's region set with Further East's
 own block kept wherever both define one, and generation fails when an AGOT
 region other than a reviewed dissolution does not reach the shipped file.
@@ -189,7 +213,10 @@ Westeros fork rather than a removal, and the merge restores it into NOW's own
 block; honouring the omission would drop the whole Essos coast out of AGOT's
 sailing activity and the three great projects that filter provinces through this
 region. `c_tormore` is deliberately not in the gap set: NOW retires that county
-with the Sisters rework, so its absence is the one removal NOW means.
+with the Sisters rework, so its absence is the one removal NOW means. The
+restored block reaches the game through the `replace/` restatement described
+above, which is the only file in this directory parsed after NOW's own survey;
+the merged block carries 552 counties where that survey names 501.
 
 ### Province raster
 
@@ -482,6 +509,11 @@ Specific triggers:
   means the merge stopped carrying AGOT's set forward; the second means AGOT's
   regions and Further East's map have diverged, and the region needs remapping
   rather than carrying.
+- Re-audit region file placement when generation reports a parent region file
+  parsed after this module's. A parent that adds a region file sorting after
+  `replace/zzzz_agot_now_lov_ee_regions.txt`, or a deeper subdirectory, takes
+  every key it names; the answer is to place this module's output after it
+  again, never to accept the parent's block as the effective one.
 - Re-audit a `NOW_REGION_GAPS` entry when generation reports that it no longer
   holds. NOW naming the territory again, or AGOT dropping it, means the omission
   has stopped being a fork's blind spot, and the entry belongs gone rather than

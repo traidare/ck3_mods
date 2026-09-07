@@ -1507,8 +1507,10 @@ def merge_geographical_regions(inputs: RunInputs, definition: str) -> str:
     )
 
     # Every AGOT region other than a reviewed dissolution has to reach the
-    # shipped file, because this file is AGOT's effective override and AGOT
-    # resolves its own region names against it.
+    # shipped file, because AGOT resolves its own region names against this
+    # module's region output and this file carries every key in it.  The keys
+    # NOW's `replace/` survey also names are restated by the world-data stage,
+    # which is what keeps them effective; see REGION_LAST_WRITER_OUTPUT.
     result = top_level_blocks(merged, label="region")[3]
     lost = set(base[2]) - set(result) - DISSOLVED_REGIONS
     if lost:

@@ -8,6 +8,8 @@ AGOT's current script and reapplies only the bridge's intentional additions.
 
 from __future__ import annotations
 
+import re
+
 from gen.script import normalize_rebased_source, read_text, write_text
 from gen.text import definition_span, replace_exact
 
@@ -17,6 +19,14 @@ GAME_START = "common/on_action/agot_on_actions/agot_game_start.txt"
 # The bridge's own addition to AGOT's dummy-ruler block: it moves every dummy
 # ruler to a location LoV's redrawn map still has.
 DUMMY_RULER_HOOK = "lv_place_all_dummy_rulers_effect"
+# The bridge's own addition to AGOT's posthistory run: it gives dead Asshai and
+# Basilisk Isles holders the government data AGOT's historical list omits, so
+# their titles resolve a government-specific name instead of the generic one.
+POSTHISTORY_GOVERNMENT_HOOK = "lv_agot_posthistory_government_fallback_effect"
+POSTHISTORY_ANCHOR = "\t\tassign_posthistory_title_data_effect = yes\n"
+# Every hook the bridge adds to its game-start copy, each ported below. AGOT's
+# own script names none, so this set is exactly what a rebase from AGOT drops.
+BRIDGE_HOOKS = frozenset({DUMMY_RULER_HOOK, POSTHISTORY_GOVERNMENT_HOOK})
 
 ESTATE_ANCHORS = {
     6: "\t\t\t\t\t\towner.dynasty = dynasty:dynn_Sonaryen\n",
@@ -142,6 +152,14 @@ def rebase(inputs: RunInputs) -> None:
     bridge = read_text(inputs["RC"] / GAME_START)
     text = agot
 
+    hooks = set(re.findall(r"\blv_[a-z0-9_]+", bridge))
+    if hooks != BRIDGE_HOOKS:
+        raise RuntimeError(
+            "the LoV bridge's game-start hook set changed "
+            f"({sorted(hooks ^ BRIDGE_HOOKS)}); port an added hook here, or "
+            "drop a retired one, because rebasing from AGOT carries none"
+        )
+
     on_start = block(text, "agot_on_game_start")
     supersiren_start = on_start.index("\t\t### Enhanced Siren on Steroids System")
     supersiren_end = on_start.index("\t\t### Beyond the Wall setup", supersiren_start)
@@ -172,6 +190,19 @@ def rebase(inputs: RunInputs) -> None:
         dummy,
         expected=1,
         label="LoV dummy-ruler rehome hook",
+    )
+
+    if bridge.count(f"{POSTHISTORY_GOVERNMENT_HOOK} = yes") != 1:
+        raise RuntimeError(
+            f"the LoV bridge no longer calls {POSTHISTORY_GOVERNMENT_HOOK} once "
+            "from its game-start copy; re-audit how it governs its dead holders"
+        )
+    text = replace_exact(
+        text,
+        POSTHISTORY_ANCHOR,
+        f"{POSTHISTORY_ANCHOR}\t\t{POSTHISTORY_GOVERNMENT_HOOK} = yes\n",
+        expected=1,
+        label="LoV posthistory government fallback hook",
     )
 
     after_lobby = block(text, "on_game_start_after_lobby")

@@ -1649,6 +1649,7 @@ agot_on_game_start = {
 		agot_apply_posthistory_effect = yes
 		### Run effects on dead characters for title data
 		assign_posthistory_title_data_effect = yes
+		lv_agot_posthistory_government_fallback_effect = yes
 		### Establish house relations
 		agot_apply_posthistory_house_relations_effect = yes
 
