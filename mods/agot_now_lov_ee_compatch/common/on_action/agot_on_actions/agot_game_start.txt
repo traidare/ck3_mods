@@ -721,7 +721,7 @@ agot_on_game_start = {
 
 			if = {
 				limit = {
-					primary_title = { is_mercenary_company = yes }
+					primary_title ?= { is_mercenary_company = yes }
 					has_unusual_agot_culture_trigger = yes
 				}
 				random_list = {
@@ -4221,7 +4221,7 @@ agot_pirate_domiciles_setup = {
 			}
 			while = {
 				limit = {
-					local_var:t2_pirate_count <= 2
+					local_var:t3_pirate_count <= 2
 				}
 				random_county_in_region = {
 					region = world_stepstones

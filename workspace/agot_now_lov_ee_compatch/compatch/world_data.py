@@ -24,7 +24,12 @@ from gen.sources import canonical_source_path
 
 from .context import RunInputs
 from .layers import Layer, key_winners, parse_scalar_terrain, parse_terrain_type_keys
-from .map_merge import GEO_REGIONS, NOW_GEO_REGIONS, MergedMap
+from .map_merge import (
+    GEO_REGIONS,
+    NOW_GEO_REGIONS,
+    MergedMap,
+    restates_region,
+)
 from .mapdata import Definition, parse_definitions
 from .pdx import top_level_blocks
 
@@ -1724,7 +1729,10 @@ class WorldDataPipeline:
             self.stack(),
             "map_data/geographical_regions",
             lambda text: top_level_blocks(
-                text, label="geographical region", require_blocks=False
+                text,
+                label="geographical region",
+                require_blocks=False,
+                restates=restates_region,
             )[3],
         )
         self.graphical_blocks = {
@@ -2010,9 +2018,12 @@ class WorldDataPipeline:
         now_order = top_level_blocks(
             read_text(self.inputs["NOW"] / NOW_GEO_REGIONS),
             label="geographical region",
+            restates=restates_region,
         )[2]
         merged = top_level_blocks(
-            read_text(self.module / GEO_REGIONS), label="geographical region"
+            read_text(self.module / GEO_REGIONS),
+            label="geographical region",
+            restates=restates_region,
         )[3]
         unshipped = [
             key for key in now_order if key not in emitted and key not in merged
@@ -2059,6 +2070,7 @@ class WorldDataPipeline:
                         read_text(path),
                         label="geographical region",
                         require_blocks=False,
+                        restates=restates_region,
                     )[3]
                 )
                 if contested := keys & shipped:

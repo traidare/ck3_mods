@@ -657,13 +657,13 @@ EXPECTED_UNDEFINED_SEASON_MEMBERS = {
 # entries for the province 'N'` once per repeat at world init. Dropping the
 # narrower entry leaves the region covering exactly the same provinces.
 EXPECTED_SEASON_REGION_PRUNE = {
-    "world_upper_vale_seasons": 14,
+    "world_upper_vale_seasons": 11,
     "world_westerlands_low": 6,
     "world_barrowlands_seasons": 5,
     "world_sheepshead_hills": 4,
     "world_dornish_marches_seasons": 4,
+    "world_the_fingers_seasons": 4,
     "world_norvos_seasons": 3,
-    "world_the_fingers_seasons": 3,
     "world_lonely_hills": 3,
     "world_upper_reach": 2,
     "world_dorne_north_coast": 2,

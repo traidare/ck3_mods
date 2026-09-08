@@ -16,6 +16,7 @@ import subprocess
 import tempfile
 from bisect import insort
 from dataclasses import dataclass
+from functools import partial
 from pathlib import Path
 
 from gen.script import read_text
@@ -846,70 +847,16 @@ STORMLANDS_MARCHES = """world_westeros_dornish_marches_stormlands = {
 
 
 # Territory NOW's own file omits without meaning to remove it.  NOW surveys
-# Westeros and rewrites `coastal_counties` from that survey, so the block it
-# ships names no Rhoynish, Shivering Sea or Stepstones coast while its
-# `landed_titles` still define every one of those counties as land.  That is a
-# gap in a Westeros fork rather than a removal, and honouring it would drop the
-# whole Essos coast out of the sailing activity and the three great projects
-# that filter provinces through this region.  `c_tormore` is deliberately not
-# listed: NOW retires that county with the Sisters rework, so its absence here
-# is the one removal NOW means.
+# Westeros and rewrites `coastal_counties` from that survey, so a county its
+# `landed_titles` still define as coastal land can drop out of the block it
+# ships.  That is a gap in a Westeros fork rather than a removal, and honouring
+# it would drop the county out of the sailing activity and the three great
+# projects that filter provinces through this region.  `c_lannisport` is the
+# one such county: NOW splits Lannisport's shore into `c_lions_harbor` and
+# `c_debtors_docks`, names both, and keeps `c_lannisport` itself as a coastal
+# county its survey then leaves out.
 NOW_REGION_GAPS: dict[str, frozenset[str]] = {
-    "coastal_counties": frozenset(
-        {
-            "counties:c_ampnavath",
-            "counties:c_anlys",
-            "counties:c_aslath",
-            "counties:c_blindfast",
-            "counties:c_cadalth",
-            "counties:c_ceyrwin",
-            "counties:c_chroyane",
-            "counties:c_dagger_flats",
-            "counties:c_dyrk",
-            "counties:c_golden_fields",
-            "counties:c_greyamber_isles",
-            "counties:c_ibewos",
-            "counties:c_jambiya",
-            "counties:c_kaslathnn",
-            "counties:c_kulakqr",
-            "counties:c_mirths_end",
-            "counties:c_moterhyll",
-            "counties:c_olath_hills",
-            "counties:c_palliera",
-            "counties:c_peadhean",
-            "counties:c_pihu_sar",
-            "counties:c_poniard",
-            "counties:c_punulea_sar",
-            "counties:c_qapahienn",
-            "counties:c_qnlyshon",
-            "counties:c_rhezebhrhez",
-            "counties:c_rhimarthen",
-            "counties:c_rhogo_sar",
-            "counties:c_rhunamllias",
-            "counties:c_scoured_seat",
-            "counties:c_sen_malhoy",
-            "counties:c_shivering_port",
-            "counties:c_shiverness",
-            "counties:c_sinking_corridors",
-            "counties:c_skean",
-            "counties:c_sleetwin",
-            "counties:c_smitmont",
-            "counties:c_soytialne",
-            "counties:c_splintered_shore",
-            "counties:c_stiletys",
-            "counties:c_suru_mal",
-            "counties:c_susnys_mal",
-            "counties:c_the_perch",
-            "counties:c_the_shivering_crown",
-            "counties:c_the_spearhead",
-            "counties:c_tianos",
-            "counties:c_warriors_heel",
-            "counties:c_west_catch",
-            "counties:c_whitecliff",
-            "counties:c_witnesses_mire",
-            "counties:c_yaghorsosten",
-        }
-    ),
+    "coastal_counties": frozenset({"counties:c_lannisport"}),
 }
 
 
@@ -922,6 +869,28 @@ def region_members(block: str | None) -> dict[str, list[str]]:
         match.group("category"): match.group("values").split()
         for match in REGION_MEMBERS.finditer(uncommented)
     }
+
+
+def restates_region(first: str, second: str) -> bool:
+    """Report whether two blocks for one region key declare the same region.
+
+    CK3 keys geographical regions by name, so a file that writes one key twice
+    declares a single region; the repeat only matters when the two spellings
+    disagree. Membership is compared as a set per category because a restatement
+    is free to list the same duchies in another order, and the tokens outside
+    those lists are compared in order so a flag or a nesting change is not read
+    as a harmless repeat.
+    """
+
+    def signature(block: str) -> tuple[object, tuple[str, ...]]:
+        members = {
+            category: frozenset(values)
+            for category, values in region_members(block).items()
+        }
+        outside = REGION_MEMBERS.sub(" ", re.sub(r"(?m)#.*$", "", block)).split()
+        return tuple(sorted(members.items())), tuple(outside)
+
+    return signature(first) == signature(second)
 
 
 def region_territory(
@@ -1488,9 +1457,10 @@ def assert_restored_regions_resolve(
 
 
 def merge_geographical_regions(inputs: RunInputs, definition: str) -> str:
-    base = top_level_blocks(read_text(inputs["AGOT"] / GEO_REGIONS), label="region")
-    current = top_level_blocks(read_text(inputs["EEP"] / GEO_REGIONS), label="region")
-    now = top_level_blocks(read_text(inputs["NOW"] / NOW_GEO_REGIONS), label="region")
+    read_regions = partial(top_level_blocks, label="region", restates=restates_region)
+    base = read_regions(read_text(inputs["AGOT"] / GEO_REGIONS))
+    current = read_regions(read_text(inputs["EEP"] / GEO_REGIONS))
+    now = read_regions(read_text(inputs["NOW"] / NOW_GEO_REGIONS))
     overlay = Overlay.build("NOW geographical regions", base, now)
     resolver = geographical_block_merger(
         {"agot": base[3], "eep": current[3], "now": now[3]}
@@ -1511,7 +1481,7 @@ def merge_geographical_regions(inputs: RunInputs, definition: str) -> str:
     # module's region output and this file carries every key in it.  The keys
     # NOW's `replace/` survey also names are restated by the world-data stage,
     # which is what keeps them effective; see REGION_LAST_WRITER_OUTPUT.
-    result = top_level_blocks(merged, label="region")[3]
+    result = read_regions(merged)[3]
     lost = set(base[2]) - set(result) - DISSOLVED_REGIONS
     if lost:
         raise RuntimeError(

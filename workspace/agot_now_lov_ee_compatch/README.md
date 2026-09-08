@@ -98,9 +98,20 @@ list is ported. The stage compares both lists per tier and fails if the bridge
 starts widening them at game start again, which would otherwise be dropped here
 without a trace.
 
+Two repairs the bridge writes into AGOT's own script, rather than into a hook of
+its own, are ported line for line by `BRIDGE_SCRIPT_REPAIRS`: the
+unusual-culture mercenary check reads `primary_title ?=`, so a landless
+character no longer logs a missing scope at game start, and the third Stepstones
+pirate loop tests `t3_pirate_count` instead of the counter the loop before it
+has already driven past its bound, so that tier places its pirates at all.
+
 Both game-start inputs are pinned by source hash and every splice is a counted
 replacement, so an upstream edit fails generation instead of producing a
-half-rebased script.
+half-rebased script. `assert_bridge_lines_carried` closes the same question from
+the other side: every line the bridge's copy holds and AGOT's does not has to
+reach the generated file, so a bridge edit outside the ported set fails the run
+instead of being dropped silently. `UNPORTED_BRIDGE_LINES` is the reviewed
+exception, currently one renamed comment header.
 
 ### Further East history repairs
 
@@ -205,18 +216,25 @@ region coexists with whatever Further East flattened its territory into and its
 position in the file carries no meaning. `DISSOLVED_REGIONS` is the reviewed
 exception where an absence is deliberate.
 
+A region file may write one key twice — NOW's survey states
+`world_westeros_dornish_marches_stormlands` a second time with its duchies in
+another order. CK3 keys regions by name, so both spellings are one entry, and
+`restates_region` accepts the repeat only when the two blocks name the same
+members and carry the same tokens around them. A repeat that disagrees is a
+conflict the merge cannot key and fails the run.
+
 The same reading applies inside a region. NOW writes `coastal_counties` from its
-own Westeros survey, so the block it ships names no Rhoynish, Shivering Sea or
-Stepstones coast while its `landed_titles` still define every one of those
-counties as land. `NOW_REGION_GAPS` records that territory as a gap in a
-Westeros fork rather than a removal, and the merge restores it into NOW's own
-block; honouring the omission would drop the whole Essos coast out of AGOT's
-sailing activity and the three great projects that filter provinces through this
-region. `c_tormore` is deliberately not in the gap set: NOW retires that county
-with the Sisters rework, so its absence is the one removal NOW means. The
+own Westeros survey, so a county its `landed_titles` still define as coastal
+land can drop out of the block it ships. `NOW_REGION_GAPS` records that
+territory as a gap in a Westeros fork rather than a removal, and the merge
+restores it into NOW's own block; honouring the omission would drop the county
+out of AGOT's sailing activity and the three great projects that filter
+provinces through this region. `c_lannisport` is the one such county: NOW splits
+Lannisport's shore into `c_lions_harbor` and `c_debtors_docks`, names both, and
+keeps `c_lannisport` itself as a coastal county its survey then leaves out. The
 restored block reaches the game through the `replace/` restatement described
 above, which is the only file in this directory parsed after NOW's own survey;
-the merged block carries 552 counties where that survey names 501.
+the merged block carries 550 counties where that survey names 549.
 
 ### Province raster
 

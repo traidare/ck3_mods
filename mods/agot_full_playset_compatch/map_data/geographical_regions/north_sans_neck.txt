@@ -903,6 +903,9 @@ world_upper_vale_seasons = {
 		c_longleaf
 		c_spiderwood
 		c_the_bloody_gate
+		c_timbers_wedge
+		c_topperpoole
+		c_vearnon
 		c_godsroost
 		c_the_eyrie
 		c_wickenden
@@ -961,7 +964,6 @@ world_the_fingers_seasons = {
 		c_harrowpool
 		c_rockle
 		c_bludden
-		c_hungerford
 		c_brume
 		#c_
 	}

@@ -12,7 +12,7 @@ as an ordered map of complete top-level blocks rather than edited in place.
 from __future__ import annotations
 
 import re
-from collections.abc import Iterable
+from collections.abc import Callable, Iterable
 from dataclasses import dataclass
 
 from gen.text import matching_brace
@@ -245,6 +245,7 @@ def top_level_blocks(
     *,
     label: str = "block",
     require_blocks: bool = True,
+    restates: Callable[[str, str], bool] | None = None,
 ) -> tuple[str, str, list[str], dict[str, str]]:
     """Split a file into its complete top-level blocks, keyed and in order.
 
@@ -260,6 +261,13 @@ def top_level_blocks(
     An empty result is an error by default, because a caller naming one file has
     lost its target if that file declares nothing. Pass `require_blocks=False`
     when sweeping a directory, where a file may legitimately define no keys.
+
+    A repeated key is an error, because the caller keys its merge by that name
+    and cannot carry two blocks under it. `restates` makes the one exception a
+    caller can prove harmless: when it reports that a later block says the same
+    thing as the one already held, the repeat is dropped and the first is kept.
+    Both spellings resolve to the same database entry, so which text survives
+    does not change what the file declares.
     """
     blocks: dict[str, str] = {}
     order: list[str] = []
@@ -269,10 +277,13 @@ def top_level_blocks(
         key = match.group("key")
         if prefix is None:
             prefix = text[: match.start()]
-        if key in blocks:
-            raise RuntimeError(f"duplicate {label} {key}")
         opening = text.index("{", match.start())
         end = matching_brace(text, opening) + 1
+        if key in blocks:
+            if restates is None or not restates(blocks[key], text[match.start() : end]):
+                raise RuntimeError(f"duplicate {label} {key}")
+            cursor = end
+            continue
         blocks[key] = text[match.start() : end]
         order.append(key)
         cursor = end

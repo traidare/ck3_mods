@@ -28,6 +28,33 @@ POSTHISTORY_ANCHOR = "\t\tassign_posthistory_title_data_effect = yes\n"
 # own script names none, so this set is exactly what a rebase from AGOT drops.
 BRIDGE_HOOKS = frozenset({DUMMY_RULER_HOOK, POSTHISTORY_GOVERNMENT_HOOK})
 
+# Two repairs the bridge writes into AGOT's own script rather than into a hook
+# of its own, ported line for line.  Each anchor is AGOT's current text, so a
+# parent edit to either site fails the rebase instead of being overwritten.
+BRIDGE_SCRIPT_REPAIRS = (
+    (
+        # Landless and title-less characters reach this check, and an
+        # unguarded `primary_title` scope logs once per one at game start.
+        "unusual-culture mercenary primary-title guard",
+        "\t\t\t\t\tprimary_title = { is_mercenary_company = yes }\n",
+        "\t\t\t\t\tprimary_title ?= { is_mercenary_company = yes }\n",
+    ),
+    (
+        # The third Stepstones pirate loop counts up `t3_pirate_count` while
+        # testing `t2_pirate_count`, which the loop before it has already
+        # driven past the bound, so the tier never places a single pirate.
+        "third Stepstones pirate loop counter",
+        "\t\t\t\t\tlocal_var:t2_pirate_count <= 2\n",
+        "\t\t\t\t\tlocal_var:t3_pirate_count <= 2\n",
+    ),
+)
+
+# The one line the bridge writes that this rebase deliberately does not carry:
+# a comment retitling AGOT's Free City block.  Every other line the bridge adds
+# has to reach the output, which is what turns a new bridge edit into a failed
+# run instead of a silent loss.
+UNPORTED_BRIDGE_LINES = frozenset({"### Free City Diarchies"})
+
 ESTATE_ANCHORS = {
     6: "\t\t\t\t\t\towner.dynasty = dynasty:dynn_Sonaryen\n",
     5: "\t\t\t\t\t\towner.dynasty = dynasty:dynn_Haratis\n",
@@ -259,7 +286,33 @@ def rebase(inputs: RunInputs) -> None:
         label="LoV administrative setup rebase",
     )
 
+    for label, parent, repaired in BRIDGE_SCRIPT_REPAIRS:
+        if bridge.count(repaired) != 1:
+            raise RuntimeError(f"the LoV bridge no longer repairs the {label}")
+        text = replace_exact(text, parent, repaired, expected=1, label=f"LoV {label}")
+
     if "random_direct_de_jure_vassal_title" in text:
         raise RuntimeError("stale random-barony supersiren selection survived")
 
+    assert_bridge_lines_carried(agot, bridge, text)
     write_text(inputs.output, GAME_START, normalize_rebased_source(text))
+
+
+def assert_bridge_lines_carried(agot: str, bridge: str, rebased: str) -> None:
+    """Fail when the bridge writes a line this rebase does not reproduce.
+
+    The ports above name each edit the bridge is known to make.  This reads the
+    same question from the other side: every line present in the bridge's copy
+    and absent from AGOT's is one the bridge added, so it belongs in the output
+    unless it is a reviewed exception.
+    """
+
+    def lines(text: str) -> set[str]:
+        return {line.strip() for line in text.splitlines() if line.strip()}
+
+    dropped = lines(bridge) - lines(agot) - lines(rebased) - UNPORTED_BRIDGE_LINES
+    if dropped:
+        raise RuntimeError(
+            "the LoV bridge writes lines this rebase drops: "
+            f"{sorted(dropped)}; port them or record why they are not carried"
+        )
