@@ -43,7 +43,10 @@ Roughly fifty parent mods are touched. The failures fall into a few classes:
   created bare.
 - **Broken succession and war joins** — participants added to a war they are
   already in, and successions evaluated against titles or holders that no longer
-  exist, both of which loop on every evaluation.
+  exist, both of which loop on every evaluation. Generated accolade successors
+  are now revalidated as eligible knights before assignment, and acclaimed-
+  knight death bookkeeping runs after the engine's accolade transition instead
+  of re-entering it synchronously.
 - **Runaway title creation** — administrative noble-family titles created from
   inside an in-flight title transfer, which an AI appointment cascade can
   re-trigger dozens of times per tick for one character. Creation is now

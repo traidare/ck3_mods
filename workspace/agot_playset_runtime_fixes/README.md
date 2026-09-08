@@ -41,6 +41,20 @@ change re-raises it.
   than to the enclosing modifier because CK3 evaluates these triggers eagerly,
   so a surrounding gate does not prevent the score from being computed on a
   title without the law.
+- **Accolade succession stability (CK3, Workshop 3788296332):** LoV's effective
+  `accolade_create_squire_effect` can reject a candidate with the recurring
+  `set_knight_status effect` “not a potential knight” error and then
+  unconditionally install that character as the accolade successor. The repair
+  rechecks that the candidate is alive, unlanded, in the owner's court, and
+  either already serving or still eligible to serve as a knight; both the forced
+  knight status and successor assignment are inside that final gate. Retained
+  native crashes repeatedly put the faulting worker in CK3's synchronous
+  `on_accolade_acclaimed_death` callback with the same instruction-offset stack.
+  Its unchanged notification/glory-reset effect is therefore dispatched through
+  a named on-action one day later, after the code-driven accolade transition has
+  settled. The generated narrow effect override and whole-file on-action rebase
+  are pinned to the LoV effect block and CK3 callback block, so either parent
+  changing forces a re-audit.
 - **Beyond-the-Wall queued maintenance:**
   `title_province trigger [ Failed context switch ]`. The repair requires both
   `scope:title` and its province before entering `title_province`, so the queued
@@ -505,12 +519,12 @@ the generator and review the resulting diff after any update to Workshop IDs
 `3377641022`, `3692879370`, `3697008412`, `3462342647`, `3437814875`,
 `3709868073`, `3541596590`, `3788296332`, or `2971198450`, `3732116186`,
 `3573203384`, `2712590542`, or `2519175282`, and after CK3 updates that change
-`04_dlc_ep2_tour_effects.txt`. Re-run it after updates to `3682802751` because
-the Essos cleanup validates that parent's game rules and startup actions, and
-after updates to `3788296332` because the same repair is pinned to LoV's
-effective wilderness-conversion effect. Re-run it after updates to `3773616784`
-because the generated court-scene selector follows that compatch's current
-room-routing rules.
+`04_dlc_ep2_tour_effects.txt` or `common/on_action/accolade_on_actions.txt`.
+Re-run it after updates to `3682802751` because the Essos cleanup validates that
+parent's game rules and startup actions, and after updates to `3788296332`
+because the same repair is pinned to LoV's effective wilderness-conversion
+effect. Re-run it after updates to `3773616784` because the generated
+court-scene selector follows that compatch's current room-routing rules.
 
 The stability guards are pinned by file or top-level block hash and fail closed
 when a parent changes. Re-run the generator and review the diff after any update

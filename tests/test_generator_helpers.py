@@ -247,6 +247,57 @@ class SharedGeneratorHelperTest(unittest.TestCase):
             repaired.count("has_title_law_flag = appointment_type_succession"), 5
         )
 
+    def test_crash_repair_revalidates_accolade_successor(self) -> None:
+        block = (
+            "accolade_create_squire_effect = {\n"
+            "\tif = {\n"
+            "\t\tlimit = { exists = scope:chosen_knight }\n"
+            "\t\tif = {\n"
+            "\t\t\tlimit = { scope:chosen_knight = { is_courtier_of = scope:owner } }\n"
+            "\t\t\tscope:chosen_knight = {\n"
+            "\t\t\t\tset_knight_status = force\n"
+            "\t\t\t}\n"
+            "\t\t}\n"
+            "\t\t\n"
+            "\t\tscope:accolade_in_need = {\n"
+            "\t\t\tset_accolade_successor = scope:chosen_knight\n"
+            "\t\t}\n"
+            "\t}\n"
+            "}"
+        )
+        with generator_function(
+            "workspace/agot_playset_runtime_fixes/runtime_fixes/crash_stability.py",
+            "guard_accolade_successor_assignment",
+        ) as guard_successor:
+            repaired = guard_successor(block)
+        self.assertEqual(repaired.count("set_knight_status = force"), 1)
+        self.assertEqual(repaired.count("set_accolade_successor"), 1)
+        self.assertIn("can_be_knight_trigger = { ARMY_OWNER = scope:owner }", repaired)
+        self.assertLess(
+            repaired.index("can_be_knight_trigger"),
+            repaired.index("set_accolade_successor"),
+        )
+
+    def test_crash_repair_defers_accolade_death_effect(self) -> None:
+        block = (
+            "on_accolade_acclaimed_death = {\n"
+            "\teffect = {\n"
+            "\t\tsave_scope_as = succeeding_accolade\n"
+            "\t}\n"
+            "}"
+        )
+        with generator_function(
+            "workspace/agot_playset_runtime_fixes/runtime_fixes/crash_stability.py",
+            "defer_accolade_acclaimed_death",
+        ) as defer_death:
+            repaired = defer_death(block)
+        dispatcher, worker = repaired.split("\n\n", maxsplit=1)
+        self.assertNotIn("effect = {", dispatcher)
+        self.assertIn("delay = { days = 1 }", dispatcher)
+        self.assertIn("exists = accolade_owner", worker)
+        self.assertIn("exists = scope:old_acclaimed_knight", worker)
+        self.assertIn("save_scope_as = succeeding_accolade", worker)
+
     def test_crash_repair_drops_surplus_title_giver_arguments(self) -> None:
         source = (
             "\t\t\tep3_become_landed_warning_effect = {\n"

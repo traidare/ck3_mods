@@ -14,6 +14,7 @@ from gen.text import replace_exact
 from .common import (
     assert_source_block_hash,
     extract_top_level_block,
+    game_root,
     guard_event_deaths,
 )
 from .context import RunInputs
@@ -101,6 +102,78 @@ def drop_unneeded_title_giver_arguments(text: str) -> str:
             f"found {count}"
         )
     return repaired
+
+
+def guard_accolade_successor_assignment(block: str) -> str:
+    """Assign a generated squire only after revalidating knight eligibility."""
+    original = (
+        "\t\tif = {\n"
+        "\t\t\tlimit = { scope:chosen_knight = { is_courtier_of = scope:owner } }\n"
+        "\t\t\tscope:chosen_knight = {\n"
+        "\t\t\t\tset_knight_status = force\n"
+        "\t\t\t}\n"
+        "\t\t}\n"
+        "\t\t\n"
+        "\t\tscope:accolade_in_need = {\n"
+        "\t\t\tset_accolade_successor = scope:chosen_knight\n"
+        "\t\t}"
+    )
+    repaired = """\t\t# Search and recruitment can change state before this effect executes.
+\t\t# Fail closed unless the candidate is still a valid knight for this court.
+\t\tif = {
+\t\t\tlimit = {
+\t\t\t\texists = scope:owner
+\t\t\t\texists = scope:accolade_in_need
+\t\t\t\tscope:chosen_knight = {
+\t\t\t\t\tis_alive = yes
+\t\t\t\t\tis_ruler = no
+\t\t\t\t\tis_courtier_of = scope:owner
+\t\t\t\t\tOR = {
+\t\t\t\t\t\tis_knight_of = scope:owner
+\t\t\t\t\t\tcan_be_knight_trigger = { ARMY_OWNER = scope:owner }
+\t\t\t\t\t}
+\t\t\t\t}
+\t\t\t}
+\t\t\tscope:chosen_knight = {
+\t\t\t\tif = {
+\t\t\t\t\tlimit = { NOT = { is_knight_of = scope:owner } }
+\t\t\t\t\tset_knight_status = force
+\t\t\t\t}
+\t\t\t}
+\t\t\tscope:accolade_in_need = {
+\t\t\t\tset_accolade_successor = scope:chosen_knight
+\t\t\t}
+\t\t}"""
+    return replace_exact(
+        block,
+        original,
+        repaired,
+        expected=1,
+        label="LoV generated-squire final eligibility gate",
+    )
+
+
+def defer_accolade_acclaimed_death(block: str) -> str:
+    """Move accolade death bookkeeping out of its code-driven transition."""
+    worker = replace_exact(
+        block,
+        "on_accolade_acclaimed_death = {\n\teffect = {",
+        """agot_playset_runtime_accolade_acclaimed_death = {
+\ttrigger = {
+\t\texists = accolade_owner
+\t\texists = scope:old_acclaimed_knight
+\t}
+\teffect = {""",
+        expected=1,
+        label="deferred accolade acclaimed-death worker",
+    )
+    dispatcher = """on_accolade_acclaimed_death = {
+\ton_actions = {
+\t\tdelay = { days = 1 }
+\t\tagot_playset_runtime_accolade_acclaimed_death
+\t}
+}"""
+    return f"{dispatcher}\n\n{worker}"
 
 
 def _repair_dragon_template_block(block: str, variable: str) -> str:
@@ -209,6 +282,71 @@ def generate_appointment_score_guards(inputs: RunInputs) -> None:
         label="support-candidacy interaction replacement",
     )
     write_text(inputs.OUTPUT, relative, normalize_rebased_source(source))
+
+
+def generate_accolade_lifecycle_stability(inputs: RunInputs) -> None:
+    """Prevent invalid generated successors and defer death-transition effects.
+
+    The effective LoV squire effect can fail ``set_knight_status`` and then still
+    install that character as the accolade successor. Retained native crashes
+    subsequently place the faulting worker in the synchronous
+    ``on_accolade_acclaimed_death`` callback while CK3 is finalizing accolade
+    succession. Revalidate the candidate immediately before both mutations and
+    queue the vanilla callback body one day later, preserving its accolade root
+    and saved event targets without running an effect chain inside the native
+    transition.
+    """
+    effects_relative = (
+        "common/scripted_effects/"
+        "zzzz_lv_agot_scripted_effect_runtime_overrides_v0_2_2.txt"
+    )
+    effects_source = read_text(inputs.WORKSHOP / "3788296332" / effects_relative)
+    squire_effect = assert_source_block_hash(
+        effects_source,
+        "accolade_create_squire_effect",
+        "b167eadf88c3a52fadee8bfaeee55e969436d86e65ea6f256d6670a52f501738",
+        label="LoV generated-squire effect",
+    )
+    effects_source = _replace_top_level_block(
+        effects_source,
+        squire_effect,
+        guard_accolade_successor_assignment(squire_effect),
+        label="LoV generated-squire effect replacement",
+    )
+    repaired_squire_effect = extract_top_level_block(
+        effects_source, "accolade_create_squire_effect"
+    )
+    # A dedicated later-named definition keeps the override narrow and avoids
+    # making this module the effective owner of every unrelated LoV effect.
+    (inputs.OUTPUT / effects_relative).unlink(missing_ok=True)
+    write_text(
+        inputs.OUTPUT,
+        "common/scripted_effects/zzzzz_agot_playset_accolade_stability.txt",
+        (
+            "# Revalidate generated accolade successors after recruitment.\n\n"
+            f"{repaired_squire_effect}\n"
+        ),
+    )
+
+    on_action_relative = "common/on_action/accolade_on_actions.txt"
+    on_action_source = read_text(game_root(inputs) / on_action_relative)
+    acclaimed_death = assert_source_block_hash(
+        on_action_source,
+        "on_accolade_acclaimed_death",
+        "d4e7e4884d5742c8f123df4f5706d6a776a83833c3a88cf032d96283fd9976ce",
+        label="CK3 acclaimed-knight death on-action",
+    )
+    on_action_source = _replace_top_level_block(
+        on_action_source,
+        acclaimed_death,
+        defer_accolade_acclaimed_death(acclaimed_death),
+        label="deferred acclaimed-knight death on-action",
+    )
+    write_text(
+        inputs.OUTPUT,
+        on_action_relative,
+        normalize_rebased_source(on_action_source),
+    )
 
 
 def generate_beyond_wall_queued_event_guard(inputs: RunInputs) -> None:

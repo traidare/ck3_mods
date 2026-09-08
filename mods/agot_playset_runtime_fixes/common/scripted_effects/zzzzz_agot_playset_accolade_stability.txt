@@ -1,0 +1,488 @@
+﻿# Revalidate generated accolade successors after recruitment.
+
+accolade_create_squire_effect = {
+	if = {
+		limit = { exists = capital_province }
+		capital_province = { save_scope_as = accolade_spawn_location }
+	}
+	else_if = {
+		limit = { exists = location }
+		location = { save_scope_as = accolade_spawn_location }
+	}
+	else_if = {
+		limit = { exists = liege liege = { exists = capital_province } }
+		liege.capital_province = { save_scope_as = accolade_spawn_location }
+	}
+	else = {
+		title:c_kings_landing.title_province = { save_scope_as = accolade_spawn_location }
+	}
+
+	save_scope_as = owner
+	if = {
+		limit = {
+			is_ai = no
+		}
+		#try to find a descendant of the knight
+		if = {
+			limit = {
+				exists = scope:knight_in_need
+			}
+			ordered_courtier_or_guest = {
+				order_by = prowess
+				limit = {
+					is_child_of = scope:knight_in_need
+					new_acclaimed_knight_search_trigger = yes
+
+					save_temporary_scope_as = candidate_temp
+					scope:accolade_in_need = {
+						has_variable_list = accolade_squire_chars
+						any_in_list = {
+							variable = accolade_squire_chars
+							this = scope:candidate_temp
+						}
+					}
+				}
+				alternative_limit = {
+					is_child_of = scope:knight_in_need
+					new_acclaimed_knight_search_trigger = yes
+				}
+				save_scope_as = chosen_knight
+			}
+			if = {
+				limit = {
+					NOT = { exists = scope:chosen_knight }
+				}
+				#Try to find former ward of knight
+				ordered_courtier_or_guest = {
+					order_by = prowess
+					limit = {
+						OR = {
+							any_memory = {
+								has_memory_type = childhood_education_guardian
+								has_memory_participant = scope:knight_in_need
+							}
+							has_relation_disciple = scope:knight_in_need
+							has_relation_elder = scope:knight_in_need
+						}
+
+						#Just to be sure this char was the ward in the memory, not the guardian
+						age < scope:knight_in_need.age
+						new_acclaimed_knight_search_trigger = yes
+
+						save_temporary_scope_as = candidate_temp
+						scope:accolade_in_need = {
+							has_variable_list = accolade_squire_chars
+							any_in_list = {
+								variable = accolade_squire_chars
+								this = scope:candidate_temp
+							}
+						}
+					}
+					alternative_limit = {
+						OR = {
+							any_memory = {
+								has_memory_type = childhood_education_guardian
+								has_memory_participant = scope:knight_in_need
+							}
+							has_relation_disciple = scope:knight_in_need
+							has_relation_elder = scope:knight_in_need
+						}
+
+						#Just to be sure this char was the ward in the memory, not the guardian
+						age < scope:knight_in_need.age
+						new_acclaimed_knight_search_trigger = yes
+					}
+					save_scope_as = chosen_knight
+				}
+			}
+			if = {
+				limit = {
+					NOT = { exists = scope:chosen_knight }
+				}
+				#Positive relation or family member knight of knight
+				ordered_knight = {
+					order_by = prowess
+					limit = {
+						culture_matches_accolade_specialization_trigger = { ACCOLADE = scope:accolade_in_need }
+						OR = {
+							has_any_moderate_good_relationship_with_character_trigger = { CHARACTER = scope:knight_in_need }
+							AND = {
+								exists = scope:knight_in_need.house
+								house ?= scope:knight_in_need.house
+							}
+							any_close_or_extended_family_member = {
+								this = scope:knight_in_need
+							}
+						}
+						new_acclaimed_knight_search_trigger = yes
+
+						save_temporary_scope_as = candidate_temp
+						scope:accolade_in_need = {
+							has_variable_list = accolade_squire_chars
+							any_in_list = {
+								variable = accolade_squire_chars
+								this = scope:candidate_temp
+							}
+						}
+					}
+					alternative_limit = {
+						culture_matches_accolade_specialization_trigger = { ACCOLADE = scope:accolade_in_need }
+						OR = {
+							has_any_moderate_good_relationship_with_character_trigger = { CHARACTER = scope:knight_in_need }
+							AND = {
+								exists = scope:knight_in_need.house
+								house ?= scope:knight_in_need.house
+							}
+							any_close_or_extended_family_member = {
+								this = scope:knight_in_need
+							}
+						}
+						new_acclaimed_knight_search_trigger = yes
+					}
+					alternative_limit = {
+						OR = {
+							has_any_moderate_good_relationship_with_character_trigger = { CHARACTER = scope:knight_in_need }
+							AND = {
+								exists = scope:knight_in_need.house
+								house ?= scope:knight_in_need.house
+							}
+							any_close_or_extended_family_member = {
+								this = scope:knight_in_need
+							}
+						}
+						new_acclaimed_knight_search_trigger = yes
+
+						save_temporary_scope_as = candidate_temp
+						scope:accolade_in_need = {
+							has_variable_list = accolade_squire_chars
+							any_in_list = {
+								variable = accolade_squire_chars
+								this = scope:candidate_temp
+							}
+						}
+					}
+					alternative_limit = {
+						OR = {
+							has_any_moderate_good_relationship_with_character_trigger = { CHARACTER = scope:knight_in_need }
+							AND = {
+								exists = scope:knight_in_need.house
+								house ?= scope:knight_in_need.house
+							}
+							any_close_or_extended_family_member = {
+								this = scope:knight_in_need
+							}
+						}
+						new_acclaimed_knight_search_trigger = yes
+					}
+					save_scope_as = chosen_knight
+				}
+			}
+		}
+		#try to find another knight
+		if = {
+			limit = {
+				NOT = {
+					exists = scope:chosen_knight
+				}
+			}
+			ordered_knight = {
+				order_by = {
+					value = prowess
+					if = {
+						limit = {
+							exists = scope:knight_in_need
+							is_close_or_extended_family_of = scope:knight_in_need
+						}
+						add = 20
+					}
+					if = {
+						limit = {
+							save_temporary_scope_as = candidate_temp
+							scope:accolade_in_need = {
+								has_variable_list = accolade_squire_chars
+								any_in_list = {
+									variable = accolade_squire_chars
+									this = scope:candidate_temp
+								}
+							}
+						}
+						add = 1000
+					}
+				}
+				limit = {
+					culture_matches_accolade_specialization_trigger = { ACCOLADE = scope:accolade_in_need }
+					new_acclaimed_knight_search_trigger = yes
+				}
+				alternative_limit = {
+					new_acclaimed_knight_search_trigger = yes
+				}
+				save_scope_as = chosen_knight
+			}
+		}
+		#Positive relation or family member of knight
+		if = {
+			limit = {
+				NOT = {
+					exists = scope:chosen_knight
+				}
+				exists = scope:knight_in_need
+			}
+			ordered_courtier_or_guest = {
+				order_by = {
+					value = prowess
+					if = {
+						limit = {
+							save_temporary_scope_as = candidate_temp
+							scope:accolade_in_need = {
+								has_variable_list = accolade_squire_chars
+								any_in_list = {
+									variable = accolade_squire_chars
+									this = scope:candidate_temp
+								}
+							}
+						}
+						add = 1000
+					}
+				}
+				limit = {
+					culture_matches_accolade_specialization_trigger = { ACCOLADE = scope:accolade_in_need }
+					OR = {
+						has_any_moderate_good_relationship_with_character_trigger = { CHARACTER = scope:knight_in_need }
+						AND = {
+							exists = scope:knight_in_need.house
+							house ?= scope:knight_in_need.house
+						}
+						any_close_or_extended_family_member = {
+							this = scope:knight_in_need
+						}
+					}
+					new_acclaimed_knight_search_trigger = yes
+				}
+				alternative_limit = {
+					OR = {
+						has_any_moderate_good_relationship_with_character_trigger = { CHARACTER = scope:knight_in_need }
+						AND = {
+							exists = scope:knight_in_need.house
+							house ?= scope:knight_in_need.house
+						}
+						any_close_or_extended_family_member = {
+							this = scope:knight_in_need
+						}
+					}
+					new_acclaimed_knight_search_trigger = yes
+				}
+				save_scope_as = chosen_knight
+			}
+		}
+		#any valid courtier
+		if = {
+			limit = {
+				NOT = {
+					exists = scope:chosen_knight
+				}
+			}
+			ordered_courtier = {
+				order_by = {
+					value = prowess
+					if = {
+						limit = {
+							save_temporary_scope_as = candidate_temp
+							scope:accolade_in_need = {
+								has_variable_list = accolade_squire_chars
+								any_in_list = {
+									variable = accolade_squire_chars
+									this = scope:candidate_temp
+								}
+							}
+						}
+						add = 1000
+					}
+				}
+				limit = {
+					culture_matches_accolade_specialization_trigger = { ACCOLADE = scope:accolade_in_need }
+					new_acclaimed_knight_search_trigger = yes
+				}
+				alternative_limit = {
+					new_acclaimed_knight_search_trigger = yes
+				}
+				save_scope_as = chosen_knight
+			}
+		}
+		if = {
+			limit = {
+				NOT = {
+					exists = scope:chosen_knight
+				}
+			}
+			# try to find a pool character
+			ordered_pool_guest = {
+			 	order_by = {
+					value = prowess
+					if = {
+						limit = {
+							save_temporary_scope_as = candidate_temp
+							scope:accolade_in_need = {
+								has_variable_list = accolade_squire_chars
+								any_in_list = {
+									variable = accolade_squire_chars
+									this = scope:candidate_temp
+								}
+							}
+						}
+						add = 1000
+					}
+				}
+				limit = {
+					culture_matches_accolade_specialization_trigger = { ACCOLADE = scope:accolade_in_need }
+					new_acclaimed_knight_search_trigger = yes
+				}
+				alternative_limit = {
+					new_acclaimed_knight_search_trigger = yes
+				}
+				save_scope_as = chosen_knight
+			}
+		}
+		if = {
+			limit = {
+				NOT = {
+					exists = scope:chosen_knight
+				}
+			}
+			# try to find a pool character
+			ordered_pool_character = {
+			 	order_by = {
+					value = prowess
+					if = {
+						limit = {
+							save_temporary_scope_as = candidate_temp
+							scope:accolade_in_need = {
+								has_variable_list = accolade_squire_chars
+								any_in_list = {
+									variable = accolade_squire_chars
+									this = scope:candidate_temp
+								}
+							}
+						}
+						add = 1000
+					}
+				}
+				province = capital_province
+				limit = {
+					culture_matches_accolade_specialization_trigger = { ACCOLADE = scope:accolade_in_need }
+					new_acclaimed_knight_search_trigger = yes
+				}
+				alternative_limit = {
+					new_acclaimed_knight_search_trigger = yes
+				}
+				save_scope_as = chosen_knight
+			}
+		}
+		#Create character if we failed to find one
+		if = {
+			limit = {
+				NOT = { exists = scope:chosen_knight }
+			}
+			accolade_character_creation_effect = yes
+		}
+	}
+	else = {
+		ordered_courtier = {
+			order_by = {
+				value = prowess
+				if = {
+					limit = {
+						save_temporary_scope_as = candidate_temp
+						scope:accolade_in_need = {
+							has_variable_list = accolade_squire_chars
+							any_in_list = {
+								variable = accolade_squire_chars
+								this = scope:candidate_temp
+							}
+						}
+					}
+					add = 1000
+				}
+			}
+			limit = {
+				culture_matches_accolade_specialization_trigger = { ACCOLADE = scope:accolade_in_need }
+				new_acclaimed_knight_search_trigger = yes
+			}
+			alternative_limit = {
+				new_acclaimed_knight_search_trigger = yes
+			}
+			save_scope_as = chosen_knight
+		}
+		#Create character if we failed to find one
+		if = {
+			limit = {
+				NOT = { exists = scope:chosen_knight }
+			}
+			accolade_character_creation_effect = yes
+		}
+	}
+	#Boost stats of picked or created char based on squire quality
+	scope:chosen_knight = {
+		accolade_squires_boost_martial_tourney_effect = yes
+
+		accolade_squires_boost_prowess_effect = yes
+		#Make them nobles if they're not... they are knights now, after all
+		if = {
+			limit = {
+				is_lowborn = yes
+			}
+			create_dynasty = {
+				spread_to_descendants = yes
+			}
+		}
+	}
+
+	if = {
+		limit = {
+			exists = scope:chosen_knight
+		}
+		if = {
+			limit = {
+				can_recruit_character_to_court_trigger = {
+					RECRUITER = scope:owner
+					RECRUITEE = scope:chosen_knight
+				}
+				# make sure the chosen knight is not already a courtier
+				scope:chosen_knight = {
+					NOT = {
+						is_courtier_of = scope:owner
+					}
+					is_ruler = no
+				}
+				exists = scope:owner.capital_province
+			}
+			add_courtier = scope:chosen_knight
+		}
+
+		# Search and recruitment can change state before this effect executes.
+		# Fail closed unless the candidate is still a valid knight for this court.
+		if = {
+			limit = {
+				exists = scope:owner
+				exists = scope:accolade_in_need
+				scope:chosen_knight = {
+					is_alive = yes
+					is_ruler = no
+					is_courtier_of = scope:owner
+					OR = {
+						is_knight_of = scope:owner
+						can_be_knight_trigger = { ARMY_OWNER = scope:owner }
+					}
+				}
+			}
+			scope:chosen_knight = {
+				if = {
+					limit = { NOT = { is_knight_of = scope:owner } }
+					set_knight_status = force
+				}
+			}
+			scope:accolade_in_need = {
+				set_accolade_successor = scope:chosen_knight
+			}
+		}
+	}
+}

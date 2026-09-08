@@ -5,6 +5,10 @@
       "sha256": "841cc160d73dd5c24519d3160fba0d6098873904a736fdeb0b27781af7393474",
       "size": 93188
     },
+    "game/game/common/on_action/accolade_on_actions.txt": {
+      "sha256": "e41bb5d345f319c2b889e42cb578599e1763c57b89782566859679100340aae5",
+      "size": 7774
+    },
     "game/game/common/scripted_effects/00_nickname_effects.txt": {
       "sha256": "5e7259ed1c50c843e4c49f73842f2b11f10cddd5c56d231fed35af492e8d48c0",
       "size": 175602
@@ -1384,6 +1388,10 @@
     "workshop/3788296332/common/scripted_effects/00_agot_colonization_effects.txt": {
       "sha256": "8813fae944770a8c086e000fe38d6aa6555701efea3acab6a52a71e295df7537",
       "size": 16837
+    },
+    "workshop/3788296332/common/scripted_effects/zzzz_lv_agot_scripted_effect_runtime_overrides_v0_2_2.txt": {
+      "sha256": "71ce7de9b7c03259879b18af2f2a66b9a7a9286dd4deda65275ef56a055adff0",
+      "size": 526404
     },
     "workshop/3788296332/events/activities/tour_activity/tour_general_events.txt": {
       "sha256": "513d8c639231aa73e06f9d69da5231b6c9afd1ef8d8c5ac54ac7a599e54b7f86",
