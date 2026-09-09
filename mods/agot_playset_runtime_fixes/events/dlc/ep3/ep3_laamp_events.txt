@@ -5140,10 +5140,15 @@ ep3_laamps.5010 = {
 					add = 2
 					scope:location = {
 						OR = {
-							terrain = farmlands
-							terrain = plains
-							terrain = oasis
-							terrain = forest
+							#AGOT Modified
+							# terrain = farmlands
+							# terrain = plains
+							# terrain = oasis
+							# terrain = forest
+							agot_is_farmlands_terrain = yes
+							agot_is_plains_terrain = yes
+							agot_is_oasis_terrain = yes
+							agot_is_forest_terrain = yes
 						}
 					}
 				}
@@ -5171,10 +5176,15 @@ ep3_laamps.5010 = {
 					add = 2
 					scope:location = {
 						OR = {
-							terrain = desert
-							terrain = mountains
-							terrain = desert_mountains
-							terrain = wetlands
+							#AGOT Modified
+							# terrain = desert
+							# terrain = mountains
+							# terrain = desert_mountains
+							# terrain = wetlands
+							agot_is_desert_terrain = yes
+							agot_is_mountains_terrain = yes
+							agot_is_desert_mountains_terrain = yes
+							agot_is_wetlands_terrain = yes
 						}
 					}
 				}
@@ -6394,10 +6404,15 @@ ep3_laamps.5035 = {
 			factor = 2
 			location = {
 				OR = {
-					terrain = mountains
-					terrain = wetlands
-					terrain = desert_mountains
-					terrain = jungle
+					#AGOT Modified
+					# terrain = mountains
+					# terrain = wetlands
+					# terrain = desert_mountains
+					# terrain = jungle
+					agot_is_mountains_terrain = yes
+					agot_is_wetlands_terrain = yes
+					agot_is_desert_mountains_terrain = yes
+					agot_is_jungle_terrain = yes
 				}
 			}
 		}

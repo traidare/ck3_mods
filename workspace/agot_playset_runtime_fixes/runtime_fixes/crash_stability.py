@@ -428,17 +428,17 @@ def generate_naval_coastal_raid_tooltip(inputs: RunInputs) -> None:
 
 def generate_dragon_template_storage_guards(inputs: RunInputs) -> None:
     relative = "common/script_values/00_agot_dragon_gene_values.txt"
-    source = read_text(inputs.WORKSHOP / "2962333032" / relative)
+    source = read_text(inputs.WORKSHOP / "3788885215" / relative)
     repairs = (
         (
             "gene_dragon_fire_color_template_svalue",
             "gene_dragon_fire_color_template",
-            "e7ec5b8d5a1cab247688ef16c4f74fffbc67a9384863b3af95875a5777de1727",
+            "5862fd370610ce5bcadce350e0897c76a83897f84437a4849fe8df5dfcfcae49",
         ),
         (
             "gene_dragon_fire_smoke_template_svalue",
             "gene_dragon_fire_smoke_template",
-            "f53c5f22a80b5008de5f5c7f18a1db4ec34569cb4af412b101b86d18258ab0ea",
+            "bd6b4e06c33006437118a82544885f7befcc3e523544b20534740de4beb9bc91",
         ),
     )
     for key, variable, expected_hash in repairs:
@@ -451,7 +451,13 @@ def generate_dragon_template_storage_guards(inputs: RunInputs) -> None:
             _repair_dragon_template_block(block, variable),
             label=f"AGOT dragon template replacement {key}",
         )
-    write_text(inputs.OUTPUT, relative, normalize_rebased_source(source))
+    write_text(
+        inputs.OUTPUT,
+        relative,
+        source,
+        preserve_trailing_whitespace=True,
+        force_newline="\r\n",
+    )
 
 
 def generate_adventurer_beneficiary_cb_guard(inputs: RunInputs) -> None:

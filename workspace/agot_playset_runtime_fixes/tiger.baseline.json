@@ -148,6 +148,14 @@
     {
       "severity": "error",
       "code": "strict-scopes",
+      "message": "scope:old_acclaimed_knight might not be available here",
+      "source": "MOD",
+      "file": "common/on_action/accolade_on_actions.txt",
+      "count": 1
+    },
+    {
+      "severity": "error",
+      "code": "strict-scopes",
       "message": "scope:old_holder might not be available here",
       "source": "MOD",
       "file": "common/on_action/agot_on_actions/agot_title_on_actions.txt",
@@ -343,6 +351,14 @@
       "message": "`has_graphical_steppe_culture_group_trigger` expects scope to be culture but scope seems to be character",
       "source": "AGOT Seasons of Ice and Fire",
       "file": "common/event_backgrounds/01_event_backgrounds.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "scopes",
+      "message": "`acclaimed_knight` is for accolade but scope seems to be character",
+      "source": "CK3",
+      "file": "events/accolade_events.txt",
       "count": 1
     },
     {
@@ -1579,62 +1595,6 @@
     },
     {
       "severity": "warning",
-      "code": "logic",
-      "message": "OR with only one item inside is probably not what you intended",
-      "source": "MOD",
-      "file": "gfx/interface/illustrations/scripted_illustrations/ingame.txt",
-      "count": 41
-    },
-    {
-      "severity": "warning",
-      "code": "missing-file",
-      "message": "file gfx/interface/illustrations/event_scenes/ep2_events_generic_hunt.dds does not exist",
-      "source": "MOD",
-      "file": "gfx/interface/illustrations/scripted_illustrations/ingame.txt",
-      "count": 1
-    },
-    {
-      "severity": "warning",
-      "code": "missing-file",
-      "message": "file gfx/interface/illustrations/event_scenes/ironthrone/agot_throneroom_ironthrone.dds does not exist",
-      "source": "MOD",
-      "file": "gfx/interface/illustrations/scripted_illustrations/ingame.txt",
-      "count": 1
-    },
-    {
-      "severity": "warning",
-      "code": "missing-item",
-      "message": "portrait environment character_view_main not defined in gfx/portraits/environments/",
-      "source": "MOD",
-      "file": "gfx/interface/illustrations/scripted_illustrations/ingame.txt",
-      "count": 2
-    },
-    {
-      "severity": "warning",
-      "code": "missing-item",
-      "message": "portrait environment character_view_spouse not defined in gfx/portraits/environments/",
-      "source": "MOD",
-      "file": "gfx/interface/illustrations/scripted_illustrations/ingame.txt",
-      "count": 2
-    },
-    {
-      "severity": "warning",
-      "code": "missing-item",
-      "message": "portrait environment tgp_camp_asia not defined in gfx/portraits/environments/",
-      "source": "MOD",
-      "file": "gfx/interface/illustrations/scripted_illustrations/ingame.txt",
-      "count": 1
-    },
-    {
-      "severity": "warning",
-      "code": "missing-item",
-      "message": "portrait environment tgp_farm_asia not defined in gfx/portraits/environments/",
-      "source": "MOD",
-      "file": "gfx/interface/illustrations/scripted_illustrations/ingame.txt",
-      "count": 1
-    },
-    {
-      "severity": "warning",
       "code": "scopes",
       "message": "`geographical_region` is for province but scope seems to be character",
       "source": "MOD",
@@ -1663,14 +1623,6 @@
       "message": "template not found",
       "source": "MOD",
       "file": "gui/shared/mde_portraits.gui",
-      "count": 2
-    },
-    {
-      "severity": "tips",
-      "code": "performance",
-      "message": "AND with only one item inside is useless",
-      "source": "AGOT",
-      "file": "common/scripted_triggers/00_illustration_triggers.txt",
       "count": 2
     },
     {
@@ -1728,14 +1680,6 @@
       "source": "MOD",
       "file": "events/travel_events/travel_events_james.txt",
       "count": 2
-    },
-    {
-      "severity": "tips",
-      "code": "performance",
-      "message": "AND with only one item inside is useless",
-      "source": "MOD",
-      "file": "gfx/interface/illustrations/scripted_illustrations/ingame.txt",
-      "count": 1
     }
   ]
 }

@@ -1057,9 +1057,9 @@
   },
   "locator_repair": {
     "gfx/map/map_object_data/building_locators.txt": {
-      "moved": 12211,
-      "added": 2767,
-      "unplaceable": 191
+      "moved": 11,
+      "added": 0,
+      "unplaceable": 1000
     },
     "gfx/map/map_object_data/special_building_locators.txt": {
       "moved": 4852,

@@ -161,10 +161,6 @@
       "sha256": "90d79cc408096f6e9ca4560aeb834b85ba9616d409a029d450d2693e1e589d45",
       "size": 18413
     },
-    "workshop/2962333032/common/script_values/00_agot_dragon_gene_values.txt": {
-      "sha256": "6218687de506f50d6cc24f2ec5548f1a62be4ada2c992a36f723a3a32a0beb04",
-      "size": 90022
-    },
     "workshop/2962333032/common/script_values/00_war_values.txt": {
       "sha256": "8c0a56ecbf5f53f80b021c31d55d3f7b02cc9c88fd284f01735fd44b42a8e28d",
       "size": 26044
@@ -340,10 +336,6 @@
     "workshop/3377641022/gfx/FX/tree_piney_winey.shader": {
       "sha256": "b017898783ad2a01160d2b228bc81502effeef6cdd770989ed5c500d25a1aeaa",
       "size": 14267
-    },
-    "workshop/3388366564/events/dlc/ep3/ep3_laamp_events.txt": {
-      "sha256": "68dd290277ae7d467634f45ede56238232b52418401637f7f1b7c6f40934b613",
-      "size": 207042
     },
     "workshop/3388366564/gui/shared/mde_portraits.gui": {
       "sha256": "56d377d324b97dd2dee38f76aca80db59e30fa966766b28b04acfbc13431954c",
@@ -1354,8 +1346,8 @@
       "size": 21497
     },
     "workshop/3773616784/gfx/interface/illustrations/scripted_illustrations/ingame.txt": {
-      "sha256": "6618eccb1499f04a4cf0e53c865b49e03c066ffded59d08ad3342a61d93391a3",
-      "size": 510535
+      "sha256": "31cf43ef5d950342bf940987a02888fa6d1b4c3d66b53e59eb3ecc450dcfabea",
+      "size": 510333
     },
     "workshop/3781577713/common/scripted_effects/00_kraken_effects.txt": {
       "sha256": "62de176b9458c704f7a1760785729082109f478f0b6ec7998be746651dbbbd7e",
@@ -1396,6 +1388,14 @@
     "workshop/3788296332/events/activities/tour_activity/tour_general_events.txt": {
       "sha256": "513d8c639231aa73e06f9d69da5231b6c9afd1ef8d8c5ac54ac7a599e54b7f86",
       "size": 80467
+    },
+    "workshop/3788885215/common/script_values/00_agot_dragon_gene_values.txt": {
+      "sha256": "58829d07523a8b145cbd2bdf95f208f57ce7235527b612d84c5768c1a91e4f3e",
+      "size": 571592
+    },
+    "workshop/3788885215/events/dlc/ep3/ep3_laamp_events.txt": {
+      "sha256": "ed024463b3a952c9a9c5afe08f5699cb8f1f21507172027b56568194c3f6e939",
+      "size": 207601
     }
   }
 }

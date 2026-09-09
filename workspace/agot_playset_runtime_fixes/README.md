@@ -62,12 +62,15 @@ change re-raises it.
 - **Coastal raiding tooltip:** inlines the ten-percent-of-target-gold,
   minimum-one calculation for both transfers so the tooltip and the applied
   value agree; the stored value is retained only for the follow-up event.
-- **Dragon template storage guards:**
+- **Dragon template storage guards (Workshop 3788885215):**
   `Failed to fetch variable for 'gene_dragon_fire_color_template' due to not being set`,
   and the same for `gene_dragon_fire_smoke_template`, each preceded by
   `Event target link 'var' returned an unset scope`. The templates start from a
   numeric fallback and read `gl_dragon_variable_storage` entries only inside
-  list entries that actually carry them.
+  list entries that actually carry them. The More Dragon Eggs fix is the
+  effective last writer for this path and adds its own dead- and canon-dragon
+  appearance recovery, so the file is restated from that parent and only the two
+  named template blocks are rewritten; the generator pins a hash per block.
 - **Adventurer's Beneficiary CB (Workshop 3349316031):**
   `Failed to fetch variable for 'val_beneficiary' due to not being set`. The
   trigger returns false when the attacker has no `val_beneficiary` variable
@@ -128,11 +131,13 @@ change re-raises it.
   override consumes the generic `unlock_voluntary_laampdom_trait` flag (so
   Immersive Personalities' gpt_tiger and gpt_wolf traits work) and lets stranded
   landless pirates use the route. It retains AGOT's intentional faith-unlock
-  exclusion. The same-path More Dragon Eggs event rebase removes that mod's
-  child-succession game-rule gate from the voluntary event while retaining its
+  exclusion. The effective voluntary event now comes from the More Dragon Eggs
+  fix (Workshop `3788885215`), which loads below More Dragon Eggs itself, so the
+  event rebase restates that parent's file; it removes the misplaced
+  child-succession game-rule gate from `ep3_laamps.0030` while retaining its
   actual succession-event restrictions and every other event change. This is
-  static-source evidence; re-audit after Workshop `2962333032`, `3388366564`, or
-  `3596393244` changes.
+  static-source evidence; re-audit after Workshop `2962333032`, `3388366564`,
+  `3788885215`, or `3596393244` changes.
 - **Mari's AGOT Makeovers:** removes 1,173 obsolete `gene_GH_marker_*` bookmark
   and DNA entries plus eight references to the removed earrings gene, and
   deletes a stray backtick that made the rest of Aegon V's DNA block fail to
@@ -273,13 +278,13 @@ change re-raises it.
   `Scoped object is not valid. Type: (no character) weak (Character - ...)`. The
   grants are piety and development for the completing character, so there is
   nobody to award when the scope is unset; the generator asserts the site count.
-- **Additional Models illustration cultures:** removes six `culture:shadowmen`
-  references from `scripted_illustrations/ingame.txt`. The culture does not
-  exist under any spelling the playset resolves, and `character_view_bg`
-  re-evaluates on every portrait redraw, so each one cost a failed lookup per
-  frame. Every line sits in an `OR` beside the `shadowman` line it misspells,
-  which the generator asserts before dropping it, so the intended coverage is
-  unchanged.
+- **Additional Models illustration cultures (check only):** Additional
+  Models/LoV spells all six `character_view_bg` culture triggers in
+  `scripted_illustrations/ingame.txt` as `culture:shadowman`, which AGOT
+  defines, so this module ships no copy of that file. Generation asserts AGOT
+  still defines `shadowman` and not `shadowmen`, that the parent still carries
+  exactly six live references, and that it has not restored the misspelling. Any
+  of those assertions failing means the file needs to be owned again.
 - **Succession Crisis:** makes comparisons with the optional
   `crisis_special_character` scope safe and removes its copied vanilla call to
   `misc.0001`, which AGOT intentionally disables; its copied landless-title
@@ -512,19 +517,20 @@ update invalidates an assumption.
 
 Individual repairs above carry their own narrower triggers. In general, re-run
 the generator and review the resulting diff after any update to Workshop IDs
-`2962333032`, `3388366564`, `3596393244`, `3361162762`, `2967263410`,
-`3713902872`, `3788296332`, `3319354609`, `3621472324`, `3324579171`,
-`3349316031`, `3761342990`, `3676293022`, `3305687550`, `3662281614`,
-`3673468355`, `2886417277`, `3084203091`, `3225355262`, `3235061780`,
-`3377641022`, `3692879370`, `3697008412`, `3462342647`, `3437814875`,
-`3709868073`, `3541596590`, `3788296332`, or `2971198450`, `3732116186`,
-`3573203384`, `2712590542`, or `2519175282`, and after CK3 updates that change
-`04_dlc_ep2_tour_effects.txt` or `common/on_action/accolade_on_actions.txt`.
-Re-run it after updates to `3682802751` because the Essos cleanup validates that
-parent's game rules and startup actions, and after updates to `3788296332`
-because the same repair is pinned to LoV's effective wilderness-conversion
-effect. Re-run it after updates to `3773616784` because the generated
-court-scene selector follows that compatch's current room-routing rules.
+`2962333032`, `3388366564`, `3788885215`, `3596393244`, `3361162762`,
+`2967263410`, `3713902872`, `3788296332`, `3319354609`, `3621472324`,
+`3324579171`, `3349316031`, `3761342990`, `3676293022`, `3305687550`,
+`3662281614`, `3673468355`, `2886417277`, `3084203091`, `3225355262`,
+`3235061780`, `3377641022`, `3692879370`, `3697008412`, `3462342647`,
+`3437814875`, `3709868073`, `3541596590`, `3788296332`, or `2971198450`,
+`3732116186`, `3573203384`, `2712590542`, or `2519175282`, and after CK3 updates
+that change `04_dlc_ep2_tour_effects.txt` or
+`common/on_action/accolade_on_actions.txt`. Re-run it after updates to
+`3682802751` because the Essos cleanup validates that parent's game rules and
+startup actions, and after updates to `3788296332` because the same repair is
+pinned to LoV's effective wilderness-conversion effect. Re-run it after updates
+to `3773616784` because the generated court-scene selector follows that
+compatch's current room-routing rules.
 
 The stability guards are pinned by file or top-level block hash and fail closed
 when a parent changes. Re-run the generator and review the diff after any update

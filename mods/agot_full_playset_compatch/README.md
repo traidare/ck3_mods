@@ -7,7 +7,8 @@ genuine cross-mod overlaps that need a single deliberate winner.
 
 - Much Faster Activities' timing with Legacy of Valyria's coronation,
   tournament, and dragon-hatching changes.
-- The temporary More Dragon Eggs + Legacy of Valyria hatching activity.
+- The final temporary More Dragon Eggs + Legacy of Valyria hatching activity,
+  while keeping ordinary eggs selectable when extant ceremonies are enabled.
 - Legacy of Valyria's tournament guards, Much Faster Activities' cooldown, and
   Culture and Faith Granularity's granular county-faith conversion in the same
   tournament events.
@@ -22,6 +23,8 @@ genuine cross-mod overlaps that need a single deliberate winner.
 - The dragon on-action file shipped by both More Dragon Eggs and More Dragon
   Events, so the canon egg-clutch pulse and the extra owned-dragon events both
   keep working instead of one mod's file replacing the other's.
+- More Dragon Eggs' two dragonkeeper landing hooks with Seasons' later weather
+  override, so becoming landed does not drop the dragonpit follow-up event.
 - New Personality Events for Children's tenth-birthday events with AGOT's
   AI-only canon-rider bonding, so both systems fire for eligible children.
 - Iron and Salt's naval and kraken HUD with Dynamyc Family Portrait's AGOT
@@ -34,17 +37,20 @@ genuine cross-mod overlaps that need a single deliberate winner.
   from serving as regent outside the Watch, with the Legacy of Valyria AGOT
   bridge's guard against the same rule being asked about no one at all.
 
-It also owns three cross-parent overrides of its own: the three historical Dance
-of the Dragons starts begin in autumn rather than waiting through summer, the
-shared Seasons shader threshold, and the Seasons regional cleanup — which keeps
-the Iron Islands specific and covers Legacy of Valyria's regions without
-applying seasons to wilderness ruins. A narrow rule change also stops CK3 from
-erroring when it evaluates raiding without a raider.
+It also owns two cross-parent overrides of its own: the three historical Dance
+of the Dragons starts begin in autumn rather than waiting through summer, and
+the Seasons regional cleanup — which keeps the Iron Islands specific and covers
+Legacy of Valyria's regions without applying seasons to wilderness ruins. A
+narrow rule change also stops CK3 from erroring when it evaluates raiding
+without a raider.
 
 ## Required load order
 
 `New Personality Events for Children` must be enabled after AGOT and before this
-compatch. Keep the integration layers in this order:
+compatch. Keep `AGOT More Dragon Eggs` followed by
+`AGOT More Dragon Eggs - Fix for AGOT 0.5.2.1`, then `AGOT expanded - Dragons`;
+the temporary More Dragon Eggs + LoV compatch stays after the LoV bridge. Keep
+the integration layers in this order:
 
 1. `VIET - AGOT CK3 1.19 Runtime Rebase`, immediately after VIET
 2. `AGOT NOW - CK3 1.19 Rebase`, immediately after NOW

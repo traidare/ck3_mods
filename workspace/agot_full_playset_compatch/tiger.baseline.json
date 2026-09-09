@@ -171,6 +171,22 @@
     },
     {
       "severity": "error",
+      "code": "missing-item",
+      "message": "culture parameter unlock_maa_cape_watch not defined in common/culture/ parameters blocks",
+      "source": "MOD",
+      "file": "common/scripted_effects/07_dlc_ep3_scripted_effects.txt",
+      "count": 3
+    },
+    {
+      "severity": "error",
+      "code": "validation",
+      "message": "`max = ` is only for `ordered_` lists, `random_list`, and `duel`",
+      "source": "MOD",
+      "file": "common/scripted_effects/07_dlc_ep3_scripted_effects.txt",
+      "count": 4
+    },
+    {
+      "severity": "error",
       "code": "strict-scopes",
       "message": "scope:province might not be available here",
       "source": "MOD",
@@ -243,6 +259,102 @@
     },
     {
       "severity": "warning",
+      "code": "scopes",
+      "message": "`agot_dd_duskendale_title_transfer` expects root to be character but root seems to be casus belli",
+      "source": "AGOT",
+      "file": "common/casus_belli_types/00_agot_scenario_defiance_of_duskendale_wars.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "strict-scopes",
+      "message": "`agot_dd_duskendale_title_transfer` expects scope:host to be set",
+      "source": "AGOT",
+      "file": "common/casus_belli_types/00_agot_scenario_defiance_of_duskendale_wars.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "scopes",
+      "message": "`create_landless_adventurer_title_effect` expects root to be character but root seems to be none",
+      "source": "AGOT",
+      "file": "common/character_interactions/00_debug_interactions.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "strict-scopes",
+      "message": "`create_landless_adventurer_title_effect` expects scope:host to be set",
+      "source": "AGOT",
+      "file": "common/character_interactions/00_debug_interactions.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "scopes",
+      "message": "`negotiate_settlement_interaction_effect` expects scope to be character but scope seems to be none",
+      "source": "AGOT",
+      "file": "common/character_interactions/06_ep3_laamp_interactions.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "scopes",
+      "message": "`procure_estate_interaction_effect` expects root to be character but root seems to be none",
+      "source": "AGOT",
+      "file": "common/character_interactions/06_ep3_laamp_interactions.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "strict-scopes",
+      "message": "`negotiate_settlement_interaction_effect` expects scope:defender to be set",
+      "source": "AGOT",
+      "file": "common/character_interactions/06_ep3_laamp_interactions.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "strict-scopes",
+      "message": "`purchase_land_interaction_effect` expects scope:defender to be set",
+      "source": "AGOT",
+      "file": "common/character_interactions/06_ep3_laamp_interactions.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "strict-scopes",
+      "message": "`ep3_laamp_supporter_invalidated_effect` expects scope:actor to be set",
+      "source": "AGOT",
+      "file": "common/on_action/death.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "strict-scopes",
+      "message": "`ep3_laamp_supporter_invalidated_effect` expects scope:attacker to be set",
+      "source": "AGOT",
+      "file": "common/on_action/death.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "strict-scopes",
+      "message": "`create_landless_adventurer_title_effect` expects scope:host to be set",
+      "source": "AGOT",
+      "file": "common/on_action/player_select_destiny_on_actions.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "strict-scopes",
+      "message": "`create_landless_adventurer_title_effect` expects scope:host to be set",
+      "source": "AGOT",
+      "file": "common/on_action/ruler_designer.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
       "code": "missing-localization",
       "message": "missing spanish localization key esr_all_friends_and_lovers",
       "source": "AGOT",
@@ -276,6 +388,54 @@
     {
       "severity": "warning",
       "code": "missing-localization",
+      "message": "missing spanish localization key disavowed_incest_house_modifier",
+      "source": "AGOT",
+      "file": "common/scripted_effects/00_decisions_effects.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "missing-localization",
+      "message": "missing spanish localization key dragonrider_house_modifier",
+      "source": "AGOT",
+      "file": "common/scripted_effects/00_decisions_effects.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "missing-localization",
+      "message": "missing spanish localization key owns_big_ship",
+      "source": "AGOT",
+      "file": "common/scripted_effects/00_decisions_effects.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "missing-localization",
+      "message": "missing spanish localization key owns_big_ship_diving",
+      "source": "AGOT",
+      "file": "common/scripted_effects/00_decisions_effects.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "missing-localization",
+      "message": "missing spanish localization key owns_small_ship",
+      "source": "AGOT",
+      "file": "common/scripted_effects/00_decisions_effects.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "missing-localization",
+      "message": "missing spanish localization key owns_small_ship_diving",
+      "source": "AGOT",
+      "file": "common/scripted_effects/00_decisions_effects.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "missing-localization",
       "message": "missing spanish localization key contest_winner_ceremony_knighthood_tt",
       "source": "AGOT",
       "file": "common/scripted_effects/04_dlc_ep2_tournament_effects.txt",
@@ -295,6 +455,22 @@
       "message": "var:mysterious_stranger_appeared was deduced to be bool but scope seems to be character",
       "source": "AGOT",
       "file": "common/scripted_effects/04_dlc_ep2_tournament_effects.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "strict-scopes",
+      "message": "`negotiate_settlement_interaction_effect` expects scope:negotiate_settlement_legitimacy_cost to be set",
+      "source": "AGOT",
+      "file": "common/task_contracts/laamp_extra_contracts.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "strict-scopes",
+      "message": "`negotiate_settlement_interaction_effect` expects scope:target to be set",
+      "source": "AGOT",
+      "file": "common/task_contracts/laamp_extra_contracts.txt",
       "count": 1
     },
     {
@@ -347,6 +523,230 @@
     },
     {
       "severity": "warning",
+      "code": "strict-scopes",
+      "message": "`agot_faceless_take_face_adventure` expects scope:host to be set",
+      "source": "AGOT",
+      "file": "events/agot_decisions_events/agot_faceless_decisions_events.txt",
+      "count": 3
+    },
+    {
+      "severity": "warning",
+      "code": "scopes",
+      "message": "`create_landless_adventurer_title_tooltip_effect` expects scope to be character but scope seems to be bool",
+      "source": "AGOT",
+      "file": "events/agot_events/agot_bastard_events.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "strict-scopes",
+      "message": "`create_landless_adventurer_title_effect` expects scope:host to be set",
+      "source": "AGOT",
+      "file": "events/agot_events/agot_dayne_prodigy_events.txt",
+      "count": 6
+    },
+    {
+      "severity": "warning",
+      "code": "strict-scopes",
+      "message": "`create_landless_adventurer_title_effect` expects scope:host to be set",
+      "source": "AGOT",
+      "file": "events/agot_events/agot_faegon_invasion_events.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "strict-scopes",
+      "message": "`create_landless_adventurer_title_effect` expects scope:host to be set",
+      "source": "AGOT",
+      "file": "events/agot_events/agot_gc_events.txt",
+      "count": 3
+    },
+    {
+      "severity": "warning",
+      "code": "strict-scopes",
+      "message": "`create_landless_adventurer_title_effect` expects scope:host to be set",
+      "source": "AGOT",
+      "file": "events/agot_events/agot_nw_ranger_events.txt",
+      "count": 4
+    },
+    {
+      "severity": "warning",
+      "code": "strict-scopes",
+      "message": "`create_landless_adventurer_title_effect` expects scope:host to be set",
+      "source": "AGOT",
+      "file": "events/agot_events/agot_scenario_after_the_spring_events.txt",
+      "count": 4
+    },
+    {
+      "severity": "warning",
+      "code": "strict-scopes",
+      "message": "`create_landless_adventurer_title_effect` expects scope:host to be set",
+      "source": "AGOT",
+      "file": "events/agot_events/agot_scenario_bells_of_war_events.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "strict-scopes",
+      "message": "`agot_dd_camping_dragons` expects scope:host to be set",
+      "source": "AGOT",
+      "file": "events/agot_events/agot_scenario_defiance_of_duskendale_events.txt",
+      "count": 2
+    },
+    {
+      "severity": "warning",
+      "code": "strict-scopes",
+      "message": "`agot_dd_duskendale_title_transfer` expects scope:host to be set",
+      "source": "AGOT",
+      "file": "events/agot_events/agot_scenario_defiance_of_duskendale_events.txt",
+      "count": 8
+    },
+    {
+      "severity": "warning",
+      "code": "strict-scopes",
+      "message": "`ep3_become_landed_transfer_effect` expects scope:defender to be set",
+      "source": "AGOT",
+      "file": "events/agot_events/agot_scenario_fourth_blackfyre_rebellion_events.txt",
+      "count": 2
+    },
+    {
+      "severity": "warning",
+      "code": "strict-scopes",
+      "message": "`create_landless_adventurer_title_effect` expects scope:host to be set",
+      "source": "AGOT",
+      "file": "events/agot_events/agot_scenario_roberts_rebellion_minor_events.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "strict-scopes",
+      "message": "`create_landless_adventurer_title_effect` expects scope:host to be set",
+      "source": "AGOT",
+      "file": "events/agot_events/agot_scenario_roberts_rebellion_toj_events.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "strict-scopes",
+      "message": "`ep3_become_landed_transfer_effect` expects scope:defender to be set",
+      "source": "AGOT",
+      "file": "events/dlc/ep3/ep3_decisions_events.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "strict-scopes",
+      "message": "`ep3_become_landed_transfer_effect` expects scope:defender to be set",
+      "source": "AGOT",
+      "file": "events/dlc/ep3/ep3_interactions_events.txt",
+      "count": 2
+    },
+    {
+      "severity": "warning",
+      "code": "strict-scopes",
+      "message": "`create_landless_adventurer_title_effect` expects scope:host to be set",
+      "source": "AGOT",
+      "file": "events/dlc/ep3/ep3_laamp_decision_events.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "strict-scopes",
+      "message": "`create_landless_adventurer_title_effect` expects scope:host to be set",
+      "source": "AGOT",
+      "file": "events/dlc/ep3/ep3_story_cycle_grand_ambitions_events.txt",
+      "count": 3
+    },
+    {
+      "severity": "warning",
+      "code": "strict-scopes",
+      "message": "`mpo_events_ariana_0050_lose_effect` expects scope:host to be set",
+      "source": "AGOT",
+      "file": "events/dlc/mpo/mpo_events_ariana.txt",
+      "count": 2
+    },
+    {
+      "severity": "warning",
+      "code": "strict-scopes",
+      "message": "`tgp_japan_soryo_eradicate_cb_heir_go_to_savior` expects scope:host to be set",
+      "source": "AGOT",
+      "file": "events/dlc/tgp/tgp_japan_general_events.txt",
+      "count": 3
+    },
+    {
+      "severity": "warning",
+      "code": "strict-scopes",
+      "message": "`tgp_japan_soryo_eradicate_cb_loser_go_to_savior` expects scope:host to be set",
+      "source": "AGOT",
+      "file": "events/dlc/tgp/tgp_japan_general_events.txt",
+      "count": 2
+    },
+    {
+      "severity": "warning",
+      "code": "strict-scopes",
+      "message": "`ep3_laamp_supporter_invalidated_effect` expects scope:actor to be set",
+      "source": "AGOT playset runtime fixes",
+      "file": "common/on_action/title_on_actions.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "strict-scopes",
+      "message": "`ep3_laamp_supporter_invalidated_effect` expects scope:attacker to be set",
+      "source": "AGOT playset runtime fixes",
+      "file": "common/on_action/title_on_actions.txt",
+      "count": 2
+    },
+    {
+      "severity": "warning",
+      "code": "scopes",
+      "message": "`create_landless_adventurer_title_effect` expects root to be character but root seems to be bool",
+      "source": "AGOT playset runtime fixes",
+      "file": "events/dlc/ep3/ep3_laamp_events.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "scopes",
+      "message": "`create_landless_adventurer_title_effect` expects scope to be character but scope seems to be bool",
+      "source": "AGOT playset runtime fixes",
+      "file": "events/dlc/ep3/ep3_laamp_events.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "scopes",
+      "message": "`create_landless_adventurer_title_tooltip_effect` expects scope to be character but scope seems to be bool",
+      "source": "AGOT playset runtime fixes",
+      "file": "events/dlc/ep3/ep3_laamp_events.txt",
+      "count": 2
+    },
+    {
+      "severity": "warning",
+      "code": "strict-scopes",
+      "message": "`create_landless_adventurer_title_effect` expects scope:host to be set",
+      "source": "AGOT playset runtime fixes",
+      "file": "events/dlc/ep3/ep3_laamp_events.txt",
+      "count": 18
+    },
+    {
+      "severity": "warning",
+      "code": "strict-scopes",
+      "message": "`negotiate_settlement_interaction_effect` expects scope:defender to be set",
+      "source": "AGOT playset runtime fixes",
+      "file": "events/dlc/ep3/ep3_laamp_events.txt",
+      "count": 3
+    },
+    {
+      "severity": "warning",
+      "code": "strict-scopes",
+      "message": "`purchase_land_interaction_effect` expects scope:defender to be set",
+      "source": "AGOT playset runtime fixes",
+      "file": "events/dlc/ep3/ep3_laamp_events.txt",
+      "count": 3
+    },
+    {
+      "severity": "warning",
       "code": "scopes",
       "message": "`has_graphical_african_culture_group_trigger` expects scope to be culture but scope seems to be character",
       "source": "AGOT playset runtime fixes",
@@ -363,10 +763,130 @@
     },
     {
       "severity": "warning",
+      "code": "strict-scopes",
+      "message": "`flee_noble_south_effect` expects scope:host to be set",
+      "source": "AGOT: The Long Night \u0026 Azor Ahai",
+      "file": "common/decisions/00_agot_long_night_decisions.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "scopes",
+      "message": "`mutate_into_other_effect` expects root to be character but root seems to be culture",
+      "source": "AGOT: The Long Night \u0026 Azor Ahai",
+      "file": "common/on_action/00_others_on_actions.txt",
+      "count": 4
+    },
+    {
+      "severity": "warning",
+      "code": "strict-scopes",
+      "message": "`mutate_into_other_effect` expects scope:host to be set",
+      "source": "AGOT: The Long Night \u0026 Azor Ahai",
+      "file": "common/on_action/00_others_on_actions.txt",
+      "count": 8
+    },
+    {
+      "severity": "warning",
+      "code": "scopes",
+      "message": "`ln_the_dead_employ_nobody_effect` expects root to be character but root seems to be story cycle",
+      "source": "AGOT: The Long Night \u0026 Azor Ahai",
+      "file": "common/story_cycles/the_long_night.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "strict-scopes",
+      "message": "`ln_the_dead_employ_nobody_effect` expects scope:host to be set",
+      "source": "AGOT: The Long Night \u0026 Azor Ahai",
+      "file": "common/story_cycles/the_long_night.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "strict-scopes",
+      "message": "`mutate_into_other_effect` expects scope:host to be set",
+      "source": "AGOT: The Long Night \u0026 Azor Ahai",
+      "file": "events/00_others_heartbeat_events.txt",
+      "count": 9
+    },
+    {
+      "severity": "warning",
+      "code": "scopes",
+      "message": "`the_long_night_setup_effect` expects root to be character but root seems to be none",
+      "source": "AGOT: The Long Night \u0026 Azor Ahai",
+      "file": "events/others_events/others_events.txt",
+      "count": 2
+    },
+    {
+      "severity": "warning",
+      "code": "strict-scopes",
+      "message": "`the_long_night_setup_effect` expects scope:host to be set",
+      "source": "AGOT: The Long Night \u0026 Azor Ahai",
+      "file": "events/others_events/others_events.txt",
+      "count": 2
+    },
+    {
+      "severity": "warning",
+      "code": "strict-scopes",
+      "message": "`clean_up_ai_nomad_effect` expects scope:host to be set",
+      "source": "CK3",
+      "file": "common/on_action/dlc/mpo/mpo_the_great_steppe_on_actions.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "strict-scopes",
+      "message": "`create_landless_adventurer_title_effect` expects scope:host to be set",
+      "source": "CK3",
+      "file": "events/dlc/ep3/ep3_admin_events.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
       "code": "missing-localization",
       "message": "missing spanish localization key kCAFG_E_convert_faith_in_all_county_provinces_tt",
       "source": "CaFG",
       "file": "common/scripted_effects/kei_cafg_county_faith_effects.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "strict-scopes",
+      "message": "`create_landless_adventurer_title_effect` expects scope:host to be set",
+      "source": "Further East EEP",
+      "file": "common/decisions/agot_decisions/00_agot_nights_watch_decisions.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "scopes",
+      "message": "`has_graphical_african_culture_group_trigger` expects scope to be culture but scope seems to be character",
+      "source": "Further East EEP",
+      "file": "gfx/interface/illustrations/scripted_illustrations/ingame.txt",
+      "count": 2
+    },
+    {
+      "severity": "warning",
+      "code": "scopes",
+      "message": "`has_graphical_steppe_culture_group_trigger` expects scope to be culture but scope seems to be character",
+      "source": "Further East EEP",
+      "file": "gfx/interface/illustrations/scripted_illustrations/ingame.txt",
+      "count": 2
+    },
+    {
+      "severity": "warning",
+      "code": "scopes",
+      "message": "`create_landless_adventurer_title_effect` expects root to be character but root seems to be none",
+      "source": "LoV",
+      "file": "common/character_interactions/lv_settlement_interactions.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "strict-scopes",
+      "message": "`create_landless_adventurer_title_effect` expects scope:host to be set",
+      "source": "LoV",
+      "file": "common/character_interactions/lv_settlement_interactions.txt",
       "count": 1
     },
     {
@@ -376,6 +896,86 @@
       "source": "LoV AGOT 0.5.1 bridge",
       "file": "common/scripted_effects/zzzz_lv_agot_scripted_effect_runtime_overrides_v0_2_2.txt",
       "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "strict-scopes",
+      "message": "`war_task_contracts_completion_effect` expects scope:winner to be set",
+      "source": "LoV AGOT 0.5.2.1 bridge",
+      "file": "common/on_action/war_on_actions.txt",
+      "count": 2
+    },
+    {
+      "severity": "warning",
+      "code": "strict-scopes",
+      "message": "`clean_up_ai_nomad_effect` expects scope:host to be set",
+      "source": "LoV AGOT 0.5.2.1 bridge",
+      "file": "common/on_action/yearly_on_actions.txt",
+      "count": 2
+    },
+    {
+      "severity": "warning",
+      "code": "scopes",
+      "message": "`exists = yes/no` does not work",
+      "source": "LoV AGOT 0.5.2.1 bridge",
+      "file": "common/scripted_effects/zzzz_lv_agot_scripted_effect_runtime_overrides_v0_2_2.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "scopes",
+      "message": "`top_liege` is for character but scope seems to be activity",
+      "source": "LoV AGOT 0.5.2.1 bridge",
+      "file": "common/scripted_effects/zzzz_lv_relation_runtime_guards.txt",
+      "count": 4
+    },
+    {
+      "severity": "warning",
+      "code": "scopes",
+      "message": "`top_liege` is for character but scope seems to be landed title",
+      "source": "LoV AGOT 0.5.2.1 bridge",
+      "file": "common/scripted_effects/zzzz_lv_relation_runtime_guards.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "strict-scopes",
+      "message": "`create_landless_adventurer_title_effect` expects scope:host to be set",
+      "source": "LoV AGOT 0.5.2.1 bridge",
+      "file": "events/agot_events/agot_colonization_events.txt",
+      "count": 2
+    },
+    {
+      "severity": "warning",
+      "code": "strict-scopes",
+      "message": "`create_landless_adventurer_title_effect` expects scope:host to be set",
+      "source": "LoV AGOT 0.5.2.1 bridge",
+      "file": "events/agot_government_events/agot_pirate_events.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "strict-scopes",
+      "message": "`create_landless_adventurer_title_effect` expects scope:host to be set",
+      "source": "LoV AGOT 0.5.2.1 bridge",
+      "file": "events/courtier_guest_management_events/courtier_guest_management_events.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "strict-scopes",
+      "message": "`purge_excess_wanderer_riches_effect` expects scope:host to be set",
+      "source": "LoV AGOT 0.5.2.1 bridge",
+      "file": "events/courtier_guest_management_events/courtier_guest_management_events.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "strict-scopes",
+      "message": "`create_landless_adventurer_title_effect` expects scope:host to be set",
+      "source": "LoV AGOT 0.5.2.1 bridge",
+      "file": "events/dlc/ep3/ep3_contract_events.txt",
+      "count": 2
     },
     {
       "severity": "warning",
@@ -1307,6 +1907,38 @@
     },
     {
       "severity": "warning",
+      "code": "duplicate-item",
+      "message": "scripted effect is redefined by another scripted effect",
+      "source": "MOD",
+      "file": "common/scripted_effects/07_dlc_ep3_scripted_effects.txt",
+      "count": 3
+    },
+    {
+      "severity": "warning",
+      "code": "logic",
+      "message": "OR with only one item inside is probably not what you intended",
+      "source": "MOD",
+      "file": "common/scripted_effects/07_dlc_ep3_scripted_effects.txt",
+      "count": 3
+    },
+    {
+      "severity": "warning",
+      "code": "scopes",
+      "message": "`capital_county` produces landed title but expected province",
+      "source": "MOD",
+      "file": "common/scripted_effects/07_dlc_ep3_scripted_effects.txt",
+      "count": 8
+    },
+    {
+      "severity": "warning",
+      "code": "scopes",
+      "message": "`ep3_become_landed_transfer_effect` expects scope:target to be landed title but scope:target seems to be character",
+      "source": "MOD",
+      "file": "common/scripted_effects/07_dlc_ep3_scripted_effects.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
       "code": "scopes",
       "message": "`culture` produces culture but expected landed title",
       "source": "MOD",
@@ -1440,6 +2072,14 @@
       "source": "Seasons",
       "file": "common/event_backgrounds/01_event_backgrounds.txt",
       "count": 1
+    },
+    {
+      "severity": "tips",
+      "code": "performance",
+      "message": "AND with only one item inside is useless",
+      "source": "AGOT",
+      "file": "common/scripted_triggers/00_laamp_triggers.txt",
+      "count": 5
     }
   ]
 }

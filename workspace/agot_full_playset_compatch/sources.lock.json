@@ -81,6 +81,10 @@
       "sha256": "0f34dc3dca045a58be35d4f5de061a88ed266244ce2f9b8c23d7f2d292a4a198",
       "size": 31452
     },
+    "workshop/2962333032/common/scripted_effects/07_dlc_ep3_scripted_effects.txt": {
+      "sha256": "886808af26a321d9dc06c2f01313b3216d8c504e78da2584ca3fbaf52e846053",
+      "size": 374052
+    },
     "workshop/2962333032/common/scripted_rules/00_rules.txt": {
       "sha256": "0c205d5266bc77b2d05d4fca9ca4aff109cdc7999cdd6d50f4e5181bf01e06bd",
       "size": 52170
@@ -124,6 +128,14 @@
     "workshop/3319354609/gfx/court_scene/scene_settings/grandeur_levels/grandeur_levels.txt": {
       "sha256": "79110e35d1e1d75403caf8b9400dd2886059e9d0593766aa422b4b0fb19ddc80",
       "size": 11468
+    },
+    "workshop/3377641022/common/scripted_effects/07_dlc_ep3_scripted_effects.txt": {
+      "sha256": "26aa808294a4f88a63a2c38c619727770edf0e7296ed6c9aa24b50c7368edfed",
+      "size": 374480
+    },
+    "workshop/3377641022/descriptor.mod": {
+      "sha256": "53840978ecadebf76fb37804776840dc01156f3516fb1dfcb25b9f80a2258909",
+      "size": 176
     },
     "workshop/3388366564/common/on_action/agot_on_actions/mde_yearly_on_actions.txt": {
       "sha256": "6be6b2ab0f6a7c6e6d88424a38ae1b737c2ec24ca0a503544e83a5cd3482ed83",
@@ -282,15 +294,15 @@
       "size": 189
     },
     "workshop/3762892932/common/activities/activity_types/agot_dragon_hatching.txt": {
-      "sha256": "3a262f3323262d00401c8c65e780919d9835becc70e1b1f8edc05b716f2f2022",
-      "size": 82992
+      "sha256": "098bcf57181f4000d3bdf717d8bf482e52c1c6e48460b1711869506adec707cb",
+      "size": 82390
     },
     "workshop/3762892932/descriptor.mod": {
-      "sha256": "e944dc551840f33b08501ae1763e66dbbff015f2cfdb40d8fa848b26927b23eb",
-      "size": 375
+      "sha256": "d0232d12419d41e5e1db0c8737e3f82960930d32c815accc33af3bbb80a5c1ed",
+      "size": 423
     },
     "workshop/3766038754/descriptor.mod": {
-      "sha256": "651c853bce9d52d8ba9843fc459d7eb385f7790ff2132e9b769065d8154b4a0c",
+      "sha256": "23f09579204def102f986e8ad392930a804f1e01ecdc4758d8dadaa499dddf7b",
       "size": 421
     },
     "workshop/3766038754/events/lov_season_events.txt": {
@@ -298,15 +310,15 @@
       "size": 16687
     },
     "workshop/3766038754/gfx/FX/province_effects.fxh": {
-      "sha256": "6f4f61689d423d5941dd0dcb39b47bedfe33fe2a94c7a5f057c7b3ad05578a85",
-      "size": 56312
+      "sha256": "3c0bb9deeabb9f448f6954b0d774b38007f998d6bdf74baa9fef17160b076a51",
+      "size": 56635
     },
     "workshop/3766038754/map_data/geographical_regions/north_sans_neck.txt": {
       "sha256": "f7921062054dbb006c35205e4a4d70a0b9f9a29d2f28e782fa132b5864d648f8",
       "size": 20768
     },
     "workshop/3773616784/descriptor.mod": {
-      "sha256": "1a4ce661a202a23cc6e9a47b2e083528c93a2f2f9c239a1464151b030eb28b6c",
+      "sha256": "b9473e16a8ec81bf741c24191da989c8e603a592f3bc8634a21d624f5aab98df",
       "size": 358
     },
     "workshop/3773616784/gfx/court_scene/scene_settings/grandeur_levels/grandeur_levels.txt": {
@@ -404,6 +416,14 @@
     "workshop/3788296332/gui/map_icon_layer.gui": {
       "sha256": "4fc1d880121db0e5f2c933d47f747992037c413af6156fe851a5f1a91d6d3201",
       "size": 141560
+    },
+    "workshop/3788885215/common/scripted_effects/07_dlc_ep3_scripted_effects.txt": {
+      "sha256": "7842f56d7039499d00cdb624069ba45d850ffe8bd0bf46b4b0c3db1b3534d1fb",
+      "size": 374580
+    },
+    "workshop/3788885215/descriptor.mod": {
+      "sha256": "778d265286f6e39be8bc7d39ddbad0bcb3a65ceb4e8c3322cb8bcdad731af825",
+      "size": 228
     }
   }
 }

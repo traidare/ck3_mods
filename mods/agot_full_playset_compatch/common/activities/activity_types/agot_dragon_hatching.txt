@@ -1,4 +1,7 @@
-﻿activity_dragon_hatching = {
+﻿# MDE/LoV Compatch September 8th 2026: base is Daniil Godblessenko's AGOT More Dragon Eggs -
+# Fix for AGOT 0.5.2.1 (Steam 3788885215, now required, load it above this mod) with the
+# 0.5.2.1 LoV compatch's changes re-applied. Rebuild when either of them updates this file.
+activity_dragon_hatching = {
 	is_shown = {
 	#MDE Modified
 		OR = {
@@ -6,7 +9,7 @@
 				any_character_artifact = {
 					has_variable = dragon_egg
 					NOT = {
-						has_variable = destined_eggs # TargExile/Faegon Blocker
+						has_variable = destined_eggs
 					}
 				}
 				has_game_rule = extant_hatching_ceremonies_no
@@ -17,7 +20,7 @@
 					has_variable = dragon_egg
 					has_variable = dud_egg
 					NOT = {
-						has_variable = destined_eggs # TargExile/Faegon Blocker
+						has_variable = destined_eggs
 					}
 				}
 				agot_dragon_population_extinct = no
@@ -27,7 +30,7 @@
 				any_character_artifact = {
 					has_variable = dragon_egg
 					NOT = {
-						has_variable = destined_eggs # TargExile/Faegon Blocker
+						has_variable = destined_eggs
 					}
 				}
 				agot_dragon_population_extinct = yes
@@ -992,10 +995,7 @@
 			limit = { has_game_rule = extant_hatching_ceremonies_yes }
 			scope:host = {
 				every_character_artifact = {
-					# MDE-LoV compatch v1.5.5: this limit also required "has_variable = dud_egg", so with the
-					# "Hatching Ceremonies Always Available" rule set to Yes it collected ONLY dud eggs. A host
-					# with no duds ended up with an empty egg list, no selected egg, a "?" icon on the ceremony
-					# and an activity that never resolved. That rule governs extant dragons, not egg selection.
+					# The extant-ceremonies rule controls availability, not egg selection.
 					limit = {
 						has_variable = dragon_egg
 					}
@@ -1686,7 +1686,7 @@ activity_dragon_hatching_no_dlc = {
 				any_character_artifact = {
 					has_variable = dragon_egg
 					NOT = {
-						has_variable = destined_eggs # TargExile/Faegon Blocker
+						has_variable = destined_eggs
 					}
 				}
 				has_game_rule = extant_hatching_ceremonies_no
@@ -1697,7 +1697,7 @@ activity_dragon_hatching_no_dlc = {
 					has_variable = dragon_egg
 					has_variable = dud_egg
 					NOT = {
-						has_variable = destined_eggs # TargExile/Faegon Blocker
+						has_variable = destined_eggs
 					}
 				}
 				agot_dragon_population_extinct = no
@@ -1707,7 +1707,7 @@ activity_dragon_hatching_no_dlc = {
 				any_character_artifact = {
 					has_variable = dragon_egg
 					NOT = {
-						has_variable = destined_eggs # TargExile/Faegon Blocker
+						has_variable = destined_eggs
 					}
 				}
 				agot_dragon_population_extinct = yes
@@ -2756,10 +2756,7 @@ activity_dragon_hatching_no_dlc = {
 			limit = { has_game_rule = extant_hatching_ceremonies_yes }
 			scope:host = {
 				every_character_artifact = {
-					# MDE-LoV compatch v1.5.5: this limit also required "has_variable = dud_egg", so with the
-					# "Hatching Ceremonies Always Available" rule set to Yes it collected ONLY dud eggs. A host
-					# with no duds ended up with an empty egg list, no selected egg, a "?" icon on the ceremony
-					# and an activity that never resolved. That rule governs extant dragons, not egg selection.
+					# The extant-ceremonies rule controls availability, not egg selection.
 					limit = {
 						has_variable = dragon_egg
 					}

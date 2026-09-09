@@ -460,6 +460,7 @@ def transform_effect(text: str) -> str:
         "\t\t\t\t\t\t\tOR = {\n"
         "\t\t\t\t\t\t\t\thas_government = tribal_government\n"
         "\t\t\t\t\t\t\t\thas_government = nomad_government\n"
+        "\t\t\t\t\t\t\t\thas_government = herder_government\n"
         "\t\t\t\t\t\t\t}\n"
     )
     if text.count(dothraki_branch) != 5:

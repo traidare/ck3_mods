@@ -86,11 +86,26 @@ CORONATION_RELATIVE = Path("common/activities/activity_types/coronation.txt")
 DRAGON_HATCHING_RELATIVE = Path(
     "common/activities/activity_types/agot_dragon_hatching.txt"
 )
+DRAGON_HATCHING_DUD_ONLY_SELECTION = (
+    "\t\t\t\t\tlimit = {\n"
+    "\t\t\t\t\t\thas_variable = dragon_egg\n"
+    "\t\t\t\t\t\thas_variable = dud_egg\n"
+    "\t\t\t\t\t}\n"
+)
+DRAGON_HATCHING_ALL_EGG_SELECTION = (
+    "\t\t\t\t\t# The extant-ceremonies rule controls availability, not egg selection.\n"
+    "\t\t\t\t\tlimit = {\n"
+    "\t\t\t\t\t\thas_variable = dragon_egg\n"
+    "\t\t\t\t\t}\n"
+)
 CORONATION_EVENTS_RELATIVE = Path(
     "events/activities/coronation_activity/coronation_events.txt"
 )
 CONTEST_EVENTS_RELATIVE = Path("events/activities/tournaments/contest_events.txt")
 VALE_PROVINCES_RELATIVE = Path("history/provinces/replace/00_k_the_vale_prov.txt")
+EP3_SCRIPTED_EFFECTS_RELATIVE = Path(
+    "common/scripted_effects/07_dlc_ep3_scripted_effects.txt"
+)
 
 # Much Faster Activities regenerates its overrides from vanilla, so its files
 # carry vanilla lines AGOT had already replaced alongside the timing edits that
@@ -234,7 +249,6 @@ SOURCE_RELATIVES = {
 }
 OUTPUT_RELATIVES = {
     "SEASON_EVENTS": SOURCE_RELATIVES["SEASON_EVENTS"],
-    "SEASON_FX": SOURCE_RELATIVES["SEASON_FX"],
     "SEASON_REGIONS": SOURCE_RELATIVES["SEASON_REGIONS"],
     **{
         f"NOW_TITLES_{language.upper()}": title_localization_relative(language)
@@ -560,33 +574,23 @@ def generate_events(source: str) -> str:
     return text if text.endswith("\n") else text + "\n"
 
 
-def generate_shader(source: str) -> str:
+def check_shader(source: str) -> None:
+    """Assert the Seasons bridge retains its upstream global threshold fix."""
     skip = "static const float SKIP_VALUE = 0.001f;"
-    if source.count(skip) != 1:
+    active = list(re.finditer(rf"(?m)^[ \t]*{re.escape(skip)}[ \t]*$", source))
+    if len(active) != 1:
         raise AssertionError("Seasons shader skip threshold changed")
     struct = re.search(r"(?m)^struct\s+EffectIntensities\s*\n\{", source)
     if not struct:
         raise AssertionError("missing EffectIntensities declaration")
     struct_end = matching_brace(source, source.find("{", struct.start(), struct.end()))
-    text = (
-        source[: struct_end + 1]
-        + (
-            "\n\nCode\n[[\n"
-            "\t// AGOT: this include is also consumed by vertex shaders.\n"
-            "\tstatic const float SKIP_VALUE = 0.001f;\n"
-            "]]\n"
-        )
-        + source[struct_end + 1 :]
-    )
-    text = replace_exact(
-        text,
-        "\t\tstatic const float SKIP_VALUE = 0.001f;\n",
-        "",
-        label="pixel-shader-local skip threshold",
-    )
-    if text.count(skip) != 1 or text.index(skip) > text.index("PixelShader ="):
-        raise AssertionError("shared Seasons shader skip threshold placement failed")
-    return text if text.endswith("\n") else text + "\n"
+    if source[struct_end : struct_end + 2] != "};":
+        raise AssertionError("EffectIntensities declaration is not terminated")
+    pixel = source.find("PixelShader =")
+    if pixel < 0 or active[0].start() <= struct_end or active[0].start() >= pixel:
+        raise AssertionError("shared Seasons shader threshold is not global")
+    if source.count("//static const float SKIP_VALUE = 0.001f;") != 1:
+        raise AssertionError("pixel-shader-local skip threshold marker changed")
 
 
 def add_group_regions(text: str, group: str, regions: tuple[str, ...]) -> str:
@@ -1253,6 +1257,13 @@ def generate_dragon_hatching(agot: str, mde_lov: str, mfa: str) -> str:
     require_delta_preserved(
         base=agot, parent=mfa, merged=merged, ours=mde_lov, label=label
     )
+    merged = replace_exact(
+        merged,
+        DRAGON_HATCHING_DUD_ONLY_SELECTION,
+        DRAGON_HATCHING_ALL_EGG_SELECTION,
+        f"{label} extant-ceremony egg selection",
+        expected=2,
+    )
     # A hatching death is an accident, so it is one of the deaths AGOT: Canon
     # Continuity withholds.  Both activity variants kill the host the same way.
     return replace_exact(
@@ -1262,6 +1273,36 @@ def generate_dragon_hatching(agot: str, mde_lov: str, mfa: str) -> str:
         f"{label} canon-continuity guard",
         expected=2,
     )
+
+
+def generate_ep3_scripted_effects(agot: str, mde_fix: str, seasons: str) -> str:
+    """Keep More Dragon Eggs' landing hooks with Seasons' weather logic."""
+    label = "07_dlc_ep3_scripted_effects.txt"
+    merged = merge_onto_agot(ours=seasons, base=agot, theirs=mde_fix, label=label)
+    require_delta_preserved(
+        base=agot, parent=mde_fix, merged=merged, ours=seasons, label=label
+    )
+    require_delta_preserved(
+        base=agot,
+        parent=seasons,
+        merged=merged,
+        ours=mde_fix,
+        label=f"{label} Seasons delta",
+    )
+    if merged.count("more_dragon_eggs_events.0013") != 2:
+        raise AssertionError(f"{label}: expected two More Dragon Eggs landing hooks")
+    for modifier in (
+        "winter_north_modifier",
+        "winter_normal_modifier_1",
+        "winter_harsh_modifier",
+        "winter_cold_modifier",
+        "winter_light_modifier",
+    ):
+        if merged.count(f"has_province_modifier = {modifier}") != 2:
+            raise AssertionError(
+                f"{label}: Seasons weather modifier {modifier} changed"
+            )
+    return merged
 
 
 def generate_contest_events(
@@ -1325,13 +1366,11 @@ def generate_outputs(workshop: dict[str, Path], vanilla: Path) -> dict[Path, byt
         raise AssertionError("NOW d_lychester creation requirement changed")
 
     bridge = workshop["SEASONS_BRIDGE"]
+    check_shader(read_text(bridge / SOURCE_RELATIVES["SEASON_FX"]))
     outputs = {
         OUTPUT_RELATIVES["SEASON_EVENTS"]: normalize_output(
             generate_events(read_text(bridge / SOURCE_RELATIVES["SEASON_EVENTS"]))
         ).encode("utf-8-sig"),
-        OUTPUT_RELATIVES["SEASON_FX"]: normalize_output(
-            generate_shader(read_text(bridge / SOURCE_RELATIVES["SEASON_FX"]))
-        ).encode("utf-8"),
         OUTPUT_RELATIVES["SEASON_REGIONS"]: normalize_output(
             generate_regions(
                 read_text(bridge / SOURCE_RELATIVES["SEASON_REGIONS"]),
@@ -1419,6 +1458,13 @@ def generate_outputs(workshop: dict[str, Path], vanilla: Path) -> dict[Path, byt
             read_text(mfa / DRAGON_HATCHING_RELATIVE),
         )
     ).encode("utf-8-sig")
+    outputs[EP3_SCRIPTED_EFFECTS_RELATIVE] = normalize_output(
+        generate_ep3_scripted_effects(
+            read_text(agot / EP3_SCRIPTED_EFFECTS_RELATIVE),
+            read_text(workshop["MDE_FIX"] / EP3_SCRIPTED_EFFECTS_RELATIVE),
+            read_text(workshop["SEASONS"] / EP3_SCRIPTED_EFFECTS_RELATIVE),
+        )
+    ).encode("utf-8-sig")
     outputs[CONTEST_EVENTS_RELATIVE] = normalize_output(
         generate_contest_events(
             read_text(agot / CONTEST_EVENTS_RELATIVE),
@@ -1442,7 +1488,7 @@ INTENT = {
         "rebase NOW's title names and re-add the COW Sisterton/Dunstonbury barony names"
     ),
     "events": "start DoD historical starts in autumn",
-    "shader": "share the AGOT skip threshold with vertex shaders",
+    "shader": "assert the Seasons bridge keeps its global AGOT skip threshold",
     "regions": "rebase NOW tokens and cover LoV cleanup regions without ruins",
     "grandeur": (
         "assert the AMSB/LoV compatch still covers every AMSB court "
@@ -1482,7 +1528,11 @@ INTENT = {
     ),
     "dragon_hatching": (
         "run hatching ceremonies at MFA's pace on the More Dragon "
-        "Eggs/LoV activity, sparing canon-protected hosts"
+        "Eggs/LoV activity, keep ordinary eggs selectable, and spare "
+        "canon-protected hosts"
+    ),
+    "ep3_scripted_effects": (
+        "combine the More Dragon Eggs landing hooks with Seasons weather modifiers"
     ),
     "contest_events": (
         "combine the LoV compatch's tournament summary guards, MFA's "
@@ -1524,10 +1574,12 @@ def generate(context: GenerationContext) -> None:
         "agot",
         "new-personality-events",
         "agot-now",
+        "seasons",
         "seasons-bridge",
         "amsb",
         "amsb-lov-compatch",
         "mde-eggs",
+        "mde-fix",
         "mde-events",
         "cow-now-compatch",
         "iron-and-salt",
@@ -1545,10 +1597,12 @@ def generate(context: GenerationContext) -> None:
         "AGOT": context.source("agot"),
         "NEW_PERSONALITY_EVENTS": context.source("new-personality-events"),
         "NOW": context.source("agot-now"),
+        "SEASONS": context.source("seasons"),
         "SEASONS_BRIDGE": context.source("seasons-bridge"),
         "AMSB": context.source("amsb"),
         "AMSB_LOV": context.source("amsb-lov-compatch"),
         "MDE_EGGS": context.source("mde-eggs"),
+        "MDE_FIX": context.source("mde-fix"),
         "MDE_EVENTS": context.source("mde-events"),
         "COW_NOW": context.source("cow-now-compatch"),
         "IRON_AND_SALT": context.source("iron-and-salt"),

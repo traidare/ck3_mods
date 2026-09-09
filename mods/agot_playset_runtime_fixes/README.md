@@ -62,10 +62,9 @@ Roughly fifty parent mods are touched. The failures fall into a few classes:
   illustrations, a crash-prone pre-1.19 GUI widget, an event that opened as an
   empty blocking popup, and portrait status icons wired to an AGOT fake-death
   layer that no longer exists.
-- **Art and trigger lookups that fail every frame** — holding art referenced
-  through constants a merged file never declares, and interface triggers testing
-  a culture that does not exist. Both are retried on each redraw, so they cost
-  framerate for as long as the affected view is open.
+- **Art lookups that fail every frame** — holding art referenced through
+  constants a merged file never declares. These are retried on each redraw, so
+  they cost framerate for as long as the affected view is open.
 
 Gameplay intent from every repaired mod is preserved; only the code CK3 rejects
 is changed.

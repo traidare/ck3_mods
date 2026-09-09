@@ -417,7 +417,13 @@ The effective character-title dispatcher starts with
 `Essos Expanded - TempLoV/NOW Compatch`, the final Workshop compatch in the
 required chain. This module transforms that dispatcher in place: it preserves
 its AGOT mapping semantics, adds the two lore government fallbacks through
-AGOT's feudal path, and carries no government lists of its own.
+AGOT's feudal path, and carries no government lists of its own. Because the
+transform is applied to the parent's current text, upstream additions to that
+dispatcher — its Herder, Norvos, Lorath, Valyrian Empire, and temple-title
+handling — are carried through unchanged. The parent's five Dothraki branches
+now admit `herder_government` alongside `tribal_government` and
+`nomad_government`; the generator pins that branch count at five and fails when
+the parent's shape changes.
 
 ### Lore policy
 

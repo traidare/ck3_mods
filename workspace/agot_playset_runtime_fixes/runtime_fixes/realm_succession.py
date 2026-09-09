@@ -1265,12 +1265,12 @@ def generate_voluntary_laamp_repairs(inputs: RunInputs) -> None:
     )
 
     event_relative = "events/dlc/ep3/ep3_laamp_events.txt"
-    event_source = read_text(inputs.WORKSHOP / "3388366564" / event_relative)
+    event_source = read_text(inputs.WORKSHOP / "3788885215" / event_relative)
     event = assert_source_block_hash(
         event_source,
         "ep3_laamps.0030",
         "6ae8981457953c35f6951818ab3041e9c9abbc78bcb301e75f537b76a88f0e24",
-        label="More Dragon Eggs voluntary-adventurer event",
+        label="More Dragon Eggs fix voluntary-adventurer event",
     )
     old_event_trigger = (
         "\ttrigger = { # MDE Modified\n"
@@ -1298,14 +1298,14 @@ def generate_voluntary_laamp_repairs(inputs: RunInputs) -> None:
         """\ttrigger = { exists = scope:laamp_inheritor }
 """,
         expected=1,
-        label="More Dragon Eggs misplaced voluntary-event game-rule gate",
+        label="More Dragon Eggs fix misplaced voluntary-event game-rule gate",
     )
     event_source = replace_exact(
         event_source,
         event,
         repaired_event,
         expected=1,
-        label="More Dragon Eggs voluntary-adventurer event replacement",
+        label="More Dragon Eggs fix voluntary-adventurer event replacement",
     )
     write_text(
         inputs.OUTPUT,

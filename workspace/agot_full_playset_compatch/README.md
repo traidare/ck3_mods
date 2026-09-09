@@ -8,7 +8,7 @@ The final integration layer of the AGOT playset. Load position: last, after
 Whole-file merges of paths that several parents genuinely contest:
 
 - MFA timing with LoV's coronation, tournament, and dragon-hatching changes;
-- the temporary More Dragon Eggs + LoV hatching activity;
+- the final temporary More Dragon Eggs + LoV hatching activity;
 - LoV tournament guards, MFA's cooldown, and CaFG's granular county-faith
   conversion in `contest_events.txt` — a superset of the two-file
   [cafg_agot_lov_compatch](../cafg_agot_lov_compatch/README.md) variant, which
@@ -49,16 +49,22 @@ own: the LoV bridge already summons the court chaplain through `?=` and a scope
 test, which is required because the effect that moves them runs outside the one
 that established the activity, and the generator asserts the merge keeps it.
 
+The final temporary More Dragon Eggs + LoV release restored a `dud_egg` filter
+to both extant-ceremony selection branches. That game rule controls whether a
+ceremony is available while dragons still live; filtering the selectable list to
+dud eggs leaves an ordinary-egg host with no selection. The generator drops that
+filter in both activity variants and pins the two source sites.
+
 The LoV parent is `lov-agot-bridge` for every file it contributes, including
 `contest_events.txt`, where it carries the tournament summary guards that keep
 an unset `last_versus_match` out of a comparison.
 
 Beyond those merges the generated layer owns eight cross-parent whole-file
-overrides: the five seasonal, title-name, and dragon-on-action boundaries below,
-plus the three Iron and Salt boundaries described afterward. The regional
-cleanup rebases `c_sallydance` and `d_greenbelt` onto NOW's tokens; it also
-keeps the Iron Isles specific and covers LoV regions without applying seasons to
-wilderness ruins.
+overrides: the seasonal, title-name, dragon-on-action, and EP3 landing
+boundaries below, plus the three Iron and Salt boundaries described afterward.
+The regional cleanup rebases `c_sallydance` and `d_greenbelt` onto NOW's tokens;
+it also keeps the Iron Isles specific and covers LoV regions without applying
+seasons to wilderness ruins.
 
 `mde_yearly_on_actions.txt` is shipped by both AGOT More Dragon Eggs and AGOT -
 More Dragon Events, so the later of them drops the other's file whole. Their
@@ -70,6 +76,29 @@ files, and More Dragon Events' pulse is a copy of AGOT's 38 entries plus its own
 AGOT's entries a second time and halve the chance of no event firing. The
 generator asserts the copied part still matches AGOT's declaration exactly, so
 an upstream rebalance fails generation instead of being silently discarded.
+
+`common/scripted_effects/07_dlc_ep3_scripted_effects.txt` is a final integration
+between the More Dragon Eggs 0.5.2.1 fix and Seasons. The fix restores two
+`more_dragon_eggs_events.0013` dispatches when an adventurer with a dragonpit or
+head dragonkeeper becomes landed; Seasons owns the later whole file for its
+winter modifier names and otherwise drops those dispatches. The generated file
+is Seasons plus exactly those two hooks, with both parent deltas asserted
+against AGOT. Earlier House Founders and More Dragon Eggs copies are already
+superseded by those parents and are deliberately not revived.
+
+The two restored hooks live in `ep3_become_landed_transfer_effect` and
+`adventurer_realm_destabilisation_transfer_effect`, which no later-sorting file
+redefines, so winning this path is what makes them effective. The Seasons text
+this file also carries for `random_rain_snow_chance_effect` and
+`refill_maa_with_provisions_effect` is inert: the Legacy of Valyria compatch
+(Workshop `3788296332`) redefines both in
+`zzzz_lv_agot_scripted_effect_runtime_overrides_v0_2_2.txt`, and CK3 resolves
+duplicate scripted-effect keys by filename traversal order, so `zzzz_` is read
+after `07_` regardless of mod load order. LoV's copy omits Seasons' four
+`winter_*_modifier` checks, so that Seasons weather branch is already inactive
+in this playset independent of this module. Carrying Seasons' text here stays
+correct-by-construction; taking the key back would need a file that sorts after
+LoV's own `zzzzz_` override, which this module deliberately does not do.
 
 New Personality Events for Children owns the effective
 `childhood_on_actions.txt` and retains its personality event while omitting
@@ -131,6 +160,11 @@ The regional cleanup is written to
 fork uses: `replace/` is a plain subfolder there with no engine meaning, so a
 copy inside it would load _alongside_ the fork's file and define every shared
 region twice.
+
+The Seasons-of-Valyria bridge now places `SKIP_VALUE` in a global `Code` block
+before `PixelShader`, so vertex and pixel shaders both see it. This module no
+longer owns `province_effects.fxh`; generation only asserts the fixed global
+placement and the disabled old local declaration, leaving the bridge effective.
 
 Seventeen of those regions name a title no parent defines: the Seasons fork
 builds its regions from the NOW-Seasons compatch, which names titles at tiers
@@ -260,19 +294,20 @@ ck3mm mod generate agot_full_playset_compatch --apply
 ```
 
 The `mod.toml` manifest regenerates the owned outputs from the declared AGOT,
-New Personality Events, NOW, Seasons-fork, dragon-mod, MFA, CaFG, Iron and Salt,
-Dynamic Family Portrait, LoV, the LoV bridge, Essos Expanded, Long Night, Great
-Councils, and vanilla sources. LoV and Essos Expanded are read only for their
-landed titles, which the seasonal-region prune above resolves membership
-against. It also declares the Additional Models, AMSB/LoV compatch, and the two
-disabled mods — the COW-AGOT/NOW compatch and the LoV AGOT compatch beta — that
-back the assertions and merges above. Its portable source metadata lives here,
-outside the installed runtime payload.
+New Personality Events, NOW, Seasons-fork, More Dragon Eggs fix, dragon-mod,
+MFA, CaFG, Iron and Salt, Dynamic Family Portrait, LoV, the LoV bridge, Essos
+Expanded, Long Night, Great Councils, and vanilla sources. LoV and Essos
+Expanded are read only for their landed titles, which the seasonal-region prune
+above resolves membership against. It also declares the Additional Models,
+AMSB/LoV compatch, and the two disabled mods — the COW-AGOT/NOW compatch and the
+LoV AGOT compatch beta — that back the assertions and merges above. Its portable
+source metadata lives here, outside the installed runtime payload.
 
 ## Re-audit
 
 Re-audit whenever any merged parent updates — in particular AGOT or New
 Personality Events' tenth-birthday on-actions, NOW, the Seasons-of-Valyria
-Workshop fork, LoV, MFA, COW, CaFG, Iron and Salt, Dynamic Family Portrait, or
-Great Councils, and the Long Night's diarch rule. Remove the canon-dragon
-birthday bridge if the effective parent restores AGOT's dispatch itself.
+Workshop fork, the More Dragon Eggs fix (`3788885215`), the final temporary LoV
+bridges, LoV, MFA, COW, CaFG, Iron and Salt, Dynamic Family Portrait, or Great
+Councils, and the Long Night's diarch rule. Remove the canon-dragon birthday
+bridge if the effective parent restores AGOT's dispatch itself.

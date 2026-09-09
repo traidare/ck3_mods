@@ -297,10 +297,6 @@
       "sha256": "80f7c43ca6c72b08b46d9f0cf0a2c8dfec0d97b2216fc1346f08334f51f505b3",
       "size": 232301
     },
-    "workshop/3682802751/gfx/map/map_object_data/building_locators.txt": {
-      "sha256": "955a7c5087d48c794cbacc485ee0b2b707210efc649c39ccd5d3b5b85aa25291",
-      "size": 3686250
-    },
     "workshop/3682802751/gfx/map/map_object_data/new_mapobject_2.txt": {
       "sha256": "69c75450b5c9c72f8aa78f1217cc0a4321856a130c830befb93c79d1f21cb757",
       "size": 47605
@@ -1198,8 +1194,12 @@
       "size": 11066
     },
     "workshop/3768149491/descriptor.mod": {
-      "sha256": "3ba3bd86d64ca99d30594f979cf4262c44a3698fedd96aff250d269315dad529",
+      "sha256": "daf8df832265daaea26a7a72d4fa729216f4fc019c621cf6780f4e035f1d9ccc",
       "size": 388
+    },
+    "workshop/3768149491/gfx/map/map_object_data/building_locators.txt": {
+      "sha256": "841e5d473f0e126f69cb31a513ee96877fd1241cee2cea9963f515c6f8911a58",
+      "size": 3452248
     },
     "workshop/3768149491/gfx/map/map_object_data/new_mapobject_3.txt": {
       "sha256": "eaed683ed4da1aac106c9721d1f597358a5db07012fe4d340c3edcfdc166a958",
@@ -1278,8 +1278,8 @@
       "size": 110280
     },
     "workshop/3768149491/map_data/geographical_regions/zz_eetlv_dothraki_region.txt": {
-      "sha256": "186970e856f948ffc0a2d8d3ed5b71d2a633d1df829a769da774968fe6327233",
-      "size": 5218
+      "sha256": "f8d2dc50a83754c4bed018c783606c2bc3c70f99ffa603e99d7f292e65ec5e0f",
+      "size": 7011
     },
     "workshop/3768149491/map_data/geographical_regions/zz_eetlv_further_east.txt": {
       "sha256": "2fc63606bf6a13e8f7353c10da1fa8734984035462eb9eef72d894638a88684d",
@@ -1294,11 +1294,11 @@
       "size": 4009179
     },
     "workshop/3773608127/common/scripted_effects/replace/00_agot_character_data_effects.txt": {
-      "sha256": "e689600bbd1cdab9a2e4075bb3f7bd927e8cb413abb4b006f338803abc16a7b5",
-      "size": 147340
+      "sha256": "9603e65345618572a4a969d44aaed7d97d5a505fb45d629ec6dde9f1c42e90cc",
+      "size": 126006
     },
     "workshop/3773608127/descriptor.mod": {
-      "sha256": "2f16aab5e33e67ec85424b2ab0a83e19fe02f3a4bc6f68ff60ecfcb9f63e2c30",
+      "sha256": "7db29a5f758406acf006d27f83139479f3c70d67c24abe520962128e3d6b3bef",
       "size": 394
     },
     "workshop/3773608127/gfx/map/map_object_data/activities.txt": {

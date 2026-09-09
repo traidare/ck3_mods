@@ -539,7 +539,7 @@ def generate_additional_models_holding_art_constants(inputs: RunInputs) -> None:
 def generate_additional_models_scripted_illustration_cultures(
     inputs: RunInputs,
 ) -> None:
-    """Drop a misspelled culture from a per-frame illustration trigger."""
+    """Assert the parent retains its repaired illustration culture triggers."""
     shadowlanders = read_text(
         inputs.WORKSHOP
         / "2962333032/common/culture/cultures/00_agot_cul_shadowlanders.txt"
@@ -552,23 +552,15 @@ def generate_additional_models_scripted_illustration_cultures(
         )
     relative = "gfx/interface/illustrations/scripted_illustrations/ingame.txt"
     text = read_text(inputs.WORKSHOP / "3773616784" / relative)
-    # `character_view_bg` re-evaluates whenever the portrait redraws, so each
-    # unresolvable culture costs a failed lookup per frame. Every `shadowmen`
-    # line sits in an OR beside the `shadowman` line it misspells, so dropping
-    # it leaves the intended coverage intact.
     live = r"(?m)^([ \t]*)culture = culture:shadowman[ \t]*$"
     if len(re.findall(live, text)) != 6:
         raise RuntimeError(
             "Additional Models/LoV illustration shadowman references changed"
         )
-    text = replace_regex(
-        text,
-        r"(?m)^[ \t]*culture = culture:shadowmen[ \t]*\r?\n",
-        "",
-        expected=6,
-        label="Additional Models/LoV illustration shadowmen references",
-    )
-    write_text(inputs.OUTPUT, relative, text, preserve_trailing_whitespace=True)
+    if re.search(r"(?m)^[ \t]*culture = culture:shadowmen[ \t]*$", text):
+        raise RuntimeError(
+            "Additional Models/LoV restored the invalid shadowmen references"
+        )
 
 
 def generate_character_ui_overhaul_hometowns(inputs: RunInputs) -> None:
