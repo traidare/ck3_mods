@@ -9,6 +9,14 @@
       "sha256": "e41bb5d345f319c2b889e42cb578599e1763c57b89782566859679100340aae5",
       "size": 7774
     },
+    "game/game/common/schemes/scheme_types/ep3_raid_estate_scheme.txt": {
+      "sha256": "baa43075f480d0793d50cc6fb136b5b0b8788bf6bc7e243c57e7904bf8a69475",
+      "size": 14544
+    },
+    "game/game/common/schemes/scheme_types/promote_scheme.txt": {
+      "sha256": "b3f17b4e013eff82c8f5b0349757001c1076def7089ecbbcc24ec22ed2ac5a0a",
+      "size": 5690
+    },
     "game/game/common/scripted_effects/00_nickname_effects.txt": {
       "sha256": "5e7259ed1c50c843e4c49f73842f2b11f10cddd5c56d231fed35af492e8d48c0",
       "size": 175602
@@ -129,6 +137,10 @@
       "sha256": "7274b26638c574da6a3c0fcf6681e7aec869f32025e315349393c7f70de6313e",
       "size": 110334
     },
+    "workshop/2962333032/common/character_interactions/10_tgp_interactions.txt": {
+      "sha256": "403bdb5cc74ad796428e00b8bee5722844a3c15f45249587d7fb1057d152ef2c",
+      "size": 275928
+    },
     "workshop/2962333032/common/culture/cultures/00_agot_cul_shadowlanders.txt": {
       "sha256": "03658ad9eef08074029cb080356da16aa79c3a922ff06fc9256e707981eae99a",
       "size": 2069
@@ -161,6 +173,14 @@
       "sha256": "90d79cc408096f6e9ca4560aeb834b85ba9616d409a029d450d2693e1e589d45",
       "size": 18413
     },
+    "workshop/2962333032/common/on_action/relations/relation_on_actions.txt": {
+      "sha256": "aa693730eb4ceed4ea0ffbe5621285a5fa2749190ebd8ec166728c248ee09d35",
+      "size": 49622
+    },
+    "workshop/2962333032/common/schemes/scheme_types/expand_power_base_scheme.txt": {
+      "sha256": "e147c97ac140ca23307ed34f673abbdc94d05a7b29dadefb408bcd99a3ce2839",
+      "size": 4437
+    },
     "workshop/2962333032/common/script_values/00_war_values.txt": {
       "sha256": "8c0a56ecbf5f53f80b021c31d55d3f7b02cc9c88fd284f01735fd44b42a8e28d",
       "size": 26044
@@ -192,6 +212,10 @@
     "workshop/2962333032/common/scripted_effects/09_dlc_mpo_scripted_effects.txt": {
       "sha256": "4134f13bbe3719d550fbb1fd08bdbc639c87e93a099e0a764413f9bf4dcc5acb",
       "size": 153660
+    },
+    "workshop/2962333032/common/scripted_effects/10_dlc_tgp_scripted_effects.txt": {
+      "sha256": "041bc8bddc62fd2bd8b8fe5372631073ef6bc22ad55be3c5b108357b29b870a8",
+      "size": 287705
     },
     "workshop/2962333032/common/scripted_modifiers/00_faction_modifiers.txt": {
       "sha256": "db445a723e4961cea6335cd4a70bfa3248825e559fce5e19c7561c18b65640f1",

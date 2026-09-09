@@ -1,0 +1,133 @@
+﻿# Fail closed when queued elder/disciple scopes have expired.
+
+set_elder_relation_effect = {
+	if = {
+		limit = {
+			trigger_if = {
+				limit = {
+					exists = $DISCIPLE$
+					exists = $ELDER$
+				}
+				$DISCIPLE$ = {
+					is_alive = yes
+					NOT = { this = $ELDER$ }
+				}
+				$ELDER$ = { is_alive = yes }
+			}
+			trigger_else = { always = no }
+		}
+		$DISCIPLE$ = {
+			save_scope_as = new_disciple
+			random_relation = {
+				type = elder
+				save_scope_as = old_elder
+			}
+		}
+		$ELDER$ = {
+			save_scope_as = new_elder
+		}
+		if = {
+			limit = {
+				# no circular relations please
+				NOT = {
+					scope:new_disciple = {
+						has_relation_elder = scope:new_elder
+					}
+				}
+				# Disciple does not have a higher merit rank than the elder
+				# The elder can have more disciples
+				scope:new_elder = {
+					eligible_for_elder_trigger = {
+						DISCIPLE = scope:new_disciple
+					}
+				}
+			}
+			scope:new_disciple = {
+				# in case you already had an elder, remove the relation and send them a letter
+				if = {
+					limit = {
+						exists = scope:old_elder
+					}
+					remove_relation_elder = scope:old_elder
+					save_scope_as = actor #for loc in tgp_interaction_event.0030
+					scope:old_elder = {
+						add_opinion = {
+							target = scope:new_disciple
+							modifier = refused_to_be_disciple_opinion
+							opinion = -50
+						}
+						save_scope_as = recipient #for loc in tgp_interaction_event.0030
+						trigger_event = tgp_interaction_event.0030
+					}
+				}
+				set_relation_elder = scope:new_elder
+			}
+			scope:new_elder = {
+				add_merit_if_relevant_effect = {
+					MERIT = $MERIT$
+				}
+			}
+		}
+	}
+}
+
+set_elder_relation_no_breakup_effect = {
+	if = {
+		limit = {
+			trigger_if = {
+				limit = {
+					exists = $DISCIPLE$
+					exists = $ELDER$
+				}
+				$DISCIPLE$ = {
+					is_alive = yes
+					NOT = { this = $ELDER$ }
+				}
+				$ELDER$ = { is_alive = yes }
+			}
+			trigger_else = { always = no }
+		}
+		$DISCIPLE$ = {
+			save_scope_as = new_disciple
+			random_relation = {
+				type = elder
+				save_scope_as = old_elder
+			}
+		}
+		$ELDER$ = {
+			save_scope_as = new_elder
+		}
+		if = {
+			limit = {
+				# no circular relations please
+				NOT = {
+					scope:new_disciple = {
+						has_relation_elder = scope:new_elder
+					}
+				}
+				# Disciple does not have a higher merit rank than the elder
+				# The elder can have more disciples
+				scope:new_elder = {
+					eligible_for_elder_trigger = {
+						DISCIPLE = scope:new_disciple
+					}
+				}
+			}
+			scope:new_disciple = {
+				# in case you already had an elder, remove the relation and send them a letter
+				if = {
+					limit = {
+						exists = scope:old_elder
+					}
+					remove_relation_elder = scope:old_elder
+				}
+				set_relation_elder = scope:new_elder
+			}
+			scope:new_elder = {
+				add_merit_if_relevant_effect = {
+					MERIT = minor_merit_value
+				}
+			}
+		}
+	}
+}

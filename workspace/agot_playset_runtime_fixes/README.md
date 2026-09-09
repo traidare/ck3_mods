@@ -47,14 +47,38 @@ change re-raises it.
   unconditionally install that character as the accolade successor. The repair
   rechecks that the candidate is alive, unlanded, in the owner's court, and
   either already serving or still eligible to serve as a knight; both the forced
-  knight status and successor assignment are inside that final gate. Retained
-  native crashes repeatedly put the faulting worker in CK3's synchronous
-  `on_accolade_acclaimed_death` callback with the same instruction-offset stack.
-  Its unchanged notification/glory-reset effect is therefore dispatched through
-  a named on-action one day later, after the code-driven accolade transition has
-  settled. The generated narrow effect override and whole-file on-action rebase
-  are pinned to the LoV effect block and CK3 callback block, so either parent
-  changing forces a re-audit.
+  knight status and successor assignment are inside that final gate. The
+  `on_accolade_acclaimed_death` callback now performs only synchronous variable
+  cleanup on its current accolade root. It does not carry that code-owned object
+  through a delayed on-action after succession may have replaced it, and omits
+  the succession notification that required dereferencing it later. The
+  generated narrow effect override and whole-file on-action rebase are pinned to
+  the LoV effect block and CK3 callback block, so either parent changing forces
+  a re-audit.
+- **Elder relation lifecycle (AGOT):**
+  `has_relation_fellow_disciple trigger [ target character was null ]` from
+  `on_set_relation_elder` identifies a relation callback whose saved target no
+  longer exists. The AGOT relation on-action is rebased with an existence gate;
+  both public elder-setting effects require living, distinct elder and disciple
+  parameters; and `find_elder_interaction` revalidates its selected secondary
+  recipient before dispatch. The on-action must be a whole-file rebase because
+  CK3 cannot merge a second trigger or effect for the same named on-action. The
+  effects and interaction remain narrow later definitions, and every consumed
+  AGOT block is hash-pinned.
+- **Political scheme lifecycle (CK3 and AGOT):** the recurring signatures
+  `has_relation_* trigger [ target character was null ]`,
+  `opinion trigger [ target character was null ]`, and
+  `scope:owner trigger [ Failed context switch ]` originate while Promote, Raid
+  Estate, and Expand Power Base evaluate agent acceptance. Promote and Raid
+  Estate now fail their ongoing validity check when owner or target is absent;
+  Expand Power Base gains the missing `valid` block and additionally requires
+  its living administrative owner to remain its living target. CK3 can score
+  agents before daily invalidation removes a broken scheme, so these three
+  definitions use a constant fail-closed agent score, reject agents, and perform
+  no scope-dependent invalidation notification. This temporarily removes agents
+  from those schemes while preserving scheme progression and outcomes. The
+  generated whole-file definitions are pinned to vanilla Promote/Raid Estate and
+  AGOT Expand Power Base.
 - **Beyond-the-Wall queued maintenance:**
   `title_province trigger [ Failed context switch ]`. The repair requires both
   `scope:title` and its province before entering `title_province`, so the queued
@@ -525,12 +549,13 @@ the generator and review the resulting diff after any update to Workshop IDs
 `3437814875`, `3709868073`, `3541596590`, `3788296332`, or `2971198450`,
 `3732116186`, `3573203384`, `2712590542`, or `2519175282`, and after CK3 updates
 that change `04_dlc_ep2_tour_effects.txt` or
-`common/on_action/accolade_on_actions.txt`. Re-run it after updates to
-`3682802751` because the Essos cleanup validates that parent's game rules and
-startup actions, and after updates to `3788296332` because the same repair is
-pinned to LoV's effective wilderness-conversion effect. Re-run it after updates
-to `3773616784` because the generated court-scene selector follows that
-compatch's current room-routing rules.
+`common/on_action/accolade_on_actions.txt`, Promote, Raid Estate, or the shared
+scheme system. Re-run it after updates to `3682802751` because the Essos cleanup
+validates that parent's game rules and startup actions, and after updates to
+`3788296332` because the same repair is pinned to LoV's effective
+wilderness-conversion effect. Re-run it after updates to `3773616784` because
+the generated court-scene selector follows that compatch's current room-routing
+rules.
 
 The stability guards are pinned by file or top-level block hash and fail closed
 when a parent changes. Re-run the generator and review the diff after any update
@@ -540,4 +565,6 @@ events. Re-run it after updates to `3349316031`, whose Adventurer's Beneficiary
 CB carries both the beneficiary guard and the `TITLE_GIVER` removal, and after
 CK3 or AGOT updates that change `ep3_become_landed_warning_effect` or
 `ep3_landless_invasion_titles_taken_effect`, because the removal depends on
-which parameters those effects declare.
+which parameters those effects declare. Re-run after AGOT changes its elder
+relation on-action, elder-setting effects, find-elder interaction, or Expand
+Power Base scheme; each repair is pinned to those effective AGOT definitions.

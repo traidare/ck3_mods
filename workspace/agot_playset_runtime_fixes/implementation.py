@@ -48,10 +48,12 @@ from .runtime_fixes.crash_stability import (
     generate_appointment_score_guards,
     generate_beyond_wall_queued_event_guard,
     generate_dragon_template_storage_guards,
+    generate_elder_relation_stability,
     generate_kraken_creation_scope_guard,
     generate_kraken_event_parser_repair,
     generate_naval_coastal_raid_tooltip,
     generate_naval_contact_stability,
+    generate_scheme_lifecycle_stability,
 )
 from .runtime_fixes.integrations import (
     generate_baie_rebases,
@@ -92,6 +94,8 @@ REPAIRS = (
     generate_naval_contact_stability,
     generate_appointment_score_guards,
     generate_accolade_lifecycle_stability,
+    generate_elder_relation_stability,
+    generate_scheme_lifecycle_stability,
     generate_beyond_wall_queued_event_guard,
     generate_naval_coastal_raid_tooltip,
     generate_dragon_template_storage_guards,

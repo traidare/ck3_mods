@@ -105,27 +105,19 @@ on_accolade_succession = {
 # Root = Accolade
 # Event targets: old_acclaimed_knight, new_accolade_type ( yes/no )
 on_accolade_acclaimed_death = {
-	on_actions = {
-		delay = { days = 1 }
-		agot_playset_runtime_accolade_acclaimed_death
-	}
-}
-
-agot_playset_runtime_accolade_acclaimed_death = {
-	trigger = {
-		exists = accolade_owner
-		exists = scope:old_acclaimed_knight
-	}
 	effect = {
-		set_variable = {
-			name = old_knight
-			value = scope:old_acclaimed_knight
-		}
-		save_scope_as = succeeding_accolade
-		accolade_owner = {
-			accolade_knight_notification_with_glory_reset_effect = {
-				REASON = death
+		# The accolade is valid during this code callback, but may be replaced as
+		# soon as succession finishes. Do not queue it as a delayed root.
+		if = {
+			limit = { exists = var:lifetime_glory }
+			change_variable = {
+				name = lifetime_glory
+				multiply = 0
 			}
+		}
+		if = {
+			limit = { exists = var:old_knight }
+			remove_variable = old_knight
 		}
 	}
 }

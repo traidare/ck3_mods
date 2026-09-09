@@ -45,8 +45,11 @@ Roughly fifty parent mods are touched. The failures fall into a few classes:
   already in, and successions evaluated against titles or holders that no longer
   exist, both of which loop on every evaluation. Generated accolade successors
   are now revalidated as eligible knights before assignment, and acclaimed-
-  knight death bookkeeping runs after the engine's accolade transition instead
-  of re-entering it synchronously.
+  knight death bookkeeping no longer retains the accolade after its code-driven
+  transition. Elder relations reject expired participants, while Promote, Raid
+  Estate, and Expand Power Base discard invalid owner/target state without
+  running unsafe agent evaluation. Automatic agents are disabled for those three
+  schemes as the stability tradeoff.
 - **Runaway title creation** — administrative noble-family titles created from
   inside an in-flight title transfer, which an AI appointment cascade can
   re-trigger dozens of times per tick for one character. Creation is now

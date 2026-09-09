@@ -278,25 +278,97 @@ class SharedGeneratorHelperTest(unittest.TestCase):
             repaired.index("set_accolade_successor"),
         )
 
-    def test_crash_repair_defers_accolade_death_effect(self) -> None:
+    def test_crash_repair_minimizes_accolade_death_effect(self) -> None:
         block = (
             "on_accolade_acclaimed_death = {\n"
             "\teffect = {\n"
-            "\t\tsave_scope_as = succeeding_accolade\n"
+            "\t\taccolade_owner = {\n"
+            "\t\t\taccolade_knight_notification_with_glory_reset_effect = {\n"
+            "\t\t\t\tREASON = death\n"
+            "\t\t\t}\n"
+            "\t\t}\n"
             "\t}\n"
             "}"
         )
         with generator_function(
             "workspace/agot_playset_runtime_fixes/runtime_fixes/crash_stability.py",
-            "defer_accolade_acclaimed_death",
-        ) as defer_death:
-            repaired = defer_death(block)
-        dispatcher, worker = repaired.split("\n\n", maxsplit=1)
-        self.assertNotIn("effect = {", dispatcher)
-        self.assertIn("delay = { days = 1 }", dispatcher)
-        self.assertIn("exists = accolade_owner", worker)
-        self.assertIn("exists = scope:old_acclaimed_knight", worker)
-        self.assertIn("save_scope_as = succeeding_accolade", worker)
+            "minimize_accolade_acclaimed_death",
+        ) as minimize_death:
+            repaired = minimize_death(block)
+        self.assertNotIn("delay =", repaired)
+        self.assertNotIn("on_actions =", repaired)
+        self.assertNotIn("accolade_owner", repaired)
+        self.assertNotIn("scope:old_acclaimed_knight", repaired)
+        self.assertIn("change_variable", repaired)
+        self.assertIn("remove_variable = old_knight", repaired)
+
+    def test_crash_repair_guards_elder_lifecycle(self) -> None:
+        callback = (
+            "on_set_relation_elder = {\n"
+            "\teffect = {\n"
+            "\t\tscope:target = { every_relation = { type = disciple } }\n"
+            "\t}\n"
+            "}"
+        )
+        with generator_function(
+            "workspace/agot_playset_runtime_fixes/runtime_fixes/crash_stability.py",
+            "guard_on_set_relation_elder",
+        ) as guard_callback:
+            repaired_callback = guard_callback(callback)
+        self.assertIn("trigger = { exists = scope:target }", repaired_callback)
+
+        effect = (
+            "set_elder_relation_effect = {\n"
+            "\t$DISCIPLE$ = { save_scope_as = new_disciple }\n"
+            "\t$ELDER$ = { save_scope_as = new_elder }\n"
+            "\tscope:new_disciple = { set_relation_elder = scope:new_elder }\n"
+            "}"
+        )
+        with generator_function(
+            "workspace/agot_playset_runtime_fixes/runtime_fixes/crash_stability.py",
+            "guard_elder_relation_effect",
+        ) as guard_effect:
+            repaired_effect = guard_effect(effect, "set_elder_relation_effect")
+        self.assertIn("exists = $DISCIPLE$", repaired_effect)
+        self.assertIn("exists = $ELDER$", repaired_effect)
+        self.assertIn("NOT = { this = $ELDER$ }", repaired_effect)
+        self.assertLess(
+            repaired_effect.index("trigger_else = { always = no }"),
+            repaired_effect.index("set_relation_elder"),
+        )
+
+    def test_crash_repair_disables_unsafe_scheme_agent_scoring(self) -> None:
+        scheme = (
+            "promote = {\n"
+            "\tvalid = {\n"
+            "\t\tscope:target = { is_alive = yes }\n"
+            "\t}\n"
+            "\tagent_join_chance = {\n"
+            "\t\tbase = 0\n"
+            "\t\tai_agent_join_chance_basic_suite_modifier = yes\n"
+            "\t}\n"
+            "\tvalid_agent = { is_valid_agent_standard_trigger = yes }\n"
+            "\ton_invalidated = {\n"
+            "\t\tscheme_owner = { save_scope_as = owner }\n"
+            "\t}\n"
+            "}"
+        )
+        with generator_function(
+            "workspace/agot_playset_runtime_fixes/runtime_fixes/crash_stability.py",
+            "guard_existing_scheme_validity",
+        ) as guard_validity:
+            scheme = guard_validity(scheme)
+        with generator_function(
+            "workspace/agot_playset_runtime_fixes/runtime_fixes/crash_stability.py",
+            "disable_unsafe_scheme_agent_evaluation",
+        ) as disable_agents:
+            repaired = disable_agents(scheme)
+        self.assertIn("exists = scope:owner", repaired)
+        self.assertIn("exists = scope:target", repaired)
+        self.assertIn("base = -1000", repaired)
+        self.assertIn("valid_agent = { always = no }", repaired)
+        self.assertIn("on_invalidated = {}", repaired)
+        self.assertNotIn("ai_agent_join_chance_basic_suite_modifier", repaired)
 
     def test_crash_repair_drops_surplus_title_giver_arguments(self) -> None:
         source = (

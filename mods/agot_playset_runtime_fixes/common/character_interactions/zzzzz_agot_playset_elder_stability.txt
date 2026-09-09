@@ -1,0 +1,342 @@
+﻿# Revalidate the selected elder before dispatching queued work.
+
+find_elder_interaction = {
+	icon = find_elder_interaction
+	interface_priority = 50
+	category = interaction_category_friendly
+	common_interaction = no
+
+	desc = {
+		desc = find_elder_interaction_desc
+		triggered_desc = {
+			trigger = {
+				scope:actor = {
+					num_of_relation_elder > 0
+				}
+			}
+			desc = find_elder_interaction_existing_elder_desc
+		}
+	}
+	notification_text = tgp_interaction_event.0031.desc # Intentional
+	#AGOT Disabled
+	# filter_tags = { dynastic_cycle }
+	custom_character_sort = { merit }
+	cooldown = { years = 1 }
+	is_shown = {
+		scope:actor = {
+			government_allows = merit
+			#exclude top lieges
+			is_independent_ruler = no
+		}
+		scope:recipient = {
+			government_allows = merit
+		}
+	}
+	is_valid_showing_failures_only = {
+		custom_tooltip = {
+			text = find_elder_no_eligible_character
+			scope:recipient = {
+				OR = {
+					eligible_for_elder_trigger = {
+						DISCIPLE = scope:actor
+					}
+					any_courtier_or_guest = {
+						eligible_for_elder_trigger = {
+							DISCIPLE = scope:actor
+						}
+					}
+					trigger_if = {
+						limit = {
+							exists = scope:recipient.capital_province
+						}
+						any_pool_character = {
+							province = scope:recipient.capital_province
+							eligible_for_elder_trigger = {
+								DISCIPLE = scope:actor
+							}
+						}
+					}
+					trigger_if = {
+						limit = {
+							scope:actor = {
+								is_ai = no # we filter out vassals for the AI to avoid perspective issues for the player
+							}
+						}
+						any_vassal = {
+							eligible_for_elder_trigger = {
+								DISCIPLE = scope:actor
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+	populate_recipient_list = {
+		scope:recipient = {
+			if = {
+				limit = {
+					eligible_for_elder_trigger = {
+						DISCIPLE = scope:actor
+					}
+				}
+				add_to_list = characters
+			}
+			every_courtier_or_guest = {
+				limit = {
+					eligible_for_elder_trigger = {
+						DISCIPLE = scope:actor
+					}
+				}
+				add_to_list = characters
+			}
+			if = {
+				limit = {
+					exists = scope:recipient.capital_province
+				}
+				every_pool_character = {
+					province = scope:recipient.capital_province
+					limit = {
+						eligible_for_elder_trigger = {
+							DISCIPLE = scope:actor
+						}
+					}
+					add_to_list = characters
+				}
+			}
+			if = {
+				limit = {
+					scope:actor = {
+						is_ai = no # we filter out vassals for the AI to avoid perspective issues for the player
+					}
+				}
+				every_vassal = {
+					limit = {
+						eligible_for_elder_trigger = {
+							DISCIPLE = scope:actor
+						}
+					}
+					add_to_list = characters
+					every_pool_character = {
+						province = scope:recipient.capital_province
+						limit = {
+							eligible_for_elder_trigger = {
+								DISCIPLE = scope:actor
+							}
+						}
+						add_to_list = characters
+					}
+				}
+			}
+		}
+	}
+
+	can_be_picked = {
+		exists = scope:secondary_recipient
+		scope:actor = {
+			trigger_if = {
+				limit = {
+					is_ai = yes
+				}
+				OR = {
+					scope:recipient = scope:secondary_recipient
+					AND = { # perspective issues for the player if the AI is requesting their courtiers, as well as frequency
+						scope:recipient = {
+							is_ai = yes
+						}
+						scope:secondary_recipient = {
+							is_ai = yes
+						}
+					}
+				}
+			}
+		}
+	}
+
+	is_highlighted = {
+		scope:actor = {
+			num_of_relation_elder = 0
+		}
+	}
+
+	highlighted_reason = HIGHLIGHTED_FIND_ELDER
+	on_accept = {
+		if = {
+			limit = { exists = scope:secondary_recipient }
+			scope:secondary_recipient = {
+				trigger_event = tgp_interaction_event.0031
+			}
+			scope:actor = {
+				show_as_tooltip = {
+					set_elder_relation_effect = {
+						ELDER = scope:secondary_recipient
+						DISCIPLE = scope:actor
+						MERIT = minor_merit_gain
+					}
+				}
+			}
+		}
+	}
+
+	ai_targets = {
+		ai_recipients = peer_vassals
+		max = 20
+	}
+	#AGOT Disabled
+	# ai_targets = {
+	# 	ai_recipients = situation_participant_group
+	# 	parameter = dynastic_cycle
+	# 	max = 20
+	# }
+	ai_frequency_by_tier = {
+		barony = 0
+		county = 120
+		duchy = 60
+		kingdom = 60
+		empire = 0
+		hegemony = 0
+	}
+
+	is_available = {
+		government_allows = merit
+		num_of_relation_elder = 0
+	}
+	ai_accept = { #has to be the same as find_elder_acceptance_value
+		base = 0
+		modifier = {
+			add = {
+				value = scope:actor.age
+				subtract = scope:secondary_recipient.age
+				multiply = -0.5
+			}
+			desc = actors_age_difference
+		}
+		modifier = {
+			scope:actor.age >= 50
+			add = -10
+			desc = actors_age_old
+		}
+		modifier = {
+			scope:actor ?= {
+				num_sinful_traits > 0
+			}
+			add = {
+				value = scope:actor.num_sinful_traits
+				multiply = 10
+			}
+			desc = actor_has_sinful_traits
+		}
+
+		modifier = {
+			scope:actor ?= {
+				num_virtuous_traits > 0
+			}
+			add = {
+				value = scope:actor.num_virtuous_traits
+				multiply = 10
+			}
+			desc = actor_has_virtuous_traits
+		}
+
+		#AGOT Disabled
+		# modifier = {
+		# 	scope:actor ?= {
+		# 		OR = {
+		# 			has_trait = confucian_education
+		# 			religion = religion:confucianism_religion
+		# 		}
+		# 	}
+		# 	add = 10
+		# 	desc = actor_has_confucian_education
+		# }
+		modifier = {
+			scope:secondary_recipient ?= {
+				num_of_relation_disciple >= {
+					value = scope:secondary_recipient.disciples_limit_value
+					add = -1
+				}
+			}
+			add = -20
+			desc = secondary_recipient_has_disciples
+		}
+		# Support your fellow movement members
+		#AGOT Disabled
+		# modifier = {
+		# 	scope:secondary_recipient ?= {
+		# 		is_in_same_movement_as = { TARGET = scope:actor }
+		# 	}
+		# 	add = {
+		# 		value = 10
+		# 		if = {
+		# 			limit = {
+		# 				scope:secondary_recipient ?= {
+		# 					is_in_pro_hegemon_or_hegemon_movement = yes
+		# 				}
+		# 			}
+		# 			multiply = 1.5
+		# 		}
+		# 	}
+		# 	desc = actor_and_secondary_recipient_in_same_movement
+		# }
+
+		# Grand Chancellor less likely to accept if you're not high enough rank
+		#AGOT Disabled
+		# modifier = {
+		# 	scope:secondary_recipient.primary_title ?= {
+		# 		this = title:e_minister_chancellor
+		# 	}
+		# 	scope:actor.highest_held_title_tier < tier_kingdom
+		# 	add = -10
+		# 	desc = actors_grand_chancellor
+		# }
+		opinion_modifier = {
+			who = scope:secondary_recipient
+			opinion_target = scope:actor
+			multiplier = 0.5
+		}
+	}
+	ai_will_do = {
+		base = 0
+
+		# Opinion
+		opinion_modifier = {
+			who = scope:actor
+			opinion_target = scope:recipient
+			multiplier = 0.5
+		}
+
+		# Personal reasons
+		modifier = {
+			add = 50
+			OR = {
+				has_relation_friend = scope:recipient
+				has_relation_lover = scope:recipient
+			}
+		}
+		modifier = {
+			add = -50
+			has_relation_rival = scope:recipient
+		}
+
+		# Political reasons
+		#AGOT Disabled
+		# modifier = { # More likely to pick elder if recipient is a movement leader
+		# 	add = 20
+		# 	situation:dynastic_cycle ?= {
+		# 		any_participant_group = {
+		# 			var:movement_leader ?= scope:recipient
+		# 		}
+		# 	}
+		# }
+		modifier = { # recipient is not part of the same realm
+			add = -100
+			top_liege != scope:recipient.top_liege
+		}
+		modifier = { # recipient is very meritorious
+			add = {
+				value = scope:recipient.merit_level
+				multiply = 10
+			}
+		}
+	}
+}
