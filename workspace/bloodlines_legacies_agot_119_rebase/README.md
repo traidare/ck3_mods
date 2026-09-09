@@ -36,8 +36,10 @@ owns nothing AGOT provides.
   `*_by_trident_lord_bla` modifiers and `attended_trident_council_bla` are
   declared as opinion modifiers here, carrying the `vassal_opinion` value the
   upstream static modifiers declare, because their call sites pass no explicit
-  opinion. `betrayed_opinion` and `claimant_opinion` exist as keys only, since
-  every call site supplies its own value.
+  opinion. `betrayed_opinion`, `claimant_opinion`, and the two Darklyn opinion
+  modifiers exist as keys only, since every call site supplies its own value.
+  Bloodlines declares the Darklyn ids as static modifiers, but `add_opinion`
+  reads the opinion-modifier database.
 - Repairs invalid county/character modifier scope usage.
 - Makes the scripted great-project sound reference self-contained.
 - Re-encodes eleven invalid block-compressed DDS files without resizing their
@@ -57,23 +59,15 @@ class of defects, each repaired against the current CK3 tag or effect:
   `county_tax_mult` becomes `tax_mult`, and `marriage_acceptance` becomes
   `attraction_opinion`. Generation asserts the exact count of each and that none
   survives in the output.
-- 47 event options grant dynasty prestige straight from a character scope, which
-  raises `Inconsistent effect scopes (character vs. dynasty)` and grants
+- Ten event options grant dynasty prestige straight from a character scope,
+  which raises `Inconsistent effect scopes (character vs. dynasty)` and grants
   nothing. Each is wrapped in AGOT's own `dynasty ?= { ... }` idiom. The
   generator walks block headers to find the scope an effect really runs in, so
   the pack's on-action and legacy grants — which already enter a dynasty — are
   untouched.
-- Four `create_character` blocks declare no gender data and fail PostValidate.
-  The pack's one valid block uses `gender_female_chance`, so the repair uses
-  that field: `0` where the event text has no gendered getters, AGOT's generic
-  `20` where the text is written with adaptive pronouns. The Celtigar block also
-  drops its `location`, which CK3 rejects alongside an `employer`.
-- The Stepstones decision compares an iterated title with `has_title`, a
-  character trigger, raising
-  `Inconsistent trigger scopes (landed_title vs. character)` for all eight
-  reward titles. Under the iterator they become `this = title:…`; the same
-  trigger is correct in the character scopes elsewhere in the file and is left
-  alone.
+- Twelve Crownlands portraits use the undefined `personality_suspicious`
+  animation. They use AGOT's current `personality_cynical` pose, which preserves
+  the intended guarded expression.
 - Four Velaryon modifiers mix character-only monthly gains with province- or
   county-valid fields, so `add_province_modifier`/`add_county_modifier` rejects
   the application whole and nothing is applied. They are applied to the ruler
@@ -93,11 +87,6 @@ class of defects, each repaired against the current CK3 tag or effect:
   in one creation effect — every sibling in the same file spells it correctly —
   and names the artifact ownership effect `set_artifact_owner` rather than
   `set_owner`.
-- `agot_riverlands_events_bla.txt` calls the nonexistent effect `add_knight` on
-  a created hedge knight. CK3 has no knighthood effect: knights are selected
-  from eligible courtiers, which the preceding `set_employer` already makes the
-  character, and the creation block already grants the `knight` trait, so the
-  call is removed.
 
 ## Generation
 

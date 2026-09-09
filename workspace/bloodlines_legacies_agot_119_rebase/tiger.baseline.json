@@ -78,22 +78,6 @@
       "code": "logic",
       "message": "OR with only one item inside is probably not what you intended",
       "source": "MOD",
-      "file": "common/decisions/agot_decisions/00_agot_major_decisions_BLA.txt",
-      "count": 1
-    },
-    {
-      "severity": "warning",
-      "code": "missing-localization",
-      "message": "missing english localization key agot_velaryon_stepstones_ambition_decision_bla_confirm",
-      "source": "MOD",
-      "file": "common/decisions/agot_decisions/00_agot_major_decisions_BLA.txt",
-      "count": 1
-    },
-    {
-      "severity": "warning",
-      "code": "logic",
-      "message": "OR with only one item inside is probably not what you intended",
-      "source": "MOD",
       "file": "common/dynasty_legacies/99_agot_cultures_BLA_legacies.txt",
       "count": 15
     },
@@ -136,22 +120,6 @@
       "source": "MOD",
       "file": "common/scripted_effects/00_agot_artifact_effects_BLA.txt",
       "count": 3
-    },
-    {
-      "severity": "warning",
-      "code": "missing-localization",
-      "message": "missing english localization key rival_disagreement",
-      "source": "MOD",
-      "file": "events/agot_decision_events/agot_crownlands_velaryon_stepstones_bla.txt",
-      "count": 7
-    },
-    {
-      "severity": "warning",
-      "code": "missing-item",
-      "message": "portrait animation personality_suspicious not defined in gfx/portraits/portrait_animations/",
-      "source": "MOD",
-      "file": "events/agot_events/agot_crownlands_bar_emmon_events_bla.txt",
-      "count": 12
     },
     {
       "severity": "warning",

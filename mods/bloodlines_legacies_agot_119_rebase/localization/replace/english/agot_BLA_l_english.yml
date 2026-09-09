@@ -128,7 +128,7 @@ DUSTIN_BARROW_KINGS_NO_BULLETTAB:0 "We remember when our ancestors wore crowns o
 dustin_barrow_guard:0 "Barrowton Mound-Guards"
 dustin_barrow_guard_flavor:0 "Drawn from the hardened horse-breeders and veteran peat-scouts of the barrow plains, these elite shock infantrymen are the ultimate defense force of Barrowton. Equipped with heavy circular shields and massive, double-bitted iron axes, they are trained to break enemy shieldwalls with savage, unrelenting strength. They fight with a grim, silent fanaticism, sworn by blood-oaths to turn our border-ditches into graves for any outsider who dares defile the sacred mounds of our kings."
 
-building_type_agot_dustin_barrowton:0 "Barrowton City Market"
+building_type_agot_dustin_barrowton_01:0 "Barrowton City Market"
 building_agot_dustin_barrowton_01:0 "The Gates of Barrowton"
 building_agot_dustin_barrowton_01_desc:0 "Built in a massive circle entirely surrounding the Great Barrow mound, Barrowton stands as a unique, timber-walled crossroads of northern commerce. Here, amid earthen ramparts and wooden keeps, thousands of horse-traders, wool-merchants, and ironmongers gather to trade directly above the bones of ancient kings—proving that the deep wealth of the living thrives upon the silent weight of the dead."
 
@@ -162,7 +162,7 @@ mormont_she_bears:0 "Mormont She-Bears"
 mormont_she_bears_flavor:0 "When the men of Bear Island sailed south to fight for the Kings of Winter, their wives, mothers, and daughters took up their axes and swore to guard the isle until their return. The She-Bears never laid those weapons down. Clad in boiled leather and furs, painted with ash and oil, they fight in ranks with axe or mace, roaring like the beasts whose name they bear. To face them is to learn the North’s oldest truth—there is no mercy in a mother’s fury."
 
 
-building_type_agot_mormont_russet_den:0 "Mormont Russet Den"
+building_type_agot_mormont_russet_den_01:0 "Mormont Russet Den"
 building_agot_mormont_russet_den_01:0 "The Russet Den Lodge"
 building_agot_mormont_russet_den_01_desc:0 "Hidden deep within the suffocating, snow-packed sentinel pine forests of Bear Island, this massive timber hunting lodge serves as the true cultural heart of your domain. Outfitted with massive hearths, rough straw benches, and walls lined with heavy shadow-cat pelts, it hosts rowdy winter feasts, tactical war councils, and blood-oaths sworn directly to the Old Gods."
 
@@ -219,7 +219,7 @@ umber_howling_line:0 "The Howling Line"
 umber_howling_line_flavor:0 "Drawn from the most colossal, battle-hardened mountain-vassals of the Umber domain, these elite shock infantrymen are the terror of the northern borderlands. Wielding massive, two-handed iron war-axes and unburdened by heavy southern plate, they enter the scrum bellowing a deafening, predatory battle-howl that shatters enemy morale before the lines even collide. They fight with a reckless, bloodthirsty fanaticism, engineered entirely to break shieldwalls through raw, crushing physical violence."
 
 
-building_type_agot_umber_last_hearth:0 "Umber Last Hearth Fortress"
+building_type_agot_umber_last_hearth_01:0 "Umber Last Hearth Fortress"
 building_agot_umber_last_hearth_01:0 "The Last Hearth Gates"
 building_agot_umber_last_hearth_01_desc:0 "Excluding the freezing, ruined stations of the Night's Watch along the Wall, Last Hearth stands as the absolute northernmost major castle in the Seven Kingdoms. Ringed by deep earthworks and colossal stone curtain walls, this massive fortress serves as the final warm sanctuary before the endless arctic frost—a place of roaring hearth-fires, massive timber feasting halls, and an iron, blood-bound hospitality where the ancient traditions of the First Men are fiercely guarded by the Umber watch."
 
@@ -250,7 +250,7 @@ blackwood_valewood_rangers:0 "Valewood Rangers"
 blackwood_valewood_rangers_flavor:0 "Drawn from the most insular foresters and veteran scouts of the Blackwood Vale, these elite marksmen are the lethal vanguard of Raventree Hall. Equipped with heavy yew longbows and trained to melt into the undergrowth without leaving a footprint, they specialize in high-speed tactical skirmishing and poisoned ambush strikes. They channel the ancient hunting traditions of the First Men, breaking enemy infantry morale from the treeline before a blade is even drawn."
 
 
-building_type_agot_blackwood_ravendeep_hollow:0 "Blackwood Ravendeep Hollow"
+building_type_agot_blackwood_ravendeep_hollow_01:0 "Blackwood Ravendeep Hollow"
 building_agot_blackwood_ravendeep_hollow_01:0 "The Subterranean Ravenry"
 building_agot_blackwood_ravendeep_hollow_01_desc:0 "Established deep within the limestone caverns directly beneath the colossal stone curtain walls of Raventree Hall, this ancient, unmapped hollow serves as a sacred sanctuary for your dynasty. Here, beneath massive roots and out of sight of the southern septons, thousands of ravens roost in the damp dark—anchoring your private communion with the Old Gods and preserving the secret correspondence of your household."
 building_agot_blackwood_ravendeep_hollow_02:0 "The Carved Roots Gallery"
@@ -284,7 +284,7 @@ bracken_redmane_knights:0 "Redmane Knights"
 bracken_redmane_knights_flavor:0 "Drawn from the elite horse-breeders and wealthiest landowners of the Bracken domain, these heavy shock cavalrymen are the iron fist of Stone Hedge. Mounted on massive, thick-necked stallions famed for their fiery red manes and aggressive battle-temperament, they specialize in shattering enemy infantry shieldwalls through sheer momentum and weight of lance, ruthlessly trampling any routed survivors into the mud."
 
 
-building_type_agot_bracken_horse_quarters:0 "Bracken Horse Quarters"
+building_type_agot_bracken_horse_quarters_01:0 "Bracken Horse Quarters"
 building_agot_bracken_horse_quarters_01:0 "The Red Fork Stud-Farms"
 building_agot_bracken_horse_quarters_01_desc:0 "The foundational architecture of your domain's military power, these sprawling riverside stables and breeding yards are dedicated to the meticulous cultivation of the Bracken horse line. Outfitted with deep hay-barns and muddy exercise paddocks, they support the training of heavy destriers, squires, and lancers bred specifically for Riverlands warfare."
 building_agot_bracken_horse_quarters_02:0 "Stone Hedge Tilting Grounds"
@@ -319,7 +319,7 @@ mooton_maidenpool_wardens:0 "Pink Wall Guard"
 mooton_maidenpool_wardens_flavor:0 "Drawn from the veteran harbor watch and professional mercenary vanguards of the Bay of Crabs, these elite infantrymen are the ultimate defense force of Maidenpool. Equipped with heavy mail and bright plate armor over scalloped faulds, their left pauldrons are embossed with a leaping salmon picked out in red and gold. Drilled to lock their heavy targes edge-to-edge and swing massive poleaxes to the strict count of the sept-bells, they specialize in choking off narrow urban streets and port gatehouses, ruthlessly flattening any riot or foreign raid."
 
 
-building_type_agot_mooton_maidenpool:0 "Maidenpool"
+building_type_agot_mooton_maidenpool_01:0 "Maidenpool"
 building_agot_mooton_maidenpool_01:0 "Maidenpool"
 building_agot_mooton_maidenpool_01_desc:0 "Built at the strategic junction where the Crownlands meet the Riverlands, Maidenpool stands as a heavily fortified, bustling nexus of maritime commerce. Ringed by famous, towering curtain walls of defensive pink stone, the town encircles the legendary pool where Florian met Jonquil—proving that while the romantic past draws pilgrims to your gates, it is the deep, bustling harbor that fills your vaults with gold."
 
@@ -352,7 +352,8 @@ darry_plowmans_pikes:0 "Plowman's Pikes"
 darry_plowmans_pikes_flavor:0 "Raised from the hard-working tenant farmers of the Darry estates, these heavy infantrymen embody the stoic resilience of the Riverlands. Equipped with massive, heavy-ash pikes and long iron dirks, they are drilled to form an impenetrable wall of steel points capable of breaking heavy cavalry charges or sellsword rushes. They carry a bitter, generational memory of lost lands and fallen lords, standing as stubborn and unyielding as the very soil they till."
 
 
-building_type_agot_darry_plowmans_keep:0 "Darry Plowmans Keep"
+building_type_agot_darry_plowmans_keep_01:0 "Darry Plowman's Keep"
+building_type_agot_darry_plowmans_keep_01_desc:0 "A stout ancestral stronghold standing near the Ruby Ford, Castle Darry embodies the hard, stubborn character of the lands surrounding it and the long memory of the house that rules from within its walls."
 building_agot_darry_plowmans_keep_01:0 "Castle Darry Keep"
 building_agot_darry_plowmans_keep_01_desc:0 "Planted strategically near the historic banks of the Ruby Ford where the Trident slows, Castle Darry stands as a grim, heavily fortified monument to old loyalties. Ringed by squat stone curtain walls and stout gatehouses, its massive oaken heart-tower looks down upon a low, smoke-darkened great hall—where, beneath the floorboards, secret vaults conceal the forbidden Targaryen tapestries from the watchful eyes of the Usurper's spies."
 
@@ -384,7 +385,7 @@ frey_bridge_guard:0 "Green Fork Watchmen"
 frey_bridge_guard_flavor:0 "Drawn from the most cynical mercenaries and veteran toll-collectors of the Crossing, these heavy infantrymen are the iron wardens of the Twins. Equipped with heavy gambesons, iron caps, and massive bill-hooks designed to pull knights from their saddles, they specialize in choking off narrow drawbridges and stone gatehouses. They have absolutely no use for chivalry, ruthlessly flattening any merchant riot or tax-evader with the cold, precise violence of professional extortionists."
 
 
-building_type_agot_frey_tatterton_crossingpost:0 "Tatterton Crossingpost"
+building_type_agot_frey_tatterton_crossingpost_01:0 "Tatterton Crossingpost"
 building_agot_frey_tatterton_crossingpost_01:0 "Frey Crossing Fort"
 building_agot_frey_tatterton_crossingpost_01_desc:0 "Built to command the vital trade routes surrounding the Green Fork, this heavily fortified outpost serves as the first iron gatehouse to the Twins. Ringed by stone ramparts and aggressive watchposts, it functions as a lucrative toll-station where sharp-eyed collectors squeeze silver stags from every cart, ensuring that the wealth of the riverlands flows directly into your household vaults."
 
@@ -452,7 +453,7 @@ building_agot_vikary_crimson_bastion_03:0 "The Castellan Citadel"
 building_agot_vikary_crimson_bastion_03_desc:0 "A massive mountain fortress of fearsome repute, the completed Citadel stands as an unbreakable symbol of absolute vassal loyalty, rigid order, and unrelenting martial discipline in the heart of the Westerlands."
 
 
-building_type_agot_reyne_mineral_market:0 "Reyne Mineral Market"
+building_type_agot_reyne_mineral_market_01:0 "Reyne Mineral Market"
 building_agot_reyne_mineral_market_01:0 "Castamere Ore Exchange"
 building_agot_reyne_mineral_market_01_desc:0 "The bustling heart of Castamere's resurrected commerce, where rich silver veins and deep gem stalls gleam once more beneath banners long thought buried by Lannister salt."
 building_agot_reyne_mineral_market_02:0 "The Red-Veined Colonnades"
@@ -1923,7 +1924,7 @@ butterwell_gilt_lancers:0 "Whitewalls Gilt-Lancers"
 butterwell_gilt_lancers_flavor:0 "Drawn from the wealthiest landowners and elite tenant-captains of the Whitewalls domain, these heavy shock cavalrymen are the pristine vanguard of the Milkhouse. Clad in highly polished, gold-veined plate armor and riding massive, meticulously groomed destriers, they are drilled to protect the vital toll-roads and river-crossings of the lake. They operate with an ironclad mercenary discipline, paid in heavy silver to systematically flatten enemy lines with their lances."
 
 
-building_type_agot_butterwell_whitewalls_castle:0 "Whitewalls Castle Reconstruction"
+building_type_agot_butterwell_whitewalls_castle_01:0 "Whitewalls Castle Reconstruction"
 building_agot_butterwell_whitewalls_castle_01:0 "Foundations of the Milkhouse"
 building_agot_butterwell_whitewalls_castle_01_desc:0 "The first monumental blocks of pale stone are laid upon the salted, ruined ground where Whitewalls once stood. Early walls and modest keeps mark a renewed, unyielding dynastic claim along the Gods Eye."
 building_agot_butterwell_whitewalls_castle_02:0 "The Pale Stone Keep"
@@ -1932,7 +1933,7 @@ building_agot_butterwell_whitewalls_castle_03:0 "Whitewalls Restored"
 building_agot_butterwell_whitewalls_castle_03_desc:0 "The restored Milkhouse echoes with the sounds of lavish feasting and tournament drills. Stables, secure vaults, and gilded altars line the inner bailey—a noble seat completely restored to regional dominance."
 
 
-building_type_agot_butterwell_whitewalls_grand_castle:0 "Great Whitewalls Palace"
+building_type_agot_butterwell_whitewalls_grand_castle_01:0 "Great Whitewalls Palace"
 building_agot_butterwell_whitewalls_grand_castle_01:0 "Whitewalls Reimagined"
 building_agot_butterwell_whitewalls_grand_castle_01_desc:0 "Constructed from massive blocks of white marble veined with gold, the new palace rises cleanly into the sky. Its grand rafters are carved from bone-pale weirwood timber, shaping a seat of absolute arrogance."
 building_agot_butterwell_whitewalls_grand_castle_02:0 "The Gilded Milkhouse Palace"
@@ -1943,7 +1944,7 @@ building_agot_butterwell_whitewalls_grand_castle_04:0 "Great Whitewalls"
 building_agot_butterwell_whitewalls_grand_castle_04_desc:0 "A marvel of marble, silver, and immense ambition, Great Whitewalls stands as the most magnificent palace complex along the Trident, completely outshining the dark history of Bloodraven's wrath."
 
 
-building_type_agot_harrenton:0 "Harrenton Urban Development"
+building_type_agot_harrenton_01:0 "Harrenton Urban Development"
 building_agot_harrenton_01:0 "The Harrenhal Sprawl"
 building_agot_harrenton_01_desc:0 "Established outside the colossal walls of Harrenhal to house thousands of stonemasons, laborers, and merchants, Harrenton endures as a vital hub. Its cobbled streets remain, waiting for fresh trade to return."
 building_agot_harrenton_02:0 "The Rebuilt Crossroads Market"
@@ -2055,7 +2056,7 @@ glover_deepwood_ironshields:0 "Wolfswood Ironshields"
 glover_deepwood_ironshields_flavor:0 "Drawn from the hardiest timber-cutters and veteran foresters of the Glover domain, these heavy infantrymen are the iron fist of Deepwood Motte. Clad in thick ring-mail beneath heavy red wool cloaks, they carry massive, iron-rimmed wooden round shields stamped with the mailed fist crest. Drilled to advance knee-to-knee down narrow, snow-choked forest trails, they form an impenetrable timber-and-iron wall that can break heavy cavalry charges and ruthlessly grind down ironborn reiver hosts."
 
 
-building_type_agot_glover_deepwood_motte:0 "Glover Deepwood Motte"
+building_type_agot_glover_deepwood_motte_01:0 "Glover Deepwood Motte"
 building_agot_glover_deepwood_motte_01:0 "The Log Palisades"
 building_agot_glover_deepwood_motte_01_desc:0 "Perched high upon a massive, ancient earthen mound deep within the dense sentinel forests of the Wolfswood, Deepwood Motte stands as a formidable First Men timber fortress. Enclosed by a double ring of colossal pine palisades and deep, water-filled ditches, its wooden watchtowers house heavy-draw longbowmen clad in iron mail—providing a vigilant, unyielding shield that guards the western approaches to the North."
 
@@ -2390,11 +2391,11 @@ strong_blackmud_guard:0 "Black Mud Guard"
 strong_blackmud_guard_flavor:0 "Drawn from the most colossal, broad-shouldered laborers and river-vassals of the Gods Eye region, these heavy shock infantrymen are the iron fist of House Strong. Clad in thick ring-mail, heavy iron caps, and mud-smeared leathers, they carry massive spiked clubs and broad-bladed axes. Drilled to advance knee-deep in the slick river-clay, they form an immovable wall of physical mass designed to shatter infantry shieldwalls and hold bottleneck crossings against impossible numbers."
 
 
-building_type_agot_strong_keep:0 "Strong Ancestral Seat"
+building_type_agot_strong_keep_01:0 "Strong Ancestral Seat"
 building_agot_strong_keep_01:0 "The Red Fork Stronghold"
 building_agot_strong_keep_01_desc:0 "Built over a bedrock foundation along the banks of the Red Fork, the ancestral seat of House Strong is a formidable fortress of First Men masonry. Enclosed by massive, unpolished curtain walls and deep earthwork ditches, its inner yards train elite knights and heavy infantry to enforce the family's iron will over the plain—proving that their ancient power stands firm without the need for southern architecture."
 
-building_type_agot_fairgate_tower:0 "Fairgate Tower Expansion"
+building_type_agot_fairgate_tower_01:0 "Fairgate Tower Expansion"
 building_agot_fairgate_tower_01:0 "The Red Fork Toll-Tower"
 building_agot_fairgate_tower_01_desc:0 "Standing a vigilant watch over the strategic causeways of the Red Fork between Seagard and the capital, Fairgate Tower functions as a formidable checkpoint. Merchants and trade barges pass beneath its massive stone arches, paying heavy silver customs-dues directly into your treasury while your lancers drill upon the parapets."
 
@@ -2429,7 +2430,7 @@ mudd_rivercrown_sentinels:0 "Oldstones Sentinel Vanguard"
 mudd_rivercrown_sentinels_flavor:0 "Drawn from the most colossal, traditionalist First Men loyalists of the upper Blue Fork, these heavy shock infantrymen are the resurrected shield of House Mudd. Clad in heavy, overlapping bronze scale mail and wearing ancient crested helms, they carry massive rectangular shields and broad-bladed bronze axes. Drilled to hold river fords and ruined gateways with an absolute, machine-like campaign discipline, they fight with a grim, silent fanaticism, ready to collapse enemy infantry lines through raw physical mass."
 
 
-building_type_agot_mudd_sentinels_rest:0 "Mudd Sentinels Rest"
+building_type_agot_mudd_sentinels_rest_01:0 "Mudd Sentinels Rest"
 building_agot_mudd_sentinels_rest_01:0 "The Overgrown Foundations"
 building_agot_mudd_sentinels_rest_01_desc:0 "Choked with ivy, grey moss, and ancient rubble, this high earthen rampart was once the military headquarters of the legendary Rivercrown Sentinels. Clearing away the mud marks the first, unyielding step toward resurrecting your family's ancient sovereignty along the Red Fork."
 building_agot_mudd_sentinels_rest_02:0 "The Rebuilt Scriptorium Vaults"
@@ -3681,7 +3682,7 @@ HORNWOOD_RIGHTEOUS_IN_WRATH_NO_BULLETTAB:0 "Our official house words are an unyi
 hornwood_axe_brothers:0 "Hornwood Wood-Axes"
 hornwood_axe_brothers_flavor:0 "Drawn from the most broad-shouldered timber-cutters and veteran forest-garrisons of the Broken Branch valleys, these heavy infantrymen are the iron fist of House Hornwood. Clad in thick shadow-cat pelts and heavy iron ring-mail, they carry massive, double-bitted logging axes engineered to shear through heavy plate and split oak shields. Drilled to march knee-to-knee down narrow, snow-choked forest trails, they form an immovable wall of physical mass that can break heavy cavalry charges through raw, crushing northern violence."
 
-building_type_agot_hornwood_forest:0 "Hornwood Timber Estate"
+building_type_agot_hornwood_forest_01:0 "Hornwood Timber Estate"
 building_agot_hornwood_forest_01:0 "The Great Sentinel Yards"
 building_agot_hornwood_forest_01_desc:0 "Planted at the strategic junction where the dense pine forests intersect the banks of the Broken Branch river, this unique timber complex serves as the economic engine of your domain. Enclosed by massive log palisades and deep earthwork ditches, its sawpits and custom-houses manage the lucrative harvest of soldier oaks and sentinel pines—proving that while the forest shields you from the Boltons, it is this logging trade that fills your vaults with silver."
 
@@ -3711,7 +3712,7 @@ wull_shieldbearers:0 "Wull Mountain-Shields"
 wull_shieldbearers_flavor:0 "Drawn from the most colossal, battle-hungry clansmen of the crags overlooking the Bay of Ice, these heavy infantrymen are the iron fist of The Wull. Cloaked in thick shadow-cat pelts and heavy boiled leathers, they lock their circular wooden shields—painted with the three buckets—edge-to-edge along frozen ridges. Drilled to march down loose gravel slopes with an absolute, unrelenting mass, they use heavy wood-axes to shatter enemy infantry formations through raw physical violence."
 
 
-building_type_agot_breakstone_cave:0 "Northern Mountains"
+building_type_agot_breakstone_cave_01:0 "Northern Mountains"
 building_agot_breakstone_cave_01:0 "The Breakstone Caverns"
 building_agot_breakstone_cave_01_desc:0 "High within the jagged stone of the northern peaks, a massive, black-mouthed cavern opens into the bedrock. Warmed by subterranean volcanic vents and accessed only by vertical goat-tracks, Breakstone Cave serves as an un-seizable warren for your clan—allowing your smallfolk to weather the deepest winters while your axemen watch the passes to slaughter any climbing foe."
 
@@ -3791,7 +3792,7 @@ locke_oldcastle_keywardens:0 "Oldcastle Gate-Wardens"
 locke_oldcastle_keywardens_flavor:0 "Drawn from the most broad-shouldered prison-sentries and veteran river-vassals of the Oldcastle domain, these heavy infantrymen are the iron fist of our keep. Wearing heavy steel plate armor, iron-capped helms, and fur cowls, they carry massive rectangular tower-shields painted with the crossed keys crest and heavy iron-spiked maces. Drilled to form impenetrable bottleneck phalanxes along narrow castle steps and causeway checkpoints, they excel at closing the line and ruthlessly crushing any routed foe."
 
 
-building_type_agot_locke_oldcastle:0 "Locke Oldcastle Fortress"
+building_type_agot_locke_oldcastle_01:0 "Locke Oldcastle Fortress"
 building_agot_locke_oldcastle_01:0 "The Keyhouse Gates"
 building_agot_locke_oldcastle_01_desc:0 "Built sharply at the strategic intersection where the eastern sea-wind roads meet the channels of the White Knife, Oldcastle stands as a formidable monument to ancient First Men architecture. Ringed by deep earthworks and unpolished stone curtain walls, its massive oak-and-iron gates bear the crossed keys of your lineage—serving as a secure, un-seizable bastion designed to lock out the frost and bar the paths against any invading host."
 
@@ -3821,7 +3822,7 @@ tallhart_wild_hares:0 "Torrhen's Square Wild Hares"
 tallhart_wild_hares_flavor:0 "Drawn from the most agile horse-breeders and veteran frontier-riders of the Torrhen's Square lake-marches, these elite light cavalrymen are the specialized outriders of our vanguard. Cloaked in thick wolf-furs and carrying short spears and balanced iron broadswords, they excel at high-speed tactical harrying, running down enemy scouts, and launching lightning-fast ambushes from pine-shadows. They navigate deep snowdrifts and frozen hedgerows with an instinctive precision, ensuring no raider escapes their pursuit."
 
 
-building_type_agot_tallhart_torrhens_square:0 "Tallhart Torrhens Square Holding"
+building_type_agot_tallhart_torrhens_square_01:0 "Tallhart Torrhens Square Holding"
 building_agot_tallhart_torrhens_square_01:0 "The Square Bastions"
 building_agot_tallhart_torrhens_square_01_desc:0 "Built sharply as a formidable First Men stronghold of massive squared masonry, Torrhen's Square dominates the strategic thoroughfares south of the Wolfswood. Ringed by towering thirty-foot curtain walls and heavy square corner towers, its massive courtyards and active garrison barracks stand ready to launch a devastating light cavalry counter-stroke the moment the war-horns sound from Winterfell."
 
@@ -3850,7 +3851,7 @@ MAGNAR_THE_LAST_MAGNAR_NO_BULLETTAB:0 "We remember the ancient dawn age when the
 magnar_kingshouse_stoneguard:0 "Kingshouse Stoneguard"
 magnar_kingshouse_stoneguard_flavor:0 "Drawn from the most colossal, battle-hardened clansmen of the Kingshouse crags, these heavy infantrymen are the iron vanguard of the Magnar. Clad in thick seal-furs, green-and-white wool cloaks, and dark steel scale mail hammered out in our cavern smithies, they are sworn under the blood-oaths of the harpoon-law. Drilled to lock their heavy circular shields together on slippery reef-stairs and narrow cliff checkpoints, they swing heavy obsidian-edged war-axes with a savage, unrelenting violence."
 
-building_type_agot_kingshouse_stone_and_sea:0 "Magnar Kingshouse Holding"
+building_type_agot_kingshouse_stone_and_sea_01:0 "Magnar Kingshouse Holding"
 building_agot_kingshouse_stone_and_sea_01:0 "The Basalt Gatehouse"
 building_agot_kingshouse_stone_and_sea_01_desc:0 "Rising sharply where the colossal mountain cliffs intersect the churning surf of the Shivering Sea, Kingshouse stands as a formidable monument to First Men architecture. Sunk deep into volcanic caverns carved out during the Long Night, its massive living-rock halls house heavy beacon-baskets—designed to flash signal-fires that guide your long-galleys and lure unwary mainland merchant cogs onto the reefs to be plundered."
 
@@ -4061,7 +4062,7 @@ paege_river_serpents:0 "Red Fork Serpents"
 paege_river_serpents_flavor:0 "Drawn from the most eagle-eyed marsh-hunters and veteran reed-wardens of the Paege domains, these elite marksmen are the lethal vanguard of the crossings. Wearing blackened steel visors and dark sashes matching their heraldry, they form up behind heavy sharpened stakes embedded in the river-mud. They loose their yard-long arrows in devastating, low-friction arcs to rake incoming ferry cogs and ford checkpoints, before stepping forward with heavy boar-spears to slaughter any enemy scout who touches the bank."
 
 
-building_type_agot_saltpans_saltquays:0 "Saltpans Custom Infrastructure"
+building_type_agot_saltpans_saltquays_01:0 "Saltpans Custom Infrastructure"
 building_agot_saltpans_saltquays_01:0 "The Saltpans Salt Quays"
 building_agot_saltpans_saltquays_01_desc:0 "Planted cleanly on the strategic shores of the Bay of Crab lanes where the Blue Fork empties into rills, Saltpans handles its quiet, lucrative trade beneath the squat stone holdfast of House Cox. Denied city charters by ancient river kings to limit its expansion, the port grew low, muddy, and practical—enclosing rows of saltwater evaporation pans, fish-granaries, and heavy salt-sheds to maximize regional commerce."
 building_agot_saltpans_saltquays_02:0 "Saltpans Harbor Guilds"
@@ -4093,7 +4094,7 @@ CHARLTON_KEEP_THE_SMALL_PEACE_NO_BULLETTAB:0 "While the great lords ruin the rea
 charlton_crossing_wardens:0 "Sevenstreams Crossing Wardens"
 charlton_crossing_wardens_flavor:0 "Drawn from the most battle-hardened marsh-vassals and veteran toll-collectors of the Blue Fork, these heavy infantrymen are the iron shield of the thoroughfares. Equipped with heavy gambesons, iron-rimmed wicker pavises, and long, heavy ash-spears, they are drilled to form impenetrable blocks knee-deep in the Trident muck. Operating with a rigid, machine-knee discipline under the banner of their Frey liege, they excel at closing off narrow causeways and choking ferry ramps until their captains command the line to advance."
 
-building_type_agot_sevenstreams_waymarket:0 "Sevenstreams Waymarket Development"
+building_type_agot_sevenstreams_waymarket_01:0 "Sevenstreams Waymarket Development"
 building_agot_sevenstreams_waymarket_01:0 "The Sevenstreams Toll-Booths"
 building_agot_sevenstreams_waymarket_01_desc:0 "Positioned under the jurisdiction of the Twins where the Blue Fork frays into a chaotic web of rills and brooks, Sevenstreams stands as an absolute bottleneck crossroads of northern trade. Travelers attempting to bypass the main bridges must navigate the treacherous, mud-choked tracks of Hag's Mire to reach this outpost—transforming a bleak marshway into a highly lucrative commercial market where reeds, eels, peat, and barge-space are meticulously audited by your collectors."
 
@@ -4124,7 +4125,7 @@ smallwood_river_oak_knights:0 "Acorn Hall Oak-Shields"
 smallwood_river_oak_knights_flavor:0 "Drawn from the veteran foresters and heavy ditch-vassals of the Smallwood wood-marches, these elite heavy infantrymen are the iron vanguards of our hall. Wearing thick gambesons, iron rings, and carrying massive oak shields painted with the six acorns, they are drilled to form an impenetrable wall along narrow causeways and wet ferry ramps. Tempered by the historic slaughters of the Stonebridge and Six Kings campaigns, they excel at defensive bottleneck warfare, using raw physical mass to break cavalry charges."
 
 
-building_type_agot_smallwood_acorn_hall:0 "Smallwood Acorn Hall Holding"
+building_type_agot_smallwood_acorn_hall_01:0 "Smallwood Acorn Hall Holding"
 building_agot_smallwood_acorn_hall_01:0 "The Great Oak Keep"
 building_agot_smallwood_acorn_hall_01_desc:0 "Planted strategically southeast of Riverrun and north of the volatile markets of Stoney Sept, Acorn Hall stands as a formidable monument to First Men timber-and-stone architecture. Positioned within sight of High Heart's ancient red hill, its massive oaken keep is enclosed by thick stone curtain walls and deep defensive ditches—housing extensive arsenals and audited grain storehouses designed to launch a rapid, ironclad muster the moment the war-horns sound."
 

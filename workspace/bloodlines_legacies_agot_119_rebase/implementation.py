@@ -22,20 +22,6 @@ MONTHLY_OPINION_MODIFIERS = {
     "suspicious_opinion",
 }
 
-TRAIT_REPLACEMENTS = {
-    "blademaster": "lifestyle_blademaster",
-    "blademaster_1": "lifestyle_blademaster",
-    "eager_reveler": "lifestyle_reveler",
-    "elusive_shadow": "education_intrigue_4",
-    "melancholic": "depressed_1",
-    "mystic": "lifestyle_mystic",
-    "mystic_1": "lifestyle_mystic",
-    "mystic_2": "lifestyle_mystic",
-    "mystic_3": "lifestyle_mystic",
-    "poet": "lifestyle_poet",
-    "wise_man": "lifestyle_mystic",
-}
-
 # CK3 1.19 rejects each of these tokens outright, so the parser drops the line
 # and the surrounding modifier loads without it. The replacements are the current
 # tags that carry the same meaning; where the parent's sign encodes a cost rather
@@ -76,17 +62,6 @@ VELARYON_SCOPED_MODIFIERS = (
     ),
     ("scope:hightide_province_bla", "province", "agot_velaryon_sea_snake_charts_bla"),
 )
-
-# create_character blocks that never declare gender data, which CK3 1.19 refuses
-# to validate. The pack's one valid block uses gender_female_chance, so the
-# repair follows that field: 0 where the event text uses no gendered getters, and
-# AGOT's generic 20 where it is written with adaptive pronouns.
-MISSING_GENDER_CHARACTERS = {
-    "celtigar_tax_collector_bla": 0,
-    "velaryon_corrupt_harbormaster_bla": 0,
-    "stepstones_pirate_bla": 20,
-    "stepstones_sellsail_captain_bla": 20,
-}
 
 DDS_REENCODES = (
     "gfx/interface/icons/building_types/icon_amberly_watch.dds",
@@ -188,37 +163,6 @@ def scope_dynasty_prestige(text: str) -> tuple[str, int]:
             f"{match.group('indent')}dynasty ?= {{ "
             f"{match.group('effect')} = {match.group('value')} }}"
         )
-        repaired += 1
-    return "\n".join(lines), repaired
-
-
-def innermost_scope(scopes: list[str]) -> str:
-    for header in reversed(scopes):
-        if not SCOPE_TRANSPARENT.match(header):
-            return header
-    return "<root>"
-
-
-def identify_iterated_titles(text: str, *, iterator: str) -> tuple[str, int]:
-    """Compare an iterated title with itself instead of asking who holds it.
-
-    Inside a title iterator the scope is a landed title, where ``has_title`` is
-    a character trigger and raises
-    ``Inconsistent trigger scopes (landed_title vs. character)``. The same
-    trigger is correct in the character scopes elsewhere in these files, so only
-    the uses under the iterator are rewritten.
-    """
-    lines = text.split("\n")
-    scopes = enclosing_scopes(text)
-    repaired = 0
-    for index, line in enumerate(lines):
-        match = re.match(
-            r"^(?P<indent>[ \t]*)has_title = (?P<title>title:[\w]+)[ \t]*$",
-            line.split("#", 1)[0].rstrip(),
-        )
-        if not match or innermost_scope(scopes[index]) != iterator:
-            continue
-        lines[index] = f"{match.group('indent')}this = {match.group('title')}"
         repaired += 1
     return "\n".join(lines), repaired
 
@@ -374,17 +318,6 @@ def repair_common_files(context: GenerationContext) -> None:
     # Only files with a defect Bloodlines has not fixed itself are overridden.
     # The formable-kingdoms decisions file is correct upstream and is deliberately
     # left to load unmodified, so the repairs below are the whole common/ scope.
-    relative = "common/decisions/agot_decisions/00_agot_major_decisions_BLA.txt"
-    text = read_text(context.source("bloodlines-legacies") / relative)
-    text = replace_exact(
-        text,
-        "\t\t\t\topinion < 0\n",
-        "\t\t\t\topinion = { target = root value < 0 }\n",
-        expected=1,
-        label="opinion trigger syntax",
-    )
-    context.write_text(relative, text, encoding="utf-8-sig")
-
     relative = "common/dynasty_legacies/99_agot_cultures_BLA_legacies.txt"
     text = read_text(context.source("bloodlines-legacies") / relative)
     text = replace_exact(
@@ -474,87 +407,19 @@ def remove_monthly_opinion_durations(text: str) -> tuple[str, int]:
     return "".join(output), removed
 
 
-def replace_script_traits(text: str) -> tuple[str, int]:
-    total = 0
-    field_pattern = r"(has_trait|add_trait|remove_trait|trait)"
-    for old, new in TRAIT_REPLACEMENTS.items():
-        pattern = re.compile(rf"\b{field_pattern}(\s*=\s*){re.escape(old)}\b")
-        text, count = pattern.subn(rf"\1\2{new}", text)
-        total += count
-    return text, total
-
-
-def add_missing_gender_data(text: str) -> tuple[str, int]:
-    """Declare gender data on the create_character blocks that omit it."""
-    repaired = 0
-    for scope_name, female_chance in MISSING_GENDER_CHARACTERS.items():
-        pattern = re.compile(
-            rf"(?m)(?P<head>^(?P<indent>[ \t]*)create_character = \{{\n)"
-            # Body lines only, so the match cannot span a sibling create_character.
-            rf"(?P<body>(?:(?![ \t]*create_character)[^\n]*\n)*?)"
-            rf"(?P=indent)\tsave_scope_as = {scope_name}\n"
-        )
-        match = pattern.search(text)
-        if not match:
-            continue
-        if re.search(r"(?m)^[ \t]*gender(?:_female_chance)?\s*=", match.group("body")):
-            raise RuntimeError(f"{scope_name} already declares gender data")
-        indent = match.group("indent")
-        text = (
-            text[: match.end("head")]
-            + f"{indent}\tgender_female_chance = {female_chance}\n"
-            + text[match.end("head") :]
-        )
-        repaired += 1
-    return text, repaired
-
-
 def repair_event(relative: str, text: str) -> tuple[str, dict[str, int]]:
     original = text
-    stats = {"opinion_durations": 0, "traits": 0, "dynasty_prestige": 0, "gender": 0}
+    stats = {"opinion_durations": 0, "dynasty_prestige": 0, "animations": 0}
 
     text, stats["opinion_durations"] = remove_monthly_opinion_durations(text)
-    text, stats["traits"] = replace_script_traits(text)
     text, stats["dynasty_prestige"] = scope_dynasty_prestige(text)
-    text, stats["gender"] = add_missing_gender_data(text)
-
-    text = re.sub(
-        r"^[ \t]*(?:has_trait\s*=\s*romantic|add_trait\s*=\s*gambler)\s*$\n?",
-        "",
+    # Bloodlines' suspicious pose is not defined by CK3 or AGOT. The current
+    # cynical personality pose preserves the intended guarded expression.
+    text, stats["animations"] = re.subn(
+        r"\banimation = personality_suspicious\b",
+        "animation = personality_cynical",
         text,
-        flags=re.MULTILINE,
     )
-    text = re.sub(r"\btype\s*=\s*weak_hook\b", "type = favor_hook", text)
-    text = text.replace("title:b_crossroads_inn", "title:b_inn_at_the_crossroads")
-    text = text.replace(
-        "geographical_region = world_westeros_riverlands",
-        "geographical_region = world_westeros_the_riverlands",
-    )
-    text = text.replace(
-        "has_cultural_pillar = heritage_first_men",
-        "has_cultural_pillar = heritage_first_man",
-    )
-
-    if relative == (
-        "events/agot_decision_events/agot_crownlands_velaryon_stepstones_bla.txt"
-    ):
-        text, identified = identify_iterated_titles(text, iterator="random_held_title")
-        if identified != 8:
-            raise RuntimeError(
-                "Stepstones reward-title identity triggers: expected 8, "
-                f"rewrote {identified}"
-            )
-
-    if relative == "events/agot_events/agot_crownlands_celtigar_events_bla.txt":
-        # create_character rejects location and employer together. The employer
-        # already places the courtier in root's court.
-        text = replace_exact(
-            text,
-            "\t\t\temployer = root\n\t\t\tlocation = root.capital_province\n",
-            "\t\t\temployer = root\n",
-            expected=1,
-            label="Celtigar tax collector location",
-        )
 
     if relative == "events/agot_events/agot_crownlands_darklyn_events_bla.txt":
         # Darke, Darkwood, and Dargood are AGOT cadet houses of dynn_Darklyn,
@@ -628,16 +493,6 @@ def repair_event(relative: str, text: str) -> tuple[str, dict[str, int]]:
             )
 
     if relative == "events/agot_events/agot_riverlands_events_bla.txt":
-        # CK3 1.19 has no knighthood effect: knights are chosen from eligible
-        # courtiers. set_employer above makes the hedge knight one, and the
-        # created character already carries the knight trait.
-        text = replace_exact(
-            text,
-            "\t\t\t\t\tset_employer = root\n\t\t\t\t\tadd_knight = yes\n",
-            "\t\t\t\t\tset_employer = root\n",
-            expected=1,
-            label="Crossroads hedge-knight unknown effect",
-        )
         # The occupation-modifier triggers and both Quiet Isle county scopes are
         # correct upstream and untouched here.
         text = replace_exact(
@@ -878,14 +733,12 @@ def repair_event(relative: str, text: str) -> tuple[str, dict[str, int]]:
 
 
 EXPECTED_EVENT_REPAIRS = {
-    "opinion_durations": 69,
-    # Upstream migrated every retired trait id except one melancholic use.
-    "traits": 1,
+    "opinion_durations": 31,
     # Every Crownlands event option that grants dynasty prestige from a
     # character scope. Upstream's on-action and legacy grants already enter the
     # dynasty and must stay untouched.
-    "dynasty_prestige": 47,
-    "gender": len(MISSING_GENDER_CHARACTERS),
+    "dynasty_prestige": 10,
+    "animations": 12,
 }
 
 
@@ -910,9 +763,8 @@ def generate_events(context: GenerationContext) -> None:
     print(
         f"generated {changed_files} patched event files; "
         f"removed {totals['opinion_durations']} invalid opinion durations; "
-        f"migrated {totals['traits']} retired trait references; "
         f"scoped {totals['dynasty_prestige']} dynasty-prestige grants; "
-        f"declared gender data for {totals['gender']} created characters"
+        f"migrated {totals['animations']} portrait animations"
     )
 
 
@@ -954,6 +806,18 @@ betrayed_opinion = {
 }
 
 claimant_opinion = {
+\topinion = 0
+\tstacking = yes
+}
+
+# Declared upstream as static modifiers, but add_opinion reads this database.
+# Their call sites pass explicit values, so these only need to exist as keys.
+agot_darklyn_duskendale_claimant_opinion_bla = {
+\topinion = 0
+\tstacking = yes
+}
+
+agot_darklyn_mocked_rule_opinion_bla = {
 \topinion = 0
 \tstacking = yes
 }

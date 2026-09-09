@@ -1571,7 +1571,6 @@ agot_riverlands_bla.0921 = {
 			OR = {
 				learning >= 10
 				has_trait = scholar
-				has_trait = depressed_1
 			}
 		}
 

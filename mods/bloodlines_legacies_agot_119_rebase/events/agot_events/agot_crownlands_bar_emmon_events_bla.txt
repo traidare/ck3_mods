@@ -129,7 +129,7 @@ agot_crownlands_bla.1001 = {
 
 	left_portrait = {
 		character = root
-		animation = personality_suspicious
+		animation = personality_cynical
 	}
 
 	trigger = {
@@ -263,7 +263,10 @@ agot_crownlands_bla.1002 = {
 
 		add_martial_lifestyle_xp = 175
 		add_prestige = 150
-		dynasty ?= { add_dynasty_prestige = 75 }
+	
+		dynasty = {
+			add_dynasty_prestige = 75
+		}
 
 		add_character_modifier = {
 			modifier = agot_bar_emmon_watchers_of_blackwater_bay_bla
@@ -275,7 +278,10 @@ agot_crownlands_bla.1002 = {
 		name = agot_crownlands_bla.1002.b
 
 		add_stewardship_lifestyle_xp = 175
-		dynasty ?= { add_dynasty_prestige = 75 }
+		
+		dynasty = {
+			add_dynasty_prestige = 75
+		}
 
 		add_character_modifier = {
 			modifier = agot_bar_emmon_harbor_of_sharp_point_bla
@@ -292,7 +298,10 @@ agot_crownlands_bla.1002 = {
 
 		add_diplomacy_lifestyle_xp = 175
 		add_prestige = 125
-		dynasty ?= { add_dynasty_prestige = 75 }
+		
+		dynasty = {
+			add_dynasty_prestige = 75
+		}
 
 		liege = {
 			add_opinion = {
@@ -313,7 +322,10 @@ agot_crownlands_bla.1002 = {
 
 		add_diplomacy_lifestyle_xp = 125
 		add_stewardship_lifestyle_xp = 100
-		dynasty ?= { add_dynasty_prestige = 100 }
+
+		dynasty = {
+			add_dynasty_prestige = 100
+		}
 
 		add_character_modifier = {
 			modifier = agot_bar_emmon_lords_of_sharp_point_bla

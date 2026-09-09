@@ -286,12 +286,17 @@ agot_crownlands_bla.0502 = {
 
 	left_portrait = {
 		character = root
-		animation = personality_suspicious
+		animation = personality_cynical
 	}
 
 	immediate = {
 		random_list = {
 			50 = {
+				modifier = {
+					factor = 0.5
+					has_character_flag = agot_crabb_whispers_methodical_bla
+				}
+
 				add_character_flag = agot_crabb_whispers_common_bla
 			}
 
@@ -300,10 +305,20 @@ agot_crownlands_bla.0502 = {
 			}
 
 			15 = {
+				modifier = {
+					factor = 1.5
+					has_character_flag = agot_crabb_whispers_methodical_bla
+				}
+
 				add_character_flag = agot_crabb_whispers_large_bones_bla
 			}
 
 			10 = {
+				modifier = {
+					factor = 2
+					has_character_flag = agot_crabb_whispers_methodical_bla
+				}
+
 				add_character_flag = agot_crabb_whispers_skulls_bla
 			}
 		}
@@ -372,7 +387,7 @@ agot_crownlands_bla.0503 = {
 
 	left_portrait = {
 		character = root
-		animation = personality_suspicious
+		animation = personality_cynical
 	}
 
 	option = { # Examine the skull
@@ -581,7 +596,7 @@ agot_crownlands_bla.0505 = {
 
 	left_portrait = {
 		character = root
-		animation = personality_suspicious
+		animation = personality_cynical
 	}
 
 	trigger = {
@@ -1145,7 +1160,7 @@ agot_crownlands_bla.0510 = {
 
 	left_portrait = {
 		character = root
-		animation = personality_suspicious
+		animation = personality_cynical
 	}
 
 	immediate = {
@@ -1226,7 +1241,7 @@ agot_crownlands_bla.0511 = {
 
 	left_portrait = {
 		character = root
-		animation = personality_suspicious
+		animation = personality_cynical
 	}
 
 	option = { # Seize the goods

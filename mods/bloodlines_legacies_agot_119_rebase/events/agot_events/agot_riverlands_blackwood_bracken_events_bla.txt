@@ -26,6 +26,23 @@ agot_riverlands_bla.0199 = {
 
 	immediate = {
 
+		if = {
+			limit = {
+				dynasty:dynn_Blackwood = {
+					NOT = {
+						has_variable = blackwood_bracken_feud_intensity_bla
+					}
+				}
+			}
+
+			dynasty:dynn_Blackwood = {
+				set_variable = {
+					name = blackwood_bracken_feud_intensity_bla
+					value = 2
+				}
+			}
+		}
+
 		add_character_flag = {
 			flag = blackwood_bracken_any_feud_event_recently_bla
 			years = 3
@@ -39,22 +56,38 @@ agot_riverlands_bla.0199 = {
 			15 = { trigger_event = agot_riverlands_bla.0204 }
 
 			10 = {
-				trigger = { var:blackwood_bracken_feud_intensity_bla >= 3 }
+				trigger = { 
+					dynasty:dynn_Blackwood = {
+						var:blackwood_bracken_feud_intensity_bla >= 3
+					} 
+				}
 				trigger_event = agot_riverlands_bla.0205
 			}
 
 			8 = {
-				trigger = { var:blackwood_bracken_feud_intensity_bla >= 4 }
+				trigger = { 
+					dynasty:dynn_Blackwood = {
+						var:blackwood_bracken_feud_intensity_bla >= 4
+					} 
+				 }
 				trigger_event = agot_riverlands_bla.0206
 			}
 
 			5 = {
-				trigger = { var:blackwood_bracken_feud_intensity_bla >= 6 }
+				trigger = { 
+					dynasty:dynn_Blackwood = {
+						var:blackwood_bracken_feud_intensity_bla >= 6
+					} 
+				}
 				trigger_event = agot_riverlands_bla.0207
 			}
 
 			7 = {
-				trigger = { var:blackwood_bracken_feud_intensity_bla >= 4 }
+				trigger = { 
+					dynasty:dynn_Blackwood = {
+						var:blackwood_bracken_feud_intensity_bla >= 4
+					} 
+				}
 				trigger_event = agot_riverlands_bla.0208
 			}
 
@@ -131,9 +164,11 @@ agot_riverlands_bla.0200 = {
 		add_prestige = 100
 		add_dread = 10
 
-		change_variable = {
-			name = blackwood_bracken_feud_intensity_bla
-			add = 1
+		dynasty:dynn_Blackwood = {
+			change_variable = {
+				name = blackwood_bracken_feud_intensity_bla
+				add = 1
+			}
 		}
 
 		scope:feud_rival_bla = {
@@ -156,9 +191,11 @@ agot_riverlands_bla.0200 = {
 		add_piety = 75
 		add_prestige = 25
 
-		change_variable = {
-			name = blackwood_bracken_feud_intensity_bla
-			add = -1
+		dynasty:dynn_Blackwood = {
+			change_variable = {
+				name = blackwood_bracken_feud_intensity_bla
+				add = -1
+			}
 		}
 
 		scope:feud_rival_bla = {
@@ -188,11 +225,13 @@ agot_riverlands_bla.0200 = {
 
 		random_list = {
 			70 = {
-				change_variable = {
-					name = blackwood_bracken_feud_intensity_bla
-					add = 2
+				dynasty:dynn_Blackwood = {
+					change_variable = {
+						name = blackwood_bracken_feud_intensity_bla
+						add = 2
+					}
 				}
-
+	
 				add_hook = {
 					target = scope:feud_rival_bla
 					type = fabrication_hook
@@ -341,9 +380,11 @@ agot_riverlands_bla.0201 = {
 		add_prestige = 100
 		add_dread = 5
 
-		change_variable = {
-			name = blackwood_bracken_feud_intensity_bla
-			add = 1
+		dynasty:dynn_Blackwood = {
+			change_variable = {
+				name = blackwood_bracken_feud_intensity_bla
+				add = 1
+			}
 		}
 
 		scope:feud_rival_bla = {
@@ -366,9 +407,11 @@ agot_riverlands_bla.0201 = {
 		add_prestige = 50
 		add_piety = 25
 
-		change_variable = {
-			name = blackwood_bracken_feud_intensity_bla
-			add = -1
+		dynasty:dynn_Blackwood = {
+			change_variable = {
+				name = blackwood_bracken_feud_intensity_bla
+				add = -1
+			}
 		}
 
 		scope:feud_rival_bla = {
@@ -405,9 +448,11 @@ agot_riverlands_bla.0201 = {
 					type = fabrication_hook
 				}
 
-				change_variable = {
-					name = blackwood_bracken_feud_intensity_bla
-					add = 1
+				dynasty:dynn_Blackwood = {
+					change_variable = {
+						name = blackwood_bracken_feud_intensity_bla
+						add = 1
+					}
 				}
 
 				scope:feud_rival_bla = {
@@ -452,9 +497,11 @@ agot_riverlands_bla.0201 = {
 		add_prestige = 150
 		add_dread = 10
 
-		change_variable = {
-			name = blackwood_bracken_feud_intensity_bla
-			add = 2
+		dynasty:dynn_Blackwood = {
+			change_variable = {
+				name = blackwood_bracken_feud_intensity_bla
+				add = 2
+			}
 		}
 
 		if = {
@@ -545,9 +592,11 @@ agot_riverlands_bla.0202 = {
 
 		add_prestige = 75
 
-		change_variable = {
-			name = blackwood_bracken_feud_intensity_bla
-			add = 1
+		dynasty:dynn_Blackwood = {
+			change_variable = {
+				name = blackwood_bracken_feud_intensity_bla
+				add = 1
+			}
 		}
 
 		scope:feud_rival_bla = {
@@ -570,9 +619,11 @@ agot_riverlands_bla.0202 = {
 		add_piety = 50
 		add_prestige = -25
 
-		change_variable = {
-			name = blackwood_bracken_feud_intensity_bla
-			add = -1
+		dynasty:dynn_Blackwood = {
+			change_variable = {
+				name = blackwood_bracken_feud_intensity_bla
+				add = -1
+			}
 		}
 
 		scope:feud_rival_bla = {
@@ -609,9 +660,11 @@ agot_riverlands_bla.0202 = {
 					type = fabrication_hook
 				}
 
-				change_variable = {
-					name = blackwood_bracken_feud_intensity_bla
-					add = 2
+				dynasty:dynn_Blackwood = {
+					change_variable = {
+						name = blackwood_bracken_feud_intensity_bla
+						add = 2
+					}
 				}
 
 				add_character_modifier = {
@@ -719,9 +772,11 @@ agot_riverlands_bla.0203 = {
 		add_piety = 150
 		add_prestige = 75
 
-		change_variable = {
-			name = blackwood_bracken_feud_intensity_bla
-			add = 1
+		dynasty:dynn_Blackwood = {
+			change_variable = {
+				name = blackwood_bracken_feud_intensity_bla
+				add = 1
+			}
 		}
 
 		add_character_modifier = {
@@ -749,9 +804,11 @@ agot_riverlands_bla.0203 = {
 
 		add_prestige = 150
 
-		change_variable = {
-			name = blackwood_bracken_feud_intensity_bla
-			add = 1
+		dynasty:dynn_Blackwood = {
+			change_variable = {
+				name = blackwood_bracken_feud_intensity_bla
+				add = 1
+			}
 		}
 
 		add_character_modifier = {
@@ -783,9 +840,11 @@ agot_riverlands_bla.0203 = {
 
 		random_list = {
 			70 = {
-				change_variable = {
-					name = blackwood_bracken_feud_intensity_bla
-					add = 2
+				dynasty:dynn_Blackwood = {
+					change_variable = {
+						name = blackwood_bracken_feud_intensity_bla
+						add = 2
+					}
 				}
 
 				add_hook = {
@@ -839,9 +898,11 @@ agot_riverlands_bla.0203 = {
 		add_piety = 75
 		add_prestige = 50
 
-		change_variable = {
-			name = blackwood_bracken_feud_intensity_bla
-			add = -1
+		dynasty:dynn_Blackwood = {
+			change_variable = {
+				name = blackwood_bracken_feud_intensity_bla
+				add = -1
+			}
 		}
 
 		add_character_modifier = {
@@ -946,9 +1007,11 @@ agot_riverlands_bla.0204 = {
 		add_prestige = 100
 		add_dread = 5
 
-		change_variable = {
-			name = blackwood_bracken_feud_intensity_bla
-			add = 1
+		dynasty:dynn_Blackwood = {
+			change_variable = {
+				name = blackwood_bracken_feud_intensity_bla
+				add = 1
+			}
 		}
 
 		scope:feud_rival_bla = {
@@ -1004,9 +1067,11 @@ agot_riverlands_bla.0204 = {
 			change_county_control = 10
 		}
 
-		change_variable = {
-			name = blackwood_bracken_feud_intensity_bla
-			add = -1
+		dynasty:dynn_Blackwood = {
+			change_variable = {
+				name = blackwood_bracken_feud_intensity_bla
+				add = -1
+			}
 		}
 	}
 
@@ -1024,9 +1089,11 @@ agot_riverlands_bla.0204 = {
 		add_prestige = 150
 		add_dread = 10
 
-		change_variable = {
-			name = blackwood_bracken_feud_intensity_bla
-			add = 2
+		dynasty:dynn_Blackwood = {
+			change_variable = {
+				name = blackwood_bracken_feud_intensity_bla
+				add = 2
+			}
 		}
 
 		scope:feud_rival_bla = {
@@ -1169,9 +1236,11 @@ agot_riverlands_bla.02041 = {
 			add_prestige = 75
 			add_gold = 50
 
-			change_variable = {
-				name = blackwood_bracken_feud_intensity_bla
-				add = -1
+			dynasty:dynn_Blackwood = {
+				change_variable = {
+					name = blackwood_bracken_feud_intensity_bla
+					add = -1
+				}
 			}
 
 			custom_tooltip = agot_riverlands_bla.0204.b.bandit_tt
@@ -1227,7 +1296,9 @@ agot_riverlands_bla.0205 = {
 			dynasty = dynasty:dynn_Bracken
 		}
 
-		var:blackwood_bracken_feud_intensity_bla >= 3
+		dynasty:dynn_Blackwood = {
+			var:blackwood_bracken_feud_intensity_bla >= 3
+		}
 
 		OR = {
 			has_character_modifier = blackwood_bracken_rekindled_hatred_bla
@@ -1290,9 +1361,11 @@ agot_riverlands_bla.0205 = {
 		add_prestige = 200
 		add_dread = 10
 
-		change_variable = {
-			name = blackwood_bracken_feud_intensity_bla
-			add = 2
+		dynasty:dynn_Blackwood = {
+			change_variable = {
+				name = blackwood_bracken_feud_intensity_bla
+				add = 2
+			}
 		}
 		
 		if = {
@@ -1342,9 +1415,11 @@ agot_riverlands_bla.0205 = {
 		add_prestige = -50
 		add_piety = 75
 
-		change_variable = {
-			name = blackwood_bracken_feud_intensity_bla
-			add = -2
+		dynasty:dynn_Blackwood = {
+			change_variable = {
+				name = blackwood_bracken_feud_intensity_bla
+				add = -2
+			}
 		}
 
 		add_character_modifier = {
@@ -1376,9 +1451,11 @@ agot_riverlands_bla.0205 = {
 
 		add_intrigue_lifestyle_xp = 350
 
-		change_variable = {
-			name = blackwood_bracken_feud_intensity_bla
-			add = 1
+		dynasty:dynn_Blackwood = {
+			change_variable = {
+				name = blackwood_bracken_feud_intensity_bla
+				add = 1
+			}
 		}
 
 		add_character_flag = {
@@ -1423,9 +1500,11 @@ agot_riverlands_bla.0205 = {
 		add_dread = 15
 		add_prestige = 100
 
-		change_variable = {
-			name = blackwood_bracken_feud_intensity_bla
-			add = 2
+		dynasty:dynn_Blackwood = {
+			change_variable = {
+				name = blackwood_bracken_feud_intensity_bla
+				add = 2
+			}
 		}
 
 		add_character_modifier = {
@@ -1502,7 +1581,9 @@ agot_riverlands_bla.0206 = {
 			dynasty = dynasty:dynn_Bracken
 		}
 
-		var:blackwood_bracken_feud_intensity_bla >= 4
+		dynasty:dynn_Blackwood = {
+			var:blackwood_bracken_feud_intensity_bla >= 4
+		}
 
 		NOT = { has_character_flag = blackwood_bracken_any_feud_event_recently_bla }
 		NOT = { has_character_flag = blackwood_bracken_liege_intervention_recently_bla }
@@ -1549,9 +1630,11 @@ agot_riverlands_bla.0206 = {
 		add_prestige = -75
 		add_piety = 75
 
-		change_variable = {
-			name = blackwood_bracken_feud_intensity_bla
-			add = -2
+		dynasty:dynn_Blackwood = {
+			change_variable = {
+				name = blackwood_bracken_feud_intensity_bla
+				add = -2
+			}
 		}
 
 		add_character_modifier = {
@@ -1658,9 +1741,11 @@ agot_riverlands_bla.0206 = {
 			years = 6
 		}
 
-		change_variable = {
-			name = blackwood_bracken_feud_intensity_bla
-			add = 1
+		dynasty:dynn_Blackwood = {
+			change_variable = {
+				name = blackwood_bracken_feud_intensity_bla
+				add = 1
+			}
 		}
 
 		random_list = {
@@ -1689,9 +1774,11 @@ agot_riverlands_bla.0206 = {
 		add_dread = 15
 		add_prestige = 150
 
-		change_variable = {
-			name = blackwood_bracken_feud_intensity_bla
-			add = 2
+		dynasty:dynn_Blackwood = {
+			change_variable = {
+				name = blackwood_bracken_feud_intensity_bla
+				add = 2
+			}
 		}
 
 		add_character_modifier = {
@@ -1750,7 +1837,9 @@ agot_riverlands_bla.0207 = {
 			dynasty = dynasty:dynn_Bracken
 		}
 
-		var:blackwood_bracken_feud_intensity_bla >= 6
+		dynasty:dynn_Blackwood = {
+			var:blackwood_bracken_feud_intensity_bla >= 6
+		}
 
 		OR = {
 			has_character_modifier = blackwood_bracken_rekindled_hatred_bla
@@ -1803,9 +1892,11 @@ agot_riverlands_bla.0207 = {
 		add_dread = 20
 		add_prestige = 150
 
-		change_variable = {
-			name = blackwood_bracken_feud_intensity_bla
-			add = 3
+		dynasty:dynn_Blackwood = {
+			change_variable = {
+				name = blackwood_bracken_feud_intensity_bla
+				add = 3
+			}
 		}
 
 		add_character_modifier = {
@@ -1861,9 +1952,11 @@ agot_riverlands_bla.0207 = {
 		add_piety = 150
 		add_stress = 25
 
-		change_variable = {
-			name = blackwood_bracken_feud_intensity_bla
-			add = -4
+		dynasty:dynn_Blackwood = {
+			change_variable = {
+				name = blackwood_bracken_feud_intensity_bla
+				add = -4
+			}
 		}
 
 		add_character_modifier = {
@@ -1910,9 +2003,11 @@ agot_riverlands_bla.0207 = {
 
 		add_intrigue_lifestyle_xp = 400
 
-		change_variable = {
-			name = blackwood_bracken_feud_intensity_bla
-			add = 1
+		dynasty:dynn_Blackwood = {
+			change_variable = {
+				name = blackwood_bracken_feud_intensity_bla
+				add = 1
+			}
 		}
 
 		add_character_flag = {
@@ -2002,7 +2097,9 @@ agot_riverlands_bla.0208 = {
 			dynasty = dynasty:dynn_Bracken
 		}
 
-		var:blackwood_bracken_feud_intensity_bla >= 4
+		dynasty:dynn_Blackwood = {
+			var:blackwood_bracken_feud_intensity_bla >= 4
+		}
 
 		OR = {
 			has_character_modifier = blackwood_bracken_burning_borderlands_bla
@@ -2055,9 +2152,11 @@ agot_riverlands_bla.0208 = {
 		add_piety = 100
 		add_stress = -20
 
-		change_variable = {
-			name = blackwood_bracken_feud_intensity_bla
-			add = -3
+		dynasty:dynn_Blackwood = {
+			change_variable = {
+				name = blackwood_bracken_feud_intensity_bla
+				add = -3
+			}
 		}
 
 		add_character_modifier = {
@@ -2103,9 +2202,11 @@ agot_riverlands_bla.0208 = {
 
 		add_intrigue_lifestyle_xp = 300
 
-		change_variable = {
-			name = blackwood_bracken_feud_intensity_bla
-			add = -1
+		dynasty:dynn_Blackwood = {
+			change_variable = {
+				name = blackwood_bracken_feud_intensity_bla
+				add = -1
+			}
 		}
 
 		add_character_flag = {
@@ -2135,9 +2236,11 @@ agot_riverlands_bla.0208 = {
 		add_dread = 10
 		add_prestige = 100
 
-		change_variable = {
-			name = blackwood_bracken_feud_intensity_bla
-			add = 1
+		dynasty:dynn_Blackwood = {
+			change_variable = {
+				name = blackwood_bracken_feud_intensity_bla
+				add = 1
+			}
 		}
 
 		add_character_modifier = {
@@ -2232,9 +2335,11 @@ agot_riverlands_bla.0209 = {
 
 		add_prestige = 100
 
-		change_variable = {
-			name = blackwood_bracken_feud_intensity_bla
-			add = 1
+		dynasty:dynn_Blackwood = {
+			change_variable = {
+				name = blackwood_bracken_feud_intensity_bla
+				add = 1
+			}
 		}
 
 		add_character_modifier = {
@@ -2259,9 +2364,11 @@ agot_riverlands_bla.0209 = {
 		add_martial_lifestyle_xp = 250
 		add_piety = 75
 
-		change_variable = {
-			name = blackwood_bracken_feud_intensity_bla
-			add = -2
+		dynasty:dynn_Blackwood = {
+			change_variable = {
+				name = blackwood_bracken_feud_intensity_bla
+				add = -2
+			}
 		}
 
 		add_character_modifier = {

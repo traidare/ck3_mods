@@ -75,7 +75,11 @@ agot_crownlands_bla.0400 = {
 
 		remove_short_term_gold = 75
 		add_learning_lifestyle_xp = 200
-		dynasty ?= { add_dynasty_prestige = 50 }
+		
+		dynasty = {
+			add_dynasty_prestige = 50
+		}
+
 
 		random = {
 			chance = 35
@@ -91,7 +95,11 @@ agot_crownlands_bla.0400 = {
 		name = agot_crownlands_bla.0400.b
 
 		add_prestige = 200
-		dynasty ?= { add_dynasty_prestige = 75 }
+
+		dynasty = {
+			add_dynasty_prestige = 75
+		}
+
 
 		add_character_modifier = {
 			modifier = agot_massey_ancient_claims_bla
@@ -277,7 +285,7 @@ agot_crownlands_bla.0402 = {
 
 	left_portrait = {
 		character = root
-		animation = personality_suspicious
+		animation = personality_cynical
 	}
 
 	trigger = {
@@ -419,7 +427,11 @@ agot_crownlands_bla.0403 = {
 
 		remove_short_term_gold = 50
 		add_prestige = 200
-		dynasty ?= { add_dynasty_prestige = 100 }
+		
+		dynasty = {
+			add_dynasty_prestige = 100
+		}
+
 
 		add_character_modifier = {
 			modifier = agot_massey_judgment_of_the_hook_bla
@@ -458,7 +470,11 @@ agot_crownlands_bla.0403 = {
 				}
 
 				add_learning_lifestyle_xp = 250
-				dynasty ?= { add_dynasty_prestige = 75 }
+				
+				dynasty = {
+					add_dynasty_prestige = 75
+				}
+
 
 				custom_tooltip = agot_crownlands_bla.0403.c.success
 			}
@@ -802,7 +818,7 @@ agot_crownlands_bla.0407 = {
 
 	left_portrait = {
 		character = root
-		animation = personality_suspicious
+		animation = personality_cynical
 	}
 
 	right_portrait = {
@@ -906,7 +922,7 @@ agot_crownlands_bla.0408 = {
 
 	left_portrait = {
 		character = root
-		animation = personality_suspicious
+		animation = personality_cynical
 	}
 
 	right_portrait = {

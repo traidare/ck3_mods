@@ -5,10 +5,6 @@
       "sha256": "04d7f3975b951537b34b0cbb264e0cc2eeb7ac05c21d63c7c31d8b1d593ef750",
       "size": 249917
     },
-    "workshop/3522779004/common/decisions/agot_decisions/00_agot_major_decisions_BLA.txt": {
-      "sha256": "f7f3deda87b95818db400669aa3cc79bd496cb18d796f8df4babf1a55fb02108",
-      "size": 14703
-    },
     "workshop/3522779004/common/dynasty_legacies/99_agot_cultures_BLA_legacies.txt": {
       "sha256": "31dec6a39c975756753a9576e58af23d4bdc218addab0e719cb498f99b99492f",
       "size": 14100
@@ -22,16 +18,16 @@
       "size": 30912
     },
     "workshop/3522779004/common/modifiers/00_agot_crownlands_modifiers_BLA.txt": {
-      "sha256": "e179917e60dd2c5d482fa5e71acc9178ab55530da631be5743692616b6e11e46",
-      "size": 37293
+      "sha256": "52145aad59fedf331fbaea1271d976553ec51c8845b85f0610f5d0c4250c55d5",
+      "size": 37536
     },
     "workshop/3522779004/common/modifiers/00_agot_riverlands_modifiers_BLA.txt": {
-      "sha256": "579832be67180b1d12398011209ff772bcffc97663decd437dccec9aafc15c23",
-      "size": 39407
+      "sha256": "ad8096805c14ec4f65e1143a3ee84c4d5ee0bf7bc9c32bb27610bfc06610fefd",
+      "size": 39409
     },
     "workshop/3522779004/common/on_action/agot_on_actions/agot_game_start_BLA.txt": {
-      "sha256": "9960f26486befed3253b6c5daa5525679422b2fc3e5378d2d0b59720f61d71e0",
-      "size": 8306
+      "sha256": "4fc4da6e191d90c7688f4a5c154c7475b84ac60706b05770f6c3291e2af1dc96",
+      "size": 8484
     },
     "workshop/3522779004/common/on_action/child_birth_on_actions_cultures_BLA.txt": {
       "sha256": "8e37715911821244c38c472bb10a41b6f0e5e2b7314bead1c3aa7abc31da183d",
@@ -54,8 +50,8 @@
       "size": 10535
     },
     "workshop/3522779004/events/agot_decision_events/agot_crownlands_velaryon_stepstones_bla.txt": {
-      "sha256": "62001a1848a29c2bf98e9a7da3e5e958e6b06728f4ab326646dd1fb28337f6cb",
-      "size": 73147
+      "sha256": "07cbc4092f436921f9aca85827130793fdc1bb7677f43e7b8cb144079d1abae5",
+      "size": 73151
     },
     "workshop/3522779004/events/agot_decision_events/agot_oldstones_bla_events.txt": {
       "sha256": "aa8d87411c71e6414fac66b3b86e34ff954ce161d64e3f1f59141b63ec6c1092",
@@ -74,48 +70,48 @@
       "size": 16413
     },
     "workshop/3522779004/events/agot_events/agot_crownlands_bar_emmon_events_bla.txt": {
-      "sha256": "bb55b3c7297b3587e7637c7d93770a5401722597c1ab8e07a5c4be9550d6b468",
-      "size": 5942
+      "sha256": "f6177022ed59d37d8f3203dc04692526bbd45a12c00cc9bdf3761ad2dc7fbbc2",
+      "size": 6039
     },
     "workshop/3522779004/events/agot_events/agot_crownlands_brune_events_bla.txt": {
-      "sha256": "62d956cbb7b92617ee227633b5166feafe40aae9f0c6bfcb0cadc9c697c1da09",
-      "size": 18997
+      "sha256": "c98e34a9150e607b2960e8904e49d33fd59f5823ef4f8a12d34e03ae1a0ae6d2",
+      "size": 19068
     },
     "workshop/3522779004/events/agot_events/agot_crownlands_celtigar_events_bla.txt": {
-      "sha256": "608245c5b2608be2b15b422e45b49588f07fbe58f00b754db1dbbc12c5c6bd06",
-      "size": 31679
+      "sha256": "07a03ec72d48b0b8a074008447a9f40c44e02a2c391698d2b414a6c4f65f32af",
+      "size": 31428
     },
     "workshop/3522779004/events/agot_events/agot_crownlands_crabb_events_bla.txt": {
-      "sha256": "3dcfc94d277edd36718e77b3fe7f5690cacd3e43e2637f7b16cb9d7a2b900518",
-      "size": 24349
+      "sha256": "e64f4d0ec8ea2d0aa604f13be5730e078acb41ba4bd81d1d01027fed3d897174",
+      "size": 24671
     },
     "workshop/3522779004/events/agot_events/agot_crownlands_darklyn_events_bla.txt": {
-      "sha256": "0e618f7d770cfbe9dfd1962c58f395d7533b146917dc1a139bbb111eea9a2d90",
-      "size": 109904
+      "sha256": "83a5187997e55e4c4d9d98a5bf625d2dd901f311adc58d0cbe4173fceffd7d9b",
+      "size": 109881
     },
     "workshop/3522779004/events/agot_events/agot_crownlands_iron_throne_events_bla.txt": {
       "sha256": "36a196e78041533be6d48d3466e615761b69ac2ec62248f517b4b95948720005",
       "size": 9337
     },
     "workshop/3522779004/events/agot_events/agot_crownlands_massey_events_bla.txt": {
-      "sha256": "83a69a0796805cb9acdea9b5865221b2ed7ed44cbc4cece51f5e7bccd9aaeaf0",
-      "size": 18077
+      "sha256": "28d5f6aac3285e42996ed400340dcb34729d84eea038554c977a58f02b2ca442",
+      "size": 18189
     },
     "workshop/3522779004/events/agot_events/agot_crownlands_rosby_events_bla.txt": {
-      "sha256": "f77352e947a7de3d5d1764088591a9aea2abe1c47bf731a271afe667dff2fc6f",
-      "size": 7959
+      "sha256": "c3cc9cab617e523fa27cc744f02d99625ed367d1212cdf1b33e221b929f7dd6e",
+      "size": 8028
     },
     "workshop/3522779004/events/agot_events/agot_crownlands_stokeworth_events_bla.txt": {
-      "sha256": "55206213eb6acf77bcd19c022c6101a17d969f9b9f2a894586dab387b0d59aea",
-      "size": 7383
+      "sha256": "958c661337bafc971157cf824ab35fe41e0b32fe082ae7feeb4c06bf9272af28",
+      "size": 7502
     },
     "workshop/3522779004/events/agot_events/agot_crownlands_sunglass_events_bla.txt": {
-      "sha256": "55686e62a530fb590162b2e504fbbe5c614cad665fcdb50a6b1ed4cfa57c88b8",
-      "size": 8632
+      "sha256": "a6ceef640d22d3dac181a32335a76584eba5f378fb2b36d6a51f4142f6fca2ec",
+      "size": 8703
     },
     "workshop/3522779004/events/agot_events/agot_crownlands_velaryon_events_bla.txt": {
-      "sha256": "b24dad2a5b9701ba484ee75366997d9732b659aeff2af72d5e58f487e62f5b4d",
-      "size": 70407
+      "sha256": "8c486cf8ccb57fad22d84d785818944d20c7f527e528898d903185fb686dce95",
+      "size": 71169
     },
     "workshop/3522779004/events/agot_events/agot_hightower_archmaesters_decision_events.txt": {
       "sha256": "c238ed9f6d1bca421ea4faf82f68386f34c8c9c6ac9a8d7a4254941f16d05470",
@@ -138,36 +134,36 @@
       "size": 3884
     },
     "workshop/3522779004/events/agot_events/agot_riverlands_blackwood_bracken_events_bla.txt": {
-      "sha256": "de07b1c7a3763a1d124de6e3adaf4ccbebd068d4e5661149fdf2f46540d7176d",
-      "size": 43428
+      "sha256": "a1637c113c5c2b2ec45d73b9b54d78bffe726aee1d23da8be9c1e7256cce826f",
+      "size": 45390
     },
     "workshop/3522779004/events/agot_events/agot_riverlands_blackwood_events_bla.txt": {
-      "sha256": "10c5793aee556b9a3857f6f4f1435e39167a69c8312b549934974526021ba9c9",
-      "size": 17816
+      "sha256": "7c73b8e8825782a1b1e3cb14c330aeb521bc24a2e7e4e5009529d38bba9a9766",
+      "size": 17606
     },
     "workshop/3522779004/events/agot_events/agot_riverlands_bracken_events_bla.txt": {
-      "sha256": "933f3bf4182462f29019b1910b8bc3082f60f3aec76b2a07e76b8b2b1853c8c2",
-      "size": 19123
+      "sha256": "740094cfc9395547eaaef13cbb06ee65165db15273cf9d3e53261f8a9a724ec1",
+      "size": 18863
     },
     "workshop/3522779004/events/agot_events/agot_riverlands_events_bla.txt": {
-      "sha256": "b8996b12e23e6b124549555400a55ccca37597c704ab6abd452459138a194aa7",
-      "size": 54502
+      "sha256": "4c9f378a4b4af34ab64a89ba0b47220218c0e430214e360c925c679920fc3ed2",
+      "size": 54417
     },
     "workshop/3522779004/events/agot_events/agot_riverlands_frey_events_bla.txt": {
       "sha256": "cd18adeef4ec209b514645db8e66e7401148550c92d9c6ca666b2ecc41bf8edd",
       "size": 20857
     },
     "workshop/3522779004/events/agot_events/agot_riverlands_harrenhal_events_bla.txt": {
-      "sha256": "293f6d057526ae2a538a84223b4567e725d2aa90abf8646f7e4a6cf8340fa5e4",
-      "size": 47028
+      "sha256": "8a0e7723a78c5acc6bd1805663e3979e59e0990388924dd29a6c6e650bc3dd78",
+      "size": 46999
     },
     "workshop/3522779004/events/agot_events/agot_riverlands_justman_events_bla.txt": {
-      "sha256": "28173d4f3c1591eb34dd3e84a7cf2532fd741ace8fd92e3925709b1b88f61f0a",
-      "size": 24968
+      "sha256": "fa6fbcd0c6bb0e622be68571cfeb5c1b461a6a862b20ea12eab9a05573c72fb3",
+      "size": 24936
     },
     "workshop/3522779004/events/agot_events/agot_riverlands_mallister_events_bla.txt": {
-      "sha256": "3f0de76687b4ae63aaa7f029178111a0cffdea5a03d9f46a8964f6f6a675e464",
-      "size": 12270
+      "sha256": "4249e13261202e7c1bb771cd4bae2691a3285055612515cc4f05e08a86099f95",
+      "size": 12342
     },
     "workshop/3522779004/events/agot_events/agot_riverlands_mooton_events_bla.txt": {
       "sha256": "b9fa6ddf50d1b0813e0d2cb157c6a542f51137ff5f1265ef0c62fcfd7082da2a",
@@ -178,8 +174,8 @@
       "size": 11962
     },
     "workshop/3522779004/events/agot_events/agot_riverlands_piper_events_bla.txt": {
-      "sha256": "5e1b72f4e8b8476682429175f374ddf6870e7cb73843fb0f3e3c9fb93d7455ac",
-      "size": 12376
+      "sha256": "fb5715aa6ba2b813c0f5c796d2c426191864825e022a6cf228bb2a629c08314d",
+      "size": 12301
     },
     "workshop/3522779004/events/agot_events/agot_riverlands_vance_events_bla.txt": {
       "sha256": "cf99cd9b8035e680dbe82f5f45106dc8035cf6de3df4b00fc867df114d4a0e98",
@@ -190,12 +186,12 @@
       "size": 3220
     },
     "workshop/3522779004/events/bla_custom_house_legacy_events.txt": {
-      "sha256": "855371bcc33e0bcd284c6ddb5426799e85ba5f6b68556c2e11f3593f4a0e4e0a",
-      "size": 21427
+      "sha256": "3ed6f9979375547e88fd5a4650ce76670bb9808143fc47204e1dc89bd3b90589",
+      "size": 32332
     },
     "workshop/3522779004/localization/replace/english/agot_BLA_l_english.yml": {
-      "sha256": "903bbaf5cafea0176287bcee36e5a51d6b9b556dc8baa065ea4a1ef8dd735ff3",
-      "size": 667362
+      "sha256": "dc0595fadf0276a0bfcb1a53faeaed40ab3ac4156e1202210b78f3dd02cb3c95",
+      "size": 667690
     }
   }
 }

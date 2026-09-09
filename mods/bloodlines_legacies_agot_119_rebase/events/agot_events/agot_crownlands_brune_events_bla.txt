@@ -547,7 +547,7 @@ agot_crownlands_bla.0605 = {
 
 	left_portrait = {
 		character = root
-		animation = personality_suspicious
+		animation = personality_cynical
 	}
 
 	trigger = {
@@ -962,8 +962,11 @@ agot_crownlands_bla.0609 = {
 		name = agot_crownlands_bla.0609.a
 
 		add_martial_lifestyle_xp = 200
-		dynasty ?= { add_dynasty_prestige = 100 }
 		add_prestige = 175
+
+		dynasty = {
+			add_dynasty_prestige = 100
+		}
 
 		add_character_modifier = {
 			modifier = agot_brune_lords_of_the_hidden_paths_bla
@@ -975,7 +978,10 @@ agot_crownlands_bla.0609 = {
 		name = agot_crownlands_bla.0609.b
 
 		add_diplomacy_lifestyle_xp = 175
-		dynasty ?= { add_dynasty_prestige = 100 }
+
+		dynasty = {
+			add_dynasty_prestige = 100
+		}
 
 		add_character_modifier = {
 			modifier = agot_brune_first_among_clawmen_bla
@@ -999,7 +1005,10 @@ agot_crownlands_bla.0609 = {
 		name = agot_crownlands_bla.0609.d
 
 		add_stewardship_lifestyle_xp = 200
-		dynasty ?= { add_dynasty_prestige = 75 }
+		
+		dynasty = {
+			add_dynasty_prestige = 75
+		}
 
 		add_character_modifier = {
 			modifier = agot_brune_claw_and_crown_bla

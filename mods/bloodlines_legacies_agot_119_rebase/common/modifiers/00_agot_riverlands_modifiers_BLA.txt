@@ -43,8 +43,8 @@ riverlands_harrenhal_whispers_bla = {
 
 riverlands_searched_black_towers_bla = {
 	icon = magic_positive
-	intrigue_scheme_resistance = 10
 	owned_legend_spread_mult = 0.05
+	development_growth_factor = -0.05
 }
 
 riverlands_respected_convener_bla = {

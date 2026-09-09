@@ -534,9 +534,11 @@ agot_riverlands_bla.0603 = {
 			}
 
 			35 = {
-				add_hook = {
-					target = root
-					type = favor_hook
+				add_martial_lifestyle_xp = 250
+
+				add_character_modifier = {
+					modifier = mallister_signal_network_bla
+					years = 5
 				}
 			}
 		}

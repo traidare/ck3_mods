@@ -693,7 +693,7 @@ agot_riverlands_bla.0003 = {
 			scope:riverlands_hedge_knight_bla = {
 				add_opinion = {
 					target = root
-					modifier = fear_opinion
+					modifier = scared_opinion
 					opinion = 15
 				}
 			}
@@ -733,7 +733,7 @@ agot_riverlands_bla.0003 = {
 			scope:riverlands_hedge_knight_bla = {
 				add_opinion = {
 					target = root
-					modifier = fear_opinion
+					modifier = scared_opinion
 					opinion = 15
 				}
 			}
@@ -794,7 +794,7 @@ agot_riverlands_bla.0003 = {
 			scope:riverlands_hedge_knight_bla = {
 				add_opinion = {
 					target = root
-					modifier = fear_opinion
+					modifier = scared_opinion
 					opinion = 15
 				}
 			}
@@ -859,7 +859,7 @@ agot_riverlands_bla.0003 = {
 			scope:riverlands_hedge_knight_bla = {
 				add_opinion = {
 					target = root
-					modifier = fear_opinion
+					modifier = scared_opinion
 					opinion = 15
 				}
 			}
@@ -2642,9 +2642,6 @@ agot_riverlands_bla.0013 = {
 
 				root = {
 					add_courtier = scope:crossroads_hedge_knight
-				}
-				scope:crossroads_hedge_knight = {
-					set_employer = root
 				}
 
 				add_prestige = 75

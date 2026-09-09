@@ -920,8 +920,9 @@ agot_crownlands_bla.0304 = {
 		add_diplomacy_lifestyle_xp = 200
 		add_prestige = 75
 
-		scope:darklyn_white_cloak_candidate_bla = {
-			save_scope_as = darklyn_white_cloak_candidate_bla
+		set_variable = {
+			name = darklyn_white_cloak_candidate_bla
+			value = scope:darklyn_white_cloak_candidate_bla
 		}
 
 		scope:darklyn_white_cloak_candidate_bla = {
@@ -942,8 +943,6 @@ agot_crownlands_bla.0304 = {
 			add_diplomacy_lifestyle_xp = 150
 			add_piety = 75
 		}
-
-		add_character_flag = agot_darklyn_white_cloak_candidate_choice_bla
 
 		trigger_event = {
 			id = agot_crownlands_bla.0305
@@ -1056,7 +1055,20 @@ agot_crownlands_bla.0305 = {
 		animation = personality_honorable
 	}
 
+	trigger = {
+		exists = var:darklyn_white_cloak_candidate_bla
+
+		var:darklyn_white_cloak_candidate_bla = {
+			is_alive = yes
+		}
+	}
+
 	immediate = {
+
+		var:darklyn_white_cloak_candidate_bla = {
+			save_scope_as = darklyn_white_cloak_candidate_bla
+		}
+	
 		random_list = {
 			50 = {
 				add_character_flag = agot_darklyn_white_cloak_answer_service_bla
@@ -1116,6 +1128,8 @@ agot_crownlands_bla.0305 = {
 	after = {
 		remove_character_flag = agot_darklyn_white_cloak_answer_service_bla
 		remove_character_flag = agot_darklyn_white_cloak_answer_home_bla
+
+		remove_variable = darklyn_white_cloak_candidate_bla
 	}
 }
 
@@ -2035,8 +2049,6 @@ agot_crownlands_bla.0309 = {
 
 		add_intrigue_lifestyle_xp = 250
 		add_prestige = 75
-
-		add_character_flag = agot_darklyn_history_sealed_bla
 	}
 }
 
@@ -3235,7 +3247,7 @@ agot_crownlands_bla.0316 = {
 		scope:duskendale_holder_bla = {
 			add_opinion = {
 				target = root
-				modifier = claimant_opinion
+				modifier = agot_darklyn_duskendale_claimant_opinion_bla
 				opinion = -25
 			}
 		}
@@ -3493,7 +3505,7 @@ agot_crownlands_bla.0318 = {
 		scope:duskendale_current_holder_bla = {
 			add_opinion = {
 				target = root
-				modifier = offended_opinion
+				modifier = agot_darklyn_mocked_rule_opinion_bla
 				opinion = -20
 			}
 		}
@@ -3840,8 +3852,6 @@ agot_crownlands_bla.0319 = {
 			add_dynasty_prestige = 250
 		}
 
-		add_character_flag = agot_darklyn_duchy_recovered_bla
-
 		trigger_event = {
 			id = agot_crownlands_bla.0320
 			days = { 5 10 }
@@ -3910,10 +3920,6 @@ agot_crownlands_bla.0320 = {
 		NOT = {
 			has_character_flag = agot_darklyn_restoration_completed_bla
 		}
-	}
-
-	immediate = {
-		add_character_flag = agot_darklyn_duchy_recovered_bla
 	}
 
 	############################################
@@ -4184,7 +4190,6 @@ agot_crownlands_bla.0321 = {
 			add_stewardship_lifestyle_xp = 100
 		}
 
-		add_character_flag = agot_darklyn_second_age_duskendale_first_bla
 	}
 
 	############################################
@@ -5122,7 +5127,6 @@ agot_crownlands_bla.0355 = {
 			add_dynasty_prestige = 300
 		}
 
-		add_character_flag = agot_darklyn_duskfall_forged_bla
 		add_character_flag = agot_darklyn_changing_blades_reborn_bla
 		add_character_flag = agot_darklyn_valyrian_blade_completed_bla
 	

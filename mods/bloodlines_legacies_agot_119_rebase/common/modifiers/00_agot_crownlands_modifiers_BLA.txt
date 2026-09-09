@@ -510,6 +510,10 @@ agot_celtigar_household_precedents_bla = {
 	stewardship = 1
 }
 
+agot_celtigar_false_accusation_opinion_bla = {
+	icon = diplomacy_negative
+}
+
 # =========================================================
 # House Crabb Modifiers
 # =========================================================
@@ -894,6 +898,14 @@ agot_darklyn_second_age_remembers_the_branch_bla = {
 	dynasty_opinion = 5
 	monthly_prestige = 0.20
 	legitimacy_gain_mult = 0.05
+}
+
+agot_darklyn_duskendale_claimant_opinion_bla = {
+	icon = diplomacy_negative
+}
+
+agot_darklyn_mocked_rule_opinion_bla = {
+	icon = diplomacy_negative
 }
 
 # =========================================================
@@ -1401,8 +1413,8 @@ agot_velaryon_late_pirate_response_bla = {
 
 agot_velaryon_preserved_old_driftmark_bla = {
 	icon = learning_positive
-	monthly_dynasty_prestige_mult = 0.05
 	county_opinion_add = 5
+	development_growth_factor = 0.05
 }
 
 agot_velaryon_new_driftmark_bla = {
@@ -1512,8 +1524,8 @@ agot_velaryon_court_of_the_tides_bla = {
 
 agot_velaryon_hightide_old_glory_bla = {
 	icon = prestige_positive
-	build_speed = -0.05
-	monthly_prestige = 0.25
+	build_speed = 0.10
+	development_growth_factor = 0.05
 }
 
 agot_velaryon_hightide_fortification_works_bla = {

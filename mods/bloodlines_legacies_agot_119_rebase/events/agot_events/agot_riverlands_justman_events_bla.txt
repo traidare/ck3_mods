@@ -20,7 +20,7 @@ agot_riverlands_bla.1000 = {
 
 			18 = {
 				trigger = {
-					NOT = { has_character_flag = justman_recent_crown_beneath_mud_bla }
+					NOT = { has_character_flag = justman_recent_relic_beneath_mud_bla }
 				}
 				trigger_event = agot_riverlands_bla.1001
 			}

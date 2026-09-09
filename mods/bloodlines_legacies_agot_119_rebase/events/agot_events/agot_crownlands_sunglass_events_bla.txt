@@ -313,7 +313,7 @@ agot_crownlands_bla.0703 = {
 
 	left_portrait = {
 		character = root
-		animation = personality_suspicious
+		animation = personality_cynical
 	}
 
 	trigger = {
@@ -431,8 +431,11 @@ agot_crownlands_bla.0704 = {
 		name = agot_crownlands_bla.0704.a
 
 		add_piety = 200
-		dynasty ?= { add_dynasty_prestige = 100 }
 		add_learning_lifestyle_xp = 175
+
+		dynasty = {
+			add_dynasty_prestige = 100
+		}
 
 		add_character_modifier = {
 			modifier = agot_sunglass_light_of_the_seven_bla
@@ -444,8 +447,11 @@ agot_crownlands_bla.0704 = {
 		name = agot_crownlands_bla.0704.b
 
 		add_prestige = 175
-		dynasty ?= { add_dynasty_prestige = 100 }
 		add_martial_lifestyle_xp = 150
+
+		dynasty = {
+			add_dynasty_prestige = 100
+		}
 
 		add_character_modifier = {
 			modifier = agot_sunglass_guardians_of_the_sound_bla
@@ -457,7 +463,10 @@ agot_crownlands_bla.0704 = {
 		name = agot_crownlands_bla.0704.c
 
 		add_stewardship_lifestyle_xp = 175
-		dynasty ?= { add_dynasty_prestige = 75 }
+		
+		dynasty = {
+			add_dynasty_prestige = 75
+		}
 
 		add_character_modifier = {
 			modifier = agot_sunglass_sweetport_prosperity_bla

@@ -37,6 +37,18 @@ claimant_opinion = {
 	stacking = yes
 }
 
+# Declared upstream as static modifiers, but add_opinion reads this database.
+# Their call sites pass explicit values, so these only need to exist as keys.
+agot_darklyn_duskendale_claimant_opinion_bla = {
+	opinion = 0
+	stacking = yes
+}
+
+agot_darklyn_mocked_rule_opinion_bla = {
+	opinion = 0
+	stacking = yes
+}
+
 intimidated_opinion = {
 	opinion = 0
 	stacking = yes
