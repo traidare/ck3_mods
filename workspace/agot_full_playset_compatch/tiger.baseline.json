@@ -4,9 +4,113 @@
     {
       "severity": "error",
       "code": "strict-scopes",
+      "message": "scope:activity might not be available here",
+      "source": "AGOT",
+      "file": "events/activities/activity_system_events.txt",
+      "count": 2
+    },
+    {
+      "severity": "error",
+      "code": "strict-scopes",
+      "message": "scope:new_holder might not be available here",
+      "source": "AGOT",
+      "file": "events/activities/activity_system_events.txt",
+      "count": 1
+    },
+    {
+      "severity": "error",
+      "code": "strict-scopes",
+      "message": "scope:new_host might not be available here",
+      "source": "AGOT",
+      "file": "events/activities/activity_system_events.txt",
+      "count": 1
+    },
+    {
+      "severity": "error",
+      "code": "strict-scopes",
       "message": "scope:faction_leader might not be available here",
       "source": "AGOT",
       "file": "events/activities/coronation_activity/prelude_events.txt",
+      "count": 1
+    },
+    {
+      "severity": "error",
+      "code": "strict-scopes",
+      "message": "scope:activity might not be available here",
+      "source": "AGOT",
+      "file": "events/activities/tour_activity/tour_travel_events.txt",
+      "count": 1
+    },
+    {
+      "severity": "error",
+      "code": "strict-scopes",
+      "message": "scope:sharer might not be available here",
+      "source": "AGOT",
+      "file": "events/agot_events/agot_bastard_events.txt",
+      "count": 1
+    },
+    {
+      "severity": "error",
+      "code": "strict-scopes",
+      "message": "scope:story might not be available here",
+      "source": "AGOT",
+      "file": "events/agot_events/agot_bastard_events.txt",
+      "count": 1
+    },
+    {
+      "severity": "error",
+      "code": "strict-scopes",
+      "message": "scope:newly_created_artifact might not be available here",
+      "source": "AGOT",
+      "file": "events/agot_filler/00_agot_lys_filler_events.txt",
+      "count": 2
+    },
+    {
+      "severity": "error",
+      "code": "strict-scopes",
+      "message": "scope:victim might not be available here",
+      "source": "AGOT",
+      "file": "events/dlc/ep2/wedding_events/ep2_wedding_events.txt",
+      "count": 1
+    },
+    {
+      "severity": "error",
+      "code": "strict-scopes",
+      "message": "scope:new_governor might not be available here",
+      "source": "AGOT",
+      "file": "events/dlc/ep3/ep3_decisions_events.txt",
+      "count": 1
+    },
+    {
+      "severity": "error",
+      "code": "strict-scopes",
+      "message": "scope:CHANGE_ME might not be available here",
+      "source": "AGOT",
+      "file": "events/dlc/ep3/ep3_laamp_flavour_ewan_events.txt",
+      "count": 1
+    },
+    {
+      "severity": "error",
+      "code": "strict-scopes",
+      "message": "scope:councillor_liege might not be available here",
+      "source": "AGOT",
+      "file": "events/dlc/ep3/ep3_travel_events_3.txt",
+      "count": 1
+    },
+    {
+      "severity": "error",
+      "code": "strict-scopes",
+      "message": "scope:deceased_mandala_ruler might not be available here",
+      "source": "AGOT",
+      "file": "events/dlc/tgp/tgp_mandala_events.txt",
+      "count": 1
+    },
+    {
+      "severity": "error",
+      "code": "strict-scopes",
+      "message": "scope:siege_army might not be available here",
+      "source": "AGOT",
+      "file": "events/travel_events/travel_danger_events_joe.txt",
       "count": 1
     },
     {
@@ -31,6 +135,22 @@
       "message": "scope:hof might not be available here",
       "source": "CK3",
       "file": "events/dlc/ach/ach_maintenance_events.txt",
+      "count": 1
+    },
+    {
+      "severity": "error",
+      "code": "strict-scopes",
+      "message": "scope:entourage_1 might not be available here",
+      "source": "CK3",
+      "file": "events/dlc/ep2/wedding_events/ep2_bloody_wedding_events.txt",
+      "count": 1
+    },
+    {
+      "severity": "error",
+      "code": "strict-scopes",
+      "message": "scope:entourage_2 might not be available here",
+      "source": "CK3",
+      "file": "events/dlc/ep2/wedding_events/ep2_bloody_wedding_events.txt",
       "count": 1
     },
     {
@@ -184,6 +304,14 @@
       "source": "MOD",
       "file": "common/scripted_effects/07_dlc_ep3_scripted_effects.txt",
       "count": 4
+    },
+    {
+      "severity": "error",
+      "code": "unknown-field",
+      "message": "unknown field `owner_modifier_description`",
+      "source": "MOD",
+      "file": "common/travel/travel_options/travel_options.txt",
+      "count": 1
     },
     {
       "severity": "error",
@@ -435,6 +563,14 @@
     },
     {
       "severity": "warning",
+      "code": "scopes",
+      "message": "`dynasty` produces dynasty but expected landed title",
+      "source": "AGOT",
+      "file": "common/scripted_effects/00_decisions_effects.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
       "code": "missing-localization",
       "message": "missing spanish localization key contest_winner_ceremony_knighthood_tt",
       "source": "AGOT",
@@ -519,6 +655,14 @@
       "message": "`create_coronation_artifact_effect` expects scope:story to be set",
       "source": "AGOT",
       "file": "events/activities/coronation_activity/prelude_events.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "strict-scopes",
+      "message": "`is_of_major_interest_trigger` expects scope:root to be set",
+      "source": "AGOT",
+      "file": "events/activities/hunt_activity/hunt_events.txt",
       "count": 1
     },
     {
@@ -628,6 +772,94 @@
     {
       "severity": "warning",
       "code": "strict-scopes",
+      "message": "`agot_filler_lys_0033_artifact_scripted_effect` expects scope:location to be set",
+      "source": "AGOT",
+      "file": "events/agot_filler/00_agot_lys_filler_events.txt",
+      "count": 3
+    },
+    {
+      "severity": "warning",
+      "code": "strict-scopes",
+      "message": "`agot_filler_lys_0034_artifact_scripted_effect` expects scope:story to be set",
+      "source": "AGOT",
+      "file": "events/agot_filler/00_agot_lys_filler_events.txt",
+      "count": 3
+    },
+    {
+      "severity": "warning",
+      "code": "strict-scopes",
+      "message": "`agot_filler_lys_0035_artifact_scripted_effect` expects scope:location to be set",
+      "source": "AGOT",
+      "file": "events/agot_filler/00_agot_lys_filler_events.txt",
+      "count": 3
+    },
+    {
+      "severity": "warning",
+      "code": "strict-scopes",
+      "message": "`agot_filler_lys_0041_artifact_scripted_effect` expects scope:story to be set",
+      "source": "AGOT",
+      "file": "events/agot_filler/00_agot_lys_filler_events.txt",
+      "count": 3
+    },
+    {
+      "severity": "warning",
+      "code": "strict-scopes",
+      "message": "`agot_filler_lys_0042_artifact_scripted_effect_armor` expects scope:location to be set",
+      "source": "AGOT",
+      "file": "events/agot_filler/00_agot_lys_filler_events.txt",
+      "count": 2
+    },
+    {
+      "severity": "warning",
+      "code": "strict-scopes",
+      "message": "`agot_filler_lys_0042_artifact_scripted_effect_weapon` expects scope:artifact to be set",
+      "source": "AGOT",
+      "file": "events/agot_filler/00_agot_lys_filler_events.txt",
+      "count": 2
+    },
+    {
+      "severity": "warning",
+      "code": "strict-scopes",
+      "message": "`agot_filler_lys_0042_artifact_scripted_effect_weapon` expects scope:location to be set",
+      "source": "AGOT",
+      "file": "events/agot_filler/00_agot_lys_filler_events.txt",
+      "count": 2
+    },
+    {
+      "severity": "warning",
+      "code": "strict-scopes",
+      "message": "`activity_wedding_diplomatic_intent_impressible_target` expects scope:actor to be set",
+      "source": "AGOT",
+      "file": "events/dlc/ep2/wedding_events/ep2_wedding_events.txt",
+      "count": 3
+    },
+    {
+      "severity": "warning",
+      "code": "strict-scopes",
+      "message": "`activity_wedding_diplomatic_intent_impressible_target` expects scope:recipient to be set",
+      "source": "AGOT",
+      "file": "events/dlc/ep2/wedding_events/ep2_wedding_events.txt",
+      "count": 3
+    },
+    {
+      "severity": "warning",
+      "code": "strict-scopes",
+      "message": "`known_murder_effect` expects scope:secret to be set",
+      "source": "AGOT",
+      "file": "events/dlc/ep2/wedding_events/ep2_wedding_events.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "strict-scopes",
+      "message": "`scheme_progress_gain` expects scope:scheme to be set",
+      "source": "AGOT",
+      "file": "events/dlc/ep2/wedding_events/ep2_wedding_events.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "strict-scopes",
       "message": "`ep3_become_landed_transfer_effect` expects scope:defender to be set",
       "source": "AGOT",
       "file": "events/dlc/ep3/ep3_decisions_events.txt",
@@ -652,6 +884,14 @@
     {
       "severity": "warning",
       "code": "strict-scopes",
+      "message": "`apply_privation_event_cooldown_effect` expects scope:host to be set",
+      "source": "AGOT",
+      "file": "events/dlc/ep3/ep3_laamps_provisions.txt",
+      "count": 9
+    },
+    {
+      "severity": "warning",
+      "code": "strict-scopes",
       "message": "`create_landless_adventurer_title_effect` expects scope:host to be set",
       "source": "AGOT",
       "file": "events/dlc/ep3/ep3_story_cycle_grand_ambitions_events.txt",
@@ -668,6 +908,38 @@
     {
       "severity": "warning",
       "code": "strict-scopes",
+      "message": "`create_artifact_armor_effect` expects scope:location to be set",
+      "source": "AGOT",
+      "file": "events/dlc/mpo/mpo_migration_events.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "strict-scopes",
+      "message": "`create_artifact_bow_effect` expects scope:location to be set",
+      "source": "AGOT",
+      "file": "events/dlc/mpo/mpo_migration_events.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "strict-scopes",
+      "message": "`create_artifact_necklace_effect` expects scope:location to be set",
+      "source": "AGOT",
+      "file": "events/dlc/mpo/mpo_migration_events.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "strict-scopes",
+      "message": "`create_artifact_weapon_effect` expects scope:artifact to be set",
+      "source": "AGOT",
+      "file": "events/dlc/mpo/mpo_migration_events.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "strict-scopes",
       "message": "`tgp_japan_soryo_eradicate_cb_heir_go_to_savior` expects scope:host to be set",
       "source": "AGOT",
       "file": "events/dlc/tgp/tgp_japan_general_events.txt",
@@ -680,6 +952,30 @@
       "source": "AGOT",
       "file": "events/dlc/tgp/tgp_japan_general_events.txt",
       "count": 2
+    },
+    {
+      "severity": "warning",
+      "code": "strict-scopes",
+      "message": "`runaway_lost_effect` expects scope:previous_holder to be set",
+      "source": "AGOT",
+      "file": "events/travel_events/travel_danger_events_arky.txt",
+      "count": 3
+    },
+    {
+      "severity": "warning",
+      "code": "strict-scopes",
+      "message": "`runaway_lost_effect` expects scope:title to be set",
+      "source": "AGOT",
+      "file": "events/travel_events/travel_danger_events_arky.txt",
+      "count": 3
+    },
+    {
+      "severity": "warning",
+      "code": "missing-localization",
+      "message": "missing spanish localization key agot_dragon_in_dragonpit",
+      "source": "AGOT More Dragon Eggs - Fix for AGOT 0.5.2.1",
+      "file": "common/scripted_effects/00_agot_dragonpit_effects.txt",
+      "count": 6
     },
     {
       "severity": "warning",
@@ -947,6 +1243,38 @@
     },
     {
       "severity": "warning",
+      "code": "scopes",
+      "message": "`every_entourage_character` is for travel plan but scope seems to be character",
+      "source": "LoV AGOT 0.5.2.1 bridge",
+      "file": "events/agot_events/agot_danger_events.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "strict-scopes",
+      "message": "`hunt_animal_slayer_memory_effect` expects scope:activity to be set",
+      "source": "LoV AGOT 0.5.2.1 bridge",
+      "file": "events/agot_events/agot_danger_events.txt",
+      "count": 2
+    },
+    {
+      "severity": "warning",
+      "code": "strict-scopes",
+      "message": "`hunt_animal_slayer_memory_effect` expects scope:animal_slayer to be set",
+      "source": "LoV AGOT 0.5.2.1 bridge",
+      "file": "events/agot_events/agot_danger_events.txt",
+      "count": 2
+    },
+    {
+      "severity": "warning",
+      "code": "strict-scopes",
+      "message": "`hunt_animal_slayer_memory_effect` expects scope:host to be set",
+      "source": "LoV AGOT 0.5.2.1 bridge",
+      "file": "events/agot_events/agot_danger_events.txt",
+      "count": 2
+    },
+    {
+      "severity": "warning",
       "code": "strict-scopes",
       "message": "`create_landless_adventurer_title_effect` expects scope:host to be set",
       "source": "LoV AGOT 0.5.2.1 bridge",
@@ -975,6 +1303,22 @@
       "message": "`create_landless_adventurer_title_effect` expects scope:host to be set",
       "source": "LoV AGOT 0.5.2.1 bridge",
       "file": "events/dlc/ep3/ep3_contract_events.txt",
+      "count": 2
+    },
+    {
+      "severity": "warning",
+      "code": "strict-scopes",
+      "message": "`create_artifact_book_effect` expects scope:story to be set",
+      "source": "LoV AGOT 0.5.2.1 bridge",
+      "file": "events/travel_events/travel_events_oltner_2.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "strict-scopes",
+      "message": "`create_artifact_weapon_effect` expects scope:artifact to be set",
+      "source": "LoV AGOT 0.5.2.1 bridge",
+      "file": "events/travel_events/travel_events_oltner_2.txt",
       "count": 2
     },
     {
@@ -1175,7 +1519,7 @@
       "message": "missing spanish localization key MFA_option_wait_time",
       "source": "MOD",
       "file": "common/activities/activity_types/agot_dragon_hatching.txt",
-      "count": 3
+      "count": 4
     },
     {
       "severity": "warning",
@@ -1183,7 +1527,7 @@
       "message": "missing spanish localization key MFA_wait_time_set_via_decision_tt",
       "source": "MOD",
       "file": "common/activities/activity_types/agot_dragon_hatching.txt",
-      "count": 15
+      "count": 20
     },
     {
       "severity": "warning",
@@ -1655,7 +1999,7 @@
       "message": "missing english and spanish localization key special_type",
       "source": "MOD",
       "file": "common/activities/activity_types/coronation.txt",
-      "count": 1
+      "count": 2
     },
     {
       "severity": "warning",
@@ -1679,7 +2023,7 @@
       "message": "missing spanish localization key MFA_wait_1_month",
       "source": "MOD",
       "file": "common/activities/activity_types/coronation.txt",
-      "count": 1
+      "count": 2
     },
     {
       "severity": "warning",
@@ -1687,7 +2031,7 @@
       "message": "missing spanish localization key MFA_wait_1_month_desc",
       "source": "MOD",
       "file": "common/activities/activity_types/coronation.txt",
-      "count": 1
+      "count": 2
     },
     {
       "severity": "warning",
@@ -1695,7 +2039,7 @@
       "message": "missing spanish localization key MFA_wait_1_week",
       "source": "MOD",
       "file": "common/activities/activity_types/coronation.txt",
-      "count": 1
+      "count": 2
     },
     {
       "severity": "warning",
@@ -1703,7 +2047,7 @@
       "message": "missing spanish localization key MFA_wait_1_week_desc",
       "source": "MOD",
       "file": "common/activities/activity_types/coronation.txt",
-      "count": 1
+      "count": 2
     },
     {
       "severity": "warning",
@@ -1711,7 +2055,7 @@
       "message": "missing spanish localization key MFA_wait_2_months",
       "source": "MOD",
       "file": "common/activities/activity_types/coronation.txt",
-      "count": 1
+      "count": 2
     },
     {
       "severity": "warning",
@@ -1719,7 +2063,7 @@
       "message": "missing spanish localization key MFA_wait_2_months_desc",
       "source": "MOD",
       "file": "common/activities/activity_types/coronation.txt",
-      "count": 1
+      "count": 2
     },
     {
       "severity": "warning",
@@ -1727,7 +2071,7 @@
       "message": "missing spanish localization key MFA_wait_4_months",
       "source": "MOD",
       "file": "common/activities/activity_types/coronation.txt",
-      "count": 1
+      "count": 2
     },
     {
       "severity": "warning",
@@ -1735,7 +2079,7 @@
       "message": "missing spanish localization key MFA_wait_4_months_desc",
       "source": "MOD",
       "file": "common/activities/activity_types/coronation.txt",
-      "count": 1
+      "count": 2
     },
     {
       "severity": "warning",
@@ -1907,6 +2251,70 @@
     },
     {
       "severity": "warning",
+      "code": "missing-localization",
+      "message": "missing english and spanish localization key activity_wedding_name",
+      "source": "MOD",
+      "file": "common/activities/activity_types/wedding.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "missing-localization",
+      "message": "missing english and spanish localization key activity_wedding_owner",
+      "source": "MOD",
+      "file": "common/activities/activity_types/wedding.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "missing-localization",
+      "message": "missing spanish localization key MFA_wedding_wait_vanilla",
+      "source": "MOD",
+      "file": "common/activities/activity_types/wedding.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "missing-localization",
+      "message": "missing spanish localization key MFA_wedding_wait_vanilla_desc",
+      "source": "MOD",
+      "file": "common/activities/activity_types/wedding.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "missing-localization",
+      "message": "missing spanish localization key province_desc_holy_site_great_sept_01",
+      "source": "MOD",
+      "file": "common/activities/activity_types/wedding.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "missing-localization",
+      "message": "missing spanish localization key province_desc_holy_site_starry_sept_01",
+      "source": "MOD",
+      "file": "common/activities/activity_types/wedding.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "scopes",
+      "message": "`special_guest:spouse_1` produces character but expected activity",
+      "source": "MOD",
+      "file": "common/activities/activity_types/wedding.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "scopes",
+      "message": "`special_guest:spouse_2` produces character but expected activity",
+      "source": "MOD",
+      "file": "common/activities/activity_types/wedding.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
       "code": "duplicate-item",
       "message": "scripted effect is redefined by another scripted effect",
       "source": "MOD",
@@ -1935,6 +2343,22 @@
       "message": "`ep3_become_landed_transfer_effect` expects scope:target to be landed title but scope:target seems to be character",
       "source": "MOD",
       "file": "common/scripted_effects/07_dlc_ep3_scripted_effects.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "missing-localization",
+      "message": "missing spanish localization key dragon_flight_option",
+      "source": "MOD",
+      "file": "common/travel/travel_options/agot_travel_options.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "missing-localization",
+      "message": "missing spanish localization key maester_option_tt",
+      "source": "MOD",
+      "file": "common/travel/travel_options/travel_options.txt",
       "count": 1
     },
     {

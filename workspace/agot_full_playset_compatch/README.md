@@ -8,6 +8,10 @@ The final integration layer of the AGOT playset. Load position: last, after
 Whole-file merges of paths that several parents genuinely contest:
 
 - MFA timing with LoV's coronation, tournament, and dragon-hatching changes;
+- Travelers' AGOT travel wrappers and imprisonment checks with the LoV bridge's
+  optional-scope and restored-Valyria travel behavior;
+- A Living Westeros' wedding backgrounds and guest-right rules with MFA timing,
+  LoV's optional scopes, and the Long Night's dead-character exclusion;
 - the final temporary More Dragon Eggs + LoV hatching activity;
 - LoV tournament guards, MFA's cooldown, and CaFG's granular county-faith
   conversion in `contest_events.txt` — a superset of the two-file
@@ -58,6 +62,40 @@ filter in both activity variants and pins the two source sites.
 The LoV parent is `lov-agot-bridge` for every file it contributes, including
 `contest_events.txt`, where it carries the tournament summary guards that keep
 an unset `last_versus_match` out of a comparison.
+
+`wedding.txt` uses A Living Westeros' current AGOT-derived file as one parent
+and applies MFA's timing delta over it. MFA's copy restores two vanilla
+`terrain = farmlands` tests, so the generator first restores AGOT's
+`agot_is_farmlands_terrain` abstraction at both sites. It then asserts the MFA
+wait-time option and four relay families, all three Living Westeros ceremony
+backgrounds, and every AGOT farmlands predicate.
+
+## Travel and activity-guest merges
+
+Travelers AGOT Compatibility owns AGOT's three travel interface files after
+Travelers. The LoV bridge would otherwise replace two of them later in the
+playset. The generated `travel_on_actions.txt` keeps Travelers' seven wrapper
+on-actions, prison checks, same-location entourage filters, and caravan-master
+modifier lifecycle while applying LoV's optional scopes and restored-Valyria
+danger gate. The two parents make eight equivalent scope edits with different
+comments; the generator normalizes those lines and pins the one overlapping
+caravan-master resolution before merging.
+
+The generated `travel_options.txt` keeps every Travelers option and replaces
+only `hire_experienced_mercenaries_option` with the LoV version plus Travelers'
+prison and leader-availability checks. `agot_travel_options.txt` starts from
+current AGOT, retaining the sailing-activity exclusion that the Travelers patch
+predates, then adds its prison guard. AGOT's inherited
+`owner_modifier_description` field is not documented for travel options and is
+recorded in the Tiger baseline while this module is the effective file owner.
+
+Three parents redefine `can_be_activity_guest`, and only the last filename is
+effective. `zzz_agot_playset_can_be_activity_guest.txt` starts from the LoV
+bridge's current AGOT rule, adds the Long Night's dead-character exclusion, and
+appends A Living Westeros' denied-house and guest-right-breaker clauses. The
+generator asserts that the Long Night still differs from AGOT only by its dead
+test and optional host scope, and that Living Westeros still differs only by its
+two final clauses.
 
 Beyond those merges the generated layer owns eight cross-parent whole-file
 overrides: the seasonal, title-name, dragon-on-action, and EP3 landing
@@ -296,12 +334,13 @@ ck3mm mod generate agot_full_playset_compatch --apply
 The `mod.toml` manifest regenerates the owned outputs from the declared AGOT,
 New Personality Events, NOW, Seasons-fork, More Dragon Eggs fix, dragon-mod,
 MFA, CaFG, Iron and Salt, Dynamic Family Portrait, LoV, the LoV bridge, Essos
-Expanded, Long Night, Great Councils, and vanilla sources. LoV and Essos
-Expanded are read only for their landed titles, which the seasonal-region prune
-above resolves membership against. It also declares the Additional Models,
-AMSB/LoV compatch, and the two disabled mods — the COW-AGOT/NOW compatch and the
-LoV AGOT compatch beta — that back the assertions and merges above. Its portable
-source metadata lives here, outside the installed runtime payload.
+Expanded, Long Night, Great Councils, Travelers, Travelers AGOT Compatibility, A
+Living Westeros, and vanilla sources. LoV and Essos Expanded are read only for
+their landed titles, which the seasonal-region prune above resolves membership
+against. It also declares the Additional Models, AMSB/LoV compatch, and the two
+disabled mods — the COW-AGOT/NOW compatch and the LoV AGOT compatch beta — that
+back the assertions and merges above. Its portable source metadata lives here,
+outside the installed runtime payload.
 
 ## Re-audit
 
@@ -309,5 +348,9 @@ Re-audit whenever any merged parent updates — in particular AGOT or New
 Personality Events' tenth-birthday on-actions, NOW, the Seasons-of-Valyria
 Workshop fork, the More Dragon Eggs fix (`3788885215`), the final temporary LoV
 bridges, LoV, MFA, COW, CaFG, Iron and Salt, Dynamic Family Portrait, or Great
-Councils, and the Long Night's diarch rule. Remove the canon-dragon birthday
-bridge if the effective parent restores AGOT's dispatch itself.
+Councils, Travelers, Travelers AGOT Compatibility, A Living Westeros, and the
+Long Night's diarch or activity-guest rules. Remove the canon-dragon birthday
+bridge if the effective parent restores AGOT's dispatch itself. Drop the three
+travel overrides if a maintained upstream compatch incorporates LoV's guards;
+drop the wedding or activity-guest override if its parent integrations become
+native upstream.

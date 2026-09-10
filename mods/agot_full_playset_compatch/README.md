@@ -36,6 +36,11 @@ genuine cross-mod overlaps that need a single deliberate winner.
 - The Long Night & Azor Ahai's rule keeping a sworn brother of the Night's Watch
   from serving as regent outside the Watch, with the Legacy of Valyria AGOT
   bridge's guard against the same rule being asked about no one at all.
+- Travelers' AGOT travel behavior with Legacy of Valyria's travel safety fixes,
+  while preserving AGOT's dragon-flight restriction during sailing activities.
+- A Living Westeros' wedding backgrounds and guest-right restrictions with Much
+  Faster Activities' wedding pace, Legacy of Valyria's safe activity scopes, and
+  the Long Night's dead-character exclusion.
 
 It also owns two cross-parent overrides of its own: the three historical Dance
 of the Dragons starts begin in autumn rather than waiting through summer, and
@@ -47,32 +52,36 @@ without a raider.
 ## Required load order
 
 `New Personality Events for Children` must be enabled after AGOT and before this
-compatch. Keep `AGOT More Dragon Eggs` followed by
-`AGOT More Dragon Eggs - Fix for AGOT 0.5.2.1`, then `AGOT expanded - Dragons`;
-the temporary More Dragon Eggs + LoV compatch stays after the LoV bridge. Keep
-the integration layers in this order:
+compatch. Keep `Travelers` immediately after AGOT and
+`Travelers AGOT Compatibility` immediately after Travelers. `Lifespan Traits`
+can remain beside the other congenital-trait mods. Keep `AGOT More Dragon Eggs`
+followed by `AGOT More Dragon Eggs - Fix for AGOT 0.5.2.1`, then
+`AGOT expanded - Dragons`; the temporary More Dragon Eggs + LoV compatch stays
+after the LoV bridge. Keep the integration layers in this order:
 
 1. `VIET - AGOT CK3 1.19 Runtime Rebase`, immediately after VIET
 2. `AGOT NOW - CK3 1.19 Rebase`, immediately after NOW
 3. `AGOT NOW-Season of Ice and Fire Compatch`, immediately after the NOW rebase
 4. `Much Faster Activities - AGOT CK3 1.19 Runtime Rebase`, immediately after
    MFA
-5. `AGOT MPD - CK3 1.19 Runtime Rebase`, immediately after AGOT MPD and before
+5. `AGOT - A Living Westeros`, after the MFA runtime rebase
+6. `AGOT Canon Wars`, after AGOT Great Councils
+7. `AGOT MPD - CK3 1.19 Runtime Rebase`, immediately after AGOT MPD and before
    the MPD + Dragon Wives compatch
-6. `Legacy of Valyria - AGOT 0.5.2.1 Compatch (Beta)`, immediately after
+8. `Legacy of Valyria - AGOT 0.5.2.1 Compatch (Beta)`, immediately after
    `Legacy of Valyria`
-7. `Essos Expanded: The Further East`, immediately after `Essos Expanded`
-8. `Seasons of Valyria - TempLoV/NOW/Seasons Compatch`
-9. `Essos Expanded - TempLoV/NOW Compatch`
-10. `AGOT NOW + Legacy of Valyria + Essos Expanded Compatch`
-11. `CK3 Naval Combat`
-12. `AGOT Iron and Salt`
-13. `Character UI Overhaul`
-14. `AGOT Playset - Character UI Overhaul Compatch`
-15. `AGOT: Canon Continuity`
-16. `AGOT: The Long Night & Azor Ahai`
-17. `AGOT: The Long Night & Azor Ahai - CK3 1.19 Runtime Fix`
-18. `AGOT: The Long Night & Azor Ahai + DFP Compatch`
-19. `AGOT - Excommunication Balance`
-20. `AGOT Playset Runtime Fixes`
-21. `AGOT Playset Compatch`
+9. `Essos Expanded: The Further East`, immediately after `Essos Expanded`
+10. `Seasons of Valyria - TempLoV/NOW/Seasons Compatch`
+11. `Essos Expanded - TempLoV/NOW Compatch`
+12. `AGOT NOW + Legacy of Valyria + Essos Expanded Compatch`
+13. `CK3 Naval Combat`
+14. `AGOT Iron and Salt`
+15. `Character UI Overhaul`
+16. `AGOT Playset - Character UI Overhaul Compatch`
+17. `AGOT: Canon Continuity`
+18. `AGOT: The Long Night & Azor Ahai`
+19. `AGOT: The Long Night & Azor Ahai - CK3 1.19 Runtime Fix`
+20. `AGOT: The Long Night & Azor Ahai + DFP Compatch`
+21. `AGOT - Excommunication Balance`
+22. `AGOT Playset Runtime Fixes`
+23. `AGOT Playset Compatch`

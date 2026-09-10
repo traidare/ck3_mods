@@ -12,8 +12,13 @@ owned_outputs = [
   "gui/map_icon_layer.gui",
   "common/scripted_triggers/zzz_agot_playset_is_human.txt",
   "common/scripted_rules/zzz_agot_playset_is_diarch_valid.txt",
+  "common/scripted_rules/zzz_agot_playset_can_be_activity_guest.txt",
+  "common/on_action/travel_on_actions.txt",
+  "common/travel/travel_options/travel_options.txt",
+  "common/travel/travel_options/agot_travel_options.txt",
   "common/activities/activity_types/tournament.txt",
   "common/activities/activity_types/coronation.txt",
+  "common/activities/activity_types/wedding.txt",
   "common/activities/activity_types/agot_dragon_hatching.txt",
   "common/scripted_effects/07_dlc_ep3_scripted_effects.txt",
   "events/activities/coronation_activity/coronation_events.txt",
@@ -127,6 +132,21 @@ item_id = "3403938445"
 name = "essos-expanded"
 kind = "workshop"
 item_id = "3682802751"
+
+[[sources]]
+name = "travelers"
+kind = "workshop"
+item_id = "3082182371"
+
+[[sources]]
+name = "travelers-agot-compatibility"
+kind = "workshop"
+item_id = "3166199552"
+
+[[sources]]
+name = "living-westeros"
+kind = "workshop"
+item_id = "3792698340"
 
 [[sources]]
 name = "vanilla"

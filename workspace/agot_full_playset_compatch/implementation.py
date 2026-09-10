@@ -32,8 +32,13 @@ GREAT_COUNCILS_TRIGGERS = Path(
 IS_DIARCH_VALID_RELATIVE = Path(
     "common/scripted_rules/zzz_agot_playset_is_diarch_valid.txt"
 )
+CAN_BE_ACTIVITY_GUEST_RELATIVE = Path(
+    "common/scripted_rules/zzz_agot_playset_can_be_activity_guest.txt"
+)
 RULES_RELATIVE = Path("common/scripted_rules/00_rules.txt")
 LONG_NIGHT_DIARCH_RULES = Path("common/scripted_rules/zz_ln_diarch_rules.txt")
+LONG_NIGHT_ACTIVITY_RULES = Path("common/scripted_rules/zz_ln_activity_rules.txt")
+LIVING_WESTEROS_RULES = Path("common/scripted_rules/zz_guest_right_rules.txt")
 LOV_DIARCH_GUARD = "this ?="
 CHAPLAIN_SUMMON_GUARD = (
     "\t\t\t\t\tcp:councillor_court_chaplain ?= {\n"
@@ -83,8 +88,14 @@ TITLE_LANGUAGES = ("english", "spanish")
 
 TOURNAMENT_RELATIVE = Path("common/activities/activity_types/tournament.txt")
 CORONATION_RELATIVE = Path("common/activities/activity_types/coronation.txt")
+WEDDING_RELATIVE = Path("common/activities/activity_types/wedding.txt")
 DRAGON_HATCHING_RELATIVE = Path(
     "common/activities/activity_types/agot_dragon_hatching.txt"
+)
+TRAVEL_ON_ACTIONS_RELATIVE = Path("common/on_action/travel_on_actions.txt")
+TRAVEL_OPTIONS_RELATIVE = Path("common/travel/travel_options/travel_options.txt")
+AGOT_TRAVEL_OPTIONS_RELATIVE = Path(
+    "common/travel/travel_options/agot_travel_options.txt"
 )
 DRAGON_HATCHING_DUD_ONLY_SELECTION = (
     "\t\t\t\t\tlimit = {\n"
@@ -142,6 +153,47 @@ MFA_VANILLA_REGRESSIONS = (
         "\t\t\t\t# \t}\n"
         "\t\t\t\t# }\n",
     ),
+)
+
+MFA_WEDDING_FARMLANDS = "\t\t\t\tterrain = farmlands\n"
+AGOT_WEDDING_FARMLANDS = (
+    "\t\t\t\t#AGOT Modified\n"
+    "\t\t\t\t# terrain = farmlands\n"
+    "\t\t\t\tagot_is_farmlands_terrain = yes\n"
+)
+
+TRAVELERS_SCOPE_COMMENT = "current_travel_plan ?= { # Travelers: Fix scope errors"
+TRAVELERS_SCOPE_NORMALIZED = "current_travel_plan ?= {"
+TRAVELERS_ON_ACTION_MARKERS = (
+    "is_imprisoned = no # Travelers",
+    "# Travelers-FF",
+    "is_at_same_location = root # Travelers",
+    "travl_travel.0002 # Travelers: Add missing entourage members",
+    "add_character_modifier = unop_prepare_travels_character_modifier",
+    "remove_character_modifier = unop_prepare_travels_character_modifier",
+)
+TRAVELERS_WRAPPED_ON_ACTIONS = (
+    "on_travel_plan_movement",
+    "on_travel_plan_arrival",
+    "on_travel_plan_start",
+    "on_travel_plan_complete",
+    "on_travel_plan_abort",
+    "on_travel_plan_cancel",
+    "on_travel_leader_removed",
+)
+LOV_TRAVEL_MARKERS = (
+    "lv_valyria_subregion_restored = yes",
+    "save_temporary_scope_as = temp_travel_current_location",
+    "target = scope:temp_travel_current_location",
+    "province = scope:temp_travel_current_location",
+)
+TRAVELERS_OPTION_AVAILABILITY = "is_available_at_peace_ai_adult = yes # Travelers"
+LIVING_WESTEROS_GUEST_MARKERS = (
+    "guest_right_denied_houses",
+    "guest_right_breaker_modifier",
+    "guest_right_captor_modifier",
+    "guest_right_breaker_lenient_modifier",
+    "guest_right_captor_lenient_modifier",
 )
 
 HOLY_SITE_HOLDER_GUARD = (
@@ -1124,6 +1176,291 @@ def indented_block(text: str, name: str, *, label: str) -> str:
     return text[start:end]
 
 
+def indented_blocks(text: str, name: str) -> list[str]:
+    """Return every top-level nested block with `name` from one definition."""
+    blocks = []
+    for match in re.finditer(rf"(?m)^\t{re.escape(name)}\s*=\s*\{{", text):
+        start = match.start()
+        end = matching_brace(text, text.find("{", start)) + 1
+        blocks.append(text[start:end])
+    return blocks
+
+
+def block_after_marker(text: str, marker: str, *, label: str) -> str:
+    """Return the first script block after a unique comment or marker line."""
+    if text.count(marker) != 1:
+        raise AssertionError(
+            f"{label}: expected one {marker!r} marker, found {text.count(marker)}"
+        )
+    marker_at = text.index(marker) + len(marker)
+    match = re.search(r"(?m)^[ \t]*if\s*=\s*\{", text[marker_at:])
+    if match is None:
+        raise AssertionError(f"{label}: no if block follows {marker!r}")
+    start = marker_at + match.start()
+    end = matching_brace(text, text.find("{", start)) + 1
+    return text[start:end]
+
+
+def generate_travel_on_actions(agot: str, travelers: str, lov: str) -> str:
+    """Keep Travelers' wrappers and guards together with LoV's safe scopes."""
+    label = "travel_on_actions.txt"
+    scope_comments = travelers.count(TRAVELERS_SCOPE_COMMENT)
+    if scope_comments != 8:
+        raise AssertionError(
+            f"{label}: expected eight Travelers scope-fix comments, found "
+            f"{scope_comments}"
+        )
+    travelers = travelers.replace(TRAVELERS_SCOPE_COMMENT, TRAVELERS_SCOPE_NORMALIZED)
+
+    # Both parents make the same seven current-travel-plan scopes optional but
+    # spell the line differently.  Travelers also replaces the eighth, the
+    # caravan-master task, with a character modifier.  Give LoV that complete
+    # replacement before the three-way merge so identical safety edits do not
+    # become textual conflicts and the superseded travel-plan modifier is not
+    # revived.
+    marker = "# Caravan Master Task"
+    agot_task = block_after_marker(agot, marker, label=f"{label} AGOT")
+    travelers_task = block_after_marker(travelers, marker, label=f"{label} Travelers")
+    lov_task = block_after_marker(lov, marker, label=f"{label} LoV")
+    if "add_travel_plan_modifier = prepare_travels_modifier" not in agot_task:
+        raise AssertionError(f"{label}: AGOT caravan-master task changed")
+    if "current_travel_plan ?=" not in lov_task:
+        raise AssertionError(f"{label}: LoV caravan-master scope guard changed")
+    if (
+        "add_character_modifier = unop_prepare_travels_character_modifier"
+        not in travelers_task
+        or "add_travel_plan_modifier = prepare_travels_modifier"
+        in script_tokens(travelers_task)
+    ):
+        raise AssertionError(f"{label}: Travelers caravan-master repair changed")
+    aligned_lov = replace_exact(
+        lov,
+        lov_task,
+        travelers_task,
+        label=f"{label} shared caravan-master resolution",
+    )
+
+    merged = merge_onto_agot(ours=travelers, base=agot, theirs=aligned_lov, label=label)
+    if top_level_definitions(merged) != top_level_definitions(travelers):
+        raise AssertionError(f"{label}: Travelers' on-action definitions changed")
+    for name in TRAVELERS_WRAPPED_ON_ACTIONS:
+        wrapper = f"{name} = {{\n\ton_actions = {{\n\t\tvanilla_{name}\n\t}}"
+        if merged.count(wrapper) != 1:
+            raise AssertionError(f"{label}: Travelers wrapper for {name} changed")
+    for needle in TRAVELERS_ON_ACTION_MARKERS:
+        if not travelers.count(needle) or merged.count(needle) != travelers.count(
+            needle
+        ):
+            raise AssertionError(f"{label}: Travelers marker {needle!r} changed")
+    for needle in LOV_TRAVEL_MARKERS:
+        if not lov.count(needle) or merged.count(needle) != lov.count(needle):
+            raise AssertionError(f"{label}: LoV marker {needle!r} changed")
+    for needle in ("current_travel_plan ?= {", "root.current_travel_plan ?= {"):
+        if merged.count(needle) < max(travelers.count(needle), lov.count(needle)):
+            raise AssertionError(f"{label}: optional scope {needle!r} was lost")
+    return merged
+
+
+def generate_travel_options(agot: str, travelers: str, lov: str) -> str:
+    """Add Travelers' availability checks to LoV's guarded mercenary option."""
+    label = "travel_options.txt"
+    option = "hire_experienced_mercenaries_option"
+    agot_option = scripted_trigger(agot, option)
+    travelers_option = scripted_trigger(travelers, option)
+    lov_option = scripted_trigger(lov, option)
+
+    travelers_base = replace_exact(
+        travelers_option,
+        "\t\tis_imprisoned = no # Travelers\n",
+        "",
+        label=f"{label} Travelers imprisonment delta",
+    )
+    travelers_base = replace_regex(
+        travelers_base,
+        r"(?m)^[ \t]*is_available_at_peace_ai_adult = yes # Travelers\n",
+        "",
+        f"{label} Travelers leader availability delta",
+        expected=2,
+    )
+    if script_tokens(travelers_base) != script_tokens(agot_option):
+        raise AssertionError(
+            f"{label}: Travelers' mercenary option is no longer AGOT plus its "
+            "three availability checks"
+        )
+
+    combined = replace_exact(
+        lov_option,
+        "\t\tis_ruler = yes\n",
+        "\t\tis_ruler = yes\n\t\tis_imprisoned = no # Travelers\n",
+        label=f"{label} imprisoned mercenary option",
+    )
+    combined = replace_regex(
+        combined,
+        r"(?m)^([ \t]*)mercenary_company_leader = \{\n(?=[ \t]*is_travelling = no$)",
+        lambda match: (
+            match.group(0)
+            + match.group(1)
+            + "\t"
+            + TRAVELERS_OPTION_AVAILABILITY
+            + "\n"
+        ),
+        f"{label} available mercenary leaders",
+        expected=2,
+    )
+    if combined.count(TRAVELERS_OPTION_AVAILABILITY) != 2:
+        raise AssertionError(f"{label}: Travelers mercenary guards changed")
+    for needle in (
+        "limit = { mercenary_company_leader ?= { always = yes } }",
+        "limit = { exists = scope:mercenary_leader }",
+    ):
+        if combined.count(needle) != lov_option.count(needle) or not lov_option.count(
+            needle
+        ):
+            raise AssertionError(f"{label}: LoV mercenary guard {needle!r} changed")
+
+    merged = replace_exact(
+        travelers,
+        travelers_option,
+        combined,
+        label=f"{label} merged mercenary option",
+    )
+    for needle in (
+        "is_imprisoned = no # Travelers",
+        TRAVELERS_OPTION_AVAILABILITY,
+        "limit = { mercenary_company_leader ?= { always = yes } }",
+        "limit = { exists = scope:mercenary_leader }",
+    ):
+        if needle not in merged:
+            raise AssertionError(f"{label}: merged output lost {needle!r}")
+    return merged
+
+
+def generate_agot_travel_options(agot: str, travelers: str) -> str:
+    """Keep AGOT's sailing exclusion while adding Travelers' prison guard."""
+    label = "agot_travel_options.txt"
+    option = "dragon_flight_option"
+    agot_option = scripted_trigger(agot, option)
+    travelers_option = scripted_trigger(travelers, option)
+    agot_shown = indented_block(agot_option, "is_shown", label=label)
+    travelers_shown = indented_block(
+        travelers_option, "is_shown", label=f"{label} Travelers"
+    )
+    if (
+        "activity_agot_sailing" not in agot_shown
+        or "activity_agot_sailing" in travelers_shown
+    ):
+        raise AssertionError(
+            f"{label}: expected stale Travelers sailing override changed"
+        )
+    if travelers_shown.count("is_imprisoned = no # Travelers") != 1:
+        raise AssertionError(f"{label}: Travelers imprisonment guard changed")
+    if script_tokens(agot_option.replace(agot_shown, "", 1)) != script_tokens(
+        travelers_option.replace(travelers_shown, "", 1)
+    ):
+        raise AssertionError(f"{label}: Travelers changes more than is_shown")
+
+    merged_shown = replace_exact(
+        agot_shown,
+        "\t\thas_trait = dragonrider\n",
+        "\t\thas_trait = dragonrider\n\t\tis_imprisoned = no # Travelers\n",
+        label=f"{label} imprisonment guard",
+    )
+    merged_option = replace_exact(
+        agot_option, agot_shown, merged_shown, label=f"{label} is_shown merge"
+    )
+    merged = replace_exact(
+        agot, agot_option, merged_option, label=f"{label} dragon flight option"
+    )
+    if merged.count("activity_agot_sailing") != agot.count("activity_agot_sailing"):
+        raise AssertionError(f"{label}: AGOT sailing exclusion was lost")
+    return merged
+
+
+def generate_can_be_activity_guest(
+    agot: str, lov: str, long_night: str, living_westeros: str
+) -> str:
+    """Combine every playset extension of the activity-guest rule."""
+    label = "can_be_activity_guest"
+    parent = scripted_trigger(agot, label)
+    guarded = scripted_trigger(lov, label)
+    long_night_rule = scripted_trigger(long_night, label)
+    living_rule = scripted_trigger(living_westeros, label)
+
+    dead_clause = "\tNOT = { has_trait = other_trait }\n"
+    without_dead = replace_exact(
+        long_night_rule,
+        dead_clause,
+        "",
+        label=f"{label} Long Night dead-character clause",
+    )
+    parent_with_host_guard = replace_exact(
+        parent,
+        "\t\t\tscope:host = {\n\t\t\t\thas_character_flag = exiled_from_iron_throne\n",
+        "\t\t\tscope:host ?= {\n\t\t\t\thas_character_flag = exiled_from_iron_throne\n",
+        label=f"{label} Long Night host guard",
+    )
+    if script_tokens(without_dead) != script_tokens(parent_with_host_guard):
+        raise AssertionError(
+            f"{label}: Long Night is no longer AGOT plus its two guarded changes"
+        )
+
+    living_trigger_ifs = indented_blocks(living_rule, "trigger_if")
+    if len(living_trigger_ifs) != 5:
+        raise AssertionError(
+            f"{label}: expected five Living Westeros trigger_if blocks, found "
+            f"{len(living_trigger_ifs)}"
+        )
+    additions = living_trigger_ifs[-2:]
+    living_base = living_rule
+    for addition in additions:
+        living_base = replace_exact(
+            living_base,
+            addition,
+            "",
+            label=f"{label} Living Westeros extension",
+        )
+    if script_tokens(living_base) != script_tokens(parent):
+        raise AssertionError(
+            f"{label}: Living Westeros is no longer AGOT plus two guest-right clauses"
+        )
+    extension = "\n".join(additions)
+    for needle in LIVING_WESTEROS_GUEST_MARKERS:
+        if needle not in extension:
+            raise AssertionError(f"{label}: Living Westeros marker {needle!r} changed")
+
+    closing = guarded.rfind("}")
+    if closing < 0:
+        raise AssertionError(f"{label}: LoV guarded definition lost its closing brace")
+    body = (
+        guarded[: guarded.find("\n") + 1]
+        + dead_clause
+        + guarded[guarded.find("\n") + 1 : closing].rstrip()
+        + "\n"
+        + extension
+        + "\n"
+        + guarded[closing:]
+    )
+    for needle in (
+        "scope:host.involved_activity ?= {",
+        "scope:host ?= {",
+        "NOT = { has_trait = other_trait }",
+        *LIVING_WESTEROS_GUEST_MARKERS,
+    ):
+        if needle not in body:
+            raise AssertionError(f"{label}: merged rule lost {needle!r}")
+    return (
+        "# The AGOT playset's single last writer for `can_be_activity_guest`.\n"
+        "#\n"
+        "# The Legacy of Valyria bridge guards optional activity and host scopes,\n"
+        "# the Long Night excludes dead characters, and A Living Westeros enforces\n"
+        "# denied houses and guest-right breaker restrictions. Scripted-rule keys\n"
+        "# resolve by filename parse order, so this later-sorting file keeps all\n"
+        "# three extensions effective. Re-audit when another definition joins the\n"
+        "# playset or any parent changes this rule.\n"
+        f"{body}\n"
+    )
+
+
 def generate_is_diarch_valid(agot: str, lov: str, long_night: str) -> str:
     """Combine the Long Night's diarch clause with the LoV bridge's null guard."""
     label = "is_diarch_valid"
@@ -1188,6 +1525,54 @@ def mfa_timing_delta(text: str) -> str:
     for label, vanilla, agot in MFA_VANILLA_REGRESSIONS:
         text = replace_exact(text, vanilla, agot, label=f"MFA {label}")
     return text
+
+
+def generate_wedding(agot: str, living_westeros: str, mfa: str) -> str:
+    """Run weddings at MFA's pace with Living Westeros' AGOT backgrounds."""
+    label = "wedding.txt"
+    trimmed = replace_exact(
+        mfa,
+        MFA_WEDDING_FARMLANDS,
+        AGOT_WEDDING_FARMLANDS,
+        label=f"{label} MFA farmlands regression",
+        expected=2,
+    )
+    merged = merge_onto_agot(
+        ours=living_westeros, base=agot, theirs=trimmed, label=label
+    )
+    require_delta_preserved(
+        base=agot,
+        parent=trimmed,
+        merged=merged,
+        ours=living_westeros,
+        label=label,
+    )
+    for needle in (
+        "MFA_wedding_guest_arrival_delay_days",
+        "MFA_option_wait_time",
+        "MFA_wedding_1_relay",
+        "MFA_wedding_2_relay",
+        "MFA_wedding_3_relay",
+        "MFA_wedding_pulse_relay",
+    ):
+        if needle not in merged:
+            raise AssertionError(f"{label}: MFA marker {needle!r} changed")
+    for needle in (
+        "wedding_rites_weirwood.dds",
+        "fp1_beached_longship_no_longship.dds",
+        "wedding_rites_sept.dds",
+    ):
+        if merged.count(needle) != living_westeros.count(
+            needle
+        ) or not living_westeros.count(needle):
+            raise AssertionError(
+                f"{label}: Living Westeros background {needle!r} changed"
+            )
+    if merged.count("agot_is_farmlands_terrain = yes") != agot.count(
+        "agot_is_farmlands_terrain = yes"
+    ):
+        raise AssertionError(f"{label}: AGOT farmlands abstraction was lost")
+    return merged
 
 
 def generate_tournament(agot: str, lov: str, mfa: str) -> str:
@@ -1427,6 +1812,34 @@ def generate_outputs(workshop: dict[str, Path], vanilla: Path) -> dict[Path, byt
             read_text(workshop["LONG_NIGHT"] / LONG_NIGHT_DIARCH_RULES),
         )
     ).encode("utf-8-sig")
+    outputs[CAN_BE_ACTIVITY_GUEST_RELATIVE] = normalize_output(
+        generate_can_be_activity_guest(
+            read_text(workshop["AGOT"] / RULES_RELATIVE),
+            read_text(workshop["LOV_BRIDGE"] / RULES_RELATIVE),
+            read_text(workshop["LONG_NIGHT"] / LONG_NIGHT_ACTIVITY_RULES),
+            read_text(workshop["LIVING_WESTEROS"] / LIVING_WESTEROS_RULES),
+        )
+    ).encode("utf-8-sig")
+    outputs[TRAVEL_ON_ACTIONS_RELATIVE] = normalize_output(
+        generate_travel_on_actions(
+            read_text(workshop["AGOT"] / TRAVEL_ON_ACTIONS_RELATIVE),
+            read_text(workshop["TRAVELERS_AGOT"] / TRAVEL_ON_ACTIONS_RELATIVE),
+            read_text(workshop["LOV_BRIDGE"] / TRAVEL_ON_ACTIONS_RELATIVE),
+        )
+    ).encode("utf-8-sig")
+    outputs[TRAVEL_OPTIONS_RELATIVE] = normalize_output(
+        generate_travel_options(
+            read_text(workshop["AGOT"] / TRAVEL_OPTIONS_RELATIVE),
+            read_text(workshop["TRAVELERS_AGOT"] / TRAVEL_OPTIONS_RELATIVE),
+            read_text(workshop["LOV_BRIDGE"] / TRAVEL_OPTIONS_RELATIVE),
+        )
+    ).encode("utf-8-sig")
+    outputs[AGOT_TRAVEL_OPTIONS_RELATIVE] = normalize_output(
+        generate_agot_travel_options(
+            read_text(workshop["AGOT"] / AGOT_TRAVEL_OPTIONS_RELATIVE),
+            read_text(workshop["TRAVELERS_AGOT"] / AGOT_TRAVEL_OPTIONS_RELATIVE),
+        )
+    ).encode("utf-8-sig")
     agot = workshop["AGOT"]
     lov = workshop["LOV_BRIDGE"]
     mfa = workshop["MFA"]
@@ -1442,6 +1855,13 @@ def generate_outputs(workshop: dict[str, Path], vanilla: Path) -> dict[Path, byt
             read_text(agot / CORONATION_RELATIVE),
             read_text(lov / CORONATION_RELATIVE),
             read_text(mfa / CORONATION_RELATIVE),
+        )
+    ).encode("utf-8-sig")
+    outputs[WEDDING_RELATIVE] = normalize_output(
+        generate_wedding(
+            read_text(agot / WEDDING_RELATIVE),
+            read_text(workshop["LIVING_WESTEROS"] / WEDDING_RELATIVE),
+            read_text(mfa / WEDDING_RELATIVE),
         )
     ).encode("utf-8-sig")
     outputs[CORONATION_EVENTS_RELATIVE] = normalize_output(
@@ -1546,6 +1966,25 @@ INTENT = {
         "keep the LoV bridge's missing-character guard under the Long "
         "Night's later-sorting Night's Watch clause"
     ),
+    "travel_on_actions": (
+        "combine Travelers' AGOT wrappers and imprisonment behavior with "
+        "the LoV bridge's optional scopes and restored-Valyria travel gate"
+    ),
+    "travel_options": (
+        "keep Travelers' imprisonment and leader-availability checks with "
+        "the LoV bridge's guarded mercenary leader"
+    ),
+    "agot_travel_options": (
+        "add Travelers' imprisonment guard without dropping AGOT's sailing exclusion"
+    ),
+    "wedding": (
+        "run weddings at MFA's pace with Living Westeros' ceremony backgrounds "
+        "and AGOT's terrain abstraction"
+    ),
+    "can_be_activity_guest": (
+        "combine LoV's optional scopes, the Long Night's dead exclusion, and "
+        "Living Westeros' guest-right restrictions under one final rule writer"
+    ),
 }
 
 
@@ -1592,6 +2031,9 @@ def generate(context: GenerationContext) -> None:
         "culture-faith-granularity",
         "lov",
         "essos-expanded",
+        "travelers",
+        "travelers-agot-compatibility",
+        "living-westeros",
     )
     workshop = {
         "AGOT": context.source("agot"),
@@ -1615,6 +2057,9 @@ def generate(context: GenerationContext) -> None:
         "CAFG": context.source("culture-faith-granularity"),
         "LOV": context.source("lov"),
         "ESSOS_EXPANDED": context.source("essos-expanded"),
+        "TRAVELERS": context.source("travelers"),
+        "TRAVELERS_AGOT": context.source("travelers-agot-compatibility"),
+        "LIVING_WESTEROS": context.source("living-westeros"),
     }
     vanilla = context.source("vanilla")
     missing = [

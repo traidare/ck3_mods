@@ -1,0 +1,87 @@
+﻿dragon_flight_option = {
+	is_shown = {
+		has_trait = dragonrider
+		is_imprisoned = no # Travelers
+		trigger_if = {
+			limit = { exists = involved_activity }
+			NOT = {
+				involved_activity = { has_activity_type = activity_agot_sailing }
+			}
+		}
+	}
+
+	is_valid = {
+		is_current_dragonrider = yes
+		var:current_dragon = {
+			NOT = {
+				has_trait = dragon_wounded_1
+				has_trait = dragon_wounded_2
+				has_trait = dragon_wounded_3
+				has_trait = dragon_wounded_4
+				has_trait = dragon_wounded_5
+			}
+			is_in_army = no
+			# No need to check size since it is a req for the rider trait
+		}
+		location = {
+			NOT = { geographical_region = world_westeros_beyond_the_wall }
+		}
+	}
+
+	cost = { # For feeding and housing at destination
+		gold = {
+			add = {
+				value = low_travel_option_cost
+				desc = dragon_flight_option  # defined where ???
+			}
+		}
+	}
+
+	travel_modifier = {
+		travel_speed = 150  # for now...
+		travel_safety = 200  # for now...
+	}
+
+	on_applied_effect = {
+		# If the dragon is in the dragonpit, save the location of the pit so you can
+		# add them back when the activity is over
+		var:current_dragon = {
+			save_scope_as = dragon
+			if = {
+				limit = { has_character_flag = in_dragonpit }
+				set_variable = {
+					name = travelling_from_pit
+					value = var:pitted_dragon_location
+				}
+				agot_remove_from_dragonpit_no_event = {
+					DRAGON = scope:dragon
+					DRAGONPIT_COUNTY = var:travelling_from_pit
+				}
+			}
+		}
+
+		current_travel_plan ?= {
+			every_entourage_character = {
+				limit = { is_current_dragonrider = yes }
+				var:current_dragon = {
+					save_scope_as = dragon
+					if = {
+						limit = { has_character_flag = in_dragonpit }
+						set_variable = {
+							name = travelling_from_pit
+							value = var:pitted_dragon_location
+						}
+						agot_remove_from_dragonpit_no_event = {
+							DRAGON = scope:dragon
+							DRAGONPIT_COUNTY = var:travelling_from_pit
+						}
+					}
+				}
+			}
+		}
+	}
+
+	ai_will_do = { # no (for now)
+		value = 0
+	}
+}
