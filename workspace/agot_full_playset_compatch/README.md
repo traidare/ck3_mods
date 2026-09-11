@@ -20,10 +20,7 @@ Whole-file merges of paths that several parents genuinely contest:
 - AGOT, Additional Models, and COW special-building model detection with the
   NOW-COW 1.0.2 Dunstonbury/Sisterton province remaps, while retaining LoV's
   later graphical-background definitions;
-- COW's Dunstonbury/Sisterton province history and localization, while the
-  enabled Seasons-of-Valyria Workshop fork supplies its maintained regional
-  definitions, repaint actions, map modes, seasonal effects, GUI, situations,
-  and localization.
+- COW's Dunstonbury/Sisterton localization.
 
 ## Activity merges
 
@@ -264,17 +261,6 @@ parsed definition. Parse order walks every top-level file in
 `common/scripted_rules/` in name order and only then its subdirectories, so
 re-audit if any playset mod starts shipping rules from a subdirectory or from a
 name sorting after `zzz_agot_playset_`.
-
-`history/provinces/replace/00_k_the_vale_prov.txt` takes the same path as AGOT
-Nobility of Westeros' own file, so it shadows that file whole rather than
-merging with it. The Sisterton culture and holding change is this layer's
-intended delta; every other province entry must therefore reproduce Nobility of
-Westeros', or the province silently falls back to AGOT's — `2326` to
-`holding = none`, the holdingless-barony case the Bloodlines game-start guard
-exists to work around. The file is generated from that parent and carries only
-the Sisterton delta, so an entry the parent gains, drops, or re-numbers follows
-without an audit, and a change to the three provinces the delta names fails
-generation.
 
 ## Canon-continuity guard
 

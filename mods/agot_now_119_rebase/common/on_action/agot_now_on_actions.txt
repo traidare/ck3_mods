@@ -510,3 +510,10 @@ agot_now_on_16th_birthday = {
 		delay = { days = 1 }
 	}
 }
+
+# QUARTERLY PLAYABLE PULSE
+quarterly_playable_pulse = {
+	events = {
+		moat_cailin_decisions.0003
+	}
+}

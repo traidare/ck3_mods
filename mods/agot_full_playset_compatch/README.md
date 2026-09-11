@@ -15,9 +15,9 @@ genuine cross-mod overlaps that need a single deliberate winner.
 - Special-building model detection from AGOT, Additional Models, and COW-AGOT,
   with Nobility of Westeros' Dunstonbury and Sisterton province remaps, while
   keeping Legacy of Valyria's later graphical backgrounds.
-- COW-AGOT's Dunstonbury and Sisterton province history and text, while the
-  Seasons of Valyria fork supplies its maintained regional definitions, repaint
-  actions, map modes, seasonal effects, interface, situations, and text.
+- COW-AGOT's Dunstonbury and Sisterton text, while the Seasons of Valyria fork
+  supplies its maintained regional definitions, repaint actions, map modes,
+  seasonal effects, interface, situations, and text.
 - Nobility of Westeros' title names, so its renamed and newly added titles are
   not lost behind the Dunstonbury and Sisterton barony names.
 - The dragon on-action file shipped by both More Dragon Eggs and More Dragon

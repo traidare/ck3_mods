@@ -23,7 +23,6 @@ owned_outputs = [
   "common/scripted_effects/07_dlc_ep3_scripted_effects.txt",
   "events/activities/coronation_activity/coronation_events.txt",
   "events/activities/tournaments/contest_events.txt",
-  "history/provinces/replace/00_k_the_vale_prov.txt",
 ]
 
 [[sources]]

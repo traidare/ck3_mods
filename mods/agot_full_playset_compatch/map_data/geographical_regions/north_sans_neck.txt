@@ -1045,7 +1045,6 @@ world_wolfswood_seasons = {
 		d_sea_dragon_point
 		d_the_wolfswood
 		d_edgewood
-		d_torrhens_square
 		d_the_blackpines
 		d_bear_island
 		d_highpoint
@@ -1086,7 +1085,6 @@ world_whiteknife_seasons = {
 world_winterfell_seasons = {
 	counties = {
 		c_winterfell
-		c_greyward_tower
 	}
 }
 world_northern_mountains_seasons = {
@@ -1128,7 +1126,6 @@ world_sheepshead_hills = {
 	duchies = {
 		d_crestview
 		d_everstead
-		d_wraithmarch
 		d_overton
 	}
 	counties = {
@@ -1138,6 +1135,7 @@ world_sheepshead_hills = {
 		c_woodward
 		c_hornwood
 		c_velvet_grove
+		c_wraithfeld
 
 	}
 }

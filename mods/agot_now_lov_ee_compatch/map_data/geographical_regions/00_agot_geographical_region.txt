@@ -141,9 +141,8 @@ world_westeros_the_wall_only = { #need another one for decision
 
 world_westeros_the_north = {
 	regions = {
-		world_westeros_the_neck
-		world_westeros_the_north_mainland
 		world_westeros_skagos
+		world_westeros_the_north_mainland
 	}
 	duchies = {
 		d_bear_island
@@ -158,6 +157,7 @@ world_westeros_the_north_mainland = {
 		d_winterfell
 		d_crestview
 		d_edgewood
+		d_white_den
 		d_frostfields
 		d_grey_downs
 		d_hornwood
@@ -165,7 +165,7 @@ world_westeros_the_north_mainland = {
 		d_groundpress
 		d_keystone
 		d_kings_course
-		d_torrhens_square
+		d_acorn_grove
 		d_highpoint
 		d_flints_finger
 		d_cape_kraken
@@ -178,7 +178,6 @@ world_westeros_the_north_mainland = {
 		d_oldbarrow
 		d_the_dreadfort
 		d_overton
-		d_wraithmarch
 		d_the_rills
 		d_ironsmith
 		d_white_harbor
@@ -189,6 +188,10 @@ world_westeros_the_north_mainland = {
 		d_the_wolfswood
 		d_the_blackpines
 		d_sea_dragon_point
+		d_moat_cailin
+		d_the_neck
+		d_silvereed
+		d_fever
 	}
 }
 
@@ -205,22 +208,25 @@ world_westeros_the_wolfswood = {
 		d_the_wolfswood
 		d_the_blackpines
 		d_highpoint
-		d_edgewood
-		d_torrhens_square
+		d_white_den
+		d_acorn_grove
 		d_grey_downs
 		d_sea_dragon_point
 	}
 	counties = {
-		c_brans_wood
+		c_torrhens_square
+		c_timberwatch
 	}
 }
 
 world_westeros_the_neck = {
 	duchies = {
 		d_the_neck
-		d_moat_cailin
 		d_silvereed
 		d_fever
+	}
+	counties = {
+		c_moat_cailin
 	}
 }
 
@@ -2272,6 +2278,7 @@ coastal_counties = {
 		c_widows_watch
 		c_the_broken_branch
 		c_sulphur_flats
+		c_wraithfeld
 		c_tawney_bay
 		c_broadmend
 		c_white_harbor
@@ -2551,7 +2558,6 @@ shivering_sea_coastal_duchies = {
 		d_karhold
 		d_groundpress
 		d_overton
-		d_wraithmarch
 		d_crestview
 		d_everstead
 		d_keystone
@@ -4250,7 +4256,8 @@ material_gem_amber = {
 		d_the_drench
 		d_everstead
 		d_edgewood
-		d_torrhens_square
+		d_white_den
+		d_acorn_grove
 	}
 	counties = {
 		c_armigan
@@ -4838,6 +4845,12 @@ world_westeros_the_northern_mountains = {
 	}
 }
 
+world_westeros_moat_cailin = {
+	counties = {
+		c_moat_cailin
+	}
+}
+
 world_westeros_bracken_blackwood_feud = {
 	duchies = {
 		d_blackwood_vale
@@ -4887,7 +4900,6 @@ world_westeros_desert_terrain = {
 		# Desert Road
 		4939
 		4941
-		4944
 		4962
 		4966
 		4967
@@ -5329,6 +5341,7 @@ world_westeros_dense_population = {
 		3967 # b_tumbleton
 		4006 # b_bitterbridge
 		4125 # b_ryamsport
+		4945 # b_plankytown
 		4940 # b_the_shadow_city
 		# Lorath
 		8252 # b_aele_labyrinth
@@ -5413,8 +5426,6 @@ world_westeros_slightly_dense_population = {
 		# Cuy
 		3461 # b_sunflower_hall
 		3462 # b_cuy
-		# Plankytown
-		4945 # b_plankytown
 	}
 }
 
@@ -5500,12 +5511,11 @@ world_westeros_very_sparse_population = {
 		world_westeros_beyond_the_wall_first_forest
 		world_westeros_the_wall
 		world_westeros_skagos
-		world_westeros_the_neck
 		world_westeros_desert_terrain
 	}
 	duchies = {
 		d_sea_dragon_point
-		d_edgewood
+		d_acorn_grove
 		d_stony_shore
 		d_flints_finger
 		d_cape_kraken
@@ -5524,6 +5534,8 @@ world_westeros_very_sparse_population = {
 		c_greenwood
 		c_moorwood
 		c_mullroot
+		c_allpine
+		c_silverglade
 		# Lonely Light
 		c_lonely_light
 	}

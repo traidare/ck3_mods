@@ -113,7 +113,6 @@ CORONATION_EVENTS_RELATIVE = Path(
     "events/activities/coronation_activity/coronation_events.txt"
 )
 CONTEST_EVENTS_RELATIVE = Path("events/activities/tournaments/contest_events.txt")
-VALE_PROVINCES_RELATIVE = Path("history/provinces/replace/00_k_the_vale_prov.txt")
 EP3_SCRIPTED_EFFECTS_RELATIVE = Path(
     "common/scripted_effects/07_dlc_ep3_scripted_effects.txt"
 )
@@ -218,69 +217,6 @@ CAFG_CALL = re.compile(r"\bE_kCAFG_[A-Za-z0-9_]+")
 AGOT_MARKER = re.compile(r"(?i)#\s*AGOT\b")
 CONTEST_EVENTS_CAFG_CALLS = 1
 CONTEST_EVENTS_AGOT_MARKERS = 24
-
-# Nobility of Westeros' own Sisterton entries, and the holdings this layer wants
-# in their place.  Everything else in the file is that parent's, because the
-# same path shadows it whole rather than merging.
-VALE_SISTERTON_PARENT = (
-    "############### b_breakwater_castle ###############\n"
-    "########## c_sweetsister - d_the_sisters ##########\n"
-    "2715 = {\n"
-    "\tculture = sisterman\n"
-    "\treligion = fots_seven\n"
-    "\tholding = castle_holding\n"
-    "\t7824.1.1 = {\n"
-    "\t\tbuildings = { castle_03 }\n"
-    "\t}\n"
-    "}\n"
-    "################ b_breakwater_watch ###############\n"
-    "########## c_sweetsister - d_the_sisters ##########\n"
-    "2716 = {\n"
-    "\tholding = none\n"
-    "}\n"
-    "##################### b_dordon ####################\n"
-    "########## c_sweetsister - d_the_sisters ##########\n"
-    "2717 = {\n"
-    "\tculture = sisterman\n"
-    "\treligion = fots_seven\n"
-    "\tholding = castle_holding\n"
-    "\t7824.1.1 = {\n"
-    "\t\tbuildings = { castle_03 }\n"
-    "\t}\n"
-    "}\n"
-)
-VALE_SISTERTON_OWNED = (
-    "############### b_breakwater_castle ###############\n"
-    "########## c_sweetsister - d_the_sisters ##########\n"
-    "2715 = {\n"
-    "\tholding = castle_holding\n"
-    "\t7824.1.1 = {\n"
-    "\t\tbuildings = { castle_01 }\n"
-    "\t}\n"
-    "}\n"
-    "################ b_sunderland_hall ################\n"
-    "########### c_sunderland - d_the_sisters ##########\n"
-    "2716 = {\n"
-    "\tculture = sisterman\n"
-    "\treligion = fots_seven\n"
-    "\tholding = castle_holding\n"
-    "\t7824.1.1 = {\n"
-    "\t\tbuildings = { castle_03 }\n"
-    "\t}\n"
-    "}\n"
-    "################ b_breakwater_watch ###############\n"
-    "########## c_sweetsister - d_the_sisters ##########\n"
-    "2717 = {\n"
-    "\tculture = sisterman\n"
-    "\treligion = fots_seven\n"
-    "\tholding = castle_holding\n"
-    "\t7824.1.1 = {\n"
-    "\t\tbuildings = { castle_03 }\n"
-    "\t}\n"
-    "}\n"
-)
-VALE_DORDON_HEADER_PARENT = "################ b_sunderland_hall ################\n"
-VALE_DORDON_HEADER_OWNED = "##################### b_dordon ####################\n"
 
 
 def title_localization_relative(language: str) -> Path:
@@ -701,10 +637,11 @@ EXPECTED_UNDEFINED_SEASON_MEMBERS = {
     "world_westerlands_low": ("c_bonetree", "c_silvermere", "c_longdowns"),
     "world_upper_vale_seasons": ("c_riving",),
     "world_barrowlands_seasons": ("d_steelwater", "d_witheredheath"),
-    "world_wolfswood_seasons": ("d_mullroot", "d_ironrath"),
+    "world_wolfswood_seasons": ("d_mullroot", "d_ironrath", "d_torrhens_square"),
     "world_whiteknife_seasons": ("c_whittarkeep", "c_seal_rock", "c_wolfs_den"),
+    "world_winterfell_seasons": ("c_greyward_tower",),
     "world_lonely_hills": ("d_seals_edge",),
-    "world_sheepshead_hills": ("d_sheepshead_hills",),
+    "world_sheepshead_hills": ("d_sheepshead_hills", "d_wraithmarch"),
 }
 
 # Every membership entry the prune removes, by the region that listed it. A
@@ -716,11 +653,11 @@ EXPECTED_SEASON_REGION_PRUNE = {
     "world_upper_vale_seasons": 11,
     "world_westerlands_low": 6,
     "world_barrowlands_seasons": 5,
-    "world_sheepshead_hills": 4,
     "world_dornish_marches_seasons": 4,
     "world_the_fingers_seasons": 4,
     "world_norvos_seasons": 3,
     "world_lonely_hills": 3,
+    "world_sheepshead_hills": 3,
     "world_upper_reach": 2,
     "world_dorne_north_coast": 2,
 }
@@ -1716,29 +1653,6 @@ def generate_contest_events(
     return merged
 
 
-def generate_vale_provinces(now: str) -> str:
-    """Give Sisterton its held baronies without dropping the rest of the Vale.
-
-    This path shadows Nobility of Westeros' file whole rather than merging with
-    it, so every province entry the parent ships has to be carried through or it
-    falls back to AGOT's.  Deriving the file from the parent is what keeps that
-    true as the parent gains, drops, or re-numbers entries.
-    """
-    label = "00_k_the_vale_prov.txt"
-    text = replace_exact(
-        now,
-        VALE_DORDON_HEADER_PARENT,
-        VALE_DORDON_HEADER_OWNED,
-        label=f"{label} b_dordon header",
-    )
-    return replace_exact(
-        text,
-        VALE_SISTERTON_PARENT,
-        VALE_SISTERTON_OWNED,
-        label=f"{label} Sisterton holdings",
-    )
-
-
 def generate_outputs(workshop: dict[str, Path], vanilla: Path) -> dict[Path, bytes]:
     # NOW 1.2.5 corrected the `d_lychester` creation requirement upstream (it
     # previously required `d_medway`'s capital county), which was this override's
@@ -1894,9 +1808,6 @@ def generate_outputs(workshop: dict[str, Path], vanilla: Path) -> dict[Path, byt
             read_text(vanilla / CONTEST_EVENTS_RELATIVE),
         )
     ).encode("utf-8-sig")
-    outputs[VALE_PROVINCES_RELATIVE] = normalize_output(
-        generate_vale_provinces(read_text(workshop["NOW"] / VALE_PROVINCES_RELATIVE))
-    ).encode("utf-8-sig")
     return outputs
 
 
@@ -1957,10 +1868,6 @@ INTENT = {
     "contest_events": (
         "combine the LoV compatch's tournament summary guards, MFA's "
         "contest cooldown, and CaFG's granular county conversion"
-    ),
-    "vale_provinces": (
-        "give Sisterton its held baronies on top of every province entry "
-        "NOW ships, because this path shadows that file whole"
     ),
     "is_diarch_valid": (
         "keep the LoV bridge's missing-character guard under the Long "

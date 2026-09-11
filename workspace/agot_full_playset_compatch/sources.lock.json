@@ -262,8 +262,8 @@
       "size": 149
     },
     "workshop/3664900993/common/landed_titles/01_agot_landed_titles.txt": {
-      "sha256": "2197a3fee24be8bfd3a84d69e9f5801161547e75334e9fe15f085d0933a4bdf3",
-      "size": 907245
+      "sha256": "fddb2431245e2315717227da3bf9d626a9e5b36315ada519454c75dea3501890",
+      "size": 907173
     },
     "workshop/3664900993/common/landed_titles/replace/02_agot_special_titles.txt": {
       "sha256": "3a0be1eeb55bd93e912f4519e267709c87d9915da031e5b09f1d476683f295a3",
@@ -274,16 +274,12 @@
       "size": 2078
     },
     "workshop/3664900993/descriptor.mod": {
-      "sha256": "a2c044df4efd22a93085755d4b5a1597900bfadc0840227a748beb873679268f",
-      "size": 159
-    },
-    "workshop/3664900993/history/provinces/replace/00_k_the_vale_prov.txt": {
-      "sha256": "f55e4f284c5d5de2191e5641cb86093d4a7749caabebc9ae05b141f3f3da0187",
-      "size": 4171
+      "sha256": "c8a8715296c8a6c0c43b5af0a0318038cd5e82d043da6e442c3f2afaf1b245ba",
+      "size": 158
     },
     "workshop/3664900993/localization/replace/english/agot/replace/00_agot_titles_l_english.yml": {
-      "sha256": "318246d3f21fd300218255cc93aa09be3e38115409df028d3a94fa7a306de20d",
-      "size": 9447
+      "sha256": "c4b780341526925569bc65a5470219006a27a1d9532d96507aed5c21896c19a9",
+      "size": 9423
     },
     "workshop/3664900993/localization/replace/spanish/agot/replace/00_agot_titles_l_spanish.yml": {
       "sha256": "3e2ed4410bd754ee5639708f2c186b6cdd21799d3651e2587843bc6eab0d6c87",
@@ -374,8 +370,8 @@
       "size": 1038
     },
     "workshop/3780269495/descriptor.mod": {
-      "sha256": "58c55be5ab73bd9b80a24486f912c159199679c981a52806a5cfce323f1a3602",
-      "size": 216
+      "sha256": "370727d9ac2dbfbf362feafdd70b540eba74a97013aab88cd7fd44e10af1a1e5",
+      "size": 215
     },
     "workshop/3781577713/common/scripted_triggers/zz_kraken_character_triggers.txt": {
       "sha256": "6843f96713121877cbb0d30106d66af4c0e3f8d399a0c2a3ff9a2a7622e38add",
