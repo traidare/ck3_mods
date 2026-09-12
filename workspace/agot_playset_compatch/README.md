@@ -63,7 +63,13 @@ change re-raises it.
   copy of `06_ep3_interactions.txt` and both carry the same three unguarded
   calls, so the repair is rebased from whichever copy is effective: this mod
   from AGOT's, pinned to AGOT's `support_candidacy_interaction` hash, and the
-  Legacy of Valyria playset compatch from the bridge's.
+  Legacy of Valyria playset compatch from the bridge's. The bridge's copy gates
+  the two enclosing modifiers on `holder = { has_realm_law_flag = ... }` and the
+  holder's `main_administrative_tier`, which are government properties of the
+  holder rather than the target title's own law, and it leaves the
+  `scope:secondary_recipient` call outside `scope:target` ungated entirely, so
+  that gate neither establishes the law flag the trigger reports nor makes the
+  per-call guards redundant.
 - **Accolade succession stability (CK3):** the `on_accolade_acclaimed_death`
   callback performs only synchronous variable cleanup on its current accolade
   root. It does not carry that code-owned object through a delayed on-action

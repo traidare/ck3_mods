@@ -486,7 +486,7 @@ APPOINTMENT_SCORE_SOURCES = {
         "AGOT support-candidacy interaction",
     ),
     "3788296332": (
-        "d292185ad9e8e11770beaf32681812065ea7576f2fe1545777b3a1d87b6ac579",
+        "a5d2735c3b8aa0b7b2ff4299da1f52a1116d54113092c247ecb71279c936e72e",
         "LoV support-candidacy interaction",
     ),
 }

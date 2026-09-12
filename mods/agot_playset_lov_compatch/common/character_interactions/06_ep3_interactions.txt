@@ -1236,6 +1236,8 @@ support_candidacy_interaction = {
 				has_title_law_flag = appointment_type_succession
 				holder = {
 					has_realm_law_flag = appointment_type_succession
+					highest_held_title_tier = scope:target.tier
+					main_administrative_tier <= scope:target.tier
 				}
 				current_heir ?= {
 					NOR = {
@@ -1352,6 +1354,8 @@ support_candidacy_interaction = {
 				has_title_law_flag = appointment_type_succession
 				holder = {
 					has_realm_law_flag = appointment_type_succession
+					highest_held_title_tier = scope:target.tier
+					main_administrative_tier <= scope:target.tier
 				}
 				any_title_heir = {
 					exists = house
