@@ -175,8 +175,8 @@ campaign `error.log`, which is the evidence that they do not fire. Report
 diverging from vanilla.
 
 Genuine playset-wide script errors belong in
-[agot_playset_runtime_fixes](../agot_playset_runtime_fixes/README.md), not here;
-this module's scope is the CaFG/AGOT merge itself.
+[agot_playset_compatch](../agot_playset_compatch/README.md), not here; this
+module's scope is the CaFG/AGOT merge itself.
 
 ## Re-audit
 

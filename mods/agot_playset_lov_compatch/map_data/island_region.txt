@@ -1,0 +1,352 @@
+# Island regions - no land path from the continent
+# The AI needs these to optimize path finding
+#
+# NOTE: do not add any regions here that are NOT islands
+#
+# Island regions can be declared with one or more of the following fields:
+#	duchies = { }, takes county title names declared in landed_titles.txt
+#	counties = { }, takes county title names declared in landed_titles.txt
+#	provinces = { }, takes province id numbers declared in /history/provinces
+#
+#
+
+island_region_skagos = {
+	counties = { c_drihisesk c_veksdaenk c_dreggan_arer c_sudyktig }
+}
+
+island_region_rom_pursk = {
+	counties = { c_rom_pursk }
+}
+
+island_region_molksyr = {
+	counties = { c_molksyr }
+}
+
+island_region_skane = {
+	provinces = { 1630 1631 1632 }
+}
+
+island_region_kirs_du = {
+	provinces = { 1633 }
+}
+
+island_region_the_sisters = {
+	counties = { c_sunderland c_tormore c_west_longsister c_sweetsister c_littlesister }
+}
+
+island_region_bear_island = {
+	duchies = {	d_bear_island }
+}
+
+island_region_wyk = {
+	duchies = {	
+		d_hardstone_hills
+		d_east_wyk
+		d_cradlewatch 
+		d_sealskin_point
+		d_lonely_light
+		d_old_wyk
+		d_shatterstone
+		d_stonehouse	
+	}
+}
+
+island_region_harlaw = {
+	duchies = { 
+		d_harlaw
+		d_reapers_bay
+		d_ternehandle
+		d_the_flenches
+		d_volmark
+		d_dulewood
+	}
+}
+
+island_region_orkmont = {
+	duchies = {
+		d_orkmont
+		d_nettlemont
+		d_orkwood
+	}
+}
+
+island_region_saltcliffe = {
+	duchies = {
+		d_saltcliffe
+		d_bloatstone
+	}
+}
+
+island_region_lonely_light = {
+	duchies = { d_lonely_light }
+}
+
+island_region_blacktyde = {
+		duchies = { d_blacktyde }
+}
+
+island_region_pyke = {
+	duchies = {
+		d_pyke
+		d_lordsport
+		d_iron_holt
+	}
+}
+
+island_region_tarth = {
+	duchies = {	d_tarth }
+}
+
+island_region_the_paps = {
+	counties = { c_the_paps }
+}
+
+island_region_blackwave = {
+	provinces = { 2702 }
+}
+
+island_region_rushcrest = {
+	provinces = { 725 }
+}
+
+island_region_riisvark = {
+	counties = {
+		c_riis_du
+	}
+}
+
+island_region_dragonstone = {
+	counties = { c_dragonstone c_high_tide c_driftmark }
+}
+
+island_region_blackmark = {
+	counties = { c_blackmark } 
+}
+
+island_region_longbar = {
+	counties = { c_longbar }
+}
+
+island_region_sweetport_sound = {
+	counties = { c_sweetport_sound }
+}
+
+island_region_estermont_isles = {
+	counties = { c_estermont c_pikerock c_tudbury_island c_lestermarks }
+}
+
+island_region_wrathrock = {
+	counties = { c_wrathrock c_morlescent }
+}
+
+island_region_severisles = {
+	provinces = { 4669 4670 }
+}
+
+island_region_holf_of_man = {
+	provinces = { 4671 4672 }
+}
+
+island_region_ghaston_grey = {
+	counties = { c_ghaston_grey }
+}
+
+island_region_the_arbor = {
+	counties = { c_stonecrab_cape c_wynegarde c_starfish_harbor c_peachtree c_vinetown }
+	provinces = { 4150 }
+}
+
+island_region_mermaid_rocks = {
+	provinces = { 4148 4149 }
+}
+
+island_region_dagger_lake = {
+	counties = { c_anlys c_skean c_jambiya c_stiletys c_dyrk c_poniard }
+}
+
+island_region_lv_shores_of_wrath = {
+	counties = {
+		c_ah_mun c_ah_tabai c_ahulom c_ajtzak c_atsi c_backlum
+		c_basilisk_deeps c_basilisk_point c_beach_of_prey c_biatol c_bile_point c_bloody_folly
+		c_cabaguil c_camazotz c_chamahez c_chamer c_chen c_dim_grove
+		c_eleuia c_fleshcarvers_wreck c_graowl c_hapikern c_hobnil c_hunaphu
+		c_huracan c_ilsha c_isku c_itzel c_kabil c_laanas_lance
+		c_last_stop c_lesser_valley c_light_falls c_meztli c_monkey_perch c_nacon
+		c_neewater c_nephrite_plains c_patli c_poxlom c_rain_garden c_saurattar
+		c_sickly_shore c_spike_of_wishes c_tenoch c_tepeu c_the_maw c_the_splinters
+		c_thilsha c_tlalli c_tohil c_wasting_cove c_wasting_deeps c_yaotl
+		c_yeen c_zipacna
+	}
+}
+
+island_region_lv_asshai = {
+	counties = {
+		c_arrat c_ashen_shore c_asshai c_aures c_boglos c_bubarai
+		c_citos c_eranos c_eranyr c_farat c_gattar c_guzul
+		c_hartelion c_hattar c_hestion c_jaqor c_kator c_lazyros
+		c_lebat c_malior c_marghan c_maruza c_mouth_of_dread c_nahel
+		c_nuzat c_nymos c_olmar c_orlyr c_ormin c_ostar
+		c_ostelar c_ostiros c_razmai c_saffar c_sakkur c_sanyr
+		c_shores_of_the_undying c_stassar c_stygai c_thalys c_turakaz c_turatos
+		c_uzhor c_vale_of_whispers c_valley_of_curses c_vashira c_velaza c_venar
+		c_veskaz c_vhirak c_vogen c_vynys c_vyrokh c_yarqen
+		c_zefat c_zhalor c_zikuri c_ziphor c_zuba c_zufattar
+	}
+}
+
+island_region_lv_gorosh = {
+	counties = {
+		c_aft_gorosh c_arl_gorosh c_atete c_beach_betrayal c_flogg c_gimlet
+		c_gorosh c_haemanga c_horopaki c_kahiwi c_karapoti c_kaupekapeka
+		c_kelpest c_koakawa c_leechbrook c_lesser_claw c_makini c_maringi
+		c_maunga c_mohito c_monoku c_mutunga_kore c_pekanga c_puheke
+		c_pukepuke c_putanga c_serpents_rift c_shore_of_thralls c_shore_of_tyrants c_sor_gorosh
+		c_tirewa c_tuteiara c_urutapu c_wormwater c_wyverns_claw
+	}
+}
+
+island_region_lv_central_plains = {
+	counties = {
+		c_ah_ciliz c_ah_kinchil c_ahulane c_balam c_caprakan c_colel
+		c_coszcatl c_east_green_gate c_green_gate_pass c_hozanek c_hun_cane c_kianto
+		c_metnal c_nelli c_och_kan c_sacnite c_south_green_gate c_tecuith
+		c_the_wyvern_fields c_usakan c_voltan c_west_green_gate c_yaluka c_yun_cimil
+		c_zac_kuk c_zeltzin c_zyanya
+	}
+}
+
+island_region_lv_valyria = {
+	counties = {
+		c_aquos_dhaen c_blenon_way c_dragonfields c_hills_of_nolos c_iedradrys c_molrys
+		c_qrinibroz c_ruklonos c_tikunemio c_tyria c_valyria
+	}
+}
+
+island_region_lv_marahai = {
+	counties = {
+		c_kaharim c_lirhai c_nyrak c_orlath c_qinle c_saolun
+		c_vinet c_xarhai c_yovesh c_zanpur c_zonar
+	}
+}
+
+island_region_lv_the_three_snakes = {
+	counties = {
+		c_coast_of_sorrows c_howling_bay c_isle_of_toads c_pirates_haven c_scoundrels_point c_strait_of_skulls
+		c_talon c_the_arm c_treasure_island c_wraiths_rest
+	}
+}
+
+island_region_lv_lokiria = {
+	counties = {
+		c_bane_coast c_bianoros c_dromon_hill c_egrys c_elenar_isle c_gelios
+		c_ilvonys c_pyrys c_urnebyria c_zorbazion c_nuqiria }
+	provinces = { 11134 }
+}
+
+island_region_lv_the_western_isles = {
+	counties = {
+		c_death_isle c_isle_of_flies c_isle_of_lice c_maggot_shore c_serpent_forest
+	}
+}
+
+island_region_lv_lyria = {
+	counties = {
+		c_kastaryia c_mhysa_faer c_port_vaedar c_raqiros
+	}
+}
+
+island_region_lv_zamettar = {
+	counties = {
+		c_amelttar c_zamettar c_zhoki
+	}
+}
+
+island_region_lv_gogossos = {
+	counties = {
+		c_bleak_shore c_bloody_marsh c_draezar c_gogossos c_haunted_reach
+	}
+}
+
+island_region_lv_eastern_isles = {
+	counties = {
+		c_ax_isle c_isle_of_vines c_skull_island c_the_blade c_the_handle
+	}
+}
+
+island_region_lv_velos = {
+	counties = {
+		c_elos c_ghozai c_velos
+	}
+}
+
+island_region_lv_new_ghis = {
+	counties = {
+		c_ghaen c_new_ghis
+	}
+}
+
+island_region_lv_manticore_isles = {
+	counties = {
+		c_isle_of_manticores c_maritani c_salkare
+	}
+}
+
+island_region_lv_little_valyria = {
+	provinces = {
+		11421 11422 11423 11424
+	}
+}
+
+island_region_lv_vehar = {
+	counties = {
+		c_eastern_steps c_vehar
+	}
+}
+
+island_region_lv_yunkai = {
+	counties = {
+		c_yaros_isle
+	}
+}
+
+island_region_lv_ghis = {
+	counties = {
+		c_sumbyar
+	}
+}
+
+island_region_lv_elyria = {
+	counties = {
+		c_elyria
+	}
+}
+
+island_region_lv_jarqanor = {
+	counties = {
+		c_jarqanor
+	}
+}
+
+island_region_lv_volantis = {
+	counties = {
+		c_maeza
+	}
+}
+
+island_region_lv_little_valyria_2 = {
+	provinces = {
+		11425
+	}
+}
+
+island_region_lv_sarhoy = {
+	provinces = {
+		11644
+	}
+}
+
+island_region_lv_orange_shore = {
+	provinces = {
+		11717
+	}
+}

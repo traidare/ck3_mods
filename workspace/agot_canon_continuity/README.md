@@ -3,8 +3,8 @@
 Protects the characters a canon storyline depends on from unchosen deaths, and
 replays the canon rider-dragon bonds AGOT's own dispatch cannot reach. Parents:
 A Game of Thrones (`2962333032`) and AGOT: Canon Children EZ Mode
-(`3664962140`). Load position: after both parents and before
-`agot_playset_runtime_fixes`, so the repair and final-compatch layers stay the
+(`3664962140`). Load position: after both parents and before the
+`agot_playset_compatch` modules, so the repair and integration layers stay the
 last writers. That slot is a layering convention rather than a requirement:
 every payload file is either a new key or a `zzzz_` keyed redefinition, and none
 shares a path with an enabled mod, so no output here is decided by load order.
@@ -168,13 +168,13 @@ These deaths live in event files and in one activity definition, which resolve
 whole-file by exact path, so the guard belongs to whichever module owns that
 path. All of them call `agot_cc_event_death_protected_trigger`.
 
-| module                       | sites                                                                                                                                          |
-| ---------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------- |
-| `agot_playset_runtime_fixes` | `travel_events.4003/4007/4032`, `kraken.0100/1105`, `health.3107/3200/4105/6200/6203/6204/6207/6208`, `host_dinner_events.1002/3060/3061/3080` |
-| `agot_mfa_039_rebase`        | `tournament_events.1110/1141/1151/1230/1280`                                                                                                   |
-| `agot_full_playset_compatch` | the host death in both dragon hatching activities                                                                                              |
+| module                      | sites                                                                                                                                          |
+| --------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------- |
+| `agot_playset_compatch`     | `travel_events.4003/4007/4032`, `kraken.0100/1105`, `health.3107/3200/4105/6200/6203/6204/6207/6208`, `host_dinner_events.1002/3060/3061/3080` |
+| `agot_mfa_039_rebase`       | `tournament_events.1110/1141/1151/1230/1280`                                                                                                   |
+| `agot_playset_lov_compatch` | the host death in both dragon hatching activities                                                                                              |
 
-In the runtime fixes module the guards are inserted by `guard_event_deaths` in
+In `agot_playset_compatch` the guards are inserted by `guard_event_deaths` in
 `runtime_fixes/common.py`, which wraps every `death` in the named event and
 asserts their number, so an upstream release that adds a lethal outcome fails
 generation rather than leaving it unguarded. Tournament deaths inside
@@ -244,5 +244,5 @@ or `common/scripted_effects` that sorts after `zzzz_`.
 For the canon dragon outputs, re-read the audit whenever either pinned rider set
 changes, and whenever another playset mod begins defining
 `dragon_taming_events.9000`, `on_10th_birthday_tame_canon_dragon`, or AGOT's
-`on_10th_birthday` dispatch — `agot_full_playset_compatch` already restores that
+`on_10th_birthday` dispatch — `agot_playset_compatch` already restores that
 dispatch beside New Personality Events, and this module assumes it is in place.

@@ -95,7 +95,7 @@ class SharedGeneratorHelperTest(unittest.TestCase):
             "\t}\n}\n"
         )
         with generator_function(
-            "workspace/agot_now_lov_ee_compatch/compatch/map_merge.py",
+            "tools/agot_playset/compatch/map_merge.py",
             "locator_records",
         ) as locator_records:
             prefix, suffix, order, records = locator_records(text)
@@ -113,7 +113,7 @@ class SharedGeneratorHelperTest(unittest.TestCase):
             "\t}\n}\n"
         )
         with generator_function(
-            "workspace/agot_now_lov_ee_compatch/compatch/map_merge.py",
+            "tools/agot_playset/compatch/map_merge.py",
             "locator_records",
         ) as locator_records:
             prefix, suffix, order, records = locator_records(text)
@@ -125,7 +125,7 @@ class SharedGeneratorHelperTest(unittest.TestCase):
         duplicate = text.replace("{ id = 3", "{ id = 8")
         with (
             generator_function(
-                "workspace/agot_now_lov_ee_compatch/compatch/map_merge.py",
+                "tools/agot_playset/compatch/map_merge.py",
                 "locator_records",
             ) as locator_records,
             self.assertRaisesRegex(RuntimeError, "duplicate locator id 8"),
@@ -150,7 +150,7 @@ class SharedGeneratorHelperTest(unittest.TestCase):
             key: f"{{ id={key} position={{ {key + 1} 0 0 }} }}" for key in (3, 8, 9)
         }
         with generator_function(
-            "workspace/agot_now_lov_ee_compatch/compatch/map_merge.py",
+            "tools/agot_playset/compatch/map_merge.py",
             "locator_definition_dependencies",
         ) as dependencies:
             self.assertEqual(
@@ -167,7 +167,7 @@ class SharedGeneratorHelperTest(unittest.TestCase):
             "# b_retired = { province = 11 }\n"
         )
         with generator_function(
-            "workspace/agot_now_lov_ee_compatch/compatch/map_merge.py",
+            "tools/agot_playset/compatch/map_merge.py",
             "province_ids_from_landed_titles",
         ) as province_ids:
             self.assertEqual(province_ids(source), (7, 9))
@@ -176,11 +176,11 @@ class SharedGeneratorHelperTest(unittest.TestCase):
         source = "sea_zones = LIST { 2 }\nimpassable_mountains = LIST { 3 }\n"
         with (
             generator_function(
-                "workspace/agot_now_lov_ee_compatch/compatch/map_merge.py",
+                "tools/agot_playset/compatch/map_merge.py",
                 "append_impassable_quarantine",
             ) as append_quarantine,
             generator_function(
-                "workspace/agot_now_lov_ee_compatch/compatch/map_merge.py",
+                "tools/agot_playset/compatch/map_merge.py",
                 "land_provinces",
             ) as land_provinces,
         ):
@@ -197,7 +197,7 @@ class SharedGeneratorHelperTest(unittest.TestCase):
             "}"
         )
         with generator_function(
-            "workspace/agot_now_lov_ee_compatch/compatch/map_merge.py",
+            "tools/agot_playset/compatch/map_merge.py",
             "restore_region_members",
         ) as restore:
             restored = restore(
@@ -215,7 +215,7 @@ class SharedGeneratorHelperTest(unittest.TestCase):
 
         with (
             generator_function(
-                "workspace/agot_now_lov_ee_compatch/compatch/map_merge.py",
+                "tools/agot_playset/compatch/map_merge.py",
                 "restore_region_members",
             ) as restore,
             self.assertRaisesRegex(RuntimeError, "no provinces list"),
@@ -238,7 +238,7 @@ class SharedGeneratorHelperTest(unittest.TestCase):
             '(scope:target)" <= 0\n'
         )
         with generator_function(
-            "workspace/agot_playset_runtime_fixes/runtime_fixes/crash_stability.py",
+            "tools/agot_playset/runtime_fixes/crash_stability.py",
             "guard_appointment_score_calls",
         ) as guard_scores:
             repaired = guard_scores(block)
@@ -266,7 +266,7 @@ class SharedGeneratorHelperTest(unittest.TestCase):
             "}"
         )
         with generator_function(
-            "workspace/agot_playset_runtime_fixes/runtime_fixes/crash_stability.py",
+            "tools/agot_playset/runtime_fixes/crash_stability.py",
             "guard_accolade_successor_assignment",
         ) as guard_successor:
             repaired = guard_successor(block)
@@ -291,7 +291,7 @@ class SharedGeneratorHelperTest(unittest.TestCase):
             "}"
         )
         with generator_function(
-            "workspace/agot_playset_runtime_fixes/runtime_fixes/crash_stability.py",
+            "tools/agot_playset/runtime_fixes/crash_stability.py",
             "minimize_accolade_acclaimed_death",
         ) as minimize_death:
             repaired = minimize_death(block)
@@ -311,7 +311,7 @@ class SharedGeneratorHelperTest(unittest.TestCase):
             "}"
         )
         with generator_function(
-            "workspace/agot_playset_runtime_fixes/runtime_fixes/crash_stability.py",
+            "tools/agot_playset/runtime_fixes/crash_stability.py",
             "guard_on_set_relation_elder",
         ) as guard_callback:
             repaired_callback = guard_callback(callback)
@@ -325,7 +325,7 @@ class SharedGeneratorHelperTest(unittest.TestCase):
             "}"
         )
         with generator_function(
-            "workspace/agot_playset_runtime_fixes/runtime_fixes/crash_stability.py",
+            "tools/agot_playset/runtime_fixes/crash_stability.py",
             "guard_elder_relation_effect",
         ) as guard_effect:
             repaired_effect = guard_effect(effect, "set_elder_relation_effect")
@@ -354,12 +354,12 @@ class SharedGeneratorHelperTest(unittest.TestCase):
             "}"
         )
         with generator_function(
-            "workspace/agot_playset_runtime_fixes/runtime_fixes/crash_stability.py",
+            "tools/agot_playset/runtime_fixes/crash_stability.py",
             "guard_existing_scheme_validity",
         ) as guard_validity:
             scheme = guard_validity(scheme)
         with generator_function(
-            "workspace/agot_playset_runtime_fixes/runtime_fixes/crash_stability.py",
+            "tools/agot_playset/runtime_fixes/crash_stability.py",
             "disable_unsafe_scheme_agent_evaluation",
         ) as disable_agents:
             repaired = disable_agents(scheme)
@@ -385,7 +385,7 @@ class SharedGeneratorHelperTest(unittest.TestCase):
             "\t\t\t}\n"
         )
         with generator_function(
-            "workspace/agot_playset_runtime_fixes/runtime_fixes/crash_stability.py",
+            "tools/agot_playset/runtime_fixes/crash_stability.py",
             "drop_unneeded_title_giver_arguments",
         ) as drop_title_giver:
             repaired = drop_title_giver(source)
@@ -406,7 +406,7 @@ class SharedGeneratorHelperTest(unittest.TestCase):
             for index in range(13)
         )
         with generator_function(
-            "workspace/agot_playset_runtime_fixes/runtime_fixes/crash_stability.py",
+            "tools/agot_playset/runtime_fixes/crash_stability.py",
             "strip_unsupported_override_environments",
         ) as strip_fields:
             repaired = strip_fields(source)
@@ -426,7 +426,7 @@ class SharedGeneratorHelperTest(unittest.TestCase):
             {3: "canonical-3", 5: "canonical-5"},
         )
         with generator_function(
-            "workspace/agot_now_lov_ee_compatch/compatch/map_merge.py",
+            "tools/agot_playset/compatch/map_merge.py",
             "replace_locator_band",
         ) as replace_locator_band:
             prefix, suffix, order, records = replace_locator_band(
@@ -445,7 +445,7 @@ class SharedGeneratorHelperTest(unittest.TestCase):
             'c_test = {\n\tculture = "essosi"\n\t1.2.3 = { government = clan }\n}\n'
         )
         with generator_function(
-            "workspace/agot_now_lov_ee_compatch/compatch/pdx.py",
+            "tools/agot_playset/compatch/pdx.py",
             "parse_document",
         ) as parse_document:
             document = parse_document(source)
@@ -457,7 +457,7 @@ class SharedGeneratorHelperTest(unittest.TestCase):
 
         with (
             generator_function(
-                "workspace/agot_now_lov_ee_compatch/compatch/pdx.py",
+                "tools/agot_playset/compatch/pdx.py",
                 "apply_edits",
             ) as apply_edits,
             self.assertRaisesRegex(AssertionError, "overlapping"),
@@ -469,7 +469,7 @@ class SharedGeneratorHelperTest(unittest.TestCase):
             'first = { name = "}" # }\n nested = { value = yes }\n}\nsecond = { }\n'
         )
         with generator_function(
-            "workspace/agot_now_lov_ee_compatch/compatch/pdx.py",
+            "tools/agot_playset/compatch/pdx.py",
             "top_level_blocks",
         ) as top_level_blocks:
             _prefix, _suffix, order, blocks = top_level_blocks(source)
@@ -498,7 +498,7 @@ class SharedGeneratorHelperTest(unittest.TestCase):
 }
 """
         with generator_function(
-            "workspace/agot_full_playset_compatch/implementation.py",
+            "tools/agot_playset/final_integration.py",
             "generate_canon_dragon_birthday_on_action",
         ) as generate_bridge:
             output = generate_bridge(
@@ -514,7 +514,7 @@ class SharedGeneratorHelperTest(unittest.TestCase):
 """
         with (
             generator_function(
-                "workspace/agot_full_playset_compatch/implementation.py",
+                "tools/agot_playset/final_integration.py",
                 "generate_canon_dragon_birthday_on_action",
             ) as generate_bridge,
             self.assertRaisesRegex(AssertionError, "already dispatches"),
@@ -533,7 +533,7 @@ class SharedGeneratorHelperTest(unittest.TestCase):
 """
         with (
             generator_function(
-                "workspace/agot_full_playset_compatch/implementation.py",
+                "tools/agot_playset/final_integration.py",
                 "generate_canon_dragon_birthday_on_action",
             ) as generate_bridge,
             self.assertRaisesRegex(AssertionError, "action changed"),

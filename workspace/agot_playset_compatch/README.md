@@ -1,0 +1,575 @@
+# agot_playset_compatch — module state
+
+The narrow generated repairs for evidenced executable-script failures, plus the
+cross-mod final integrations that hold without any optional Workshop family.
+Everything here is correct on CK3 `1.19` for the playset with neither Legacy of
+Valyria nor Essos Expanded enabled, so this mod is always enabled.
+
+## Ownership
+
+This mod owns 161 files. Each repair entry below names the parent it repairs,
+the diagnosed failure, and — where the repair depends on being the effective
+last writer — why that is safe.
+
+Sixteen of those files are restated by the Legacy of Valyria playset compatch,
+which computes the same repair or merge from the parents that profile adds:
+
+- `common/activities/activity_types/{tournament,coronation,agot_dragon_hatching}.txt`
+- `common/character_interactions/06_ep3_interactions.txt`
+- `common/on_action/agot_on_actions/agot_title_on_actions.txt`
+- `common/on_action/title_on_actions.txt`
+- `common/on_action/travel_on_actions.txt`
+- `common/scripted_effects/zz_agot_playset_noble_family_effect.txt`
+- `common/scripted_rules/zzz_agot_playset_can_be_activity_guest.txt`
+- `events/activities/coronation_activity/coronation_events.txt`
+- `events/activities/tour_activity/tour_general_events.txt`
+- `events/activities/tournaments/contest_events.txt`
+- `events/zz_agot_playset_noble_family_events.txt`
+- `gfx/court_scene/scene_cultures/00_default_cultures.txt`
+- `gui/map_icon_layer.gui`
+- `map_data/geographical_regions/north_sans_neck.txt`
+
+The copies here are computed without Legacy of Valyria, so the profile that
+omits it keeps the repair or the integration rather than falling back to a
+single parent's file.
+
+## Repairs and evidence
+
+### Stability guards
+
+These repairs remove script faults that execute on recurring pulses or during
+game start, where an unset scope or a surplus macro argument is dereferenced.
+Each is justified by the effective source below, and each is pinned so a parent
+change re-raises it.
+
+- **Naval contact stability (Workshop 3772178688, 3781577713):** the contact
+  loop writes reciprocal variables through an iterator scope the engine reports
+  as weak — `set_variable effect [ This scope doesn't support variables. Scope:`
+  … `weak (Character - N)! ]` at `naval_combat_effects.txt` lines 1250-1251 in
+  `naval_combat_update_contact_effect`. The repair stores the contact target on
+  the root character and re-enters it for both writes, and restores the living
+  character gate. Iron and Salt owns the effective event file, so its changes
+  are retained. `naval_combat.0100` drives the loop on every naval pulse, so the
+  fault recurs for as long as the mods are enabled.
+- **Appointment score guards (AGOT):**
+  `appointment_candidate_accumulated_score trigger [ Target title` …
+  `doesn't use appointment succession ]` in `support_candidacy_interaction`.
+  Every `appointment_candidate_accumulated_score(scope:target)` call is wrapped
+  in a `trigger_if` on the target title's own `appointment_type_succession`
+  flag, with a `trigger_else = { always = no }`. The guard is applied per call
+  rather than to the enclosing modifier because CK3 evaluates these triggers
+  eagerly, so a surrounding gate does not prevent the score from being computed
+  on a title without the law. AGOT and the LoV bridge each ship a whole-file
+  copy of `06_ep3_interactions.txt` and both carry the same three unguarded
+  calls, so the repair is rebased from whichever copy is effective: this mod
+  from AGOT's, pinned to AGOT's `support_candidacy_interaction` hash, and the
+  Legacy of Valyria playset compatch from the bridge's.
+- **Accolade succession stability (CK3):** the `on_accolade_acclaimed_death`
+  callback performs only synchronous variable cleanup on its current accolade
+  root. It does not carry that code-owned object through a delayed on-action
+  after succession may have replaced it, and omits the succession notification
+  that required dereferencing it later. The whole-file on-action rebase is
+  pinned to the CK3 callback block. The companion repair to the generated squire
+  effect is Legacy of Valyria's, and lives in that playset compatch.
+- **Elder relation lifecycle (AGOT):**
+  `has_relation_fellow_disciple trigger [ target character was null ]` from
+  `on_set_relation_elder` identifies a relation callback whose saved target no
+  longer exists. The AGOT relation on-action is rebased with an existence gate;
+  both public elder-setting effects require living, distinct elder and disciple
+  parameters; and `find_elder_interaction` revalidates its selected secondary
+  recipient before dispatch. The on-action must be a whole-file rebase because
+  CK3 cannot merge a second trigger or effect for the same named on-action. The
+  effects and interaction remain narrow later definitions, and every consumed
+  AGOT block is hash-pinned.
+- **Political scheme lifecycle (CK3 and AGOT):** the recurring signatures
+  `has_relation_* trigger [ target character was null ]`,
+  `opinion trigger [ target character was null ]`, and
+  `scope:owner trigger [ Failed context switch ]` originate while Promote, Raid
+  Estate, and Expand Power Base evaluate agent acceptance. Promote and Raid
+  Estate now fail their ongoing validity check when owner or target is absent;
+  Expand Power Base gains the missing `valid` block and additionally requires
+  its living administrative owner to remain its living target. CK3 can score
+  agents before daily invalidation removes a broken scheme, so these three
+  definitions use a constant fail-closed agent score, reject agents, and perform
+  no scope-dependent invalidation notification. This temporarily removes agents
+  from those schemes while preserving scheme progression and outcomes. The
+  generated whole-file definitions are pinned to vanilla Promote/Raid Estate and
+  AGOT Expand Power Base.
+- **Beyond-the-Wall queued maintenance:**
+  `title_province trigger [ Failed context switch ]`. The repair requires both
+  `scope:title` and its province before entering `title_province`, so the queued
+  event fails closed instead of dereferencing an unset province.
+- **Coastal raiding tooltip:** inlines the ten-percent-of-target-gold,
+  minimum-one calculation for both transfers so the tooltip and the applied
+  value agree; the stored value is retained only for the follow-up event.
+- **Dragon template storage guards (Workshop 3788885215):**
+  `Failed to fetch variable for 'gene_dragon_fire_color_template' due to not being set`,
+  and the same for `gene_dragon_fire_smoke_template`, each preceded by
+  `Event target link 'var' returned an unset scope`. The templates start from a
+  numeric fallback and read `gl_dragon_variable_storage` entries only inside
+  list entries that actually carry them. The More Dragon Eggs fix is the
+  effective last writer for this path and adds its own dead- and canon-dragon
+  appearance recovery, so the file is restated from that parent and only the two
+  named template blocks are rewritten; the generator pins a hash per block.
+- **Adventurer's Beneficiary CB (Workshop 3349316031):**
+  `Failed to fetch variable for 'val_beneficiary' due to not being set`. The
+  trigger returns false when the attacker has no `val_beneficiary` variable
+  instead of dereferencing it. The same file also drops one surplus
+  `TITLE_GIVER` argument passed to `ep3_become_landed_warning_effect`. Every
+  definition of that effect in the playset declares only `$TITLE$` and
+  `$TITLE_RECEIVER$`, and supplying an undeclared parameter is a documented
+  crash cause. The removal is anchored to that call: the adjacent
+  `ep3_landless_invasion_titles_taken_effect` call does declare `$TITLE_GIVER$`
+  and keeps it.
+- **Landmarks of Westeros special buildings (Workshop 3692879370):** six reader
+  faults in `zzz_landmarks_agot_special_buildings_westeros.txt`, each of which
+  drops the field it names before the database sees it. Four buildings cost
+  `normal_building_tier_9_cost`, which
+  `Failed to read named value or literal from normal_building_tier_9_cost`
+  reports because AGOT declares tiers 1 through 8 only; the repair moves them to
+  the highest tier AGOT does declare, and asserts that both the undefined tier
+  and four uses are still present. One building declares
+  `forest_development_growth_faction`, a misspelling of the terrain development
+  tag. One declares `fort_level` as a direct child of the building rather than
+  inside a `province_modifier`, which `"Unexpected token: fort_level"` reports;
+  every other `fort_level` in the file sits in a `province_modifier`, and the
+  generator asserts that ratio before wrapping the stray one. The generated file
+  is also written with the UTF-8 BOM the reader asks for.
+- **Landmarks of Westeros / COW-AGOT compatch (Workshop 3697008412):** the High
+  Tide completion effect enters a `holding` scope, which does not exist —
+  `"Unknown trigger: holding"` — so the reader discards the block and the castle
+  upgrade never runs. A building's `on_complete` runs in the province scope,
+  which is how the file's sibling blocks reach `barony.holder`, so the wrapper
+  is dropped and the building check made directly. Three further `on_complete`
+  blocks do nothing but `trigger_event = agot_cities.5000`, and no mod in the
+  playset declares that namespace —
+  `trigger_event effect [ Event [agot_cities.5000] not found ]`. Those blocks
+  hold nothing else and are removed; the generator asserts that no reference to
+  the namespace survives.
+- **Kraken events (Workshop 3781577713):**
+  `"Unexpected token: override_environment"` in `events/kraken_events.txt`. CK3
+  1.19 no longer accepts the field, and the parser rejects the surrounding
+  blocks. Removing all 13 lets the events fall back to their normal environment.
+- **Kraken creation scope (Workshop 3781577713):**
+  `untyped trigger [ Scoped object of type 'character' is not valid ((no character) weak (Character - N)!) ]`
+  raised from `kraken_refresh_derived_statistics_effect` and
+  `kraken_refresh_presence_danger_effect` under
+  `kraken_create_at_saved_location_effect`. `naval_combat_initialize_decision`
+  starts the population system and stays offered until the naval AI seeding
+  global is set; CK3 walks a decision's effect tree to build its tooltip, and in
+  that mode `create_character` produces nothing, so `save_scope_as = kraken`
+  leaves a dead handle and every statement under `scope:kraken` dereferences it
+  — five per evaluation, repeated for as long as the decisions panel is drawn.
+  The repair makes that one scope switch optional. Eleven blocks in the file
+  enter `scope:kraken`; only the creation effect's can be reached with the scope
+  unset, and a real `create_character` has always populated it by then.
+
+### General repairs
+
+- **Voluntary become-adventurer decision:** AGOT owns the decision and More
+  Dragon Eggs owns the effective voluntary event. The generated decision
+  override consumes the generic `unlock_voluntary_laampdom_trait` flag (so
+  Immersive Personalities' gpt_tiger and gpt_wolf traits work) and lets stranded
+  landless pirates use the route. It retains AGOT's intentional faith-unlock
+  exclusion. The effective voluntary event now comes from the More Dragon Eggs
+  fix (Workshop `3788885215`), which loads below More Dragon Eggs itself, so the
+  event rebase restates that parent's file; it removes the misplaced
+  child-succession game-rule gate from `ep3_laamps.0030` while retaining its
+  actual succession-event restrictions and every other event change. This is
+  static-source evidence; re-audit after Workshop `2962333032`, `3388366564`,
+  `3788885215`, or `3596393244` changes.
+- **Mari's AGOT Makeovers:** removes 1,173 obsolete `gene_GH_marker_*` bookmark
+  and DNA entries plus eight references to the removed earrings gene, and
+  deletes a stray backtick that made the rest of Aegon V's DNA block fail to
+  parse. Removed crown, clothing, and jewelry templates are mapped to current
+  AGOT categories, and a malformed Mace Tyrell height value is repaired. The
+  effective Viserys bookmark is among the broken portrait files, which display
+  clothing and hair without a proper character body.
+- **Faster Transitions:** rebases its event-transition types onto CK3 1.19 by
+  restoring the current fullscreen and compact pivotal-event effect layers and
+  the event-transition widget's input-handling property. The Workshop copy is
+  based on the pre-1.19 widget definitions, which end in a GUI-thread SIGSEGV
+  while an empty window is visible.
+- **Upgrade House Banners 3:** restores the already-localized close option to
+  its visible house-banner rarity event. Without it the event has no options and
+  opens as an empty blocking popup.
+- **A Landed Knights Mod:** replaces the nonexistent `is_army_owner` trigger and
+  makes the father comparison safe for fatherless knights.
+- **Expanded Court Position:** replaces obsolete `grumpy`, `depressed`, and
+  `merciful` stress-impact keys with current CK3/AGOT traits, including both
+  active depression variants.
+- **[LOT] Legitimacy Over Time:** prevents its AI sway event from starting a
+  scheme when the scripted recipient is missing or has died.
+- **The Red Keep (Hegemony Updates):** saves the Hand event scope only when the
+  castellan council position has a holder. Its government override replaces
+  AGOT's whole government database to add one estate domicile, so whenever that
+  copy lags behind AGOT it drops the governments AGOT has added since — a
+  missing `lorathi_principality_government` produces
+  `change_government effect [ target government type was null ]` during Lorath's
+  three-princes game-start setup. This module is therefore the last writer for
+  `00_agot_government_types.txt`: it restates current AGOT and re-applies only
+  the `lp_feudal_government` domicile line, so the database stays whatever AGOT
+  ships. The Red Keep's copy also predates AGOT moving `first_ranger_government`
+  into `zz_agot_government_types.txt`, and restating AGOT drops that stale
+  second definition. Generation fails if The Red Keep's file ever holds a line
+  current AGOT does not, since such an edit is one this rebase would discard.
+- **AGOT: The Knighting Ceremony:** removes the obsolete `is_triggered_only`
+  field from its hidden relay event; CK3 1.19 event files do not accept that
+  field.
+- **AGOT: House Founders:** uses optional `top_liege` and `primary_title` scopes
+  when checking whether a reveal-bastard story can start. This prevents unlanded
+  interaction recipients from repeatedly failing the context switch. Its dynasty
+  on-actions are also rebased onto current AGOT while preserving the human
+  dynasty-name event. The exact repeated signature is
+  `Caught signal 11 (SIGSEGV)` with the faulting worker at
+  `common/on_action/dynasty_on_actions.txt (on_became_dynasty_head)`. Making its
+  effect empty still registered the same faulting effect chain, so the generated
+  last writer now queues a hidden cleanup event one day later instead of
+  synchronously removing `denounced` and `disinherited`.
+
+  Its `agothf_agot_dynasties` trigger drops one entry. That trigger is a single
+  `OR` over 2,175 AGOT dynasty keys and
+  `agot_hf_new_house_name_generation_events.0002` evaluates it once per
+  character, so the whole list runs at world init and again at every house
+  founding. AGOT keeps localisation for `dynn_Muddle` but no longer defines the
+  dynasty, and no other module in the playset supplies it, so each evaluation
+  raises `Failed to fetch a valid dynasty 'dynn_Muddle'`. A comparison against
+  an undefined dynasty can never match, so the removal preserves the trigger's
+  result. The entry count is pinned: when House Founders next edits that list,
+  **re-audit** the remaining keys against AGOT's current dynasty database.
+
+- **Additional Models decision illustrations:** replaces three references to the
+  parent's nonexistent `agot_court/throne.dds` with AGOT's existing Iron Throne
+  room illustration.
+- **High Septon nickname (AGOT):** `agot_on_title_gain_high_septon` in
+  `common/on_action/agot_on_actions/agot_title_on_actions.txt` names the High
+  Septon but does not nickname them. AGOT's whole-file copy of that path is the
+  effective last writer in this profile, so this mod restates it with that one
+  action extended and every other on-action intact. The action grants
+  `nick_agot_the_high_septon` because AGOT's `agot_is_high_septon` localization
+  branches render the seat's displayed name as `[ROOT.Char.GetNickname]` alone,
+  and the only grant of that nickname in the playset is the game-start dummy's
+  character history, so without it every later High Septon renders an empty name
+  and the composite name line collapses to its separators. `give_nickname` is
+  idempotent, and the on-action already runs on each succession to the seat.
+  Generation fails if AGOT stops defining `agot_assign_high_septon_name_effect`,
+  stops defining the nickname, or stops rendering
+  `agot_high_septon_titled_full_name`, `agot_high_septon_titled_first_name`, or
+  `agot_high_septon_titled_first_name_possessive` from the nickname.
+- **More Valyrian Steel artifacts (Workshop 3573203384):** four dead references
+  across the two artifact files it is the effective last writer for. The
+  Karstark sword's history entry ends at
+  `Nothing after the colon in event target link 'province:'`; `location` is
+  optional on a history entry and no province id is recoverable, so the field is
+  dropped rather than guessed at. Two calls double the effect's own prefix —
+  `Unknown effect: agot_agot_add_artifact_history` — and are corrected to the
+  `agot_add_artifact_history` its neighbours use. `dynn_Scales` is the localized
+  _house_ name AGOT gives `house_Scales`, not a dynasty key, so the Scales
+  sword's traditional-house variable resolves to nothing and now reads
+  `house:house_Scales` directly. Thirty `template = vs_*_template` references
+  name templates the mod never shipped, twenty-eight of them in its override of
+  AGOT's forgeable-sword effects; each falls back to `valyrian_steel_template`,
+  which is what AGOT gives every sword in the file the override diverged from.
+  More Valyrian Steel's own `<sword>_sword_template` names are defined and are
+  left alone. Generation fails if any of those names becomes defined, or if
+  AGOT's forgeable swords stop using one shared template.
+- **More Dragon Eggs portraits (Workshop 3388366564):**
+  `Could not find data system function 'IsCharacterFakeDead'` with
+  `gui/shared/mde_portraits.gui:501 - Failed parsing data statement`
+  `'And(Character.IsValid, Not(IsCharacterFakeDead))' for property 'visible'`,
+  and `gui/shared/mde_portraits.gui:561 -`
+  `'agot_fake_death_portrait_status_icons_small' is not a valid`
+  `widget/type/property`. Both hooks come from an AGOT fake-death portrait layer
+  no mod in the playset defines. A `visible` property that fails to parse leaves
+  the small status-icon container with no visibility rule, and the unknown child
+  widget is discarded on every instantiation. The rule falls back to CK3's own
+  `[Character.IsValid]`, which is what vanilla `portrait_status_icons_small`
+  uses, and generation fails if CK3 begins supplying the function.
+- **Additional Models holding art:** binds the 565 `@holding_illustration_*`
+  references in the compatch's merged `zz_am_lov_nv_holding_art.txt` to literal
+  art paths. `@` constants are file-scoped, and the merge folds castle, city,
+  and temple keys into one file that declares none, so every reference reached
+  the VFS as its own literal name and failed on each frame that drew a holding.
+  AGOT binds the same constant names to different art per holding type, so each
+  reference resolves against the AGOT file its block came from: 292 castle and
+  273 city, with temple blocks using none. The generator asserts those counts,
+  that every target file exists, and that no constant survives in the output.
+  The same file's five `on_complete` Mandala grants are made optional with
+  `scope:character ?=`. `on_complete` binds `scope:character` only when a
+  character completes the construction, so a holding granted in bulk at game
+  start leaves the handle dangling and every statement under it raises
+  `Scoped object is not valid. Type: (no character) weak (Character - ...)`. The
+  grants are piety and development for the completing character, so there is
+  nobody to award when the scope is unset; the generator asserts the site count.
+- **Succession Crisis:** makes comparisons with the optional
+  `crisis_special_character` scope safe and removes its copied vanilla call to
+  `misc.0001`, which AGOT intentionally disables; its copied landless-title
+  naming table also follows AGOT by removing the nonexistent Kurdish-culture
+  gate. Its terminal handlers now use optional `scope:war` switches, so CK3 can
+  build victory, defeat, white-peace, and invalidation tooltips without an
+  unavailable war event target. Its `succession_crisis_misc.0012` handler now
+  captures a candidate before removing their old war side, then joins only if
+  they are still absent from the crisis war and not at war with a current
+  participant; this removes the repeated invalid `add_attacker` and
+  `add_defender` loop.
+- **More Interactive Vassals:** rechecks all participants immediately before
+  each direct or indirect civil-war join in `interactive.0007`. A vassal already
+  in that war, or at war with any current participant, is skipped rather than
+  passed to `add_attacker` or `add_defender`. Upstream gates the same four joins
+  on `any_war_attacker` only, so a conflict with a current defender still
+  reaches the join without this repair. These four joins sit in the two
+  `else_if` branches that `has_game_rule = bannermen_mode_enabled` bypasses, so
+  the repair covers the civil-war path only while that rule is off; with it on,
+  the join is deferred into `interactive.0010`, which re-derives its own scopes
+  and re-checks war membership at fire time and so is left unrepaired.
+- **More Interactive Vassals bannermen casus belli:** drops the `populist_war`
+  half of the mod's `NOR` exclusion for populist and nomadic wars. AGOT keeps
+  `populist_war` commented out of `common/casus_belli_types/`, so the key
+  resolves to nothing and every evaluation raises
+  `using_cb: Invalid casus belli 'populist_war'`. A war cannot be fought under a
+  casus belli the database does not define, so the clause excludes nothing and
+  the retained `nomadic_war` check carries the full intent. The exclusion is
+  written once as `interactive_bannermen_callable_war_trigger` and inlined at
+  six further sites, so the repair matches the shared `NOR` shape at any
+  indentation and pins one site in the trigger file, one in
+  `interactive_decisions.txt`, and five in `interactive_on_actions.txt`; a
+  release that adds, moves, or reshapes any of them fails generation. Owning
+  those two extra files also makes this module the effective source of their
+  pre-existing `unknown list` finding, which the tiger baseline records: the
+  bannermen lists are built at runtime and no static writer declares them.
+- **AGOT war AI:** returns a neutral house-relation score when either war
+  participant has no house, before evaluating the original house-relation
+  scoring logic.
+- **Artifact Manager:** repairs four invalid scripted-GUI saved-scope
+  declarations, inlines a bare trigger that could not be defined in a
+  scripted-GUI file, and uses the current optional global-variable scope syntax.
+  It also removes 49 upgrade checks for vanilla artifact modifiers unavailable
+  under AGOT. These parse and database failures disabled several artifact
+  upgrade, combination, and inventory controls. The repair also fixes two
+  malformed variable removals, the distribution GUI's saved-scope declaration,
+  batch-sale artifact/owner scopes, named repair-cost scopes, optional
+  giveaway-recipient guards, and the batch-combination routine's invalid `else`
+  syntax. Its direct-upgrade routine now targets AGOT's actual maximum prowess
+  modifier and skips vanilla-only merit and Confucian modifier families absent
+  from AGOT. The distribution event now uses current stress-impact constants and
+  a typed saved scope for its highlighted family portrait.
+- **Advanced Character Search:** makes its generated filters compatible with
+  AGOT's total-conversion database: 36 references to unavailable
+  imperial-minister titles are removed, vanilla-only trait/religion/minister
+  filters are made explicitly false (with inverse filters true), and unavailable
+  accolade traditions and innovations are removed from otherwise valid
+  alternatives. Existing AGOT-compatible filters and numeric GUI filter indices
+  are preserved. Its main window is now hidden until a valid player exists, and
+  its filter state is initialized from the guarded in-game scripted GUI rather
+  than only from a widget that can be created before the game state. The
+  initializer's malformed global-list iterator is repaired as well.
+- **AGOT Great Councils:** passes typed `trait:` values to current AGOT
+  religious scripted triggers and uses AGOT's current High Septon check.
+- **AGOT - Suggest Dragon Bonding:** uses trigger iterators while finding
+  available dragons, replaces the removed busy-event trigger, and repairs
+  diplomacy/dread AI acceptance modifiers.
+- **Tour events (AGOT):** prevents dinner, cultural-festival, tour-general, and
+  Az tour events from evaluating or firing without their required
+  `stop_host_scope` and `visiting_liege` saved scopes. AGOT and the LoV bridge
+  each ship a whole-file copy of `tour_general_events.txt` with the same guard
+  ordering, so that one is rebased from AGOT's copy here and from the bridge's
+  in the Legacy of Valyria playset compatch.
+- **Adventurer's Beneficiary:** verifies that the selected-beneficiary variable
+  exists before comparing the interaction recipient with it.
+- **AGOT: All Men Must Serve:** replaces its CK3 1.19-invalid negative
+  `add_gold` service fee with the positive-value `remove_short_term_gold`
+  deduction effect.
+- **Artifact succession:** skips title-following ownership logic when a newly
+  created title has no previous holder.
+- **Artifact feature patterns:** evaluates the owner-faith restrictions on 12
+  AGOT decorative-pattern triggers only after an artifact owner exists. Artifact
+  generation can query these before assigning an owner, where an unconditional
+  scope switch fails repeatedly.
+- **Startup banners:** falls back to AGOT's existing location-less
+  created-banner path when a royal-court owner has no capital province, while
+  still creating and granting the house or dynasty banner.
+- **Court-scene culture selection:** preserves AGOT's 21 named throne rooms and
+  Additional Models' 10 generic rooms, but returns false instead of evaluating
+  character triggers when CK3 transiently supplies no royal-court owner. Each
+  scene's own `trigger` body is moved inside
+  `trigger_if = { limit = { exists = root } … }` with a
+  `trigger_else = { always = no }`. Additional Models owns the generic file in
+  this profile and already carries its own throne-room exclusions, so only the
+  owner guard is added; its CRLF endings are normalized first because the guard
+  rewrites trigger bodies line by line.
+- **AGOT startup maintenance:** excludes rulers without capital counties from
+  maester seeding and rulers without capital provinces from the Westerosi
+  starting-legitimacy branch.
+- **Chaotic Kurultai succession:** repairs two invalid scopes in AGOT's copy of
+  CK3's `09_dlc_mpo_scripted_effects.txt`, and guards all 17 direct
+  `primary_title.previous_holder` accesses in the chaotic-Kurultai event file
+  (including `mpo_chaotic_kurultai_succession.0005`). The generated overrides
+  reuse the newly created `inheritor_char` for the liege change, compare each
+  county's `holder` with the new ruler, and fail closed when the parent title
+  has no previous holder. Workshop `2962333032` is the effective parent and no
+  later enabled mod owns those scripts.
+- **Better AI Education & Ward Limit BOL:** rebases its stale whole-file vanilla
+  copies on the effective AGOT interactions, nickname effect, and travel event.
+  The intended ward limit, education AI, and language-tutor changes remain, but
+  invalid vanilla culture/religion branches are never loaded; AGOT's
+  deliberately disabled university paths remain disabled. BAIE's
+  `medium_gold_value` retunes are the one delta not replayed: they retarget gold
+  gates AGOT has already commented out, so they have no parent line to apply to.
+- **Character UI Overhaul / Hometowns:** guards birth-location and birthplace
+  access before dereferencing those scopes, removes a county modifier only when
+  the saved birthplace is known, and replaces its vanilla historical-title
+  mapping event with an inert same-id event. New AGOT births retain the safe
+  Hometowns setup without evaluating absent historical title IDs.
+- **Tour pulse:** makes the vanilla monthly pulse a no-op when MFA relays it
+  before the activity has a `stop_host` variable, rather than dereferencing the
+  missing itinerary stop.
+- **Nomad title-gain setup (AGOT):** guards yurt main buildings with the current
+  vanilla construction requirements. The upstream 1200/1300 branches attempt to
+  add `yurt_main_03` and `yurt_main_04` without checking nomadic authority or
+  the previous building, producing the repeated
+  `Domicile owner failed to meet triggered requirements` and
+  `Cannot construct an upgrade when previous building has not been built`
+  errors. The 900/1100 branches also avoid duplicate main-building additions.
+- **Noble-family title churn (AGOT):** routes both `on_vassal_change` calls to
+  `create_noble_family_effect` through
+  `agot_playset_request_noble_family_title_effect`, which sets a 30-day
+  `agot_playset_nf_title_requested` flag and defers the creation to
+  `agot_playset_noble_family.1` (top-liege direct vassal) or `.2` (independent
+  administrative ruler) one day later. Each event re-checks the caller's own
+  guard before creating anything. Upstream calls the effect synchronously from
+  inside an in-flight title/vassal change, so an AI appointment cascade
+  re-enters `on_vassal_change` repeatedly within one tick for the same character
+  and nests unbounded `x_nf_*` landed-title creation inside that batch.
+  Signature:
+  `Executing change nested in 1 other change(s), originating from file: CreateNobleFamilyTitle line: 297`
+  interleaved with repeated
+  `(create_noble_family_effect[...]): Create noble family title for <same character>`.
+  The repair is narrow because it changes only when the creation runs and how
+  often it may be requested; the creation itself still calls the parent's
+  unmodified `create_noble_family_effect`, and the deferred triggers reproduce
+  the upstream guards verbatim. AGOT and the LoV bridge carry the same two call
+  sites in their whole-file copies of `common/on_action/title_on_actions.txt`,
+  so the restated file comes from AGOT's copy here and from the bridge's in the
+  Legacy of Valyria playset compatch; the deferral effect and its two events are
+  identical in both. Re-audit when either parent changes a call site or the
+  guards around it; a character who legitimately needs a noble-family title but
+  fails the deferred trigger retries once the flag expires.
+- **Dragon Wives marriage modifiers (Workshop 3541596590):** replaces two
+  unguarded `var:legitimate_house` comparisons with AGOT's
+  `title_is_not_held_by_legitimate_house` trigger, which verifies both variables
+  before comparing them. This removes the invalid-left-side,
+  failed-variable-fetch, and unset-event-target cascade seen in marriage AI.
+- **AGOT court event `court_events.3020`:** removes the optional
+  `scope:physician ?=` block from `court_scene.roles`. Optional scope syntax is
+  valid in event effects but not in court-scene role declarations; the physician
+  and architect descriptions/cleanup remain conditional.
+- **Same-path event rebases:** the court-events, AGOT artifact, and AGOT health
+  repairs replace their parent paths with complete generated files, retaining
+  every sibling event while changing only the diagnosed block. This is required
+  because CK3 replaces event files by relative path; the generator checks the
+  parent namespace and exact replacement count before writing them.
+- **COW-AGOT province setup (Workshop 2971198450):** removes a Lordsport
+  holder-change block whose `change` object is commented out but whose
+  `scope:change` is still dereferenced during game start. It also rebases COW's
+  stale trade-port, ironwood, Cheesemonger, Bear Island, and Harlaw mines
+  identifiers onto current AGOT definitions; Lordsport's current holder and
+  province setup remain intact.
+- **MPO nomad event guard:** changes AGOT's two MPO nomad event references to
+  `the_great_steppe` into optional scope switches. AGOT deliberately disables
+  that situation, so the events fail closed instead of evaluating an unset
+  scope.
+
+## Canon-continuity guards
+
+Four files this module already owns carry the guards for deaths a character does
+not choose: `travel_events.4003/4007/4032` in
+`travel_events/travel_events_james.txt`, `kraken.0100/1105` in
+`kraken_events.txt`, the failed treatments and mysterious deaths
+`health.3107/3200/4105/6200/6203/6204/6207/6208` in `health_events.txt`, and the
+drinking, dessert and choking accidents `host_dinner_events.1002/3060/3061/3080`
+in `tour_phase_host_a_dinner.txt`.
+
+`guard_event_deaths` in `runtime_fixes/common.py` wraps every `death` in a named
+event in `agot_cc_event_death_protected_trigger = no` and asserts how many it
+found, so a parent release that adds a lethal outcome fails generation instead
+of leaving it unguarded. The trigger is defined by the AGOT: Canon Continuity
+module and switched off by that module's own game rule. Murder, execution,
+sacrifice and witch-burning deaths in the same files are chosen deaths and stay
+reachable.
+
+## Final integrations without the optional families
+
+Beyond the repairs, this mod carries the cross-mod merges that hold with neither
+optional family enabled. They are the same merges the Legacy of Valyria playset
+compatch restates, computed from the parents that remain:
+
+- Much Faster Activities' timing against AGOT's coronation, tournament, and
+  dragon-hatching definitions, without LoV's optional scopes;
+- A Living Westeros' wedding backgrounds and guest-right rules against MFA
+  timing and the Long Night's dead-character exclusion;
+- CaFG's granular county-faith conversion with MFA's cooldown in
+  `contest_events.txt`;
+- AGOT, Additional Models, and COW special-building model detection with the
+  NOW-COW province remaps;
+- COW's Dunstonbury/Sisterton title localization;
+- the NOW-Seasons regional survey, restated at the root of
+  `map_data/geographical_regions/` and pruned against the titles this profile
+  defines, with an empty `replace/north_sans_neck.txt` suppressing the earlier
+  copy so no region key carries two active definitions.
+
+`is_diarch_valid` has no entry here on purpose. Only the LoV bridge contests
+AGOT's and the Long Night's definitions of that rule, so without Legacy of
+Valyria the Long Night is already the correct effective last writer and no
+merged file is needed.
+
+## Generation
+
+The files are generated from current Workshop sources by:
+
+```sh
+ck3mm mod generate agot_playset_compatch
+ck3mm mod generate agot_playset_compatch --apply
+```
+
+The `mod.toml` manifest declares this module's parents and destination-specific
+staged generator. It checks exact replacement counts and stops when a parent
+update invalidates an assumption.
+
+The merges above and the Legacy of Valyria playset compatch share one generator
+in `tools/agot_playset/final_integration.py`, which exposes a core and a LoV
+entry point over the same merge helpers. A parent change is therefore reviewed
+once and lands in both playset compatch mods.
+
+## Re-audit
+
+Individual repairs above carry their own narrower triggers. In general, re-run
+the generator and review the resulting diff after any update to Workshop IDs
+`2962333032`, `3388366564`, `3788885215`, `3596393244`, `3361162762`,
+`2967263410`, `3713902872`, `3319354609`, `3621472324`, `3324579171`,
+`3349316031`, `3761342990`, `3676293022`, `3305687550`, `3662281614`,
+`3673468355`, `2886417277`, `3084203091`, `3225355262`, `3235061780`,
+`3377641022`, `3692879370`, `3697008412`, `3462342647`, `3437814875`,
+`3709868073`, `3541596590`, `2971198450`, `3732116186`, `3573203384`,
+`3166199552`, `2712590542`, or `2519175282`, and after CK3 updates that change
+`04_dlc_ep2_tour_effects.txt` or `common/on_action/accolade_on_actions.txt`,
+Promote, Raid Estate, or the shared scheme system.
+
+Four repairs here are the AGOT-sourced copies of repairs the Legacy of Valyria
+playset compatch rebases from the LoV bridge: the support-candidacy appointment
+guards, the High Septon nickname, the tour-general guard ordering, and the title
+on-action yurt and noble-family repairs. Both parents carry the same faults in
+their whole-file copies, and each copy is pinned separately, so a change to
+either one fails only the playset compatch that reads it. Review both playset
+compatch mods together when one of them trips.
+
+The stability guards are pinned by file or top-level block hash and fail closed
+when a parent changes. Re-run the generator and review the diff after any update
+to Workshop `3772178688` (CK3 Naval Combat) or `3781577713` (AGOT Iron and
+Salt); the latter owns both the effective naval event file and the kraken
+events. Re-run it after updates to `3349316031`, whose Adventurer's Beneficiary
+CB carries both the beneficiary guard and the `TITLE_GIVER` removal, and after
+CK3 or AGOT updates that change `ep3_become_landed_warning_effect` or
+`ep3_landless_invasion_titles_taken_effect`, because the removal depends on
+which parameters those effects declare. Re-run after AGOT changes its elder
+relation on-action, elder-setting effects, find-elder interaction, or Expand
+Power Base scheme; each repair is pinned to those effective AGOT definitions.

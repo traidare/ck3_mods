@@ -8,8 +8,7 @@ AGOT playset, plus Artifact Manager's two artifact-icon atlases.
 Load after **A Game of Thrones**, **Better Barbershop**, **AGOT Dragon Wives**,
 **More Interactive Vassals**, **Artifact Manager**, **AGOT More Personality
 Depth**, its runtime rebase, **AGOT - More Personality Depth + Dragon Wives
-Compatch**, **AGOT Iron and Salt**, and **Character UI Overhaul**. Keep it
-before **AGOT Playset Runtime Fixes** and the final **AGOT Playset Compatch**.
+Compatch**, **AGOT Iron and Salt**, and **Character UI Overhaul**.
 
 ## What it merges
 
@@ -60,8 +59,7 @@ icon on dragons and an opinion value on characters who had faked their death.
 
 ## Notes
 
-Hometowns is deliberately not owned here — **AGOT Playset Runtime Fixes**
-remains its effective writer.
-
-The HUD, map icon, and creature-check parts of the Iron and Salt integration are
-handled by **AGOT Playset Compatch**.
+This module covers the character sheet, the character lists, the portrait
+tooltip, and the shared portrait types. Hometowns, and the HUD, map icon, and
+creature-check parts of the Iron and Salt integration, are deliberately left to
+later mods in the playset.

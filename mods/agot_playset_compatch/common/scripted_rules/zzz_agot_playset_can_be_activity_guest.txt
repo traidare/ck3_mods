@@ -1,0 +1,116 @@
+﻿# Core AGOT playset activity-guest rule.
+can_be_activity_guest = {
+	# The dead are not guests. One line; everything below is AGOT's.
+	NOT = { has_trait = other_trait }
+	is_available_allow_travelling = yes
+	OR = {
+		is_travelling = no
+		# If travelling then it must be already to this activity after it has been created
+		AND = {
+			exists = scope:host.involved_activity
+			exists = current_travel_plan.travel_plan_activity
+			scope:host.involved_activity = current_travel_plan.travel_plan_activity
+		}
+	}
+	# Diarchs with official responsibilities can't come out to play, unless within their liege's realm.
+	trigger_if = {
+		limit = {
+			exists = liege
+			OR = {
+				is_diarch = yes
+				is_designated_diarch = yes
+			}
+			#If you have promised a grand wedding, you must be able to go through with it!
+			NOR = {
+				has_promised_a_grand_wedding = yes
+				has_been_promised_grand_wedding = yes
+				liege = {
+					has_diarchy_type = grand_secretariat
+				}
+			}
+		}
+		scope:host.involved_activity.activity_location.county.holder ?= {
+			OR = {
+				this = root.liege
+				any_liege_or_above = { this = root.liege }
+			}
+		}
+	}
+	#AGOT Added
+	trigger_if = {
+		limit = {
+			OR = {
+				has_character_flag = exiled_from_iron_throne
+				court_owner ?= {
+					has_character_flag = exiled_from_iron_throne
+				}
+			}
+		}
+		scope:host.location.county.holder ?= {
+			NOR = {
+				has_title = title:h_the_iron_throne
+				any_liege_or_above = { has_title = title:h_the_iron_throne }
+				agot_is_part_of_paramountcy_realm = yes
+			}
+		}
+	}
+	#AGOT Added
+	trigger_if = {
+		limit = {
+			# AGOT's line was:  scope:host = {
+			#
+			# Guarded, not changed. With no host in scope the hard '=' threw "Failed context switch" every time
+			# the rule was evaluated outside an activity; `?=` returns false there instead, which is the same
+			# answer this trigger_if already gave. Vanilla uses `scope:host ?= {` itself.
+			scope:host ?= {
+				has_character_flag = exiled_from_iron_throne
+			}
+		}
+		NOR = {
+			has_title = title:h_the_iron_throne
+			any_liege_or_above = { has_title = title:h_the_iron_throne }
+			agot_is_part_of_paramountcy_realm = yes
+		}
+	}
+	trigger_if = {
+		limit = {
+			exists = house
+			# ?= обязателен: scope:host существует не в каждом вызове правила,
+			# без него движок бросает "Failed context switch".
+			# Нет хозяина - блок не применяется, гость допускается.
+			scope:host ?= {
+				has_variable_list = guest_right_denied_houses
+			}
+		}
+		custom_tooltip = {
+			text = guest_right_house_denied_tt
+			scope:host = {
+				NOT = {
+					is_target_in_variable_list = {
+						name = guest_right_denied_houses
+						target = root.house
+					}
+				}
+			}
+		}
+	}
+	trigger_if = {
+		limit = {
+			scope:host ?= {
+				OR = {
+					has_character_modifier = guest_right_breaker_modifier
+					has_character_modifier = guest_right_captor_modifier
+					has_character_modifier = guest_right_breaker_lenient_modifier
+					has_character_modifier = guest_right_captor_lenient_modifier
+				}
+			}
+		}
+		custom_tooltip = {
+			text = guest_right_host_is_breaker_tt
+			OR = {
+				this = scope:host
+				court_owner ?= scope:host
+			}
+		}
+	}
+}

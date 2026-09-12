@@ -2,6 +2,14 @@
   "schemaVersion": 1,
   "findings": [
     {
+      "severity": "error",
+      "code": "unknown-list",
+      "message": "unknown list",
+      "source": "MOD",
+      "file": "events/lifestyles/governance_lifestyle/stewardship_domain_events.txt",
+      "count": 1
+    },
+    {
       "severity": "warning",
       "code": "scopes",
       "message": "`agot_event_valid_for_qolab` expects scope to be activity but scope seems to be character",
@@ -40,6 +48,46 @@
       "source": "MOD",
       "file": "events/activities/tournaments/contest_events.txt",
       "count": 4
+    },
+    {
+      "severity": "warning",
+      "code": "strict-scopes",
+      "message": "`stewardship_domain_special_1500_valid_county` expects list excluded_counties to exist",
+      "source": "MOD",
+      "file": "events/lifestyles/governance_lifestyle/stewardship_domain_events.txt",
+      "count": 2
+    },
+    {
+      "severity": "warning",
+      "code": "strict-scopes",
+      "message": "`stewardship_domain_special_1510_upset_priest` expects list excluded_counties to exist",
+      "source": "MOD",
+      "file": "events/lifestyles/governance_lifestyle/stewardship_domain_events.txt",
+      "count": 3
+    },
+    {
+      "severity": "warning",
+      "code": "strict-scopes",
+      "message": "`stewardship_domain_special_1520_objecting_noble` expects list excluded_counties to exist",
+      "source": "MOD",
+      "file": "events/lifestyles/governance_lifestyle/stewardship_domain_events.txt",
+      "count": 2
+    },
+    {
+      "severity": "warning",
+      "code": "strict-scopes",
+      "message": "`stewardship_domain_special_1530_unhappy_city` expects list excluded_counties to exist",
+      "source": "MOD",
+      "file": "events/lifestyles/governance_lifestyle/stewardship_domain_events.txt",
+      "count": 2
+    },
+    {
+      "severity": "warning",
+      "code": "strict-scopes",
+      "message": "`stewardship_domain_special_1560_upset_merchants` expects list excluded_counties to exist",
+      "source": "MOD",
+      "file": "events/lifestyles/governance_lifestyle/stewardship_domain_events.txt",
+      "count": 2
     }
   ]
 }

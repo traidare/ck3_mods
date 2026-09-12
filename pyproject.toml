@@ -36,9 +36,9 @@ select = ["E", "F", "I", "UP", "B", "SIM", "ARG", "C901"]
 max-complexity = 25
 
 [tool.ruff.lint.isort]
-known-first-party = ["gen"]
+known-first-party = ["agot_playset", "gen"]
 
 [tool.ruff.lint.per-file-ignores]
 "workspace/**/implementation.py" = ["E501"]
-"workspace/**/compatch/*.py" = ["E501"]
-"workspace/**/runtime_fixes/*.py" = ["E501"]
+# Paradox Script literals and the Workshop paths they are keyed by do not wrap.
+"tools/agot_playset/**/*.py" = ["E501"]

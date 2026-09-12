@@ -1,10 +1,6 @@
 # agot_debug_house_transfer — module state
 
-A temporary player-facing debug tool, not a compatch layer and not a runtime
-repair. It was kept out of `agot_playset_runtime_fixes` because that module is
-reserved for evidenced executable-script failures, and because its generator
-owns the whole `common/` tree, so a hand-authored file there would be deleted on
-the next `ck3mm mod generate`.
+A temporary player-facing debug tool.
 
 Load position: anywhere after AGOT. It defines new keys only and overrides no
 parent path, so it has no load-order requirement beyond AGOT itself.

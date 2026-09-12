@@ -2,6 +2,7 @@
 entrypoint = "implementation.py:generate"
 owned_outputs = [
   "events/activities/tournaments/contest_events.txt",
+  "events/lifestyles/governance_lifestyle/stewardship_domain_events.txt",
   "gui/window_county_view.gui",
 ]
 

@@ -1,0 +1,189 @@
+[generator]
+entrypoint = "implementation.py:generate"
+owned_outputs = [
+  "common/on_action/agot_on_actions/agot_game_start.txt",
+  "common/on_action/agot_on_actions/agot_title_on_actions.txt",
+  "common/on_action/cob_on_actions/zz_lv_aurion_lost_expedition_title_gain.txt",
+  "common/on_action/title_on_actions.txt",
+  "common/character_interactions/06_ep3_interactions.txt",
+  "common/buildings/zz_am_lov_nv_holding_art.txt",
+  "common/scripted_effects/zz_agot_playset_noble_family_effect.txt",
+  "common/scripted_effects/zzzzz_agot_playset_accolade_stability.txt",
+  "events/zz_agot_playset_noble_family_events.txt",
+  "events/activities/tour_activity/tour_general_events.txt",
+  "gfx/court_scene/scene_cultures/00_default_cultures.txt",
+  "map_data/definition.csv",
+  "map_data/adjacencies.csv",
+  "map_data/island_region.txt",
+  "gfx/map/map_object_data/new_mapobject_1.txt",
+  "gfx/map/map_object_data/new_mapobject_3.txt",
+  "gfx/map/map_object_data/building_locators.txt",
+  "gfx/map/map_object_data/special_building_locators.txt",
+  "events/lov_season_events.txt",
+  "map_data/geographical_regions/north_sans_neck.txt",
+  "gui/map_icon_layer.gui",
+  "common/scripted_rules/zzz_agot_playset_is_diarch_valid.txt",
+  "common/scripted_rules/zzz_agot_playset_can_be_activity_guest.txt",
+  "common/on_action/travel_on_actions.txt",
+  "common/travel/travel_options/travel_options.txt",
+  "common/activities/activity_types/tournament.txt",
+  "common/activities/activity_types/coronation.txt",
+  "common/activities/activity_types/agot_dragon_hatching.txt",
+  "events/activities/coronation_activity/coronation_events.txt",
+  "events/activities/tournaments/contest_events.txt",
+]
+
+[[sources]]
+name = "agot"
+kind = "workshop"
+item_id = "2962333032"
+
+[[sources]]
+name = "new-personality-events"
+kind = "workshop"
+item_id = "2779836155"
+
+[[sources]]
+name = "agot-now"
+kind = "workshop"
+item_id = "3664900993"
+
+[[sources]]
+name = "seasons"
+kind = "workshop"
+item_id = "3377641022"
+
+[[sources]]
+name = "seasons-bridge"
+kind = "workshop"
+item_id = "3766038754"
+
+[[sources]]
+name = "amsb"
+kind = "workshop"
+item_id = "3319354609"
+
+[[sources]]
+name = "amsb-lov-compatch"
+kind = "workshop"
+item_id = "3773616784"
+
+[[sources]]
+name = "mde-eggs"
+kind = "workshop"
+item_id = "3388366564"
+
+[[sources]]
+name = "mde-fix"
+kind = "workshop"
+item_id = "3788885215"
+
+[[sources]]
+name = "mde-events"
+kind = "workshop"
+item_id = "3466228580"
+
+# Not enabled in the playset: its map_object_data would shadow the map compatch.
+# Consumed only so its model remaps stay pinned and asserted.
+[[sources]]
+name = "cow-now-compatch"
+kind = "workshop"
+item_id = "3742055253"
+
+[[sources]]
+name = "iron-and-salt"
+kind = "workshop"
+item_id = "3781577713"
+
+[[sources]]
+name = "dfp-agot"
+kind = "workshop"
+item_id = "3609763696"
+
+[[sources]]
+name = "lov-agot-bridge"
+kind = "workshop"
+item_id = "3788296332"
+
+[[sources]]
+name = "great-councils"
+kind = "workshop"
+item_id = "3621472324"
+
+[[sources]]
+name = "long-night-azor-ahai"
+kind = "workshop"
+item_id = "3780269495"
+
+[[sources]]
+name = "much-faster-activities"
+kind = "workshop"
+item_id = "3723597729"
+
+[[sources]]
+name = "mde-lov-hatching"
+kind = "workshop"
+item_id = "3762892932"
+
+[[sources]]
+name = "culture-faith-granularity"
+kind = "workshop"
+item_id = "3206891770"
+
+[[sources]]
+name = "lov"
+kind = "workshop"
+item_id = "3403938445"
+
+[[sources]]
+name = "travelers"
+kind = "workshop"
+item_id = "3082182371"
+
+[[sources]]
+name = "travelers-agot-compatibility"
+kind = "workshop"
+item_id = "3166199552"
+
+[[sources]]
+name = "living-westeros"
+kind = "workshop"
+item_id = "3792698340"
+
+[[sources]]
+name = "vanilla"
+kind = "game"
+path = "game"
+
+[[sources]]
+name = "game"
+kind = "game"
+path = "game"
+
+# The runtime repairs address their parents by Workshop id through
+# `WorkshopSources`, which resolves `<id>/<path>` against these names.  They are
+# the same parents the named sources above declare, reached by the other join.
+[[sources]]
+name = "workshop-2962333032"
+kind = "workshop"
+item_id = "2962333032"
+
+[[sources]]
+name = "workshop-3319354609"
+kind = "workshop"
+item_id = "3319354609"
+
+[[sources]]
+name = "workshop-3403938445"
+kind = "workshop"
+item_id = "3403938445"
+
+[[sources]]
+name = "workshop-3773616784"
+kind = "workshop"
+item_id = "3773616784"
+
+[[sources]]
+name = "workshop-3788296332"
+kind = "workshop"
+item_id = "3788296332"

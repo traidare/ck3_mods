@@ -6,7 +6,7 @@ portrait types, and Artifact Manager's two artifact-icon atlases.
 
 Load after every parent represented in the merge, including the MPD + Dragon
 Wives compatch, AGOT Iron and Salt, and Character UI Overhaul; keep this module
-before `agot_playset_runtime_fixes` and `agot_full_playset_compatch`.
+before the `agot_playset_compatch` modules.
 
 ## Ownership
 
@@ -18,8 +18,10 @@ rescue/revenge war controls, and More Interactive Vassals warnings. Artifact
 Manager's `artifact_bg.dds` and `artifact_unique.dds` remain the effective
 icons.
 
-Hometowns is intentionally **not** owned here; the later
-`agot_playset_runtime_fixes` module remains its effective repaired writer.
+Hometowns is intentionally **not** owned here; the later `agot_playset_compatch`
+remains its effective repaired writer. The HUD, map icon, and creature-check
+parts of the Iron and Salt integration are owned there as well — this module
+takes only the GUI files it merges against Character UI Overhaul.
 
 AGOT keeps its culture cooltip body in the additive
 `gui/shared/agot_cooltip.gui` and calls it from `cooltip.gui` by type reference,
