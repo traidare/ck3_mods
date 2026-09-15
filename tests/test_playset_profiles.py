@@ -23,7 +23,7 @@ MODULES = (CORE, LOV, EE)
 # Workshop ids of the optional families, keyed by the earliest module allowed to
 # read them. A module may read its own family and every family below it.
 LOV_FAMILY = frozenset(
-    {"3403938445", "3772292501", "3788296332", "3762892932", "3773616784", "3766038754"}
+    {"3403938445", "3772292501", "3788296332", "3773616784", "3766038754"}
 )
 EE_FAMILY = frozenset({"3682802751", "3768149491", "3773608127"})
 

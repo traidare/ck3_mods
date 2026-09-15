@@ -165,6 +165,153 @@ template character_opinion_tooltip {
 				}
 
 				expand = {}
+				vbox = {
+								visible = "[And( Character.GetLiege.IsValid, And( Character.GetLiege.IsLocalPlayer, And( Character.IsAlive, And( Not( Character.IsLocalPlayer ), GreaterThanZero_CFixedPoint( GuiScope.SetRoot( Character.MakeScope ).AddScope( 'liege', GetPlayer.MakeScope ).AddScope( 'vassal', Character.MakeScope ).ScriptValue( 'miv_hover_state' ) ) ) ) ) )]"
+								layoutpolicy_horizontal = expanding
+								margin_left = 8
+								spacing = 2
+								datacontext = "[GuiScope.SetRoot( Character.MakeScope ).AddScope( 'liege', GetPlayer.MakeScope ).AddScope( 'vassal', Character.MakeScope ).GetScriptValueBreakdown( 'interactive_bannermen_muster_score' )]"
+
+								scrollbox = {
+									layoutpolicy_horizontal = expanding
+									autoresizescrollarea = yes
+									minimumsize = { 400 -1 }
+									maximumsize = { -1 400 }
+									scrollbarpolicy_vertical = as_needed
+
+									blockoverride "scrollbox_background" {}
+
+									blockoverride "scrollbox_background_fade" {}
+
+									blockoverride "scrollbox_margins" {
+										margin_top = 4
+										margin_bottom = 10
+										margin_left = 0
+										margin_right = 18
+									}
+
+									blockoverride "scrollbox_content" {
+									vbox = {
+										layoutpolicy_horizontal = expanding
+									hbox = {
+										layoutpolicy_horizontal = expanding
+										margin_bottom = 2
+										ignoreinvisible = yes
+
+										text_single = {
+											visible = "[EqualTo_CFixedPoint( GuiScope.SetRoot( Character.MakeScope ).AddScope( 'liege', GetPlayer.MakeScope ).AddScope( 'vassal', Character.MakeScope ).ScriptValue( 'miv_hover_state' ), '(CFixedPoint)1' )]"
+											text = "MIV_RUNG_REBELLION"
+											tooltip = "MIV_HDR_REBELLION_SUB"
+											alwaystransparent = no
+											default_format = "#T"
+											fonttintcolor = "[TooltipInfo.GetTintColor]"
+										}
+										text_single = {
+											visible = "[EqualTo_CFixedPoint( GuiScope.SetRoot( Character.MakeScope ).AddScope( 'liege', GetPlayer.MakeScope ).AddScope( 'vassal', Character.MakeScope ).ScriptValue( 'miv_hover_state' ), '(CFixedPoint)2' )]"
+											text = "MIV_RUNG_SERVING"
+											tooltip = "MIV_HDR_SERVING_SUB"
+											alwaystransparent = no
+											default_format = "#T"
+											fonttintcolor = "[TooltipInfo.GetTintColor]"
+										}
+										text_single = {
+											visible = "[EqualTo_CFixedPoint( GuiScope.SetRoot( Character.MakeScope ).AddScope( 'liege', GetPlayer.MakeScope ).AddScope( 'vassal', Character.MakeScope ).ScriptValue( 'miv_hover_state' ), '(CFixedPoint)3' )]"
+											text = "MIV_RUNG_UNAVAILABLE"
+											tooltip = "MIV_HDR_UNAVAILABLE_SUB"
+											alwaystransparent = no
+											default_format = "#T"
+											fonttintcolor = "[TooltipInfo.GetTintColor]"
+										}
+										text_single = {
+											visible = "[EqualTo_CFixedPoint( GuiScope.SetRoot( Character.MakeScope ).AddScope( 'liege', GetPlayer.MakeScope ).AddScope( 'vassal', Character.MakeScope ).ScriptValue( 'miv_hover_prompt' ), '(CFixedPoint)1' )]"
+											text = "MIV_RUNG_PROMPT"
+											tooltip = "MIV_HDR_PROMPT_SUB"
+											alwaystransparent = no
+											default_format = "#T"
+											fonttintcolor = "[TooltipInfo.GetTintColor]"
+										}
+										text_single = {
+											visible = "[EqualTo_CFixedPoint( GuiScope.SetRoot( Character.MakeScope ).AddScope( 'liege', GetPlayer.MakeScope ).AddScope( 'vassal', Character.MakeScope ).ScriptValue( 'miv_hover_willing' ), '(CFixedPoint)1' )]"
+											text = "MIV_RUNG_WILLING"
+											tooltip = "MIV_HDR_WILLING_SUB"
+											alwaystransparent = no
+											default_format = "#T"
+											fonttintcolor = "[TooltipInfo.GetTintColor]"
+										}
+										text_single = {
+											visible = "[EqualTo_CFixedPoint( GuiScope.SetRoot( Character.MakeScope ).AddScope( 'liege', GetPlayer.MakeScope ).AddScope( 'vassal', Character.MakeScope ).ScriptValue( 'miv_hover_reluctant' ), '(CFixedPoint)1' )]"
+											text = "MIV_RUNG_RELUCTANT"
+											tooltip = "MIV_HDR_RELUCTANT_SUB"
+											alwaystransparent = no
+											default_format = "#T"
+											fonttintcolor = "[TooltipInfo.GetTintColor]"
+										}
+										text_single = {
+											visible = "[EqualTo_CFixedPoint( GuiScope.SetRoot( Character.MakeScope ).AddScope( 'liege', GetPlayer.MakeScope ).AddScope( 'vassal', Character.MakeScope ).ScriptValue( 'miv_hover_grudging' ), '(CFixedPoint)1' )]"
+											text = "MIV_RUNG_GRUDGING"
+											tooltip = "MIV_HDR_GRUDGING_SUB"
+											alwaystransparent = no
+											default_format = "#T"
+											fonttintcolor = "[TooltipInfo.GetTintColor]"
+										}
+										text_single = {
+											visible = "[EqualTo_CFixedPoint( GuiScope.SetRoot( Character.MakeScope ).AddScope( 'liege', GetPlayer.MakeScope ).AddScope( 'vassal', Character.MakeScope ).ScriptValue( 'miv_hover_betray' ), '(CFixedPoint)1' )]"
+											text = "MIV_RUNG_BETRAY"
+											tooltip = "MIV_HDR_BETRAY_SUB"
+											alwaystransparent = no
+											default_format = "#T"
+											fonttintcolor = "[TooltipInfo.GetTintColor]"
+										}
+										text_single = {
+											visible = "[EqualTo_CFixedPoint( GuiScope.SetRoot( Character.MakeScope ).AddScope( 'liege', GetPlayer.MakeScope ).AddScope( 'vassal', Character.MakeScope ).ScriptValue( 'miv_hover_refuse' ), '(CFixedPoint)1' )]"
+											text = "MIV_RUNG_REFUSE"
+											tooltip = "MIV_HDR_REFUSE_SUB"
+											alwaystransparent = no
+											default_format = "#T"
+											fonttintcolor = "[TooltipInfo.GetTintColor]"
+										}
+
+										expand = {}
+
+										text_single = {
+											text = "[GuiScope.SetRoot( Character.MakeScope ).AddScope( 'liege', GetPlayer.MakeScope ).AddScope( 'vassal', Character.MakeScope ).ScriptValue( 'interactive_bannermen_muster_score' )|+0=]"
+											align = right
+											default_format = "#T"
+											fonttintcolor = "[TooltipInfo.GetTintColor]"
+										}
+									}
+
+										vbox = {
+											layoutpolicy_horizontal = expanding
+											datamodel = "[ValueBreakdown.GetSubValues]"
+											spacing = 1
+
+											item = {
+												hbox = {
+													layoutpolicy_horizontal = expanding
+
+													text_single = {
+														text = "[ValueBreakdown.GetName]"
+														max_width = 390
+														margin_right = 10
+														fonttintcolor = "[TooltipInfo.GetTintColor]"
+													}
+
+													expand = {}
+
+													text_single = {
+														visible = "[ValueBreakdown.ShouldShowValue]"
+														text = "[ValueBreakdown.GetFixedPointValue|+0=]"
+														align = right
+														fonttintcolor = "[TooltipInfo.GetTintColor]"
+													}
+												}
+											}
+										}
+									}
+									}
+								}
+							}
 			}
 		}
 	}

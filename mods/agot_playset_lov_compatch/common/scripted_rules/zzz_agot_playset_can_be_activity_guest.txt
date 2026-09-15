@@ -7,7 +7,7 @@
 # three extensions effective. Re-audit when another definition joins the
 # playset or any parent changes this rule.
 can_be_activity_guest = {
-	NOT = { has_trait = other_trait }
+	ln_is_one_of_them_trigger = no
 	is_available_allow_travelling = yes
 	OR = {
 		is_travelling = no

@@ -7,7 +7,7 @@ Valyria nor Essos Expanded enabled, so this mod is always enabled.
 
 ## Ownership
 
-This mod owns 161 files. Each repair entry below names the parent it repairs,
+This mod owns 154 files. Each repair entry below names the parent it repairs,
 the diagnosed failure, and — where the repair depends on being the effective
 last writer — why that is safe.
 
@@ -47,7 +47,7 @@ change re-raises it.
   as weak — `set_variable effect [ This scope doesn't support variables. Scope:`
   … `weak (Character - N)! ]` at `naval_combat_effects.txt` lines 1250-1251 in
   `naval_combat_update_contact_effect`. The repair stores the contact target on
-  the root character and re-enters it for both writes, and restores the living
+  the root character and re-enters it for both writes, and includes the living
   character gate. Iron and Salt owns the effective event file, so its changes
   are retained. `naval_combat.0100` drives the loop on every naval pulse, so the
   fault recurs for as long as the mods are enabled.
@@ -92,7 +92,7 @@ change re-raises it.
   `opinion trigger [ target character was null ]`, and
   `scope:owner trigger [ Failed context switch ]` originate while Promote, Raid
   Estate, and Expand Power Base evaluate agent acceptance. Promote and Raid
-  Estate now fail their ongoing validity check when owner or target is absent;
+  Estate fail their ongoing validity check when owner or target is absent;
   Expand Power Base gains the missing `valid` block and additionally requires
   its living administrative owner to remain its living target. CK3 can score
   agents before daily invalidation removes a broken scheme, so these three
@@ -108,15 +108,6 @@ change re-raises it.
 - **Coastal raiding tooltip:** inlines the ten-percent-of-target-gold,
   minimum-one calculation for both transfers so the tooltip and the applied
   value agree; the stored value is retained only for the follow-up event.
-- **Dragon template storage guards (Workshop 3788885215):**
-  `Failed to fetch variable for 'gene_dragon_fire_color_template' due to not being set`,
-  and the same for `gene_dragon_fire_smoke_template`, each preceded by
-  `Event target link 'var' returned an unset scope`. The templates start from a
-  numeric fallback and read `gl_dragon_variable_storage` entries only inside
-  list entries that actually carry them. The More Dragon Eggs fix is the
-  effective last writer for this path and adds its own dead- and canon-dragon
-  appearance recovery, so the file is restated from that parent and only the two
-  named template blocks are rewritten; the generator pins a hash per block.
 - **Adventurer's Beneficiary CB (Workshop 3349316031):**
   `Failed to fetch variable for 'val_beneficiary' due to not being set`. The
   trigger returns false when the attacker has no `val_beneficiary` variable
@@ -154,8 +145,8 @@ change re-raises it.
   the namespace survives.
 - **Kraken events (Workshop 3781577713):**
   `"Unexpected token: override_environment"` in `events/kraken_events.txt`. CK3
-  1.19 no longer accepts the field, and the parser rejects the surrounding
-  blocks. Removing all 13 lets the events fall back to their normal environment.
+  1.19 rejects the field and the surrounding blocks. Removing all 13 lets the
+  events fall back to their normal environment.
 - **Kraken creation scope (Workshop 3781577713):**
   `untyped trigger [ Scoped object of type 'character' is not valid ((no character) weak (Character - N)!) ]`
   raised from `kraken_refresh_derived_statistics_effect` and
@@ -172,18 +163,13 @@ change re-raises it.
 
 ### General repairs
 
-- **Voluntary become-adventurer decision:** AGOT owns the decision and More
-  Dragon Eggs owns the effective voluntary event. The generated decision
-  override consumes the generic `unlock_voluntary_laampdom_trait` flag (so
-  Immersive Personalities' gpt_tiger and gpt_wolf traits work) and lets stranded
-  landless pirates use the route. It retains AGOT's intentional faith-unlock
-  exclusion. The effective voluntary event now comes from the More Dragon Eggs
-  fix (Workshop `3788885215`), which loads below More Dragon Eggs itself, so the
-  event rebase restates that parent's file; it removes the misplaced
-  child-succession game-rule gate from `ep3_laamps.0030` while retaining its
-  actual succession-event restrictions and every other event change. This is
-  static-source evidence; re-audit after Workshop `2962333032`, `3388366564`,
-  `3788885215`, or `3596393244` changes.
+- **Voluntary become-adventurer decision:** the generated AGOT decision override
+  consumes the generic `unlock_voluntary_laampdom_trait` flag (so Immersive
+  Personalities' gpt_tiger and gpt_wolf traits work) and lets stranded landless
+  pirates use the route. It retains AGOT's intentional faith-unlock exclusion.
+  More Dragon Eggs supplies a single inheritor-existence trigger on
+  `ep3_laamps.0030`, so the generator emits no event override. Re-audit after
+  AGOT, More Dragon Eggs, or Immersive Personalities changes.
 - **Mari's AGOT Makeovers:** removes 1,173 obsolete `gene_GH_marker_*` bookmark
   and DNA entries plus eight references to the removed earrings gene, and
   deletes a stray backtick that made the rest of Aegon V's DNA block fail to
@@ -192,12 +178,12 @@ change re-raises it.
   effective Viserys bookmark is among the broken portrait files, which display
   clothing and hair without a proper character body.
 - **Faster Transitions:** rebases its event-transition types onto CK3 1.19 by
-  restoring the current fullscreen and compact pivotal-event effect layers and
+  applying the current fullscreen and compact pivotal-event effect layers and
   the event-transition widget's input-handling property. The Workshop copy is
   based on the pre-1.19 widget definitions, which end in a GUI-thread SIGSEGV
   while an empty window is visible.
-- **Upgrade House Banners 3:** restores the already-localized close option to
-  its visible house-banner rarity event. Without it the event has no options and
+- **Upgrade House Banners 3:** adds the already-localized close option to its
+  visible house-banner rarity event. Without it the event has no options and
   opens as an empty blocking popup.
 - **A Landed Knights Mod:** replaces the nonexistent `is_army_owner` trigger and
   makes the father comparison safe for fatherless knights.
@@ -230,19 +216,10 @@ change re-raises it.
   `Caught signal 11 (SIGSEGV)` with the faulting worker at
   `common/on_action/dynasty_on_actions.txt (on_became_dynasty_head)`. Making its
   effect empty still registered the same faulting effect chain, so the generated
-  last writer now queues a hidden cleanup event one day later instead of
-  synchronously removing `denounced` and `disinherited`.
-
-  Its `agothf_agot_dynasties` trigger drops one entry. That trigger is a single
-  `OR` over 2,175 AGOT dynasty keys and
-  `agot_hf_new_house_name_generation_events.0002` evaluates it once per
-  character, so the whole list runs at world init and again at every house
-  founding. AGOT keeps localisation for `dynn_Muddle` but no longer defines the
-  dynasty, and no other module in the playset supplies it, so each evaluation
-  raises `Failed to fetch a valid dynasty 'dynn_Muddle'`. A comparison against
-  an undefined dynasty can never match, so the removal preserves the trigger's
-  result. The entry count is pinned: when House Founders next edits that list,
-  **re-audit** the remaining keys against AGOT's current dynasty database.
+  last writer queues a hidden cleanup event one day later instead of
+  synchronously removing `denounced` and `disinherited`. The dynasty trigger
+  remains upstream-owned; this module's House Founders outputs are limited to
+  the reveal-bastard interaction and dynasty on-action.
 
 - **Additional Models decision illustrations:** replaces three references to the
   parent's nonexistent `agot_court/throne.dds` with AGOT's existing Iron Throne
@@ -271,26 +248,14 @@ change re-raises it.
   `Unknown effect: agot_agot_add_artifact_history` — and are corrected to the
   `agot_add_artifact_history` its neighbours use. `dynn_Scales` is the localized
   _house_ name AGOT gives `house_Scales`, not a dynasty key, so the Scales
-  sword's traditional-house variable resolves to nothing and now reads
-  `house:house_Scales` directly. Thirty `template = vs_*_template` references
-  name templates the mod never shipped, twenty-eight of them in its override of
-  AGOT's forgeable-sword effects; each falls back to `valyrian_steel_template`,
-  which is what AGOT gives every sword in the file the override diverged from.
-  More Valyrian Steel's own `<sword>_sword_template` names are defined and are
-  left alone. Generation fails if any of those names becomes defined, or if
-  AGOT's forgeable swords stop using one shared template.
-- **More Dragon Eggs portraits (Workshop 3388366564):**
-  `Could not find data system function 'IsCharacterFakeDead'` with
-  `gui/shared/mde_portraits.gui:501 - Failed parsing data statement`
-  `'And(Character.IsValid, Not(IsCharacterFakeDead))' for property 'visible'`,
-  and `gui/shared/mde_portraits.gui:561 -`
-  `'agot_fake_death_portrait_status_icons_small' is not a valid`
-  `widget/type/property`. Both hooks come from an AGOT fake-death portrait layer
-  no mod in the playset defines. A `visible` property that fails to parse leaves
-  the small status-icon container with no visibility rule, and the unknown child
-  widget is discarded on every instantiation. The rule falls back to CK3's own
-  `[Character.IsValid]`, which is what vanilla `portrait_status_icons_small`
-  uses, and generation fails if CK3 begins supplying the function.
+  sword's traditional-house variable points directly to `house:house_Scales`
+  directly. Thirty `template = vs_*_template` references name templates the mod
+  never shipped, twenty-eight of them in its override of AGOT's forgeable-sword
+  effects; each falls back to `valyrian_steel_template`, which is what AGOT
+  gives every sword in the file the override diverged from. More Valyrian
+  Steel's own `<sword>_sword_template` names are defined and are left alone.
+  Generation fails if any of those names becomes defined, or if AGOT's forgeable
+  swords stop using one shared template.
 - **Additional Models holding art:** binds the 565 `@holding_illustration_*`
   references in the compatch's merged `zz_am_lov_nv_holding_art.txt` to literal
   art paths. `@` constants are file-scoped, and the merge folds castle, city,
@@ -311,9 +276,9 @@ change re-raises it.
   `crisis_special_character` scope safe and removes its copied vanilla call to
   `misc.0001`, which AGOT intentionally disables; its copied landless-title
   naming table also follows AGOT by removing the nonexistent Kurdish-culture
-  gate. Its terminal handlers now use optional `scope:war` switches, so CK3 can
+  gate. Its terminal handlers use optional `scope:war` switches, so CK3 can
   build victory, defeat, white-peace, and invalidation tooltips without an
-  unavailable war event target. Its `succession_crisis_misc.0012` handler now
+  unavailable war event target. Its `succession_crisis_misc.0012` handler
   captures a candidate before removing their old war side, then joins only if
   they are still absent from the crisis war and not at war with a current
   participant; this removes the repeated invalid `add_attacker` and
@@ -328,21 +293,6 @@ change re-raises it.
   the repair covers the civil-war path only while that rule is off; with it on,
   the join is deferred into `interactive.0010`, which re-derives its own scopes
   and re-checks war membership at fire time and so is left unrepaired.
-- **More Interactive Vassals bannermen casus belli:** drops the `populist_war`
-  half of the mod's `NOR` exclusion for populist and nomadic wars. AGOT keeps
-  `populist_war` commented out of `common/casus_belli_types/`, so the key
-  resolves to nothing and every evaluation raises
-  `using_cb: Invalid casus belli 'populist_war'`. A war cannot be fought under a
-  casus belli the database does not define, so the clause excludes nothing and
-  the retained `nomadic_war` check carries the full intent. The exclusion is
-  written once as `interactive_bannermen_callable_war_trigger` and inlined at
-  six further sites, so the repair matches the shared `NOR` shape at any
-  indentation and pins one site in the trigger file, one in
-  `interactive_decisions.txt`, and five in `interactive_on_actions.txt`; a
-  release that adds, moves, or reshapes any of them fails generation. Owning
-  those two extra files also makes this module the effective source of their
-  pre-existing `unknown list` finding, which the tiger baseline records: the
-  bannermen lists are built at runtime and no static writer declares them.
 - **AGOT war AI:** returns a neutral house-relation score when either war
   participant has no house, before evaluating the original house-relation
   scoring logic.
@@ -355,19 +305,19 @@ change re-raises it.
   malformed variable removals, the distribution GUI's saved-scope declaration,
   batch-sale artifact/owner scopes, named repair-cost scopes, optional
   giveaway-recipient guards, and the batch-combination routine's invalid `else`
-  syntax. Its direct-upgrade routine now targets AGOT's actual maximum prowess
+  syntax. Its direct-upgrade routine targets AGOT's actual maximum prowess
   modifier and skips vanilla-only merit and Confucian modifier families absent
-  from AGOT. The distribution event now uses current stress-impact constants and
-  a typed saved scope for its highlighted family portrait.
+  from AGOT. The distribution event uses current stress-impact constants and a
+  typed saved scope for its highlighted family portrait.
 - **Advanced Character Search:** makes its generated filters compatible with
   AGOT's total-conversion database: 36 references to unavailable
   imperial-minister titles are removed, vanilla-only trait/religion/minister
   filters are made explicitly false (with inverse filters true), and unavailable
   accolade traditions and innovations are removed from otherwise valid
   alternatives. Existing AGOT-compatible filters and numeric GUI filter indices
-  are preserved. Its main window is now hidden until a valid player exists, and
-  its filter state is initialized from the guarded in-game scripted GUI rather
-  than only from a widget that can be created before the game state. The
+  are preserved. Its main window is hidden until a valid player exists, and its
+  filter state is initialized from the guarded in-game scripted GUI rather than
+  only from a widget that can be created before the game state. The
   initializer's malformed global-list iterator is repaired as well.
 - **AGOT Great Councils:** passes typed `trait:` values to current AGOT
   religious scripted triggers and uses AGOT's current High Septon check.
@@ -550,13 +500,13 @@ once and lands in both playset compatch mods.
 
 Individual repairs above carry their own narrower triggers. In general, re-run
 the generator and review the resulting diff after any update to Workshop IDs
-`2962333032`, `3388366564`, `3788885215`, `3596393244`, `3361162762`,
-`2967263410`, `3713902872`, `3319354609`, `3621472324`, `3324579171`,
-`3349316031`, `3761342990`, `3676293022`, `3305687550`, `3662281614`,
-`3673468355`, `2886417277`, `3084203091`, `3225355262`, `3235061780`,
-`3377641022`, `3692879370`, `3697008412`, `3462342647`, `3437814875`,
-`3709868073`, `3541596590`, `2971198450`, `3732116186`, `3573203384`,
-`3166199552`, `2712590542`, or `2519175282`, and after CK3 updates that change
+`2962333032`, `3388366564`, `3596393244`, `3361162762`, `2967263410`,
+`3713902872`, `3319354609`, `3621472324`, `3324579171`, `3349316031`,
+`3761342990`, `3676293022`, `3305687550`, `3662281614`, `3673468355`,
+`2886417277`, `3084203091`, `3225355262`, `3235061780`, `3377641022`,
+`3692879370`, `3697008412`, `3462342647`, `3437814875`, `3709868073`,
+`3541596590`, `2971198450`, `3732116186`, `3573203384`, `3166199552`,
+`2712590542`, or `2519175282`, and after CK3 updates that change
 `04_dlc_ep2_tour_effects.txt` or `common/on_action/accolade_on_actions.txt`,
 Promote, Raid Estate, or the shared scheme system.
 

@@ -1,7 +1,13 @@
 ﻿# Core AGOT playset activity-guest rule.
 can_be_activity_guest = {
 	# The dead are not guests. One line; everything below is AGOT's.
-	NOT = { has_trait = other_trait }
+	# 1.1.2 -- WAS `NOT = { has_trait = other_trait }`, which let every WIGHT through. Same class of miss
+	# as the Frenya vector and the captured-Other prison surface: other_trait is one of five markers, and a
+	# lord converted by mutate_into_other_effect can carry wight_government and the ln_one_of_them stamp
+	# with no trait at all. ln_is_one_of_them_trigger is the identity test every other gate in this mod
+	# uses, and it is already hardened for evaluation in odd scopes (1.1.1b guarded its house lookup after
+	# it threw 27 times at save-load from can_be_knight and on_join_court).
+	ln_is_one_of_them_trigger = no
 	is_available_allow_travelling = yes
 	OR = {
 		is_travelling = no

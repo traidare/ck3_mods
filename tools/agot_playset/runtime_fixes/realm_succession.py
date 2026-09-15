@@ -967,7 +967,7 @@ def generate_more_interactive_vassals_war_join_guards(inputs: RunInputs) -> None
     assert_source_block_hash(
         text,
         "interactive.0007",
-        "f36abf84e1a3b363ab08128622ee3780bbafe739fb4fc8d9c1b2bf7beae0eb50",
+        "b778303237c816218fb709f95769e0a31deb0b463abb3adfbc2aba1dfb556f19",
         label="More Interactive Vassals interactive.0007",
     )
     for joiner in ("scope:vassal", "scope:vassals_vassal"):
@@ -1003,46 +1003,6 @@ def generate_more_interactive_vassals_war_join_guards(inputs: RunInputs) -> None
             label=f"MIV all-participant war guard for {joiner}",
         )
     write_text(inputs.OUTPUT, relative, normalize_rebased_source(text))
-
-
-def generate_more_interactive_vassals_bannermen_cb_guard(inputs: RunInputs) -> None:
-    """Drop MIV's bannermen exclusions for a casus belli AGOT does not define.
-
-    MIV refuses a bannermen call for a populist or nomadic war. AGOT keeps its
-    `populist_war` entry commented out of `common/casus_belli_types/`, so the
-    key resolves to nothing and every evaluation raises
-    `using_cb: Invalid casus belli 'populist_war'`. A war cannot be fought
-    under a casus belli the database does not define, so the clause excludes
-    nothing and the retained `nomadic_war` check carries the full intent.
-
-    The exclusion is written once as a scripted trigger and inlined at six
-    further sites, so the repair matches the shared `NOR` shape at any
-    indentation and pins the per-file count.
-    """
-    pattern = (
-        r"(?m)^(?P<indent>\t+)NOR = \{\n"
-        r"(?P=indent)\tusing_cb = populist_war\n"
-        r"(?P=indent)\tusing_cb = nomadic_war\n"
-        r"(?P=indent)\}"
-    )
-    replacement = "\\g<indent>NOT = { using_cb = nomadic_war }"
-    expected_sites = {
-        "common/scripted_triggers/interactive_bannermen_triggers.txt": 1,
-        "common/decisions/interactive_decisions.txt": 1,
-        "common/on_action/interactive_on_actions.txt": 5,
-    }
-    for relative, expected in expected_sites.items():
-        source = read_text(inputs.WORKSHOP / "2712590542" / relative)
-        repaired = replace_regex(
-            source,
-            pattern,
-            replacement,
-            expected=expected,
-            label=f"MIV populist-war exclusion in {relative}",
-        )
-        if "populist_war" in repaired:
-            raise RuntimeError(f"{relative} retained a populist_war reference")
-        write_text(inputs.OUTPUT, relative, normalize_rebased_source(repaired))
 
 
 def generate_agot_war_value_guards(inputs: RunInputs) -> None:
@@ -1188,7 +1148,7 @@ def generate_mpo_nomad_event_guards(inputs: RunInputs) -> None:
 
 
 def generate_voluntary_laamp_repairs(inputs: RunInputs) -> None:
-    """Rebase the voluntary-adventurer decision and More Dragon Eggs event."""
+    """Rebase the voluntary-adventurer decision."""
     flag = "unlock_voluntary_laampdom_trait"
 
     trait_sources = (
@@ -1260,57 +1220,6 @@ def generate_voluntary_laamp_repairs(inputs: RunInputs) -> None:
         decision_relative,
         "# Runtime rebase: consume the generic trait flag and let stranded "
         "landless pirates choose the voluntary-adventurer route.\n" + decision,
-    )
-
-    event_relative = "events/dlc/ep3/ep3_laamp_events.txt"
-    event_source = read_text(inputs.WORKSHOP / "3788885215" / event_relative)
-    event = assert_source_block_hash(
-        event_source,
-        "ep3_laamps.0030",
-        "6ae8981457953c35f6951818ab3041e9c9abbc78bcb301e75f537b76a88f0e24",
-        label="More Dragon Eggs fix voluntary-adventurer event",
-    )
-    old_event_trigger = (
-        "\ttrigger = { # MDE Modified\n"
-        "\t\texists = scope:laamp_inheritor \n"
-        "\t\tOR = {\n"
-        "\t\t\thas_game_rule = can_children_be_landless_default\n"
-        "\t\t\tAND = {\n"
-        "\t\t\t\thas_game_rule = can_children_be_landless_not_dragonrider\n"
-        "\t\t\t\troot = {\n"
-        "\t\t\t\t\tNOT = { has_trait = dragonrider }\n"
-        "\t\t\t\t}\n"
-        "\t\t\t}\n"
-        "\t\t\tAND = {\n"
-        "\t\t\t\thas_game_rule = can_children_be_landless_not_targaryen\n"
-        "\t\t\t\troot = {\n"
-        "\t\t\t\t\tNOT = { dynasty = dynasty:dynn_Targaryen }\n"
-        "\t\t\t\t}\n"
-        "\t\t\t}\n"
-        "\t\t}\n"
-        "\t}\n"
-    )
-    repaired_event = replace_exact(
-        event,
-        old_event_trigger,
-        """\ttrigger = { exists = scope:laamp_inheritor }
-""",
-        expected=1,
-        label="More Dragon Eggs fix misplaced voluntary-event game-rule gate",
-    )
-    event_source = replace_exact(
-        event_source,
-        event,
-        repaired_event,
-        expected=1,
-        label="More Dragon Eggs fix voluntary-adventurer event replacement",
-    )
-    write_text(
-        inputs.OUTPUT,
-        event_relative,
-        event_source,
-        preserve_trailing_whitespace=True,
-        force_newline="\r\n",
     )
 
 

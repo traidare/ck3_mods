@@ -30,7 +30,8 @@ Whole-file merges of paths that several parents genuinely contest:
   optional-scope and restored-Valyria travel behavior;
 - A Living Westeros' wedding backgrounds and guest-right rules with MFA timing,
   LoV's optional scopes, and the Long Night's dead-character exclusion;
-- the final temporary More Dragon Eggs + LoV hatching activity;
+- More Dragon Eggs' hatching activity, cradling, hatching events, ruins, and
+  landless dragonpit handling with LoV's volcano and ruin behavior;
 - LoV tournament guards, MFA's cooldown, and CaFG's granular county-faith
   conversion in `contest_events.txt`;
 - AGOT, Additional Models, and COW special-building model detection with the
@@ -53,8 +54,8 @@ fallback, the Additional Models/LoV holding art and generic court scenes, and
   `scripted_illustrations/ingame.txt` as `culture:shadowman`, which AGOT
   defines, so this module ships no copy of that file. Generation asserts AGOT
   still defines `shadowman` and not `shadowmen`, that the parent still carries
-  exactly six live references, and that it has not restored the misspelling. Any
-  of those assertions failing means the file needs to be owned again.
+  exactly six live references, and that all six use `culture:shadowman`. Any of
+  those assertions failing means the file needs to be owned again.
 
 ## Activity merges
 
@@ -84,11 +85,19 @@ own: the LoV bridge already summons the court chaplain through `?=` and a scope
 test, which is required because the effect that moves them runs outside the one
 that established the activity, and the generator asserts the merge keeps it.
 
-The final temporary More Dragon Eggs + LoV release restored a `dud_egg` filter
-to both extant-ceremony selection branches. That game rule controls whether a
-ceremony is available while dragons still live; filtering the selectable list to
-dud eggs leaves an ordinary-egg host with no selection. The generator drops that
-filter in both activity variants and pins the two source sites.
+The dragon activity, cradling on-action, and hatching event are direct three-way
+merges of current More Dragon Eggs and the current LoV bridge over AGOT. The
+activity then receives MFA's timing and Canon Continuity's death guard. Exact
+parent deltas ensure the MDE variable-driven settings, LoV volcano locations,
+and MFA pacing all survive.
+
+`agot_ruins_events.txt` uses More Dragon Eggs as the whole-file owner and adds
+LoV's mine-state save/restore and high-Valyrian conversion exemptions. The
+generator proves that those are LoV's complete semantic delta over AGOT before
+applying them to MDE. A later-sorting scripted-effect file owns only
+`agot_change_dragonpit_status` and its AI counterpart: it keeps MDE's landless
+adventurer branch and adds LoV's `lv_has_dragon_pit_building` detection. The
+output contains no MDE mover or travel-event calls.
 
 The LoV parent is `lov-agot-bridge` for every file it contributes, including
 `contest_events.txt`, where it carries the tournament summary guards that keep
@@ -137,8 +146,8 @@ seasons to wilderness ruins.
 
 `mde_yearly_on_actions.txt` is shipped by both AGOT More Dragon Eggs and AGOT -
 More Dragon Events, so the later of them drops the other's file whole. Their
-definitions are disjoint — the canon egg-clutch pulse and its game-start
-variable on one side, an `agot_yearly_owned_dragon_pulse` extension on the other
+definitions are disjoint — MDE's yearly setup, canon egg-clutch pulse, and list
+cleanup on one side, an `agot_yearly_owned_dragon_pulse` extension on the other
 — so the override is their union. CK3 merges on_action declarations across
 files, and More Dragon Events' pulse is a copy of AGOT's 38 entries plus its own
 14, so only the 14 additions are emitted: re-emitting the copy would merge
@@ -147,18 +156,11 @@ generator asserts the copied part still matches AGOT's declaration exactly, so
 an upstream rebalance fails generation instead of being silently discarded.
 
 `common/scripted_effects/07_dlc_ep3_scripted_effects.txt` is a final integration
-between the More Dragon Eggs 0.5.2.1 fix and Seasons. The fix restores two
-`more_dragon_eggs_events.0013` dispatches when an adventurer with a dragonpit or
-head dragonkeeper becomes landed; Seasons owns the later whole file for its
-winter modifier names and otherwise drops those dispatches. The generated file
-is Seasons plus exactly those two hooks, with both parent deltas asserted
-against AGOT. Earlier House Founders and More Dragon Eggs copies are already
-superseded by those parents and are deliberately not revived.
-
-The two restored hooks live in `ep3_become_landed_transfer_effect` and
-`adventurer_realm_destabilisation_transfer_effect`, which no later-sorting file
-redefines, so winning this path is what makes them effective. The Seasons text
-this file also carries for `random_rain_snow_chance_effect` and
+between current More Dragon Eggs and Seasons. MDE performs its dragonpit
+transfer directly in `ep3_become_landed_transfer_effect`; the generated file
+contains no `more_dragon_eggs_events.0013` dispatch. The generated file
+preserves that MDE delta and Seasons' weather delta against AGOT. The Seasons
+text this file also carries for `random_rain_snow_chance_effect` and
 `refill_maa_with_provisions_effect` is inert: the Legacy of Valyria compatch
 (Workshop `3788296332`) redefines both in
 `zzzz_lv_agot_scripted_effect_runtime_overrides_v0_2_2.txt`, and CK3 resolves
@@ -179,11 +181,11 @@ Personality Events has not added the dispatch itself.
 
 Iron and Salt adds three final-integration boundaries. Its `hud.gui` is the
 naval and kraken owner, while the Dynamic Family Portrait AGOT bridge owns the
-bottom-left family stack and carries More Dragon Eggs' sized dragon portrait.
-The generator three-way merges both AGOT-derived deltas and asserts the bridge's
-delta is reproduced exactly. Its `map_icon_layer.gui` similarly keeps the kraken
-icon while preserving the LoV AGOT bridge's removal of the stale
-`find_elder_interaction` datacontext.
+bottom-left family stack and instantiates MDE's dragon portrait. MDE defines
+that portrait and its baby, normal, and giant sizes in additive `mde_hud.gui`;
+the generator asserts the external type and does not duplicate it in `hud.gui`.
+Its `map_icon_layer.gui` similarly keeps the kraken icon while preserving the
+LoV AGOT bridge's removal of the stale `find_elder_interaction` datacontext.
 
 The merged `hud.gui` carries Iron and Salt's Dragonlord Regime main tab
 unchanged, so the tiger baseline records
@@ -230,10 +232,10 @@ fork uses: `replace/` is a plain subfolder there with no engine meaning, so a
 copy inside it would load _alongside_ the fork's file and define every shared
 region twice.
 
-The Seasons-of-Valyria bridge now places `SKIP_VALUE` in a global `Code` block
-before `PixelShader`, so vertex and pixel shaders both see it. This module no
-longer owns `province_effects.fxh`; generation only asserts the fixed global
-placement and the disabled old local declaration, leaving the bridge effective.
+The Seasons-of-Valyria bridge places `SKIP_VALUE` in a global `Code` block
+before `PixelShader`, so vertex and pixel shaders both see it. The bridge owns
+`province_effects.fxh`; generation asserts the global placement and the disabled
+shader-local declaration.
 
 Seventeen of those regions name a title no parent defines: the Seasons fork
 builds its regions from the NOW-Seasons compatch, which names titles at tiers
@@ -289,19 +291,19 @@ wrapped in its guard, and that the Long Night's is still AGOT's plus one
 The bridge's `is_diarch_able` guard needs no entry, because only the bridge and
 AGOT define that key and both do so in `00_rules.txt`, where load order decides.
 
-Rule keys resolve by parse order, not mod position. This module now also loads
-after the Long Night chain, while its `zzz_agot_playset_` file remains the later
-parsed definition. Parse order walks every top-level file in
-`common/scripted_rules/` in name order and only then its subdirectories, so
-re-audit if any playset mod starts shipping rules from a subdirectory or from a
-name sorting after `zzz_agot_playset_`.
+Rule keys resolve by parse order, not mod position. This module loads after the
+Long Night chain, while its `zzz_agot_playset_` file remains the later parsed
+definition. Parse order walks every top-level file in `common/scripted_rules/`
+in name order and only then its subdirectories, so re-audit if any playset mod
+starts shipping rules from a subdirectory or from a name sorting after
+`zzz_agot_playset_`.
 
 ## Canon-continuity guard
 
 The merged dragon-hatching activity carries one guard. Both
 `activity_dragon_hatching` and `activity_dragon_hatching_no_dlc` kill the host
-in `on_complete` when the hatching went wrong, and that `limit` now also
-requires `agot_cc_event_death_protected_trigger = no`, a trigger the AGOT: Canon
+in `on_complete` when the hatching went wrong, and that `limit` also requires
+`agot_cc_event_death_protected_trigger = no`, a trigger the AGOT: Canon
 Continuity module defines and its own game rule switches off. Guests flagged by
 the same catastrophe die in AGOT's hatching events file, which this module does
 not own, so they are unaffected.
@@ -394,10 +396,10 @@ ck3mm mod generate agot_playset_lov_compatch --apply
 ```
 
 The `mod.toml` manifest regenerates the owned outputs from the declared AGOT,
-New Personality Events, NOW, Seasons-fork, More Dragon Eggs fix, dragon-mod,
-MFA, CaFG, Iron and Salt, Dynamic Family Portrait, LoV, the LoV bridge, Long
-Night, Great Councils, Travelers, Travelers AGOT Compatibility, A Living
-Westeros, and vanilla sources. LoV is read only for its landed titles, which the
+New Personality Events, NOW, Seasons-fork, More Dragon Eggs, dragon-mod, MFA,
+CaFG, Iron and Salt, Dynamic Family Portrait, LoV, the LoV bridge, Long Night,
+Great Councils, Travelers, Travelers AGOT Compatibility, A Living Westeros, and
+vanilla sources. LoV is read only for its landed titles, which the
 seasonal-region prune above resolves membership against. It also declares the
 Additional Models, AMSB/LoV compatch, and the two disabled mods — the
 COW-AGOT/NOW compatch and the LoV AGOT compatch beta — that back the assertions
@@ -416,11 +418,10 @@ the same merge helpers, so a parent change is reviewed once and lands in both.
 
 Re-audit whenever any merged parent updates — in particular AGOT or New
 Personality Events' tenth-birthday on-actions, NOW, the Seasons-of-Valyria
-Workshop fork, the More Dragon Eggs fix (`3788885215`), the final temporary LoV
-bridges, LoV, MFA, COW, CaFG, Iron and Salt, Dynamic Family Portrait, or Great
-Councils, Travelers, Travelers AGOT Compatibility, A Living Westeros, and the
-Long Night's diarch or activity-guest rules. Remove the canon-dragon birthday
-bridge if the effective parent restores AGOT's dispatch itself. Drop the three
-travel overrides if a maintained upstream compatch incorporates LoV's guards;
-drop the wedding or activity-guest override if its parent integrations become
-native upstream.
+Workshop fork, More Dragon Eggs, the LoV AGOT bridge, LoV, MFA, COW, CaFG, Iron
+and Salt, Dynamic Family Portrait, or Great Councils, Travelers, Travelers AGOT
+Compatibility, A Living Westeros, and the Long Night's diarch or activity-guest
+rules. Remove the canon-dragon birthday bridge if the effective parent restores
+AGOT's dispatch itself. Drop the three travel overrides if a maintained upstream
+compatch incorporates LoV's guards; drop the wedding or activity-guest override
+if its parent integrations become native upstream.

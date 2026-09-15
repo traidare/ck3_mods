@@ -487,10 +487,10 @@ def generate_interaction_menu(context: GenerationContext) -> str:
 
 
 def generate_declare_war(context: GenerationContext) -> str:
-    text, miv = merge_gui(context, "gui/interaction_declare_war.gui", prefer_cuio=True)
+    text, _ = merge_gui(context, "gui/interaction_declare_war.gui", prefer_cuio=True)
     agot = source_text(context, "agot", "gui/interaction_declare_war.gui")
-    # MIV's source replaces AGOT's file, so restore AGOT's rescue/revenge
-    # components explicitly and retain MIV's two warning strings in CUIO's view.
+    # The effective file includes AGOT's rescue/revenge controls and MIV's
+    # layout. MIV contributes no declaration-war warning rows.
     for control in (
         "agot_rv_comparison_text",
         "agot_rv_rescue_war_items_vbox",
@@ -527,17 +527,7 @@ def generate_declare_war(context: GenerationContext) -> str:
         parent_depth=2,
         label="rescue/revenge send target",
     )
-    miv_messages = []
-    for message in ("interactive_war_ui_second_message", "interactive_war_ui_message"):
-        require_count(miv, message, 1, label="MIV declaration warning source")
-        miv_messages.append(f'text_single = {{ text = "{message}" }}')
-    return append_to_block(
-        text,
-        "### War preview after selecting a Casus Belli",
-        "\n".join(miv_messages),
-        parent_depth=0,
-        label="MIV declaration warning target",
-    )
+    return text
 
 
 def generate_lists(context: GenerationContext) -> str:
@@ -616,13 +606,13 @@ def agot_gender_shown(gender: str) -> str:
 
 
 def restore_agot_character_widgets(text: str) -> str:
-    """Re-attach AGOT's character-window widgets to CUIO's rebuilt layout.
+    """Attach AGOT's character-window widgets to CUIO's layout.
 
     CUIO 2.2 redesigns nearly every region AGOT extends, so the CUIO-first
     three-way merge resolves those hunks in CUIO's favour and drops all of
     AGOT's `agot_*` widgets.  The widget types themselves live in AGOT's
-    `gui/custom_gui/`, which this module does not own, so each one is restored
-    by re-declaring it against the matching anchor in CUIO's layout.
+    `gui/custom_gui/`, which this module does not own, so each one is declared
+    against the matching anchor in CUIO's layout.
     """
     # AGOT's character and dragon layouts are authored for a 650px sidebar;
     # CUIO otherwise inherits vanilla's 610px Window_Size_Sidebar.  Keep the
@@ -763,8 +753,8 @@ def restore_agot_character_widgets(text: str) -> str:
         parent_depth=2,
         label="AGOT personal coat of arms",
     )
-    # CUIO added a plain sex icon beside each sexuality icon, so the bare
-    # vanilla gender condition now appears twice per gender and cannot be
+    # CUIO has a plain sex icon beside each sexuality icon, so the bare vanilla
+    # gender condition appears twice per gender and cannot be
     # matched on its own.  Anchor on each icon's texture instead.  Both pairs
     # get AGOT's scripted gate: it excludes dragons, which are characters in
     # AGOT and would otherwise draw a human sex icon in their character window.
@@ -870,8 +860,8 @@ def generate_character(context: GenerationContext) -> str:
         "visible = \"[And(Not(GetScriptedGui('dw_valyrian_special').IsShown(GuiScope.SetRoot(Character.MakeScope).End)), Or(GreaterThan_int32( Character.GetMaxSpouses, '(int32)1' ), GreaterThan_int32( Character.GetMaxConsorts, '(int32)0' )))]\"",
         label="Dragon Wives contracted grandparents visibility",
     )
-    # CUIO 2.2 rebuilt the family tab and now ships its own secondary-spouse
-    # rows.  Those keep the vanilla polygamy path; Dragon Wives keeps the
+    # CUIO 2.2 owns the family tab's secondary-spouse rows. Those keep the
+    # vanilla polygamy path; Dragon Wives keeps the
     # Valyrian path, so each character sees exactly one of the two designs.
     for widget in ("secondary_spouses_inline", "secondary_spouses"):
         text = gate_out_dragon_wives(
@@ -886,7 +876,7 @@ def generate_character(context: GenerationContext) -> str:
         'name = "secondary_spouses_special"',
         label="Dragon Wives secondary spouse row name",
     )
-    # Its vanilla-polygamy branch is now CUIO's, so keep only the four-wives one.
+    # CUIO owns the vanilla-polygamy branch; keep only the four-wives branch.
     dragon_wives_spouses = re.sub(
         r'(?m)^([ \t]*)visible = "\[Or\(And\(GetScriptedGui\(\'dw_valyrian_special.*$',
         lambda match: (
@@ -1039,6 +1029,46 @@ def add_kraken_to_cooltip(text: str, iron_and_salt: str) -> str:
                 parent_depth=0,
                 label=f"{label} {icon} gate",
             )
+    return text
+
+
+def add_miv_to_cooltip(text: str, miv: str) -> str:
+    """Retain MIV's vassal-muster breakdown in the effective cooltip template."""
+    label = "MIV vassal-muster cooltip"
+    start, end = block_containing(
+        miv,
+        "interactive_bannermen_muster_score",
+        parent_depth=0,
+        occurrence=0,
+        expected=2,
+        label=label,
+    )
+    extension = miv[start : end + 1]
+    for marker in (
+        "miv_hover_state",
+        "MIV_RUNG_REBELLION",
+        "MIV_RUNG_REFUSE",
+        "interactive_bannermen_muster_score",
+        "ValueBreakdown.GetSubValues",
+    ):
+        if marker not in extension:
+            raise RuntimeError(f"{label}: source extension lost {marker!r}")
+        if marker in text:
+            raise RuntimeError(f"{label}: effective parent already contains {marker!r}")
+    text = append_to_block(
+        text,
+        "ott_opinion_breakdown_text",
+        extension,
+        parent_depth=1,
+        label=f"{label} insertion target",
+    )
+    for marker in (
+        "MIV_RUNG_REBELLION",
+        "MIV_RUNG_REFUSE",
+        "ValueBreakdown.GetSubValues",
+    ):
+        require_count(text, marker, 1, label=label)
+    require_count(text, "interactive_bannermen_muster_score", 2, label=label)
     return text
 
 
@@ -1261,8 +1291,8 @@ def generate(context: GenerationContext) -> None:
     )
     # AGOT keeps the culture cooltip body in its own additive
     # gui/shared/agot_cooltip.gui and wires it from cooltip.gui by type
-    # reference, so assert the two call sites survive the CUIO merge rather
-    # than the AGOT_CULTURE_COOLTIP_CLICK text that file no longer holds.
+    # reference, so assert the two call sites survive the CUIO merge. The
+    # source file does not contain AGOT_CULTURE_COOLTIP_CLICK text.
     for expected in (
         "Trait.IsPersonality",
         "agot_culture_tooltip_insert = {}",
@@ -1278,6 +1308,12 @@ def generate(context: GenerationContext) -> None:
         "Culture.HasFascination",
         2,
         label="AGOT/MPD culture and trait tooltip",
+    )
+    tooltip = add_miv_to_cooltip(
+        tooltip,
+        source_text(
+            context, "more-interactive-vassals", "gui/shared/00_miv_cooltip.gui"
+        ),
     )
     outputs["gui/shared/cooltip.gui"] = add_kraken_to_cooltip(
         tooltip, source_text(context, "iron-and-salt", "gui/shared/cooltip.gui")

@@ -1,7 +1,4 @@
-﻿# MDE/LoV Compatch September 8th 2026: base is Daniil Godblessenko's AGOT More Dragon Eggs -
-# Fix for AGOT 0.5.2.1 (Steam 3788885215, now required, load it above this mod) with the
-# 0.5.2.1 LoV compatch's changes re-applied. Rebuild when either of them updates this file.
-activity_dragon_hatching = {
+﻿activity_dragon_hatching = {
 	is_shown = {
 	#MDE Modified
 		OR = {
@@ -12,7 +9,7 @@ activity_dragon_hatching = {
 						has_variable = destined_eggs
 					}
 				}
-				has_game_rule = extant_hatching_ceremonies_no
+				mde_hatching_ceremonies_always_available_trigger = no
 				agot_dragon_population_extinct = yes
 			}
 			AND = {
@@ -24,17 +21,18 @@ activity_dragon_hatching = {
 					}
 				}
 				agot_dragon_population_extinct = no
-				has_game_rule = extant_hatching_ceremonies_yes
+				mde_hatching_ceremonies_always_available_trigger = yes
 			}
 			AND = {
 				any_character_artifact = {
 					has_variable = dragon_egg
+					has_variable = dud_egg
 					NOT = {
 						has_variable = destined_eggs
 					}
 				}
 				agot_dragon_population_extinct = yes
-				has_game_rule = extant_hatching_ceremonies_yes
+				mde_hatching_ceremonies_always_available_trigger = yes
 			}
 		}
 		trigger_if = {
@@ -400,14 +398,14 @@ activity_dragon_hatching = {
 						}
 						# MDE Modified
 						else_if = {
-							limit = { has_game_rule = dragon_hatching_guaranteed }
+							limit = { global_var:mde_hatch_success_chance = 7 }
 							set_variable = {
 								name = outcome
 								value = flag:success
 							}
 						}
 						else_if = {
-							limit = { has_game_rule = dragon_hatching_not }
+							limit = { global_var:mde_hatch_success_chance = 0 }
 							set_variable = {
 								name = outcome
 								value = flag:disaster
@@ -477,8 +475,7 @@ activity_dragon_hatching = {
 										var:hatching_likelihood = flag:very_high
 									}
 									modifier = {
-										add = 55
-										has_game_rule = dragon_hatching_very_likely
+										factor = mde_hatching_success_factor
 									}
 									set_variable = {
 										name = outcome
@@ -992,12 +989,12 @@ activity_dragon_hatching = {
 	on_start = {
 		# MDE Modified
 		if = {
-			limit = { has_game_rule = extant_hatching_ceremonies_yes }
+			limit = { mde_hatching_ceremonies_always_available_trigger = yes }
 			scope:host = {
 				every_character_artifact = {
-					# The extant-ceremonies rule controls availability, not egg selection.
 					limit = {
 						has_variable = dragon_egg
+						has_variable = dud_egg
 					}
 					scope:host = {
 						add_to_variable_list = {
@@ -1079,6 +1076,32 @@ activity_dragon_hatching = {
 			}
 		}
 		# Burned dealt with in the event
+		if = { # MDE Added
+			limit = {
+				any_in_global_list = {
+					variable = living_dragons
+					root = {
+						allow_moving_of_dragon_trigger = { DRAGON = prev }
+					}
+					count > 1
+				}
+				OR = {
+					is_landless_adventurer = yes
+					any_held_county = {
+						any_county_province = {
+							has_any_dragonpits = yes
+						}
+					}
+					player_heir ?= {
+						has_title = title:c_dragonstone
+					}
+				}
+			}
+			trigger_event = {
+				id = agot_dragon_hatching.0403
+				days = 1
+			}
+		}
 	}
 
 	###################
@@ -1689,7 +1712,7 @@ activity_dragon_hatching_no_dlc = {
 						has_variable = destined_eggs
 					}
 				}
-				has_game_rule = extant_hatching_ceremonies_no
+				mde_hatching_ceremonies_always_available_trigger = no
 				agot_dragon_population_extinct = yes
 			}
 			AND = {
@@ -1701,17 +1724,18 @@ activity_dragon_hatching_no_dlc = {
 					}
 				}
 				agot_dragon_population_extinct = no
-				has_game_rule = extant_hatching_ceremonies_yes
+				mde_hatching_ceremonies_always_available_trigger = yes
 			}
 			AND = {
 				any_character_artifact = {
 					has_variable = dragon_egg
+					has_variable = dud_egg
 					NOT = {
 						has_variable = destined_eggs
 					}
 				}
 				agot_dragon_population_extinct = yes
-				has_game_rule = extant_hatching_ceremonies_yes
+				mde_hatching_ceremonies_always_available_trigger = yes
 			}
 		}
 		trigger_if = {
@@ -2161,14 +2185,14 @@ activity_dragon_hatching_no_dlc = {
 						}
 						# MDE Modified
 						else_if = {
-							limit = { has_game_rule = dragon_hatching_guaranteed }
+							limit = { global_var:mde_hatch_success_chance = 7 }
 							set_variable = {
 								name = outcome
 								value = flag:success
 							}
 						}
 						else_if = {
-							limit = { has_game_rule = dragon_hatching_not }
+							limit = { global_var:mde_hatch_success_chance = 0 }
 							set_variable = {
 								name = outcome
 								value = flag:disaster
@@ -2239,8 +2263,7 @@ activity_dragon_hatching_no_dlc = {
 									}
 									# MDE Modified
 									modifier = {
-										add = 55
-										has_game_rule = dragon_hatching_very_likely
+										factor = mde_hatching_success_factor
 									}
 									set_variable = {
 										name = outcome
@@ -2753,12 +2776,12 @@ activity_dragon_hatching_no_dlc = {
 	on_start = {
 		# MDE Modified
 		if = {
-			limit = { has_game_rule = extant_hatching_ceremonies_yes }
+			limit = { mde_hatching_ceremonies_always_available_trigger = yes }
 			scope:host = {
 				every_character_artifact = {
-					# The extant-ceremonies rule controls availability, not egg selection.
 					limit = {
 						has_variable = dragon_egg
+						has_variable = dud_egg
 					}
 					scope:host = {
 						add_to_variable_list = {
@@ -2840,6 +2863,50 @@ activity_dragon_hatching_no_dlc = {
 			}
 		}
 		# Burned dealt with in the event
+		if = { # MDE Added
+			limit = {
+				any_in_global_list = {
+					variable = living_dragons
+					root = {
+						allow_moving_of_dragon_trigger = { DRAGON = prev }
+					}
+					count > 1
+				}
+				OR = {
+					is_landless_adventurer = yes
+					any_held_county = {
+						any_county_province = {
+							has_any_dragonpits = yes
+						}
+					}
+					player_heir ?= {
+						has_title = title:c_dragonstone
+					}
+				}
+			}
+			trigger_event = {
+				id = agot_dragon_hatching.0403
+				days = 1
+			}
+		}
+		else_if = {
+			limit = {
+				is_landless_adventurer = yes
+				any_in_global_list = {
+					variable = living_dragons
+					root = {
+						allow_moving_of_dragon_trigger = { DRAGON = prev }
+					}
+					count = 1
+				}
+				domicile ?= {
+					NOT = { has_domicile_building_or_higher = dragon_coop_01 }
+				}
+			}
+			domicile = {
+				add_domicile_building = dragon_coop_01
+			}
+		}
 	}
 
 	###################

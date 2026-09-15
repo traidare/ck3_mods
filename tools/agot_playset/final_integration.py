@@ -101,22 +101,27 @@ WEDDING_RELATIVE = Path("common/activities/activity_types/wedding.txt")
 DRAGON_HATCHING_RELATIVE = Path(
     "common/activities/activity_types/agot_dragon_hatching.txt"
 )
+DRAGON_CRADLING_RELATIVE = Path(
+    "common/on_action/agot_on_actions/agot_dragon_cradling_on_action.txt"
+)
+DRAGON_HATCHING_EVENTS_RELATIVE = Path(
+    "events/activities/agot_hatching_activity/agot_dragon_hatching_activity_events.txt"
+)
+RUINS_EVENTS_RELATIVE = Path("events/agot_events/agot_ruins_events.txt")
+DRAGONPIT_EFFECTS_RELATIVE = Path(
+    "common/scripted_effects/00_agot_dragonpit_effects.txt"
+)
+LOV_DRAGONPIT_EFFECTS_RELATIVE = Path(
+    "common/scripted_effects/zzzz_lv_lov_scripted_effect_delta_overrides_v0_2_2.txt"
+)
+MDE_LOV_DRAGONPIT_OUTPUT = Path(
+    "common/scripted_effects/zzzzz_agot_playset_mde_lov_dragonpit_effects.txt"
+)
+MDE_HUD_RELATIVE = Path("gui/custom_gui/mde_gui/mde_hud.gui")
 TRAVEL_ON_ACTIONS_RELATIVE = Path("common/on_action/travel_on_actions.txt")
 TRAVEL_OPTIONS_RELATIVE = Path("common/travel/travel_options/travel_options.txt")
 AGOT_TRAVEL_OPTIONS_RELATIVE = Path(
     "common/travel/travel_options/agot_travel_options.txt"
-)
-DRAGON_HATCHING_DUD_ONLY_SELECTION = (
-    "\t\t\t\t\tlimit = {\n"
-    "\t\t\t\t\t\thas_variable = dragon_egg\n"
-    "\t\t\t\t\t\thas_variable = dud_egg\n"
-    "\t\t\t\t\t}\n"
-)
-DRAGON_HATCHING_ALL_EGG_SELECTION = (
-    "\t\t\t\t\t# The extant-ceremonies rule controls availability, not egg selection.\n"
-    "\t\t\t\t\tlimit = {\n"
-    "\t\t\t\t\t\thas_variable = dragon_egg\n"
-    "\t\t\t\t\t}\n"
 )
 CORONATION_EVENTS_RELATIVE = Path(
     "events/activities/coronation_activity/coronation_events.txt"
@@ -344,7 +349,7 @@ def check_grandeur_coverage(amsb: str, amsb_lov: str) -> None:
     missing = [name for name in grandeur_cultures(amsb) if name not in covered]
     if missing:
         raise AssertionError(
-            "the AMSB/LoV compatch no longer covers every AMSB court "
+            "the AMSB/LoV compatch must cover every AMSB court "
             f"scene ({missing}); this module must merge {GRANDEUR_RELATIVE} again"
         )
 
@@ -378,7 +383,7 @@ MDE_PULSE = "agot_yearly_owned_dragon_pulse"
 MDE_EGGS_DEFINITIONS = (
     "yearly_global_pulse",
     "on_dragon_lay_canon_clutch_on_action",
-    "on_game_start_iterate_next_clutch",
+    "clean_lists_yearly_on_action",
 )
 EXPECTED_MDE_FILLER_EVENTS = 14
 MDE_HEADER = """# Final integration owner of mde_yearly_on_actions.txt.
@@ -427,7 +432,7 @@ def generate_mde_on_actions(eggs: str, events: str, agot: str) -> str:
         agot_block, "agot_filler_dragon"
     ):
         raise AssertionError(
-            "More Dragon Events no longer copies AGOT's dragon pulse verbatim; "
+            "More Dragon Events must copy AGOT's dragon pulse verbatim; "
             "re-derive the delta before re-emitting it"
         )
     additions = weighted_events(events_block, "mde_filler_dragon")
@@ -455,7 +460,7 @@ def generate_canon_dragon_birthday_on_action(
     personality_birthday = block_of(personality_childhood, "on_10th_birthday")
     if agot_birthday.count(CANON_DRAGON_BIRTHDAY_ACTION) != 1:
         raise AssertionError(
-            "AGOT on_10th_birthday no longer dispatches "
+            "AGOT on_10th_birthday must dispatch "
             f"{CANON_DRAGON_BIRTHDAY_ACTION} exactly once"
         )
     if CANON_DRAGON_BIRTHDAY_ACTION in personality_birthday:
@@ -500,7 +505,7 @@ def named_block(text: str, name: str) -> tuple[int, int]:
     if not match:
         raise AssertionError(f"missing {name} block")
     if len(re.findall(pattern, text)) != 1:
-        raise AssertionError(f"{name} block is no longer unique")
+        raise AssertionError(f"{name} block must be unique")
     opening = text.find("{", match.start(), match.end())
     return match.start(), matching_brace(text, opening)
 
@@ -567,7 +572,7 @@ def generate_events(source: str) -> str:
             "season_events.008" not in block
             or "set_AGOT_season_autumn_start" not in block
         ):
-            raise AssertionError(f"historical season {date} no longer starts in autumn")
+            raise AssertionError(f"historical season {date} must start in autumn")
     return text if text.endswith("\n") else text + "\n"
 
 
@@ -655,6 +660,10 @@ LOV_OUTPUTS = {
     CORONATION_RELATIVE,
     CORONATION_EVENTS_RELATIVE,
     DRAGON_HATCHING_RELATIVE,
+    DRAGON_CRADLING_RELATIVE,
+    DRAGON_HATCHING_EVENTS_RELATIVE,
+    RUINS_EVENTS_RELATIVE,
+    MDE_LOV_DRAGONPIT_OUTPUT,
     CONTEST_EVENTS_RELATIVE,
 }
 
@@ -1051,26 +1060,33 @@ def require_delta_preserved(
     """Assert the merge applies exactly the other parent's textual delta."""
     delta = changed_lines(base, parent)
     if not delta:
-        raise AssertionError(f"{label}: parent no longer differs from AGOT")
+        raise AssertionError(f"{label}: parent must differ from AGOT")
     if delta != changed_lines(ours, merged):
         raise AssertionError(f"{label}: merge did not reproduce the parent's delta")
 
 
-def generate_hud(agot: str, iron_and_salt: str, dfp: str) -> str:
+def generate_hud(agot: str, iron_and_salt: str, dfp: str, mde_hud: str) -> str:
     """Keep the naval and kraken HUD together with the family portrait stack."""
     label = "hud.gui"
     merged = merge_onto_agot(ours=iron_and_salt, base=agot, theirs=dfp, label=label)
     require_delta_preserved(
         base=agot, parent=dfp, merged=merged, ours=iron_and_salt, label=label
     )
-    for needle in (
-        "type bottom_left_dragon_portrait = container {",
-        "type bottom_left_portrait = container {",
-        "mde_dragon_portrait_zeroth_size",
-        "mde_dragon_portrait_third_size",
-    ):
+    for needle in ("bottom_left_dragon_portrait = {}", "type bottom_left_portrait"):
         if needle not in merged:
             raise AssertionError(f"{label}: merged output lost {needle!r}")
+    if "type bottom_left_dragon_portrait" in merged:
+        raise AssertionError(
+            f"{label}: hud.gui must not declare bottom_left_dragon_portrait inline"
+        )
+    for needle in (
+        "type bottom_left_dragon_portrait = container",
+        "mde_dragon_portrait_size_baby",
+        "mde_dragon_portrait_size_normal",
+        "mde_dragon_portrait_size_giant",
+    ):
+        if needle not in mde_hud:
+            raise AssertionError(f"mde_hud.gui: source lost {needle!r}")
     if merged.count("naval") < 1000:
         raise AssertionError(
             f"{label}: Iron and Salt's naval interface did not survive"
@@ -1079,11 +1095,11 @@ def generate_hud(agot: str, iron_and_salt: str, dfp: str) -> str:
 
 
 def generate_map_icon_layer(agot: str, iron_and_salt: str, lov: str) -> str:
-    """Keep the kraken map icon without restoring LoV's removed datacontext."""
+    """Keep the kraken map icon without adding LoV's absent datacontext."""
     label = "map_icon_layer.gui"
-    # LoV spells the human-portrait gate the same way AGOT does, which leaves
-    # its find-elder datacontext removal as the only merge delta. The shared
-    # template is the equivalent form LoV used to carry instead.
+    # LoV spells the human-portrait gate the same way AGOT does. Its only merge
+    # delta is the absent find-elder datacontext; the shared template is the
+    # equivalent active form.
     if "using = visible_if_not_dragon" in lov:
         raise AssertionError(f"{label}: LoV moved the dragon gate to the template")
     merged = merge_onto_agot(ours=iron_and_salt, base=agot, theirs=lov, label=label)
@@ -1113,10 +1129,10 @@ def generate_is_human(agot: str, iron_and_salt: str, great_councils: str) -> str
     ):
         derived = scripted_trigger(source, "is_human")
         if clause not in derived:
-            raise AssertionError(f"{label}: {owner} no longer adds {clause!r}")
+            raise AssertionError(f"{label}: {owner} must add {clause!r}")
         if script_tokens(derived.replace(clause, "", 1)) != script_tokens(parent):
             raise AssertionError(
-                f"{label}: {owner}'s definition is no longer AGOT's plus one clause"
+                f"{label}: {owner}'s definition must equal AGOT plus one clause"
             )
     body = parent.replace(
         "NOT = { has_trait = dragon }",
@@ -1285,7 +1301,7 @@ def generate_travel_options(agot: str, travelers: str, lov: str) -> str:
     )
     if script_tokens(travelers_base) != script_tokens(agot_option):
         raise AssertionError(
-            f"{label}: Travelers' mercenary option is no longer AGOT plus its "
+            f"{label}: Travelers' mercenary option must equal AGOT plus its "
             "three availability checks"
         )
 
@@ -1387,7 +1403,7 @@ def generate_can_be_activity_guest(
     long_night_rule = scripted_trigger(long_night, label)
     living_rule = scripted_trigger(living_westeros, label)
 
-    dead_clause = "\tNOT = { has_trait = other_trait }\n"
+    dead_clause = "\tln_is_one_of_them_trigger = no\n"
     without_dead = replace_exact(
         long_night_rule,
         dead_clause,
@@ -1402,7 +1418,7 @@ def generate_can_be_activity_guest(
     )
     if script_tokens(without_dead) != script_tokens(parent_with_host_guard):
         raise AssertionError(
-            f"{label}: Long Night is no longer AGOT plus its two guarded changes"
+            f"{label}: Long Night must equal AGOT plus its two guarded changes"
         )
 
     living_trigger_ifs = indented_blocks(living_rule, "trigger_if")
@@ -1422,7 +1438,7 @@ def generate_can_be_activity_guest(
         )
     if script_tokens(living_base) != script_tokens(parent):
         raise AssertionError(
-            f"{label}: Living Westeros is no longer AGOT plus two guest-right clauses"
+            f"{label}: Living Westeros must equal AGOT plus two guest-right clauses"
         )
     extension = "\n".join(additions)
     for needle in LIVING_WESTEROS_GUEST_MARKERS:
@@ -1444,7 +1460,7 @@ def generate_can_be_activity_guest(
     for needle in (
         "scope:host.involved_activity ?= {",
         "scope:host ?= {",
-        "NOT = { has_trait = other_trait }",
+        "ln_is_one_of_them_trigger = no",
         *LIVING_WESTEROS_GUEST_MARKERS,
     ):
         if needle not in body:
@@ -1468,7 +1484,7 @@ def generate_is_diarch_valid(agot: str, lov: str, long_night: str) -> str:
     parent = scripted_trigger(agot, label)
     if script_tokens(parent) != f"{label} = {{ {label}_trigger = yes }}":
         raise AssertionError(
-            f"{label}: AGOT no longer defines the rule as a bare {label}_trigger call"
+            f"{label}: AGOT must define the rule as a bare {label}_trigger call"
         )
 
     guarded = scripted_trigger(lov, label)
@@ -1476,7 +1492,7 @@ def generate_is_diarch_valid(agot: str, lov: str, long_night: str) -> str:
         f"{label} = {{ {LOV_DIARCH_GUARD} {{ {label}_trigger = yes }} }}"
     ):
         raise AssertionError(
-            f"{label}: the LoV bridge no longer wraps AGOT's call in exactly its "
+            f"{label}: the LoV bridge must wrap AGOT's call in exactly its "
             f"{LOV_DIARCH_GUARD!r} guard"
         )
 
@@ -1484,12 +1500,12 @@ def generate_is_diarch_valid(agot: str, lov: str, long_night: str) -> str:
     clause = indented_block(extended, "trigger_if", label=label)
     if "government_is_nw" not in clause:
         raise AssertionError(
-            f"{label}: the Long Night's added clause no longer tests the "
+            f"{label}: the Long Night's added clause must test the "
             "Night's Watch government flag"
         )
     if script_tokens(extended.replace(clause, "", 1)) != script_tokens(parent):
         raise AssertionError(
-            f"{label}: the Long Night's definition is no longer AGOT's plus one "
+            f"{label}: the Long Night's definition must equal AGOT plus one "
             "trigger_if clause"
         )
 
@@ -1636,19 +1652,23 @@ def generate_coronation_events(agot: str, lov: str, mfa: str) -> str:
     return merged
 
 
-def generate_dragon_hatching(agot: str, mde_lov: str, mfa: str) -> str:
+def generate_mde_lov_parent_merge(agot: str, mde: str, lov: str, *, label: str) -> str:
+    """Merge current MDE and the current LoV bridge from their shared AGOT base."""
+    merged = merge_onto_agot(ours=mde, base=agot, theirs=lov, label=label)
+    require_delta_preserved(base=agot, parent=lov, merged=merged, ours=mde, label=label)
+    require_delta_preserved(
+        base=agot, parent=mde, merged=merged, ours=lov, label=f"{label} MDE delta"
+    )
+    return merged
+
+
+def generate_dragon_hatching(agot: str, mde: str, lov: str, mfa: str) -> str:
     """Run hatching ceremonies at MFA's pace, sparing canon-protected hosts."""
     label = "agot_dragon_hatching.txt"
+    mde_lov = generate_mde_lov_parent_merge(agot, mde, lov, label=label)
     merged = merge_onto_agot(ours=mde_lov, base=agot, theirs=mfa, label=label)
     require_delta_preserved(
         base=agot, parent=mfa, merged=merged, ours=mde_lov, label=label
-    )
-    merged = replace_exact(
-        merged,
-        DRAGON_HATCHING_DUD_ONLY_SELECTION,
-        DRAGON_HATCHING_ALL_EGG_SELECTION,
-        f"{label} extant-ceremony egg selection",
-        expected=2,
     )
     # A hatching death is an accident, so it is one of the deaths AGOT: Canon
     # Continuity withholds.  Both activity variants kill the host the same way.
@@ -1661,22 +1681,24 @@ def generate_dragon_hatching(agot: str, mde_lov: str, mfa: str) -> str:
     )
 
 
-def generate_ep3_scripted_effects(agot: str, mde_fix: str, seasons: str) -> str:
+def generate_ep3_scripted_effects(agot: str, mde: str, seasons: str) -> str:
     """Keep More Dragon Eggs' landing hooks with Seasons' weather logic."""
     label = "07_dlc_ep3_scripted_effects.txt"
-    merged = merge_onto_agot(ours=seasons, base=agot, theirs=mde_fix, label=label)
+    merged = merge_onto_agot(ours=seasons, base=agot, theirs=mde, label=label)
     require_delta_preserved(
-        base=agot, parent=mde_fix, merged=merged, ours=seasons, label=label
+        base=agot, parent=mde, merged=merged, ours=seasons, label=label
     )
     require_delta_preserved(
         base=agot,
         parent=seasons,
         merged=merged,
-        ours=mde_fix,
+        ours=mde,
         label=f"{label} Seasons delta",
     )
-    if merged.count("more_dragon_eggs_events.0013") != 2:
-        raise AssertionError(f"{label}: expected two More Dragon Eggs landing hooks")
+    if "more_dragon_eggs_events.0013" in merged:
+        raise AssertionError(
+            f"{label}: undefined More Dragon Eggs event .0013 is present"
+        )
     for modifier in (
         "winter_north_modifier",
         "winter_normal_modifier_1",
@@ -1689,6 +1711,173 @@ def generate_ep3_scripted_effects(agot: str, mde_fix: str, seasons: str) -> str:
                 f"{label}: Seasons weather modifier {modifier} changed"
             )
     return merged
+
+
+def generate_mde_lov_cradling(agot: str, mde: str, lov: str) -> str:
+    merged = generate_mde_lov_parent_merge(
+        agot, mde, lov, label="agot_dragon_cradling_on_action.txt"
+    )
+    for needle in (
+        "mde_cradle_hatch_likelihood_factor",
+        "mde_pit_hatch_likelihood_factor",
+        "geographical_region = world_valyria",
+    ):
+        if needle not in merged:
+            raise AssertionError(f"dragon cradling merge lost {needle!r}")
+    return merged
+
+
+def generate_mde_lov_hatching_events(agot: str, mde: str, lov: str) -> str:
+    merged = generate_mde_lov_parent_merge(
+        agot, mde, lov, label="agot_dragon_hatching_activity_events.txt"
+    )
+    for needle in (
+        "lv_agot_dragon_hatching.0014.opt.e_volcano",
+        "valyria_volcano_05",
+    ):
+        if needle not in merged:
+            raise AssertionError(f"dragon hatching event merge lost {needle!r}")
+    return merged
+
+
+def add_lov_ruins_delta(text: str) -> str:
+    """Apply the LoV bridge's six semantic additions to the current ruins file."""
+    text = replace_exact(
+        text,
+        "\t\t\tbarony = { set_coa = holder.house }\n",
+        "\t\t\tbarony = { set_coa = holder.house }\n"
+        "\t\t\tlv_agot_ruin_remember_developed_mines_effect = yes\n",
+        label="LoV remember developed ruin mines",
+    )
+    text = replace_exact(
+        text,
+        "\t\t\t\thas_game_rule = agot_hv_conversion_offshoots\n",
+        "\t\t\t\thas_game_rule = agot_hv_conversion_offshoots\n"
+        "\t\t\t\tNOT = { scope:completed_ruin = { "
+        "lv_agot_hv_conversion_exempt_province_trigger = yes } }\n",
+        expected=2,
+        label="LoV high-Valyrian ruin conversion exemptions",
+    )
+    for building in ("castle_02", "city_02", "temple_02", "tribe_02"):
+        text = replace_exact(
+            text,
+            f"\t\t\tadd_building = {building}\n",
+            f"\t\t\tadd_building = {building}\n"
+            "\t\t\tlv_agot_ruin_restore_developed_mines_effect = yes\n",
+            label=f"LoV restore developed mines after {building}",
+        )
+    return text
+
+
+def generate_mde_lov_ruins(agot: str, mde: str, lov: str) -> str:
+    expected_lov = add_lov_ruins_delta(agot)
+    if script_tokens(expected_lov) != script_tokens(lov):
+        raise AssertionError(
+            "agot_ruins_events.txt: LoV bridge must equal AGOT plus six pinned additions"
+        )
+    merged = add_lov_ruins_delta(mde)
+    for needle, expected in (
+        ("lv_agot_ruin_remember_developed_mines_effect", 1),
+        ("lv_agot_hv_conversion_exempt_province_trigger", 2),
+        ("lv_agot_ruin_restore_developed_mines_effect", 4),
+        ("mde_start_egg_source_effect", 2),
+    ):
+        if merged.count(needle) != expected:
+            raise AssertionError(
+                f"agot_ruins_events.txt: expected {expected} {needle!r} markers"
+            )
+    return merged
+
+
+def generate_mde_lov_dragonpit_effects(agot: str, mde: str, lov: str) -> str:
+    """Retain MDE's landless branch and LoV's dragonpit building abstraction."""
+    status = block_of(mde, "agot_change_dragonpit_status")
+    ai_status = block_of(mde, "agot_change_dragonpit_status_ai")
+    if script_tokens(ai_status) != script_tokens(
+        block_of(agot, "agot_change_dragonpit_status_ai")
+    ):
+        raise AssertionError("MDE AI dragonpit status must match AGOT")
+    for name in ("agot_change_dragonpit_status", "agot_change_dragonpit_status_ai"):
+        lov_block = block_of(lov, name)
+        for marker in ("valyria_volcano_01", "procrazion_01", "last_dragon_tower_01"):
+            if marker not in lov_block:
+                raise AssertionError(f"LoV {name} lost {marker!r}")
+
+    insertion = (
+        "\t\t\t\t\t\t\tany_county_province = { "
+        "lv_has_dragon_pit_building = yes } # Legacy of Valyria\n"
+    )
+    anchor = "\t\t\t\t\t\t}\n\t\t\t\t\t\thas_variable = has_dragonkeeper_order\n"
+    status = replace_exact(
+        status,
+        anchor,
+        insertion + anchor,
+        label="player dragonpit LoV building detection",
+    )
+    ai_anchor = "\t\t\t\t}\n\t\t\t\thas_variable = has_dragonkeeper_order\n"
+    ai_insertion = (
+        "\t\t\t\t\tany_county_province = { "
+        "lv_has_dragon_pit_building = yes } # Legacy of Valyria\n"
+    )
+    ai_status = replace_exact(
+        ai_status,
+        ai_anchor,
+        ai_insertion + ai_anchor,
+        label="AI dragonpit LoV building detection",
+    )
+    merged = (
+        "# Final owner of the two dragonpit status effects contested by MDE and LoV.\n"
+        f"{status}\n\n{ai_status}\n"
+    )
+    if merged.count("lv_has_dragon_pit_building = yes") != 2:
+        raise AssertionError("dragonpit merge lost LoV detection")
+    if merged.count("is_landless_adventurer = yes") != 1:
+        raise AssertionError("dragonpit merge lost MDE landless handling")
+    if "more_dragon_eggs_events.0008" in merged:
+        raise AssertionError("dragonpit merge calls undefined MDE mover event .0008")
+    return merged
+
+
+def assert_mde_parent_invariants(agot: Path, mde: Path) -> None:
+    """Pin MDE behavior that remains parent-owned in the effective playset."""
+    gene_values = read_text(
+        agot / "common/script_values/00_agot_dragon_gene_values.txt"
+    )
+    for name, variable in (
+        ("gene_dragon_fire_color_template_svalue", "gene_dragon_fire_color_template"),
+        ("gene_dragon_fire_smoke_template_svalue", "gene_dragon_fire_smoke_template"),
+    ):
+        block = block_of(gene_values, name)
+        for marker in (
+            f"is_alive = yes has_variable = {variable}",
+            "agot_has_dragon_storage_system_global_list = yes",
+            "exists = scope:dragon_var_story_val",
+        ):
+            if marker not in block:
+                raise AssertionError(
+                    f"AGOT {name} must contain storage guard {marker!r}"
+                )
+
+    event = block_of(
+        read_text(mde / "events/dlc/ep3/ep3_laamp_events.txt"), "ep3_laamps.0030"
+    )
+    if "trigger = { exists = scope:laamp_inheritor }" not in event:
+        raise AssertionError("MDE voluntary-adventurer event trigger changed")
+    if "can_children_be_landless_" in event:
+        raise AssertionError(
+            "MDE voluntary-adventurer event contains the decision-only rule gate"
+        )
+
+    portraits = mde / "gui/shared/mde_portraits.gui"
+    if portraits.exists():
+        text = read_text(portraits)
+        if (
+            "IsCharacterFakeDead" in text
+            or "agot_fake_death_portrait_status_icons_small" in text
+        ):
+            raise AssertionError(
+                "MDE portrait source references unavailable fake-death GUI symbols"
+            )
 
 
 def generate_contest_events(
@@ -1730,7 +1919,7 @@ def generate_core_can_be_activity_guest(
         raise AssertionError(f"{label}: Living Westeros guest-right clauses changed")
     closing = extended.rfind("}")
     body = extended[:closing].rstrip() + "\n" + "\n".join(additions) + "\n}"
-    for needle in ("NOT = { has_trait = other_trait }", *LIVING_WESTEROS_GUEST_MARKERS):
+    for needle in ("ln_is_one_of_them_trigger = no", *LIVING_WESTEROS_GUEST_MARKERS):
         if needle not in body:
             raise AssertionError(f"{label}: core merge lost {needle!r}")
     if script_tokens(parent) == script_tokens(body):
@@ -1802,6 +1991,7 @@ def generate_core_outputs(
             read_text(workshop["AGOT"] / HUD_RELATIVE),
             read_text(workshop["IRON_AND_SALT"] / HUD_RELATIVE),
             read_text(workshop["DFP_AGOT"] / HUD_RELATIVE),
+            read_text(workshop["MDE_EGGS"] / MDE_HUD_RELATIVE),
         )
     ).encode("utf-8-sig")
     # Without LoV, Iron and Salt is already the desired AGOT-derived last writer.
@@ -1872,14 +2062,14 @@ def generate_core_outputs(
     outputs[DRAGON_HATCHING_RELATIVE] = normalize_output(
         generate_core_dragon_hatching(
             read_text(agot / DRAGON_HATCHING_RELATIVE),
-            read_text(workshop["MDE_FIX"] / DRAGON_HATCHING_RELATIVE),
+            read_text(workshop["MDE_EGGS"] / DRAGON_HATCHING_RELATIVE),
             read_text(mfa / DRAGON_HATCHING_RELATIVE),
         )
     ).encode("utf-8-sig")
     outputs[EP3_SCRIPTED_EFFECTS_RELATIVE] = normalize_output(
         generate_ep3_scripted_effects(
             read_text(agot / EP3_SCRIPTED_EFFECTS_RELATIVE),
-            read_text(workshop["MDE_FIX"] / EP3_SCRIPTED_EFFECTS_RELATIVE),
+            read_text(workshop["MDE_EGGS"] / EP3_SCRIPTED_EFFECTS_RELATIVE),
             read_text(workshop["SEASONS"] / EP3_SCRIPTED_EFFECTS_RELATIVE),
         )
     ).encode("utf-8-sig")
@@ -1920,13 +2110,11 @@ def generate_core_outputs(
 
 
 def generate_outputs(workshop: dict[str, Path], vanilla: Path) -> dict[Path, bytes]:
-    # NOW 1.2.5 corrected the `d_lychester` creation requirement upstream (it
-    # previously required `d_medway`'s capital county), which was this override's
-    # only delta.  Assert the fix is still present instead of shipping a
-    # no-delta whole-file copy of the parent's landed titles.
+    # NOW owns the `d_lychester` creation requirement. Pin its current capital
+    # county and avoid a no-delta whole-file landed-title override.
     now_title = read_text(workshop["NOW"] / SOURCE_RELATIVES["NOW"])
     if "title:d_medway.title_capital_county" in now_title:
-        raise AssertionError("NOW d_medway creation requirement returned")
+        raise AssertionError("NOW d_lychester requirement references d_medway")
     if now_title.count("has_title = title:d_lychester.title_capital_county") != 1:
         raise AssertionError("NOW d_lychester creation requirement changed")
 
@@ -1969,6 +2157,7 @@ def generate_outputs(workshop: dict[str, Path], vanilla: Path) -> dict[Path, byt
             read_text(workshop["AGOT"] / HUD_RELATIVE),
             read_text(workshop["IRON_AND_SALT"] / HUD_RELATIVE),
             read_text(workshop["DFP_AGOT"] / HUD_RELATIVE),
+            read_text(workshop["MDE_EGGS"] / MDE_HUD_RELATIVE),
         )
     ).encode("utf-8-sig")
     outputs[MAP_ICON_RELATIVE] = normalize_output(
@@ -2054,14 +2243,43 @@ def generate_outputs(workshop: dict[str, Path], vanilla: Path) -> dict[Path, byt
     outputs[DRAGON_HATCHING_RELATIVE] = normalize_output(
         generate_dragon_hatching(
             read_text(agot / DRAGON_HATCHING_RELATIVE),
-            read_text(workshop["MDE_LOV"] / DRAGON_HATCHING_RELATIVE),
+            read_text(workshop["MDE_EGGS"] / DRAGON_HATCHING_RELATIVE),
+            read_text(lov / DRAGON_HATCHING_RELATIVE),
             read_text(mfa / DRAGON_HATCHING_RELATIVE),
+        )
+    ).encode("utf-8-sig")
+    outputs[DRAGON_CRADLING_RELATIVE] = normalize_output(
+        generate_mde_lov_cradling(
+            read_text(agot / DRAGON_CRADLING_RELATIVE),
+            read_text(workshop["MDE_EGGS"] / DRAGON_CRADLING_RELATIVE),
+            read_text(lov / DRAGON_CRADLING_RELATIVE),
+        )
+    ).encode("utf-8-sig")
+    outputs[DRAGON_HATCHING_EVENTS_RELATIVE] = normalize_output(
+        generate_mde_lov_hatching_events(
+            read_text(agot / DRAGON_HATCHING_EVENTS_RELATIVE),
+            read_text(workshop["MDE_EGGS"] / DRAGON_HATCHING_EVENTS_RELATIVE),
+            read_text(lov / DRAGON_HATCHING_EVENTS_RELATIVE),
+        )
+    ).encode("utf-8-sig")
+    outputs[RUINS_EVENTS_RELATIVE] = normalize_output(
+        generate_mde_lov_ruins(
+            read_text(agot / RUINS_EVENTS_RELATIVE),
+            read_text(workshop["MDE_EGGS"] / RUINS_EVENTS_RELATIVE),
+            read_text(lov / RUINS_EVENTS_RELATIVE),
+        )
+    ).encode("utf-8-sig")
+    outputs[MDE_LOV_DRAGONPIT_OUTPUT] = normalize_output(
+        generate_mde_lov_dragonpit_effects(
+            read_text(agot / DRAGONPIT_EFFECTS_RELATIVE),
+            read_text(workshop["MDE_EGGS"] / DRAGONPIT_EFFECTS_RELATIVE),
+            read_text(workshop["LOV_BRIDGE"] / LOV_DRAGONPIT_EFFECTS_RELATIVE),
         )
     ).encode("utf-8-sig")
     outputs[EP3_SCRIPTED_EFFECTS_RELATIVE] = normalize_output(
         generate_ep3_scripted_effects(
             read_text(agot / EP3_SCRIPTED_EFFECTS_RELATIVE),
-            read_text(workshop["MDE_FIX"] / EP3_SCRIPTED_EFFECTS_RELATIVE),
+            read_text(workshop["MDE_EGGS"] / EP3_SCRIPTED_EFFECTS_RELATIVE),
             read_text(workshop["SEASONS"] / EP3_SCRIPTED_EFFECTS_RELATIVE),
         )
     ).encode("utf-8-sig")
@@ -2080,7 +2298,7 @@ def generate_outputs(workshop: dict[str, Path], vanilla: Path) -> dict[Path, byt
 # One line per merge decision, kept beside the code that implements it. The
 # upstream inputs behind them are pinned by sources.lock.json.
 INTENT = {
-    "title": "repair NOW's removed d_medway reference",
+    "title": "keep NOW's d_lychester requirement parent-owned",
     "title_localization": (
         "rebase NOW's title names and re-add the COW Sisterton/Dunstonbury barony names"
     ),
@@ -2105,8 +2323,8 @@ INTENT = {
         "Portrait's AGOT stack and More Dragon Eggs portrait sizes"
     ),
     "iron_and_salt_map_icon": (
-        "keep the kraken map icon without restoring the LoV bridge's "
-        "removed find_elder datacontext"
+        "keep the kraken map icon without the LoV bridge's absent "
+        "find-elder datacontext"
     ),
     "iron_and_salt_is_human": (
         "combine AGOT's body with the Iron and Salt and Great Councils "
@@ -2124,9 +2342,8 @@ INTENT = {
         "chaplain only into scopes that still resolve"
     ),
     "dragon_hatching": (
-        "run hatching ceremonies at MFA's pace on the More Dragon "
-        "Eggs/LoV activity, keep ordinary eggs selectable, and spare "
-        "canon-protected hosts"
+        "merge More Dragon Eggs' variable-driven ceremonies with LoV volcano "
+        "locations, run them at MFA's pace, and spare canon-protected hosts"
     ),
     "ep3_scripted_effects": (
         "combine the More Dragon Eggs landing hooks with Seasons weather modifiers"
@@ -2191,7 +2408,6 @@ def generate_lov(context: GenerationContext) -> None:
         "amsb",
         "amsb-lov-compatch",
         "mde-eggs",
-        "mde-fix",
         "mde-events",
         "cow-now-compatch",
         "iron-and-salt",
@@ -2200,7 +2416,6 @@ def generate_lov(context: GenerationContext) -> None:
         "great-councils",
         "long-night-azor-ahai",
         "much-faster-activities",
-        "mde-lov-hatching",
         "culture-faith-granularity",
         "lov",
         "travelers",
@@ -2216,7 +2431,6 @@ def generate_lov(context: GenerationContext) -> None:
         "AMSB": context.source("amsb"),
         "AMSB_LOV": context.source("amsb-lov-compatch"),
         "MDE_EGGS": context.source("mde-eggs"),
-        "MDE_FIX": context.source("mde-fix"),
         "MDE_EVENTS": context.source("mde-events"),
         "COW_NOW": context.source("cow-now-compatch"),
         "IRON_AND_SALT": context.source("iron-and-salt"),
@@ -2225,7 +2439,6 @@ def generate_lov(context: GenerationContext) -> None:
         "GREAT_COUNCILS": context.source("great-councils"),
         "LONG_NIGHT": context.source("long-night-azor-ahai"),
         "MFA": context.source("much-faster-activities"),
-        "MDE_LOV": context.source("mde-lov-hatching"),
         "CAFG": context.source("culture-faith-granularity"),
         "LOV": context.source("lov"),
         "TRAVELERS": context.source("travelers"),
@@ -2248,6 +2461,7 @@ def generate_lov(context: GenerationContext) -> None:
         read_text(workshop["AMSB"] / GRANDEUR_RELATIVE),
         read_text(workshop["AMSB_LOV"] / GRANDEUR_RELATIVE),
     )
+    assert_mde_parent_invariants(workshop["AGOT"], workshop["MDE_EGGS"])
 
     outputs = {
         relative: data
@@ -2268,7 +2482,6 @@ def generate_core(context: GenerationContext) -> None:
         "seasons",
         "now-seasons",
         "mde-eggs",
-        "mde-fix",
         "mde-events",
         "cow-now-compatch",
         "iron-and-salt",
@@ -2288,7 +2501,6 @@ def generate_core(context: GenerationContext) -> None:
         "SEASONS": context.source("seasons"),
         "NOW_SEASONS": context.source("now-seasons"),
         "MDE_EGGS": context.source("mde-eggs"),
-        "MDE_FIX": context.source("mde-fix"),
         "MDE_EVENTS": context.source("mde-events"),
         "COW_NOW": context.source("cow-now-compatch"),
         "IRON_AND_SALT": context.source("iron-and-salt"),
@@ -2313,6 +2525,7 @@ def generate_core(context: GenerationContext) -> None:
         read_text(workshop["COW_NOW"] / COW_NOW_GRAPHICS_RELATIVE),
         verbatim[COW_MODEL_TRIGGER_RELATIVE],
     )
+    assert_mde_parent_invariants(workshop["AGOT"], workshop["MDE_EGGS"])
     outputs = generate_core_outputs(workshop, context.source("vanilla"))
     for relative, text in verbatim.items():
         outputs[relative] = text.encode("utf-8-sig")

@@ -49,10 +49,6 @@
       "sha256": "8668174191a58aece3fba57a0e65c7e7dc1384f1b3a7ba281ea6e801d76811f4",
       "size": 78402
     },
-    "game/game/gui/shared/portraits.gui": {
-      "sha256": "ca62fc35337d4f6cba9096af0dc66f15a5e56fc21fdc49a7f0788fb1003c6a08",
-      "size": 84331
-    },
     "workshop/2519175282/common/on_action/hometowns_on_actions.txt": {
       "sha256": "6e34399be13c8ea47d0d7e2ecb99a5c220ca1060322ec0e4b68c5491ce0f4ef1",
       "size": 2257
@@ -61,21 +57,9 @@
       "sha256": "4a7a6b520aad037093af116e2ce9f70cc59be97135003a3d31f8a6cbfb32a119",
       "size": 23331
     },
-    "workshop/2712590542/common/decisions/interactive_decisions.txt": {
-      "sha256": "c2c560574b4fbefdd7f0163a5355875d6d22df5674b97ddf486715f8953985f4",
-      "size": 19925
-    },
-    "workshop/2712590542/common/on_action/interactive_on_actions.txt": {
-      "sha256": "a79dccd9ffe8fc390a8469ce54b7de5ef87376e5723b3a7d4c308857ad70e465",
-      "size": 34003
-    },
-    "workshop/2712590542/common/scripted_triggers/interactive_bannermen_triggers.txt": {
-      "sha256": "bb913dea7c2b196276373acbc90fc8fb0a49e6ca37b3913debc457c09e6e2f6a",
-      "size": 3083
-    },
     "workshop/2712590542/events/interactive_events/interactive_events.txt": {
-      "sha256": "943f5dbb146c85c9668634a32d7b7cbbbcbcbaffae11a78d378c96632db07b09",
-      "size": 38487
+      "sha256": "0502be00805a0caf5c4cb467f3ce610bd95060dcae5ca0a6059e577618d2fc97",
+      "size": 51484
     },
     "workshop/2779836155/common/on_action/childhood_on_actions.txt": {
       "sha256": "c4d5237c5cd5ee7abe292a9d7f515593a9cf8cbbd56f4ee454eda8b98fbfe0d7",
@@ -261,6 +245,10 @@
       "sha256": "e147c97ac140ca23307ed34f673abbdc94d05a7b29dadefb408bcd99a3ce2839",
       "size": 4437
     },
+    "workshop/2962333032/common/script_values/00_agot_dragon_gene_values.txt": {
+      "sha256": "6218687de506f50d6cc24f2ec5548f1a62be4ada2c992a36f723a3a32a0beb04",
+      "size": 90022
+    },
     "workshop/2962333032/common/script_values/00_war_values.txt": {
       "sha256": "8c0a56ecbf5f53f80b021c31d55d3f7b02cc9c88fd284f01735fd44b42a8e28d",
       "size": 26044
@@ -397,10 +385,6 @@
       "sha256": "cd2208b30c6cbf89037419c686dd12d74b6f07e222d37e2bb426a0e632ce3264",
       "size": 18659
     },
-    "workshop/2967263410/common/scripted_triggers/00_agot_hf_dynasty_and_house_triggers.txt": {
-      "sha256": "4654d8183fd9a61ed3b69d906950994233dbccdd79faf796a48fbaa0656a25a4",
-      "size": 81297
-    },
     "workshop/2971198450/common/on_action/cowagot_province_on_actions.txt": {
       "sha256": "ffc1fd1167435692a90ce7330e28df45d189007d53a3992930df55b05b7562b6",
       "size": 8293
@@ -481,13 +465,29 @@
       "sha256": "b017898783ad2a01160d2b228bc81502effeef6cdd770989ed5c500d25a1aeaa",
       "size": 14267
     },
+    "workshop/3388366564/common/activities/activity_types/agot_dragon_hatching.txt": {
+      "sha256": "6529d15e97523dc6733a787e7934aecddf23221f4e655438612366258e4ba9eb",
+      "size": 84853
+    },
     "workshop/3388366564/common/on_action/agot_on_actions/mde_yearly_on_actions.txt": {
-      "sha256": "6be6b2ab0f6a7c6e6d88424a38ae1b737c2ec24ca0a503544e83a5cd3482ed83",
-      "size": 525
+      "sha256": "b2fddf1ffddf13e7984a4b78f65158955be067323cfd56f366042af3da851998",
+      "size": 500
+    },
+    "workshop/3388366564/common/scripted_effects/07_dlc_ep3_scripted_effects.txt": {
+      "sha256": "c96114612331c326277f01ac250a1a6edc6eb73ebc8e4fdd84e785a272874c16",
+      "size": 374992
+    },
+    "workshop/3388366564/events/dlc/ep3/ep3_laamp_events.txt": {
+      "sha256": "9d4ea8c69605f06a4dd00f28b575c8e1b070f318892926b1a4917542beb4c1a5",
+      "size": 207235
+    },
+    "workshop/3388366564/gui/custom_gui/mde_gui/mde_hud.gui": {
+      "sha256": "0190954b3deffa0135bb2f0656b934a8f100dbe66a143062ba7e62fe40921bba",
+      "size": 8145
     },
     "workshop/3388366564/gui/shared/mde_portraits.gui": {
-      "sha256": "56d377d324b97dd2dee38f76aca80db59e30fa966766b28b04acfbc13431954c",
-      "size": 15277
+      "sha256": "483fedf131270f48f628c39ef31d1b5d3d107bafda9329eabd208b898c055f6e",
+      "size": 5643
     },
     "workshop/3437814875/gui/00_no_transition.gui": {
       "sha256": "8a682c5401033379c6902dca6e0077397fd93a9cf6d4782ef3d8e0c700d082bd",
@@ -1386,8 +1386,8 @@
       "size": 50320
     },
     "workshop/3609763696/gui/hud.gui": {
-      "sha256": "76df67673317651afd126f257bc91373268614f46135588ddb8e76d9951a9cbd",
-      "size": 221978
+      "sha256": "7577d1003739b6ab2ff78016097a71125a55d8c9811f6cdab60e4c8c2ef398cc",
+      "size": 220013
     },
     "workshop/3621472324/common/scripted_triggers/zzz_Great_Councils_replaced_triggers.txt": {
       "sha256": "10eb1975b391d457e213659afaf5166320f44d13669a52a20e33eabbd69d9199",
@@ -1422,8 +1422,8 @@
       "size": 9423
     },
     "workshop/3664900993/localization/replace/spanish/agot/replace/00_agot_titles_l_spanish.yml": {
-      "sha256": "3e2ed4410bd754ee5639708f2c186b6cdd21799d3651e2587843bc6eab0d6c87",
-      "size": 7285
+      "sha256": "5d56e6e24af1c0c962991f3eabf52bb5c0f1abc343c3096041997b508e9e0dd8",
+      "size": 7350
     },
     "workshop/3673468355/events/zz_agot_squire_automation_events.txt": {
       "sha256": "8894a67dada8d9ebbb59c0a8f99785e40deffa52c5b430b37321a458cf113ce5",
@@ -1514,8 +1514,8 @@
       "size": 19376
     },
     "workshop/3761342990/common/scripted_effects/00_ame_effects.txt": {
-      "sha256": "c9683ae1c81359fe68d349af4218cdf1d4446faac6a5db9f4a4a5d5c7f243bfe",
-      "size": 10197
+      "sha256": "d7bdfbd7644d135668c91224c21235e5bbdc4a34f3425c8d8f41d5c5c5bac7ea",
+      "size": 9319
     },
     "workshop/3772178688/common/decisions/naval_combat_decisions.txt": {
       "sha256": "3d43a634622cd55c69bd086ecb29e90c73a6a32ff96722fd22dad824e884762a",
@@ -1526,8 +1526,8 @@
       "size": 59715
     },
     "workshop/3780269495/common/scripted_rules/zz_ln_activity_rules.txt": {
-      "sha256": "dd7ee13eedd538dfb7898113924f0200fb4933227fe1360c43912db7876f1c61",
-      "size": 2443
+      "sha256": "22ac2cab91eb1ebf51598a6d9bb335e987574f226745ccdf85db6b48936b48ae",
+      "size": 3028
     },
     "workshop/3781577713/common/scripted_effects/00_kraken_effects.txt": {
       "sha256": "62de176b9458c704f7a1760785729082109f478f0b6ec7998be746651dbbbd7e",
@@ -1552,22 +1552,6 @@
     "workshop/3781577713/gui/map_icon_layer.gui": {
       "sha256": "21a8849258ce07a2672ea5624060685618e7ded6959e698505280074d611b2d9",
       "size": 147833
-    },
-    "workshop/3788885215/common/activities/activity_types/agot_dragon_hatching.txt": {
-      "sha256": "b678b9ed4f23190a240dfcd2ea4b02add7cde957f51923d2bd21c29d54fbcd41",
-      "size": 83163
-    },
-    "workshop/3788885215/common/script_values/00_agot_dragon_gene_values.txt": {
-      "sha256": "58829d07523a8b145cbd2bdf95f208f57ce7235527b612d84c5768c1a91e4f3e",
-      "size": 571592
-    },
-    "workshop/3788885215/common/scripted_effects/07_dlc_ep3_scripted_effects.txt": {
-      "sha256": "7842f56d7039499d00cdb624069ba45d850ffe8bd0bf46b4b0c3db1b3534d1fb",
-      "size": 374580
-    },
-    "workshop/3788885215/events/dlc/ep3/ep3_laamp_events.txt": {
-      "sha256": "ed024463b3a952c9a9c5afe08f5699cb8f1f21507172027b56568194c3f6e939",
-      "size": 207601
     },
     "workshop/3792698340/common/activities/activity_types/wedding.txt": {
       "sha256": "5314c0ecbeb5170306858820fb3f91232eb426cdfd47ac1d6d6ab692dc0b8ff7",

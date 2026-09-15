@@ -33,11 +33,6 @@ kind = "workshop"
 item_id = "3388366564"
 
 [[sources]]
-name = "mde-fix"
-kind = "workshop"
-item_id = "3788885215"
-
-[[sources]]
 name = "mde-events"
 kind = "workshop"
 item_id = "3466228580"
@@ -169,11 +164,6 @@ item_id = "3377641022"
 name = "workshop-3388366564"
 kind = "workshop"
 item_id = "3388366564"
-
-[[sources]]
-name = "workshop-3788885215"
-kind = "workshop"
-item_id = "3788885215"
 
 [[sources]]
 name = "workshop-3437814875"

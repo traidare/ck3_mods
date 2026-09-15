@@ -1,0 +1,113 @@
+﻿# Final owner of the two dragonpit status effects contested by MDE and LoV.
+agot_change_dragonpit_status = {
+	save_scope_as = dragon
+	scope:owner = {
+		if = {
+			limit = {
+				agot_has_multiple_active_dragonpits = yes
+			}
+			trigger_event = agot_choose_dragonpit_event.0001
+		}
+		else = { # If not, assume default AGOT logic
+			if = {
+				limit = {
+					is_landless_adventurer = yes
+				}
+				primary_title = {
+					save_scope_as = dragon_pit_location
+				}
+			}
+			else = {
+				random_held_county = {
+					limit = {
+						OR = {
+							any_county_province = {
+								has_holding_type = castle_holding
+								has_building_or_higher = generic_dragon_pit_01
+							}
+							any_county_province = {
+								OR = {
+									has_building_or_higher = dragonpit_01 # Historical Version
+									has_building = dragonpit_ruins_03 # Fully Restored Ruin Version
+									has_building = agot_dragonmont_01 # Dragonmont Version
+								}
+							}
+							any_county_province = { lv_has_dragon_pit_building = yes } # Legacy of Valyria
+						}
+						has_variable = has_dragonkeeper_order
+					}
+					save_scope_as = dragon_pit_location
+				}
+			}
+			scope:dragon = {
+				if = {
+					limit = {
+						has_character_flag = in_dragonpit
+					}
+					agot_remove_from_dragonpit_effect = { DRAGON = root DRAGONPIT_HOLDER = scope:owner DRAGONPIT_COUNTY = scope:dragon_pit_location }
+				}
+				else_if = {
+					limit = {
+						has_character_flag = owned_dragon
+					}
+					agot_send_to_dragonpit_effect = { DRAGON = root DRAGONPIT_HOLDER = scope:owner DRAGONPIT_COUNTY = scope:dragon_pit_location }
+				}
+				else_if = {
+					limit = {
+						NOT = {
+							has_character_flag = owned_dragon
+						}
+					}
+					agot_force_wild_dragon_into_dragonpit_effect = { DRAGON = root DRAGONPIT_HOLDER = scope:owner DRAGONPIT_COUNTY = scope:dragon_pit_location }
+				}
+			}
+		}
+	}
+}
+
+agot_change_dragonpit_status_ai = {
+	$OWNER$ = {
+		random_held_county = {
+			limit = {
+				OR = {
+					any_county_province = {
+						has_holding_type = castle_holding
+						has_building_or_higher = generic_dragon_pit_01
+					}
+					any_county_province = {
+						OR = {
+							has_building_or_higher = dragonpit_01 # Historical Version
+							has_building = dragonpit_ruins_03 # Fully Restored Ruin Version
+							has_building = agot_dragonmont_01 # Dragonmont Version
+						}
+					}
+					any_county_province = { lv_has_dragon_pit_building = yes } # Legacy of Valyria
+				}
+				has_variable = has_dragonkeeper_order
+			}
+			save_scope_as = dragon_pit_location
+		}
+	}
+	$DRAGON_REC$ = {
+		if = {
+			limit = {
+				has_character_flag = in_dragonpit
+			}
+			agot_remove_from_dragonpit_effect = { DRAGON = $DRAGON_REC$ DRAGONPIT_HOLDER = $OWNER$ DRAGONPIT_COUNTY = scope:dragon_pit_location }
+		}
+		else_if = {
+			limit = {
+				has_character_flag = owned_dragon
+			}
+			agot_send_to_dragonpit_effect = { DRAGON = $DRAGON_REC$ DRAGONPIT_HOLDER = $OWNER$ DRAGONPIT_COUNTY = scope:dragon_pit_location }
+		}
+		else_if = {
+			limit = {
+				NOT = {
+					has_character_flag = owned_dragon
+				}
+			}
+			agot_force_wild_dragon_into_dragonpit_effect = { DRAGON = $DRAGON_REC$ DRAGONPIT_HOLDER = $OWNER$ DRAGONPIT_COUNTY = scope:dragon_pit_location }
+		}
+	}
+}

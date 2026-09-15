@@ -10,6 +10,7 @@
 yearly_global_pulse = {
 	on_actions = {
 		on_dragon_lay_canon_clutch_on_action
+		clean_lists_yearly_on_action
 	}
 }
 on_dragon_lay_canon_clutch_on_action = {
@@ -19,18 +20,15 @@ on_dragon_lay_canon_clutch_on_action = {
 				agot_canon_dragons_enabled = yes
 				agot_dragon_population_extinct = no
 				NOT = { has_game_rule = canon_dragon_egg_clutch_spawns_no }
+				game_start_date < 8141
 			}
 			spawn_canon_dragon_egg_clutches_effect = yes
 		}
 	}
 }
 
-on_game_start_iterate_next_clutch = {
-	effect =  {
-		set_global_variable = {
-			name = mde_iterate_next_clutch
-			value = 0
-		}
+clean_lists_yearly_on_action = {
+	effect = {
 	}
 }
 

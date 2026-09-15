@@ -301,6 +301,14 @@
       "severity": "error",
       "code": "strict-scopes",
       "message": "scope:completed_ruin might not be available here",
+      "source": "AGOT More Dragon Eggs",
+      "file": "events/agot_events/agot_ruins_events.txt",
+      "count": 1
+    },
+    {
+      "severity": "error",
+      "code": "strict-scopes",
+      "message": "scope:completed_ruin might not be available here",
       "source": "AGOT More Dragon Eggs - Fix for AGOT 0.5.2.1",
       "file": "events/agot_events/agot_ruins_events.txt",
       "count": 1
@@ -463,14 +471,6 @@
       "message": "boolean house head parameter aspect_of_creation not defined in common/house_aspirations/",
       "source": "MOD",
       "file": "common/on_action/dynasty_on_actions.txt",
-      "count": 1
-    },
-    {
-      "severity": "error",
-      "code": "unknown-list",
-      "message": "unknown list",
-      "source": "MOD",
-      "file": "common/on_action/interactive_on_actions.txt",
       "count": 1
     },
     {
@@ -683,6 +683,14 @@
     },
     {
       "severity": "warning",
+      "code": "strict-scopes",
+      "message": "`ep3_landless_invasion_titles_taken_effect` expects scope:new_capital to be set",
+      "source": "AGOT",
+      "file": "common/casus_belli_types/00_agot_scenario_after_the_spring_wars.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
       "code": "scopes",
       "message": "`agot_dd_duskendale_title_transfer` expects root to be character but root seems to be casus belli",
       "source": "AGOT",
@@ -696,6 +704,14 @@
       "source": "AGOT",
       "file": "common/casus_belli_types/00_agot_scenario_defiance_of_duskendale_wars.txt",
       "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "strict-scopes",
+      "message": "`ep3_landless_invasion_titles_taken_effect` expects scope:new_capital to be set",
+      "source": "AGOT",
+      "file": "common/casus_belli_types/07_ep3_wars.txt",
+      "count": 4
     },
     {
       "severity": "warning",
@@ -740,9 +756,33 @@
     {
       "severity": "warning",
       "code": "strict-scopes",
+      "message": "`negotiate_settlement_interaction_effect` expects scope:new_capital to be set",
+      "source": "AGOT",
+      "file": "common/character_interactions/06_ep3_laamp_interactions.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "strict-scopes",
       "message": "`purchase_land_interaction_effect` expects scope:defender to be set",
       "source": "AGOT",
       "file": "common/character_interactions/06_ep3_laamp_interactions.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "strict-scopes",
+      "message": "`purchase_land_interaction_effect` expects scope:new_capital to be set",
+      "source": "AGOT",
+      "file": "common/character_interactions/06_ep3_laamp_interactions.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "strict-scopes",
+      "message": "`demand_pastureland_adventurer_interaction_effect` expects scope:new_capital to be set",
+      "source": "AGOT",
+      "file": "common/character_interactions/09_mpo_interactions.txt",
       "count": 1
     },
     {
@@ -967,7 +1007,7 @@
       "message": "missing spanish localization key AGOT_PREFIX_THE",
       "source": "AGOT",
       "file": "common/scripted_effects/00_agot_pirate_effects.txt",
-      "count": 2
+      "count": 1
     },
     {
       "severity": "warning",
@@ -975,7 +1015,7 @@
       "message": "missing spanish localization key agot_pirate_ship_domicile_type",
       "source": "AGOT",
       "file": "common/scripted_effects/00_agot_pirate_effects.txt",
-      "count": 2
+      "count": 1
     },
     {
       "severity": "warning",
@@ -983,7 +1023,7 @@
       "message": "missing spanish localization key agot_pirate_ship_name_dynamic",
       "source": "AGOT",
       "file": "common/scripted_effects/00_agot_pirate_effects.txt",
-      "count": 2
+      "count": 1
     },
     {
       "severity": "warning",
@@ -991,7 +1031,7 @@
       "message": "missing spanish localization key agot_pirate_ship_name_static",
       "source": "AGOT",
       "file": "common/scripted_effects/00_agot_pirate_effects.txt",
-      "count": 2
+      "count": 1
     },
     {
       "severity": "warning",
@@ -1276,6 +1316,22 @@
     {
       "severity": "warning",
       "code": "strict-scopes",
+      "message": "`negotiate_settlement_interaction_effect` expects scope:new_capital to be set",
+      "source": "AGOT",
+      "file": "common/task_contracts/laamp_extra_contracts.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "strict-scopes",
+      "message": "`negotiate_settlement_interaction_effect` expects scope:new_primary_title to be set",
+      "source": "AGOT",
+      "file": "common/task_contracts/laamp_extra_contracts.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "strict-scopes",
       "message": "`negotiate_settlement_interaction_effect` expects scope:target to be set",
       "source": "AGOT",
       "file": "common/task_contracts/laamp_extra_contracts.txt",
@@ -1484,6 +1540,14 @@
     {
       "severity": "warning",
       "code": "strict-scopes",
+      "message": "`ep3_become_landed_transfer_effect` expects scope:new_capital to be set",
+      "source": "AGOT",
+      "file": "events/agot_events/agot_scenario_fourth_blackfyre_rebellion_events.txt",
+      "count": 2
+    },
+    {
+      "severity": "warning",
+      "code": "strict-scopes",
       "message": "`create_landless_adventurer_title_effect` expects scope:host to be set",
       "source": "AGOT",
       "file": "events/agot_events/agot_scenario_roberts_rebellion_minor_events.txt",
@@ -1604,7 +1668,23 @@
     {
       "severity": "warning",
       "code": "strict-scopes",
+      "message": "`ep3_become_landed_transfer_effect` expects scope:new_capital to be set",
+      "source": "AGOT",
+      "file": "events/dlc/ep3/ep3_decisions_events.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "strict-scopes",
       "message": "`ep3_become_landed_transfer_effect` expects scope:defender to be set",
+      "source": "AGOT",
+      "file": "events/dlc/ep3/ep3_interactions_events.txt",
+      "count": 2
+    },
+    {
+      "severity": "warning",
+      "code": "strict-scopes",
+      "message": "`ep3_become_landed_transfer_effect` expects scope:new_capital to be set",
       "source": "AGOT",
       "file": "events/dlc/ep3/ep3_interactions_events.txt",
       "count": 2
@@ -1893,9 +1973,97 @@
       "severity": "warning",
       "code": "missing-localization",
       "message": "missing spanish localization key agot_dragon_in_dragonpit",
-      "source": "AGOT More Dragon Eggs - Fix for AGOT 0.5.2.1",
+      "source": "AGOT More Dragon Eggs",
       "file": "common/scripted_effects/00_agot_dragonpit_effects.txt",
-      "count": 6
+      "count": 8
+    },
+    {
+      "severity": "warning",
+      "code": "scopes",
+      "message": "`this` produces landed title but expected character",
+      "source": "AGOT More Dragon Eggs",
+      "file": "common/scripted_effects/00_agot_dragonpit_effects.txt",
+      "count": 3
+    },
+    {
+      "severity": "warning",
+      "code": "scopes",
+      "message": "variable list dragons_in_pit was deduced to be character but scope seems to be landed title",
+      "source": "AGOT More Dragon Eggs",
+      "file": "common/scripted_effects/00_agot_dragonpit_effects.txt",
+      "count": 3
+    },
+    {
+      "severity": "warning",
+      "code": "scopes",
+      "message": "`domicile` produces domicile but expected landed title",
+      "source": "AGOT More Dragon Eggs",
+      "file": "common/scripted_triggers/00_more_dragon_eggs_scripted_triggers.txt",
+      "count": 3
+    },
+    {
+      "severity": "warning",
+      "code": "scopes",
+      "message": "`create_landless_adventurer_title_effect` expects root to be character but root seems to be bool",
+      "source": "AGOT More Dragon Eggs",
+      "file": "events/dlc/ep3/ep3_laamp_events.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "scopes",
+      "message": "`create_landless_adventurer_title_effect` expects scope to be character but scope seems to be bool",
+      "source": "AGOT More Dragon Eggs",
+      "file": "events/dlc/ep3/ep3_laamp_events.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "scopes",
+      "message": "`create_landless_adventurer_title_tooltip_effect` expects scope to be character but scope seems to be bool",
+      "source": "AGOT More Dragon Eggs",
+      "file": "events/dlc/ep3/ep3_laamp_events.txt",
+      "count": 2
+    },
+    {
+      "severity": "warning",
+      "code": "strict-scopes",
+      "message": "`create_landless_adventurer_title_effect` expects scope:host to be set",
+      "source": "AGOT More Dragon Eggs",
+      "file": "events/dlc/ep3/ep3_laamp_events.txt",
+      "count": 18
+    },
+    {
+      "severity": "warning",
+      "code": "strict-scopes",
+      "message": "`negotiate_settlement_interaction_effect` expects scope:defender to be set",
+      "source": "AGOT More Dragon Eggs",
+      "file": "events/dlc/ep3/ep3_laamp_events.txt",
+      "count": 3
+    },
+    {
+      "severity": "warning",
+      "code": "strict-scopes",
+      "message": "`negotiate_settlement_interaction_effect` expects scope:new_capital to be set",
+      "source": "AGOT More Dragon Eggs",
+      "file": "events/dlc/ep3/ep3_laamp_events.txt",
+      "count": 3
+    },
+    {
+      "severity": "warning",
+      "code": "strict-scopes",
+      "message": "`purchase_land_interaction_effect` expects scope:defender to be set",
+      "source": "AGOT More Dragon Eggs",
+      "file": "events/dlc/ep3/ep3_laamp_events.txt",
+      "count": 3
+    },
+    {
+      "severity": "warning",
+      "code": "strict-scopes",
+      "message": "`purchase_land_interaction_effect` expects scope:new_capital to be set",
+      "source": "AGOT More Dragon Eggs",
+      "file": "events/dlc/ep3/ep3_laamp_events.txt",
+      "count": 3
     },
     {
       "severity": "warning",
@@ -1960,22 +2128,6 @@
       "source": "AGOT: The Long Night \u0026 Azor Ahai",
       "file": "common/on_action/00_others_on_actions.txt",
       "count": 8
-    },
-    {
-      "severity": "warning",
-      "code": "missing-localization",
-      "message": "missing spanish localization key ln_may_not_serve_the_dead_tt",
-      "source": "AGOT: The Long Night \u0026 Azor Ahai",
-      "file": "common/scripted_triggers/zz_ln_service_triggers.txt",
-      "count": 1
-    },
-    {
-      "severity": "warning",
-      "code": "missing-localization",
-      "message": "missing spanish localization key ln_may_serve_trigger_tt",
-      "source": "AGOT: The Long Night \u0026 Azor Ahai",
-      "file": "common/scripted_triggers/zz_ln_service_triggers.txt",
-      "count": 1
     },
     {
       "severity": "warning",
@@ -12932,6 +13084,14 @@
     {
       "severity": "warning",
       "code": "strict-scopes",
+      "message": "`ep3_landless_invasion_titles_taken_effect` expects scope:new_capital to be set",
+      "source": "MOD",
+      "file": "common/casus_belli_types/adventurers_beneficiary_conquer.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "strict-scopes",
       "message": "`on_declared_war` expects list interactive_bannermen to exist",
       "source": "MOD",
       "file": "common/casus_belli_types/adventurers_beneficiary_conquer.txt",
@@ -16187,6 +16347,14 @@
     },
     {
       "severity": "warning",
+      "code": "scopes",
+      "message": "`geographical_region` is for province but scope seems to be landed title",
+      "source": "MOD",
+      "file": "common/scripted_effects/07_dlc_ep3_scripted_effects.txt",
+      "count": 16
+    },
+    {
+      "severity": "warning",
       "code": "duplicate-item",
       "message": "scripted effect is redefined by another scripted effect",
       "source": "MOD",
@@ -16312,6 +16480,14 @@
       "source": "MOD",
       "file": "common/scripted_guis/am_status_events.txt",
       "count": 3
+    },
+    {
+      "severity": "warning",
+      "code": "duplicate-item",
+      "message": "scripted modifier is redefined by another scripted modifier",
+      "source": "MOD",
+      "file": "common/scripted_modifiers/00_faction_modifiers.txt",
+      "count": 1
     },
     {
       "severity": "warning",
@@ -21563,6 +21739,14 @@
     },
     {
       "severity": "warning",
+      "code": "duplicate-item",
+      "message": "gui type is redefined by another gui type",
+      "source": "MOD",
+      "file": "gui/map_icon_layer.gui",
+      "count": 3
+    },
+    {
+      "severity": "warning",
       "code": "localization",
       "message": "The substitution parameter $b_cleganes_keep$ is not defined anywhere as a key.",
       "source": "MOD",
@@ -21645,6 +21829,14 @@
       "severity": "warning",
       "code": "localization",
       "message": "The substitution parameter $c_barrowton$ is not defined anywhere as a key.",
+      "source": "MOD",
+      "file": "localization/replace/spanish/agot/replace/00_agot_titles_l_spanish.yml",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "localization",
+      "message": "The substitution parameter $c_blackheart$ is not defined anywhere as a key.",
       "source": "MOD",
       "file": "localization/replace/spanish/agot/replace/00_agot_titles_l_spanish.yml",
       "count": 1
@@ -22104,14 +22296,6 @@
       "source": "[Kei",
       "file": "Culture and Faith Granularity] common/scripted_effects/kei_cafg_county_faith_effects.txt",
       "count": 1
-    },
-    {
-      "severity": "untidy",
-      "code": "gui",
-      "message": "template not found",
-      "source": "MOD",
-      "file": "gui/shared/mde_portraits.gui",
-      "count": 2
     },
     {
       "severity": "tips",

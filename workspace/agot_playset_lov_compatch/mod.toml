@@ -29,7 +29,11 @@ owned_outputs = [
   "common/activities/activity_types/tournament.txt",
   "common/activities/activity_types/coronation.txt",
   "common/activities/activity_types/agot_dragon_hatching.txt",
+  "common/on_action/agot_on_actions/agot_dragon_cradling_on_action.txt",
+  "common/scripted_effects/zzzzz_agot_playset_mde_lov_dragonpit_effects.txt",
   "events/activities/coronation_activity/coronation_events.txt",
+  "events/activities/agot_hatching_activity/agot_dragon_hatching_activity_events.txt",
+  "events/agot_events/agot_ruins_events.txt",
   "events/activities/tournaments/contest_events.txt",
 ]
 
@@ -74,11 +78,6 @@ kind = "workshop"
 item_id = "3388366564"
 
 [[sources]]
-name = "mde-fix"
-kind = "workshop"
-item_id = "3788885215"
-
-[[sources]]
 name = "mde-events"
 kind = "workshop"
 item_id = "3466228580"
@@ -119,11 +118,6 @@ item_id = "3780269495"
 name = "much-faster-activities"
 kind = "workshop"
 item_id = "3723597729"
-
-[[sources]]
-name = "mde-lov-hatching"
-kind = "workshop"
-item_id = "3762892932"
 
 [[sources]]
 name = "culture-faith-granularity"

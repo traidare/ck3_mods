@@ -11,12 +11,12 @@ before the `agot_playset_compatch` modules.
 ## Ownership
 
 Character UI Overhaul is the layout authority. The generator three-way merges
-the compatible AGOT and MPD changes onto it and explicitly restores the
+the compatible AGOT and MPD changes onto it and explicitly includes the
 overlapping AGOT interfaces: dragon-family rows, personality visibility, AGOT
 character names and interaction controls, loyalist-faction protection,
-rescue/revenge war controls, and More Interactive Vassals warnings. Artifact
-Manager's `artifact_bg.dds` and `artifact_unique.dds` remain the effective
-icons.
+rescue/revenge war controls, and More Interactive Vassals' vassal-muster
+breakdown in the opinion tooltip. Artifact Manager's `artifact_bg.dds` and
+`artifact_unique.dds` remain the effective icons.
 
 Hometowns is intentionally **not** owned here; the later `agot_playset_compatch`
 remains its effective repaired writer. The HUD, map icon, and creature-check
@@ -30,6 +30,12 @@ so the merged `cooltip.gui` must keep the `agot_culture_tooltip_insert` and
 body. The generator asserts both, and asserts `Culture.HasFascination` twice:
 AGOT gates the fascination row _and_ the divider above it, where vanilla and
 CUIO gate only the row.
+
+More Interactive Vassals declares a second `character_opinion_tooltip` template
+in `00_miv_cooltip.gui`. The effective CUIO template would hide its
+vassal-muster score and breakdown, so the generator extracts that one direct
+child vbox and appends it to the merged template. Its script-value and rung
+markers are asserted; re-audit if MIV moves or renames the extension.
 
 ### Character and relationship views
 
@@ -51,7 +57,8 @@ Both icon pairs in the status row — CUIO's plain sex icons and the sexuality
 icons — are gated on AGOT's `agot_<gender>_gender_shown` scripted GUI rather
 than the bare `Character.IsFemale` check. That gate also excludes dragons, which
 are characters in AGOT and would otherwise draw a human sex icon. The gating is
-anchored on each icon's texture, because the bare condition is no longer unique.
+anchored on each icon's texture, because the bare condition appears at multiple
+sites.
 
 More Personality Depth contributes two behaviours the CUIO-first merge would
 otherwise resolve away: the AI personality row shown for player characters, and
@@ -112,10 +119,10 @@ default. The generator asserts that Iron and Salt's `portrait_opinion` and
 `portrait_opinion_small` still carry the trait check, so a change to its gate
 form re-raises this choice.
 
-The cooltip gender icons are repaired in the same pass. AGOT gates all four on
+The cooltip gender icons use the same gate. AGOT gates all four on
 `agot_<gender>_gender_shown` so dragons draw no human sex icon, but only the
-female sexuality icon survived the CUIO-first merge; the other three are
-restored from the same texture anchor `window_character.gui` already uses.
+female sexuality icon survived the CUIO-first merge; the other three are derived
+from the same texture anchor `window_character.gui` uses.
 
 Iron and Salt does not gate `lists.gui`'s `relation_to_court_owner` row, and
 this module follows it rather than widening the delta. **Re-audit** that gap
@@ -136,17 +143,17 @@ files so exactly one declaration of each type survives and the ordering rule
 stops mattering; the generator asserts that count.
 
 CUIO's badge is the layout owner and carries the dual opinion display, but its
-copy predates both AGOT and Iron and Salt: it shows a dread icon on dragons, an
-opinion value on faked deaths, and the badge itself on krakens. Iron and Salt's
-own copy restores neither AGOT gate, so all three are applied here. Its small
-badge and small head are faithful reproductions of AGOT's and stay
-authoritative; the generator asserts each is still AGOT's block plus the named
-kraken edit, comparing parsed tokens rather than lines so upstream reformatting
-is not mistaken for a behaviour change.
+copy lacks both AGOT and Iron and Salt's conditions: it shows a dread icon on
+dragons, an opinion value on faked deaths, and the badge itself on krakens. Iron
+and Salt's own copy carries neither AGOT gate either, so all three are applied
+here. Its small badge and small head are faithful reproductions of AGOT's and
+stay authoritative; the generator asserts each is still AGOT's block plus the
+named kraken edit, comparing parsed tokens rather than lines so upstream
+reformatting is not mistaken for a behaviour change.
 
 Owning AGOT's `gui/shared/portraits.gui` also inherits its five references to
-vanilla situation participant groups AGOT removed. Those are AGOT's own and
-predate this module.
+vanilla situation participant groups absent from current AGOT. Those are AGOT's
+own and predate this module.
 
 ## Generation
 

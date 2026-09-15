@@ -78,8 +78,12 @@
       "size": 25745
     },
     "workshop/2712590542/gui/interaction_declare_war.gui": {
-      "sha256": "64aae257ca6f06bbc18e3eaf7d58adcb8e2f7c7fc1a381b3835648f8fe321ac7",
-      "size": 27189
+      "sha256": "30fd0b00ca965fc43f7654b59f153e68f630496d881d3221b38805b935446029",
+      "size": 53826
+    },
+    "workshop/2712590542/gui/shared/00_miv_cooltip.gui": {
+      "sha256": "d4ec9c8ef17a7a618574b6e084050be9313b5a5c3edbe28f27dbb00bd1712d6a",
+      "size": 8802
     },
     "workshop/2886417277/gfx/interface/icons/artifact/artifact_bg.dds": {
       "sha256": "5cf39c75f0551be3b93635a7477e3eda16a5b24ba255637ae775968839669b90",

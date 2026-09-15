@@ -8,8 +8,9 @@ already covers everything that holds without Legacy of Valyria.
 ## What it merges
 
 - Much Faster Activities' timing with Legacy of Valyria's coronation,
-  tournament, and dragon-hatching changes, and the final temporary More Dragon
-  Eggs + Legacy of Valyria hatching activity.
+  tournament, and dragon-hatching changes.
+- More Dragon Eggs' hatching, cradling, ruin eggs, and landless dragonpit
+  handling with Legacy of Valyria's volcano locations and restored mines.
 - Legacy of Valyria's tournament guards, Much Faster Activities' cooldown, and
   Culture and Faith Granularity's county-faith conversion in the same events.
 - Travelers' AGOT travel behavior with Legacy of Valyria's travel safety fixes,

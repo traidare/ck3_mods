@@ -833,9 +833,34 @@ ep3_become_landed_transfer_effect = {
 					employs_court_position = head_dragonkeeper_court_position
 				}
 			}
-			trigger_event = {
-				id = more_dragon_eggs_events.0013
-				days = 0
+			if = {
+				limit = {
+					employs_court_position = head_dragonkeeper_court_position
+				}
+				court_position:head_dragonkeeper_court_position = {
+					return_to_court = yes
+				}
+			}
+			every_in_global_list = {
+				variable = living_dragons
+				limit = {
+					employer = prev
+					has_character_flag = owned_dragon
+					has_variable = pitted_dragon_location
+				}
+				agot_remove_from_dragonpit_skip_county_effects = { DRAGON = this }
+				if = {
+					limit = {
+						scope:new_capital = {
+							agot_title_is_an_active_dragonpit = yes
+							geographical_region = world_westeros_beyond_the_wall
+						}
+					}
+					agot_send_to_dragonpit_no_event = {
+						DRAGON = this
+						DRAGONPIT_COUNTY = scope:new_capital
+					}
+				}
 			}
 		}
 		#AGOT Disabled
@@ -2826,17 +2851,6 @@ adventurer_realm_destabilisation_transfer_effect = {
 			save_scope_as = change
 		}
 		hidden_effect = {
-			scope:adventurer = { # MDE Modified
-				if = {
-					limit = {
-						OR = {
-							agot_has_an_active_dragonpit = yes
-							employs_court_position = head_dragonkeeper_court_position
-						}
-					}
-					trigger_event = more_dragon_eggs_events.0013
-				}
-			}
 			every_in_list = {
 				list = independent_vassals
 				save_temporary_scope_as = vassal_temp

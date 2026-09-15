@@ -93,6 +93,10 @@
       "sha256": "7c8fb7f65d7978521d456191371b057296e36f96af603b56bed4a383eb347da2",
       "size": 55267
     },
+    "workshop/2962333032/common/on_action/agot_on_actions/agot_dragon_cradling_on_action.txt": {
+      "sha256": "8c46c8eb39c8fb378584567d59b503e48fc516f470b6fec5bada12674e281af2",
+      "size": 8239
+    },
     "workshop/2962333032/common/on_action/agot_on_actions/agot_game_start.txt": {
       "sha256": "f9cc4853ebe8b5fd82ccb56e5e5becf234c7871a33ad8fdd4fdb9a927cd6fbf2",
       "size": 122052
@@ -108,6 +112,14 @@
     "workshop/2962333032/common/on_action/travel_on_actions.txt": {
       "sha256": "8729ee3f1c9218684ee694968d0f72be44be5ce482a4b0f93fe8d42b4ba76a73",
       "size": 75487
+    },
+    "workshop/2962333032/common/script_values/00_agot_dragon_gene_values.txt": {
+      "sha256": "6218687de506f50d6cc24f2ec5548f1a62be4ada2c992a36f723a3a32a0beb04",
+      "size": 90022
+    },
+    "workshop/2962333032/common/scripted_effects/00_agot_dragonpit_effects.txt": {
+      "sha256": "54ef1bc91abaed9325c04b7a80cb838de4cfbbae0260995e48a8445de0140d56",
+      "size": 25239
     },
     "workshop/2962333032/common/scripted_effects/00_agot_effects.txt": {
       "sha256": "8142dea606c1762dac6cbf425772d72fb517a8b7fd1ba362bdb9c7ce9de45ea6",
@@ -137,6 +149,10 @@
       "sha256": "d3f9f28eac898beb4c37288b74109eb94718f003d1609ce8de20db83f4788a73",
       "size": 1072
     },
+    "workshop/2962333032/events/activities/agot_hatching_activity/agot_dragon_hatching_activity_events.txt": {
+      "sha256": "c5fbc74c3f5d99052d537b19bf550d083092fa55027946d081e8044b99215450",
+      "size": 110960
+    },
     "workshop/2962333032/events/activities/coronation_activity/coronation_events.txt": {
       "sha256": "a95d71dc2909b02bb4d415c70e5deed86a3fa48e03882a3f30b96967c527e5b5",
       "size": 120046
@@ -144,6 +160,10 @@
     "workshop/2962333032/events/activities/tournaments/contest_events.txt": {
       "sha256": "b52fde29e536f1fbdc3b164d465ee1af4f31abd1a0edbf4177b988fad2103c0e",
       "size": 364312
+    },
+    "workshop/2962333032/events/agot_events/agot_ruins_events.txt": {
+      "sha256": "65d74d6ba363abcbc648a20842c464f5b5cb0b877883afd06178ef47648b9b15",
+      "size": 34152
     },
     "workshop/2962333032/gfx/map/map_object_data/new_mapobject_1.txt": {
       "sha256": "c0f04fde58842d39bd427e779a49dadb37ef5013a7c31c4035dd7eba6f25d50b",
@@ -225,13 +245,49 @@
       "sha256": "53840978ecadebf76fb37804776840dc01156f3516fb1dfcb25b9f80a2258909",
       "size": 176
     },
+    "workshop/3388366564/common/activities/activity_types/agot_dragon_hatching.txt": {
+      "sha256": "6529d15e97523dc6733a787e7934aecddf23221f4e655438612366258e4ba9eb",
+      "size": 84853
+    },
+    "workshop/3388366564/common/on_action/agot_on_actions/agot_dragon_cradling_on_action.txt": {
+      "sha256": "5fe933ec03ab0092857eaa25d22f50caee06c44744a83a938f026a3f72276e88",
+      "size": 9959
+    },
     "workshop/3388366564/common/on_action/agot_on_actions/mde_yearly_on_actions.txt": {
-      "sha256": "6be6b2ab0f6a7c6e6d88424a38ae1b737c2ec24ca0a503544e83a5cd3482ed83",
-      "size": 525
+      "sha256": "b2fddf1ffddf13e7984a4b78f65158955be067323cfd56f366042af3da851998",
+      "size": 500
+    },
+    "workshop/3388366564/common/scripted_effects/00_agot_dragonpit_effects.txt": {
+      "sha256": "1678b50c812f2e82ae9f5c852228871bb7addebaf5bd82e105b39fbc1f127025",
+      "size": 26121
+    },
+    "workshop/3388366564/common/scripted_effects/07_dlc_ep3_scripted_effects.txt": {
+      "sha256": "c96114612331c326277f01ac250a1a6edc6eb73ebc8e4fdd84e785a272874c16",
+      "size": 374992
     },
     "workshop/3388366564/descriptor.mod": {
-      "sha256": "dbc867ab83a4757b1fc6cce954ead8f53cbc619a294b3d4d5400cf27b40daf46",
-      "size": 132
+      "sha256": "f00d8ae5f991e35d63fa3d175fbba48c6d598595263d1faa96435f154f153746",
+      "size": 130
+    },
+    "workshop/3388366564/events/activities/agot_hatching_activity/agot_dragon_hatching_activity_events.txt": {
+      "sha256": "f1a1a7d5b18457992023c0e13861957fecbe85c6d1db969e2990591a06618e74",
+      "size": 125377
+    },
+    "workshop/3388366564/events/agot_events/agot_ruins_events.txt": {
+      "sha256": "ad180a5c3b95f0383313d50bb283ffa15cd2d86f12e7963236d14210bd74d3f3",
+      "size": 36863
+    },
+    "workshop/3388366564/events/dlc/ep3/ep3_laamp_events.txt": {
+      "sha256": "9d4ea8c69605f06a4dd00f28b575c8e1b070f318892926b1a4917542beb4c1a5",
+      "size": 207235
+    },
+    "workshop/3388366564/gui/custom_gui/mde_gui/mde_hud.gui": {
+      "sha256": "0190954b3deffa0135bb2f0656b934a8f100dbe66a143062ba7e62fe40921bba",
+      "size": 8145
+    },
+    "workshop/3388366564/gui/shared/mde_portraits.gui": {
+      "sha256": "483fedf131270f48f628c39ef31d1b5d3d107bafda9329eabd208b898c055f6e",
+      "size": 5643
     },
     "workshop/3403938445/common/landed_titles/cob_laamps.txt": {
       "sha256": "89ef584c70afa41931bd5e74cc22151be69b185052e7c977911c24cd81972e14",
@@ -302,8 +358,8 @@
       "size": 163
     },
     "workshop/3609763696/gui/hud.gui": {
-      "sha256": "76df67673317651afd126f257bc91373268614f46135588ddb8e76d9951a9cbd",
-      "size": 221978
+      "sha256": "7577d1003739b6ab2ff78016097a71125a55d8c9811f6cdab60e4c8c2ef398cc",
+      "size": 220013
     },
     "workshop/3621472324/common/scripted_triggers/zzz_Great_Councils_replaced_triggers.txt": {
       "sha256": "10eb1975b391d457e213659afaf5166320f44d13669a52a20e33eabbd69d9199",
@@ -326,8 +382,8 @@
       "size": 2078
     },
     "workshop/3664900993/descriptor.mod": {
-      "sha256": "c8a8715296c8a6c0c43b5af0a0318038cd5e82d043da6e442c3f2afaf1b245ba",
-      "size": 158
+      "sha256": "29972b3369c61938c6b7ae6e64fea921befeeb0e8eed2f39923760d8bfe1e980",
+      "size": 160
     },
     "workshop/3664900993/gfx/map/map_object_data/new_mapobject_1.txt": {
       "sha256": "6e70fe03a89ce12c2037453e4692df7bf29fd43249200a7c4ee31ff06212be81",
@@ -342,8 +398,8 @@
       "size": 9423
     },
     "workshop/3664900993/localization/replace/spanish/agot/replace/00_agot_titles_l_spanish.yml": {
-      "sha256": "3e2ed4410bd754ee5639708f2c186b6cdd21799d3651e2587843bc6eab0d6c87",
-      "size": 7285
+      "sha256": "5d56e6e24af1c0c962991f3eabf52bb5c0f1abc343c3096041997b508e9e0dd8",
+      "size": 7350
     },
     "workshop/3664900993/map_data/adjacencies.csv": {
       "sha256": "f4dd6495d5eb502f02d85da107950adff448323a3492f1533c6c1c23c8b08d04",
@@ -388,14 +444,6 @@
     "workshop/3742055253/descriptor.mod": {
       "sha256": "df516080f69117d701b75cff9dd45202b42c55307009a034b92d9c9bc8f072f5",
       "size": 189
-    },
-    "workshop/3762892932/common/activities/activity_types/agot_dragon_hatching.txt": {
-      "sha256": "098bcf57181f4000d3bdf717d8bf482e52c1c6e48460b1711869506adec707cb",
-      "size": 82390
-    },
-    "workshop/3762892932/descriptor.mod": {
-      "sha256": "d0232d12419d41e5e1db0c8737e3f82960930d32c815accc33af3bbb80a5c1ed",
-      "size": 423
     },
     "workshop/3766038754/descriptor.mod": {
       "sha256": "23f09579204def102f986e8ad392930a804f1e01ecdc4758d8dadaa499dddf7b",
@@ -442,15 +490,15 @@
       "size": 510333
     },
     "workshop/3780269495/common/scripted_rules/zz_ln_activity_rules.txt": {
-      "sha256": "dd7ee13eedd538dfb7898113924f0200fb4933227fe1360c43912db7876f1c61",
-      "size": 2443
+      "sha256": "22ac2cab91eb1ebf51598a6d9bb335e987574f226745ccdf85db6b48936b48ae",
+      "size": 3028
     },
     "workshop/3780269495/common/scripted_rules/zz_ln_diarch_rules.txt": {
       "sha256": "5004ff7ffdb30f9cf65868a4a2332f4e1dbe9f1020caf9c3034e583f42201e13",
       "size": 1038
     },
     "workshop/3780269495/descriptor.mod": {
-      "sha256": "370727d9ac2dbfbf362feafdd70b540eba74a97013aab88cd7fd44e10af1a1e5",
+      "sha256": "820a235bce04bad2069258c2aaca16d811d260a637b55590e4f6ecd01741f0c2",
       "size": 215
     },
     "workshop/3781577713/common/scripted_triggers/zz_kraken_character_triggers.txt": {
@@ -468,6 +516,10 @@
     "workshop/3781577713/gui/map_icon_layer.gui": {
       "sha256": "21a8849258ce07a2672ea5624060685618e7ded6959e698505280074d611b2d9",
       "size": 147833
+    },
+    "workshop/3788296332/common/activities/activity_types/agot_dragon_hatching.txt": {
+      "sha256": "7cb15aa9a27cf3e1b5cba36ed7ed1032757ab8af37c20db4cf70aeef2279312e",
+      "size": 78910
     },
     "workshop/3788296332/common/activities/activity_types/coronation.txt": {
       "sha256": "44f40560670565652ccc63dac1c167afa68183efcf452d997e6be373e811a2e6",
@@ -521,6 +573,10 @@
       "sha256": "e8e22f7ce09e259df5f93155802e336526356cbede484de3a2085c34040e2988",
       "size": 26890
     },
+    "workshop/3788296332/common/on_action/agot_on_actions/agot_dragon_cradling_on_action.txt": {
+      "sha256": "ec6477176c7e77e61324d235b6be31daf41e57c846a2cb41b4d9ea3a1bca35e9",
+      "size": 8006
+    },
     "workshop/3788296332/common/on_action/agot_on_actions/agot_game_start.txt": {
       "sha256": "773b86fbaf36a6a05cdadf12439d627c4437a469b11caeb115ac8903bef1781e",
       "size": 123969
@@ -545,6 +601,10 @@
       "sha256": "71ce7de9b7c03259879b18af2f2a66b9a7a9286dd4deda65275ef56a055adff0",
       "size": 526404
     },
+    "workshop/3788296332/common/scripted_effects/zzzz_lv_lov_scripted_effect_delta_overrides_v0_2_2.txt": {
+      "sha256": "d6cb19eb1fd296d46edb0856aa97088565dff45b1afdf0806180cda4bd79755c",
+      "size": 28915
+    },
     "workshop/3788296332/common/scripted_rules/00_rules.txt": {
       "sha256": "499c4ad6c16f9bfd2505216fbde57a97fc7aeb3009070874ba6ba89a4ef7ee63",
       "size": 50431
@@ -557,6 +617,10 @@
       "sha256": "3c88d9c9d0ab26d24f95f60e8bd056bd9b352d37075aafc5fcc047ac48ad2a75",
       "size": 273
     },
+    "workshop/3788296332/events/activities/agot_hatching_activity/agot_dragon_hatching_activity_events.txt": {
+      "sha256": "40f050bb4a7c2e94bf3bf88fb345cbc060d7235b3b8784190e096a5fd41cc2e8",
+      "size": 106908
+    },
     "workshop/3788296332/events/activities/coronation_activity/coronation_events.txt": {
       "sha256": "2228ff04449ec55ac748dd6dd5989c3e5226e028879a40332a1db2276879080f",
       "size": 114932
@@ -568,6 +632,10 @@
     "workshop/3788296332/events/activities/tournaments/contest_events.txt": {
       "sha256": "157c60a7603883dcc30869f5f8288f5b54f60721365e5b52d2a07bc5b51bd93d",
       "size": 349932
+    },
+    "workshop/3788296332/events/agot_events/agot_ruins_events.txt": {
+      "sha256": "2aa05cc0c8ca7fa50b2f9b7dddf621f6087074b5e83c33978dd4c03a2c961f93",
+      "size": 32943
     },
     "workshop/3788296332/gfx/map/map_object_data/new_mapobject_1.txt": {
       "sha256": "bf3d48fd11011b89b37e8b855fa24b063aac78b77bfbb1f91f4f78804b558f46",
@@ -592,14 +660,6 @@
     "workshop/3788296332/map_data/island_region.txt": {
       "sha256": "2a878f38ec7ebd2f9de7bf0fb243960963a2010efa9248484d896d9b54f7a071",
       "size": 6928
-    },
-    "workshop/3788885215/common/scripted_effects/07_dlc_ep3_scripted_effects.txt": {
-      "sha256": "7842f56d7039499d00cdb624069ba45d850ffe8bd0bf46b4b0c3db1b3534d1fb",
-      "size": 374580
-    },
-    "workshop/3788885215/descriptor.mod": {
-      "sha256": "778d265286f6e39be8bc7d39ddbad0bcb3a65ceb4e8c3322cb8bcdad731af825",
-      "size": 228
     },
     "workshop/3792698340/common/activities/activity_types/wedding.txt": {
       "sha256": "5314c0ecbeb5170306858820fb3f91232eb426cdfd47ac1d6d6ab692dc0b8ff7",

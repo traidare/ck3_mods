@@ -51,6 +51,14 @@
     },
     {
       "severity": "warning",
+      "code": "duplicate-item",
+      "message": "gui template is redefined by another gui template",
+      "source": "MOD",
+      "file": "gui/shared/cooltip.gui",
+      "count": 1
+    },
+    {
+      "severity": "warning",
       "code": "datafunctions",
       "message": "GetActiveFilter returns int32 but a CVector2i is needed here",
       "source": "MOD",

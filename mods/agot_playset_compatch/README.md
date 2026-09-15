@@ -10,13 +10,13 @@ Essos Expanded are enabled, so it can stay on in any of those combinations.
 Roughly fifty parent mods are touched, and gameplay intent from every one is
 preserved — only the code CK3 rejects is changed.
 
-- **Effects CK3 1.19 no longer accepts** — removed triggers, obsolete event
-  fields, negative gold costs, malformed tooltips.
+- **CK3 1.19-valid effects and events** — supported triggers and event fields,
+  nonnegative costs, and valid tooltips.
 - **Unset or missing scopes** — a father, capital, war, or activity host read
   without checking it exists, erroring repeatedly from game start onward.
-- **References to content AGOT removes**, and **stale whole-file copies** that
-  silently revert AGOT's own content. One such copy left newly elected High
-  Septons with no displayed name at all.
+- **Current AGOT content references** and **whole-file overrides rebased onto
+  AGOT's definitions**, including the naming path for newly elected High
+  Septons.
 - **Broken succession and war joins**, including revalidated accolade
   successors. Automatic agents are disabled for Promote, Raid Estate, and Expand
   Power Base as the stability tradeoff.
@@ -24,8 +24,8 @@ preserved — only the code CK3 rejects is changed.
   a day later, so realms stop accumulating duplicates.
 - **Special-building fields the game discards while reading them**, so landmark
   bonuses, garrisons, and follow-ups actually arrive.
-- **Portrait, interface, and art-lookup breakage**, including art retried on
-  every redraw for as long as the affected view is open.
+- **Valid portrait, interface, and art lookups**, including stable assets for
+  every redraw of the affected views.
 
 ## What it merges
 

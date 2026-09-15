@@ -387,45 +387,6 @@ def disable_unsafe_scheme_agent_evaluation(block: str) -> str:
     return _replace_direct_child_block(block, "on_invalidated", "\ton_invalidated = {}")
 
 
-def _repair_dragon_template_block(block: str, variable: str) -> str:
-    pattern = re.compile(
-        rf"(?P<indent>[ \t]*)every_in_global_list = \{{\n"
-        rf"(?P=indent)\tvariable = gl_dragon_variable_storage\n"
-        rf"(?P=indent)\tlimit = \{{\n"
-        rf"(?P=indent)\t\t(?P<identity>var:dragon_id \?= [^\n]+)\n"
-        rf"(?P=indent)\t\}}\n"
-        rf"(?P=indent)\tsave_temporary_scope_as = dragon_var_story_val\n"
-        rf"(?P=indent)\}}\n"
-        rf"(?P=indent)if = \{{\n"
-        rf"(?P=indent)\tlimit = \{{\n"
-        rf"(?P=indent)\t\texists = scope:dragon_var_story_val\n"
-        rf"(?P=indent)\t\tscope:dragon_var_story_val = \{{ has_variable = {variable} \}}\n"
-        rf"(?P=indent)\t\}}\n"
-        rf"(?P=indent)\tvalue = scope:dragon_var_story_val.var:{variable}\n"
-        rf"(?P=indent)\}}"
-    )
-
-    def replacement(match: re.Match[str]) -> str:
-        indent = match.group("indent")
-        return (
-            f"{indent}every_in_global_list = {{\n"
-            f"{indent}\tvariable = gl_dragon_variable_storage\n"
-            f"{indent}\tlimit = {{\n"
-            f"{indent}\t\t{match.group('identity')}\n"
-            f"{indent}\t\thas_variable = {variable}\n"
-            f"{indent}\t}}\n"
-            f"{indent}\tvalue = var:{variable}\n"
-            f"{indent}}}"
-        )
-
-    repaired, count = pattern.subn(replacement, block)
-    if count != 2:
-        raise RuntimeError(
-            f"dragon template repair for {variable} expected two storage lookups, found {count}"
-        )
-    return repaired
-
-
 def generate_naval_contact_stability(inputs: RunInputs) -> None:
     effects_relative = "common/scripted_effects/naval_combat_effects.txt"
     source = read_text(inputs.WORKSHOP / "3772178688" / effects_relative)
@@ -770,40 +731,6 @@ def generate_naval_coastal_raid_tooltip(inputs: RunInputs) -> None:
         source, block, repaired, label="Naval Combat coastal-raid replacement"
     )
     write_text(inputs.OUTPUT, relative, normalize_rebased_source(source))
-
-
-def generate_dragon_template_storage_guards(inputs: RunInputs) -> None:
-    relative = "common/script_values/00_agot_dragon_gene_values.txt"
-    source = read_text(inputs.WORKSHOP / "3788885215" / relative)
-    repairs = (
-        (
-            "gene_dragon_fire_color_template_svalue",
-            "gene_dragon_fire_color_template",
-            "5862fd370610ce5bcadce350e0897c76a83897f84437a4849fe8df5dfcfcae49",
-        ),
-        (
-            "gene_dragon_fire_smoke_template_svalue",
-            "gene_dragon_fire_smoke_template",
-            "bd6b4e06c33006437118a82544885f7befcc3e523544b20534740de4beb9bc91",
-        ),
-    )
-    for key, variable, expected_hash in repairs:
-        block = assert_source_block_hash(
-            source, key, expected_hash, label=f"AGOT dragon template value {key}"
-        )
-        source = _replace_top_level_block(
-            source,
-            block,
-            _repair_dragon_template_block(block, variable),
-            label=f"AGOT dragon template replacement {key}",
-        )
-    write_text(
-        inputs.OUTPUT,
-        relative,
-        source,
-        preserve_trailing_whitespace=True,
-        force_newline="\r\n",
-    )
 
 
 def generate_adventurer_beneficiary_cb_guard(inputs: RunInputs) -> None:

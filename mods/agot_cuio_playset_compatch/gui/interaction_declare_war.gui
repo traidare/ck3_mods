@@ -3,7 +3,6 @@
 ######################################################
 # 1.16
 
-# These ~50 first lines are a placeholder way to show who will defend
 window = {
 	name = "declare_war_window"
 	datacontext = "[DeclareWarInteractionWindow.GetCharacterInteractionConfirmationWindow]"
@@ -840,8 +839,6 @@ window = {
 					}
 				}
 				agot_rv_rescue_item_box = {}
-				text_single = { text = "interactive_war_ui_second_message" }
-				text_single = { text = "interactive_war_ui_message" }
 			}
 
 			flowcontainer = {

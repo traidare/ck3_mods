@@ -427,6 +427,14 @@
     },
     {
       "severity": "error",
+      "code": "strict-scopes",
+      "message": "scope:completed_ruin might not be available here",
+      "source": "MOD",
+      "file": "events/agot_events/agot_ruins_events.txt",
+      "count": 1
+    },
+    {
+      "severity": "error",
       "code": "parse-error",
       "message": "expected province id",
       "source": "MOD",
@@ -720,6 +728,30 @@
       "source": "AGOT",
       "file": "events/agot_events/agot_dayne_prodigy_events.txt",
       "count": 6
+    },
+    {
+      "severity": "warning",
+      "code": "strict-scopes",
+      "message": "`agot_try_tame_dragon_effect` expects scope:target to be set",
+      "source": "AGOT",
+      "file": "events/agot_events/agot_dragonkeepers_events.txt",
+      "count": 2
+    },
+    {
+      "severity": "warning",
+      "code": "strict-scopes",
+      "message": "`dragon_traits_in_common` expects scope:dragon_taming_modifier_dragon to be set",
+      "source": "AGOT",
+      "file": "events/agot_events/agot_dragonkeepers_events.txt",
+      "count": 3
+    },
+    {
+      "severity": "warning",
+      "code": "strict-scopes",
+      "message": "`dragon_traits_in_common` expects scope:target to be set",
+      "source": "AGOT",
+      "file": "events/agot_events/agot_dragonkeepers_events.txt",
+      "count": 3
     },
     {
       "severity": "warning",
@@ -1780,6 +1812,14 @@
     {
       "severity": "warning",
       "code": "scopes",
+      "message": "`agot_spawn_owned_hatchling_from_egg_effect` expects scope to be character but scope seems to be artifact",
+      "source": "MOD",
+      "file": "events/activities/agot_hatching_activity/agot_dragon_hatching_activity_events.txt",
+      "count": 4
+    },
+    {
+      "severity": "warning",
+      "code": "scopes",
       "message": "`culture` produces culture but expected landed title",
       "source": "MOD",
       "file": "events/activities/coronation_activity/coronation_events.txt",
@@ -1835,6 +1875,22 @@
     },
     {
       "severity": "warning",
+      "code": "scopes",
+      "message": "`exists = yes/no` does not work",
+      "source": "MOD",
+      "file": "events/agot_events/agot_ruins_events.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "scopes",
+      "message": "`title_province` is for landed title but scope seems to be province",
+      "source": "MOD",
+      "file": "events/agot_events/agot_ruins_events.txt",
+      "count": 12
+    },
+    {
+      "severity": "warning",
       "code": "duplicate-item",
       "message": "event is redefined by another event",
       "source": "MOD",
@@ -1848,6 +1904,14 @@
       "source": "MOD",
       "file": "gfx/court_scene/scene_cultures/00_default_cultures.txt",
       "count": 2
+    },
+    {
+      "severity": "warning",
+      "code": "scopes",
+      "message": "`domicile` produces domicile but expected landed title",
+      "source": "More Dragon Eggs",
+      "file": "common/scripted_triggers/00_more_dragon_eggs_scripted_triggers.txt",
+      "count": 3
     },
     {
       "severity": "warning",
@@ -1871,6 +1935,22 @@
       "message": "`location` is for character, army or combat but scope seems to be activity",
       "source": "Seasons",
       "file": "common/event_backgrounds/01_event_backgrounds.txt",
+      "count": 1
+    },
+    {
+      "severity": "tips",
+      "code": "performance",
+      "message": "AND with only one item inside is useless",
+      "source": "AGOT",
+      "file": "common/scripted_triggers/00_laamp_triggers.txt",
+      "count": 5
+    },
+    {
+      "severity": "tips",
+      "code": "performance",
+      "message": "AND with only one item inside is useless",
+      "source": "MOD",
+      "file": "events/agot_events/agot_ruins_events.txt",
       "count": 1
     }
   ]

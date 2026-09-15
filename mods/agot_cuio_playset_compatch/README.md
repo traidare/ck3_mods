@@ -14,10 +14,11 @@ Compatch**, **AGOT Iron and Salt**, and **Character UI Overhaul**.
 
 Character UI Overhaul is the layout authority. The compatible AGOT and More
 Personality Depth changes are merged in, and the overlapping AGOT interfaces are
-explicitly restored: dragon-family rows, personality visibility, AGOT character
-names and interaction controls, loyalist-faction protection, rescue and revenge
-war controls, and More Interactive Vassals warnings. Artifact Manager's
-`artifact_bg.dds` and `artifact_unique.dds` remain the effective icons.
+included: dragon-family rows, personality visibility, AGOT character names and
+interaction controls, loyalist-faction protection, rescue and revenge war
+controls, and More Interactive Vassals' vassal-muster opinion breakdown.
+Artifact Manager's `artifact_bg.dds` and `artifact_unique.dds` remain the
+effective icons.
 
 ## Character and relationship views
 
@@ -53,9 +54,9 @@ undoes everything above, so its kraken handling is merged in here instead: the
 kraken tooltip, list rows, and character view all work, and the Character UI
 Overhaul layout is kept.
 
-Two long-standing display faults are corrected in the same place. Dragons drew a
-human sex icon in the portrait tooltip, and the opinion badge showed a dread
-icon on dragons and an opinion value on characters who had faked their death.
+Dragon portrait tooltips suppress the human sex icon. The opinion badge also
+suppresses dread on dragons and opinion values on characters who have faked
+their death.
 
 ## Notes
 
