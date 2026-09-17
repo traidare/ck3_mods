@@ -1,0 +1,11 @@
+[generator]
+entrypoint = "implementation.py:generate"
+owned_outputs = [
+  "common/script_values/zz_agot_inner_circle_revoke_cost.txt",
+]
+
+[[sources]]
+name = "agot-court-position-values"
+kind = "workshop"
+item_id = "2962333032"
+path = "common/script_values/00_court_position_values.txt"
