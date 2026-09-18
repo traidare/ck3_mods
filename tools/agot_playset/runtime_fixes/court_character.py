@@ -838,28 +838,6 @@ def generate_adventurers_beneficiary(inputs: RunInputs) -> None:
     write_text(inputs.OUTPUT, relative, text)
 
 
-def generate_all_men_must_serve(inputs: RunInputs) -> None:
-    relative = "common/scripted_effects/00_ame_effects.txt"
-    source = read_text(inputs.WORKSHOP / "3761342990" / relative)
-    block = extract_top_level_block(source, "ame_charge_service_cost_effect")
-    block = replace_exact(
-        block,
-        "add_gold = -75",
-        "remove_short_term_gold = 75",
-        expected=1,
-        label="All Men Must Serve positive-value service-cost deduction",
-    )
-    write_text(
-        inputs.OUTPUT,
-        "common/scripted_effects/zz_ame_runtime_cost_effect.txt",
-        (
-            "# CK3 1.19 rejects negative add_gold values. Preserve the "
-            "Workshop mod's 75-gold fee with the current deduction effect.\n"
-            f"{block}\n"
-        ),
-    )
-
-
 def generate_agot_citadel(inputs: RunInputs) -> None:
     relative = "common/scripted_effects/00_agot_citadel_effects.txt"
     source = read_text(inputs.WORKSHOP / "2962333032" / relative)

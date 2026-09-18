@@ -370,7 +370,6 @@ repair:
   plus 695 delayed activity-pulse references to a province scope that those
   on-actions do not carry, and five random lists whose fractional weights CK3
   otherwise treats as zero;
-- All Men Must Serve's invalid negative `add_gold` service-cost effect;
 - Seasons' winter-combat trigger switching through `location` a second time
   after AGOT already entered a province scope, and Seasons manifest
   `2065378484774676314` passing the bare token `autumn` to

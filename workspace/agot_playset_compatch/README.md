@@ -7,7 +7,7 @@ Valyria nor Essos Expanded enabled, so this mod is always enabled.
 
 ## Ownership
 
-This mod owns 154 files. Each repair entry below names the parent it repairs,
+This mod owns 153 files. Each repair entry below names the parent it repairs,
 the diagnosed failure, and — where the repair depends on being the effective
 last writer — why that is safe.
 
@@ -332,9 +332,6 @@ change re-raises it.
   in the Legacy of Valyria playset compatch.
 - **Adventurer's Beneficiary:** verifies that the selected-beneficiary variable
   exists before comparing the interaction recipient with it.
-- **AGOT: All Men Must Serve:** replaces its CK3 1.19-invalid negative
-  `add_gold` service fee with the positive-value `remove_short_term_gold`
-  deduction effect.
 - **Artifact succession:** skips title-following ownership logic when a newly
   created title has no previous holder.
 - **Artifact feature patterns:** evaluates the owner-faith restrictions on 12
@@ -502,13 +499,13 @@ Individual repairs above carry their own narrower triggers. In general, re-run
 the generator and review the resulting diff after any update to Workshop IDs
 `2962333032`, `3388366564`, `3596393244`, `3361162762`, `2967263410`,
 `3713902872`, `3319354609`, `3621472324`, `3324579171`, `3349316031`,
-`3761342990`, `3676293022`, `3305687550`, `3662281614`, `3673468355`,
-`2886417277`, `3084203091`, `3225355262`, `3235061780`, `3377641022`,
-`3692879370`, `3697008412`, `3462342647`, `3437814875`, `3709868073`,
-`3541596590`, `2971198450`, `3732116186`, `3573203384`, `3166199552`,
-`2712590542`, or `2519175282`, and after CK3 updates that change
-`04_dlc_ep2_tour_effects.txt` or `common/on_action/accolade_on_actions.txt`,
-Promote, Raid Estate, or the shared scheme system.
+`3676293022`, `3305687550`, `3662281614`, `3673468355`, `2886417277`,
+`3084203091`, `3225355262`, `3235061780`, `3377641022`, `3692879370`,
+`3697008412`, `3462342647`, `3437814875`, `3709868073`, `3541596590`,
+`2971198450`, `3732116186`, `3573203384`, `3166199552`, `2712590542`, or
+`2519175282`, and after CK3 updates that change `04_dlc_ep2_tour_effects.txt` or
+`common/on_action/accolade_on_actions.txt`, Promote, Raid Estate, or the shared
+scheme system.
 
 Four repairs here are the AGOT-sourced copies of repairs the Legacy of Valyria
 playset compatch rebases from the LoV bridge: the support-candidacy appointment

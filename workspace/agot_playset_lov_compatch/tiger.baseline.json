@@ -1941,14 +1941,6 @@
       "severity": "tips",
       "code": "performance",
       "message": "AND with only one item inside is useless",
-      "source": "AGOT",
-      "file": "common/scripted_triggers/00_laamp_triggers.txt",
-      "count": 5
-    },
-    {
-      "severity": "tips",
-      "code": "performance",
-      "message": "AND with only one item inside is useless",
       "source": "MOD",
       "file": "events/agot_events/agot_ruins_events.txt",
       "count": 1

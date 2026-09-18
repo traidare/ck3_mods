@@ -10,8 +10,8 @@ Essos Expanded are enabled, so it can stay on in any of those combinations.
 Roughly fifty parent mods are touched, and gameplay intent from every one is
 preserved — only the code CK3 rejects is changed.
 
-- **CK3 1.19-valid effects and events** — supported triggers and event fields,
-  nonnegative costs, and valid tooltips.
+- **CK3 1.19-valid effects and events** — supported triggers, event fields, and
+  valid tooltips.
 - **Unset or missing scopes** — a father, capital, war, or activity host read
   without checking it exists, erroring repeatedly from game start onward.
 - **Current AGOT content references** and **whole-file overrides rebased onto

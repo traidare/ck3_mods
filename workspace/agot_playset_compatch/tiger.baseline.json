@@ -1975,7 +1975,7 @@
       "message": "missing spanish localization key agot_dragon_in_dragonpit",
       "source": "AGOT More Dragon Eggs",
       "file": "common/scripted_effects/00_agot_dragonpit_effects.txt",
-      "count": 8
+      "count": 9
     },
     {
       "severity": "warning",
@@ -2092,10 +2092,26 @@
     {
       "severity": "warning",
       "code": "scopes",
+      "message": "`location` is for character, army or combat but scope seems to be activity",
+      "source": "AGOT Seasons of Ice and Fire",
+      "file": "common/event_backgrounds/01_event_backgrounds.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "scopes",
+      "message": "`exists = yes/no` does not work",
+      "source": "AGOT The Knighting Ceremony",
+      "file": "common/scripted_effects/zz_agot_knighthood_grant_override_effects.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "scopes",
       "message": "`ame_revive_company_effect` expects root to be character but root seems to be none",
       "source": "AGOT: All Men Must Serve",
       "file": "common/on_action/00_ame_on_actions.txt",
-      "count": 18
+      "count": 21
     },
     {
       "severity": "warning",
@@ -2103,7 +2119,31 @@
       "message": "`ame_revive_company_effect` expects scope:host to be set",
       "source": "AGOT: All Men Must Serve",
       "file": "common/on_action/00_ame_on_actions.txt",
-      "count": 18
+      "count": 21
+    },
+    {
+      "severity": "warning",
+      "code": "strict-scopes",
+      "message": "`ame_found_company_at_target_company_effect` expects scope:host to be set",
+      "source": "AGOT: All Men Must Serve",
+      "file": "events/ame_company_events.txt",
+      "count": 2
+    },
+    {
+      "severity": "warning",
+      "code": "strict-scopes",
+      "message": "`ame_install_captain_at_target_company_effect` expects scope:host to be set",
+      "source": "AGOT: All Men Must Serve",
+      "file": "events/ame_company_events.txt",
+      "count": 4
+    },
+    {
+      "severity": "warning",
+      "code": "strict-scopes",
+      "message": "`ame_revive_company_at_target_company_effect` expects scope:host to be set",
+      "source": "AGOT: All Men Must Serve",
+      "file": "events/ame_company_events.txt",
+      "count": 2
     },
     {
       "severity": "warning",
