@@ -55,6 +55,9 @@ type Check struct {
 	// Totals is the tiger stage's finding tally, carried structurally so a JSON
 	// consumer can trend it instead of parsing the message.
 	Totals Totals
+	// TigerVersion is the ck3-tiger build that produced the tiger stage's
+	// findings, carried structurally for the same reason.
+	TigerVersion string
 }
 
 // OK reports whether this stage lets the mod pass.
@@ -83,6 +86,9 @@ func (c Check) ToMap() map[string]any {
 	}
 	if c.Totals != nil {
 		result["totals"] = c.Totals
+	}
+	if c.TigerVersion != "" {
+		result["tigerVersion"] = c.TigerVersion
 	}
 	return result
 }
@@ -346,6 +352,8 @@ func validateTiger(space *workspace.Workspace, mod *workspace.Mod, settings conf
 	}
 	totals := tally(findings)
 	check.Totals = totals
+	version := tigerVersion()
+	check.TigerVersion = version
 
 	baselinePath := filepath.Join(mod.ToolingRoot, BaselineFileName)
 	recorded, err := LoadBaseline(baselinePath)
@@ -358,6 +366,15 @@ func validateTiger(space *workspace.Workspace, mod *workspace.Mod, settings conf
 		}
 	}
 	delta := CompareBaseline(recorded, findings)
+	// A tiger release that reclassifies a check moves findings on its own. When
+	// the baseline was recorded with a different build, say so above the diff,
+	// so a difference the tool caused is not read as one the payload did.
+	if !delta.Empty() && recorded.TigerVersion != "" && version != "" &&
+		recorded.TigerVersion != version {
+		check.Details = append(check.Details, fmt.Sprintf(
+			"! baseline recorded with %s, this run is %s",
+			recorded.TigerVersion, version))
+	}
 	for _, group := range []struct {
 		marker  string
 		changes []Change
@@ -373,17 +390,31 @@ func validateTiger(space *workspace.Workspace, mod *workspace.Mod, settings conf
 		}
 	}
 
+	summary := summaryLine(totals, version)
+
 	// A fatal is never an accepted finding: it fails whatever the baseline says,
 	// and --apply refuses to record it.
 	if exitError != nil {
 		check.Status = StatusFailed
 		check.Message = fmt.Sprintf("ck3-tiger exited with status %d: %s",
-			exitError.ExitCode(), totals)
+			exitError.ExitCode(), summary)
 		return check
 	}
 
-	if options.Apply && !delta.Empty() {
-		if err := SaveBaseline(baselinePath, MergeBaseline(recorded, findings)); err != nil {
+	// A baseline recorded by an older schema or an older tiger is refreshed by
+	// --apply even when no finding moved, so the record catches up without
+	// waiting for an unrelated change to touch it.
+	stale := len(recorded.Findings) > 0 &&
+		(recorded.SchemaVersion != BaselineSchemaVersion ||
+			(version != "" && recorded.TigerVersion != version))
+	accepted := recorded
+	if options.Apply && (!delta.Empty() || stale) {
+		accepted = Baseline{
+			SchemaVersion: BaselineSchemaVersion,
+			TigerVersion:  version,
+			Findings:      MergeBaseline(recorded, findings),
+		}
+		if err := SaveBaseline(baselinePath, version, accepted.Findings); err != nil {
 			return Check{
 				Step:    StepTiger,
 				Status:  StatusError,
@@ -394,28 +425,74 @@ func validateTiger(space *workspace.Workspace, mod *workspace.Mod, settings conf
 		check.Status = StatusPassed
 		check.Message = fmt.Sprintf(
 			"recorded %d new, %d unreproducible and %d resolved ck3-tiger finding(s): %s",
-			len(delta.New), len(delta.Unstable), len(delta.Resolved), totals)
-		return check
+			len(delta.New), len(delta.Unstable), len(delta.Resolved), summary)
+	} else {
+		switch {
+		case delta.Regressed():
+			check.Status = StatusFailed
+			check.Message = fmt.Sprintf(
+				"%d new ck3-tiger finding(s) since the baseline; review them, then "+
+					"run `ck3mm mod validate %s --apply` to accept: %s",
+				len(delta.New), mod.Slug, summary)
+		case !delta.Empty():
+			check.Status = StatusPassed
+			check.Message = fmt.Sprintf(
+				"%d unreproducible and %d resolved ck3-tiger finding(s); run "+
+					"`ck3mm mod validate %s --apply` to refresh the baseline: %s",
+				len(delta.Unstable), len(delta.Resolved), mod.Slug, summary)
+		default:
+			check.Status = StatusPassed
+			check.Message = "ck3-tiger matches the baseline: " + summary
+		}
 	}
 
-	switch {
-	case delta.Regressed():
+	// Accepting an error in a file this module writes is a decision, so it has
+	// to be a recorded one. This runs after --apply so a newly accepted finding
+	// asks for its reason immediately, rather than on some later run.
+	if missing := MissingReasons(accepted, ownedPayloadPath(mod)); len(missing) > 0 {
+		for _, finding := range missing {
+			check.Details = append(check.Details, "? no reason recorded: "+finding.Label())
+		}
 		check.Status = StatusFailed
 		check.Message = fmt.Sprintf(
-			"%d new ck3-tiger finding(s) since the baseline; review them, then "+
-				"run `ck3mm mod validate %s --apply` to accept: %s",
-			len(delta.New), mod.Slug, totals)
-	case !delta.Empty():
-		check.Status = StatusPassed
-		check.Message = fmt.Sprintf(
-			"%d unreproducible and %d resolved ck3-tiger finding(s); run "+
-				"`ck3mm mod validate %s --apply` to refresh the baseline: %s",
-			len(delta.Unstable), len(delta.Resolved), mod.Slug, totals)
-	default:
-		check.Status = StatusPassed
-		check.Message = "ck3-tiger matches the baseline: " + totals.String()
+			"%d accepted ck3-tiger finding(s) in this module's own payload carry no "+
+				"reason; record why each is accepted in %s: %s",
+			len(missing), filepath.Join(mod.ToolingRoot, BaselineFileName), summary)
 	}
 	return check
+}
+
+// ownedPayloadPath reports which payload paths a module writes itself, which is
+// everything for a hand-authored module and the generator's declared outputs
+// otherwise.
+func ownedPayloadPath(mod *workspace.Mod) func(string) bool {
+	var generator *workspace.GeneratorSpec
+	if mod.Manifest != nil {
+		generator = mod.Manifest.Generator
+	}
+	return func(file string) bool {
+		return generate.OwnsOutput(file, generator)
+	}
+}
+
+// tigerVersion asks ck3-tiger which build it is, and returns "" if it cannot
+// say. An unknown version is recorded as unknown rather than guessed: a wrong
+// version in the baseline is worse than none, because the diff would then look
+// explained when it is not.
+func tigerVersion() string {
+	output, err := exec.Command(TigerExecutable, "--version").Output()
+	if err != nil {
+		return ""
+	}
+	return strings.TrimSpace(string(output))
+}
+
+// summaryLine renders the tally with the build that produced it.
+func summaryLine(totals Totals, version string) string {
+	if version == "" {
+		return totals.String()
+	}
+	return version + "; " + totals.String()
 }
 
 // changeDetail renders one baseline difference, keeping the recorded count in

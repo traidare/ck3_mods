@@ -1,5 +1,6 @@
 {
-  "schemaVersion": 1,
+  "schemaVersion": 2,
+  "tigerVersion": "ck3-tiger 1.19.0",
   "findings": [
     {
       "severity": "error",
@@ -351,7 +352,8 @@
       "message": "scope:congragulate_winner might not be available here",
       "source": "MOD",
       "file": "events/activities/tournaments/tournament_events.txt",
-      "count": 1
+      "count": 1,
+      "reason": "The flagged line is text from AGOT - Much Faster Activities, carried by the whole-file override this module ships rather than written here."
     },
     {
       "severity": "error",
@@ -359,7 +361,8 @@
       "message": "scope:contest_prize_1 might not be available here",
       "source": "MOD",
       "file": "events/activities/tournaments/tournament_events.txt",
-      "count": 1
+      "count": 1,
+      "reason": "The flagged line is text from AGOT - Much Faster Activities, carried by the whole-file override this module ships rather than written here."
     },
     {
       "severity": "error",
@@ -367,7 +370,8 @@
       "message": "scope:contest_prize_2 might not be available here",
       "source": "MOD",
       "file": "events/activities/tournaments/tournament_events.txt",
-      "count": 1
+      "count": 1,
+      "reason": "The flagged line is text from AGOT - Much Faster Activities, carried by the whole-file override this module ships rather than written here."
     },
     {
       "severity": "error",
@@ -375,7 +379,8 @@
       "message": "scope:contest_prize_3 might not be available here",
       "source": "MOD",
       "file": "events/activities/tournaments/tournament_events.txt",
-      "count": 1
+      "count": 1,
+      "reason": "The flagged line is text from AGOT - Much Faster Activities, carried by the whole-file override this module ships rather than written here."
     },
     {
       "severity": "error",
@@ -383,7 +388,8 @@
       "message": "scope:murder_match might not be available here",
       "source": "MOD",
       "file": "events/activities/tournaments/tournament_events.txt",
-      "count": 1
+      "count": 1,
+      "reason": "The flagged line is text from AGOT - Much Faster Activities, carried by the whole-file override this module ships rather than written here."
     },
     {
       "severity": "error",
@@ -391,7 +397,8 @@
       "message": "scope:prize_child_1 might not be available here",
       "source": "MOD",
       "file": "events/activities/tournaments/tournament_events.txt",
-      "count": 1
+      "count": 1,
+      "reason": "The flagged line is text from AGOT - Much Faster Activities, carried by the whole-file override this module ships rather than written here."
     },
     {
       "severity": "error",
@@ -399,7 +406,8 @@
       "message": "scope:prize_child_2 might not be available here",
       "source": "MOD",
       "file": "events/activities/tournaments/tournament_events.txt",
-      "count": 1
+      "count": 1,
+      "reason": "The flagged line is text from AGOT - Much Faster Activities, carried by the whole-file override this module ships rather than written here."
     },
     {
       "severity": "warning",

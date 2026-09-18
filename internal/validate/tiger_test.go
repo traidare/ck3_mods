@@ -223,7 +223,7 @@ func TestCompareBaselineIsEmptyWhenNothingMoved(t *testing.T) {
 func TestBaselineRoundTrips(t *testing.T) {
 	path := filepath.Join(t.TempDir(), BaselineFileName)
 	findings := parseOrFail(t, sample)
-	if err := SaveBaseline(path, findings); err != nil {
+	if err := SaveBaseline(path, "ck3-tiger 1.19.0", findings); err != nil {
 		t.Fatalf("SaveBaseline: %v", err)
 	}
 	loaded, err := LoadBaseline(path)
@@ -263,10 +263,10 @@ func TestLoadBaselineRejectsAnUnknownSchemaVersion(t *testing.T) {
 
 func TestSaveBaselineRemovesTheFileForACleanModule(t *testing.T) {
 	path := filepath.Join(t.TempDir(), BaselineFileName)
-	if err := SaveBaseline(path, parseOrFail(t, sample)); err != nil {
+	if err := SaveBaseline(path, "ck3-tiger 1.19.0", parseOrFail(t, sample)); err != nil {
 		t.Fatal(err)
 	}
-	if err := SaveBaseline(path, nil); err != nil {
+	if err := SaveBaseline(path, "ck3-tiger 1.19.0", nil); err != nil {
 		t.Fatalf("SaveBaseline: %v", err)
 	}
 	if _, err := os.Stat(path); !os.IsNotExist(err) {
@@ -354,6 +354,100 @@ func TestMergeBaselineSettlesAfterOneRefresh(t *testing.T) {
 		if delta := CompareBaseline(recorded, []Finding{scopeFinding(count)}); !delta.Empty() {
 			t.Errorf("count %d: delta = %+v, want silence", count, delta)
 		}
+	}
+}
+
+func TestLoadBaselineReadsTheSupersededSchema(t *testing.T) {
+	// A version 1 baseline predates both new fields, so it reads as one that
+	// records neither, and every finding it holds still matches.
+	path := filepath.Join(t.TempDir(), BaselineFileName)
+	recorded := `{"schemaVersion":1,"findings":[{"severity":"error",` +
+		`"code":"missing-item","message":"m","source":"MOD","file":"a.txt","count":1}]}`
+	if err := os.WriteFile(path, []byte(recorded), 0o644); err != nil {
+		t.Fatal(err)
+	}
+	baseline, err := LoadBaseline(path)
+	if err != nil {
+		t.Fatalf("LoadBaseline: %v", err)
+	}
+	if baseline.TigerVersion != "" {
+		t.Errorf("tigerVersion = %q, want the field absent", baseline.TigerVersion)
+	}
+	if !CompareBaseline(baseline, baseline.Findings).Empty() {
+		t.Error("a superseded baseline reported its own findings as a delta")
+	}
+}
+
+func TestSaveBaselineUpgradesTheSchemaAndRecordsTheToolVersion(t *testing.T) {
+	path := filepath.Join(t.TempDir(), BaselineFileName)
+	if err := SaveBaseline(path, "ck3-tiger 9.9.9", parseOrFail(t, sample)); err != nil {
+		t.Fatalf("SaveBaseline: %v", err)
+	}
+	baseline, err := LoadBaseline(path)
+	if err != nil {
+		t.Fatalf("LoadBaseline: %v", err)
+	}
+	if baseline.SchemaVersion != BaselineSchemaVersion {
+		t.Errorf("schemaVersion = %d, want %d", baseline.SchemaVersion, BaselineSchemaVersion)
+	}
+	if baseline.TigerVersion != "ck3-tiger 9.9.9" {
+		t.Errorf("tigerVersion = %q, want the build that produced the run", baseline.TigerVersion)
+	}
+}
+
+// ownedFinding is an error in a file the module writes itself, which is the one
+// case where accepting a finding has to be justified.
+func ownedFinding(reason string) Finding {
+	return Finding{
+		Severity: "error", Code: "missing-item", Message: "m",
+		Source: "MOD", File: "common/a.txt", Count: 1, Reason: reason,
+	}
+}
+
+func ownsCommon(file string) bool { return strings.HasPrefix(file, "common/") }
+
+func TestMissingReasonsSelectsOnlyFindingsTheModuleAnswersFor(t *testing.T) {
+	unowned := ownedFinding("")
+	unowned.File = "events/a.txt"
+	fromParent := ownedFinding("")
+	fromParent.Source = "AGOT"
+	warning := ownedFinding("")
+	warning.Severity = "warning"
+
+	baseline := Baseline{Findings: []Finding{
+		ownedFinding(""),
+		ownedFinding("upstream owns this text"),
+		unowned,
+		fromParent,
+		warning,
+	}}
+	missing := MissingReasons(baseline, ownsCommon)
+	if len(missing) != 1 || missing[0].File != "common/a.txt" || missing[0].Reason != "" {
+		t.Errorf("missing = %+v, want only the unjustified error in a written file", missing)
+	}
+}
+
+func TestMergeBaselineKeepsReasonsAcrossARefresh(t *testing.T) {
+	recorded := Baseline{Findings: []Finding{ownedFinding("upstream owns this text")}}
+
+	grown := ownedFinding("")
+	grown.Count = 4
+	merged := MergeBaseline(recorded, []Finding{grown})
+	if len(merged) != 1 || merged[0].Count != 4 {
+		t.Fatalf("merged = %+v, want the current count", merged)
+	}
+	// The reason justifies the finding, not the number of places it occurs.
+	if merged[0].Reason != "upstream owns this text" {
+		t.Errorf("reason = %q, want it carried onto the grown finding", merged[0].Reason)
+	}
+	if len(MissingReasons(Baseline{Findings: merged}, ownsCommon)) != 0 {
+		t.Error("a refresh dropped a reason and reopened an accepted finding")
+	}
+
+	// A finding that resolved takes its reason with it, so no reason outlives
+	// what it justified.
+	if gone := MergeBaseline(recorded, nil); len(gone) != 0 {
+		t.Errorf("merged = %+v, want the resolved finding and its reason dropped", gone)
 	}
 }
 

@@ -1,5 +1,6 @@
 {
-  "schemaVersion": 1,
+  "schemaVersion": 2,
+  "tigerVersion": "ck3-tiger 1.19.0",
   "findings": [
     {
       "severity": "error",
@@ -8,6 +9,15 @@
       "source": "AGOT",
       "file": "common/event_backgrounds/01_event_backgrounds.txt",
       "count": 1
+    },
+    {
+      "severity": "error",
+      "code": "missing-item",
+      "message": "culture orosi not defined in common/culture/cultures/",
+      "source": "MOD",
+      "file": "common/dynasty_legacies/99_agot_cultures_BLA_legacies.txt",
+      "count": 1,
+      "reason": "Legacy of Valyria defines orosi, and this module does not require Legacy of Valyria, so its ck3-tiger stack has no definition to find. The line is upstream Bloodlines text inside a NOT = { OR = { ... } } exclusion list: dropping it would include orosi characters rather than exclude them wherever Legacy of Valyria is enabled."
     },
     {
       "severity": "warning",

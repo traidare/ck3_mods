@@ -4,4 +4,4 @@ tags={
     "Gameplay"
 }
 name="Slightly Faster Travel"
-supported_version="1.*"
+supported_version="1.19.*"

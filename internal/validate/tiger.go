@@ -16,8 +16,15 @@ import (
 // accepted, tracked in git so a new one lands as a reviewable diff.
 const BaselineFileName = "tiger.baseline.json"
 
-// BaselineSchemaVersion is the baseline format this package reads and writes.
-const BaselineSchemaVersion = 1
+// BaselineSchemaVersion is the baseline format this package writes.
+//
+// Version 2 added the ck3-tiger build a baseline was recorded with and the
+// per-finding reason. Version 1 is still read, as a version 2 carrying neither,
+// so a module is upgraded by the next --apply rather than by a migration.
+const BaselineSchemaVersion = 2
+
+// MinBaselineSchemaVersion is the oldest format still readable.
+const MinBaselineSchemaVersion = 1
 
 // Severities are ck3-tiger's levels, worst first. Reports are ordered by this
 // rank so the line worth reading is never below the line that is not.
@@ -30,10 +37,16 @@ var Severities = []string{"fatal", "error", "warning", "untidy", "tips"}
 // identical runs. Measured over three consecutive runs of two modules: the
 // deduced type in the message swaps (`produces landed title` against `produces
 // dynasty house`), occurrence counts drift by one or two, and roughly one
-// finding per module appears in some runs and not others. Nothing outside these
-// two codes moved.
+// finding per module appears in some runs and not others.
 //
-// They are therefore held to a high-water mark rather than an exact count: a
+// The drift is not strictly confined to these two codes. Three identical runs
+// over one module also moved a single `validation` finding and a single
+// `missing-localization` one, out of four and 2298 findings under those codes
+// respectively; both sit downstream of a deduced scope. Listing those codes
+// here would stop gating 2300 findings in order to absorb two, so they stay
+// gated, and a lone spurious one is settled by running validation again.
+//
+// The codes listed are held to a high-water mark rather than an exact count: a
 // larger result is reported but does not fail, a smaller one is ignored, and
 // --apply only ever raises the recorded count. A gate on a value that changes
 // when nothing changed is not a gate.
@@ -72,11 +85,19 @@ type Finding struct {
 	// Count is how many places report it, including the ones --consolidate
 	// folded into a single entry.
 	Count int `json:"count"`
+	// Reason records why this finding is accepted instead of fixed. It is
+	// required for the findings ReasonRequired selects and optional elsewhere,
+	// and it is written by hand: --apply preserves the reasons already recorded
+	// but never invents one.
+	Reason string `json:"reason,omitempty"`
 }
 
-// key identifies a finding across runs, ignoring how often it occurred.
+// key identifies a finding across runs, ignoring how often it occurred and why
+// it was accepted. Both are things recorded about a finding rather than part of
+// what makes it that finding, so a reason survives a change in count.
 func (f Finding) key() Finding {
 	f.Count = 0
+	f.Reason = ""
 	return f
 }
 
@@ -260,8 +281,48 @@ func sameTotals(left, right Totals) bool {
 
 // Baseline is the set of ck3-tiger findings one module has already accepted.
 type Baseline struct {
-	SchemaVersion int       `json:"schemaVersion"`
-	Findings      []Finding `json:"findings"`
+	SchemaVersion int `json:"schemaVersion"`
+	// TigerVersion is the ck3-tiger build that produced these findings.
+	//
+	// Without it, a finding that appears or resolves because a tiger release
+	// reclassified a check is indistinguishable from one an upstream update
+	// introduced, and the diff offers nothing to tell them apart. Empty for a
+	// version 1 baseline that predates the field.
+	TigerVersion string    `json:"tigerVersion,omitempty"`
+	Findings     []Finding `json:"findings"`
+}
+
+// ReasonRequired reports whether accepting this finding has to be justified in
+// writing, given whether the module's generator owns the file it sits in.
+//
+// The set is deliberately narrow: an error or fatal, reported against the
+// module itself, in a path the generator writes. Those are the findings the
+// module is the last writer for and could have fixed, so accepting one is a
+// decision. A finding the same file carries verbatim from a parent still needs
+// a reason, but naming the parent as its origin is a complete one — the
+// baseline is not a place to re-audit a parent mod.
+//
+// Everything else is left optional. Warnings run to four figures per module,
+// and findings tagged with a parent or CK3 are not ours to answer for.
+func (f Finding) ReasonRequired(ownsFile bool) bool {
+	if f.Source != "MOD" || !ownsFile {
+		return false
+	}
+	return f.Severity == "error" || f.Severity == "fatal"
+}
+
+// MissingReasons returns the accepted findings that owe a reason and lack one.
+// ownsFile reports whether the module's generator writes a given payload path.
+func MissingReasons(baseline Baseline, ownsFile func(string) bool) []Finding {
+	var missing []Finding
+	for _, finding := range baseline.Findings {
+		if finding.Reason != "" || !finding.ReasonRequired(ownsFile(finding.File)) {
+			continue
+		}
+		missing = append(missing, finding)
+	}
+	sortFindings(missing)
+	return missing
 }
 
 // Change is one finding whose number of occurrences moved.
@@ -350,7 +411,18 @@ func CompareBaseline(recorded Baseline, current []Finding) Delta {
 // Holding those at their high-water mark is what makes the report settle. A run
 // that happens to deduce fewer of them would otherwise lower the baseline, and
 // the next ordinary run would report the difference back as growth, forever.
+//
+// Reasons already recorded are carried onto the findings they belong to. A
+// finding whose count moved keeps its reason; one that resolved takes its
+// reason with it, so a reason never outlives what it justifies.
 func MergeBaseline(recorded Baseline, current []Finding) []Finding {
+	reasons := map[Finding]string{}
+	for _, finding := range recorded.Findings {
+		if finding.Reason != "" {
+			reasons[finding.key()] = finding.Reason
+		}
+	}
+
 	merged := map[Finding]int{}
 	var order []Finding
 	add := func(finding Finding, count int) {
@@ -373,8 +445,10 @@ func MergeBaseline(recorded Baseline, current []Finding) []Finding {
 
 	findings := make([]Finding, 0, len(order))
 	for _, key := range order {
-		key.Count = merged[key]
-		findings = append(findings, key)
+		finding := key
+		finding.Count = merged[key]
+		finding.Reason = reasons[key]
+		findings = append(findings, finding)
 	}
 	sortFindings(findings)
 	return findings
@@ -401,16 +475,19 @@ func LoadBaseline(path string) (Baseline, error) {
 	if err := json.Unmarshal(data, &baseline); err != nil {
 		return Baseline{}, fmt.Errorf("%s: %w", path, err)
 	}
-	if baseline.SchemaVersion != BaselineSchemaVersion {
-		return Baseline{}, fmt.Errorf("%s: unsupported baseline schema version %d",
-			path, baseline.SchemaVersion)
+	if baseline.SchemaVersion < MinBaselineSchemaVersion ||
+		baseline.SchemaVersion > BaselineSchemaVersion {
+		return Baseline{}, fmt.Errorf(
+			"%s: unsupported baseline schema version %d, expected %d to %d",
+			path, baseline.SchemaVersion, MinBaselineSchemaVersion, BaselineSchemaVersion)
 	}
 	return baseline, nil
 }
 
 // SaveBaseline writes one module's accepted findings, or removes the file when
-// the module is clean.
-func SaveBaseline(path string, findings []Finding) error {
+// the module is clean. It always writes the current schema version, so a
+// version 1 baseline is upgraded in place by the --apply that next touches it.
+func SaveBaseline(path, tigerVersion string, findings []Finding) error {
 	if len(findings) == 0 {
 		if err := os.Remove(path); err != nil && !os.IsNotExist(err) {
 			return err
@@ -419,8 +496,11 @@ func SaveBaseline(path string, findings []Finding) error {
 	}
 	sorted := append([]Finding(nil), findings...)
 	sortFindings(sorted)
-	data, err := json.MarshalIndent(
-		Baseline{SchemaVersion: BaselineSchemaVersion, Findings: sorted}, "", "  ")
+	data, err := json.MarshalIndent(Baseline{
+		SchemaVersion: BaselineSchemaVersion,
+		TigerVersion:  tigerVersion,
+		Findings:      sorted,
+	}, "", "  ")
 	if err != nil {
 		return err
 	}

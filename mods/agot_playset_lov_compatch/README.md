@@ -40,8 +40,7 @@ no name at all.
 
 Keep **Legacy of Valyria - AGOT 0.5.2.1 Compatch (Beta)** immediately after
 **Legacy of Valyria**, and the **Seasons of Valyria** and **Additional Models +
-Legacy of Valyria** compatches after that. Keep **Culture and Faith Granularity
-
-- AGOT Compatch - Legacy of Valyria** before this module as well, so its
-  tournament events do not replace the merged ones. Load this module after all
-  of them and after **AGOT Playset Compatch**.
+Legacy of Valyria** compatches after that. The companion item
+`Culture and Faith Granularity + AGOT Compatch - Legacy of Valyria` also belongs
+before this module, so its tournament events do not replace the merged ones.
+Load this module after all of them and after **AGOT Playset Compatch**.

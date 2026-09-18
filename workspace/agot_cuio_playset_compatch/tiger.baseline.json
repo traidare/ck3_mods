@@ -1,5 +1,6 @@
 {
-  "schemaVersion": 1,
+  "schemaVersion": 2,
+  "tigerVersion": "ck3-tiger 1.19.0",
   "findings": [
     {
       "severity": "error",
@@ -7,7 +8,8 @@
       "message": "situation participant group advancement_movement not defined in common/situation/situations/",
       "source": "MOD",
       "file": "gui/shared/portraits.gui",
-      "count": 3
+      "count": 3,
+      "reason": "The flagged line is text from A Game of Thrones, carried by the whole-file override this module ships rather than written here."
     },
     {
       "severity": "error",
@@ -15,7 +17,8 @@
       "message": "situation participant group conservative_movement not defined in common/situation/situations/",
       "source": "MOD",
       "file": "gui/shared/portraits.gui",
-      "count": 3
+      "count": 3,
+      "reason": "The flagged line is text from A Game of Thrones, carried by the whole-file override this module ships rather than written here."
     },
     {
       "severity": "error",
@@ -23,7 +26,8 @@
       "message": "situation participant group expansion_movement not defined in common/situation/situations/",
       "source": "MOD",
       "file": "gui/shared/portraits.gui",
-      "count": 3
+      "count": 3,
+      "reason": "The flagged line is text from A Game of Thrones, carried by the whole-file override this module ships rather than written here."
     },
     {
       "severity": "error",
@@ -31,7 +35,8 @@
       "message": "situation participant group pro_hegemon_movement not defined in common/situation/situations/",
       "source": "MOD",
       "file": "gui/shared/portraits.gui",
-      "count": 3
+      "count": 3,
+      "reason": "The flagged line is text from A Game of Thrones, carried by the whole-file override this module ships rather than written here."
     },
     {
       "severity": "error",
@@ -39,7 +44,8 @@
       "message": "situation participant group undecided_movement not defined in common/situation/situations/",
       "source": "MOD",
       "file": "gui/shared/portraits.gui",
-      "count": 3
+      "count": 3,
+      "reason": "The flagged line is text from A Game of Thrones, carried by the whole-file override this module ships rather than written here."
     },
     {
       "severity": "error",
@@ -47,7 +53,8 @@
       "message": "wrong number of arguments for macro",
       "source": "MOD",
       "file": "gui/window_character.gui",
-      "count": 2
+      "count": 2,
+      "reason": "Inside the whole-file override of the copy from Character UI Overhaul that this module ships; ck3-tiger reports it against this module because this module is what ships the merged file."
     },
     {
       "severity": "warning",

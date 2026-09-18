@@ -1331,16 +1331,12 @@ world_lov_lower_rhoyne = {
 }
 world_lov_middle_rhoyne = {
 	duchies = {
-		d_the_sorrows
-		d_golden_bridge
 		d_ar_noy
-		d_dagger_lake
 	}
 }
 world_lov_upper_rhoyne = {
 	duchies = {
 		d_ny_sar
-		d_velvet_peak
 		d_ghoyan_drohe
 	}
 }

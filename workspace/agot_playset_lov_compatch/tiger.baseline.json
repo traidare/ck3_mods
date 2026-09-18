@@ -1,5 +1,6 @@
 {
-  "schemaVersion": 1,
+  "schemaVersion": 2,
+  "tigerVersion": "ck3-tiger 1.19.0",
   "findings": [
     {
       "severity": "error",
@@ -335,7 +336,8 @@
       "message": "scope:special_type might not be available here",
       "source": "MOD",
       "file": "common/activities/activity_types/coronation.txt",
-      "count": 1
+      "count": 1,
+      "reason": "The flagged line is text from Legacy of Valyria - AGOT 0.5.2.1 Compatch (Beta), carried by the whole-file override this module ships rather than written here."
     },
     {
       "severity": "error",
@@ -343,7 +345,8 @@
       "message": "unknown token `agot_can_build_temple_holdings`",
       "source": "MOD",
       "file": "common/buildings/zz_am_lov_nv_holding_art.txt",
-      "count": 1
+      "count": 1,
+      "reason": "The flagged line is text from TEMPORARY AGOT Additional Models / LoV Compatch (No AGOT+), carried by the whole-file override this module ships rather than written here."
     },
     {
       "severity": "error",
@@ -351,7 +354,8 @@
       "message": "law flag free_city_election_succession_law not defined in common/laws/",
       "source": "MOD",
       "file": "common/character_interactions/06_ep3_interactions.txt",
-      "count": 1
+      "count": 1,
+      "reason": "The flagged line is text from Legacy of Valyria - AGOT 0.5.2.1 Compatch (Beta), carried by the whole-file override this module ships rather than written here."
     },
     {
       "severity": "error",
@@ -359,7 +363,8 @@
       "message": "law flag norvos_regency_succession_law not defined in common/laws/",
       "source": "MOD",
       "file": "common/character_interactions/06_ep3_interactions.txt",
-      "count": 1
+      "count": 1,
+      "reason": "The flagged line is text from Legacy of Valyria - AGOT 0.5.2.1 Compatch (Beta), carried by the whole-file override this module ships rather than written here."
     },
     {
       "severity": "error",
@@ -367,7 +372,8 @@
       "message": "unknown list",
       "source": "MOD",
       "file": "common/character_interactions/06_ep3_interactions.txt",
-      "count": 2
+      "count": 2,
+      "reason": "Inside the whole-file override of the copy from Legacy of Valyria - AGOT 0.5.2.1 Compatch (Beta) that this module ships; ck3-tiger reports it against this module because this module is what ships the merged file."
     },
     {
       "severity": "error",
@@ -375,7 +381,8 @@
       "message": "scope:previous_holder might not be available here",
       "source": "MOD",
       "file": "common/on_action/agot_on_actions/agot_title_on_actions.txt",
-      "count": 1
+      "count": 1,
+      "reason": "The flagged line is text from Legacy of Valyria - AGOT 0.5.2.1 Compatch (Beta), carried by the whole-file override this module ships rather than written here."
     },
     {
       "severity": "error",
@@ -383,7 +390,8 @@
       "message": "expected `right_icon =`, found `?=`",
       "source": "MOD",
       "file": "common/on_action/agot_on_actions/agot_title_on_actions.txt",
-      "count": 2
+      "count": 2,
+      "reason": "The flagged line is text from Legacy of Valyria - AGOT 0.5.2.1 Compatch (Beta), carried by the whole-file override this module ships rather than written here."
     },
     {
       "severity": "error",
@@ -391,7 +399,8 @@
       "message": "scope:bloc might not be available here",
       "source": "MOD",
       "file": "common/on_action/title_on_actions.txt",
-      "count": 1
+      "count": 1,
+      "reason": "The flagged line is text from Legacy of Valyria - AGOT 0.5.2.1 Compatch (Beta), carried by the whole-file override this module ships rather than written here."
     },
     {
       "severity": "error",
@@ -399,7 +408,8 @@
       "message": "scope:new_holder might not be available here",
       "source": "MOD",
       "file": "common/on_action/title_on_actions.txt",
-      "count": 1
+      "count": 1,
+      "reason": "The flagged line is text from Legacy of Valyria - AGOT 0.5.2.1 Compatch (Beta), carried by the whole-file override this module ships rather than written here."
     },
     {
       "severity": "error",
@@ -407,7 +417,8 @@
       "message": "scope:transfer_type might not be available here",
       "source": "MOD",
       "file": "common/on_action/title_on_actions.txt",
-      "count": 1
+      "count": 1,
+      "reason": "The flagged line is text from Legacy of Valyria - AGOT 0.5.2.1 Compatch (Beta), carried by the whole-file override this module ships rather than written here."
     },
     {
       "severity": "error",
@@ -415,7 +426,8 @@
       "message": "unknown field `owner_modifier_description`",
       "source": "MOD",
       "file": "common/travel/travel_options/travel_options.txt",
-      "count": 1
+      "count": 1,
+      "reason": "The flagged line is text from Legacy of Valyria - AGOT 0.5.2.1 Compatch (Beta), carried by the whole-file override this module ships rather than written here."
     },
     {
       "severity": "error",
@@ -423,7 +435,8 @@
       "message": "scope:province might not be available here",
       "source": "MOD",
       "file": "events/activities/coronation_activity/coronation_events.txt",
-      "count": 2
+      "count": 2,
+      "reason": "The flagged line is text from Legacy of Valyria - AGOT 0.5.2.1 Compatch (Beta), carried by the whole-file override this module ships rather than written here."
     },
     {
       "severity": "error",
@@ -431,7 +444,8 @@
       "message": "scope:completed_ruin might not be available here",
       "source": "MOD",
       "file": "events/agot_events/agot_ruins_events.txt",
-      "count": 1
+      "count": 1,
+      "reason": "The flagged line is text from Legacy of Valyria - AGOT 0.5.2.1 Compatch (Beta), carried by the whole-file override this module ships rather than written here."
     },
     {
       "severity": "error",
@@ -439,39 +453,8 @@
       "message": "expected province id",
       "source": "MOD",
       "file": "map_data/adjacencies.csv",
-      "count": 1
-    },
-    {
-      "severity": "error",
-      "code": "missing-item",
-      "message": "title d_dagger_lake not defined in common/landed_titles/",
-      "source": "MOD",
-      "file": "map_data/geographical_regions/north_sans_neck.txt",
-      "count": 1
-    },
-    {
-      "severity": "error",
-      "code": "missing-item",
-      "message": "title d_golden_bridge not defined in common/landed_titles/",
-      "source": "MOD",
-      "file": "map_data/geographical_regions/north_sans_neck.txt",
-      "count": 1
-    },
-    {
-      "severity": "error",
-      "code": "missing-item",
-      "message": "title d_the_sorrows not defined in common/landed_titles/",
-      "source": "MOD",
-      "file": "map_data/geographical_regions/north_sans_neck.txt",
-      "count": 1
-    },
-    {
-      "severity": "error",
-      "code": "missing-item",
-      "message": "title d_velvet_peak not defined in common/landed_titles/",
-      "source": "MOD",
-      "file": "map_data/geographical_regions/north_sans_neck.txt",
-      "count": 1
+      "count": 1,
+      "reason": "A # comment marking the Legacy of Valyria section. CK3 accepts comments in this file - vanilla's own adjacencies.csv carries 35 - and ck3-tiger does not."
     },
     {
       "severity": "error",
@@ -1117,7 +1100,7 @@
       "severity": "warning",
       "code": "strict-scopes",
       "message": "`flee_noble_south_effect` expects scope:host to be set",
-      "source": "AGOT: The Long Night \u0026 Azor Ahai",
+      "source": "AGOT: The Long Night & Azor Ahai",
       "file": "common/decisions/00_agot_long_night_decisions.txt",
       "count": 1
     },
@@ -1125,7 +1108,7 @@
       "severity": "warning",
       "code": "scopes",
       "message": "`mutate_into_other_effect` expects root to be character but root seems to be culture",
-      "source": "AGOT: The Long Night \u0026 Azor Ahai",
+      "source": "AGOT: The Long Night & Azor Ahai",
       "file": "common/on_action/00_others_on_actions.txt",
       "count": 4
     },
@@ -1133,7 +1116,7 @@
       "severity": "warning",
       "code": "strict-scopes",
       "message": "`mutate_into_other_effect` expects scope:host to be set",
-      "source": "AGOT: The Long Night \u0026 Azor Ahai",
+      "source": "AGOT: The Long Night & Azor Ahai",
       "file": "common/on_action/00_others_on_actions.txt",
       "count": 8
     },
@@ -1141,7 +1124,7 @@
       "severity": "warning",
       "code": "scopes",
       "message": "`ln_the_dead_employ_nobody_effect` expects root to be character but root seems to be story cycle",
-      "source": "AGOT: The Long Night \u0026 Azor Ahai",
+      "source": "AGOT: The Long Night & Azor Ahai",
       "file": "common/story_cycles/the_long_night.txt",
       "count": 1
     },
@@ -1149,7 +1132,7 @@
       "severity": "warning",
       "code": "strict-scopes",
       "message": "`ln_the_dead_employ_nobody_effect` expects scope:host to be set",
-      "source": "AGOT: The Long Night \u0026 Azor Ahai",
+      "source": "AGOT: The Long Night & Azor Ahai",
       "file": "common/story_cycles/the_long_night.txt",
       "count": 1
     },
@@ -1157,7 +1140,7 @@
       "severity": "warning",
       "code": "strict-scopes",
       "message": "`mutate_into_other_effect` expects scope:host to be set",
-      "source": "AGOT: The Long Night \u0026 Azor Ahai",
+      "source": "AGOT: The Long Night & Azor Ahai",
       "file": "events/00_others_heartbeat_events.txt",
       "count": 9
     },
@@ -1165,7 +1148,7 @@
       "severity": "warning",
       "code": "scopes",
       "message": "`the_long_night_setup_effect` expects root to be character but root seems to be none",
-      "source": "AGOT: The Long Night \u0026 Azor Ahai",
+      "source": "AGOT: The Long Night & Azor Ahai",
       "file": "events/others_events/others_events.txt",
       "count": 2
     },
@@ -1173,7 +1156,7 @@
       "severity": "warning",
       "code": "strict-scopes",
       "message": "`the_long_night_setup_effect` expects scope:host to be set",
-      "source": "AGOT: The Long Night \u0026 Azor Ahai",
+      "source": "AGOT: The Long Night & Azor Ahai",
       "file": "events/others_events/others_events.txt",
       "count": 2
     },

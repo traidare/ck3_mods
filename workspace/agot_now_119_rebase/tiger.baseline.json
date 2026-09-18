@@ -1,5 +1,6 @@
 {
-  "schemaVersion": 1,
+  "schemaVersion": 2,
+  "tigerVersion": "ck3-tiger 1.19.0",
   "findings": [
     {
       "severity": "error",
@@ -7,7 +8,8 @@
       "message": "unknown token `world_westeros_dense_population`",
       "source": "MOD",
       "file": "common/on_action/agot_now_on_actions.txt",
-      "count": 1
+      "count": 1,
+      "reason": "AGOT Nobility of Westeros declares these regions in map_data/geographical_regions/replace/00_agot_geographical_region.txt, which ck3-tiger does not read; they resolve in game."
     },
     {
       "severity": "error",
@@ -15,7 +17,8 @@
       "message": "unknown token `world_westeros_slightly_dense_population`",
       "source": "MOD",
       "file": "common/on_action/agot_now_on_actions.txt",
-      "count": 1
+      "count": 1,
+      "reason": "AGOT Nobility of Westeros declares these regions in map_data/geographical_regions/replace/00_agot_geographical_region.txt, which ck3-tiger does not read; they resolve in game."
     },
     {
       "severity": "error",
@@ -23,7 +26,8 @@
       "message": "unknown token `world_westeros_slightly_sparse_population`",
       "source": "MOD",
       "file": "common/on_action/agot_now_on_actions.txt",
-      "count": 1
+      "count": 1,
+      "reason": "AGOT Nobility of Westeros declares these regions in map_data/geographical_regions/replace/00_agot_geographical_region.txt, which ck3-tiger does not read; they resolve in game."
     },
     {
       "severity": "error",
@@ -31,7 +35,8 @@
       "message": "unknown token `world_westeros_sparse_population`",
       "source": "MOD",
       "file": "common/on_action/agot_now_on_actions.txt",
-      "count": 1
+      "count": 1,
+      "reason": "AGOT Nobility of Westeros declares these regions in map_data/geographical_regions/replace/00_agot_geographical_region.txt, which ck3-tiger does not read; they resolve in game."
     },
     {
       "severity": "error",
@@ -39,7 +44,8 @@
       "message": "unknown token `world_westeros_very_dense_population`",
       "source": "MOD",
       "file": "common/on_action/agot_now_on_actions.txt",
-      "count": 1
+      "count": 1,
+      "reason": "AGOT Nobility of Westeros declares these regions in map_data/geographical_regions/replace/00_agot_geographical_region.txt, which ck3-tiger does not read; they resolve in game."
     },
     {
       "severity": "error",
@@ -47,7 +53,8 @@
       "message": "unknown token `world_westeros_very_sparse_population`",
       "source": "MOD",
       "file": "common/on_action/agot_now_on_actions.txt",
-      "count": 1
+      "count": 1,
+      "reason": "AGOT Nobility of Westeros declares these regions in map_data/geographical_regions/replace/00_agot_geographical_region.txt, which ck3-tiger does not read; they resolve in game."
     }
   ]
 }

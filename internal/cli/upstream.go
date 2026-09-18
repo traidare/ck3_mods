@@ -149,7 +149,13 @@ func runUpstream(env *Env) (int, error) {
 	// The generator re-run is what turns "an input moved" into "and here is what
 	// it does to what we ship". Only drifted modules are run, so the cost tracks
 	// the size of the answer rather than the size of the workspace.
+	//
+	// A generator that fails is reported against its own module and the sweep
+	// carries on. One module whose assertions caught an upstream change is the
+	// most likely moment for this report to be wanted, and it is the moment an
+	// abort would withhold it for every other module.
 	outcomes := map[string]generate.Result{}
+	failures := map[string]error{}
 	if !*locksOnly {
 		for _, entry := range drifted {
 			if !entry.mod.HasGenerator() {
@@ -158,7 +164,8 @@ func runUpstream(env *Env) (int, error) {
 			result, err := generate.Run(env.Workspace, entry.mod, env.Config,
 				generate.Options{Apply: env.Apply})
 			if err != nil {
-				return 1, err
+				failures[entry.mod.Slug] = err
+				continue
 			}
 			outcomes[entry.mod.Slug] = result
 		}
@@ -166,20 +173,28 @@ func runUpstream(env *Env) (int, error) {
 
 	if env.JSON() {
 		if err := jsonout.Write(env.Stdout,
-			upstreamReport(items, consumers, outcomes)); err != nil {
+			upstreamReport(items, consumers, outcomes, failures)); err != nil {
 			return 1, err
 		}
 	} else {
-		printUpstream(env, items, consumers, outcomes)
+		printUpstream(env, items, consumers, outcomes, failures)
 	}
 
+	if len(failures) > 0 {
+		return 1, nil
+	}
 	if len(drifted) > 0 && (!env.Apply || *locksOnly) {
 		return 1, nil
 	}
 	return 0, nil
 }
 
-func upstreamReport(items []string, consumers []*consumer, outcomes map[string]generate.Result) []any {
+func upstreamReport(
+	items []string,
+	consumers []*consumer,
+	outcomes map[string]generate.Result,
+	failures map[string]error,
+) []any {
 	report := make([]any, 0, len(items))
 	for _, item := range items {
 		modules := []any{}
@@ -200,6 +215,9 @@ func upstreamReport(items []string, consumers []*consumer, outcomes map[string]g
 					"stale":   result.StaleFiles,
 				}
 			}
+			if failure, failed := failures[entry.mod.Slug]; failed {
+				module["error"] = failure.Error()
+			}
 			modules = append(modules, module)
 		}
 		report = append(report, map[string]any{"item": item, "consumers": modules})
@@ -207,7 +225,13 @@ func upstreamReport(items []string, consumers []*consumer, outcomes map[string]g
 	return report
 }
 
-func printUpstream(env *Env, items []string, consumers []*consumer, outcomes map[string]generate.Result) {
+func printUpstream(
+	env *Env,
+	items []string,
+	consumers []*consumer,
+	outcomes map[string]generate.Result,
+	failures map[string]error,
+) {
 	for _, item := range items {
 		var stake []*consumer
 		total := 0
@@ -237,16 +261,23 @@ func printUpstream(env *Env, items []string, consumers []*consumer, outcomes map
 		}
 	}
 
-	if len(outcomes) == 0 {
+	if len(outcomes) == 0 && len(failures) == 0 {
 		return
 	}
 	env.Printf("\n")
-	slugs := make([]string, 0, len(outcomes))
+	slugs := make([]string, 0, len(outcomes)+len(failures))
 	for slug := range outcomes {
+		slugs = append(slugs, slug)
+	}
+	for slug := range failures {
 		slugs = append(slugs, slug)
 	}
 	sort.Strings(slugs)
 	for _, slug := range slugs {
+		if failure, failed := failures[slug]; failed {
+			env.Printf("%s: generator failed: %s\n", slug, failure)
+			continue
+		}
 		result := outcomes[slug]
 		if result.Current() {
 			env.Printf("%s: inputs moved, output unchanged\n", slug)

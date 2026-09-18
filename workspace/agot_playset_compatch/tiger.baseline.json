@@ -1,5 +1,6 @@
 {
-  "schemaVersion": 1,
+  "schemaVersion": 2,
+  "tigerVersion": "ck3-tiger 1.19.0",
   "findings": [
     {
       "severity": "error",
@@ -391,7 +392,8 @@
       "message": "scope:special_type might not be available here",
       "source": "MOD",
       "file": "common/activities/activity_types/coronation.txt",
-      "count": 1
+      "count": 1,
+      "reason": "The flagged line is text from AGOT - Much Faster Activities, carried by the whole-file override this module ships rather than written here."
     },
     {
       "severity": "error",
@@ -399,7 +401,8 @@
       "message": "scope:change might not be available here",
       "source": "MOD",
       "file": "common/casus_belli_types/adventurers_beneficiary_conquer.txt",
-      "count": 1
+      "count": 1,
+      "reason": "The flagged line is text from Adventurer's Beneficiary, carried by the whole-file override this module ships rather than written here."
     },
     {
       "severity": "error",
@@ -407,7 +410,8 @@
       "message": "unknown list",
       "source": "MOD",
       "file": "common/casus_belli_types/adventurers_beneficiary_conquer.txt",
-      "count": 1
+      "count": 1,
+      "reason": "Inside the whole-file override of the copy from Adventurer's Beneficiary that this module ships; ck3-tiger reports it against this module because this module is what ships the merged file."
     },
     {
       "severity": "error",
@@ -415,7 +419,8 @@
       "message": "law flag free_city_election_succession_law not defined in common/laws/",
       "source": "MOD",
       "file": "common/character_interactions/06_ep3_interactions.txt",
-      "count": 1
+      "count": 1,
+      "reason": "The flagged line is text from A Game of Thrones, carried by the whole-file override this module ships rather than written here."
     },
     {
       "severity": "error",
@@ -423,7 +428,8 @@
       "message": "law flag norvos_regency_succession_law not defined in common/laws/",
       "source": "MOD",
       "file": "common/character_interactions/06_ep3_interactions.txt",
-      "count": 1
+      "count": 1,
+      "reason": "The flagged line is text from A Game of Thrones, carried by the whole-file override this module ships rather than written here."
     },
     {
       "severity": "error",
@@ -431,7 +437,8 @@
       "message": "unknown list",
       "source": "MOD",
       "file": "common/character_interactions/06_ep3_interactions.txt",
-      "count": 2
+      "count": 2,
+      "reason": "Inside the whole-file override of the copy from A Game of Thrones that this module ships; ck3-tiger reports it against this module because this module is what ships the merged file."
     },
     {
       "severity": "error",
@@ -439,7 +446,8 @@
       "message": "scope:old_acclaimed_knight might not be available here",
       "source": "MOD",
       "file": "common/on_action/accolade_on_actions.txt",
-      "count": 1
+      "count": 1,
+      "reason": "The flagged line is text from CK3, carried by the whole-file override this module ships rather than written here."
     },
     {
       "severity": "error",
@@ -447,7 +455,8 @@
       "message": "scope:old_holder might not be available here",
       "source": "MOD",
       "file": "common/on_action/agot_on_actions/agot_title_on_actions.txt",
-      "count": 1
+      "count": 1,
+      "reason": "The flagged line is text from A Game of Thrones, carried by the whole-file override this module ships rather than written here."
     },
     {
       "severity": "error",
@@ -455,7 +464,8 @@
       "message": "scope:previous_holder might not be available here",
       "source": "MOD",
       "file": "common/on_action/agot_on_actions/agot_title_on_actions.txt",
-      "count": 1
+      "count": 1,
+      "reason": "The flagged line is text from A Game of Thrones, carried by the whole-file override this module ships rather than written here."
     },
     {
       "severity": "error",
@@ -463,7 +473,8 @@
       "message": "expected `right_icon =`, found `?=`",
       "source": "MOD",
       "file": "common/on_action/agot_on_actions/agot_title_on_actions.txt",
-      "count": 2
+      "count": 2,
+      "reason": "The flagged line is text from A Game of Thrones, carried by the whole-file override this module ships rather than written here."
     },
     {
       "severity": "error",
@@ -471,7 +482,8 @@
       "message": "boolean house head parameter aspect_of_creation not defined in common/house_aspirations/",
       "source": "MOD",
       "file": "common/on_action/dynasty_on_actions.txt",
-      "count": 1
+      "count": 1,
+      "reason": "The flagged line is text from AGOT: House Founders, carried by the whole-file override this module ships rather than written here."
     },
     {
       "severity": "error",
@@ -479,7 +491,8 @@
       "message": "scope:bloc might not be available here",
       "source": "MOD",
       "file": "common/on_action/title_on_actions.txt",
-      "count": 1
+      "count": 1,
+      "reason": "The flagged line is text from A Game of Thrones, carried by the whole-file override this module ships rather than written here."
     },
     {
       "severity": "error",
@@ -487,7 +500,8 @@
       "message": "scope:new_holder might not be available here",
       "source": "MOD",
       "file": "common/on_action/title_on_actions.txt",
-      "count": 1
+      "count": 1,
+      "reason": "The flagged line is text from A Game of Thrones, carried by the whole-file override this module ships rather than written here."
     },
     {
       "severity": "error",
@@ -495,7 +509,8 @@
       "message": "scope:transfer_type might not be available here",
       "source": "MOD",
       "file": "common/on_action/title_on_actions.txt",
-      "count": 1
+      "count": 1,
+      "reason": "The flagged line is text from A Game of Thrones, carried by the whole-file override this module ships rather than written here."
     },
     {
       "severity": "error",
@@ -503,7 +518,8 @@
       "message": "scope:actor might not be available here",
       "source": "MOD",
       "file": "common/schemes/scheme_types/ep3_raid_estate_scheme.txt",
-      "count": 1
+      "count": 1,
+      "reason": "The flagged line is text from CK3, carried by the whole-file override this module ships rather than written here."
     },
     {
       "severity": "error",
@@ -511,7 +527,8 @@
       "message": "unknown token `kraken_name_black_tide`",
       "source": "MOD",
       "file": "common/scripted_effects/00_kraken_effects.txt",
-      "count": 1
+      "count": 1,
+      "reason": "The flagged line is text from AGOT Iron and Salt, carried by the whole-file override this module ships rather than written here."
     },
     {
       "severity": "error",
@@ -519,7 +536,8 @@
       "message": "unknown token `kraken_name_drowned_gods_wrath`",
       "source": "MOD",
       "file": "common/scripted_effects/00_kraken_effects.txt",
-      "count": 1
+      "count": 1,
+      "reason": "The flagged line is text from AGOT Iron and Salt, carried by the whole-file override this module ships rather than written here."
     },
     {
       "severity": "error",
@@ -527,7 +545,8 @@
       "message": "unknown token `kraken_name_grip_of_the_abyss`",
       "source": "MOD",
       "file": "common/scripted_effects/00_kraken_effects.txt",
-      "count": 1
+      "count": 1,
+      "reason": "The flagged line is text from AGOT Iron and Salt, carried by the whole-file override this module ships rather than written here."
     },
     {
       "severity": "error",
@@ -535,7 +554,8 @@
       "message": "unknown token `kraken_name_sailsplitter`",
       "source": "MOD",
       "file": "common/scripted_effects/00_kraken_effects.txt",
-      "count": 1
+      "count": 1,
+      "reason": "The flagged line is text from AGOT Iron and Salt, carried by the whole-file override this module ships rather than written here."
     },
     {
       "severity": "error",
@@ -543,7 +563,8 @@
       "message": "unknown token `kraken_name_shipbreaker`",
       "source": "MOD",
       "file": "common/scripted_effects/00_kraken_effects.txt",
-      "count": 1
+      "count": 1,
+      "reason": "The flagged line is text from AGOT Iron and Salt, carried by the whole-file override this module ships rather than written here."
     },
     {
       "severity": "error",
@@ -551,7 +572,8 @@
       "message": "unknown token `kraken_name_the_deep_one`",
       "source": "MOD",
       "file": "common/scripted_effects/00_kraken_effects.txt",
-      "count": 1
+      "count": 1,
+      "reason": "The flagged line is text from AGOT Iron and Salt, carried by the whole-file override this module ships rather than written here."
     },
     {
       "severity": "error",
@@ -559,7 +581,8 @@
       "message": "culture parameter unlock_maa_cape_watch not defined in common/culture/ parameters blocks",
       "source": "MOD",
       "file": "common/scripted_effects/07_dlc_ep3_scripted_effects.txt",
-      "count": 3
+      "count": 3,
+      "reason": "The flagged line is text from AGOT : Seasons of Ice and Fire, carried by the whole-file override this module ships rather than written here."
     },
     {
       "severity": "error",
@@ -567,7 +590,8 @@
       "message": "`max = ` is only for `ordered_` lists, `random_list`, and `duel`",
       "source": "MOD",
       "file": "common/scripted_effects/07_dlc_ep3_scripted_effects.txt",
-      "count": 4
+      "count": 4,
+      "reason": "The flagged line is text from AGOT : Seasons of Ice and Fire, carried by the whole-file override this module ships rather than written here."
     },
     {
       "severity": "error",
@@ -575,7 +599,8 @@
       "message": "special guest priest not defined in common/activities/activity_types/",
       "source": "MOD",
       "file": "events/activities/coronation_activity/coronation_events.txt",
-      "count": 2
+      "count": 2,
+      "reason": "The flagged line is text from AGOT - Much Faster Activities, carried by the whole-file override this module ships rather than written here."
     },
     {
       "severity": "error",
@@ -583,7 +608,8 @@
       "message": "struggle iberian_struggle not defined in common/struggle/struggles/",
       "source": "MOD",
       "file": "events/activities/coronation_activity/coronation_events.txt",
-      "count": 1
+      "count": 1,
+      "reason": "The flagged line is text from AGOT - Much Faster Activities, carried by the whole-file override this module ships rather than written here."
     },
     {
       "severity": "error",
@@ -591,7 +617,8 @@
       "message": "scope:province might not be available here",
       "source": "MOD",
       "file": "events/activities/coronation_activity/coronation_events.txt",
-      "count": 2
+      "count": 2,
+      "reason": "The flagged line is text from AGOT - Much Faster Activities, carried by the whole-file override this module ships rather than written here."
     },
     {
       "severity": "error",
@@ -599,7 +626,8 @@
       "message": "scope:old_sighting_county might not be available here",
       "source": "MOD",
       "file": "events/agot_events/agot_colonization_events.txt",
-      "count": 1
+      "count": 1,
+      "reason": "The flagged line is text from A Game of Thrones, carried by the whole-file override this module ships rather than written here."
     },
     {
       "severity": "error",
@@ -607,7 +635,8 @@
       "message": "scope:steward might not be available here",
       "source": "MOD",
       "file": "events/court_events/01_ep3_court_events_3.txt",
-      "count": 1
+      "count": 1,
+      "reason": "The flagged line is text from A Game of Thrones, carried by the whole-file override this module ships rather than written here."
     },
     {
       "severity": "error",
@@ -615,7 +644,8 @@
       "message": "scope:adventurer might not be available here",
       "source": "MOD",
       "file": "events/dlc/ep3/ep3_laamp_events.txt",
-      "count": 3
+      "count": 3,
+      "reason": "The flagged line is text from AGOT More Dragon Eggs, carried by the whole-file override this module ships rather than written here."
     },
     {
       "severity": "error",
@@ -623,7 +653,8 @@
       "message": "scope:hunter might not be available here",
       "source": "MOD",
       "file": "events/dlc/ep3/ep3_laamp_events.txt",
-      "count": 1
+      "count": 1,
+      "reason": "The flagged line is text from AGOT More Dragon Eggs, carried by the whole-file override this module ships rather than written here."
     },
     {
       "severity": "error",
@@ -631,7 +662,8 @@
       "message": "decision commit_suicide_decision not defined in common/decisions/",
       "source": "MOD",
       "file": "events/health_events.txt",
-      "count": 1
+      "count": 1,
+      "reason": "remove_decision_cooldown names a vanilla decision that Expanded Court Position's winning copy of common/decisions/90_minor_decisions.txt still declares, so it resolves in game."
     },
     {
       "severity": "error",
@@ -639,7 +671,8 @@
       "message": "scope:infecting_partner might not be available here",
       "source": "MOD",
       "file": "events/health_events.txt",
-      "count": 2
+      "count": 2,
+      "reason": "The flagged line is text from A Game of Thrones, carried by the whole-file override this module ships rather than written here."
     },
     {
       "severity": "error",
@@ -647,7 +680,8 @@
       "message": "unknown list",
       "source": "MOD",
       "file": "events/zzz_Great_Councils_events.txt",
-      "count": 2
+      "count": 2,
+      "reason": "Inside the whole-file override of the copy from AGOT Great Councils that this module ships; ck3-tiger reports it against this module because this module is what ships the merged file."
     },
     {
       "severity": "error",
@@ -655,23 +689,8 @@
       "message": "situation participant group other_rulers not defined in common/situation/situations/",
       "source": "MOD",
       "file": "gui/hud.gui",
-      "count": 1
-    },
-    {
-      "severity": "error",
-      "code": "unknown-field",
-      "message": "unknown gui field `portrait_hud_heir`",
-      "source": "MOD",
-      "file": "gui/hud.gui",
-      "count": 2
-    },
-    {
-      "severity": "error",
-      "code": "unknown-field",
-      "message": "unknown gui field `portrait_hud_spouse`",
-      "source": "MOD",
-      "file": "gui/hud.gui",
-      "count": 1
+      "count": 1,
+      "reason": "The flagged line is text from AGOT Iron and Salt, carried by the whole-file override this module ships rather than written here."
     },
     {
       "severity": "error",
@@ -679,7 +698,8 @@
       "message": "decision find_elder_interaction not defined in common/decisions/",
       "source": "MOD",
       "file": "gui/map_icon_layer.gui",
-      "count": 1
+      "count": 1,
+      "reason": "The flagged line is text from AGOT Iron and Salt, carried by the whole-file override this module ships rather than written here."
     },
     {
       "severity": "warning",
@@ -720,6 +740,14 @@
       "source": "AGOT",
       "file": "common/character_interactions/00_debug_interactions.txt",
       "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "strict-scopes",
+      "message": "`create_artifact_weapon_effect` expects scope:artifact to be set",
+      "source": "AGOT",
+      "file": "common/character_interactions/00_debug_interactions.txt",
+      "count": 2
     },
     {
       "severity": "warning",
@@ -1339,6 +1367,14 @@
     },
     {
       "severity": "warning",
+      "code": "strict-scopes",
+      "message": "`treasure_trove_artifacts` expects scope:artifact to be set",
+      "source": "AGOT",
+      "file": "events/activities/agot_sailing_activity/agot_sailing_events.txt",
+      "count": 353
+    },
+    {
+      "severity": "warning",
       "code": "scopes",
       "message": "`coronation_add_magnificence_log_effect` expects scope to be character but scope seems to be activity",
       "source": "AGOT",
@@ -1404,10 +1440,26 @@
     {
       "severity": "warning",
       "code": "strict-scopes",
+      "message": "`create_artifact_weapon_effect` expects scope:artifact to be set",
+      "source": "AGOT",
+      "file": "events/activities/tournaments/ep2_locale_events.txt",
+      "count": 7
+    },
+    {
+      "severity": "warning",
+      "code": "strict-scopes",
       "message": "`agot_faceless_take_face_adventure` expects scope:host to be set",
       "source": "AGOT",
       "file": "events/agot_decisions_events/agot_faceless_decisions_events.txt",
       "count": 3
+    },
+    {
+      "severity": "warning",
+      "code": "strict-scopes",
+      "message": "`agot_merchant_create_artifacts_effect` expects scope:artifact to be set",
+      "source": "AGOT",
+      "file": "events/agot_events/agot_artifacts_sell_events.txt",
+      "count": 1
     },
     {
       "severity": "warning",
@@ -1599,7 +1651,7 @@
       "message": "`agot_filler_lys_0042_artifact_scripted_effect_weapon` expects scope:artifact to be set",
       "source": "AGOT",
       "file": "events/agot_filler/00_agot_lys_filler_events.txt",
-      "count": 2
+      "count": 14
     },
     {
       "severity": "warning",
@@ -1628,6 +1680,14 @@
     {
       "severity": "warning",
       "code": "strict-scopes",
+      "message": "`create_artifact_weapon_effect` expects scope:artifact to be set",
+      "source": "AGOT",
+      "file": "events/court_events/court_events_general.txt",
+      "count": 5
+    },
+    {
+      "severity": "warning",
+      "code": "strict-scopes",
       "message": "`create_landless_adventurer_title_effect` expects scope:host to be set",
       "source": "AGOT",
       "file": "events/courtier_guest_management_events/courtier_guest_management_events.txt",
@@ -1639,6 +1699,38 @@
       "message": "`purge_excess_wanderer_riches_effect` expects scope:host to be set",
       "source": "AGOT",
       "file": "events/courtier_guest_management_events/courtier_guest_management_events.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "strict-scopes",
+      "message": "`create_artifact_weapon_effect` expects scope:artifact to be set",
+      "source": "AGOT",
+      "file": "events/dlc/bp1/bp1_yearly_events_chad.txt",
+      "count": 6
+    },
+    {
+      "severity": "warning",
+      "code": "strict-scopes",
+      "message": "`ep1_flavor_2040_artifact_effect` expects scope:artifact to be set",
+      "source": "AGOT",
+      "file": "events/dlc/ep1/ep1_flavor_events.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "strict-scopes",
+      "message": "`create_artifact_weapon_effect` expects scope:artifact to be set",
+      "source": "AGOT",
+      "file": "events/dlc/ep1/ep1_fund_inspiration_events.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "strict-scopes",
+      "message": "`inspiration_adventure_create_artifact_effect` expects scope:artifact to be set",
+      "source": "AGOT",
+      "file": "events/dlc/ep1/ep1_fund_inspiration_events.txt",
       "count": 1
     },
     {
@@ -1660,6 +1752,14 @@
     {
       "severity": "warning",
       "code": "strict-scopes",
+      "message": "`inspiration_adventure_create_artifact_effect` expects scope:artifact to be set",
+      "source": "AGOT",
+      "file": "events/dlc/ep3/ep3_contract_events.txt",
+      "count": 6
+    },
+    {
+      "severity": "warning",
+      "code": "strict-scopes",
       "message": "`ep3_become_landed_transfer_effect` expects scope:defender to be set",
       "source": "AGOT",
       "file": "events/dlc/ep3/ep3_decisions_events.txt",
@@ -1676,6 +1776,14 @@
     {
       "severity": "warning",
       "code": "strict-scopes",
+      "message": "`create_artifact_weapon_effect` expects scope:artifact to be set",
+      "source": "AGOT",
+      "file": "events/dlc/ep3/ep3_eparch_events.txt",
+      "count": 3
+    },
+    {
+      "severity": "warning",
+      "code": "strict-scopes",
       "message": "`ep3_become_landed_transfer_effect` expects scope:defender to be set",
       "source": "AGOT",
       "file": "events/dlc/ep3/ep3_interactions_events.txt",
@@ -1688,6 +1796,14 @@
       "source": "AGOT",
       "file": "events/dlc/ep3/ep3_interactions_events.txt",
       "count": 2
+    },
+    {
+      "severity": "warning",
+      "code": "strict-scopes",
+      "message": "`create_artifact_weapon_effect` expects scope:artifact to be set",
+      "source": "AGOT",
+      "file": "events/dlc/ep3/ep3_laamp_decision_events.txt",
+      "count": 3
     },
     {
       "severity": "warning",
@@ -1768,6 +1884,30 @@
       "source": "AGOT",
       "file": "events/dlc/tgp/tgp_japan_general_events.txt",
       "count": 2
+    },
+    {
+      "severity": "warning",
+      "code": "strict-scopes",
+      "message": "`tribute_mission_1000_generate_reward_effect` expects scope:artifact to be set",
+      "source": "AGOT",
+      "file": "events/dlc/tgp/tgp_tribute_mission_events.txt",
+      "count": 2
+    },
+    {
+      "severity": "warning",
+      "code": "strict-scopes",
+      "message": "`tribute_mission_1000_set_artifact_reward_effect` expects scope:artifact to be set",
+      "source": "AGOT",
+      "file": "events/dlc/tgp/tgp_tribute_mission_events.txt",
+      "count": 2
+    },
+    {
+      "severity": "warning",
+      "code": "strict-scopes",
+      "message": "`create_artifact_weapon_effect` expects scope:artifact to be set",
+      "source": "AGOT",
+      "file": "events/story_cycles/debug_story_cycle_test_events.txt",
+      "count": 1
     },
     {
       "severity": "warning",
@@ -1975,7 +2115,7 @@
       "message": "missing spanish localization key agot_dragon_in_dragonpit",
       "source": "AGOT More Dragon Eggs",
       "file": "common/scripted_effects/00_agot_dragonpit_effects.txt",
-      "count": 9
+      "count": 8
     },
     {
       "severity": "warning",
@@ -2024,6 +2164,14 @@
       "source": "AGOT More Dragon Eggs",
       "file": "events/dlc/ep3/ep3_laamp_events.txt",
       "count": 2
+    },
+    {
+      "severity": "warning",
+      "code": "strict-scopes",
+      "message": "`create_artifact_weapon_effect` expects scope:artifact to be set",
+      "source": "AGOT More Dragon Eggs",
+      "file": "events/dlc/ep3/ep3_laamp_events.txt",
+      "count": 1
     },
     {
       "severity": "warning",
@@ -2228,9 +2376,25 @@
     {
       "severity": "warning",
       "code": "strict-scopes",
+      "message": "`create_artifact_weapon_effect` expects scope:artifact to be set",
+      "source": "CK3",
+      "file": "events/dlc/bp3/bp3_roaming_events.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "strict-scopes",
       "message": "`create_landless_adventurer_title_effect` expects scope:host to be set",
       "source": "CK3",
       "file": "events/dlc/ep3/ep3_admin_events.txt",
+      "count": 1
+    },
+    {
+      "severity": "warning",
+      "code": "strict-scopes",
+      "message": "`create_artifact_weapon_effect` expects scope:artifact to be set",
+      "source": "CK3",
+      "file": "events/dlc/ep3/ep3_camp_party_events.txt",
       "count": 1
     },
     {

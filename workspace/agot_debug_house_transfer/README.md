@@ -49,9 +49,13 @@ ck3mm mod validate agot_debug_house_transfer
 
 ## Re-audit
 
-**Manual, and this module is meant to be deleted.** It was added on 2026-08-16
-as a temporary tool at the user's request. Remove it once the save it was needed
-for is fixed. While it exists, recheck after AGOT updates that
+**Manual, and this module is meant to be deleted.** It is a repair tool for one
+save whose house membership went wrong, kept only until that save no longer
+needs it; it is not part of the playset and is not enabled. Delete both
+`mods/agot_debug_house_transfer/` and `workspace/agot_debug_house_transfer/`
+once that save is fixed or abandoned.
+
+While it exists, recheck after AGOT updates that
 `interaction_category_agot_debug` still exists and that `set_house` and
 `house_founder` are still current, and confirm no other playset mod has claimed
 the `zz_debug_` key prefix.

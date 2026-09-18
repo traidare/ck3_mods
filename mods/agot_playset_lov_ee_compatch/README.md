@@ -1,61 +1,43 @@
 # AGOT Playset Compatch - Essos Expanded + Further East
 
 The Essos Expanded add-on to **AGOT Playset Compatch**, for a large AGOT playset
-on CK3 1.19 — map, terrain, and the history and governments of the east. Enable
-it whenever Essos Expanded: The Further East is enabled, and disable it together
-with that family. It needs both **AGOT Playset Compatch** and **AGOT Playset
-Compatch - Legacy of Valyria**, because Further East itself requires Legacy of
-Valyria.
+on CK3 1.19. Enable it whenever Essos Expanded: The Further East is enabled, and
+disable it together with that family.
 
 ## What it does
 
-**Map.** The Further East supplies the world map; this module carries the
-Westeros work that would otherwise be lost onto it — the thirteen provinces
-Nobility of Westeros retunes, its buildings, special buildings, and map
-decorations merged one record at a time, and its island regions over AGOT's own
-complete set of map regions. Where two parents changed the same thing both
-intentions are kept; anything genuinely ambiguous stops the build rather than
-picking a silent winner. Stray far-eastern pixels left in a Riverlands province
-colour are repainted, so Westerosi realms can no longer war and colonize across
-a border that does not exist. Building, army, combat, siege, and activity
-markers are moved into the province they belong to, and provinces without one
-are given one, with every marker's facing, size, and hand placement preserved.
+**Map.** The Further East supplies the world map; this module carries onto it
+the Westeros work that would otherwise be lost — Nobility of Westeros' retuned
+provinces, its buildings and map decorations, and its island regions over AGOT's
+full set of map regions. Stray far-eastern pixels inside a Riverlands province
+colour are repainted, so Westerosi realms no longer war and colonize across a
+border that does not exist. Building, army, combat, siege, and activity markers
+move into the province they belong to, and provinces missing one are given one.
 
 **Terrain.** Eastern provinces no parent assigns terrain to are filled in from
-macro-biome, forest, jungle, arid, snow, and mountain evidence in two
-known-world reference maps, slope from the heightmap, and the map's water
-classes. An upstream opinion always wins. Graphical regions follow for the same
-area, and the displaced `c_rutting` provinces return to the western visual
-style.
+reference maps, the heightmap, and the map's water classes; an upstream opinion
+always wins. Graphical regions follow, and the displaced `c_rutting` provinces
+return to the western visual style.
 
 **Governments.** Essos gets lore-appropriate rule: nomadic Dothraki and Jogos
-Nhai under a theocratic Dosh Khaleen, a theocratic Red Priesthood,
-administrative or oligarchic Free Cities, oligarchic Ghiscari cities, Valyrian
-Freehold, and Qarth, celestial and meritocratic Yi Ti, mandala Leng, and
-conservative tribal, clan, or feudal forms where the source material is thin.
-Norvos, Lorath, and Qohor are left to AGOT, and pirate, ruin, wilderness,
-unknown, and landless governments are never overwritten. Before the Doom, Ibben
-is a feudal realm following the God-King; from the Doom onward it follows the
-Sound and turns oligarchic for the Shadow Council, so no later God-King bookmark
-is offered. Jogos Nhai culture history is corrected alongside it.
+Nhai, theocratic Dosh Khaleen and Red Priesthood, administrative or oligarchic
+Free Cities, Ghiscari cities, the Valyrian Freehold, Qarth, celestial Yi Ti, and
+mandala Leng. Norvos, Lorath, and Qohor are left to AGOT; Ibben follows the
+God-King until the Doom and the Sound after it.
 
-**Repairs.** The Legacy of Valyria bridge's whole-file copy of AGOT's game-start
-script is rebuilt from AGOT's current version with the bridge's own additions
-reapplied, so AGOT's Narrow Sea gate, Lorath setup, confederations, scenarios,
-and sailing setup are no longer silently reverted. The Further East's repeated
-capital declarations inside dated title history, which current CK3 rejects, are
-removed with every holder and government transition intact, and its generated
-lay-clergy temple baronies — which produced invalid rulers and repeated
-succession errors — become cities keeping their separately held, tax-producing
-role.
+**Repairs.** AGOT's game-start script, which the Legacy of Valyria bridge
+silently reverted, is restored with the bridge's own additions kept. The Further
+East's repeated capital declarations in dated title history, which current CK3
+rejects, are removed, and its lay-clergy temple baronies — a source of invalid
+rulers and repeated succession errors — become cities.
 
-It does not change landed-title structure, holdings, names, dynasties, or
-unrelated faith history.
+Landed-title structure, holdings, names, dynasties, and unrelated faith history
+are untouched.
 
 ## Required load order
 
-All of the following are required, in this order, before this module, which
-loads last of everything:
+Everything below is required, in this order, before this module, which loads
+last of all:
 
 1. A Game of Thrones
 2. AGOT Nobility of Westeros, then its CK3 1.19 rebase

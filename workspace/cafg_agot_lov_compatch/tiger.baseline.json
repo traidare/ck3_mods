@@ -1,5 +1,6 @@
 {
-  "schemaVersion": 1,
+  "schemaVersion": 2,
+  "tigerVersion": "ck3-tiger 1.19.0",
   "findings": [
     {
       "severity": "error",
@@ -7,7 +8,8 @@
       "message": "unknown list",
       "source": "MOD",
       "file": "events/lifestyles/governance_lifestyle/stewardship_domain_events.txt",
-      "count": 1
+      "count": 1,
+      "reason": "Inside the whole-file override of the copy from Legacy of Valyria - AGOT 0.5.2.1 Compatch (Beta) that this module ships; ck3-tiger reports it against this module because this module is what ships the merged file."
     },
     {
       "severity": "warning",

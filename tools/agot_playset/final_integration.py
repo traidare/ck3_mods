@@ -702,6 +702,22 @@ EXPECTED_UNDEFINED_SEASON_MEMBERS = {
     "world_sheepshead_hills": ("d_sheepshead_hills", "d_wraithmarch"),
 }
 
+# The Legacy of Valyria profile builds its regions from the Seasons of Valyria
+# compatch, which adds the `world_lov_*` regions the always-enabled profile's
+# source does not carry, so it expects two entries more.
+#
+# The Legacy of Valyria bridge ships an empty
+# `common/landed_titles/lv_rhoyne_titles.txt`, deferring the Rhoyne to AGOT,
+# which lays the same river out as `d_ar_noy`, `d_ny_sar`, and `d_ghoyan_drohe`
+# under three ruin kingdoms. The four duchies below are the Legacy of Valyria
+# keys that layout has no counterpart for. Both regions keep their coverage
+# through AGOT's duchies, so these lines only name titles the stack never
+# defines.
+EXPECTED_UNDEFINED_LOV_SEASON_MEMBERS = EXPECTED_UNDEFINED_SEASON_MEMBERS | {
+    "world_lov_middle_rhoyne": ("d_the_sorrows", "d_golden_bridge", "d_dagger_lake"),
+    "world_lov_upper_rhoyne": ("d_velvet_peak",),
+}
+
 # Every membership entry the prune removes, by the region that listed it. A
 # kingdom already contains its duchies and a duchy its counties, so re-listing
 # them makes CK3 read the same province twice and log `Region 'N' has multiple
@@ -727,43 +743,50 @@ _TREE_TOKEN = re.compile(r"([A-Za-z0-9_\-']+)\s*=\s*\{|\{|\}|province\s*=\s*(\d+
 def build_title_provinces(roots: Iterable[Path]) -> dict[str, set[int]]:
     """Return the provinces each landed title covers, resolved by load order.
 
+    Sources are resolved per relative path, the way CK3 loads them: when a later
+    root ships `common/landed_titles/<name>`, only that copy is read. A parent
+    that blanks an earlier parent's file therefore removes its declarations,
+    rather than leaving them declared by the shadowed copy.
+
     Every title a source declares gets an entry, so a title that is absent from
     the result is one no parent defines at all, and one that maps to an empty
     set is declared but holds no province.
     """
-    parent: dict[str, str] = {}
-    declared: set[str] = set()
-    barony_province: dict[str, int] = {}
+    winning: dict[str, Path] = {}
     for root in roots:
         directory = root / "common/landed_titles"
         if not directory.is_dir():
             continue
-        for path in sorted(directory.rglob("*.txt")):
-            stack: list[str | None] = []
-            text = re.sub(r"#[^\n]*", "", read_text(path))
-            for match in _TREE_TOKEN.finditer(text):
-                if match.group(2) is not None:
-                    for entry in reversed(stack):
-                        if entry and entry.startswith("b_"):
-                            barony_province[entry] = int(match.group(2))
-                            break
-                    continue
-                token = match.group(0)
-                if token == "}":
-                    if stack:
-                        stack.pop()
-                elif token == "{":
-                    stack.append(None)
-                elif _TITLE_TOKEN.fullmatch(match.group(1)):
-                    declared.add(match.group(1))
-                    enclosing = next(
-                        (entry for entry in reversed(stack) if entry), None
-                    )
-                    if enclosing:
-                        parent[match.group(1)] = enclosing
-                    stack.append(match.group(1))
-                else:
-                    stack.append(None)
+        for path in directory.rglob("*.txt"):
+            winning[path.relative_to(directory).as_posix()] = path
+
+    parent: dict[str, str] = {}
+    declared: set[str] = set()
+    barony_province: dict[str, int] = {}
+    for _, path in sorted(winning.items()):
+        stack: list[str | None] = []
+        text = re.sub(r"#[^\n]*", "", read_text(path))
+        for match in _TREE_TOKEN.finditer(text):
+            if match.group(2) is not None:
+                for entry in reversed(stack):
+                    if entry and entry.startswith("b_"):
+                        barony_province[entry] = int(match.group(2))
+                        break
+                continue
+            token = match.group(0)
+            if token == "}":
+                if stack:
+                    stack.pop()
+            elif token == "{":
+                stack.append(None)
+            elif _TITLE_TOKEN.fullmatch(match.group(1)):
+                declared.add(match.group(1))
+                enclosing = next((entry for entry in reversed(stack) if entry), None)
+                if enclosing:
+                    parent[match.group(1)] = enclosing
+                stack.append(match.group(1))
+            else:
+                stack.append(None)
     children: dict[str, list[str]] = defaultdict(list)
     for title, holder in parent.items():
         children[holder].append(title)
@@ -810,7 +833,11 @@ def region_blocks(text: str) -> Iterator[tuple[str, int, int]]:
         yield match.group(1), match.start(), position
 
 
-def drop_undefined_members(text: str, coverage: dict[str, set[int]]) -> str:
+def drop_undefined_members(
+    text: str,
+    coverage: dict[str, set[int]],
+    expected: dict[str, tuple[str, ...]],
+) -> str:
     """Remove membership entries naming a title no parent declares."""
     dropped: dict[str, tuple[str, ...]] = {}
     position = 0
@@ -832,10 +859,9 @@ def drop_undefined_members(text: str, coverage: dict[str, set[int]]) -> str:
         pieces.append(block)
         position = end
     pieces.append(text[position:])
-    if dropped != EXPECTED_UNDEFINED_SEASON_MEMBERS:
+    if dropped != expected:
         raise AssertionError(
-            "undefined seasonal-region membership changed: "
-            f"{dropped} is not {EXPECTED_UNDEFINED_SEASON_MEMBERS}"
+            f"undefined seasonal-region membership changed: {dropped} is not {expected}"
         )
     return "".join(pieces)
 
@@ -932,6 +958,7 @@ def generate_regions(
     source: str,
     coverage: dict[str, set[int]],
     groups: dict[str, tuple[str, ...]] = LOV_SEASON_GROUPS,
+    undefined: dict[str, tuple[str, ...]] = EXPECTED_UNDEFINED_LOV_SEASON_MEMBERS,
 ) -> str:
     text = replace_block_member(
         source, "world_westeros_rest_of_dorne", "\t\td_yronwood\n", "\t\td_greenbelt\n"
@@ -1005,7 +1032,7 @@ def generate_regions(
     river = text[river_start : river_end + 1]
     if "c_sallydance" not in river or "c_sally_dance" in river:
         raise AssertionError("Sallydance flood region did not rebase to NOW")
-    text = drop_undefined_members(text, coverage)
+    text = drop_undefined_members(text, coverage, undefined)
     text = prune_covered_members(text, coverage)
     return text if text.endswith("\n") else text + "\n"
 
@@ -2101,6 +2128,7 @@ def generate_core_outputs(
             ),
             build_title_provinces(workshop[key] for key in CORE_TITLE_TREE_SOURCES),
             groups={},
+            undefined=EXPECTED_UNDEFINED_SEASON_MEMBERS,
         )
     ).encode("utf-8-sig")
     outputs[Path("map_data/geographical_regions/replace/north_sans_neck.txt")] = (

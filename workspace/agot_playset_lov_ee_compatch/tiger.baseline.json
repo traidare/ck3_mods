@@ -1,5 +1,6 @@
 {
-  "schemaVersion": 1,
+  "schemaVersion": 2,
+  "tigerVersion": "ck3-tiger 1.19.0",
   "findings": [
     {
       "severity": "error",
@@ -23,7 +24,8 @@
       "message": "duplicate character id",
       "source": "MOD",
       "file": "history/characters/bookmark_chars.txt",
-      "count": 10
+      "count": 10,
+      "reason": "Inside the whole-file override of the copy from Essos Expanded that this module ships; ck3-tiger reports it against this module because this module is what ships the merged file."
     },
     {
       "severity": "error",
@@ -31,7 +33,8 @@
       "message": "duplicate character id",
       "source": "MOD",
       "file": "history/characters/empire_rulers.txt",
-      "count": 1
+      "count": 1,
+      "reason": "Inside the whole-file override of the copy from Essos Expanded that this module ships; ck3-tiger reports it against this module because this module is what ships the merged file."
     },
     {
       "severity": "error",
@@ -39,7 +42,8 @@
       "message": "duplicate character id",
       "source": "MOD",
       "file": "history/characters/essos_7898_chars.txt",
-      "count": 5
+      "count": 5,
+      "reason": "Inside the whole-file override of the copy from Essos Expanded: The Further East that this module ships; ck3-tiger reports it against this module because this module is what ships the merged file."
     },
     {
       "severity": "error",
@@ -47,7 +51,8 @@
       "message": "character is not female",
       "source": "MOD",
       "file": "history/characters/essos_7898_chars.txt",
-      "count": 2
+      "count": 2,
+      "reason": "Inside the whole-file override of the copy from Essos Expanded: The Further East that this module ships; ck3-tiger reports it against this module because this module is what ships the merged file."
     },
     {
       "severity": "error",
@@ -55,7 +60,8 @@
       "message": "d_astapor has no holder at 7849.1.1",
       "source": "MOD",
       "file": "history/titles/lv_k_astapor.txt",
-      "count": 1
+      "count": 1,
+      "reason": "The flagged line is text from Legacy of Valyria - AGOT 0.5.2.1 Compatch (Beta), carried by the whole-file override this module ships rather than written here."
     },
     {
       "severity": "error",
@@ -63,7 +69,8 @@
       "message": "d_astapor has no holder at 7860.1.1",
       "source": "MOD",
       "file": "history/titles/lv_k_astapor.txt",
-      "count": 4
+      "count": 4,
+      "reason": "The flagged line is text from Legacy of Valyria - AGOT 0.5.2.1 Compatch (Beta), carried by the whole-file override this module ships rather than written here."
     },
     {
       "severity": "error",
@@ -71,7 +78,8 @@
       "message": "d_astapor has no holder at 7865.1.1",
       "source": "MOD",
       "file": "history/titles/lv_k_astapor.txt",
-      "count": 2
+      "count": 2,
+      "reason": "The flagged line is text from Legacy of Valyria - AGOT 0.5.2.1 Compatch (Beta), carried by the whole-file override this module ships rather than written here."
     },
     {
       "severity": "error",
@@ -79,7 +87,8 @@
       "message": "d_astapor has no holder at 7872.1.1",
       "source": "MOD",
       "file": "history/titles/lv_k_astapor.txt",
-      "count": 3
+      "count": 3,
+      "reason": "The flagged line is text from Legacy of Valyria - AGOT 0.5.2.1 Compatch (Beta), carried by the whole-file override this module ships rather than written here."
     },
     {
       "severity": "error",
@@ -87,7 +96,8 @@
       "message": "d_ghis has no holder at 7859.1.1",
       "source": "MOD",
       "file": "history/titles/lv_k_ghiscar.txt",
-      "count": 2
+      "count": 2,
+      "reason": "The flagged line is text from Legacy of Valyria, carried by the whole-file override this module ships rather than written here."
     },
     {
       "severity": "error",
@@ -95,7 +105,8 @@
       "message": "d_ghis has no holder at 7868.1.1",
       "source": "MOD",
       "file": "history/titles/lv_k_ghiscar.txt",
-      "count": 2
+      "count": 2,
+      "reason": "The flagged line is text from Legacy of Valyria, carried by the whole-file override this module ships rather than written here."
     },
     {
       "severity": "error",
@@ -103,7 +114,8 @@
       "message": "d_new_ghis has no holder at 7858.1.1",
       "source": "MOD",
       "file": "history/titles/lv_k_ghiscar.txt",
-      "count": 1
+      "count": 1,
+      "reason": "The flagged line is text from Legacy of Valyria, carried by the whole-file override this module ships rather than written here."
     },
     {
       "severity": "error",
@@ -111,7 +123,8 @@
       "message": "d_meereen has no holder at 7820.1.1",
       "source": "MOD",
       "file": "history/titles/lv_k_meereen.txt",
-      "count": 2
+      "count": 2,
+      "reason": "The flagged line is text from Legacy of Valyria - AGOT 0.5.2.1 Compatch (Beta), carried by the whole-file override this module ships rather than written here."
     },
     {
       "severity": "error",
@@ -119,7 +132,8 @@
       "message": "d_meereen has no holder at 7839.1.1",
       "source": "MOD",
       "file": "history/titles/lv_k_meereen.txt",
-      "count": 2
+      "count": 2,
+      "reason": "The flagged line is text from Legacy of Valyria - AGOT 0.5.2.1 Compatch (Beta), carried by the whole-file override this module ships rather than written here."
     },
     {
       "severity": "error",
@@ -127,7 +141,8 @@
       "message": "d_meereen has no holder at 7849.1.1",
       "source": "MOD",
       "file": "history/titles/lv_k_meereen.txt",
-      "count": 1
+      "count": 1,
+      "reason": "The flagged line is text from Legacy of Valyria - AGOT 0.5.2.1 Compatch (Beta), carried by the whole-file override this module ships rather than written here."
     },
     {
       "severity": "error",
@@ -135,7 +150,8 @@
       "message": "d_meereen has no holder at 7850.1.1",
       "source": "MOD",
       "file": "history/titles/lv_k_meereen.txt",
-      "count": 2
+      "count": 2,
+      "reason": "The flagged line is text from Legacy of Valyria - AGOT 0.5.2.1 Compatch (Beta), carried by the whole-file override this module ships rather than written here."
     },
     {
       "severity": "error",
@@ -143,7 +159,8 @@
       "message": "d_meereen has no holder at 7852.1.1",
       "source": "MOD",
       "file": "history/titles/lv_k_meereen.txt",
-      "count": 2
+      "count": 2,
+      "reason": "The flagged line is text from Legacy of Valyria - AGOT 0.5.2.1 Compatch (Beta), carried by the whole-file override this module ships rather than written here."
     },
     {
       "severity": "error",
@@ -151,7 +168,8 @@
       "message": "d_meereen has no holder at 7855.1.1",
       "source": "MOD",
       "file": "history/titles/lv_k_meereen.txt",
-      "count": 3
+      "count": 3,
+      "reason": "The flagged line is text from Legacy of Valyria - AGOT 0.5.2.1 Compatch (Beta), carried by the whole-file override this module ships rather than written here."
     },
     {
       "severity": "error",
@@ -159,7 +177,8 @@
       "message": "d_meereen has no holder at 7857.1.1",
       "source": "MOD",
       "file": "history/titles/lv_k_meereen.txt",
-      "count": 1
+      "count": 1,
+      "reason": "The flagged line is text from Legacy of Valyria - AGOT 0.5.2.1 Compatch (Beta), carried by the whole-file override this module ships rather than written here."
     },
     {
       "severity": "error",
@@ -167,7 +186,8 @@
       "message": "d_meereen has no holder at 7858.1.1",
       "source": "MOD",
       "file": "history/titles/lv_k_meereen.txt",
-      "count": 2
+      "count": 2,
+      "reason": "The flagged line is text from Legacy of Valyria - AGOT 0.5.2.1 Compatch (Beta), carried by the whole-file override this module ships rather than written here."
     },
     {
       "severity": "error",
@@ -175,7 +195,8 @@
       "message": "d_meereen has no holder at 7860.1.1",
       "source": "MOD",
       "file": "history/titles/lv_k_meereen.txt",
-      "count": 3
+      "count": 3,
+      "reason": "The flagged line is text from Legacy of Valyria - AGOT 0.5.2.1 Compatch (Beta), carried by the whole-file override this module ships rather than written here."
     },
     {
       "severity": "error",
@@ -183,7 +204,8 @@
       "message": "d_meereen has no holder at 7864.1.1",
       "source": "MOD",
       "file": "history/titles/lv_k_meereen.txt",
-      "count": 1
+      "count": 1,
+      "reason": "The flagged line is text from Legacy of Valyria - AGOT 0.5.2.1 Compatch (Beta), carried by the whole-file override this module ships rather than written here."
     },
     {
       "severity": "error",
@@ -191,7 +213,8 @@
       "message": "d_meereen has no holder at 7867.1.1",
       "source": "MOD",
       "file": "history/titles/lv_k_meereen.txt",
-      "count": 2
+      "count": 2,
+      "reason": "The flagged line is text from Legacy of Valyria - AGOT 0.5.2.1 Compatch (Beta), carried by the whole-file override this module ships rather than written here."
     },
     {
       "severity": "error",
@@ -199,7 +222,8 @@
       "message": "d_tolos has no holder at 7859.1.1",
       "source": "MOD",
       "file": "history/titles/lv_k_north_valyria.txt",
-      "count": 1
+      "count": 1,
+      "reason": "The flagged line is text from Legacy of Valyria, carried by the whole-file override this module ships rather than written here."
     },
     {
       "severity": "error",
@@ -207,7 +231,8 @@
       "message": "d_death_swamps has no holder at 7866.1.1",
       "source": "MOD",
       "file": "history/titles/lv_k_volantis.txt",
-      "count": 1
+      "count": 1,
+      "reason": "The flagged line is text from Legacy of Valyria - AGOT 0.5.2.1 Compatch (Beta), carried by the whole-file override this module ships rather than written here."
     },
     {
       "severity": "error",
@@ -215,7 +240,8 @@
       "message": "d_dreos has no holder at 7859.1.1",
       "source": "MOD",
       "file": "history/titles/lv_k_volantis.txt",
-      "count": 1
+      "count": 1,
+      "reason": "The flagged line is text from Legacy of Valyria - AGOT 0.5.2.1 Compatch (Beta), carried by the whole-file override this module ships rather than written here."
     },
     {
       "severity": "error",
@@ -223,7 +249,8 @@
       "message": "d_dreos has no holder at 7860.1.1",
       "source": "MOD",
       "file": "history/titles/lv_k_volantis.txt",
-      "count": 1
+      "count": 1,
+      "reason": "The flagged line is text from Legacy of Valyria - AGOT 0.5.2.1 Compatch (Beta), carried by the whole-file override this module ships rather than written here."
     },
     {
       "severity": "error",
@@ -231,7 +258,8 @@
       "message": "d_little_valyria has no holder at 7847.1.1",
       "source": "MOD",
       "file": "history/titles/lv_k_volantis.txt",
-      "count": 2
+      "count": 2,
+      "reason": "The flagged line is text from Legacy of Valyria - AGOT 0.5.2.1 Compatch (Beta), carried by the whole-file override this module ships rather than written here."
     },
     {
       "severity": "error",
@@ -239,7 +267,8 @@
       "message": "d_selhorys has no holder at 7840.1.1",
       "source": "MOD",
       "file": "history/titles/lv_k_volantis.txt",
-      "count": 1
+      "count": 1,
+      "reason": "The flagged line is text from Legacy of Valyria - AGOT 0.5.2.1 Compatch (Beta), carried by the whole-file override this module ships rather than written here."
     },
     {
       "severity": "error",
@@ -247,7 +276,8 @@
       "message": "d_valon_sar has no holder at 7849.1.1",
       "source": "MOD",
       "file": "history/titles/lv_k_volantis.txt",
-      "count": 1
+      "count": 1,
+      "reason": "The flagged line is text from Legacy of Valyria - AGOT 0.5.2.1 Compatch (Beta), carried by the whole-file override this module ships rather than written here."
     },
     {
       "severity": "error",
@@ -255,7 +285,8 @@
       "message": "d_valysar has no holder at 7850.1.1",
       "source": "MOD",
       "file": "history/titles/lv_k_volantis.txt",
-      "count": 1
+      "count": 1,
+      "reason": "The flagged line is text from Legacy of Valyria - AGOT 0.5.2.1 Compatch (Beta), carried by the whole-file override this module ships rather than written here."
     },
     {
       "severity": "error",
@@ -263,7 +294,8 @@
       "message": "d_vysyria has no holder at 7866.1.1",
       "source": "MOD",
       "file": "history/titles/lv_k_volantis.txt",
-      "count": 1
+      "count": 1,
+      "reason": "The flagged line is text from Legacy of Valyria - AGOT 0.5.2.1 Compatch (Beta), carried by the whole-file override this module ships rather than written here."
     },
     {
       "severity": "error",
@@ -271,7 +303,8 @@
       "message": "k_volantis has no holder at 7849.1.1",
       "source": "MOD",
       "file": "history/titles/lv_k_volantis.txt",
-      "count": 1
+      "count": 1,
+      "reason": "The flagged line is text from Legacy of Valyria - AGOT 0.5.2.1 Compatch (Beta), carried by the whole-file override this module ships rather than written here."
     },
     {
       "severity": "error",
@@ -279,7 +312,8 @@
       "message": "d_sarhoy has no title history",
       "source": "MOD",
       "file": "history/titles/lv_k_volantis.txt",
-      "count": 1
+      "count": 1,
+      "reason": "The flagged line is text from Legacy of Valyria - AGOT 0.5.2.1 Compatch (Beta), carried by the whole-file override this module ships rather than written here."
     },
     {
       "severity": "error",
@@ -287,7 +321,8 @@
       "message": "k_astapor has no holder at 7849.1.1",
       "source": "MOD",
       "file": "history/titles/lv_nf_titles.txt",
-      "count": 1
+      "count": 1,
+      "reason": "The flagged line is text from Legacy of Valyria - AGOT 0.5.2.1 Compatch (Beta), carried by the whole-file override this module ships rather than written here."
     },
     {
       "severity": "error",
@@ -295,7 +330,8 @@
       "message": "k_astapor has no holder at 7860.1.1",
       "source": "MOD",
       "file": "history/titles/lv_nf_titles.txt",
-      "count": 2
+      "count": 2,
+      "reason": "The flagged line is text from Legacy of Valyria - AGOT 0.5.2.1 Compatch (Beta), carried by the whole-file override this module ships rather than written here."
     },
     {
       "severity": "error",
@@ -303,7 +339,8 @@
       "message": "k_astapor has no holder at 7865.1.1",
       "source": "MOD",
       "file": "history/titles/lv_nf_titles.txt",
-      "count": 1
+      "count": 1,
+      "reason": "The flagged line is text from Legacy of Valyria - AGOT 0.5.2.1 Compatch (Beta), carried by the whole-file override this module ships rather than written here."
     },
     {
       "severity": "error",
@@ -311,7 +348,8 @@
       "message": "k_astapor has no holder at 7872.1.1",
       "source": "MOD",
       "file": "history/titles/lv_nf_titles.txt",
-      "count": 1
+      "count": 1,
+      "reason": "The flagged line is text from Legacy of Valyria - AGOT 0.5.2.1 Compatch (Beta), carried by the whole-file override this module ships rather than written here."
     },
     {
       "severity": "error",
@@ -319,7 +357,8 @@
       "message": "k_gogossos has no holder at 7870.1.1",
       "source": "MOD",
       "file": "history/titles/lv_nf_titles.txt",
-      "count": 1
+      "count": 1,
+      "reason": "The flagged line is text from Legacy of Valyria - AGOT 0.5.2.1 Compatch (Beta), carried by the whole-file override this module ships rather than written here."
     },
     {
       "severity": "error",
@@ -327,7 +366,8 @@
       "message": "k_gogossos has no holder at 7880.1.1",
       "source": "MOD",
       "file": "history/titles/lv_nf_titles.txt",
-      "count": 3
+      "count": 3,
+      "reason": "The flagged line is text from Legacy of Valyria - AGOT 0.5.2.1 Compatch (Beta), carried by the whole-file override this module ships rather than written here."
     },
     {
       "severity": "error",
@@ -335,7 +375,8 @@
       "message": "k_meereen has no holder at 7820.1.1",
       "source": "MOD",
       "file": "history/titles/lv_nf_titles.txt",
-      "count": 1
+      "count": 1,
+      "reason": "The flagged line is text from Legacy of Valyria - AGOT 0.5.2.1 Compatch (Beta), carried by the whole-file override this module ships rather than written here."
     },
     {
       "severity": "error",
@@ -343,7 +384,8 @@
       "message": "k_meereen has no holder at 7839.1.1",
       "source": "MOD",
       "file": "history/titles/lv_nf_titles.txt",
-      "count": 1
+      "count": 1,
+      "reason": "The flagged line is text from Legacy of Valyria - AGOT 0.5.2.1 Compatch (Beta), carried by the whole-file override this module ships rather than written here."
     },
     {
       "severity": "error",
@@ -351,7 +393,8 @@
       "message": "k_volantis has no holder at 7852.1.1",
       "source": "MOD",
       "file": "history/titles/lv_nf_titles.txt",
-      "count": 1
+      "count": 1,
+      "reason": "The flagged line is text from Legacy of Valyria - AGOT 0.5.2.1 Compatch (Beta), carried by the whole-file override this module ships rather than written here."
     },
     {
       "severity": "error",
@@ -359,7 +402,8 @@
       "message": "k_yunkai has no holder at 7833.1.1",
       "source": "MOD",
       "file": "history/titles/lv_nf_titles.txt",
-      "count": 1
+      "count": 1,
+      "reason": "The flagged line is text from Legacy of Valyria - AGOT 0.5.2.1 Compatch (Beta), carried by the whole-file override this module ships rather than written here."
     },
     {
       "severity": "warning",

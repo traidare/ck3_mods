@@ -41,17 +41,9 @@
       "sha256": "03658ad9eef08074029cb080356da16aa79c3a922ff06fc9256e707981eae99a",
       "size": 2069
     },
-    "workshop/2962333032/common/landed_titles/01_agot_landed_titles.txt": {
-      "sha256": "5b5cb1bece3a0e483a810d86095dca38350e7550a5b48f305c36d41bbfea30d9",
-      "size": 859086
-    },
     "workshop/2962333032/common/landed_titles/02_agot_special_titles.txt": {
       "sha256": "bf9cb458c0458a68d947748615b241f1832889cad0371beeb4d2ddbb6291c076",
       "size": 8274
-    },
-    "workshop/2962333032/common/landed_titles/03_agot_landed_titles_essos_titular.txt": {
-      "sha256": "a5d284e085118c64fd92b041b9239dbff63c0cabb6a7e07bdf7cc99026487a2f",
-      "size": 1287
     },
     "workshop/2962333032/common/landed_titles/03_agot_landed_titles_westeros_titular.txt": {
       "sha256": "9e4479cdca704039bad7bfaad473b63fc4658f599dacddfdd1791b63c1844f56",
@@ -293,22 +285,6 @@
       "sha256": "89ef584c70afa41931bd5e74cc22151be69b185052e7c977911c24cd81972e14",
       "size": 683
     },
-    "workshop/3403938445/common/landed_titles/lv_asshai_titles.txt": {
-      "sha256": "e8e25b21d7840495bbf9af0d62cbe8f197aac097b645492baabc1ea9c2218846",
-      "size": 25349
-    },
-    "workshop/3403938445/common/landed_titles/lv_far_essos_islands_titles.txt": {
-      "sha256": "e0fd10004e9de8740ca6400f8ff5193521ec8a43625eb8b231e2d38496f6fac1",
-      "size": 3992
-    },
-    "workshop/3403938445/common/landed_titles/lv_faros_titles.txt": {
-      "sha256": "422c80d03196e165e4f73daa540fb430b570cdc3dada63333cb83fad6399eaa7",
-      "size": 518
-    },
-    "workshop/3403938445/common/landed_titles/lv_ghiscar_titles.txt": {
-      "sha256": "3203da6e08d6c17407e3554fab7d487945e096527a30d5019aef029817341399",
-      "size": 21805
-    },
     "workshop/3403938445/common/landed_titles/lv_misc_titles.txt": {
       "sha256": "c0e7d81307cc68d40f3feb4de5fcc6041686e4bf2949b2ccfa6a50f1beb3521c",
       "size": 227
@@ -317,29 +293,9 @@
       "sha256": "77a8e2a7a0911d83b571631a98227d843935c913770d0ebf3d7e9203dc8327ee",
       "size": 12704
     },
-    "workshop/3403938445/common/landed_titles/lv_north_valyria_titles.txt": {
-      "sha256": "833e6b2f6eebf8d95cc4ca414107c6378016e2dcffeb3f04d1d43bca2001a7dc",
-      "size": 14857
-    },
-    "workshop/3403938445/common/landed_titles/lv_rhoyne_titles.txt": {
-      "sha256": "ee8983917ec407a9840e8e19c4e7d2ba08b35decae51e47c75aacddee6ab77d7",
-      "size": 20417
-    },
-    "workshop/3403938445/common/landed_titles/lv_sothoryos_titles.txt": {
-      "sha256": "73d3ef4b0d374ad0339494823f0b21326a7d500b1cf86e31d8d42a55312baaf2",
-      "size": 80418
-    },
     "workshop/3403938445/common/landed_titles/lv_special_titles.txt": {
       "sha256": "2813724c22eb2af08e2977a383facae0097a248f60ced6ed2e7c34c2faee47f1",
       "size": 1306
-    },
-    "workshop/3403938445/common/landed_titles/lv_valyria_titles.txt": {
-      "sha256": "e61dfde0521ed22380be0239bc21e3b6fb919211e1de8f19d56d78f1637cd9a7",
-      "size": 32476
-    },
-    "workshop/3403938445/common/landed_titles/lv_volantis_titles.txt": {
-      "sha256": "9702e34dd987b286bd7415c4922647e119cef8bfa7b0b47cbc04710214eec8e3",
-      "size": 30944
     },
     "workshop/3403938445/descriptor.mod": {
       "sha256": "3dd3ea608a1a049aa4fc9306b9e63c5da44588db997cc171830a45039c50ee01",

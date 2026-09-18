@@ -1,5 +1,6 @@
 {
-  "schemaVersion": 1,
+  "schemaVersion": 2,
+  "tigerVersion": "ck3-tiger 1.19.0",
   "findings": [
     {
       "severity": "error",
@@ -7,7 +8,8 @@
       "message": "wrong number of arguments for macro",
       "source": "MOD",
       "file": "gui/window_character.gui",
-      "count": 2
+      "count": 2,
+      "reason": "Inside the whole-file override of the copy from AGOT - More Personality Depth that this module ships; ck3-tiger reports it against this module because this module is what ships the merged file."
     }
   ]
 }

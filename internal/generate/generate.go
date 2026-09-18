@@ -381,6 +381,15 @@ func firstSegment(relative string) string {
 	return segment
 }
 
+// OwnsOutput reports whether a generator writes a given payload path. A module
+// with no generator hand-authors its whole payload, so it owns every path.
+func OwnsOutput(relative string, generator *workspace.GeneratorSpec) bool {
+	if generator == nil {
+		return true
+	}
+	return matchesDeclaration(relative, generator.OwnedOutputs)
+}
+
 func stagedIsOwned(relative string, generator *workspace.GeneratorSpec) bool {
 	if IsArtifact(relative) {
 		rest := artifactRelative(relative)
